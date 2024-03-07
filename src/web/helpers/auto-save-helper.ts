@@ -64,15 +64,20 @@ const startAutoSave = (): void => {
     autoSaveInterval = setInterval(async () => {
       if (window.location.hash === '#/studio/beambox') {
         console.log('auto save triggered');
-        for (let i = fileNumber - 1; i >= 1; i -= 1) {
-          const from = fs.join(directory, `beam-studio auto-save-${i}.beam`);
-          if (fs.exists(from)) {
-            const to = fs.join(directory, `beam-studio auto-save-${i + 1}.beam`);
-            // eslint-disable-next-line no-await-in-loop
-            await fs.rename(from, to);
-          }
+        const files = fs.readdirSync(directory).sort((a, b) => {
+          const oldPrefix = 'beam-studio auto-save-';
+          const aIsOld = a.startsWith(oldPrefix);
+          const bIsOld = b.startsWith(oldPrefix);
+          if (aIsOld && !bIsOld) return -1;
+          if (!aIsOld && bIsOld) return 1;
+          if (aIsOld && bIsOld) return -a.localeCompare(b);
+          return a.localeCompare(b);
+        });
+        for (let i = 0; i <= files.length - fileNumber; i += 1) {
+          fs.delete(fs.join(directory, files[i]));
         }
-        const target = fs.join(directory, 'beam-studio auto-save-1.beam');
+        const time = new Date().toISOString().split('.')[0].replace('T', ' ').replaceAll(':', '-');
+        const target = fs.join(directory, `beam-studio ${time}.beam`);
         const buffer = await generateBeamBuffer();
         fs.writeStream(target, 'w', [buffer]);
       }
@@ -86,6 +91,7 @@ const stopAutoSave = (): void => {
 };
 
 const toggleAutoSave = (start = false): void => {
+  if (window.FLUX.version === 'web') return;
   if (start) {
     const config = getConfig();
     const { enabled } = config;
