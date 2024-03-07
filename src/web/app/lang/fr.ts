@@ -560,7 +560,7 @@ const lang: ILang = {
       select_first: "Sélectionnez d'abord un objet.",
       select_at_least_two: 'Sélectionnez deux objets pour continuer',
       import_file_contain_invalid_path:
-        "Le fichier SVG importé contient un chemin d'image non valide. Assurez-vous que tous les fichiers image existent ou intégrez l'image dans le fichier",
+        "#808 Le fichier SVG importé contient un chemin d'image non valide. Assurez-vous que tous les fichiers image existent ou intégrez l'image dans le fichier",
       import_file_error_ask_for_upload:
         "Échec de l'importation du fichier SVG. Êtes-vous prêt à fournir le fichier à l'équipe de développement pour le rapport de bug ?",
       upload_file_too_large: '#819 Le fichier est trop volumineux pour être téléversé.',
@@ -1128,7 +1128,7 @@ const lang: ILang = {
       end: 'Terminer',
       testing: 'Test du réseau...',
       invalid_ip: '#818 Adresse IP non valide',
-      ip_startswith_169: "L'adresse IP de la machine commence par 169.254",
+      ip_startswith_169: "#843 L'adresse IP de la machine commence par 169.254",
       connection_quality: 'Qualité de connexion',
       average_response: 'Temps de réponse moyen',
       test_completed: 'Test terminé',
@@ -1440,7 +1440,7 @@ const lang: ILang = {
         '#814 Veuillez installer le dernier micrologiciel avec <a target="_blank" href="http://helpcenter.flux3dp.com/hc/en-us/articles/216251077">ce guide</a>.',
     },
     unknown_error:
-      "L'application a rencontré une erreur inconnue, veuillez utiliser Aide > Menu > Rapport de bug.",
+      "#821 L'application a rencontré une erreur inconnue, veuillez utiliser Aide > Menu > Rapport de bug.",
     unknown_device:
       "#826 Impossible de se connecter à la machine, assurez-vous que l'USB est connecté à la machine",
     unsupport_osx_version:

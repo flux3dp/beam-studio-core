@@ -244,7 +244,7 @@ const lang: ILang = {
       available_switch:
         'Beam Studio v%s tersedia sekarang. Anda mempunyai v%s. Adakah anda mahu beralih ke versi ini?',
       not_found: 'Anda menggunakan versi terkini Beam Studio.',
-      no_response: '#823 Pelayan tidak boleh dicapai<br/>Sila semak sambungan internet',
+      no_response: 'Pelayan tidak boleh dicapai<br/>Sila semak sambungan internet',
       switch_version_not_found: 'Versi Boleh Tukar tidak dijumpai.',
       yes: 'Ya',
       no: 'Tidak',
@@ -559,9 +559,9 @@ const lang: ILang = {
         '#808 Fail SVG yang diimport mengandungi laluan imej yang tidak sah. Sila pastikan semua fail imej wujud atau benam imej dalam fail',
       import_file_error_ask_for_upload:
         'Gagal untuk Imported SVG file. Adakah anda bersedia untuk menyediakan fail kepada pasukan pembangunan untuk laporan pepijat ?',
-      upload_file_too_large: 'Fail terlalu besar untuk dimuat naik.',
+      upload_file_too_large: '#819 Fail terlalu besar untuk dimuat naik.',
       successfully_uploaded: 'Muat naik fail berjaya.',
-      upload_failed: 'Gagal memuat naik fail.',
+      upload_failed: '#819 Gagal memuat naik fail.',
       or_turn_off_borderless_mode: ' Atau matikan mod Buka Bawah.',
       svg_1_1_waring: 'Versi fail SVG ini ialah v 1.1, mungkin terdapat masalah ketidakserasian.',
       svg_image_path_waring:

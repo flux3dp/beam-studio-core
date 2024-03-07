@@ -546,7 +546,7 @@ const lang: ILang = {
       too_fast_for_path_and_constrain:
         'Följande lager: %s\ninnehåller vektorbanaobjekt och har hastighet över 20 mm/s.\nSkärhastigheten för vektorbanaobjekt kommer begränsas till 20 mm/s.\nDu kan ta bort denna begränsning under inställningar.',
       should_update_firmware_to_continue:
-        'Din firmware stöder inte denna version av Beam Studio. Uppdatera firmware för att fortsätta. (Meny > Maskin > [Din maskin] > Uppdatera firmware)',
+        '#814 Din firmware stöder inte denna version av Beam Studio. Uppdatera firmware för att fortsätta. (Meny > Maskin > [Din maskin] > Uppdatera firmware)',
       recommend_downgrade_software:
         'Vi upptäckte en äldre firmwareversion. Vi arbetar aktivt med kompatibilitetsproblem, men för närvarande rekommenderar vi att återgå till Beam Studio 1.9.5.',
       recommend_upgrade_firmware:
@@ -560,9 +560,9 @@ const lang: ILang = {
         '#808 Importerad SVG-fil innehåller ogiltig bildsökväg. Se till att alla bildfiler finns eller bädda in bild i filen',
       import_file_error_ask_for_upload:
         'Misslyckades med att importera SVG-filen. Vill du skicka filen till utvecklingsteamet för felrapportering?',
-      upload_file_too_large: 'Filen är för stor för uppladdning.',
+      upload_file_too_large: '#819 Filen är för stor för uppladdning.',
       successfully_uploaded: 'Filuppladdningen lyckades.',
-      upload_failed: 'Filuppladdningen misslyckades.',
+      upload_failed: '#819 Filuppladdningen misslyckades.',
       or_turn_off_borderless_mode: 'Eller stäng av öppen bottenläge.',
       svg_1_1_waring:
         'Versionen av denna SVG-fil är v 1.1, det kan finnas potentiella kompatibilitetsproblem.',
@@ -580,12 +580,12 @@ const lang: ILang = {
         calculating: 'Beräknar',
       },
       backend_connect_failed_ask_to_upload:
-        'Fel uppstår hela tiden när anslutning till servern försöks. Vill du ladda upp din felrapportlogg?',
+        '#802 Fel uppstår hela tiden när anslutning till servern försöks. Vill du ladda upp din felrapportlogg?',
       backend_error_hint: 'Funktioner kanske inte fungerar korrekt på grund av serverfel.',
       pdf2svg: {
-        error_when_converting_pdf: 'Fel vid konvertering av PDF till SVG:',
+        error_when_converting_pdf: '#824 Fel vid konvertering av PDF till SVG:',
         error_pdf2svg_not_found:
-          'Fel: Kommandot pdf2svg hittades inte. Installera pdf2svg med ditt pakethanterare (t.ex. "yum install pdf2svg" eller "apt-get install pdf2svg").',
+          '#825 Fel: Kommandot pdf2svg hittades inte. Installera pdf2svg med ditt pakethanterare (t.ex. "yum install pdf2svg" eller "apt-get install pdf2svg").',
       },
       ungroup_use:
         'Detta kommer att separera importerad DXF eller SVG. Eftersom filen kan innehålla ett stort antal element kan det ta tid att separera. Är du säker på att du vill fortsätta?',
@@ -1120,8 +1120,8 @@ const lang: ILang = {
       start: 'Starta',
       end: 'Sluta',
       testing: 'Testar nätverk...',
-      invalid_ip: 'Ogiltig IP-adress',
-      ip_startswith_169: 'Maskinens IP-adress börjar med 169.254',
+      invalid_ip: '#818 Ogiltig IP-adress',
+      ip_startswith_169: '#843 Maskinens IP-adress börjar med 169.254',
       connection_quality: 'Anslutningskvalitet',
       average_response: 'Genomsnittlig svarstid',
       test_completed: 'Test slutförd',
@@ -1413,7 +1413,7 @@ const lang: ILang = {
     getProbePosition: 'Hämtar sondposition...',
     device_not_found: {
       caption: 'Standardmaskin hittades inte',
-      message: 'Kontrollera maskinens WiFi-indikator',
+      message: '#812 Kontrollera maskinens WiFi-indikator',
     },
     device_busy: {
       caption: 'Maskinen är upptagen',
@@ -1424,35 +1424,36 @@ const lang: ILang = {
     monitor_too_old: {
       caption: 'Föråldrad firmware',
       content:
-        'Installera den senaste firmware med <a target="_blank" href="http://helpcenter.flux3dp.com/hc/en-us/articles/216251077">denna guide</a>.',
+        '#814 Installera den senaste firmware med <a target="_blank" href="http://helpcenter.flux3dp.com/hc/en-us/articles/216251077">denna guide</a>.',
     },
     unknown_error:
-      'Applikationen har stött på ett okänt fel, använd Hjälp > Meny > Rapportera bugg.',
-    unknown_device: 'Kan inte ansluta till maskinen, kontrollera att USB är ansluten till maskinen',
+      '#821 Applikationen har stött på ett okänt fel, använd Hjälp > Meny > Rapportera bugg.',
+    unknown_device:
+      '#826 Kan inte ansluta till maskinen, kontrollera att USB är ansluten till maskinen',
     unsupport_osx_version:
       'Aktuell macOS-version %s kanske inte stöder alla funktioner. Uppdatera gärna till macOS 11+.',
     unsupport_win_version:
       'Aktuell OS-version %s kanske inte stöder alla funktioner. Uppdatera gärna till den senaste versionen.',
     need_password: 'Lösenord krävs för att ansluta till maskinen',
     unavailableWorkarea:
-      'Aktuellt arbetsområde överskrider maskinens arbetsområde. Kontrollera arbetsområdet för vald maskin eller ställ in arbetsområde från Redigera > Dokumentinställningar.',
+      '#804 Aktuellt arbetsområde överskrider maskinens arbetsområde. Kontrollera arbetsområdet för vald maskin eller ställ in arbetsområde från Redigera > Dokumentinställningar.',
     please_enter_dpi: 'Ange enheten för din fil (i mm)',
     auth_error:
-      'Autentiseringsfel: Uppdatera Beam Studio och maskinens firmware till senaste versionen.',
+      '#820 Autentiseringsfel: Uppdatera Beam Studio och maskinens firmware till senaste versionen.',
     usb_unplugged: 'USB-anslutningen förlorades. Kontrollera din USB-anslutning',
     uploading_fcode: 'Laddar upp FCode',
-    cant_connect_to_device: 'Kan inte ansluta till maskinen, kontrollera din anslutning',
+    cant_connect_to_device: '#827 Kan inte ansluta till maskinen, kontrollera din anslutning',
     unable_to_find_machine: 'Kan inte hitta maskin ',
     disconnected: 'Ostabil anslutning, kontrollera enhetsanslutning och försök igen senare',
     unable_to_start:
-      'Det gick inte att starta uppgiften. Försök igen. Om detta händer igen, vänligen kontakta oss med en felrapport:',
+      '#830 Det gick inte att starta uppgiften. Försök igen. Om detta händer igen, vänligen kontakta oss med en felrapport:',
     camera: {
       camera_cable_unstable:
         'Det upptäcktes att kameran överför bilder ostabilt. Förhandsgranskning kan fortfarande utföras normalt, men det kan finnas problem med långsam förhandsgranskning eller timeout.',
       fail_to_transmit_image:
-        'Något gick fel med bildöverföringen. Starta om din maskin eller Beam Studio. Om felet kvarstår, följ <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/4402756056079">denna guide</a>.',
+        '#845 Något gick fel med bildöverföringen. Starta om din maskin eller Beam Studio. Om felet kvarstår, följ <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/4402756056079">denna guide</a>.',
       ws_closed_unexpectly:
-        'Anslutningen till maskinkameran har stängts oväntat. Om felet kvarstår, följ <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/4402755805071">denna guide</a>.',
+        '#844 Anslutningen till maskinkameran har stängts oväntat. Om felet kvarstår, följ <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/4402755805071">denna guide</a>.',
       continue_preview: 'Fortsätt',
       abort_preview: 'Avbryt',
     },

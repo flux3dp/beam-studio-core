@@ -43,7 +43,7 @@ const lang: ILang = {
       fail_to_start_preview:
         '#803 Esikatselutilan käynnistys epäonnistui. Käynnistä kone tai Beam Studio uudelleen. Jos virhe toistuu, noudata <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">tätä ohjetta</a>.',
       fail_to_connect_with_camera:
-        'Yhteyden muodostaminen kameraan epäonnistui. Käynnistä tietokone tai Beam Studio uudelleen. Jos virhe toistuu, noudata <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">näitä ohjeita</a>.',
+        '#803 Yhteyden muodostaminen kameraan epäonnistui. Käynnistä tietokone tai Beam Studio uudelleen. Jos virhe toistuu, noudata <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">näitä ohjeita</a>.',
       power_too_high: 'LIIAN SUURI TEHO',
       power_too_high_msg:
         'Matalampi laserteho (alle 70 %) pidentää laserputken käyttöikää.\nKirjoita "HUOMAUTETTU" jatkaaksesi.',
@@ -543,7 +543,7 @@ const lang: ILang = {
       too_fast_for_path_and_constrain:
         'Seuraavat kerrokset: %s sisältävät vektoripolkuobjekteja yli 20 mm/s nopeudella. Polkuobjektien leikkausnopeus rajoitetaan 20 mm/s:iin. Voit poistaa rajoituksen asetuksista.',
       should_update_firmware_to_continue:
-        'Nykyinen laiteohjelmisto ei tue tätä Beam Studion versiota. Päivitä laiteohjelmisto jatkaaksesi. (Valikko > Laite > [Laite] > Päivitä laiteohjelmisto)',
+        '#814 Nykyinen laiteohjelmisto ei tue tätä Beam Studion versiota. Päivitä laiteohjelmisto jatkaaksesi. (Valikko > Laite > [Laite] > Päivitä laiteohjelmisto)',
       recommend_downgrade_software:
         'Havaitsimme vanhemman laiteohjelmistoversion. Työskentelemme parhaillaan yhteensopivuusongelmien kanssa, mutta toistaiseksi suosittelemme palaamaan Beam Studioon 1.9.5.',
       recommend_upgrade_firmware:
@@ -554,12 +554,12 @@ const lang: ILang = {
       select_first: 'Valitse objekti ensin.',
       select_at_least_two: 'Valitse kaksi objektia jatkaaksesi',
       import_file_contain_invalid_path:
-        'Tuodussa SVG-tiedostossa on virheellisiä kuvapolkuja. Varmista, että kaikki kuvatiedostot ovat olemassa tai upota kuvat tiedostoon.',
+        '#808 Tuodussa SVG-tiedostossa on virheellisiä kuvapolkuja. Varmista, että kaikki kuvatiedostot ovat olemassa tai upota kuvat tiedostoon.',
       import_file_error_ask_for_upload:
         'Tiedoston tuonti epäonnistui. Haluatko tarjota tiedoston kehitystiimille vianraporttia varten?',
-      upload_file_too_large: 'Tiedosto on liian suuri latausta varten.',
+      upload_file_too_large: '#819 Tiedosto on liian suuri latausta varten.',
       successfully_uploaded: 'Tiedoston lataus onnistui.',
-      upload_failed: 'Tiedoston lataus epäonnistui.',
+      upload_failed: '#819 Tiedoston lataus epäonnistui.',
       or_turn_off_borderless_mode: ' Tai poista avoimen pohjan tila käytöstä.',
       svg_1_1_waring: 'Tämän SVG-tiedoston versio 1.1 voi aiheuttaa yhteensopivuusongelmia.',
       svg_image_path_waring:
@@ -576,12 +576,12 @@ const lang: ILang = {
         calculating: 'Lasketaan',
       },
       backend_connect_failed_ask_to_upload:
-        'Virheitä yhdistettäessä taustajärjestelmään. Haluatko lähettää vianraportin?',
+        '#802 Virheitä yhdistettäessä taustajärjestelmään. Haluatko lähettää vianraportin?',
       backend_error_hint: 'Ominaisuuksissa voi olla ongelmia taustajärjestelmän virheen takia.',
       pdf2svg: {
-        error_when_converting_pdf: 'Virhe muunnettaessa PDF:ää SVG:ksi:',
+        error_when_converting_pdf: '#824 Virhe muunnettaessa PDF:ää SVG:ksi:',
         error_pdf2svg_not_found:
-          'Virhe: pdf2svg-komentoa ei löydy. Asenna pdf2svg paketinhallinnalla.',
+          '#825 Virhe: pdf2svg-komentoa ei löydy. Asenna pdf2svg paketinhallinnalla.',
       },
       ungroup_use:
         'Tämä purkaa tuodun tiedoston ryhmityksen. Koska tiedosto voi sisältää suuren määrän elementtejä, ryhmityksen purku voi viedä aikaa. Haluatko jatkaa?',
@@ -1111,12 +1111,12 @@ const lang: ILang = {
       network_testing: 'Verkkotestaus',
       local_ip: 'Paikallinen IP-osoite:',
       insert_ip: 'Kohdelaitteen IP-osoite:',
-      empty_ip: 'Anna kohdelaitteen IP-osoite.',
+      empty_ip: '#818 Anna kohdelaitteen IP-osoite.',
       start: 'Aloita',
       end: 'Lopeta',
       testing: 'Testataan verkkoa...',
-      invalid_ip: 'Virheellinen IP-osoite',
-      ip_startswith_169: 'Laitteen IP-osoite alkaa 169.254',
+      invalid_ip: '#818 Virheellinen IP-osoite',
+      ip_startswith_169: '#843 Laitteen IP-osoite alkaa 169.254',
       connection_quality: 'Yhteyden laatu',
       average_response: 'Keskimääräinen vasteaika',
       test_completed: 'Testi valmis',
@@ -1205,7 +1205,7 @@ const lang: ILang = {
     prespray_area: 'Esisuihkutusalue',
   },
   flux_id_login: {
-    connection_fail: 'Yhteyden muodostaminen FLUX-jäsenyyteen epäonnistui.',
+    connection_fail: '#847 Yhteyden muodostaminen FLUX-jäsenyyteen epäonnistui.',
     login_success: 'Kirjautuminen onnistui.',
     login: 'Kirjaudu sisään',
     unlock_shape_library: 'Kirjaudu sisään avataksesi muotokirjaston.',
@@ -1411,7 +1411,7 @@ const lang: ILang = {
     getProbePosition: 'Haetaan anturin sijaintia...',
     device_not_found: {
       caption: 'Oletuslaitetta ei löytynyt',
-      message: 'Tarkista koneen Wi-Fi-merkkivalo',
+      message: '#812 Tarkista koneen Wi-Fi-merkkivalo',
     },
     device_busy: {
       caption: 'Kone varattu',

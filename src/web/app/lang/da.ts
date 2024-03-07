@@ -43,7 +43,7 @@ const lang: ILang = {
       fail_to_start_preview:
         '#803 Kunne ikke starte forhåndsvisning. Genstart maskinen eller Beam Studio. Hvis fejlen fortsætter, se <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">denne vejledning</a>.',
       fail_to_connect_with_camera:
-        'Kunne ikke oprette forbindelse til maskinkamera. Genstart venligst din maskine eller Beam Studio. Hvis denne fejl fortsætter, skal du følge <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">denne vejledning</a>.',
+        '#803 Kunne ikke oprette forbindelse til maskinkamera. Genstart venligst din maskine eller Beam Studio. Hvis denne fejl fortsætter, skal du følge <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">denne vejledning</a>.',
       power_too_high: 'FOR HØJ EFFEKT',
       power_too_high_msg:
         'Brug af lavere laserstyrke (under 70%) forlænger laserens levetid.\nIndtast "NOTERET" for at fortsætte.',
@@ -545,7 +545,7 @@ const lang: ILang = {
       too_fast_for_path_and_constrain:
         'Følgende lag: %s indeholder stivektor-stibaner og har hastigheder over 20 mm/sek. Skærehastigheden for stivektor-stibaner vil blive begrænset til 20 mm/sek. Du kan fjerne denne begrænsning under Indstillinger.',
       should_update_firmware_to_continue:
-        'Din firmware understøtter ikke denne version af Beam Studio. Opdater venligst firmwaren for at fortsætte. (Menu > Maskine > [Din maskine] > Opdater firmware)',
+        '#814 Din firmware understøtter ikke denne version af Beam Studio. Opdater venligst firmwaren for at fortsætte. (Menu > Maskine > [Din maskine] > Opdater firmware)',
       recommend_downgrade_software:
         'Vi registrerede en ældre firmwareversion. Vi arbejder aktivt på kompatibilitetsproblemer, men foreløbig anbefaler vi at vende tilbage til Beam Studio 1.9.5.',
       recommend_upgrade_firmware:
@@ -556,7 +556,7 @@ const lang: ILang = {
       select_first: 'Vælg et objekt først.',
       select_at_least_two: 'Vælg to objekter for at fortsætte',
       import_file_contain_invalid_path:
-        'Importeret SVG-fil indeholder ugyldig billedsti. Sørg for, at alle billedfiler findes, eller indsæt billede i filen',
+        '#808 Importeret SVG-fil indeholder ugyldig billedsti. Sørg for, at alle billedfiler findes, eller indsæt billede i filen',
       import_file_error_ask_for_upload:
         'Kunne ikke importere SVG-fil. Er du villig til at give filen til udviklingsholdet til fejlrapport?',
       upload_file_too_large: '#819 Filen er for stor til upload.',
@@ -1447,7 +1447,7 @@ const lang: ILang = {
     unable_to_find_machine: 'Kan ikke finde maskine ',
     disconnected: 'Ustabil forbindelse, kontroller enhedsforbindelse og prøv igen senere',
     unable_to_start:
-      'Kan ikke starte opgaven. Prøv igen. Hvis dette sker igen, bedes du kontakte os med fejlrapport:',
+      '#830 Kan ikke starte opgaven. Prøv igen. Hvis dette sker igen, bedes du kontakte os med fejlrapport:',
     camera: {
       camera_cable_unstable:
         'Det er registreret, at kameraet overfører billeder ustabilt. Forhåndsvisning kan stadig udføres normalt, men der kan være problemer med langsom forhåndsvisning eller timeout.',

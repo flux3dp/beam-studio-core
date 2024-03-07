@@ -108,3 +108,121 @@ exports[`test Alert should render correctly 1`] = `
   </div>
 </body>
 `;
+
+exports[`test Alert should render correctly with help center link 1`] = `
+<body>
+  <div />
+  <div>
+    <div
+      class="ant-modal-root css-dev-only-do-not-override-hash"
+    >
+      <div
+        class="ant-modal-mask"
+      />
+      <div
+        class="ant-modal-wrap ant-modal-centered"
+        tabindex="-1"
+      >
+        <div
+          aria-labelledby="test-id"
+          aria-modal="true"
+          class="ant-modal css-dev-only-do-not-override-hash ant-zoom-appear ant-zoom-appear-prepare ant-zoom"
+          role="dialog"
+          style="width: 520px;"
+        >
+          <div
+            aria-hidden="true"
+            style="width: 0px; height: 0px; overflow: hidden; outline: none;"
+            tabindex="0"
+          />
+          <div
+            class="ant-modal-content"
+          >
+            <div
+              class="ant-modal-header"
+            >
+              <div
+                class="ant-modal-title"
+                id="test-id"
+              >
+                Hello World
+              </div>
+            </div>
+            <div
+              class="ant-modal-body"
+            >
+              <img
+                class="icon"
+                src="https://www.flux3dp.com/icon.svg"
+              />
+              <div
+                class="message-container"
+              >
+                <div
+                  class="message"
+                >
+                  #801 error
+                </div>
+              </div>
+              <button
+                class="ant-btn css-dev-only-do-not-override-hash ant-btn-link link"
+                type="button"
+              >
+                <span>
+                  Learn more
+                </span>
+                
+              </button>
+              <label
+                class="ant-checkbox-wrapper css-dev-only-do-not-override-hash"
+              >
+                <span
+                  class="ant-checkbox ant-wave-target css-dev-only-do-not-override-hash"
+                >
+                  <input
+                    class="ant-checkbox-input"
+                    type="checkbox"
+                  />
+                  <span
+                    class="ant-checkbox-inner"
+                  />
+                </span>
+                <span>
+                  checkbox
+                </span>
+              </label>
+            </div>
+            <div
+              class="ant-modal-footer"
+            >
+              <button
+                class="ant-btn css-dev-only-do-not-override-hash ant-btn-default"
+                type="button"
+              >
+                <span>
+                  Yes
+                </span>
+                
+              </button>
+              <button
+                class="ant-btn css-dev-only-do-not-override-hash ant-btn-default"
+                type="button"
+              >
+                <span>
+                  No
+                </span>
+                
+              </button>
+            </div>
+          </div>
+          <div
+            aria-hidden="true"
+            style="width: 0px; height: 0px; overflow: hidden; outline: none;"
+            tabindex="0"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+`;
