@@ -1682,6 +1682,7 @@ const lang: ILang = {
     placeholder: 'Ange en länk eller text',
     preview: 'Förhandsgranska',
     error_tolerance: 'Felmarginal',
+    error_tolerance_link: 'https://support.flux3dp.com/hc/en-us/articles/9113705072143',
     invert: 'Invertera bakgrundsfärg',
   },
 };

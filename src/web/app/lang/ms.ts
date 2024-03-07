@@ -1685,6 +1685,7 @@ const lang: ILang = {
     placeholder: 'Masukkan pautan atau teks',
     preview: 'Pratonton',
     error_tolerance: 'Ralat Toleransi',
+    error_tolerance_link: 'https://support.flux3dp.com/hc/en-us/articles/9113705072143',
     invert: 'Songsangkan warna latar belakang',
   },
 };

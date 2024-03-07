@@ -1700,6 +1700,7 @@ const lang: ILang = {
     placeholder: 'Inserisci un link o un testo',
     preview: 'Anteprima',
     error_tolerance: 'Tolleranza errore',
+    error_tolerance_link: 'https://support.flux3dp.com/hc/en-us/articles/9113705072143',
     invert: 'Inverti colore sfondo',
   },
 };

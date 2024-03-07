@@ -1678,6 +1678,7 @@ const lang: ILang = {
     placeholder: 'Anna linkki tai teksti',
     preview: 'Esikatselu',
     error_tolerance: 'Virhesieto',
+    error_tolerance_link: 'https://support.flux3dp.com/hc/en-us/articles/9113705072143',
     invert: 'Käännä värit',
   },
 };

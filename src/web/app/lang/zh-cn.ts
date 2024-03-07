@@ -1569,6 +1569,7 @@ const lang: ILang = {
     placeholder: '输入链接或文本',
     preview: '预览',
     error_tolerance: '容错级别',
+    error_tolerance_link: 'https://support.flux3dp.com/hc/en-us/articles/9113705072143',
     invert: '反转背景色',
   },
 };

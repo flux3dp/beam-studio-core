@@ -1677,6 +1677,7 @@ const lang: ILang = {
     placeholder: 'Nhập liên kết hoặc văn bản',
     preview: 'Xem trước',
     error_tolerance: 'Sai số dung sai',
+    error_tolerance_link: 'https://support.flux3dp.com/hc/en-us/articles/9113705072143',
     invert: 'Đảo ngược màu nền',
   },
 };

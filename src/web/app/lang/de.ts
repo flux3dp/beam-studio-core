@@ -1569,6 +1569,7 @@ const lang: ILang = {
     placeholder: 'Eingabe eines Links oder Textes',
     preview: 'Vorschau',
     error_tolerance: 'Fehlertoleranz',
+    error_tolerance_link: 'https://support.flux3dp.com/hc/en-us/articles/9113705072143',
     invert: 'Hintergrundfarbe umkehren',
   },
 };

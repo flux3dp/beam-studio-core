@@ -1661,6 +1661,7 @@ const lang: ILang = {
     placeholder: 'กรอกลิงก์หรือข้อความ',
     preview: 'ตัวอย่าง',
     error_tolerance: 'ระดับความคลาดเคลื่อนที่ยอมรับได้',
+    error_tolerance_link: 'https://support.flux3dp.com/hc/en-us/articles/9113705072143',
     invert: 'สีพื้นหลังกลับกัน',
   },
 };

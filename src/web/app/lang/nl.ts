@@ -1688,6 +1688,7 @@ const lang: ILang = {
     placeholder: 'Voer een link of tekst in',
     preview: 'Voorbeeld',
     error_tolerance: 'Foutcorrectie',
+    error_tolerance_link: 'https://support.flux3dp.com/hc/en-us/articles/9113705072143',
     invert: 'Achtergrondkleur omkeren',
   },
 };

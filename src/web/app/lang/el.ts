@@ -1711,6 +1711,7 @@ const lang: ILang = {
     placeholder: 'Εισάγετε έναν σύνδεσμο ή κείμενο',
     preview: 'Προεπισκόπηση',
     error_tolerance: 'Ανοχή σφάλματος',
+    error_tolerance_link: 'https://support.flux3dp.com/hc/en-us/articles/9113705072143',
     invert: 'Αντιστροφή χρωμάτων φόντου',
   },
 };
