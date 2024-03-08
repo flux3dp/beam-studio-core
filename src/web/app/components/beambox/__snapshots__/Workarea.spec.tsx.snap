@@ -87,6 +87,24 @@ exports[`test workarea should render correctly 1`] = `
     >
       Send to Back
     </dummy-menu-item>
+    <div
+      class="seperator"
+    />
+    <dummy-sub-menu
+      disabled="true"
+      title="Move elems to"
+    >
+      <dummy-menu-item
+        disabled="true"
+      >
+        Layer 1
+      </dummy-menu-item>
+      <dummy-menu-item
+        disabled="false"
+      >
+        Layer 2
+      </dummy-menu-item>
+    </dummy-sub-menu>
   </dummy-context-menu>
 </div>
 `;
@@ -178,6 +196,24 @@ exports[`test workarea should render correctly 2`] = `
     >
       Send to Back
     </dummy-menu-item>
+    <div
+      class="seperator"
+    />
+    <dummy-sub-menu
+      disabled="false"
+      title="Move elems to"
+    >
+      <dummy-menu-item
+        disabled="true"
+      >
+        Layer 1
+      </dummy-menu-item>
+      <dummy-menu-item
+        disabled="false"
+      >
+        Layer 2
+      </dummy-menu-item>
+    </dummy-sub-menu>
   </dummy-context-menu>
 </div>
 `;

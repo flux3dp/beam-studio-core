@@ -1,16 +1,37 @@
 import React from 'react';
 
-import { ContextMenu, ContextMenuTrigger, MenuItem } from 'helpers/react-contextmenu';
+import { ContextMenu, ContextMenuTrigger, MenuItem, SubMenu } from 'helpers/react-contextmenu';
 import clipboard from 'app/svgedit/operations/clipboard';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import i18n from 'helpers/i18n';
 import svgEditor from 'app/actions/beambox/svg-editor';
+import { getObjectLayer, moveToOtherLayer } from 'helpers/layer/layer-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
 
 const eventEmitter = eventEmitterFactory.createEventEmitter('workarea');
+
+const getCurrentLayer = (selectedElement?: Element): string | null => {
+  if (!selectedElement) return null;
+  if (selectedElement.getAttribute('data-tempgroup') === 'true') {
+    const originalLayers = new Set(
+      ([...selectedElement.childNodes] as SVGElement[])
+        .filter((elem) => elem?.getAttribute('data-imageborder') !== 'true')
+        .map((elem) => elem.getAttribute('data-original-layer'))
+    );
+    if (originalLayers.size === 1) {
+      const [firstValue] = originalLayers;
+      return firstValue;
+    }
+  } else {
+    const currentLayer = getObjectLayer(selectedElement as SVGElement);
+    return currentLayer?.title;
+  }
+  return null;
+};
 
 interface State {
   menuDisabled: boolean,
@@ -46,6 +67,34 @@ export default class Workarea extends React.PureComponent<{ className: string },
       ...newValues,
     };
     this.setState(newState);
+  };
+
+  renderLayerSubMenu = (): JSX.Element => {
+    const { select } = this.state;
+    const drawing = svgCanvas?.getCurrentDrawing();
+    const layerNames: string[] =
+      drawing?.all_layers.map(
+        // eslint-disable-next-line no-underscore-dangle
+        (layer: { name_: string }) => layer.name_
+      ) || [];
+    const selectedElems = svgCanvas?.getSelectedElems();
+    const currentLayer = getCurrentLayer(selectedElems?.[0]);
+    return (
+      <>
+        <div className="seperator" />
+        <SubMenu disabled={!select} title={i18n.lang.beambox.right_panel.layer_panel.move_elems_to}>
+          {layerNames.map((layerName) => (
+            <MenuItem
+              key={layerName}
+              disabled={layerName === currentLayer}
+              onClick={() => moveToOtherLayer(layerName, () => {}, false)}
+            >
+              {layerName}
+            </MenuItem>
+          ))}
+        </SubMenu>
+      </>
+    );
   };
 
   render(): JSX.Element {
@@ -115,8 +164,11 @@ export default class Workarea extends React.PureComponent<{ className: string },
           <MenuItem disabled={!select} onClick={() => svgCanvas.moveTopBottomSelected('bottom')}>
             {LANG.move_back}
           </MenuItem>
+          {this.renderLayerSubMenu()}
         </ContextMenu>
       </>
     );
   }
 }
+
+Workarea.contextType = LayerPanelContext;

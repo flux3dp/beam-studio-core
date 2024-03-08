@@ -3,6 +3,7 @@ import React, { memo, useContext, useEffect, useState } from 'react';
 
 import useI18n from 'helpers/useI18n';
 import { getObjectLayer, moveToOtherLayer } from 'helpers/layer/layer-helper';
+import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
 import { SelectedElementContext } from 'app/contexts/SelectedElementContext';
 
 import styles from './SelLayerBlock.module.scss';
@@ -18,6 +19,7 @@ function SelLayerBlock({ layerNames }: Props): JSX.Element {
   const [promptMoveLayerOnce, setPromptMoveLayerOnce] = useState(false);
   const [displayValue, setDisplayValue] = useState(defaultOption);
   const { selectedElement } = useContext(SelectedElementContext);
+  const { selectedLayers } = useContext(LayerPanelContext);
   useEffect(() => {
     if (!selectedElement) return;
     if (selectedElement.getAttribute('data-tempgroup') === 'true') {
@@ -35,7 +37,7 @@ function SelLayerBlock({ layerNames }: Props): JSX.Element {
       const currentLayerName = currentLayer?.title ?? defaultOption;
       setDisplayValue(currentLayerName);
     }
-  }, [selectedElement]);
+  }, [selectedElement, selectedLayers]);
   if (!selectedElement) return null;
   if (layerNames.length === 1) return null;
 
