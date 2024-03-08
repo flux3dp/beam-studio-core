@@ -17,6 +17,7 @@ import Instruction from './AdorCalibration/Instruction';
 import { getMaterialHeight, prepareToTakePicture } from './AdorCalibrationV2/utils';
 
 enum Step {
+  ASK_CAMERA_TYPE = 0,
   PUT_PAPER = 1,
   FOCUS_AND_CUT = 2,
   FIND_CORNER = 3,
@@ -36,12 +37,30 @@ interface Props {
 const AdorCalibrationV2 = ({ onClose }: Props): JSX.Element => {
   const calibratingParam = useRef<FisheyeCameraParametersV2Cali>({});
   const lang = useI18n().calibration;
+  const [withPitch, setWithPitch] = useState(false);
   const [step, setStep] = useState<Step>(Step.PUT_PAPER);
   const onBack = useCallback(() => setStep((prev) => prev - 1), []);
   const onNext = useCallback(() => setStep((prev) => prev + 1), []);
   const updateParam = useCallback((param: FisheyeCameraParametersV2Cali) => {
     calibratingParam.current = { ...calibratingParam.current, ...param };
   }, []);
+  if (step === Step.ASK_CAMERA_TYPE) {
+    const onClick = (val: boolean) => {
+      setWithPitch(val);
+      onNext();
+    };
+    return (
+      <Instruction
+        onClose={() => onClose(false)}
+        animationSrcs={[]}
+        title="Please Select your camera type"
+        buttons={[
+          { label: '正拍', type: 'primary', onClick: () => onClick(false) },
+          { label: '斜拍', type: 'primary', onClick: () => onClick(true) },
+        ]}
+      />
+    );
+  }
   if (step === Step.PUT_PAPER) {
     console.log('TODO: add v2 put paper animation and text');
     return (
@@ -67,7 +86,7 @@ const AdorCalibrationV2 = ({ onClose }: Props): JSX.Element => {
         console.log('refHeight', refHeight);
         calibratingParam.current.refHeight = refHeight;
         progressCaller.update(PROGRESS_ID, { message: lang.drawing_calibration_image });
-        if (doCutting) await deviceMaster.doAdorCalibrationV2(1);
+        if (doCutting) await deviceMaster.doAdorCalibrationV2(1, withPitch);
         progressCaller.update(PROGRESS_ID, { message: 'tPreparing to taking picture' });
         await prepareToTakePicture();
         onNext();
@@ -84,7 +103,7 @@ const AdorCalibrationV2 = ({ onClose }: Props): JSX.Element => {
         text={lang.ador_autofocus_material}
         buttons={[
           { label: lang.back, onClick: onBack },
-          { label: lang.skip, onClick: () => handleNext(false)},
+          { label: lang.skip, onClick: () => handleNext(false) },
           {
             label: lang.start_engrave,
             onClick: () => handleNext(true),
@@ -100,7 +119,13 @@ const AdorCalibrationV2 = ({ onClose }: Props): JSX.Element => {
   }
   if (step === Step.FIND_CORNER)
     return (
-      <FindCorner updateParam={updateParam} onClose={onClose} onBack={onBack} onNext={onNext} />
+      <FindCorner
+        withPitch={withPitch}
+        updateParam={updateParam}
+        onClose={onClose}
+        onBack={onBack}
+        onNext={onNext}
+      />
     );
   if (step === Step.ELVATED_CUT) {
     return (
@@ -123,7 +148,7 @@ const AdorCalibrationV2 = ({ onClose }: Props): JSX.Element => {
                 console.log('dh', dh);
                 calibratingParam.current.dh = dh;
                 progressCaller.update(PROGRESS_ID, { message: lang.drawing_calibration_image });
-                await deviceMaster.doAdorCalibrationV2(2);
+                await deviceMaster.doAdorCalibrationV2(2, withPitch);
                 progressCaller.update(PROGRESS_ID, { message: 'tPreparing to taking picture' });
                 await prepareToTakePicture();
                 onNext();
@@ -141,6 +166,7 @@ const AdorCalibrationV2 = ({ onClose }: Props): JSX.Element => {
   return (
     <CalculateCameraPosition
       dh={calibratingParam.current.dh}
+      withPitch={withPitch}
       updateParam={updateParam}
       onClose={onClose}
       onBack={onBack}
@@ -165,7 +191,9 @@ const AdorCalibrationV2 = ({ onClose }: Props): JSX.Element => {
           alertCaller.popUp({ message: 'Camera parameters saved successfully.' });
           onClose(true);
         } else {
-          alertCaller.popUpError({ message: `Failed to save camera parameters. ${JSON.stringify(res)}` });
+          alertCaller.popUpError({
+            message: `Failed to save camera parameters. ${JSON.stringify(res)}`,
+          });
         }
       }}
     />

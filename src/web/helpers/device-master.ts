@@ -623,8 +623,8 @@ class DeviceMaster {
     await this.doCalibration(DeviceConstants.ADOR_CALIBRATION);
   }
 
-  async doAdorCalibrationV2(step = 1) {
-    await this.doCalibration(`fcode/ador-camera-v2-${step}.fc`);
+  async doAdorCalibrationV2(step = 1, withPitch = false) {
+    await this.doCalibration(`fcode/ador-camera-v2-${step}${withPitch && step === 1 ? '-p' : ''}.fc`);
   }
 
   async doAdorPrinterCalibration() {
