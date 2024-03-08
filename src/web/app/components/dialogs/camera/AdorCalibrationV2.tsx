@@ -38,7 +38,7 @@ const AdorCalibrationV2 = ({ onClose }: Props): JSX.Element => {
   const calibratingParam = useRef<FisheyeCameraParametersV2Cali>({});
   const lang = useI18n().calibration;
   const [withPitch, setWithPitch] = useState(false);
-  const [step, setStep] = useState<Step>(Step.PUT_PAPER);
+  const [step, setStep] = useState<Step>(Step.ASK_CAMERA_TYPE);
   const onBack = useCallback(() => setStep((prev) => prev - 1), []);
   const onNext = useCallback(() => setStep((prev) => prev + 1), []);
   const updateParam = useCallback((param: FisheyeCameraParametersV2Cali) => {
