@@ -47,7 +47,8 @@ const FindCorner = ({updateParam, onClose, onBack, onNext }: Props): JSX.Element
       else alertCaller.popUpError({ message: 'Unable to get image' });
     } else {
       try {
-        const { success, blob, data } = await findCorners(imgBlob);
+        // TODO: check the camera type
+        const { success, blob, data } = await findCorners(imgBlob, true);
         if (!success) {
           if (retryTimes < 3) handleTakePicture(retryTimes + 1);
           else alertCaller.popUpError({ message: 'Failed to get correct corners' });

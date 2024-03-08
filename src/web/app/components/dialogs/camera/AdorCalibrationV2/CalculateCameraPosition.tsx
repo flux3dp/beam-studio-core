@@ -48,7 +48,8 @@ const CalculateCameraPosition = ({ dh, updateParam, onClose, onBack, onFinish }:
       else alertCaller.popUpError({ message: 'Unable to get image' });
     } else {
       try {
-        const { success, blob, data } = await calculateCameraPosition(imgBlob, dh);
+        // TODO: check the camera type
+        const { success, blob, data } = await calculateCameraPosition(imgBlob, dh, true);
         if (!success) {
           if (retryTimes < 3) handleTakePicture(retryTimes + 1);
           else alertCaller.popUpError({ message: 'Failed to get correct corners' });
@@ -56,7 +57,7 @@ const CalculateCameraPosition = ({ dh, updateParam, onClose, onBack, onFinish }:
         setImg({ blob, url: URL.createObjectURL(blob), success });
         if (success) {
           console.log(data);
-          updateParam({ imageCenter: data.center, camHeight: data.h, imageScale: data.s });
+          updateParam({ xc: data.xc, yc: data.yc, hx: data.hx, hy: data.hy, imageScale: data.s });
         }
       } catch (err) {
         alertCaller.popUpError({ message: err.message });

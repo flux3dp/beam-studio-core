@@ -22,8 +22,11 @@ export interface FisheyeCameraParametersV2Cali {
   d?: number[][];
   rvec?: number[];
   points?: [number, number][][];
-  camHeight?: number[];
-  imageCenter?: number[];
+  // 3rd order regression parameters for camera position with respect to y position
+  hx?: number[];
+  hy?: number[];
+  xc?: number[];
+  yc?: number[];
   imageScale?: number[];
   dh?: number;
 }
@@ -34,8 +37,11 @@ export interface FisheyeCameraParametersV2 {
   d: number[][];
   rvec: number[];
   points: [number, number][][];
-  camHeight: number[];
-  imageCenter: number[];
+  // 3rd order regression parameters for camera position with respect to y position
+  hx: number[];
+  hy: number[];
+  xc: number[];
+  yc: number[];
   imageScale: number[];
   v: 2;
 }

@@ -207,7 +207,10 @@ class CameraCalibrationApi {
     });
   }
 
-  findCorners(img: Blob | ArrayBuffer): Promise<{
+  findCorners(
+    img: Blob | ArrayBuffer,
+    withPitch = false
+  ): Promise<{
     success: boolean;
     blob: Blob;
     data?: { k: number[][]; d: number[][]; rvec: number[]; points: [number, number][][] };
@@ -246,17 +249,22 @@ class CameraCalibrationApi {
       };
       const size = img instanceof Blob ? img.size : img.byteLength;
       // corner_detection [camera_pitch] [file_length] [calibration_version]
-      this.ws.send(`corner_detection 0 ${size} 2`);
+      this.ws.send(`corner_detection ${withPitch ? 20 : 0} ${size} 2`);
     });
   }
 
   calculateCameraPosition(
     img: Blob | ArrayBuffer,
-    dh: number
-  ): Promise<{ success: boolean; blob: Blob; data?: { center: number[], h: number[], s: number[] } }> {
+    dh: number,
+    withPitch = false
+  ): Promise<{
+    success: boolean;
+    blob: Blob;
+    data?: { xc: number[]; yc: number[]; hx: number[]; hy: number[]; s: number[] };
+  }> {
     return new Promise((resolve, reject) => {
       let success = true;
-      let data = {} as { center: number[], h: number[], s: number[] };
+      let data = {} as { xc: number[]; yc: number[]; hx: number[]; hy: number[]; s: number[] };
       this.events.onMessage = (response) => {
         console.log(response);
 
@@ -283,7 +291,7 @@ class CameraCalibrationApi {
       };
       const size = img instanceof Blob ? img.size : img.byteLength;
       // calculate_camera_position [camera_pitch] [elevated_dh] [file_length] [calibration_version]
-      this.ws.send(`calculate_camera_position 0 ${dh.toFixed(3)} ${size} 2`);
+      this.ws.send(`calculate_camera_position ${withPitch ? 20 : 0} ${dh.toFixed(3)} ${size} 2`);
     });
   }
 }
