@@ -512,7 +512,7 @@ class DeviceMaster {
   }
 
   async runBeamboxCameraTest() {
-    const res = await fetch(DeviceConstants.BEAMBOX_CAMERA_TEST);
+    const res = await fetch('fcode/beam-series-camera.fc');
     const blob = await res.blob();
     const vc = VersionChecker(this.currentDevice.info.version);
     if (vc.meetRequirement('RELOCATE_ORIGIN')) {
@@ -546,8 +546,8 @@ class DeviceMaster {
   async doDiodeCalibrationCut() {
     const vc = VersionChecker(this.currentDevice.info.version);
     const fcode = vc.meetRequirement('CALIBRATION_MODE')
-      ? DeviceConstants.DIODE_CALIBRATION_WITH_MODE
-      : DeviceConstants.DIODE_CALIBRATION;
+      ? 'fcode/beam-series-diode-c-mode.fc'
+      : 'fcode/beam-series-diode.fc';
     const res = await fetch(fcode);
     const blob = await res.blob();
     if (vc.meetRequirement('RELOCATE_ORIGIN')) {
@@ -620,7 +620,7 @@ class DeviceMaster {
   };
 
   async doAdorCalibrationCut() {
-    await this.doCalibration(DeviceConstants.ADOR_CALIBRATION);
+    await this.doCalibration('fcode/ador-camera-v1.fc');
   }
 
   async doAdorCalibrationV2(step = 1, withPitch = false) {
@@ -628,11 +628,13 @@ class DeviceMaster {
   }
 
   async doAdorPrinterCalibration() {
-    await this.doCalibration(DeviceConstants.ADOR_PRINTER_CALIBRATION);
+    // using offset [0, -13.37]
+    await this.doCalibration('fcode/ador-printer.fc');
   }
 
   async doAdorIRCalibration() {
-    await this.doCalibration(DeviceConstants.ADOR_IR_CALIBRATION);
+    // using offset [0, 26.95]
+    await this.doCalibration('fcode/ador-ir.fc');
   }
 
   // fs functions
