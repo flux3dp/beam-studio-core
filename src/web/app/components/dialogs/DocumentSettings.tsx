@@ -7,6 +7,7 @@ import alertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import changeWorkarea from 'app/svgedit/operations/changeWorkarea';
 import constant from 'app/actions/beambox/constant';
+import diodeBoundaryDrawer from 'app/actions/canvas/diode-boundary-drawer';
 import EngraveDpiSlider from 'app/widgets/EngraveDpiSlider';
 import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
@@ -89,6 +90,8 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
     } else {
       // this is called in changeWorkarea
       OpenBottomBoundaryDrawer.update();
+      if (enableDiode) diodeBoundaryDrawer.show();
+      else diodeBoundaryDrawer.hide();
     }
     BeamboxPreference.write('rotary_mode', rotaryMode);
     svgCanvas.setRotaryMode(rotaryMode);
