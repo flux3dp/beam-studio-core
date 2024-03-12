@@ -101,8 +101,8 @@ const getPerspectiveForAlign = async (
   console.log('After applying rotation 3d dh: ', height);
   const { heights, points, z3regParam } = param;
   const workarea = [
-    deviceConstants.WORKAREA_IN_MM[device.model]?.[0] || 430,
-    deviceConstants.WORKAREA_IN_MM[device.model]?.[1] || 300,
+    deviceConstants.WORKAREA[device.model]?.[0] || 430,
+    deviceConstants.WORKAREA[device.model]?.[1] || 300,
   ];
   let perspectivePoints: [number, number][][];
 

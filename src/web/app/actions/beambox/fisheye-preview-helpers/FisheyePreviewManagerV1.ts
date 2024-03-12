@@ -105,8 +105,8 @@ class FisheyePreviewManagerV1 extends FisheyePreviewManagerBase implements Fishe
     } = this;
     const { heights, center, points, z3regParam } = params;
     const workarea = [
-      deviceConstants.WORKAREA_IN_MM[device.model]?.[0] || 430,
-      deviceConstants.WORKAREA_IN_MM[device.model]?.[1] || 300,
+      deviceConstants.WORKAREA[device.model]?.[0] || 430,
+      deviceConstants.WORKAREA[device.model]?.[1] || 300,
     ];
     let finalHeight = objectHeight;
     console.log('Use Height: ', objectHeight);

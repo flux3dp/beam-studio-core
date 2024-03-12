@@ -28,7 +28,7 @@ class RawMovePanel extends React.Component<Props, State> {
     super(props);
     const device = DeviceMaster.currentDevice.info;
     this.state = {
-      workarea: DeviceConstants.WORKAREA_IN_MM[device.model],
+      workarea: DeviceConstants.WORKAREA[device.model],
       safeDistance: this.getSafeDistance(),
       currentX: 0, // mm
       currentY: 0, // mm

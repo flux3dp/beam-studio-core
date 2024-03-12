@@ -4,8 +4,8 @@ import { IDeviceInfo } from 'interfaces/IDevice';
 
 const getAutoFocusPosition = async (device: IDeviceInfo): Promise<string> => {
   const workarea = [
-    deviceConstants.WORKAREA_IN_MM[device.model]?.[0] || 430,
-    deviceConstants.WORKAREA_IN_MM[device.model]?.[1] || 300,
+    deviceConstants.WORKAREA[device.model]?.[0] || 430,
+    deviceConstants.WORKAREA[device.model]?.[1] || 300,
   ];
   const lastPosition = await deviceMaster.rawGetLastPos();
   const { x, y } = lastPosition;

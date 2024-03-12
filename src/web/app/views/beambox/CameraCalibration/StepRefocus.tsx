@@ -6,7 +6,6 @@ import AlertConstants from 'app/constants/alert-constants';
 import Browser from 'implementations/browser';
 import CheckDeviceStatus from 'helpers/check-device-status';
 import Constant from 'app/actions/beambox/constant';
-import DeviceConstants from 'app/constants/device-constants';
 import DeviceErrorHandler from 'helpers/device-error-handler';
 import DeviceMaster from 'helpers/device-master';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
