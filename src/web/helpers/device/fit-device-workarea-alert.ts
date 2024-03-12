@@ -6,7 +6,7 @@ import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import changeWorkarea from 'app/svgedit/operations/changeWorkarea';
 import i18n from 'helpers/i18n';
 import { IDeviceInfo } from 'interfaces/IDevice';
-import { allWorkareas, WorkAreaModel } from 'app/actions/beambox/constant';
+import { allWorkareas, WorkAreaModel } from 'app/constants/workarea';
 
 const LANG = i18n.lang;
 

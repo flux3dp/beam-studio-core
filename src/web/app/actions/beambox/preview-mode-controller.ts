@@ -7,7 +7,7 @@ import AlertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import checkDeviceStatus from 'helpers/check-device-status';
 import checkOldFirmware from 'helpers/device/checkOldFirmware';
-import Constant, { WorkAreaModel } from 'app/actions/beambox/constant';
+import Constant from 'app/actions/beambox/constant';
 import dialogCaller from 'app/actions/dialog-caller';
 import deviceMaster from 'helpers/device-master';
 import ErrorConstants from 'app/constants/error-constants';
@@ -26,6 +26,7 @@ import {
   RotationParameters3DCalibration,
 } from 'interfaces/FisheyePreview';
 import { IDeviceInfo } from 'interfaces/IDevice';
+import { WorkAreaModel } from 'app/constants/workarea';
 
 const { $ } = window;
 const LANG = i18n.lang;

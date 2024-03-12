@@ -1,6 +1,7 @@
-import constant, { WorkAreaModel } from 'app/actions/beambox/constant';
+import constant from 'app/actions/beambox/constant';
 import deviceConstants from 'app/constants/device-constants';
 import deviceMaster from 'helpers/device-master';
+import { WorkAreaModel } from 'app/constants/workarea';
 
 export const getMaterialHeight = async (): Promise<number> => {
   const device = deviceMaster.currentDevice;

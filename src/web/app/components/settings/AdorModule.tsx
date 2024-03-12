@@ -1,13 +1,14 @@
 import React, { useCallback, useMemo } from 'react';
 
 import Controls from 'app/components/settings/Control';
-import constant, { WorkAreaModel } from 'app/actions/beambox/constant';
+import constant from 'app/actions/beambox/constant';
 import LayerModule from 'app/constants/layer-module/layer-modules';
 import moduleOffsets from 'app/constants/layer-module/module-offsets';
 import SelectControl from 'app/components/settings/SelectControl';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import useI18n from 'helpers/useI18n';
 import { OptionValues } from 'app/constants/enums';
+import { WorkAreaModel } from 'app/constants/workarea';
 
 interface Props {
   defaultUnit: string;

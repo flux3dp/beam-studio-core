@@ -1,11 +1,12 @@
 import * as React from 'react';
 
-import BeamboxConstant, { WorkAreaModel } from 'app/actions/beambox/constant';
+import BeamboxConstant from 'app/actions/beambox/constant';
 import Controls from 'app/components/settings/Control';
 import i18n from 'helpers/i18n';
 import SelectControl from 'app/components/settings/SelectControl';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import { StorageKey } from 'interfaces/IStorage';
+import { WorkAreaModel } from 'app/constants/workarea';
 
 interface Props {
   selectedModel: WorkAreaModel;

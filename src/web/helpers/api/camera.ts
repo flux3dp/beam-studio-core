@@ -6,7 +6,7 @@
 import { Subject, partition, from, lastValueFrom, Observable } from 'rxjs';
 import { concatMap, filter, map, take, timeout } from 'rxjs/operators';
 
-import constant, { WorkAreaModel } from 'app/actions/beambox/constant';
+import constant from 'app/actions/beambox/constant';
 import i18n from 'helpers/i18n';
 import Progress from 'app/actions/progress-caller';
 import rsaKey from 'helpers/rsa-key';
@@ -18,6 +18,7 @@ import {
   RotationParameters3DGhostApi,
 } from 'interfaces/FisheyePreview';
 import { IDeviceInfo } from 'interfaces/IDevice';
+import { WorkAreaModel } from 'app/constants/workarea';
 
 const TIMEOUT = 120000;
 const IMAGE_TRANSMISSION_FAIL_THRESHOLD = 20;

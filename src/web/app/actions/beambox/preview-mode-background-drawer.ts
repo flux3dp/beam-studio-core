@@ -3,10 +3,11 @@ import { concatMap } from 'rxjs/operators';
 
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import beamboxStore from 'app/stores/beambox-store';
-import Constant, { WorkAreaModel } from 'app/actions/beambox/constant';
+import Constant from 'app/actions/beambox/constant';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import i18n from 'helpers/i18n';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { WorkAreaModel } from 'app/constants/workarea';
 
 let svgCanvas;
 let svgedit;

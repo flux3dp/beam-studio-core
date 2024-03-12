@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from 'react';
 
-import BeamboxConstant, { WorkAreaModel } from 'app/actions/beambox/constant';
+import BeamboxConstant from 'app/actions/beambox/constant';
 import Controls from 'app/components/settings/Control';
 import FontFuncs from 'app/actions/beambox/font-funcs';
 import i18n from 'helpers/i18n';
@@ -12,6 +12,7 @@ import UnitInput from 'app/widgets/Unit-Input-v2';
 import { FontDescriptor } from 'interfaces/IFont';
 import { OptionValues } from 'app/constants/enums';
 import { StorageKey } from 'interfaces/IStorage';
+import { WorkAreaModel } from 'app/constants/workarea';
 
 const fontFamilies = FontFuncs.requestAvailableFontFamilies(true);
 

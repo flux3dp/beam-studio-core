@@ -1,10 +1,11 @@
 import beamboxPreferences from 'app/actions/beambox/beambox-preference';
 import beamboxStore from 'app/stores/beambox-store';
-import constant, { WorkAreaModel } from 'app/actions/beambox/constant';
+import constant from 'app/actions/beambox/constant';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import openBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { toggleFullColorAfterWorkareaChange } from 'helpers/layer/layer-config-helper';
+import { WorkAreaModel } from 'app/constants/workarea';
 
 let svgCanvas;
 let svgEditor;
