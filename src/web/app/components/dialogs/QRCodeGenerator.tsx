@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Checkbox, Input, Modal, QRCode, QRCodeProps, Radio } from 'antd';
+import { InfoCircleOutlined } from '@ant-design/icons';
 
+import browser from 'implementations/browser';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import useI18n from 'helpers/useI18n';
 
@@ -64,7 +66,10 @@ const QRCodeGenerator = ({ onClose }: Props): JSX.Element => {
           )}
         </div>
         <div className={styles.settings}>
-          <div className={styles.label}>{lang.error_tolerance}</div>
+          <div className={styles.label}>
+            {lang.error_tolerance}{' '}
+            <InfoCircleOutlined onClick={() => browser.open(lang.error_tolerance_link)} />
+          </div>
           <Radio.Group
             value={errorLevel}
             onChange={(e) => setErrorLevel(e.target.value)}

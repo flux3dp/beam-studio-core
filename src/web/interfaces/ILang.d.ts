@@ -1566,6 +1566,7 @@ export interface ILang {
     placeholder: string;
     preview: string;
     error_tolerance: string;
+    error_tolerance_link: string;
     invert: string;
   },
 }

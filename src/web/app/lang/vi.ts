@@ -561,7 +561,7 @@ const lang: ILang = {
         'Nhập tệp SVG thất bại. Bạn có muốn cung cấp tệp cho nhóm phát triển để báo cáo lỗi?',
       upload_file_too_large: '#819 Tệp quá lớn để tải lên.',
       successfully_uploaded: 'Tải tệp thành công.',
-      upload_failed: 'Tải tệp thất bại.',
+      upload_failed: '#819 Tải tệp thất bại.',
       or_turn_off_borderless_mode: 'Hoặc tắt chế độ toàn màn hình',
       svg_1_1_waring: 'Phiên bản SVG này là 1.1, có thể gặp vấn đề tương thích',
       svg_image_path_waring:
@@ -577,11 +577,11 @@ const lang: ILang = {
         calculating: 'Đang tính toán',
       },
       backend_connect_failed_ask_to_upload:
-        'Lỗi liên tục khi kết nối backend. Bạn có muốn gửi báo cáo lỗi?',
+        '#802 Lỗi liên tục khi kết nối backend. Bạn có muốn gửi báo cáo lỗi?',
       backend_error_hint: 'Các tính năng có thể không hoạt động do lỗi backend',
       pdf2svg: {
-        error_when_converting_pdf: 'Lỗi khi chuyển đổi PDF sang SVG:',
-        error_pdf2svg_not_found: 'Lỗi: Không tìm thấy lệnh pdf2svg. Vui lòng cài đặt pdf2svg',
+        error_when_converting_pdf: '#824 Lỗi khi chuyển đổi PDF sang SVG:',
+        error_pdf2svg_not_found: '#825 Lỗi: Không tìm thấy lệnh pdf2svg. Vui lòng cài đặt pdf2svg',
       },
       ungroup_use: 'Điều này sẽ bỏ nhóm và có thể mất thời gian. Bạn có chắc tiếp tục?',
       vectorize_shading_image:
@@ -1111,12 +1111,12 @@ const lang: ILang = {
       network_testing: 'Kiểm tra mạng',
       local_ip: 'Địa chỉ IP cục bộ:',
       insert_ip: 'Địa chỉ IP thiết bị đích:',
-      empty_ip: 'Vui lòng nhập địa chỉ IP thiết bị đích trước',
+      empty_ip: '#818 Vui lòng nhập địa chỉ IP thiết bị đích trước',
       start: 'Bắt đầu',
       end: 'Kết thúc',
       testing: 'Đang kiểm tra mạng...',
-      invalid_ip: 'Địa chỉ IP không hợp lệ',
-      ip_startswith_169: 'Địa chỉ IP máy bắt đầu bằng 169.254',
+      invalid_ip: '#818 Địa chỉ IP không hợp lệ',
+      ip_startswith_169: '#843 Địa chỉ IP máy bắt đầu bằng 169.254',
       connection_quality: 'Chất lượng kết nối',
       average_response: 'Thời gian phản hồi trung bình',
       test_completed: 'Kiểm tra hoàn tất',
@@ -1411,7 +1411,7 @@ const lang: ILang = {
     getProbePosition: 'Đang lấy vị trí đầu dò...',
     device_not_found: {
       caption: 'Không tìm thấy máy mặc định',
-      message: 'Vui lòng kiểm tra đèn báo Wi-Fi của máy',
+      message: '#812 Vui lòng kiểm tra đèn báo Wi-Fi của máy',
     },
     device_busy: {
       caption: 'Máy bận',
@@ -1677,6 +1677,7 @@ const lang: ILang = {
     placeholder: 'Nhập liên kết hoặc văn bản',
     preview: 'Xem trước',
     error_tolerance: 'Sai số dung sai',
+    error_tolerance_link: 'https://support.flux3dp.com/hc/en-us/articles/9113705072143',
     invert: 'Đảo ngược màu nền',
   },
 };

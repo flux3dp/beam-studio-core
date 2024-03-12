@@ -1439,25 +1439,25 @@ const lang: ILang = {
       'A versão atual do SO %s pode não suportar algumas funções. Atualize para a versão mais recente.',
     need_password: 'É necessária senha para conectar à máquina',
     unavailableWorkarea:
-      'A área de trabalho atual excede a área de trabalho desta máquina. Verifique a área de trabalho da máquina selecionada ou defina a área de trabalho em Editar > Configurações do Documento.',
+      '#804 A área de trabalho atual excede a área de trabalho desta máquina. Verifique a área de trabalho da máquina selecionada ou defina a área de trabalho em Editar > Configurações do Documento.',
     please_enter_dpi: 'Informe a resolução do seu arquivo (em mm)',
     auth_error:
-      'Erro de autenticação: atualize o Beam Studio e o firmware da máquina para a versão mais recente.',
+      '#820 Erro de autenticação: atualize o Beam Studio e o firmware da máquina para a versão mais recente.',
     usb_unplugged: 'A conexão USB foi perdida. Verifique a conexão USB',
     uploading_fcode: 'Enviando FCode',
-    cant_connect_to_device: 'Não foi possível conectar à máquina, verifique a conexão',
+    cant_connect_to_device: '#827 Não foi possível conectar à máquina, verifique a conexão',
     unable_to_find_machine: 'Não foi possível encontrar a máquina ',
     disconnected:
       'Conexão instável, verifique a conexão com o dispositivo e tente novamente mais tarde',
     unable_to_start:
-      'Não foi possível iniciar a tarefa. Tente novamente. Se o problema persistir, entre em contato conosco com um relatório de erro:',
+      '#830 Não foi possível iniciar a tarefa. Tente novamente. Se o problema persistir, entre em contato conosco com um relatório de erro:',
     camera: {
       camera_cable_unstable:
         'Foi detectado que a câmera está transferindo fotos de forma instável. A visualização ainda pode ser realizada normalmente, mas pode haver problema de visualização lenta ou tempo limite.',
       fail_to_transmit_image:
-        'Ocorreu um erro na transmissão da imagem. Por favor, reinicie sua máquina ou o Beam Studio. Se este erro persistir, siga <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/4402756056079">este guia</a>.',
+        '#845 Ocorreu um erro na transmissão da imagem. Por favor, reinicie sua máquina ou o Beam Studio. Se este erro persistir, siga <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/4402756056079">este guia</a>.',
       ws_closed_unexpectly:
-        'A conexão com a câmera da máquina foi fechada inesperadamente. Se este erro persistir, siga <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/4402755805071">este guia</a>.',
+        '#844 A conexão com a câmera da máquina foi fechada inesperadamente. Se este erro persistir, siga <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/4402755805071">este guia</a>.',
       continue_preview: 'Continuar',
       abort_preview: 'Cancelar',
     },
@@ -1692,6 +1692,7 @@ const lang: ILang = {
     placeholder: 'Insira um link ou texto',
     preview: 'Pré-visualização',
     error_tolerance: 'Tolerância de erro',
+    error_tolerance_link: 'https://support.flux3dp.com/hc/en-us/articles/9113705072143',
     invert: 'Inverter cor de fundo',
   },
 };

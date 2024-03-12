@@ -1569,6 +1569,7 @@ const lang: ILang = {
     placeholder: '링크나 텍스트를 입력해 주세요',
     preview: '미리보기',
     error_tolerance: '오류 보정 레벨',
+    error_tolerance_link: 'https://support.flux3dp.com/hc/en-us/articles/9113705072143',
     invert: '배경색 반전',
   },
 };

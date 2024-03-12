@@ -1569,6 +1569,7 @@ const lang: ILang = {
     placeholder: 'Wpisz łącze lub tekst',
     preview: 'Podgląd',
     error_tolerance: 'Tolerancja błędów',
+    error_tolerance_link: 'https://support.flux3dp.com/hc/en-us/articles/9113705072143',
     invert: 'Odwróć kolory tła i pierwszego planu',
   },
 };

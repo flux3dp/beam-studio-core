@@ -542,7 +542,7 @@ const lang: ILang = {
       too_fast_for_path_and_constrain:
         'Følgende lag: %s\ninneholder vektorbaner, og har hastighet over 20 mm/s.\nKuttehastigheten for vektorbaner vil bli begrenset til 20 mm/s.\nDu kan fjerne denne begrensningen under Innstillinger.',
       should_update_firmware_to_continue:
-        'Fastvaren din støtter ikke denne versjonen av Beam Studio. Oppdater fastvaren for å fortsette. (Meny > Maskin > [Din maskin] > Oppdater fastvare)',
+        '#814 Fastvaren din støtter ikke denne versjonen av Beam Studio. Oppdater fastvaren for å fortsette. (Meny > Maskin > [Din maskin] > Oppdater fastvare)',
       recommend_downgrade_software:
         'Vi oppdaget en eldre fastvareversjon. Vi jobber med kompatibilitetsproblemer, men foreløpig anbefaler vi å gå tilbake til <a target="_blank" href="https://beamstudio.s3.ap-northeast-1.amazonaws.com/mac/Beam+Studio+1.9.5.dmg">Beam Studio 1.9.5</a>.',
       recommend_upgrade_firmware:
@@ -1111,12 +1111,12 @@ const lang: ILang = {
       network_testing: 'Nettverkstest',
       local_ip: 'Lokal IP-adresse:',
       insert_ip: 'Målenhetens IP-adresse:',
-      empty_ip: 'Vennligst skriv inn målenhetens IP-adresse først',
+      empty_ip: '#818 Vennligst skriv inn målenhetens IP-adresse først',
       start: 'Start',
       end: 'Slutt',
       testing: 'Tester nettverk...',
-      invalid_ip: 'Ugyldig IP-adresse',
-      ip_startswith_169: 'Maskin-IP-adressen starter med 169.254',
+      invalid_ip: '#818 Ugyldig IP-adresse',
+      ip_startswith_169: '#843 Maskin-IP-adressen starter med 169.254',
       connection_quality: 'Tilkoblingskvalitet',
       average_response: 'Gjennomsnittlig responstid',
       test_completed: 'Test fullført',
@@ -1438,14 +1438,14 @@ const lang: ILang = {
     unable_to_find_machine: 'Kan ikke finne maskin ',
     disconnected: 'Ustabil tilkobling, sjekk enhetstilkobling og prøv igjen senere',
     unable_to_start:
-      'Kan ikke starte oppgaven. Prøv igjen. Hvis dette skjer igjen, kontakt oss med en feilrapport:',
+      '#830 Kan ikke starte oppgaven. Prøv igjen. Hvis dette skjer igjen, kontakt oss med en feilrapport:',
     camera: {
       camera_cable_unstable:
         'Det er oppdaget at kameraet overfører bilder ustabilt. Forhåndsvisning kan fortsatt utføres normalt, men det kan være problemer med treg forhåndsvisning eller tidsavbrudd.',
       fail_to_transmit_image:
-        'Noe gikk galt med bildeoverføringen. Start maskinen eller Beam Studio på nytt. Hvis denne feilen vedvarer, følg denne veiledningen.',
+        '#845 Noe gikk galt med bildeoverføringen. Start maskinen eller Beam Studio på nytt. Hvis denne feilen vedvarer, følg denne veiledningen.',
       ws_closed_unexpectly:
-        'Tilkoblingen til maskinkameraet ble uventet lukket. Hvis denne feilen vedvarer, følg denne veiledningen.',
+        '#844 Tilkoblingen til maskinkameraet ble uventet lukket. Hvis denne feilen vedvarer, følg denne veiledningen.',
       continue_preview: 'Fortsett',
       abort_preview: 'Avbryt',
     },
@@ -1674,6 +1674,7 @@ const lang: ILang = {
     placeholder: 'Skriv inn en lenke eller tekst',
     preview: 'Forhåndsvisning',
     error_tolerance: 'Feiltoleranse',
+    error_tolerance_link: 'https://support.flux3dp.com/hc/en-us/articles/9113705072143',
     invert: 'Inverter bakgrunnsfarge',
   },
 };

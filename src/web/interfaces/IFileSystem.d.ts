@@ -11,4 +11,6 @@ export interface IFileSystem {
   writeStream(path: string, flags: string, data?: Buffer[]): void;
   join(...paths: string[]): string;
   getPath(path: string): string;
+  readdirSync(path: string): string[];
+  delete(path: string): void;
 }

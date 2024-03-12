@@ -545,7 +545,7 @@ const lang: ILang = {
       too_fast_for_path_and_constrain:
         'De volgende lagen: %s\nbevatten vector padobjecten, en hebben een snelheid hoger dan 20 mm/s.\nDe snijsnelheid van vector padobjecten wordt beperkt tot 20 mm/s.\nU kunt deze beperking opheffen bij de voorkeuren.',
       should_update_firmware_to_continue:
-        'Uw firmware ondersteunt deze versie van Beam Studio niet. Werk de firmware bij om door te gaan. (Menu > Machine > [Uw machine] > Firmware bijwerken)',
+        '#814 Uw firmware ondersteunt deze versie van Beam Studio niet. Werk de firmware bij om door te gaan. (Menu > Machine > [Uw machine] > Firmware bijwerken)',
       recommend_downgrade_software:
         'We hebben een oudere firmwareversie gedetecteerd. We werken actief aan compatibiliteitsproblemen, maar voor nu raden we aan terug te keren naar <a target="_blank" href="https://beamstudio.s3.ap-northeast-1.amazonaws.com/mac/Beam+Studio+1.9.5.dmg">Beam Studio 1.9.5</a>.',
       recommend_upgrade_firmware:
@@ -1688,6 +1688,7 @@ const lang: ILang = {
     placeholder: 'Voer een link of tekst in',
     preview: 'Voorbeeld',
     error_tolerance: 'Foutcorrectie',
+    error_tolerance_link: 'https://support.flux3dp.com/hc/en-us/articles/9113705072143',
     invert: 'Achtergrondkleur omkeren',
   },
 };

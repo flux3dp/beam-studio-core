@@ -544,7 +544,7 @@ const lang: ILang = {
       too_fast_for_path_and_constrain:
         'I seguenti strati: %s contengono oggetti tracciato vettoriali e hanno una velocità che supera i 20 mm/s. La velocità di taglio degli oggetti tracciato vettoriali sarà limitata a 20 mm/s. È possibile rimuovere questo limite nelle impostazioni delle preferenze.',
       should_update_firmware_to_continue:
-        'Il firmware non supporta questa versione di Beam Studio. Aggiornare il firmware per continuare. (Menu > Macchina > [La tua macchina] > Aggiorna firmware)',
+        '#814 Il firmware non supporta questa versione di Beam Studio. Aggiornare il firmware per continuare. (Menu > Macchina > [La tua macchina] > Aggiorna firmware)',
       recommend_downgrade_software:
         'Abbiamo rilevato una versione firmware precedente. Stiamo lavorando attivamente per risolvere i problemi di compatibilità, ma per ora consigliamo di tornare a Beam Studio 1.9.5.',
       recommend_upgrade_firmware:
@@ -558,9 +558,9 @@ const lang: ILang = {
         '#808 Il file SVG importato contiene percorsi immagine non validi. Assicurarsi che tutti i file immagine esistano o incorporare le immagini nel file',
       import_file_error_ask_for_upload:
         'Non è stato possibile importare il file SVG. Vuoi fornire il file al team di sviluppo per la segnalazione di bug?',
-      upload_file_too_large: 'Il file è troppo grande per il caricamento.',
+      upload_file_too_large: '#819 Il file è troppo grande per il caricamento.',
       successfully_uploaded: 'Caricamento file riuscito.',
-      upload_failed: 'Caricamento file non riuscito.',
+      upload_failed: '#819 Caricamento file non riuscito.',
       or_turn_off_borderless_mode: ' O disattiva la modalità Open Bottom.',
       svg_1_1_waring:
         'La versione di questo file SVG è v 1.1, potrebbero esserci potenziali problemi di incompatibilità.',
@@ -578,13 +578,13 @@ const lang: ILang = {
         calculating: 'Calcolo',
       },
       backend_connect_failed_ask_to_upload:
-        'Si sono verificati errori continui durante il tentativo di connessione al backend. Vuoi caricare il rapporto di bug?',
+        '#802 Si sono verificati errori continui durante il tentativo di connessione al backend. Vuoi caricare il rapporto di bug?',
       backend_error_hint:
         'Le funzionalità potrebbero non funzionare correttamente a causa di errori backend.',
       pdf2svg: {
-        error_when_converting_pdf: 'Errore durante la conversione da PDF a SVG:',
+        error_when_converting_pdf: '#824 Errore durante la conversione da PDF a SVG:',
         error_pdf2svg_not_found:
-          'Errore: comando pdf2svg non trovato. Installa pdf2svg con il tuo gestore di pacchetti (es. "yum install pdf2svg" o "apt-get install pdf2svg").',
+          '#825 Errore: comando pdf2svg non trovato. Installa pdf2svg con il tuo gestore di pacchetti (es. "yum install pdf2svg" o "apt-get install pdf2svg").',
       },
       ungroup_use:
         'Questo separerà il gruppo di file DXF o SVG importati. Poiché il file potrebbe contenere un gran numero di elementi, potrebbe volerci del tempo per separare il gruppo. Sei sicuro di voler procedere?',
@@ -1700,6 +1700,7 @@ const lang: ILang = {
     placeholder: 'Inserisci un link o un testo',
     preview: 'Anteprima',
     error_tolerance: 'Tolleranza errore',
+    error_tolerance_link: 'https://support.flux3dp.com/hc/en-us/articles/9113705072143',
     invert: 'Inverti colore sfondo',
   },
 };

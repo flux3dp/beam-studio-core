@@ -130,6 +130,10 @@ const saveAsFile = async (): Promise<boolean> => {
     svgCanvas.setHasUnsavedChange(false, false);
     return true;
   }
+  if (window.FLUX.version === 'web') {
+    svgCanvas.setHasUnsavedChange(false, false);
+    return true;
+  }
   return false;
 };
 

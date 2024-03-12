@@ -13,8 +13,15 @@ jest.mock('helpers/useI18n', () => () => ({
     placeholder: 'Input a link or text',
     preview: 'Preview',
     error_tolerance: 'Error Tolerance',
+    error_tolerance_link: 'error_tolerance_link',
     invert: 'Invert background color',
   },
+}));
+
+const mockOpen = jest.fn();
+jest.mock('implementations/browser', () => ({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  open: (...args: any) => mockOpen(...args),
 }));
 
 const mockInsertImage = jest.fn();
@@ -33,6 +40,10 @@ describe('test QRCodeGenerator', () => {
     expect(input).toHaveValue('');
     expect(okButton).toBeDisabled();
     expect(baseElement).toMatchSnapshot();
+
+    fireEvent.click(baseElement.querySelector('.label .anticon'));
+    expect(mockOpen).toBeCalledTimes(1);
+    expect(mockOpen).toBeCalledWith('error_tolerance_link');
 
     fireEvent.change(input, { target: { value: 'some text' } });
     expect(okButton).not.toBeDisabled();
