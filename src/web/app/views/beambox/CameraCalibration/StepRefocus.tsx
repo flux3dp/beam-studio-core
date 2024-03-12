@@ -91,7 +91,7 @@ const StepRefocus = (): JSX.Element => {
 
   let child = null;
   let message: string;
-  if (device.model === DeviceConstants.Model.Beamo) {
+  if (device.model === 'fbm1') {
     child = (
       <div className="video-container">
         <div className="tab-container">
@@ -108,7 +108,7 @@ const StepRefocus = (): JSX.Element => {
       </div>
     );
     message = isAutoFocus ? langCalibration.please_refocus.beamo_af : langCalibration.please_refocus.beamo;
-  } else if (device.model === DeviceConstants.Model.HEXA) {
+  } else if (device.model === 'fhexa1') {
     message = langCalibration.please_refocus.hexa;
     child = (
       <video className="video" ref={videoElem} autoPlay loop>

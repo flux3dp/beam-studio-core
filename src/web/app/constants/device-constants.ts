@@ -150,8 +150,4 @@ export default {
     256: 'red',
     512: 'red',
   },
-  Model: {
-    Beamo: 'fbm1',
-    HEXA: 'fhexa1',
-  },
 };
