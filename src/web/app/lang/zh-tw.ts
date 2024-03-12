@@ -1509,7 +1509,7 @@ const lang: ILang = {
     align_red_cross_cut: '請將紅色十字的中心對齊切割出來的十字中心。',
     align_red_cross_print: '請將紅色十字的中心對齊列印出來的十字中心。',
     retake: '重拍照片',
-    calibrate_camera_before_calibrate_modules: '在校準模組，前請先進行相機校準。',
+    calibrate_camera_before_calibrate_modules: '在校正模組前，請先進行相機校準。',
   },
   input_machine_password: {
     require_password: '"%s" 需要密碼',
