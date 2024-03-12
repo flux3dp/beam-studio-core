@@ -4,41 +4,6 @@ export default {
   OK: 'OK',
   // folder
   NOT_EXIST: 'NOT_EXIST',
-  // workarea in mm
-  WORKAREA: {
-    fhexa1: {
-      maxX: 740,
-      maxY: 410,
-    },
-    fbb1p: {
-      maxX: 600,
-      maxY: 375,
-    },
-    fbb1b: {
-      maxX: 400,
-      maxY: 375,
-    },
-    fbm1: {
-      maxX: 300,
-      maxY: 210,
-    },
-    'laser-b1': {
-      maxX: 300,
-      maxY: 210,
-    },
-    'laser-b2': {
-      maxX: 730,
-      maxY: 410,
-    },
-    ado1: {
-      maxX: 430,
-      maxY: 300,
-    }
-  },
-  WORKAREA_DEEP: {
-    fad1: 40.5, // mm
-    ado1: 40.5, // mm
-  },
   status: {
     CARTDRIDGE_IO: -17,
     RAW: -10,

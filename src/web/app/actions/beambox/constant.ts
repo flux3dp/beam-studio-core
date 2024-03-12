@@ -1,5 +1,5 @@
 import isDev from 'helpers/is-dev';
-import { WorkAreaLabel, WorkAreaModel } from 'app/constants/workarea';
+import { WorkAreaLabel, WorkAreaModel } from 'app/constants/workarea-constants';
 
 export const modelsSupportUsb = new Set(['fhexa1', 'ado1']);
 

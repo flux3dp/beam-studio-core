@@ -28,7 +28,7 @@ import { IConfig } from 'interfaces/IAutosave';
 import { ILang } from 'interfaces/ILang';
 import { OptionValues } from 'app/constants/enums';
 import { StorageKey } from 'interfaces/IStorage';
-import { WorkAreaModel } from 'app/constants/workarea';
+import { WorkAreaModel } from 'app/constants/workarea-constants';
 
 interface State {
   lang?: ILang;

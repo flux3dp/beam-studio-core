@@ -7,7 +7,7 @@ import Constant from 'app/actions/beambox/constant';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import i18n from 'helpers/i18n';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import { WorkAreaModel } from 'app/constants/workarea';
+import { WorkAreaModel } from 'app/constants/workarea-constants';
 
 let svgCanvas;
 let svgedit;

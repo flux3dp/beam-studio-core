@@ -1,5 +1,5 @@
-import deviceConstants from 'app/constants/device-constants';
 import deviceMaster from 'helpers/device-master';
+import workareaConstants, { WorkAreaModel } from 'app/constants/workarea-constants';
 import {
   getPerspectivePointsZ3Regression,
   interpolatePointsFromHeight,
@@ -63,7 +63,9 @@ const getHeight = async (device: IDeviceInfo) => {
     enteredRawMode = true;
     const res = await deviceMaster.rawGetProbePos();
     const { z, didAf } = res;
-    if (didAf) return deviceConstants.WORKAREA_DEEP[device.model] - z;
+    if (didAf) {
+      return (workareaConstants[device.model as WorkAreaModel] || workareaConstants.ado1).deep - z;
+    }
   } catch (e) {
     console.log('Fail to get probe position, using custom height', e);
     // do nothing
@@ -88,11 +90,11 @@ const getPerspectiveForAlign = async (
     autoLevelingData[key] = Math.round((autoLevelingData[key] - refHeight) * 1000) / 1000;
     autoLevelingData[key] += heightOffset[key] ?? 0;
   });
-
+  const workarea = workareaConstants[device.model as WorkAreaModel] || workareaConstants.ado1;
   let height = await getHeight(device);
   if (rotationParam) {
     const { rx, ry, rz, sh, ch } = rotationParam;
-    const z = deviceConstants.WORKAREA_DEEP[device.model] - height;
+    const z = workarea.deep - height;
     const rotationZ = sh * (z + ch);
     await deviceMaster.set3dRotation({ rx, ry, rz, h: rotationZ, tx: 0, ty: 0 });
   }
@@ -100,24 +102,20 @@ const getPerspectiveForAlign = async (
   if (rotationParam?.dh) height += rotationParam.dh;
   console.log('After applying rotation 3d dh: ', height);
   const { heights, points, z3regParam } = param;
-  const workarea = [
-    deviceConstants.WORKAREA[device.model]?.[0] || 430,
-    deviceConstants.WORKAREA[device.model]?.[1] || 300,
-  ];
   let perspectivePoints: [number, number][][];
 
   if (points && heights) {
     [perspectivePoints] = points;
     perspectivePoints = interpolatePointsFromHeight(height ?? 0, heights, points, {
       chessboard: [48, 36],
-      workarea,
+      workarea: [workarea.width, workarea.height],
       center,
       levelingOffsets: autoLevelingData,
     });
   } else if (z3regParam) {
     perspectivePoints = getPerspectivePointsZ3Regression(height ?? 0, z3regParam, {
       chessboard: [48, 36],
-      workarea,
+      workarea: [workarea.width, workarea.height],
       center,
       levelingOffsets: autoLevelingData,
     });

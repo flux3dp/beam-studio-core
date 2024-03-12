@@ -2,12 +2,12 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Button, Checkbox, Modal, Tooltip } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 
-import deviceConstants from 'app/constants/device-constants';
 import deviceMaster from 'helpers/device-master';
 import getDevice from 'helpers/device/get-device';
 import storage from 'implementations/storage';
 import UnitInput from 'app/widgets/UnitInput';
 import useI18n from 'helpers/useI18n';
+import workareaConstants, { WorkAreaModel } from 'app/constants/workarea-constants';
 
 import styles from './PreviewHeight.module.scss';
 
@@ -29,7 +29,8 @@ const getProbeHeight = async () => {
     if (device.control.getMode() !== 'raw') deviceMaster.enterRawMode();
     const { didAf, z } = await deviceMaster.rawGetProbePos();
     if (!didAf) return null;
-    return Math.round((deviceConstants.WORKAREA_DEEP[device.info.model] - z) * 100) / 100;
+    const { deep } = workareaConstants[device.info.model as WorkAreaModel] || workareaConstants.ado1;
+    return Math.round((deep - z) * 100) / 100;
   } catch {
     return null;
   }

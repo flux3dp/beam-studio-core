@@ -5,7 +5,7 @@ import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import openBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { toggleFullColorAfterWorkareaChange } from 'helpers/layer/layer-config-helper';
-import { WorkAreaModel } from 'app/constants/workarea';
+import { WorkAreaModel } from 'app/constants/workarea-constants';
 
 let svgCanvas;
 let svgEditor;

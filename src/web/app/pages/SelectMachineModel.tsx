@@ -6,7 +6,7 @@ import InitializeIcons from 'app/icons/initialize/InitializeIcons';
 import storage from 'implementations/storage';
 import useI18n from 'helpers/useI18n';
 import windowLocationReload from 'app/actions/windowLocation';
-import { WorkAreaModel } from 'app/constants/workarea';
+import { WorkAreaModel } from 'app/constants/workarea-constants';
 
 import styles from './SelectMachineModel.module.scss';
 

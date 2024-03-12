@@ -26,7 +26,7 @@ import {
   RotationParameters3DCalibration,
 } from 'interfaces/FisheyePreview';
 import { IDeviceInfo } from 'interfaces/IDevice';
-import { WorkAreaModel } from 'app/constants/workarea';
+import { WorkAreaModel } from 'app/constants/workarea-constants';
 
 const { $ } = window;
 const LANG = i18n.lang;

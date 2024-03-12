@@ -6,7 +6,7 @@ import i18n from 'helpers/i18n';
 import SelectControl from 'app/components/settings/SelectControl';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import { StorageKey } from 'interfaces/IStorage';
-import { WorkAreaModel } from 'app/constants/workarea';
+import { WorkAreaModel } from 'app/constants/workarea-constants';
 
 interface Props {
   selectedModel: WorkAreaModel;
