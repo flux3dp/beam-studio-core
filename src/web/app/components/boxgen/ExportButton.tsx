@@ -167,7 +167,7 @@ const ExportDialog = ({
             type="number"
             size="small"
             min={0}
-            max={isMM ? 0.5 : 0.508}
+            max={isMM ? 0.3 : 0.3048}
             addonAfter={unit}
             step={isMM ? 0.1 : 0.001 * unitRatio}
             formatter={(v, { userTyping, input }) =>
