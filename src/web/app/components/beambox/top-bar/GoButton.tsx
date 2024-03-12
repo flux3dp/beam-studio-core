@@ -160,7 +160,7 @@ const GoButton = (props: Props): JSX.Element => {
   const checkModuleCalibration = useCallback(
     async (device: IDeviceInfo) => {
       const workarea = BeamboxPreference.read('workarea');
-      if (!modelsWithModules.includes(workarea) || !modelsWithModules.includes(device.model))
+      if (!modelsWithModules.has(workarea) || !modelsWithModules.has(device.model))
         return;
       const moduleOffsets = BeamboxPreference.read('module-offsets') || {};
       const getLayers = (module: LayerModules) =>

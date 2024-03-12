@@ -113,7 +113,7 @@ export const importBvgString = async (str: string): Promise<void> => {
   }
   const { lang } = i18n;
   let newWorkarea = currentWorkarea;
-  if (!modelsWithModules.includes(currentWorkarea)) {
+  if (!modelsWithModules.has(currentWorkarea)) {
     const hasPrintingLayer =
       document
         .getElementById('svgcontent')
@@ -139,7 +139,7 @@ export const importBvgString = async (str: string): Promise<void> => {
       }
     }
   }
-  if (!modelsWithModules.includes(newWorkarea)) {
+  if (!modelsWithModules.has(newWorkarea)) {
     toggleFullColorAfterWorkareaChange();
   }
   beamboxStore.emitUpdateWorkArea();

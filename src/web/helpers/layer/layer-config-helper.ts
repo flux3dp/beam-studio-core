@@ -257,7 +257,7 @@ export const toggleFullColorAfterWorkareaChange = (): void => {
     const layer = getLayerByName(layerName);
     // eslint-disable-next-line no-continue
     if (!layer) continue;
-    if (!modelsWithModules.includes(workarea)) {
+    if (!modelsWithModules.has(workarea)) {
       layer.setAttribute(`data-${DataType.module}`, String(LayerModule.LASER_10W_DIODE));
       toggleFullColorLayer(layer, { val: false });
     } else {
@@ -288,7 +288,7 @@ export const postPresetChange = (): void => {
       layerModule === LayerModule.PRINTER ? 'data-printingSpeed' : 'data-speed';
     // Looking for preset with same name and correct module
     const configIndex = customizedLaserConfigs.findIndex((config) =>
-      modelsWithModules.includes(workarea)
+      modelsWithModules.has(workarea)
         ? config.name === configName && config.module === layerModule
         : config.name === configName
     );

@@ -54,7 +54,7 @@ const ModuleBlock = (): JSX.Element => {
     };
   }, [value]);
 
-  if (!modelsWithModules.includes(beamboxPreference.read('workarea'))) return null;
+  if (!modelsWithModules.has(beamboxPreference.read('workarea'))) return null;
 
   const handleChange = async (val: number) => {
     if (

@@ -110,8 +110,8 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
       onOk={async () => {
         if (
           origWorkarea !== workarea &&
-          modelsWithModules.includes(origWorkarea) &&
-          !modelsWithModules.includes(workarea) &&
+          modelsWithModules.has(origWorkarea) &&
+          !modelsWithModules.has(workarea) &&
           document.querySelectorAll(`g.layer[data-module="${LayerModule.PRINTER}"]`).length
         ) {
           const res = await new Promise((resolve) => {

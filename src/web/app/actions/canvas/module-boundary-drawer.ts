@@ -57,7 +57,7 @@ documentPanelEventEmitter.on('workarea-change', updateCanvasSize);
 
 const update = (module: LayerModule): void => {
   const workarea = BeamboxPreference.read('workarea');
-  if (!modelsWithModules.includes(workarea)) {
+  if (!modelsWithModules.has(workarea)) {
     boundaryPath?.setAttribute('d', '');
     boundaryDescText?.setAttribute('display', 'none');
     return;

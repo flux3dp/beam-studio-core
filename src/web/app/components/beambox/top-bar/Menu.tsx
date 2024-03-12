@@ -106,7 +106,7 @@ export default function Menu({ email }: Props): JSX.Element {
     const submenus = [];
     for (let i = 0; i < devices.length; i += 1) {
       const { model, name, serial } = devices[i];
-      const hasModules = modelsWithModules.includes(model);
+      const hasModules = modelsWithModules.has(model);
       submenus.push(
         <SubMenu label={name} key={serial}>
           <MenuItem onClick={() => callback('DASHBOARD', serial)}>{menuCms.dashboard}</MenuItem>

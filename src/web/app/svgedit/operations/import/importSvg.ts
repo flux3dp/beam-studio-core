@@ -103,7 +103,7 @@ const importSvg = async (
   const { lang } = i18n;
   let targetModule: LayerModule;
 
-  if (modelsWithModules.includes(beamboxPreference.read('workarea'))) {
+  if (modelsWithModules.has(beamboxPreference.read('workarea'))) {
     targetModule = await dialogCaller.showRadioSelectDialog({
       id: 'import-module',
       title: lang.beambox.popup.select_import_module,

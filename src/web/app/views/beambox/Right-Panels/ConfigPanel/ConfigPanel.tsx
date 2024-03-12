@@ -329,7 +329,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
     if (UIType === 'panel-item') {
       return (
         <>
-          {modelsWithModules.includes(model) && (
+          {modelsWithModules.has(model) && (
             <div className={styles['item-group']}>
               <ModuleBlock />
               {isDevMode && module.value === LayerModule.PRINTER && <UVBlock />}

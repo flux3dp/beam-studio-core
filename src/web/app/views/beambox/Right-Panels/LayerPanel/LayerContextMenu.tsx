@@ -119,7 +119,7 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
   const isSelectingPrinterLayer =
     selectedLayers.length === 1 &&
     layerElem &&
-    modelsWithModules.includes(workarea) &&
+    modelsWithModules.has(workarea) &&
     getData<LayerModule>(layerElem, DataType.module) === LayerModule.PRINTER;
   const isFullColor = layerElem?.getAttribute('data-fullcolor') === '1';
 
