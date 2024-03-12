@@ -1211,6 +1211,10 @@ const lang: ILang = {
       line: 'Viiva',
       label: 'Teksti',
     },
+    announcement_panel: {
+      title: 'Tiedote',
+      dont_show_again: 'Älä näytä uudelleen',
+    },
   },
   editor: {
     prespray_area: 'Esisuihkutusalue',

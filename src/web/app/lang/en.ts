@@ -1150,6 +1150,10 @@ const lang: ILang = {
       line: 'Line',
       label: 'Label',
     },
+    announcement_panel: {
+      title: 'Announcement',
+      dont_show_again: "Don't show again",
+    },
   },
   editor: {
     prespray_area: 'Priming Area',
