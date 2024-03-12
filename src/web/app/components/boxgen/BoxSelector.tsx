@@ -19,12 +19,6 @@ const BoxSelector = (): JSX.Element => {
       value: 'basic',
       label: lang.basic_box,
     },
-    {
-      key: 'coming',
-      value: 'coming',
-      label: lang.coming_soon,
-      disabled: true,
-    },
   ];
   return isMobile ? (
     <div className={styles.container}>

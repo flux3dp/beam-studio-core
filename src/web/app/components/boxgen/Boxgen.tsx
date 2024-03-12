@@ -26,12 +26,7 @@ const Boxgen = ({ onClose }: { onClose?: () => void }): JSX.Element => {
         <FloatingPanel
           className={classNames(styles.boxgen, { [styles.desktop]: window.FLUX.version !== 'web' })}
           anchors={[0, window.innerHeight]}
-          title={
-            <div className={styles.title}>
-              <FluxIcons.FluxPlus />
-              {lang.title}
-            </div>
-          }
+          title={lang.title}
           fixedContent={
             <div>
               <BoxSelector />
@@ -62,10 +57,7 @@ const Boxgen = ({ onClose }: { onClose?: () => void }): JSX.Element => {
               {lang.back}
             </Button>
             <div className={styles.head}>
-              <div className={styles.title}>
-                <FluxIcons.FluxPlus />
-                {lang.title}
-              </div>
+              <div className={styles.title}>{lang.title}</div>
               <BoxSelector />
             </div>
             <Controller />

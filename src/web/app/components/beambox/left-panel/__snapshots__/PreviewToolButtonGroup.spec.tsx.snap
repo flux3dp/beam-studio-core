@@ -10,28 +10,44 @@ exports[`should render correctly 1`] = `
       id="preview back"
       title="End Preview"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container active"
       id="preview-shoot"
       title="Camera Preview"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="image-trace"
       title="Trace Image"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="clear-preview"
       title="Clear Preview"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
   </div>
 </div>

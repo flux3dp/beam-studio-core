@@ -1,6 +1,7 @@
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import getUtilWS from 'helpers/api/utils-ws';
 import i18n from 'helpers/i18n';
+import isFluxPlusActive from 'helpers/is-flux-plus-active';
 import localFontHelper from 'implementations/localFontHelper';
 import progressCaller from 'app/actions/progress-caller';
 import { FontDescriptor, FontDescriptorKeys, FontHelper, WebFont } from 'interfaces/IFont';
@@ -30,6 +31,7 @@ const fontsWithoutMonotype = getFonts();
 let availableFonts: FontDescriptor[] = fontsWithoutMonotype;
 let monotypeLoaded = false;
 const getMonotypeFonts = async (): Promise<boolean> => {
+  if (!isFluxPlusActive) return true;
   if (monotypeLoaded) return true;
   const activeLang = i18n.getActiveLang();
   const res = await monotypeFonts.getAvailableFonts(activeLang);

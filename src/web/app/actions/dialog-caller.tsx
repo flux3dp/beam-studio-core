@@ -510,22 +510,17 @@ export default {
   showFluxPlusWarning,
   showBoxGen: (onClose: () => void): void => {
     if (isIdExist('box-gen')) return;
-    const user = getCurrentUser();
-    if (!user?.info?.subscription?.is_valid) {
-      showFluxPlusWarning();
-    } else {
-      shortcuts.pauseAll();
-      addDialogComponent(
-        'box-gen',
-        <Boxgen
-          onClose={() => {
-            shortcuts.initialize();
-            onClose();
-            popDialogById('box-gen');
-          }}
-        />
-      );
-    }
+    shortcuts.pauseAll();
+    addDialogComponent(
+      'box-gen',
+      <Boxgen
+        onClose={() => {
+          shortcuts.initialize();
+          onClose();
+          popDialogById('box-gen');
+        }}
+      />
+    );
   },
   showMyCloud: (onClose: () => void): void => {
     if (isIdExist('my-cloud')) return;

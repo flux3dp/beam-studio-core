@@ -192,9 +192,7 @@ export default function Menu({ email }: Props): JSX.Element {
         <MenuDivider />
         <MenuItem onClick={() => callback('SAVE_SCENE')}>{hotkey('save_scene')}</MenuItem>
         <MenuItem onClick={() => callback('SAVE_AS')}>{hotkey('save_as')}</MenuItem>
-        <MenuItem onClick={() => callback('SAVE_TO_CLOUD')}>
-          {menuCms.save_to_cloud} <FluxIcons.FluxPlus className={styles.icon} />
-        </MenuItem>
+        <MenuItem onClick={() => callback('SAVE_TO_CLOUD')}>{menuCms.save_to_cloud}</MenuItem>
         <MenuDivider />
         <SubMenu label={menuCms.samples}>
           <MenuItem onClick={() => callback('IMPORT_EXAMPLE_ADOR_LASER')}>

@@ -1,5 +1,8 @@
 import classNames from 'classnames';
 import React from 'react';
+import { Badge } from 'antd';
+
+import FluxIcons from 'app/icons/flux/FluxIcons';
 
 import styles from './LeftPanelButton.module.scss';
 
@@ -10,6 +13,7 @@ interface Props {
   onClick: () => void;
   active?: boolean;
   disabled?: boolean;
+  showBadge?: boolean;
 }
 
 function LeftPanelButton({
@@ -19,6 +23,7 @@ function LeftPanelButton({
   onClick,
   active = false,
   disabled = false,
+  showBadge = false,
 }: Props): JSX.Element {
   return (
     <div
@@ -27,7 +32,13 @@ function LeftPanelButton({
       title={title}
       onClick={disabled ? undefined : onClick}
     >
-      {icon}
+      <Badge
+        className={styles.badge}
+        count={showBadge ? <FluxIcons.FluxPlus className={styles['flux-plus']} /> : 0}
+        offset={[-4, 6]}
+      >
+        {icon}
+      </Badge>
     </div>
   );
 }

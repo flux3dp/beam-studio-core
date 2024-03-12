@@ -5,8 +5,9 @@ import { Button, Divider, Form, Input, InputRef, Space } from 'antd';
 import alert from 'app/actions/alert-caller';
 import browser from 'implementations/browser';
 import dialogCaller from 'app/actions/dialog-caller';
-import useI18n from 'helpers/useI18n';
+import isFluxPlusActive from 'helpers/is-flux-plus-active';
 import storage from 'implementations/storage';
+import useI18n from 'helpers/useI18n';
 import {
   externalLinkFBSignIn,
   externalLinkGoogleSignIn,
@@ -140,7 +141,7 @@ const FluxIdLogin = ({ silent, onClose }: Props): JSX.Element => {
           </Button>
           <div className={styles.text}>
             <div onClick={() => onClose()}>{lang.work_offline}</div>
-            {isMobile && (
+            {isFluxPlusActive && isMobile && (
               <div onClick={() => browser.open(lang.flux_plus.website_url)}>
                 {lang.flux_plus.explore_plans}
               </div>
