@@ -7,7 +7,7 @@ import getDevice from 'helpers/device/get-device';
 import storage from 'implementations/storage';
 import UnitInput from 'app/widgets/UnitInput';
 import useI18n from 'helpers/useI18n';
-import workareaConstants, { WorkAreaModel } from 'app/constants/workarea-constants';
+import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 
 import styles from './PreviewHeight.module.scss';
 
@@ -29,7 +29,7 @@ const getProbeHeight = async () => {
     if (device.control.getMode() !== 'raw') deviceMaster.enterRawMode();
     const { didAf, z } = await deviceMaster.rawGetProbePos();
     if (!didAf) return null;
-    const { deep } = workareaConstants[device.info.model as WorkAreaModel] || workareaConstants.ado1;
+    const { deep } = getWorkarea(device.info.model as WorkAreaModel, 'ado1');
     return Math.round((deep - z) * 100) / 100;
   } catch {
     return null;

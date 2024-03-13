@@ -2,7 +2,6 @@ import alertCaller from 'app/actions/alert-caller';
 import alertConfig from 'helpers/api/alert-config';
 import alertConstants from 'app/constants/alert-constants';
 import beamboxPreferences from 'app/actions/beambox/beambox-preference';
-import constant from 'app/actions/beambox/constant';
 import dialogCaller from 'app/actions/dialog-caller';
 import HistoryCommandFactory from 'app/svgedit/HistoryCommandFactory';
 import history from 'app/svgedit/history';
@@ -15,6 +14,7 @@ import requirejsHelper from 'helpers/requirejs-helper';
 import SymbolMaker from 'helpers/symbol-maker';
 import { createLayer, removeDefaultLayerIfEmpty } from 'helpers/layer/layer-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 
 let svgCanvas: ISVGCanvas;
 let svgedit;
@@ -55,13 +55,14 @@ const importDxf = async (file: Blob): Promise<void> => {
       const parsed = Dxf2Svg.parseString(evt.target.result);
       const unit = String(parsed.header?.insunits);
       // eslint-disable-next-line @typescript-eslint/no-shadow
-      const defaultDpiValue = {
-        1: 25.4,
-        2: 304.8,
-        4: 1,
-        5: 10,
-        6: 100,
-      }[unit] || 1;
+      const defaultDpiValue =
+        {
+          1: 25.4,
+          2: 304.8,
+          4: 1,
+          5: 10,
+          6: 100,
+        }[unit] ?? 1;
       resolve({ parsed, defaultDpiValue });
     };
     reader.readAsText(file);
@@ -81,11 +82,11 @@ const importDxf = async (file: Blob): Promise<void> => {
     caption: 'Loading image, please wait...',
   });
   const { outputLayers, bbox } = Dxf2Svg.toSVG(parsed, unitLength * 10);
-  const workarea = beamboxPreferences.read('workarea');
+  const workarea: WorkAreaModel = beamboxPreferences.read('workarea');
+  const { pxWidth, pxHeight, pxDisplayHeight } = getWorkarea(workarea);
   if (
     !alertConfig.read('skip_dxf_oversize_warning') &&
-    (bbox.width > constant.dimension.getWidth(workarea) ||
-      bbox.height > constant.dimension.getHeight(workarea))
+    (bbox.width > pxWidth || bbox.height > (pxDisplayHeight ?? pxHeight))
   ) {
     alertCaller.popUp({
       id: 'dxf_size_over_workarea',
@@ -145,13 +146,15 @@ const importDxf = async (file: Blob): Promise<void> => {
     useElem.setAttribute('data-ratiofixed', 'true');
     useElem.setAttribute('data-xform', xform);
 
-    // eslint-disable-next-line no-async-promise-executor, @typescript-eslint/no-loop-func
-    promises.push(new Promise<void>(async (resolve) => {
-      const imageSymbol = await SymbolMaker.makeImageSymbol(symbol);
-      svgedit.utilities.setHref(useElem, `#${imageSymbol.id}`);
-      svgCanvas.updateElementColor(useElem);
-      resolve();
-    }));
+    promises.push(
+      // eslint-disable-next-line @typescript-eslint/no-loop-func, no-async-promise-executor
+      new Promise<void>(async (resolve) => {
+        const imageSymbol = await SymbolMaker.makeImageSymbol(symbol);
+        svgedit.utilities.setHref(useElem, `#${imageSymbol.id}`);
+        svgCanvas.updateElementColor(useElem);
+        resolve();
+      })
+    );
   }
   await Promise.all(promises);
   const cmd = removeDefaultLayerIfEmpty();

@@ -5,6 +5,7 @@ import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer
 import i18n from 'helpers/i18n';
 import moduleBoundary from 'app/constants/layer-module/module-boundary';
 import moduleOffsets from 'app/constants/layer-module/module-offsets';
+import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 
 const { svgedit } = window;
 const documentPanelEventEmitter = eventEmitterFactory.createEventEmitter('document-panel');
@@ -18,7 +19,7 @@ const createBoundary = () => {
   boundaryPath = document.createElementNS(svgedit.NS.SVG, 'path') as unknown as SVGPathElement;
   boundaryDescText = document.createElementNS(svgedit.NS.SVG, 'text') as unknown as SVGTextElement;
   document.getElementById('canvasBackground')?.appendChild(boundarySvg);
-  const workarea = BeamboxPreference.read('workarea');
+  const { pxWidth, pxHeight, pxDisplayHeight } = getWorkarea(BeamboxPreference.read('workarea'));
   boundarySvg.appendChild(boundaryPath);
   boundarySvg.appendChild(boundaryDescText);
   boundarySvg.setAttribute('id', 'module-boundary');
@@ -26,10 +27,7 @@ const createBoundary = () => {
   boundarySvg.setAttribute('y', '0');
   boundarySvg.setAttribute('width', '100%');
   boundarySvg.setAttribute('height', '100%');
-  boundarySvg.setAttribute(
-    'viewBox',
-    `0 0 ${constant.dimension.getWidth(workarea)} ${constant.dimension.getHeight(workarea)}`
-  );
+  boundarySvg.setAttribute('viewBox', `0 0 ${pxWidth} ${pxDisplayHeight ?? pxHeight}`);
   boundarySvg.setAttribute('style', 'pointer-events:none');
 
   boundaryPath.setAttribute('fill', '#CCC');
@@ -49,22 +47,23 @@ const createBoundary = () => {
 };
 
 const updateCanvasSize = (): void => {
-  const workarea = BeamboxPreference.read('workarea');
-  const viewBox = `0 0 ${constant.dimension.getWidth(workarea)} ${constant.dimension.getHeight(workarea)}`;
+  const { pxWidth, pxHeight, pxDisplayHeight } = getWorkarea(BeamboxPreference.read('workarea'));
+  const viewBox = `0 0 ${pxWidth} ${pxDisplayHeight ?? pxHeight}`;
   boundarySvg?.setAttribute('viewBox', viewBox);
 };
 documentPanelEventEmitter.on('workarea-change', updateCanvasSize);
 
 const update = (module: LayerModule): void => {
-  const workarea = BeamboxPreference.read('workarea');
+  const workarea = BeamboxPreference.read('workarea') as WorkAreaModel;
   if (!modelsWithModules.has(workarea)) {
     boundaryPath?.setAttribute('d', '');
     boundaryDescText?.setAttribute('display', 'none');
     return;
   }
   if (!boundaryPath) createBoundary();
-  const w = constant.dimension.getWidth(workarea);
-  const h = constant.dimension.getHeight(workarea);
+  const { pxWidth, pxHeight, pxDisplayHeight } = getWorkarea(workarea);
+  const w = pxWidth;
+  const h = pxDisplayHeight ?? pxHeight;
   const d1 = `M0,0H${w}V${h}H0V0`;
   const { dpmm } = constant;
   let { top, left, bottom, right } = moduleBoundary[module];
@@ -76,8 +75,7 @@ const update = (module: LayerModule): void => {
   if (offsetY >= 0) {
     top = Math.max(top, offsetY);
     bottom = Math.max(bottom - offsetY, 0);
-  }
-  else bottom = Math.max(bottom, -offsetY);
+  } else bottom = Math.max(bottom, -offsetY);
   top *= dpmm;
   left *= dpmm;
   bottom *= dpmm;

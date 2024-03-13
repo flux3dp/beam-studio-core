@@ -3,8 +3,8 @@
  * API camera
  * Ref: https://github.com/flux3dp/fluxghost/wiki/websocket-camera(monitoring)
  */
-import { Subject, partition, from, lastValueFrom, Observable } from 'rxjs';
 import { concatMap, filter, map, take, timeout } from 'rxjs/operators';
+import { from, lastValueFrom, Observable, partition, Subject } from 'rxjs';
 
 import constant from 'app/actions/beambox/constant';
 import i18n from 'helpers/i18n';
@@ -17,8 +17,8 @@ import {
   FisheyeMatrix,
   RotationParameters3DGhostApi,
 } from 'interfaces/FisheyePreview';
+import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 import { IDeviceInfo } from 'interfaces/IDevice';
-import { WorkAreaModel } from 'app/constants/workarea-constants';
 
 const TIMEOUT = 120000;
 const IMAGE_TRANSMISSION_FAIL_THRESHOLD = 20;
@@ -212,10 +212,9 @@ class Camera {
     let res = await lastValueFrom(this.nonBinarySource.pipe(take(1)).pipe(timeout(TIMEOUT)));
     if (!setCrop) return res.status === 'ok';
     const { model } = this.device;
-    const width = constant.dimension.getWidth(model as WorkAreaModel) / constant.dpmm;
-    const height = constant.dimension.getHeight(model as WorkAreaModel) / constant.dpmm;
-    const cameraCenter = constant.dimension.cameraCenter(model as WorkAreaModel);
-    const cropParam: { [key: string]: number } = { cx, cy, width, height };
+    const workarea = getWorkarea(model as WorkAreaModel);
+    const { width, height, displayHeight, cameraCenter } = workarea;
+    const cropParam: { [key: string]: number } = { cx, cy, width, height: displayHeight ?? height };
     if (cameraCenter) {
       [cropParam.left, cropParam.top] = cameraCenter;
     }

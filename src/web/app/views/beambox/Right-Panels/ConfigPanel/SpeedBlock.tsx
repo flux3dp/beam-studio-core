@@ -4,7 +4,6 @@ import { Button, Popover } from 'antd-mobile';
 
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import configOptions from 'app/constants/config-options';
-import constant from 'app/actions/beambox/constant';
 import doLayersContainsVector from 'helpers/layer/check-vector';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import LayerModule from 'app/constants/layer-module/layer-modules';
@@ -14,6 +13,7 @@ import storage from 'implementations/storage';
 import units from 'helpers/units';
 import useI18n from 'helpers/useI18n';
 import { CUSTOM_PRESET_CONSTANT, DataType, writeData } from 'helpers/layer/layer-config-helper';
+import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
 import { ObjectPanelContext } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
 
@@ -53,9 +53,11 @@ const SpeedBlock = ({
     const d = { mm: 1, inches: 2 }[unit];
     return { display, decimal: d, calculateUnit };
   }, []);
-  const workarea = BeamboxPreference.read('workarea');
-  const maxValue = useMemo(() => constant.dimension.getMaxSpeed(workarea), [workarea]);
-  const workareaMinSpeed = constant.dimension.getMinSpeed(workarea);
+  const workarea: WorkAreaModel = BeamboxPreference.read('workarea');
+  const { workareaMaxSpeed: maxValue, workareaMinSpeed } = useMemo(() => {
+    const workareaObj = getWorkarea(workarea);
+    return { workareaMaxSpeed: workareaObj.maxSpeed, workareaMinSpeed: workareaObj.minSpeed };
+  }, [workarea]);
   let minValue = workareaMinSpeed;
   const enableLowSpeed = BeamboxPreference.read('enable-low-speed');
   if (minValue > 1 && enableLowSpeed) minValue = 1;

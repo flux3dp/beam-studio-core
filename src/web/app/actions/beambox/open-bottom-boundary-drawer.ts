@@ -1,6 +1,7 @@
 import NS from 'app/constants/namespaces';
 
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { getWorkarea } from 'app/constants/workarea-constants';
 
 import BeamboxPreference from './beambox-preference';
 import Constant from './constant';
@@ -29,25 +30,19 @@ const checkSvgEdit = () =>
 
 const createBoundary = async () => {
   await checkSvgEdit();
-  openBottomBoundarySVG = document.createElementNS(
-    NS.SVG,
-    'svg'
-  ) as unknown as SVGSVGElement;
-  openBottomBoundaryRect = document.createElementNS(
-    NS.SVG,
-    'rect'
-  ) as unknown as SVGRectElement;
+  openBottomBoundarySVG = document.createElementNS(NS.SVG, 'svg') as unknown as SVGSVGElement;
+  openBottomBoundaryRect = document.createElementNS(NS.SVG, 'rect') as unknown as SVGRectElement;
   const canvasBackground = svgedit.utilities.getElem('canvasBackground');
   canvasBackground.appendChild(openBottomBoundarySVG);
   openBottomBoundarySVG.appendChild(openBottomBoundaryRect);
   openBottomBoundarySVG.id = 'open-bottom-boundary';
   openBottomBoundarySVG.setAttribute('width', '100%');
   openBottomBoundarySVG.setAttribute('height', '100%');
-  const workarea = BeamboxPreference.read('workarea');
-  openBottomBoundarySVG.setAttribute(
-    'viewBox',
-    `0 0 ${Constant.dimension.getWidth(workarea)} ${Constant.dimension.getHeight(workarea)}`
-  );
+  const workarea = getWorkarea(BeamboxPreference.read('workarea'));
+  const width = workarea.pxWidth;
+  const height = workarea.pxDisplayHeight ?? workarea.pxHeight;
+
+  openBottomBoundarySVG.setAttribute('viewBox', `0 0 ${width} ${height}`);
   openBottomBoundarySVG.setAttribute('x', '0');
   openBottomBoundarySVG.setAttribute('y', '0');
   openBottomBoundarySVG.setAttribute('style', 'pointer-events:none');
@@ -66,9 +61,8 @@ const createBoundary = async () => {
 
 const show = async () => {
   if (!openBottomBoundarySVG) await createBoundary();
-  const x =
-    Constant.dimension.getWidth(BeamboxPreference.read('workarea')) -
-    Constant.borderless.safeDistance.X * Constant.dpmm;
+  const workarea = getWorkarea(BeamboxPreference.read('workarea'));
+  const x = workarea.pxWidth - Constant.borderless.safeDistance.X * Constant.dpmm;
   openBottomBoundaryRect.setAttribute('x', x.toString());
   openBottomBoundaryRect.setAttribute('display', 'block');
 };

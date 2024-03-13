@@ -27,6 +27,7 @@ import ZoomBlock from 'app/components/beambox/ZoomBlock';
 import { CanvasContext } from 'app/contexts/CanvasContext';
 import { DrawCommands } from 'helpers/path-preview/draw-commands';
 import { GcodePreview } from 'helpers/path-preview/draw-commands/GcodePreview';
+import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 
 import ProgressBar from './ProgressBar';
 import { parseGcode } from '../../../views/beambox/tmpParseGcode';
@@ -481,9 +482,8 @@ class PathPreview extends React.Component<Props, State> {
     this.canvas = null;
     this.position = [0, 0];
     this.grid = new Grid();
-    const workarea = BeamboxPreference.read('workarea') || 'beamo';
-    const width = constant.dimension.getWidth(workarea) / constant.dpmm;
-    const height = constant.dimension.getHeight(workarea) / constant.dpmm;
+    const workarea: WorkAreaModel = BeamboxPreference.read('workarea') || 'fbm1';
+    const { width, height } = getWorkarea(workarea);
     defaultCamera.eye = [width / 2, height / 2, 300];
     defaultCamera.center = [width / 2, height / 2, 0];
     settings.machineWidth = width;
@@ -767,9 +767,8 @@ class PathPreview extends React.Component<Props, State> {
   };
 
   onDeviceChange = (): void => {
-    const workarea = BeamboxPreference.read('workarea') || 'beamo';
-    const width = constant.dimension.getWidth(workarea) / constant.dpmm;
-    const height = constant.dimension.getHeight(workarea) / constant.dpmm;
+    const workarea: WorkAreaModel = BeamboxPreference.read('workarea') || 'fbm1';
+    const { width, height } = getWorkarea(workarea);
     settings.machineWidth = width;
     settings.machineHeight = height;
     this.updateGcode();

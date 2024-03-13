@@ -1,11 +1,11 @@
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
-import constant from 'app/actions/beambox/constant';
 import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import layerModuleHelper from 'helpers/layer-module/layer-module-helper';
 import storage from 'implementations/storage';
 import toggleFullColorLayer from 'helpers/layer/full-color/toggleFullColorLayer';
 import { getAllLayerNames, getLayerByName } from 'helpers/layer/layer-helper';
 import { getAllPresets } from 'app/constants/right-panel-constants';
+import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 import { ILaserConfig } from 'interfaces/ILaserConfig';
 import { ILayerConfig } from 'interfaces/ILayerConfig';
 
@@ -272,7 +272,7 @@ export const toggleFullColorAfterWorkareaChange = (): void => {
 export const postPresetChange = (): void => {
   // TODO: add test
   const customizedLaserConfigs = (storage.get('customizedLaserConfigs') as ILaserConfig[]) || [];
-  const workarea = BeamboxPreference.read('workarea') || BeamboxPreference.read('model');
+  const workarea: WorkAreaModel = BeamboxPreference.read('workarea') || BeamboxPreference.read('model');
   const parametersSet = getAllPresets(workarea);
   const layerNames = getAllLayerNames();
 
@@ -328,7 +328,7 @@ export const postPresetChange = (): void => {
         if (zStep !== undefined) layer.setAttribute('data-zstep', String(zStep || 0));
       }
     }
-    const maxSpeed = constant.dimension.getMaxSpeed(workarea);
+    const { maxSpeed } = getWorkarea(workarea);
     if (Number(layer.getAttribute(speedAttributeName)) > maxSpeed) {
       layer.setAttribute(speedAttributeName, String(maxSpeed));
     }

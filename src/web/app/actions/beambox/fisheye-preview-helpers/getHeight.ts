@@ -1,7 +1,7 @@
 import deviceMaster from 'helpers/device-master';
 import dialogCaller from 'app/actions/dialog-caller';
 import progressCaller from 'app/actions/progress-caller';
-import workareaConstants, { WorkAreaModel } from 'app/constants/workarea-constants';
+import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 import { IDeviceInfo } from 'interfaces/IDevice';
 
 const PROGRESS_ID = 'get-height';
@@ -13,7 +13,8 @@ const getHeight = async (device: IDeviceInfo, progressId?: string): Promise<numb
     const res = await deviceMaster.rawGetProbePos();
     const { z, didAf } = res;
     if (didAf) {
-      const { deep } = workareaConstants[device.model as WorkAreaModel] || workareaConstants.ado1;
+
+      const { deep } = getWorkarea(device.model as WorkAreaModel, 'ado1');
       return Math.round((deep - z) * 100) / 100;
     }
   } catch (e) {

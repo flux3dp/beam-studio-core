@@ -15,6 +15,7 @@ import useI18n from 'helpers/useI18n';
 import versionChecker from 'helpers/version-checker';
 import { CanvasContext } from 'app/contexts/CanvasContext';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 
 import styles from './FrameButton.module.scss';
 
@@ -41,9 +42,9 @@ const FrameButton = (): JSX.Element => {
       maxX: undefined,
       maxY: undefined,
     };
-    const workarea = beamboxPreference.read('workarea');
-    const workareaWidth = constant.dimension.getWidth(workarea);
-    const workareaHeight = constant.dimension.getHeight(workarea);
+    const workarea: WorkAreaModel = beamboxPreference.read('workarea');
+    const { pxWidth: workareaWidth, pxHeight: workareaHeight } = getWorkarea(workarea);
+    // TODO: consider module offset
     allBBox.forEach(({ bbox }) => {
       const { x, y, width, height } = bbox;
       const right = x + width;

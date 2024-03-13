@@ -25,10 +25,9 @@ import {
   FisheyePreviewManager,
   RotationParameters3DCalibration,
 } from 'interfaces/FisheyePreview';
+import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 import { IDeviceInfo } from 'interfaces/IDevice';
-import { WorkAreaModel } from 'app/constants/workarea-constants';
 
-const { $ } = window;
 const LANG = i18n.lang;
 
 class PreviewModeController {
@@ -375,15 +374,14 @@ class PreviewModeController {
     }
     this.isDrawing = true;
     this.isPreviewBlocked = true;
-
-    $('#workarea').css('cursor', 'wait');
+    const workarea = document.querySelector('#workarea') as HTMLElement;
+    workarea.style.cursor = 'wait';
     try {
       const constrainedXY = this.constrainPreviewXY(x, y);
       const { x: newX, y: newY } = constrainedXY;
       const imgUrl = await this.getPhotoAfterMove(newX, newY);
       PreviewModeBackgroundDrawer.draw(imgUrl, newX, newY, last, callback);
-
-      $('#workarea').css('cursor', 'url(img/camera-cursor.svg), cell');
+      workarea.style.cursor = 'url(img/camera-cursor.svg), cell';
       this.isPreviewBlocked = false;
       if (last) this.isDrawing = false;
       return true;
@@ -395,7 +393,7 @@ class PreviewModeController {
           message: error.message || error.text,
         });
       }
-      $('#workarea').css('cursor', 'auto');
+      workarea.style.cursor = 'auto';
       if (!PreviewModeBackgroundDrawer.isClean()) {
         this.isDrawing = false;
       }
@@ -578,13 +576,15 @@ class PreviewModeController {
   }
 
   constrainPreviewXY(x, y) {
-    const workarea = BeamboxPreference.read('workarea');
+    const workarea = BeamboxPreference.read('workarea') as WorkAreaModel;
+    const { pxWidth: width, pxHeight, pxDisplayHeight } = getWorkarea(workarea);
+    const height = pxDisplayHeight ?? pxHeight;
     const isDiodeEnabled =
       BeamboxPreference.read('enable-diode') &&
       Constant.addonsSupportList.hybridLaser.includes(workarea);
     const isBorderlessEnabled = BeamboxPreference.read('borderless');
-    let maxWidth = Constant.dimension.getWidth(workarea);
-    let maxHeight = Constant.dimension.getHeight(workarea);
+    let maxWidth = width
+    let maxHeight = height;
     if (isDiodeEnabled) {
       maxWidth -= Constant.diode.safeDistance.X * Constant.dpmm;
       maxHeight -= Constant.diode.safeDistance.Y * Constant.dpmm;

@@ -3,6 +3,7 @@ import constant from 'app/actions/beambox/constant';
 import i18n from 'helpers/i18n';
 import LayerModule from 'app/constants/layer-module/layer-modules';
 import presprayIconUrl from 'app/icons/prespray.svg?url';
+import { getWorkarea } from 'app/constants/workarea-constants';
 
 let presprayAreaBlock: SVGImageElement;
 
@@ -69,10 +70,10 @@ const startDrag = (): void => {
   const { x, y } = getPosition();
   startX = x;
   startY = y;
-  const workarea = beamboxPreference.read('workarea');
+  const workarea = getWorkarea(beamboxPreference.read('workarea'));
   workareaSize = {
-    w: constant.dimension.getWidth(workarea),
-    h: constant.dimension.getHeight(workarea),
+    w: workarea.pxWidth,
+    h: workarea.pxDisplayHeight ?? workarea.pxHeight,
   };
 };
 

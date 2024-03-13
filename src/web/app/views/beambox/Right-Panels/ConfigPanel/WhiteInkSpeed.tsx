@@ -2,9 +2,9 @@ import React, { useContext, useMemo } from 'react';
 
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import configOptions from 'app/constants/config-options';
-import constant from 'app/actions/beambox/constant';
 import storage from 'implementations/storage';
 import useI18n from 'helpers/useI18n';
+import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 
 import ConfigPanelContext from './ConfigPanelContext';
 import ConfigSlider from './ConfigSlider';
@@ -35,9 +35,11 @@ const WhiteInkSpeed = ({ value, hasMultiValue, onChange }: Props): JSX.Element =
     const d = { mm: 1, inches: 2 }[unit];
     return { display, decimal: d };
   }, []);
-  const workarea = beamboxPreference.read('workarea');
-  const maxValue = useMemo(() => constant.dimension.getMaxSpeed(workarea), [workarea]);
-  const minValue = useMemo(() => constant.dimension.getMinSpeed(workarea), [workarea]);
+  const workarea: WorkAreaModel = beamboxPreference.read('workarea');
+  const { maxValue, minValue } = useMemo(() => {
+    const workareaObj = getWorkarea(workarea);
+    return { maxValue: workareaObj.maxSpeed, minValue: workareaObj.minSpeed };
+  }, [workarea]);
 
   return (
     <div className={styles.panel}>

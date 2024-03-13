@@ -1,10 +1,10 @@
 import deviceMaster from 'helpers/device-master';
-import workareaConstants, { WorkAreaModel } from 'app/constants/workarea-constants';
+import { FisheyeCameraParametersV1, RotationParameters3D } from 'interfaces/FisheyePreview';
 import {
   getPerspectivePointsZ3Regression,
   interpolatePointsFromHeight,
 } from 'helpers/camera-calibration-helper';
-import { FisheyeCameraParametersV1, RotationParameters3D } from 'interfaces/FisheyePreview';
+import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 import { IDeviceInfo } from 'interfaces/IDevice';
 
 const getHeightOffsets = async () => {
@@ -64,7 +64,7 @@ const getHeight = async (device: IDeviceInfo) => {
     const res = await deviceMaster.rawGetProbePos();
     const { z, didAf } = res;
     if (didAf) {
-      return (workareaConstants[device.model as WorkAreaModel] || workareaConstants.ado1).deep - z;
+      return getWorkarea(device.model as WorkAreaModel, 'ado1').deep - z;
     }
   } catch (e) {
     console.log('Fail to get probe position, using custom height', e);
@@ -90,7 +90,7 @@ const getPerspectiveForAlign = async (
     autoLevelingData[key] = Math.round((autoLevelingData[key] - refHeight) * 1000) / 1000;
     autoLevelingData[key] += heightOffset[key] ?? 0;
   });
-  const workarea = workareaConstants[device.model as WorkAreaModel] || workareaConstants.ado1;
+  const workarea = getWorkarea(device.model as WorkAreaModel, 'ado1');
   let height = await getHeight(device);
   if (rotationParam) {
     const { rx, ry, rz, sh, ch } = rotationParam;

@@ -47,6 +47,7 @@ import {
 import { getLayerElementByName, moveToOtherLayer } from 'helpers/layer/layer-helper';
 import { getModulePresets } from 'app/constants/right-panel-constants';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 import { ILaserConfig } from 'interfaces/ILaserConfig';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
 import { updateDefaultPresetData } from 'helpers/presets/preset-helper';
@@ -211,9 +212,8 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
       ink = defaultConfig.ink,
       multipass = defaultConfig.multipass,
     } = selectedConfig;
-    const workarea = beamboxPreference.read('workarea');
-    const maxSpeed = constant.dimension.getMaxSpeed(workarea);
-    const minSpeed = constant.dimension.getMinSpeed(workarea);
+    const workarea: WorkAreaModel = beamboxPreference.read('workarea');
+    const { maxSpeed, minSpeed } = getWorkarea(workarea);
     const speed = Math.max(minSpeed, Math.min(dataSpeed, maxSpeed));
     timeEstimationButtonEventEmitter.emit('SET_ESTIMATED_TIME', null);
     dispatch({

@@ -19,6 +19,7 @@ import presprayArea from 'app/actions/beambox/prespray-area';
 import storage from 'implementations/storage';
 import Websocket from 'helpers/websocket';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
@@ -83,12 +84,13 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
       const isDevMode = isDev();
       const paddingAccel = BeamboxPreference.read('padding_accel');
       // Not real acceleration, just for calculating padding distance
-      if (opts.model === 'fhexa1') {
+      const { model }: { model: WorkAreaModel } = opts;
+      if (model === 'fhexa1') {
         args.push('-hexa');
         if (!isDevMode || !paddingAccel) args.push('-acc', '7500');
-      } else if (opts.model === 'fbb1p') args.push('-pro');
-      else if (opts.model === 'fbm1') args.push('-beamo');
-      else if (opts.model === 'ado1') {
+      } else if (model === 'fbb1p') args.push('-pro');
+      else if (model === 'fbm1') args.push('-beamo');
+      else if (model === 'ado1') {
         args.push('-ado1');
         if (!isDevMode || !paddingAccel) args.push('-acc', opts.paddingAccel?.toString() || '3200');
       }
@@ -99,13 +101,13 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
       if (rotaryMode) {
         args.push('-spin');
         args.push(svgCanvas.runExtensions('getRotaryAxisAbsoluteCoord'));
-        if (rotaryMode !== 1 && constant.getRotaryModels(opts.model).includes(rotaryMode)) {
+        if (rotaryMode !== 1 && constant.getRotaryModels(model).includes(rotaryMode)) {
           args.push('-rotary-y-ratio');
           args.push(Math.round(constant.rotaryYRatio[rotaryMode] * 10 ** 6) / 10 ** 6);
         }
       }
 
-      if (constant.adorModels.includes(opts.model)) {
+      if (constant.adorModels.includes(model)) {
         const { x, y, w, h } = presprayArea.getPosition(true);
         args.push('-prespray');
         args.push(`${x},${y},${w},${h}`);
@@ -137,7 +139,7 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
         }
       }
       const isBorderLess = BeamboxPreference.read('borderless')
-        && constant.addonsSupportList.openBottom.includes(opts.model);
+        && constant.addonsSupportList.openBottom.includes(model);
       if (BeamboxPreference.read('enable_mask') || isBorderLess) {
         args.push('-mask');
         const clipRect = [0, 0, 0, 0]; // top right bottom left
@@ -147,7 +149,7 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
       if (opts.shouldUseFastGradient) args.push('-fg');
       if (opts.shouldMockFastGradient) args.push('-mfg');
       if (opts.vectorSpeedConstraint) args.push('-vsc');
-      const modelMinSpeed = constant.dimension.getMinSpeed(opts.model);
+      const { minSpeed: modelMinSpeed } = getWorkarea(model);
       if (modelMinSpeed < 3) args.push(`-min-speed ${modelMinSpeed}`);
       else if (BeamboxPreference.read('enable-low-speed')) args.push('-min-speed 1');
       if (BeamboxPreference.read('reverse-engraving')) args.push('-rev');
@@ -176,7 +178,7 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
         args.push('-npw');
         args.push(localStorage.getItem('nozzle_pulse_width'));
       }
-      if (opts.model === 'ado1') {
+      if (model === 'ado1') {
         const offsets = { ...moduleOffsets, ...BeamboxPreference.read('module-offsets') };
         args.push('-mof');
         args.push(JSON.stringify(offsets));

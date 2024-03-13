@@ -28,6 +28,7 @@ import Tutorials from 'app/actions/beambox/tutorials';
 import updateFontConvert from 'app/components/dialogs/updateFontConvert';
 import { checkConnection } from 'helpers/api/discover';
 import { gestureIntroduction } from 'app/constants/media-tutorials';
+import { getWorkarea } from 'app/constants/workarea-constants';
 import { IFont } from 'interfaces/IFont';
 import { isMobile } from 'helpers/system-helper';
 import { showCameraCalibration } from 'app/views/beambox/Camera-Calibration';
@@ -136,9 +137,9 @@ class BeamboxInit {
       const linesGroup = svgdoc.createElementNS(NS.SVG, 'svg');
       const lineVertical = svgdoc.createElementNS(NS.SVG, 'line');
       const lineHorizontal = svgdoc.createElementNS(NS.SVG, 'line');
-
-      const width = Constant.dimension.getWidth(BeamboxPreference.read('workarea'));
-      const height = Constant.dimension.getHeight(BeamboxPreference.read('workarea'));
+      const workarea = getWorkarea(BeamboxPreference.read('workarea'));
+      const width = workarea.pxWidth;
+      const height = workarea.pxDisplayHeight ?? workarea.pxHeight;
       utilities.assignAttributes(linesGroup, {
         id: 'guidesLines',
         width: '100%',
@@ -152,7 +153,7 @@ class BeamboxInit {
       utilities.assignAttributes(lineHorizontal, {
         id: 'horizontal_guide',
         x1: 0,
-        x2: Constant.dimension.getWidth(BeamboxPreference.read('workarea')),
+        x2: width,
         y1: BeamboxPreference.read('guide_y0') * 10,
         y2: BeamboxPreference.read('guide_y0') * 10,
         stroke: '#000',
@@ -169,7 +170,7 @@ class BeamboxInit {
         x1: BeamboxPreference.read('guide_x0') * 10,
         x2: BeamboxPreference.read('guide_x0') * 10,
         y1: 0,
-        y2: Constant.dimension.getHeight(BeamboxPreference.read('workarea')),
+        y2: height,
         stroke: '#000',
         'stroke-width': '2',
         'stroke-opacity': 0.8,

@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from 'react';
 
-import BeamboxConstant from 'app/actions/beambox/constant';
 import Controls from 'app/components/settings/Control';
 import FontFuncs from 'app/actions/beambox/font-funcs';
 import i18n from 'helpers/i18n';
@@ -10,9 +9,9 @@ import SelectControl from 'app/components/settings/SelectControl';
 import storage from 'implementations/storage';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import { FontDescriptor } from 'interfaces/IFont';
+import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 import { OptionValues } from 'app/constants/enums';
 import { StorageKey } from 'interfaces/IStorage';
-import { WorkAreaModel } from 'app/constants/workarea-constants';
 
 const fontFamilies = FontFuncs.requestAvailableFontFamilies(true);
 
@@ -131,6 +130,7 @@ function Editor({
       selected: selectedModel === 'ado1',
     },
   ];
+  const workarea = getWorkarea(selectedModel);
 
   return (
     <>
@@ -185,7 +185,7 @@ function Editor({
           id="guide-x-input"
           unit={defaultUnit === 'inches' ? 'in' : 'mm'}
           min={0}
-          max={BeamboxConstant.dimension.getWidth(selectedModel) / 10}
+          max={workarea.width}
           defaultValue={x0}
           getValue={(val) => updateBeamboxPreferenceChange('guide_x0', val)}
           forceUsePropsUnit
@@ -196,7 +196,7 @@ function Editor({
           id="guide-y-input"
           unit={defaultUnit === 'inches' ? 'in' : 'mm'}
           min={0}
-          max={BeamboxConstant.dimension.getHeight(selectedModel) / 10}
+          max={workarea.displayHeight ?? workarea.height}
           defaultValue={y0}
           getValue={(val) => updateBeamboxPreferenceChange('guide_y0', val)}
           forceUsePropsUnit

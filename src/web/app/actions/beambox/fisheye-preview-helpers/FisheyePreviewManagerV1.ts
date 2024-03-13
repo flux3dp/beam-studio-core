@@ -1,7 +1,6 @@
 import deviceMaster from 'helpers/device-master';
 import progressCaller from 'app/actions/progress-caller';
 import i18n from 'helpers/i18n';
-import workareaConstants, { WorkAreaModel } from 'app/constants/workarea-constants';
 import {
   FisheyeCameraParametersV1,
   FisheyePreviewManager,
@@ -12,6 +11,7 @@ import {
   getPerspectivePointsZ3Regression,
   interpolatePointsFromHeight,
 } from 'helpers/camera-calibration-helper';
+import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 import { IDeviceInfo } from 'interfaces/IDevice';
 
 import FisheyePreviewManagerBase from './FisheyePreviewManagerBase';
@@ -87,7 +87,7 @@ class FisheyePreviewManagerV1 extends FisheyePreviewManagerBase implements Fishe
     const { device, objectHeight } = this;
     console.log('Applying', newData);
     const { rx, ry, rz, sh, ch, tx = 0, ty = 0 } = newData;
-    const workarea = workareaConstants[device.model as WorkAreaModel] || workareaConstants.ado1;
+    const workarea = getWorkarea(device.model as WorkAreaModel, 'ado1');
     const z = workarea.deep - objectHeight;
     const rotationZ = sh * (z + ch);
     this.rotationData = { ...newData };
@@ -105,7 +105,7 @@ class FisheyePreviewManagerV1 extends FisheyePreviewManagerBase implements Fishe
       objectHeight,
     } = this;
     const { heights, center, points, z3regParam } = params;
-    const workarea = workareaConstants[device.model as WorkAreaModel] || workareaConstants.ado1;
+    const workarea = getWorkarea(device.model as WorkAreaModel, 'ado1');
     let finalHeight = objectHeight;
     console.log('Use Height: ', objectHeight);
     if (rotationData?.dh) finalHeight += rotationData.dh;

@@ -7,7 +7,7 @@ import Constant from 'app/actions/beambox/constant';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import i18n from 'helpers/i18n';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import { WorkAreaModel } from 'app/constants/workarea-constants';
+import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 
 let svgCanvas;
 let svgedit;
@@ -59,8 +59,9 @@ class PreviewModeBackgroundDrawer {
   }
 
   start(cameraOffset) {
-    const width = Constant.dimension.getWidth(BeamboxPreference.read('workarea'));
-    const height = Constant.dimension.getHeight(BeamboxPreference.read('workarea'));
+    const workarea = getWorkarea(BeamboxPreference.read('workarea'));
+    const { pxWidth: width } = workarea;
+    const height = workarea.pxDisplayHeight ?? workarea.pxHeight;
     this.updateRatio(width, height);
     this.canvas.width = Math.round(width * this.canvasRatio);
     this.canvas.height = Math.round(height * this.canvasRatio);
@@ -96,8 +97,9 @@ class PreviewModeBackgroundDrawer {
   updateCanvasSize = () => {
     if (this.isClean()) return;
     this.clear();
-    const newWidth = Constant.dimension.getWidth(BeamboxPreference.read('workarea'));
-    const newHeight = Constant.dimension.getHeight(BeamboxPreference.read('workarea'));
+    const workarea = getWorkarea(BeamboxPreference.read('workarea'));
+    const newWidth = workarea.pxWidth;
+    const newHeight = workarea.pxDisplayHeight ?? workarea.pxHeight;
     this.updateRatio(newWidth, newHeight);
     this.canvas.width = Math.round(newWidth);
     this.canvas.height = Math.round(newHeight);
@@ -283,12 +285,15 @@ class PreviewModeBackgroundDrawer {
     const patternLine = svgdoc.createElementNS(NS.SVG, 'line');
     const descText = svgdoc.createElementNS(NS.SVG, 'text');
 
-    const workarea = BeamboxPreference.read('workarea');
+    const workarea = BeamboxPreference.read('workarea') as WorkAreaModel;
+    const { pxWidth: width, pxHeight, pxDisplayHeight } = getWorkarea(workarea);
+    const height = pxDisplayHeight ?? pxHeight;
+
     svgedit.utilities.assignAttributes(boundaryGroup, {
       id: previewBoundaryId,
       width: '100%',
       height: '100%',
-      viewBox: `0 0 ${Constant.dimension.getWidth(workarea)} ${Constant.dimension.getHeight(workarea)}`,
+      viewBox: `0 0 ${width} ${height}`,
       x: 0,
       y: 0,
       style: 'pointer-events:none',
@@ -321,7 +326,7 @@ class PreviewModeBackgroundDrawer {
     });
 
     svgedit.utilities.assignAttributes(borderTop, {
-      width: Constant.dimension.getWidth(workarea),
+      width,
       height: uncapturabledHeight,
       x: 0,
       y: 0,
@@ -379,18 +384,20 @@ class PreviewModeBackgroundDrawer {
     const { NS } = svgedit;
     const openBottomBoundary = svgdoc.createElementNS(NS.SVG, 'rect');
     const openBottomDescText = svgdoc.createElementNS(NS.SVG, 'text');
-    const workarea = BeamboxPreference.read('workarea');
+    const workarea = getWorkarea(BeamboxPreference.read('workarea'));
+    const { pxWidth: width, pxHeight, pxDisplayHeight } = workarea;
+    const height = pxDisplayHeight ?? pxHeight
     svgedit.utilities.assignAttributes(openBottomBoundary, {
       width: Constant.borderless.safeDistance.X * Constant.dpmm,
-      height: Constant.dimension.getHeight(workarea),
-      x: Constant.dimension.getWidth(workarea) - Constant.borderless.safeDistance.X * Constant.dpmm,
+      height,
+      x: width - Constant.borderless.safeDistance.X * Constant.dpmm,
       y: 0,
       fill: 'url(#border-pattern)',
       style: 'pointer-events:none',
     });
     svgedit.utilities.assignAttributes(openBottomDescText, {
       'font-size': 60,
-      x: Constant.dimension.getWidth(workarea) - (uncapturabledHeight - 60) / 2,
+      x: width - (uncapturabledHeight - 60) / 2,
       y: (uncapturabledHeight + 60) / 2 - 10,
       'text-anchor': 'end',
       'font-weight': 'bold',
@@ -411,18 +418,21 @@ class PreviewModeBackgroundDrawer {
     const { NS } = svgedit;
     const hybridBorder = svgdoc.createElementNS(NS.SVG, 'rect');
     const hybridDescText = svgdoc.createElementNS(NS.SVG, 'text');
-    const workarea = BeamboxPreference.read('workarea');
+    const workarea = getWorkarea(BeamboxPreference.read('workarea'));
+    const { pxWidth: width, pxHeight, pxDisplayHeight } = workarea;
+    const height = pxDisplayHeight ?? pxHeight
+
     svgedit.utilities.assignAttributes(hybridBorder, {
       width: Constant.diode.safeDistance.X * Constant.dpmm,
-      height: Constant.dimension.getHeight(workarea),
-      x: Constant.dimension.getWidth(workarea) - Constant.diode.safeDistance.X * Constant.dpmm,
+      height,
+      x: width - Constant.diode.safeDistance.X * Constant.dpmm,
       y: 0,
       fill: 'url(#border-pattern)',
       style: 'pointer-events:none',
     });
     svgedit.utilities.assignAttributes(hybridDescText, {
       'font-size': 60,
-      x: Constant.dimension.getWidth(workarea) - (uncapturabledHeight - 60) / 2,
+      x: width - (uncapturabledHeight - 60) / 2,
       y: (uncapturabledHeight + 60) / 2 - 10,
       'text-anchor': 'end',
       'font-weight': 'bold',
