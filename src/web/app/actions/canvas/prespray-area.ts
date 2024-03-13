@@ -87,6 +87,7 @@ const drag = (dx: number, dy: number): void => {
   });
 };
 
+// TODO: add test
 export default {
   checkMouseTarget,
   drag,

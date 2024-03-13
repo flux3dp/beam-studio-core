@@ -8,7 +8,7 @@ import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer
 import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
 import layerConfigHelper, { DataType, writeDataLayer } from 'helpers/layer/layer-config-helper';
 import layerModuleHelper from 'helpers/layer-module/layer-module-helper';
-import presprayArea from 'app/actions/beambox/prespray-area';
+import presprayArea from 'app/actions/canvas/prespray-area';
 import progressCaller from 'app/actions/progress-caller';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import i18n from 'helpers/i18n';

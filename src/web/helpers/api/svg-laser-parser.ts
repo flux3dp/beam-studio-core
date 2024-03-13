@@ -15,7 +15,7 @@ import i18n from 'helpers/i18n';
 import isDev from 'helpers/is-dev';
 import moduleOffsets from 'app/constants/layer-module/module-offsets';
 import Progress from 'app/actions/progress-caller';
-import presprayArea from 'app/actions/beambox/prespray-area';
+import presprayArea from 'app/actions/canvas/prespray-area';
 import storage from 'implementations/storage';
 import Websocket from 'helpers/websocket';
 import { getSVGAsync } from 'helpers/svg-editor-helper';

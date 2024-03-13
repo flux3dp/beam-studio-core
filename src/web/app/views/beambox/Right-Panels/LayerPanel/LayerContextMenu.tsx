@@ -12,7 +12,7 @@ import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer
 import LayerPanelIcons from 'app/icons/layer-panel/LayerPanelIcons';
 import ObjectPanelIcons from 'app/icons/object-panel/ObjectPanelIcons';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
-import presprayArea from 'app/actions/beambox/prespray-area';
+import presprayArea from 'app/actions/canvas/prespray-area';
 import splitFullColorLayer from 'helpers/layer/full-color/splitFullColorLayer';
 import toggleFullColorLayer from 'helpers/layer/full-color/toggleFullColorLayer';
 import updateLayerColor from 'helpers/color/updateLayerColor';

@@ -73,7 +73,7 @@ import TutorialConstants from 'app/constants/tutorial-constants';
 import Constant from 'app/actions/beambox/constant';
 import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
 import Progress from 'app/actions/progress-caller';
-import presprayArea from 'app/actions/beambox/prespray-area';
+import presprayArea from 'app/actions/canvas/prespray-area';
 import viewMenu from 'helpers/menubar/view';
 import autoSaveHelper from 'helpers/auto-save-helper';
 import * as BezierFitCurve from 'helpers/bezier-fit-curve';

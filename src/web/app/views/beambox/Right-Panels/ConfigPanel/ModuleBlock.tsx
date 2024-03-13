@@ -11,7 +11,7 @@ import ISVGCanvas from 'interfaces/ISVGCanvas';
 import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import moduleBoundaryDrawer from 'app/actions/canvas/module-boundary-drawer';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
-import presprayArea from 'app/actions/beambox/prespray-area';
+import presprayArea from 'app/actions/canvas/prespray-area';
 import storage from 'implementations/storage';
 import toggleFullColorLayer from 'helpers/layer/full-color/toggleFullColorLayer';
 import useI18n from 'helpers/useI18n';

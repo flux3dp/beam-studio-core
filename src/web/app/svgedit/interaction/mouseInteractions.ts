@@ -3,7 +3,7 @@ import constant from 'app/actions/beambox/constant';
 import createNewText from 'app/svgedit/text/createNewText';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
-import presprayArea from 'app/actions/beambox/prespray-area';
+import presprayArea from 'app/actions/canvas/prespray-area';
 import history from 'app/svgedit/history';
 import selector from 'app/svgedit/selector';
 import * as LayerHelper from 'helpers/layer/layer-helper';

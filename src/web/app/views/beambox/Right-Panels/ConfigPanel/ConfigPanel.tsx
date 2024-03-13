@@ -28,7 +28,7 @@ import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer
 import LayerPanelIcons from 'app/icons/layer-panel/LayerPanelIcons';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
-import presprayArea from 'app/actions/beambox/prespray-area';
+import presprayArea from 'app/actions/canvas/prespray-area';
 import storage from 'implementations/storage';
 import tutorialConstants from 'app/constants/tutorial-constants';
 import tutorialController from 'app/views/tutorials/tutorialController';
