@@ -38,6 +38,7 @@ import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerP
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import TopBarController from 'app/views/beambox/TopBar/contexts/TopBarController';
 import { getNextStepRequirement } from 'app/views/tutorials/tutorialController';
+import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 import { NounProjectPanelController } from 'app/views/beambox/Noun-Project-Panel';
 import BeamboxPreference from './beambox-preference';
 import Constant from './constant';
@@ -188,6 +189,8 @@ const svgEditor = window['svgEditor'] = (function () {
   //		curPrefs, curConfig, canvas, storage, uiStrings
   //
   // STATE MAINTENANCE PROPERTIES
+  const workarea = BeamboxPreference.read('workarea') as WorkAreaModel;
+  const { pxWidth, pxHeight, pxDisplayHeight } = getWorkarea(workarea);
   const editor: ISVGEditor = {
     addDropDown: () => { },
     addExtension: () => { },
@@ -240,7 +243,7 @@ const svgEditor = window['svgEditor'] = (function () {
     langChanged: false,
     showSaveWarning: false,
     storagePromptClosed: false, // For use with ext-storage.js
-    dimensions: [Constant.dimension.getWidth(BeamboxPreference.read('workarea')), Constant.dimension.getHeight(BeamboxPreference.read('workarea'))],
+    dimensions: [pxWidth, pxDisplayHeight ?? pxHeight],
     uiStrings: {},
     updateContextPanel: () => {},
     clearScene: () => {},
@@ -5202,13 +5205,16 @@ const svgEditor = window['svgEditor'] = (function () {
   };
 
   editor.resetView = function () {
+    const workarea = getWorkarea(BeamboxPreference.read('workarea'));
+    const { pxWidth: width, pxHeight, pxDisplayHeight } = workarea;
+    const height = pxDisplayHeight ?? pxHeight;
     const hasRulers = !!BeamboxPreference.read('show_rulers');
     const sidePanelsWidth = isMobile() ? 0 : Constant.sidePanelsWidth + (hasRulers ? Constant.rulerWidth : 0);
     const topBarHeight = Constant.topBarHeight + (hasRulers ? Constant.rulerWidth : 0);
-    const workareaToDimensionRatio = Math.min((window.innerWidth - sidePanelsWidth) / Constant.dimension.getWidth(BeamboxPreference.read('workarea')), (window.innerHeight - topBarHeight) / Constant.dimension.getHeight(BeamboxPreference.read('workarea')));
+    const workareaToDimensionRatio = Math.min((window.innerWidth - sidePanelsWidth) / width, (window.innerHeight - topBarHeight) / height);
     const zoomLevel = workareaToDimensionRatio * 0.95;
-    const workAreaWidth = Constant.dimension.getWidth(BeamboxPreference.read('workarea')) * zoomLevel;
-    const workAreaHeight = Constant.dimension.getHeight(BeamboxPreference.read('workarea')) * zoomLevel;
+    const workAreaWidth = width * zoomLevel;
+    const workAreaHeight = height * zoomLevel;
     const offsetX = (window.innerWidth - sidePanelsWidth - workAreaWidth) / 2 + (hasRulers ? Constant.rulerWidth : 0);
     const offsetY = (window.innerHeight - topBarHeight - workAreaHeight) / 2 + (hasRulers ? Constant.rulerWidth : 0);
     editor.zoomChanged(window, {

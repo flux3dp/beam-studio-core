@@ -70,14 +70,6 @@ if (isDev()) {
 
 export default {
   dpmm: 10,
-  dimension: {
-    getWidth: (model: WorkAreaModel): number => WorkareaMap.get(model)?.width || 3000,
-    getHeight: (model: WorkAreaModel): number => WorkareaMap.get(model)?.height || 2100,
-    getMaxSpeed: (model: WorkAreaModel): number => WorkareaMap.get(model)?.maxSpeed || 300,
-    getMinSpeed: (model: WorkAreaModel): number => WorkareaMap.get(model)?.minSpeed || 3,
-    cameraCenter: (model: WorkAreaModel): number[] | undefined =>
-      WorkareaMap.get(model)?.cameraCenter,
-  },
   getRotaryModels: (model: WorkAreaModel): number[] => WorkareaMap.get(model)?.rotary || [0],
   camera: {
     movementSpeed: {

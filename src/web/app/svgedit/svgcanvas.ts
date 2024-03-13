@@ -60,7 +60,6 @@ import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import beamboxStore from 'app/stores/beambox-store';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
-import colorConstants from 'app/constants/color-constants';
 import fontHelper from 'helpers/fonts/fontHelper';
 import i18n from 'helpers/i18n';
 import ISVGConfig from 'interfaces/ISVGConfig';
@@ -86,6 +85,7 @@ import storage from 'implementations/storage';
 import SymbolMaker from 'helpers/symbol-maker';
 import updateElementColor from 'helpers/color/updateElementColor';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 import units, { Units } from 'helpers/units';
 import jimpHelper from 'helpers/jimp-helper';
 import imageProcessor from 'implementations/imageProcessor';
@@ -1625,17 +1625,20 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         $(this).replaceWith(svg);
       }
     });
-    const workarea = BeamboxPreference.read('workarea');
+    const workarea: WorkAreaModel = BeamboxPreference.read('workarea');
     const engraveDpi = BeamboxPreference.read('engrave_dpi');
     rotaryMode = BeamboxPreference.read('rotary_mode');
     const isUsingDiode = BeamboxPreference.read('enable-diode') && Constant.addonsSupportList.hybridLaser.includes(workarea);
     const isUsingAF = BeamboxPreference.read('enable-autofocus');
     svgcontent.setAttribute('data-engrave_dpi', engraveDpi);
     svgcontent.setAttribute('data-rotary_mode', rotaryMode);
-    svgcontent.setAttribute('data-en_diode', isUsingDiode);
+    svgcontent.setAttribute('data-en_diode', isUsingDiode.toString());
     svgcontent.setAttribute('data-en_af', isUsingAF);
-    const x = $('#workarea').scrollLeft() / current_zoom - Constant.dimension.getWidth(workarea);
-    const y = $('#workarea').scrollTop() / current_zoom - Constant.dimension.getHeight(workarea);
+    const workareaElement = document.getElementById('workarea');
+    const workareaObj = getWorkarea(workarea);
+    const { pxWidth, pxHeight, pxDisplayHeight } = workareaObj
+    const x = workareaElement.scrollLeft / current_zoom - pxWidth;
+    const y = workareaElement.scrollTop / current_zoom - (pxDisplayHeight ?? pxHeight);
     svgcontent.setAttribute('data-workarea', workarea);
     svgcontent.setAttribute('data-zoom', (Math.round(current_zoom * 1000) / 1000).toString());
     svgcontent.setAttribute('data-left', Math.round(x).toString());
@@ -2498,57 +2501,13 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
       convertGradients(content[0]);
 
-      var attrs: { [key: string]: string | number } = {
+      const { pxWidth, pxHeight, pxDisplayHeight } = getWorkarea(BeamboxPreference.read('workarea'));
+      const attrs: { [key: string]: string | number } = {
         id: 'svgcontent',
-        overflow: curConfig.show_outside_canvas ? 'visible' : 'hidden'
+        overflow: curConfig.show_outside_canvas ? 'visible' : 'hidden',
+        width: pxWidth,
+        height: pxDisplayHeight ?? pxHeight,
       };
-
-      var percs = false;
-
-      // determine proper size
-      if (content.attr('viewBox')) {
-        var vb = content.attr('viewBox').split(' ');
-        attrs.width = vb[2];
-        attrs.height = vb[3];
-      }
-      // handle content that doesn't have a viewBox
-      else {
-        $.each(['width', 'height'], function (i, dim) {
-          // Set to 100 if not given
-          var val = content.attr(dim);
-
-          if (!val) {
-            val = '100%';
-          }
-
-          if (String(val).substr(-1) === '%') {
-            // Use user units if percentage given
-            percs = true;
-          } else {
-            attrs[dim] = svgedit.units.convertToNum(dim, val);
-          }
-        });
-      }
-
-      // Percentage width/height, so let's base it on visible elements
-      if (percs) {
-        var bb = getStrokedBBox();
-        attrs.width = bb.width + bb.x;
-        attrs.height = bb.height + bb.y;
-      }
-
-      // Just in case negative numbers are given or
-      // result from the percs calculation
-      if (attrs.width <= 0) {
-        attrs.width = 100;
-      }
-      if (attrs.height <= 0) {
-        attrs.height = 100;
-      }
-
-      // Keep workarea size after loading external svg
-      attrs.width = Constant.dimension.getWidth(BeamboxPreference.read('workarea'));
-      attrs.height = Constant.dimension.getHeight(BeamboxPreference.read('workarea'));
 
       // identify layers
       identifyLayers();
