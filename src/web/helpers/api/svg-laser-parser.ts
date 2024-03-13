@@ -85,6 +85,7 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
       const paddingAccel = BeamboxPreference.read('padding_accel');
       // Not real acceleration, just for calculating padding distance
       const { model }: { model: WorkAreaModel } = opts;
+      const { minSpeed: modelMinSpeed, rotary } = getWorkarea(model);
       if (model === 'fhexa1') {
         args.push('-hexa');
         if (!isDevMode || !paddingAccel) args.push('-acc', '7500');
@@ -101,7 +102,7 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
       if (rotaryMode) {
         args.push('-spin');
         args.push(svgCanvas.runExtensions('getRotaryAxisAbsoluteCoord'));
-        if (rotaryMode !== 1 && constant.getRotaryModels(model).includes(rotaryMode)) {
+        if (rotaryMode !== 1 && rotary.includes(rotaryMode)) {
           args.push('-rotary-y-ratio');
           args.push(Math.round(constant.rotaryYRatio[rotaryMode] * 10 ** 6) / 10 ** 6);
         }
@@ -149,7 +150,6 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
       if (opts.shouldUseFastGradient) args.push('-fg');
       if (opts.shouldMockFastGradient) args.push('-mfg');
       if (opts.vectorSpeedConstraint) args.push('-vsc');
-      const { minSpeed: modelMinSpeed } = getWorkarea(model);
       if (modelMinSpeed < 3) args.push(`-min-speed ${modelMinSpeed}`);
       else if (BeamboxPreference.read('enable-low-speed')) args.push('-min-speed 1');
       if (BeamboxPreference.read('reverse-engraving')) args.push('-rev');

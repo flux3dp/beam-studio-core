@@ -1,3 +1,5 @@
+import isDev from 'helpers/is-dev';
+
 export type WorkAreaLabel = 'beamo' | 'Beambox' | 'Beambox Pro' | 'HEXA' | 'Ador';
 export type WorkAreaModel = 'fbm1' | 'fbb1b' | 'fbb1p' | 'fhexa1' | 'ado1';
 export const allWorkareas = new Set(['fbm1', 'fbb1b', 'fbb1p', 'fhexa1', 'ado1']);
@@ -70,7 +72,7 @@ const workareaConstants: { [key in WorkAreaModel]: WorkArea } = {
     pxDisplayHeight: 320 * dpmm,
     deep: 40.5,
     maxSpeed: 400,
-    rotary: [0, 1],
+    rotary: isDev() ? [0, 1] : [0],
     cameraCenter: [215, 150],
   },
 };

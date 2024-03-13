@@ -13,6 +13,7 @@ import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer
 import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
 import useI18n from 'helpers/useI18n';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { WorkAreaModel, getWorkarea } from 'app/constants/workarea-constants';
 
 import styles from './DocumentSettings.module.scss';
 
@@ -25,6 +26,7 @@ const workareaOptions = [
   { label: 'beamo', value: 'fbm1' },
   { label: 'Beambox', value: 'fbb1b' },
   { label: 'Beambox Pro', value: 'fbb1p' },
+  { label: 'Beambox Pro II', value: 'fbb2p' },
   { label: 'HEXA', value: 'fhexa1' },
   { label: 'Ador', value: 'ado1' },
 ];
@@ -51,7 +53,7 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
   //   BeamboxPreference.read('engrave-dpi-value') || dpiMap[engraveDpi] || 250
   // );
   const origWorkarea = useMemo(() => BeamboxPreference.read('workarea'), []);
-  const [workarea, setWorkarea] = useState(origWorkarea || 'fbb1b');
+  const [workarea, setWorkarea] = useState<WorkAreaModel>(origWorkarea || 'fbb1b');
   const [rotaryMode, setRotaryMode] = useState<number>(BeamboxPreference.read('rotary_mode'));
   const [borderlessMode, setBorderlessMode] = useState(
     BeamboxPreference.read('borderless') === true
@@ -62,13 +64,13 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
   );
 
   const handleEngraveDpiChange = (value: string) => setEngraveDpi(value);
-  const handleWorkareaChange = (value: string) => setWorkarea(value);
+  const handleWorkareaChange = (value: WorkAreaModel) => setWorkarea(value);
   const handleRotaryModeChange = (on: boolean) => setRotaryMode(on ? 1 : 0);
   const handleBorderlessModeChange = (value: boolean) => setBorderlessMode(value);
   const handleDiodeModuleChange = (value: boolean) => setEnableDiode(value);
   const handleAutofocusModuleChange = (value: boolean) => setEnableAutofocus(value);
 
-  const rotaryModels = useMemo(() => constant.getRotaryModels(workarea), [workarea]);
+  const rotaryModels = useMemo(() => getWorkarea(workarea).rotary, [workarea]);
 
   useEffect(() => {
     if (!rotaryModels.includes(rotaryMode)) {
