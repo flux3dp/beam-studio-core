@@ -23,6 +23,7 @@ import ISVGCanvas from 'interfaces/ISVGCanvas';
 import RightPanelController from 'app/views/beambox/Right-Panels/contexts/RightPanelController';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { MouseButtons } from 'app/constants/mouse-constants';
+import rotaryAxis from 'app/actions/canvas/rotary-axis';
 
 let svgEditor;
 let svgCanvas: ISVGCanvas;
@@ -273,6 +274,7 @@ const mouseDown = (evt: MouseEvent) => {
   }
 
   if (presprayArea.checkMouseTarget(mouseTarget)) svgCanvas.setMode('drag-prespray-area');
+  if (rotaryAxis.checkMouseTarget(mouseTarget)) svgCanvas.setMode('drag-rotary-axis');
 
   svgCanvas.unsafeAccess.setStartTransform(mouseTarget.getAttribute('transform'));
   currentMode = svgCanvas.getCurrentMode();
@@ -599,6 +601,10 @@ const mouseDown = (evt: MouseEvent) => {
       svgCanvas.unsafeAccess.setStarted(true);
       svgCanvas.clearSelection();
       presprayArea.startDrag();
+      break;
+    case 'drag-rotary-axis':
+      svgCanvas.unsafeAccess.setStarted(true);
+      svgCanvas.clearSelection();
       break;
     default:
       // This could occur in an extension
@@ -1142,6 +1148,9 @@ const mouseMove = (evt: MouseEvent) => {
       dy = y - startY;
       presprayArea.drag(dx, dy);
       break;
+    case 'drag-rotary-axis':
+      rotaryAxis.mouseMove(y);
+      break;
     default:
       break;
   }
@@ -1574,6 +1583,12 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
     case 'drag-prespray-area':
       keep = true;
       element = null;
+      svgCanvas.setMode('select');
+      break;
+    case 'drag-rotary-axis':
+      keep = true;
+      element = null;
+      rotaryAxis.mouseUp();
       svgCanvas.setMode('select');
       break;
     case 'preview_color':

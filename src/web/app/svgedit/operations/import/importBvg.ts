@@ -13,6 +13,7 @@ import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 import { toggleFullColorAfterWorkareaChange } from 'helpers/layer/layer-config-helper';
 
 import changeWorkarea from '../changeWorkarea';
+import rotaryAxis from 'app/actions/canvas/rotary-axis';
 
 let svgCanvas: ISVGCanvas;
 let svgEditor;
@@ -52,19 +53,17 @@ export const importBvgString = async (str: string): Promise<void> => {
       elem?.setAttribute('data-xform', xform);
       elem?.setAttribute('data-wireframe', String(wireframe === 'true'));
     }
-    let match = str.match(/data-rotary_mode="[a-zA-Z]+"/);
+    let match = str.match(/data-rotary_mode="([^"]*)"/);
     if (match) {
-      let rotaryMode = match[0].substring(18, match[0].length - 1);
+      let rotaryMode = match[1];
+
       if (rotaryMode === 'true') rotaryMode = '1';
-      const isRotaryModeOn = ['true', '1', '2'].includes(rotaryMode);
       if (constant.addonsSupportList.rotary.includes(currentWorkarea)) {
         beamboxPreference.write('rotary_mode', parseInt(rotaryMode, 10));
-        svgCanvas.setRotaryMode(isRotaryModeOn);
       } else {
         beamboxPreference.write('rotary_mode', 0);
-        svgCanvas.setRotaryMode(false);
       }
-      svgCanvas.runExtensions('updateRotaryAxis');
+      rotaryAxis.toggleDisplay();
     }
     match = str.match(/data-engrave_dpi="[a-zA-Z]+"/);
     if (match) {

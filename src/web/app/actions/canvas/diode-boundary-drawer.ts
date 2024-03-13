@@ -1,16 +1,16 @@
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import Constant from 'app/actions/beambox/constant';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
+import NS from 'app/constants/namespaces';
 import { getWorkarea } from 'app/constants/workarea-constants';
 
-const { svgedit } = window;
 const documentPanelEventEmitter = eventEmitterFactory.createEventEmitter('document-panel');
 
 let diodeBoundaryPath: SVGPathElement;
 let diodeBoundarySvg: SVGSVGElement;
 const createBoundary = () => {
-  diodeBoundarySvg = document.createElementNS(svgedit.NS.SVG, 'svg') as unknown as SVGSVGElement;
-  diodeBoundaryPath = document.createElementNS(svgedit.NS.SVG, 'path') as unknown as SVGPathElement;
+  diodeBoundarySvg = document.createElementNS(NS.SVG, 'svg') as unknown as SVGSVGElement;
+  diodeBoundaryPath = document.createElementNS(NS.SVG, 'path') as unknown as SVGPathElement;
   document.getElementById('canvasBackground')?.appendChild(diodeBoundarySvg);
   diodeBoundarySvg.appendChild(diodeBoundaryPath);
   const workarea = getWorkarea(BeamboxPreference.read('workarea'));

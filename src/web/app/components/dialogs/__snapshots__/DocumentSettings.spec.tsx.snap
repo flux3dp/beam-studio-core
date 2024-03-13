@@ -1451,6 +1451,23 @@ exports[`test DocumentSettings should render correctly 3`] = `
                 <div
                   aria-selected="false"
                   class="ant-select-item ant-select-item-option"
+                  title="Beambox Pro II"
+                >
+                  <div
+                    class="ant-select-item-option-content"
+                  >
+                    Beambox Pro II
+                  </div>
+                  <span
+                    aria-hidden="true"
+                    class="ant-select-item-option-state"
+                    style="user-select: none;"
+                    unselectable="on"
+                  />
+                </div>
+                <div
+                  aria-selected="false"
+                  class="ant-select-item ant-select-item-option"
                   title="HEXA"
                 >
                   <div

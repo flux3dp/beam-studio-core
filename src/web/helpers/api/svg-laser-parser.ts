@@ -20,6 +20,7 @@ import storage from 'implementations/storage';
 import Websocket from 'helpers/websocket';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
+import rotaryAxis from 'app/actions/canvas/rotary-axis';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
@@ -101,7 +102,8 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
       const rotaryMode = BeamboxPreference.read('rotary_mode');
       if (rotaryMode) {
         args.push('-spin');
-        args.push(svgCanvas.runExtensions('getRotaryAxisAbsoluteCoord'));
+        const rotaryPos = rotaryAxis.getPosition();
+        args.push(rotaryPos);
         if (rotaryMode !== 1 && rotary.includes(rotaryMode)) {
           args.push('-rotary-y-ratio');
           args.push(Math.round(constant.rotaryYRatio[rotaryMode] * 10 ** 6) / 10 ** 6);

@@ -80,6 +80,7 @@ import * as BezierFitCurve from 'helpers/bezier-fit-curve';
 import laserConfigHelper from 'helpers/layer/layer-config-helper';
 import * as LayerHelper from 'helpers/layer/layer-helper';
 import randomColor from 'helpers/randomColor';
+import rotaryAxis from 'app/actions/canvas/rotary-axis';
 import sanitizeXmlString from 'helpers/sanitize-xml-string';
 import storage from 'implementations/storage';
 import SymbolMaker from 'helpers/symbol-maker';
@@ -553,6 +554,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
   canvasBackground.setupBackground(curConfig.dimensions, () => svgroot, () => svgcontent);
   presprayArea.generatePresprayArea();
+  rotaryAxis.init();
 
   if (BeamboxPreference.read('show_guides')) {
     beamboxStore.emitDrawGuideLines();
@@ -693,9 +695,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   // Map of deleted reference elements
   const removedElements = {};
 
-  // Rotary Mode
-  let rotaryMode = BeamboxPreference.read('rotary_mode');
-
   const curText = all_properties.text;
   textEdit.updateCurText(curText);
   textEdit.useDefaultFont();
@@ -722,7 +721,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   this.getRootElem = () => svgroot;
   this.getRootScreenMatrix = () => root_sctm;
   this.getRotaryDisplayCoord = () => BeamboxPreference.read('rotary_y_coord') || 5;
-  this.getRotaryMode = () => rotaryMode;
   this.getRubberBox = () => rubberBox;
   this.getSelectedElems = () => selectedElements;
   this.getStarted = () => started;
@@ -733,7 +731,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   this.setCurrentResizeMode = (mode: string) => { current_resize_mode = mode; };
   this.setCurrentStyleProperties = (key: string, value: string | number) => { cur_properties[key] = value; };
   this.setLastClickPoint = (point) => { lastClickPoint = point; };
-  this.setRotaryMode = (val) => rotaryMode = val;
   this.setRotaryDisplayCoord = (val) => BeamboxPreference.write('rotary_y_coord', val);
 
   this.unsafeAccess = {
@@ -1627,11 +1624,10 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     });
     const workarea: WorkAreaModel = BeamboxPreference.read('workarea');
     const engraveDpi = BeamboxPreference.read('engrave_dpi');
-    rotaryMode = BeamboxPreference.read('rotary_mode');
     const isUsingDiode = BeamboxPreference.read('enable-diode') && Constant.addonsSupportList.hybridLaser.includes(workarea);
     const isUsingAF = BeamboxPreference.read('enable-autofocus');
     svgcontent.setAttribute('data-engrave_dpi', engraveDpi);
-    svgcontent.setAttribute('data-rotary_mode', rotaryMode);
+    svgcontent.setAttribute('data-rotary_mode', BeamboxPreference.read('rotary_mode'));
     svgcontent.setAttribute('data-en_diode', isUsingDiode.toString());
     svgcontent.setAttribute('data-en_af', isUsingAF);
     const workareaElement = document.getElementById('workarea');

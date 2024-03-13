@@ -42,17 +42,9 @@ jest.mock('app/actions/beambox/open-bottom-boundary-drawer', () => ({
   update: () => update(),
 }));
 
-const setRotaryMode = jest.fn();
-const runExtensions = jest.fn();
-jest.mock('helpers/svg-editor-helper', () => ({
-  getSVGAsync: (callback) => {
-    callback({
-      Canvas: {
-        setRotaryMode: (value) => setRotaryMode(value),
-        runExtensions: (value) => runExtensions(value),
-      },
-    });
-  },
+const mockToggleDisplay = jest.fn();
+jest.mock('app/actions/canvas/rotary-axis', () => ({
+  toggleDisplay: () => mockToggleDisplay(),
 }));
 
 jest.mock('helpers/useI18n', () => () => ({
@@ -136,10 +128,7 @@ describe('test DocumentSettings', () => {
     expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(5, 'rotary_mode', 1);
     expect(mockChangeWorkarea).toBeCalledTimes(1);
     expect(mockChangeWorkarea).toHaveBeenLastCalledWith('fbm1');
-    expect(setRotaryMode).toHaveBeenCalledTimes(1);
-    expect(setRotaryMode).toHaveBeenLastCalledWith(1);
-    expect(runExtensions).toHaveBeenCalledTimes(1);
-    expect(runExtensions).toHaveBeenLastCalledWith('updateRotaryAxis');
+    expect(mockToggleDisplay).toBeCalledTimes(1);
     expect(update).not.toBeCalled();
     expect(mockUnmount).toBeCalledTimes(1);
   });

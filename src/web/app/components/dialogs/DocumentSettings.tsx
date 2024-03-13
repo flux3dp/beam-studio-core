@@ -11,16 +11,12 @@ import diodeBoundaryDrawer from 'app/actions/canvas/diode-boundary-drawer';
 import EngraveDpiSlider from 'app/widgets/EngraveDpiSlider';
 import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
+import rotaryAxis from 'app/actions/canvas/rotary-axis';
 import useI18n from 'helpers/useI18n';
-import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { WorkAreaModel, getWorkarea } from 'app/constants/workarea-constants';
 
 import styles from './DocumentSettings.module.scss';
 
-let svgCanvas;
-getSVGAsync((globalSVG) => {
-  svgCanvas = globalSVG.Canvas;
-});
 
 const workareaOptions = [
   { label: 'beamo', value: 'fbm1' },
@@ -96,8 +92,7 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
       else diodeBoundaryDrawer.hide();
     }
     BeamboxPreference.write('rotary_mode', rotaryMode);
-    svgCanvas.setRotaryMode(rotaryMode);
-    svgCanvas.runExtensions('updateRotaryAxis');
+    rotaryAxis.toggleDisplay();
   };
 
   const doesSupportOpenBottom = constant.addonsSupportList.openBottom.includes(workarea);

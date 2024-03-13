@@ -343,7 +343,6 @@ const svgEditor = window['svgEditor'] = (function () {
       allowedOrigins: []
     },
     defaultExtensions = [
-      'ext-rotary_mode.js',
       'ext-markers.js',
       'ext-connector.js',
       'ext-imagelib.js',

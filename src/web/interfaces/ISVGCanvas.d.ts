@@ -154,7 +154,6 @@ export default interface ISVGCanvas {
   setPaint(picker: string, paint: any): void;
   setPaintOpacity: (pickerType: string, opacity: number, preventUndo?: boolean) => void;
   setRootScreenMatrix: (matrix: SVGMatrix) => void;
-  setRotaryMode: (rotaryMode: boolean) => void;
   setRotationAngle: (val: number, preventUndo: boolean, elem?: SVGElement) => void;
   setStrokeAttr(attrKey: string, value: string): void;
   setStrokeWidth(width: number): void;

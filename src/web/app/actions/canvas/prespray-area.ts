@@ -2,6 +2,7 @@ import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import constant from 'app/actions/beambox/constant';
 import i18n from 'helpers/i18n';
 import LayerModule from 'app/constants/layer-module/layer-modules';
+import NS from 'app/constants/namespaces';
 import presprayIconUrl from 'app/icons/prespray.svg?url';
 import { getWorkarea } from 'app/constants/workarea-constants';
 
@@ -41,8 +42,6 @@ const getPosition = (mm = false): { x: number; y: number; w: number; h: number }
 const generatePresprayArea = (): void => {
   if (!presprayAreaBlock) {
     const fixedSizeSvg = document.getElementById('fixedSizeSvg');
-    const { svgedit } = window;
-    const { NS } = svgedit;
     presprayAreaBlock = document.createElementNS(NS.SVG, 'image') as unknown as SVGImageElement;
     presprayAreaBlock.setAttribute('id', 'presprayArea');
     presprayAreaBlock.setAttribute('x', '4000');
