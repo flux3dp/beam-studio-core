@@ -247,7 +247,6 @@ exports[`test QRCodeGenerator should behave correctly 1`] = `
                 <span>
                   Cancel
                 </span>
-                
               </button>
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
@@ -257,7 +256,6 @@ exports[`test QRCodeGenerator should behave correctly 1`] = `
                 <span>
                   Confirm
                 </span>
-                
               </button>
             </div>
           </div>
@@ -527,7 +525,6 @@ exports[`test QRCodeGenerator should behave correctly 2`] = `
                 <span>
                   Cancel
                 </span>
-                
               </button>
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
@@ -536,7 +533,6 @@ exports[`test QRCodeGenerator should behave correctly 2`] = `
                 <span>
                   Confirm
                 </span>
-                
               </button>
             </div>
           </div>
