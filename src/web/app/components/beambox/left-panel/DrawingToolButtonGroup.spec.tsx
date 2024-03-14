@@ -67,9 +67,18 @@ jest.mock('helpers/i18n', () => ({
   },
 }));
 
+const getCurrentUser = jest.fn();
+jest.mock('helpers/api/flux-id', () => ({
+  getCurrentUser: () => getCurrentUser(),
+}));
+
 import DrawingToolButtonGroup from './DrawingToolButtonGroup';
 
 describe('test DrawingToolButtonGroup', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   test('should render correctly', () => {
     const { container } = render(<DrawingToolButtonGroup className="flux" />);
     expect(container).toMatchSnapshot();
@@ -127,6 +136,19 @@ describe('test DrawingToolButtonGroup', () => {
 
     fireEvent.click(container.querySelector('#left-MyCloud'));
     expect(container).toMatchSnapshot();
+    expect(showMyCloud).toHaveBeenCalledTimes(1);
+    expect(showMyCloud).toHaveBeenCalledWith(mockUseSelectTool);
+  });
+
+  test('should render flux plus icon correctly', () => {
+    getCurrentUser.mockReturnValue({ info: { subscription: { is_valid: true } } });
+    const { container } = render(<DrawingToolButtonGroup className="flux" />);
+
+    const myCloudButton = container.querySelector('#left-MyCloud');
+    expect(myCloudButton).toMatchSnapshot();
+
+    fireEvent.click(myCloudButton);
+    expect(myCloudButton).toMatchSnapshot();
     expect(showMyCloud).toHaveBeenCalledTimes(1);
     expect(showMyCloud).toHaveBeenCalledWith(mockUseSelectTool);
   });

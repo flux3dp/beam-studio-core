@@ -4,7 +4,7 @@ import { Button, Modal } from 'antd';
 
 import browser from 'implementations/browser';
 import FluxIcons from 'app/icons/flux/FluxIcons';
-
+import isFluxPlusActive from 'helpers/is-flux-plus-active';
 import useI18n from 'helpers/useI18n';
 import { useIsMobile } from 'helpers/system-helper';
 
@@ -25,12 +25,13 @@ const FluxPlusModal = ({
 }: Props): JSX.Element => {
   const lang = useI18n().flux_id_login.flux_plus;
   const isMobile = useIsMobile();
-  const shouldShowBanner = !hideMobileBanner || !isMobile;
+  const shouldShowBanner = isFluxPlusActive && (!hideMobileBanner || !isMobile);
   return (
     <Modal
       className={classNames(styles['flux-plus'], className)}
       onCancel={onClose}
-      width={isMobile ? 320 : 726}
+      // eslint-disable-next-line no-nested-ternary
+      width={isMobile ? 320 : isFluxPlusActive ? 726 : 400}
       footer={null}
       centered
       open

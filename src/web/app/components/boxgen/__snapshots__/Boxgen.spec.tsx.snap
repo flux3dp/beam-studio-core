@@ -27,7 +27,6 @@ exports[`test Boxgen should rendered correctly 1`] = `
         <div
           class="title"
         >
-          <svgr-url />
           BOXGEN
         </div>
         <mock-box-selector />
@@ -87,12 +86,7 @@ exports[`test Boxgen should rendered correctly in mobile 1`] = `
       <div
         class="title"
       >
-        <div
-          class="title"
-        >
-          <svgr-url />
-          BOXGEN
-        </div>
+        BOXGEN
       </div>
       <div>
         <mock-box-selector />

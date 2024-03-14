@@ -1150,6 +1150,10 @@ const lang: ILang = {
       line: '線條',
       label: '標籤',
     },
+    announcement_panel: {
+      title: '公告',
+      dont_show_again: '不再顯示',
+    },
   },
   editor: {
     prespray_area: '預噴區',

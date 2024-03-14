@@ -1202,6 +1202,10 @@ const lang: ILang = {
       line: 'เส้น',
       label: 'ป้ายชื่อ',
     },
+    announcement_panel: {
+      title: 'ประกาศ',
+      dont_show_again: 'ไม่แสดงซ้ําอีก',
+    },
   },
   editor: {
     prespray_area: 'พื้นที่พ่นสารเคมี',

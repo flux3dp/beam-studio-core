@@ -1211,6 +1211,10 @@ const lang: ILang = {
       line: 'Lijn',
       label: 'Label',
     },
+    announcement_panel: {
+      title: 'Aankondiging',
+      dont_show_again: 'Niet meer weergeven',
+    },
   },
   editor: {
     prespray_area: 'Priming gebied',

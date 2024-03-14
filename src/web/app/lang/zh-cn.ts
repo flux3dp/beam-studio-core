@@ -1149,6 +1149,10 @@ const lang: ILang = {
       line: '线条',
       label: '标签',
     },
+    announcement_panel: {
+      title: '公告',
+      dont_show_again: '不再显示',
+    },
   },
   editor: {
     prespray_area: '预喷区',

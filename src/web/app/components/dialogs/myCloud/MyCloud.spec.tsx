@@ -77,6 +77,8 @@ jest.mock('helpers/system-helper', () => ({
   useIsMobile: () => mockUseIsMobile(),
 }));
 
+jest.mock('helpers/is-flux-plus-active', () => true);
+
 jest.mock('./GridFile', () => ({ file }: any) => <div>Mock Grid File: {JSON.stringify(file)}</div>);
 jest.mock('./Head', () => 'mock-head');
 

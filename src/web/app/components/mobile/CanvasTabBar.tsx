@@ -1,11 +1,13 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { Badge, TabBar } from 'antd-mobile';
+import { Badge } from 'antd';
+import { TabBar } from 'antd-mobile';
 
 import beamboxStore from 'app/stores/beambox-store';
 import browser from 'implementations/browser';
 import createNewText from 'app/svgedit/text/createNewText';
 import dialogCaller from 'app/actions/dialog-caller';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
+import FluxIcons from 'app/icons/flux/FluxIcons';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import LeftPanelIcons from 'app/icons/left-panel/LeftPanelIcons';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
@@ -17,6 +19,7 @@ import TopBarIcons from 'app/icons/top-bar/TopBarIcons';
 import useI18n from 'helpers/useI18n';
 import { DmktIcon } from 'app/icons/icons';
 import { CanvasContext, CanvasContextType } from 'app/contexts/CanvasContext';
+import { getCurrentUser } from 'helpers/api/flux-id';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { useIsMobile } from 'helpers/system-helper';
 
@@ -31,6 +34,7 @@ getSVGAsync((globalSVG) => {
 const CanvasTabBar = (): JSX.Element => {
   const isMobile = useIsMobile();
   const lang = useI18n();
+  const isSubscribed = getCurrentUser()?.info?.subscription?.is_valid;
 
   const {
     displayLayer,
@@ -64,12 +68,12 @@ const CanvasTabBar = (): JSX.Element => {
       key: 'image',
       title: lang.beambox.left_panel.label.photo,
       icon: <TabBarIcons.Photo />,
-      badge: Badge.dot,
     },
     {
       key: 'cloud',
       title: lang.beambox.left_panel.label.my_cloud,
       icon: <LeftPanelIcons.Cloud />,
+      badge: isSubscribed,
     },
     {
       key: 'shape',
@@ -247,7 +251,15 @@ const CanvasTabBar = (): JSX.Element => {
           {(isPreviewing ? previewTabItems : tabs).map((item) => (
             <TabBar.Item
               key={item.key}
-              icon={item.icon}
+              icon={
+                <Badge
+                  className={styles.badge}
+                  count={item.badge ? <FluxIcons.FluxPlus className={styles['flux-plus']} /> : 0}
+                  offset={[-4, 6]}
+                >
+                  {item.icon}
+                </Badge>
+              }
               title={item.title}
               aria-disabled={item.disabled || false}
             />

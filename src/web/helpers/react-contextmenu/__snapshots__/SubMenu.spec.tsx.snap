@@ -4,7 +4,7 @@ exports[`SubMenu tests should render correctly 1`] = `
 <div>
   <nav
     aria-haspopup="true"
-    class="react-contextmenu-item react-contextmenu-submenu"
+    class="react-contextmenu-submenu"
     role="menuitem"
     style="position: relative;"
     tabindex="-1"
@@ -17,7 +17,7 @@ exports[`SubMenu tests should render correctly 1`] = `
     <nav
       class="react-contextmenu"
       role="menu"
-      style="position: absolute; transition: opacity 1ms; top: 0px; left: 100%;"
+      style="position: absolute; top: 0px; left: 100%; white-space: nowrap;"
       tabindex="-1"
     />
   </nav>
@@ -28,7 +28,7 @@ exports[`SubMenu tests should render correctly after onMouseEnter 1`] = `
 <div>
   <nav
     aria-haspopup="true"
-    class="react-contextmenu-item react-contextmenu-submenu"
+    class="react-contextmenu-submenu"
     role="menuitem"
     style="position: relative;"
     tabindex="-1"
@@ -41,7 +41,7 @@ exports[`SubMenu tests should render correctly after onMouseEnter 1`] = `
     <nav
       class="react-contextmenu"
       role="menu"
-      style="position: absolute; transition: opacity 1ms; top: 0px; left: 100%;"
+      style="position: absolute; top: 0px; left: 100%; white-space: nowrap;"
       tabindex="-1"
     />
   </nav>
@@ -52,7 +52,7 @@ exports[`SubMenu tests should render correctly after onMouseEnter when disabled 
 <div>
   <nav
     aria-haspopup="true"
-    class="react-contextmenu-item react-contextmenu-submenu"
+    class="react-contextmenu-submenu"
     role="menuitem"
     style="position: relative;"
     tabindex="-1"
@@ -65,7 +65,7 @@ exports[`SubMenu tests should render correctly after onMouseEnter when disabled 
     <nav
       class="react-contextmenu"
       role="menu"
-      style="position: absolute; transition: opacity 1ms; top: 0px; left: 100%;"
+      style="position: absolute; top: 0px; left: 100%; white-space: nowrap;"
       tabindex="-1"
     />
   </nav>
@@ -76,7 +76,7 @@ exports[`SubMenu tests should render correctly when disabled 1`] = `
 <div>
   <nav
     aria-haspopup="true"
-    class="react-contextmenu-item react-contextmenu-submenu"
+    class="react-contextmenu-submenu"
     role="menuitem"
     style="position: relative;"
     tabindex="-1"
@@ -89,7 +89,7 @@ exports[`SubMenu tests should render correctly when disabled 1`] = `
     <nav
       class="react-contextmenu"
       role="menu"
-      style="position: absolute; transition: opacity 1ms; top: 0px; left: 100%;"
+      style="position: absolute; top: 0px; left: 100%; white-space: nowrap;"
       tabindex="-1"
     />
   </nav>

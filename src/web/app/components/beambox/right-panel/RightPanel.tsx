@@ -49,12 +49,12 @@ const RightPanel = (): JSX.Element => {
   }, [mode, selectedElement, selectedTab, displayLayer, isMobile]);
 
   const showLayerPanel =
-    mode === 'element' &&
+    (mode === 'element' || !isMobile) &&
     (selectedTab === 'layers' || !selectedElement) &&
     (displayLayer || !isMobile);
 
   let content;
-  if (mode === 'path-edit') {
+  if (mode === 'path-edit' && (selectedTab === 'objects' || isMobile)) {
     content = <PathEditPanel />;
   } else if (selectedElement && selectedTab === 'objects') {
     content = <ObjectPanel />;

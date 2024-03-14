@@ -3,6 +3,7 @@ import Alert from 'app/actions/alert-caller';
 import AlertConfig from 'helpers/api/alert-config';
 import AlertConstants from 'app/constants/alert-constants';
 import alertHelper from 'helpers/alert-helper';
+import announcementHelper from 'helpers/announcement-helper';
 import autoSaveHelper from 'helpers/auto-save-helper';
 import BeamboxPreference, { migrate } from 'app/actions/beambox/beambox-preference';
 import BeamboxStore from 'app/stores/beambox-store';
@@ -120,6 +121,7 @@ class BeamboxInit {
       await this.showQuestionnaire();
     }
     ratingHelper.init();
+    announcementHelper.init(isNewUser);
     storage.removeAt('new-user');
     // eslint-disable-next-line @typescript-eslint/dot-notation
     storage.set('last-installed-version', window['FLUX'].version);

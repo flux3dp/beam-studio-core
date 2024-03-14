@@ -1217,6 +1217,10 @@ const lang: ILang = {
       line: 'Linea',
       label: 'Etichetta',
     },
+    announcement_panel: {
+      title: 'Annuncio',
+      dont_show_again: 'Non mostrare nuovamente',
+    },
   },
   editor: {
     prespray_area: 'Area di preparazione',

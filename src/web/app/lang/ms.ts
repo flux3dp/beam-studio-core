@@ -1215,6 +1215,10 @@ const lang: ILang = {
       line: 'Garisan',
       label: 'Label',
     },
+    announcement_panel: {
+      title: 'Pengumuman',
+      dont_show_again: 'Jangan tunjukkan lagi',
+    },
   },
   editor: {
     prespray_area: 'Kawasan Persediaan',

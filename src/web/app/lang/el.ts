@@ -1224,6 +1224,10 @@ const lang: ILang = {
       line: 'Γραμμή',
       label: 'Ετικέτα',
     },
+    announcement_panel: {
+      title: 'Ανακοίνωση',
+      dont_show_again: 'Να μην εμφανιστεί ξανά',
+    },
   },
   editor: {
     prespray_area: 'Περιοχή προετοιμασίας',

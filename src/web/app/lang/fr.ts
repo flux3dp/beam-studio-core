@@ -1223,6 +1223,10 @@ const lang: ILang = {
       line: 'Ligne',
       label: 'Étiquette',
     },
+    announcement_panel: {
+      title: 'Annonce',
+      dont_show_again: 'Ne plus afficher',
+    },
   },
   editor: {
     prespray_area: 'Zone de pré-pulvérisation',

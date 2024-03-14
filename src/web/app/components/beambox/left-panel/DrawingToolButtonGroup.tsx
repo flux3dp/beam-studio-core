@@ -7,6 +7,7 @@ import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import i18n from 'helpers/i18n';
 import LeftPanelIcons from 'app/icons/left-panel/LeftPanelIcons';
 import LeftPanelButton from 'app/components/beambox/left-panel/LeftPanelButton';
+import { getCurrentUser } from 'helpers/api/flux-id';
 
 const LANG = i18n.lang.beambox.left_panel;
 
@@ -14,7 +15,14 @@ const eventEmitter = eventEmitterFactory.createEventEmitter('drawing-tool');
 
 const DrawingToolButtonGroup = ({ className }: { className: string }): JSX.Element => {
   const [activeButton, setActiveButton] = useState('Cursor');
-  const renderToolButton = (id: string, icon: JSX.Element, label: string, onClick: () => void) => (
+  const isSubscribed = getCurrentUser()?.info?.subscription?.is_valid;
+  const renderToolButton = (
+    id: string,
+    icon: JSX.Element,
+    label: string,
+    onClick: () => void,
+    showBadge?: boolean
+  ) => (
     <LeftPanelButton
       id={`left-${id}`}
       active={activeButton === id}
@@ -24,6 +32,7 @@ const DrawingToolButtonGroup = ({ className }: { className: string }): JSX.Eleme
         setActiveButton(id);
         onClick();
       }}
+      showBadge={showBadge}
     />
   );
 
@@ -48,8 +57,12 @@ const DrawingToolButtonGroup = ({ className }: { className: string }): JSX.Eleme
         `${LANG.label.photo} (I)`,
         FnWrapper.importImage
       )}
-      {renderToolButton('MyCloud', <LeftPanelIcons.Cloud />, LANG.label.my_cloud, () =>
-        dialogCaller.showMyCloud(FnWrapper.useSelectTool)
+      {renderToolButton(
+        'MyCloud',
+        <LeftPanelIcons.Cloud />,
+        LANG.label.my_cloud,
+        () => dialogCaller.showMyCloud(FnWrapper.useSelectTool),
+        isSubscribed
       )}
       {renderToolButton(
         'Text',

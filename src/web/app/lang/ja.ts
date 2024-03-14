@@ -1150,6 +1150,10 @@ const lang: ILang = {
       line: '線',
       label: 'ラベル',
     },
+    announcement_panel: {
+      title: 'お知らせ',
+      dont_show_again: '次回から表示しない',
+    },
   },
   editor: {
     prespray_area: 'プライミングエリア',
