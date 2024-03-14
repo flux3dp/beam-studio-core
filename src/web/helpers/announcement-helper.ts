@@ -6,6 +6,7 @@ import { axiosFluxId } from 'helpers/api/flux-id';
 interface IRecord {
   times: number;
   isIgnored: number[];
+  skip?: boolean;
 }
 
 const getRecord = (): IRecord => storage.get('announcement-record') as IRecord;
@@ -31,8 +32,9 @@ const setDefaultRatingRecord = (): void => {
 };
 
 const showAnnouncement = async (isNewUser: boolean) => {
-  const lang = i18n.getActiveLang();
   const record = getRecord();
+  if (record.skip) return;
+  const lang = i18n.getActiveLang();
   let query = `locale=${lang}&times=${record.times}`;
   if (record.isIgnored.length > 0) {
     query += `&ignored=${record.isIgnored.join(',')}`;
