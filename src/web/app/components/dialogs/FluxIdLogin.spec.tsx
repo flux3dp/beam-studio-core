@@ -75,6 +75,8 @@ jest.mock('helpers/system-helper', () => ({
 
 jest.mock('./FluxPlusModal', () => 'mock-FluxPlusModal');
 
+jest.mock('helpers/is-flux-plus-active', () => true);
+
 describe('should render correctly', () => {
   beforeEach(() => {
     jest.clearAllMocks();

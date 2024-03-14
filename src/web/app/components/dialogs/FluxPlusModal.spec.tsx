@@ -29,6 +29,8 @@ jest.mock('helpers/system-helper', () => ({
   useIsMobile: () => useIsMobile(),
 }));
 
+jest.mock('helpers/is-flux-plus-active', () => true);
+
 const onClose = jest.fn();
 
 describe('test FluxPlusModal', () => {

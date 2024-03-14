@@ -1150,6 +1150,10 @@ const lang: ILang = {
       line: '선',
       label: '레이블',
     },
+    announcement_panel: {
+      title: '공지사항',
+      dont_show_again: '다시 표시 안 함',
+    },
   },
   editor: {
     prespray_area: '프라이밍 영역',

@@ -1210,6 +1210,10 @@ const lang: ILang = {
       line: 'Đường thẳng',
       label: 'Nhãn',
     },
+    announcement_panel: {
+      title: 'Thông báo',
+      dont_show_again: 'Không hiển thị lại',
+    },
   },
   editor: {
     prespray_area: 'Vùng làm ẩm ban đầu',

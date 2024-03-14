@@ -22,3 +22,12 @@
     color: #000;
   }
 }
+
+.badge {
+  color: inherit;
+  font-size: inherit;
+
+  .flux-plus {
+    font-size: 20px;
+  }
+}

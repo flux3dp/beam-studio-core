@@ -7,7 +7,7 @@ const mockUser = {
   email: 'test123@gmail.com',
   info: {
     credit: 29.5,
-    subscription: { credit: 4.0 },
+    subscription: { is_valid: true, credit: 4.0 },
   },
 };
 
@@ -49,6 +49,8 @@ const useIsMobile = jest.fn();
 jest.mock('helpers/system-helper', () => ({
   useIsMobile: () => useIsMobile(),
 }));
+
+jest.mock('helpers/is-flux-plus-active', () => true);
 
 const onClose = jest.fn();
 

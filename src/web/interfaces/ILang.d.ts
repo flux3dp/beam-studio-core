@@ -1137,14 +1137,18 @@ export interface ILang {
       end_preview: string,
     },
     shapes_panel: {
-      title: string,
-      shape: string,
-      graphics: string,
-      arrow: string,
-      line: string,
-      label: string,
-    },
-  },
+      title: string;
+      shape: string;
+      graphics: string;
+      arrow: string;
+      line: string;
+      label: string;
+    };
+    announcement_panel: {
+      title: string;
+      dont_show_again: string;
+    };
+  };
   editor: {
     prespray_area: string;
   };

@@ -10,89 +10,141 @@ exports[`test DrawingToolButtonGroup should render correctly 1`] = `
       id="left-Cursor"
       title="Select (V)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Photo"
       title="Image (I)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-MyCloud"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Text"
       title="Text (T)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Element"
       title="Elements (E)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Rectangle"
       title="Rectangle (M)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Ellipse"
       title="Oval (L)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Polygon"
       title="Polygon"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Line"
       title="Line (\\)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Pen"
       title="Pen (P)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-QRCode"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Boxgen"
       title="Boxgen"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-DM"
       title="Design Market"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
   </div>
 </div>
@@ -108,89 +160,141 @@ exports[`test DrawingToolButtonGroup should render correctly 2`] = `
       id="left-Cursor"
       title="Select (V)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container active"
       id="left-Photo"
       title="Image (I)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-MyCloud"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Text"
       title="Text (T)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Element"
       title="Elements (E)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Rectangle"
       title="Rectangle (M)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Ellipse"
       title="Oval (L)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Polygon"
       title="Polygon"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Line"
       title="Line (\\)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Pen"
       title="Pen (P)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-QRCode"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Boxgen"
       title="Boxgen"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-DM"
       title="Design Market"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
   </div>
 </div>
@@ -206,89 +310,141 @@ exports[`test DrawingToolButtonGroup should render correctly 3`] = `
       id="left-Cursor"
       title="Select (V)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Photo"
       title="Image (I)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-MyCloud"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container active"
       id="left-Text"
       title="Text (T)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Element"
       title="Elements (E)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Rectangle"
       title="Rectangle (M)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Ellipse"
       title="Oval (L)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Polygon"
       title="Polygon"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Line"
       title="Line (\\)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Pen"
       title="Pen (P)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-QRCode"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Boxgen"
       title="Boxgen"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-DM"
       title="Design Market"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
   </div>
 </div>
@@ -304,89 +460,141 @@ exports[`test DrawingToolButtonGroup should render correctly 4`] = `
       id="left-Cursor"
       title="Select (V)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Photo"
       title="Image (I)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-MyCloud"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Text"
       title="Text (T)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Element"
       title="Elements (E)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container active"
       id="left-Rectangle"
       title="Rectangle (M)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Ellipse"
       title="Oval (L)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Polygon"
       title="Polygon"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Line"
       title="Line (\\)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Pen"
       title="Pen (P)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-QRCode"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Boxgen"
       title="Boxgen"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-DM"
       title="Design Market"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
   </div>
 </div>
@@ -402,89 +610,141 @@ exports[`test DrawingToolButtonGroup should render correctly 5`] = `
       id="left-Cursor"
       title="Select (V)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Photo"
       title="Image (I)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-MyCloud"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Text"
       title="Text (T)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Element"
       title="Elements (E)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Rectangle"
       title="Rectangle (M)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container active"
       id="left-Ellipse"
       title="Oval (L)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Polygon"
       title="Polygon"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Line"
       title="Line (\\)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Pen"
       title="Pen (P)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-QRCode"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Boxgen"
       title="Boxgen"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-DM"
       title="Design Market"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
   </div>
 </div>
@@ -500,89 +760,141 @@ exports[`test DrawingToolButtonGroup should render correctly 6`] = `
       id="left-Cursor"
       title="Select (V)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Photo"
       title="Image (I)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-MyCloud"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Text"
       title="Text (T)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Element"
       title="Elements (E)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Rectangle"
       title="Rectangle (M)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Ellipse"
       title="Oval (L)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container active"
       id="left-Polygon"
       title="Polygon"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Line"
       title="Line (\\)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Pen"
       title="Pen (P)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-QRCode"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Boxgen"
       title="Boxgen"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-DM"
       title="Design Market"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
   </div>
 </div>
@@ -598,89 +910,141 @@ exports[`test DrawingToolButtonGroup should render correctly 7`] = `
       id="left-Cursor"
       title="Select (V)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Photo"
       title="Image (I)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-MyCloud"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Text"
       title="Text (T)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Element"
       title="Elements (E)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Rectangle"
       title="Rectangle (M)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Ellipse"
       title="Oval (L)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Polygon"
       title="Polygon"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container active"
       id="left-Line"
       title="Line (\\)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Pen"
       title="Pen (P)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-QRCode"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Boxgen"
       title="Boxgen"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-DM"
       title="Design Market"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
   </div>
 </div>
@@ -696,89 +1060,141 @@ exports[`test DrawingToolButtonGroup should render correctly 8`] = `
       id="left-Cursor"
       title="Select (V)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Photo"
       title="Image (I)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-MyCloud"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Text"
       title="Text (T)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container active"
       id="left-Element"
       title="Elements (E)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Rectangle"
       title="Rectangle (M)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Ellipse"
       title="Oval (L)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Polygon"
       title="Polygon"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Line"
       title="Line (\\)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Pen"
       title="Pen (P)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-QRCode"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Boxgen"
       title="Boxgen"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-DM"
       title="Design Market"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
   </div>
 </div>
@@ -794,89 +1210,141 @@ exports[`test DrawingToolButtonGroup should render correctly 9`] = `
       id="left-Cursor"
       title="Select (V)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Photo"
       title="Image (I)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-MyCloud"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Text"
       title="Text (T)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Element"
       title="Elements (E)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Rectangle"
       title="Rectangle (M)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Ellipse"
       title="Oval (L)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Polygon"
       title="Polygon"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Line"
       title="Line (\\)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container active"
       id="left-Pen"
       title="Pen (P)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-QRCode"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Boxgen"
       title="Boxgen"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-DM"
       title="Design Market"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
   </div>
 </div>
@@ -892,89 +1360,141 @@ exports[`test DrawingToolButtonGroup should render correctly 10`] = `
       id="left-Cursor"
       title="Select (V)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Photo"
       title="Image (I)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-MyCloud"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Text"
       title="Text (T)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Element"
       title="Elements (E)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Rectangle"
       title="Rectangle (M)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Ellipse"
       title="Oval (L)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Polygon"
       title="Polygon"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Line"
       title="Line (\\)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Pen"
       title="Pen (P)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-QRCode"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Boxgen"
       title="Boxgen"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-DM"
       title="Design Market"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
   </div>
 </div>
@@ -990,89 +1510,141 @@ exports[`test DrawingToolButtonGroup should render correctly 11`] = `
       id="left-Cursor"
       title="Select (V)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Photo"
       title="Image (I)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-MyCloud"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Text"
       title="Text (T)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Element"
       title="Elements (E)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Rectangle"
       title="Rectangle (M)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Ellipse"
       title="Oval (L)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Polygon"
       title="Polygon"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Line"
       title="Line (\\)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Pen"
       title="Pen (P)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container active"
       id="left-QRCode"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Boxgen"
       title="Boxgen"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-DM"
       title="Design Market"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
   </div>
 </div>
@@ -1088,89 +1660,141 @@ exports[`test DrawingToolButtonGroup should render correctly 12`] = `
       id="left-Cursor"
       title="Select (V)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Photo"
       title="Image (I)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-MyCloud"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Text"
       title="Text (T)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Element"
       title="Elements (E)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Rectangle"
       title="Rectangle (M)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Ellipse"
       title="Oval (L)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Polygon"
       title="Polygon"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Line"
       title="Line (\\)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Pen"
       title="Pen (P)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-QRCode"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Boxgen"
       title="Boxgen"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container active"
       id="left-DM"
       title="Design Market"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
   </div>
 </div>
@@ -1186,89 +1810,147 @@ exports[`test DrawingToolButtonGroup should render correctly 13`] = `
       id="left-Cursor"
       title="Select (V)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Photo"
       title="Image (I)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-MyCloud"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Text"
       title="Text (T)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Element"
       title="Elements (E)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Rectangle"
       title="Rectangle (M)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Ellipse"
       title="Oval (L)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Polygon"
       title="Polygon"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Line"
       title="Line (\\)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Pen"
       title="Pen (P)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-QRCode"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container active"
       id="left-Boxgen"
       title="Boxgen"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-DM"
       title="Design Market"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
   </div>
 </div>
 `;
 
-exports[`test DrawingToolButtonGroup should render correctly 13`] = `
+exports[`test DrawingToolButtonGroup should render correctly 14`] = `
 <div>
   <div
     class="flux"
@@ -1278,84 +1960,176 @@ exports[`test DrawingToolButtonGroup should render correctly 13`] = `
       id="left-Cursor"
       title="Select (V)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Photo"
       title="Image (I)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container active"
       id="left-MyCloud"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Text"
       title="Text (T)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Element"
       title="Elements (E)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Rectangle"
       title="Rectangle (M)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Ellipse"
       title="Oval (L)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Polygon"
       title="Polygon"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Line"
       title="Line (\\)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Pen"
       title="Pen (P)"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-QRCode"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-Boxgen"
       title="Boxgen"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
     <div
       class="container"
       id="left-DM"
       title="Design Market"
     >
-      <svgr-url />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
   </div>
+</div>
+`;
+
+exports[`test DrawingToolButtonGroup should render flux plus icon correctly 1`] = `
+<div
+  class="container"
+  id="left-MyCloud"
+>
+  <span
+    class="ant-badge badge css-dev-only-do-not-override-hash"
+  >
+    <svgr-url />
+    <svgr-url
+      classname="ant-scroll-number-custom-component flux-plus"
+      style="margin-top: 6px; right: 4px;"
+    />
+  </span>
+</div>
+`;
+
+exports[`test DrawingToolButtonGroup should render flux plus icon correctly 2`] = `
+<div
+  class="container active"
+  id="left-MyCloud"
+>
+  <span
+    class="ant-badge badge css-dev-only-do-not-override-hash"
+  >
+    <svgr-url />
+    <svgr-url
+      classname="ant-scroll-number-custom-component flux-plus"
+      style="margin-top: 6px; right: 4px;"
+    />
+  </span>
 </div>
 `;

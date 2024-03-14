@@ -1150,6 +1150,10 @@ const lang: ILang = {
       line: 'Linia',
       label: 'Etykieta',
     },
+    announcement_panel: {
+      title: 'Ogłoszenie',
+      dont_show_again: 'Nie pokazuj więcej',
+    },
   },
   editor: {
     prespray_area: 'Obszar gruntowania',

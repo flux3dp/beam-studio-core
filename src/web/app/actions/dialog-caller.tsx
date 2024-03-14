@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import AboutBeamStudio from 'app/components/dialogs/AboutBeamStudio';
+import AnnouncementPanel from 'app/components/dialogs/AnnouncementPanel';
 import Boxgen from 'app/components/boxgen/Boxgen';
 import CartridgeSettingPanel from 'app/components/dialogs/CartridgeSettingPanel';
 import ChangeLog from 'app/components/dialogs/ChangeLog';
@@ -37,6 +38,7 @@ import { AlertConfigKey } from 'helpers/api/alert-config';
 import { eventEmitter } from 'app/contexts/DialogContext';
 import { getCurrentUser, getInfo } from 'helpers/api/flux-id';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { IAnnouncement } from 'interfaces/IAnnouncement';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { IDialogBoxStyle, IInputLightBox, IPrompt } from 'interfaces/IDialog';
 import { IMediaTutorial, ITutorial } from 'interfaces/ITutorial';
@@ -235,6 +237,14 @@ export default {
     addDialogComponent(
       'rating-dialog',
       <RatingPanel onSubmit={onSubmit} onClose={() => popDialogById('rating-dialog')} />
+    );
+  },
+  showAnnouncementDialog: (announcement: IAnnouncement): void => {
+    const id = `announcement-${announcement.id}`;
+    if (isIdExist(id)) return;
+    addDialogComponent(
+      id,
+      <AnnouncementPanel announcement={announcement} onClose={() => popDialogById(id)} />
     );
   },
   showSvgNestButtons: (): void => {
@@ -500,22 +510,17 @@ export default {
   showFluxPlusWarning,
   showBoxGen: (onClose: () => void): void => {
     if (isIdExist('box-gen')) return;
-    const user = getCurrentUser();
-    if (!user?.info?.subscription?.is_valid) {
-      showFluxPlusWarning();
-    } else {
-      shortcuts.pauseAll();
-      addDialogComponent(
-        'box-gen',
-        <Boxgen
-          onClose={() => {
-            shortcuts.initialize();
-            onClose();
-            popDialogById('box-gen');
-          }}
-        />
-      );
-    }
+    shortcuts.pauseAll();
+    addDialogComponent(
+      'box-gen',
+      <Boxgen
+        onClose={() => {
+          shortcuts.initialize();
+          onClose();
+          popDialogById('box-gen');
+        }}
+      />
+    );
   },
   showMyCloud: (onClose: () => void): void => {
     if (isIdExist('my-cloud')) return;

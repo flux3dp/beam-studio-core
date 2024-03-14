@@ -1214,6 +1214,10 @@ const lang: ILang = {
       line: 'Linje',
       label: 'Etikett',
     },
+    announcement_panel: {
+      title: 'Meddelande',
+      dont_show_again: 'Visa inte igen',
+    },
   },
   editor: {
     prespray_area: 'Primeringsyta',

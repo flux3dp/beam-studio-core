@@ -1150,6 +1150,10 @@ const lang: ILang = {
       line: 'Linie',
       label: 'Symbol',
     },
+    announcement_panel: {
+      title: 'Ankündigung',
+      dont_show_again: 'Nicht erneut anzeigen',
+    },
   },
   editor: {
     prespray_area: 'Grundierbereich',

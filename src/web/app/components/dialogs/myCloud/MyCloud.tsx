@@ -4,6 +4,7 @@ import { Button, Modal, Space } from 'antd';
 import browser from 'implementations/browser';
 import FloatingPanel from 'app/widgets/FloatingPanel';
 import FluxIcons from 'app/icons/flux/FluxIcons';
+import isFluxPlusActive from 'helpers/is-flux-plus-active';
 import useI18n from 'helpers/useI18n';
 import { getCurrentUser } from 'helpers/api/flux-id';
 import { MyCloudContext, MyCloudProvider } from 'app/contexts/MyCloudContext';
@@ -52,7 +53,7 @@ const MyCloudModal = (): JSX.Element => {
       direction={isMobile ? 'vertical' : 'horizontal'}
     >
       <div className={styles.title}>
-        <FluxIcons.FluxPlus />
+        {user.info?.subscription?.is_valid && <FluxIcons.FluxPlus />}
         {lang.title}
       </div>
       {!user.info?.subscription?.is_valid && (
@@ -60,13 +61,15 @@ const MyCloudModal = (): JSX.Element => {
           <div className={styles.tag}>
             {lang.file_limit} {files ? files.length : '?'}/5
           </div>
-          <Button
-            type="link"
-            size="small"
-            onClick={() => browser.open(LANG.flux_id_login.flux_plus.website_url)}
-          >
-            {lang.upgrade}
-          </Button>
+          {isFluxPlusActive && (
+            <Button
+              type="link"
+              size="small"
+              onClick={() => browser.open(LANG.flux_id_login.flux_plus.website_url)}
+            >
+              {lang.upgrade}
+            </Button>
+          )}
         </div>
       )}
     </Space>

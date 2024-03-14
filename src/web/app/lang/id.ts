@@ -1218,6 +1218,10 @@ const lang: ILang = {
       line: 'Garis',
       label: 'Label',
     },
+    announcement_panel: {
+      title: 'Pengumuman',
+      dont_show_again: 'Jangan tampilkan lagi',
+    },
   },
   editor: {
     prespray_area: 'Area Priming',

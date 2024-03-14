@@ -1213,6 +1213,10 @@ const lang: ILang = {
       line: 'Linje',
       label: 'Etiket',
     },
+    announcement_panel: {
+      title: 'Meddelelse',
+      dont_show_again: 'Vis ikke igen',
+    },
   },
   editor: {
     prespray_area: 'Primeområde',

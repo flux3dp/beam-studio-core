@@ -4,6 +4,7 @@ import { QuestionCircleOutlined } from '@ant-design/icons';
 
 import browser from 'implementations/browser';
 import FluxIcons from 'app/icons/flux/FluxIcons';
+import isFluxPlusActive from 'helpers/is-flux-plus-active';
 import useI18n from 'helpers/useI18n';
 import { getCurrentUser, signOut } from 'helpers/api/flux-id';
 import { useIsMobile } from 'helpers/system-helper';
@@ -33,14 +34,16 @@ const FluxCredit = ({ onClose }: Props): JSX.Element => {
           <div>
             {lang.email}: <span className={styles.email}>{email}</span>
           </div>
-          <div>
-            <Tooltip title={lang.flux_plus.flux_credit_tooltip}>
-              <QuestionCircleOutlined />
-            </Tooltip>
-            FLUX Credit:
-            <FluxIcons.FluxCredit />
-            <span className={styles['flux-credit']}>{info?.subscription?.credit || 0}</span>
-          </div>
+          {info?.subscription?.is_valid && (
+            <div>
+              <Tooltip title={lang.flux_plus.flux_credit_tooltip}>
+                <QuestionCircleOutlined />
+              </Tooltip>
+              FLUX Credit:
+              <FluxIcons.FluxCredit />
+              <span className={styles['flux-credit']}>{info?.subscription?.credit || 0}</span>
+            </div>
+          )}
           <div>
             <Tooltip title={lang.flux_plus.ai_credit_tooltip}>
               <QuestionCircleOutlined />
@@ -51,13 +54,15 @@ const FluxCredit = ({ onClose }: Props): JSX.Element => {
           </div>
         </div>
         <Space className={styles.footer} direction="vertical">
-          <Button
-            block
-            type="primary"
-            onClick={() => browser.open(lang.flux_plus.member_center_url)}
-          >
-            {lang.flux_plus.goto_member_center}
-          </Button>
+          {isFluxPlusActive && (
+            <Button
+              block
+              type="primary"
+              onClick={() => browser.open(lang.flux_plus.member_center_url)}
+            >
+              {lang.flux_plus.goto_member_center}
+            </Button>
+          )}
           <Button
             block
             type="default"
