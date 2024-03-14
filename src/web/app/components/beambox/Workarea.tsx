@@ -10,7 +10,9 @@ import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
 
 let svgCanvas;
-getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
+getSVGAsync((globalSVG) => {
+  svgCanvas = globalSVG.Canvas;
+});
 
 const eventEmitter = eventEmitterFactory.createEventEmitter('workarea');
 
@@ -34,11 +36,11 @@ const getCurrentLayer = (selectedElement?: Element): string | null => {
 };
 
 interface State {
-  menuDisabled: boolean,
-  select: boolean,
-  paste: boolean,
-  group: boolean,
-  ungroup: boolean,
+  menuDisabled: boolean;
+  select: boolean;
+  paste: boolean;
+  group: boolean;
+  ungroup: boolean;
 }
 
 export default class Workarea extends React.PureComponent<{ className: string }, State> {
@@ -100,9 +102,7 @@ export default class Workarea extends React.PureComponent<{ className: string },
   render(): JSX.Element {
     const LANG = i18n.lang.beambox.context_menu;
     const { className } = this.props;
-    const {
-      menuDisabled, select, paste, group, ungroup,
-    } = this.state;
+    const { menuDisabled, select, paste, group, ungroup } = this.state;
 
     const isTouchable = navigator.maxTouchPoints >= 1;
     return (
@@ -171,4 +171,5 @@ export default class Workarea extends React.PureComponent<{ className: string },
   }
 }
 
+// Note: Keep context to update current layer(trigger rerender) when moving a single element
 Workarea.contextType = LayerPanelContext;
