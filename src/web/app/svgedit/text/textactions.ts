@@ -6,6 +6,7 @@ import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import history from 'app/svgedit/history';
 import selector from 'app/svgedit/selector';
 import textPathEdit from 'app/actions/beambox/textPathEdit';
+import workareaManager from 'app/svgedit/workarea';
 import { deleteElements, deleteSelectedElements } from 'app/svgedit/operations/delete';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IBatchCommand } from 'interfaces/IHistory';
@@ -70,7 +71,7 @@ class TextActions {
       y: yIn,
     };
 
-    const zoom = svgCanvas.getZoom();
+    const zoom = workareaManager.zoomRatio;
     out.x /= zoom;
     out.y /= zoom;
 
@@ -94,7 +95,7 @@ class TextActions {
       out.x = pt.x;
       out.y = pt.y;
     }
-    const zoom = svgCanvas.getZoom();
+    const zoom = workareaManager.zoomRatio;
     out.x *= zoom;
     out.y *= zoom;
 
@@ -117,7 +118,9 @@ class TextActions {
       curtext, textinput, isVertical, textbb, chardata, fontSize,
     } = this;
     const calculateMultilineTextChardata = () => {
-      const tspans = Array.from(curtext.childNodes).filter((child: Element) => child.tagName === 'tspan') as SVGTextContentElement[];
+      const tspans = Array.from(curtext.childNodes).filter(
+        (child: Element) => child.tagName === 'tspan'
+      ) as SVGTextContentElement[];
       const rowNumbers = tspans.length;
       const charHeight = fontSize;
       const lines = textinput.value.split('\u0085');
@@ -162,13 +165,13 @@ class TextActions {
           end = tspans[i].getEndPositionOfChar(j);
 
           if (!svgedit.browser.supportsGoodTextCharPos()) {
-            const zoom = svgCanvas.getZoom();
-            const offset = svgCanvas.contentW * zoom;
+            const { zoomRatio, width } = workareaManager
+            const offset = width * zoomRatio;
             start.x -= offset;
             end.x -= offset;
 
-            start.x /= zoom;
-            end.x /= zoom;
+            start.x /= zoomRatio;
+            end.x /= zoomRatio;
           }
           let width = end.x - start.x;
           if (isVertical) {
@@ -560,7 +563,7 @@ class TextActions {
     }
 
     const rootSctm = (document.getElementById('svgcontent') as unknown as SVGGraphicsElement).getScreenCTM().inverse();
-    const zoom = svgCanvas.getZoom();
+    const zoom = workareaManager.zoomRatio;
     const ept = svgedit.math.transformPoint(evt.pageX, evt.pageY, rootSctm);
     const mouseX = ept.x * zoom;
     const mouseY = ept.y * zoom;

@@ -53,6 +53,7 @@ import selector from 'app/svgedit/selector';
 import textActions from 'app/svgedit/text/textactions';
 import textEdit from 'app/svgedit/text/textedit';
 import ungroupElement from 'app/svgedit/group/ungroup';
+import workareaManager from 'app/svgedit/workarea';
 import { deleteSelectedElements } from 'app/svgedit/operations/delete';
 import { moveElements, moveSelectedElements } from 'app/svgedit/operations/move';
 
@@ -110,7 +111,6 @@ getSVGAsync((globalSVG) => {
 
 const LANG = i18n.lang.beambox;
 
-const zoomBlockEventEmitter = eventEmitterFactory.createEventEmitter('zoom-block');
 const timeEstimationButtonEventEmitter = eventEmitterFactory.createEventEmitter('time-estimation-button');
 const drawingToolEventEmitter = eventEmitterFactory.createEventEmitter('drawing-tool');
 
@@ -134,8 +134,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
   var canvas = this;
   const pathActions = PathActions(this);
-  this.contentW = curConfig.dimensions[0];
-  this.contentH = curConfig.dimensions[1];
 
   // "document" element associated with the container (same as window.document using default svg-editor.js)
   // NOTE: This is not actually a SVG document, but a HTML document.
@@ -144,7 +142,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   // This is a container for the document being edited, not the document itself.
   var svgroot = svgdoc.importNode(svgedit.utilities.text2xml(
     '<svg id="svgroot" xmlns="' + NS.SVG + '" xlinkns="' + NS.XLINK + '" ' +
-    'width="' + this.contentW + '" height="' + this.contentH + '" x="' + this.contentW + '" y="' + this.contentH + '" overflow="visible">' +
+    'width="' + curConfig.dimensions[0] + '" height="' + curConfig.dimensions[1] + '" overflow="visible">' +
     '<defs>' +
     '<filter id="canvashadow" filterUnits="objectBoundingBox">' +
     '<feGaussianBlur in="SourceAlpha" stdDeviation="4" result="blur"/>' +
@@ -154,7 +152,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     '<feMergeNode in="SourceGraphic"/>' +
     '</feMerge>' +
     '</filter>' +
-    // (BeamboxPreference.read('enable_mask') ? ('<clipPath id="scene_mask"><rect x="0" y="0" width="' + dimensions[0] + '" height="' + dimensions[1] + '" /></clipPath>') : '') +
     '</defs>' +
     '</svg>').documentElement, true);
   container.appendChild(svgroot);
@@ -170,10 +167,10 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     // TODO: Clear out all other attributes first?
     $(svgcontent).attr({
       id: 'svgcontent',
-      width: canvas.contentW,
-      height: canvas.contentH,
-      x: canvas.contentW,
-      y: canvas.contentH,
+      width: workareaManager.width ?? curConfig.dimensions[0],
+      height: workareaManager.height ?? curConfig.dimensions[1],
+      x: workareaManager.width ?? curConfig.dimensions[0],
+      y: workareaManager.height ?? curConfig.dimensions[1],
       overflow: curConfig.show_outside_canvas ? 'visible' : 'hidden',
       xmlns: NS.SVG,
       'xmlns:se': NS.SE,
@@ -207,9 +204,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   var getCurrentDrawing = canvas.getCurrentDrawing = function () {
     return canvas.current_drawing_;
   };
-
-  // Float displaying the current zoom level (1 = 100%, .5 = 50%, etc)
-  var current_zoom = 1;
 
   // pointer to current group (for in-group editing)
   var current_group = null;
@@ -325,12 +319,8 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       return curConfig.baseUnit;
     },
     getElement: svgedit.utilities.getElem,
-    getHeight: function () {
-      return svgcontent.getAttribute('height') / current_zoom;
-    },
-    getWidth: function () {
-      return svgcontent.getAttribute('width') / current_zoom;
-    },
+    getWidth: () => workareaManager.width,
+    getHeight: () => workareaManager.height,
     getRoundDigits: function () {
       return save_options.round_digits;
     }
@@ -554,7 +544,9 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   }
 
   canvasBackground.setupBackground(curConfig.dimensions, () => svgroot, () => svgcontent);
-  grid.init(current_zoom);
+  const model = BeamboxPreference.read('workarea');
+  workareaManager.init(model);
+  grid.init(workareaManager.zoomRatio);
   presprayArea.generatePresprayArea();
   rotaryAxis.init();
 
@@ -567,15 +559,9 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     createSVGElement: function (jsonMap) {
       return canvas.addSvgElementFromJson(jsonMap);
     },
-    svgRoot: function () {
-      return svgroot;
-    },
-    svgContent: function () {
-      return svgcontent;
-    },
-    currentZoom: function () {
-      return current_zoom;
-    },
+    svgRoot: () => svgroot,
+    svgContent: () => svgcontent,
+    currentZoom: () => workareaManager.zoomRatio,
     // TODO(codedread): Remove when getStrokedBBox() has been put into svgutils.js.
     getStrokedBBox: function (elems) {
       return canvas.getStrokedBBox([elems]);
@@ -586,12 +572,8 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
   // Import from path.js
   svgedit.path.init({
-    getCurrentZoom: function () {
-      return current_zoom;
-    },
-    getSVGRoot: function () {
-      return svgroot;
-    }
+    getCurrentZoom: () => workareaManager.zoomRatio,
+    getSVGRoot: () => svgroot,
   });
 
   // Interface strings, usually for title elements
@@ -715,7 +697,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   this.getCurrentMode = () => current_mode;
   this.getCurrentResizeMode = () => current_resize_mode;
   this.getCurrentShape = () => cur_shape;
-  this.getCurrentZoom = () => current_zoom;
+  this.getCurrentZoom = () => workareaManager.zoomRatio;
   this.getGoodImage = () => last_good_img_url;
   this.getLastClickPoint = () => lastClickPoint;
   this.getMode = function () { return current_mode; };
@@ -762,9 +744,9 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     return import_ids;
   };
 
-  // This method rounds the incoming value to the nearest value based on the current_zoom
+  // This method rounds the incoming value to the nearest value based on the zoom value
   this.round = function (val) {
-    return Math.round(val * current_zoom) / current_zoom;
+    return Math.round(val * workareaManager.zoomRatio) / workareaManager.zoomRatio;
   };
 
   // This method sends back an array or a NodeList full of elements that
@@ -787,7 +769,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       var o, bb = svgcontent.createSVGRect();
 
       for (o in rubberBBox) {
-        bb[o] = rubberBBox[o] / current_zoom;
+        bb[o] = rubberBBox[o] / workareaManager.zoomRatio;
       }
       rubberBBox = bb;
     } else {
@@ -803,11 +785,12 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     // Fail when selecting <use>, another method is pretty fast anyway
     if (!svgedit.browser.isIE() && false) {
       if (typeof (svgcontent.getIntersectionList) === 'function') {
+        const zoom = workareaManager.zoomRatio;
         // Offset the bbox of the rubber box by the offset of the svgcontent element.
-        rubberBBox.x = rubberBBox.x * current_zoom + parseInt(svgcontent.getAttribute('x'), 10);
-        rubberBBox.y = rubberBBox.y * current_zoom + parseInt(svgcontent.getAttribute('y'), 10);
-        rubberBBox.width *= current_zoom;
-        rubberBBox.height *= current_zoom;
+        rubberBBox.x = rubberBBox.x * zoom + parseInt(svgcontent.getAttribute('x'), 10);
+        rubberBBox.y = rubberBBox.y * zoom + parseInt(svgcontent.getAttribute('y'), 10);
+        rubberBBox.width *= zoom;
+        rubberBBox.height *= zoom;
 
         resultList = Array.from(svgcontent.getIntersectionList(rubberBBox, null));
       }
@@ -1355,6 +1338,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     const intersectList = getIntersectionList(selectionRegion).reverse();
     curBBoxes = [];
     const clickPoint = svgcontent.createSVGPoint();
+    const zoom = workareaManager.zoomRatio;
     for (let i = 0; i < intersectList.length; i++) {
       let pointInStroke = false;
       const elem = intersectList[i];
@@ -1383,7 +1367,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       const originalStrokeWidth = elem.getAttribute('stroke-width');
       const originalVectorEffect = elem.getAttribute('vector-effect');
       const sensorRadius = svgedit.browser.isTouch() ? 25 : 20;
-      elem.setAttribute('stroke-width', sensorRadius / current_zoom);
+      elem.setAttribute('stroke-width', sensorRadius / zoom);
       elem.removeAttribute('vector-effect');
       if (elem.isPointInStroke(clickPoint)) {
         mouseTarget = elem;
@@ -1401,8 +1385,8 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     }
 
     if (mouseTarget === svgroot) {
-      const mouseX = pt.x * current_zoom;
-      const mouseY = pt.y * current_zoom;
+      const mouseX = pt.x * zoom;
+      const mouseY = pt.y * zoom;
       if (canvas.sensorAreaInfo && !PreviewModeController.isPreviewMode()) {
         if (document.body.contains(canvas.sensorAreaInfo.elem)) {
           const dist = Math.hypot(canvas.sensorAreaInfo.x - mouseX, canvas.sensorAreaInfo.y - mouseY);
@@ -1468,10 +1452,11 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       if (evt.target.id.match(/grip/i) || evt.target.id.includes('stretch')) {
         return;
       }
+      const zoom = workareaManager.zoomRatio;
       const rootSctm = ($('#svgcontent')[0] as any).getScreenCTM().inverse();
       const pt = svgedit.math.transformPoint(evt.pageX, evt.pageY, rootSctm);
-      const mouseX = pt.x * current_zoom;
-      const mouseY = pt.y * current_zoom;
+      const mouseX = pt.x * zoom;
+      const mouseY = pt.y * zoom;
       this.sensorAreaInfo = { x: mouseX, y: mouseY, dx: 0, dy: 0, elem: evt.target };
     }
   };
@@ -1635,10 +1620,11 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     const workareaElement = document.getElementById('workarea');
     const workareaObj = getWorkarea(workarea);
     const { pxWidth, pxHeight, pxDisplayHeight } = workareaObj
-    const x = workareaElement.scrollLeft / current_zoom - pxWidth;
-    const y = workareaElement.scrollTop / current_zoom - (pxDisplayHeight ?? pxHeight);
+    const zoom = workareaManager.zoomRatio;
+    const x = workareaElement.scrollLeft / zoom - pxWidth;
+    const y = workareaElement.scrollTop / zoom - (pxDisplayHeight ?? pxHeight);
     svgcontent.setAttribute('data-workarea', workarea);
-    svgcontent.setAttribute('data-zoom', (Math.round(current_zoom * 1000) / 1000).toString());
+    svgcontent.setAttribute('data-zoom', (Math.round(zoom * 1000) / 1000).toString());
     svgcontent.setAttribute('data-left', Math.round(x).toString());
     svgcontent.setAttribute('data-top', Math.round(y).toString());
     var output = this.svgToString(svgcontent, 0, unit);
@@ -1684,26 +1670,10 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       out.push(nodeName);
       if (elem.id === 'svgcontent') {
         // Process root element separately
-        var res = getResolution();
-        // var vb = '';
-        // TODO: Allow this by dividing all values by current baseVal
-        // Note that this also means we should properly deal with this on import
-        //			if (curConfig.baseUnit !== 'px') {
-        //				var unit = curConfig.baseUnit;
-        //				var unit_m = svgedit.units.getTypeMap()[unit];
-        //				res.w = svgedit.units.shortFloat(res.w / unit_m)
-        //				res.h = svgedit.units.shortFloat(res.h / unit_m)
-        //				vb = ' viewBox="' + [0, 0, res.w, res.h].join(' ') + '"';
-        //				res.w += unit;
-        //				res.h += unit;
-        //			}
-        // if (unit !== 'px') {
-        //   w = svgedit.units.convertUnit(res.w, unit) + unit;
-        //   h = svgedit.units.convertUnit(res.h, unit) + unit;
-        // }
-        const vb = `viewBox="0 0 ${res.w} ${res.h}"`;
-        let w = units.convertUnit(res.w, unit).toString();
-        let h = units.convertUnit(res.h, unit).toString();
+        const { width, height } = workareaManager;
+        const vb = `viewBox="0 0 ${width} ${height}"`;
+        let w = units.convertUnit(width, unit).toString();
+        let h = units.convertUnit(height, unit).toString();
         if (unit !== 'pt') {
           w += unit;
           h += unit;
@@ -1974,13 +1944,13 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   this.exportPDF = function (exportWindowName, outputType) {
     var that = this;
     svgedit.utilities.buildJSPDFCallback(function () {
-      var res = getResolution();
-      var orientation = res.w > res.h ? 'landscape' : 'portrait';
+      const { width, height } = workareaManager;
+      var orientation = width > height ? 'landscape' : 'portrait';
       var units = 'pt'; // curConfig.baseUnit; // We could use baseUnit, but that is presumably not intended for export purposes
       var doc = (window as any).jsPDF({
         orientation: orientation,
         unit: units,
-        format: [res.w, res.h]
+        format: [width, height]
         // , compressPdf: true
       }); // Todo: Give options to use predefined jsPDF formats like "a4", etc. from pull-down (with option to keep customizable)
       var docTitle = getDocumentTitle();
@@ -2518,16 +2488,11 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       });
 
       content.attr(attrs);
-      this.contentW = attrs.width;
-      this.contentH = attrs.height;
 
       batchCmd.addSubCommand(new history.InsertElementCommand(svgcontent));
       // update root to the correct size
       var changes = content.attr(['width', 'height']);
       batchCmd.addSubCommand(new history.ChangeElementCommand(svgroot, changes));
-
-      // reset zoom
-      current_zoom = 1;
 
       // reset transform lists
       svgedit.transformlist.resetListMap();
@@ -2833,27 +2798,9 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     return selectedElements;
   };
 
-  // Function: getResolution
-  // Returns the current dimensions and zoom level in an object
-  var getResolution = this.getResolution = function () {
-    //		var vb = svgcontent.getAttribute('viewBox').split(' ');
-    //		return {'w':vb[2], 'h':vb[3], 'zoom': current_zoom};
-
-    var width = Number(svgcontent.getAttribute('width')) / current_zoom;
-    var height = Number(svgcontent.getAttribute('height')) / current_zoom;
-
-    return {
-      'w': width,
-      'h': height,
-      'zoom': current_zoom
-    };
-  };
-
   // Function: getZoom
-  // Returns the current zoom level
-  this.getZoom = function () {
-    return current_zoom;
-  };
+  // keep for ext-xxxx.js
+  this.getZoom = () => workareaManager.zoomRatio;
 
   // Function: getSnapToGrid
   // Returns the current snap to grid setting
@@ -3010,157 +2957,11 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     return NS.SE;
   };
 
-  // Function: setResolution
-  // Changes the document's dimensions to the given size
-  //
-  // Parameters:
-  // x - Number with the width of the new dimensions in user units.
-  // Can also be the string "fit" to indicate "fit to content"
-  // y - Number with the height of the new dimensions in user units.
-  //
-  // Returns:
-  // Boolean to indicate if resolution change was succesful.
-  // It will fail on "fit to content" option with no content to fit to.
-  this.setResolution = function (x, y) {
-    var res = getResolution();
-    var w = res.w,
-      h = res.h;
-    var batchCmd;
-
-    svgroot.setAttribute('x', x);
-    svgroot.setAttribute('y', y);
-
-    if (x === 'fit') {
-      // Get bounding box
-      var bbox = getStrokedBBox();
-
-      if (bbox) {
-        batchCmd = new history.BatchCommand('Fit Canvas to Content');
-        var visEls = getVisibleElements();
-        addToSelection(visEls);
-        var dx = [],
-          dy = [];
-        $.each(visEls, function (i, item) {
-          dx.push(bbox.x * -1);
-          dy.push(bbox.y * -1);
-        });
-
-        var cmd = moveSelectedElements(dx, dy, true);
-        batchCmd.addSubCommand(cmd);
-        clearSelection();
-
-        x = Math.round(bbox.width);
-        y = Math.round(bbox.height);
-      } else {
-        return false;
-      }
-    }
-    if (x !== w || y !== h) {
-      if (!batchCmd) {
-        batchCmd = new history.BatchCommand('Change Image Dimensions');
-      }
-
-      x = svgedit.units.convertToNum('width', x);
-      y = svgedit.units.convertToNum('height', y);
-
-      svgcontent.setAttribute('width', x);
-      svgcontent.setAttribute('height', y);
-      svgcontent.setAttribute('viewBox', [0, 0, x / current_zoom, y / current_zoom].join(' '));
-      const fixedSizeSvg = document.getElementById('fixedSizeSvg');
-      if (fixedSizeSvg) fixedSizeSvg.setAttribute('viewBox', `0, 0 ${x} ${y}`);
-
-      this.contentW = x;
-      this.contentH = y;
-      batchCmd.addSubCommand(new history.ChangeElementCommand(svgcontent, {
-        width: w,
-        height: h,
-        viewBox: `0 0 ${w} ${h}`,
-      }));
-
-      addCommandToHistory(batchCmd);
-      call('changed', [svgcontent]);
-    }
-    return true;
-  };
-
   // Function: getOffset
   // Returns an object with x, y values indicating the svgcontent element's
   // position in the editor's canvas.
   this.getOffset = function () {
     return $(svgcontent).attr(['x', 'y']);
-  };
-
-  // Function: setBBoxZoom
-  // Sets the zoom level on the canvas-side based on the given value
-  //
-  // Parameters:
-  // val - Bounding box object to zoom to or string indicating zoom option
-  // editor_w - Integer with the editor's workarea box's width
-  // editor_h - Integer with the editor's workarea box's height
-  // this.setBBoxZoom = function(val, editor_w, editor_h) {
-  // var spacer = 0.85;
-  // var bb;
-  // var calcZoom = function(bb) {
-  // 	if (!bb) {return false;}
-  // 	var w_zoom = Math.round((editor_w / bb.width)*100 * spacer)/100;
-  // 	var h_zoom = Math.round((editor_h / bb.height)*100 * spacer)/100;
-  // 	var zoomlevel = Math.min(w_zoom, h_zoom);
-  // 	canvas.setZoom(zoomlevel);
-  // 	return {'zoom': zoomlevel, 'bbox': bb};
-  // };
-
-  // if (typeof val === 'object') {
-  // 	bb = val;
-  // 	if (bb.width == 0 || bb.height == 0) {
-  // 		var newzoom = bb.zoom ? bb.zoom : current_zoom * bb.factor;
-  // 		canvas.setZoom(newzoom);
-  // 		return {'zoom': current_zoom, 'bbox': bb};
-  // 	}
-  // 	return calcZoom(bb);
-  // }
-
-  // switch (val) {
-  // 	case 'selection':
-  // 		if (!selectedElements[0]) {return;}
-  // 		var sel_elems = $.map(selectedElements, function(n){ if (n) {return n;} });
-  // 		bb = getStrokedBBox(sel_elems);
-  // 		break;
-  // 	case 'canvas':
-  // 		var res = getResolution();
-  // 		spacer = 0.95;
-  // 		bb = {width:res.w, height:res.h , x:0, y:0};
-  // 		break;
-  // 	case 'content':
-  // 		bb = getStrokedBBox();
-  // 		break;
-  // 	case 'layer':
-  // 		bb = getStrokedBBox(getVisibleElements(getCurrentDrawing().getCurrentLayer()));
-  // 		break;
-  // 	default:
-  // 		return;
-  // }
-  // return calcZoom(bb);
-  // };
-
-  // Function: setZoom
-  // Sets the zoom to the given level
-  //
-  // Parameters:
-  // zoomlevel - Float indicating the zoom level to change to
-  this.setZoom = function (zoomlevel) {
-    var res = getResolution();
-    svgcontent.setAttribute('viewBox', '0 0 ' + res.w / zoomlevel + ' ' + res.h / zoomlevel);
-    const oldZoom = current_zoom;
-    current_zoom = zoomlevel;
-    $.each(selectedElements, function (i, elem) {
-      if (!elem) {
-        return;
-      }
-      selectorManager.requestSelector(elem).resize();
-    });
-    pathActions.zoomChange(oldZoom);
-    zoomBlockEventEmitter.emit('UPDATE_ZOOM_BLOCK');
-    requestAnimationFrame(() => grid.updateGrids(zoomlevel));
   };
 
   // Function: setMode
@@ -4094,7 +3895,8 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         const bbox = getStrokedBBox([elem]);
         const diffX = attr === 'x' ? newValue - bbox.x : 0;
         const diffY = attr === 'y' ? newValue - bbox.y : 0;
-        moveSelectedElements(diffX * current_zoom, diffY * current_zoom, true);
+        const zoom = workareaManager.zoomRatio;
+        moveSelectedElements(diffX * zoom, diffY * zoom, true);
         continue;
       }
 
@@ -4783,6 +4585,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   };
 
   this.drawAlignLine = function (x, y, xMatchPoint, yMatchPoint) {
+    const zoom = workareaManager.zoomRatio;
     let xAlignLine = svgedit.utilities.getElem('x_align_line');
     if (xMatchPoint) {
       if (!xAlignLine) {
@@ -4796,7 +4599,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         });
         svgedit.utilities.getElem('svgcontent').appendChild(xAlignLine);
       }
-      xAlignLine.setAttribute('d', `M ${xMatchPoint.x} ${xMatchPoint.y} L ${xMatchPoint.x} ${yMatchPoint ? yMatchPoint.y : y / current_zoom}`);
+      xAlignLine.setAttribute('d', `M ${xMatchPoint.x} ${xMatchPoint.y} L ${xMatchPoint.x} ${yMatchPoint ? yMatchPoint.y : y / zoom}`);
       xAlignLine.setAttribute('display', 'inline');
     } else {
       if (xAlignLine) {
@@ -4816,7 +4619,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         });
         svgedit.utilities.getElem('svgcontent').appendChild(yAlignLine);
       }
-      yAlignLine.setAttribute('d', `M ${yMatchPoint.x} ${yMatchPoint.y} L ${xMatchPoint ? xMatchPoint.x : x / current_zoom} ${yMatchPoint.y}`);
+      yAlignLine.setAttribute('d', `M ${yMatchPoint.x} ${yMatchPoint.y} L ${xMatchPoint ? xMatchPoint.x : x / zoom} ${yMatchPoint.y}`);
       yAlignLine.setAttribute('display', 'inline');
     } else {
       if (yAlignLine) {
@@ -4853,12 +4656,13 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     if (!this.pathAlignPointsSortByX || !this.pathAlignPointsSortByY) {
       return {};
     }
-    let nearestX = bsFindNearest(this.pathAlignPointsSortByX.map((p) => p.x), x / current_zoom);
+    const zoom = workareaManager.zoomRatio;
+    let nearestX = bsFindNearest(this.pathAlignPointsSortByX.map((p) => p.x), x / zoom);
     nearestX = this.pathAlignPointsSortByX[nearestX];
-    const xMatchPoint = (nearestX && (Math.abs(nearestX.x * current_zoom - x) < FUZZY_RANGE)) ? nearestX : null;
-    let nearestY = bsFindNearest(this.pathAlignPointsSortByY.map((p) => p.y), y / current_zoom);
+    const xMatchPoint = (nearestX && (Math.abs(nearestX.x * zoom - x) < FUZZY_RANGE)) ? nearestX : null;
+    let nearestY = bsFindNearest(this.pathAlignPointsSortByY.map((p) => p.y), y / zoom);
     nearestY = this.pathAlignPointsSortByY[nearestY];
-    const yMatchPoint = (nearestY && (Math.abs(nearestY.y * current_zoom - y) < FUZZY_RANGE)) ? nearestY : null;
+    const yMatchPoint = (nearestY && (Math.abs(nearestY.y * zoom - y) < FUZZY_RANGE)) ? nearestY : null;
     return { xMatchPoint, yMatchPoint };
   };
 
@@ -6044,8 +5848,8 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     if (relativeTo === 'page') {
       minx = 0;
       miny = 0;
-      maxx = canvas.contentW;
-      maxy = canvas.contentH;
+      maxx = workareaManager.width;
+      maxy = workareaManager.height;
     }
 
     var dx = new Array(len);
@@ -6083,81 +5887,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   };
 
   // Group: Additional editor tools
-
-  this.contentW = getResolution().w;
-  this.contentH = getResolution().h;
-
-  // Function: updateCanvas
-  // Updates the editor canvas width/height/position after a zoom has occurred
-  //
-  // Parameters:
-  // w - Float with the new width
-  // h - Float with the new height
-  //
-  // Returns:
-  // Object with the following values:
-  // * x - The canvas' new x coordinate
-  // * y - The canvas' new y coordinate
-  // * old_x - The canvas' old x coordinate
-  // * old_y - The canvas' old y coordinate
-  // * d_x - The x position difference
-  // * d_y - The y position difference
-  this.updateCanvas = function (w, h) {
-    svgroot.setAttribute('width', w);
-    svgroot.setAttribute('height', h);
-    var bg = $('#canvasBackground')[0];
-    var old_x = svgcontent.getAttribute('x');
-    var old_y = svgcontent.getAttribute('y');
-    var x = (w / 2 - this.contentW * current_zoom / 2);
-    var y = (h / 2 - this.contentH * current_zoom / 2);
-
-    svgedit.utilities.assignAttributes(svgcontent, {
-      width: this.contentW * current_zoom,
-      height: this.contentH * current_zoom,
-      'x': x,
-      'y': y,
-      'viewBox': '0 0 ' + this.contentW + ' ' + this.contentH
-    });
-
-    svgedit.utilities.assignAttributes(bg, {
-      width: svgcontent.getAttribute('width'),
-      height: svgcontent.getAttribute('height'),
-      x: x,
-      y: y
-    });
-
-    var bg_img = svgedit.utilities.getElem('background_image');
-    if (bg_img) {
-      svgedit.utilities.assignAttributes(bg_img, {
-        'width': '100%',
-        'height': '100%'
-      });
-    }
-
-    selectorManager.selectorParentGroup.setAttribute('transform', 'translate(' + x + ',' + y + ')');
-    runExtensions('canvasUpdated', {
-      new_x: x,
-      new_y: y,
-      old_x: old_x,
-      old_y: old_y,
-      d_x: x - old_x,
-      d_y: y - old_y
-    });
-
-    clearTimeout(this.renderSymbolTimeout);
-    this.renderSymbolTimeout = setTimeout(() => {
-      SymbolMaker.reRenderAllImageSymbol();
-    }, 1000);
-
-    return {
-      x: x,
-      y: y,
-      old_x: old_x,
-      old_y: old_y,
-      d_x: x - old_x,
-      d_y: y - old_y
-    };
-  };
 
   // Function: setBackground
   // Set the background of the editor (NOT the actual document)

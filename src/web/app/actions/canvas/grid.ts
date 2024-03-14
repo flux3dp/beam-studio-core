@@ -5,6 +5,7 @@ import { getWorkarea } from 'app/constants/workarea-constants';
 
 import styles from './grid.module.scss';
 
+const canvasEventEmitter = eventEmitterFactory.createEventEmitter('canvas');
 const documentPanelEventEmitter = eventEmitterFactory.createEventEmitter('document-panel');
 const gridIntervals = [1, 10, 100]; // px
 let currentGridInterval: number;
@@ -48,7 +49,12 @@ const updateGrids = (zoomRatio: number, force = false): void => {
   }
   currentGridInterval = gridLevel;
 };
-documentPanelEventEmitter.on('workarea-change', () => updateGrids(lastZoomRatio, true));
+canvasEventEmitter.on('zoom-changed', (zoomRatio: number) => {
+  requestAnimationFrame(() => updateGrids(zoomRatio));
+});
+documentPanelEventEmitter.on('workarea-change', () => {
+  requestAnimationFrame(() => updateGrids(lastZoomRatio, true));
+});
 
 const toggleGrids = (): void => {
   show = beamboxPreference.read('show_grids');

@@ -13,6 +13,7 @@ import { getObjectLayer } from 'helpers/layer/layer-helper';
 import { IBatchCommand } from 'interfaces/IHistory';
 
 import { getSVGAsync } from './svg-editor-helper';
+import workareaManager from 'app/svgedit/workarea';
 
 let svgCanvas;
 let svgedit;
@@ -265,9 +266,7 @@ const getStrokeWidth = (imageRatio, scale) => {
   if (!scale) {
     return 1;
   }
-  let strokeWidth = (0.8 * imageRatio) / scale;
-  const zoomRatio = svgCanvas.getZoom();
-  strokeWidth /= zoomRatio;
+  let strokeWidth = (0.8 * imageRatio) / (scale * workareaManager.zoomRatio);
   if (strokeWidth < 1.5) {
     strokeWidth = (strokeWidth / 1.5) ** (1 / 3) * 1.5;
   }
@@ -364,7 +363,7 @@ const svgToImgUrlByShadowWindow = async (data) =>
   });
 
 const calculateImageRatio = (bb) => {
-  const zoomRatio = Math.max(1, svgCanvas.getZoom());
+  const zoomRatio = Math.max(1, workareaManager.zoomRatio);
   const widthRatio = Math.min(4096, window.innerWidth * zoomRatio) / bb.width;
   const heightRatio = Math.min(4096, window.innerHeight * zoomRatio) / bb.height;
   let imageRatio = Math.ceil(10000 * Math.min(widthRatio, heightRatio)) / 10000;

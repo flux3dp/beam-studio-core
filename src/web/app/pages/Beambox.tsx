@@ -29,6 +29,7 @@ const Beambox = (): JSX.Element => {
     BeamboxGlobalInteraction.attach();
 
     communicator.send('FRONTEND_READY');
+    // Init view
     svgEditor.resetView();
     beamboxInit.showStartUpDialogs();
     openFileHelper.loadOpenFile();

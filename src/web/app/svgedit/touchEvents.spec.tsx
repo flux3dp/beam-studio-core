@@ -15,7 +15,6 @@ const mouseDown = jest.fn();
 const mouseMove = jest.fn();
 const mouseUp = jest.fn();
 const doubleClick = jest.fn();
-const getZoom = jest.fn();
 const setZoom = jest.fn();
 
 let container;
@@ -34,13 +33,10 @@ describe('test touchEvents', () => {
     touchEvents.setupCanvasTouchEvents(
       canvas,
       workarea,
-      500,
-      500,
       mouseDown,
       mouseMove,
       mouseUp,
       doubleClick,
-      getZoom,
       setZoom
     );
   });

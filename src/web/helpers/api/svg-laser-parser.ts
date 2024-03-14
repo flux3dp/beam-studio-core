@@ -18,12 +18,8 @@ import Progress from 'app/actions/progress-caller';
 import presprayArea from 'app/actions/canvas/prespray-area';
 import storage from 'implementations/storage';
 import Websocket from 'helpers/websocket';
-import { getSVGAsync } from 'helpers/svg-editor-helper';
-import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 import rotaryAxis from 'app/actions/canvas/rotary-axis';
-
-let svgCanvas;
-getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
+import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {

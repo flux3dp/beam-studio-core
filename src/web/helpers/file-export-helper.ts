@@ -11,6 +11,7 @@ import i18n from 'helpers/i18n';
 import Progress from 'app/actions/progress-caller';
 import SymbolMaker from 'helpers/symbol-maker';
 import svgStringToCanvas from 'helpers/image/svgStringToCanvas';
+import workareaManager from 'app/svgedit/workarea';
 import {
   axiosFluxId,
   getCurrentUser,
@@ -352,7 +353,8 @@ const exportAsImage = async (type: 'png' | 'jpg'): Promise<void> => {
   const langFile = LANG.topmenu.file;
   Progress.openNonstopProgress({ id: 'export_image', message: langFile.converting });
   const defaultFileName = (svgCanvas.getLatestImportFileName() || 'untitled').replace('/', ':');
-  const canvas = await svgStringToCanvas(output, svgCanvas.contentW, svgCanvas.contentH);
+  const { width, height } = workareaManager
+  const canvas = await svgStringToCanvas(output, width, height);
   let base64 = '';
   if (type === 'png') {
     base64 = canvas.toDataURL('image/png');
@@ -360,7 +362,7 @@ const exportAsImage = async (type: 'png' | 'jpg'): Promise<void> => {
     const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
     ctx.globalCompositeOperation = 'destination-over';
     ctx.fillStyle = 'white';
-    ctx.fillRect(0, 0, svgCanvas.contentW, svgCanvas.contentH);
+    ctx.fillRect(0, 0, width, height);
     base64 = canvas.toDataURL('image/jpeg', 1.0);
   }
   base64 = base64.replace(/^data:image\/\w+;base64,/, '');

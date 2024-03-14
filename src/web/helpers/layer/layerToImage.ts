@@ -1,14 +1,13 @@
 import constant from 'app/actions/beambox/constant';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import svgStringToCanvas from 'helpers/image/svgStringToCanvas';
+import workareaManager from 'app/svgedit/workarea';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 import updateImageForSpliting from './full-color/updateImageForSpliting';
 
-let svgCanvas: ISVGCanvas;
 let svgedit;
 getSVGAsync((globalSVG) => {
-  svgCanvas = globalSVG.Canvas;
   svgedit = globalSVG.Edit;
 });
 
@@ -21,14 +20,15 @@ const layerToImage = async (
   if (shapesOnly) layerClone.querySelectorAll('image').forEach((image) => image.remove());
   if (isFullColor) await updateImageForSpliting(layerClone);
   const ratio = dpi / (constant.dpmm * 25.4);
-  const canvasWidth = Math.round(svgCanvas.contentW * ratio);
-  const canvasHeight = Math.round(svgCanvas.contentH * ratio);
+  const { width, height } = workareaManager;
+  const canvasWidth = Math.round(width * ratio);
+  const canvasHeight = Math.round(height * ratio);
   const svgDefs = svgedit.utilities.findDefs();
   const svgString = `
     <svg
       width="${canvasWidth}"
       height="${canvasHeight}"
-      viewBox="0 0 ${svgCanvas.contentW} ${svgCanvas.contentH}"
+      viewBox="0 0 ${width} ${height}"
       xmlns:svg="http://www.w3.org/2000/svg"
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"

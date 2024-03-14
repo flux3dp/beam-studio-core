@@ -6,14 +6,11 @@ import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import macOSWindowSize from 'app/constants/macOS-Window-Size';
 import os from 'implementations/os';
 import useI18n from 'helpers/useI18n';
+import workareaManager from 'app/svgedit/workarea';
 import { ContextMenu, ContextMenuTrigger, MenuItem } from 'helpers/react-contextmenu';
-import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { useIsMobile } from 'helpers/system-helper';
 
 import styles from './ZoomBlock.module.scss';
-
-let svgCanvas;
-getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
 
 const eventEmitter = eventEmitterFactory.createEventEmitter('zoom-block');
 
@@ -107,10 +104,8 @@ const ZoomBlock = ({ getZoom, setZoom, resetView, isPathPreviewing }: Props): JS
   const isMobile = useIsMobile();
 
   const calculateCurrentRatio = useCallback(() => {
-    if ((!getZoom && !svgCanvas) || !dpmm) {
-      return null;
-    }
-    const zoom = getZoom ? getZoom() : (svgCanvas.getZoom() * constant.dpmm);
+    if (!dpmm) return null;
+    const zoom = getZoom ? getZoom() : (workareaManager.zoomRatio * constant.dpmm);
     const ratio = zoom / dpmm;
     return ratio;
   }, [dpmm, getZoom]);

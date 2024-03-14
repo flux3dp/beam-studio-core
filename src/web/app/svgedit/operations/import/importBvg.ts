@@ -2,18 +2,18 @@ import alertCaller from 'app/actions/alert-caller';
 import alertConstants from 'app/constants/alert-constants';
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import beamboxStore from 'app/stores/beambox-store';
+import changeWorkarea from 'app/svgedit/operations/changeWorkarea';
 import constant from 'app/actions/beambox/constant';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import i18n from 'helpers/i18n';
 import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
+import rotaryAxis from 'app/actions/canvas/rotary-axis';
 import symbolMaker from 'helpers/symbol-maker';
+import workareaManager from 'app/svgedit/workarea';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 import { toggleFullColorAfterWorkareaChange } from 'helpers/layer/layer-config-helper';
-
-import changeWorkarea from '../changeWorkarea';
-import rotaryAxis from 'app/actions/canvas/rotary-axis';
 
 let svgCanvas: ISVGCanvas;
 let svgEditor;
@@ -96,20 +96,20 @@ export const importBvgString = async (str: string): Promise<void> => {
     match = str.match(/data-zoom="[0-9.]+"/);
     if (match) {
       const zoom = parseFloat(match[0].substring(11, match[0].length - 1));
-      svgEditor.zoomChanged(window, { zoomLevel: zoom, staticPoint: { x: 0, y: 0 } });
+      workareaManager.zoom(zoom);
     }
     match = str.match(/data-left="[-0-9]+"/);
+    const { zoomRatio } = workareaManager;
     if (match) {
       let left = parseInt(match[0].substring(11, match[0].length - 1), 10);
-      left = Math.round((left + currentWorkareaObj.pxWidth) * svgCanvas.getZoom());
+      left = Math.round((left + currentWorkareaObj.pxWidth) * zoomRatio);
       workarea.scrollLeft = left;
     }
     match = str.match(/data-top="[-0-9]+"/);
     if (match) {
       let top = parseInt(match[0].substring(10, match[0].length - 1), 10);
       top = Math.round(
-        (top + (currentWorkareaObj.pxDisplayHeight ?? currentWorkareaObj.pxHeight)) *
-          svgCanvas.getZoom()
+        (top + (currentWorkareaObj.pxDisplayHeight ?? currentWorkareaObj.pxHeight)) * zoomRatio
       );
       workarea.scrollTop = top;
     }
