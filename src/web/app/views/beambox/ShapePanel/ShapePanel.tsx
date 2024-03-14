@@ -4,6 +4,7 @@ import ReactDomServer from 'react-dom/server';
 import { CapsuleTabs } from 'antd-mobile';
 import { Modal } from 'antd';
 
+import constant from 'app/actions/beambox/constant';
 import FloatingPanel from 'app/widgets/FloatingPanel';
 import history from 'app/svgedit/history';
 import HistoryCommandFactory from 'app/svgedit/HistoryCommandFactory';
@@ -29,7 +30,7 @@ const LANG = i18n.lang.beambox.shapes_panel;
 
 const ShapePanel = ({ onClose }: { onClose: () => void }): JSX.Element => {
   const isMobile = useIsMobile();
-  const anchors = [0, window.innerHeight - 40];
+  const anchors = [0, window.innerHeight - constant.menuberHeight];
   const [close, setClose] = React.useState(false);
   const [activeTab, setActiveTab] = React.useState(ShapeTabs[0]);
 

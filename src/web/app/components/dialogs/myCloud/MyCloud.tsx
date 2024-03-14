@@ -2,6 +2,7 @@ import React, { useContext, useMemo } from 'react';
 import { Button, Modal, Space } from 'antd';
 
 import browser from 'implementations/browser';
+import constant from 'app/actions/beambox/constant';
 import FloatingPanel from 'app/widgets/FloatingPanel';
 import FluxIcons from 'app/icons/flux/FluxIcons';
 import isFluxPlusActive from 'helpers/is-flux-plus-active';
@@ -24,7 +25,7 @@ const MyCloudModal = (): JSX.Element => {
   const lang = LANG.my_cloud;
   const isMobile = useIsMobile();
   const { onClose, files, setSelectedId } = useContext(MyCloudContext);
-  const anchors = [0, window.innerHeight - 40];
+  const anchors = [0, window.innerHeight - constant.menuberHeight];
 
   const content = useMemo(() => {
     if (files === undefined) return <div className={styles.placeholder}>{lang.loading_file}</div>;
