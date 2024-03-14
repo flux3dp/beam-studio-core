@@ -40,7 +40,6 @@ const showAnnouncement = async (isNewUser: boolean) => {
   if (isNewUser) {
     query += `&new_user=${isNewUser}`;
   }
-  console.log(isNewUser, query);
   const res = await axiosFluxId(`api/beam-studio/announcements?${query}`);
   if (!res?.data) return;
   const { announcement } = res.data;
