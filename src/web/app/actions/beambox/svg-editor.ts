@@ -123,7 +123,6 @@ interface ISVGEditor {
   runCallbacks: () => void
   savePreferences: () => void
   setConfig: (opts: any, cfgCfg: any) => void
-  setCustomHandlers: (opts: any) => void
   setIcon: (elem: any, icon_id: any) => void
   setIconSize: (size: any) => void
   setImageURL: (url: any) => void
@@ -209,7 +208,6 @@ const svgEditor = window['svgEditor'] = (function () {
     runCallbacks: () => { },
     savePreferences: () => { },
     setConfig: (opts: any, cfgCfg: any) => { },
-    setCustomHandlers: (opts: any) => { },
     setIcon: (elem: any, icon_id: any) => { },
     setIconSize: (size: any) => { },
     setImageURL: (url: any) => { },
@@ -638,45 +636,6 @@ const svgEditor = window['svgEditor'] = (function () {
       }
     });
     editor.curConfig = curConfig; // Update exported value
-  };
-
-  /**
-       * @param {object} opts Extension mechanisms may call setCustomHandlers with three functions: opts.open, opts.save, and opts.exportImage
-       * opts.open's responsibilities are:
-       *	- invoke a file chooser dialog in 'open' mode
-       *	- let user pick a SVG file
-       *	- calls svgCanvas.setSvgString() with the string contents of that file
-       *  opts.save's responsibilities are:
-       *	- accept the string contents of the current document
-       *	- invoke a file chooser dialog in 'save' mode
-       *	- save the file to location chosen by the user
-       *  opts.exportImage's responsibilities (with regard to the object it is supplied in its 2nd argument) are:
-       *	- inform user of any issues supplied via the "issues" property
-       *	- convert the "svg" property SVG string into an image for export;
-       *		utilize the properties "type" (currently 'PNG', 'JPEG', 'BMP',
-       *		'WEBP', 'PDF'), "mimeType", and "quality" (for 'JPEG' and 'WEBP'
-       *		types) to determine the proper output.
-       */
-  editor.setCustomHandlers = function (opts) {
-    editor.ready(function () {
-      if (opts.open) {
-        $('#tool_open > input[type="file"]').remove();
-        $('#tool_open').show();
-        svgCanvas.open = opts.open;
-      }
-      if (opts.save) {
-        editor.showSaveWarning = false;
-        svgCanvas.bind('saved', opts.save);
-      }
-      if (opts.exportImage) {
-        customExportImage = opts.exportImage;
-        svgCanvas.bind('exported', customExportImage); // canvg and our RGBColor will be available to the method
-      }
-      if (opts.exportPDF) {
-        customExportPDF = opts.exportPDF;
-        svgCanvas.bind('exportedPDF', customExportPDF); // jsPDF and our RGBColor will be available to the method
-      }
-    });
   };
 
   editor.randomizeIds = function () {
@@ -1848,16 +1807,6 @@ const svgEditor = window['svgEditor'] = (function () {
     };
     editor.updateContextPanel = updateContextPanel;
 
-    var updateWireFrame = function () {
-      // Test support
-      if (supportsNonSS) {
-        return;
-      }
-      // console.warn("Wireframe disabled by FLUX Studio")
-      var rule = '#workarea.wireframe #svgcontent * { stroke-width: ' + 1 / svgCanvas.getZoom() + 'px; }';
-      $('#wireframe_rules').text(workarea.hasClass('wireframe') ? rule : '');
-    };
-
     var updateTitle = function (title?: string) {
       title = title || svgCanvas.getDocumentTitle();
       var newTitle = origTitle + (title ? ': ' + title : '');
@@ -2012,8 +1961,6 @@ const svgEditor = window['svgEditor'] = (function () {
           staticPoint: data.staticPoint
         });
       }
-
-      updateWireFrame();
     };
     editor.zoomChanged = zoomChanged;
 
@@ -3796,9 +3743,6 @@ const svgEditor = window['svgEditor'] = (function () {
 
     editor.clearScene = clearScene;
 
-    // by default, svgCanvas.open() is a no-op.
-    // it is up to an extension mechanism (opera widget, etc)
-    // to call setCustomHandlers() which will make it do something
     var clickOpen = function () {
       svgCanvas.open();
     };
