@@ -6,6 +6,7 @@ const DEFAULT_PREFERENCE = {
   mouse_input_device: (window.os === 'MacOS') ? 'TOUCHPAD' : 'MOUSE',
   model: 'fbb1b',
   show_guides: false,
+  show_grids: true,
   guide_x0: 0,
   guide_y0: 0,
   engrave_dpi: 'medium', // low, medium, high
@@ -42,6 +43,7 @@ export const migrate = (): void => {
   if (typeof rotaryMode === 'boolean') instance.write('rotary_mode', rotaryMode ? 1 : 0);
   if (instance.read('model') === 'fad1') instance.write('model', 'ado1');
   if (instance.read('workarea') === 'fad1') instance.write('workarea', 'ado1');
+  if (instance.read('show_grids') === undefined) instance.write('show_grids', true);
 };
 
 export default instance;

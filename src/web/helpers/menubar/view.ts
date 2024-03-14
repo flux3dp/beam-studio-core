@@ -1,4 +1,5 @@
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import grid from 'app/actions/canvas/grid';
 import updateLayerColor from 'helpers/color/updateLayerColor';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
@@ -28,11 +29,10 @@ const toggleLayerColor = (): boolean => {
 };
 
 const toggleGrid = (): boolean => {
-  const showGrid = !(svgEditor.curConfig.showGrid || false);
-  svgEditor.curConfig.showGrid = showGrid;
-  const canvasGridDisplay = showGrid ? 'inline' : 'none';
-  $('#canvasGrid').attr('style', `display: ${canvasGridDisplay}`);
-  return showGrid;
+  const newVal = !BeamboxPreference.read('show_grids');
+  BeamboxPreference.write('show_grids', newVal);
+  grid.toggleGrids();
+  return newVal;
 };
 
 const toggleRulers = (): boolean => {

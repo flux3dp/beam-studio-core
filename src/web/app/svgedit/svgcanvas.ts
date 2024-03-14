@@ -98,6 +98,7 @@ import { getCurrentUser } from 'helpers/api/flux-id';
 import { WebFont } from 'interfaces/IFont';
 import PathActions from './operations/pathActions';
 import MouseInteractions from './interaction/mouseInteractions';
+import grid from 'app/actions/canvas/grid';
 
 let svgCanvas;
 let svgEditor;
@@ -553,6 +554,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   }
 
   canvasBackground.setupBackground(curConfig.dimensions, () => svgroot, () => svgcontent);
+  grid.init(current_zoom);
   presprayArea.generatePresprayArea();
   rotaryAxis.init();
 
@@ -3158,7 +3160,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     });
     pathActions.zoomChange(oldZoom);
     zoomBlockEventEmitter.emit('UPDATE_ZOOM_BLOCK');
-    runExtensions('zoomChanged', zoomlevel);
+    requestAnimationFrame(() => grid.updateGrids(zoomlevel));
   };
 
   // Function: setMode

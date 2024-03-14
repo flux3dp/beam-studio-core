@@ -346,7 +346,6 @@ const svgEditor = window['svgEditor'] = (function () {
       'ext-markers.js',
       'ext-connector.js',
       'ext-imagelib.js',
-      'ext-grid.js',
       'ext-polygon.js',
       'ext-star.js',
       'ext-panning.js',
