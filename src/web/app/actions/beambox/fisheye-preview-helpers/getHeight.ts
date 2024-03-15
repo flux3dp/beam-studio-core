@@ -13,7 +13,6 @@ const getHeight = async (device: IDeviceInfo, progressId?: string): Promise<numb
     const res = await deviceMaster.rawGetProbePos();
     const { z, didAf } = res;
     if (didAf) {
-
       const { deep } = getWorkarea(device.model as WorkAreaModel, 'ado1');
       return Math.round((deep - z) * 100) / 100;
     }
