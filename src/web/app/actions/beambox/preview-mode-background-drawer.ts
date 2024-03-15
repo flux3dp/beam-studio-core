@@ -120,6 +120,15 @@ class PreviewModeBackgroundDrawer {
     }
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  setTextStyle(text: SVGTextElement) {
+    text.setAttribute('font-weight', 'bold');
+    text.setAttribute('fill', '#fff');
+    text.setAttribute('stroke', '#666');
+    text.setAttribute('stroke-width', '5');
+    text.setAttribute('paint-order', 'stroke');
+  }
+
   drawBoundary() {
     const boundaryGroup = document.createElementNS(NS.SVG, 'g');
     boundaryGroup.id = 'previewBoundary';
@@ -139,12 +148,12 @@ class PreviewModeBackgroundDrawer {
       boundaryGroup.appendChild(rotaryPreveiwBoundary);
 
       const rotaryPreveiwBoundaryText = document.createElementNS(NS.SVG, 'text') as SVGTextElement;
-      rotaryPreveiwBoundaryText.setAttribute('font-size', '80');
+      rotaryPreveiwBoundaryText.setAttribute('font-size', '400');
       const textNode = document.createTextNode(LANG.unpreviewable_area);
       rotaryPreveiwBoundaryText.appendChild(textNode);
+      this.setTextStyle(rotaryPreveiwBoundaryText)
       boundaryGroup.appendChild(rotaryPreveiwBoundaryText);
       const { width: textW, height: textH } = rotaryPreveiwBoundaryText.getBBox();
-      console.log(textW, textH);
       const x = (width - textW) / 2;
       const y = height - (rotaryExpansion[1] - textH) / 2;
       rotaryPreveiwBoundaryText.setAttribute('x', x.toString());
@@ -193,11 +202,7 @@ class PreviewModeBackgroundDrawer {
       descText.setAttribute('font-size', '60');
       descText.setAttribute('x', ((uncapturabledHeight - 60) / 2).toString());
       descText.setAttribute('y', ((uncapturabledHeight + 60) / 2 - 10).toString());
-      descText.setAttribute('font-weight', 'bold');
-      descText.setAttribute('fill', '#fff');
-      descText.setAttribute('stroke', '#666');
-      descText.setAttribute('stroke-width', '5');
-      descText.setAttribute('paint-order', 'stroke');
+      this.setTextStyle(descText as SVGTextElement);
 
       const textNode = document.createTextNode(LANG.unpreviewable_area);
       descText.appendChild(textNode);
@@ -362,9 +367,7 @@ class PreviewModeBackgroundDrawer {
     const svgdoc = document.getElementById('svgcanvas').ownerDocument;
     const openBottomBoundary = svgdoc.createElementNS(NS.SVG, 'rect');
     const openBottomDescText = svgdoc.createElementNS(NS.SVG, 'text');
-    const workarea = getWorkarea(BeamboxPreference.read('workarea'));
-    const { pxWidth: width, pxHeight, pxDisplayHeight } = workarea;
-    const height = pxDisplayHeight ?? pxHeight;
+    const { width, height } = workareaManager;
     svgedit.utilities.assignAttributes(openBottomBoundary, {
       width: Constant.borderless.safeDistance.X * Constant.dpmm,
       height,
@@ -373,17 +376,13 @@ class PreviewModeBackgroundDrawer {
       fill: 'url(#border-pattern)',
       style: 'pointer-events:none',
     });
+
+    this.setTextStyle(openBottomDescText as SVGTextElement);
     svgedit.utilities.assignAttributes(openBottomDescText, {
       'font-size': 60,
       x: width - (uncapturabledHeight - 60) / 2,
       y: (uncapturabledHeight + 60) / 2 - 10,
       'text-anchor': 'end',
-      'font-weight': 'bold',
-      fill: '#fff',
-      stroke: '#666',
-      'stroke-width': 5,
-      'paint-order': 'stroke',
-      style: 'pointer-events:none',
     });
     const textNode = document.createTextNode(LANG.borderless_blind_area);
     openBottomDescText.appendChild(textNode);
@@ -395,9 +394,7 @@ class PreviewModeBackgroundDrawer {
     const svgdoc = document.getElementById('svgcanvas').ownerDocument;
     const hybridBorder = svgdoc.createElementNS(NS.SVG, 'rect');
     const hybridDescText = svgdoc.createElementNS(NS.SVG, 'text');
-    const workarea = getWorkarea(BeamboxPreference.read('workarea'));
-    const { pxWidth: width, pxHeight, pxDisplayHeight } = workarea;
-    const height = pxDisplayHeight ?? pxHeight;
+    const { width, height } = workareaManager;
 
     svgedit.utilities.assignAttributes(hybridBorder, {
       width: Constant.diode.safeDistance.X * Constant.dpmm,
@@ -412,13 +409,9 @@ class PreviewModeBackgroundDrawer {
       x: width - (uncapturabledHeight - 60) / 2,
       y: (uncapturabledHeight + 60) / 2 - 10,
       'text-anchor': 'end',
-      'font-weight': 'bold',
-      fill: '#fff',
-      stroke: '#666',
-      'stroke-width': 5,
-      'paint-order': 'stroke',
       style: 'pointer-events:none',
     });
+    this.setTextStyle(hybridDescText as SVGTextElement);
     const textNode = document.createTextNode(LANG.diode_blind_area);
     hybridDescText.appendChild(textNode);
     return { hybridBorder, hybridDescText };

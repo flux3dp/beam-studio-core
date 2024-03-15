@@ -220,6 +220,7 @@ class Control extends EventEmitter {
 
   setTimeoutTimer(reject: Function, timeout = 30000) {
     const timeoutTimer = setTimeout(() => {
+      this.removeCommandListeners();
       reject({
         status: 'error',
         text: 'TIMEOUT',
@@ -1181,7 +1182,7 @@ class Control extends EventEmitter {
       this.on(EVENT_COMMAND_MESSAGE, (response) => {
         clearTimeout(timeoutTimer);
         if (response && response.status === 'raw') {
-          console.log('raw get probe position:\t', response.text);
+          console.log('raw auto focus:\t', response.text);
           responseString += response.text;
         }
         const resps = responseString.split('\r\n');
