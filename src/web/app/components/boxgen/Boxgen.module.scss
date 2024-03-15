@@ -77,13 +77,21 @@
 
   &.desktop {
     z-index: 1000;
-    .back {
-      margin-top: 42px;
-      margin-bottom: 0;
+
+    &.windows {
+      // Windows desktop titlebar = 30px
+      max-height: calc(100vh - 30px);
     }
-    @media screen and (max-width: 600px) {
-      .title {
-        margin-top: 10px;
+
+    &:not(.windows) {
+      .back {
+        margin-top: 42px;
+        margin-bottom: 0;
+      }
+      @media screen and (max-width: 600px) {
+        .title {
+          margin-top: 10px;
+        }
       }
     }
   }

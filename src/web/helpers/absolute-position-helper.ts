@@ -30,7 +30,7 @@ export const calculateTop = (top: number, ref: TopRef = TopRef.WINDOW): number =
       return top + offset;
     }
     default:
-      return top + Constant.menuberHeight;
+      return top + Constant.titlebarHeight;
   }
 };
 

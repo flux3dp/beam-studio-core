@@ -139,7 +139,7 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
         <FileName fileName={newFileName} hasUnsavedChange={false} isTitle />
       );
       // eslint-disable-next-line no-underscore-dangle
-      window.titlebar._title.innerHtml = title;
+      window.titlebar._title.innerHTML = title;
     }
   };
 

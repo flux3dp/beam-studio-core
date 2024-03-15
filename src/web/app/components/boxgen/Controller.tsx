@@ -283,7 +283,7 @@ const Controller = (): JSX.Element => {
         >
           <Form.Item className={styles['no-margin']} name="teethLength">
             <Slider
-              min={1}
+              min={maxTeethLength === 1 ? 0 : 1}
               max={maxTeethLength}
               step={0.1 * unitRatio}
               tooltip={{
