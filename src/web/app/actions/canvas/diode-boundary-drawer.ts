@@ -2,7 +2,7 @@ import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import Constant from 'app/actions/beambox/constant';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import NS from 'app/constants/namespaces';
-import { getWorkarea } from 'app/constants/workarea-constants';
+import workareaManager from 'app/svgedit/workarea';
 
 const documentPanelEventEmitter = eventEmitterFactory.createEventEmitter('document-panel');
 
@@ -13,12 +13,11 @@ const createBoundary = () => {
   diodeBoundaryPath = document.createElementNS(NS.SVG, 'path') as unknown as SVGPathElement;
   document.getElementById('canvasBackground')?.appendChild(diodeBoundarySvg);
   diodeBoundarySvg.appendChild(diodeBoundaryPath);
-  const workarea = getWorkarea(BeamboxPreference.read('workarea'));
-  const { pxWidth, pxHeight, pxDisplayHeight } = workarea;
+  const { width, height } = workareaManager;
   diodeBoundarySvg.setAttribute('id', 'diode-boundary');
   diodeBoundarySvg.setAttribute('width', '100%');
   diodeBoundarySvg.setAttribute('height', '100%');
-  diodeBoundarySvg.setAttribute('viewBox', `0 0 ${pxWidth} ${pxDisplayHeight ?? pxHeight}`);
+  diodeBoundarySvg.setAttribute('viewBox', `0 0 ${width} ${height}`);
   diodeBoundarySvg.setAttribute('x', '0');
   diodeBoundarySvg.setAttribute('y', '0');
   diodeBoundarySvg.setAttribute('style', 'pointer-events:none');
@@ -31,18 +30,15 @@ const createBoundary = () => {
 };
 
 const updateCanvasSize = (): void => {
-  const workarea = getWorkarea(BeamboxPreference.read('workarea'));
-  const { pxWidth, pxHeight, pxDisplayHeight } = workarea;
-  const viewBox = `0 0 ${pxWidth} ${pxDisplayHeight ?? pxHeight}`;
+  const { width, height } = workareaManager
+  const viewBox = `0 0 ${width} ${height}`;
   diodeBoundarySvg?.setAttribute('viewBox', viewBox);
 };
 documentPanelEventEmitter.on('workarea-change', updateCanvasSize);
 
 const show = (isDiode = false): void => {
   if (!diodeBoundaryPath) createBoundary();
-  const workarea = getWorkarea(BeamboxPreference.read('workarea'));
-  const w = workarea.pxWidth;
-  const h = workarea.pxDisplayHeight ?? workarea.pxHeight;
+  const { width: w, height: h } = workareaManager;
 
   let d = '';
   if (isDiode) {

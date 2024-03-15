@@ -243,7 +243,6 @@ class PreviewModeController {
       Progress.openNonstopProgress({
         id: 'preview-mode-controller',
         message: sprintf(LANG.message.connectingMachine, device.name),
-        timeout: 30000,
       });
       this.currentDevice = device;
       if (!Constant.adorModels.includes(device.model)) await this.setupBeamSeriesPreviewMode();
@@ -324,7 +323,7 @@ class PreviewModeController {
   }
 
   async previewFullWorkarea(callback = () => {}): Promise<boolean> {
-    const { currentDevice, isPreviewBlocked } = this;
+    const { isPreviewBlocked } = this;
     if (isPreviewBlocked) return false;
     this.isDrawing = true;
     this.isPreviewBlocked = true;
@@ -336,11 +335,7 @@ class PreviewModeController {
         duration: 20,
       });
       const imgUrl = await this.getPhotoFromMachine();
-      PreviewModeBackgroundDrawer.drawFullWorkarea(
-        imgUrl,
-        currentDevice.model as WorkAreaModel,
-        callback
-      );
+      PreviewModeBackgroundDrawer.drawFullWorkarea(imgUrl, callback);
       this.isPreviewBlocked = false;
       this.isDrawing = false;
       MessageCaller.openMessage({
@@ -583,7 +578,7 @@ class PreviewModeController {
       BeamboxPreference.read('enable-diode') &&
       Constant.addonsSupportList.hybridLaser.includes(workarea);
     const isBorderlessEnabled = BeamboxPreference.read('borderless');
-    let maxWidth = width
+    let maxWidth = width;
     let maxHeight = height;
     if (isDiodeEnabled) {
       maxWidth -= Constant.diode.safeDistance.X * Constant.dpmm;

@@ -1,7 +1,7 @@
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import NS from 'app/constants/namespaces';
-import { getWorkarea } from 'app/constants/workarea-constants';
+import workareaManager from 'app/svgedit/workarea';
 
 import styles from './grid.module.scss';
 
@@ -9,7 +9,7 @@ const canvasEventEmitter = eventEmitterFactory.createEventEmitter('canvas');
 const documentPanelEventEmitter = eventEmitterFactory.createEventEmitter('document-panel');
 const gridIntervals = [1, 10, 100]; // px
 let currentGridInterval: number;
-let gridContainer: SVGGElement;
+let gridContainer: SVGSVGElement;
 let xGridContainer: SVGGElement;
 let yGridContainer: SVGGElement;
 let show = beamboxPreference.read('show_grids');
@@ -26,9 +26,7 @@ const updateGrids = (zoomRatio: number, force = false): void => {
   if (!show) return;
   const gridLevel = getGridInterval(zoomRatio);
   if (!force && gridLevel === currentGridInterval) return;
-  const workarea = getWorkarea(beamboxPreference.read('workarea'));
-  const width = workarea.pxWidth;
-  const height = workarea.pxDisplayHeight ?? workarea.pxHeight;
+  const { width, height } = workareaManager;
   xGridContainer.replaceChildren();
   yGridContainer.replaceChildren();
   for (let x = 0; x <= width; x += gridLevel) {
@@ -52,19 +50,26 @@ const updateGrids = (zoomRatio: number, force = false): void => {
 canvasEventEmitter.on('zoom-changed', (zoomRatio: number) => {
   requestAnimationFrame(() => updateGrids(zoomRatio));
 });
+
+const updateCanvasSize = (): void => {
+  const { width, height } = workareaManager;
+  gridContainer.setAttribute('viewBox', `0 0 ${width} ${height}`);
+};
 documentPanelEventEmitter.on('workarea-change', () => {
-  requestAnimationFrame(() => updateGrids(lastZoomRatio, true));
+  requestAnimationFrame(() => {
+    updateCanvasSize();
+    updateGrids(lastZoomRatio, true);
+  });
 });
 
 const toggleGrids = (): void => {
   show = beamboxPreference.read('show_grids');
   gridContainer.style.display = show ? 'inline' : 'none';
   updateGrids(lastZoomRatio, true);
-}
+};
 
 const init = (zoomRatio = 1): void => {
-  const fixedSizeSvg = document.getElementById('fixedSizeSvg');
-  gridContainer = document.createElementNS(NS.SVG, 'g') as unknown as SVGGElement;
+  gridContainer = document.createElementNS(NS.SVG, 'svg') as unknown as SVGSVGElement;
   gridContainer.id = 'canvasGrid';
   gridContainer.classList.add(styles.container);
   xGridContainer = document.createElementNS(NS.SVG, 'g') as unknown as SVGGElement;
@@ -74,8 +79,11 @@ const init = (zoomRatio = 1): void => {
   yGridContainer.classList.add(styles.y);
   gridContainer.appendChild(yGridContainer);
 
-  fixedSizeSvg.appendChild(gridContainer);
+  const canvasBackground = document.getElementById('canvasBackground');
+  const fixedSizeSvg = document.getElementById('fixedSizeSvg');
+  canvasBackground.insertBefore(gridContainer, fixedSizeSvg);
   updateGrids(zoomRatio);
+  updateCanvasSize();
 };
 
 export default {

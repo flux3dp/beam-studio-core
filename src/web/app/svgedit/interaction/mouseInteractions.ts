@@ -429,7 +429,7 @@ const mouseDown = (evt: MouseEvent) => {
           points: newDPath,
           id: svgCanvas.getNextId(),
           fill: 'none',
-          opacity: currentShape.opacity / 2,
+          opacity: currentShape.opacity,
           'stroke-linecap': 'round',
           style: 'pointer-events:none',
         },
@@ -449,7 +449,7 @@ const mouseDown = (evt: MouseEvent) => {
           width: 0,
           height: 0,
           id: svgCanvas.getNextId(),
-          opacity: currentShape.opacity / 2,
+          opacity: currentShape.opacity,
           style: 'pointer-events:inherit',
         },
       }) as unknown as SVGImageElement;
@@ -476,7 +476,7 @@ const mouseDown = (evt: MouseEvent) => {
           id: svgCanvas.getNextId(),
           fill: 'none',
           'fill-opacity': 0,
-          opacity: currentShape.opacity / 2,
+          opacity: currentShape.opacity,
         },
       });
       if (svgCanvas.isUsingLayerColor) {
@@ -501,7 +501,7 @@ const mouseDown = (evt: MouseEvent) => {
           'stroke-linejoin': currentShape.stroke_linejoin,
           'stroke-linecap': currentShape.stroke_linecap,
           fill: 'none',
-          opacity: currentShape.opacity / 2,
+          opacity: currentShape.opacity,
           style: 'pointer-events:none',
         },
       });
@@ -522,7 +522,7 @@ const mouseDown = (evt: MouseEvent) => {
           r: 0,
           id: svgCanvas.getNextId(),
           stroke: '#000',
-          opacity: currentShape.opacity / 2,
+          opacity: currentShape.opacity,
         },
       });
       break;
@@ -541,7 +541,7 @@ const mouseDown = (evt: MouseEvent) => {
           stroke: '#000',
           'fill-opacity': 0,
           fill: 'none',
-          opacity: currentShape.opacity / 2,
+          opacity: currentShape.opacity,
         },
       });
       if (svgCanvas.isUsingLayerColor) {
@@ -1648,42 +1648,19 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
       svgedit.units.convertAttrs(element);
     }
 
-    let duration = 0.2;
-    let clonedAnimation;
-    if (svgCanvas.opacityAnimation.beginElement && element.getAttribute('opacity') !== currentShape.opacity) {
-      clonedAnimation = $(svgCanvas.opacityAnimation).clone().attr({
-        to: currentShape.opacity,
-        dur: duration,
-      }).appendTo(element);
-      try {
-        // Fails in FF4 on foreignObject
-        clonedAnimation[0].beginElement();
-      } catch (e) {
-        console.error('SVGAnimation error', e);
-      }
-    } else {
-      duration = 0;
-    }
 
-    // Ideally this would be done on the endEvent of the animation,
-    // but that doesn't seem to be supported in Webkit
-    setTimeout(() => {
-      if (clonedAnimation) {
-        clonedAnimation.remove();
+    if (element.getAttribute('opacity') !== currentShape.opacity) element.setAttribute('opacity', currentShape.opacity);
+    element.setAttribute('style', 'pointer-events:inherit');
+    svgCanvas.cleanupElement(element);
+    svgCanvas.addCommandToHistory(new history.InsertElementCommand(element));
+    if (svgCanvas.getCurrentConfig().selectNew && !isContinuousDrawing) {
+      if (currentMode === 'textedit') {
+        svgCanvas.selectorManager.requestSelector(element).show(true);
+      } else if (element.parentNode) {
+        svgCanvas.selectOnly([element], true);
+        svgCanvas.call('changed', [element]);
       }
-      element.setAttribute('opacity', currentShape.opacity);
-      element.setAttribute('style', 'pointer-events:inherit');
-      svgCanvas.cleanupElement(element);
-      svgCanvas.addCommandToHistory(new history.InsertElementCommand(element));
-      if (svgCanvas.getCurrentConfig().selectNew && !isContinuousDrawing) {
-        if (currentMode === 'textedit') {
-          svgCanvas.selectorManager.requestSelector(element).show(true);
-        } else if (element.parentNode) {
-          svgCanvas.selectOnly([element], true);
-          svgCanvas.call('changed', [element]);
-        }
-      }
-    }, duration * 1000);
+    }
   }
   if (isContinuousDrawing && svgCanvas.getCurrentMode() !== 'textedit') {
     svgCanvas.clearSelection();

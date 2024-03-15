@@ -2,7 +2,6 @@
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import beamFileHelper from 'helpers/beam-file-helper';
-import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import communicator from 'implementations/communicator';
 import dialog from 'implementations/dialog';
 import dialogCaller from 'app/actions/dialog-caller';
@@ -19,7 +18,6 @@ import {
   ResponseWithError,
 } from 'helpers/api/flux-id';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 
 let svgCanvas;
 let svgedit;
@@ -52,10 +50,7 @@ const switchSymbolWrapper = <T = string>(fn: () => T) => {
 };
 
 const generateBeamThumbnail = async (): Promise<ArrayBuffer | null> => {
-  const workarea: WorkAreaModel = beamboxPreference.read('workarea');
-  const { pxWidth, pxHeight, pxDisplayHeight } = getWorkarea(workarea);
-  const width = pxWidth;
-  const height = pxDisplayHeight ?? pxHeight;
+  const { width, height } = workareaManager;
   const svgContent = document.getElementById('svgcontent') as unknown as SVGSVGElement;
   const bbox = svgContent.getBBox();
   if (bbox.x < 0) {

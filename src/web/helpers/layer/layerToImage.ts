@@ -1,5 +1,4 @@
 import constant from 'app/actions/beambox/constant';
-import ISVGCanvas from 'interfaces/ISVGCanvas';
 import svgStringToCanvas from 'helpers/image/svgStringToCanvas';
 import workareaManager from 'app/svgedit/workarea';
 import { getSVGAsync } from 'helpers/svg-editor-helper';

@@ -3,7 +3,6 @@ export default interface ISVGConfig {
   // Change the following to preferences and
   // add pref controls to the UI (e.g., initTool, wireframe, showlayers)?
   canvasName?: string
-  canvas_expansion?: number
   initFill?: {
     color: string,
     opacity: number

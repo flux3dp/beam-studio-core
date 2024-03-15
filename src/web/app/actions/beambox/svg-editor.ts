@@ -352,7 +352,6 @@ const svgEditor = window['svgEditor'] = (function () {
       // Todo: svgcanvas.js also sets and checks: show_outside_canvas, selectNew; add here?
       // Change the following to preferences and add pref controls to the UI (e.g., initTool, wireframe, showlayers)?
       canvasName: 'default',
-      canvas_expansion: 3,
       initFill: {
         color: 'FFFFFF',
         opacity: 0
@@ -1178,15 +1177,6 @@ const svgEditor = window['svgEditor'] = (function () {
       }
     };
 
-    function setBackground(color, url) {
-      // if (color == $.pref('bkgd_color') && url == $.pref('bkgd_url')) {return;}
-      $.pref('bkgd_color', color);
-      $.pref('bkgd_url', url);
-
-      // This should be done in svgcanvas.js for the borderRect fill
-      svgCanvas.setBackground(color, url);
-    }
-
     function promptImgURL() {
       var curhref = svgCanvas.getHref(selectedElement);
       curhref = curhref.indexOf('data:') === 0 ? '' : curhref;
@@ -1215,7 +1205,7 @@ const svgEditor = window['svgEditor'] = (function () {
         const $rulersWrapper = $('#ruler_' + axis + ' > div');
         const svgcanvas = document.getElementById('svgcanvas');
         if (!svgcanvas) return;
-        const total_len = parseFloat(svgcanvas.getAttribute(side));
+        const total_len = isX ? svgcanvas.clientWidth : svgcanvas.clientHeight;
         const limit = 3000;
         const rulersCount = parseInt(String(total_len / limit), 10) + 1;
 
@@ -2852,7 +2842,6 @@ const svgEditor = window['svgEditor'] = (function () {
       });
     });
 
-    setBackground($.pref('bkgd_color'), $.pref('bkgd_url'));
 
     $('#image_save_opts input').val([$.pref('img_save')]);
 
@@ -4980,9 +4969,7 @@ const svgEditor = window['svgEditor'] = (function () {
   };
 
   editor.resetView = function () {
-    const workarea = getWorkarea(BeamboxPreference.read('workarea'));
-    const { pxWidth: width, pxHeight, pxDisplayHeight } = workarea;
-    const height = pxDisplayHeight ?? pxHeight;
+    const { width, height } = workareaManager;
     const hasRulers = !!BeamboxPreference.read('show_rulers');
     const sidePanelsWidth = isMobile() ? 0 : Constant.sidePanelsWidth + (hasRulers ? Constant.rulerWidth : 0);
     const topBarHeight = Constant.topBarHeight + (hasRulers ? Constant.rulerWidth : 0);

@@ -6,8 +6,10 @@ import beamboxStore from 'app/stores/beambox-store';
 import Constant from 'app/actions/beambox/constant';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import i18n from 'helpers/i18n';
+import NS from 'app/constants/namespaces';
+import workareaManager from 'app/svgedit/workarea';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
+import { getWorkarea } from 'app/constants/workarea-constants';
 
 let svgCanvas;
 let svgedit;
@@ -27,7 +29,7 @@ class PreviewModeBackgroundDrawer {
 
   cameraCanvasUrl: string;
 
-  coordinates: { maxX: number; maxY: number; minX: number; minY: number; };
+  coordinates: { maxX: number; maxY: number; minX: number; minY: number };
 
   cameraOffset: any;
 
@@ -81,12 +83,12 @@ class PreviewModeBackgroundDrawer {
     }
   }
 
-  async drawFullWorkarea(imgUrl, deviceModel: WorkAreaModel, callBack = () => { }) {
+  async drawFullWorkarea(imgUrl: string, callBack = () => {}) {
     const p = this.preprocessFullWorkareaImg(imgUrl, callBack);
     this.backgroundDrawerSubject.next(p);
   }
 
-  async draw(imgUrl, x, y, last = false, callBack = () => { }) {
+  async draw(imgUrl, x, y, last = false, callBack = () => {}) {
     const p = this.prepareCroppedAndRotatedImgBlob(imgUrl, x, y, last, callBack);
     this.backgroundDrawerSubject.next(p);
     // await p;
@@ -110,35 +112,121 @@ class PreviewModeBackgroundDrawer {
   };
 
   resetBoundary() {
-    const canvasBackground = svgedit.utilities.getElem('canvasBackground');
-    const previewBoundary = svgedit.utilities.getElem('previewBoundary');
+    const previewBoundary = document.getElementById('previewBoundary');
 
     if (previewBoundary) {
-      canvasBackground.removeChild(previewBoundary);
+      previewBoundary.remove();
       this.drawBoundary();
     }
   }
 
   drawBoundary() {
-    const canvasBackground = svgedit.utilities.getElem('canvasBackground');
-    const canvasGrid = svgedit.utilities.getElem('canvasGrid');
-    const previewBoundary = this.getPreviewBoundary();
-    if (!previewBoundary) return;
-    if (canvasGrid.nextSibling) {
-      canvasBackground.insertBefore(previewBoundary, canvasGrid.nextSibling);
-    } else {
-      canvasBackground.appendChild(previewBoundary);
+    const boundaryGroup = document.createElementNS(NS.SVG, 'g');
+    boundaryGroup.id = 'previewBoundary';
+    boundaryGroup.setAttribute('style', 'pointer-events:none');
+    const fixedSizeSvg = document.getElementById('fixedSizeSvg');
+    fixedSizeSvg.insertBefore(boundaryGroup, fixedSizeSvg.firstChild);
+    const { width, height, rotaryExpansion } = workareaManager;
+
+    if (rotaryExpansion[1] > 0) {
+      const rotaryPreveiwBoundary = document.createElementNS(NS.SVG, 'rect');
+      rotaryPreveiwBoundary.setAttribute('x', '0');
+      rotaryPreveiwBoundary.setAttribute('y', (height - rotaryExpansion[1]).toString());
+      rotaryPreveiwBoundary.setAttribute('width', width.toString());
+      rotaryPreveiwBoundary.setAttribute('height', rotaryExpansion[1].toString());
+      rotaryPreveiwBoundary.setAttribute('fill', '#CCC');
+      rotaryPreveiwBoundary.setAttribute('fill-opacity', '0.4');
+      boundaryGroup.appendChild(rotaryPreveiwBoundary);
+
+      const rotaryPreveiwBoundaryText = document.createElementNS(NS.SVG, 'text') as SVGTextElement;
+      rotaryPreveiwBoundaryText.setAttribute('font-size', '80');
+      const textNode = document.createTextNode(LANG.unpreviewable_area);
+      rotaryPreveiwBoundaryText.appendChild(textNode);
+      boundaryGroup.appendChild(rotaryPreveiwBoundaryText);
+      const { width: textW, height: textH } = rotaryPreveiwBoundaryText.getBBox();
+      console.log(textW, textH);
+      const x = (width - textW) / 2;
+      const y = height - (rotaryExpansion[1] - textH) / 2;
+      rotaryPreveiwBoundaryText.setAttribute('x', x.toString());
+      rotaryPreveiwBoundaryText.setAttribute('y', y.toString());
+    }
+
+    if (this.cameraOffset) {
+      const color = 'rgba(204,204,204,0.8)';
+      const stripeColor = 'rgba(102,102,102,0.8)';
+      const stripeWidth = 60;
+      const uncapturabledHeight =
+        this.cameraOffset.y * Constant.dpmm -
+        (Constant.camera.imgHeight * this.cameraOffset.scaleRatioY) / 2;
+      const borderTop = document.createElementNS(NS.SVG, 'rect');
+      const borderPattern = document.createElementNS(NS.SVG, 'pattern');
+      const patternRect = document.createElementNS(NS.SVG, 'rect');
+      const patternLine = document.createElementNS(NS.SVG, 'line');
+      const descText = document.createElementNS(NS.SVG, 'text');
+
+      borderPattern.id = 'border-pattern';
+      borderPattern.setAttribute('width', stripeWidth.toString());
+      borderPattern.setAttribute('height', stripeWidth.toString());
+      borderPattern.setAttribute('patternUnits', 'userSpaceOnUse');
+      borderPattern.setAttribute('patternTransform', 'rotate(45 100 100)');
+
+      patternRect.id = 'pattern-rect';
+      patternRect.setAttribute('width', stripeWidth.toString());
+      patternRect.setAttribute('height', stripeWidth.toString());
+      patternRect.setAttribute('fill', color);
+
+      patternLine.id = 'pattern-line';
+      patternLine.setAttribute('x1', '0');
+      patternLine.setAttribute('y1', '0');
+      patternLine.setAttribute('x2', '0');
+      patternLine.setAttribute('y2', stripeWidth.toString());
+      patternLine.setAttribute('stroke', stripeColor);
+      patternLine.setAttribute('stroke-width', stripeWidth.toString());
+      patternLine.setAttribute('patternUnits', 'userSpaceOnUse');
+
+      borderTop.setAttribute('width', width.toString());
+      borderTop.setAttribute('height', uncapturabledHeight.toString());
+      borderTop.setAttribute('x', '0');
+      borderTop.setAttribute('y', '0');
+      borderTop.setAttribute('fill', 'url(#border-pattern)');
+
+      descText.setAttribute('font-size', '60');
+      descText.setAttribute('x', ((uncapturabledHeight - 60) / 2).toString());
+      descText.setAttribute('y', ((uncapturabledHeight + 60) / 2 - 10).toString());
+      descText.setAttribute('font-weight', 'bold');
+      descText.setAttribute('fill', '#fff');
+      descText.setAttribute('stroke', '#666');
+      descText.setAttribute('stroke-width', '5');
+      descText.setAttribute('paint-order', 'stroke');
+
+      const textNode = document.createTextNode(LANG.unpreviewable_area);
+      descText.appendChild(textNode);
+      borderPattern.appendChild(patternRect);
+      borderPattern.appendChild(patternLine);
+      boundaryGroup.appendChild(borderTop);
+      if (
+        BeamboxPreference.read('enable-diode') &&
+        Constant.addonsSupportList.hybridLaser.includes(BeamboxPreference.read('workarea'))
+      ) {
+        const { hybridBorder, hybridDescText } =
+          this.getHybridModulePreviewBoundary(uncapturabledHeight);
+        boundaryGroup.appendChild(hybridBorder);
+        boundaryGroup.appendChild(hybridDescText);
+      } else if (BeamboxPreference.read('borderless')) {
+        const { openBottomBoundary, openBottomDescText } =
+          this.getOpenBottomModulePreviewBoundary(uncapturabledHeight);
+        boundaryGroup.appendChild(openBottomBoundary);
+        boundaryGroup.appendChild(openBottomDescText);
+      }
+      boundaryGroup.appendChild(borderPattern);
+      boundaryGroup.appendChild(descText);
     }
   }
 
   // eslint-disable-next-line class-methods-use-this
   clearBoundary() {
-    const canvasBackground = svgedit.utilities.getElem('canvasBackground');
-    const previewBoundary = svgedit.utilities.getElem('previewBoundary');
-
-    if (previewBoundary) {
-      canvasBackground.removeChild(previewBoundary);
-    }
+    const previewBoundary = document.getElementById('previewBoundary');
+    previewBoundary?.remove();
   }
 
   isClean() {
@@ -184,27 +272,30 @@ class PreviewModeBackgroundDrawer {
     svgCanvas.setBackground('#fff', this.cameraCanvasUrl);
   }
 
-  preprocessFullWorkareaImg = async (imgUrl: string, callBack = () => { }) => new Promise((resolve) => {
-    const img = new Image();
-    img.onload = () => {
-      const imgDpmm = 5;
-      const canvasDpmm = 10;
-      const imageRatio = canvasDpmm / imgDpmm;
-      // assuming the left-top corner of the image is the correct
-      this.canvas.getContext('2d').drawImage(img, 0, 0, img.naturalWidth * imageRatio, img.naturalHeight * imageRatio);
-      this.coordinates.minX = 0;
-      this.coordinates.minY = 0;
-      this.coordinates.maxX = img.naturalWidth * imageRatio;
-      this.coordinates.maxY = img.naturalHeight * imageRatio;
-      this.canvas.toBlob((blob) => {
-        resolve(blob);
-        setTimeout(callBack, 1000);
-      });
-    };
-    img.src = imgUrl;
-  });
+  preprocessFullWorkareaImg = async (imgUrl: string, callBack = () => {}) =>
+    new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => {
+        const imgDpmm = 5;
+        const canvasDpmm = 10;
+        const imageRatio = canvasDpmm / imgDpmm;
+        // assuming the left-top corner of the image is the correct
+        this.canvas
+          .getContext('2d')
+          .drawImage(img, 0, 0, img.naturalWidth * imageRatio, img.naturalHeight * imageRatio);
+        this.coordinates.minX = 0;
+        this.coordinates.minY = 0;
+        this.coordinates.maxX = img.naturalWidth * imageRatio;
+        this.coordinates.maxY = img.naturalHeight * imageRatio;
+        this.canvas.toBlob((blob) => {
+          resolve(blob);
+          setTimeout(callBack, 1000);
+        });
+      };
+      img.src = imgUrl;
+    });
 
-  prepareCroppedAndRotatedImgBlob(imgUrl, x, y, last = false, callBack = () => { }) {
+  prepareCroppedAndRotatedImgBlob(imgUrl, x, y, last = false, callBack = () => {}) {
     const img = new Image();
     img.src = imgUrl;
 
@@ -232,7 +323,9 @@ class PreviewModeBackgroundDrawer {
         if (minY < this.coordinates.minY) {
           this.coordinates.minY = Math.max(minY, 0);
         }
-        this.canvas.getContext('2d').drawImage(regulatedImg, minX, minY, width * canvasRatio, height * canvasRatio);
+        this.canvas
+          .getContext('2d')
+          .drawImage(regulatedImg, minX, minY, width * canvasRatio, height * canvasRatio);
         this.canvas.toBlob((blob) => {
           resolve(blob);
           if (last) {
@@ -244,11 +337,7 @@ class PreviewModeBackgroundDrawer {
   }
 
   cropAndRotateImg(imageObj) {
-    const {
-      angle,
-      scaleRatioX,
-      scaleRatioY,
-    } = this.cameraOffset;
+    const { angle, scaleRatioX, scaleRatioY } = this.cameraOffset;
 
     const cvs = document.createElement('canvas');
     const ctx = cvs.getContext('2d');
@@ -268,125 +357,14 @@ class PreviewModeBackgroundDrawer {
     return cvs;
   }
 
-  getPreviewBoundary() {
-    if (!this.cameraOffset) return null;
-    const previewBoundaryId = 'previewBoundary';
-    const color = 'rgba(204,204,204,0.8)';
-    const stripeColor = 'rgba(102,102,102,0.8)';
-    const stripeWidth = 60;
-    const uncapturabledHeight = (this.cameraOffset.y * Constant.dpmm)
-      - (Constant.camera.imgHeight * this.cameraOffset.scaleRatioY) / 2;
-    const svgdoc = document.getElementById('svgcanvas').ownerDocument;
-    const { NS } = svgedit;
-    const boundaryGroup = svgdoc.createElementNS(NS.SVG, 'svg');
-    const borderTop = svgdoc.createElementNS(NS.SVG, 'rect');
-    const borderPattern = svgdoc.createElementNS(NS.SVG, 'pattern');
-    const patternRect = svgdoc.createElementNS(NS.SVG, 'rect');
-    const patternLine = svgdoc.createElementNS(NS.SVG, 'line');
-    const descText = svgdoc.createElementNS(NS.SVG, 'text');
-
-    const workarea = BeamboxPreference.read('workarea') as WorkAreaModel;
-    const { pxWidth: width, pxHeight, pxDisplayHeight } = getWorkarea(workarea);
-    const height = pxDisplayHeight ?? pxHeight;
-
-    svgedit.utilities.assignAttributes(boundaryGroup, {
-      id: previewBoundaryId,
-      width: '100%',
-      height: '100%',
-      viewBox: `0 0 ${width} ${height}`,
-      x: 0,
-      y: 0,
-      style: 'pointer-events:none',
-    });
-
-    svgedit.utilities.assignAttributes(borderPattern, {
-      id: 'border-pattern',
-      width: stripeWidth,
-      height: stripeWidth,
-      patternUnits: 'userSpaceOnUse',
-      patternTransform: 'rotate(45 100 100)',
-      style: 'pointer-events:none',
-    });
-
-    svgedit.utilities.assignAttributes(patternRect, {
-      id: 'pattern-rect',
-      width: stripeWidth,
-      height: stripeWidth,
-      fill: color,
-      style: 'pointer-events:none',
-    });
-
-    svgedit.utilities.assignAttributes(patternLine, {
-      id: 'pattern-line',
-      stroke: stripeColor,
-      'stroke-width': stripeWidth,
-      patternUnits: 'userSpaceOnUse',
-      y2: stripeWidth,
-      style: 'pointer-events:none',
-    });
-
-    svgedit.utilities.assignAttributes(borderTop, {
-      width,
-      height: uncapturabledHeight,
-      x: 0,
-      y: 0,
-      fill: 'url(#border-pattern)',
-      style: 'pointer-events:none',
-    });
-
-    svgedit.utilities.assignAttributes(descText, {
-      'font-size': 60,
-      x: (uncapturabledHeight - 60) / 2,
-      y: (uncapturabledHeight + 60) / 2 - 10,
-      'font-weight': 'bold',
-      fill: '#fff',
-      stroke: '#666',
-      'stroke-width': 5,
-      'paint-order': 'stroke',
-      style: 'pointer-events:none',
-    });
-
-    const textNode = document.createTextNode(LANG.unpreviewable_area);
-    descText.appendChild(textNode);
-
-    borderPattern.appendChild(patternRect);
-    borderPattern.appendChild(patternLine);
-
-    boundaryGroup.appendChild(borderTop);
-    if (
-      BeamboxPreference.read('enable-diode')
-      && Constant.addonsSupportList.hybridLaser.includes(workarea)
-    ) {
-      const {
-        hybridBorder,
-        hybridDescText,
-      } = this.getHybridModulePreviewBoundary(uncapturabledHeight);
-      boundaryGroup.appendChild(hybridBorder);
-      boundaryGroup.appendChild(hybridDescText);
-    } else if (BeamboxPreference.read('borderless')) {
-      const {
-        openBottomBoundary,
-        openBottomDescText,
-      } = this.getOpenBottomModulePreviewBoundary(uncapturabledHeight);
-      boundaryGroup.appendChild(openBottomBoundary);
-      boundaryGroup.appendChild(openBottomDescText);
-    }
-
-    boundaryGroup.appendChild(borderPattern);
-    boundaryGroup.appendChild(descText);
-
-    return boundaryGroup;
-  }
-
   // eslint-disable-next-line class-methods-use-this
   getOpenBottomModulePreviewBoundary(uncapturabledHeight) {
     const svgdoc = document.getElementById('svgcanvas').ownerDocument;
-    const { NS } = svgedit;
     const openBottomBoundary = svgdoc.createElementNS(NS.SVG, 'rect');
     const openBottomDescText = svgdoc.createElementNS(NS.SVG, 'text');
     const workarea = getWorkarea(BeamboxPreference.read('workarea'));
     const { pxWidth: width, pxHeight, pxDisplayHeight } = workarea;
-    const height = pxDisplayHeight ?? pxHeight
+    const height = pxDisplayHeight ?? pxHeight;
     svgedit.utilities.assignAttributes(openBottomBoundary, {
       width: Constant.borderless.safeDistance.X * Constant.dpmm,
       height,
@@ -415,12 +393,11 @@ class PreviewModeBackgroundDrawer {
   // eslint-disable-next-line class-methods-use-this
   getHybridModulePreviewBoundary(uncapturabledHeight) {
     const svgdoc = document.getElementById('svgcanvas').ownerDocument;
-    const { NS } = svgedit;
     const hybridBorder = svgdoc.createElementNS(NS.SVG, 'rect');
     const hybridDescText = svgdoc.createElementNS(NS.SVG, 'text');
     const workarea = getWorkarea(BeamboxPreference.read('workarea'));
     const { pxWidth: width, pxHeight, pxDisplayHeight } = workarea;
-    const height = pxDisplayHeight ?? pxHeight
+    const height = pxDisplayHeight ?? pxHeight;
 
     svgedit.utilities.assignAttributes(hybridBorder, {
       width: Constant.diode.safeDistance.X * Constant.dpmm,

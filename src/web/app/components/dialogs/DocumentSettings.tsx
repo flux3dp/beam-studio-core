@@ -83,7 +83,9 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
     BeamboxPreference.write('borderless', borderlessMode);
     BeamboxPreference.write('enable-diode', enableDiode);
     BeamboxPreference.write('enable-autofocus', enableAutofocus);
-    if (workarea !== BeamboxPreference.read('workarea')) {
+    const rotaryChanged = rotaryMode !== BeamboxPreference.read('rotary_mode');
+    BeamboxPreference.write('rotary_mode', rotaryMode);
+    if (workarea !== BeamboxPreference.read('workarea') || rotaryChanged) {
       changeWorkarea(workarea);
     } else {
       // this is called in changeWorkarea
@@ -91,7 +93,6 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
       if (enableDiode) diodeBoundaryDrawer.show();
       else diodeBoundaryDrawer.hide();
     }
-    BeamboxPreference.write('rotary_mode', rotaryMode);
     rotaryAxis.toggleDisplay();
   };
 
