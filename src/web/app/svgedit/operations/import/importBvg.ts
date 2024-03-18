@@ -12,7 +12,7 @@ import rotaryAxis from 'app/actions/canvas/rotary-axis';
 import symbolMaker from 'helpers/symbol-maker';
 import workareaManager from 'app/svgedit/workarea';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
+import { WorkAreaModel } from 'app/constants/workarea-constants';
 import { toggleFullColorAfterWorkareaChange } from 'helpers/layer/layer-config-helper';
 
 let svgCanvas: ISVGCanvas;
@@ -31,7 +31,6 @@ export const importBvgString = async (str: string): Promise<void> => {
   );
 
   const currentWorkarea: WorkAreaModel = beamboxPreference.read('workarea');
-  const currentWorkareaObj = getWorkarea(currentWorkarea);
   // loadFromString will lose data-xform and data-wireframe of `use` so set it back here
   if (typeof str === 'string') {
     const workarea = document.getElementById('workarea');
@@ -99,18 +98,16 @@ export const importBvgString = async (str: string): Promise<void> => {
       workareaManager.zoom(zoom);
     }
     match = str.match(/data-left="[-0-9]+"/);
-    const { zoomRatio } = workareaManager;
+    const { width, height, zoomRatio } = workareaManager;
     if (match) {
       let left = parseInt(match[0].substring(11, match[0].length - 1), 10);
-      left = Math.round((left + currentWorkareaObj.pxWidth) * zoomRatio);
+      left = Math.round((left + width) * zoomRatio);
       workarea.scrollLeft = left;
     }
     match = str.match(/data-top="[-0-9]+"/);
     if (match) {
       let top = parseInt(match[0].substring(10, match[0].length - 1), 10);
-      top = Math.round(
-        (top + (currentWorkareaObj.pxDisplayHeight ?? currentWorkareaObj.pxHeight)) * zoomRatio
-      );
+      top = Math.round((top + height) * zoomRatio);
       workarea.scrollTop = top;
     }
   }

@@ -26,9 +26,9 @@ import sentryHelper from 'helpers/sentry-helper';
 import storage from 'implementations/storage';
 import Tutorials from 'app/actions/beambox/tutorials';
 import updateFontConvert from 'app/components/dialogs/updateFontConvert';
+import workareaManager from 'app/svgedit/workarea';
 import { checkConnection } from 'helpers/api/discover';
 import { gestureIntroduction } from 'app/constants/media-tutorials';
-import { getWorkarea } from 'app/constants/workarea-constants';
 import { IFont } from 'interfaces/IFont';
 import { isMobile } from 'helpers/system-helper';
 import { showCameraCalibration } from 'app/views/beambox/Camera-Calibration';
@@ -137,9 +137,7 @@ class BeamboxInit {
       const linesGroup = svgdoc.createElementNS(NS.SVG, 'svg');
       const lineVertical = svgdoc.createElementNS(NS.SVG, 'line');
       const lineHorizontal = svgdoc.createElementNS(NS.SVG, 'line');
-      const workarea = getWorkarea(BeamboxPreference.read('workarea'));
-      const width = workarea.pxWidth;
-      const height = workarea.pxDisplayHeight ?? workarea.pxHeight;
+      const { width, height } = workareaManager;
       utilities.assignAttributes(linesGroup, {
         id: 'guidesLines',
         width: '100%',

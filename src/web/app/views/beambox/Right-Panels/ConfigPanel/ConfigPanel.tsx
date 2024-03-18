@@ -13,7 +13,6 @@ import { sprintf } from 'sprintf-js';
 
 import alertCaller from 'app/actions/alert-caller';
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
-import beamboxStore from 'app/stores/beambox-store';
 import constant from 'app/actions/beambox/constant';
 import ColorBlock from 'app/components/beambox/right-panel/ColorBlock';
 import DropdownControl from 'app/widgets/Dropdown-Control';
@@ -34,6 +33,7 @@ import tutorialConstants from 'app/constants/tutorial-constants';
 import tutorialController from 'app/views/tutorials/tutorialController';
 import useForceUpdate from 'helpers/use-force-update';
 import useI18n from 'helpers/useI18n';
+import useWorkarea from 'helpers/hooks/useWorkarea';
 import {
   CUSTOM_PRESET_CONSTANT,
   DataType,
@@ -122,7 +122,8 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
     updateDiodeBoundary();
   }, [updateDiodeBoundary]);
 
-  const updateData = useCallback(() => {
+  const workarea = useWorkarea();
+  useEffect(() => {
     updateDefaultPresetData();
     postPresetChange();
     presprayArea.togglePresprayArea();
@@ -134,16 +135,9 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
       timeEstimationButtonEventEmitter.emit('SET_ESTIMATED_TIME', null);
     }
     dispatch({ type: 'update', payload: layerData });
-  }, [state, dispatch]);
-
-  useEffect(() => {
-    beamboxStore.onUpdateWorkArea(updateData);
-    beamboxStore.onUpdateWorkArea(updateDiodeBoundary);
-    return () => {
-      beamboxStore.removeUpdateWorkAreaListener(updateData);
-      beamboxStore.removeUpdateWorkAreaListener(updateDiodeBoundary);
-    };
-  }, [updateData, updateDiodeBoundary]);
+    updateDiodeBoundary();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [workarea]);
 
   useEffect(() => {
     if (selectedLayers.length > 1) {

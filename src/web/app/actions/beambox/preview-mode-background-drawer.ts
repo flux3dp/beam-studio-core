@@ -9,7 +9,6 @@ import i18n from 'helpers/i18n';
 import NS from 'app/constants/namespaces';
 import workareaManager from 'app/svgedit/workarea';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import { getWorkarea } from 'app/constants/workarea-constants';
 
 let svgCanvas;
 let svgedit;
@@ -61,12 +60,11 @@ class PreviewModeBackgroundDrawer {
   }
 
   start(cameraOffset) {
-    const workarea = getWorkarea(BeamboxPreference.read('workarea'));
-    const { pxWidth: width } = workarea;
-    const height = workarea.pxDisplayHeight ?? workarea.pxHeight;
+    const { width, height, rotaryExpansion } = workareaManager;
+    const canvasHeight = height - rotaryExpansion[1];
     this.updateRatio(width, height);
     this.canvas.width = Math.round(width * this.canvasRatio);
-    this.canvas.height = Math.round(height * this.canvasRatio);
+    this.canvas.height = Math.round(canvasHeight * this.canvasRatio);
 
     // { x, y, angle, scaleRatioX, scaleRatioY }
     this.cameraOffset = cameraOffset;
@@ -99,12 +97,11 @@ class PreviewModeBackgroundDrawer {
   updateCanvasSize = () => {
     if (this.isClean()) return;
     this.clear();
-    const workarea = getWorkarea(BeamboxPreference.read('workarea'));
-    const newWidth = workarea.pxWidth;
-    const newHeight = workarea.pxDisplayHeight ?? workarea.pxHeight;
-    this.updateRatio(newWidth, newHeight);
-    this.canvas.width = Math.round(newWidth);
-    this.canvas.height = Math.round(newHeight);
+    const { width, height, rotaryExpansion } = workareaManager;
+    const canvasHeight = height - rotaryExpansion[1];
+    this.updateRatio(width, canvasHeight);
+    this.canvas.width = Math.round(width);
+    this.canvas.height = Math.round(canvasHeight);
     this.resetBoundary();
     if (BeamboxPreference.read('show_guides')) {
       beamboxStore.emitDrawGuideLines();

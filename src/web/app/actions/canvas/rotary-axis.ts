@@ -3,7 +3,8 @@ import constant from 'app/actions/beambox/constant';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import NS from 'app/constants/namespaces';
 import rotaryConstants from 'app/constants/rotary-constants';
-import { WorkAreaModel, getWorkarea } from 'app/constants/workarea-constants';
+import workareaManager from 'app/svgedit/workarea';
+import { WorkAreaModel } from 'app/constants/workarea-constants';
 
 const documentPanelEventEmitter = eventEmitterFactory.createEventEmitter('document-panel');
 let container: SVGSVGElement;
@@ -47,11 +48,11 @@ const checkBoundary = () => {
 
 const updateBoundary = () => {
   const model: WorkAreaModel = beamboxPreference.read('workarea');
-  const workarea = getWorkarea(model);
+  const { height } = workareaManager;
   if (rotaryConstants[model]?.boundary) {
     boundary = rotaryConstants[model].boundary.map((v) => v * constant.dpmm);
   } else {
-    boundary = [0, workarea.pxDisplayHeight ?? workarea.pxHeight];
+    boundary = [0, height];
   }
   checkBoundary();
 };
@@ -77,9 +78,8 @@ const init = (): void => {
     container.setAttribute('display', 'inline');
     fixedSizeSvg?.appendChild(container);
 
-    const model: WorkAreaModel = beamboxPreference.read('workarea');
-    const workarea = getWorkarea(model);
-    const initPosition = beamboxPreference.read('rotary-y') ?? workarea.pxDisplayHeight / 2;
+    const { height } = workareaManager;
+    const initPosition = beamboxPreference.read('rotary-y') ?? height / 2;
     rotaryLine = document.createElementNS(NS.SVG, 'line') as unknown as SVGLineElement;
     const rotaryLineWidth = 3;
     const transparentLineWidth = 7;

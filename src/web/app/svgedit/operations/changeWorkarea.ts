@@ -20,7 +20,7 @@ const changeWorkarea = (workarea: WorkAreaModel, opts: { toggleModule?: boolean 
   svgEditor.resetView();
   openBottomBoundaryDrawer.update();
   if (toggleModule) toggleFullColorAfterWorkareaChange();
-  documentEventEmitter.emit('workarea-change');
+  documentEventEmitter.emit('workarea-change', workarea);
   beamboxStore.emitUpdateWorkArea();
 };
 

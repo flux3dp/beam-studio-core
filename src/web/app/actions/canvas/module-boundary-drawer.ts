@@ -63,6 +63,8 @@ const update = (module: LayerModule): void => {
   }
   if (!boundaryPath) createBoundary();
   const { width: w, height: h, rotaryEnabled } = workareaManager;
+  const viewBox = `0 0 ${w} ${h}`;
+  boundarySvg?.setAttribute('viewBox', viewBox);
   const d1 = `M0,0H${w}V${h}H0V0`;
   const { dpmm } = constant;
   let { top, left, bottom, right } = moduleBoundary[module];

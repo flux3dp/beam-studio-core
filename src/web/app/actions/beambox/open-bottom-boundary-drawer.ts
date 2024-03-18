@@ -1,7 +1,7 @@
 import NS from 'app/constants/namespaces';
 
+import workareaManager from 'app/svgedit/workarea';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import { getWorkarea } from 'app/constants/workarea-constants';
 
 import BeamboxPreference from './beambox-preference';
 import Constant from './constant';
@@ -38,9 +38,7 @@ const createBoundary = async () => {
   openBottomBoundarySVG.id = 'open-bottom-boundary';
   openBottomBoundarySVG.setAttribute('width', '100%');
   openBottomBoundarySVG.setAttribute('height', '100%');
-  const workarea = getWorkarea(BeamboxPreference.read('workarea'));
-  const width = workarea.pxWidth;
-  const height = workarea.pxDisplayHeight ?? workarea.pxHeight;
+  const { width, height } = workareaManager;
 
   openBottomBoundarySVG.setAttribute('viewBox', `0 0 ${width} ${height}`);
   openBottomBoundarySVG.setAttribute('x', '0');
@@ -61,8 +59,8 @@ const createBoundary = async () => {
 
 const show = async () => {
   if (!openBottomBoundarySVG) await createBoundary();
-  const workarea = getWorkarea(BeamboxPreference.read('workarea'));
-  const x = workarea.pxWidth - Constant.borderless.safeDistance.X * Constant.dpmm;
+  const { width } = workareaManager;
+  const x = width - Constant.borderless.safeDistance.X * Constant.dpmm;
   openBottomBoundaryRect.setAttribute('x', x.toString());
   openBottomBoundaryRect.setAttribute('display', 'block');
 };
