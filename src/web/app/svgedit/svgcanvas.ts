@@ -2475,6 +2475,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         overflow: curConfig.show_outside_canvas ? 'visible' : 'hidden',
         width: pxWidth,
         height: pxDisplayHeight ?? pxHeight,
+        viewBox: `0 0 ${pxWidth} ${pxHeight}`,
       };
 
       // identify layers
@@ -2501,7 +2502,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       svgroot.appendChild(selectorManager.selectorParentGroup);
 
       addCommandToHistory(batchCmd);
-      call('changed', [svgcontent]);
       const layers: SVGGElement[] = $('#svgcontent > g.layer').toArray();
       layers.forEach((layer) => {
         updateLayerColor(layer);
