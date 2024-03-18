@@ -565,6 +565,9 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
           file.thumbnailSize,
         ];
 
+        const rotaryMode = BeamboxPreference.read('rotary_mode');
+        if (rotaryMode) args.push('-spin')
+
         if (opts) {
           if (opts.model === 'fhexa1') args.push('-hexa');
           else if (opts.model === 'fbb1p') args.push('-pro');
