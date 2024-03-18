@@ -1,5 +1,6 @@
 import React from 'react';
 
+import isDev from 'helpers/is-dev';
 import SelectControl from 'app/components/settings/SelectControl';
 import { OptionValues } from 'app/constants/enums';
 
@@ -14,6 +15,7 @@ function Experimental({
   oneWayPrintingOptions,
   updateBeamboxPreferenceChange,
 }: Props): JSX.Element {
+  if (!isDev()) return null;
   return (
     <>
       <div className="subtitle">Experimental Features</div>
