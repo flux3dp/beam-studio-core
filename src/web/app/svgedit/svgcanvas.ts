@@ -2475,7 +2475,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         overflow: curConfig.show_outside_canvas ? 'visible' : 'hidden',
         width: pxWidth,
         height: pxDisplayHeight ?? pxHeight,
-        viewBox: `0 0 ${pxWidth} ${pxHeight}`,
+        viewBox: `0 0 ${pxWidth} ${pxDisplayHeight ?? pxHeight}`,
       };
 
       // identify layers
