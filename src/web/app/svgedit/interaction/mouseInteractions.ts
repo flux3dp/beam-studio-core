@@ -1794,7 +1794,6 @@ const onMouseWheel = (() => {
       }
 
       targetZoom = Math.min(20, targetZoom);
-      targetZoom = Math.max(0.1, targetZoom);
       if ((targetZoom > 19) && (delta > 0)) {
         return;
       }
