@@ -1007,6 +1007,7 @@ const lang: ILang = {
       engrave_dpi: '해상도',
       enable_diode: '다이오드 레이저',
       enable_autofocus: '오토포커스',
+      extend_workarea: '작업 영역 확장',
       add_on: '애드온',
       low: '낮음',
       medium: '보통',

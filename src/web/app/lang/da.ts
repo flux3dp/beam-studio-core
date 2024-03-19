@@ -1061,6 +1061,7 @@ const lang: ILang = {
       engrave_dpi: 'Opløsning',
       enable_diode: 'Diodelaser',
       enable_autofocus: 'Autofokus',
+      extend_workarea: 'Udvid arbejdsområdet',
       add_on: 'Tilføjelser',
       low: 'Lav',
       medium: 'Medium',

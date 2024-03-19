@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import React, { useEffect, useMemo, useState } from 'react';
-import { Col, Form, Modal, Row, Select, Switch } from 'antd';
+import { Checkbox, Col, ConfigProvider, Form, Modal, Row, Select, Switch } from 'antd';
 
 import alertCaller from 'app/actions/alert-caller';
 import alertConstants from 'app/constants/alert-constants';
@@ -17,7 +17,6 @@ import { WorkAreaModel, getWorkarea } from 'app/constants/workarea-constants';
 
 import styles from './DocumentSettings.module.scss';
 
-
 const workareaOptions = [
   { label: 'beamo', value: 'fbm1' },
   { label: 'Beambox', value: 'fbb1b' },
@@ -27,7 +26,7 @@ const workareaOptions = [
   { label: 'Ador', value: 'ado1' },
 ];
 
-// mpa for engrave dpi v2
+// map for engrave dpi v2
 // const dpiMap = {
 //   low: 125,
 //   medium: 250,
@@ -51,6 +50,9 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
   const origWorkarea = useMemo(() => BeamboxPreference.read('workarea'), []);
   const [workarea, setWorkarea] = useState<WorkAreaModel>(origWorkarea || 'fbb1b');
   const [rotaryMode, setRotaryMode] = useState<number>(BeamboxPreference.read('rotary_mode'));
+  const [extendRotaryWorkarea, setExtendRotaryWorkarea] = useState<boolean>(
+    !!BeamboxPreference.read('extend-rotary-workarea')
+  );
   const [borderlessMode, setBorderlessMode] = useState(
     BeamboxPreference.read('borderless') === true
   );
@@ -83,8 +85,11 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
     BeamboxPreference.write('borderless', borderlessMode);
     BeamboxPreference.write('enable-diode', enableDiode);
     BeamboxPreference.write('enable-autofocus', enableAutofocus);
-    const rotaryChanged = rotaryMode !== BeamboxPreference.read('rotary_mode');
+    const rotaryChanged =
+      rotaryMode !== BeamboxPreference.read('rotary_mode') ||
+      extendRotaryWorkarea !== (!!BeamboxPreference.read('extend-rotary-workarea'));
     BeamboxPreference.write('rotary_mode', rotaryMode);
+    BeamboxPreference.write('extend-rotary-workarea', extendRotaryWorkarea);
     if (workarea !== BeamboxPreference.read('workarea') || rotaryChanged) {
       changeWorkarea(workarea);
     } else {
@@ -142,66 +147,86 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
           </Select>
         </Form.Item>
         <strong>{langDocumentSettings.add_on}</strong>
-        <Row>
-          <Col span={12}>
-            <Form.Item
-              name="rotary_mode"
-              className={classNames({ [styles.disabled]: rotaryModels.length === 1 })}
-              label={langDocumentSettings.rotary_mode}
-              labelCol={{ span: 12, offset: 0 }}
-            >
-              <Switch
-                checked={rotaryMode !== 0}
-                disabled={rotaryModels.length === 1}
-                onChange={handleRotaryModeChange}
-              />
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item
-              name="borderless_mode"
-              className={classNames({ [styles.disabled]: !doesSupportOpenBottom })}
-              label={langDocumentSettings.borderless_mode}
-              labelCol={{ span: 12, offset: 0 }}
-            >
-              <Switch
-                checked={doesSupportOpenBottom && borderlessMode}
-                disabled={!doesSupportOpenBottom}
-                onChange={handleBorderlessModeChange}
-              />
-            </Form.Item>
-          </Col>
-        </Row>
-        <Row>
-          <Col span={12}>
-            <Form.Item
-              name="autofocus-module"
-              className={classNames({ [styles.disabled]: !doesSupportAutofocus })}
-              label={langDocumentSettings.enable_autofocus}
-              labelCol={{ span: 12, offset: 0 }}
-            >
-              <Switch
-                checked={doesSupportAutofocus && enableAutofocus}
-                disabled={!doesSupportAutofocus}
-                onChange={handleAutofocusModuleChange}
-              />
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item
-              name="diode_module"
-              className={classNames({ [styles.disabled]: !doesSupportHybrid })}
-              label={langDocumentSettings.enable_diode}
-              labelCol={{ span: 12, offset: 0 }}
-            >
-              <Switch
-                checked={doesSupportHybrid && enableDiode}
-                disabled={!doesSupportHybrid}
-                onChange={handleDiodeModuleChange}
-              />
-            </Form.Item>
-          </Col>
-        </Row>
+        <ConfigProvider
+          theme={{
+            components: {
+              Form: {
+                itemMarginBottom: 0,
+              },
+            },
+          }}
+        >
+          <Row>
+            <Col span={12}>
+              <Form.Item
+                name="rotary_mode"
+                className={classNames({ [styles.disabled]: rotaryModels.length === 1 })}
+                label={langDocumentSettings.rotary_mode}
+                labelCol={{ span: 12, offset: 0 }}
+              >
+                <Switch
+                  checked={rotaryMode !== 0}
+                  disabled={rotaryModels.length === 1}
+                  onChange={handleRotaryModeChange}
+                />
+              </Form.Item>
+              <div className={styles.subCheckbox}>
+                {workarea === 'ado1' && rotaryMode !== 0 && (
+                  <Checkbox
+                    checked={extendRotaryWorkarea}
+                    onChange={(e) => setExtendRotaryWorkarea(e.target.checked)}
+                  >
+                    {langDocumentSettings.extend_workarea}
+                  </Checkbox>
+                )}
+              </div>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                name="borderless_mode"
+                className={classNames({ [styles.disabled]: !doesSupportOpenBottom })}
+                label={langDocumentSettings.borderless_mode}
+                labelCol={{ span: 12, offset: 0 }}
+              >
+                <Switch
+                  checked={doesSupportOpenBottom && borderlessMode}
+                  disabled={!doesSupportOpenBottom}
+                  onChange={handleBorderlessModeChange}
+                />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={12}>
+              <Form.Item
+                name="autofocus-module"
+                className={classNames({ [styles.disabled]: !doesSupportAutofocus })}
+                label={langDocumentSettings.enable_autofocus}
+                labelCol={{ span: 12, offset: 0 }}
+              >
+                <Switch
+                  checked={doesSupportAutofocus && enableAutofocus}
+                  disabled={!doesSupportAutofocus}
+                  onChange={handleAutofocusModuleChange}
+                />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                name="diode_module"
+                className={classNames({ [styles.disabled]: !doesSupportHybrid })}
+                label={langDocumentSettings.enable_diode}
+                labelCol={{ span: 12, offset: 0 }}
+              >
+                <Switch
+                  checked={doesSupportHybrid && enableDiode}
+                  disabled={!doesSupportHybrid}
+                  onChange={handleDiodeModuleChange}
+                />
+              </Form.Item>
+            </Col>
+          </Row>
+        </ConfigProvider>
       </Form>
     </Modal>
   );

@@ -10,7 +10,7 @@ const zoomBlockEventEmitter = eventEmitterFactory.createEventEmitter('zoom-block
 class WorkareaManager {
   model: WorkAreaModel;
 
-  rotaryEnabled: boolean;
+  rotaryExtended: boolean;
 
   width: number; // px
 
@@ -27,14 +27,15 @@ class WorkareaManager {
   }
 
   setWorkarea(model: WorkAreaModel): void {
-    const rotaryEnabled = !!beamboxPreference.read('rotary_mode');
-    if (model !== this.model || this.rotaryEnabled !== rotaryEnabled) {
+    const rotaryExtended =
+      !!beamboxPreference.read('rotary_mode') && beamboxPreference.read('extend-rotary-workarea');
+    if (model !== this.model || this.rotaryExtended !== rotaryExtended) {
       const workarea = getWorkarea(model);
       this.model = model;
-      this.rotaryEnabled = rotaryEnabled;
+      this.rotaryExtended = rotaryExtended;
       this.width = workarea.pxWidth;
       this.height = workarea.pxDisplayHeight ?? workarea.pxHeight;
-      if (rotaryEnabled && rotaryConstants[model]) {
+      if (rotaryExtended && rotaryConstants[model]) {
         const { dpmm } = constant;
         const { boundary, maxHeight } = rotaryConstants[model];
         const [lowerBound, upperBound] = boundary

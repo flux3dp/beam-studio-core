@@ -1,7 +1,6 @@
 import alertCaller from 'app/actions/alert-caller';
 import alertConfig from 'helpers/api/alert-config';
 import alertConstants from 'app/constants/alert-constants';
-import beamboxPreferences from 'app/actions/beambox/beambox-preference';
 import dialogCaller from 'app/actions/dialog-caller';
 import HistoryCommandFactory from 'app/svgedit/HistoryCommandFactory';
 import history from 'app/svgedit/history';
@@ -12,9 +11,9 @@ import NS from 'app/constants/namespaces';
 import progressCaller from 'app/actions/progress-caller';
 import requirejsHelper from 'helpers/requirejs-helper';
 import SymbolMaker from 'helpers/symbol-maker';
+import workareaManager from 'app/svgedit/workarea';
 import { createLayer, removeDefaultLayerIfEmpty } from 'helpers/layer/layer-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 
 let svgCanvas: ISVGCanvas;
 let svgedit;
@@ -82,11 +81,10 @@ const importDxf = async (file: Blob): Promise<void> => {
     caption: 'Loading image, please wait...',
   });
   const { outputLayers, bbox } = Dxf2Svg.toSVG(parsed, unitLength * 10);
-  const workarea: WorkAreaModel = beamboxPreferences.read('workarea');
-  const { pxWidth, pxHeight, pxDisplayHeight } = getWorkarea(workarea);
+  const { width, height } = workareaManager
   if (
     !alertConfig.read('skip_dxf_oversize_warning') &&
-    (bbox.width > pxWidth || bbox.height > (pxDisplayHeight ?? pxHeight))
+    (bbox.width > width || bbox.height > height)
   ) {
     alertCaller.popUp({
       id: 'dxf_size_over_workarea',

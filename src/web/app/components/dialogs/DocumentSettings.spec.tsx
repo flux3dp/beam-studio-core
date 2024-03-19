@@ -19,6 +19,7 @@ const beamboxPreferences = {
   borderless: false,
   'enable-diode': false,
   'enable-autofocus': false,
+  'extend-rotary-workarea': undefined,
 };
 const mockBeamboxPreferenceWrite = jest.fn();
 jest.mock('app/actions/beambox/beambox-preference', () => ({
@@ -62,6 +63,7 @@ jest.mock('helpers/useI18n', () => () => ({
       engrave_dpi: 'Resolution',
       enable_diode: 'Diode Laser',
       enable_autofocus: 'Autofocus',
+      extend_workarea: 'extend_workarea',
       add_on: 'Add-ons',
       low: 'Low',
       medium: 'Medium',
@@ -120,12 +122,13 @@ describe('test DocumentSettings', () => {
     const { onConfirm } = mockPopUp.mock.calls[0][0];
     onConfirm();
     await new Promise((resolve) => setTimeout(resolve, 0));
-    expect(mockBeamboxPreferenceWrite).toBeCalledTimes(5);
+    expect(mockBeamboxPreferenceWrite).toBeCalledTimes(6);
     expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(1, 'engrave_dpi', 'high');
     expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(2, 'borderless', true);
     expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(3, 'enable-diode', true);
     expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(4, 'enable-autofocus', true);
     expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(5, 'rotary_mode', 1);
+    expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(6, 'extend-rotary-workarea', false);
     expect(mockChangeWorkarea).toBeCalledTimes(1);
     expect(mockChangeWorkarea).toHaveBeenLastCalledWith('fbm1');
     expect(mockToggleDisplay).toBeCalledTimes(1);

@@ -1007,6 +1007,7 @@ const lang: ILang = {
       engrave_dpi: '雕刻解析度',
       enable_diode: '二極體雷射',
       enable_autofocus: '自動對焦',
+      extend_workarea: '擴展工作區域',
       add_on: '擴充模組',
       low: '低',
       medium: '中',

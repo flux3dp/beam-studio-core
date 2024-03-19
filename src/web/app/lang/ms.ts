@@ -1064,6 +1064,7 @@ const lang: ILang = {
       engrave_dpi: 'Resolusi',
       enable_diode: 'Laser Diod',
       enable_autofocus: 'Autofokus',
+      extend_workarea: 'Perluaskan kawasan kerja',
       add_on: 'Tambahan',
       low: 'Rendah',
       medium: 'Sederhana',

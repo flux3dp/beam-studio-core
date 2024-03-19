@@ -562,7 +562,8 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
         const args = [orderName, file.uploadName, file.size, file.thumbnailSize];
 
         const rotaryMode = BeamboxPreference.read('rotary_mode');
-        if (rotaryMode) args.push('-spin');
+        const extendRotaryWorkarea = BeamboxPreference.read('extend-rotary-workarea');
+        if (rotaryMode && extendRotaryWorkarea) args.push('-spin');
 
         if (opts) {
           if (opts.model === 'fhexa1') args.push('-hexa');

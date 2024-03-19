@@ -1059,6 +1059,7 @@ const lang: ILang = {
       engrave_dpi: 'Resoluutio',
       enable_diode: 'Diodilaser',
       enable_autofocus: 'Autofokus',
+      extend_workarea: 'Laajenna työaluetta',
       add_on: 'Lisäosat',
       low: 'Matala',
       medium: 'Keskitaso',
