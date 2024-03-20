@@ -16,7 +16,7 @@ interface WorkArea {
   pxDisplayHeight?: number; // px
   deep?: number; // mm
   maxSpeed: number; // mm/s
-  minSpeed?: number; // mm/s
+  minSpeed: number; // mm/s
   rotary: number[];
   cameraCenter?: number[]; // [mm, mm]
 }
@@ -72,6 +72,7 @@ const workareaConstants: { [key in WorkAreaModel]: WorkArea } = {
     pxDisplayHeight: 320 * dpmm,
     deep: 40.5,
     maxSpeed: 400,
+    minSpeed: 0.5,
     rotary: isDev() ? [0, 1] : [0],
     cameraCenter: [215, 150],
   },
