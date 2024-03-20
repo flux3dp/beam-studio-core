@@ -213,7 +213,13 @@ class CameraCalibrationApi {
   ): Promise<{
     success: boolean;
     blob: Blob;
-    data?: { k: number[][]; d: number[][]; rvec: number[]; points: [number, number][][] };
+    data?: {
+      k: number[][];
+      d: number[][];
+      rvec: number[];
+      tvec: number[];
+      points: [number, number][][];
+    };
   }> {
     return new Promise((resolve, reject) => {
       let success = true;
@@ -221,6 +227,7 @@ class CameraCalibrationApi {
         k: number[][];
         d: number[][];
         rvec: number[];
+        tvec: number[];
         points: [number, number][][];
       };
       this.events.onMessage = (response) => {

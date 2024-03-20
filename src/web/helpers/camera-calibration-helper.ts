@@ -414,7 +414,13 @@ export const findCorners = async (
 ): Promise<{
   success: boolean;
   blob: Blob;
-  data?: { k: number[][]; d: number[][]; rvec: number[]; points: [number, number][][] };
+  data?: {
+    k: number[][];
+    d: number[][];
+    rvec: number[];
+    tvec: number[];
+    points: [number, number][][];
+  };
 }> => {
   const resp = await api.findCorners(imgBlob, withPitch);
   return resp;

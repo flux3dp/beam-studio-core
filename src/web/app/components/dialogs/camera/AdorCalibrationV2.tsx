@@ -177,6 +177,7 @@ const AdorCalibrationV2 = ({ onClose }: Props): JSX.Element => {
           d: calibratingParam.current.d,
           refHeight: calibratingParam.current.refHeight,
           rvec: calibratingParam.current.rvec,
+          tvec: calibratingParam.current.tvec,
           points: calibratingParam.current.points,
           hx: calibratingParam.current.hx,
           hy: calibratingParam.current.hy,
