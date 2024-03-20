@@ -29,20 +29,30 @@ const updateGrids = (zoomRatio: number, force = false): void => {
   const { width, height } = workareaManager;
   xGridContainer.replaceChildren();
   yGridContainer.replaceChildren();
-  for (let x = 0; x <= width; x += gridLevel) {
+  for (let i = 0; i <= width / gridLevel; i += 1) {
+    const x = i * gridLevel;
     const line = document.createElementNS(NS.SVG, 'line');
     line.setAttribute('x1', x.toString());
     line.setAttribute('y1', '0');
     line.setAttribute('x2', x.toString());
     line.setAttribute('y2', height.toString());
+    line.setAttribute('stroke', 'black');
+    line.setAttribute('stroke-width', '1');
+    line.setAttribute('vector-effect', 'non-scaling-stroke');
+    line.setAttribute('opacity', i % 10 === 0 ? '0.5' : '0.18');
     xGridContainer.appendChild(line);
   }
-  for (let y = 0; y <= height; y += gridLevel) {
+  for (let i = 0; i <= height / gridLevel; i += 1) {
+    const y = i * gridLevel;
     const line = document.createElementNS(NS.SVG, 'line');
     line.setAttribute('x1', '0');
     line.setAttribute('y1', y.toString());
     line.setAttribute('x2', width.toString());
     line.setAttribute('y2', y.toString());
+    line.setAttribute('stroke', 'black');
+    line.setAttribute('stroke-width', '1');
+    line.setAttribute('vector-effect', 'non-scaling-stroke');
+    line.setAttribute('opacity', i % 10 === 0 ? '0.5' : '0.18');
     yGridContainer.appendChild(line);
   }
   currentGridInterval = gridLevel;
@@ -73,10 +83,8 @@ const init = (zoomRatio = 1): void => {
   gridContainer.id = 'canvasGrid';
   gridContainer.classList.add(styles.container);
   xGridContainer = document.createElementNS(NS.SVG, 'g') as unknown as SVGGElement;
-  xGridContainer.classList.add(styles.x);
   gridContainer.appendChild(xGridContainer);
   yGridContainer = document.createElementNS(NS.SVG, 'g') as unknown as SVGGElement;
-  yGridContainer.classList.add(styles.y);
   gridContainer.appendChild(yGridContainer);
 
   const canvasBackground = document.getElementById('canvasBackground');
