@@ -42,7 +42,7 @@ import { IAnnouncement } from 'interfaces/IAnnouncement';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { IDialogBoxStyle, IInputLightBox, IPrompt } from 'interfaces/IDialog';
 import { IMediaTutorial, ITutorial } from 'interfaces/ITutorial';
-import { RotationParameters3DCalibration } from 'app/constants/camera-calibration-constants';
+import { RotationParameters3DCalibration } from 'interfaces/FisheyePreview';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => {
