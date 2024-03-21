@@ -1,0 +1,9 @@
+@media screen and (max-width: 600px) {
+  :not(:global(.white)) .element-title {
+    margin-top: 20px;
+  }
+
+  :global(.white) .element-title {
+    margin-left: 40px;
+  }
+}
