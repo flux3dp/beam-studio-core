@@ -63,19 +63,19 @@ export class AlertProgressContextProvider extends React.Component<Props, State> 
   }
 
   popFromStack = (): void => {
-    const { alertProgressStack } = this.state;
-    alertProgressStack.pop();
-    this.setState({
-      alertProgressStack,
+    this.setState((cur) => {
+      const { alertProgressStack } = cur;
+      const newStack = [...alertProgressStack];
+      newStack.pop();
+      return { alertProgressStack: newStack };
     });
-    this.forceUpdate();
   };
 
   popById = (id: string): void => {
-    this.setState((cur) => ({
-      ...cur,
-      alertProgressStack: [...cur.alertProgressStack.filter((item) => item.id !== id)],
-    }));
+    this.setState((cur) => {
+      const newStack = [...cur.alertProgressStack.filter((item) => item.id !== id)];
+      return { alertProgressStack: newStack };
+    });
   };
 
   checkIdExist = (
@@ -138,7 +138,6 @@ export class AlertProgressContextProvider extends React.Component<Props, State> 
 
   closeMessage = (id: string): void => {
     const { messageApi } = this.props;
-    // console.log('destroy', id);
     messageApi.destroy(id);
   };
 
@@ -185,21 +184,21 @@ export class AlertProgressContextProvider extends React.Component<Props, State> 
   };
 
   updateProgress = (id: string, args: IProgressDialog): void => {
-    const { alertProgressStack } = this.state;
-    const targetObjects = alertProgressStack.filter((item) => {
-      const { id: itemId } = item;
-      return 'isProgress' in item && itemId === id;
+    this.setState((cur) => {
+      const { alertProgressStack } = cur;
+      const newStack = [...alertProgressStack];
+      const targetObjects = newStack.filter(
+        ({ id: itemId, isProgress }) => isProgress && itemId === id
+      );
+      if (targetObjects.length === 0) return cur;
+      const targetObject = targetObjects[targetObjects.length - 1];
+      if (targetObject.type === ProgressConstants.NONSTOP && !args.caption && args.message) {
+        // eslint-disable-next-line no-param-reassign
+        args.caption = args.message;
+      }
+      Object.assign(targetObject, args);
+      return { alertProgressStack: newStack };
     });
-    if (targetObjects.length === 0) {
-      return;
-    }
-    const targetObject = targetObjects[targetObjects.length - 1];
-    if (targetObject.type === ProgressConstants.NONSTOP && !args.caption && args.message) {
-      // eslint-disable-next-line no-param-reassign
-      args.caption = args.message;
-    }
-    Object.assign(targetObject, args);
-    this.setState({ alertProgressStack });
   };
 
   popUp = (args: IAlert, callback = () => {}): void => {
