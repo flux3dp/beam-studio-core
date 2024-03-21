@@ -27,3 +27,11 @@
     font-size: 26px;
   }
 }
+
+:global(.white) .user-avatar {
+  margin-left: 8px;
+
+  .default-avatar {
+    color: #000000;
+  }
+}

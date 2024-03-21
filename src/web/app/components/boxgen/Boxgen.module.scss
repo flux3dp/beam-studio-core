@@ -81,6 +81,10 @@
     &.windows {
       // Windows desktop titlebar = 30px
       max-height: calc(100vh - 30px);
+
+      .sider {
+        height: 100%;
+      }
     }
 
     &:not(.windows) {

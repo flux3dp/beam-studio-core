@@ -323,6 +323,17 @@ const convertTextToPathByGhost = async (
   }
 };
 
+const getUnsupportedChar = async (
+  font: WebFont | FontDescriptor,
+  textContent: string[]
+): Promise<string[] | null> => {
+  const fontObj = await getFontObj(font);
+  if (fontObj) {
+    return textContent.filter((c) => !fontObj.hasGlyphForCodePoint(c.codePointAt(0)));
+  }
+  return null;
+};
+
 const substitutedFont = async (font: WebFont | FontDescriptor, textElement: Element) => {
   const originFont = getFontOfPostscriptName(textElement.getAttribute('font-postscript'));
   const fontFamily = textElement.getAttribute('font-family');
@@ -352,11 +363,17 @@ const substitutedFont = async (font: WebFont | FontDescriptor, textElement: Elem
   // array of used family which are in the text
 
   const originPostscriptName = originFont.postscriptName;
-  let unsupportedChar = [];
   const fontOptions: { [postscriptName: string]: FontDescriptor } = { originPostscriptName: font };
   const textContent = [...new Set(Array.from(text))];
   let fontList: FontDescriptor[] = [font];
+  let unsupportedChar = await getUnsupportedChar(originFont, textContent);
+  if (unsupportedChar && unsupportedChar.length === 0) {
+    console.log(`Original font ${originFont.postscriptName} fits for all char`);
+    return { font: originFont };
+  }
+
   if (window.FLUX.version !== 'web') {
+    unsupportedChar = [];
     textContent.forEach((char) => {
       const sub = localFontHelper.substituteFont(originPostscriptName, char);
       if (sub.postscriptName !== originPostscriptName) unsupportedChar.push(char);
@@ -402,11 +419,8 @@ const substitutedFont = async (font: WebFont | FontDescriptor, textElement: Elem
   let bestFont = fontList[0];
   for (let i = 0; i < fontList.length; i += 1) {
     const currentFont = fontList[i];
-    const fontObj = await getFontObj(currentFont);
-    if (fontObj) {
-      const unsupported = textContent.filter(
-        (c) => !fontObj.hasGlyphForCodePoint(c.codePointAt(0))
-      );
+    const unsupported = await getUnsupportedChar(currentFont, textContent);
+    if (unsupported) {
       if (currentFont.postscriptName === font.postscriptName) unsupportedChar = unsupported;
       if (unsupported.length === 0) {
         console.log(`Find ${currentFont.postscriptName} fit for all char with fontkit`);
