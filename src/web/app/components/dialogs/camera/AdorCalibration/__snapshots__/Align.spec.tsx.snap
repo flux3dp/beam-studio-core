@@ -17,7 +17,7 @@ exports[`test Align scroll and next should work when type is Camera 1`] = `
         <div
           aria-labelledby="test-id"
           aria-modal="true"
-          class="ant-modal css-dev-only-do-not-override-hash ant-zoom-appear ant-zoom-appear-prepare ant-zoom"
+          class="ant-modal css-dev-only-do-not-override-hash"
           role="dialog"
           style="width: 520px; transform-origin: NaNpx NaNpx;"
         >
@@ -423,7 +423,7 @@ exports[`test Align scroll and next should work when type is PRINTER_HEAD 1`] = 
         <div
           aria-labelledby="test-id"
           aria-modal="true"
-          class="ant-modal css-dev-only-do-not-override-hash ant-zoom-appear ant-zoom-appear-prepare ant-zoom"
+          class="ant-modal css-dev-only-do-not-override-hash"
           role="dialog"
           style="width: 520px; transform-origin: NaNpx NaNpx;"
         >
