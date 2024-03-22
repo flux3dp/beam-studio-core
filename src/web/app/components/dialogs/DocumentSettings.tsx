@@ -21,7 +21,6 @@ const workareaOptions = [
   { label: 'beamo', value: 'fbm1' },
   { label: 'Beambox', value: 'fbb1b' },
   { label: 'Beambox Pro', value: 'fbb1p' },
-  { label: 'Beambox Pro II', value: 'fbb2p' },
   { label: 'HEXA', value: 'fhexa1' },
   { label: 'Ador', value: 'ado1' },
 ];
