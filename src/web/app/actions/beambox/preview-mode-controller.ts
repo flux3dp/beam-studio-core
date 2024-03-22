@@ -178,7 +178,7 @@ class PreviewModeController {
       if (deviceMaster.currentControlMode === 'raw') {
         await deviceMaster.rawLooseMotor();
         Progress.update('preview-mode-controller', { message: LANG.message.endingRawMode });
-        await deviceMaster.endRawMode()
+        await deviceMaster.endRawMode();
       }
       Progress.popById('preview-mode-controller');
     }
