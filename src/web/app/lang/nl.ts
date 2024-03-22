@@ -1059,6 +1059,7 @@ const lang: ILang = {
       engrave_dpi: 'Resolutie',
       enable_diode: 'Diode laser',
       enable_autofocus: 'Autofocus',
+      extend_workarea: 'Werkgebied uitbreiden',
       add_on: 'Add-ons',
       low: 'Laag',
       medium: 'Gemiddeld',

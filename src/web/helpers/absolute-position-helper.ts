@@ -42,7 +42,7 @@ export const calculateRight = (right: number, ref: RightRef = RightRef.WINDOW): 
       return right + Constant.rightPanelWidth;
     case RightRef.PATH_PREVIEW_BTN: {
       const workarea = beamboxPreference.read('workarea');
-      const shouldHideBtn = !isDev() && modelsWithModules.includes(workarea);
+      const shouldHideBtn = !isDev() && modelsWithModules.has(workarea);
       const offset = (isMacOrWeb ? 6 : 26) + (shouldHideBtn ? 0 : 42);
       return right + offset;
     }

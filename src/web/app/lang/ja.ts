@@ -1007,6 +1007,7 @@ const lang: ILang = {
       engrave_dpi: '解像度',
       enable_diode: 'ダイオードレーザー',
       enable_autofocus: 'オートフォーカス',
+      extend_workarea: '作業エリアを拡張する',
       add_on: 'アドオン',
       low: '低',
       medium: '中',

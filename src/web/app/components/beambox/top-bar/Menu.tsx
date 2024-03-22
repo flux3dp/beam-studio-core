@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Menu as TopBarMenu, MenuItem, MenuDivider, SubMenu } from '@szhsin/react-menu';
 
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
@@ -27,24 +27,24 @@ export default function Menu({ email }: Props): JSX.Element {
     () => eventEmitterFactory.createEventEmitter('top-bar-menu'),
     []
   );
-  const [devices, setDevices] = React.useState<IDeviceInfo[]>([]);
-  const [shouldShowRulers, changeShouldShowRulers] = React.useState(
+  const [devices, setDevices] = useState<IDeviceInfo[]>([]);
+  const [shouldShowRulers, changeShouldShowRulers] = useState(
     BeamboxPreference.read('show_rulers')
   );
-  const [shouldShowGrids, changeShouldShowGrids] = React.useState(true);
-  const [shouldUseLayerColor, changeShouldUseLayerColor] = React.useState(
+  const [shouldShowGrids, changeShouldShowGrids] = useState(BeamboxPreference.read('show_grids'));
+  const [shouldUseLayerColor, changeShouldUseLayerColor] = useState(
     BeamboxPreference.read('use_layer_color') !== false
   );
-  const [isUsingAntiAliasing, setIsUsingAntiAliasing] = React.useState(
+  const [isUsingAntiAliasing, setIsUsingAntiAliasing] = useState(
     BeamboxPreference.read('anti-aliasing') !== false
   );
-  const [shouldZoomWithWindow, changeShouldZoomWithWindow] = React.useState(false);
-  const [duplicateDisabled, setDuplicateDisabled] = React.useState(true);
-  const [svgEditDisabled, setSvgEditDisabled] = React.useState(true);
-  const [decomposePathDisabled, setDecomposePathDisabled] = React.useState(true);
-  const [groupDisabled, setGroupDisabled] = React.useState(true);
-  const [ungroupDisabled, setUngroupDisabled] = React.useState(true);
-  const [imageEditDisabled, setImageEditDisabled] = React.useState(true);
+  const [shouldZoomWithWindow, changeShouldZoomWithWindow] = useState(false);
+  const [duplicateDisabled, setDuplicateDisabled] = useState(true);
+  const [svgEditDisabled, setSvgEditDisabled] = useState(true);
+  const [decomposePathDisabled, setDecomposePathDisabled] = useState(true);
+  const [groupDisabled, setGroupDisabled] = useState(true);
+  const [ungroupDisabled, setUngroupDisabled] = useState(true);
+  const [imageEditDisabled, setImageEditDisabled] = useState(true);
   const menuItemUpdater = {
     DUPLICATE: setDuplicateDisabled,
     SVG_EDIT: setSvgEditDisabled,
@@ -106,7 +106,7 @@ export default function Menu({ email }: Props): JSX.Element {
     const submenus = [];
     for (let i = 0; i < devices.length; i += 1) {
       const { model, name, serial } = devices[i];
-      const hasModules = modelsWithModules.includes(model);
+      const hasModules = modelsWithModules.has(model);
       submenus.push(
         <SubMenu label={name} key={serial}>
           <MenuItem onClick={() => callback('DASHBOARD', serial)}>{menuCms.dashboard}</MenuItem>

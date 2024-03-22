@@ -1,12 +1,12 @@
 import * as React from 'react';
 
 import alert from 'app/actions/alert-caller';
-import BeamboxConstant, { WorkAreaModel } from 'app/actions/beambox/constant';
 import Controls from 'app/components/settings/Control';
 import i18n from 'helpers/i18n';
 import SelectControl from 'app/components/settings/SelectControl';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import { OptionValues } from 'app/constants/enums';
+import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 
 interface Props {
   defaultUnit: string;
@@ -34,6 +34,7 @@ const Module = ({
   updateBeamboxPreferenceChange,
 }: Props): JSX.Element => {
   const { lang } = i18n;
+  const workarea = getWorkarea(selectedModel);
 
   const onDiodeOneWayEngravingChanged = (e) => {
     if (e.target.value === OptionValues.FALSE) {
@@ -72,7 +73,7 @@ const Module = ({
           id="diode-offset-x-input"
           unit={defaultUnit === 'inches' ? 'in' : 'mm'}
           min={0}
-          max={BeamboxConstant.dimension.getWidth(selectedModel) / 10}
+          max={workarea.width}
           defaultValue={diodeOffsetX || 0}
           getValue={(val) => updateBeamboxPreferenceChange('diode_offset_x', val)}
           forceUsePropsUnit
@@ -83,7 +84,7 @@ const Module = ({
           id="diode-offset-y-input"
           unit={defaultUnit === 'inches' ? 'in' : 'mm'}
           min={0}
-          max={BeamboxConstant.dimension.getHeight(selectedModel) / 10}
+          max={workarea.height}
           defaultValue={diodeOffsetY || 0}
           getValue={(val) => updateBeamboxPreferenceChange('diode_offset_y', val)}
           forceUsePropsUnit

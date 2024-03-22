@@ -105,7 +105,7 @@ jest.mock('app/actions/alert-caller', () => ({
 }));
 
 const mockTogglePresprayArea = jest.fn();
-jest.mock('app/actions/beambox/prespray-area', () => ({
+jest.mock('app/actions/canvas/prespray-area', () => ({
   togglePresprayArea: () => mockTogglePresprayArea(),
 }));
 

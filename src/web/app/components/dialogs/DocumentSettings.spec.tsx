@@ -3,6 +3,11 @@ import { fireEvent, render } from '@testing-library/react';
 
 import DocumentSettings from './DocumentSettings';
 
+jest.mock('antd', () => ({
+  ...jest.requireActual('antd'),
+  ConfigProvider: ({ children }: { children: React.ReactNode }) => children,
+}));
+
 const mockPopUp = jest.fn();
 jest.mock('app/actions/alert-caller', () => ({
   popUp: (...args) => mockPopUp(...args),
@@ -19,6 +24,7 @@ const beamboxPreferences = {
   borderless: false,
   'enable-diode': false,
   'enable-autofocus': false,
+  'extend-rotary-workarea': undefined,
 };
 const mockBeamboxPreferenceWrite = jest.fn();
 jest.mock('app/actions/beambox/beambox-preference', () => ({
@@ -33,7 +39,9 @@ jest.mock('app/widgets/EngraveDpiSlider', () => ({ value, onChange }: any) => (
   <div>
     DummyEngraveDpiSlider
     <p>value: {value}</p>
-    <button type="button" onClick={() => onChange('high')}>change dpi</button>
+    <button type="button" onClick={() => onChange('high')}>
+      change dpi
+    </button>
   </div>
 ));
 
@@ -42,17 +50,9 @@ jest.mock('app/actions/beambox/open-bottom-boundary-drawer', () => ({
   update: () => update(),
 }));
 
-const setRotaryMode = jest.fn();
-const runExtensions = jest.fn();
-jest.mock('helpers/svg-editor-helper', () => ({
-  getSVGAsync: (callback) => {
-    callback({
-      Canvas: {
-        setRotaryMode: (value) => setRotaryMode(value),
-        runExtensions: (value) => runExtensions(value),
-      },
-    });
-  },
+const mockToggleDisplay = jest.fn();
+jest.mock('app/actions/canvas/rotary-axis', () => ({
+  toggleDisplay: () => mockToggleDisplay(),
 }));
 
 jest.mock('helpers/useI18n', () => () => ({
@@ -70,6 +70,7 @@ jest.mock('helpers/useI18n', () => () => ({
       engrave_dpi: 'Resolution',
       enable_diode: 'Diode Laser',
       enable_autofocus: 'Autofocus',
+      extend_workarea: 'extend_workarea',
       add_on: 'Add-ons',
       low: 'Low',
       medium: 'Medium',
@@ -87,7 +88,12 @@ jest.mock('helpers/useI18n', () => () => ({
 }));
 
 const mockChangeWorkarea = jest.fn();
-jest.mock('app/svgedit/operations/changeWorkarea', () => (...args) => mockChangeWorkarea(...args));
+jest.mock(
+  'app/svgedit/operations/changeWorkarea',
+  () =>
+    (...args) =>
+      mockChangeWorkarea(...args)
+);
 
 const mockUnmount = jest.fn();
 const mockQuerySelectorAll = jest.fn();
@@ -103,7 +109,9 @@ describe('test DocumentSettings', () => {
 
     const workareaToggle = baseElement.querySelector('input#workarea');
     fireEvent.mouseDown(workareaToggle);
-    fireEvent.click(baseElement.querySelectorAll('.ant-slide-up-appear .ant-select-item-option-content')[0]);
+    fireEvent.click(
+      baseElement.querySelectorAll('.ant-slide-up-appear .ant-select-item-option-content')[0]
+    );
     fireEvent.click(baseElement.querySelector('button#rotary_mode'));
     fireEvent.click(baseElement.querySelector('button#borderless_mode'));
     fireEvent.click(baseElement.querySelector('button#autofocus-module'));
@@ -128,18 +136,16 @@ describe('test DocumentSettings', () => {
     const { onConfirm } = mockPopUp.mock.calls[0][0];
     onConfirm();
     await new Promise((resolve) => setTimeout(resolve, 0));
-    expect(mockBeamboxPreferenceWrite).toBeCalledTimes(5);
+    expect(mockBeamboxPreferenceWrite).toBeCalledTimes(6);
     expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(1, 'engrave_dpi', 'high');
     expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(2, 'borderless', true);
     expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(3, 'enable-diode', true);
     expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(4, 'enable-autofocus', true);
     expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(5, 'rotary_mode', 1);
+    expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(6, 'extend-rotary-workarea', false);
     expect(mockChangeWorkarea).toBeCalledTimes(1);
-    expect(mockChangeWorkarea).toHaveBeenLastCalledWith('fbm1');
-    expect(setRotaryMode).toHaveBeenCalledTimes(1);
-    expect(setRotaryMode).toHaveBeenLastCalledWith(1);
-    expect(runExtensions).toHaveBeenCalledTimes(1);
-    expect(runExtensions).toHaveBeenLastCalledWith('updateRotaryAxis');
+    expect(mockChangeWorkarea).toHaveBeenLastCalledWith('fbm1', { toggleModule: true });
+    expect(mockToggleDisplay).toBeCalledTimes(1);
     expect(update).not.toBeCalled();
     expect(mockUnmount).toBeCalledTimes(1);
   });

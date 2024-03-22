@@ -1003,6 +1003,7 @@ export interface ILang {
       engrave_dpi: string,
       enable_diode: string,
       enable_autofocus: string,
+      extend_workarea: string;
       add_on: string,
       low: string,
       medium: string,

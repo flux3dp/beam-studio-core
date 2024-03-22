@@ -1,15 +1,17 @@
 import useWorkarea from './useWorkarea';
 
+const mockOn = jest.fn();
+const mockOff = jest.fn();
+jest.mock('helpers/eventEmitterFactory', () => ({
+  createEventEmitter: () => ({
+    on: (...args) => mockOn(...args),
+    off: (...args) => mockOff(...args),
+  }),
+}));
+
 const mockRead = jest.fn();
 jest.mock('app/actions/beambox/beambox-preference', () => ({
   read: (key: string) => mockRead(key),
-}));
-
-const mockOnUpdateWorkArea = jest.fn();
-const mockRemoveUpdateWorkAreaListener = jest.fn();
-jest.mock('app/stores/beambox-store', () => ({
-  onUpdateWorkArea: (callback) => mockOnUpdateWorkArea(callback),
-  removeUpdateWorkAreaListener: (callback) => mockRemoveUpdateWorkAreaListener(callback),
 }));
 
 const mockUseEffect = jest.fn();
@@ -40,13 +42,12 @@ describe('test useWorkarea', () => {
     useWorkarea();
     expect(mockUseEffect).toBeCalledTimes(1);
     const effect = mockUseEffect.mock.calls[0][0];
+    expect(mockOn).not.toBeCalled();
     const cleanup = effect();
-    expect(mockOnUpdateWorkArea).toBeCalledTimes(1);
-    const handler = mockOnUpdateWorkArea.mock.calls[0][0];
-    handler();
-    expect(mockSetState).toBeCalledTimes(1);
-    expect(mockSetState).toBeCalledWith(workarea);
+    expect(mockOn).toBeCalledTimes(1);
+    expect(mockOn).toBeCalledWith('workarea-change', mockSetState);
+    expect(mockOff).not.toBeCalled();
     cleanup();
-    expect(mockRemoveUpdateWorkAreaListener).toBeCalledTimes(1);
+    expect(mockOff).toBeCalledTimes(1);
   });
 });

@@ -1,48 +1,44 @@
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import Constant from 'app/actions/beambox/constant';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
+import NS from 'app/constants/namespaces';
+import workareaManager from 'app/svgedit/workarea';
 
-const { $, svgedit } = window;
 const documentPanelEventEmitter = eventEmitterFactory.createEventEmitter('document-panel');
 
 let diodeBoundaryPath: SVGPathElement;
 let diodeBoundarySvg: SVGSVGElement;
 const createBoundary = () => {
-  diodeBoundarySvg = document.createElementNS(svgedit.NS.SVG, 'svg') as unknown as SVGSVGElement;
-  diodeBoundaryPath = document.createElementNS(svgedit.NS.SVG, 'path') as unknown as SVGPathElement;
-  $('#canvasBackground').append(diodeBoundarySvg);
+  diodeBoundarySvg = document.createElementNS(NS.SVG, 'svg') as unknown as SVGSVGElement;
+  diodeBoundaryPath = document.createElementNS(NS.SVG, 'path') as unknown as SVGPathElement;
+  document.getElementById('canvasBackground')?.appendChild(diodeBoundarySvg);
   diodeBoundarySvg.appendChild(diodeBoundaryPath);
-  const workarea = BeamboxPreference.read('workarea');
-  $(diodeBoundarySvg).attr({
-    id: 'diode-boundary',
-    width: '100%',
-    height: '100%',
-    viewBox: `0 0 ${Constant.dimension.getWidth(workarea)} ${Constant.dimension.getHeight(workarea)}`,
-    x: 0,
-    y: 0,
-    style: 'pointer-events:none',
-  });
-  $(diodeBoundaryPath).attr({
-    fill: '#CCC',
-    'fill-opacity': 0.4,
-    'fill-rule': 'evenodd',
-    stroke: 'none',
-    style: 'pointer-events:none',
-  });
+  const { width, height } = workareaManager;
+  diodeBoundarySvg.setAttribute('id', 'diode-boundary');
+  diodeBoundarySvg.setAttribute('width', '100%');
+  diodeBoundarySvg.setAttribute('height', '100%');
+  diodeBoundarySvg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+  diodeBoundarySvg.setAttribute('x', '0');
+  diodeBoundarySvg.setAttribute('y', '0');
+  diodeBoundarySvg.setAttribute('style', 'pointer-events:none');
+
+  diodeBoundaryPath.setAttribute('fill', '#CCC');
+  diodeBoundaryPath.setAttribute('fill-opacity', '0.4');
+  diodeBoundaryPath.setAttribute('fill-rule', 'evenodd');
+  diodeBoundaryPath.setAttribute('stroke', 'none');
+  diodeBoundaryPath.setAttribute('style', 'pointer-events:none');
 };
 
 const updateCanvasSize = (): void => {
-  const workarea = BeamboxPreference.read('workarea');
-  const viewBox = `0 0 ${Constant.dimension.getWidth(workarea)} ${Constant.dimension.getHeight(workarea)}`;
+  const { width, height } = workareaManager
+  const viewBox = `0 0 ${width} ${height}`;
   diodeBoundarySvg?.setAttribute('viewBox', viewBox);
 };
 documentPanelEventEmitter.on('workarea-change', updateCanvasSize);
 
 const show = (isDiode = false): void => {
   if (!diodeBoundaryPath) createBoundary();
-  const workarea = BeamboxPreference.read('workarea');
-  const w = Constant.dimension.getWidth(workarea);
-  const h = Constant.dimension.getHeight(workarea);
+  const { width: w, height: h } = workareaManager;
 
   let d = '';
   if (isDiode) {

@@ -1,22 +1,27 @@
 /* eslint-disable no-fallthrough */
-import { getSVGAsync } from 'helpers/svg-editor-helper';
-import { ICommand } from 'interfaces/IHistory';
-import history from 'app/svgedit/history';
-import shortcuts from 'helpers/shortcuts';
-import selector from 'app/svgedit/selector';
+import * as paper from 'paper';
+
+import * as BezierFitCurve from 'helpers/bezier-fit-curve';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
-import * as paper from 'paper';
+import history from 'app/svgedit/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
-import { ISVGPath, ISVGPathSeg } from 'interfaces/ISVGPath';
+import ISVGPathElement from 'interfaces/ISVGPathElement';
 import PathNodePoint from 'app/svgedit/path/PathNodePoint';
 import SegmentControlPoint from 'app/svgedit/path/SegmentControlPoint';
+import selector from 'app/svgedit/selector';
+import shortcuts from 'helpers/shortcuts';
 import updateElementColor from 'helpers/color/updateElementColor';
-import * as BezierFitCurve from 'helpers/bezier-fit-curve';
-import ISVGPathElement from 'interfaces/ISVGPathElement';
+import workareaManager from 'app/svgedit/workarea';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { ICommand } from 'interfaces/IHistory';
+import { ISVGPath, ISVGPathSeg } from 'interfaces/ISVGPath';
 import { isMobile } from 'helpers/system-helper';
-import Segment from '../path/Segment';
+
 import Path from '../path/Path';
+import Segment from '../path/Segment';
+
+const canvasEventEmitter = eventEmitterFactory.createEventEmitter('canvas');
 
 let svgEditor;
 let svgCanvas: ISVGCanvas;
@@ -237,7 +242,7 @@ const toSelectMode = (elem): void => {
 
 const mouseDown = (evt: MouseEvent, mouseTarget: SVGElement, startX: number, startY: number) => {
   const currentMode = svgCanvas.getCurrentMode();
-  const currentZoom = svgCanvas.getCurrentZoom();
+  const currentZoom = workareaManager.zoomRatio;
   const xAlignLine = document.getElementById('x_align_line');
   if (xAlignLine) xAlignLine.remove();
   const yAlignLine = document.getElementById('y_align_line');
@@ -520,7 +525,7 @@ const mouseDown = (evt: MouseEvent, mouseTarget: SVGElement, startX: number, sta
 };
 
 const mouseMove = (mouseX: number, mouseY: number) => {
-  const currentZoom = svgCanvas.getCurrentZoom();
+  const currentZoom = workareaManager.zoomRatio;
   const selectedPath: ISVGPath = svgedit.path.path;
   hasMoved = true;
   if (modeOnMouseDown === 'path') {
@@ -900,9 +905,8 @@ const resetOrientation = (path) => {
   svgCanvas.reorientGrads(path, m);
 };
 
-const zoomChange = (oldZoom: number) => {
-  const currentMode = svgCanvas.getCurrentMode();
-  const currentZoom = svgCanvas.getCurrentZoom();
+const zoomChange = (oldZoom: number, newZoom: number) => {
+  const currentMode = svgCanvas?.getCurrentMode?.();
   if (currentMode === 'pathedit') {
     svgedit.path.path.update();
   } else if (currentMode === 'path') {
@@ -914,7 +918,7 @@ const zoomChange = (oldZoom: number) => {
         const segments = stretchy.pathSegList;
         const seg0 = segments.getItem(0);
         const seg1 = segments.getItem(1);
-        const zoomRatio = currentZoom / oldZoom;
+        const zoomRatio = newZoom / oldZoom;
         svgedit.path.replacePathSeg(2, 0, [seg0.x * zoomRatio, seg0.y * zoomRatio], stretchy);
         if (seg1.pathSegType === 6) {
           svgedit.path.replacePathSeg(6, 1,
@@ -1534,7 +1538,10 @@ const pathActions = {
 
 export type IPathActions = typeof pathActions;
 
-export default (canvas: any) => {
+export default (canvas: any): IPathActions => {
   svgCanvas = canvas;
+  canvasEventEmitter.on('zoom-changed', (newZoom: number, oldZoom: number) => {
+    zoomChange(oldZoom, newZoom);
+  });
   return pathActions;
 };

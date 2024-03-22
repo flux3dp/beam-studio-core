@@ -2,9 +2,7 @@
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import beamFileHelper from 'helpers/beam-file-helper';
-import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import communicator from 'implementations/communicator';
-import constant from 'app/actions/beambox/constant';
 import dialog from 'implementations/dialog';
 import dialogCaller from 'app/actions/dialog-caller';
 import fs from 'implementations/fileSystem';
@@ -12,6 +10,7 @@ import i18n from 'helpers/i18n';
 import Progress from 'app/actions/progress-caller';
 import SymbolMaker from 'helpers/symbol-maker';
 import svgStringToCanvas from 'helpers/image/svgStringToCanvas';
+import workareaManager from 'app/svgedit/workarea';
 import {
   axiosFluxId,
   getCurrentUser,
@@ -51,9 +50,7 @@ const switchSymbolWrapper = <T = string>(fn: () => T) => {
 };
 
 const generateBeamThumbnail = async (): Promise<ArrayBuffer | null> => {
-  const workarea = beamboxPreference.read('workarea');
-  const width = constant.dimension.getWidth(workarea);
-  const height = constant.dimension.getHeight(workarea);
+  const { width, height } = workareaManager;
   const svgContent = document.getElementById('svgcontent') as unknown as SVGSVGElement;
   const bbox = svgContent.getBBox();
   if (bbox.x < 0) {
@@ -351,7 +348,8 @@ const exportAsImage = async (type: 'png' | 'jpg'): Promise<void> => {
   const langFile = LANG.topmenu.file;
   Progress.openNonstopProgress({ id: 'export_image', message: langFile.converting });
   const defaultFileName = (svgCanvas.getLatestImportFileName() || 'untitled').replace('/', ':');
-  const canvas = await svgStringToCanvas(output, svgCanvas.contentW, svgCanvas.contentH);
+  const { width, height } = workareaManager
+  const canvas = await svgStringToCanvas(output, width, height);
   let base64 = '';
   if (type === 'png') {
     base64 = canvas.toDataURL('image/png');
@@ -359,7 +357,7 @@ const exportAsImage = async (type: 'png' | 'jpg'): Promise<void> => {
     const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
     ctx.globalCompositeOperation = 'destination-over';
     ctx.fillStyle = 'white';
-    ctx.fillRect(0, 0, svgCanvas.contentW, svgCanvas.contentH);
+    ctx.fillRect(0, 0, width, height);
     base64 = canvas.toDataURL('image/jpeg', 1.0);
   }
   base64 = base64.replace(/^data:image\/\w+;base64,/, '');

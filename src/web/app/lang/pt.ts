@@ -1064,6 +1064,7 @@ const lang: ILang = {
       engrave_dpi: 'Resolução',
       enable_diode: 'Laser de diodo',
       enable_autofocus: 'Foco automático',
+      extend_workarea: 'Expandir área de trabalho',
       add_on: 'Complementos',
       low: 'Baixo',
       medium: 'Médio',

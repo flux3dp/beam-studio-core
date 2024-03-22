@@ -26,6 +26,7 @@ import sentryHelper from 'helpers/sentry-helper';
 import storage from 'implementations/storage';
 import Tutorials from 'app/actions/beambox/tutorials';
 import updateFontConvert from 'app/components/dialogs/updateFontConvert';
+import workareaManager from 'app/svgedit/workarea';
 import { checkConnection } from 'helpers/api/discover';
 import { gestureIntroduction } from 'app/constants/media-tutorials';
 import { IFont } from 'interfaces/IFont';
@@ -136,9 +137,7 @@ class BeamboxInit {
       const linesGroup = svgdoc.createElementNS(NS.SVG, 'svg');
       const lineVertical = svgdoc.createElementNS(NS.SVG, 'line');
       const lineHorizontal = svgdoc.createElementNS(NS.SVG, 'line');
-
-      const width = Constant.dimension.getWidth(BeamboxPreference.read('workarea'));
-      const height = Constant.dimension.getHeight(BeamboxPreference.read('workarea'));
+      const { width, height } = workareaManager;
       utilities.assignAttributes(linesGroup, {
         id: 'guidesLines',
         width: '100%',
@@ -152,7 +151,7 @@ class BeamboxInit {
       utilities.assignAttributes(lineHorizontal, {
         id: 'horizontal_guide',
         x1: 0,
-        x2: Constant.dimension.getWidth(BeamboxPreference.read('workarea')),
+        x2: width,
         y1: BeamboxPreference.read('guide_y0') * 10,
         y2: BeamboxPreference.read('guide_y0') * 10,
         stroke: '#000',
@@ -169,7 +168,7 @@ class BeamboxInit {
         x1: BeamboxPreference.read('guide_x0') * 10,
         x2: BeamboxPreference.read('guide_x0') * 10,
         y1: 0,
-        y2: Constant.dimension.getHeight(BeamboxPreference.read('workarea')),
+        y2: height,
         stroke: '#000',
         'stroke-width': '2',
         'stroke-opacity': 0.8,

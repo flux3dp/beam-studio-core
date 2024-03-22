@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import AdorModule from 'app/components/settings/AdorModule';
 import AutoSave from 'app/components/settings/AutoSave';
 import autoSaveHelper from 'helpers/auto-save-helper';
-import BeamboxConstant, { WorkAreaModel } from 'app/actions/beambox/constant';
+import BeamboxConstant from 'app/actions/beambox/constant';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import Camera from 'app/components/settings/Camera';
 import Connection from 'app/components/settings/Connection';
@@ -28,6 +28,7 @@ import { IConfig } from 'interfaces/IAutosave';
 import { ILang } from 'interfaces/ILang';
 import { OptionValues } from 'app/constants/enums';
 import { StorageKey } from 'interfaces/IStorage';
+import { WorkAreaModel } from 'app/constants/workarea-constants';
 
 interface State {
   lang?: ILang;

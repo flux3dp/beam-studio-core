@@ -28,6 +28,7 @@ import svgCanvasClass from 'app/svgedit/svgcanvas';
 import textActions from 'app/svgedit/text/textactions';
 import textEdit from 'app/svgedit/text/textedit';
 import textPathEdit from 'app/actions/beambox/textPathEdit';
+import workareaManager from 'app/svgedit/workarea';
 import { deleteSelectedElements } from 'app/svgedit/operations/delete';
 import { moveSelectedElements } from 'app/svgedit/operations/move';
 
@@ -38,6 +39,7 @@ import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerP
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import TopBarController from 'app/views/beambox/TopBar/contexts/TopBarController';
 import { getNextStepRequirement } from 'app/views/tutorials/tutorialController';
+import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 import { NounProjectPanelController } from 'app/views/beambox/Noun-Project-Panel';
 import BeamboxPreference from './beambox-preference';
 import Constant from './constant';
@@ -77,6 +79,7 @@ const svgWebSocket = SvgLaserParser({ type: 'svgeditor' });
 // TODO: change to require('svgedit')
 const { svgedit, $ } = window;
 
+const canvasEventEmitter = eventEmitterFactory.createEventEmitter('canvas');
 const workareaEvents = eventEmitterFactory.createEventEmitter('workarea');
 
 declare global {
@@ -120,9 +123,7 @@ interface ISVGEditor {
   readSVG: (blob: any, type: any, layerName: any) => Promise<unknown>
   replaceBitmap: any
   runCallbacks: () => void
-  savePreferences: () => void
   setConfig: (opts: any, cfgCfg: any) => void
-  setCustomHandlers: (opts: any) => void
   setIcon: (elem: any, icon_id: any) => void
   setIconSize: (size: any) => void
   setImageURL: (url: any) => void
@@ -131,7 +132,6 @@ interface ISVGEditor {
   storage: IStorage
   toolButtonClick: (button: any, noHiding: any) => boolean
   updateRulers: () => void
-  updateCanvas: (zoomData?: { autoCenter?: boolean; staticPoint?: { x: number; y: number } }) => void
   triggerGridTool: () => void
   triggerOffsetTool: () => void
   loadFromStringAsync(arg0: any)
@@ -141,7 +141,6 @@ interface ISVGEditor {
   openPrep(arg0: (ok: any) => void)
   resetView: () => void
   zoomIn: () => void
-  zoomChanged(window: Window & typeof globalThis, arg1: { zoomLevel: number })
   zoomOut: () => void
   ready(arg0: () => void)
   clickUndo: () => void
@@ -188,6 +187,8 @@ const svgEditor = window['svgEditor'] = (function () {
   //		curPrefs, curConfig, canvas, storage, uiStrings
   //
   // STATE MAINTENANCE PROPERTIES
+  const workarea = BeamboxPreference.read('workarea') as WorkAreaModel;
+  const { pxWidth, pxHeight, pxDisplayHeight } = getWorkarea(workarea);
   const editor: ISVGEditor = {
     addDropDown: () => { },
     addExtension: () => { },
@@ -204,9 +205,7 @@ const svgEditor = window['svgEditor'] = (function () {
     readSVG: async (blob: any, type: any, layerName: any) => { },
     replaceBitmap: null,
     runCallbacks: () => { },
-    savePreferences: () => { },
     setConfig: (opts: any, cfgCfg: any) => { },
-    setCustomHandlers: (opts: any) => { },
     setIcon: (elem: any, icon_id: any) => { },
     setIconSize: (size: any) => { },
     setImageURL: (url: any) => { },
@@ -215,7 +214,6 @@ const svgEditor = window['svgEditor'] = (function () {
     storage: storage,
     toolButtonClick: (button: any, noHiding: any) => { return false },
     updateRulers: () => { },
-    updateCanvas: (zoomData?: { autoCenter?: boolean; staticPoint?: { x: number; y: number } }) => { },
     triggerGridTool: () => { },
     triggerOffsetTool: () => { },
     loadFromStringAsync: () => { },
@@ -225,7 +223,6 @@ const svgEditor = window['svgEditor'] = (function () {
     openPrep: () => { },
     resetView: () => { },
     zoomIn: () => { },
-    zoomChanged: () => { },
     zoomOut: () => { },
     ready: () => { },
     clickUndo: () => { },
@@ -240,7 +237,7 @@ const svgEditor = window['svgEditor'] = (function () {
     langChanged: false,
     showSaveWarning: false,
     storagePromptClosed: false, // For use with ext-storage.js
-    dimensions: [Constant.dimension.getWidth(BeamboxPreference.read('workarea')), Constant.dimension.getHeight(BeamboxPreference.read('workarea'))],
+    dimensions: [pxWidth, pxDisplayHeight ?? pxHeight],
     uiStrings: {},
     updateContextPanel: () => {},
     clearScene: () => {},
@@ -340,11 +337,9 @@ const svgEditor = window['svgEditor'] = (function () {
       allowedOrigins: []
     },
     defaultExtensions = [
-      'ext-rotary_mode.js',
       'ext-markers.js',
       'ext-connector.js',
       'ext-imagelib.js',
-      'ext-grid.js',
       'ext-polygon.js',
       'ext-star.js',
       'ext-panning.js',
@@ -357,7 +352,6 @@ const svgEditor = window['svgEditor'] = (function () {
       // Todo: svgcanvas.js also sets and checks: show_outside_canvas, selectNew; add here?
       // Change the following to preferences and add pref controls to the UI (e.g., initTool, wireframe, showlayers)?
       canvasName: 'default',
-      canvas_expansion: 3,
       initFill: {
         color: 'FFFFFF',
         opacity: 0
@@ -637,45 +631,6 @@ const svgEditor = window['svgEditor'] = (function () {
       }
     });
     editor.curConfig = curConfig; // Update exported value
-  };
-
-  /**
-       * @param {object} opts Extension mechanisms may call setCustomHandlers with three functions: opts.open, opts.save, and opts.exportImage
-       * opts.open's responsibilities are:
-       *	- invoke a file chooser dialog in 'open' mode
-       *	- let user pick a SVG file
-       *	- calls svgCanvas.setSvgString() with the string contents of that file
-       *  opts.save's responsibilities are:
-       *	- accept the string contents of the current document
-       *	- invoke a file chooser dialog in 'save' mode
-       *	- save the file to location chosen by the user
-       *  opts.exportImage's responsibilities (with regard to the object it is supplied in its 2nd argument) are:
-       *	- inform user of any issues supplied via the "issues" property
-       *	- convert the "svg" property SVG string into an image for export;
-       *		utilize the properties "type" (currently 'PNG', 'JPEG', 'BMP',
-       *		'WEBP', 'PDF'), "mimeType", and "quality" (for 'JPEG' and 'WEBP'
-       *		types) to determine the proper output.
-       */
-  editor.setCustomHandlers = function (opts) {
-    editor.ready(function () {
-      if (opts.open) {
-        $('#tool_open > input[type="file"]').remove();
-        $('#tool_open').show();
-        svgCanvas.open = opts.open;
-      }
-      if (opts.save) {
-        editor.showSaveWarning = false;
-        svgCanvas.bind('saved', opts.save);
-      }
-      if (opts.exportImage) {
-        customExportImage = opts.exportImage;
-        svgCanvas.bind('exported', customExportImage); // canvg and our RGBColor will be available to the method
-      }
-      if (opts.exportPDF) {
-        customExportPDF = opts.exportPDF;
-        svgCanvas.bind('exportedPDF', customExportPDF); // jsPDF and our RGBColor will be available to the method
-      }
-    });
   };
 
   editor.randomizeIds = function () {
@@ -1222,15 +1177,6 @@ const svgEditor = window['svgEditor'] = (function () {
       }
     };
 
-    function setBackground(color, url) {
-      // if (color == $.pref('bkgd_color') && url == $.pref('bkgd_url')) {return;}
-      $.pref('bkgd_color', color);
-      $.pref('bkgd_url', url);
-
-      // This should be done in svgcanvas.js for the borderRect fill
-      svgCanvas.setBackground(color, url);
-    }
-
     function promptImgURL() {
       var curhref = svgCanvas.getHref(selectedElement);
       curhref = curhref.indexOf('data:') === 0 ? '' : curhref;
@@ -1257,7 +1203,9 @@ const svgEditor = window['svgEditor'] = (function () {
         const otherSide = isX ? 'height' : 'width';
 
         const $rulersWrapper = $('#ruler_' + axis + ' > div');
-        const total_len = $('#svgcanvas')[side]();
+        const svgcanvas = document.getElementById('svgcanvas');
+        if (!svgcanvas) return;
+        const total_len = isX ? svgcanvas.clientWidth : svgcanvas.clientHeight;
         const limit = 3000;
         const rulersCount = parseInt(String(total_len / limit), 10) + 1;
 
@@ -1310,7 +1258,7 @@ const svgEditor = window['svgEditor'] = (function () {
 
         (function drawRulers() {
           const contentPosition = Number($('#svgcontent').attr(axis));
-          const zoom = svgCanvas.getZoom();
+          const zoom = workareaManager.zoomRatio;
 
           const ctxs = rulers
             .map(ruler => ruler.getContext('2d'))
@@ -1441,69 +1389,12 @@ const svgEditor = window['svgEditor'] = (function () {
       }
     }
     editor.updateRulers = updateRulers;
-
-
-    var updateCanvas = editor.updateCanvas = function (zoomData?: {
-      autoCenter?: boolean,
-      staticPoint?: { x: number, y: number }
-    }) {
-      let autoCenter = zoomData ? zoomData.autoCenter : undefined;
-      const staticPoint = zoomData ? zoomData.staticPoint : null;
-      const w_orig = workarea.width(),
-        h_orig = workarea.height(); //固定的工作區大小 只跟視窗大小有關 目前為全視窗
-      var zoom = svgCanvas.getZoom(); //1 for 100%, 0.5 for 50%
-      var cnvs = $('#svgcanvas');
-
-      const old_scroll = {
-        left: workarea.scrollLeft(),
-        top: workarea.scrollTop()
-      };
-
-      var multi = curConfig.canvas_expansion;
-      const w = Math.max(w_orig, svgCanvas.contentW * zoom * multi);
-      const h = Math.max(h_orig, svgCanvas.contentH * zoom * multi);
-
-      if ((w_orig >= svgCanvas.contentW * zoom * multi) || (h_orig >= svgCanvas.contentH * zoom * multi)) {
-        autoCenter = true;
-      }
-
-      const old_canvas_width = cnvs.width();
-      cnvs.width(w).height(h);
-      const new_canvas_width = cnvs.width();
-
-      svgCanvas.updateCanvas(w, h);
-
-      const zoomRatio = new_canvas_width / old_canvas_width;
-
-      function _scrollToMakeItCenter(workarea, svgcanvas) {
-        const wOffset = isMobile() ? 0 : 124;
-        workarea.scrollLeft(svgcanvas.width() / 2 - workarea.width() / 2 - wOffset);
-        workarea.scrollTop(svgcanvas.height() / 2 - workarea.height() / 2 - 85);
-      }
-
-      function _scrollToMakePointStatic(workarea, staticPoint, zoomRatio, old_scroll) {
-        const left_cvs = old_scroll.left + staticPoint.x; //related to canvas
-        const newScrollLeft = left_cvs * zoomRatio - staticPoint.x;
-        workarea.scrollLeft(newScrollLeft);
-
-        const top_cvs = old_scroll.top + staticPoint.y; //related to canvas
-        const newScrollTop = top_cvs * zoomRatio - staticPoint.y;
-        workarea.scrollTop(newScrollTop);
-      }
-
-      if (autoCenter) {
-        _scrollToMakeItCenter(workarea, cnvs);
-      } else if (staticPoint) {
-        _scrollToMakePointStatic(workarea, staticPoint, zoomRatio, old_scroll);
-      }
+    canvasEventEmitter.on('zoom-changed', () => {
       const shouldShowRulers = !!BeamboxPreference.read('show_rulers');
-      if (shouldShowRulers) {
-        updateRulers();
-      }
-    };
+      if (shouldShowRulers) requestAnimationFrame(() => updateRulers());
+    });
 
     var updateToolButtonState = function () {
-      var index, button;
       var bNoFill = (svgCanvas.getColor('fill') === 'none');
       var bNoStroke = (svgCanvas.getColor('stroke') === 'none');
       var buttonsNeedingStroke = ['#tool_fhpath', '#tool_line'];
@@ -1847,16 +1738,6 @@ const svgEditor = window['svgEditor'] = (function () {
     };
     editor.updateContextPanel = updateContextPanel;
 
-    var updateWireFrame = function () {
-      // Test support
-      if (supportsNonSS) {
-        return;
-      }
-      // console.warn("Wireframe disabled by FLUX Studio")
-      var rule = '#workarea.wireframe #svgcontent * { stroke-width: ' + 1 / svgCanvas.getZoom() + 'px; }';
-      $('#wireframe_rules').text(workarea.hasClass('wireframe') ? rule : '');
-    };
-
     var updateTitle = function (title?: string) {
       title = title || svgCanvas.getDocumentTitle();
       var newTitle = origTitle + (title ? ': ' + title : '');
@@ -1952,10 +1833,6 @@ const svgEditor = window['svgEditor'] = (function () {
         var isSvgElem = (elem && elem.tagName === 'svg');
         if (isSvgElem || isLayer(elem)) {
           LayerPanelController.updateLayerPanel();
-          // if the element changed was the svg, then it could be a resolution change
-          if (isSvgElem) {
-            updateCanvas();
-          }
         }
         // Update selectedElement if element is no longer part of the image.
         // This occurs for the text elements in Firefox
@@ -1986,35 +1863,6 @@ const svgEditor = window['svgEditor'] = (function () {
         elems: elems
       });
     };
-
-    var zoomChanged = function (win, zoomData) {
-      const defaultZoomData = {
-        zoomLevel: undefined,
-        factor: 1,
-        staticPoint: {
-          x: (($(window).width() - 268) / 2),
-          y: (($(window).height() - 135) / 2)
-        },
-        autoCenter: false
-      };
-      const data = $.extend({}, defaultZoomData, zoomData);
-      data.zoomLevel = Math.max(data.zoomLevel || svgCanvas.getZoom() * data.factor, 0.01);
-
-      svgCanvas.setZoom(data.zoomLevel);
-
-      if (data.autoCenter) {
-        updateCanvas({
-          autoCenter: true
-        });
-      } else {
-        updateCanvas({
-          staticPoint: data.staticPoint
-        });
-      }
-
-      updateWireFrame();
-    };
-    editor.zoomChanged = zoomChanged;
 
     $('#cur_context_panel').delegate('a', 'click', function () {
       var link = $(this);
@@ -2966,7 +2814,6 @@ const svgEditor = window['svgEditor'] = (function () {
       }
       exportWindow.location.href = data.dataurlstring;
     });
-    svgCanvas.bind('zoomed', zoomChanged);
     svgCanvas.bind('contextset', contextChanged);
     svgCanvas.bind('extension_added', extAdded);
     textActions.setInputElem($('#text')[0]);
@@ -2995,7 +2842,6 @@ const svgEditor = window['svgEditor'] = (function () {
       });
     });
 
-    setBackground($.pref('bkgd_color'), $.pref('bkgd_url'));
 
     $('#image_save_opts input').val([$.pref('img_save')]);
 
@@ -3746,7 +3592,7 @@ const svgEditor = window['svgEditor'] = (function () {
       if (selectedElement != null || multiselected) {
         if (curConfig.gridSnapping) {
           // Use grid snap value regardless of zoom level
-          var multi = svgCanvas.getZoom() * curConfig.snappingStep;
+          var multi = workareaManager.zoomRatio * curConfig.snappingStep;
           dx *= multi;
           dy *= multi;
         }
@@ -3780,9 +3626,6 @@ const svgEditor = window['svgEditor'] = (function () {
         onYes: () => {
           setSelectMode();
           svgCanvas.clear();
-          updateCanvas({
-            autoCenter: true
-          });
           unzoom();
           LayerPanelController.updateLayerPanel();
           updateContextPanel();
@@ -3795,9 +3638,6 @@ const svgEditor = window['svgEditor'] = (function () {
 
     editor.clearScene = clearScene;
 
-    // by default, svgCanvas.open() is a no-op.
-    // it is up to an extension mechanism (opera widget, etc)
-    // to call setCustomHandlers() which will make it do something
     var clickOpen = function () {
       svgCanvas.open();
     };
@@ -3895,38 +3735,6 @@ const svgEditor = window['svgEditor'] = (function () {
     var hidePreferences = function () {
       $('#svg_prefs').hide();
       preferences = false;
-    };
-
-    var savePreferences = editor.savePreferences = function () {
-      // Set background
-      var color = $('#bg_blocks div.cur_background').css('background-color') || '#FFF';
-      setBackground(color, $('#canvas_bg_url').val());
-
-      // set language
-      var lang = $('#lang_select').val();
-      if (lang !== $.pref('lang')) {
-        editor.putLocale(lang, good_langs);
-      }
-
-      // set icon size
-      setIconSize($('#iconsize').val());
-
-      // set grid setting
-      curConfig.gridSnapping = ($('#grid_snapping_on')[0] as HTMLInputElement).checked;
-      curConfig.snappingStep = parseInt($('#grid_snapping_step').val() as string, 10);
-      curConfig.gridColor = $('#grid_color').val() as string;
-      curConfig.showRulers = ($('#show_rulers')[0] as HTMLInputElement).checked;
-
-      $('#rulers').toggle(curConfig.showRulers);
-      if (curConfig.showRulers) {
-        updateRulers();
-      }
-      curConfig.baseUnit = $('#base_unit').val() as string;
-
-      svgCanvas.setConfig(curConfig);
-
-      updateCanvas();
-      hidePreferences();
     };
 
     var resetScrollPos = $.noop;
@@ -4250,11 +4058,6 @@ const svgEditor = window['svgEditor'] = (function () {
 
     LayerPanelController.updateLayerPanel();
 
-    //	function changeResolution(x,y) {
-    //		var zoom = svgCanvas.getResolution().zoom;
-    //		setResolution(x * zoom, y * zoom);
-    //	}
-
     var centerCanvas = function () {
       // this centers the canvas vertically in the workarea (horizontal handled in CSS)
       workarea.css('line-height', workarea.height() + 'px');
@@ -4284,22 +4087,6 @@ const svgEditor = window['svgEditor'] = (function () {
       }
       return sug_val;
     }
-
-    //	function setResolution(w, h, center) {
-    //		updateCanvas();
-    // //		w-=0; h-=0;
-    // //		$('#svgcanvas').css( { 'width': w, 'height': h } );
-    // //		$('#canvas_width').val(w);
-    // //		$('#canvas_height').val(h);
-    // //
-    // //		if (center) {
-    // //			var w_area = workarea;
-    // //			var scroll_y = h/2 - w_area.height()/2;
-    // //			var scroll_x = w/2 - w_area.width()/2;
-    // //			w_area[0].scrollTop = scroll_y;
-    // //			w_area[0].scrollLeft = scroll_x;
-    // //		}
-    //	}
 
     //Prevent browser from erroneously repopulating fields
     $('input,select').attr('autocomplete', 'off');
@@ -4408,11 +4195,6 @@ const svgEditor = window['svgEditor'] = (function () {
       {
         sel: '#tool_source_save',
         fn: saveSourceEditor,
-        evt: 'click'
-      },
-      {
-        sel: '#tool_prefs_save',
-        fn: savePreferences,
         evt: 'click'
       },
       {
@@ -5078,7 +4860,6 @@ const svgEditor = window['svgEditor'] = (function () {
             var reader = new FileReader();
             reader.onloadend = function (e) {
               loadSvgString(e.target.result as string);
-              updateCanvas();
             };
             reader.readAsText(f.files[0]);
           }
@@ -5094,9 +4875,6 @@ const svgEditor = window['svgEditor'] = (function () {
     }
 
     //			$(function() {
-    updateCanvas({
-      autoCenter: true
-    });
     //			});
 
     //	var revnums = "svg-editor.js ($Rev$) ";
@@ -5166,17 +4944,6 @@ const svgEditor = window['svgEditor'] = (function () {
       });
     };
 
-
-    //initialize the view
-    // zoomImage(0.2);
-    //$('#fit_to_canvas').mouseup();
-    let windowScale = Math.min((($(window).width() - 268) / 1000), (($(window).height() - 105) / 600));
-    let workspaceScale = 1 / Math.max(svgEditor.dimensions[0] / 4000, svgEditor.dimensions[1] / 3750);
-    const zoomLevel = 0.2 * windowScale * workspaceScale;
-    zoomChanged(window, {
-      zoomLevel: zoomLevel
-    });
-
     //greyscale all svgContent
     (function () {
       const svgdoc = document.getElementById('svgcanvas').ownerDocument;
@@ -5202,18 +4969,17 @@ const svgEditor = window['svgEditor'] = (function () {
   };
 
   editor.resetView = function () {
+    const { width, height } = workareaManager;
     const hasRulers = !!BeamboxPreference.read('show_rulers');
     const sidePanelsWidth = isMobile() ? 0 : Constant.sidePanelsWidth + (hasRulers ? Constant.rulerWidth : 0);
     const topBarHeight = Constant.topBarHeight + (hasRulers ? Constant.rulerWidth : 0);
-    const workareaToDimensionRatio = Math.min((window.innerWidth - sidePanelsWidth) / Constant.dimension.getWidth(BeamboxPreference.read('workarea')), (window.innerHeight - topBarHeight) / Constant.dimension.getHeight(BeamboxPreference.read('workarea')));
+    const workareaToDimensionRatio = Math.min((window.innerWidth - sidePanelsWidth) / width, (window.innerHeight - topBarHeight) / height);
     const zoomLevel = workareaToDimensionRatio * 0.95;
-    const workAreaWidth = Constant.dimension.getWidth(BeamboxPreference.read('workarea')) * zoomLevel;
-    const workAreaHeight = Constant.dimension.getHeight(BeamboxPreference.read('workarea')) * zoomLevel;
+    const workAreaWidth = width * zoomLevel;
+    const workAreaHeight = height * zoomLevel;
     const offsetX = (window.innerWidth - sidePanelsWidth - workAreaWidth) / 2 + (hasRulers ? Constant.rulerWidth : 0);
     const offsetY = (window.innerHeight - topBarHeight - workAreaHeight) / 2 + (hasRulers ? Constant.rulerWidth : 0);
-    editor.zoomChanged(window, {
-      zoomLevel: zoomLevel
-    });
+    workareaManager.zoom(zoomLevel);
     const background = document.getElementById('canvasBackground');
     if (!background) {
       setTimeout(() => editor.resetView(), 100);
@@ -5234,9 +5000,7 @@ const svgEditor = window['svgEditor'] = (function () {
 
   editor.zoomIn = function () {
     if (!preventDoubleZoomIn) {
-      editor.zoomChanged(window, {
-        zoomLevel: svgCanvas.getZoom() * 1.1
-      });
+      workareaManager.zoom(workareaManager.zoomRatio * 1.1);
       preventDoubleZoomIn = true;
 
       setTimeout(() => {
@@ -5246,9 +5010,7 @@ const svgEditor = window['svgEditor'] = (function () {
   };
 
   editor.zoomOut = function () {
-    editor.zoomChanged(window, {
-      zoomLevel: svgCanvas.getZoom() / 1.1
-    });
+    workareaManager.zoom(workareaManager.zoomRatio / 1.1);
   };
 
   editor.ready = function (cb) {

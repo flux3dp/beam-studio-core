@@ -1072,6 +1072,7 @@ const lang: ILang = {
       engrave_dpi: 'Ανάλυση',
       enable_diode: 'Λέιζερ διόδου',
       enable_autofocus: 'Αυτόματη εστίαση',
+      extend_workarea: 'Επέκταση περιοχής εργασίας',
       add_on: 'Πρόσθετες λειτουργίες',
       low: 'Χαμηλή',
       medium: 'Μέτρια',

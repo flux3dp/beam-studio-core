@@ -1059,6 +1059,7 @@ const lang: ILang = {
       engrave_dpi: 'Độ phân giải',
       enable_diode: 'Laser điốt',
       enable_autofocus: 'Tự động lấy nét',
+      extend_workarea: 'Mở rộng khu vực làm việc',
       add_on: 'Phụ kiện',
       low: 'Thấp',
       medium: 'Trung bình',

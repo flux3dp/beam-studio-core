@@ -241,6 +241,9 @@ exports[`test DocumentSettings should render correctly 1`] = `
                         </div>
                       </div>
                     </div>
+                    <div
+                      class="subCheckbox"
+                    />
                   </div>
                   <div
                     class="ant-col ant-col-12 css-dev-only-do-not-override-hash"
@@ -694,6 +697,9 @@ exports[`test DocumentSettings should render correctly 2`] = `
                         </div>
                       </div>
                     </div>
+                    <div
+                      class="subCheckbox"
+                    />
                   </div>
                   <div
                     class="ant-col ant-col-12 css-dev-only-do-not-override-hash"
@@ -1147,6 +1153,9 @@ exports[`test DocumentSettings should render correctly 3`] = `
                         </div>
                       </div>
                     </div>
+                    <div
+                      class="subCheckbox"
+                    />
                   </div>
                   <div
                     class="ant-col ant-col-12 css-dev-only-do-not-override-hash"

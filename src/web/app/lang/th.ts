@@ -1053,6 +1053,7 @@ const lang: ILang = {
       engrave_dpi: 'ความละเอียด',
       enable_diode: 'เลเซอร์ไดโอด',
       enable_autofocus: 'โฟกัสอัตโนมัติ',
+      extend_workarea: 'ขยายพื้นที่ทำงาน',
       add_on: 'เพิ่มเติม',
       low: 'ต่ํา',
       medium: 'ปานกลาง',

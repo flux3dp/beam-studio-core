@@ -6,6 +6,7 @@ const DEFAULT_PREFERENCE = {
   mouse_input_device: (window.os === 'MacOS') ? 'TOUCHPAD' : 'MOUSE',
   model: 'fbb1b',
   show_guides: false,
+  show_grids: true,
   guide_x0: 0,
   guide_y0: 0,
   engrave_dpi: 'medium', // low, medium, high
@@ -18,6 +19,7 @@ class BeamboxPreference {
     // set default preference if key or even beambox-preference doesn't exist
     let pref: any = storage.get('beambox-preference');
     pref = pref === '' ? {} : pref;
+    console.log(pref)
     const fullPref = Object.assign(DEFAULT_PREFERENCE, pref);
     storage.set('beambox-preference', fullPref);
   }

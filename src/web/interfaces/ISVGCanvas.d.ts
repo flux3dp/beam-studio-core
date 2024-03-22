@@ -45,8 +45,6 @@ export default interface ISVGCanvas {
   clear: () => void;
   clearBoundingBox: () => void;
   clearSelection: (noCall?: boolean) => void;
-  contentH: number;
-  contentW: number;
   convertToNum(attr: string, val: number): number;
   currentFilePath: string;
   deleteSelectedElements: () => void;
@@ -154,7 +152,6 @@ export default interface ISVGCanvas {
   setPaint(picker: string, paint: any): void;
   setPaintOpacity: (pickerType: string, opacity: number, preventUndo?: boolean) => void;
   setRootScreenMatrix: (matrix: SVGMatrix) => void;
-  setRotaryMode: (rotaryMode: boolean) => void;
   setRotationAngle: (val: number, preventUndo: boolean, elem?: SVGElement) => void;
   setStrokeAttr(attrKey: string, value: string): void;
   setStrokeWidth(width: number): void;
@@ -165,7 +162,6 @@ export default interface ISVGCanvas {
   ) => IBatchCommand | null;
   setSvgString: (content: string) => boolean;
   setUiStrings(allStrings: Record<string, string>): void;
-  setZoom: (zoom: number) => void;
   sortTempGroupByLayer: () => void;
   spaceKey: boolean;
   svgToString(elem: Element, indent: number, units?: Units): string;
@@ -174,7 +170,6 @@ export default interface ISVGCanvas {
   ungroupTempGroup(elem?: SVGElement): SVGElement[];
   undoMgr: IUndoManager;
   ungroupSelectedElement(): void;
-  updateCanvas: (width: number, height: number) => void;
   updateElementColor: (elem: Element) => void;
   updateRecentFiles(path: string): void;
   unsafeAccess: {

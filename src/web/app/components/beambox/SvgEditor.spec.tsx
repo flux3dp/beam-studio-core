@@ -32,6 +32,11 @@ jest.mock('app/contexts/CanvasContext', () => ({
   CanvasContext: React.createContext({ isPathPreviewing: false }),
 }));
 
+const mockZoom = jest.fn();
+jest.mock('app/svgedit/workarea', () => ({
+  zoom: (...args) => mockZoom(...args),
+}));
+
 describe('test svg-editor', () => {
   test('should render correctly in mac', () => {
     mockGet.mockReturnValue('inches');

@@ -5,12 +5,11 @@ import * as React from 'react';
 import classNames from 'classnames';
 
 import Alert from 'app/actions/alert-caller';
-import BeamboxPreference from 'app/actions/beambox/beambox-preference';
-import Constant from 'app/actions/beambox/constant';
 import history from 'app/svgedit/history';
 import i18n from 'helpers/i18n';
 import Modal from 'app/widgets/Modal';
 import requirejsHelper from 'helpers/requirejs-helper';
+import workareaManager from 'app/svgedit/workarea';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgCanvas;
@@ -63,8 +62,7 @@ class SvgNestButtons extends React.Component<Props, State> {
       };
       containerPoints = ClipperLib.dPathtoPointPathsAndScale(containerDpath, rotation, 1);
     } else {
-      const w = Constant.dimension.getWidth(BeamboxPreference.read('workarea'));
-      const h = Constant.dimension.getHeight(BeamboxPreference.read('workarea'));
+      const { width: w, height: h } = workareaManager;
       containerPoints = [{ x: 0, y: 0 }, { x: w, y: 0 }, { x: w, y: h }, { x: 0, y: h }];
     }
 

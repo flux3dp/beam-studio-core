@@ -15,8 +15,23 @@ const mouseDown = jest.fn();
 const mouseMove = jest.fn();
 const mouseUp = jest.fn();
 const doubleClick = jest.fn();
-const getZoom = jest.fn();
 const setZoom = jest.fn();
+
+const mockGetWidth = jest.fn();
+const mockGetHeight = jest.fn();
+const mockGetZoomRatio = jest.fn();
+jest.mock('app/svgedit/workarea', () => ({
+  get width() {
+    return mockGetWidth();
+  },
+  get height() {
+    return mockGetHeight();
+  },
+  get zoomRatio() {
+    return mockGetZoomRatio();
+  },
+}))
+
 
 let container;
 let canvas;
@@ -34,13 +49,10 @@ describe('test touchEvents', () => {
     touchEvents.setupCanvasTouchEvents(
       canvas,
       workarea,
-      500,
-      500,
       mouseDown,
       mouseMove,
       mouseUp,
       doubleClick,
-      getZoom,
       setZoom
     );
   });

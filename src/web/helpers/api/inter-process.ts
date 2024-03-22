@@ -37,8 +37,6 @@ export default function () {
                 writeData(name, DataType.speed, parseInt(speed));
                 writeData(name, DataType.strength, parseInt(power));
               }
-
-              beamboxStore.emitUpdateWorkArea();
             }
           });
         }
@@ -57,8 +55,6 @@ export default function () {
               writeData(name, DataType.speed, parseInt(speed));
               writeData(name, DataType.strength, parseInt(power));
             }
-
-            beamboxStore.emitUpdateWorkArea();
           }
         }, 1000);
       },

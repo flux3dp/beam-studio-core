@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { HashRouter, Route, Switch } from 'react-router-dom';
 
 import AlertsAndProgress from 'app/views/dialogs/AlertAndProgress';
@@ -117,7 +117,8 @@ const App = (): JSX.Element => {
 };
 
 const router = (container) => {
-  render(<App />, container);
+  const root = createRoot(container);
+  root.render(<App />);
 };
 
 export default router;

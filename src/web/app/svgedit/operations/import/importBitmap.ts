@@ -15,7 +15,7 @@ getSVGAsync((globalSVG) => {
 const importBitmap = async (file: File): Promise<void> => {
   const workarea = beamboxPreference.read('workarea');
 
-  if (modelsWithModules.includes(workarea)) {
+  if (modelsWithModules.has(workarea)) {
     const drawing = svgCanvas.getCurrentDrawing();
     const currentLayer = drawing.getCurrentLayer();
     if (

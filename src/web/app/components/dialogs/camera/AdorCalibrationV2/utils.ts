@@ -1,20 +1,20 @@
-import constant, { WorkAreaModel } from 'app/actions/beambox/constant';
-import deviceConstants from 'app/constants/device-constants';
 import deviceMaster from 'helpers/device-master';
+import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 
 export const getMaterialHeight = async (): Promise<number> => {
   const device = deviceMaster.currentDevice;
   await deviceMaster.enterRawMode();
   await deviceMaster.rawHome();
   await deviceMaster.rawStartLineCheckMode();
-  const cameraCenter = constant.dimension.cameraCenter(device.info.model as WorkAreaModel);
+  const workarea = getWorkarea(device.info.model as WorkAreaModel, 'ado1');
+  const { cameraCenter, deep } = workarea
   if (cameraCenter) await deviceMaster.rawMove({ x: cameraCenter[0], y: cameraCenter[1], f: 7500 });
   await deviceMaster.rawEndLineCheckMode();
   await deviceMaster.rawAutoFocus();
   const { didAf, z } = await deviceMaster.rawGetProbePos();
   await deviceMaster.endRawMode();
   if (!didAf) throw new Error('Auto focus failed');
-  return Math.round((deviceConstants.WORKAREA_DEEP[device.info.model] - z) * 100) / 100;
+  return Math.round((deep - z) * 100) / 100;
 };
 
 export const prepareToTakePicture = async (): Promise<void> => {

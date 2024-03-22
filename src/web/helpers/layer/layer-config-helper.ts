@@ -1,11 +1,11 @@
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
-import constant from 'app/actions/beambox/constant';
 import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import layerModuleHelper from 'helpers/layer-module/layer-module-helper';
 import storage from 'implementations/storage';
 import toggleFullColorLayer from 'helpers/layer/full-color/toggleFullColorLayer';
 import { getAllLayerNames, getLayerByName } from 'helpers/layer/layer-helper';
 import { getAllPresets } from 'app/constants/right-panel-constants';
+import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 import { ILaserConfig } from 'interfaces/ILaserConfig';
 import { ILayerConfig } from 'interfaces/ILayerConfig';
 
@@ -257,7 +257,7 @@ export const toggleFullColorAfterWorkareaChange = (): void => {
     const layer = getLayerByName(layerName);
     // eslint-disable-next-line no-continue
     if (!layer) continue;
-    if (!modelsWithModules.includes(workarea)) {
+    if (!modelsWithModules.has(workarea)) {
       layer.setAttribute(`data-${DataType.module}`, String(LayerModule.LASER_10W_DIODE));
       toggleFullColorLayer(layer, { val: false });
     } else {
@@ -272,7 +272,7 @@ export const toggleFullColorAfterWorkareaChange = (): void => {
 export const postPresetChange = (): void => {
   // TODO: add test
   const customizedLaserConfigs = (storage.get('customizedLaserConfigs') as ILaserConfig[]) || [];
-  const workarea = BeamboxPreference.read('workarea') || BeamboxPreference.read('model');
+  const workarea: WorkAreaModel = BeamboxPreference.read('workarea') || BeamboxPreference.read('model');
   const parametersSet = getAllPresets(workarea);
   const layerNames = getAllLayerNames();
 
@@ -288,7 +288,7 @@ export const postPresetChange = (): void => {
       layerModule === LayerModule.PRINTER ? 'data-printingSpeed' : 'data-speed';
     // Looking for preset with same name and correct module
     const configIndex = customizedLaserConfigs.findIndex((config) =>
-      modelsWithModules.includes(workarea)
+      modelsWithModules.has(workarea)
         ? config.name === configName && config.module === layerModule
         : config.name === configName
     );
@@ -328,7 +328,7 @@ export const postPresetChange = (): void => {
         if (zStep !== undefined) layer.setAttribute('data-zstep', String(zStep || 0));
       }
     }
-    const maxSpeed = constant.dimension.getMaxSpeed(workarea);
+    const { maxSpeed } = getWorkarea(workarea);
     if (Number(layer.getAttribute(speedAttributeName)) > maxSpeed) {
       layer.setAttribute(speedAttributeName, String(maxSpeed));
     }

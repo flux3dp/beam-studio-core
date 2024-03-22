@@ -3,7 +3,7 @@ import constant from 'app/actions/beambox/constant';
 import createNewText from 'app/svgedit/text/createNewText';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
-import presprayArea from 'app/actions/beambox/prespray-area';
+import presprayArea from 'app/actions/canvas/prespray-area';
 import history from 'app/svgedit/history';
 import selector from 'app/svgedit/selector';
 import * as LayerHelper from 'helpers/layer/layer-helper';
@@ -23,6 +23,8 @@ import ISVGCanvas from 'interfaces/ISVGCanvas';
 import RightPanelController from 'app/views/beambox/Right-Panels/contexts/RightPanelController';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { MouseButtons } from 'app/constants/mouse-constants';
+import rotaryAxis from 'app/actions/canvas/rotary-axis';
+import workareaManager from 'app/svgedit/workarea';
 
 let svgEditor;
 let svgCanvas: ISVGCanvas;
@@ -185,7 +187,7 @@ let mouseSelectModeCmds;
 const mouseDown = (evt: MouseEvent) => {
   if (checkShouldIgnore()) return;
   const currentShape = svgCanvas.getCurrentShape();
-  const currentZoom = svgCanvas.getCurrentZoom();
+  const zoom = workareaManager.zoomRatio;
   let selectedElements = svgCanvas.getSelectedElems();
   const started = svgCanvas.getStarted();
   const svgRoot = svgCanvas.getRoot();
@@ -196,8 +198,8 @@ const mouseDown = (evt: MouseEvent) => {
   svgCanvas.setRootScreenMatrix(($('#svgcontent')[0] as any).getScreenCTM().inverse());
   const pt = getEventPoint(evt);
   let { x, y } = pt;
-  startMouseX = x * currentZoom;
-  startMouseY = y * currentZoom;
+  startMouseX = x * zoom;
+  startMouseY = y * zoom;
   const realX = x; // realX/Y ignores grid-snap value
   const realY = y;
 
@@ -273,6 +275,7 @@ const mouseDown = (evt: MouseEvent) => {
   }
 
   if (presprayArea.checkMouseTarget(mouseTarget)) svgCanvas.setMode('drag-prespray-area');
+  if (rotaryAxis.checkMouseTarget(mouseTarget)) svgCanvas.setMode('drag-rotary-axis');
 
   svgCanvas.unsafeAccess.setStartTransform(mouseTarget.getAttribute('transform'));
   currentMode = svgCanvas.getCurrentMode();
@@ -371,10 +374,6 @@ const mouseDown = (evt: MouseEvent) => {
         }
       }
       break;
-    case 'zoom':
-      svgCanvas.unsafeAccess.setStarted(true);
-      setRubberBoxStart();
-      break;
     case 'resize':
       svgCanvas.unsafeAccess.setStarted(true);
       startX = x;
@@ -386,7 +385,7 @@ const mouseDown = (evt: MouseEvent) => {
       initBBox = svgedit.utilities.getBBox(selectBox);
       const bb: { [key: string]: number } = {};
       $.each(initBBox, (key, val) => {
-        bb[key] = val / svgCanvas.getCurrentZoom();
+        bb[key] = val / workareaManager.zoomRatio;
       });
       initBBox = (mouseTarget.tagName === 'use') ? svgCanvas.getSvgRealLocation(mouseTarget) : bb;
       // append three dummy transforms to the tlist so that
@@ -430,7 +429,7 @@ const mouseDown = (evt: MouseEvent) => {
           points: newDPath,
           id: svgCanvas.getNextId(),
           fill: 'none',
-          opacity: currentShape.opacity / 2,
+          opacity: currentShape.opacity,
           'stroke-linecap': 'round',
           style: 'pointer-events:none',
         },
@@ -450,7 +449,7 @@ const mouseDown = (evt: MouseEvent) => {
           width: 0,
           height: 0,
           id: svgCanvas.getNextId(),
-          opacity: currentShape.opacity / 2,
+          opacity: currentShape.opacity,
           style: 'pointer-events:inherit',
         },
       }) as unknown as SVGImageElement;
@@ -477,7 +476,7 @@ const mouseDown = (evt: MouseEvent) => {
           id: svgCanvas.getNextId(),
           fill: 'none',
           'fill-opacity': 0,
-          opacity: currentShape.opacity / 2,
+          opacity: currentShape.opacity,
         },
       });
       if (svgCanvas.isUsingLayerColor) {
@@ -502,7 +501,7 @@ const mouseDown = (evt: MouseEvent) => {
           'stroke-linejoin': currentShape.stroke_linejoin,
           'stroke-linecap': currentShape.stroke_linecap,
           fill: 'none',
-          opacity: currentShape.opacity / 2,
+          opacity: currentShape.opacity,
           style: 'pointer-events:none',
         },
       });
@@ -523,7 +522,7 @@ const mouseDown = (evt: MouseEvent) => {
           r: 0,
           id: svgCanvas.getNextId(),
           stroke: '#000',
-          opacity: currentShape.opacity / 2,
+          opacity: currentShape.opacity,
         },
       });
       break;
@@ -542,7 +541,7 @@ const mouseDown = (evt: MouseEvent) => {
           stroke: '#000',
           'fill-opacity': 0,
           fill: 'none',
-          opacity: currentShape.opacity / 2,
+          opacity: currentShape.opacity,
         },
       });
       if (svgCanvas.isUsingLayerColor) {
@@ -561,12 +560,12 @@ const mouseDown = (evt: MouseEvent) => {
     case 'path':
     // Fall through
     case 'pathedit':
-      startX *= currentZoom;
-      startY *= currentZoom;
+      startX *= zoom;
+      startY *= zoom;
       if (svgCanvas.isBezierPathAlignToEdge) {
         const { xMatchPoint, yMatchPoint } = svgCanvas.findMatchPoint(startMouseX, startMouseY);
-        startX = xMatchPoint ? xMatchPoint.x * currentZoom : startX;
-        startY = yMatchPoint ? yMatchPoint.y * currentZoom : startY;
+        startX = xMatchPoint ? xMatchPoint.x * zoom : startX;
+        startY = yMatchPoint ? yMatchPoint.y * zoom : startY;
       }
       const res = svgCanvas.pathActions.mouseDown(evt, mouseTarget, startX, startY);
       if (res) {
@@ -578,8 +577,8 @@ const mouseDown = (evt: MouseEvent) => {
       }
       break;
     case 'textedit':
-      startX *= currentZoom;
-      startY *= currentZoom;
+      startX *= zoom;
+      startY *= zoom;
       svgCanvas.textActions.mouseDown(evt, mouseTarget, startX, startY);
       svgCanvas.unsafeAccess.setStarted(true);
       break;
@@ -599,6 +598,10 @@ const mouseDown = (evt: MouseEvent) => {
       svgCanvas.unsafeAccess.setStarted(true);
       svgCanvas.clearSelection();
       presprayArea.startDrag();
+      break;
+    case 'drag-rotary-axis':
+      svgCanvas.unsafeAccess.setStarted(true);
+      svgCanvas.clearSelection();
       break;
     default:
       // This could occur in an extension
@@ -783,7 +786,7 @@ const onResizeMouseMove = (evt: MouseEvent, selected: SVGElement, x, y) => {
 const mouseMove = (evt: MouseEvent) => {
   const started = svgCanvas.getStarted();
   const currentMode = svgCanvas.getCurrentMode();
-  const currentZoom = svgCanvas.getCurrentZoom();
+  const zoom = workareaManager.zoomRatio;
   const currentConfig = svgCanvas.getCurrentConfig();
   const selectedElements = svgCanvas.getSelectedElems();
   const rubberBox = svgCanvas.getRubberBox();
@@ -797,11 +800,11 @@ const mouseMove = (evt: MouseEvent) => {
   let c; let cx; let cy; let dx; let dy; let len; let angle; let box;
   let selected = selectedElements[0];
   const pt = getEventPoint(evt);
-  const mouseX = pt.x * currentZoom;
-  const mouseY = pt.y * currentZoom;
+  const mouseX = pt.x * zoom;
+  const mouseY = pt.y * zoom;
   const shape = svgedit.utilities.getElem(svgCanvas.getId());
-  const realX = mouseX / currentZoom;
-  const realY = mouseY / currentZoom;
+  const realX = mouseX / zoom;
+  const realY = mouseY / zoom;
   let x = realX;
   let y = realY;
 
@@ -809,8 +812,8 @@ const mouseMove = (evt: MouseEvent) => {
     if (svgCanvas.isBezierPathAlignToEdge) {
       if (currentMode === 'path') {
         const { xMatchPoint, yMatchPoint } = svgCanvas.findMatchPoint(mouseX, mouseY);
-        const px = xMatchPoint ? xMatchPoint.x * currentZoom : mouseX;
-        const py = yMatchPoint ? yMatchPoint.y * currentZoom : mouseY;
+        const px = xMatchPoint ? xMatchPoint.x * zoom : mouseX;
+        const py = yMatchPoint ? yMatchPoint.y * zoom : mouseY;
         svgCanvas.drawAlignLine(px, py, xMatchPoint, yMatchPoint);
       }
     }
@@ -907,8 +910,8 @@ const mouseMove = (evt: MouseEvent) => {
             svgCanvas.selectorManager.requestSelector(selected).resize();
           }
           if (svgCanvas.sensorAreaInfo) {
-            svgCanvas.sensorAreaInfo.dx = dx * currentZoom;
-            svgCanvas.sensorAreaInfo.dy = dy * currentZoom;
+            svgCanvas.sensorAreaInfo.dx = dx * zoom;
+            svgCanvas.sensorAreaInfo.dy = dy * zoom;
           }
 
           if (selectedBBox) {
@@ -932,9 +935,6 @@ const mouseMove = (evt: MouseEvent) => {
       break;
     case 'pre_preview':
     case 'preview':
-    case 'zoom':
-      updateRubberBox();
-      break;
     case 'multiselect':
       updateRubberBox();
       // Stop adding elements to selection when mouse moving
@@ -1080,8 +1080,8 @@ const mouseMove = (evt: MouseEvent) => {
     case 'path':
     // fall through
     case 'pathedit':
-      x *= currentZoom;
-      y *= currentZoom;
+      x *= zoom;
+      y *= zoom;
 
       if (currentConfig.gridSnapping) {
         x = svgedit.utilities.snapToGrid(x);
@@ -1101,8 +1101,8 @@ const mouseMove = (evt: MouseEvent) => {
       }
       if (svgCanvas.isBezierPathAlignToEdge) {
         const { xMatchPoint, yMatchPoint } = svgCanvas.findMatchPoint(mouseX, mouseY);
-        x = xMatchPoint ? xMatchPoint.x * currentZoom : x;
-        y = yMatchPoint ? yMatchPoint.y * currentZoom : y;
+        x = xMatchPoint ? xMatchPoint.x * zoom : x;
+        y = yMatchPoint ? yMatchPoint.y * zoom : y;
         svgCanvas.drawAlignLine(x, y, xMatchPoint, yMatchPoint);
       }
       svgCanvas.pathActions.mouseMove(x, y);
@@ -1142,6 +1142,9 @@ const mouseMove = (evt: MouseEvent) => {
       dy = y - startY;
       presprayArea.drag(dx, dy);
       break;
+    case 'drag-rotary-axis':
+      rotaryAxis.mouseMove(y);
+      break;
     default:
       break;
   }
@@ -1166,7 +1169,7 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
   const started = svgCanvas.getStarted();
   const currentMode = svgCanvas.getCurrentMode();
   const currentShape = svgCanvas.getCurrentShape();
-  const currentZoom = svgCanvas.getCurrentZoom();
+  const zoom = workareaManager.zoomRatio;
   let selectedElements = svgCanvas.getSelectedElems();
   const rubberBox = svgCanvas.getRubberBox();
   const rightClick = evt.button === MouseButtons.Right;
@@ -1186,8 +1189,8 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
   const { x, y } = pt;
   const realX = x;
   const realY = y;
-  const mouseX = x * currentZoom;
-  const mouseY = y * currentZoom;
+  const mouseX = x * zoom;
+  const mouseY = y * zoom;
 
   let element = svgedit.utilities.getElem(svgCanvas.getId());
   let keep = false;
@@ -1411,13 +1414,6 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
       }
 
       return;
-    // zoom is broken
-    case 'zoom':
-      if (rubberBox != null) {
-        rubberBox.setAttribute('display', 'none');
-      }
-      svgCanvas.call('zoomed');
-      return;
     case 'fhpath':
       // Check that the path contains at least 2 points; a degenerate one-point path
       // causes problems.
@@ -1576,6 +1572,12 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
       element = null;
       svgCanvas.setMode('select');
       break;
+    case 'drag-rotary-axis':
+      keep = true;
+      element = null;
+      rotaryAxis.mouseUp();
+      svgCanvas.setMode('select');
+      break;
     case 'preview_color':
       keep = true;
       element = null;
@@ -1646,42 +1648,19 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
       svgedit.units.convertAttrs(element);
     }
 
-    let duration = 0.2;
-    let clonedAnimation;
-    if (svgCanvas.opacityAnimation.beginElement && element.getAttribute('opacity') !== currentShape.opacity) {
-      clonedAnimation = $(svgCanvas.opacityAnimation).clone().attr({
-        to: currentShape.opacity,
-        dur: duration,
-      }).appendTo(element);
-      try {
-        // Fails in FF4 on foreignObject
-        clonedAnimation[0].beginElement();
-      } catch (e) {
-        console.error('SVGAnimation error', e);
-      }
-    } else {
-      duration = 0;
-    }
 
-    // Ideally this would be done on the endEvent of the animation,
-    // but that doesn't seem to be supported in Webkit
-    setTimeout(() => {
-      if (clonedAnimation) {
-        clonedAnimation.remove();
+    if (element.getAttribute('opacity') !== currentShape.opacity) element.setAttribute('opacity', currentShape.opacity);
+    element.setAttribute('style', 'pointer-events:inherit');
+    svgCanvas.cleanupElement(element);
+    svgCanvas.addCommandToHistory(new history.InsertElementCommand(element));
+    if (svgCanvas.getCurrentConfig().selectNew && !isContinuousDrawing) {
+      if (currentMode === 'textedit') {
+        svgCanvas.selectorManager.requestSelector(element).show(true);
+      } else if (element.parentNode) {
+        svgCanvas.selectOnly([element], true);
+        svgCanvas.call('changed', [element]);
       }
-      element.setAttribute('opacity', currentShape.opacity);
-      element.setAttribute('style', 'pointer-events:inherit');
-      svgCanvas.cleanupElement(element);
-      svgCanvas.addCommandToHistory(new history.InsertElementCommand(element));
-      if (svgCanvas.getCurrentConfig().selectNew && !isContinuousDrawing) {
-        if (currentMode === 'textedit') {
-          svgCanvas.selectorManager.requestSelector(element).show(true);
-        } else if (element.parentNode) {
-          svgCanvas.selectOnly([element], true);
-          svgCanvas.call('changed', [element]);
-        }
-      }
-    }, duration * 1000);
+    }
   }
   if (isContinuousDrawing && svgCanvas.getCurrentMode() !== 'textedit') {
     svgCanvas.clearSelection();
@@ -1777,14 +1756,14 @@ const onMouseWheel = (() => {
     evt.stopImmediatePropagation();
     evt.preventDefault();
 
-    targetZoom = svgCanvas.getZoom();
+    targetZoom = workareaManager.zoomRatio;
 
     const mouseInputDevice = BeamboxPreference.read('mouse_input_device');
     const isTouchpad = (mouseInputDevice === 'TOUCHPAD');
 
     function zoomProcess() {
       // End of animation
-      const currentZoom = svgCanvas.getZoom();
+      const currentZoom = workareaManager.zoomRatio;
       if ((currentZoom === targetZoom) || (Date.now() - trigger > 500)) {
         clearInterval(timer);
         timer = undefined;
@@ -1803,10 +1782,7 @@ const onMouseWheel = (() => {
         y: evt.pageY,
       };
 
-      svgCanvas.call('zoomed', {
-        zoomLevel: nextZoom,
-        staticPoint: cursorPosition,
-      });
+      workareaManager.zoom(nextZoom, cursorPosition);
     }
 
     function zoomAsIllustrator() {
@@ -1818,7 +1794,6 @@ const onMouseWheel = (() => {
       }
 
       targetZoom = Math.min(20, targetZoom);
-      targetZoom = Math.max(0.1, targetZoom);
       if ((targetZoom > 19) && (delta > 0)) {
         return;
       }
@@ -1874,17 +1849,11 @@ const registerEvents = () => {
     touchEvents.setupCanvasTouchEvents(
       container,
       workarea,
-      svgCanvas.contentW,
-      svgCanvas.contentH,
       mouseDown,
       mouseMove,
       mouseUp,
       dblClick,
-      () => svgCanvas.getZoom(),
-      (zoom, staticPoint) => svgCanvas.call('zoomed', {
-        zoomLevel: zoom,
-        staticPoint,
-      }),
+      (zoom, staticPoint) => workareaManager.zoom(zoom, staticPoint),
     );
   }
 
@@ -1909,17 +1878,14 @@ const registerEvents = () => {
     let startZoom: number;
     let currentScale = 1;
     container.addEventListener('gesturestart', (e: any) => {
-      startZoom = svgCanvas.getZoom();
+      startZoom = workareaManager.zoomRatio;
       currentScale = e.scale;
     });
     container.addEventListener('gesturechange', (e: any) => {
       const { clientX, clientY, scale } = e;
       if (startZoom && Math.abs(Math.log(currentScale / scale)) >= Math.log(1.05)) {
         const newZoom = startZoom * (scale ** 0.5);
-        svgCanvas.call('zoomed', {
-          zoomLevel: newZoom,
-          staticPoint: { x: clientX, y: clientY },
-        });
+        workareaManager.zoom(newZoom, { x: clientX, y: clientY });
         currentScale = scale;
       }
     });
