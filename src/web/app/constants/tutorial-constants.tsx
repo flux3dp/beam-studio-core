@@ -14,6 +14,7 @@ export enum TutorialCallbacks {
 }
 
 const LANG = i18n.lang.tutorial;
+const langLeftPanel = i18n.lang.beambox.left_panel.label;
 
 const nextStepRequirements = {
   SELECT_CIRCLE: 'SELECT_CIRCLE',
@@ -45,14 +46,14 @@ const NEW_USER_TUTORIAL: ITutorial = {
   dialogStylesAndContents: [
     {
       dialogBoxStyles: {
-        position: { left: isMacOrWeb ? 100 : 27, top: calculateTop(10, TopRef.TOPBAR) },
+        position: { left: isMacOrWeb ? 140 : 67, top: calculateTop(10, TopRef.TOPBAR) },
         arrowDirection: 'top',
         arrowPadding: isMacOrWeb ? undefined : 9,
       },
-      holePosition: { left: isMacOrWeb ? 80 : 7, top: calculateTop(0) },
+      holePosition: { left: isMacOrWeb ? 120 : 47, top: calculateTop(0) },
       holeSize: { width: 40, height: 40 },
       hintCircle: {
-        left: isMacOrWeb ? 82 : 9,
+        left: isMacOrWeb ? 122 : 49,
         top: calculateTop(3),
         width: 36,
         height: 36,
@@ -111,13 +112,13 @@ const NEW_USER_TUTORIAL: ITutorial = {
     },
     {
       dialogBoxStyles: {
-        position: { left: 56, top: calculateTop(198, TopRef.TOPBAR) },
+        position: { left: 56, top: calculateTop(244, TopRef.TOPBAR) },
       },
-      holePosition: { left: 7, top: calculateTop(183, TopRef.TOPBAR) },
+      holePosition: { left: 7, top: calculateTop(226, TopRef.TOPBAR) },
       holeSize: { width: 36, height: 36 },
       hintCircle: {
         left: 5,
-        top: calculateTop(181, TopRef.TOPBAR),
+        top: calculateTop(224, TopRef.TOPBAR),
         width: 40,
         height: 40,
       },
@@ -224,13 +225,13 @@ const NEW_USER_TUTORIAL: ITutorial = {
     },
     {
       dialogBoxStyles: {
-        position: { left: 56, top: calculateTop(240, TopRef.TOPBAR) },
+        position: { left: 56, top: calculateTop(286, TopRef.TOPBAR) },
       },
-      holePosition: { left: 7, top: calculateTop(225, TopRef.TOPBAR) },
+      holePosition: { left: 7, top: calculateTop(269, TopRef.TOPBAR) },
       holeSize: { width: 36, height: 36 },
       hintCircle: {
         left: 5,
-        top: calculateTop(224, TopRef.TOPBAR),
+        top: calculateTop(267, TopRef.TOPBAR),
         width: 40,
         height: 40,
       },
@@ -365,12 +366,12 @@ const INTERFACE_TUTORIAL: ITutorial = {
   dialogStylesAndContents: [
     {
       dialogBoxStyles: {
-        position: { left: isMacOrWeb ? 100 : 27, top: calculateTop(10, TopRef.TOPBAR) },
+        position: { left: isMacOrWeb ? 140 : 67, top: calculateTop(10, TopRef.TOPBAR) },
         arrowDirection: 'top',
         arrowPadding: isMacOrWeb ? undefined : 9,
       },
       hintCircle: {
-        left: isMacOrWeb ? 82 : 9,
+        left: isMacOrWeb ? 122 : 49,
         top: calculateTop(3),
         width: 36,
         height: 36,
@@ -448,23 +449,23 @@ const INTERFACE_TUTORIAL: ITutorial = {
     },
     {
       dialogBoxStyles: {
-        position: { left: 56, top: calculateTop(40, TopRef.TOPBAR) },
+        position: { left: 56, top: calculateTop(86, TopRef.TOPBAR) },
       },
       hintCircle: {
         left: 5,
         top: calculateTop(5, TopRef.TOPBAR),
         width: 40,
-        height: 135,
+        height: 176,
       },
-      text: LANG.newInterface.select_image_text,
+      text: `${langLeftPanel.cursor} / ${langLeftPanel.photo} / ${langLeftPanel.my_cloud} / ${langLeftPanel.text}`
     },
     {
       dialogBoxStyles: {
-        position: { left: 56, top: calculateTop(175, TopRef.TOPBAR) },
+        position: { left: 56, top: calculateTop(221, TopRef.TOPBAR) },
       },
       hintCircle: {
         left: 5,
-        top: calculateTop(135, TopRef.TOPBAR),
+        top: calculateTop(181, TopRef.TOPBAR),
         width: 40,
         height: 220,
       },
@@ -472,11 +473,11 @@ const INTERFACE_TUTORIAL: ITutorial = {
     },
     {
       dialogBoxStyles: {
-        position: { left: 56, top: calculateTop(372, TopRef.TOPBAR) },
+        position: { left: 56, top: calculateTop(418, TopRef.TOPBAR) },
       },
       hintCircle: {
         left: 5,
-        top: calculateTop(353, TopRef.TOPBAR),
+        top: calculateTop(396, TopRef.TOPBAR),
         width: 40,
         height: 40,
       },

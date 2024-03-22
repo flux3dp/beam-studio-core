@@ -64,7 +64,6 @@ exports[`test Instruction should render correctly 1`] = `
                 <span>
                   label
                 </span>
-                
               </button>
             </div>
           </div>

@@ -114,6 +114,7 @@ export default {
   IMPORT_HELLO_BEAMBOX: () => loadExampleFile(getExampleFileName('hello_beambox')),
   SAVE_SCENE: () => FileExportHelper.saveFile(),
   SAVE_AS: () => FileExportHelper.saveAsFile(),
+  SAVE_TO_CLOUD: () => FileExportHelper.saveToCloud(),
   EXPORT_BVG: () => FileExportHelper.exportAsBVG(),
   EXPORT_SVG: () => FileExportHelper.exportAsSVG(),
   EXPORT_PNG: () => FileExportHelper.exportAsImage('png'),

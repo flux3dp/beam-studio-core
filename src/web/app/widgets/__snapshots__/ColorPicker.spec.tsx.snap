@@ -294,7 +294,6 @@ exports[`test ColorPicker should render correctly 2`] = `
                     <span>
                       ok
                     </span>
-                    
                   </button>
                   <button
                     class="ant-btn css-dev-only-do-not-override-hash ant-btn-default btn"
@@ -303,7 +302,6 @@ exports[`test ColorPicker should render correctly 2`] = `
                     <span>
                       cancel
                     </span>
-                    
                   </button>
                 </div>
               </div>
@@ -610,7 +608,6 @@ exports[`test ColorPicker should render correctly when initColor is none 2`] = `
                     <span>
                       ok
                     </span>
-                    
                   </button>
                   <button
                     class="ant-btn css-dev-only-do-not-override-hash ant-btn-default btn"
@@ -619,7 +616,6 @@ exports[`test ColorPicker should render correctly when initColor is none 2`] = `
                     <span>
                       cancel
                     </span>
-                    
                   </button>
                 </div>
               </div>
@@ -737,7 +733,6 @@ exports[`test ColorPicker should render correctly when is for printing colors 2`
                     <span>
                       ok
                     </span>
-                    
                   </button>
                   <button
                     class="ant-btn css-dev-only-do-not-override-hash ant-btn-default btn"
@@ -746,7 +741,6 @@ exports[`test ColorPicker should render correctly when is for printing colors 2`
                     <span>
                       cancel
                     </span>
-                    
                   </button>
                 </div>
               </div>
@@ -1053,7 +1047,6 @@ exports[`test ColorPicker should render correctly when is small 2`] = `
                     <span>
                       ok
                     </span>
-                    
                   </button>
                   <button
                     class="ant-btn css-dev-only-do-not-override-hash ant-btn-default btn"
@@ -1062,7 +1055,6 @@ exports[`test ColorPicker should render correctly when is small 2`] = `
                     <span>
                       cancel
                     </span>
-                    
                   </button>
                 </div>
               </div>

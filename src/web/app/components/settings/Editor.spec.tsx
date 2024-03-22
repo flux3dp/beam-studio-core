@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import { act } from 'react-dom/test-utils';
+import { fireEvent, render } from '@testing-library/react';
 
 import { OptionValues } from 'app/constants/enums';
 
@@ -38,53 +38,67 @@ jest.mock('helpers/i18n', () => ({
 
 const getFontOfPostscriptName = jest.fn();
 jest.mock('app/actions/beambox/font-funcs', () => ({
-  availableFontFamilies: ['Arial', 'Courier', 'Apple LiSung'],
-  fontNameMap: new Map(Object.entries({
-    Arial: 'Arial',
-    Courier: 'Courier',
-    'Apple LiSung': '蘋果儷細宋',
-  })),
+  requestAvailableFontFamilies: () => ['Arial', 'Courier', 'Apple LiSung'],
+  fontNameMap: new Map(
+    Object.entries({
+      Arial: 'Arial',
+      Courier: 'Courier',
+      'Apple LiSung': '蘋果儷細宋',
+    })
+  ),
   requestFontsOfTheFontFamily: (family) => {
     const fonts = {
-      Arial: [{
-        family: 'Arial',
-        style: 'Regular',
-        postscriptName: 'ArialMT',
-      }, {
-        family: 'Arial',
-        style: 'Bold',
-        postscriptName: 'Arial-BoldMT',
-      }, {
-        family: 'Arial',
-        style: 'Bold Italic',
-        postscriptName: 'Arial-BoldItalicMT',
-      }, {
-        family: 'Arial',
-        style: 'Italic',
-        postscriptName: 'Arial-ItalicMT',
-      }],
-      Courier: [{
-        family: 'Courier',
-        style: 'Regular',
-        postscriptName: 'Regular',
-      }, {
-        family: 'Courier',
-        style: 'Bold',
-        postscriptName: 'Courier-Bold',
-      }, {
-        family: 'Courier',
-        style: 'Bold Oblique',
-        postscriptName: 'Courier-BoldOblique',
-      }, {
-        family: 'Courier',
-        style: 'Oblique',
-        postscriptName: 'Courier-Oblique',
-      }],
-      'Apple LiSung': [{
-        family: 'Apple LiSung',
-        style: 'Light',
-        postscriptName: 'LiSungLight',
-      }],
+      Arial: [
+        {
+          family: 'Arial',
+          style: 'Regular',
+          postscriptName: 'ArialMT',
+        },
+        {
+          family: 'Arial',
+          style: 'Bold',
+          postscriptName: 'Arial-BoldMT',
+        },
+        {
+          family: 'Arial',
+          style: 'Bold Italic',
+          postscriptName: 'Arial-BoldItalicMT',
+        },
+        {
+          family: 'Arial',
+          style: 'Italic',
+          postscriptName: 'Arial-ItalicMT',
+        },
+      ],
+      Courier: [
+        {
+          family: 'Courier',
+          style: 'Regular',
+          postscriptName: 'Regular',
+        },
+        {
+          family: 'Courier',
+          style: 'Bold',
+          postscriptName: 'Courier-Bold',
+        },
+        {
+          family: 'Courier',
+          style: 'Bold Oblique',
+          postscriptName: 'Courier-BoldOblique',
+        },
+        {
+          family: 'Courier',
+          style: 'Oblique',
+          postscriptName: 'Courier-Oblique',
+        },
+      ],
+      'Apple LiSung': [
+        {
+          family: 'Apple LiSung',
+          style: 'Light',
+          postscriptName: 'LiSungLight',
+        },
+      ],
     };
     return fonts[family];
   },
@@ -101,6 +115,39 @@ jest.mock('implementations/storage', () => ({
   set: (key, value) => map.set(key, value),
 }));
 
+jest.mock(
+  'app/components/settings/SelectControl',
+  () =>
+    ({ id, label, url, onChange, options }: any) =>
+      (
+        <div>
+          mock-select-control id:{id}
+          label:{label}
+          url:{url}
+          options:{JSON.stringify(options)}
+          <input className="select-control" onChange={onChange} />
+        </div>
+      )
+);
+
+jest.mock(
+  'app/widgets/Unit-Input-v2',
+  () =>
+    ({ id, unit, min, max, defaultValue, getValue, forceUsePropsUnit, className }: any) =>
+      (
+        <div>
+          mock-unit-input id:{id}
+          unit:{unit}
+          min:{min}
+          max:{max}
+          defaultValue:{defaultValue}
+          forceUsePropsUnit:{forceUsePropsUnit ? 'true' : 'false'}
+          className:{JSON.stringify(className)}
+          <input className="unit-input" onChange={(e) => getValue(+e.target.value)} />
+        </div>
+      )
+);
+
 // eslint-disable-next-line import/first
 import Editor from './Editor';
 
@@ -109,210 +156,167 @@ describe('should render correctly', () => {
     jest.resetAllMocks();
   });
 
-  test('initially no warning', () => {
+  test('initially no warning', async () => {
     const updateConfigChange = jest.fn();
     const updateBeamboxPreferenceChange = jest.fn();
     const updateModel = jest.fn();
-    const wrapper = shallow(<Editor
-      defaultUnit="mm"
-      x0={0}
-      y0={0}
-      selectedModel="fbb1b"
-      guideSelectionOptions={[
-        {
-          value: 'TRUE',
-          label: 'On',
-          selected: false,
-        },
-        {
-          value: 'FALSE',
-          label: 'Off',
-          selected: true,
-        },
-      ]}
-      imageDownsamplingOptions={[
-        {
-          value: 'TRUE',
-          label: 'Low',
-          selected: false,
-        },
-        {
-          value: 'FALSE',
-          label: 'Normal',
-          selected: true,
-        },
-      ]}
-      antiAliasingOptions={[
-        {
-          value: 'TRUE',
-          label: 'On',
-          selected: false,
-        },
-        {
-          value: 'FALSE',
-          label: 'Off',
-          selected: true,
-        },
-      ]}
-      continuousDrawingOptions={[
-        {
-          value: 'TRUE',
-          label: 'On',
-          selected: false,
-        },
-        {
-          value: 'FALSE',
-          label: 'Off',
-          selected: true,
-        },
-      ]}
-      simplifyClipperPath={[
-        {
-          value: 'TRUE',
-          label: 'On',
-          selected: false,
-        },
-        {
-          value: 'FALSE',
-          label: 'Off',
-          selected: true,
-        },
-      ]}
-      enableLowSpeedOptions={[
-        {
-          value: 'TRUE',
-          label: 'On',
-          selected: false,
-        },
-        {
-          value: 'FALSE',
-          label: 'Off',
-          selected: true,
-        },
-      ]}
-      enableCustomBacklashOptions={[
-        {
-          value: OptionValues.TRUE,
-          label: 'On',
-          selected: false,
-        },
-        {
-          value: OptionValues.FALSE,
-          label: 'Off',
-          selected: true,
-        },
-      ]}
-      updateConfigChange={updateConfigChange}
-      updateBeamboxPreferenceChange={updateBeamboxPreferenceChange}
-      updateModel={updateModel}
-    />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container } = render(
+      <Editor
+        defaultUnit="mm"
+        x0={0}
+        y0={0}
+        selectedModel="fbb1b"
+        guideSelectionOptions={[
+          {
+            value: 'TRUE',
+            label: 'On',
+            selected: false,
+          },
+          {
+            value: 'FALSE',
+            label: 'Off',
+            selected: true,
+          },
+        ]}
+        imageDownsamplingOptions={[
+          {
+            value: 'TRUE',
+            label: 'Low',
+            selected: false,
+          },
+          {
+            value: 'FALSE',
+            label: 'Normal',
+            selected: true,
+          },
+        ]}
+        antiAliasingOptions={[
+          {
+            value: 'TRUE',
+            label: 'On',
+            selected: false,
+          },
+          {
+            value: 'FALSE',
+            label: 'Off',
+            selected: true,
+          },
+        ]}
+        continuousDrawingOptions={[
+          {
+            value: 'TRUE',
+            label: 'On',
+            selected: false,
+          },
+          {
+            value: 'FALSE',
+            label: 'Off',
+            selected: true,
+          },
+        ]}
+        simplifyClipperPath={[
+          {
+            value: 'TRUE',
+            label: 'On',
+            selected: false,
+          },
+          {
+            value: 'FALSE',
+            label: 'Off',
+            selected: true,
+          },
+        ]}
+        enableLowSpeedOptions={[
+          {
+            value: 'TRUE',
+            label: 'On',
+            selected: false,
+          },
+          {
+            value: 'FALSE',
+            label: 'Off',
+            selected: true,
+          },
+        ]}
+        enableCustomBacklashOptions={[
+          {
+            value: OptionValues.TRUE,
+            label: 'On',
+            selected: false,
+          },
+          {
+            value: OptionValues.FALSE,
+            label: 'Off',
+            selected: true,
+          },
+        ]}
+        updateConfigChange={updateConfigChange}
+        updateBeamboxPreferenceChange={updateBeamboxPreferenceChange}
+        updateModel={updateModel}
+      />
+    );
+    expect(container).toMatchSnapshot();
 
-    wrapper.find('SelectControl').at(0).simulate('change', {
-      target: {
-        value: 'inches',
-      },
-    });
+    const SelectControls = container.querySelectorAll('.select-control');
+    const UnitInputs = container.querySelectorAll('.unit-input');
+
+    fireEvent.change(SelectControls[0], { target: { value: 'inches' } });
     expect(updateConfigChange).toHaveBeenCalledTimes(1);
     expect(updateConfigChange).toHaveBeenNthCalledWith(1, 'default-units', 'inches');
 
-    wrapper.find('SelectControl').at(1).simulate('change', {
-      target: {
-        value: 'Apple LiSung',
-      },
-    });
-    expect(toJson(wrapper)).toMatchSnapshot();
+    fireEvent.change(SelectControls[1], { target: { value: 'Apple LiSung' } });
+    expect(container).toMatchSnapshot();
 
-    wrapper.find('SelectControl').at(1).simulate('change', {
-      target: {
-        value: 'Courier',
-      },
-    });
-    expect(toJson(wrapper)).toMatchSnapshot();
+    fireEvent.change(SelectControls[1], { target: { value: 'Courier' } });
+    expect(container).toMatchSnapshot();
 
     getFontOfPostscriptName.mockReturnValue({
       family: 'Courier',
       style: 'Bold',
       postscriptName: 'Courier-Bold',
     });
-    wrapper.find('SelectControl').at(2).simulate('change', {
-      target: {
-        value: 'Courier-Bold',
-      },
-    });
-    expect(toJson(wrapper)).toMatchSnapshot();
+    fireEvent.change(SelectControls[2], { target: { value: 'Courier-Bold' } });
+    expect(container).toMatchSnapshot();
 
-    wrapper.find('SelectControl').at(3).simulate('change', {
-      target: {
-        value: 'fbm1',
-      },
-    });
+    fireEvent.change(SelectControls[3], { target: { value: 'fbm1' } });
     expect(updateBeamboxPreferenceChange).toHaveBeenCalledTimes(1);
     expect(updateBeamboxPreferenceChange).toHaveBeenNthCalledWith(1, 'model', 'fbm1');
     expect(updateModel).toHaveBeenCalledTimes(1);
     expect(updateModel).toHaveBeenNthCalledWith(1, 'fbm1');
 
-    wrapper.find('SelectControl').at(4).simulate('change', {
-      target: {
-        value: 'TRUE',
-      },
-    });
+    fireEvent.change(SelectControls[4], { target: { value: 'TRUE' } });
     expect(updateBeamboxPreferenceChange).toHaveBeenCalledTimes(2);
     expect(updateBeamboxPreferenceChange).toHaveBeenNthCalledWith(2, 'show_guides', 'TRUE');
 
-    wrapper.find('SelectControl').at(5).simulate('change', {
-      target: {
-        value: 'TRUE',
-      },
-    });
+    fireEvent.change(SelectControls[5], { target: { value: 'TRUE' } });
     expect(updateBeamboxPreferenceChange).toHaveBeenCalledTimes(3);
     expect(updateBeamboxPreferenceChange).toHaveBeenNthCalledWith(3, 'image_downsampling', 'TRUE');
 
-    wrapper.find('SelectControl').at(6).simulate('change', {
-      target: {
-        value: 'TRUE',
-      },
-    });
+    fireEvent.change(SelectControls[6], { target: { value: 'TRUE' } });
     expect(updateBeamboxPreferenceChange).toHaveBeenCalledTimes(4);
     expect(updateBeamboxPreferenceChange).toHaveBeenNthCalledWith(4, 'anti-aliasing', 'TRUE');
 
-    wrapper.find('SelectControl').at(7).simulate('change', {
-      target: {
-        value: 'TRUE',
-      },
-    });
+    fireEvent.change(SelectControls[7], { target: { value: 'TRUE' } });
     expect(updateBeamboxPreferenceChange).toHaveBeenCalledTimes(5);
     expect(updateBeamboxPreferenceChange).toHaveBeenNthCalledWith(5, 'continuous_drawing', 'TRUE');
 
-    wrapper.find('SelectControl').at(8).simulate('change', {
-      target: {
-        value: 'TRUE',
-      },
-    });
+    fireEvent.change(SelectControls[8], { target: { value: 'TRUE' } });
     expect(updateBeamboxPreferenceChange).toHaveBeenCalledTimes(6);
     expect(updateBeamboxPreferenceChange).toHaveBeenNthCalledWith(6, 'simplify_clipper_path', 'TRUE');
 
-    wrapper.find('SelectControl').at(9).simulate('change', {
-      target: {
-        value: 'TRUE',
-      },
-    });
+    fireEvent.change(SelectControls[9], { target: { value: 'TRUE' } });
     expect(updateBeamboxPreferenceChange).toHaveBeenCalledTimes(7);
     expect(updateBeamboxPreferenceChange).toHaveBeenNthCalledWith(7, 'enable-low-speed', 'TRUE');
 
-    wrapper.find('UnitInput').at(0).props().getValue(1);
+    fireEvent.change(UnitInputs[0], { target: { value: 1 } });
     expect(updateBeamboxPreferenceChange).toHaveBeenCalledTimes(8);
     expect(updateBeamboxPreferenceChange).toHaveBeenNthCalledWith(8, 'guide_x0', 1);
 
-    wrapper.find('UnitInput').at(1).props().getValue(2);
+    fireEvent.change(UnitInputs[1], { target: { value: 2 } });
     expect(updateBeamboxPreferenceChange).toHaveBeenCalledTimes(9);
     expect(updateBeamboxPreferenceChange).toHaveBeenNthCalledWith(9, 'guide_y0', 2);
 
-    wrapper.find('SelectControl').at(10).simulate('change', {
-      target: {
-        value: OptionValues.TRUE,
-      },
-    });
+    fireEvent.change(SelectControls[10], { target: { value: OptionValues.TRUE } });
     expect(updateBeamboxPreferenceChange).toHaveBeenCalledTimes(10);
     expect(updateBeamboxPreferenceChange).toHaveBeenNthCalledWith(10, 'enable-custom-backlash', 'TRUE');
   });

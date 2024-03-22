@@ -5,7 +5,7 @@ import {
 jest.mock('app/actions/beambox/constant', () => ({
   topBarHeight: 10,
   layerListHeight: 20,
-  menuberHeight: 30,
+  titlebarHeight: 30,
   rightPanelScrollBarWidth: 40,
   rightPanelWidth: 50,
 }));

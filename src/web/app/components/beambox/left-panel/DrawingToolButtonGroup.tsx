@@ -1,72 +1,117 @@
-import * as React from 'react';
-import classNames from 'classnames';
+import React, { useEffect, useState } from 'react';
 
 import browser from 'implementations/browser';
 import dialogCaller from 'app/actions/dialog-caller';
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import i18n from 'helpers/i18n';
 import LeftPanelIcons from 'app/icons/left-panel/LeftPanelIcons';
+import LeftPanelButton from 'app/components/beambox/left-panel/LeftPanelButton';
+import { getCurrentUser } from 'helpers/api/flux-id';
 
 const LANG = i18n.lang.beambox.left_panel;
 
-interface Props {
-  id: string;
-  className: string;
-  title: string;
-  iconName: string;
-  onClick: () => void;
-}
+const eventEmitter = eventEmitterFactory.createEventEmitter('drawing-tool');
 
-const DrawingToolButton = ({
-  id, className, title, iconName, onClick,
-}: Props) => (
-  <div id={id} className={className} title={title} onClick={onClick}>
-    {iconName === 'qrcode' ? (
-      <LeftPanelIcons.QRCode />
-    ) : (
-      <img src={`img/left-bar/icon-${iconName}.svg`} draggable="false" />
-    )}
-  </div>
-);
-
-const DrawingToolButtonGroup = ({ className }: {
-  className: string;
-}): JSX.Element => {
-  const [activeButton, setActiveButton] = React.useState('cursor');
+const DrawingToolButtonGroup = ({ className }: { className: string }): JSX.Element => {
+  const [activeButton, setActiveButton] = useState('Cursor');
+  const isSubscribed = getCurrentUser()?.info?.subscription?.is_valid;
   const renderToolButton = (
-    iconName: string,
     id: string,
+    icon: JSX.Element,
     label: string,
     onClick: () => void,
+    showBadge?: boolean
   ) => (
-    <DrawingToolButton
+    <LeftPanelButton
       id={`left-${id}`}
-      className={classNames('tool-btn', activeButton === iconName ? 'active' : '')}
+      active={activeButton === id}
       title={label}
-      iconName={iconName}
+      icon={icon}
       onClick={() => {
-        setActiveButton(iconName);
+        setActiveButton(id);
         onClick();
       }}
+      showBadge={showBadge}
     />
   );
+
+  useEffect(() => {
+    eventEmitter.on('SET_ACTIVE_BUTTON', setActiveButton);
+    return () => {
+      eventEmitter.removeListener('SET_ACTIVE_BUTTON');
+    };
+  }, []);
+
   return (
     <div className={className}>
-      {renderToolButton('cursor', 'Cursor', `${LANG.label.cursor} (V)`, FnWrapper.useSelectTool)}
-      {renderToolButton('photo', 'Photo', `${LANG.label.photo} (I)`, FnWrapper.importImage)}
-      {renderToolButton('text', 'Text', `${LANG.label.text} (T)`, FnWrapper.insertText)}
-      {renderToolButton('element', 'Element', `${LANG.label.shapes} (E)`, () =>
+      {renderToolButton(
+        'Cursor',
+        <LeftPanelIcons.Cursor />,
+        `${LANG.label.cursor} (V)`,
+        FnWrapper.useSelectTool
+      )}
+      {renderToolButton(
+        'Photo',
+        <LeftPanelIcons.Photo />,
+        `${LANG.label.photo} (I)`,
+        FnWrapper.importImage
+      )}
+      {renderToolButton(
+        'MyCloud',
+        <LeftPanelIcons.Cloud />,
+        LANG.label.my_cloud,
+        () => dialogCaller.showMyCloud(FnWrapper.useSelectTool),
+        isSubscribed
+      )}
+      {renderToolButton(
+        'Text',
+        <LeftPanelIcons.Text />,
+        `${LANG.label.text} (T)`,
+        FnWrapper.insertText
+      )}
+      {renderToolButton('Element', <LeftPanelIcons.Element />, `${LANG.label.shapes} (E)`, () =>
         dialogCaller.showShapePanel(FnWrapper.useSelectTool)
       )}
-      {renderToolButton('rect', 'Rectangle', `${LANG.label.rect} (M)`, FnWrapper.insertRectangle)}
-      {renderToolButton('oval', 'Ellipse', `${LANG.label.oval} (L)`, FnWrapper.insertEllipse)}
-      {renderToolButton('polygon', 'Polygon', LANG.label.polygon, FnWrapper.insertPolygon)}
-      {renderToolButton('line', 'Line', `${LANG.label.line} (\\)`, FnWrapper.insertLine)}
-      {renderToolButton('draw', 'Pen', `${LANG.label.pen} (P)`, FnWrapper.insertPath)}
-      {renderToolButton('qrcode', 'QRCode', LANG.label.qr_code, () =>
+      {renderToolButton(
+        'Rectangle',
+        <LeftPanelIcons.Rect />,
+        `${LANG.label.rect} (M)`,
+        FnWrapper.insertRectangle
+      )}
+      {renderToolButton(
+        'Ellipse',
+        <LeftPanelIcons.Oval />,
+        `${LANG.label.oval} (L)`,
+        FnWrapper.insertEllipse
+      )}
+      {renderToolButton(
+        'Polygon',
+        <LeftPanelIcons.Polygon />,
+        LANG.label.polygon,
+        FnWrapper.insertPolygon
+      )}
+      {renderToolButton(
+        'Line',
+        <LeftPanelIcons.Line />,
+        `${LANG.label.line} (\\)`,
+        FnWrapper.insertLine
+      )}
+      {renderToolButton(
+        'Pen',
+        <LeftPanelIcons.Draw />,
+        `${LANG.label.pen} (P)`,
+        FnWrapper.insertPath
+      )}
+      {renderToolButton('QRCode', <LeftPanelIcons.QRCode />, LANG.label.qr_code, () =>
         dialogCaller.showQRCodeGenerator(FnWrapper.useSelectTool)
       )}
-      {renderToolButton('dm', 'DM', 'Design Market', () => browser.open(i18n.lang.topbar.menu.link.design_market))}
+      {renderToolButton('Boxgen', <LeftPanelIcons.Boxgen />, LANG.label.boxgen, () =>
+        dialogCaller.showBoxGen(FnWrapper.useSelectTool)
+      )}
+      {renderToolButton('DM', <LeftPanelIcons.DM />, 'Design Market', () =>
+        browser.open(i18n.lang.topbar.menu.link.design_market)
+      )}
     </div>
   );
 };

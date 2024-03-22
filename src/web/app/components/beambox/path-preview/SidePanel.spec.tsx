@@ -1,7 +1,6 @@
 /* eslint-disable import/first */
-import * as React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import React from 'react';
+import { fireEvent, render } from '@testing-library/react';
 
 jest.mock('helpers/i18n', () => ({
   lang: {
@@ -35,48 +34,54 @@ describe('side panel test', () => {
   it('should render correctly when enabled', () => {
     const handleStartHere = jest.fn();
     const togglePathPreview = jest.fn();
-    const wrapper = shallow(<SidePanel
-      size="100 x 100 mm"
-      estTime="60 s"
-      lightTime="30 s"
-      rapidTime="10 s"
-      cutDist="50 mm"
-      rapidDist="30 mm"
-      currentPosition="50, 50 mm"
-      handleStartHere={handleStartHere}
-      isStartHereEnabled
-      togglePathPreview={togglePathPreview}
-    />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container } = render(
+      <SidePanel
+        size="100 x 100 mm"
+        estTime="60 s"
+        lightTime="30 s"
+        rapidTime="10 s"
+        cutDist="50 mm"
+        rapidDist="30 mm"
+        currentPosition="50, 50 mm"
+        handleStartHere={handleStartHere}
+        isStartHereEnabled
+        togglePathPreview={togglePathPreview}
+      />
+    );
+    expect(container).toMatchSnapshot();
 
-    wrapper.find('div.btn-default').at(0).simulate('click');
+    const buttons = container.querySelectorAll('div.btn-default');
+    fireEvent.click(buttons[0]);
     expect(handleStartHere).toHaveBeenCalledTimes(1);
 
-    wrapper.find('div.btn-default').at(1).simulate('click');
+    fireEvent.click(buttons[1]);
     expect(togglePathPreview).toHaveBeenCalledTimes(1);
   });
 
   it('should render correctly when disabled', () => {
     const handleStartHere = jest.fn();
     const togglePathPreview = jest.fn();
-    const wrapper = shallow(<SidePanel
-      size="100 x 100 mm"
-      estTime="60 s"
-      lightTime="30 s"
-      rapidTime="10 s"
-      cutDist="50 mm"
-      rapidDist="30 mm"
-      currentPosition="50, 50 mm"
-      handleStartHere={handleStartHere}
-      isStartHereEnabled={false}
-      togglePathPreview={togglePathPreview}
-    />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container } = render(
+      <SidePanel
+        size="100 x 100 mm"
+        estTime="60 s"
+        lightTime="30 s"
+        rapidTime="10 s"
+        cutDist="50 mm"
+        rapidDist="30 mm"
+        currentPosition="50, 50 mm"
+        handleStartHere={handleStartHere}
+        isStartHereEnabled={false}
+        togglePathPreview={togglePathPreview}
+      />
+    );
+    expect(container).toMatchSnapshot();
 
-    wrapper.find('div.btn-default').at(0).simulate('click');
+    const buttons = container.querySelectorAll('div.btn-default');
+    fireEvent.click(buttons[0]);
     expect(handleStartHere).toHaveBeenCalledTimes(0);
 
-    wrapper.find('div.btn-default').at(1).simulate('click');
+    fireEvent.click(buttons[1]);
     expect(togglePathPreview).toHaveBeenCalledTimes(1);
   });
 });

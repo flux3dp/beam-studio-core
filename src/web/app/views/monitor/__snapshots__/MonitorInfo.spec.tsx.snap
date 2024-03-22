@@ -1,25 +1,27 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should render correctly 1`] = `
-<div
-  className="wrapper"
->
+<div>
   <div
-    className="row"
+    class="wrapper"
   >
     <div
-      className="status right"
+      class="row"
     >
-      uploading
+      <div
+        class="status right"
+      >
+        uploading
+      </div>
     </div>
-  </div>
-  <div
-    className="row"
-  >
     <div
-      className="time-left right"
+      class="row"
     >
-      90%
+      <div
+        class="time-left right"
+      >
+        90%
+      </div>
     </div>
   </div>
 </div>

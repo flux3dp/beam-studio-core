@@ -1,5 +1,5 @@
 export type StorageKey =
-  'font-name-map'
+  | 'font-name-map'
   | 'default-units'
   | 'default-font'
   | 'beambox-preference'
@@ -39,7 +39,8 @@ export type StorageKey =
   | 'did-gesture-tutorial'
   | 'last-record-activity'
   | 'fisheye-calibration'
-  | 'selected-device';
+  | 'selected-device'
+  | 'announcement-record';
 
 export interface IStorage {
   get(name: StorageKey): any;

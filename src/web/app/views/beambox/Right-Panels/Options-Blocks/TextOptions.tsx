@@ -1,9 +1,11 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { Button, ConfigProvider, Select, Switch } from 'antd';
 
-import fontHelper from 'implementations/fontHelper';
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
+import FluxIcons from 'app/icons/flux/FluxIcons';
+import fontHelper from 'helpers/fonts/fontHelper';
 import FontFuncs from 'app/actions/beambox/font-funcs';
 import history from 'app/svgedit/history';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
@@ -17,6 +19,8 @@ import InFillBlock from 'app/views/beambox/Right-Panels/Options-Blocks/InFillBlo
 import StartOffsetBlock from 'app/views/beambox/Right-Panels/Options-Blocks/TextOptions/StartOffsetBlock';
 import VerticalAlignBlock from 'app/views/beambox/Right-Panels/Options-Blocks/TextOptions/VerticalAlignBlock';
 import UnitInput from 'app/widgets/Unit-Input-v2';
+import { FontDescriptor } from 'interfaces/IFont';
+import { getCurrentUser } from 'helpers/api/flux-id';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { iconButtonTheme, selectTheme } from 'app/views/beambox/Right-Panels/antd-config';
 import { isMobile } from 'helpers/system-helper';
@@ -24,11 +28,15 @@ import { isMobile } from 'helpers/system-helper';
 import styles from './TextOptions.module.scss';
 
 let svgCanvas;
-getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
+getSVGAsync((globalSVG) => {
+  svgCanvas = globalSVG.Canvas;
+});
 
+const eventEmitter = eventEmitterFactory.createEventEmitter('font');
 const LANG = i18n.lang.beambox.right_panel.object_panel.option_panel;
-const usePostscriptAsFamily = window.os === 'MacOS' && window.FLUX.version !== 'web';
+const isLocalFont = (font: FontDescriptor) => 'path' in font;
 
+// TODO: add tests
 interface Props {
   elem: Element;
   textElement: SVGTextElement;
@@ -39,6 +47,7 @@ interface Props {
 }
 
 interface State {
+  id: string;
   fontFamily: string;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   fontStyle: any;
@@ -50,110 +59,151 @@ interface State {
   isVerti: boolean;
 }
 
-class TextOptions extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    const { textElement } = props;
-    this.state = this.getStateFromElem(textElement);
-  }
+const TextOptions = ({
+  elem,
+  textElement,
+  isTextPath,
+  updateObjectPanel,
+  updateDimensionValues,
+  showColorPanel,
+}: Props) => {
+  const [availableFontFamilies, setAvailableFontFamilies] = useState<string[]>([]);
+  const [state, setState] = useState<State>({
+    id: '',
+    fontFamily: '',
+    fontStyle: '',
+    fontSize: 200,
+    letterSpacing: 0,
+    lineSpacing: 1,
+    isVerti: false,
+    startOffset: 0,
+    verticalAlign: VerticalAlign.MIDDLE,
+  });
+  const { fontFamily } = state;
+  const [styleOptions, setStyleOptions] = useState([]);
 
-  componentDidUpdate(prevProps: Props): void {
-    const lastElem = prevProps.textElement;
-    const lastId = lastElem.getAttribute('id');
-    const { textElement } = this.props;
-    if (textElement.getAttribute('id') !== lastId) {
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState(this.getStateFromElem(textElement));
-    }
-  }
-
-  getStateFromElem = (elem: SVGTextElement) => {
-    const { updateDimensionValues } = this.props;
-    const postscriptName = textEdit.getFontPostscriptName(elem);
-    let font;
-    if (postscriptName) {
-      font = FontFuncs.getFontOfPostscriptName(postscriptName);
-      if (!elem.getAttribute('font-style')) {
-        elem.setAttribute('font-style', font.italic ? 'italic' : 'normal');
-      }
-      if (!elem.getAttribute('font-weight')) {
-        elem.setAttribute('font-weight', font.weight ? font.weight : 'normal');
-      }
-    } else {
-      const family = usePostscriptAsFamily
-        ? textEdit.getFontFamilyData(elem)
-        : textEdit.getFontFamily(elem);
-      const weight = textEdit.getFontWeight(elem);
-      const italic = textEdit.getItalic(elem);
-      font = FontFuncs.requestFontByFamilyAndStyle({ family, weight, italic });
-    }
-    // eslint-disable-next-line no-console
-    console.log(font);
-    const sanitizedDefaultFontFamily = (() => {
-      // use these font if postscriptName cannot find in user PC
-      const fontFamilyFallback = [
-        'PingFang TC',
-        'Arial',
-        'Times New Roman',
-        'Ubuntu',
-        FontFuncs.availableFontFamilies[0],
-      ];
-      const sanitizedFontFamily = [font.family, ...fontFamilyFallback].find(
-        (f) => FontFuncs.availableFontFamilies.includes(f),
-      );
-      return sanitizedFontFamily;
-    })();
-
-    if (sanitizedDefaultFontFamily !== font.family) {
-      // eslint-disable-next-line no-console
-      console.log(`unsupported font ${font.family}, fallback to ${sanitizedDefaultFontFamily}`);
-      textEdit.setFontFamily(sanitizedDefaultFontFamily, true);
-      const newFont = FontFuncs.requestFontsOfTheFontFamily(sanitizedDefaultFontFamily)[0];
-      textEdit.setFontPostscriptName(newFont.postscriptName, true);
-    }
-    updateDimensionValues({ fontStyle: font.style });
-
-    let startOffset: number;
-    let verticalAlign: VerticalAlign;
-    if (elem.getAttribute('data-textpath')) {
-      const textPath = elem.querySelector('textPath');
-      if (textPath) {
-        // Use parseInt parse X% to number X
-        startOffset = parseInt(textPath.getAttribute('startOffset'), 10);
-        const alignmentBaseline = textPath.getAttribute('alignment-baseline');
-        if (alignmentBaseline === 'middle') verticalAlign = VerticalAlign.MIDDLE;
-        else if (alignmentBaseline === 'top') verticalAlign = VerticalAlign.TOP;
-        else verticalAlign = VerticalAlign.BOTTOM;
-      }
-    }
-
-    return {
-      fontFamily: sanitizedDefaultFontFamily,
-      fontStyle: font.style,
-      fontSize: Number(elem.getAttribute('font-size')),
-      letterSpacing: textEdit.getLetterSpacing(elem),
-      lineSpacing: parseFloat(elem.getAttribute('data-line-spacing') || '1'),
-      isVerti: elem.getAttribute('data-verti') === 'true',
-      startOffset,
-      verticalAlign,
-    };
+  const getFontFamilies = async () => {
+    const families = FontFuncs.requestAvailableFontFamilies();
+    setAvailableFontFamilies(families);
   };
 
-  waitForWebFont = async () => {
-    const { elem } = this.props;
-    await progressCaller.openNonstopProgress({ id: 'load-font', caption: 't讀取字體中' });
+  useEffect(() => {
+    eventEmitter.on('GET_MONOTYPE_FONTS', getFontFamilies);
+    return () => {
+      eventEmitter.removeListener('GET_MONOTYPE_FONTS');
+    };
+  }, []);
+
+  useEffect(() => {
+    const getStateFromElem = async () => {
+      const elemId = textElement.getAttribute('id');
+      if (elemId === state.id) return;
+      const postscriptName = textEdit.getFontPostscriptName(textElement);
+      let font;
+      if (postscriptName) {
+        font = FontFuncs.getFontOfPostscriptName(postscriptName);
+        if (!textElement.getAttribute('font-style')) {
+          textElement.setAttribute('font-style', font.italic ? 'italic' : 'normal');
+        }
+        if (!textElement.getAttribute('font-weight')) {
+          textElement.setAttribute('font-weight', font.weight ? font.weight : 'normal');
+        }
+      } else {
+        const family = textEdit.getFontFamilyData(textElement);
+        const weight = textEdit.getFontWeight(textElement);
+        const italic = textEdit.getItalic(textElement);
+        font = FontFuncs.requestFontByFamilyAndStyle({ family, weight, italic });
+      }
+      // eslint-disable-next-line no-console
+      console.log(font);
+      const sanitizedDefaultFontFamily = (() => {
+        // use these font if postscriptName cannot find in user PC
+        const fontFamilyFallback = [
+          'PingFang TC',
+          'Arial',
+          'Times New Roman',
+          'Ubuntu',
+          'Noto Sans',
+        ];
+        const sanitizedFontFamily = [font.family, ...fontFamilyFallback].find((f) =>
+          availableFontFamilies.includes(f)
+        );
+        return sanitizedFontFamily;
+      })();
+
+      if (sanitizedDefaultFontFamily !== font.family) {
+        // eslint-disable-next-line no-console
+        console.log(`unsupported font ${font.family}, fallback to ${sanitizedDefaultFontFamily}`);
+        textEdit.setFontFamily(sanitizedDefaultFontFamily, true);
+        const newFont = FontFuncs.requestFontsOfTheFontFamily(sanitizedDefaultFontFamily)[0];
+        textEdit.setFontPostscriptName(newFont.postscriptName, true);
+      }
+      updateDimensionValues({ fontStyle: font.style });
+
+      let startOffset: number;
+      let verticalAlign: VerticalAlign;
+      if (textElement.getAttribute('data-textpath')) {
+        const textPath = textElement.querySelector('textPath');
+        if (textPath) {
+          // Use parseInt parse X% to number X
+          startOffset = parseInt(textPath.getAttribute('startOffset'), 10);
+          const alignmentBaseline = textPath.getAttribute('alignment-baseline');
+          if (alignmentBaseline === 'middle') verticalAlign = VerticalAlign.MIDDLE;
+          else if (alignmentBaseline === 'top') verticalAlign = VerticalAlign.TOP;
+          else verticalAlign = VerticalAlign.BOTTOM;
+        }
+      }
+
+      setState({
+        id: elemId,
+        fontFamily: sanitizedDefaultFontFamily,
+        fontStyle: font.style,
+        fontSize: Number(textElement.getAttribute('font-size')),
+        letterSpacing: textEdit.getLetterSpacing(textElement),
+        lineSpacing: parseFloat(textElement.getAttribute('data-line-spacing') || '1'),
+        isVerti: textElement.getAttribute('data-verti') === 'true',
+        startOffset,
+        verticalAlign,
+      });
+    };
+    if (availableFontFamilies.length > 0) getStateFromElem();
+    else getFontFamilies();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [textElement, availableFontFamilies]);
+
+  useEffect(() => {
+    const getStyleOptions = (family: string) => {
+      const fontStyles = FontFuncs.requestFontsOfTheFontFamily(family).map((f) => f.style);
+      const options = fontStyles.map((option: string) => ({ value: option, label: option }));
+      setStyleOptions(options);
+    };
+    getStyleOptions(fontFamily);
+  }, [fontFamily]);
+
+  const waitForWebFont = async (fontLoadedPromise?: Promise<void>) => {
+    await progressCaller.openNonstopProgress({
+      id: 'load-font',
+      caption: i18n.lang.beambox.right_panel.object_panel.actions_panel.fetching_web_font,
+    });
     await document.fonts.ready;
+    if (fontLoadedPromise) {
+      await fontLoadedPromise;
+    }
     selector.getSelectorManager().resizeSelectors([elem]);
     progressCaller.popById('load-font');
   };
 
-  handleFontFamilyChange = async (newFamily) => {
+  const handleFontFamilyChange = async (newFamily) => {
     let family = newFamily;
     if (typeof newFamily === 'object') {
       family = newFamily.value;
     }
-    const { updateDimensionValues, updateObjectPanel, textElement } = this.props;
     const newFont = FontFuncs.requestFontsOfTheFontFamily(family)[0];
+    const { success, fontLoadedPromise } = await fontHelper.applyMonotypeStyle(
+      newFont,
+      getCurrentUser()
+    );
+    if (!success) return;
     const batchCmd = new history.BatchCommand('Change Font family');
     let cmd = textEdit.setFontPostscriptName(newFont.postscriptName, true, [textElement]);
     batchCmd.addSubCommand(cmd);
@@ -161,7 +211,7 @@ class TextOptions extends React.Component<Props, State> {
     batchCmd.addSubCommand(cmd);
     cmd = textEdit.setFontWeight(newFont.weight, true, textElement);
     batchCmd.addSubCommand(cmd);
-    if (usePostscriptAsFamily) {
+    if (fontHelper.usePostscriptAsFamily(newFont)) {
       cmd = textEdit.setFontFamily(newFont.postscriptName, true, [textElement]);
       batchCmd.addSubCommand(cmd);
       cmd = textEdit.setFontFamilyData(family, true, [textElement]);
@@ -172,29 +222,36 @@ class TextOptions extends React.Component<Props, State> {
     }
     svgCanvas.undoMgr.addCommandToHistory(batchCmd);
 
-    if (window.FLUX.version === 'web') {
-      await this.waitForWebFont();
+    if (!isLocalFont(newFont)) {
+      await waitForWebFont(fontLoadedPromise);
     }
 
     const newStyle = newFont.style;
     updateDimensionValues({ fontStyle: newStyle });
-    this.setState({
+    setState({
+      ...state,
       fontFamily: family,
       fontStyle: newStyle,
     });
     updateObjectPanel();
   };
 
-  renderFontFamilyBlock = (): JSX.Element => {
-    const { fontFamily } = this.state;
+  const renderFontFamilyBlock = (): JSX.Element => {
     const renderOption = (option) => {
-      if (window.FLUX.version === 'web') {
-        const src = fontHelper.getWebFontPreviewUrl(option.value);
-        if (src) return <img src={src} alt={option.label} draggable="false" style={{ maxHeight: 20 }}/>;
+      const src = fontHelper.getWebFontPreviewUrl(option.value);
+      if (src) {
+        return (
+          <div className={styles['family-option']}>
+            <div className={styles['img-container']}>
+              <img src={src} alt={option.label} draggable="false" />
+            </div>
+            {src.includes('monotype') && <FluxIcons.FluxPlus />}
+          </div>
+        );
       }
       return <div style={{ fontFamily: `'${option.value}'`, maxHeight: 24 }}>{option.label}</div>;
     };
-    const options = FontFuncs.availableFontFamilies.map((option) => {
+    const options = availableFontFamilies.map((option) => {
       const fontName = FontFuncs.fontNameMap.get(option);
       const label = renderOption({
         value: option,
@@ -208,7 +265,7 @@ class TextOptions extends React.Component<Props, State> {
           id="font_family"
           selected={{ value: fontFamily, label: fontFamily }}
           options={options}
-          onChange={this.handleFontFamilyChange}
+          onChange={handleFontFamilyChange}
           label={LANG.font_family}
         />
       );
@@ -217,28 +274,42 @@ class TextOptions extends React.Component<Props, State> {
     return (
       <Select
         className={styles['font-family']}
+        popupClassName={styles['font-family-dropdown']}
         title={LANG.font_family}
         value={{ value: fontFamily }}
         options={options}
-        onChange={(value) => this.handleFontFamilyChange(value)}
+        onChange={(value) => handleFontFamilyChange(value)}
         onKeyDown={(e) => e.stopPropagation()}
         dropdownMatchSelectWidth={false}
         disabled={isOnlyOneOption}
+        filterOption={(input: string, option?: { label: JSX.Element; value: string }) => {
+          if (option?.value) {
+            const searchKey = input.toLowerCase();
+            if (option.value.toLowerCase().includes(searchKey)) return true;
+            const fontName = FontFuncs.fontNameMap.get(option.value) || '';
+            if (fontName.toLowerCase().includes(searchKey)) return true;
+          }
+          return false;
+        }}
+        showSearch
       />
     );
   };
 
-  private handleFontStyleChange = async (val: string) => {
-    const { updateDimensionValues, updateObjectPanel, textElement } = this.props;
-    const { fontFamily } = this.state;
+  const handleFontStyleChange = async (val: string) => {
     const font = FontFuncs.requestFontByFamilyAndStyle({
       family: fontFamily,
       style: val,
     });
+    const { success, fontLoadedPromise } = await fontHelper.applyMonotypeStyle(
+      font,
+      getCurrentUser()
+    );
+    if (!success) return;
     const batchCmd = new history.BatchCommand('Change Font Style');
     let cmd = textEdit.setFontPostscriptName(font.postscriptName, true, [textElement]);
     batchCmd.addSubCommand(cmd);
-    if (usePostscriptAsFamily) {
+    if (fontHelper.usePostscriptAsFamily(font)) {
       cmd = textEdit.setFontFamily(font.postscriptName, true, [textElement]);
       batchCmd.addSubCommand(cmd);
     }
@@ -248,40 +319,37 @@ class TextOptions extends React.Component<Props, State> {
     batchCmd.addSubCommand(cmd);
     svgCanvas.undoMgr.addCommandToHistory(batchCmd);
 
-    if (window.FLUX.version === 'web') {
-      await this.waitForWebFont();
+    if (!isLocalFont(font)) {
+      await waitForWebFont(fontLoadedPromise);
     }
 
     updateDimensionValues({ fontStyle: val });
-    this.setState({
-      fontStyle: val,
-    });
+    setState({ ...state, fontStyle: val });
     updateObjectPanel();
   };
 
-  renderFontStyleBlock = (): JSX.Element => {
-    const { fontFamily, fontStyle } = this.state;
-    const fontStyles = FontFuncs.requestFontsOfTheFontFamily(fontFamily).map((f) => f.style);
-    const options = fontStyles.map((option: string) => ({ value: option, label: option }));
+  const renderFontStyleBlock = (): JSX.Element => {
+    const { fontStyle } = state;
+
     if (isMobile()) {
       return (
         <ObjectPanelItem.Select
           id="font_style"
           selected={{ value: fontStyle, label: fontStyle }}
-          options={options}
-          onChange={this.handleFontStyleChange}
+          options={styleOptions}
+          onChange={handleFontStyleChange}
           label={LANG.font_style}
         />
       );
     }
-    const isOnlyOneOption = options.length === 1;
+    const isOnlyOneOption = styleOptions.length === 1;
     return (
       <Select
         className={styles['font-style']}
         title={LANG.font_style}
         value={fontStyle}
-        options={options}
-        onChange={(value) => this.handleFontStyleChange(value)}
+        options={styleOptions}
+        onChange={(value) => handleFontStyleChange(value)}
         onKeyDown={(e) => e.stopPropagation()}
         dropdownMatchSelectWidth={false}
         disabled={isOnlyOneOption}
@@ -289,23 +357,20 @@ class TextOptions extends React.Component<Props, State> {
     );
   };
 
-  handleFontSizeChange = (val: number): void => {
-    const { textElement } = this.props;
+  const handleFontSizeChange = (val: number): void => {
     textEdit.setFontSize(val, [textElement]);
-    this.setState({
-      fontSize: val,
-    });
+    setState({ ...state, fontSize: val });
   };
 
-  renderFontSizeBlock = (): JSX.Element => {
-    const { fontSize } = this.state;
+  const renderFontSizeBlock = (): JSX.Element => {
+    const { fontSize } = state;
     return isMobile() ? (
       <ObjectPanelItem.Number
         id="font_size"
         label={LANG.font_size}
         value={fontSize}
         min={1}
-        updateValue={this.handleFontSizeChange}
+        updateValue={handleFontSizeChange}
         unit="px"
         decimal={0}
       />
@@ -318,28 +383,25 @@ class TextOptions extends React.Component<Props, State> {
           decimal={0}
           className={{ 'option-input': true }}
           defaultValue={fontSize}
-          getValue={(val) => this.handleFontSizeChange(val)}
+          getValue={(val) => handleFontSizeChange(val)}
         />
       </div>
     );
   };
 
-  handleLetterSpacingChange = (val: number): void => {
-    const { textElement } = this.props;
+  const handleLetterSpacingChange = (val: number): void => {
     textEdit.setLetterSpacing(val, textElement);
-    this.setState({
-      letterSpacing: val,
-    });
+    setState({ ...state, letterSpacing: val });
   };
 
-  renderLetterSpacingBlock = (): JSX.Element => {
-    const { letterSpacing } = this.state;
+  const renderLetterSpacingBlock = (): JSX.Element => {
+    const { letterSpacing } = state;
     return isMobile() ? (
       <ObjectPanelItem.Number
         id="letter_spacing"
         label={LANG.letter_spacing}
         value={letterSpacing}
-        updateValue={this.handleLetterSpacingChange}
+        updateValue={handleLetterSpacingChange}
         unit="em"
       />
     ) : (
@@ -353,28 +415,26 @@ class TextOptions extends React.Component<Props, State> {
           step={0.05}
           className={{ 'option-input': true }}
           defaultValue={letterSpacing}
-          getValue={(val) => this.handleLetterSpacingChange(val)}
+          getValue={(val) => handleLetterSpacingChange(val)}
         />
       </div>
     );
   };
 
-  handleLineSpacingChange = (val: number): void => {
+  const handleLineSpacingChange = (val: number): void => {
     textEdit.setLineSpacing(val);
-    this.setState({
-      lineSpacing: val,
-    });
+    setState({ ...state, lineSpacing: val });
   };
 
-  renderLineSpacingBlock = (): JSX.Element => {
-    const { lineSpacing } = this.state;
+  const renderLineSpacingBlock = (): JSX.Element => {
+    const { lineSpacing } = state;
     return isMobile() ? (
       <ObjectPanelItem.Number
         id="line_spacing"
         label={LANG.line_spacing}
         value={lineSpacing}
         min={0.8}
-        updateValue={this.handleLineSpacingChange}
+        updateValue={handleLineSpacingChange}
         unit=""
         decimal={1}
       />
@@ -391,26 +451,26 @@ class TextOptions extends React.Component<Props, State> {
           decimal={1}
           className={{ 'option-input': true }}
           defaultValue={lineSpacing}
-          getValue={(val) => this.handleLineSpacingChange(val)}
+          getValue={(val) => handleLineSpacingChange(val)}
         />
       </div>
     );
   };
 
-  handleVerticalTextClick = (): void => {
-    const { isVerti } = this.state;
+  const handleVerticalTextClick = (): void => {
+    const { isVerti } = state;
     textEdit.setIsVertical(!isVerti);
-    this.setState({ isVerti: !isVerti });
+    setState({ ...state, isVerti: !isVerti });
   };
 
-  renderVerticalTextSwitch = (): JSX.Element => {
-    const { isVerti } = this.state;
+  const renderVerticalTextSwitch = (): JSX.Element => {
+    const { isVerti } = state;
     return isMobile() ? (
       <ObjectPanelItem.Item
         id="vertical-text"
         content={<Switch checked={isVerti} />}
         label={LANG.vertical_text}
-        onClick={this.handleVerticalTextClick}
+        onClick={handleVerticalTextClick}
       />
     ) : (
       <ConfigProvider theme={iconButtonTheme}>
@@ -420,81 +480,68 @@ class TextOptions extends React.Component<Props, State> {
           className={classNames(styles['vertical-text'], { [styles.active]: isVerti })}
           title={LANG.vertical_text}
           icon={<OptionPanelIcons.VerticalText />}
-          onClick={this.handleVerticalTextClick}
+          onClick={handleVerticalTextClick}
         />
       </ConfigProvider>
     );
   };
 
-  handleStartOffsetChange = (val: number): void => {
-    const { textElement } = this.props;
+  const handleStartOffsetChange = (val: number): void => {
     textPathEdit.setStartOffset(val, textElement);
-    this.setState({
-      startOffset: val,
-    });
+    setState({ ...state, startOffset: val });
   };
 
-  handleVerticalAlignChange = (val: VerticalAlign): void => {
-    const { textElement } = this.props;
+  const handleVerticalAlignChange = (val: VerticalAlign): void => {
     textPathEdit.setVerticalAlign(textElement, val);
-    this.setState({
-      verticalAlign: val,
-    });
+    setState({ ...state, verticalAlign: val });
   };
 
-  renderMultiLineTextOptions(): JSX.Element {
-    const { elem, showColorPanel } = this.props;
-    return (
-      <>
-        {this.renderLineSpacingBlock()}
-        {this.renderLetterSpacingBlock()}
-        {this.renderVerticalTextSwitch()}
-        {!showColorPanel && !isMobile() && <InFillBlock elem={elem} />}
-      </>
-    );
-  }
+  const renderMultiLineTextOptions = (): JSX.Element => (
+    <>
+      {renderLineSpacingBlock()}
+      {renderLetterSpacingBlock()}
+      {renderVerticalTextSwitch()}
+      {!showColorPanel && !isMobile() && <InFillBlock elem={elem} />}
+    </>
+  );
 
-  renderTextPathOptions(): JSX.Element {
-    const { elem, textElement } = this.props;
+  const renderTextPathOptions = (): JSX.Element => {
     const path = elem.querySelector('path');
-    const { startOffset, verticalAlign } = this.state;
+    const { startOffset, verticalAlign } = state;
     return (
       <>
-        {this.renderLetterSpacingBlock()}
-        <StartOffsetBlock value={startOffset} onValueChange={this.handleStartOffsetChange} />
-        <VerticalAlignBlock value={verticalAlign} onValueChange={this.handleVerticalAlignChange} />
+        {renderLetterSpacingBlock()}
+        <StartOffsetBlock value={startOffset} onValueChange={handleStartOffsetChange} />
+        <VerticalAlignBlock value={verticalAlign} onValueChange={handleVerticalAlignChange} />
         <InFillBlock elem={textElement} label={LANG.text_infill} />
         <InFillBlock elem={path} label={LANG.path_infill} id="path_infill" />
       </>
     );
-  }
+  };
 
-  render(): JSX.Element {
-    const { isTextPath } = this.props;
-    return isMobile() ? (
-      <>
-        {this.renderFontFamilyBlock()}
-        {this.renderFontStyleBlock()}
-        {this.renderFontSizeBlock()}
-        {isTextPath ? this.renderTextPathOptions() : this.renderMultiLineTextOptions()}
-      </>
-    ) : (
-      <ConfigProvider theme={selectTheme}>
-        <div className={styles.panel}>
-          {this.renderFontFamilyBlock()}
-          <div className={styles.row}>
-            {this.renderFontSizeBlock()}
-            {this.renderFontStyleBlock()}
-          </div>
-          {isTextPath ? (
-            this.renderTextPathOptions()
-          ) : (
-            <div className={styles.row}>{this.renderMultiLineTextOptions()}</div>
-          )}
+  return isMobile() ? (
+    <>
+      {renderFontFamilyBlock()}
+      {renderFontStyleBlock()}
+      {renderFontSizeBlock()}
+      {isTextPath ? renderTextPathOptions() : renderMultiLineTextOptions()}
+    </>
+  ) : (
+    <ConfigProvider theme={selectTheme}>
+      <div className={styles.panel}>
+        {renderFontFamilyBlock()}
+        <div className={styles.row}>
+          {renderFontSizeBlock()}
+          {renderFontStyleBlock()}
         </div>
-      </ConfigProvider>
-    );
-  }
-}
+        {isTextPath ? (
+          renderTextPathOptions()
+        ) : (
+          <div className={styles.row}>{renderMultiLineTextOptions()}</div>
+        )}
+      </div>
+    </ConfigProvider>
+  );
+};
 
 export default TextOptions;

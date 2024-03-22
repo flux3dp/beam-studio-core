@@ -1,997 +1,2135 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should render correctly 1`] = `
-<div
-  className="flux"
->
-  <DrawingToolButton
-    className="tool-btn active"
-    iconName="cursor"
-    id="left-Cursor"
-    onClick={[Function]}
-    title="Select (V)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="photo"
-    id="left-Photo"
-    onClick={[Function]}
-    title="Image (I)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="text"
-    id="left-Text"
-    onClick={[Function]}
-    title="Text (T)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="element"
-    id="left-Element"
-    onClick={[Function]}
-    title="Elements (E)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="rect"
-    id="left-Rectangle"
-    onClick={[Function]}
-    title="Rectangle (M)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="oval"
-    id="left-Ellipse"
-    onClick={[Function]}
-    title="Oval (L)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="polygon"
-    id="left-Polygon"
-    onClick={[Function]}
-    title="Polygon"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="line"
-    id="left-Line"
-    onClick={[Function]}
-    title="Line (\\)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="draw"
-    id="left-Pen"
-    onClick={[Function]}
-    title="Pen (P)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="qrcode"
-    id="left-QRCode"
-    onClick={[Function]}
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="dm"
-    id="left-DM"
-    onClick={[Function]}
-    title="Design Market"
-  />
+exports[`test DrawingToolButtonGroup should render correctly 1`] = `
+<div>
+  <div
+    class="flux"
+  >
+    <div
+      class="container active"
+      id="left-Cursor"
+      title="Select (V)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Photo"
+      title="Image (I)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-MyCloud"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Text"
+      title="Text (T)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Element"
+      title="Elements (E)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Rectangle"
+      title="Rectangle (M)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Ellipse"
+      title="Oval (L)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Polygon"
+      title="Polygon"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Line"
+      title="Line (\\)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Pen"
+      title="Pen (P)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-QRCode"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Boxgen"
+      title="Boxgen"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-DM"
+      title="Design Market"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+  </div>
 </div>
 `;
 
-exports[`should render correctly 2`] = `
-<div
-  className="flux"
->
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="cursor"
-    id="left-Cursor"
-    onClick={[Function]}
-    title="Select (V)"
-  />
-  <DrawingToolButton
-    className="tool-btn active"
-    iconName="photo"
-    id="left-Photo"
-    onClick={[Function]}
-    title="Image (I)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="text"
-    id="left-Text"
-    onClick={[Function]}
-    title="Text (T)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="element"
-    id="left-Element"
-    onClick={[Function]}
-    title="Elements (E)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="rect"
-    id="left-Rectangle"
-    onClick={[Function]}
-    title="Rectangle (M)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="oval"
-    id="left-Ellipse"
-    onClick={[Function]}
-    title="Oval (L)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="polygon"
-    id="left-Polygon"
-    onClick={[Function]}
-    title="Polygon"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="line"
-    id="left-Line"
-    onClick={[Function]}
-    title="Line (\\)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="draw"
-    id="left-Pen"
-    onClick={[Function]}
-    title="Pen (P)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="qrcode"
-    id="left-QRCode"
-    onClick={[Function]}
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="dm"
-    id="left-DM"
-    onClick={[Function]}
-    title="Design Market"
-  />
+exports[`test DrawingToolButtonGroup should render correctly 2`] = `
+<div>
+  <div
+    class="flux"
+  >
+    <div
+      class="container"
+      id="left-Cursor"
+      title="Select (V)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container active"
+      id="left-Photo"
+      title="Image (I)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-MyCloud"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Text"
+      title="Text (T)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Element"
+      title="Elements (E)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Rectangle"
+      title="Rectangle (M)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Ellipse"
+      title="Oval (L)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Polygon"
+      title="Polygon"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Line"
+      title="Line (\\)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Pen"
+      title="Pen (P)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-QRCode"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Boxgen"
+      title="Boxgen"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-DM"
+      title="Design Market"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+  </div>
 </div>
 `;
 
-exports[`should render correctly 3`] = `
-<div
-  className="flux"
->
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="cursor"
-    id="left-Cursor"
-    onClick={[Function]}
-    title="Select (V)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="photo"
-    id="left-Photo"
-    onClick={[Function]}
-    title="Image (I)"
-  />
-  <DrawingToolButton
-    className="tool-btn active"
-    iconName="text"
-    id="left-Text"
-    onClick={[Function]}
-    title="Text (T)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="element"
-    id="left-Element"
-    onClick={[Function]}
-    title="Elements (E)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="rect"
-    id="left-Rectangle"
-    onClick={[Function]}
-    title="Rectangle (M)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="oval"
-    id="left-Ellipse"
-    onClick={[Function]}
-    title="Oval (L)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="polygon"
-    id="left-Polygon"
-    onClick={[Function]}
-    title="Polygon"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="line"
-    id="left-Line"
-    onClick={[Function]}
-    title="Line (\\)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="draw"
-    id="left-Pen"
-    onClick={[Function]}
-    title="Pen (P)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="qrcode"
-    id="left-QRCode"
-    onClick={[Function]}
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="dm"
-    id="left-DM"
-    onClick={[Function]}
-    title="Design Market"
-  />
+exports[`test DrawingToolButtonGroup should render correctly 3`] = `
+<div>
+  <div
+    class="flux"
+  >
+    <div
+      class="container"
+      id="left-Cursor"
+      title="Select (V)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Photo"
+      title="Image (I)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-MyCloud"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container active"
+      id="left-Text"
+      title="Text (T)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Element"
+      title="Elements (E)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Rectangle"
+      title="Rectangle (M)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Ellipse"
+      title="Oval (L)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Polygon"
+      title="Polygon"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Line"
+      title="Line (\\)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Pen"
+      title="Pen (P)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-QRCode"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Boxgen"
+      title="Boxgen"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-DM"
+      title="Design Market"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+  </div>
 </div>
 `;
 
-exports[`should render correctly 4`] = `
-<div
-  className="flux"
->
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="cursor"
-    id="left-Cursor"
-    onClick={[Function]}
-    title="Select (V)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="photo"
-    id="left-Photo"
-    onClick={[Function]}
-    title="Image (I)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="text"
-    id="left-Text"
-    onClick={[Function]}
-    title="Text (T)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="element"
-    id="left-Element"
-    onClick={[Function]}
-    title="Elements (E)"
-  />
-  <DrawingToolButton
-    className="tool-btn active"
-    iconName="rect"
-    id="left-Rectangle"
-    onClick={[Function]}
-    title="Rectangle (M)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="oval"
-    id="left-Ellipse"
-    onClick={[Function]}
-    title="Oval (L)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="polygon"
-    id="left-Polygon"
-    onClick={[Function]}
-    title="Polygon"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="line"
-    id="left-Line"
-    onClick={[Function]}
-    title="Line (\\)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="draw"
-    id="left-Pen"
-    onClick={[Function]}
-    title="Pen (P)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="qrcode"
-    id="left-QRCode"
-    onClick={[Function]}
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="dm"
-    id="left-DM"
-    onClick={[Function]}
-    title="Design Market"
-  />
+exports[`test DrawingToolButtonGroup should render correctly 4`] = `
+<div>
+  <div
+    class="flux"
+  >
+    <div
+      class="container"
+      id="left-Cursor"
+      title="Select (V)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Photo"
+      title="Image (I)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-MyCloud"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Text"
+      title="Text (T)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Element"
+      title="Elements (E)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container active"
+      id="left-Rectangle"
+      title="Rectangle (M)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Ellipse"
+      title="Oval (L)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Polygon"
+      title="Polygon"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Line"
+      title="Line (\\)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Pen"
+      title="Pen (P)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-QRCode"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Boxgen"
+      title="Boxgen"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-DM"
+      title="Design Market"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+  </div>
 </div>
 `;
 
-exports[`should render correctly 5`] = `
-<div
-  className="flux"
->
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="cursor"
-    id="left-Cursor"
-    onClick={[Function]}
-    title="Select (V)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="photo"
-    id="left-Photo"
-    onClick={[Function]}
-    title="Image (I)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="text"
-    id="left-Text"
-    onClick={[Function]}
-    title="Text (T)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="element"
-    id="left-Element"
-    onClick={[Function]}
-    title="Elements (E)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="rect"
-    id="left-Rectangle"
-    onClick={[Function]}
-    title="Rectangle (M)"
-  />
-  <DrawingToolButton
-    className="tool-btn active"
-    iconName="oval"
-    id="left-Ellipse"
-    onClick={[Function]}
-    title="Oval (L)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="polygon"
-    id="left-Polygon"
-    onClick={[Function]}
-    title="Polygon"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="line"
-    id="left-Line"
-    onClick={[Function]}
-    title="Line (\\)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="draw"
-    id="left-Pen"
-    onClick={[Function]}
-    title="Pen (P)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="qrcode"
-    id="left-QRCode"
-    onClick={[Function]}
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="dm"
-    id="left-DM"
-    onClick={[Function]}
-    title="Design Market"
-  />
+exports[`test DrawingToolButtonGroup should render correctly 5`] = `
+<div>
+  <div
+    class="flux"
+  >
+    <div
+      class="container"
+      id="left-Cursor"
+      title="Select (V)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Photo"
+      title="Image (I)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-MyCloud"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Text"
+      title="Text (T)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Element"
+      title="Elements (E)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Rectangle"
+      title="Rectangle (M)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container active"
+      id="left-Ellipse"
+      title="Oval (L)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Polygon"
+      title="Polygon"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Line"
+      title="Line (\\)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Pen"
+      title="Pen (P)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-QRCode"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Boxgen"
+      title="Boxgen"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-DM"
+      title="Design Market"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+  </div>
 </div>
 `;
 
-exports[`should render correctly 6`] = `
-<div
-  className="flux"
->
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="cursor"
-    id="left-Cursor"
-    onClick={[Function]}
-    title="Select (V)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="photo"
-    id="left-Photo"
-    onClick={[Function]}
-    title="Image (I)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="text"
-    id="left-Text"
-    onClick={[Function]}
-    title="Text (T)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="element"
-    id="left-Element"
-    onClick={[Function]}
-    title="Elements (E)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="rect"
-    id="left-Rectangle"
-    onClick={[Function]}
-    title="Rectangle (M)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="oval"
-    id="left-Ellipse"
-    onClick={[Function]}
-    title="Oval (L)"
-  />
-  <DrawingToolButton
-    className="tool-btn active"
-    iconName="polygon"
-    id="left-Polygon"
-    onClick={[Function]}
-    title="Polygon"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="line"
-    id="left-Line"
-    onClick={[Function]}
-    title="Line (\\)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="draw"
-    id="left-Pen"
-    onClick={[Function]}
-    title="Pen (P)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="qrcode"
-    id="left-QRCode"
-    onClick={[Function]}
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="dm"
-    id="left-DM"
-    onClick={[Function]}
-    title="Design Market"
-  />
+exports[`test DrawingToolButtonGroup should render correctly 6`] = `
+<div>
+  <div
+    class="flux"
+  >
+    <div
+      class="container"
+      id="left-Cursor"
+      title="Select (V)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Photo"
+      title="Image (I)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-MyCloud"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Text"
+      title="Text (T)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Element"
+      title="Elements (E)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Rectangle"
+      title="Rectangle (M)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Ellipse"
+      title="Oval (L)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container active"
+      id="left-Polygon"
+      title="Polygon"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Line"
+      title="Line (\\)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Pen"
+      title="Pen (P)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-QRCode"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Boxgen"
+      title="Boxgen"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-DM"
+      title="Design Market"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+  </div>
 </div>
 `;
 
-exports[`should render correctly 7`] = `
-<div
-  className="flux"
->
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="cursor"
-    id="left-Cursor"
-    onClick={[Function]}
-    title="Select (V)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="photo"
-    id="left-Photo"
-    onClick={[Function]}
-    title="Image (I)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="text"
-    id="left-Text"
-    onClick={[Function]}
-    title="Text (T)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="element"
-    id="left-Element"
-    onClick={[Function]}
-    title="Elements (E)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="rect"
-    id="left-Rectangle"
-    onClick={[Function]}
-    title="Rectangle (M)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="oval"
-    id="left-Ellipse"
-    onClick={[Function]}
-    title="Oval (L)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="polygon"
-    id="left-Polygon"
-    onClick={[Function]}
-    title="Polygon"
-  />
-  <DrawingToolButton
-    className="tool-btn active"
-    iconName="line"
-    id="left-Line"
-    onClick={[Function]}
-    title="Line (\\)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="draw"
-    id="left-Pen"
-    onClick={[Function]}
-    title="Pen (P)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="qrcode"
-    id="left-QRCode"
-    onClick={[Function]}
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="dm"
-    id="left-DM"
-    onClick={[Function]}
-    title="Design Market"
-  />
+exports[`test DrawingToolButtonGroup should render correctly 7`] = `
+<div>
+  <div
+    class="flux"
+  >
+    <div
+      class="container"
+      id="left-Cursor"
+      title="Select (V)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Photo"
+      title="Image (I)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-MyCloud"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Text"
+      title="Text (T)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Element"
+      title="Elements (E)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Rectangle"
+      title="Rectangle (M)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Ellipse"
+      title="Oval (L)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Polygon"
+      title="Polygon"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container active"
+      id="left-Line"
+      title="Line (\\)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Pen"
+      title="Pen (P)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-QRCode"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Boxgen"
+      title="Boxgen"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-DM"
+      title="Design Market"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+  </div>
 </div>
 `;
 
-exports[`should render correctly 8`] = `
-<div
-  className="flux"
->
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="cursor"
-    id="left-Cursor"
-    onClick={[Function]}
-    title="Select (V)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="photo"
-    id="left-Photo"
-    onClick={[Function]}
-    title="Image (I)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="text"
-    id="left-Text"
-    onClick={[Function]}
-    title="Text (T)"
-  />
-  <DrawingToolButton
-    className="tool-btn active"
-    iconName="element"
-    id="left-Element"
-    onClick={[Function]}
-    title="Elements (E)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="rect"
-    id="left-Rectangle"
-    onClick={[Function]}
-    title="Rectangle (M)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="oval"
-    id="left-Ellipse"
-    onClick={[Function]}
-    title="Oval (L)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="polygon"
-    id="left-Polygon"
-    onClick={[Function]}
-    title="Polygon"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="line"
-    id="left-Line"
-    onClick={[Function]}
-    title="Line (\\)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="draw"
-    id="left-Pen"
-    onClick={[Function]}
-    title="Pen (P)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="qrcode"
-    id="left-QRCode"
-    onClick={[Function]}
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="dm"
-    id="left-DM"
-    onClick={[Function]}
-    title="Design Market"
-  />
+exports[`test DrawingToolButtonGroup should render correctly 8`] = `
+<div>
+  <div
+    class="flux"
+  >
+    <div
+      class="container"
+      id="left-Cursor"
+      title="Select (V)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Photo"
+      title="Image (I)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-MyCloud"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Text"
+      title="Text (T)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container active"
+      id="left-Element"
+      title="Elements (E)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Rectangle"
+      title="Rectangle (M)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Ellipse"
+      title="Oval (L)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Polygon"
+      title="Polygon"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Line"
+      title="Line (\\)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Pen"
+      title="Pen (P)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-QRCode"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Boxgen"
+      title="Boxgen"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-DM"
+      title="Design Market"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+  </div>
 </div>
 `;
 
-exports[`should render correctly 9`] = `
-<div
-  className="flux"
->
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="cursor"
-    id="left-Cursor"
-    onClick={[Function]}
-    title="Select (V)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="photo"
-    id="left-Photo"
-    onClick={[Function]}
-    title="Image (I)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="text"
-    id="left-Text"
-    onClick={[Function]}
-    title="Text (T)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="element"
-    id="left-Element"
-    onClick={[Function]}
-    title="Elements (E)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="rect"
-    id="left-Rectangle"
-    onClick={[Function]}
-    title="Rectangle (M)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="oval"
-    id="left-Ellipse"
-    onClick={[Function]}
-    title="Oval (L)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="polygon"
-    id="left-Polygon"
-    onClick={[Function]}
-    title="Polygon"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="line"
-    id="left-Line"
-    onClick={[Function]}
-    title="Line (\\)"
-  />
-  <DrawingToolButton
-    className="tool-btn active"
-    iconName="draw"
-    id="left-Pen"
-    onClick={[Function]}
-    title="Pen (P)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="qrcode"
-    id="left-QRCode"
-    onClick={[Function]}
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="dm"
-    id="left-DM"
-    onClick={[Function]}
-    title="Design Market"
-  />
+exports[`test DrawingToolButtonGroup should render correctly 9`] = `
+<div>
+  <div
+    class="flux"
+  >
+    <div
+      class="container"
+      id="left-Cursor"
+      title="Select (V)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Photo"
+      title="Image (I)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-MyCloud"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Text"
+      title="Text (T)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Element"
+      title="Elements (E)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Rectangle"
+      title="Rectangle (M)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Ellipse"
+      title="Oval (L)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Polygon"
+      title="Polygon"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Line"
+      title="Line (\\)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container active"
+      id="left-Pen"
+      title="Pen (P)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-QRCode"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Boxgen"
+      title="Boxgen"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-DM"
+      title="Design Market"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+  </div>
 </div>
 `;
 
-exports[`should render correctly 10`] = `
-<div
-  className="flux"
->
-  <DrawingToolButton
-    className="tool-btn active"
-    iconName="cursor"
-    id="left-Cursor"
-    onClick={[Function]}
-    title="Select (V)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="photo"
-    id="left-Photo"
-    onClick={[Function]}
-    title="Image (I)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="text"
-    id="left-Text"
-    onClick={[Function]}
-    title="Text (T)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="element"
-    id="left-Element"
-    onClick={[Function]}
-    title="Elements (E)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="rect"
-    id="left-Rectangle"
-    onClick={[Function]}
-    title="Rectangle (M)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="oval"
-    id="left-Ellipse"
-    onClick={[Function]}
-    title="Oval (L)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="polygon"
-    id="left-Polygon"
-    onClick={[Function]}
-    title="Polygon"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="line"
-    id="left-Line"
-    onClick={[Function]}
-    title="Line (\\)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="draw"
-    id="left-Pen"
-    onClick={[Function]}
-    title="Pen (P)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="qrcode"
-    id="left-QRCode"
-    onClick={[Function]}
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="dm"
-    id="left-DM"
-    onClick={[Function]}
-    title="Design Market"
-  />
+exports[`test DrawingToolButtonGroup should render correctly 10`] = `
+<div>
+  <div
+    class="flux"
+  >
+    <div
+      class="container active"
+      id="left-Cursor"
+      title="Select (V)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Photo"
+      title="Image (I)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-MyCloud"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Text"
+      title="Text (T)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Element"
+      title="Elements (E)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Rectangle"
+      title="Rectangle (M)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Ellipse"
+      title="Oval (L)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Polygon"
+      title="Polygon"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Line"
+      title="Line (\\)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Pen"
+      title="Pen (P)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-QRCode"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Boxgen"
+      title="Boxgen"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-DM"
+      title="Design Market"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+  </div>
 </div>
 `;
 
-exports[`should render correctly 11`] = `
-<div
-  className="flux"
->
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="cursor"
-    id="left-Cursor"
-    onClick={[Function]}
-    title="Select (V)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="photo"
-    id="left-Photo"
-    onClick={[Function]}
-    title="Image (I)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="text"
-    id="left-Text"
-    onClick={[Function]}
-    title="Text (T)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="element"
-    id="left-Element"
-    onClick={[Function]}
-    title="Elements (E)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="rect"
-    id="left-Rectangle"
-    onClick={[Function]}
-    title="Rectangle (M)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="oval"
-    id="left-Ellipse"
-    onClick={[Function]}
-    title="Oval (L)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="polygon"
-    id="left-Polygon"
-    onClick={[Function]}
-    title="Polygon"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="line"
-    id="left-Line"
-    onClick={[Function]}
-    title="Line (\\)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="draw"
-    id="left-Pen"
-    onClick={[Function]}
-    title="Pen (P)"
-  />
-  <DrawingToolButton
-    className="tool-btn active"
-    iconName="qrcode"
-    id="left-QRCode"
-    onClick={[Function]}
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="dm"
-    id="left-DM"
-    onClick={[Function]}
-    title="Design Market"
-  />
+exports[`test DrawingToolButtonGroup should render correctly 11`] = `
+<div>
+  <div
+    class="flux"
+  >
+    <div
+      class="container"
+      id="left-Cursor"
+      title="Select (V)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Photo"
+      title="Image (I)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-MyCloud"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Text"
+      title="Text (T)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Element"
+      title="Elements (E)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Rectangle"
+      title="Rectangle (M)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Ellipse"
+      title="Oval (L)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Polygon"
+      title="Polygon"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Line"
+      title="Line (\\)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Pen"
+      title="Pen (P)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container active"
+      id="left-QRCode"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Boxgen"
+      title="Boxgen"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-DM"
+      title="Design Market"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+  </div>
 </div>
 `;
 
-exports[`should render correctly 12`] = `
+exports[`test DrawingToolButtonGroup should render correctly 12`] = `
+<div>
+  <div
+    class="flux"
+  >
+    <div
+      class="container"
+      id="left-Cursor"
+      title="Select (V)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Photo"
+      title="Image (I)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-MyCloud"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Text"
+      title="Text (T)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Element"
+      title="Elements (E)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Rectangle"
+      title="Rectangle (M)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Ellipse"
+      title="Oval (L)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Polygon"
+      title="Polygon"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Line"
+      title="Line (\\)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Pen"
+      title="Pen (P)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-QRCode"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Boxgen"
+      title="Boxgen"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container active"
+      id="left-DM"
+      title="Design Market"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`test DrawingToolButtonGroup should render correctly 13`] = `
+<div>
+  <div
+    class="flux"
+  >
+    <div
+      class="container"
+      id="left-Cursor"
+      title="Select (V)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Photo"
+      title="Image (I)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-MyCloud"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Text"
+      title="Text (T)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Element"
+      title="Elements (E)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Rectangle"
+      title="Rectangle (M)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Ellipse"
+      title="Oval (L)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Polygon"
+      title="Polygon"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Line"
+      title="Line (\\)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Pen"
+      title="Pen (P)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-QRCode"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container active"
+      id="left-Boxgen"
+      title="Boxgen"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-DM"
+      title="Design Market"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`test DrawingToolButtonGroup should render correctly 14`] = `
+<div>
+  <div
+    class="flux"
+  >
+    <div
+      class="container"
+      id="left-Cursor"
+      title="Select (V)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Photo"
+      title="Image (I)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container active"
+      id="left-MyCloud"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Text"
+      title="Text (T)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Element"
+      title="Elements (E)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Rectangle"
+      title="Rectangle (M)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Ellipse"
+      title="Oval (L)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Polygon"
+      title="Polygon"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Line"
+      title="Line (\\)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Pen"
+      title="Pen (P)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-QRCode"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Boxgen"
+      title="Boxgen"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-DM"
+      title="Design Market"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`test DrawingToolButtonGroup should render flux plus icon correctly 1`] = `
 <div
-  className="flux"
+  class="container"
+  id="left-MyCloud"
 >
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="cursor"
-    id="left-Cursor"
-    onClick={[Function]}
-    title="Select (V)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="photo"
-    id="left-Photo"
-    onClick={[Function]}
-    title="Image (I)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="text"
-    id="left-Text"
-    onClick={[Function]}
-    title="Text (T)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="element"
-    id="left-Element"
-    onClick={[Function]}
-    title="Elements (E)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="rect"
-    id="left-Rectangle"
-    onClick={[Function]}
-    title="Rectangle (M)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="oval"
-    id="left-Ellipse"
-    onClick={[Function]}
-    title="Oval (L)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="polygon"
-    id="left-Polygon"
-    onClick={[Function]}
-    title="Polygon"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="line"
-    id="left-Line"
-    onClick={[Function]}
-    title="Line (\\)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="draw"
-    id="left-Pen"
-    onClick={[Function]}
-    title="Pen (P)"
-  />
-  <DrawingToolButton
-    className="tool-btn"
-    iconName="qrcode"
-    id="left-QRCode"
-    onClick={[Function]}
-  />
-  <DrawingToolButton
-    className="tool-btn active"
-    iconName="dm"
-    id="left-DM"
-    onClick={[Function]}
-    title="Design Market"
-  />
+  <span
+    class="ant-badge badge css-dev-only-do-not-override-hash"
+  >
+    <svgr-url />
+    <svgr-url
+      classname="ant-scroll-number-custom-component flux-plus"
+      style="margin-top: 6px; right: 4px;"
+    />
+  </span>
+</div>
+`;
+
+exports[`test DrawingToolButtonGroup should render flux plus icon correctly 2`] = `
+<div
+  class="container active"
+  id="left-MyCloud"
+>
+  <span
+    class="ant-badge badge css-dev-only-do-not-override-hash"
+  >
+    <svgr-url />
+    <svgr-url
+      classname="ant-scroll-number-custom-component flux-plus"
+      style="margin-top: 6px; right: 4px;"
+    />
+  </span>
 </div>
 `;

@@ -41,7 +41,6 @@ exports[`test Footer should render correctly 1`] = `
             <span>
               delete
             </span>
-            
           </button>
         </div>
         <div
@@ -54,7 +53,6 @@ exports[`test Footer should render correctly 1`] = `
             <span>
               reset
             </span>
-            
           </button>
         </div>
       </div>
@@ -75,7 +73,6 @@ exports[`test Footer should render correctly 1`] = `
             <span>
               save_and_exit
             </span>
-            
           </button>
         </div>
         <div
@@ -88,7 +85,6 @@ exports[`test Footer should render correctly 1`] = `
             <span>
               cancel
             </span>
-            
           </button>
         </div>
       </div>

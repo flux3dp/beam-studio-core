@@ -1,0 +1,37 @@
+@use 'styles/variables' as variables;
+@use './_mixins.scss' as mixins;
+
+.user-avatar {
+  cursor: pointer;
+  -webkit-app-region: no-drag;
+  height: variables.$topBarHeight;
+  position: absolute;
+  margin-left: 80px;
+  display: flex;
+  align-items: center;
+  @media screen and (max-width: 600px) {
+    margin-left: 60px;
+  }
+
+  .badge {
+    font-size: 20px;
+  }
+
+  :global(.ant-avatar) {
+    background: transparent;
+  }
+
+  .default-avatar {
+    @include mixins.button();
+    height: auto;
+    font-size: 26px;
+  }
+}
+
+:global(.white) .user-avatar {
+  margin-left: 8px;
+
+  .default-avatar {
+    color: #000000;
+  }
+}

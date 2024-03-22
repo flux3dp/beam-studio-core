@@ -1,6 +1,8 @@
 import * as React from 'react';
 
 import AboutBeamStudio from 'app/components/dialogs/AboutBeamStudio';
+import AnnouncementPanel from 'app/components/dialogs/AnnouncementPanel';
+import Boxgen from 'app/components/boxgen/Boxgen';
 import CartridgeSettingPanel from 'app/components/dialogs/CartridgeSettingPanel';
 import ChangeLog from 'app/components/dialogs/ChangeLog';
 import CropPanel from 'app/views/beambox/ImageEditPanel/CropPanel';
@@ -8,11 +10,14 @@ import DeviceSelector from 'app/views/dialogs/DeviceSelector';
 import DialogBox from 'app/widgets/Dialog-Box';
 import DocumentSettings from 'app/components/dialogs/DocumentSettings';
 import FirmwareUpdate from 'app/components/dialogs/FirmwareUpdate';
+import FluxCredit from 'app/components/dialogs/FluxCredit';
 import FluxIdLogin from 'app/components/dialogs/FluxIdLogin';
+import FluxPlusWarning from 'app/components/dialogs/FluxPlusWarning';
 import i18n from 'helpers/i18n';
 import InputLightBox from 'app/widgets/InputLightbox';
 import LayerColorConfigPanel from 'app/views/beambox/Layer-Color-Config';
 import MediaTutorial from 'app/components/dialogs/MediaTutorial';
+import MyCloud from 'app/components/dialogs/myCloud/MyCloud';
 import NetworkTestingPanel from 'app/views/beambox/NetworkTestingPanel';
 import NounProjectPanel from 'app/views/beambox/Noun-Project-Panel';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
@@ -23,14 +28,17 @@ import QRCodeGenerator from 'app/components/dialogs/QRCodeGenerator';
 import RadioSelectDialog from 'app/components/dialogs/RadioSelectDialog';
 import RatingPanel from 'app/components/dialogs/RatingPanel';
 import RotationParameters3DPanel from 'app/components/dialogs/camera/RotationParameters3DPanel';
+import SaveFileModal from 'app/components/dialogs/myCloud/SaveFileModal';
 import ShapePanel from 'app/views/beambox/ShapePanel/ShapePanel';
+import shortcuts from 'helpers/shortcuts';
 import SvgNestButtons from 'app/views/beambox/SvgNestButtons';
 import Tutorial from 'app/views/tutorials/Tutorial';
 import webNeedConnectionWrapper from 'helpers/web-need-connection-helper';
 import { AlertConfigKey } from 'helpers/api/alert-config';
 import { eventEmitter } from 'app/contexts/DialogContext';
-import { getCurrentUser } from 'helpers/api/flux-id';
+import { getCurrentUser, getInfo } from 'helpers/api/flux-id';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { IAnnouncement } from 'interfaces/IAnnouncement';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { IDialogBoxStyle, IInputLightBox, IPrompt } from 'interfaces/IDialog';
 import { IMediaTutorial, ITutorial } from 'interfaces/ITutorial';
@@ -83,6 +91,26 @@ const showLoginDialog = (callback?: () => void, silent = false): void => {
         if (callback) callback();
       }}
     />
+  );
+};
+
+const forceLoginWrapper = (callback: () => void | Promise<void>, silent?: boolean): void => {
+  let user = getCurrentUser();
+  if (!user) {
+    showLoginDialog(() => {
+      user = getCurrentUser();
+      if (user) callback();
+    }, silent);
+  } else {
+    callback();
+  }
+};
+
+const showFluxPlusWarning = (monotype?: boolean): void => {
+  if (isIdExist('flux-plus-warning')) return;
+  addDialogComponent(
+    'flux-plus-warning',
+    <FluxPlusWarning onClose={() => popDialogById('flux-plus-warning')} monotype={monotype} />
   );
 };
 
@@ -211,6 +239,14 @@ export default {
       <RatingPanel onSubmit={onSubmit} onClose={() => popDialogById('rating-dialog')} />
     );
   },
+  showAnnouncementDialog: (announcement: IAnnouncement): void => {
+    const id = `announcement-${announcement.id}`;
+    if (isIdExist(id)) return;
+    addDialogComponent(
+      id,
+      <AnnouncementPanel announcement={announcement} onClose={() => popDialogById(id)} />
+    );
+  },
   showSvgNestButtons: (): void => {
     if (isIdExist('svg-nest')) return;
     addDialogComponent('svg-nest', <SvgNestButtons onClose={() => popDialogById('svg-nest')} />);
@@ -310,17 +346,7 @@ export default {
     );
   },
   showLoginDialog,
-  forceLoginWrapper: (callback: () => void | Promise<void>): void => {
-    let user = getCurrentUser();
-    if (!user) {
-      showLoginDialog(() => {
-        user = getCurrentUser();
-        if (user) callback();
-      });
-    } else {
-      callback();
-    }
-  },
+  forceLoginWrapper,
   showDialogBox: (id: string, style: IDialogBoxStyle, content: string): void => {
     if (isIdExist(id)) return;
     console.log(style);
@@ -470,4 +496,58 @@ export default {
       />
     );
   },
+  showFluxCreditDialog: (): void => {
+    if (isIdExist('flux-id-credit')) return;
+    forceLoginWrapper(async () => {
+      await getInfo(true);
+      if (isIdExist('flux-id-credit')) return;
+      addDialogComponent(
+        'flux-id-credit',
+        <FluxCredit onClose={() => popDialogById('flux-id-credit')} />
+      );
+    }, true);
+  },
+  showFluxPlusWarning,
+  showBoxGen: (onClose: () => void): void => {
+    if (isIdExist('box-gen')) return;
+    shortcuts.pauseAll();
+    addDialogComponent(
+      'box-gen',
+      <Boxgen
+        onClose={() => {
+          shortcuts.initialize();
+          onClose();
+          popDialogById('box-gen');
+        }}
+      />
+    );
+  },
+  showMyCloud: (onClose: () => void): void => {
+    if (isIdExist('my-cloud')) return;
+    forceLoginWrapper(() => {
+      if (isIdExist('my-cloud')) return;
+      addDialogComponent(
+        'my-cloud',
+        <MyCloud
+          onClose={() => {
+            onClose();
+            popDialogById('my-cloud');
+          }}
+        />
+      );
+    }, true);
+  },
+  saveToCloud: (uuid?: string): Promise<{ fileName: string | null; isCancelled?: boolean }> =>
+    new Promise<{ fileName: string | null; isCancelled?: boolean }>((resolve) => {
+      addDialogComponent(
+        'save-to-cloud',
+        <SaveFileModal
+          onClose={(fileName: string | null, isCancelled?: boolean) => {
+            popDialogById('save-to-cloud');
+            resolve({ fileName, isCancelled });
+          }}
+          uuid={uuid}
+        />
+      );
+    }),
 };

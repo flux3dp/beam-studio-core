@@ -77,7 +77,6 @@ exports[`test PathEditPanel should render correctly 1`] = `
             >
               Sharp
             </span>
-            
           </button>
         </div>
         <div
@@ -97,7 +96,6 @@ exports[`test PathEditPanel should render correctly 1`] = `
             >
               Round
             </span>
-            
           </button>
         </div>
         <div
@@ -118,7 +116,6 @@ exports[`test PathEditPanel should render correctly 1`] = `
             >
               Connect
             </span>
-            
           </button>
         </div>
         <div
@@ -138,7 +135,6 @@ exports[`test PathEditPanel should render correctly 1`] = `
             >
               Disconnect
             </span>
-            
           </button>
         </div>
       </div>
@@ -256,7 +252,6 @@ exports[`test PathEditPanel should render correctly in mobile 1`] = `
                 >
                   Sharp
                 </span>
-                
               </button>
             </div>
             <div
@@ -276,7 +271,6 @@ exports[`test PathEditPanel should render correctly in mobile 1`] = `
                 >
                   Round
                 </span>
-                
               </button>
             </div>
             <div
@@ -297,7 +291,6 @@ exports[`test PathEditPanel should render correctly in mobile 1`] = `
                 >
                   Connect
                 </span>
-                
               </button>
             </div>
             <div
@@ -317,7 +310,6 @@ exports[`test PathEditPanel should render correctly in mobile 1`] = `
                 >
                   Disconnect
                 </span>
-                
               </button>
             </div>
             <div
@@ -406,7 +398,6 @@ exports[`test PathEditPanel should render correctly in mobile 1`] = `
                 >
                   Delete
                 </span>
-                
               </button>
             </div>
           </div>

@@ -84,7 +84,6 @@ exports[`test Alert should render correctly 1`] = `
                 <span>
                   Yes
                 </span>
-                
               </button>
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-default"
@@ -93,7 +92,6 @@ exports[`test Alert should render correctly 1`] = `
                 <span>
                   No
                 </span>
-                
               </button>
             </div>
           </div>
@@ -171,7 +169,6 @@ exports[`test Alert should render correctly with help center link 1`] = `
                 <span>
                   Learn more
                 </span>
-                
               </button>
               <label
                 class="ant-checkbox-wrapper css-dev-only-do-not-override-hash"
@@ -202,7 +199,6 @@ exports[`test Alert should render correctly with help center link 1`] = `
                 <span>
                   Yes
                 </span>
-                
               </button>
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-default"
@@ -211,7 +207,6 @@ exports[`test Alert should render correctly with help center link 1`] = `
                 <span>
                   No
                 </span>
-                
               </button>
             </div>
           </div>

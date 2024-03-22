@@ -1,7 +1,6 @@
 /* eslint-disable import/first */
-import * as React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import React from 'react';
+import { render } from '@testing-library/react';
 
 const emitShowCropper = jest.fn();
 jest.mock('app/stores/beambox-store', () => ({
@@ -77,12 +76,12 @@ import PreviewToolButtonGroup from './PreviewToolButtonGroup';
 test('should render correctly', () => {
   const endPreviewMode = jest.fn();
   const setShouldStartPreviewController = jest.fn();
-  const wrapper = shallow(
+  const { container } = render(
     <PreviewToolButtonGroup
       className="left-toolbar"
       endPreviewMode={endPreviewMode}
       setShouldStartPreviewController={setShouldStartPreviewController}
     />
   );
-  expect(toJson(wrapper)).toMatchSnapshot();
+  expect(container).toMatchSnapshot();
 });

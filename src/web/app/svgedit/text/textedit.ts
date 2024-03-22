@@ -2,6 +2,7 @@
  * Editing text element attribute
  */
 
+import fontHelper from 'helpers/fonts/fontHelper';
 import selector from 'app/svgedit/selector';
 import storage from 'implementations/storage';
 import textActions from 'app/svgedit/text/textactions';
@@ -28,7 +29,6 @@ interface TextAttribute {
 
 const { svgedit } = window;
 const { NS } = svgedit;
-const usePostscriptAsFamily = window.os === 'MacOS' && window.FLUX.version !== 'web';
 
 let curText: TextAttribute = {};
 let svgCanvas;
@@ -266,7 +266,8 @@ const setBold = (val: boolean): void => {
 const setFontFamily = (val: string, isSubCmd = false, elems?: Element[]): ICommand => {
   const elemsToChange = elems || svgCanvas.getSelectedElems();
   let cmd = null;
-  if (!usePostscriptAsFamily) curText.font_family = `'${val}'`;
+  if (!fontHelper.usePostscriptAsFamily(curText.font_postscriptName))
+    curText.font_family = `'${val}'`;
   if (isSubCmd) {
     svgCanvas.undoMgr.beginUndoableChange('font-family', elemsToChange);
     svgCanvas.changeSelectedAttributeNoUndo('font-family', `'${val}'`, elemsToChange);

@@ -1,7 +1,6 @@
 /* eslint-disable import/first */
-import * as React from 'react';
-import { mount } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import React from 'react';
+import { fireEvent, render } from '@testing-library/react';
 
 const read = jest.fn();
 jest.mock('app/actions/beambox/beambox-preference', () => ({
@@ -14,9 +13,9 @@ jest.mock('implementations/browser', () => ({
 }));
 
 const mockDiscoverRemoveListener = jest.fn();
-jest.mock('helpers/api/discover', () => (() => ({
+jest.mock('helpers/api/discover', () => () => ({
   removeListener: mockDiscoverRemoveListener,
-})));
+}));
 
 const emit = jest.fn();
 const on = jest.fn();
@@ -54,6 +53,10 @@ jest.mock('helpers/i18n', () => ({
         import_material_testing_cut: 'Material Cutting Test',
         import_material_testing_engrave: 'Material Engraving Test',
         import_material_testing_line: 'Material Line Test',
+        import_material_printing_test: 'Material Printing Test',
+        import_ador_laser_example: 'Example of Ador Laser',
+        import_ador_printing_example_single: 'Example of Ador Printing - Single Color',
+        import_ador_printing_example_full: 'Example of Ador Printing - Full Color',
         import_acrylic_focus_probe: 'Acrylic Focus Probe - 3mm',
         export_to: 'Export To...',
         export_flux_task: 'FLUX task',
@@ -106,7 +109,7 @@ jest.mock('helpers/i18n', () => ({
         questionnaire: 'Feedback Questionnaire',
         change_logs: 'Change Logs',
         contact: 'Contact Us',
-        design_market: 'design_market',
+        design_market: 'Design Market',
         tutorial: 'Start Delta Family Printing Tutorial',
         forum: 'Community Forum',
         software_update: 'Software Update',
@@ -171,42 +174,42 @@ import Menu from './Menu';
 describe('should render correctly', () => {
   test('open the browser and reach the correct page', () => {
     read.mockReturnValue(true);
-    const wrapper = mount(<Menu email={undefined} />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container, getByText } = render(<Menu email={undefined} />);
+    expect(container).toMatchSnapshot();
 
-    wrapper.find('div.menu-btn-container').simulate('click');
-    expect(toJson(wrapper)).toMatchSnapshot();
+    fireEvent.click(container.querySelector('div.menu-btn-container'));
+    expect(container).toMatchSnapshot();
 
-    wrapper.find('div.rc-menu__item').at(4).simulate('click');
-    expect(toJson(wrapper)).toMatchSnapshot();
+    fireEvent.click(getByText('Help'));
+    expect(container).toMatchSnapshot();
 
-    wrapper.find('li.rc-menu__item').at(6).simulate('click');
+    fireEvent.click(getByText('Help Center'));
     expect(open).toHaveBeenCalledTimes(1);
     expect(open).toHaveBeenNthCalledWith(1, 'https://helpcenter.flux3dp.com/');
   });
 
   test('test checkbox menu item', () => {
     read.mockReturnValue(false);
-    const wrapper = mount(<Menu email={undefined} />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container, getByText } = render(<Menu email={undefined} />);
+    expect(container).toMatchSnapshot();
 
-    wrapper.find('div.menu-btn-container').simulate('click');
-    wrapper.find('div.rc-menu__item').at(2).simulate('click');
-    expect(toJson(wrapper)).toMatchSnapshot();
+    fireEvent.click(container.querySelector('div.menu-btn-container'));
+    fireEvent.click(getByText('View'));
+    expect(container).toMatchSnapshot();
 
-    wrapper.find('li.rc-menu__item--type-checkbox').at(5).simulate('click');
+    fireEvent.click(getByText('Show Rulers'));
     expect(emit).toHaveBeenCalledTimes(1);
     expect(emit).toHaveBeenNthCalledWith(1, 'MENU_CLICK', null, {
       id: 'SHOW_RULERS',
     });
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
 
   test('already signed in', () => {
     read.mockReturnValue(true);
-    const wrapper = mount(<Menu email="tester@flux3dp.com" />);
-    wrapper.find('div.menu-btn-container').simulate('click');
-    wrapper.find('div.rc-menu__item').at(4).simulate('click');
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container, getByText } = render(<Menu email="tester@flux3dp.com" />);
+    fireEvent.click(container.querySelector('div.menu-btn-container'));
+    fireEvent.click(getByText('Account'));
+    expect(container).toMatchSnapshot();
   });
 });

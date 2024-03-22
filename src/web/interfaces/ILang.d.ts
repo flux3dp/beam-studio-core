@@ -80,6 +80,7 @@ export interface ILang {
       export_JPG: string;
       save_scene: string;
       save_as: string;
+      save_to_cloud: string;
       about_beam_studio: string;
       undo: string;
       redo: string;
@@ -422,22 +423,23 @@ export interface ILang {
     enable_low_speed: string;
     enable_custom_backlash: string;
     custom_preview_height: string;
-    mask: string,
-    text_path_calc_optimization: string,
-    font_substitute: string,
-    default_borderless_mode: string,
-    default_enable_autofocus_module: string,
-    default_enable_diode_module: string,
-    diode_offset: string,
+    mask: string;
+    text_path_calc_optimization: string;
+    font_substitute: string;
+    font_convert: string;
+    default_borderless_mode: string;
+    default_enable_autofocus_module: string;
+    default_enable_diode_module: string;
+    diode_offset: string;
     autofocus_offset: string;
-    diode_one_way_engraving: string,
+    diode_one_way_engraving: string;
     diode_two_way_warning: string;
-    share_with_flux: string,
-    none: string,
-    close: string,
-    enabled: string,
-    disabled: string,
-    cancel: string,
+    share_with_flux: string;
+    none: string;
+    close: string;
+    enabled: string;
+    disabled: string;
+    cancel: string;
     done: string;
     module_offset_10w: string;
     module_offset_20w: string;
@@ -465,22 +467,23 @@ export interface ILang {
     update_latest: string,
     update_beta: string,
     help_center_urls: {
-      connection: string,
-      image_downsampling: string,
-      anti_aliasing: string,
-      continuous_drawing: string,
-      simplify_clipper_path: string,
-      fast_gradient: string,
-      reverse_engraving: string,
-      vector_speed_constraint: string,
-      loop_compensation: string,
-      mask: string,
-      font_substitute: string,
-      default_borderless_mode: string,
-      default_enable_autofocus_module: string,
-      default_enable_diode_module: string,
-    },
-  },
+      connection: string;
+      image_downsampling: string;
+      anti_aliasing: string;
+      continuous_drawing: string;
+      simplify_clipper_path: string;
+      fast_gradient: string;
+      reverse_engraving: string;
+      vector_speed_constraint: string;
+      loop_compensation: string;
+      mask: string;
+      font_substitute: string;
+      font_convert: string;
+      default_borderless_mode: string;
+      default_enable_autofocus_module: string;
+      default_enable_diode_module: string;
+    };
+  };
   beambox: {
     tag: {
       g: string,
@@ -575,8 +578,12 @@ export interface ILang {
         insufficient_credit_msg: string;
         buy_link: string;
         go: string;
-      },
-    },
+      };
+      text_to_path: {
+        caption: string;
+        message: string;
+      };
+    };
     zoom_block: {
       fit_to_window: string,
     },
@@ -613,6 +620,8 @@ export interface ILang {
         live_feed: string;
         adjust_height: string;
         qr_code: string;
+        boxgen: string;
+        my_cloud: string;
       },
     },
     right_panel: {
@@ -1008,15 +1017,16 @@ export interface ILang {
       };
     },
     object_panels: {
-      wait_for_parsing_font: string,
+      wait_for_parsing_font: string;
       text_to_path: {
-        font_substitute_pop: string,
-        check_thumbnail_warning: string,
-        error_when_parsing_text: string,
-        use_current_font: string,
-      },
-      lock_desc: string,
-    },
+        font_substitute_pop: string;
+        check_thumbnail_warning: string;
+        error_when_parsing_text: string;
+        retry: string;
+        use_current_font: string;
+      };
+      lock_desc: string;
+    };
     tool_panels: {
       cancel: string,
       confirm: string,
@@ -1127,35 +1137,63 @@ export interface ILang {
       end_preview: string,
     },
     shapes_panel: {
-      title: string,
-      shape: string,
-      graphics: string,
-      arrow: string,
-      line: string,
-      label: string,
-    },
-  },
+      title: string;
+      shape: string;
+      graphics: string;
+      arrow: string;
+      line: string;
+      label: string;
+    };
+    announcement_panel: {
+      title: string;
+      dont_show_again: string;
+    };
+  };
   editor: {
     prespray_area: string;
   };
   flux_id_login: {
-    connection_fail: string,
-    login_success: string,
-    login: string,
-    unlock_shape_library: string,
-    email: string,
-    password: string,
-    remember_me: string,
-    forget_password: string,
-    register: string,
-    offline: string,
-    work_offline: string,
-    incorrect: string,
-    not_verified: string,
-    new_to_flux: string,
-    signup_url: string,
-    lost_password_url: string,
-  },
+    connection_fail: string;
+    login_success: string;
+    login: string;
+    unlock_shape_library: string;
+    email: string;
+    password: string;
+    remember_me: string;
+    forget_password: string;
+    register: string;
+    offline: string;
+    work_offline: string;
+    incorrect: string;
+    not_verified: string;
+    new_to_flux: string;
+    signup_url: string;
+    lost_password_url: string;
+    flux_plus: {
+      explore_plans: string;
+      thank_you: string;
+      ai_credit_tooltip: string;
+      flux_credit_tooltip: string;
+      goto_member_center: string;
+      access_plus_feature_1: string;
+      access_plus_feature_2: string;
+      access_plus_feature_note: string;
+      access_monotype_feature: string;
+      access_monotype_feature_note: string;
+      learn_more: string;
+      get_addon: string;
+      subscribe_now: string;
+      website_url: string;
+      member_center_url: string;
+      features: {
+        ai_bg_removal: string;
+        my_cloud: string;
+        boxgen: string;
+        dmkt: string;
+        monotype: string;
+      };
+    };
+  };
   noun_project_panel: {
     login_first: string,
     enjoy_shape_library: string,
@@ -1568,5 +1606,74 @@ export interface ILang {
     error_tolerance: string;
     error_tolerance_link: string;
     invert: string;
-  },
+  };
+  boxgen: {
+    back: string;
+    title: string;
+    basic_box: string;
+    coming_soon: string;
+    workarea: string;
+    max_dimension_tooltip: string;
+    volume: string;
+    outer: string;
+    inner: string;
+    width: string;
+    height: string;
+    depth: string;
+    cover: string;
+    thickness: string;
+    add_option: string;
+    joints: string;
+    finger: string;
+    finger_warning: string;
+    tSlot: string;
+    tSlot_warning: string;
+    edge: string;
+    tCount: string;
+    tCount_tooltip: string;
+    tDiameter: string;
+    tLength: string;
+    continue_import: string;
+    customize: string;
+    merge: string;
+    text_label: string;
+    beam_radius: string;
+    beam_radius_warning: string;
+    import: string;
+    cancel: string;
+    reset: string;
+    zoom: string;
+    control_tooltip: string;
+    control_tooltip_touch: string;
+  };
+  my_cloud: {
+    title: string;
+    loading_file: string;
+    no_file_title: string;
+    no_file_subtitle: string;
+    file_limit: string;
+    upgrade: string;
+    sort: {
+      most_recent: string;
+      oldest: string;
+      a_to_z: string;
+      z_to_a: string;
+    };
+    action: {
+      open: string;
+      rename: string;
+      duplicate: string;
+      download: string;
+      delete: string;
+      confirmFileDelete: string;
+    };
+    save_file: {
+      choose_action: string;
+      save: string;
+      save_new: string;
+      input_file_name: string;
+      invalid_char: string;
+      storage_limit_exceeded: string;
+    };
+  };
 }

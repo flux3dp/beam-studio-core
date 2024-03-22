@@ -1,17 +1,24 @@
 import classNames from 'classnames';
 import React, { useEffect, useRef, useState } from 'react';
-import { Button, Divider, Form, Input, InputRef, Modal, Result, Space } from 'antd';
+import { Button, Divider, Form, Input, InputRef, Space } from 'antd';
 
 import alert from 'app/actions/alert-caller';
 import browser from 'implementations/browser';
-import i18n from 'helpers/i18n';
+import dialogCaller from 'app/actions/dialog-caller';
+import isFluxPlusActive from 'helpers/is-flux-plus-active';
 import storage from 'implementations/storage';
-import { externalLinkFBSignIn, externalLinkGoogleSignIn, fluxIDEvents, signIn, signOut } from 'helpers/api/flux-id';
+import useI18n from 'helpers/useI18n';
+import {
+  externalLinkFBSignIn,
+  externalLinkGoogleSignIn,
+  fluxIDEvents,
+  signIn,
+  signOut,
+} from 'helpers/api/flux-id';
+import { useIsMobile } from 'helpers/system-helper';
 
-let LANG = i18n.lang.flux_id_login;
-const updateLang = () => {
-  LANG = i18n.lang.flux_id_login;
-};
+import FluxPlusModal from './FluxPlusModal';
+import styles from './FluxIdLogin.module.scss';
 
 interface Props {
   silent: boolean;
@@ -19,12 +26,15 @@ interface Props {
 }
 
 const FluxIdLogin = ({ silent, onClose }: Props): JSX.Element => {
-  updateLang();
+  const lang = useI18n().flux_id_login;
 
   const emailInput = useRef<InputRef>(null);
   const passwordInput = useRef<InputRef>(null);
   const rememberMeCheckbox = useRef(null);
-  const [isRememberMeChecked, setIsRememberMeChecked] = useState(!!storage.get('keep-flux-id-login'));
+  const [isRememberMeChecked, setIsRememberMeChecked] = useState(
+    !!storage.get('keep-flux-id-login')
+  );
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const checkbox = rememberMeCheckbox.current;
@@ -37,11 +47,11 @@ const FluxIdLogin = ({ silent, onClose }: Props): JSX.Element => {
   });
 
   const renderOAuthContent = () => (
-    <div className="oauth">
-      <div className={classNames('button', 'facebook')} onClick={externalLinkFBSignIn}>
+    <div className={styles.oauth}>
+      <div className={classNames(styles.button, styles.facebook)} onClick={externalLinkFBSignIn}>
         Continue with Facebook
       </div>
-      <div className={classNames('button', 'google')} onClick={externalLinkGoogleSignIn}>
+      <div className={classNames(styles.button, styles.google)} onClick={externalLinkGoogleSignIn}>
         Continue with Google
       </div>
     </div>
@@ -62,9 +72,9 @@ const FluxIdLogin = ({ silent, onClose }: Props): JSX.Element => {
     }
     if (res.status === 'error') {
       if (res.info === 'USER_NOT_FOUND') {
-        alert.popUpError({ message: LANG.incorrect });
+        alert.popUpError({ message: lang.incorrect });
       } else if (res.info === 'NOT_VERIFIED') {
-        alert.popUpError({ message: LANG.not_verified });
+        alert.popUpError({ message: lang.not_verified });
       } else {
         alert.popUpError({ message: res.message });
       }
@@ -73,38 +83,37 @@ const FluxIdLogin = ({ silent, onClose }: Props): JSX.Element => {
     if (res.status === 'ok') {
       // eslint-disable-next-line no-console
       console.log('Log in succeeded', res);
-      if (!silent) {
-        alert.popUp({
-          message: <Result status="success" title={LANG.login_success} />,
-        });
-      }
       onClose();
+      if (!silent) {
+        dialogCaller.showFluxCreditDialog();
+      }
     }
   };
 
   return (
-    <Modal open centered title={LANG.login} footer={null} onCancel={onClose} width={400}>
-      <div className="flux-login">
+    <FluxPlusModal className={styles['flux-login']} onClose={onClose} hideMobileBanner>
+      <>
+        <div className={styles.title}>{lang.login}</div>
         {renderOAuthContent()}
         <Divider>or</Divider>
-        <Form className="login-inputs">
+        <Form className={styles['login-inputs']}>
           <Form.Item name="email-input">
             <Input
               ref={emailInput}
               onKeyDown={(e: React.KeyboardEvent) => e.stopPropagation()}
-              placeholder={LANG.email}
+              placeholder={lang.email}
             />
           </Form.Item>
           <Form.Item name="password-input">
             <Input.Password
               ref={passwordInput}
               onKeyDown={(e: React.KeyboardEvent) => e.stopPropagation()}
-              placeholder={LANG.password}
+              placeholder={lang.password}
             />
           </Form.Item>
-          <div className="options">
+          <div className={styles.options}>
             <div
-              className="remember-me"
+              className={styles['remember-me']}
               onClick={() => setIsRememberMeChecked(!isRememberMeChecked)}
             >
               <input
@@ -113,26 +122,34 @@ const FluxIdLogin = ({ silent, onClose }: Props): JSX.Element => {
                 checked={isRememberMeChecked}
                 onChange={() => {}}
               />
-              <div>{LANG.remember_me}</div>
+              <div>{lang.remember_me}</div>
             </div>
-            <div className="forget-password" onClick={() => browser.open(LANG.lost_password_url)}>
-              {LANG.forget_password}
+            <div
+              className={styles['forget-password']}
+              onClick={() => browser.open(lang.lost_password_url)}
+            >
+              {lang.forget_password}
             </div>
           </div>
         </Form>
-        <Space className="footer" direction="vertical">
+        <Space className={styles.footer} direction="vertical">
           <Button block type="primary" onClick={handleLogin}>
-            {LANG.login}
+            {lang.login}
           </Button>
-          <Button block type="default" onClick={() => browser.open(LANG.signup_url)}>
-            {LANG.register}
+          <Button block type="default" onClick={() => browser.open(lang.signup_url)}>
+            {lang.register}
           </Button>
-          <div className="skip" onClick={() => onClose()}>
-            {LANG.work_offline}
+          <div className={styles.text}>
+            <div onClick={() => onClose()}>{lang.work_offline}</div>
+            {isFluxPlusActive && isMobile && (
+              <div onClick={() => browser.open(lang.flux_plus.website_url)}>
+                {lang.flux_plus.explore_plans}
+              </div>
+            )}
           </div>
         </Space>
-      </div>
-    </Modal>
+      </>
+    </FluxPlusModal>
   );
 };
 

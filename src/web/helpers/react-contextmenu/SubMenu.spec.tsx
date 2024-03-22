@@ -1,29 +1,28 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import { fireEvent, render } from '@testing-library/react';
 
 import SubMenu from './SubMenu';
 
 describe('SubMenu tests', () => {
   it('should render correctly', () => {
-    const wrapper = shallow(<SubMenu title="foo" />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container } = render(<SubMenu title="foo" />);
+    expect(container).toMatchSnapshot();
   });
 
   it('should render correctly when disabled', () => {
-    const wrapper = shallow(<SubMenu title="foo" disabled />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container } = render(<SubMenu title="foo" disabled />);
+    expect(container).toMatchSnapshot();
   });
 
   it('should render correctly after onMouseEnter', () => {
-    const wrapper = mount(<SubMenu title="foo" hoverDelay={0} />);
-    wrapper.find('.react-contextmenu-submenu').simulate('mouseEnter');
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container } = render(<SubMenu title="foo" hoverDelay={0} />);
+    fireEvent.mouseEnter(container.querySelector('.react-contextmenu-submenu'));
+    expect(container).toMatchSnapshot();
   });
 
   it('should render correctly after onMouseEnter when disabled', () => {
-    const wrapper = mount(<SubMenu title="foo" hoverDelay={0} disabled />);
-    wrapper.simulate('mouseenter');
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container } = render(<SubMenu title="foo" hoverDelay={0} disabled />);
+    fireEvent.mouseEnter(container);
+    expect(container).toMatchSnapshot();
   });
 });

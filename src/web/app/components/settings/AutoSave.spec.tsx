@@ -1,6 +1,6 @@
-import * as React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React from 'react';
+import { fireEvent, render } from '@testing-library/react';
 
 jest.mock('helpers/i18n', () => ({
   lang: {
@@ -26,6 +26,74 @@ jest.mock('helpers/i18n', () => ({
   },
 }));
 
+jest.mock('app/components/settings/Control', () => 'mock-control');
+
+jest.mock('app/widgets/PathInput', () => ({
+  __esModule: true,
+  InputType: {
+    FILE: 0,
+    FOLDER: 1,
+    BOTH: 2,
+  },
+  default: ({
+    'data-id': dataId,
+    buttonTitle,
+    type,
+    defaultValue,
+    getValue,
+    forceValidValue,
+    className,
+  }: any) => (
+    <div>
+      mock-path-input id:{dataId}
+      buttonTitle:{buttonTitle}
+      type:{type}
+      defaultValue:{defaultValue}
+      forceValidValue:{forceValidValue ? 'true' : 'false'}
+      className:{JSON.stringify(className)}
+      <input
+        className="path-input"
+        onChange={(e) => {
+          const [val, isValid]: any[] = e.target.value.split(',');
+          getValue(val, isValid.includes('true'));
+        }}
+      />
+    </div>
+  ),
+}));
+
+jest.mock(
+  'app/components/settings/SelectControl',
+  () =>
+    ({ id, label, onChange, options }: any) =>
+      (
+        <div>
+          mock-select-control id:{id}
+          label:{label}
+          options:{JSON.stringify(options)}
+          <input className="select-control" onChange={onChange} />
+        </div>
+      )
+);
+
+jest.mock(
+  'app/widgets/Unit-Input-v2',
+  () =>
+    ({ id, unit, min, max, defaultValue, getValue, forceUsePropsUnit, className }: any) =>
+      (
+        <div>
+          mock-unit-input id:{id}
+          unit:{unit}
+          min:{min}
+          max:{max}
+          defaultValue:{defaultValue}
+          forceUsePropsUnit:{forceUsePropsUnit ? 'true' : 'false'}
+          className:{JSON.stringify(className)}
+          <input className="unit-input" onChange={(e) => getValue(+e.target.value)} />
+        </div>
+      )
+);
+
 // eslint-disable-next-line import/first
 import AutoSave from './AutoSave';
 
@@ -36,32 +104,34 @@ describe('should render correctly', () => {
 
   test('initially no warning', () => {
     const updateState = jest.fn();
-    const wrapper = shallow(<AutoSave
-      isWeb={false}
-      autoSaveOptions={[
-        {
-          value: 'TRUE',
-          label: 'On',
-          selected: false,
-        },
-        {
-          value: 'FALSE',
-          label: 'Off',
-          selected: true,
-        },
-      ]}
-      editingAutosaveConfig={{
-        enabled: false,
-        directory: '/MyDocuments',
-        timeInterval: 10,
-        fileNumber: 5,
-      }}
-      warnings={{}}
-      updateState={updateState}
-    />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container } = render(
+      <AutoSave
+        isWeb={false}
+        autoSaveOptions={[
+          {
+            value: 'TRUE',
+            label: 'On',
+            selected: false,
+          },
+          {
+            value: 'FALSE',
+            label: 'Off',
+            selected: true,
+          },
+        ]}
+        editingAutosaveConfig={{
+          enabled: false,
+          directory: '/MyDocuments',
+          timeInterval: 10,
+          fileNumber: 5,
+        }}
+        warnings={{}}
+        updateState={updateState}
+      />
+    );
+    expect(container).toMatchSnapshot();
 
-    wrapper.find('SelectControl').simulate('change', {
+    fireEvent.change(container.querySelector('.select-control'), {
       target: {
         value: 'TRUE',
       },
@@ -76,7 +146,9 @@ describe('should render correctly', () => {
       },
     });
 
-    wrapper.find('PathInput').props().getValue('/FolderNotExist', false);
+    fireEvent.change(container.querySelector('input.path-input'), {
+      target: { value: '/FolderNotExist, false' },
+    });
     expect(updateState).toHaveBeenCalledTimes(2);
     expect(updateState).toHaveBeenNthCalledWith(2, {
       editingAutosaveConfig: {
@@ -90,7 +162,7 @@ describe('should render correctly', () => {
       },
     });
 
-    wrapper.find('UnitInput').at(0).props().getValue(5);
+    fireEvent.change(container.querySelector('input.unit-input'), { target: { value: 5 } });
     expect(updateState).toHaveBeenCalledTimes(3);
     expect(updateState).toHaveBeenNthCalledWith(3, {
       editingAutosaveConfig: {
@@ -101,7 +173,7 @@ describe('should render correctly', () => {
       },
     });
 
-    wrapper.find('UnitInput').at(1).props().getValue(10);
+    fireEvent.change(container.querySelectorAll('input.unit-input')[1], { target: { value: 10 } });
     expect(updateState).toHaveBeenCalledTimes(4);
     expect(updateState).toHaveBeenNthCalledWith(4, {
       editingAutosaveConfig: {
@@ -115,34 +187,38 @@ describe('should render correctly', () => {
 
   test('initially with warning', () => {
     const updateState = jest.fn();
-    const wrapper = shallow(<AutoSave
-      isWeb={false}
-      autoSaveOptions={[
-        {
-          value: 'TRUE',
-          label: 'On',
-          selected: false,
-        },
-        {
-          value: 'FALSE',
-          label: 'Off',
-          selected: true,
-        },
-      ]}
-      editingAutosaveConfig={{
-        enabled: false,
-        directory: '/FolderNotExist',
-        timeInterval: 10,
-        fileNumber: 5,
-      }}
-      warnings={{
-        autosave_directory: 'Specified path not found.',
-      }}
-      updateState={updateState}
-    />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container } = render(
+      <AutoSave
+        isWeb={false}
+        autoSaveOptions={[
+          {
+            value: 'TRUE',
+            label: 'On',
+            selected: false,
+          },
+          {
+            value: 'FALSE',
+            label: 'Off',
+            selected: true,
+          },
+        ]}
+        editingAutosaveConfig={{
+          enabled: false,
+          directory: '/FolderNotExist',
+          timeInterval: 10,
+          fileNumber: 5,
+        }}
+        warnings={{
+          autosave_directory: 'Specified path not found.',
+        }}
+        updateState={updateState}
+      />
+    );
+    expect(container).toMatchSnapshot();
 
-    wrapper.find('PathInput').props().getValue('/MyDocuments', true);
+    fireEvent.change(container.querySelector('input.path-input'), {
+      target: { value: '/MyDocuments, true' },
+    });
     expect(updateState).toHaveBeenCalledTimes(1);
     expect(updateState).toHaveBeenNthCalledWith(1, {
       editingAutosaveConfig: {
@@ -151,36 +227,37 @@ describe('should render correctly', () => {
         timeInterval: 10,
         fileNumber: 5,
       },
-      warnings: {
-      },
+      warnings: {},
     });
   });
 
   test('hide in web', () => {
     const updateState = jest.fn();
-    const wrapper = shallow(<AutoSave
-      isWeb
-      autoSaveOptions={[
-        {
-          value: 'TRUE',
-          label: 'On',
-          selected: false,
-        },
-        {
-          value: 'FALSE',
-          label: 'Off',
-          selected: true,
-        },
-      ]}
-      editingAutosaveConfig={{
-        enabled: false,
-        directory: '/MyDocuments',
-        timeInterval: 10,
-        fileNumber: 5,
-      }}
-      warnings={{}}
-      updateState={updateState}
-    />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container } = render(
+      <AutoSave
+        isWeb
+        autoSaveOptions={[
+          {
+            value: 'TRUE',
+            label: 'On',
+            selected: false,
+          },
+          {
+            value: 'FALSE',
+            label: 'Off',
+            selected: true,
+          },
+        ]}
+        editingAutosaveConfig={{
+          enabled: false,
+          directory: '/MyDocuments',
+          timeInterval: 10,
+          fileNumber: 5,
+        }}
+        warnings={{}}
+        updateState={updateState}
+      />
+    );
+    expect(container).toMatchSnapshot();
   });
 });

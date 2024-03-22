@@ -1,146 +1,160 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should render correctly 1`] = `
-<View
-  className={
-    {
-      "initialization": true,
-    }
-  }
-  content={
+<div>
+  <div
+    class="initialization"
+  >
     <div
-      className="home text-center"
+      class="home text-center"
     >
       <img
-        className="brand-image"
+        class="brand-image"
         src="img/menu/main_logo.svg"
       />
       <div>
         <h1
-          className="headline"
+          class="headline"
         >
           Select Language
         </h1>
         <div
-          className="language"
+          class="language"
         >
-          <Select
+          <select
             id="select-lang"
-            onChange={[Function]}
-            options={
-              [
-                {
-                  "label": "Bahasa Indonesia",
-                  "selected": false,
-                  "value": "id",
-                },
-                {
-                  "label": "Dansk",
-                  "selected": false,
-                  "value": "da",
-                },
-                {
-                  "label": "Deutsch",
-                  "selected": false,
-                  "value": "de",
-                },
-                {
-                  "label": "English",
-                  "selected": true,
-                  "value": "en",
-                },
-                {
-                  "label": "Español",
-                  "selected": false,
-                  "value": "es",
-                },
-                {
-                  "label": "Français",
-                  "selected": false,
-                  "value": "fr",
-                },
-                {
-                  "label": "Italiano",
-                  "selected": false,
-                  "value": "it",
-                },
-                {
-                  "label": "Melayu",
-                  "selected": false,
-                  "value": "ms",
-                },
-                {
-                  "label": "Nederlands",
-                  "selected": false,
-                  "value": "nl",
-                },
-                {
-                  "label": "Norsk",
-                  "selected": false,
-                  "value": "no",
-                },
-                {
-                  "label": "Português",
-                  "selected": false,
-                  "value": "pt",
-                },
-                {
-                  "label": "Polski",
-                  "selected": false,
-                  "value": "pl",
-                },
-                {
-                  "label": "Svenska",
-                  "selected": false,
-                  "value": "se",
-                },
-                {
-                  "label": "Suomi",
-                  "selected": false,
-                  "value": "fi",
-                },
-                {
-                  "label": "Tiếng Việt",
-                  "selected": false,
-                  "value": "vi",
-                },
-                {
-                  "label": "Ελληνικά",
-                  "selected": false,
-                  "value": "el",
-                },
-                {
-                  "label": "ภาษาไทย",
-                  "selected": false,
-                  "value": "th",
-                },
-                {
-                  "label": "한국어",
-                  "selected": false,
-                  "value": "kr",
-                },
-                {
-                  "label": "日本語",
-                  "selected": false,
-                  "value": "ja",
-                },
-                {
-                  "label": "简体中文",
-                  "selected": false,
-                  "value": "zh-cn",
-                },
-                {
-                  "label": "繁體中文",
-                  "selected": false,
-                  "value": "zh-tw",
-                },
-              ]
-            }
-          />
+          >
+            <option
+              label="Bahasa Indonesia"
+              value="id"
+            >
+              Bahasa Indonesia
+            </option>
+            <option
+              label="Dansk"
+              value="da"
+            >
+              Dansk
+            </option>
+            <option
+              label="Deutsch"
+              value="de"
+            >
+              Deutsch
+            </option>
+            <option
+              label="English"
+              value="en"
+            >
+              English
+            </option>
+            <option
+              label="Español"
+              value="es"
+            >
+              Español
+            </option>
+            <option
+              label="Français"
+              value="fr"
+            >
+              Français
+            </option>
+            <option
+              label="Italiano"
+              value="it"
+            >
+              Italiano
+            </option>
+            <option
+              label="Melayu"
+              value="ms"
+            >
+              Melayu
+            </option>
+            <option
+              label="Nederlands"
+              value="nl"
+            >
+              Nederlands
+            </option>
+            <option
+              label="Norsk"
+              value="no"
+            >
+              Norsk
+            </option>
+            <option
+              label="Português"
+              value="pt"
+            >
+              Português
+            </option>
+            <option
+              label="Polski"
+              value="pl"
+            >
+              Polski
+            </option>
+            <option
+              label="Svenska"
+              value="se"
+            >
+              Svenska
+            </option>
+            <option
+              label="Suomi"
+              value="fi"
+            >
+              Suomi
+            </option>
+            <option
+              label="Tiếng Việt"
+              value="vi"
+            >
+              Tiếng Việt
+            </option>
+            <option
+              label="Ελληνικά"
+              value="el"
+            >
+              Ελληνικά
+            </option>
+            <option
+              label="ภาษาไทย"
+              value="th"
+            >
+              ภาษาไทย
+            </option>
+            <option
+              label="한국어"
+              value="kr"
+            >
+              한국어
+            </option>
+            <option
+              label="日本語"
+              value="ja"
+            >
+              日本語
+            </option>
+            <option
+              label="简体中文"
+              value="zh-cn"
+            >
+              简体中文
+            </option>
+            <option
+              label="繁體中文"
+              value="zh-tw"
+            >
+              繁體中文
+            </option>
+          </select>
         </div>
         <div>
           <a
-            className="btn btn-action btn-large"
+            class="btn btn-action btn-large"
             href="#initialize/connect/flux-id-login"
           >
             Next
@@ -148,6 +162,6 @@ exports[`should render correctly 1`] = `
         </div>
       </div>
     </div>
-  }
-/>
+  </div>
+</div>
 `;
