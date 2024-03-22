@@ -1,6 +1,6 @@
 /* eslint-disable import/first */
 import React from 'react';
-import { fireEvent, render } from '@testing-library/react';
+import { act, fireEvent, render } from '@testing-library/react';
 
 const mockShowOpenDialog = jest.fn();
 jest.mock('implementations/dialog', () => ({
@@ -32,37 +32,38 @@ describe('test PathInput', () => {
       />
     );
     expect(container).toMatchSnapshot();
-
-    await mockShowOpenDialog.mockResolvedValue({
+    mockShowOpenDialog.mockResolvedValue({
       filePaths: [],
       canceled: true,
     });
-    fireEvent.click(container.querySelector('div.dialog-btn'));
-    await (() => expect(mockShowOpenDialog).toHaveBeenCalledTimes(1));
-    await (() =>
-      expect(mockShowOpenDialog).toHaveBeenNthCalledWith(1, {
-        properties: ['openDirectory', 'createDirectory', 'promptToCreate'],
-        defaultPath: 'defaultFolder',
-      }));
-    await (() => expect(mockGetValue).not.toHaveBeenCalled());
-    await expect(container).toMatchSnapshot();
+    await act(async () => {
+      fireEvent.click(container.querySelector('.btn'));
+    });
+    expect(mockShowOpenDialog).toHaveBeenCalledTimes(1);
+    expect(mockShowOpenDialog).toHaveBeenNthCalledWith(1, {
+      properties: ['openDirectory', 'createDirectory', 'promptToCreate'],
+      defaultPath: 'defaultFolder',
+    });
+    expect(mockGetValue).not.toHaveBeenCalled();
+    expect(container).toMatchSnapshot();
 
-    await mockShowOpenDialog.mockResolvedValue({
+    mockShowOpenDialog.mockResolvedValue({
       filePaths: ['myDocuments'],
       canceled: false,
     });
     mockExists.mockReturnValue(false);
-    fireEvent.click(container.querySelector('div.dialog-btn'));
-    await (() => expect(mockShowOpenDialog).toHaveBeenCalledTimes(2));
-    await (() =>
-      expect(mockShowOpenDialog).toHaveBeenNthCalledWith(2, {
-        properties: ['openDirectory', 'createDirectory', 'promptToCreate'],
-        defaultPath: 'defaultFolder',
-      }));
-    await (() => expect(mockExists).toHaveBeenCalledTimes(1));
-    await (() => expect(mockExists).toHaveBeenNthCalledWith(1, 'myDocuments'));
-    await (() => expect(mockGetValue).toHaveBeenCalledTimes(1));
-    await (() => expect(mockGetValue).toHaveBeenNthCalledWith(1, 'myDocuments', false));
-    await expect(container).toMatchSnapshot();
+    await act(async () => {
+      fireEvent.click(container.querySelector('.btn'));
+    });
+    expect(mockShowOpenDialog).toHaveBeenCalledTimes(2);
+    expect(mockShowOpenDialog).toHaveBeenNthCalledWith(2, {
+      properties: ['openDirectory', 'createDirectory', 'promptToCreate'],
+      defaultPath: 'defaultFolder',
+    });
+    expect(mockExists).toHaveBeenCalledTimes(1);
+    expect(mockExists).toHaveBeenNthCalledWith(1, 'myDocuments');
+    expect(mockGetValue).toHaveBeenCalledTimes(1);
+    expect(mockGetValue).toHaveBeenNthCalledWith(1, 'myDocuments', false);
+    expect(container).toMatchSnapshot();
   });
 });

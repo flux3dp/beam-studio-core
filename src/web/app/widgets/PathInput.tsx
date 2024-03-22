@@ -1,11 +1,11 @@
-import * as React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 
 import dialog from 'implementations/dialog';
 import fs from 'implementations/fileSystem';
 import { OpenDialogProperties } from 'interfaces/IDialog';
 
-const { useEffect, useRef, useState } = React;
+import styles from './PathInput.module.scss';
 
 export enum InputType {
   FILE = 0,
@@ -20,18 +20,18 @@ const propertiesMap = {
 };
 
 interface Props {
-  buttonTitle: string,
-  className: string
-  defaultValue: string,
-  forceValidValue: boolean,
-  type: InputType,
-  getValue: (val: string, isValid: boolean) => void,
+  buttonTitle: string;
+  className?: string;
+  defaultValue: string;
+  forceValidValue?: boolean;
+  type: InputType;
+  getValue: (val: string, isValid: boolean) => void;
 }
 
 const PathInput = ({
   buttonTitle,
   className,
-  defaultValue,
+  defaultValue = '',
   getValue,
   forceValidValue = true,
   type,
@@ -48,8 +48,10 @@ const PathInput = ({
   const validateValue = (val: string) => {
     if (fs.exists(val)) {
       if (type === InputType.BOTH) return true;
-      return (type === InputType.FILE && fs.isFile(val))
-        || (type === InputType.FOLDER && fs.isDirectory(val));
+      return (
+        (type === InputType.FILE && fs.isFile(val)) ||
+        (type === InputType.FOLDER && fs.isDirectory(val))
+      );
     }
     return false;
   };
@@ -96,14 +98,11 @@ const PathInput = ({
     }
   };
 
-  const openDialogButton = (
-    <div className="dialog-btn" title={buttonTitle} onClick={setValueFromDialog}>
-      <img src="img/right-panel/icon-import.svg" />
-    </div>
-  );
-
   return (
-    <div className={classNames('path-input', className)}>
+    <div className={classNames(styles.container, className)}>
+      <div className={styles.btn} title={buttonTitle} onClick={setValueFromDialog}>
+        <img src="img/right-panel/icon-import.svg" />
+      </div>
       <input
         id="location-input"
         type="text"
@@ -113,7 +112,6 @@ const PathInput = ({
         onKeyUp={handleKeyUp}
         ref={inputEl}
       />
-      {openDialogButton}
     </div>
   );
 };

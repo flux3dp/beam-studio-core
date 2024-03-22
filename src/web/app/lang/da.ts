@@ -1800,6 +1800,17 @@ const lang: ILang = {
         'Din cloud-lager har nået øvre grænse. Slet venligst eventuelle unødvendige filer, før du gemmer nye.',
     },
   },
+  camera_data_backup: {
+    title: 'Kameradata Backup',
+    checking_pictures: 'Tjekker billeder...',
+    no_picture_found: 'Ingen billeder fundet i maskinen.',
+    select_folder_download: 'Vælg venligst en mappe til at gemme kameradataen:',
+    select_folder_upload: 'Vælg venligst mappen, der indeholder kameradataen:',
+    folder_not_exists: 'Valgte mappe findes ikke.',
+    downloading_data: 'Downloader data...',
+    estimated_time_left: 'Estimeret resterende tid:',
+    uploading_data: 'Uploader data...',
+  },
 };
 
 export default lang;

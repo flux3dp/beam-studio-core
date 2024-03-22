@@ -1677,4 +1677,15 @@ export interface ILang {
       storage_limit_exceeded: string;
     };
   };
+  camera_data_backup: {
+    title: string;
+    checking_pictures: string;
+    no_picture_found: string;
+    select_folder_download: string;
+    select_folder_upload: string;
+    folder_not_exists: string;
+    downloading_data: string;
+    estimated_time_left: string;
+    uploading_data: string;
+  };
 }

@@ -1685,6 +1685,17 @@ const lang: ILang = {
         '클라우드 저장소 용량이 상한에 도달했습니다. 새 파일을 저장하기 전에 불필요한 파일을 삭제하세요.',
     },
   },
+  camera_data_backup: {
+    title: '카메라 데이터 백업',
+    checking_pictures: '이미지 확인 중...',
+    no_picture_found: '기계에 이미지가 없습니다.',
+    select_folder_download: '카메라 데이터를 저장할 폴더를 선택하십시오:',
+    select_folder_upload: '카메라 데이터를 포함하는 폴더를 선택하십시오:',
+    folder_not_exists: '선택한 폴더가 존재하지 않습니다.',
+    downloading_data: '데이터 다운로드 중...',
+    estimated_time_left: '예상 남은 시간:',
+    uploading_data: '데이터 업로드 중...',
+  },
 };
 
 export default lang;

@@ -1803,6 +1803,17 @@ const lang: ILang = {
         'Uw cloudopslag heeft de bovengrens bereikt. Verwijder onnodige bestanden voordat u nieuwe opslaat.',
     },
   },
+  camera_data_backup: {
+    title: 'Camera gegevens back-up',
+    checking_pictures: 'Bezig met controleren van afbeeldingen...',
+    no_picture_found: 'Geen afbeelding gevonden in de machine.',
+    select_folder_download: 'Selecteer alstublieft een map om de cameragegevens op te slaan:',
+    select_folder_upload: 'Selecteer de map met de cameragegevens:',
+    folder_not_exists: 'Geselecteerde map bestaat niet.',
+    downloading_data: 'Gegevens downloaden...',
+    estimated_time_left: 'Geschatte resterende tijd:',
+    uploading_data: 'Gegevens uploaden...',
+  },
 };
 
 export default lang;

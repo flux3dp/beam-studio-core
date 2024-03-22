@@ -1807,6 +1807,17 @@ const lang: ILang = {
         'Seu armazenamento em nuvem atingiu o limite superior. Exclua quaisquer arquivos desnecessários antes de salvar novos.',
     },
   },
+  camera_data_backup: {
+    title: 'Backup de Dados da Câmera',
+    checking_pictures: 'Verificando imagens...',
+    no_picture_found: 'Nenhuma imagem encontrada na máquina.',
+    select_folder_download: 'Por favor, selecione uma pasta para salvar os dados da câmera:',
+    select_folder_upload: 'Por favor, selecione a pasta que contém os dados da câmera:',
+    folder_not_exists: 'A pasta selecionada não existe.',
+    downloading_data: 'Baixando dados...',
+    estimated_time_left: 'Tempo estimado restante:',
+    uploading_data: 'Enviando dados...',
+  },
 };
 
 export default lang;

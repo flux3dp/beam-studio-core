@@ -1824,6 +1824,17 @@ const lang: ILang = {
         "Votre stockage cloud a atteint la limite supérieure. Veuillez supprimer les fichiers inutiles avant d'en sauvegarder de nouveaux.",
     },
   },
+  camera_data_backup: {
+    title: 'Sauvegarde des données de la caméra',
+    checking_pictures: 'Vérification des images...',
+    no_picture_found: 'Aucune image trouvée dans la machine.',
+    select_folder_download: 'Veuillez sélectionner un dossier pour sauvegarder les données de la caméra :',
+    select_folder_upload: 'Veuillez sélectionner le dossier contenant les données de la caméra :',
+    folder_not_exists: 'Le dossier sélectionné n\'existe pas.',
+    downloading_data: 'Téléchargement des données...',
+    estimated_time_left: 'Temps estimé restant :',
+    uploading_data: 'Chargement des données...',
+  },
 };
 
 export default lang;

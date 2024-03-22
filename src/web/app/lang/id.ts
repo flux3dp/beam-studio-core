@@ -1804,6 +1804,17 @@ const lang: ILang = {
         'Penyimpanan cloud Anda telah mencapai batas atas. Harap hapus file yang tidak diperlukan sebelum menyimpan file baru.',
     },
   },
+  camera_data_backup: {
+    title: 'Cadangkan Data Kamera',
+    checking_pictures: 'Memeriksa Gambar...',
+    no_picture_found: 'Tidak ada gambar ditemukan di mesin.',
+    select_folder_download: 'Harap pilih folder untuk menyimpan data kamera:',
+    select_folder_upload: 'Harap pilih folder yang berisi data kamera:',
+    folder_not_exists: 'Folder yang dipilih tidak ada.',
+    downloading_data: 'Mengunduh data...',
+    estimated_time_left: 'Estimasi waktu tersisa:',
+    uploading_data: 'Mengunggah data...',
+  },
 };
 
 export default lang;

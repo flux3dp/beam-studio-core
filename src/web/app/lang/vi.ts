@@ -1792,6 +1792,17 @@ const lang: ILang = {
         'Bộ nhớ đám mây của bạn đã đạt giới hạn. Vui lòng xóa các tệp không cần thiết trước khi lưu các tệp mới.',
     },
   },
+  camera_data_backup: {
+    title: 'Sao lưu dữ liệu máy ảnh',
+    checking_pictures: 'Kiểm tra hình ảnh...',
+    no_picture_found: 'Không tìm thấy hình ảnh trong máy.',
+    select_folder_download: 'Vui lòng chọn một thư mục để lưu dữ liệu máy ảnh:',
+    select_folder_upload: 'Vui lòng chọn thư mục chứa dữ liệu máy ảnh:',
+    folder_not_exists: 'Thư mục đã chọn không tồn tại.',
+    downloading_data: 'Đang tải dữ liệu...',
+    estimated_time_left: 'Thời gian còn lại ước tính:',
+    uploading_data: 'Đang tải lên dữ liệu...',
+  },
 };
 
 export default lang;

@@ -1685,6 +1685,17 @@ const lang: ILang = {
         'Ihr Cloudspeicher hat das obere Limit erreicht. Bitte löschen Sie vor dem Speichern neuer Dateien alle nicht benötigten Dateien.',
     },
   },
+  camera_data_backup: {
+    title: 'Kameradaten sichern',
+    checking_pictures: 'Überprüfe Bilder...',
+    no_picture_found: 'Kein Bild in der Maschine gefunden.',
+    select_folder_download: 'Bitte wählen Sie einen Ordner zum Speichern der Kameradaten aus:',
+    select_folder_upload: 'Bitte wählen Sie den Ordner, der die Kameradaten enthält:',
+    folder_not_exists: 'Ausgewählter Ordner existiert nicht.',
+    downloading_data: 'Daten werden heruntergeladen...',
+    estimated_time_left: 'Geschätzte verbleibende Zeit:',
+    uploading_data: 'Daten werden hochgeladen...',
+  },
 };
 
 export default lang;

@@ -1775,6 +1775,17 @@ const lang: ILang = {
         'พื้นที่จัดเก็บข้อมูลบนคลาวด์ของคุณเต็มแล้ว โปรดลบไฟล์ที่ไม่จําเป็นออกก่อนบันทึกไฟล์ใหม่',
     },
   },
+  camera_data_backup: {
+    title: 'การสำรองข้อมูลกล้อง',
+    checking_pictures: 'กำลังตรวจสอบรูปภาพ...',
+    no_picture_found: 'ไม่พบรูปในเครื่อง',
+    select_folder_download: 'โปรดเลือกโฟลเดอร์เพื่อบันทึกข้อมูลกล้อง:',
+    select_folder_upload: 'โปรดเลือกโฟลเดอร์ที่มีข้อมูลกล้อง:',
+    folder_not_exists: 'โฟลเดอร์ที่เลือกไม่มีอยู่',
+    downloading_data: 'กำลังดาวน์โหลดข้อมูล...',
+    estimated_time_left: 'เวลาที่เหลือโดยประมาณ:',
+    uploading_data: 'กำลังอัปโหลดข้อมูล...',
+  },
 };
 
 export default lang;

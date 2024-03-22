@@ -1792,6 +1792,17 @@ const lang: ILang = {
         'Pilvitallennustilasi on saavuttanut ylärajan. Poista kaikki tarpeettomat tiedostot ennen uusien tallentamista.',
     },
   },
+  camera_data_backup: {
+    title: 'Kameran tietojen varmuuskopiointi',
+    checking_pictures: 'Kuvien tarkistus...',
+    no_picture_found: 'Kuvaa ei löytynyt laitteesta.',
+    select_folder_download: 'Valitse kansio tallentaaksesi kameran tiedot:',
+    select_folder_upload: 'Valitse kansio, joka sisältää kameran tiedot:',
+    folder_not_exists: 'Valittu kansio ei ole olemassa.',
+    downloading_data: 'Tietojen lataaminen...',
+    estimated_time_left: 'Arvioitu jäljellä oleva aika:',
+    uploading_data: 'Tietojen lataaminen...',
+  },
 };
 
 export default lang;
