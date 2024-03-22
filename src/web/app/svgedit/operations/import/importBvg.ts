@@ -142,7 +142,6 @@ export const importBvgString = async (str: string): Promise<void> => {
   if (!modelsWithModules.has(newWorkarea)) {
     toggleFullColorAfterWorkareaChange();
   }
-  beamboxStore.emitUpdateWorkArea();
   svgedit.utilities.findDefs().remove();
   svgedit.utilities.moveDefsOutfromSvgContent();
   await symbolMaker.reRenderAllImageSymbol();

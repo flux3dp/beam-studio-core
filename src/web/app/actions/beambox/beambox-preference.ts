@@ -19,6 +19,7 @@ class BeamboxPreference {
     // set default preference if key or even beambox-preference doesn't exist
     let pref: any = storage.get('beambox-preference');
     pref = pref === '' ? {} : pref;
+    console.log(pref)
     const fullPref = Object.assign(DEFAULT_PREFERENCE, pref);
     storage.set('beambox-preference', fullPref);
   }
@@ -43,7 +44,6 @@ export const migrate = (): void => {
   if (typeof rotaryMode === 'boolean') instance.write('rotary_mode', rotaryMode ? 1 : 0);
   if (instance.read('model') === 'fad1') instance.write('model', 'ado1');
   if (instance.read('workarea') === 'fad1') instance.write('workarea', 'ado1');
-  if (instance.read('show_grids') === undefined) instance.write('show_grids', true);
 };
 
 export default instance;

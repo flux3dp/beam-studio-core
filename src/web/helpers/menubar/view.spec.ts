@@ -1,37 +1,39 @@
 /* eslint-disable import/first */
-const read = jest.fn();
-const write = jest.fn();
-jest.mock('app/actions/beambox/beambox-preference', () => ({
-  read,
-  write,
-}));
+import viewMenu from './view';
 
-const getSVGAsync = jest.fn();
-jest.mock('helpers/svg-editor-helper', () => ({
-  getSVGAsync,
+const mockRead = jest.fn();
+const mockWrite = jest.fn();
+jest.mock('app/actions/beambox/beambox-preference', () => ({
+  read: (...args) => mockRead(...args),
+  write: (...args) => mockWrite(...args),
 }));
 
 const updateRulers = jest.fn();
 const resetView = jest.fn();
-getSVGAsync.mockImplementation((callback) => {
-  callback({
-    Canvas: {
-      isUsingLayerColor: false,
-    },
-    Editor: {
-      curConfig: {
-        showGrid: true,
+jest.mock('helpers/svg-editor-helper', () => ({
+  getSVGAsync: (callback) => {
+    callback({
+      Canvas: {
+        isUsingLayerColor: false,
       },
-      updateRulers,
-      resetView,
-    },
-  });
-});
-
-import viewMenu from './view';
+      Editor: {
+        curConfig: {
+          showGrid: true,
+        },
+        updateRulers: (...args) => updateRulers(...args),
+        resetView: (...args) => resetView(...args),
+      },
+    });
+  },
+}));
 
 const updateLayerColor = jest.fn();
 jest.mock('helpers/color/updateLayerColor', () => (...args) => updateLayerColor(...args));
+
+const mockToggleGrids = jest.fn();
+jest.mock('app/actions/canvas/grid', () => ({
+  toggleGrids: () => mockToggleGrids(),
+}));
 
 describe('test view', () => {
   afterEach(() => {
@@ -61,16 +63,19 @@ describe('test view', () => {
   test('test toggleLayerColor', () => {
     document.body.innerHTML = '<g class="layer" /><g class="layer" />';
     const result = viewMenu.toggleLayerColor();
-    expect(write).toHaveBeenCalledTimes(1);
-    expect(write).toHaveBeenNthCalledWith(1, 'use_layer_color', true);
+    expect(mockWrite).toHaveBeenCalledTimes(1);
+    expect(mockWrite).toHaveBeenNthCalledWith(1, 'use_layer_color', true);
     expect(updateLayerColor).toHaveBeenCalledTimes(2);
     expect(result).toBeTruthy();
   });
 
   test('test toggleGrid', () => {
-    document.body.innerHTML = '<div id="canvasGrid" />';
+    mockRead.mockReturnValue(true);
     const result = viewMenu.toggleGrid();
-    expect(document.body.innerHTML).toBe('<div id="canvasGrid" style="display: none"></div>');
+    expect(mockToggleGrids).toBeCalledTimes(1);
+    expect(mockRead).toBeCalledTimes(1);
+    expect(mockWrite).toBeCalledTimes(1);
+    expect(mockWrite).toHaveBeenNthCalledWith(1, 'show_grids', false);
     expect(result).toBeFalsy();
   });
 
@@ -80,24 +85,24 @@ describe('test view', () => {
     });
 
     test('default is false', () => {
-      read.mockReturnValue(false);
+      mockRead.mockReturnValue(false);
       document.body.innerHTML = '<div id="rulers" />';
       const result = viewMenu.toggleRulers();
       expect(document.body.innerHTML).toBe('<div id="rulers"></div>');
       expect(updateRulers).toHaveBeenCalledTimes(1);
-      expect(write).toHaveBeenCalledTimes(1);
-      expect(write).toHaveBeenNthCalledWith(1, 'show_rulers', true);
+      expect(mockWrite).toHaveBeenCalledTimes(1);
+      expect(mockWrite).toHaveBeenNthCalledWith(1, 'show_rulers', true);
       expect(result).toBeTruthy();
     });
 
     test('default is true', () => {
-      read.mockReturnValue(true);
+      mockRead.mockReturnValue(true);
       document.body.innerHTML = '<div id="rulers" />';
       const result = viewMenu.toggleRulers();
       expect(document.body.innerHTML).toBe('<div id="rulers" style="display: none;"></div>');
       expect(updateRulers).not.toHaveBeenCalled();
-      expect(write).toHaveBeenCalledTimes(1);
-      expect(write).toHaveBeenNthCalledWith(1, 'show_rulers', false);
+      expect(mockWrite).toHaveBeenCalledTimes(1);
+      expect(mockWrite).toHaveBeenNthCalledWith(1, 'show_rulers', false);
       expect(result).toBeFalsy();
     });
   });
@@ -113,7 +118,7 @@ describe('test view', () => {
       const result = viewMenu.toggleZoomWithWindow();
       expect(resetView).toHaveBeenCalledTimes(1);
       expect(addEventListener).toHaveBeenCalledTimes(1);
-      expect(addEventListener).toHaveBeenNthCalledWith(1, 'resize', resetView);
+      expect(addEventListener).toHaveBeenNthCalledWith(1, 'resize', expect.any(Function));
       expect(removeEventListener).not.toHaveBeenCalled();
       expect(result).toBeTruthy();
     });
@@ -124,7 +129,7 @@ describe('test view', () => {
       const result = viewMenu.toggleZoomWithWindow();
       expect(resetView).toHaveBeenCalledTimes(1);
       expect(removeEventListener).toHaveBeenCalledTimes(1);
-      expect(removeEventListener).toHaveBeenNthCalledWith(1, 'resize', resetView);
+      expect(removeEventListener).toHaveBeenNthCalledWith(1, 'resize', expect.any(Function));
       expect(addEventListener).not.toHaveBeenCalled();
       expect(result).toBeFalsy();
     });
@@ -136,18 +141,18 @@ describe('test view', () => {
     });
 
     test('default is false', () => {
-      read.mockReturnValue(false);
+      mockRead.mockReturnValue(false);
       const result = viewMenu.toggleAntiAliasing();
-      expect(write).toHaveBeenCalledTimes(1);
-      expect(write).toHaveBeenNthCalledWith(1, 'anti-aliasing', true);
+      expect(mockWrite).toHaveBeenCalledTimes(1);
+      expect(mockWrite).toHaveBeenNthCalledWith(1, 'anti-aliasing', true);
       expect(result).toBeTruthy();
     });
 
     test('default is true', () => {
-      read.mockReturnValue(true);
+      mockRead.mockReturnValue(true);
       const result = viewMenu.toggleAntiAliasing();
-      expect(write).toHaveBeenCalledTimes(1);
-      expect(write).toHaveBeenNthCalledWith(1, 'anti-aliasing', false);
+      expect(mockWrite).toHaveBeenCalledTimes(1);
+      expect(mockWrite).toHaveBeenNthCalledWith(1, 'anti-aliasing', false);
       expect(result).toBeFalsy();
     });
   });

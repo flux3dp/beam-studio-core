@@ -1,13 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import FisheyePreviewManagerV1 from './FisheyePreviewManagerV1';
 
-jest.mock('app/constants/device-constants', () => ({
-  WORKAREA_IN_MM: {
-    'model-1': [430, 300],
-  },
-  WORKAREA_DEEP: {
-    'model-1': 100,
-  },
+const mockGetWorkarea = jest.fn();
+jest.mock('app/constants/workarea-constants', () => ({
+  getWorkarea: (...args) => mockGetWorkarea(...args),
 }));
 
 const mockEndRawMode = jest.fn();
@@ -182,7 +178,10 @@ describe('test FisheyePreviewManagerV1', () => {
     manager.objectHeight = 10;
     manager.rotationData = { dh: 10 } as any;
     manager.onObjectHeightChanged = mockOnObjectHeightChanged;
+    mockGetWorkarea.mockReturnValue({ width: 430, height: 300, deep: 100 });
     await manager.update3DRotation({ rx: 1, ry: 2, rz: 3, sh: 4, ch: 5, dh: 20, tx: 0, ty: 0 });
+    expect(mockGetWorkarea).toBeCalledTimes(1);
+    expect(mockGetWorkarea).toBeCalledWith('model-1', 'ado1');
     expect(mockSet3dRotation).toHaveBeenCalledTimes(1);
     expect(mockSet3dRotation).toHaveBeenCalledWith({ rx: 1, ry: 2, rz: 3, h: 380, tx: 0, ty: 0 });
     expect(mockOnObjectHeightChanged).toHaveBeenCalledTimes(1);

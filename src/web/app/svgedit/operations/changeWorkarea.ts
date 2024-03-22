@@ -21,7 +21,6 @@ const changeWorkarea = (workarea: WorkAreaModel, opts: { toggleModule?: boolean 
   openBottomBoundaryDrawer.update();
   if (toggleModule) toggleFullColorAfterWorkareaChange();
   documentEventEmitter.emit('workarea-change', workarea);
-  beamboxStore.emitUpdateWorkArea();
 };
 
 export default changeWorkarea;

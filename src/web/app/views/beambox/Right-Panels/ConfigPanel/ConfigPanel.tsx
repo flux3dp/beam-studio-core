@@ -47,7 +47,7 @@ import {
 import { getLayerElementByName, moveToOtherLayer } from 'helpers/layer/layer-helper';
 import { getModulePresets } from 'app/constants/right-panel-constants';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
+import { getWorkarea } from 'app/constants/workarea-constants';
 import { ILaserConfig } from 'interfaces/ILaserConfig';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
 import { updateDefaultPresetData } from 'helpers/presets/preset-helper';

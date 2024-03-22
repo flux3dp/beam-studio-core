@@ -607,8 +607,8 @@ exports[`should render correctly test checkbox menu item 2`] = `
             role="separator"
           />
           <li
-            aria-checked="true"
-            class="rc-menu__item rc-menu__item--type-checkbox rc-menu__item--checked"
+            aria-checked="false"
+            class="rc-menu__item rc-menu__item--type-checkbox"
             role="menuitemcheckbox"
             tabindex="-1"
           >
@@ -811,8 +811,8 @@ exports[`should render correctly test checkbox menu item 3`] = `
             role="separator"
           />
           <li
-            aria-checked="true"
-            class="rc-menu__item rc-menu__item--type-checkbox rc-menu__item--checked"
+            aria-checked="false"
+            class="rc-menu__item rc-menu__item--type-checkbox"
             role="menuitemcheckbox"
             tabindex="-1"
           >

@@ -3,6 +3,11 @@ import { fireEvent, render } from '@testing-library/react';
 
 import DocumentSettings from './DocumentSettings';
 
+jest.mock('antd', () => ({
+  ...jest.requireActual('antd'),
+  ConfigProvider: ({ children }: { children: React.ReactNode }) => children,
+}));
+
 const mockPopUp = jest.fn();
 jest.mock('app/actions/alert-caller', () => ({
   popUp: (...args) => mockPopUp(...args),
@@ -34,7 +39,9 @@ jest.mock('app/widgets/EngraveDpiSlider', () => ({ value, onChange }: any) => (
   <div>
     DummyEngraveDpiSlider
     <p>value: {value}</p>
-    <button type="button" onClick={() => onChange('high')}>change dpi</button>
+    <button type="button" onClick={() => onChange('high')}>
+      change dpi
+    </button>
   </div>
 ));
 
@@ -81,7 +88,12 @@ jest.mock('helpers/useI18n', () => () => ({
 }));
 
 const mockChangeWorkarea = jest.fn();
-jest.mock('app/svgedit/operations/changeWorkarea', () => (...args) => mockChangeWorkarea(...args));
+jest.mock(
+  'app/svgedit/operations/changeWorkarea',
+  () =>
+    (...args) =>
+      mockChangeWorkarea(...args)
+);
 
 const mockUnmount = jest.fn();
 const mockQuerySelectorAll = jest.fn();
@@ -97,7 +109,9 @@ describe('test DocumentSettings', () => {
 
     const workareaToggle = baseElement.querySelector('input#workarea');
     fireEvent.mouseDown(workareaToggle);
-    fireEvent.click(baseElement.querySelectorAll('.ant-slide-up-appear .ant-select-item-option-content')[0]);
+    fireEvent.click(
+      baseElement.querySelectorAll('.ant-slide-up-appear .ant-select-item-option-content')[0]
+    );
     fireEvent.click(baseElement.querySelector('button#rotary_mode'));
     fireEvent.click(baseElement.querySelector('button#borderless_mode'));
     fireEvent.click(baseElement.querySelector('button#autofocus-module'));
