@@ -9,11 +9,11 @@ import history from 'app/svgedit/history';
 import ImageSymbolWorker from 'helpers/symbol-helper/image-symbol.worker';
 import Progress from 'app/actions/progress-caller';
 import updateElementColor from 'helpers/color/updateElementColor';
+import workareaManager from 'app/svgedit/workarea';
 import { getObjectLayer } from 'helpers/layer/layer-helper';
 import { IBatchCommand } from 'interfaces/IHistory';
 
 import { getSVGAsync } from './svg-editor-helper';
-import workareaManager from 'app/svgedit/workarea';
 
 let svgCanvas;
 let svgedit;
