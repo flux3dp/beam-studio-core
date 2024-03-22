@@ -2,7 +2,6 @@ import classNames from 'classnames';
 import React, { useCallback, useContext } from 'react';
 import { sprintf } from 'sprintf-js';
 
-import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import checkDeviceStatus from 'helpers/check-device-status';
 import constant from 'app/actions/beambox/constant';
 import deviceMaster from 'helpers/device-master';
@@ -13,9 +12,9 @@ import progressCaller from 'app/actions/progress-caller';
 import TopBarIcons from 'app/icons/top-bar/TopBarIcons';
 import useI18n from 'helpers/useI18n';
 import versionChecker from 'helpers/version-checker';
+import workareaManager from 'app/svgedit/workarea';
 import { CanvasContext } from 'app/contexts/CanvasContext';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 
 import styles from './FrameButton.module.scss';
 
@@ -42,8 +41,8 @@ const FrameButton = (): JSX.Element => {
       maxX: undefined,
       maxY: undefined,
     };
-    const workarea: WorkAreaModel = beamboxPreference.read('workarea');
-    const { pxWidth: workareaWidth, pxHeight: workareaHeight } = getWorkarea(workarea);
+    const { width: workareaWidth, height: fullHeight, rotaryExpansion } = workareaManager;
+    const workareaHeight = fullHeight - rotaryExpansion[0] - rotaryExpansion[1];
     // TODO: consider module offset
     allBBox.forEach(({ bbox }) => {
       const { x, y, width, height } = bbox;
