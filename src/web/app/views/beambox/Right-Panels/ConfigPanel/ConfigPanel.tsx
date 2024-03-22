@@ -136,7 +136,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
     }
     dispatch({ type: 'update', payload: layerData });
     updateDiodeBoundary();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [workarea]);
 
   useEffect(() => {
@@ -153,10 +153,8 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
 
   const model = beamboxPreference.read('workarea') || beamboxPreference.read('model');
   const parametersSet = getModulePresets(model, state.module.value);
-  const customizedConfigs = (storage.get('customizedLaserConfigs')||[]) as ILaserConfig[];
-  const moduleCustomConfigs = customizedConfigs.filter(
-    (c) => !c.isDefault || parametersSet[c.key]
-  );
+  const customizedConfigs = (storage.get('customizedLaserConfigs') || []) as ILaserConfig[];
+  const moduleCustomConfigs = customizedConfigs.filter((c) => !c.isDefault || parametersSet[c.key]);
 
   const dropdownValue = useMemo(() => {
     const { configName: name, speed, power, ink, repeat, zStep, diode, multipass } = state;
@@ -206,8 +204,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
       ink = defaultConfig.ink,
       multipass = defaultConfig.multipass,
     } = selectedConfig;
-    const workarea: WorkAreaModel = beamboxPreference.read('workarea');
-    const { maxSpeed, minSpeed } = getWorkarea(workarea);
+    const { maxSpeed, minSpeed } = getWorkarea(beamboxPreference.read('workarea'));
     const speed = Math.max(minSpeed, Math.min(dataSpeed, maxSpeed));
     timeEstimationButtonEventEmitter.emit('SET_ESTIMATED_TIME', null);
     dispatch({
@@ -283,14 +280,16 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
       {module.value === LayerModule.PRINTER && <InkBlock type={UIType} />}
       <SpeedBlock type={UIType} />
       {module.value === LayerModule.PRINTER && <MultipassBlock type={UIType} />}
-      {isDevMode && module.value === LayerModule.PRINTER && fullcolor.value && UIType === 'default' && (
-        <WhiteInkCheckbox />
-      )}
+      {isDevMode &&
+        module.value === LayerModule.PRINTER &&
+        fullcolor.value &&
+        UIType === 'default' && <WhiteInkCheckbox />}
       {isDevMode && isCustomBacklashEnabled && <Backlash type={UIType} />}
       <RepeatBlock type={UIType} />
-      {isDevMode && module.value === LayerModule.PRINTER && fullcolor.value && UIType === 'panel-item' && (
-        <WhiteInkCheckbox type={UIType} />
-      )}
+      {isDevMode &&
+        module.value === LayerModule.PRINTER &&
+        fullcolor.value &&
+        UIType === 'panel-item' && <WhiteInkCheckbox type={UIType} />}
     </>
   );
 

@@ -14,7 +14,6 @@ import presprayArea from 'app/actions/canvas/prespray-area';
 import storage from 'implementations/storage';
 import toggleFullColorLayer from 'helpers/layer/full-color/toggleFullColorLayer';
 import useI18n from 'helpers/useI18n';
-import useWorkarea from 'helpers/hooks/useWorkarea';
 import {
   DataType,
   defaultConfig,
