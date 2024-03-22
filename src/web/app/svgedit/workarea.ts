@@ -20,7 +20,7 @@ class WorkareaManager {
 
   canvasExpansion = 3; // extra space
 
-  rotaryExpansion: number[]; // [top, bottom] in pixel
+  rotaryExpansion: number[] = [0, 0]; // [top, bottom] in pixel
 
   init(model: WorkAreaModel): void {
     this.setWorkarea(model);
