@@ -1,5 +1,4 @@
 import beamboxPreferences from 'app/actions/beambox/beambox-preference';
-import beamboxStore from 'app/stores/beambox-store';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import openBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
 import workareaManager from 'app/svgedit/workarea';

@@ -144,7 +144,7 @@ describe('test DocumentSettings', () => {
     expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(5, 'rotary_mode', 1);
     expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(6, 'extend-rotary-workarea', false);
     expect(mockChangeWorkarea).toBeCalledTimes(1);
-    expect(mockChangeWorkarea).toHaveBeenLastCalledWith('fbm1');
+    expect(mockChangeWorkarea).toHaveBeenLastCalledWith('fbm1', { toggleModule: true });
     expect(mockToggleDisplay).toBeCalledTimes(1);
     expect(update).not.toBeCalled();
     expect(mockUnmount).toBeCalledTimes(1);

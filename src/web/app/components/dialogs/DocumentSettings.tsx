@@ -84,13 +84,14 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
     BeamboxPreference.write('borderless', borderlessMode);
     BeamboxPreference.write('enable-diode', enableDiode);
     BeamboxPreference.write('enable-autofocus', enableAutofocus);
+    const workareaChanged = workarea !== BeamboxPreference.read('workarea');
     const rotaryChanged =
       rotaryMode !== BeamboxPreference.read('rotary_mode') ||
       extendRotaryWorkarea !== (!!BeamboxPreference.read('extend-rotary-workarea'));
     BeamboxPreference.write('rotary_mode', rotaryMode);
     BeamboxPreference.write('extend-rotary-workarea', extendRotaryWorkarea);
-    if (workarea !== BeamboxPreference.read('workarea') || rotaryChanged) {
-      changeWorkarea(workarea);
+    if (workareaChanged || rotaryChanged) {
+      changeWorkarea(workarea, { toggleModule: workareaChanged });
     } else {
       // this is called in changeWorkarea
       OpenBottomBoundaryDrawer.update();
