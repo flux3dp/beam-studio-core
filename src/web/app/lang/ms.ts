@@ -1809,6 +1809,8 @@ const lang: ILang = {
     downloading_data: 'Memuat turun data...',
     estimated_time_left: 'Anggaran masa yang tinggal:',
     uploading_data: 'Memuat naik data...',
+    download_success: 'Data kamera berjaya dimuat turun.',
+    upload_success: 'Data kamera berjaya dimuat naik.',
   },
 };
 

@@ -1695,6 +1695,8 @@ const lang: ILang = {
     downloading_data: 'Daten werden heruntergeladen...',
     estimated_time_left: 'Geschätzte verbleibende Zeit:',
     uploading_data: 'Daten werden hochgeladen...',
+    download_success: 'Kameradaten erfolgreich heruntergeladen.',
+    upload_success: 'Kameradaten erfolgreich hochgeladen.',
   },
 };
 

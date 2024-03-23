@@ -1687,5 +1687,7 @@ export interface ILang {
     downloading_data: string;
     estimated_time_left: string;
     uploading_data: string;
+    download_success: string;
+    upload_success: string;
   };
 }

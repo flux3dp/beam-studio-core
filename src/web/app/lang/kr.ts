@@ -1695,6 +1695,8 @@ const lang: ILang = {
     downloading_data: '데이터 다운로드 중...',
     estimated_time_left: '예상 남은 시간:',
     uploading_data: '데이터 업로드 중...',
+    download_success: '카메라 데이터 다운로드에 성공했습니다.',
+    upload_success: '카메라 데이터 업로드에 성공했습니다.',
   },
 };
 

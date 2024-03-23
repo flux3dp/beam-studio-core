@@ -1799,6 +1799,8 @@ const lang: ILang = {
     downloading_data: 'Laster ned data...',
     estimated_time_left: 'Estimert gjenværende tid:',
     uploading_data: 'Laster opp data...',
+    download_success: 'Kameradata er lastet ned.',
+    upload_success: 'Kameradata er lastet opp.',
   },
 };
 

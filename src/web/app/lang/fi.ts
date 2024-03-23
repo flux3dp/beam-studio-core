@@ -1802,6 +1802,8 @@ const lang: ILang = {
     downloading_data: 'Tietojen lataaminen...',
     estimated_time_left: 'Arvioitu jäljellä oleva aika:',
     uploading_data: 'Tietojen lataaminen...',
+    download_success: 'Kameran tiedot on ladattu onnistuneesti.',
+    upload_success: 'Kameran tiedot on ladattu onnistuneesti.',
   },
 };
 

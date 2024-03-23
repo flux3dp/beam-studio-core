@@ -1813,6 +1813,8 @@ const lang: ILang = {
     downloading_data: 'Gegevens downloaden...',
     estimated_time_left: 'Geschatte resterende tijd:',
     uploading_data: 'Gegevens uploaden...',
+    download_success: 'Camera-gegevens succesvol gedownload.',
+    upload_success: 'Camera-gegevens succesvol geüpload.',
   },
 };
 

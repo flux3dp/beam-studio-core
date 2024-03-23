@@ -1693,6 +1693,8 @@ const lang: ILang = {
     downloading_data: '正在下載資料...',
     estimated_time_left: '預計剩餘時間：',
     uploading_data: '正在上傳資料...',
+    download_success: '相機數據下載成功。',
+    upload_success: '相機數據上傳成功。',
   },
 };
 

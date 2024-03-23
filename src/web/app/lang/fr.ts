@@ -1834,6 +1834,8 @@ const lang: ILang = {
     downloading_data: 'Téléchargement des données...',
     estimated_time_left: 'Temps estimé restant :',
     uploading_data: 'Chargement des données...',
+    download_success: 'Données de la caméra téléchargées avec succès.',
+    upload_success: 'Données de la caméra téléchargées avec succès.',
   },
 };
 

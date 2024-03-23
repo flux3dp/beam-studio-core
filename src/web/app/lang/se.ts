@@ -1808,6 +1808,8 @@ const lang: ILang = {
     downloading_data: 'Laddar ner data...',
     estimated_time_left: 'Beräknad återstående tid:',
     uploading_data: 'Laddar upp data...',
+    download_success: 'Kameradata har laddats ner framgångsrikt.',
+    upload_success: 'Kameradata har laddats upp framgångsrikt.',
   },
 };
 

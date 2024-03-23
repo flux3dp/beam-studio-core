@@ -19,14 +19,13 @@ interface Props {
   onClose: () => void;
 }
 
-// TODO: add test
 const CameraDataBackup = ({ deviceName, type, onClose }: Props): JSX.Element => {
   const lang = useI18n();
   const tBackup = lang.camera_data_backup;
   const [fileNames, setFileNames] = useState<string[]>([]);
   const [selectedPath, setSelectedPath] = useState(
     type === 'download'
-      ? fs.join(fs.getPath('appData'), deviceName)
+      ? fs.join(fs.getPath('documents'), 'Beam Studio', deviceName)
       : (storage.get('ador-backup-path') ?? '')
   );
 
@@ -45,7 +44,7 @@ const CameraDataBackup = ({ deviceName, type, onClose }: Props): JSX.Element => 
           onClose();
         }
       } catch (e) {
-        alertCaller.popUpError({ message: 'tFailed to check data' });
+        alertCaller.popUpError({ message: 'Failed to check data' });
         onClose();
       } finally {
         progressCaller.popById('camera-data-backup');
@@ -93,7 +92,6 @@ const CameraDataBackup = ({ deviceName, type, onClose }: Props): JSX.Element => 
         };
         await downloadFiles(fileNames, 'camera_calib');
         if (canceled) return;
-
         const extraDirs = ['auto_leveling', 'fisheye'];
         for (let i = 0; i < extraDirs.length; i += 1) {
           const dir = extraDirs[i];
@@ -107,6 +105,7 @@ const CameraDataBackup = ({ deviceName, type, onClose }: Props): JSX.Element => 
             console.log(`Failed to backup ${dir}`, e);
           }
         }
+        alertCaller.popUp({ message: tBackup.download_success });
       } else {
         if (!fs.exists(selectedPath)) {
           alertCaller.popUpError({ message: tBackup.folder_not_exists });
@@ -129,8 +128,8 @@ const CameraDataBackup = ({ deviceName, type, onClose }: Props): JSX.Element => 
             for (let j = 0; j < files.length; j += 1) {
               if (canceled) return;
               const fileName = files[j];
-              const r = await fetch(fs.join(selectedPath, dir, fileName));
-              const blob = await r.blob();
+              const buffer = fs.readFile(fs.join(selectedPath, dir, fileName));
+              const blob = new Blob([buffer]);
               await deviceMaster.uploadToDirectory(blob, dir, fileName, ({ step, total }) => {
                 const current = step / total;
                 const totalProgress = (current + j) / files.length;
@@ -148,6 +147,7 @@ const CameraDataBackup = ({ deviceName, type, onClose }: Props): JSX.Element => 
             console.log(`Failed to restore ${dir}`, e);
           }
         }
+        alertCaller.popUp({ message: tBackup.upload_success });
       }
     } finally {
       progressCaller.popById('camera-data-backup');

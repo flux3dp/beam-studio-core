@@ -1802,6 +1802,8 @@ const lang: ILang = {
     downloading_data: 'Đang tải dữ liệu...',
     estimated_time_left: 'Thời gian còn lại ước tính:',
     uploading_data: 'Đang tải lên dữ liệu...',
+    download_success: 'Dữ liệu máy ảnh đã được tải xuống thành công.',
+    upload_success: 'Dữ liệu máy ảnh đã được tải lên thành công.',
   },
 };
 

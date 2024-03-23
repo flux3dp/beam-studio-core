@@ -1695,6 +1695,8 @@ const lang: ILang = {
     downloading_data: 'Pobieranie danych...',
     estimated_time_left: 'Szacowany pozostały czas:',
     uploading_data: 'Przesyłanie danych...',
+    download_success: 'Pomyślnie pobrano dane z kamery.',
+    upload_success: 'Pomyślnie przesłano dane z kamery.',
   },
 };
 

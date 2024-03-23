@@ -1814,6 +1814,8 @@ const lang: ILang = {
     downloading_data: 'Mengunduh data...',
     estimated_time_left: 'Estimasi waktu tersisa:',
     uploading_data: 'Mengunggah data...',
+    download_success: 'Data kamera berhasil diunduh.',
+    upload_success: 'Data kamera berhasil diunggah.',
   },
 };
 

@@ -1836,6 +1836,8 @@ const lang: ILang = {
     downloading_data: 'Λήψη δεδομένων...',
     estimated_time_left: 'Υπολοιπόμενος εκτιμώμενος χρόνος:',
     uploading_data: 'Ανεβάζοντας δεδομένα...',
+    download_success: 'Επιτυχής λήψη δεδομένων κάμερας.',
+    upload_success: 'Επιτυχής αποστολή δεδομένων κάμερας.',
   },
 };
 

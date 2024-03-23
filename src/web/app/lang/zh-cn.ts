@@ -1692,6 +1692,8 @@ const lang: ILang = {
     downloading_data: '正在下载数据...',
     estimated_time_left: '预计剩余时间：',
     uploading_data: '正在上传数据...',
+    download_success: '相机数据下载成功。',
+    upload_success: '相机数据上传成功。',
   },
 };
 

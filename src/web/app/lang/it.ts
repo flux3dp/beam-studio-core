@@ -1825,6 +1825,8 @@ const lang: ILang = {
     downloading_data: 'Download dei dati...',
     estimated_time_left: 'Tempo stimato rimanente:',
     uploading_data: 'Caricamento dei dati...',
+    download_success: 'Dati della fotocamera scaricati con successo.',
+    upload_success: 'Dati della fotocamera caricati con successo.',
   },
 };
 

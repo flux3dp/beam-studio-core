@@ -1695,6 +1695,8 @@ const lang: ILang = {
     downloading_data: 'データをダウンロード中...',
     estimated_time_left: '推定残り時間：',
     uploading_data: 'データをアップロード中...',
+    download_success: 'カメラデータのダウンロードに成功しました。',
+    upload_success: 'カメラデータのアップロードに成功しました。',
   },
 };
 

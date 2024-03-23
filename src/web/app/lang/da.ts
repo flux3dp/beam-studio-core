@@ -1810,6 +1810,8 @@ const lang: ILang = {
     downloading_data: 'Downloader data...',
     estimated_time_left: 'Estimeret resterende tid:',
     uploading_data: 'Uploader data...',
+    download_success: 'Kameradata er downloadet succesfuldt.',
+    upload_success: 'Kameradata er uploadet succesfuldt.',
   },
 };
 
