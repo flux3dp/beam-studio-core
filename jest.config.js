@@ -10,6 +10,7 @@ module.exports = {
   moduleNameMapper: {
     '^.+\\.module\\.(css|sass|scss)$': 'identity-obj-proxy',
     '^.+\\.(svg)$': '<rootDir>/__mocks__/svgrMock.ts',
+    '^.+\\.(svg)\\?url$': '<rootDir>/__mocks__/urlMock.ts',
     "^.+.css$": 'identity-obj-proxy',
   },
   collectCoverageFrom: [
@@ -30,5 +31,6 @@ module.exports = {
   globalSetup: './jest.global-setup.js',
   setupFilesAfterEnv: ['./src/web/setupTests.ts'],
   moduleDirectories: ['node_modules', 'src/web', 'src'],
-  coverageReporters: ['text-summary', 'html']
+  coverageReporters: ['text-summary', 'html'],
+  maxWorkers: '50%',
 }
