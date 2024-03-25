@@ -145,7 +145,7 @@ describe('test CameraDataBackup', () => {
     });
   });
 
-  test('edit path', async () => {
+  test('edit path', () => {
     mockGet.mockReturnValue('path');
     const { baseElement } = render(
       <CameraDataBackup deviceName="deviceName" type="upload" onClose={mockOnClose} />
