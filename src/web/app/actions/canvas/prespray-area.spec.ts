@@ -25,8 +25,6 @@ jest.mock('helpers/i18n', () => ({
 
 const mockRequestAnimationFrame = jest.fn();
 
-// jest.mock('app/icons/prespray.svg?url', () => 'presprayIconUrl');
-
 describe('test canvas/prespray-area', () => {
   beforeEach(() => {
     jest.resetAllMocks();
@@ -50,7 +48,6 @@ describe('test canvas/prespray-area', () => {
     expect(document.getElementById('presprayArea')).not.toBeNull();
     document.querySelector('.layer').setAttribute('display', 'none');
     presprayArea.togglePresprayArea();
-    console.log(document.body.innerHTML);
     expect(document.getElementById('presprayArea').getAttribute('display')).toBe('none');
   });
 
@@ -62,7 +59,7 @@ describe('test canvas/prespray-area', () => {
     expect(presprayArea.checkMouseTarget(mouseTarget2)).toBe(false);
   });
 
-  test.only('drag prespray area', () => {
+  test('drag prespray area', () => {
     presprayArea.generatePresprayArea();
     expect(presprayArea.getPosition()).toEqual({ x: 4000, y: 2400, w: 300, h: 300 });
     presprayArea.startDrag();

@@ -80,7 +80,6 @@ const drag = (dx: number, dy: number): void => {
     const { w, h } = workareaSize;
     const newX = Math.min(Math.max(0, startX + dx), w - areaWidth);
     const newY = Math.min(Math.max(0, startY + dy), h - areaHeight);
-    console.log(newX, newY);
     presprayAreaBlock?.setAttribute('x', newX.toFixed(0));
     presprayAreaBlock?.setAttribute('y', newY.toFixed(0));
   });
