@@ -1685,6 +1685,19 @@ const lang: ILang = {
         'Twoja pamięć w chmurze osiągnęła górny limit. Usuń niepotrzebne pliki przed zapisaniem nowych.',
     },
   },
+  camera_data_backup: {
+    title: 'Kopiuj dane kamery',
+    checking_pictures: 'Sprawdzanie obrazów...',
+    no_picture_found: 'Nie znaleziono obrazu w urządzeniu.',
+    select_folder_download: 'Proszę wybrać folder do zapisania danych z kamery:',
+    select_folder_upload: 'Proszę wybrać folder zawierający dane z kamery:',
+    folder_not_exists: 'Wybrany folder nie istnieje.',
+    downloading_data: 'Pobieranie danych...',
+    estimated_time_left: 'Szacowany pozostały czas:',
+    uploading_data: 'Przesyłanie danych...',
+    download_success: 'Pomyślnie pobrano dane z kamery.',
+    upload_success: 'Pomyślnie przesłano dane z kamery.',
+  },
 };
 
 export default lang;

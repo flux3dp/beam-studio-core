@@ -1685,6 +1685,19 @@ const lang: ILang = {
         'Your cloud storage has reached upper limit. Please delete any unnecessary files before saving new ones.',
     },
   },
+  camera_data_backup: {
+    title: 'Camera Data Backup',
+    checking_pictures: 'Checking Pictures...',
+    no_picture_found: 'No picture found in the machine.',
+    select_folder_download: 'Please select a folder to save the camera data:',
+    select_folder_upload: 'Please select the folder containing the camera data:',
+    folder_not_exists: 'Selected folder does not exist.',
+    downloading_data: 'Downloading data...',
+    estimated_time_left: 'Estimated time left:',
+    uploading_data: 'Uploading data...',
+    download_success: 'Successfully downloaded camera data.',
+    upload_success: 'Successfully uploaded camera data.',
+  },
 };
 
 export default lang;

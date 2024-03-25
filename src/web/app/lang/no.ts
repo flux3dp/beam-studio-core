@@ -1789,6 +1789,19 @@ const lang: ILang = {
         'Skyen din har nådd øvre grense. Vennligst slett unødvendige filer før du lagrer nye.',
     },
   },
+  camera_data_backup: {
+    title: 'Sikkerhetskopiering av kameradata',
+    checking_pictures: 'Sjekker bilder...',
+    no_picture_found: 'Ingen bilde funnet i maskinen.',
+    select_folder_download: 'Vennligst velg en mappe for å lagre kameradata:',
+    select_folder_upload: 'Vennligst velg mappen som inneholder kameradata:',
+    folder_not_exists: 'Valgt mappe eksisterer ikke.',
+    downloading_data: 'Laster ned data...',
+    estimated_time_left: 'Estimert gjenværende tid:',
+    uploading_data: 'Laster opp data...',
+    download_success: 'Kameradata er lastet ned.',
+    upload_success: 'Kameradata er lastet opp.',
+  },
 };
 
 export default lang;

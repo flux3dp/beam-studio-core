@@ -424,24 +424,31 @@ class Control extends EventEmitter {
     });
     this.setDefaultErrorResponse(reject);
     this.setDefaultFatalResponse(reject);
-  };
+};
 
   upload = (data, path?: string, fileName?: string) => new Promise((resolve, reject) => {
     this.prepareUpload(data, resolve, reject);
-
+    const mimeTypes = {
+      fc: 'application/fcode',
+      jpg: 'image/jpeg',
+      png: 'image/png',
+      json: 'application/json',
+    };
     if (path && fileName) {
       // eslint-disable-next-line no-param-reassign
       fileName = fileName.replace(/ /g, '_');
-      const ext = fileName.split('.');
-      if (ext[ext.length - 1] === 'fc') {
-        this.ws.send(`upload application/fcode ${data.size} ${path}/${fileName}`);
-      } else if (ext[ext.length - 1] === 'gcode') {
+      const ext = fileName.split('.').at(-1);
+      if (mimeTypes[ext]) {
+        this.ws.send(`upload ${mimeTypes[ext]} ${data.size} ${path}/${fileName}`);
+      } else if (ext === 'gcode') {
         const newFileName = fileName.split('.');
         newFileName.pop();
         newFileName.push('fc');
         // eslint-disable-next-line no-param-reassign
         fileName = newFileName.join('.');
         this.ws.send(`upload text/gcode ${data.size} ${path}/${fileName}`);
+      } else {
+        throw new Error(`Unsupported file type ${ext}`);
       }
     } else {
       this.ws.send(`file upload application/fcode ${data.size}`);

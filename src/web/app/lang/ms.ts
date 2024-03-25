@@ -1799,6 +1799,19 @@ const lang: ILang = {
         'Penyimpanan awan anda telah mencapai had atas. Sila padam mana-mana fail yang tidak diperlukan sebelum menyimpan fail baru.',
     },
   },
+  camera_data_backup: {
+    title: 'Simpanan Data Kamera',
+    checking_pictures: 'Memeriksa Gambar...',
+    no_picture_found: 'Tiada gambar dijumpai dalam mesin.',
+    select_folder_download: 'Sila pilih folder untuk menyimpan data kamera:',
+    select_folder_upload: 'Sila pilih folder yang mengandungi data kamera:',
+    folder_not_exists: 'Folder yang dipilih tidak wujud.',
+    downloading_data: 'Memuat turun data...',
+    estimated_time_left: 'Anggaran masa yang tinggal:',
+    uploading_data: 'Memuat naik data...',
+    download_success: 'Data kamera berjaya dimuat turun.',
+    upload_success: 'Data kamera berjaya dimuat naik.',
+  },
 };
 
 export default lang;

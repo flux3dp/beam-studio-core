@@ -1798,6 +1798,19 @@ const lang: ILang = {
         'Din molnlagring har nått gränsen. Ta bort eventuella onödiga filer innan du sparar nya.',
     },
   },
+  camera_data_backup: {
+    title: 'Kamera Data Backup',
+    checking_pictures: 'Kontrollerar bilder...',
+    no_picture_found: 'Inget bild hittades i maskinen.',
+    select_folder_download: 'Välj en mapp för att spara kameradata:',
+    select_folder_upload: 'Välj mappen som innehåller kameradata:',
+    folder_not_exists: 'Den valda mappen finns inte.',
+    downloading_data: 'Laddar ner data...',
+    estimated_time_left: 'Beräknad återstående tid:',
+    uploading_data: 'Laddar upp data...',
+    download_success: 'Kameradata har laddats ner framgångsrikt.',
+    upload_success: 'Kameradata har laddats upp framgångsrikt.',
+  },
 };
 
 export default lang;

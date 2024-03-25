@@ -38,9 +38,9 @@ export type StorageKey =
   | 'host'
   | 'did-gesture-tutorial'
   | 'last-record-activity'
-  | 'fisheye-calibration'
   | 'selected-device'
-  | 'announcement-record';
+  | 'announcement-record'
+  | 'ador-backup-path';
 
 export interface IStorage {
   get(name: StorageKey): any;

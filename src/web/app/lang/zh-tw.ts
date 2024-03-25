@@ -1683,6 +1683,19 @@ const lang: ILang = {
       storage_limit_exceeded: '您的雲端儲存空間已滿。在儲存新檔案前，請先刪除您不需要的檔案。',
     },
   },
+  camera_data_backup: {
+    title: '相機資料備份',
+    checking_pictures: '檢查圖片中...',
+    no_picture_found: '機器中未找到任何圖片。',
+    select_folder_download: '請選擇資料夾來儲存相機資料：',
+    select_folder_upload: '請選擇儲存相機資料的資料夾：',
+    folder_not_exists: '所選的資料夾不存在。',
+    downloading_data: '正在下載資料...',
+    estimated_time_left: '預計剩餘時間：',
+    uploading_data: '正在上傳資料...',
+    download_success: '相機數據下載成功。',
+    upload_success: '相機數據上傳成功。',
+  },
 };
 
 export default lang;
