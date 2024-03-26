@@ -145,18 +145,20 @@ const CameraDataBackup = ({ deviceName, type, onClose }: Props): JSX.Element => 
               const fileName = files[j];
               const buffer = fs.readFile(fs.join(selectedPath, dir, fileName));
               const blob = new Blob([buffer]);
-              await deviceMaster.uploadToDirectory(blob, dir, fileName, ({ step, total }) => {
-                const current = step / total;
-                const totalProgress = (current + j) / files.length;
-                const timeElapsed = (Date.now() - s) / 1000;
-                const timeLeft = formatDuration(timeElapsed / totalProgress - timeElapsed);
-                progressCaller.update('camera-data-backup', {
-                  message: `${tBackup.uploading_data} ${dir} ${j + 1}/${files.length}<br/>${
-                    tBackup.estimated_time_left
-                  } ${timeLeft}`,
-                  percentage: Math.round(100 * totalProgress),
+              if (blob.size > 0) {
+                await deviceMaster.uploadToDirectory(blob, dir, fileName, ({ step, total }) => {
+                  const current = step / total;
+                  const totalProgress = (current + j) / files.length;
+                  const timeElapsed = (Date.now() - s) / 1000;
+                  const timeLeft = formatDuration(timeElapsed / totalProgress - timeElapsed);
+                  progressCaller.update('camera-data-backup', {
+                    message: `${tBackup.uploading_data} ${dir} ${j + 1}/${files.length}<br/>${
+                      tBackup.estimated_time_left
+                    } ${timeLeft}`,
+                    percentage: Math.round(100 * totalProgress),
+                  });
                 });
-              });
+              }
             }
           } catch (e) {
             console.log(`Failed to restore ${dir}`, e);
