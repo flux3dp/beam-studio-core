@@ -59,13 +59,6 @@ const CameraDataBackup = ({ deviceName, type, onClose }: Props): JSX.Element => 
     try {
       if (type === 'download') {
         storage.set('ador-backup-path', selectedPath);
-        progressCaller.openSteppingProgress({
-          id: 'camera-data-backup',
-          message: tBackup.downloading_data,
-          onCancel: () => {
-            canceled = true;
-          },
-        });
         const downloadFiles = async (names: string[], dirName: string) => {
           if (canceled) return;
           const s = Date.now();
@@ -78,7 +71,7 @@ const CameraDataBackup = ({ deviceName, type, onClose }: Props): JSX.Element => 
               const timeElapsed = (Date.now() - s) / 1000;
               const timeLeft = formatDuration(timeElapsed / totalProgress - timeElapsed);
               progressCaller.update('camera-data-backup', {
-                message: `${tBackup.downloading_data} ${dirName} ${i + 1}/${names.length} ${
+                message: `${tBackup.downloading_data} ${dirName} ${i + 1}/${names.length}<br/>${
                   tBackup.estimated_time_left
                 } ${timeLeft}`,
                 percentage: Math.round(100 * totalProgress),
@@ -90,17 +83,34 @@ const CameraDataBackup = ({ deviceName, type, onClose }: Props): JSX.Element => 
             fs.writeFile(fs.join(selectedPath, dirName, fileName), buffer);
           }
         };
+        progressCaller.openSteppingProgress({
+          id: 'camera-data-backup',
+          message: tBackup.downloading_data,
+          onCancel: () => {
+            canceled = true;
+          },
+        });
         await downloadFiles(fileNames, 'camera_calib');
+        progressCaller.popById('camera-data-backup');
         if (canceled) return;
         const extraDirs = ['auto_leveling', 'fisheye'];
         for (let i = 0; i < extraDirs.length; i += 1) {
           const dir = extraDirs[i];
           if (canceled) return;
+          progressCaller.openSteppingProgress({
+            id: 'camera-data-backup',
+            message: tBackup.downloading_data,
+            // eslint-disable-next-line @typescript-eslint/no-loop-func
+            onCancel: () => {
+              canceled = true;
+            },
+          });
           try {
             const ls = await deviceMaster.ls(dir);
             if (ls.files.length > 0) {
               await downloadFiles(ls.files, dir);
             }
+            progressCaller.popById('camera-data-backup');
           } catch (e) {
             console.log(`Failed to backup ${dir}`, e);
           }
@@ -111,15 +121,16 @@ const CameraDataBackup = ({ deviceName, type, onClose }: Props): JSX.Element => 
           alertCaller.popUpError({ message: tBackup.folder_not_exists });
           return;
         }
-        progressCaller.openSteppingProgress({
-          id: 'camera-data-backup',
-          message: tBackup.uploading_data,
-          onCancel: () => {
-            canceled = true;
-          },
-        });
         const dirs = ['camera_calib', 'auto_leveling', 'fisheye'];
         for (let i = 0; i < dirs.length; i += 1) {
+          progressCaller.openSteppingProgress({
+            id: 'camera-data-backup',
+            message: tBackup.uploading_data,
+            // eslint-disable-next-line @typescript-eslint/no-loop-func
+            onCancel: () => {
+              canceled = true;
+            },
+          });
           const dir = dirs[i];
           if (canceled) return;
           const s = Date.now();
@@ -136,7 +147,7 @@ const CameraDataBackup = ({ deviceName, type, onClose }: Props): JSX.Element => 
                 const timeElapsed = (Date.now() - s) / 1000;
                 const timeLeft = formatDuration(timeElapsed / totalProgress - timeElapsed);
                 progressCaller.update('camera-data-backup', {
-                  message: `${tBackup.uploading_data} ${dir} ${j + 1}/${files.length} ${
+                  message: `${tBackup.uploading_data} ${dir} ${j + 1}/${files.length}<br/>${
                     tBackup.estimated_time_left
                   } ${timeLeft}`,
                   percentage: Math.round(100 * totalProgress),
@@ -146,6 +157,7 @@ const CameraDataBackup = ({ deviceName, type, onClose }: Props): JSX.Element => 
           } catch (e) {
             console.log(`Failed to restore ${dir}`, e);
           }
+          progressCaller.popById('camera-data-backup');
         }
         alertCaller.popUp({ message: tBackup.upload_success });
       }

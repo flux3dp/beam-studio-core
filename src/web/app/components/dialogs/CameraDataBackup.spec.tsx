@@ -192,7 +192,7 @@ describe('test CameraDataBackup', () => {
     });
     fireEvent.click(getByText('confirm'));
     await waitFor(() => {
-      expect(mockPopById).toBeCalledTimes(2);
+      expect(mockPopById).toBeCalledTimes(5);
       expect(mockPopById).toHaveBeenLastCalledWith('camera-data-backup');
     });
     expect(mockSet).toBeCalledTimes(1);
@@ -200,7 +200,7 @@ describe('test CameraDataBackup', () => {
       'ador-backup-path',
       'path/documents/Beam Studio/deviceName'
     );
-    expect(mockOpenSteppingProgress).toBeCalledTimes(1);
+    expect(mockOpenSteppingProgress).toBeCalledTimes(3);
     expect(mockOpenSteppingProgress).toHaveBeenLastCalledWith({
       id: 'camera-data-backup',
       message: 'downloading_data',
@@ -251,27 +251,27 @@ describe('test CameraDataBackup', () => {
     expect(mockDownloadFile).toHaveBeenNthCalledWith(6, 'fisheye', 'file2', expect.any(Function));
     expect(mockUpdate).toBeCalledTimes(6);
     expect(mockUpdate).toHaveBeenNthCalledWith(1, 'camera-data-backup', {
-      message: 'downloading_data camera_calib 1/2 estimated_time_left 3.00 seconds',
+      message: 'downloading_data camera_calib 1/2<br/>estimated_time_left 3.00 seconds',
       percentage: 25,
     });
     expect(mockUpdate).toHaveBeenNthCalledWith(2, 'camera-data-backup', {
-      message: 'downloading_data camera_calib 2/2 estimated_time_left 0.67 seconds',
+      message: 'downloading_data camera_calib 2/2<br/>estimated_time_left 0.67 seconds',
       percentage: 75,
     });
     expect(mockUpdate).toHaveBeenNthCalledWith(3, 'camera-data-backup', {
-      message: 'downloading_data auto_leveling 1/2 estimated_time_left 3.00 seconds',
+      message: 'downloading_data auto_leveling 1/2<br/>estimated_time_left 3.00 seconds',
       percentage: 25,
     });
     expect(mockUpdate).toHaveBeenNthCalledWith(4, 'camera-data-backup', {
-      message: 'downloading_data auto_leveling 2/2 estimated_time_left 0.67 seconds',
+      message: 'downloading_data auto_leveling 2/2<br/>estimated_time_left 0.67 seconds',
       percentage: 75,
     });
     expect(mockUpdate).toHaveBeenNthCalledWith(5, 'camera-data-backup', {
-      message: 'downloading_data fisheye 1/2 estimated_time_left 3.00 seconds',
+      message: 'downloading_data fisheye 1/2<br/>estimated_time_left 3.00 seconds',
       percentage: 25,
     });
     expect(mockUpdate).toHaveBeenNthCalledWith(6, 'camera-data-backup', {
-      message: 'downloading_data fisheye 2/2 estimated_time_left 0.67 seconds',
+      message: 'downloading_data fisheye 2/2<br/>estimated_time_left 0.67 seconds',
       percentage: 75,
     });
     expect(mockWriteFile).toBeCalledTimes(6);
@@ -326,10 +326,10 @@ describe('test CameraDataBackup', () => {
     });
     fireEvent.click(getByText('confirm'));
     await waitFor(() => {
-      expect(mockPopById).toBeCalledTimes(1);
+      expect(mockPopById).toBeCalledTimes(4);
       expect(mockPopById).toHaveBeenLastCalledWith('camera-data-backup');
     });
-    expect(mockOpenSteppingProgress).toBeCalledTimes(1);
+    expect(mockOpenSteppingProgress).toBeCalledTimes(3);
     expect(mockOpenSteppingProgress).toHaveBeenLastCalledWith({
       id: 'camera-data-backup',
       message: 'uploading_data',
@@ -363,15 +363,15 @@ describe('test CameraDataBackup', () => {
     );
     expect(mockUpdate).toBeCalledTimes(3);
     expect(mockUpdate).toHaveBeenNthCalledWith(1, 'camera-data-backup', {
-      message: 'uploading_data camera_calib 1/2 estimated_time_left 3.00 seconds',
+      message: 'uploading_data camera_calib 1/2<br/>estimated_time_left 3.00 seconds',
       percentage: 25,
     });
     expect(mockUpdate).toHaveBeenNthCalledWith(2, 'camera-data-backup', {
-      message: 'uploading_data camera_calib 2/2 estimated_time_left 0.67 seconds',
+      message: 'uploading_data camera_calib 2/2<br/>estimated_time_left 0.67 seconds',
       percentage: 75,
     });
     expect(mockUpdate).toHaveBeenNthCalledWith(3, 'camera-data-backup', {
-      message: 'uploading_data auto_leveling 1/1 estimated_time_left 1.00 seconds',
+      message: 'uploading_data auto_leveling 1/1<br/>estimated_time_left 1.00 seconds',
       percentage: 50,
     });
     expect(mockPopUp).toBeCalledTimes(1);
