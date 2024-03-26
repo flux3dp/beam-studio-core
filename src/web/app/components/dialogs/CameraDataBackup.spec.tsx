@@ -80,6 +80,7 @@ jest.mock('helpers/useI18n', () => () => ({
     downloading_data: 'downloading_data',
     estimated_time_left: 'estimated_time_left',
     folder_not_exists: 'folder_not_exists',
+    incorrect_folder: 'incorrect_folder',
     uploading_data: 'uploading_data',
     title: 'title',
     select_folder_download: 'select_folder_download',
@@ -308,6 +309,38 @@ describe('test CameraDataBackup', () => {
     expect(mockPopUp).toBeCalledTimes(1);
     expect(mockPopUp).toHaveBeenLastCalledWith({ message: 'download_success' });
     expect(mockOnClose).toBeCalledTimes(1);
+  });
+
+  test('folder dont exist when uploading', async () => {
+    mockGet.mockReturnValue('path');
+    const { getByText } = render(
+      <CameraDataBackup deviceName="deviceName" type="upload" onClose={mockOnClose} />
+    );
+    mockExists.mockReturnValue(false);
+    fireEvent.click(getByText('confirm'));
+    await waitFor(() => {
+      expect(mockPopUpError).toBeCalledTimes(1);
+      expect(mockPopUpError).toHaveBeenLastCalledWith({ message: 'folder_not_exists' });
+    });
+    expect(mockExists).toBeCalledTimes(1);
+  });
+
+  test('incorrect folder when uploading', async () => {
+    mockGet.mockReturnValue('path');
+    const { getByText } = render(
+      <CameraDataBackup deviceName="deviceName" type="upload" onClose={mockOnClose} />
+    );
+    mockExists.mockReturnValueOnce(true).mockReturnValue(false);
+    fireEvent.click(getByText('confirm'));
+    await waitFor(() => {
+      expect(mockPopUpError).toBeCalledTimes(1);
+      expect(mockPopUpError).toHaveBeenLastCalledWith({ message: 'incorrect_folder' });
+    });
+    expect(mockExists).toBeCalledTimes(4);
+    expect(mockExists).toHaveBeenNthCalledWith(1, 'path');
+    expect(mockExists).toHaveBeenNthCalledWith(2, 'path/camera_calib');
+    expect(mockExists).toHaveBeenNthCalledWith(3, 'path/auto_leveling');
+    expect(mockExists).toHaveBeenNthCalledWith(4, 'path/fisheye');
   });
 
   test('handleOk when uploading', async () => {

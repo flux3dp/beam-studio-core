@@ -122,6 +122,10 @@ const CameraDataBackup = ({ deviceName, type, onClose }: Props): JSX.Element => 
           return;
         }
         const dirs = ['camera_calib', 'auto_leveling', 'fisheye'];
+        if (dirs.every((dir) => !fs.exists(fs.join(selectedPath, dir)))) {
+          alertCaller.popUpError({ message: tBackup.incorrect_folder });
+          return;
+        }
         for (let i = 0; i < dirs.length; i += 1) {
           progressCaller.openSteppingProgress({
             id: 'camera-data-backup',
