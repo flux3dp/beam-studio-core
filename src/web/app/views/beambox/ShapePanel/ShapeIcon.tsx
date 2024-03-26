@@ -32,9 +32,6 @@ const importShape = async (IconComponent, jsonMap) => {
     if (svgCanvas.isUsingLayerColor) {
       updateElementColor(newElement);
     }
-    // Ensure ObjectPanelContextProvider has mounted in mobile
-    await svgCanvas.selectOnly([newElement]);
-    // Update ObjectPanelContext
     svgCanvas.selectOnly([newElement]);
   } else {
     const iconString = ReactDomServer.renderToStaticMarkup(<IconComponent />).replace(
