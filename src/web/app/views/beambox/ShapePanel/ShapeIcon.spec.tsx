@@ -159,7 +159,7 @@ describe('test ShapeIcon', () => {
     expect(mockGetData).not.toBeCalled();
     expect(mockImportSvgString).not.toBeCalled();
     expect(mockGetSvgRealLocation).not.toBeCalled();
-    expect(mockSelectOnly).toBeCalledTimes(2);
+    expect(mockSelectOnly).toBeCalledTimes(1);
     expect(mockSelectOnly).toBeCalledWith([mockElement]);
     expect(mockSetSvgElemPosition).not.toBeCalled();
     expect(mockSetSvgElemSize).not.toBeCalled();
