@@ -1846,6 +1846,7 @@ const lang: ILang = {
     select_folder_download: 'Seleziona una cartella per salvare i dati della fotocamera:',
     select_folder_upload: 'Seleziona la cartella che contiene i dati della fotocamera:',
     folder_not_exists: 'La cartella selezionata non esiste.',
+    incorrect_folder: 'Impossibile caricare i dati di calibrazione. Verifica se la cartella selezionata è corretta.',
     downloading_data: 'Download dei dati...',
     estimated_time_left: 'Tempo stimato rimanente:',
     uploading_data: 'Caricamento dei dati...',

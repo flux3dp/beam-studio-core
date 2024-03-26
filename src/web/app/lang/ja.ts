@@ -1716,6 +1716,7 @@ const lang: ILang = {
     select_folder_download: 'カメラデータを保存するフォルダを選択してください：',
     select_folder_upload: 'カメラデータを含むフォルダを選択してください：',
     folder_not_exists: '選択したフォルダは存在しません。',
+    incorrect_folder: 'キャリブレーションデータのアップロードに失敗しました。選択したフォルダが正しいかどうかを確認してください。',
     downloading_data: 'データをダウンロード中...',
     estimated_time_left: '推定残り時間：',
     uploading_data: 'データをアップロード中...',

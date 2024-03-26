@@ -1834,6 +1834,7 @@ const lang: ILang = {
     select_folder_download: 'Selecteer alstublieft een map om de cameragegevens op te slaan:',
     select_folder_upload: 'Selecteer de map met de cameragegevens:',
     folder_not_exists: 'Geselecteerde map bestaat niet.',
+    incorrect_folder: 'Mislukt om kalibratiegegevens te uploaden. Controleer of de geselecteerde map correct is.',
     downloading_data: 'Gegevens downloaden...',
     estimated_time_left: 'Geschatte resterende tijd:',
     uploading_data: 'Gegevens uploaden...',

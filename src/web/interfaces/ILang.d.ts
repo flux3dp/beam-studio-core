@@ -1708,6 +1708,7 @@ export interface ILang {
     select_folder_download: string;
     select_folder_upload: string;
     folder_not_exists: string;
+    incorrect_folder: string;
     downloading_data: string;
     estimated_time_left: string;
     uploading_data: string;

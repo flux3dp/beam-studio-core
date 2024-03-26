@@ -1713,6 +1713,7 @@ const lang: ILang = {
     select_folder_download: '请选择一个文件夹保存相机数据：',
     select_folder_upload: '请选择包含相机数据的文件夹：',
     folder_not_exists: '所选文件夹不存在。',
+    incorrect_folder: '相机数据上传失败。请检查您选择的文件夹是否正确。',
     downloading_data: '正在下载数据...',
     estimated_time_left: '预计剩余时间：',
     uploading_data: '正在上传数据...',

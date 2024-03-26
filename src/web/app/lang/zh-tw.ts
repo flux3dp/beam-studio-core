@@ -1714,6 +1714,7 @@ const lang: ILang = {
     select_folder_download: '請選擇資料夾來儲存相機資料：',
     select_folder_upload: '請選擇儲存相機資料的資料夾：',
     folder_not_exists: '所選的資料夾不存在。',
+    incorrect_folder: '相機資料上傳失敗。請檢查您選擇的資料夾是否正確。',
     downloading_data: '正在下載資料...',
     estimated_time_left: '預計剩餘時間：',
     uploading_data: '正在上傳資料...',

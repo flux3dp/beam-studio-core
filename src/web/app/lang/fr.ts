@@ -1855,6 +1855,7 @@ const lang: ILang = {
     select_folder_download: 'Veuillez sélectionner un dossier pour sauvegarder les données de la caméra :',
     select_folder_upload: 'Veuillez sélectionner le dossier contenant les données de la caméra :',
     folder_not_exists: 'Le dossier sélectionné n\'existe pas.',
+    incorrect_folder: 'Échec du téléversement des données de calibration. Veuillez vérifier si le dossier que vous avez sélectionné est correct.',
     downloading_data: 'Téléchargement des données...',
     estimated_time_left: 'Temps estimé restant :',
     uploading_data: 'Chargement des données...',

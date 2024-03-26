@@ -1838,6 +1838,7 @@ const lang: ILang = {
     select_folder_download: 'Por favor, selecione uma pasta para salvar os dados da câmera:',
     select_folder_upload: 'Por favor, selecione a pasta que contém os dados da câmera:',
     folder_not_exists: 'A pasta selecionada não existe.',
+    incorrect_folder: 'Falha ao carregar os dados de calibração. Por favor, verifique se a pasta selecionada está correta.',
     downloading_data: 'Baixando dados...',
     estimated_time_left: 'Tempo estimado restante:',
     uploading_data: 'Enviando dados...',

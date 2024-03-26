@@ -1829,6 +1829,7 @@ const lang: ILang = {
     select_folder_download: 'Välj en mapp för att spara kameradata:',
     select_folder_upload: 'Välj mappen som innehåller kameradata:',
     folder_not_exists: 'Den valda mappen finns inte.',
+    incorrect_folder: 'Misslyckades att ladda upp kalibreringsdata. Kontrollera om den valda mappen är korrekt.',
     downloading_data: 'Laddar ner data...',
     estimated_time_left: 'Beräknad återstående tid:',
     uploading_data: 'Laddar upp data...',
