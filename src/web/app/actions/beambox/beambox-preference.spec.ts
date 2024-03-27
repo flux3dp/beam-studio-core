@@ -32,6 +32,7 @@ test('test beambox-preference', () => {
     engrave_dpi: 'medium',
     diode_offset_x: 10,
     diode_offset_y: 10,
+    low_power: 3,
     abc: '123',
   });
 

@@ -470,6 +470,7 @@ const lang: ILang = {
     module_offset_2w_ir: '2W infrarød laserforskydning',
     printer_advanced_mode: 'Avanceret printer tilstand',
     default_laser_module: 'Standard lasermodul',
+    low_laser_for_preview: 'Laser til Kørende Ramme',
     groups: {
       general: 'Generelt',
       update: 'Softwareopdateringer',

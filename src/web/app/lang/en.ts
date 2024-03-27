@@ -450,6 +450,7 @@ const lang: ILang = {
     module_offset_2w_ir: '2W Infrared Laser Offset',
     printer_advanced_mode: 'Printer Advanced Mode',
     default_laser_module: 'Default Laser Module',
+    low_laser_for_preview: 'Laser for Running Frame',
     groups: {
       general: 'General',
       update: 'Software Updates',

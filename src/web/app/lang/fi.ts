@@ -468,6 +468,7 @@ const lang: ILang = {
     module_offset_2w_ir: '2 W infrapunalaerin siirtymä',
     printer_advanced_mode: 'Tulostimen lisäasetukset',
     default_laser_module: 'Oletuslasermoduuli',
+    low_laser_for_preview: 'Käynnissä oleva kehys:lle',
     groups: {
       general: 'Yleiset',
       update: 'Ohjelmistopäivitykset',
