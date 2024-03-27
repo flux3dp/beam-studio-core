@@ -16,7 +16,12 @@ const updateImageForSpliting = async (layerElement: SVGGElement): Promise<void> 
   for (let i = 0; i < images.length; i += 1) {
     const image = images[i];
     const origImage = image.getAttribute('origImage');
-    const exifrData = await exifr.parse(origImage, { icc: true, tiff: { multiSegment: true } });
+    let exifrData;
+    try {
+      exifrData = await exifr.parse(origImage, { icc: true, tiff: { multiSegment: true } });
+    } catch (e) {
+      console.error('Failed to parse exif data', e);
+    }
     if (exifrData?.ColorSpaceData !== 'CMYK') {
       const resp = await fetch(origImage);
       const blob = await resp.blob();

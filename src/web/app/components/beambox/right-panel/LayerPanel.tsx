@@ -4,6 +4,7 @@ import React from 'react';
 import AddLayerButton from 'app/components/beambox/right-panel/AddLayerButton';
 import Alert from 'app/actions/alert-caller';
 import ConfigPanel from 'app/views/beambox/Right-Panels/ConfigPanel/ConfigPanel';
+import constant from 'app/actions/beambox/constant';
 import changeLayersColor from 'helpers/layer/changeLayersColor';
 import Dialog from 'app/actions/dialog-caller';
 import DragImage from 'app/components/beambox/right-panel/DragImage';
@@ -436,7 +437,12 @@ class LayerPanel extends React.PureComponent<Props, State> {
           <>
             <FloatingPanel
               className={styles['floating-panel']}
-              anchors={[0, 328, window.innerHeight * 0.6, window.innerHeight - 40]}
+              anchors={[
+                0,
+                328,
+                window.innerHeight * 0.6,
+                window.innerHeight - constant.menuberHeight,
+              ]}
               title={LANG.layers.layer}
               fixedContent={<AddLayerButton setSelectedLayers={setSelectedLayers} />}
               onClose={() => setDisplayLayer(false)}

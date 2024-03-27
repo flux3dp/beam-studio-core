@@ -28,6 +28,7 @@ let svgEditor;
 let svgCanvas: ISVGCanvas;
 
 const canvasEvents = eventEmitterFactory.createEventEmitter('canvas');
+const drawingToolEventEmitter = eventEmitterFactory.createEventEmitter('drawing-tool');
 
 getSVGAsync((globalSVG) => {
   svgEditor = globalSVG.Editor;
@@ -1270,9 +1271,7 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
         rubberBox.setAttribute('display', 'none');
         svgCanvas.clearBoundingBox();
       }
-      $('.tool-btn').removeClass('active');
-      $('#left-Cursor').addClass('active');
-      $('#left-Shoot').addClass('active');
+      drawingToolEventEmitter.emit('SET_ACTIVE_BUTTON', 'Cursor');
     // eslint-disable-next-line no-fallthrough
     case 'select':
       if (selectedElements[0]) {
@@ -1475,8 +1474,7 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
       // Image should be kept regardless of size (use inherit dimensions later)
       keep = true;
       svgCanvas.unsafeAccess.setCurrentMode('select');
-      $('.tool-btn').removeClass('active');
-      $('#left-Cursor').addClass('active');
+      drawingToolEventEmitter.emit('SET_ACTIVE_BUTTON', 'Cursor');
       break;
     case 'circle':
       keep = (element.getAttribute('r') !== 0);
@@ -1564,8 +1562,7 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
       keep = true;
       element = null;
       svgCanvas.unsafeAccess.setCurrentMode('select');
-      $('.tool-btn').removeClass('active');
-      $('#left-Cursor').addClass('active');
+      drawingToolEventEmitter.emit('SET_ACTIVE_BUTTON', 'Cursor');
       const batchCmd = svgCanvas.undoMgr.finishUndoableChange();
       if (!batchCmd.isEmpty()) {
         svgCanvas.addCommandToHistory(batchCmd);

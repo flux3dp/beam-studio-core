@@ -35,7 +35,6 @@ exports[`test FlipButtons should render correctly when not in mobile 1`] = `
       >
         <svgr-url />
       </span>
-      
     </button>
     <button
       class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
@@ -48,7 +47,6 @@ exports[`test FlipButtons should render correctly when not in mobile 1`] = `
       >
         <svgr-url />
       </span>
-      
     </button>
   </div>
 </div>

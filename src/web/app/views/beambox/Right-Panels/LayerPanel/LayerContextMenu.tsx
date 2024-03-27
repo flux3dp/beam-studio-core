@@ -15,6 +15,7 @@ import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import presprayArea from 'app/actions/beambox/prespray-area';
 import splitFullColorLayer from 'helpers/layer/full-color/splitFullColorLayer';
 import toggleFullColorLayer from 'helpers/layer/full-color/toggleFullColorLayer';
+import updateLayerColor from 'helpers/color/updateLayerColor';
 import useI18n from 'helpers/useI18n';
 import useWorkarea from 'helpers/hooks/useWorkarea';
 import { ContextMenu, MenuItem } from 'helpers/react-contextmenu';
@@ -82,12 +83,6 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
     presprayArea.togglePresprayArea();
   };
 
-  const handleLockLayers = () => {
-    svgCanvas.clearSelection();
-    setLayersLock(selectedLayers, true);
-    forceUpdate();
-  };
-
   const toggleLayerLocked = () => {
     svgCanvas.clearSelection();
     setLayersLock(selectedLayers, !isLocked);
@@ -108,7 +103,7 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
     const baseLayerName = await mergeLayers(allLayerNames);
     if (!baseLayerName) return;
     const elem = getLayerElementByName(baseLayerName);
-    toggleFullColorLayer(elem, { val: elem.getAttribute('data-fullcolor') === '1', force: true });
+    updateLayerColor(elem as SVGGElement);
     selectOnlyLayer(baseLayerName);
   };
 
@@ -117,7 +112,7 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
     const baseLayer = await mergeLayers(selectedLayers, currentLayerName);
     if (!baseLayer) return;
     const elem = getLayerElementByName(baseLayer);
-    toggleFullColorLayer(elem, { val: elem.getAttribute('data-fullcolor') === '1', force: true });
+    updateLayerColor(elem as SVGGElement);
     setSelectedLayers([baseLayer]);
   };
 
@@ -160,7 +155,8 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
     ) {
       layerElem.setAttribute('data-color', newColor || colorConstants.printingLayerColor[0]);
     }
-    toggleFullColorLayer(layerElem);
+    const cmd = toggleFullColorLayer(layerElem);
+    if (cmd && !cmd.isEmpty()) svgCanvas.undoMgr.addCommandToHistory(cmd);
     setSelectedLayers([]);
   };
 
@@ -287,8 +283,8 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
       <MenuItem attributes={{ id: 'dupelayer' }} onClick={handleCloneLayers}>
         {LANG.layers.dupe}
       </MenuItem>
-      <MenuItem attributes={{ id: 'locklayer' }} onClick={handleLockLayers}>
-        {LANG.layers.lock}
+      <MenuItem attributes={{ id: 'locklayer' }} onClick={toggleLayerLocked}>
+        {isLocked ? LANG.layers.unlock : LANG.layers.lock}
       </MenuItem>
       <MenuItem attributes={{ id: 'deletelayer' }} onClick={handleDeleteLayers}>
         {LANG.layers.del}
@@ -325,7 +321,7 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
           </MenuItem>
           <MenuItem
             attributes={{ id: 'split_color' }}
-            disabled={isMultiSelecting}
+            disabled={isMultiSelecting || !isFullColor}
             onClick={handleSplitColor}
           >
             {LANG.layers.splitFullColor}

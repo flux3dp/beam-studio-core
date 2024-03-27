@@ -7,8 +7,8 @@ import {
   CALIBRATION_PARAMS,
   CameraConfig,
   DEFAULT_CAMERA_OFFSET,
-  FisheyeCameraParameters,
 } from 'app/constants/camera-calibration-constants';
+import { FisheyeCameraParameters } from 'interfaces/FisheyePreview';
 import { IDeviceInfo } from 'interfaces/IDevice';
 
 const api = new CameraCalibrationApi();
@@ -166,14 +166,17 @@ export const calculateRegressionParam = (
 ): Promise<{ data: number[][][][]; errors: { height: number; err: string }[] }> =>
   api.calculateRegressionParam(onProgress);
 
-export const setFisheyeConfig = async (data: FisheyeCameraParameters): Promise<void> => {
+export const setFisheyeConfig = async (
+  data: FisheyeCameraParameters
+): Promise<{ status: string }> => {
   const strData = JSON.stringify(data, (key, val) => {
     if (typeof val === 'number') {
       return Math.round(val * 1e6) / 1e6;
     }
     return val;
   });
-  await deviceMaster.uploadFisheyeParams(strData, () => {});
+  const res = await deviceMaster.uploadFisheyeParams(strData, () => {});
+  return res;
 };
 
 const interpolateValue = (p1: number, v1: number[], p2: number, v2: number[], p: number) => {
@@ -403,4 +406,27 @@ export const getPerspectivePointsZ3Regression = (
     }
   }
   return result;
+};
+
+export const findCorners = async (
+  imgBlob: Blob
+): Promise<{
+  success: boolean;
+  blob: Blob;
+  data?: { k: number[][]; d: number[][]; rvec: number[]; points: [number, number][][] };
+}> => {
+  const resp = await api.findCorners(imgBlob);
+  return resp;
+};
+
+export const calculateCameraPosition = async (
+  img: Blob | ArrayBuffer,
+  dh: number
+): Promise<{
+  success: boolean;
+  blob: Blob;
+  data?: { center: number[]; h: number[]; s: number[] };
+}> => {
+  const resp = await api.calculateCameraPosition(img, dh);
+  return resp;
 };

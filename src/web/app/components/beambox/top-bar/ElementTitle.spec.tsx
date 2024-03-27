@@ -1,7 +1,6 @@
 /* eslint-disable import/first */
-import * as React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import React from 'react';
+import { render } from '@testing-library/react';
 
 jest.mock('helpers/i18n', () => ({
   lang: {
@@ -43,18 +42,15 @@ import ElementTitle from './ElementTitle';
 
 describe('should render correctly', () => {
   test('no selected element', () => {
-    expect(toJson(shallow(<ElementTitle
-      selectedElem={null}
-    />))).toMatchSnapshot();
+    const { container } = render(<ElementTitle selectedElem={null} />);
+    expect(container).toMatchSnapshot();
     expect(getObjectLayer).not.toHaveBeenCalled();
   });
 
   test('multiple selections', () => {
     document.body.innerHTML = '<g id="svg_1" data-tempgroup="true" />';
-    const wrapper = shallow(<ElementTitle
-      selectedElem={document.getElementById('svg_1')}
-    />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container } = render(<ElementTitle selectedElem={document.getElementById('svg_1')} />);
+    expect(container).toMatchSnapshot();
     expect(getObjectLayer).not.toHaveBeenCalled();
   });
 
@@ -68,10 +64,10 @@ describe('should render correctly', () => {
         title: 'Layer 1',
       });
       document.body.innerHTML = '<rect id="svg_1" />';
-      const wrapper = shallow(<ElementTitle
-        selectedElem={document.getElementById('svg_1')}
-      />);
-      expect(toJson(wrapper)).toMatchSnapshot();
+      const { container } = render(
+        <ElementTitle selectedElem={document.getElementById('svg_1')} />
+      );
+      expect(container).toMatchSnapshot();
       expect(getObjectLayer).toHaveBeenCalledTimes(1);
       expect(getObjectLayer).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
     });
@@ -81,10 +77,10 @@ describe('should render correctly', () => {
         title: 'Layer 1',
       });
       document.body.innerHTML = '<use id="svg_1" data-svg="true" />';
-      const wrapper = shallow(<ElementTitle
-        selectedElem={document.getElementById('svg_1')}
-      />);
-      expect(toJson(wrapper)).toMatchSnapshot();
+      const { container } = render(
+        <ElementTitle selectedElem={document.getElementById('svg_1')} />
+      );
+      expect(container).toMatchSnapshot();
       expect(getObjectLayer).toHaveBeenCalledTimes(1);
       expect(getObjectLayer).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
     });
@@ -94,10 +90,10 @@ describe('should render correctly', () => {
         title: 'Layer 1',
       });
       document.body.innerHTML = '<use id="svg_1" data-dxf="true" />';
-      const wrapper = shallow(<ElementTitle
-        selectedElem={document.getElementById('svg_1')}
-      />);
-      expect(toJson(wrapper)).toMatchSnapshot();
+      const { container } = render(
+        <ElementTitle selectedElem={document.getElementById('svg_1')} />
+      );
+      expect(container).toMatchSnapshot();
       expect(getObjectLayer).toHaveBeenCalledTimes(1);
       expect(getObjectLayer).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
     });
@@ -107,10 +103,10 @@ describe('should render correctly', () => {
         title: 'Layer 1',
       });
       document.body.innerHTML = '<use id="svg_1" />';
-      const wrapper = shallow(<ElementTitle
-        selectedElem={document.getElementById('svg_1')}
-      />);
-      expect(toJson(wrapper)).toMatchSnapshot();
+      const { container } = render(
+        <ElementTitle selectedElem={document.getElementById('svg_1')} />
+      );
+      expect(container).toMatchSnapshot();
       expect(getObjectLayer).toHaveBeenCalledTimes(1);
       expect(getObjectLayer).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
     });
@@ -118,10 +114,10 @@ describe('should render correctly', () => {
     test('no layer title given', () => {
       getObjectLayer.mockReturnValue(null);
       document.body.innerHTML = '<use id="svg_1" />';
-      const wrapper = shallow(<ElementTitle
-        selectedElem={document.getElementById('svg_1')}
-      />);
-      expect(toJson(wrapper)).toMatchSnapshot();
+      const { container } = render(
+        <ElementTitle selectedElem={document.getElementById('svg_1')} />
+      );
+      expect(container).toMatchSnapshot();
       expect(getObjectLayer).toHaveBeenCalledTimes(1);
       expect(getObjectLayer).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
     });
@@ -131,10 +127,10 @@ describe('should render correctly', () => {
         title: 'Layer 1',
       });
       document.body.innerHTML = '<g id="svg_1" data-textpath-g="true" />';
-      const wrapper = shallow(<ElementTitle
-        selectedElem={document.getElementById('svg_1')}
-      />);
-      expect(toJson(wrapper)).toMatchSnapshot();
+      const { container } = render(
+        <ElementTitle selectedElem={document.getElementById('svg_1')} />
+      );
+      expect(container).toMatchSnapshot();
       expect(getObjectLayer).toHaveBeenCalledTimes(1);
       expect(getObjectLayer).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
     });

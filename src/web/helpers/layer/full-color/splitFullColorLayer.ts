@@ -5,6 +5,7 @@ import NS from 'app/constants/namespaces';
 import progressCaller from 'app/actions/progress-caller';
 import symbolMaker from 'helpers/symbol-maker';
 import updateImageDisplay from 'helpers/image/updateImageDisplay';
+import updateLayerColor from 'helpers/color/updateLayerColor';
 import { DataType, getData, writeDataLayer } from 'helpers/layer/layer-config-helper';
 import { PrintingColors } from 'app/constants/color-constants';
 import {
@@ -139,7 +140,7 @@ const splitFullColorLayer = async (
   const drawing = svgCanvas.getCurrentDrawing();
   drawing.identifyLayers();
   for (let i = 0; i < newLayers.length; i += 1) {
-    if (newLayers[i]) svgCanvas.updateLayerColor(newLayers[i]);
+    if (newLayers[i]) updateLayerColor(newLayers[i] as SVGGElement);
   }
   svgCanvas.clearSelection();
   progressCaller.popById(PROGRESS_ID);

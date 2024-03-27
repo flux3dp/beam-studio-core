@@ -318,8 +318,8 @@ exports[`test LayerContextMenu should render correctly when selecting printing l
       switchToFullColor
     </div>
     <div
-      aria-disabled="false"
-      class="react-contextmenu-item"
+      aria-disabled="true"
+      class="react-contextmenu-item react-contextmenu-item--disabled"
       id="split_color"
       role="menuitem"
       tabindex="-1"

@@ -1,33 +1,39 @@
-import React from 'react';
-import { shallow } from 'enzyme';
+import React, { useContext } from 'react';
+import { act } from 'react-dom/test-utils';
+import { render } from '@testing-library/react';
 
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 
-import { TimeEstimationButtonContextProvider } from './TimeEstimationButtonContext';
+import {
+  TimeEstimationButtonContext,
+  TimeEstimationButtonContextProvider,
+} from './TimeEstimationButtonContext';
+
+const Children = () => {
+  const { estimatedTime } = useContext(TimeEstimationButtonContext);
+  return <>{estimatedTime}</>;
+};
 
 test('should render correctly', () => {
   const setStateSpy = jest.spyOn(TimeEstimationButtonContextProvider.prototype, 'setState');
-  const timeEstimationButtonEventEmitter = eventEmitterFactory.createEventEmitter('time-estimation-button');
-  const wrapper = shallow(
+  const timeEstimationButtonEventEmitter =
+    eventEmitterFactory.createEventEmitter('time-estimation-button');
+  const { container, unmount } = render(
     <TimeEstimationButtonContextProvider>
-      <></>
-    </TimeEstimationButtonContextProvider>,
+      <Children />
+    </TimeEstimationButtonContextProvider>
   );
 
-  expect(wrapper.state()).toEqual({
-    estimatedTime: null,
-  });
+  expect(container).toHaveTextContent('');
   expect(timeEstimationButtonEventEmitter.eventNames().length).toBe(1);
 
-  timeEstimationButtonEventEmitter.emit('SET_ESTIMATED_TIME', 123);
-  expect(wrapper.state()).toEqual({
-    estimatedTime: 123,
-  });
+  act(() => timeEstimationButtonEventEmitter.emit('SET_ESTIMATED_TIME', 123));
+  expect(setStateSpy).toHaveBeenCalledTimes(1);
+  expect(container).toHaveTextContent('123');
+
+  act(() => timeEstimationButtonEventEmitter.emit('SET_ESTIMATED_TIME', 123));
   expect(setStateSpy).toHaveBeenCalledTimes(1);
 
-  timeEstimationButtonEventEmitter.emit('SET_ESTIMATED_TIME', 123);
-  expect(setStateSpy).toHaveBeenCalledTimes(1);
-
-  wrapper.unmount();
+  unmount();
   expect(timeEstimationButtonEventEmitter.eventNames().length).toBe(0);
 });

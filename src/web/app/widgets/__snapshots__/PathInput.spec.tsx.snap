@@ -1,73 +1,67 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`test PathInput should render correctly 1`] = `
-<div
-  className="path-input with-error"
->
-  <input
-    id="location-input"
-    onBlur={[Function]}
-    onChange={[Function]}
-    onKeyUp={[Function]}
-    type="text"
-    value="defaultFolder"
-  />
+<div>
   <div
-    className="dialog-btn"
-    onClick={[Function]}
-    title="Choose Folder"
+    class="path-input with-error"
   >
-    <img
-      src="img/right-panel/icon-import.svg"
+    <input
+      id="location-input"
+      type="text"
+      value="defaultFolder"
     />
+    <div
+      class="dialog-btn"
+      title="Choose Folder"
+    >
+      <img
+        src="img/right-panel/icon-import.svg"
+      />
+    </div>
   </div>
 </div>
 `;
 
 exports[`test PathInput should render correctly 2`] = `
-<div
-  className="path-input with-error"
->
-  <input
-    id="location-input"
-    onBlur={[Function]}
-    onChange={[Function]}
-    onKeyUp={[Function]}
-    type="text"
-    value="defaultFolder"
-  />
+<div>
   <div
-    className="dialog-btn"
-    onClick={[Function]}
-    title="Choose Folder"
+    class="path-input with-error"
   >
-    <img
-      src="img/right-panel/icon-import.svg"
+    <input
+      id="location-input"
+      type="text"
+      value="defaultFolder"
     />
+    <div
+      class="dialog-btn"
+      title="Choose Folder"
+    >
+      <img
+        src="img/right-panel/icon-import.svg"
+      />
+    </div>
   </div>
 </div>
 `;
 
 exports[`test PathInput should render correctly 3`] = `
-<div
-  className="path-input with-error"
->
-  <input
-    id="location-input"
-    onBlur={[Function]}
-    onChange={[Function]}
-    onKeyUp={[Function]}
-    type="text"
-    value="myDocuments"
-  />
+<div>
   <div
-    className="dialog-btn"
-    onClick={[Function]}
-    title="Choose Folder"
+    class="path-input with-error"
   >
-    <img
-      src="img/right-panel/icon-import.svg"
+    <input
+      id="location-input"
+      type="text"
+      value="defaultFolder"
     />
+    <div
+      class="dialog-btn"
+      title="Choose Folder"
+    >
+      <img
+        src="img/right-panel/icon-import.svg"
+      />
+    </div>
   </div>
 </div>
 `;

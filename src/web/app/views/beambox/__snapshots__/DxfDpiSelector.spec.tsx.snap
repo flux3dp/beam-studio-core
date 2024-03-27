@@ -1,56 +1,45 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`should render correctly submit through input 1`] = `
-<div
-  className="dxf-dpi-selector"
->
+<div>
   <div
-    className="caption"
+    class="dxf-dpi-selector"
   >
-    Please enter the Unit of your file
-    <br />
-    1, 2.54, 25.4, 72, 96 etc.
+    <div
+      class="caption"
+    >
+      Please enter the Unit of your file
+      <br />
+      1, 2.54, 25.4, 72, 96 etc.
+    </div>
+    <div
+      class="message"
+      style="text-align: center;"
+    >
+      <input
+        id="dpi-input"
+        style="padding: 3px 10px; width: 120px; text-align: left;"
+        value="100"
+      />
+    </div>
+    <div
+      class="button-group btn-h-group"
+    >
+      <button
+        class="btn btn-default pull-right"
+        data-test-key="cancel"
+        type="button"
+      >
+        Cancel
+      </button>
+      <button
+        class="btn btn-default primary pull-right"
+        data-test-key="ok"
+        type="button"
+      >
+        OK
+      </button>
+    </div>
   </div>
-  <div
-    className="message"
-    style={
-      {
-        "textAlign": "center",
-      }
-    }
-  >
-    <input
-      defaultValue={100}
-      id="dpi-input"
-      onClick={[Function]}
-      onKeyDown={[Function]}
-      style={
-        {
-          "padding": "3px 10px",
-          "textAlign": "left",
-          "width": "120px",
-        }
-      }
-    />
-  </div>
-  <ButtonGroup
-    buttons={
-      [
-        {
-          "key": "cancel",
-          "label": "Cancel",
-          "onClick": [Function],
-          "right": true,
-        },
-        {
-          "className": "btn-default primary",
-          "key": "ok",
-          "label": "OK",
-          "onClick": [Function],
-          "right": true,
-        },
-      ]
-    }
-  />
 </div>
 `;

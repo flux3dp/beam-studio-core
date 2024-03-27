@@ -6,7 +6,11 @@ import React, { useContext, useState } from 'react';
 import { Button, Checkbox, Modal } from 'antd';
 
 import AlertIcons from 'app/icons/alerts/AlertIcons';
+import browser from 'implementations/browser';
+import i18n from 'helpers/i18n';
+import useI18n from 'helpers/useI18n';
 import { AlertProgressContext } from 'app/contexts/AlertProgressContext';
+import { HELP_CENTER_URLS } from 'app/constants/alert-constants';
 import { IAlert } from 'interfaces/IAlert';
 
 import styles from './Alert.module.scss';
@@ -53,6 +57,7 @@ interface Props {
 }
 
 const Alert = ({ data }: Props): JSX.Element => {
+  const lang = useI18n().alert;
   const { popFromStack } = useContext(AlertProgressContext);
   const { caption, checkbox, message, messageIcon, buttons, iconUrl } = data;
 
@@ -62,6 +67,25 @@ const Alert = ({ data }: Props): JSX.Element => {
     if (!checkbox) return null;
     const { text } = checkbox;
     return <Checkbox onClick={() => setCheckboxChecked(!checkboxChecked)}>{text}</Checkbox>;
+  };
+
+  const renderLink = (): JSX.Element => {
+    if (typeof message !== 'string') return null;
+    const errorCode = message.match('^#[0-9]*');
+    if (!errorCode) return null;
+    const link = HELP_CENTER_URLS[errorCode[0].replace('#', '')];
+    if (!link) return null;
+    const isZHTW = i18n.getActiveLang() === 'zh-tw';
+
+    return (
+      <Button
+        className={styles.link}
+        type="link"
+        onClick={() => browser.open(isZHTW ? link.replace('en-us', 'zh-tw') : link)}
+      >
+        {lang.learn_more}
+      </Button>
+    );
   };
 
   const footer = buttons?.map((button, idx) => {
@@ -97,6 +121,7 @@ const Alert = ({ data }: Props): JSX.Element => {
     >
       {renderIcon(iconUrl)}
       {renderMessage(message, messageIcon)}
+      {renderLink()}
       {renderCheckbox()}
     </Modal>
   );

@@ -43,7 +43,7 @@ const lang: ILang = {
       fail_to_start_preview:
         '#803 Esikatselutilan käynnistys epäonnistui. Käynnistä kone tai Beam Studio uudelleen. Jos virhe toistuu, noudata <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">tätä ohjetta</a>.',
       fail_to_connect_with_camera:
-        'Yhteyden muodostaminen kameraan epäonnistui. Käynnistä tietokone tai Beam Studio uudelleen. Jos virhe toistuu, noudata <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">näitä ohjeita</a>.',
+        '#803 Yhteyden muodostaminen kameraan epäonnistui. Käynnistä tietokone tai Beam Studio uudelleen. Jos virhe toistuu, noudata <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">näitä ohjeita</a>.',
       power_too_high: 'LIIAN SUURI TEHO',
       power_too_high_msg:
         'Matalampi laserteho (alle 70 %) pidentää laserputken käyttöikää.\nKirjoita "HUOMAUTETTU" jatkaaksesi.',
@@ -87,6 +87,7 @@ const lang: ILang = {
       export_JPG: 'JPG',
       save_scene: 'Tallenna',
       save_as: 'Tallenna nimellä...',
+      save_to_cloud: 'Tallenna pilvipalveluun',
       about_beam_studio: 'Tietoja Beam Studiosta',
       undo: 'Kumoa',
       redo: 'Tee uudelleen',
@@ -445,6 +446,7 @@ const lang: ILang = {
     mask: 'Työalueen rajaus',
     text_path_calc_optimization: 'Polun laskennan optimointi',
     font_substitute: 'Korvaa tukemattomat merkit',
+    font_convert: 'Teksti-polku muunnin',
     default_borderless_mode: 'Avaa alaosa oletuksena',
     default_enable_autofocus_module: 'Automaattitarkennuksen oletus',
     default_enable_diode_module: 'Diodilaserin oletus',
@@ -497,6 +499,7 @@ const lang: ILang = {
       loop_compensation: 'https://support.flux3dp.com/hc/en-us/articles/360004408856',
       mask: 'https://support.flux3dp.com/hc/en-us/articles/360004408876',
       font_substitute: 'https://support.flux3dp.com/hc/en-us/articles/360004496575',
+      font_convert: 'https://support.flux3dp.com/hc/en-us/articles/9132766761743',
       default_borderless_mode: 'https://support.flux3dp.com/hc/en-us/articles/360001104076',
       default_enable_autofocus_module: 'https://support.flux3dp.com/hc/en-us/articles/360001574536',
       default_enable_diode_module: 'https://support.flux3dp.com/hc/en-us/articles/360001568035',
@@ -543,7 +546,7 @@ const lang: ILang = {
       too_fast_for_path_and_constrain:
         'Seuraavat kerrokset: %s sisältävät vektoripolkuobjekteja yli 20 mm/s nopeudella. Polkuobjektien leikkausnopeus rajoitetaan 20 mm/s:iin. Voit poistaa rajoituksen asetuksista.',
       should_update_firmware_to_continue:
-        'Nykyinen laiteohjelmisto ei tue tätä Beam Studion versiota. Päivitä laiteohjelmisto jatkaaksesi. (Valikko > Laite > [Laite] > Päivitä laiteohjelmisto)',
+        '#814 Nykyinen laiteohjelmisto ei tue tätä Beam Studion versiota. Päivitä laiteohjelmisto jatkaaksesi. (Valikko > Laite > [Laite] > Päivitä laiteohjelmisto)',
       recommend_downgrade_software:
         'Havaitsimme vanhemman laiteohjelmistoversion. Työskentelemme parhaillaan yhteensopivuusongelmien kanssa, mutta toistaiseksi suosittelemme palaamaan Beam Studioon 1.9.5.',
       recommend_upgrade_firmware:
@@ -554,12 +557,12 @@ const lang: ILang = {
       select_first: 'Valitse objekti ensin.',
       select_at_least_two: 'Valitse kaksi objektia jatkaaksesi',
       import_file_contain_invalid_path:
-        'Tuodussa SVG-tiedostossa on virheellisiä kuvapolkuja. Varmista, että kaikki kuvatiedostot ovat olemassa tai upota kuvat tiedostoon.',
+        '#808 Tuodussa SVG-tiedostossa on virheellisiä kuvapolkuja. Varmista, että kaikki kuvatiedostot ovat olemassa tai upota kuvat tiedostoon.',
       import_file_error_ask_for_upload:
         'Tiedoston tuonti epäonnistui. Haluatko tarjota tiedoston kehitystiimille vianraporttia varten?',
-      upload_file_too_large: 'Tiedosto on liian suuri latausta varten.',
+      upload_file_too_large: '#819 Tiedosto on liian suuri latausta varten.',
       successfully_uploaded: 'Tiedoston lataus onnistui.',
-      upload_failed: 'Tiedoston lataus epäonnistui.',
+      upload_failed: '#819 Tiedoston lataus epäonnistui.',
       or_turn_off_borderless_mode: ' Tai poista avoimen pohjan tila käytöstä.',
       svg_1_1_waring: 'Tämän SVG-tiedoston versio 1.1 voi aiheuttaa yhteensopivuusongelmia.',
       svg_image_path_waring:
@@ -576,12 +579,12 @@ const lang: ILang = {
         calculating: 'Lasketaan',
       },
       backend_connect_failed_ask_to_upload:
-        'Virheitä yhdistettäessä taustajärjestelmään. Haluatko lähettää vianraportin?',
+        '#802 Virheitä yhdistettäessä taustajärjestelmään. Haluatko lähettää vianraportin?',
       backend_error_hint: 'Ominaisuuksissa voi olla ongelmia taustajärjestelmän virheen takia.',
       pdf2svg: {
-        error_when_converting_pdf: 'Virhe muunnettaessa PDF:ää SVG:ksi:',
+        error_when_converting_pdf: '#824 Virhe muunnettaessa PDF:ää SVG:ksi:',
         error_pdf2svg_not_found:
-          'Virhe: pdf2svg-komentoa ei löydy. Asenna pdf2svg paketinhallinnalla.',
+          '#825 Virhe: pdf2svg-komentoa ei löydy. Asenna pdf2svg paketinhallinnalla.',
       },
       ungroup_use:
         'Tämä purkaa tuodun tiedoston ryhmityksen. Koska tiedosto voi sisältää suuren määrän elementtejä, ryhmityksen purku voi viedä aikaa. Haluatko jatkaa?',
@@ -616,6 +619,11 @@ const lang: ILang = {
         insufficient_credit_msg: 'Et voi käyttää %s. Mene jäsenkeskukseen ja osta AI-credittejä.',
         buy_link: 'https://member.flux3dp.com/en-US/credit',
         go: 'Siirry',
+      },
+      text_to_path: {
+        caption: 'Teksti-polku muunnin 2.0',
+        message:
+          'Beam Studio esittelee nyt uuden teksti-polku muuntimen (Muunnin 2.0), joka tuottaa luotettavampia tuloksia! Haluaisitko vaihtaa siihen nyt? \nVoit myös säätää tätä asetusta myöhemmin Teksti-polku muunnin -osiossa asetuksissa.',
       },
     },
     zoom_block: {
@@ -653,6 +661,9 @@ const lang: ILang = {
         choose_camera: 'Kamera',
         live_feed: 'Live-syöte',
         adjust_height: 'Säädä korkeutta',
+        qr_code: 'QR-koodi',
+        boxgen: 'Boxgen',
+        my_cloud: 'Pilveni',
       },
     },
     right_panel: {
@@ -986,7 +997,7 @@ const lang: ILang = {
           ai_bg_removal: 'Taustan poisto',
           ai_bg_removal_short: 'TP',
           ai_bg_removal_reminder:
-            'Painamalla nappia käytetään välittömästi 0,2 AI-hyvitystä, haluatko jatkaa?',
+            'Painamalla nappia käytetään välittömästi 0,2 hyvitystä, haluatko jatkaa?',
           outline: 'Ääriviiva',
         },
         path_edit_panel: {
@@ -1065,11 +1076,12 @@ const lang: ILang = {
       wait_for_parsing_font: 'Jäsentää fonttia... Odota hetki',
       text_to_path: {
         font_substitute_pop:
-          'Teksti: <strong>%s</strong> sisältää merkkejä <strong>%s</strong> joita nykyinen fontti ei tue: <strong>%s</strong>. <br/>Haluaisitko käyttää <strong>%s</strong> korvaavana fonttina?',
+          'Tekstissäsi on merkkejä, joita nykyinen fontti ei tue. <br/>Haluaisitko käyttää <strong>%s</strong> korvaavana fonttina?',
         check_thumbnail_warning:
           'Joitakin tekstejä vaihdettiin toisiin fontteihin muunnettaessa tekstejä poluiksi ja joitakin merkkejä ei ehkä muunnettu oikein. <br/>Tarkista esikatselukuva uudelleen ennen tehtävän lähettämistä.',
-        error_when_parsing_text: 'Virhe tekstiä poluksi muunnettaessa: \n%s',
+        error_when_parsing_text: 'Virhe tekstiä poluksi muunnettaessa',
         use_current_font: 'Käytä nykyistä fonttia',
+        retry: 'Yritä myöhemmin uudelleen tai valitse toinen fontti',
       },
       lock_desc: 'Säilytä leveyden ja korkeuden suhde (SHIFT)',
     },
@@ -1110,12 +1122,12 @@ const lang: ILang = {
       network_testing: 'Verkkotestaus',
       local_ip: 'Paikallinen IP-osoite:',
       insert_ip: 'Kohdelaitteen IP-osoite:',
-      empty_ip: 'Anna kohdelaitteen IP-osoite.',
+      empty_ip: '#818 Anna kohdelaitteen IP-osoite.',
       start: 'Aloita',
       end: 'Lopeta',
       testing: 'Testataan verkkoa...',
-      invalid_ip: 'Virheellinen IP-osoite',
-      ip_startswith_169: 'Laitteen IP-osoite alkaa 169.254',
+      invalid_ip: '#818 Virheellinen IP-osoite',
+      ip_startswith_169: '#843 Laitteen IP-osoite alkaa 169.254',
       connection_quality: 'Yhteyden laatu',
       average_response: 'Keskimääräinen vasteaika',
       test_completed: 'Testi valmis',
@@ -1199,12 +1211,16 @@ const lang: ILang = {
       line: 'Viiva',
       label: 'Teksti',
     },
+    announcement_panel: {
+      title: 'Tiedote',
+      dont_show_again: 'Älä näytä uudelleen',
+    },
   },
   editor: {
     prespray_area: 'Esisuihkutusalue',
   },
   flux_id_login: {
-    connection_fail: 'Yhteyden muodostaminen FLUX-jäsenyyteen epäonnistui.',
+    connection_fail: '#847 Yhteyden muodostaminen FLUX-jäsenyyteen epäonnistui.',
     login_success: 'Kirjautuminen onnistui.',
     login: 'Kirjaudu sisään',
     unlock_shape_library: 'Kirjaudu sisään avataksesi muotokirjaston.',
@@ -1220,6 +1236,30 @@ const lang: ILang = {
     new_to_flux: 'Uusi käyttäjä? Luo tili',
     signup_url: 'https://id.flux3dp.com/user/login#up',
     lost_password_url: 'https://id.flux3dp.com/user/forgot-password',
+    flux_plus: {
+      explore_plans: 'Tutustu FLUX+ -suunnitelmiin',
+      thank_you: 'Kiitos arvokkaasta jäsenyydestä!',
+      ai_credit_tooltip: 'Taustan poistoon tekoälyllä',
+      flux_credit_tooltip: 'Design Market -tiedostoihin ja tekoälyn taustanpoistoon',
+      goto_member_center: 'Siirry jäsenkeskukseen',
+      access_plus_feature_1: 'Käytät',
+      access_plus_feature_2: 'ominaisuutta.',
+      access_plus_feature_note: 'Sinulla on oltava FLUX+ -jäsenyys käyttääksesi tätä ominaisuutta.',
+      access_monotype_feature: 'Sinulla ei ole Monotype-fontteja.',
+      access_monotype_feature_note: 'Sinulla on oltava FLUX+ Pro -jäsenyys tai Monotype-fontit lisäosa käyttääksesi tätä ominaisuutta.',
+      learn_more: 'Lue lisää',
+      get_addon: 'Hanki lisäosa',
+      subscribe_now: 'Tilaa nyt',
+      website_url: 'https://flux3dp.com/subscription',
+      member_center_url: 'https://member.flux3dp.com/en-US/subscription',
+      features: {
+        ai_bg_removal: 'AI-taustanpoisto',
+        my_cloud: 'Rajoittamaton pilvitallennustila',
+        boxgen: '3D-laatikon luonti',
+        dmkt: 'Yli 1000 suunnittelutiedostoa',
+        monotype: 'Yli 250 Premium-fonttia',
+      },
+    },
   },
   noun_project_panel: {
     login_first: 'Kirjaudu sisään avataksesi muotokirjaston',
@@ -1410,7 +1450,7 @@ const lang: ILang = {
     getProbePosition: 'Haetaan anturin sijaintia...',
     device_not_found: {
       caption: 'Oletuslaitetta ei löytynyt',
-      message: 'Tarkista koneen Wi-Fi-merkkivalo',
+      message: '#812 Tarkista koneen Wi-Fi-merkkivalo',
     },
     device_busy: {
       caption: 'Kone varattu',
@@ -1671,6 +1711,85 @@ const lang: ILang = {
         'Napsauta "Vahvista" suorittaaksesi kalibroinnin, tai käytä kalibrointia ylävalikon kautta.<br />(Kone > [Koneen nimi] > Kalibroi infrapunamoduuli)',
     },
     non_working_area: 'Ei-Työskentelyalue',
+  },
+  qr_code_generator: {
+    title: 'QR-koodigeneraattori',
+    placeholder: 'Anna linkki tai teksti',
+    preview: 'Esikatselu',
+    error_tolerance: 'Virhesieto',
+    error_tolerance_link: 'https://support.flux3dp.com/hc/en-us/articles/9113705072143',
+    invert: 'Käännä värit',
+  },
+  boxgen: {
+    back: 'Takaisin Beam Studioon',
+    title: 'BOXGEN',
+    basic_box: 'Peruslaatikko',
+    coming_soon: 'Tulossa pian',
+    workarea: 'Työalue',
+    max_dimension_tooltip: 'Maksimileveys/korkeus/syvyys on %s.',
+    volume: 'Tilavuus',
+    outer: 'Ulkoinen',
+    inner: 'Sisäinen',
+    width: 'Leveys',
+    height: 'Korkeus',
+    depth: 'Syvyys',
+    cover: 'Kansi',
+    thickness: 'Paksuus',
+    add_option: 'Lisää vaihtoehto',
+    joints: 'Liitos',
+    finger: 'Sormi',
+    finger_warning: 'Laatikon sisäpuolen sivun pituuden on oltava vähintään 6 mm (0,24 tuumaa), jotta se on yhteensopiva sormiliitoksen kanssa.',
+    tSlot: 'T-ura',
+    tSlot_warning: 'Laatikon sivun pituuden on oltava vähintään 30 mm (1,18 tuumaa), jotta se on yhteensopiva T-uriliitoksen kanssa.',
+    edge: 'Reuna',
+    tCount: 'T-määrä',
+    tCount_tooltip: 'T-urien määrä koskee lyhyttä sivua; pitkän sivun määrä lasketaan sen pituuden mukaan.',
+    tDiameter: 'T-halkaisija',
+    tLength: 'T-pituus',
+    continue_import: 'Jatka tuontia',
+    customize: 'Mukauta',
+    merge: 'Yhdistä',
+    text_label: 'Tekstikenttä',
+    beam_radius: 'Säteen kompensaatio',
+    beam_radius_warning:
+      'Poista saumakompensaatio, kun laatikon reunat tai liitokset ovat lyhyitä, jotta laatikon kokoaminen onnistuu',
+    import: 'Tuo',
+    cancel: 'Peruuta',
+    reset: 'Nollaa',
+    zoom: 'Lähennä',
+    control_tooltip: 'Vasen hiiren painike kääntää\nRulla lähentääksesi\nOikea hiiren painike siirtää',
+    control_tooltip_touch: 'Vedä kääntääksesi\nNipistä lähentääksesi\nKahdella sormella siirtää',
+  },
+  my_cloud: {
+    title: 'Pilveni',
+    loading_file: 'Ladataan...',
+    no_file_title: 'Aloita tallentamalla tiedostoja pilveen.',
+    no_file_subtitle: 'Siirry valikkoon > "Tiedosto" > "Tallenna pilvipalveluun"',
+    file_limit: 'Ilmainen tiedosto',
+    upgrade: 'Päivitä',
+    sort: {
+      most_recent: 'Viimeisimmät',
+      oldest: 'Vanhimmat',
+      a_to_z: 'Nimi: A - Ö',
+      z_to_a: 'Nimi: Ö - A',
+    },
+    action: {
+      open: 'Avaa',
+      rename: 'Nimeä uudelleen',
+      duplicate: 'Kopioi',
+      download: 'Lataa',
+      delete: 'Poista',
+      confirmFileDelete: 'Haluatko varmasti poistaa tämän tiedoston? Toimintoa ei voi perua.',
+    },
+    save_file: {
+      choose_action: 'Tallenna tiedosto:',
+      save: 'Tallenna',
+      save_new: 'Tallenna uutena tiedostona',
+      input_file_name: 'Anna tiedoston nimi:',
+      invalid_char: 'Virheelliset merkit:',
+      storage_limit_exceeded:
+        'Pilvitallennustilasi on saavuttanut ylärajan. Poista kaikki tarpeettomat tiedostot ennen uusien tallentamista.',
+    },
   },
 };
 

@@ -147,7 +147,6 @@ exports[`should render correctly no devices 2`] = `
                     >
                       Initiating
                        
-                      
                     </label>
                     <label
                       class="connection-type"

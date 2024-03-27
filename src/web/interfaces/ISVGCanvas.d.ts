@@ -176,8 +176,6 @@ export default interface ISVGCanvas {
   ungroupSelectedElement(): void;
   updateCanvas: (width: number, height: number) => void;
   updateElementColor: (elem: Element) => void;
-  updateLayerColor: (layerElement: Element) => void;
-  updateLayerColorFilter: (layerElement: Element) => void;
   updateRecentFiles(path: string): void;
   unsafeAccess: {
     setCurrentMode: (v: string) => void;

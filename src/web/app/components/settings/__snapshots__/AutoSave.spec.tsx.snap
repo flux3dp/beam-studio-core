@@ -1,200 +1,178 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should render correctly hide in web 1`] = `""`;
+exports[`should render correctly hide in web 1`] = `<div />`;
 
 exports[`should render correctly initially no warning 1`] = `
-<Fragment>
+<div>
   <div
-    className="subtitle"
+    class="subtitle"
   >
     Auto Save
   </div>
-  <SelectControl
-    id="set-auto-save"
-    label="Auto Save"
-    onChange={[Function]}
-    options={
-      [
-        {
-          "label": "On",
-          "selected": false,
-          "value": "TRUE",
-        },
-        {
-          "label": "Off",
-          "selected": true,
-          "value": "FALSE",
-        },
-      ]
-    }
-  />
-  <Controls
+  <div>
+    mock-select-control id:
+    set-auto-save
+    label:
+    Auto Save
+    options:
+    [{"value":"TRUE","label":"On","selected":false},{"value":"FALSE","label":"Off","selected":true}]
+    <input
+      class="select-control"
+    />
+  </div>
+  <mock-control
     label="Auto Save Location"
   >
-    <PathInput
-      buttonTitle="Choose Folder"
-      className=""
-      data-id="location-input"
-      defaultValue="/MyDocuments"
-      forceValidValue={false}
-      getValue={[Function]}
-      type={1}
-    />
-  </Controls>
-  <Controls
+    <div>
+      mock-path-input id:
+      location-input
+      buttonTitle:
+      Choose Folder
+      type:
+      1
+      defaultValue:
+      /MyDocuments
+      forceValidValue:
+      false
+      className:
+      ""
+      <input
+        class="path-input"
+      />
+    </div>
+  </mock-control>
+  <mock-control
     label="Save Every"
   >
-    <UnitInput
-      abbr={false}
-      className={
-        {
-          "half": true,
-        }
-      }
-      decimal={0}
-      defaultValue={10}
-      disabled={false}
-      displayMultiValue={false}
-      forceUsePropsUnit={false}
-      getValue={[Function]}
-      id="save-every"
-      isDoOnInput={false}
-      max={60}
-      min={1}
-      onBlur={[Function]}
-      onFocus={[Function]}
-      onKeyUp={[Function]}
-      step={1}
-      type="text"
-      unit="m"
-    />
-  </Controls>
-  <Controls
+    <div>
+      mock-unit-input id:
+      save-every
+      unit:
+      m
+      min:
+      1
+      max:
+      60
+      defaultValue:
+      10
+      forceUsePropsUnit:
+      false
+      className:
+      {"half":true}
+      <input
+        class="unit-input"
+      />
+    </div>
+  </mock-control>
+  <mock-control
     label="Number of Auto Save"
   >
-    <UnitInput
-      abbr={false}
-      className={
-        {
-          "half": true,
-        }
-      }
-      decimal={0}
-      defaultValue={5}
-      disabled={false}
-      displayMultiValue={false}
-      forceUsePropsUnit={false}
-      getValue={[Function]}
-      id="number-of-auto-save"
-      isDoOnInput={false}
-      max={10}
-      min={1}
-      onBlur={[Function]}
-      onFocus={[Function]}
-      onKeyUp={[Function]}
-      step={1}
-      type="text"
-      unit=""
-    />
-  </Controls>
-</Fragment>
+    <div>
+      mock-unit-input id:
+      number-of-auto-save
+      unit:
+      min:
+      1
+      max:
+      10
+      defaultValue:
+      5
+      forceUsePropsUnit:
+      false
+      className:
+      {"half":true}
+      <input
+        class="unit-input"
+      />
+    </div>
+  </mock-control>
+</div>
 `;
 
 exports[`should render correctly initially with warning 1`] = `
-<Fragment>
+<div>
   <div
-    className="subtitle"
+    class="subtitle"
   >
     Auto Save
   </div>
-  <SelectControl
-    id="set-auto-save"
-    label="Auto Save"
-    onChange={[Function]}
-    options={
-      [
-        {
-          "label": "On",
-          "selected": false,
-          "value": "TRUE",
-        },
-        {
-          "label": "Off",
-          "selected": true,
-          "value": "FALSE",
-        },
-      ]
-    }
-  />
-  <Controls
-    label="Auto Save Location"
-    warningText="Specified path not found."
-  >
-    <PathInput
-      buttonTitle="Choose Folder"
-      className="with-error"
-      data-id="location-input"
-      defaultValue="/FolderNotExist"
-      forceValidValue={false}
-      getValue={[Function]}
-      type={1}
+  <div>
+    mock-select-control id:
+    set-auto-save
+    label:
+    Auto Save
+    options:
+    [{"value":"TRUE","label":"On","selected":false},{"value":"FALSE","label":"Off","selected":true}]
+    <input
+      class="select-control"
     />
-  </Controls>
-  <Controls
+  </div>
+  <mock-control
+    label="Auto Save Location"
+    warningtext="Specified path not found."
+  >
+    <div>
+      mock-path-input id:
+      location-input
+      buttonTitle:
+      Choose Folder
+      type:
+      1
+      defaultValue:
+      /FolderNotExist
+      forceValidValue:
+      false
+      className:
+      "with-error"
+      <input
+        class="path-input"
+      />
+    </div>
+  </mock-control>
+  <mock-control
     label="Save Every"
   >
-    <UnitInput
-      abbr={false}
-      className={
-        {
-          "half": true,
-        }
-      }
-      decimal={0}
-      defaultValue={10}
-      disabled={false}
-      displayMultiValue={false}
-      forceUsePropsUnit={false}
-      getValue={[Function]}
-      id="save-every"
-      isDoOnInput={false}
-      max={60}
-      min={1}
-      onBlur={[Function]}
-      onFocus={[Function]}
-      onKeyUp={[Function]}
-      step={1}
-      type="text"
-      unit="m"
-    />
-  </Controls>
-  <Controls
+    <div>
+      mock-unit-input id:
+      save-every
+      unit:
+      m
+      min:
+      1
+      max:
+      60
+      defaultValue:
+      10
+      forceUsePropsUnit:
+      false
+      className:
+      {"half":true}
+      <input
+        class="unit-input"
+      />
+    </div>
+  </mock-control>
+  <mock-control
     label="Number of Auto Save"
   >
-    <UnitInput
-      abbr={false}
-      className={
-        {
-          "half": true,
-        }
-      }
-      decimal={0}
-      defaultValue={5}
-      disabled={false}
-      displayMultiValue={false}
-      forceUsePropsUnit={false}
-      getValue={[Function]}
-      id="number-of-auto-save"
-      isDoOnInput={false}
-      max={10}
-      min={1}
-      onBlur={[Function]}
-      onFocus={[Function]}
-      onKeyUp={[Function]}
-      step={1}
-      type="text"
-      unit=""
-    />
-  </Controls>
-</Fragment>
+    <div>
+      mock-unit-input id:
+      number-of-auto-save
+      unit:
+      min:
+      1
+      max:
+      10
+      defaultValue:
+      5
+      forceUsePropsUnit:
+      false
+      className:
+      {"half":true}
+      <input
+        class="unit-input"
+      />
+    </div>
+  </mock-control>
+</div>
 `;

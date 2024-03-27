@@ -114,6 +114,7 @@ export default {
   IMPORT_HELLO_BEAMBOX: () => loadExampleFile(getExampleFileName('hello_beambox')),
   SAVE_SCENE: () => FileExportHelper.saveFile(),
   SAVE_AS: () => FileExportHelper.saveAsFile(),
+  SAVE_TO_CLOUD: () => FileExportHelper.saveToCloud(),
   EXPORT_BVG: () => FileExportHelper.exportAsBVG(),
   EXPORT_SVG: () => FileExportHelper.exportAsSVG(),
   EXPORT_PNG: () => FileExportHelper.exportAsImage('png'),
@@ -166,12 +167,12 @@ export default {
   MANAGE_ACCOUNT: () => externalLinkMemberDashboard(),
   SIGN_OUT: () => signOut(),
   QUESTIONNAIRE: async () => {
-    const res = await checkQuestionnaire();
+    const res = await checkQuestionnaire({ allowOldVersion: true });
     if (!res) {
       Alert.popUp({ message: i18n.lang.beambox.popup.questionnaire.unable_to_get_url });
       return;
     }
-    let url: null;
+    let url: string;
     if (res.version > 0 && res.urls) {
       url = res.urls[i18n.getActiveLang()] || res.urls.en;
     }

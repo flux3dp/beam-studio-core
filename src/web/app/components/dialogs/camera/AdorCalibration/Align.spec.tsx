@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 
-import { FisheyeCameraParameters } from 'app/constants/camera-calibration-constants';
+import { FisheyeCameraParametersV1 } from 'interfaces/FisheyePreview';
 
 import LayerModule from 'app/constants/layer-module/layer-modules';
 import moduleOffsets from 'app/constants/layer-module/module-offsets';
@@ -75,9 +75,8 @@ const mockRevokeObjectURL = jest.fn();
 
 const mockOnClose = jest.fn();
 const mockOnBack = jest.fn();
-const mockOnNext = jest.fn();
 
-const mockFishEyeParam: FisheyeCameraParameters = {
+const mockFishEyeParam: FisheyeCameraParametersV1 = {
   k: [[0]],
   d: [[0]],
   points: [[[[0, 0]]]],

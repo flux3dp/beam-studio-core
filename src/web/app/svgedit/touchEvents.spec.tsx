@@ -1,6 +1,5 @@
-import * as React from 'react';
-import { mount } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import React from 'react';
+import { render } from '@testing-library/react';
 
 import touchEvents from './touchEvents';
 
@@ -19,17 +18,21 @@ const doubleClick = jest.fn();
 const getZoom = jest.fn();
 const setZoom = jest.fn();
 
-let wrapper;
+let container;
+let canvas;
 
 describe('test touchEvents', () => {
   beforeAll(() => {
-    document.body.innerHTML = "<div id='main'></div>";
-    const mainDiv = document.getElementById('main');
-    wrapper = mount(<Workarea />, { attachTo: mainDiv });
-    const container = document.getElementById('svgcanvas');
+    const { baseElement } = render(
+      <div id="main">
+        <Workarea />
+      </div>
+    );
+    container = baseElement.querySelector('#main>div');
+    canvas = document.getElementById('svgcanvas');
     const workarea = document.getElementById('workarea');
     touchEvents.setupCanvasTouchEvents(
-      container,
+      canvas,
       workarea,
       500,
       500,
@@ -43,7 +46,6 @@ describe('test touchEvents', () => {
   });
 
   afterAll(() => {
-    wrapper?.detach();
     jest.useRealTimers();
   });
 
@@ -53,7 +55,6 @@ describe('test touchEvents', () => {
 
   test('test one finger touchEvents', () => {
     jest.useFakeTimers();
-    const container = document.getElementById('svgcanvas');
 
     const onePointTouchStart = new TouchEvent('touchstart', {
       touches: [
@@ -64,7 +65,7 @@ describe('test touchEvents', () => {
         } as Touch,
       ],
     });
-    container.dispatchEvent(onePointTouchStart);
+    canvas.dispatchEvent(onePointTouchStart);
     expect(mouseDown).not.toBeCalled();
     jest.runOnlyPendingTimers();
     expect(mouseDown).toHaveBeenNthCalledWith(1, onePointTouchStart);
@@ -78,7 +79,7 @@ describe('test touchEvents', () => {
         } as Touch,
       ],
     });
-    container.dispatchEvent(onePointTouchMove);
+    canvas.dispatchEvent(onePointTouchMove);
     expect(mouseDown).toHaveBeenNthCalledWith(1, onePointTouchMove);
 
     const onePointTouchEnd = new TouchEvent('touchend', {
@@ -90,15 +91,13 @@ describe('test touchEvents', () => {
         } as Touch,
       ],
     });
-    container.dispatchEvent(onePointTouchEnd);
+    canvas.dispatchEvent(onePointTouchEnd);
     expect(mouseUp).toHaveBeenNthCalledWith(1, onePointTouchEnd, false);
 
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
 
   test('test two finger touch', () => {
-    const container = document.getElementById('svgcanvas');
-
     const firstPointTouchStart = new TouchEvent('touchstart', {
       touches: [
         {
@@ -110,7 +109,7 @@ describe('test touchEvents', () => {
       // @ts-expect-error scale is defined in chrome & safari
       scale: 1,
     });
-    container.dispatchEvent(firstPointTouchStart);
+    canvas.dispatchEvent(firstPointTouchStart);
     expect(mouseDown).not.toBeCalled();
 
     const twoPointTouchStart = new TouchEvent('touchstart', {
@@ -129,7 +128,7 @@ describe('test touchEvents', () => {
       // @ts-expect-error scale is defined in chrome & safari
       scale: 1,
     });
-    container.dispatchEvent(twoPointTouchStart);
+    canvas.dispatchEvent(twoPointTouchStart);
 
     const twoPointTouchMovePan = new TouchEvent('touchmove', {
       touches: [
@@ -145,9 +144,9 @@ describe('test touchEvents', () => {
         } as Touch,
       ],
     });
-    container.dispatchEvent(twoPointTouchMovePan);
+    canvas.dispatchEvent(twoPointTouchMovePan);
     expect(mouseMove).toHaveBeenCalledTimes(0);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
 
     const twoPointTouchEnd = new TouchEvent('touchend', {
       touches: [
@@ -163,8 +162,8 @@ describe('test touchEvents', () => {
         } as Touch,
       ],
     });
-    container.dispatchEvent(twoPointTouchEnd);
+    canvas.dispatchEvent(twoPointTouchEnd);
     expect(mouseUp).toHaveBeenCalledTimes(0);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    expect(container).toMatchSnapshot();
   });
 });

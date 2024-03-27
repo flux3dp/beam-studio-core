@@ -188,7 +188,7 @@ const DimensionPanel = ({
 
   const handleFixRatio = useCallback((): void => {
     const isRatioFixed = elem?.getAttribute('data-ratiofixed') === 'true';
-    elem?.setAttribute('data-ratiofixed', String(!isRatioFixed));
+    if (elem) svgCanvas.changeSelectedAttribute('data-ratiofixed', String(!isRatioFixed), [elem]);
     updateDimensionValues({ isRatioFixed: !isRatioFixed });
     forceUpdate();
   }, [elem, updateDimensionValues, forceUpdate]);

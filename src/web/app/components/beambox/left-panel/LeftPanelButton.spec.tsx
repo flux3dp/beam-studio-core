@@ -17,6 +17,19 @@ describe('test LeftPanelButton', () => {
     expect(container).toMatchSnapshot();
   });
 
+  it('should render flux plus icon correctly', () => {
+    const { container } = render(
+      <LeftPanelButton
+        id="test"
+        title="test"
+        icon={<div>test</div>}
+        onClick={mockOnClick}
+        showBadge
+      />
+    );
+    expect(container).toMatchSnapshot();
+  });
+
   it('should call onClick when click', () => {
     const { container } = render(
       <LeftPanelButton id="test" title="test" icon={<div>test</div>} onClick={mockOnClick} />

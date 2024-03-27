@@ -1,14 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
-import i18n from 'helpers/i18n';
+import HistoryCommandFactory from 'app/svgedit/HistoryCommandFactory';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import OptionPanelIcons from 'app/icons/option-panel/OptionPanelIcons';
 import UnitInput from 'app/widgets/Unit-Input-v2';
+import useI18n from 'helpers/useI18n';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { useIsMobile } from 'helpers/system-helper';
 
 import styles from './PolygonOptions.module.scss';
 
-const LANG = i18n.lang.beambox.right_panel.object_panel.option_panel;
+
+let svgCanvas;
+getSVGAsync((globalSVG) => {
+  svgCanvas = globalSVG.Canvas;
+});
 
 interface Props {
   elem: Element;
@@ -18,18 +24,23 @@ interface Props {
 function PolygonOptions({ elem, polygonSides }: Props): JSX.Element {
   const [sides, setSides] = React.useState(polygonSides || 5);
   const isMobile = useIsMobile();
-  React.useEffect(() => {
+  const lang = useI18n().beambox.right_panel.object_panel.option_panel;
+  useEffect(() => {
     if (polygonSides) setSides(polygonSides);
   }, [polygonSides]);
 
   const handleSideChanage = (val) => {
     if (val === sides) return;
-    if (val > sides) {
-      for (let i = sides; i < val; i += 1) window.polygonAddSides?.();
-    } else {
-      for (let i = val; i < sides; i += 1) window.polygonDecreaseSides?.();
-    }
-    setSides(+$(elem).attr('sides'));
+    const batchCmd = HistoryCommandFactory.createBatchCommand('Change Polygon Sides');
+    svgCanvas.undoMgr.beginUndoableChange('sides', [elem]);
+    svgCanvas.undoMgr.beginUndoableChange('points', [elem]);
+    window.updatePolygonSides?.(elem, val - sides);
+    let cmd = svgCanvas.undoMgr.finishUndoableChange();
+    if (!cmd.isEmpty()) batchCmd.addSubCommand(cmd);
+    cmd = svgCanvas.undoMgr.finishUndoableChange();
+    if (!cmd.isEmpty()) batchCmd.addSubCommand(cmd);
+    if (!batchCmd.isEmpty()) svgCanvas.undoMgr.addCommandToHistory(batchCmd);
+    setSides(parseInt(elem.getAttribute('sides'), 10));
   };
 
   const renderSides = () =>
@@ -39,13 +50,13 @@ function PolygonOptions({ elem, polygonSides }: Props): JSX.Element {
         value={sides}
         min={3}
         updateValue={handleSideChanage}
-        label={LANG.sides}
+        label={lang.sides}
         unit=""
         decimal={0}
       />
     ) : (
       <div className={styles['polygon-sides']} key="polygon-sides">
-        <div className={styles.label} title={LANG.sides}>
+        <div className={styles.label} title={lang.sides}>
           <OptionPanelIcons.PolygonSide />
         </div>
         <UnitInput

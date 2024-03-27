@@ -4,13 +4,13 @@
 .common-tools-container {
   position: absolute;
   height: 100%;
-  margin: 0 0 0 128px;
+  margin: 0 0 0 168px;
   display: flex;
   align-items: center;
   gap: 8px;
 
   @media screen and (max-width: 600px) {
-    margin: 0 0 0 60px;
+    margin: 0 0 0 100px;
   }
 
   > div {

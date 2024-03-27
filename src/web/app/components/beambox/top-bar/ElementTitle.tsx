@@ -1,7 +1,11 @@
+import classNames from 'classnames';
 import React from 'react';
 
 import i18n from 'helpers/i18n';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+
+// TODO: move all styles from web to modules.scss
+import styles from './ElementTitle.module.scss';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => {
@@ -11,7 +15,7 @@ getSVGAsync((globalSVG) => {
 const LANG = i18n.lang.topbar;
 
 interface Props {
-  selectedElem: Element | null,
+  selectedElem: Element | null;
 }
 
 function ElementTitle({ selectedElem }: Props): JSX.Element {
@@ -39,11 +43,7 @@ function ElementTitle({ selectedElem }: Props): JSX.Element {
   if (!content) {
     return null;
   }
-  return (
-    <div className="element-title">
-      {content}
-    </div>
-  );
+  return <div className={classNames('element-title', styles['element-title'])}>{content}</div>;
 }
 
 export default ElementTitle;

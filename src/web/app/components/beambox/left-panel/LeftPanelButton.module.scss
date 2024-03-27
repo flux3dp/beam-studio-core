@@ -1,18 +1,17 @@
 .container {
   text-align: center;
   line-height: 24px;
-  filter: brightness(0);
   margin: 13px 6px 13px 7px;
   height: 30px;
   width: 36px;
-  opacity: 0.5;
+  color: #7c7c7c;
 
   &.active {
-    opacity: 1;
+    color: #000;
   }
 
   &.disabled {
-    opacity: 0.3;
+    opacity: 0.5;
   }
 
   &:not(.disabled) {
@@ -20,6 +19,15 @@
   }
 
   &:hover:not(.disabled) {
-    opacity: 1;
+    color: #000;
+  }
+}
+
+.badge {
+  color: inherit;
+  font-size: inherit;
+
+  .flux-plus {
+    font-size: 20px;
   }
 }

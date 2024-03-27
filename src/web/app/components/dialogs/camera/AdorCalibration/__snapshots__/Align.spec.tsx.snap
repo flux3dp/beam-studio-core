@@ -360,7 +360,6 @@ exports[`test Align scroll and next should work when type is Camera 1`] = `
                       <span>
                         use_last_config
                       </span>
-                      
                     </button>
                   </div>
                 </div>
@@ -376,7 +375,6 @@ exports[`test Align scroll and next should work when type is Camera 1`] = `
                 <span>
                   back
                 </span>
-                
               </button>
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-default footer-button"
@@ -385,7 +383,6 @@ exports[`test Align scroll and next should work when type is Camera 1`] = `
                 <span>
                   retake
                 </span>
-                
               </button>
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary footer-button"
@@ -394,7 +391,6 @@ exports[`test Align scroll and next should work when type is Camera 1`] = `
                 <span>
                   done
                 </span>
-                
               </button>
             </div>
           </div>
@@ -770,7 +766,6 @@ exports[`test Align scroll and next should work when type is PRINTER_HEAD 1`] = 
                       <span>
                         use_last_config
                       </span>
-                      
                     </button>
                   </div>
                 </div>
@@ -786,7 +781,6 @@ exports[`test Align scroll and next should work when type is PRINTER_HEAD 1`] = 
                 <span>
                   back
                 </span>
-                
               </button>
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-default footer-button"
@@ -795,7 +789,6 @@ exports[`test Align scroll and next should work when type is PRINTER_HEAD 1`] = 
                 <span>
                   retake
                 </span>
-                
               </button>
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary footer-button"
@@ -804,7 +797,6 @@ exports[`test Align scroll and next should work when type is PRINTER_HEAD 1`] = 
                 <span>
                   done
                 </span>
-                
               </button>
             </div>
           </div>
@@ -1180,7 +1172,6 @@ exports[`test Align should render correctly 1`] = `
                       <span>
                         use_last_config
                       </span>
-                      
                     </button>
                   </div>
                 </div>
@@ -1196,7 +1187,6 @@ exports[`test Align should render correctly 1`] = `
                 <span>
                   back
                 </span>
-                
               </button>
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-default footer-button"
@@ -1205,7 +1195,6 @@ exports[`test Align should render correctly 1`] = `
                 <span>
                   retake
                 </span>
-                
               </button>
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary footer-button"
@@ -1214,7 +1203,6 @@ exports[`test Align should render correctly 1`] = `
                 <span>
                   done
                 </span>
-                
               </button>
             </div>
           </div>

@@ -87,6 +87,7 @@ const lang: ILang = {
       export_JPG: 'JPG',
       save_scene: 'Spara',
       save_as: 'Spara som...',
+      save_to_cloud: 'Spara till molnet',
       about_beam_studio: 'Om Beam Studio',
       undo: 'Ångra',
       redo: 'Gör om',
@@ -448,6 +449,7 @@ const lang: ILang = {
     mask: 'Arbetsområdesklippning',
     text_path_calc_optimization: 'Bana beräkningsoptimering',
     font_substitute: 'Ersätt osupportade tecken',
+    font_convert: 'Text till bana konverterare',
     default_borderless_mode: 'Öppna botten som standard',
     default_enable_autofocus_module: 'Autofokus som standard',
     default_enable_diode_module: 'Diodlaser som standard',
@@ -500,6 +502,7 @@ const lang: ILang = {
       loop_compensation: 'https://support.flux3dp.com/hc/en-us/articles/360004408856',
       mask: 'https://support.flux3dp.com/hc/en-us/articles/360004408876',
       font_substitute: 'https://support.flux3dp.com/hc/en-us/articles/360004496575',
+      font_convert: 'https://support.flux3dp.com/hc/en-us/articles/9132766761743',
       default_borderless_mode: 'https://support.flux3dp.com/hc/zh-tw/articles/360001104076',
       default_enable_autofocus_module: 'https://support.flux3dp.com/hc/en-us/articles/360001574536',
       default_enable_diode_module: 'https://support.flux3dp.com/hc/en-us/articles/360001568035',
@@ -546,7 +549,7 @@ const lang: ILang = {
       too_fast_for_path_and_constrain:
         'Följande lager: %s\ninnehåller vektorbanaobjekt och har hastighet över 20 mm/s.\nSkärhastigheten för vektorbanaobjekt kommer begränsas till 20 mm/s.\nDu kan ta bort denna begränsning under inställningar.',
       should_update_firmware_to_continue:
-        'Din firmware stöder inte denna version av Beam Studio. Uppdatera firmware för att fortsätta. (Meny > Maskin > [Din maskin] > Uppdatera firmware)',
+        '#814 Din firmware stöder inte denna version av Beam Studio. Uppdatera firmware för att fortsätta. (Meny > Maskin > [Din maskin] > Uppdatera firmware)',
       recommend_downgrade_software:
         'Vi upptäckte en äldre firmwareversion. Vi arbetar aktivt med kompatibilitetsproblem, men för närvarande rekommenderar vi att återgå till Beam Studio 1.9.5.',
       recommend_upgrade_firmware:
@@ -560,9 +563,9 @@ const lang: ILang = {
         '#808 Importerad SVG-fil innehåller ogiltig bildsökväg. Se till att alla bildfiler finns eller bädda in bild i filen',
       import_file_error_ask_for_upload:
         'Misslyckades med att importera SVG-filen. Vill du skicka filen till utvecklingsteamet för felrapportering?',
-      upload_file_too_large: 'Filen är för stor för uppladdning.',
+      upload_file_too_large: '#819 Filen är för stor för uppladdning.',
       successfully_uploaded: 'Filuppladdningen lyckades.',
-      upload_failed: 'Filuppladdningen misslyckades.',
+      upload_failed: '#819 Filuppladdningen misslyckades.',
       or_turn_off_borderless_mode: 'Eller stäng av öppen bottenläge.',
       svg_1_1_waring:
         'Versionen av denna SVG-fil är v 1.1, det kan finnas potentiella kompatibilitetsproblem.',
@@ -580,12 +583,12 @@ const lang: ILang = {
         calculating: 'Beräknar',
       },
       backend_connect_failed_ask_to_upload:
-        'Fel uppstår hela tiden när anslutning till servern försöks. Vill du ladda upp din felrapportlogg?',
+        '#802 Fel uppstår hela tiden när anslutning till servern försöks. Vill du ladda upp din felrapportlogg?',
       backend_error_hint: 'Funktioner kanske inte fungerar korrekt på grund av serverfel.',
       pdf2svg: {
-        error_when_converting_pdf: 'Fel vid konvertering av PDF till SVG:',
+        error_when_converting_pdf: '#824 Fel vid konvertering av PDF till SVG:',
         error_pdf2svg_not_found:
-          'Fel: Kommandot pdf2svg hittades inte. Installera pdf2svg med ditt pakethanterare (t.ex. "yum install pdf2svg" eller "apt-get install pdf2svg").',
+          '#825 Fel: Kommandot pdf2svg hittades inte. Installera pdf2svg med ditt pakethanterare (t.ex. "yum install pdf2svg" eller "apt-get install pdf2svg").',
       },
       ungroup_use:
         'Detta kommer att separera importerad DXF eller SVG. Eftersom filen kan innehålla ett stort antal element kan det ta tid att separera. Är du säker på att du vill fortsätta?',
@@ -621,6 +624,11 @@ const lang: ILang = {
         insufficient_credit_msg: 'Du kan inte använda %s. Gå till medlemscentret och köp AI-kredit',
         buy_link: 'https://member.flux3dp.com/en-US/credit',
         go: 'Gå',
+      },
+      text_to_path: {
+        caption: 'Text till bana konverterare 2.0',
+        message:
+          'Beam Studio introducerar nu en ny text till bana konverterare (Konverterare 2.0), som producerar mer tillförlitliga resultat! Vill du byta till den nu?\\nDu kan också justera den här inställningen senare i avsnittet "Text till bana konverterare" under inställningarna.',
       },
     },
     zoom_block: {
@@ -658,6 +666,9 @@ const lang: ILang = {
         choose_camera: 'Kamera',
         live_feed: 'Livebild',
         adjust_height: 'Justera höjd',
+        qr_code: 'QR-kod',
+        boxgen: 'Boxgen',
+        my_cloud: 'Mitt moln',
       },
     },
     right_panel: {
@@ -991,7 +1002,7 @@ const lang: ILang = {
           ai_bg_removal: 'Ta bort bakgrunden',
           ai_bg_removal_short: 'BG bort',
           ai_bg_removal_reminder:
-            'Tryck på knappen kommer omedelbart att använda 0,2 AI-kredit, vill du fortsätta?',
+            'Tryck på knappen kommer omedelbart att använda 0,2 kredit, vill du fortsätta?',
           outline: 'Kontur',
         },
         path_edit_panel: {
@@ -1070,11 +1081,12 @@ const lang: ILang = {
       wait_for_parsing_font: 'Tolkar teckensnitt ... Vänta en sekund',
       text_to_path: {
         font_substitute_pop:
-          'Text: <strong>%s</strong> innehåller tecken <strong>%s</strong> som inte stöds av aktuellt teckensnitt: <strong>%s</strong>. <br/>Vill du använda <strong>%s</strong> som ersättning?',
+          'Din text innehåller tecken som inte stöds av aktuellt typsnitt. <br/>Vill du använda <strong>%s</strong> som ersättning?',
         check_thumbnail_warning:
           'Vissa texter ändrades till andra typsnitt när text tolkades till banor och vissa tecken kanske inte konverterades korrekt. <br/> Kontrollera förhandsgranskningsbilden igen innan du skickar uppgiften.',
-        error_when_parsing_text: 'Fel vid omvandling av text till bana: <br/>%s',
+        error_when_parsing_text: 'Fel vid omvandling av text till bana',
         use_current_font: 'Använd aktuellt typsnitt',
+        retry: 'Försök igen senare eller välj ett annat typsnitt',
       },
       lock_desc: 'Behåll bredd- och höjdförhållandet (SHIFT)',
     },
@@ -1119,8 +1131,8 @@ const lang: ILang = {
       start: 'Starta',
       end: 'Sluta',
       testing: 'Testar nätverk...',
-      invalid_ip: 'Ogiltig IP-adress',
-      ip_startswith_169: 'Maskinens IP-adress börjar med 169.254',
+      invalid_ip: '#818 Ogiltig IP-adress',
+      ip_startswith_169: '#843 Maskinens IP-adress börjar med 169.254',
       connection_quality: 'Anslutningskvalitet',
       average_response: 'Genomsnittlig svarstid',
       test_completed: 'Test slutförd',
@@ -1202,6 +1214,10 @@ const lang: ILang = {
       line: 'Linje',
       label: 'Etikett',
     },
+    announcement_panel: {
+      title: 'Meddelande',
+      dont_show_again: 'Visa inte igen',
+    },
   },
   editor: {
     prespray_area: 'Primeringsyta',
@@ -1223,6 +1239,30 @@ const lang: ILang = {
     new_to_flux: 'Ny på FLUX? Skapa ett konto.',
     signup_url: 'https://id.flux3dp.com/user/login#up',
     lost_password_url: 'https://id.flux3dp.com/user/forgot-password',
+    flux_plus: {
+      explore_plans: 'Utforska FLUX+ planer',
+      thank_you: 'Tack för att du är en värdefull medlem!',
+      ai_credit_tooltip: 'För AI-bakgrundsborttagning',
+      flux_credit_tooltip: 'För designmarknadsfiler och AI-bakgrundsborttagning',
+      goto_member_center: 'Gå till medlemscenter',
+      access_plus_feature_1: 'Du använder en',
+      access_plus_feature_2: 'funktion.',
+      access_plus_feature_note: 'Du måste ha FLUX+ medlemskap för att använda den här funktionen.',
+      access_monotype_feature: 'Du har inte Monotype Fonts-tillägget.',
+      access_monotype_feature_note: 'Du måste ha FLUX+ Pro-medlemskap eller Monotype Fonts-tillägget för att använda den här funktionen.',
+      learn_more: 'Läs mer',
+      get_addon: 'Skaffa tillägg',
+      subscribe_now: 'Prenumerera nu',
+      website_url: 'https://flux3dp.com/subscription',
+      member_center_url: 'https://member.flux3dp.com/en-US/subscription',
+      features: {
+        ai_bg_removal: 'AI bakgrundsborttagning',
+        my_cloud: 'Obegränsad molnlagring',
+        boxgen: '3D lådgenerator',
+        dmkt: '1000+ designfiler',
+        monotype: '250+ premiumtypsnitt',
+      },
+    },
   },
   noun_project_panel: {
     login_first: 'Logga in för att låsa upp formdatabasen.',
@@ -1412,7 +1452,7 @@ const lang: ILang = {
     getProbePosition: 'Hämtar sondposition...',
     device_not_found: {
       caption: 'Standardmaskin hittades inte',
-      message: 'Kontrollera maskinens WiFi-indikator',
+      message: '#812 Kontrollera maskinens WiFi-indikator',
     },
     device_busy: {
       caption: 'Maskinen är upptagen',
@@ -1423,35 +1463,36 @@ const lang: ILang = {
     monitor_too_old: {
       caption: 'Föråldrad firmware',
       content:
-        'Installera den senaste firmware med <a target="_blank" href="http://helpcenter.flux3dp.com/hc/en-us/articles/216251077">denna guide</a>.',
+        '#814 Installera den senaste firmware med <a target="_blank" href="http://helpcenter.flux3dp.com/hc/en-us/articles/216251077">denna guide</a>.',
     },
     unknown_error:
-      'Applikationen har stött på ett okänt fel, använd Hjälp > Meny > Rapportera bugg.',
-    unknown_device: 'Kan inte ansluta till maskinen, kontrollera att USB är ansluten till maskinen',
+      '#821 Applikationen har stött på ett okänt fel, använd Hjälp > Meny > Rapportera bugg.',
+    unknown_device:
+      '#826 Kan inte ansluta till maskinen, kontrollera att USB är ansluten till maskinen',
     unsupport_osx_version:
       'Aktuell macOS-version %s kanske inte stöder alla funktioner. Uppdatera gärna till macOS 11+.',
     unsupport_win_version:
       'Aktuell OS-version %s kanske inte stöder alla funktioner. Uppdatera gärna till den senaste versionen.',
     need_password: 'Lösenord krävs för att ansluta till maskinen',
     unavailableWorkarea:
-      'Aktuellt arbetsområde överskrider maskinens arbetsområde. Kontrollera arbetsområdet för vald maskin eller ställ in arbetsområde från Redigera > Dokumentinställningar.',
+      '#804 Aktuellt arbetsområde överskrider maskinens arbetsområde. Kontrollera arbetsområdet för vald maskin eller ställ in arbetsområde från Redigera > Dokumentinställningar.',
     please_enter_dpi: 'Ange enheten för din fil (i mm)',
     auth_error:
-      'Autentiseringsfel: Uppdatera Beam Studio och maskinens firmware till senaste versionen.',
+      '#820 Autentiseringsfel: Uppdatera Beam Studio och maskinens firmware till senaste versionen.',
     usb_unplugged: 'USB-anslutningen förlorades. Kontrollera din USB-anslutning',
     uploading_fcode: 'Laddar upp FCode',
-    cant_connect_to_device: 'Kan inte ansluta till maskinen, kontrollera din anslutning',
+    cant_connect_to_device: '#827 Kan inte ansluta till maskinen, kontrollera din anslutning',
     unable_to_find_machine: 'Kan inte hitta maskin ',
     disconnected: 'Ostabil anslutning, kontrollera enhetsanslutning och försök igen senare',
     unable_to_start:
-      'Det gick inte att starta uppgiften. Försök igen. Om detta händer igen, vänligen kontakta oss med en felrapport:',
+      '#830 Det gick inte att starta uppgiften. Försök igen. Om detta händer igen, vänligen kontakta oss med en felrapport:',
     camera: {
       camera_cable_unstable:
         'Det upptäcktes att kameran överför bilder ostabilt. Förhandsgranskning kan fortfarande utföras normalt, men det kan finnas problem med långsam förhandsgranskning eller timeout.',
       fail_to_transmit_image:
-        'Något gick fel med bildöverföringen. Starta om din maskin eller Beam Studio. Om felet kvarstår, följ <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/4402756056079">denna guide</a>.',
+        '#845 Något gick fel med bildöverföringen. Starta om din maskin eller Beam Studio. Om felet kvarstår, följ <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/4402756056079">denna guide</a>.',
       ws_closed_unexpectly:
-        'Anslutningen till maskinkameran har stängts oväntat. Om felet kvarstår, följ <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/4402755805071">denna guide</a>.',
+        '#844 Anslutningen till maskinkameran har stängts oväntat. Om felet kvarstår, följ <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/4402755805071">denna guide</a>.',
       continue_preview: 'Fortsätt',
       abort_preview: 'Avbryt',
     },
@@ -1675,6 +1716,86 @@ const lang: ILang = {
         'Klicka på "Bekräfta" för att utföra kalibreringen eller gå till kalibrering via huvudmenyn.<br />(Maskin > [Ditt maskinnamn] > Kalibrera infraröd modul)',
     },
     non_working_area: 'Icke-Arbetsområde',
+  },
+  qr_code_generator: {
+    title: 'QR-kodsgenerator',
+    placeholder: 'Ange en länk eller text',
+    preview: 'Förhandsgranska',
+    error_tolerance: 'Felmarginal',
+    error_tolerance_link: 'https://support.flux3dp.com/hc/en-us/articles/9113705072143',
+    invert: 'Invertera bakgrundsfärg',
+  },
+  boxgen: {
+    back: 'Tillbaka till Beam Studio',
+    title: 'BOXGEN',
+    basic_box: 'Grundläggande låda',
+    coming_soon: 'Kommer snart',
+    workarea: 'Arbetsområde',
+    max_dimension_tooltip: 'Max bredd/höjd/djup inställning är %s.',
+    volume: 'Volym',
+    outer: 'Yttre',
+    inner: 'Inre',
+    width: 'Bredd',
+    height: 'Höjd',
+    depth: 'Djup',
+    cover: 'Lock',
+    thickness: 'Tjocklek',
+    add_option: 'Lägg till alternativ',
+    joints: 'Fog',
+    finger: 'Finger',
+    finger_warning: 'Lådans inre sidlängd måste vara minst 6 mm (0,24 tum) för att vara kompatibel med fingerskarvning.',
+    tSlot: 'T-spår',
+    tSlot_warning: 'Lådans sidlängd måste vara minst 30 mm (1,18 tum) för att vara kompatibel med T-spårskarvning.',
+    edge: 'Kant',
+    tCount: 'T Antal',
+    tCount_tooltip: 'Antalet T-spår gäller den korta sidan; kvantiteten på den långa sidan beräknas baserat på dess längd.',
+    tDiameter: 'T Diameter',
+    tLength: 'T Längd',
+    continue_import: 'Fortsätt importera',
+    customize: 'Anpassa',
+    merge: 'Sammanfoga',
+    text_label: 'Etikett',
+    beam_radius: 'Kompensation för skärstråle',
+    beam_radius_warning:
+      'Ta bort kompensation för sågkärv när kanterna eller fogarna på lådan är korta för att säkerställa montering',
+    import: 'Importera',
+    cancel: 'Avbryt',
+    reset: 'Återställ',
+    zoom: 'Zooma',
+    control_tooltip: 'Vänster mus för att rotera\nScrolla för att zooma\nHöger mus för att panorera',
+    control_tooltip_touch: 'Dra för att rotera\nNypa för att zooma\nTvå fingrar för att panorera',
+  },
+  my_cloud: {
+    title: 'Mitt moln',
+    loading_file: 'Laddar...',
+    no_file_title: 'Spara filer till Mitt moln för att komma igång.',
+    no_file_subtitle: 'Gå till Meny > "Arkiv" > "Spara till molnet"',
+    file_limit: 'Gratis fil',
+    upgrade: 'Uppgradera',
+    sort: {
+      most_recent: 'Senast',
+      oldest: 'Äldst',
+      a_to_z: 'Namn: A - Ö',
+      z_to_a: 'Namn: Ö - A',
+    },
+    action: {
+      open: 'Öppna',
+      rename: 'Byt namn',
+      duplicate: 'Duplicera',
+      download: 'Ladda ner',
+      delete: 'Ta bort',
+      confirmFileDelete:
+        'Är du säker på att du vill ta bort den här filen? Den här åtgärden kan inte ångras.',
+    },
+    save_file: {
+      choose_action: 'Spara fil:',
+      save: 'Spara',
+      save_new: 'Spara som ny fil',
+      input_file_name: 'Ange filnamn:',
+      invalid_char: 'Ogiltiga tecken:',
+      storage_limit_exceeded:
+        'Din molnlagring har nått gränsen. Ta bort eventuella onödiga filer innan du sparar nya.',
+    },
   },
 };
 

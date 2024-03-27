@@ -35,7 +35,6 @@ jest.mock('helpers/svg-editor-helper', () => ({
   getSVGAsync: (callback) => {
     callback({
       Canvas: {
-        updateLayerColor: (...args) => mockUpdateLayerColor(...args),
         getCurrentDrawing: (...args) => mockGetCurrentDrawing(...args),
       },
     });

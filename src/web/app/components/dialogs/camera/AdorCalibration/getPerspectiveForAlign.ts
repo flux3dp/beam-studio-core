@@ -1,10 +1,10 @@
-import { FisheyeCameraParameters, RotationParameters3D } from 'app/constants/camera-calibration-constants';
 import deviceConstants from 'app/constants/device-constants';
 import deviceMaster from 'helpers/device-master';
 import {
   getPerspectivePointsZ3Regression,
   interpolatePointsFromHeight,
 } from 'helpers/camera-calibration-helper';
+import { FisheyeCameraParametersV1, RotationParameters3D } from 'interfaces/FisheyePreview';
 import { IDeviceInfo } from 'interfaces/IDevice';
 
 const getHeightOffsets = async () => {
@@ -49,7 +49,7 @@ const loadCamera3dRotation = async (): Promise<RotationParameters3D | null> => {
   try {
     const data = await deviceMaster.fetchFisheye3DRotation();
     console.log('fetchFisheye3DRotation', data);
-    return data
+    return data;
   } catch (e) {
     console.error('Unable to get fisheye 3d rotation', e);
   }
@@ -76,7 +76,7 @@ const getHeight = async (device: IDeviceInfo) => {
 
 const getPerspectiveForAlign = async (
   device: IDeviceInfo,
-  param: FisheyeCameraParameters,
+  param: FisheyeCameraParametersV1,
   center: number[]
 ): Promise<[number, number][][]> => {
   const { autoLevelingData, heightOffset } = await getHeightOffsets();

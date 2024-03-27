@@ -21,12 +21,17 @@ import { InkDetectionStatus } from 'app/constants/layer-module/ink-cartridge';
 import { Mode } from 'app/constants/monitor-constants';
 import { parsingChipData } from 'app/components/dialogs/CartridgeSettingPanel';
 import { showAdorCalibration } from 'app/components/dialogs/camera/AdorCalibration';
+import { showAdorCalibrationV2 } from 'app/components/dialogs/camera/AdorCalibrationV2';
 import { showCameraCalibration } from 'app/views/beambox/Camera-Calibration';
 import { showDiodeCalibration } from 'app/views/beambox/Diode-Calibration';
 
 const { lang } = i18n;
 
-const calibrateCamera = async (device: IDeviceInfo, isBorderless: boolean) => {
+const calibrateCamera = async (
+  device: IDeviceInfo,
+  args: { isBorderless?: boolean; calibrateVersion?: number } = {}
+) => {
+  const { isBorderless = false, calibrateVersion = 1 } = args;
   try {
     const deviceStatus = await checkDeviceStatus(device);
     if (!deviceStatus) {
@@ -34,8 +39,10 @@ const calibrateCamera = async (device: IDeviceInfo, isBorderless: boolean) => {
     }
     const res = await DeviceMaster.select(device);
     if (res.success) {
-      if (constant.adorModels.includes(device.model)) showAdorCalibration();
-      else showCameraCalibration(device, isBorderless);
+      if (constant.adorModels.includes(device.model)) {
+        if (calibrateVersion === 2) showAdorCalibrationV2();
+        else showAdorCalibration();
+      } else showCameraCalibration(device, isBorderless);
     }
   } catch (error) {
     console.error(error);
@@ -293,7 +300,17 @@ export default {
       });
       return;
     }
-    calibrateCamera(device, false);
+    calibrateCamera(device);
+  },
+  CALIBRATE_CAMERA_V2: async (device: IDeviceInfo): Promise<void> => {
+    if (window.location.hash !== '#/studio/beambox') {
+      Alert.popUp({
+        type: AlertConstants.SHOW_POPUP_INFO,
+        message: lang.calibration.please_goto_beambox_first,
+      });
+      return;
+    }
+    calibrateCamera(device, { calibrateVersion: 2 });
   },
   CALIBRATE_PRINTER_MODULE: async (device: IDeviceInfo): Promise<void> => {
     if (window.location.hash !== '#/studio/beambox') {
@@ -326,7 +343,7 @@ export default {
     const vc = VersionChecker(device.version);
     const isAvailableVersion = vc.meetRequirement('BORDERLESS_MODE');
     if (isAvailableVersion) {
-      calibrateCamera(device, true);
+      calibrateCamera(device, { isBorderless: true });
     } else {
       const langCameraCali = lang.calibration;
       const message = `${langCameraCali.update_firmware_msg1} 2.5.1 ${langCameraCali.update_firmware_msg2}`;

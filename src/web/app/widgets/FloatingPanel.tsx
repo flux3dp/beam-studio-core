@@ -10,7 +10,7 @@ import styles from './FloatingPanel.module.scss';
 interface Props {
   className?: string;
   anchors: number[];
-  title: string;
+  title: string | JSX.Element;
   fixedContent?: React.ReactNode;
   children: React.ReactNode;
   forceClose?: boolean;

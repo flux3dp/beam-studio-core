@@ -72,18 +72,6 @@ const MonitorControl = (): JSX.Element => {
   //   );
   // // }
 
-  // const renderUploadButton = (enable: boolean): JSX.Element => {
-  //   const { onUpload } = this.context;
-  //   const containerClass = classNames('controls left', { disabled: !enable });
-  //   return (
-  //     <div className={containerClass} onClick={onUpload}>
-  //       <div className="btn-upload btn-control" />
-  //       <input className="upload-control" type="file" accept=".fc" onChange={onUpload} />
-  //       <div className="description">{LANG.upload}</div>
-  //     </div>
-  //   );
-  // }
-
   const canStart = !!report && report.st_id === DeviceConstants.status.IDLE;
 
   if (mode === Mode.PREVIEW || mode === Mode.FILE_PREVIEW) {
@@ -95,7 +83,8 @@ const MonitorControl = (): JSX.Element => {
         </Button>
       </Space>
     );
-  } if (mode === Mode.WORKING) {
+  }
+  if (mode === Mode.WORKING) {
     return (
       <Space>
         {MonitorStatus.getControlButtonType(report).map((v) => mapButtonTypeToElement(v))}

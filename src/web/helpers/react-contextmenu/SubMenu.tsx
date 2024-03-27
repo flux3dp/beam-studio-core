@@ -82,9 +82,8 @@ export default class SubMenu extends AbstractMenu {
     if (this.props.forceOpen || this.state.visible) {
       const wrapper = window.requestAnimationFrame || setTimeout;
       wrapper(() => {
-        const styles = this.props.rtl
-          ? this.getRTLMenuPosition()
-          : this.getMenuPosition();
+        this.subMenu.classList.add(cssClasses.menuVisible);
+        const styles = this.props.rtl ? this.getRTLMenuPosition() : this.getMenuPosition();
 
         this.subMenu.style.removeProperty('top');
         this.subMenu.style.removeProperty('bottom');
@@ -95,22 +94,20 @@ export default class SubMenu extends AbstractMenu {
         if (hasOwnProp(styles, 'left')) this.subMenu.style.left = styles.left;
         if (hasOwnProp(styles, 'bottom')) this.subMenu.style.bottom = styles.bottom;
         if (hasOwnProp(styles, 'right')) this.subMenu.style.right = styles.right;
-        this.subMenu.classList.add(cssClasses.menuVisible);
 
         this.registerHandlers();
         this.setState({ selectedItem: null });
       });
     } else {
       const cleanup = () => {
-        this.subMenu.removeEventListener('transitionend', cleanup);
         this.subMenu.style.removeProperty('bottom');
         this.subMenu.style.removeProperty('right');
         this.subMenu.style.top = '0';
         this.subMenu.style.left = '100%';
         this.unregisterHandlers();
       };
-      this.subMenu.addEventListener('transitionend', cleanup);
       this.subMenu.classList.remove(cssClasses.menuVisible);
+      cleanup();
     }
   }
 
@@ -252,7 +249,7 @@ export default class SubMenu extends AbstractMenu {
       ref: this.menuRef,
       onMouseEnter: this.handleMouseEnter,
       onMouseLeave: this.handleMouseLeave,
-      className: cx(cssClasses.menuItem, cssClasses.subMenu, attributes.listClassName),
+      className: cx(cssClasses.subMenu, attributes.listClassName),
     };
     const menuItemProps = {
       className: cx(cssClasses.menuItem, attributes.className, {
@@ -280,9 +277,9 @@ export default class SubMenu extends AbstractMenu {
           tabIndex={-1}
           style={{
             position: 'absolute',
-            transition: 'opacity 1ms', // trigger transitionend event
             top: 0,
             left: '100%',
+            whiteSpace: 'nowrap',
           }}
         >
           {this.renderChildren(children)}

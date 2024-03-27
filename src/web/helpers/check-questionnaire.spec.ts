@@ -22,7 +22,7 @@ describe('test check-questionnaire', () => {
         'zh-cn': 'https://flux3dp.typeform.com/to/AgdFTk5k',
         'zh-tw': 'https://flux3dp.typeform.com/to/QptA0aXU',
       },
-      version: 2,
+      version: 1,
     }));
     const result = await checkQuestionnaire();
     expect(result).toBe(null);
@@ -43,7 +43,7 @@ describe('test check-questionnaire', () => {
     }));
 
     mockGet.mockReturnValue(0);
-    const result = await checkQuestionnaire();
+    const result = await checkQuestionnaire({ useCache: false });
     expect(mockGet).toBeCalledTimes(1);
     expect(mockGet).toHaveBeenLastCalledWith('questionnaire-version');
     expect(result.version).toBe(3);

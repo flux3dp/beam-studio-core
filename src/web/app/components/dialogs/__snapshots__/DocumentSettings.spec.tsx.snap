@@ -430,7 +430,6 @@ exports[`test DocumentSettings should render correctly 1`] = `
                 <span>
                   Cancel
                 </span>
-                
               </button>
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
@@ -439,7 +438,6 @@ exports[`test DocumentSettings should render correctly 1`] = `
                 <span>
                   Save
                 </span>
-                
               </button>
             </div>
           </div>
@@ -885,7 +883,6 @@ exports[`test DocumentSettings should render correctly 2`] = `
                 <span>
                   Cancel
                 </span>
-                
               </button>
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
@@ -894,7 +891,6 @@ exports[`test DocumentSettings should render correctly 2`] = `
                 <span>
                   Save
                 </span>
-                
               </button>
             </div>
           </div>
@@ -1340,7 +1336,6 @@ exports[`test DocumentSettings should render correctly 3`] = `
                 <span>
                   Cancel
                 </span>
-                
               </button>
               <button
                 class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
@@ -1349,7 +1344,6 @@ exports[`test DocumentSettings should render correctly 3`] = `
                 <span>
                   Save
                 </span>
-                
               </button>
             </div>
           </div>

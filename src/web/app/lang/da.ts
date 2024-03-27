@@ -43,7 +43,7 @@ const lang: ILang = {
       fail_to_start_preview:
         '#803 Kunne ikke starte forhåndsvisning. Genstart maskinen eller Beam Studio. Hvis fejlen fortsætter, se <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">denne vejledning</a>.',
       fail_to_connect_with_camera:
-        'Kunne ikke oprette forbindelse til maskinkamera. Genstart venligst din maskine eller Beam Studio. Hvis denne fejl fortsætter, skal du følge <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">denne vejledning</a>.',
+        '#803 Kunne ikke oprette forbindelse til maskinkamera. Genstart venligst din maskine eller Beam Studio. Hvis denne fejl fortsætter, skal du følge <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">denne vejledning</a>.',
       power_too_high: 'FOR HØJ EFFEKT',
       power_too_high_msg:
         'Brug af lavere laserstyrke (under 70%) forlænger laserens levetid.\nIndtast "NOTERET" for at fortsætte.',
@@ -87,6 +87,7 @@ const lang: ILang = {
       export_JPG: 'JPG',
       save_scene: 'Gem',
       save_as: 'Gem som...',
+      save_to_cloud: 'Gem i skyen',
       about_beam_studio: 'Om Beam Studio',
       undo: 'Fortryd',
       redo: 'Gendan',
@@ -447,6 +448,7 @@ const lang: ILang = {
     mask: 'Arbejdsområde Beskæring',
     text_path_calc_optimization: 'Stiberegning Optimering',
     font_substitute: 'Erstat Ikke-understøttede Tegn',
+    font_convert: 'Tekst til sti konverter',
     default_borderless_mode: 'Åbn Bund Standard',
     default_enable_autofocus_module: 'Autofokus Standard',
     default_enable_diode_module: 'Diode Laser Standard',
@@ -499,6 +501,7 @@ const lang: ILang = {
       loop_compensation: 'https://support.flux3dp.com/hc/en-us/articles/360004408856',
       mask: 'https://support.flux3dp.com/hc/en-us/articles/360004408876',
       font_substitute: 'https://support.flux3dp.com/hc/en-us/articles/360004496575',
+      font_convert: 'https://support.flux3dp.com/hc/en-us/articles/9132766761743',
       default_borderless_mode: 'https://support.flux3dp.com/hc/en-us/articles/360001104076',
       default_enable_autofocus_module: 'https://support.flux3dp.com/hc/en-us/articles/360001574536',
       default_enable_diode_module: 'https://support.flux3dp.com/hc/en-us/articles/360001568035',
@@ -545,7 +548,7 @@ const lang: ILang = {
       too_fast_for_path_and_constrain:
         'Følgende lag: %s indeholder stivektor-stibaner og har hastigheder over 20 mm/sek. Skærehastigheden for stivektor-stibaner vil blive begrænset til 20 mm/sek. Du kan fjerne denne begrænsning under Indstillinger.',
       should_update_firmware_to_continue:
-        'Din firmware understøtter ikke denne version af Beam Studio. Opdater venligst firmwaren for at fortsætte. (Menu > Maskine > [Din maskine] > Opdater firmware)',
+        '#814 Din firmware understøtter ikke denne version af Beam Studio. Opdater venligst firmwaren for at fortsætte. (Menu > Maskine > [Din maskine] > Opdater firmware)',
       recommend_downgrade_software:
         'Vi registrerede en ældre firmwareversion. Vi arbejder aktivt på kompatibilitetsproblemer, men foreløbig anbefaler vi at vende tilbage til Beam Studio 1.9.5.',
       recommend_upgrade_firmware:
@@ -556,7 +559,7 @@ const lang: ILang = {
       select_first: 'Vælg et objekt først.',
       select_at_least_two: 'Vælg to objekter for at fortsætte',
       import_file_contain_invalid_path:
-        'Importeret SVG-fil indeholder ugyldig billedsti. Sørg for, at alle billedfiler findes, eller indsæt billede i filen',
+        '#808 Importeret SVG-fil indeholder ugyldig billedsti. Sørg for, at alle billedfiler findes, eller indsæt billede i filen',
       import_file_error_ask_for_upload:
         'Kunne ikke importere SVG-fil. Er du villig til at give filen til udviklingsholdet til fejlrapport?',
       upload_file_too_large: '#819 Filen er for stor til upload.',
@@ -621,6 +624,11 @@ const lang: ILang = {
         buy_link: 'https://member.flux3dp.com/en-US/credit',
         go: 'Gå til',
       },
+      text_to_path: {
+        caption: 'Tekst til sti konverter 2.0',
+        message:
+          "Beam Studio introducerer nu en ny tekst til sti konverter (Konverter 2.0), som producerer mere pålidelige resultater! Vil du skifte til den nu? \nDu kan også justere denne indstilling senere i 'Tekst til sti konverter' afsnittet i indstillingerne.",
+      },
     },
     zoom_block: {
       fit_to_window: 'Tilpas til vindue',
@@ -657,6 +665,9 @@ const lang: ILang = {
         choose_camera: 'Kamera',
         live_feed: 'Live-feed',
         adjust_height: 'Juster højde',
+        qr_code: 'QR-kode',
+        boxgen: 'Boxgen',
+        my_cloud: 'Min sky',
       },
     },
     right_panel: {
@@ -988,7 +999,7 @@ const lang: ILang = {
           ai_bg_removal: 'Baggrundsfjernelse',
           ai_bg_removal_short: 'BG fjernelse',
           ai_bg_removal_reminder:
-            'Tryk på knappen vil straks bruge 0,2 AI-kredit. Vil du fortsætte?',
+            'Tryk på knappen vil straks bruge 0,2 kredit. Vil du fortsætte?',
           outline: 'Omrids',
         },
         path_edit_panel: {
@@ -1067,10 +1078,11 @@ const lang: ILang = {
       wait_for_parsing_font: 'Parser skrifttype ... Vent et sekund',
       text_to_path: {
         font_substitute_pop:
-          'Tekst: <strong>%s</strong> indeholder tegn <strong>%s</strong> som ikke understøttes af nuværende skrifttype: <strong>%s</strong>. <br/>Vil du bruge <strong>%s</strong> som erstatning?',
+          'Din tekst indeholder tegn, der ikke understøttes af den aktuelle skrifttype. <br/>Vil du bruge <strong>%s</strong> som erstatning?',
         check_thumbnail_warning:
           'Nogle tekster blev ændret til andre skrifttyper ved parsing af tekster til stier, og nogle tegn konverteres muligvis ikke korrekt. <br/>Kontrollér venligst billedet igen, før du sender opgaven.',
-        error_when_parsing_text: 'Fejl ved konvertering af tekst til sti: <br/>%s',
+        error_when_parsing_text: 'Fejl ved konvertering af tekst til sti',
+        retry: 'Prøv igen senere eller vælg en anden skrifttype',
         use_current_font: 'Brug nuværende skrifttype',
       },
       lock_desc: 'Bevar forholdet mellem bredde og højde (SHIFT)',
@@ -1201,6 +1213,10 @@ const lang: ILang = {
       line: 'Linje',
       label: 'Etiket',
     },
+    announcement_panel: {
+      title: 'Meddelelse',
+      dont_show_again: 'Vis ikke igen',
+    },
   },
   editor: {
     prespray_area: 'Primeområde',
@@ -1222,6 +1238,30 @@ const lang: ILang = {
     new_to_flux: 'Ny til FLUX? Opret en konto.',
     signup_url: 'https://id.flux3dp.com/user/login#up',
     lost_password_url: 'https://id.flux3dp.com/user/forgot-password',
+    flux_plus: {
+      explore_plans: 'Udforsk FLUX+ planer',
+      thank_you: 'Tak fordi du er et værdsat medlem!',
+      ai_credit_tooltip: 'Til AI baggrundsfjernelse',
+      flux_credit_tooltip: 'Til Design Market filer og AI baggrundsfjernelse',
+      goto_member_center: 'Gå til Medlemscenter',
+      access_plus_feature_1: 'Du får adgang til en',
+      access_plus_feature_2: 'funktion.',
+      access_plus_feature_note: 'Du skal have FLUX+ medlemskab for at få adgang til denne funktion.',
+      access_monotype_feature: 'Du har ikke Monotype-skrifttyper Tilføjelse.',
+      access_monotype_feature_note: 'Du skal have FLUX+ Pro-medlemskab eller Monotype-skrifttyper Tilføjelse for at få adgang til denne funktion.',
+      learn_more: 'Lær mere',
+      get_addon: 'Få tilføjelse',
+      subscribe_now: 'Tilmeld dig nu',
+      website_url: 'https://flux3dp.com/subscription',
+      member_center_url: 'https://member.flux3dp.com/en-US/subscription',
+      features: {
+        ai_bg_removal: 'AI baggrundsfjernelse',
+        my_cloud: 'Ubegrænset sky-lager',
+        boxgen: '3D kassegenerator',
+        dmkt: '1000+ designfiler',
+        monotype: '250+ premium skrifttyper',
+      },
+    },
   },
   noun_project_panel: {
     login_first: 'Log ind for at låse formdatabasen op.',
@@ -1446,7 +1486,7 @@ const lang: ILang = {
     unable_to_find_machine: 'Kan ikke finde maskine ',
     disconnected: 'Ustabil forbindelse, kontroller enhedsforbindelse og prøv igen senere',
     unable_to_start:
-      'Kan ikke starte opgaven. Prøv igen. Hvis dette sker igen, bedes du kontakte os med fejlrapport:',
+      '#830 Kan ikke starte opgaven. Prøv igen. Hvis dette sker igen, bedes du kontakte os med fejlrapport:',
     camera: {
       camera_cable_unstable:
         'Det er registreret, at kameraet overfører billeder ustabilt. Forhåndsvisning kan stadig udføres normalt, men der kan være problemer med langsom forhåndsvisning eller timeout.',
@@ -1679,6 +1719,85 @@ const lang: ILang = {
         'Klik på "Bekræft" for at udføre kalibreringen, eller få adgang til kalibrering via topmenuen.<br />(Maskine > [Dit maskinnavn] > Kalibrer infrarød modul)',
     },
     non_working_area: 'Ikke-arbejdsområde',
+  },
+  qr_code_generator: {
+    title: 'QR-kodegenerator',
+    placeholder: 'Indtast et link eller tekst',
+    preview: 'Forhåndsvisning',
+    error_tolerance: 'Fejltolerance',
+    error_tolerance_link: 'https://support.flux3dp.com/hc/en-us/articles/9113705072143',
+    invert: 'Inverter baggrundsfarve',
+  },
+  boxgen: {
+    back: 'Tilbage til Beam Studio',
+    title: 'BOXGEN',
+    basic_box: 'Basic Box',
+    coming_soon: 'Kommer snart',
+    workarea: 'Arbejdsområde',
+    max_dimension_tooltip: 'Maks. bredde/højde/dybde indstilling er %s.',
+    volume: 'Volumen',
+    outer: 'Ydre',
+    inner: 'Indre',
+    width: 'Bredde',
+    height: 'Højde',
+    depth: 'Dybde',
+    cover: 'Dæksel',
+    thickness: 'Tykkelse',
+    add_option: 'Tilføj mulighed',
+    joints: 'Samling',
+    finger: 'Finger',
+    finger_warning: 'Den indvendige sidelængde af boksen skal være mindst 6 mm (0,24 tommer) for at være kompatibel med fingersammenføjning.',
+    tSlot: 'T-spor',
+    tSlot_warning: 'Boksside længden skal være mindst 30 mm (1,18 tommer) for at være kompatibel med T-spor sammenføjning.',
+    edge: 'Kant',
+    tCount: 'T Tæl',
+    tCount_tooltip: 'T-spor antallet gælder for den korte side; mængden på den lange side beregnes ud fra dens længde.',
+    tDiameter: 'T Diameter',
+    tLength: 'T Længde',
+    continue_import: 'Fortsæt med at importere',
+    customize: 'Tilpas',
+    merge: 'Sammenføj',
+    text_label: 'Etiket',
+    beam_radius: 'Kerfkompensation',
+    beam_radius_warning:
+      'Fjern kerfkompensation, når kantene eller samlingerne på kassen er korte for at sikre kassemontering',
+    import: 'Importer',
+    cancel: 'Annullér',
+    reset: 'Nulstil',
+    zoom: 'Zoom',
+    control_tooltip: 'Venstre museknap for at rotere\nRul for at zoome\nHøjre museknap for at panorere',
+    control_tooltip_touch: 'Træk for at rotere\nKnib sammen for at zoome\nTo fingre for at panorere',
+  },
+  my_cloud: {
+    title: 'Min sky',
+    loading_file: 'Indlæser...',
+    no_file_title: 'Gem filer til Min sky for at komme i gang.',
+    no_file_subtitle: 'Gå til Menu > "Fil" > "Gem i skyen"',
+    file_limit: 'Gratis fil',
+    upgrade: 'Opgrader',
+    sort: {
+      most_recent: 'Nyeste',
+      oldest: 'Ældste',
+      a_to_z: 'Navn: A - Å',
+      z_to_a: 'Navn: Å - A',
+    },
+    action: {
+      open: 'Åbn',
+      rename: 'Omdøb',
+      duplicate: 'Dupliker',
+      download: 'Hent',
+      delete: 'Slet',
+      confirmFileDelete: 'Er du sikker på, at du vil slette denne fil? Denne handling kan ikke fortrydes.',
+    },
+    save_file: {
+      choose_action: 'Gem fil:',
+      save: 'Gem',
+      save_new: 'Gem som ny fil',
+      input_file_name: 'Indtast filnavn:',
+      invalid_char: 'Ugyldige tegn:',
+      storage_limit_exceeded:
+        'Din cloud-lager har nået øvre grænse. Slet venligst eventuelle unødvendige filer, før du gemmer nye.',
+    },
   },
 };
 

@@ -1,7 +1,6 @@
 /* eslint-disable import/first */
-import * as React from 'react';
-import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
+import React from 'react';
+import { fireEvent, render } from '@testing-library/react';
 
 import DxfDpiSelector from './DxfDpiSelector';
 
@@ -28,25 +27,24 @@ describe('should render correctly', () => {
     `;
     const onSubmit = jest.fn();
     const onCancel = jest.fn();
-    const wrapper = shallow(<DxfDpiSelector
-      defaultDpiValue={100}
-      onSubmit={onSubmit}
-      onCancel={onCancel}
-    />);
-    expect(toJson(wrapper)).toMatchSnapshot();
+    const { container } = render(
+      <DxfDpiSelector defaultDpiValue={100} onSubmit={onSubmit} onCancel={onCancel} />
+    );
+    expect(container).toMatchSnapshot();
 
-    wrapper.find('input#dpi-input').simulate('keydown', {
+    const input = container.querySelector('input#dpi-input');
+    fireEvent.keyDown(input, {
       keyCode: 14,
     });
     expect(onSubmit).not.toHaveBeenCalled();
 
-    wrapper.find('input#dpi-input').simulate('keydown', {
+    fireEvent.keyDown(input, {
       keyCode: 13,
     });
     expect(onSubmit).toHaveBeenCalledTimes(1);
     expect(onSubmit).toHaveBeenNthCalledWith(1, 25.4);
 
-    wrapper.find('input#dpi-input').simulate('click');
+    fireEvent.click(input);
     expect($('#dpi-input').val()).toBe('');
   });
 
@@ -62,17 +60,16 @@ describe('should render correctly', () => {
   `;
     const onSubmit = jest.fn();
     const onCancel = jest.fn();
-    const wrapper = shallow(<DxfDpiSelector
-      defaultDpiValue={100}
-      onSubmit={onSubmit}
-      onCancel={onCancel}
-    />);
+    const { container } = render(
+      <DxfDpiSelector defaultDpiValue={100} onSubmit={onSubmit} onCancel={onCancel} />
+    );
 
-    wrapper.find('ButtonGroup').props().buttons[1].onClick();
+    const buttons = container.querySelectorAll('button');
+    fireEvent.click(buttons[1]);
     expect(onSubmit).toHaveBeenCalledTimes(1);
     expect(onSubmit).toHaveBeenNthCalledWith(1, 25.4);
 
-    wrapper.find('ButtonGroup').props().buttons[0].onClick();
+    fireEvent.click(buttons[0]);
     expect(onCancel).toHaveBeenCalledTimes(1);
   });
 });
