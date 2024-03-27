@@ -44,6 +44,7 @@ export const downloadCameraData = async (deviceName: string): Promise<void> => {
     };
     const dirs = ['camera_calib', 'auto_leveling', 'fisheye'];
     let anyFolderHasFiles = false;
+    progressCaller.popById(progressId);
     for (let i = 0; i < dirs.length; i += 1) {
       const dir = dirs[i];
       if (canceled) return;
@@ -61,7 +62,6 @@ export const downloadCameraData = async (deviceName: string): Promise<void> => {
           anyFolderHasFiles = true;
           await downloadFiles(ls.files, dir);
         }
-        progressCaller.popById(progressId);
       } catch (e) {
         console.error(`Failed to backup ${dir}`, e);
       }
