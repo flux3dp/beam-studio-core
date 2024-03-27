@@ -1828,8 +1828,6 @@ const lang: ILang = {
     title: 'Kameradata Backup',
     checking_pictures: 'Tjekker billeder...',
     no_picture_found: 'Ingen billeder fundet i maskinen.',
-    select_folder_download: 'Vælg venligst en mappe til at gemme kameradataen:',
-    select_folder_upload: 'Vælg venligst mappen, der indeholder kameradataen:',
     folder_not_exists: 'Valgte mappe findes ikke.',
     incorrect_folder: 'Fejl ved upload af kalibreringsdata. Kontroller, om den valgte mappe er korrekt.',
     downloading_data: 'Downloader data...',

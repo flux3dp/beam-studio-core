@@ -1820,8 +1820,6 @@ const lang: ILang = {
     title: 'Sao lưu dữ liệu máy ảnh',
     checking_pictures: 'Kiểm tra hình ảnh...',
     no_picture_found: 'Không tìm thấy hình ảnh trong máy.',
-    select_folder_download: 'Vui lòng chọn một thư mục để lưu dữ liệu máy ảnh:',
-    select_folder_upload: 'Vui lòng chọn thư mục chứa dữ liệu máy ảnh:',
     folder_not_exists: 'Thư mục đã chọn không tồn tại.',
     incorrect_folder: 'Không thể tải lên dữ liệu hiệu chuẩn. Vui lòng kiểm tra xem thư mục bạn đã chọn có đúng không.',
     downloading_data: 'Đang tải dữ liệu...',

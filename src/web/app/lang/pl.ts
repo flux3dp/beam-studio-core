@@ -1713,8 +1713,6 @@ const lang: ILang = {
     title: 'Kopiuj dane kamery',
     checking_pictures: 'Sprawdzanie obrazów...',
     no_picture_found: 'Nie znaleziono obrazu w urządzeniu.',
-    select_folder_download: 'Proszę wybrać folder do zapisania danych z kamery:',
-    select_folder_upload: 'Proszę wybrać folder zawierający dane z kamery:',
     folder_not_exists: 'Wybrany folder nie istnieje.',
     incorrect_folder: 'Nie udało się przesłać danych kalibracji. Sprawdź, czy wybrany folder jest poprawny.',
     downloading_data: 'Pobieranie danych...',

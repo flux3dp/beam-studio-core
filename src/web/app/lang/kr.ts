@@ -1713,8 +1713,6 @@ const lang: ILang = {
     title: '카메라 데이터 백업',
     checking_pictures: '이미지 확인 중...',
     no_picture_found: '기계에 이미지가 없습니다.',
-    select_folder_download: '카메라 데이터를 저장할 폴더를 선택하십시오:',
-    select_folder_upload: '카메라 데이터를 포함하는 폴더를 선택하십시오:',
     folder_not_exists: '선택한 폴더가 존재하지 않습니다.',
     incorrect_folder: '캘리브레이션 데이터 업로드에 실패했습니다. 선택한 폴더가 올바른지 확인해주세요.',
     downloading_data: '데이터 다운로드 중...',

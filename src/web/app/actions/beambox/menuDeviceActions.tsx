@@ -16,6 +16,7 @@ import MonitorController from 'app/actions/monitor-controller';
 import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
 import ProgressCaller from 'app/actions/progress-caller';
 import VersionChecker from 'helpers/version-checker';
+import { downloadCameraData, uploadCameraData } from 'helpers/device/camera-data-backup';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { InkDetectionStatus } from 'app/constants/layer-module/ink-cartridge';
 import { Mode } from 'app/constants/monitor-constants';
@@ -196,7 +197,8 @@ const BackupCalibrationData = async (device: IDeviceInfo, type: 'download' | 'up
   try {
     const res = await DeviceMaster.select(device);
     if (res.success) {
-      Dialog.showCameraDataBackup(device.name, type);
+      if (type === 'download') downloadCameraData(device.name);
+      else uploadCameraData();
     }
   } catch (e) {
     console.error(e);

@@ -1827,8 +1827,6 @@ const lang: ILang = {
     title: 'Simpanan Data Kamera',
     checking_pictures: 'Memeriksa Gambar...',
     no_picture_found: 'Tiada gambar dijumpai dalam mesin.',
-    select_folder_download: 'Sila pilih folder untuk menyimpan data kamera:',
-    select_folder_upload: 'Sila pilih folder yang mengandungi data kamera:',
     folder_not_exists: 'Folder yang dipilih tidak wujud.',
     incorrect_folder: 'Gagal mengunggah data kalibrasi. Sila semak sama ada folder yang anda pilih betul atau tidak.',
     downloading_data: 'Memuat turun data...',

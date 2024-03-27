@@ -1705,8 +1705,6 @@ export interface ILang {
     title: string;
     checking_pictures: string;
     no_picture_found: string;
-    select_folder_download: string;
-    select_folder_upload: string;
     folder_not_exists: string;
     incorrect_folder: string;
     downloading_data: string;

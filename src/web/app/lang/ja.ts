@@ -1713,8 +1713,6 @@ const lang: ILang = {
     title: 'カメラデータのバックアップ',
     checking_pictures: '画像を確認中...',
     no_picture_found: 'マシン内に画像が見つかりません。',
-    select_folder_download: 'カメラデータを保存するフォルダを選択してください：',
-    select_folder_upload: 'カメラデータを含むフォルダを選択してください：',
     folder_not_exists: '選択したフォルダは存在しません。',
     incorrect_folder: 'キャリブレーションデータのアップロードに失敗しました。選択したフォルダが正しいかどうかを確認してください。',
     downloading_data: 'データをダウンロード中...',
