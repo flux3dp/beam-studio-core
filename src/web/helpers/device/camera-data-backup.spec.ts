@@ -244,7 +244,7 @@ describe('test camera-data-backup', () => {
     expect(mockSet).not.toBeCalled();
   });
 
-  test.only('successfully upload', async () => {
+  test('successfully upload', async () => {
     mockGet.mockReturnValue('path');
     mockGetFileFromDialog.mockResolvedValue({
       arrayBuffer: () => Promise.resolve('arrayBuffer'),
@@ -346,7 +346,8 @@ describe('test camera-data-backup', () => {
     mockJsZipInstance.filter.mockReturnValue([]);
     await uploadCameraData();
     expect(mockGetFileFromDialog).toBeCalledTimes(1);
-    expect(mockOpenSteppingProgress).not.toBeCalled();
+    expect(mockOpenSteppingProgress).toBeCalledTimes(1);
+    expect(mockPopById).toBeCalledTimes(1);
     expect(mockUploadToDirectory).not.toBeCalled();
     expect(mockPopUpError).toBeCalledTimes(1);
     expect(mockPopUpError).toBeCalledWith({ message: 'incorrect_folder' });
