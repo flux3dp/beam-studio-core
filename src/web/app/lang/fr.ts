@@ -474,6 +474,7 @@ const lang: ILang = {
     module_offset_2w_ir: 'Décalage du laser infrarouge 2W',
     printer_advanced_mode: "Mode avancé de l'imprimante",
     default_laser_module: 'Module laser par défaut',
+    low_laser_for_preview: 'Laser pour Exécution du cadre',
     groups: {
       general: 'Général',
       update: 'Mises à jour logicielles',

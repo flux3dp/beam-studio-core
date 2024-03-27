@@ -471,6 +471,7 @@ const lang: ILang = {
     module_offset_2w_ir: 'Offset Laser Inframerah 2W',
     printer_advanced_mode: 'Mode Printer Lanjutan',
     default_laser_module: 'Modul Laser Default',
+    low_laser_for_preview: 'Laser untuk Jalankan Bingkai',
     groups: {
       general: 'Umum',
       update: 'Pembaruan Perangkat Lunak',

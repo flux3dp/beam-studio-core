@@ -467,6 +467,7 @@ const lang: ILang = {
     module_offset_2w_ir: '2W infrarød laserforskyvning',
     printer_advanced_mode: 'Avansert skrivermodus',
     default_laser_module: 'Standard lasermodul',
+    low_laser_for_preview: 'Laser for Kjører ramme',
     groups: {
       general: 'Generelt',
       update: 'Programvareoppdateringer',

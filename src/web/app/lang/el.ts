@@ -476,6 +476,7 @@ const lang: ILang = {
     module_offset_2w_ir: '2W υπέρυθρης ακτίνας λέιζερ αντιστάθμιση',
     printer_advanced_mode: 'Προηγμένη λειτουργία εκτυπωτή',
     default_laser_module: 'Προεπιλεγμένη μονάδα λέιζερ',
+    low_laser_for_preview: 'Λέιζερ για Εκτέλεση πλαισίου',
     groups: {
       general: 'Γενικά',
       update: 'Ενημερώσεις λογισμικού',

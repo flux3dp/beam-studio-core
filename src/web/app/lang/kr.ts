@@ -450,6 +450,7 @@ const lang: ILang = {
     module_offset_2w_ir: '2W 적외선 레이저 오프셋',
     printer_advanced_mode: '프린터 고급 모드',
     default_laser_module: '기본 레이저 모듈',
+    low_laser_for_preview: '프레임 미리보기용 레이저',
     groups: {
       general: '일반',
       update: '소프트웨어 업데이트',

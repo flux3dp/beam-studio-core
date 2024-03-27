@@ -470,6 +470,7 @@ const lang: ILang = {
     module_offset_2w_ir: 'Bù đắp Laser Hồng ngoại 2W',
     printer_advanced_mode: 'Chế độ nâng cao Máy in',
     default_laser_module: 'Module Laser mặc định',
+    low_laser_for_preview: 'Laser cho Đang chạy khung',
     groups: {
       general: 'Chung',
       update: 'Cập nhật phần mềm',

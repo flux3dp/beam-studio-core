@@ -34,6 +34,7 @@ test('test beambox-preference', () => {
     diode_offset_y: 10,
     use_layer_color: true,
     'anti-aliasing': true,
+    low_power: 3,
     abc: '123',
   });
 

@@ -469,6 +469,7 @@ const lang: ILang = {
     module_offset_2w_ir: 'Offset Laser a Infrarossi 2W',
     printer_advanced_mode: 'Modalità Avanzata Stampante',
     default_laser_module: 'Modulo Laser Predefinito',
+    low_laser_for_preview: 'Laser per Esecuzione cornice',
     groups: {
       general: 'Generale',
       update: 'Aggiornamenti software',

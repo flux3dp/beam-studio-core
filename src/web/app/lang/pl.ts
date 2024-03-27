@@ -450,6 +450,7 @@ const lang: ILang = {
     module_offset_2w_ir: 'Laser offsetowy na podczerwień o mocy 2 W',
     printer_advanced_mode: 'Tryb zaawansowany drukarki',
     default_laser_module: 'Domyślny moduł laserowy',
+    low_laser_for_preview: 'Laser dla Rama do biegania',
     groups: {
       general: 'Ogólne',
       update: 'Aktualizacje oprogramowania',
