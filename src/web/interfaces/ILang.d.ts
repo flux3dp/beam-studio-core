@@ -1139,11 +1139,35 @@ export interface ILang {
     },
     shapes_panel: {
       title: string;
+      basic: string;
       shape: string;
       graphics: string;
       arrow: string;
-      line: string;
       label: string;
+      decor: string;
+      circular: string;
+      corner: string;
+      line: string;
+      photo: string;
+      ribbon: string;
+      speech: string;
+      text: string;
+      animals: string;
+      birds: string;
+      land: string;
+      sea: string;
+      holidays: string;
+      celebration: string;
+      CNY: string;
+      easter: string;
+      halloween: string;
+      valentines: string;
+      Xmas: string;
+      nature: string;
+      elements: string;
+      environment: string;
+      plants: string;
+      weather: string;
     };
     announcement_panel: {
       title: string;
