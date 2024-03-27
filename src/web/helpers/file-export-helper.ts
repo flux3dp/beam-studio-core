@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
+import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import beamFileHelper from 'helpers/beam-file-helper';
 import communicator from 'implementations/communicator';
 import dialog from 'implementations/dialog';
