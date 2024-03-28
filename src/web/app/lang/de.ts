@@ -1711,11 +1711,9 @@ const lang: ILang = {
   },
   camera_data_backup: {
     title: 'Kameradaten sichern',
-    checking_pictures: 'Überprüfe Bilder...',
     no_picture_found: 'Kein Bild in der Maschine gefunden.',
-    select_folder_download: 'Bitte wählen Sie einen Ordner zum Speichern der Kameradaten aus:',
-    select_folder_upload: 'Bitte wählen Sie den Ordner, der die Kameradaten enthält:',
     folder_not_exists: 'Ausgewählter Ordner existiert nicht.',
+    incorrect_folder: 'Fehler beim Hochladen von Kalibrierungsdaten. Bitte überprüfen Sie, ob der ausgewählte Ordner korrekt ist.',
     downloading_data: 'Daten werden heruntergeladen...',
     estimated_time_left: 'Geschätzte verbleibende Zeit:',
     uploading_data: 'Daten werden hochgeladen...',

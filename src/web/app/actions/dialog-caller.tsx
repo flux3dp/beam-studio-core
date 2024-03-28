@@ -3,7 +3,6 @@ import * as React from 'react';
 import AboutBeamStudio from 'app/components/dialogs/AboutBeamStudio';
 import AnnouncementPanel from 'app/components/dialogs/AnnouncementPanel';
 import Boxgen from 'app/components/boxgen/Boxgen';
-import CameraDataBackup from 'app/components/dialogs/CameraDataBackup';
 import CartridgeSettingPanel from 'app/components/dialogs/CartridgeSettingPanel';
 import ChangeLog from 'app/components/dialogs/ChangeLog';
 import CropPanel from 'app/views/beambox/ImageEditPanel/CropPanel';
@@ -551,11 +550,4 @@ export default {
         />
       );
     }),
-  showCameraDataBackup: (deviceName: string, type: 'download' | 'upload'): void => {
-    if (isIdExist('camera-data-backup')) return;
-    addDialogComponent(
-      'camera-data-backup',
-      <CameraDataBackup deviceName={deviceName} type={type} onClose={() => popDialogById('camera-data-backup')} />
-    );
-  }
 };

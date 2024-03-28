@@ -1711,11 +1711,9 @@ const lang: ILang = {
   },
   camera_data_backup: {
     title: 'Camera Data Backup',
-    checking_pictures: 'Checking Pictures...',
     no_picture_found: 'No picture found in the machine.',
-    select_folder_download: 'Please select a folder to save the camera data:',
-    select_folder_upload: 'Please select the folder containing the camera data:',
     folder_not_exists: 'Selected folder does not exist.',
+    incorrect_folder: 'Failed to upload of calibration data. Please check if the folder you selected is correct.',
     downloading_data: 'Downloading data...',
     estimated_time_left: 'Estimated time left:',
     uploading_data: 'Uploading data...',
