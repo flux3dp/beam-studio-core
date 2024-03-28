@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable import/first */
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
