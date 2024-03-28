@@ -471,6 +471,7 @@ const lang: ILang = {
     module_offset_2w_ir: '2W Infraröd Laser Offset',
     printer_advanced_mode: 'Avancerat Skrivarläge',
     default_laser_module: 'Standard Lasermodul',
+    low_laser_for_preview: 'Laser för Kör ram',
     groups: {
       general: 'Allmänt',
       update: 'Programuppdateringar',

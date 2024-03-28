@@ -450,6 +450,7 @@ const lang: ILang = {
     module_offset_2w_ir: '2W赤外線レーザーオフセット',
     printer_advanced_mode: 'プリンターの高級なモード',
     default_laser_module: 'デフォルトレーザーモジュール',
+    low_laser_for_preview: 'フレームプレビューのレーザー',
     groups: {
       general: '一般',
       update: 'ソフトウェア更新',

@@ -450,6 +450,7 @@ const lang: ILang = {
     module_offset_2w_ir: '2W Infrarotlaser-Versatz',
     printer_advanced_mode: 'Druckerfortgeschrittener Modus',
     default_laser_module: 'Standard-Lasermodul',
+    low_laser_for_preview: 'Laser für Frame-Vorschau',
     groups: {
       general: 'Allgemeines',
       update: 'Software-Updates',

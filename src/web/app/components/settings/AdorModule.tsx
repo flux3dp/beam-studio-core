@@ -16,6 +16,7 @@ interface Props {
   updateBeamboxPreferenceChange: (item_key: string, newVal: any) => void;
   currentModuleOffsets: { [m: number]: [number, number] };
   defaultLaserModule: LayerModule;
+  currentLowPower: number;
 }
 
 const AdorModule = ({
@@ -25,6 +26,7 @@ const AdorModule = ({
   updateBeamboxPreferenceChange,
   currentModuleOffsets,
   defaultLaserModule,
+  currentLowPower,
 }: Props): JSX.Element => {
   const lang = useI18n();
   const getModuleOffset = useCallback(
@@ -74,6 +76,26 @@ const AdorModule = ({
     ],
     [defaultLaserModule, lang]
   );
+  const lowLaserOptions = useMemo(
+    () => [
+      {
+        value: 0,
+        label: lang.settings.none,
+        selected: currentLowPower === 0,
+      },
+      {
+        value: 3,
+        label: lang.beambox.right_panel.laser_panel.slider.regular,
+        selected: currentLowPower === 3,
+      },
+      {
+        value: 5,
+        label: lang.beambox.right_panel.laser_panel.slider.very_high,
+        selected: currentLowPower === 5,
+      },
+    ],
+    [currentLowPower, lang]
+  );
 
   return (
     <>
@@ -89,6 +111,12 @@ const AdorModule = ({
         id="default-laser-module"
         options={defaultLaserModuleOptions}
         onChange={(e) => editDefaultLaserModule(Number(e.target.value))}
+      />
+      <SelectControl
+        label={lang.settings.low_laser_for_preview}
+        id="low-power"
+        options={lowLaserOptions}
+        onChange={(e) => updateBeamboxPreferenceChange('low_power', e.target.value)}
       />
       <Controls label={lang.settings.module_offset_10w}>
         <span className="font2" style={{ marginRight: '10px', lineHeight: '32px' }}>

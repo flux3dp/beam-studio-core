@@ -855,6 +855,16 @@ class DeviceMaster {
     return controlSocket.addTask(controlSocket.rawLooseMotorB12);
   }
 
+  rawSetLaser(args: { on: boolean; s?: number }) {
+    const controlSocket = this.currentDevice.control;
+    return controlSocket.addTask(controlSocket.rawSetLaser, args);
+  }
+
+  rawSet24V(on: boolean) {
+    const controlSocket = this.currentDevice.control;
+    return controlSocket.addTask(controlSocket.rawSet24V, on);
+  }
+
   rawAutoFocus() {
     const controlSocket = this.currentDevice.control;
     return controlSocket.addTask(controlSocket.rawAutoFocus);

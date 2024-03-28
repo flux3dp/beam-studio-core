@@ -467,6 +467,7 @@ const lang: ILang = {
     module_offset_2w_ir: 'ชดเชยเลเซอร์อินฟราเรด 2 วัตต์',
     printer_advanced_mode: 'โหมดขั้นสูงของเครื่องพิมพ์',
     default_laser_module: 'โมดูลเลเซอร์เริ่มต้น',
+    low_laser_for_preview: 'เลเซอร์สําหรับ กําลังประมวลผลเฟรม',
     groups: {
       general: 'ทั่วไป',
       update: 'การอัปเดตซอฟต์แวร์',
