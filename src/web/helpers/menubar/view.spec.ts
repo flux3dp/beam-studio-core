@@ -112,18 +112,22 @@ describe('test view', () => {
       jest.resetAllMocks();
     });
 
-    test('toggle one time', () => {
+    test('default is false', () => {
       const addEventListener = jest.spyOn(window, 'addEventListener');
       const removeEventListener = jest.spyOn(window, 'removeEventListener');
       const result = viewMenu.toggleZoomWithWindow();
       expect(resetView).toHaveBeenCalledTimes(1);
+      expect(removeEventListener).toHaveBeenCalledTimes(1);
+      expect(removeEventListener).toHaveBeenNthCalledWith(1, 'resize', expect.any(Function));
       expect(addEventListener).toHaveBeenCalledTimes(1);
       expect(addEventListener).toHaveBeenNthCalledWith(1, 'resize', expect.any(Function));
-      expect(removeEventListener).not.toHaveBeenCalled();
+      expect(mockWrite).toHaveBeenCalledTimes(1);
+      expect(mockWrite).toHaveBeenNthCalledWith(1, 'zoom_with_window', true);
       expect(result).toBeTruthy();
     });
 
-    test('toggle second time', () => {
+    test('default is true', () => {
+      mockRead.mockReturnValue(true);
       const addEventListener = jest.spyOn(window, 'addEventListener');
       const removeEventListener = jest.spyOn(window, 'removeEventListener');
       const result = viewMenu.toggleZoomWithWindow();
@@ -131,6 +135,8 @@ describe('test view', () => {
       expect(removeEventListener).toHaveBeenCalledTimes(1);
       expect(removeEventListener).toHaveBeenNthCalledWith(1, 'resize', expect.any(Function));
       expect(addEventListener).not.toHaveBeenCalled();
+      expect(mockWrite).toHaveBeenCalledTimes(1);
+      expect(mockWrite).toHaveBeenNthCalledWith(1, 'zoom_with_window', false);
       expect(result).toBeFalsy();
     });
   });

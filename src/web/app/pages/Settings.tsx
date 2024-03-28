@@ -101,6 +101,7 @@ class Settings extends React.PureComponent<null, State> {
 
   resetBS = (): void => {
     const { lang } = this.state;
+    // eslint-disable-next-line no-alert
     if (window.confirm(lang.settings.confirm_reset)) {
       storage.clearAllExceptIP();
       localStorage.clear();
@@ -197,7 +198,7 @@ class Settings extends React.PureComponent<null, State> {
       lang.settings.high
     );
 
-    const isAntiAliasingOn = this.getBeamboxPreferenceEditingValue('anti-aliasing') !== false;
+    const isAntiAliasingOn = this.getBeamboxPreferenceEditingValue('anti-aliasing');
     const antiAliasingOptions = this.onOffOptionFactory(isAntiAliasingOn);
 
     const isContinuousDrawingOn = this.getBeamboxPreferenceEditingValue('continuous_drawing');

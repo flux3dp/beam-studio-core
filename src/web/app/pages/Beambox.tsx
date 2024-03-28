@@ -3,6 +3,7 @@ import classNames from 'classnames';
 
 import BeamboxGlobalInteraction from 'app/actions/beambox/beambox-global-interaction';
 import BeamboxInit from 'implementations/beamboxInit';
+import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import CanvasTabBar from 'app/components/mobile/CanvasTabBar';
 import communicator from 'implementations/communicator';
 import i18n from 'helpers/i18n';
@@ -36,6 +37,9 @@ const Beambox = (): JSX.Element => {
     svgEditor.resetView();
     beamboxInit.showStartUpDialogs();
     openFileHelper.loadOpenFile();
+    if (BeamboxPreference.read('zoom_with_window')) {
+      window.addEventListener('resize', svgEditor.resetView);
+    }
 
     return () => {
       BeamboxGlobalInteraction.detach();
