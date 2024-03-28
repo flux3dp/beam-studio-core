@@ -56,7 +56,7 @@ const FindCorner = ({ withPitch, updateParam, onClose, onBack, onNext }: Props):
         setImg({ blob, url: URL.createObjectURL(blob), success });
         if (success) {
           console.log(data);
-          updateParam({ k: data.k, d: data.d, rvec: data.rvec, tvec: data.tvec, points: data.points });
+          updateParam({ k: data.k, d: data.d, rvec: data.rvec, tvec: data.tvec });
         }
       } catch (err) {
         alertCaller.popUpError({ message: err.message || 'Fail to find corners' });

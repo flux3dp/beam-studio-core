@@ -178,12 +178,8 @@ const AdorCalibrationV2 = ({ onClose }: Props): JSX.Element => {
           refHeight: calibratingParam.current.refHeight,
           rvec: calibratingParam.current.rvec,
           tvec: calibratingParam.current.tvec,
-          points: calibratingParam.current.points,
-          hx: calibratingParam.current.hx,
-          hy: calibratingParam.current.hy,
-          xc: calibratingParam.current.xc,
-          yc: calibratingParam.current.yc,
-          imageScale: calibratingParam.current.imageScale,
+          rvec_polyfit: calibratingParam.current.rvec_polyfit,
+          tvec_polyfit: calibratingParam.current.tvec_polyfit,
           v: 2,
         };
         const res = await setFisheyeConfig(param);

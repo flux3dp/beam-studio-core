@@ -419,7 +419,6 @@ export const findCorners = async (
     d: number[][];
     rvec: number[];
     tvec: number[];
-    points: [number, number][][];
   };
 }> => {
   const resp = await api.findCorners(imgBlob, withPitch);
@@ -433,7 +432,7 @@ export const calculateCameraPosition = async (
 ): Promise<{
   success: boolean;
   blob: Blob;
-  data?: { xc: number[]; yc: number[]; hx: number[]; hy: number[]; s: number[] };
+  data?: { rvec_polyfit: number[][]; tvec_polyfit: number[][]; };
 }> => {
   const resp = await api.calculateCameraPosition(img, dh, withPitch);
   return resp;
