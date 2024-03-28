@@ -57,7 +57,7 @@ const CalculateCameraPosition = ({ dh, withPitch, updateParam, onClose, onBack, 
         setImg({ blob, url: URL.createObjectURL(blob), success });
         if (success) {
           console.log(data);
-          updateParam({ xc: data.xc, yc: data.yc, hx: data.hx, hy: data.hy, imageScale: data.s });
+          updateParam({ rvec_polyfit: data.rvec_polyfit, tvec_polyfit: data.tvec_polyfit});
         }
       } catch (err) {
         alertCaller.popUpError({ message: err.message });

@@ -218,7 +218,6 @@ class CameraCalibrationApi {
       d: number[][];
       rvec: number[];
       tvec: number[];
-      points: [number, number][][];
     };
   }> {
     return new Promise((resolve, reject) => {
@@ -267,11 +266,11 @@ class CameraCalibrationApi {
   ): Promise<{
     success: boolean;
     blob: Blob;
-    data?: { xc: number[]; yc: number[]; hx: number[]; hy: number[]; s: number[] };
+    data?: { rvec_polyfit: number[][]; tvec_polyfit: number[][];  };
   }> {
     return new Promise((resolve, reject) => {
       let success = true;
-      let data = {} as { xc: number[]; yc: number[]; hx: number[]; hy: number[]; s: number[] };
+      let data = {} as { rvec_polyfit: number[][]; tvec_polyfit: number[][]; };
       this.events.onMessage = (response) => {
         console.log(response);
 

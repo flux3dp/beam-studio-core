@@ -12,6 +12,7 @@ export const getMaterialHeight = async (): Promise<number> => {
   await deviceMaster.rawEndLineCheckMode();
   await deviceMaster.rawAutoFocus();
   const { didAf, z } = await deviceMaster.rawGetProbePos();
+  await deviceMaster.rawLooseMotor();
   await deviceMaster.endRawMode();
   if (!didAf) throw new Error('Auto focus failed');
   return Math.round((deep - z) * 100) / 100;
