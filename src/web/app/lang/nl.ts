@@ -1829,7 +1829,6 @@ const lang: ILang = {
   },
   camera_data_backup: {
     title: 'Camera gegevens back-up',
-    checking_pictures: 'Bezig met controleren van afbeeldingen...',
     no_picture_found: 'Geen afbeelding gevonden in de machine.',
     folder_not_exists: 'Geselecteerde map bestaat niet.',
     incorrect_folder: 'Mislukt om kalibratiegegevens te uploaden. Controleer of de geselecteerde map correct is.',

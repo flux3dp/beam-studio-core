@@ -1824,7 +1824,6 @@ const lang: ILang = {
   },
   camera_data_backup: {
     title: 'Kamera Data Backup',
-    checking_pictures: 'Kontrollerar bilder...',
     no_picture_found: 'Inget bild hittades i maskinen.',
     folder_not_exists: 'Den valda mappen finns inte.',
     incorrect_folder: 'Misslyckades att ladda upp kalibreringsdata. Kontrollera om den valda mappen är korrekt.',

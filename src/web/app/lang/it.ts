@@ -1841,7 +1841,6 @@ const lang: ILang = {
   },
   camera_data_backup: {
     title: 'Backup dati della fotocamera',
-    checking_pictures: 'Verifica delle immagini...',
     no_picture_found: 'Nessuna immagine trovata nella macchina.',
     folder_not_exists: 'La cartella selezionata non esiste.',
     incorrect_folder: 'Impossibile caricare i dati di calibrazione. Verifica se la cartella selezionata è corretta.',

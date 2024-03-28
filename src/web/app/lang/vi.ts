@@ -1818,7 +1818,6 @@ const lang: ILang = {
   },
   camera_data_backup: {
     title: 'Sao lưu dữ liệu máy ảnh',
-    checking_pictures: 'Kiểm tra hình ảnh...',
     no_picture_found: 'Không tìm thấy hình ảnh trong máy.',
     folder_not_exists: 'Thư mục đã chọn không tồn tại.',
     incorrect_folder: 'Không thể tải lên dữ liệu hiệu chuẩn. Vui lòng kiểm tra xem thư mục bạn đã chọn có đúng không.',

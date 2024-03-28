@@ -12,10 +12,6 @@ import storage from 'implementations/storage';
 export const downloadCameraData = async (deviceName: string): Promise<void> => {
   const tBackup = i18n.lang.camera_data_backup;
   const progressId = 'camera-data-backup';
-  progressCaller.openSteppingProgress({
-    id: progressId,
-    message: tBackup.checking_pictures,
-  });
   const zip = new JSZip();
   try {
     let canceled = false;
@@ -23,7 +19,7 @@ export const downloadCameraData = async (deviceName: string): Promise<void> => {
       if (canceled) return;
       const s = Date.now();
       zip.folder(dirName);
-      for (let i = 0; i < Math.min(names.length, 10); i += 1) {
+      for (let i = 0; i < names.length; i += 1) {
         const fileName = names[i];
         const res = await deviceMaster.downloadFile(dirName, fileName, ({ left, size }) => {
           const current = 1 - left / size;
@@ -44,7 +40,6 @@ export const downloadCameraData = async (deviceName: string): Promise<void> => {
     };
     const dirs = ['camera_calib', 'auto_leveling', 'fisheye'];
     let anyFolderHasFiles = false;
-    progressCaller.popById(progressId);
     for (let i = 0; i < dirs.length; i += 1) {
       const dir = dirs[i];
       if (canceled) return;
@@ -105,7 +100,7 @@ export const uploadCameraData = async (): Promise<void> => {
   const file = await dialog.getFileFromDialog({
     defaultPath: storage.get('ador-backup-path') ?? '',
     properties: ['openFile'],
-    filters: [{ name: 'zip (*.zip)', extensions: ['zip'] }],
+    filters: [{ name: window.os === 'MacOS' ? 'zip (*.zip)' : 'zip', extensions: ['zip'] }],
   });
   if (!file) return;
   let canceled = false;
@@ -122,7 +117,12 @@ export const uploadCameraData = async (): Promise<void> => {
     const arrayBuffer = await file.arrayBuffer();
     const zip = await JSZip.loadAsync(arrayBuffer);
     const dirs = new Set(['camera_calib', 'auto_leveling', 'fisheye']);
-    const filteredFiles = zip.filter((relativePath, f) => !f.dir && dirs.has(relativePath.split('/')[0]));
+    const filteredFiles = zip.filter((relativePath, f) => {
+      if (f.dir) return false;
+      const splitedName = relativePath.split('/');
+      if (splitedName.length !== 2 || !dirs.has(splitedName[0])) return false;
+      return true;
+    });
     if (filteredFiles.length === 0) {
       alertCaller.popUpError({ message: tBackup.incorrect_folder });
       return;
@@ -131,8 +131,6 @@ export const uploadCameraData = async (): Promise<void> => {
     for (let i = 0; i < filteredFiles.length; i += 1) {
       if (canceled) return;
       const splitedName = filteredFiles[i].name.split('/');
-      // eslint-disable-next-line no-continue
-      if (splitedName.length !== 2) continue;
       const [dir, fileName] = splitedName;
 
       const blob = await zip.file(filteredFiles[i].name).async('blob');
@@ -143,7 +141,7 @@ export const uploadCameraData = async (): Promise<void> => {
         const totalProgress = (current + i) / filteredFiles.length;
         const timeElapsed = (Date.now() - s) / 1000;
         const timeLeft = formatDuration(timeElapsed / totalProgress - timeElapsed);
-        progressCaller.update('camera-data-backup', {
+        progressCaller.update(progressId, {
           message: `${tBackup.uploading_data} ${i + 1}/${filteredFiles.length}<br/>${
             tBackup.estimated_time_left
           } ${timeLeft}`,

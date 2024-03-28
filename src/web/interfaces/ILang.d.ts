@@ -1703,7 +1703,6 @@ export interface ILang {
   };
   camera_data_backup: {
     title: string;
-    checking_pictures: string;
     no_picture_found: string;
     folder_not_exists: string;
     incorrect_folder: string;

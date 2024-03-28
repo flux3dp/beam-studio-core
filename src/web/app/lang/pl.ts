@@ -1711,7 +1711,6 @@ const lang: ILang = {
   },
   camera_data_backup: {
     title: 'Kopiuj dane kamery',
-    checking_pictures: 'Sprawdzanie obrazów...',
     no_picture_found: 'Nie znaleziono obrazu w urządzeniu.',
     folder_not_exists: 'Wybrany folder nie istnieje.',
     incorrect_folder: 'Nie udało się przesłać danych kalibracji. Sprawdź, czy wybrany folder jest poprawny.',

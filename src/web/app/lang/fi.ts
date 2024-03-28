@@ -1818,7 +1818,6 @@ const lang: ILang = {
   },
   camera_data_backup: {
     title: 'Kameran tietojen varmuuskopiointi',
-    checking_pictures: 'Kuvien tarkistus...',
     no_picture_found: 'Kuvaa ei löytynyt laitteesta.',
     folder_not_exists: 'Valittu kansio ei ole olemassa.',
     incorrect_folder: 'Kalibrointitietojen lataaminen epäonnistui. Tarkista, että valitsemasi kansio on oikea.',

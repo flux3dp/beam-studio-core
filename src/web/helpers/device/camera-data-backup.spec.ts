@@ -54,7 +54,6 @@ jest.mock('implementations/storage', () => ({
 jest.mock('helpers/i18n', () => ({
   lang: {
     camera_data_backup: {
-      checking_pictures: 'checking_pictures',
       no_picture_found: 'no_picture_found',
       downloading_data: 'downloading_data',
       estimated_time_left: 'estimated_time_left',
@@ -91,10 +90,11 @@ describe('test camera-data-backup', () => {
   });
 
   const checkDownloadFiles = () => {
-    expect(mockOpenSteppingProgress).toHaveBeenCalledTimes(4);
+    expect(mockOpenSteppingProgress).toHaveBeenCalledTimes(3);
     expect(mockOpenSteppingProgress).toHaveBeenNthCalledWith(1, {
       id: 'camera-data-backup',
-      message: 'checking_pictures',
+      message: 'downloading_data',
+      onCancel: expect.any(Function),
     });
     expect(mockOpenSteppingProgress).toHaveBeenNthCalledWith(2, {
       id: 'camera-data-backup',
@@ -106,12 +106,7 @@ describe('test camera-data-backup', () => {
       message: 'downloading_data',
       onCancel: expect.any(Function),
     });
-    expect(mockOpenSteppingProgress).toHaveBeenNthCalledWith(4, {
-      id: 'camera-data-backup',
-      message: 'downloading_data',
-      onCancel: expect.any(Function),
-    });
-    expect(mockPopById).toBeCalledTimes(6);
+    expect(mockPopById).toBeCalledTimes(5);
     expect(mockUpdate).toBeCalledTimes(6);
     expect(mockUpdate).toHaveBeenNthCalledWith(1, 'camera-data-backup', {
       message: 'downloading_data camera_calib 1/2<br/>estimated_time_left 3.00 seconds',
@@ -275,7 +270,7 @@ describe('test camera-data-backup', () => {
     expect(mockGetFileFromDialog).toBeCalledWith({
       defaultPath: 'path',
       properties: ['openFile'],
-      filters: [{ name: 'zip (*.zip)', extensions: ['zip'] }],
+      filters: [{ name: 'zip', extensions: ['zip'] }],
     });
     expect(mockOpenSteppingProgress).toBeCalledTimes(1);
     expect(mockOpenSteppingProgress).toBeCalledWith({
@@ -289,6 +284,7 @@ describe('test camera-data-backup', () => {
     const filterFunction = mockJsZipInstance.filter.mock.calls[0][0];
     expect(filterFunction('camera_calib/file1', { dir: false })).toBe(true);
     expect(filterFunction('camera_calib/file2', { dir: false })).toBe(true);
+    expect(filterFunction('camera_calib/some-sub-folder/file', { dir: false })).toBe(false);
     expect(filterFunction('auto_leveling', { dir: true })).toBe(false);
     expect(mockAsyncGetData).toBeCalledTimes(4);
     expect(mockAsyncGetData).toBeCalledWith('blob');

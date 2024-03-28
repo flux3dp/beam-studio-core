@@ -1802,7 +1802,6 @@ const lang: ILang = {
   },
   camera_data_backup: {
     title: 'การสำรองข้อมูลกล้อง',
-    checking_pictures: 'กำลังตรวจสอบรูปภาพ...',
     no_picture_found: 'ไม่พบรูปในเครื่อง',
     folder_not_exists: 'โฟลเดอร์ที่เลือกไม่มีอยู่',
     incorrect_folder: 'การอัปโหลดข้อมูลการจัดเก็บล้มเหลว โปรดตรวจสอบว่าโฟลเดอร์ที่คุณเลือกถูกต้องหรือไม่',

@@ -1711,7 +1711,6 @@ const lang: ILang = {
   },
   camera_data_backup: {
     title: '카메라 데이터 백업',
-    checking_pictures: '이미지 확인 중...',
     no_picture_found: '기계에 이미지가 없습니다.',
     folder_not_exists: '선택한 폴더가 존재하지 않습니다.',
     incorrect_folder: '캘리브레이션 데이터 업로드에 실패했습니다. 선택한 폴더가 올바른지 확인해주세요.',

@@ -1833,7 +1833,6 @@ const lang: ILang = {
   },
   camera_data_backup: {
     title: 'Backup de Dados da Câmera',
-    checking_pictures: 'Verificando imagens...',
     no_picture_found: 'Nenhuma imagem encontrada na máquina.',
     folder_not_exists: 'A pasta selecionada não existe.',
     incorrect_folder: 'Falha ao carregar os dados de calibração. Por favor, verifique se a pasta selecionada está correta.',

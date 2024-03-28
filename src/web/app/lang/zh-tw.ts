@@ -1709,7 +1709,6 @@ const lang: ILang = {
   },
   camera_data_backup: {
     title: '相機資料備份',
-    checking_pictures: '檢查圖片中...',
     no_picture_found: '機器中未找到任何圖片。',
     folder_not_exists: '所選的資料夾不存在。',
     incorrect_folder: '相機資料上傳失敗。請檢查您選擇的資料夾是否正確。',

@@ -1850,7 +1850,6 @@ const lang: ILang = {
   },
   camera_data_backup: {
     title: 'Sauvegarde des données de la caméra',
-    checking_pictures: 'Vérification des images...',
     no_picture_found: 'Aucune image trouvée dans la machine.',
     folder_not_exists: 'Le dossier sélectionné n\'existe pas.',
     incorrect_folder: 'Échec du téléversement des données de calibration. Veuillez vérifier si le dossier que vous avez sélectionné est correct.',

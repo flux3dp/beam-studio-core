@@ -1708,7 +1708,6 @@ const lang: ILang = {
   },
   camera_data_backup: {
     title: '相机数据备份',
-    checking_pictures: '检查图片中...',
     no_picture_found: '机器中未找到任何图片。',
     folder_not_exists: '所选文件夹不存在。',
     incorrect_folder: '相机数据上传失败。请检查您选择的文件夹是否正确。',

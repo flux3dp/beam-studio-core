@@ -1830,7 +1830,6 @@ const lang: ILang = {
   },
   camera_data_backup: {
     title: 'Cadangkan Data Kamera',
-    checking_pictures: 'Memeriksa Gambar...',
     no_picture_found: 'Tidak ada gambar ditemukan di mesin.',
     folder_not_exists: 'Folder yang dipilih tidak ada.',
     incorrect_folder: 'Gagal mengunggah data kalibrasi. Harap periksa apakah folder yang Anda pilih sudah benar.',
