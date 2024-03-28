@@ -1182,6 +1182,7 @@ const lang: ILang = {
   },
   editor: {
     prespray_area: '預噴區',
+    opacity: '相機預覽不透明度',
   },
   flux_id_login: {
     connection_fail: '#847 無法連接至 FLUX 會員中心。',

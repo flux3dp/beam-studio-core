@@ -1234,6 +1234,7 @@ const lang: ILang = {
   },
   editor: {
     prespray_area: 'พื้นที่พ่นสารเคมี',
+    opacity: 'ความโปร่งแสงของตัวอย่างภาพ',
   },
   flux_id_login: {
     connection_fail: '#847 เชื่อมต่อกับบริการสมาชิก FLUX ไม่สําเร็จ',

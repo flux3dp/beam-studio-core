@@ -1182,6 +1182,7 @@ const lang: ILang = {
   },
   editor: {
     prespray_area: '프라이밍 영역',
+    opacity: '미리보기 투명도',
   },
   flux_id_login: {
     connection_fail: '#847 FLUX 멤버 서비스에 연결하지 못했습니다.',

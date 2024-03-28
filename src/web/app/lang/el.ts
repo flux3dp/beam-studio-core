@@ -1256,6 +1256,7 @@ const lang: ILang = {
   },
   editor: {
     prespray_area: 'Περιοχή προετοιμασίας',
+    opacity: 'Προεπισκόπηση Αδιαφάνειας',
   },
   flux_id_login: {
     connection_fail: '#847 Αποτυχία σύνδεσης στην υπηρεσία μέλους FLUX.',

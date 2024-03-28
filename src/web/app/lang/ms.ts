@@ -1247,6 +1247,7 @@ const lang: ILang = {
   },
   editor: {
     prespray_area: 'Kawasan Persediaan',
+    opacity: 'Ketelusan Pratonton',
   },
   flux_id_login: {
     connection_fail: '#847 Gagal menyambung ke perkhidmatan ahli FLUX.',

@@ -7,6 +7,8 @@ const DEFAULT_PREFERENCE = {
   model: 'fbb1b',
   show_guides: false,
   show_grids: true,
+  use_layer_color: true,
+  'anti-aliasing': true,
   guide_x0: 0,
   guide_y0: 0,
   engrave_dpi: 'medium', // low, medium, high

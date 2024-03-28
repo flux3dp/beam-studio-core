@@ -1239,6 +1239,7 @@ const lang: ILang = {
   },
   editor: {
     prespray_area: 'Primeområde',
+    opacity: 'Forhåndsvisning gjennomsiktighet',
   },
   flux_id_login: {
     connection_fail: '#847 Kunne ikke koble til FLUX medlemstjeneste.',

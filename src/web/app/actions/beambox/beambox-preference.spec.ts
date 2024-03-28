@@ -32,6 +32,8 @@ test('test beambox-preference', () => {
     engrave_dpi: 'medium',
     diode_offset_x: 10,
     diode_offset_y: 10,
+    use_layer_color: true,
+    'anti-aliasing': true,
     abc: '123',
   });
 

@@ -1250,6 +1250,7 @@ const lang: ILang = {
   },
   editor: {
     prespray_area: 'Area Priming',
+    opacity: 'Opasitas Pratinjau',
   },
   flux_id_login: {
     connection_fail: '#847 Gagal terhubung ke layanan keanggotaan FLUX.',

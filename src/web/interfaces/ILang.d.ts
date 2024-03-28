@@ -1176,6 +1176,7 @@ export interface ILang {
   };
   editor: {
     prespray_area: string;
+    opacity: string;
   };
   flux_id_login: {
     connection_fail: string;
