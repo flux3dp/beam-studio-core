@@ -1,36 +1,23 @@
-.container {
-  position: fixed;
-  z-index: 1;
-  bottom: 10px;
-  right: 258px;
-  margin-right: 5px;
+.btn {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  font-size: 22px;
+  border-radius: 20px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #ffffff;
 
-  &.mac {
-    right: 242px;
+  @media screen and (max-width: 600px) {
+    height: 30px;
+    font-size: 18px;
   }
+}
 
-  &.mobile {
-    bottom: 70px;
-    right: 10px;
-  }
-
-  .btn {
-    cursor: pointer;
-    width: 36px;
-    height: 36px;
-    padding: 7px 7px 8px 9px;
-    border-radius: 18px;
-    background-color: #999999;
-
-    img {
-      height: 20px;
-      filter: brightness(0) invert(1);
-    }
-  }
-
-  .result {
-    font-size: 14px;
-    color: #333333;
-    text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
-  }
+.result {
+  font-size: 14px;
+  color: #333333;
+  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
 }

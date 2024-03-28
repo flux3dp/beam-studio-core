@@ -1182,6 +1182,7 @@ const lang: ILang = {
   },
   editor: {
     prespray_area: 'Obszar gruntowania',
+    opacity: 'Podgląd przezroczystości',
   },
   flux_id_login: {
     connection_fail: '#847 Połączenie z usługą członkowską FLUX nie powiodło się.',

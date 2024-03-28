@@ -1249,6 +1249,7 @@ const lang: ILang = {
   },
   editor: {
     prespray_area: 'Area di preparazione',
+    opacity: 'Anteprima opacità',
   },
   flux_id_login: {
     connection_fail: '#847 Impossibile connettersi al servizio membri FLUX.',
