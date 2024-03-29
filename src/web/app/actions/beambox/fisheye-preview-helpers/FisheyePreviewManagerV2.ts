@@ -44,9 +44,26 @@ class FisheyePreviewManagerV2 extends FisheyePreviewManagerBase implements Fishe
     // V2 calibration use point E as reference
     console.log(params);
     await deviceMaster.setFisheyeParam(params);
+    await this.updateLevelingData();
     this.onObjectHeightChanged();
     if (!progressId) progressCaller.popById(this.progressId);
     return true;
+  }
+
+  updateLevelingData = async (): Promise<void> => {
+    const data = { ...this.levelingData };
+    const keys = Object.keys(data);
+    const refHeight = data.E;
+    keys.forEach((key) => {
+      data[key] = Math.round((refHeight - data[key] + this.levelingOffset[key] ?? 0) * 1000) / 1000;
+    });
+    await deviceMaster.setFisheyeLevelingData(data);
+  };
+
+  async reloadLevelingOffset(): Promise<void> {
+    this.levelingOffset = await getLevelingData('offset');
+    await this.updateLevelingData();
+    this.onObjectHeightChanged();
   }
 
   onObjectHeightChanged = async (): Promise<void> => {
