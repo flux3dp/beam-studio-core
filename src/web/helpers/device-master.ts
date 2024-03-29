@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-console */
@@ -1080,6 +1081,11 @@ class DeviceMaster {
     return res;
   }
 
+  async setFisheyeLevelingData(data: Record<string, number>) {
+    const res = await this.currentDevice.camera.setFisheyeLevelingData(data);
+    return res;
+  }
+
   async set3dRotation(data: RotationParameters3DGhostApi) {
     const res = await this.currentDevice.camera.set3dRotation(data);
     return res;
@@ -1101,18 +1107,16 @@ class DeviceMaster {
         lastErr = err;
       }
       this.disconnectCamera();
-      // eslint-disable-next-line no-await-in-loop
       await this.connectCamera();
       if (cameraFishEyeSetting) {
         if (cameraFishEyeSetting.matrix) {
-          // eslint-disable-next-line no-await-in-loop
           await this.setFisheyeMatrix(cameraFishEyeSetting.matrix, cameraFishEyeSetting.shouldCrop);
         } else if (cameraFishEyeSetting.param) {
-          // eslint-disable-next-line no-await-in-loop
           await this.setFisheyeParam(cameraFishEyeSetting.param);
           if (cameraFishEyeSetting.objectHeight)
-            // eslint-disable-next-line no-await-in-loop
             await this.setFisheyeObjectHeight(cameraFishEyeSetting.objectHeight);
+          if (cameraFishEyeSetting.levelingData)
+            await this.setFisheyeLevelingData(cameraFishEyeSetting.levelingData);
         }
       }
       // eslint-disable-next-line no-await-in-loop
