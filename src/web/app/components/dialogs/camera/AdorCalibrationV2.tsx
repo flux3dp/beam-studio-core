@@ -11,9 +11,9 @@ import {
 } from 'interfaces/FisheyePreview';
 import { setFisheyeConfig } from 'helpers/camera-calibration-helper';
 
-import CalculateCameraPosition from './AdorCalibrationV2/CalculateCameraPosition';
 import FindCorner from './AdorCalibrationV2/FindCorner';
 import Instruction from './AdorCalibration/Instruction';
+import SolvePnP from './AdorCalibrationV2/SolvePnP';
 import { getMaterialHeight, prepareToTakePicture } from './AdorCalibrationV2/utils';
 
 enum Step {
@@ -164,9 +164,8 @@ const AdorCalibrationV2 = ({ onClose }: Props): JSX.Element => {
     );
   }
   return (
-    <CalculateCameraPosition
+    <SolvePnP
       dh={calibratingParam.current.dh}
-      withPitch={withPitch}
       updateParam={updateParam}
       onClose={onClose}
       onBack={onBack}

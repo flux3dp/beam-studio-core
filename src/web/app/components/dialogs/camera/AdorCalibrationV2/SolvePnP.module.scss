@@ -1,0 +1,74 @@
+.footer-button {
+  text-transform: capitalize;
+}
+
+.container {
+  position: relative;
+  box-shadow: 0 0 0 1px #000000;
+
+  .img-container {
+    position: relative;
+    width: 100%;
+    padding-top: 100%;
+    overflow: scroll;
+    cursor: move;
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+
+    &:active {
+      cursor: grabbing;
+      cursor: -moz-grabbing;
+      cursor: -webkit-grabbing;
+    }
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    img {
+      max-width: unset;
+      top: 0;
+      position: absolute;
+    }
+
+    svg {
+      max-width: unset;
+      top: 0;
+      position: absolute;
+
+      circle {
+        fill: #00ff00;
+        stroke: #00ff00;
+        fill-opacity: 0;
+        cursor: move;
+
+        &.center {
+          fill-opacity: 1;
+          stroke: none;
+          pointer-events: none;
+        }
+      }
+
+      g.selected {
+        circle {
+          fill: #ff0000;
+          stroke: #ff0000;
+        }
+      }
+    }
+  }
+
+  .zoom-block {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    padding: 0 0 5px;
+
+    button {
+      margin-left: 5px;
+      background: none;
+      border: none;
+    }
+  }
+}

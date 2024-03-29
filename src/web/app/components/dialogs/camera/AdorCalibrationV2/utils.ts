@@ -22,6 +22,7 @@ export const prepareToTakePicture = async (): Promise<void> => {
   await deviceMaster.enterRawMode();
   await deviceMaster.rawHome();
   await deviceMaster.rawHomeZ();
+  await deviceMaster.rawLooseMotor();
   await deviceMaster.endRawMode();
 };
 

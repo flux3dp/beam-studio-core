@@ -230,8 +230,6 @@ class CameraCalibrationApi {
         points: [number, number][][];
       };
       this.events.onMessage = (response) => {
-        console.log(response);
-
         if (response instanceof Blob) {
           resolve({ success, blob: response, data });
         } else if (response.status === 'continue') {
@@ -259,21 +257,18 @@ class CameraCalibrationApi {
     });
   }
 
-  calculateCameraPosition(
+  solvePnPFindCorners = (
     img: Blob | ArrayBuffer,
-    dh: number,
-    withPitch = false
+    dh: number
   ): Promise<{
     success: boolean;
     blob: Blob;
-    data?: { rvec_polyfit: number[][]; tvec_polyfit: number[][];  };
-  }> {
-    return new Promise((resolve, reject) => {
+    data?: { points: [number, number][] };
+  }> =>
+    new Promise((resolve, reject) => {
       let success = true;
-      let data = {} as { rvec_polyfit: number[][]; tvec_polyfit: number[][]; };
+      let data = {} as { points: [number, number][] };
       this.events.onMessage = (response) => {
-        console.log(response);
-
         if (response instanceof Blob) {
           resolve({ success, blob: response, data });
         } else if (response.status === 'continue') {
@@ -296,10 +291,42 @@ class CameraCalibrationApi {
         console.log('on fatal', response);
       };
       const size = img instanceof Blob ? img.size : img.byteLength;
-      // calculate_camera_position [camera_pitch] [elevated_dh] [file_length] [calibration_version]
-      this.ws.send(`calculate_camera_position ${withPitch ? 20 : 0} ${dh.toFixed(3)} ${size} 2`);
+      // solve_pnp_find_corners [calibration_version] [elevated_dh] [file_length]
+      this.ws.send(`solve_pnp_find_corners 2 ${dh.toFixed(3)} ${size}`);
     });
-  }
+
+  solvePnPCalculate = (
+    dh: number,
+    points: [number, number][]
+  ): Promise<{
+    success: boolean;
+    data?: { rvec_polyfit: number[][]; tvec_polyfit: number[][] };
+  }> =>
+    new Promise((resolve, reject) => {
+      let success = true;
+      let data = {} as { rvec_polyfit: number[][]; tvec_polyfit: number[][] };
+      this.events.onMessage = (response) => {
+        if (response.status === 'fail') {
+          success = false;
+          console.log('fail', response);
+        } else if (response.status === 'ok') {
+          const { status, ...rest } = response;
+          data = rest;
+          resolve({ success, data });
+        }
+      };
+
+      this.events.onError = (response) => {
+        reject(response);
+        console.log('on error', response);
+      };
+      this.events.onFatal = (response) => {
+        reject(response);
+        console.log('on fatal', response);
+      };
+      // solve_pnp_calculate [calibration_version] [elevated_dh] [points]
+      this.ws.send(`solve_pnp_calculate 2 ${dh.toFixed(3)} ${JSON.stringify(points)}`);
+    });
 }
 
 export default CameraCalibrationApi;

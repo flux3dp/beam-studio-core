@@ -425,15 +425,22 @@ export const findCorners = async (
   return resp;
 };
 
-export const calculateCameraPosition = async (
+export const solvePnPFindCorners = async (
   img: Blob | ArrayBuffer,
   dh: number,
-  withPitch = false
 ): Promise<{
   success: boolean;
   blob: Blob;
+  data?: { points: [number, number][] };
+}> => {
+  const resp = await api.solvePnPFindCorners(img, dh);
+  return resp;
+};
+
+export const solvePnPCalculate = async (dh: number, points: [number, number][]): Promise<{
+  success: boolean;
   data?: { rvec_polyfit: number[][]; tvec_polyfit: number[][]; };
 }> => {
-  const resp = await api.calculateCameraPosition(img, dh, withPitch);
+  const resp = await api.solvePnPCalculate(dh, points);
   return resp;
 };
