@@ -74,7 +74,8 @@ const AdorCalibrationV2 = ({ onClose }: Props): JSX.Element => {
           if (res) {
             setUsePreviousData(true);
             console.log('calibratingParam.current', calibratingParam.current);
-            setStep(Step.PUT_PAPER);
+            if (calibratingParam.current.heights?.length > 0) setStep(Step.ELVATED_CUT);
+            else setStep(Step.PUT_PAPER);
           } else onNext();
         }}
         onClose={onClose}
@@ -214,8 +215,7 @@ const AdorCalibrationV2 = ({ onClose }: Props): JSX.Element => {
         onClose={() => onClose(true)}
         title="Please put material about 15mm at the center of the work area"
         buttons={[
-          { label: tCali.back, onClick: onBack },
-          // { label: tCali.skip, onClick: () => handleNext(false) },
+          { label: tCali.back, onClick: () => setStep(Step.PUT_PAPER) },
           {
             label: tCali.start_engrave,
             onClick: () => handleNext(),
