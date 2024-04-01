@@ -1550,6 +1550,11 @@ const lang: ILang = {
     found_checkpoint: 'Δεδομένα σημείου ελέγχου βρέθηκαν στη συσκευή σας. Θέλετε να ανακτήσετε από το σημείο ελέγχου;',
     downloading_checkpoint: 'Λήψη δεδομένων σημείου ελέγχου...',
     failed_to_parse_checkpoint: 'Απέτυχε η ανάλυση των δεδομένων σημείου ελέγχου.',
+    check_device_pictures: 'Έλεγχος Εικόνων Συσκευής',
+    checking_pictures: 'Γίνεται έλεγχος των εικόνων της συσκευής...',
+    calibrating_with_device_pictures: 'Βαθμονόμηση με τις εικόνες της συσκευής...',
+    failed_to_calibrate_with_pictures: 'Απέτυχε η βαθμονόμηση με τις εικόνες της συσκευής.',
+    found_pictures: 'Βρέθηκαν εικόνες στη συσκευή σας. Θέλετε να βαθμονομήσετε με τις εικόνες;',
   },
   input_machine_password: {
     require_password: '"%s" απαιτεί κωδικό πρόσβασης',

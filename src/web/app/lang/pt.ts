@@ -1550,6 +1550,11 @@ const lang: ILang = {
     found_checkpoint: 'Dados do ponto de verificação encontrados no seu dispositivo. Deseja recuperar do ponto de verificação?',
     downloading_checkpoint: 'Baixando dados do ponto de verificação...',
     failed_to_parse_checkpoint: 'Falha ao analisar os dados do ponto de verificação.',
+    check_device_pictures: 'Verificar imagens do dispositivo',
+    checking_pictures: 'Verificando imagens do dispositivo...',
+    calibrating_with_device_pictures: 'Calibrando com imagens do dispositivo...',
+    failed_to_calibrate_with_pictures: 'Falha ao calibrar com imagens do dispositivo.',
+    found_pictures: 'Foram encontradas imagens no seu dispositivo. Deseja calibrar com essas imagens?',
   },
   input_machine_password: {
     require_password: '"%s" requer uma senha',

@@ -1553,6 +1553,11 @@ const lang: ILang = {
     found_checkpoint: '당신의 장치에서 체크포인트 데이터를 발견했습니다. 체크포인트에서 복구하시겠습니까?',
     downloading_checkpoint: '체크포인트 데이터 다운로드 중...',
     failed_to_parse_checkpoint: '체크포인트 데이터 분석에 실패했습니다.',
+    check_device_pictures: '장치 사진 확인',
+    checking_pictures: '장치 사진 확인 중...',
+    calibrating_with_device_pictures: '장치 사진을 사용하여 보정 중...',
+    failed_to_calibrate_with_pictures: '장치 사진을 사용한 보정에 실패했습니다.',
+    found_pictures: '장치에서 사진이 발견되었습니다. 해당 사진을 사용하여 보정하시겠습니까?',
   },
   input_machine_password: {
     require_password: '%s은(는) 비밀번호가 필요합니다.',

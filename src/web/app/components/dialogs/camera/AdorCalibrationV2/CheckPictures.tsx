@@ -22,7 +22,7 @@ const CheckPictures = ({ updateParam, onClose, onNext }: Props): JSX.Element => 
   const checkPictures = useCallback(async () => {
     progressCaller.openNonstopProgress({
       id: progressId,
-      message: 'Checking pictures...',
+      message: lang.calibration.checking_pictures,
     });
     let hasPictures = false;
     try {
@@ -37,7 +37,7 @@ const CheckPictures = ({ updateParam, onClose, onNext }: Props): JSX.Element => 
     } else {
       setChecking(false);
     }
-  }, [progressId, onNext]);
+  }, [lang, progressId, onNext]);
 
   const handleNext = async (usePictures: boolean) => {
     progressCaller.openNonstopProgress({
@@ -50,19 +50,21 @@ const CheckPictures = ({ updateParam, onClose, onNext }: Props): JSX.Element => 
       levelingData[key] = refHeight - levelingData[key];
     });
     updateParam({ levelingData });
-    if (usePictures) {
-      progressCaller.update(progressId, { message: 'tCalibrating with device pictures' });
-      const res = await calibrateWithDevicePictures();
-      if (res) {
-        updateParam({ ...res, source: 'device', refHeight: 0 });
-        await updateData(res);
-      } else {
-        progressCaller.popById(progressId);
-        return;
+    try {
+      if (usePictures) {
+        progressCaller.update(progressId, {
+          message: lang.calibration.calibrating_with_device_pictures,
+        });
+        const res = await calibrateWithDevicePictures();
+        if (res) {
+          updateParam({ ...res, source: 'device', refHeight: 0 });
+          await updateData(res);
+        } else return;
       }
+      onNext(usePictures);
+    } finally {
+      progressCaller.popById(progressId);
     }
-    progressCaller.popById(progressId);
-    onNext(usePictures);
   };
 
   useEffect(() => {
@@ -76,14 +78,14 @@ const CheckPictures = ({ updateParam, onClose, onNext }: Props): JSX.Element => 
       open
       centered
       maskClosable={false}
-      title="tCheck Pictures"
+      title={lang.calibration.check_device_pictures}
       closable={!!onClose}
       okText={lang.alert.yes}
       cancelText={lang.alert.no}
       onOk={() => handleNext(true)}
       onCancel={() => handleNext(false)}
     >
-      {checking ? 'tChecking device pictures...' : 'tDevice has pictures. Use device pictures?'}
+      {checking ? lang.calibration.checking_pictures : 'tDevice has pictures. Use device pictures?'}
     </Modal>
   );
 };

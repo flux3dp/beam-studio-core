@@ -1550,6 +1550,11 @@ export interface ILang {
     found_checkpoint: string;
     downloading_checkpoint: string;
     failed_to_parse_checkpoint: string;
+    check_device_pictures: string;
+    checking_pictures: string;
+    calibrating_with_device_pictures: string;
+    failed_to_calibrate_with_pictures: string;
+    found_pictures: string;
   };
   input_machine_password: {
     require_password: string,

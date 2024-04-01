@@ -1550,6 +1550,11 @@ const lang: ILang = {
     found_checkpoint: 'Kontrollpunktdata funnet på enheten din. Vil du gjenopprette fra kontrollpunktet?',
     downloading_checkpoint: 'Laster ned kontrollpunktdata...',
     failed_to_parse_checkpoint: 'Kunne ikke analysere kontrollpunktdata.',
+    check_device_pictures: 'Sjekk enhetsbilder',
+    checking_pictures: 'Sjekker enhetsbilder...',
+    calibrating_with_device_pictures: 'Kalibrerer med enhetsbilder...',
+    failed_to_calibrate_with_pictures: 'Klarte ikke å kalibrere med enhetsbilder.',
+    found_pictures: 'Bilder ble funnet på enheten din. Vil du kalibrere med bildene?',
   },
   input_machine_password: {
     require_password: '"%s" krever passord',

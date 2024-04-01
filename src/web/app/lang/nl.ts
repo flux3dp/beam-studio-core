@@ -1550,6 +1550,11 @@ const lang: ILang = {
     found_checkpoint: 'Controlepuntgegevens gevonden op uw apparaat. Wilt u herstellen vanuit het controlepunt?',
     downloading_checkpoint: 'Downloaden van controlepuntgegevens...',
     failed_to_parse_checkpoint: 'Kan de controlepuntgegevens niet analyseren.',
+    check_device_pictures: "Apparaatfoto's controleren",
+    checking_pictures: "Apparaatfoto's controleren...",
+    calibrating_with_device_pictures: "Kalibreren met apparaatfoto's...",
+    failed_to_calibrate_with_pictures: "Kalibratie met apparaatfoto's mislukt.",
+    found_pictures: "Foto's zijn gevonden op uw apparaat. Wilt u kalibreren met de foto's?",
   },
   input_machine_password: {
     require_password: '"%s" vereist een wachtwoord',

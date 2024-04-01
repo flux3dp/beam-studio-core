@@ -1550,6 +1550,11 @@ const lang: ILang = {
     found_checkpoint: 'I dati del checkpoint sono stati trovati sul tuo dispositivo. Desideri recuperarli dal checkpoint?',
     downloading_checkpoint: 'Download dei dati del checkpoint...',
     failed_to_parse_checkpoint: 'Impossibile analizzare i dati del checkpoint.',
+    check_device_pictures: 'Controlla le immagini del dispositivo',
+    checking_pictures: 'Controllo delle immagini del dispositivo in corso...',
+    calibrating_with_device_pictures: 'Calibrazione con le immagini del dispositivo in corso...',
+    failed_to_calibrate_with_pictures: 'Impossibile calibrare con le immagini del dispositivo.',
+    found_pictures: 'Sono state trovate immagini sul tuo dispositivo. Vuoi calibrare con le immagini?',
   },
   input_machine_password: {
     require_password: '"%s" richiede una password',

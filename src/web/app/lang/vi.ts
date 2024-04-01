@@ -1550,6 +1550,11 @@ const lang: ILang = {
     found_checkpoint: 'Dữ liệu kiểm tra điểm được tìm thấy trên thiết bị của bạn. Bạn có muốn khôi phục từ điểm kiểm tra không?',
     downloading_checkpoint: 'Đang tải dữ liệu kiểm tra điểm...',
     failed_to_parse_checkpoint: 'Không thể phân tích dữ liệu kiểm tra điểm.',
+    check_device_pictures: 'Kiểm tra hình ảnh thiết bị',
+    checking_pictures: 'Đang kiểm tra hình ảnh thiết bị...',
+    calibrating_with_device_pictures: 'Đang hiệu chỉnh với hình ảnh thiết bị...',
+    failed_to_calibrate_with_pictures: 'Không thể hiệu chỉnh với hình ảnh thiết bị.',
+    found_pictures: 'Hình ảnh được tìm thấy trên thiết bị của bạn. Bạn có muốn hiệu chỉnh với các hình ảnh đó không?',
   },
   input_machine_password: {
     require_password: '"%s" yêu cầu mật khẩu',

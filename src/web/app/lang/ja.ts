@@ -1553,6 +1553,11 @@ const lang: ILang = {
     found_checkpoint: 'デバイスにチェックポイントデータが見つかりました。 チェックポイントから復元しますか？',
     downloading_checkpoint: 'チェックポイントデータのダウンロード中...',
     failed_to_parse_checkpoint: 'チェックポイントデータの解析に失敗しました。',
+    check_device_pictures: 'デバイスの写真を確認',
+    checking_pictures: 'デバイスの写真を確認しています...',
+    calibrating_with_device_pictures: 'デバイスの写真でキャリブレーション中...',
+    failed_to_calibrate_with_pictures: 'デバイスの写真でのキャリブレーションに失敗しました。',
+    found_pictures: 'デバイスに写真が見つかりました。写真でキャリブレーションしますか？',
   },
   input_machine_password: {
     require_password: '「%s」にはパスワードが必要です。',

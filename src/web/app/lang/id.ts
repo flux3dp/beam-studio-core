@@ -1550,6 +1550,11 @@ const lang: ILang = {
     found_checkpoint: 'Data titik kontrol ditemukan di perangkat Anda. Apakah Anda ingin memulihkannya dari titik kontrol?',
     downloading_checkpoint: 'Mengunduh data titik kontrol...',
     failed_to_parse_checkpoint: 'Gagal mengurai data titik kontrol.',
+    check_device_pictures: 'Periksa Gambar Perangkat',
+    checking_pictures: 'Memeriksa gambar perangkat...',
+    calibrating_with_device_pictures: 'Melakukan kalibrasi dengan gambar perangkat...',
+    failed_to_calibrate_with_pictures: 'Gagal melakukan kalibrasi dengan gambar perangkat.',
+    found_pictures: 'Gambar ditemukan di perangkat Anda. Apakah Anda ingin melakukan kalibrasi dengan gambar tersebut?',
   },
   input_machine_password: {
     require_password: '"%s" memerlukan kata sandi',

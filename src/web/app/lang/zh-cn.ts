@@ -1553,6 +1553,11 @@ const lang: ILang = {
     found_checkpoint: '在您的设备上找到了检查点数据。您想从检查点恢复吗？',
     downloading_checkpoint: '下载检查点数据...',
     failed_to_parse_checkpoint: '无法解析检查点数据。',
+    check_device_pictures: '检查设备图片',
+    checking_pictures: '正在检查设备图片...',
+    calibrating_with_device_pictures: '使用设备图片进行校准...',
+    failed_to_calibrate_with_pictures: '使用设备图片进行校准失败。',
+    found_pictures: '在您的设备中找到了图片。您是否想要使用这些图片进行校准？',
   },
   input_machine_password: {
     require_password: '"%s" 需要密码',

@@ -1550,6 +1550,11 @@ const lang: ILang = {
     found_checkpoint: 'Les données du point de contrôle ont été trouvées sur votre appareil. Souhaitez-vous les récupérer à partir du point de contrôle?',
     downloading_checkpoint: 'Téléchargement des données du point de contrôle...',
     failed_to_parse_checkpoint: "Impossible d'analyser les données du point de contrôle.",
+    check_device_pictures: "Vérifier les images de l'appareil",
+    checking_pictures: "Vérification des images de l'appareil en cours...",
+    calibrating_with_device_pictures: "Calibration avec les images de l'appareil en cours...",
+    failed_to_calibrate_with_pictures: "Échec de la calibration avec les images de l'appareil.",
+    found_pictures: 'Des images ont été trouvées sur votre appareil. Voulez-vous calibrer avec les images?',
   },
   input_machine_password: {
     require_password: '"%s" nécessite un mot de passe',

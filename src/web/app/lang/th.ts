@@ -1550,6 +1550,11 @@ const lang: ILang = {
     found_checkpoint: 'พบข้อมูลจุดตรวจสอบบนอุปกรณ์ของคุณ คุณต้องการกู้คืนจากจุดตรวจสอบหรือไม่?',
     downloading_checkpoint: 'กำลังดาวน์โหลดข้อมูลจุดตรวจสอบ...',
     failed_to_parse_checkpoint: 'การวิเคราะห์ข้อมูลจุดตรวจสอบล้มเหลว.',
+    check_device_pictures: 'ตรวจสอบภาพอุปกรณ์',
+    checking_pictures: 'กำลังตรวจสอบภาพอุปกรณ์...',
+    calibrating_with_device_pictures: 'กำลังปรับแต่งด้วยภาพอุปกรณ์...',
+    failed_to_calibrate_with_pictures: 'การปรับแต่งด้วยภาพอุปกรณ์ล้มเหลว',
+    found_pictures: 'พบภาพในอุปกรณ์ของคุณ คุณต้องการปรับแต่งด้วยภาพหรือไม่?',
   },
   input_machine_password: {
     require_password: '"%s" ต้องการรหัสผ่าน',

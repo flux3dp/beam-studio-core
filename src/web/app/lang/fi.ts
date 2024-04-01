@@ -1550,6 +1550,11 @@ const lang: ILang = {
     found_checkpoint: 'Tarkistuspisteen tiedot löytyivät laitteestasi. Haluatko palauttaa ne tarkistuspisteestä?',
     downloading_checkpoint: 'Ladataan tarkistuspisteen tietoja...',
     failed_to_parse_checkpoint: 'Tarkistuspisteen tietojen jäsentäminen epäonnistui.',
+    check_device_pictures: 'Tarkista laitteen kuvat',
+    checking_pictures: 'Tarkistetaan laitteen kuvia...',
+    calibrating_with_device_pictures: 'Kalibroidaan laitteen kuvien avulla...',
+    failed_to_calibrate_with_pictures: 'Kalibrointi laitteen kuvilla epäonnistui.',
+    found_pictures: 'Kuvia löytyi laitteestasi. Haluatko kalibroida niiden avulla?',
   },
   input_machine_password: {
     require_password: '"%s" vaatii salasanan',

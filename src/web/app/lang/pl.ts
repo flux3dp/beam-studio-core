@@ -1553,6 +1553,11 @@ const lang: ILang = {
     found_checkpoint: 'Dane punktu kontrolnego znalezione na twoim urządzeniu. Czy chcesz przywrócić z punktu kontrolnego?',
     downloading_checkpoint: 'Pobieranie danych punktu kontrolnego...',
     failed_to_parse_checkpoint: 'Nie udało się przeanalizować danych punktu kontrolnego.',
+    check_device_pictures: 'Sprawdź zdjęcia urządzenia',
+    checking_pictures: 'Sprawdzanie zdjęć urządzenia...',
+    calibrating_with_device_pictures: 'Kalibracja za pomocą zdjęć urządzenia...',
+    failed_to_calibrate_with_pictures: 'Nie udało się skalibrować za pomocą zdjęć urządzenia.',
+    found_pictures: 'Zdjęcia zostały znalezione na Twoim urządzeniu. Czy chcesz dokonać kalibracji za pomocą tych zdjęć?',
   },
   input_machine_password: {
     require_password: '"%s" wymaga hasła',

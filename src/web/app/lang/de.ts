@@ -1553,6 +1553,11 @@ const lang: ILang = {
     found_checkpoint: 'Checkpoint-Daten auf Ihrem Gerät gefunden. Möchten Sie von dem Checkpoint wiederherstellen?',
     downloading_checkpoint: 'Herunterladen von Checkpoint-Daten...',
     failed_to_parse_checkpoint: 'Fehler beim Analysieren der Checkpoint-Daten.',
+    check_device_pictures: 'Gerätebilder überprüfen',
+    checking_pictures: 'Überprüfe Gerätebilder...',
+    calibrating_with_device_pictures: 'Kalibrieren mit Gerätebildern...',
+    failed_to_calibrate_with_pictures: 'Kalibrierung mit Gerätebildern fehlgeschlagen.',
+    found_pictures: 'Bilder wurden auf Ihrem Gerät gefunden. Möchten Sie mit den Bildern kalibrieren?',
   },
   input_machine_password: {
     require_password: '%s erfordert ein Passwort',
