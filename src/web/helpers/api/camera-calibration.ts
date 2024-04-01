@@ -113,11 +113,11 @@ class CameraCalibrationApi {
       };
 
       this.events.onError = (response) => {
-        reject(response);
+        resolve(false);
         console.log('on error', response);
       };
       this.events.onFatal = (response) => {
-        reject(response);
+        resolve(false);
         console.log('on fatal', response);
       };
       const size = img instanceof Blob ? img.size : img.byteLength;

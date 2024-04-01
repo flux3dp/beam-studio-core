@@ -14,19 +14,19 @@ interface Props {
   onNext: (res: boolean) => void;
 }
 
-const CheckDraftingData = ({ updateParam, onClose, onNext }: Props): JSX.Element => {
-  const progressId = useMemo(() => 'camera-check-drafting', []);
+const CheckpointData = ({ updateParam, onClose, onNext }: Props): JSX.Element => {
+  const progressId = useMemo(() => 'camera-check-point', []);
   const [checking, setChecking] = useState(true);
   const lang = useI18n();
   const checkData = useCallback(async () => {
     progressCaller.openNonstopProgress({
       id: progressId,
-      message: 'Checking drafting data...',
+      message: lang.calibration.checking_checkpoint,
     });
     let res = false;
     try {
       const ls = await deviceMaster.ls('fisheye');
-      res = ls.files.includes('drafting.json');
+      res = ls.files.includes('checkpoint.json');
     } catch {
       /* do nothing */
     }
@@ -36,15 +36,15 @@ const CheckDraftingData = ({ updateParam, onClose, onNext }: Props): JSX.Element
     } else {
       setChecking(false);
     }
-  }, [progressId, onNext]);
+  }, [lang, progressId, onNext]);
 
   const handleOk = async () => {
     progressCaller.openNonstopProgress({
       id: progressId,
-      message: 'Downloading drafting data...',
+      message: lang.calibration.downloading_checkpoint,
     });
     try {
-      const data = await deviceMaster.downloadFile('fisheye', 'drafting.json');
+      const data = await deviceMaster.downloadFile('fisheye', 'checkpoint.json');
       const [, blob] = data;
       const dataString = await (blob as Blob).text();
       try {
@@ -53,7 +53,7 @@ const CheckDraftingData = ({ updateParam, onClose, onNext }: Props): JSX.Element
         updateParam(jsonData);
       } catch (e) {
         console.error(e);
-        alertCaller.popUpError({ message: 'Failed to parse drafting data' });
+        alertCaller.popUpError({ message: lang.calibration.failed_to_parse_checkpoint });
         onNext(false);
       }
       onNext(true);
@@ -73,16 +73,16 @@ const CheckDraftingData = ({ updateParam, onClose, onNext }: Props): JSX.Element
       open
       centered
       maskClosable={false}
-      title="tCheck Drafting Data"
+      title={lang.calibration.check_checkpoint_data}
       closable={!!onClose}
       okText={lang.alert.yes}
       cancelText={lang.alert.no}
       onOk={handleOk}
       onCancel={() => onNext(false)}
     >
-      {checking ? 'tChecking drafting data...' : 'tFound drafting data, use them?'}
+      {checking ? lang.calibration.checking_checkpoint : lang.calibration.found_checkpoint}
     </Modal>
   );
 };
 
-export default CheckDraftingData;
+export default CheckpointData;

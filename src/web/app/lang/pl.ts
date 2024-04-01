@@ -1548,6 +1548,11 @@ const lang: ILang = {
     align_red_cross_print: 'Proszę wyrównać środek czerwonego krzyża z nadrukowanym krzyżykiem.',
     retake: 'Powtórz zdjęcie',
     calibrate_camera_before_calibrate_modules: 'Przed kalibracją modułów należy przeprowadzić kalibrację kamery.',
+    check_checkpoint_data: 'Dane punktu kontrolnego',
+    checking_checkpoint: 'Sprawdzanie danych punktu kontrolnego...',
+    found_checkpoint: 'Dane punktu kontrolnego znalezione na twoim urządzeniu. Czy chcesz przywrócić z punktu kontrolnego?',
+    downloading_checkpoint: 'Pobieranie danych punktu kontrolnego...',
+    failed_to_parse_checkpoint: 'Nie udało się przeanalizować danych punktu kontrolnego.',
   },
   input_machine_password: {
     require_password: '"%s" wymaga hasła',

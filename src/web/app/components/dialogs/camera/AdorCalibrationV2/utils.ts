@@ -84,10 +84,10 @@ export const calibrateWithDevicePictures = async (): Promise<FisheyeCameraParame
   }
 };
 
-export const saveDraftingParameters = async (param: FisheyeCameraParametersV2Cali): Promise<void> => {
+export const saveCheckPoint = async (param: FisheyeCameraParametersV2Cali): Promise<void> => {
   const dataString = JSON.stringify(param);
   const dataBlob = new Blob([dataString], { type: 'application/json' });
-  await deviceMaster.uploadToDirectory(dataBlob, 'fisheye', 'drafting.json');
+  await deviceMaster.uploadToDirectory(dataBlob, 'fisheye', 'checkpoint.json');
 };
 
 export const getMaterialHeight = async (): Promise<number> => {

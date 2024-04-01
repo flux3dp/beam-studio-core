@@ -1545,6 +1545,11 @@ const lang: ILang = {
     align_red_cross_print: 'Παρακαλώ ευθυγραμμίστε τη μέση του κόκκινου σταυρού με τον τυπωμένο σταυρό.',
     retake: 'Επανάληψη λήψης',
     calibrate_camera_before_calibrate_modules: 'Παρακαλώ εκτελέστε βαθμονόμηση κάμερας πριν βαθμονομήσετε τις μονάδες.',
+    check_checkpoint_data: 'Δεδομένα σημείου ελέγχου',
+    checking_checkpoint: 'Ελέγχος δεδομένων σημείου ελέγχου...',
+    found_checkpoint: 'Δεδομένα σημείου ελέγχου βρέθηκαν στη συσκευή σας. Θέλετε να ανακτήσετε από το σημείο ελέγχου;',
+    downloading_checkpoint: 'Λήψη δεδομένων σημείου ελέγχου...',
+    failed_to_parse_checkpoint: 'Απέτυχε η ανάλυση των δεδομένων σημείου ελέγχου.',
   },
   input_machine_password: {
     require_password: '"%s" απαιτεί κωδικό πρόσβασης',

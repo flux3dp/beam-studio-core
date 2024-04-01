@@ -1548,6 +1548,11 @@ const lang: ILang = {
     align_red_cross_print: 'Please align the middle of the red cross with the printed cross.',
     retake: 'Retake Picture',
     calibrate_camera_before_calibrate_modules: 'Please perform camera calibration before calibrating modules.',
+    check_checkpoint_data: 'Checkpoint Data',
+    checking_checkpoint: 'Checking checkpoint data...',
+    found_checkpoint: 'Checkpoint data found on your device. Do you want to recover from the checkpoint?',
+    downloading_checkpoint: 'Downloading checkpoint data...',
+    failed_to_parse_checkpoint: 'Failed to parse the checkpoint data.',
   },
   input_machine_password: {
     require_password: '"%s" requires a password',

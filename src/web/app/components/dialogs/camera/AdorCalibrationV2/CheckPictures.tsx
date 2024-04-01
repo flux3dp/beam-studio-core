@@ -56,6 +56,9 @@ const CheckPictures = ({ updateParam, onClose, onNext }: Props): JSX.Element => 
       if (res) {
         updateParam({ ...res, source: 'device', refHeight: 0 });
         await updateData(res);
+      } else {
+        progressCaller.popById(progressId);
+        return;
       }
     }
     progressCaller.popById(progressId);

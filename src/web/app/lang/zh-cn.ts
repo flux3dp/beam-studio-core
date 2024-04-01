@@ -1548,6 +1548,11 @@ const lang: ILang = {
     align_red_cross_print: '请将红色十字的中心与印刷十字对齐。',
     retake: '重拍照片',
     calibrate_camera_before_calibrate_modules: '请在校准模块之前进行相机校准。',
+    check_checkpoint_data: '检查点数据',
+    checking_checkpoint: '正在检查检查点数据...',
+    found_checkpoint: '在您的设备上找到了检查点数据。您想从检查点恢复吗？',
+    downloading_checkpoint: '下载检查点数据...',
+    failed_to_parse_checkpoint: '无法解析检查点数据。',
   },
   input_machine_password: {
     require_password: '"%s" 需要密码',

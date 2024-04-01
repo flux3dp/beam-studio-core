@@ -1545,6 +1545,11 @@ const lang: ILang = {
     align_red_cross_print: 'Sejajarkan tengah salib merah dengan salib yang dicetak.',
     retake: 'Ambil Semula Gambar',
     calibrate_camera_before_calibrate_modules: 'Lakukan penentusahan kamera sebelum menentusahkan modul.',
+    check_checkpoint_data: 'Data kawalan titik',
+    checking_checkpoint: 'Memeriksa data kawalan titik...',
+    found_checkpoint: 'Data kawalan titik dijumpai pada peranti anda. Mahukah anda pulih daripada titik kawalan?',
+    downloading_checkpoint: 'Memuat turun data kawalan titik...',
+    failed_to_parse_checkpoint: 'Gagal mengurai data kawalan titik.',
   },
   input_machine_password: {
     require_password: '"%s" memerlukan kata laluan',

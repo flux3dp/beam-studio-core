@@ -1545,6 +1545,11 @@ const lang: ILang = {
     align_red_cross_print: 'Vennligst juster midten av det røde korset med det utskrevne korset.',
     retake: 'Ta bilde på nytt',
     calibrate_camera_before_calibrate_modules: 'Vennligst utfør kamera-kalibrering før du kalibrerer moduler.',
+    check_checkpoint_data: 'Kontrollpunktdata',
+    checking_checkpoint: 'Sjekker kontrollpunktdata...',
+    found_checkpoint: 'Kontrollpunktdata funnet på enheten din. Vil du gjenopprette fra kontrollpunktet?',
+    downloading_checkpoint: 'Laster ned kontrollpunktdata...',
+    failed_to_parse_checkpoint: 'Kunne ikke analysere kontrollpunktdata.',
   },
   input_machine_password: {
     require_password: '"%s" krever passord',

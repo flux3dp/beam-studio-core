@@ -1545,6 +1545,11 @@ const lang: ILang = {
     align_red_cross_print: 'Kohdista punaisen ristin keskikohta tulostetun ristin kanssa.',
     retake: 'Ota kuva uudelleen',
     calibrate_camera_before_calibrate_modules: 'Suorita kamerakalibrointi ennen moduulien kalibrointia.',
+    check_checkpoint_data: 'Tarkistuspisteen tiedot',
+    checking_checkpoint: 'Tarkistetaan tarkistuspisteen tietoja...',
+    found_checkpoint: 'Tarkistuspisteen tiedot löytyivät laitteestasi. Haluatko palauttaa ne tarkistuspisteestä?',
+    downloading_checkpoint: 'Ladataan tarkistuspisteen tietoja...',
+    failed_to_parse_checkpoint: 'Tarkistuspisteen tietojen jäsentäminen epäonnistui.',
   },
   input_machine_password: {
     require_password: '"%s" vaatii salasanan',

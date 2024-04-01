@@ -11,16 +11,16 @@ import {
 } from 'interfaces/FisheyePreview';
 import { extrinsicRegression, setFisheyeConfig, updateData } from 'helpers/camera-calibration-helper';
 
-import CheckDraftingData from './AdorCalibrationV2/CheckDraftingData';
+import CheckpointData from './AdorCalibrationV2/CheckpointData';
 import CheckPictures from './AdorCalibrationV2/CheckPictures';
 import FindCorner from './AdorCalibrationV2/FindCorner';
 import Instruction from './AdorCalibration/Instruction';
 import SolvePnP from './AdorCalibrationV2/SolvePnP';
-import { getMaterialHeight, prepareToTakePicture, saveDraftingParameters } from './AdorCalibrationV2/utils';
+import { getMaterialHeight, prepareToTakePicture, saveCheckPoint } from './AdorCalibrationV2/utils';
 
 enum Step {
   ASK_CAMERA_TYPE = 0,
-  CHECK_DRAFTING_DATA = 1,
+  CHECKPOINT_DATA = 1,
   CHECK_PICTURE = 2,
   PUT_PAPER = 3,
   FIND_CORNER = 4,
@@ -66,9 +66,9 @@ const AdorCalibrationV2 = ({ onClose }: Props): JSX.Element => {
       />
     );
   }
-  if (step === Step.CHECK_DRAFTING_DATA) {
+  if (step === Step.CHECKPOINT_DATA) {
     return (
-      <CheckDraftingData
+      <CheckpointData
         updateParam={updateParam}
         onNext={(res) => {
           if (res) {
@@ -88,7 +88,7 @@ const AdorCalibrationV2 = ({ onClose }: Props): JSX.Element => {
         updateParam={updateParam}
         onNext={async (res) => {
           if (res) {
-            await saveDraftingParameters(calibratingParam.current);
+            await saveCheckPoint(calibratingParam.current);
             setUsePreviousData(true);
           }
           onNext();
@@ -139,7 +139,7 @@ const AdorCalibrationV2 = ({ onClose }: Props): JSX.Element => {
             : 'Please put paper to cover the whole work area'
         }
         buttons={[
-          { label: tCali.back, onClick: () => setStep(Step.CHECK_DRAFTING_DATA) },
+          { label: tCali.back, onClick: () => setStep(Step.CHECKPOINT_DATA) },
           { label: tCali.skip, onClick: () => handleNext(false) },
           {
             label: tCali.start_engrave,
@@ -158,7 +158,7 @@ const AdorCalibrationV2 = ({ onClose }: Props): JSX.Element => {
         onClose={onClose}
         onBack={() => setStep(Step.PUT_PAPER)}
         onNext={async () => {
-          await saveDraftingParameters(calibratingParam.current);
+          await saveCheckPoint(calibratingParam.current);
           setStep(Step.ELVATED_CUT);
         }}
       />
@@ -179,7 +179,7 @@ const AdorCalibrationV2 = ({ onClose }: Props): JSX.Element => {
             heights: [calibratingParam.current.dh],
           });
           await updateData(calibratingParam.current);
-          await saveDraftingParameters(calibratingParam.current);
+          await saveCheckPoint(calibratingParam.current);
           console.log('calibratingParam.current', calibratingParam.current);
           setStep(Step.ELVATED_CUT);
         }}

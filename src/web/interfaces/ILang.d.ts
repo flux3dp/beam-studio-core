@@ -1545,6 +1545,11 @@ export interface ILang {
     align_red_cross_print: string;
     retake: string;
     calibrate_camera_before_calibrate_modules: string;
+    check_checkpoint_data: string;
+    checking_checkpoint: string;
+    found_checkpoint: string;
+    downloading_checkpoint: string;
+    failed_to_parse_checkpoint: string;
   };
   input_machine_password: {
     require_password: string,

@@ -1545,6 +1545,11 @@ const lang: ILang = {
     align_red_cross_print: 'Alinhe o centro da cruz vermelha com a cruz impressa.',
     retake: 'Tirar foto novamente',
     calibrate_camera_before_calibrate_modules: 'Calibre a câmera antes de calibrar os módulos.',
+    check_checkpoint_data: 'Dados do ponto de verificação',
+    checking_checkpoint: 'Verificando dados do ponto de verificação...',
+    found_checkpoint: 'Dados do ponto de verificação encontrados no seu dispositivo. Deseja recuperar do ponto de verificação?',
+    downloading_checkpoint: 'Baixando dados do ponto de verificação...',
+    failed_to_parse_checkpoint: 'Falha ao analisar os dados do ponto de verificação.',
   },
   input_machine_password: {
     require_password: '"%s" requer uma senha',

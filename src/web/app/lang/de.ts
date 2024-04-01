@@ -1548,6 +1548,11 @@ const lang: ILang = {
     align_red_cross_print: 'Bitte alignieren Sie die Mitte des roten Kreuzes mit dem gedruckten Kreuz.',
     retake: 'Foto erneut aufnehmen',
     calibrate_camera_before_calibrate_modules: 'Bitte führen Sie zuerst eine Kamerakalibrierung durch, bevor Sie die Module kalibrieren.',
+    check_checkpoint_data: 'Checkpoint-Daten',
+    checking_checkpoint: 'Überprüfe Checkpoint-Daten...',
+    found_checkpoint: 'Checkpoint-Daten auf Ihrem Gerät gefunden. Möchten Sie von dem Checkpoint wiederherstellen?',
+    downloading_checkpoint: 'Herunterladen von Checkpoint-Daten...',
+    failed_to_parse_checkpoint: 'Fehler beim Analysieren der Checkpoint-Daten.',
   },
   input_machine_password: {
     require_password: '%s erfordert ein Passwort',

@@ -1545,6 +1545,11 @@ const lang: ILang = {
     align_red_cross_print: 'Lijn het midden van het rode kruis uit met het geprinte kruis.',
     retake: 'Foto opnieuw nemen',
     calibrate_camera_before_calibrate_modules: 'Voer eerst een camerakalibratie uit voordat u modules kalibreert.',
+    check_checkpoint_data: 'Controlepuntgegevens',
+    checking_checkpoint: 'Controleer controlepuntgegevens...',
+    found_checkpoint: 'Controlepuntgegevens gevonden op uw apparaat. Wilt u herstellen vanuit het controlepunt?',
+    downloading_checkpoint: 'Downloaden van controlepuntgegevens...',
+    failed_to_parse_checkpoint: 'Kan de controlepuntgegevens niet analyseren.',
   },
   input_machine_password: {
     require_password: '"%s" vereist een wachtwoord',

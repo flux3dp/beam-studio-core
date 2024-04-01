@@ -1548,6 +1548,11 @@ const lang: ILang = {
     align_red_cross_print: 'Por favor, alinee el centro de la cruz roja con la cruz impresa.',
     retake: 'Volver a tomar foto',
     calibrate_camera_before_calibrate_modules: 'Por favor, realice la calibración de la cámara antes de calibrar los módulos.',
+    check_checkpoint_data: 'Datos del punto de control',
+    checking_checkpoint: 'Comprobando datos del punto de control...',
+    found_checkpoint: 'Se encontraron datos del punto de control en su dispositivo. ¿Desea recuperarlos del punto de control?',
+    downloading_checkpoint: 'Descargando datos del punto de control...',
+    failed_to_parse_checkpoint: 'No se pudo analizar los datos del punto de control.',
   },
   input_machine_password: {
     require_password: '"%s" requiere una contraseña',

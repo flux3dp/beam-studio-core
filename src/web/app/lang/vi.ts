@@ -1545,6 +1545,11 @@ const lang: ILang = {
     align_red_cross_print: 'Hãy căn chỉnh giữa dấu cộng đỏ với dấu in.',
     retake: 'Chụp lại',
     calibrate_camera_before_calibrate_modules: 'Vui lòng hiệu chỉnh camera trước khi hiệu chỉnh các mô-đun.',
+    check_checkpoint_data: 'Dữ liệu kiểm tra điểm',
+    checking_checkpoint: 'Đang kiểm tra dữ liệu kiểm tra điểm...',
+    found_checkpoint: 'Dữ liệu kiểm tra điểm được tìm thấy trên thiết bị của bạn. Bạn có muốn khôi phục từ điểm kiểm tra không?',
+    downloading_checkpoint: 'Đang tải dữ liệu kiểm tra điểm...',
+    failed_to_parse_checkpoint: 'Không thể phân tích dữ liệu kiểm tra điểm.',
   },
   input_machine_password: {
     require_password: '"%s" yêu cầu mật khẩu',

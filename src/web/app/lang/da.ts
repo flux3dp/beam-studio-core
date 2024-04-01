@@ -1211,9 +1211,11 @@ const lang: ILang = {
       goto_member_center: 'Gå til Medlemscenter',
       access_plus_feature_1: 'Du får adgang til en',
       access_plus_feature_2: 'funktion.',
-      access_plus_feature_note: 'Du skal have FLUX+ medlemskab for at få adgang til denne funktion.',
+      access_plus_feature_note:
+        'Du skal have FLUX+ medlemskab for at få adgang til denne funktion.',
       access_monotype_feature: 'Du har ikke Monotype-skrifttyper Tilføjelse.',
-      access_monotype_feature_note: 'Du skal have FLUX+ Pro-medlemskab eller Monotype-skrifttyper Tilføjelse for at få adgang til denne funktion.',
+      access_monotype_feature_note:
+        'Du skal have FLUX+ Pro-medlemskab eller Monotype-skrifttyper Tilføjelse for at få adgang til denne funktion.',
       learn_more: 'Lær mere',
       get_addon: 'Få tilføjelse',
       subscribe_now: 'Tilmeld dig nu',
@@ -1545,6 +1547,11 @@ const lang: ILang = {
     align_red_cross_print: 'Juster venligst midten af det røde kryds med det printede kryds.',
     retake: 'Tag billede igen',
     calibrate_camera_before_calibrate_modules: 'Udfør venligst kamera kalibrering før kalibrering af moduler.',
+    check_checkpoint_data: 'Kontrolpunktdata',
+    checking_checkpoint: 'Kontrollerer kontrolpunktdata...',
+    found_checkpoint: 'Kontrolpunktdata fundet på din enhed. Ønsker du at gendanne fra kontrolpunkt?',
+    downloading_checkpoint: 'Downloader kontrolpunktdata...',
+    failed_to_parse_checkpoint: 'Kunne ikke analysere kontrolpunktdata.',
   },
   input_machine_password: {
     require_password: '"%s" kræver en adgangskode',
@@ -1666,12 +1673,15 @@ const lang: ILang = {
     add_option: 'Tilføj mulighed',
     joints: 'Samling',
     finger: 'Finger',
-    finger_warning: 'Den indvendige sidelængde af boksen skal være mindst 6 mm (0,24 tommer) for at være kompatibel med fingersammenføjning.',
+    finger_warning:
+      'Den indvendige sidelængde af boksen skal være mindst 6 mm (0,24 tommer) for at være kompatibel med fingersammenføjning.',
     tSlot: 'T-spor',
-    tSlot_warning: 'Boksside længden skal være mindst 30 mm (1,18 tommer) for at være kompatibel med T-spor sammenføjning.',
+    tSlot_warning:
+      'Boksside længden skal være mindst 30 mm (1,18 tommer) for at være kompatibel med T-spor sammenføjning.',
     edge: 'Kant',
     tCount: 'T Tæl',
-    tCount_tooltip: 'T-spor antallet gælder for den korte side; mængden på den lange side beregnes ud fra dens længde.',
+    tCount_tooltip:
+      'T-spor antallet gælder for den korte side; mængden på den lange side beregnes ud fra dens længde.',
     tDiameter: 'T Diameter',
     tLength: 'T Længde',
     continue_import: 'Fortsæt med at importere',
@@ -1684,8 +1694,10 @@ const lang: ILang = {
     cancel: 'Annullér',
     reset: 'Nulstil',
     zoom: 'Zoom',
-    control_tooltip: 'Venstre museknap for at rotere\nRul for at zoome\nHøjre museknap for at panorere',
-    control_tooltip_touch: 'Træk for at rotere\nKnib sammen for at zoome\nTo fingre for at panorere',
+    control_tooltip:
+      'Venstre museknap for at rotere\nRul for at zoome\nHøjre museknap for at panorere',
+    control_tooltip_touch:
+      'Træk for at rotere\nKnib sammen for at zoome\nTo fingre for at panorere',
   },
   my_cloud: {
     title: 'Min sky',
@@ -1706,7 +1718,8 @@ const lang: ILang = {
       duplicate: 'Dupliker',
       download: 'Hent',
       delete: 'Slet',
-      confirmFileDelete: 'Er du sikker på, at du vil slette denne fil? Denne handling kan ikke fortrydes.',
+      confirmFileDelete:
+        'Er du sikker på, at du vil slette denne fil? Denne handling kan ikke fortrydes.',
     },
     save_file: {
       choose_action: 'Gem fil:',
@@ -1721,7 +1734,8 @@ const lang: ILang = {
     title: 'Kameradata Backup',
     no_picture_found: 'Ingen billeder fundet i maskinen.',
     folder_not_exists: 'Valgte mappe findes ikke.',
-    incorrect_folder: 'Fejl ved upload af kalibreringsdata. Kontroller, om den valgte mappe er korrekt.',
+    incorrect_folder:
+      'Fejl ved upload af kalibreringsdata. Kontroller, om den valgte mappe er korrekt.',
     downloading_data: 'Downloader data...',
     estimated_time_left: 'Estimeret resterende tid:',
     uploading_data: 'Uploader data...',

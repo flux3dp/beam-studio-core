@@ -1548,6 +1548,11 @@ const lang: ILang = {
     align_red_cross_print: '빨간 십자의 중심을 인쇄된 십자와 맞추십시오.',
     retake: '사진 다시 찍기',
     calibrate_camera_before_calibrate_modules: '모듈 보정을 하기 전에 카메라 보정을 수행해 주십시오.',
+    check_checkpoint_data: '체크포인트 데이터',
+    checking_checkpoint: '체크포인트 데이터 확인 중...',
+    found_checkpoint: '당신의 장치에서 체크포인트 데이터를 발견했습니다. 체크포인트에서 복구하시겠습니까?',
+    downloading_checkpoint: '체크포인트 데이터 다운로드 중...',
+    failed_to_parse_checkpoint: '체크포인트 데이터 분석에 실패했습니다.',
   },
   input_machine_password: {
     require_password: '%s은(는) 비밀번호가 필요합니다.',

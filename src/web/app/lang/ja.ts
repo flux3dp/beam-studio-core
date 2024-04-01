@@ -1548,6 +1548,11 @@ const lang: ILang = {
     align_red_cross_print: '赤い十字の中心を印刷された十字と合わせてください。',
     retake: '写真を撮り直す',
     calibrate_camera_before_calibrate_modules: 'モジュールのキャリブレーションを行う前にカメラのキャリブレーションを行ってください。',
+    check_checkpoint_data: 'チェックポイントデータ',
+    checking_checkpoint: 'チェックポイントデータをチェックしています...',
+    found_checkpoint: 'デバイスにチェックポイントデータが見つかりました。 チェックポイントから復元しますか？',
+    downloading_checkpoint: 'チェックポイントデータのダウンロード中...',
+    failed_to_parse_checkpoint: 'チェックポイントデータの解析に失敗しました。',
   },
   input_machine_password: {
     require_password: '「%s」にはパスワードが必要です。',

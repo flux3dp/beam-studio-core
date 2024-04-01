@@ -1545,6 +1545,11 @@ const lang: ILang = {
     align_red_cross_print: 'โปรดจัดตําแหน่งกลางกากบาทสีแดงให้ตรงกับกากบาทพิมพ์',
     retake: 'ถ่ายรูปใหม่',
     calibrate_camera_before_calibrate_modules: 'โปรดทําการปรับเทียบกล้องก่อนปรับเทียบโมดูล',
+    check_checkpoint_data: 'ข้อมูลจุดตรวจสอบ',
+    checking_checkpoint: 'กำลังตรวจสอบข้อมูลจุดตรวจสอบ...',
+    found_checkpoint: 'พบข้อมูลจุดตรวจสอบบนอุปกรณ์ของคุณ คุณต้องการกู้คืนจากจุดตรวจสอบหรือไม่?',
+    downloading_checkpoint: 'กำลังดาวน์โหลดข้อมูลจุดตรวจสอบ...',
+    failed_to_parse_checkpoint: 'การวิเคราะห์ข้อมูลจุดตรวจสอบล้มเหลว.',
   },
   input_machine_password: {
     require_password: '"%s" ต้องการรหัสผ่าน',
