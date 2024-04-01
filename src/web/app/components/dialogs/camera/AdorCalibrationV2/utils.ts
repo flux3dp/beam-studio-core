@@ -52,7 +52,8 @@ export const calibrateWithDevicePictures = async (): Promise<FisheyeCameraParame
         }
       );
       // eslint-disable-next-line no-await-in-loop
-      await addFisheyeCalibrateImg(parseFloat(heights[i]), blob);
+      const res = await addFisheyeCalibrateImg(parseFloat(heights[i]), blob);
+      if (!res) console.warn(`Fail to add image of height ${heights[i]}`)
     }
     progressCaller.update(progressId, { message: 'Calibrating...', percentage: 0 });
     s = Date.now();
