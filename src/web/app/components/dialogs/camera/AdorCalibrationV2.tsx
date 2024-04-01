@@ -9,7 +9,11 @@ import {
   FisheyeCameraParametersV2,
   FisheyeCameraParametersV2Cali,
 } from 'interfaces/FisheyePreview';
-import { extrinsicRegression, setFisheyeConfig, updateData } from 'helpers/camera-calibration-helper';
+import {
+  extrinsicRegression,
+  setFisheyeConfig,
+  updateData,
+} from 'helpers/camera-calibration-helper';
 
 import CheckpointData from './AdorCalibrationV2/CheckpointData';
 import CheckPictures from './AdorCalibrationV2/CheckPictures';
@@ -87,10 +91,12 @@ const AdorCalibrationV2 = ({ onClose }: Props): JSX.Element => {
       <CheckPictures
         updateParam={updateParam}
         onNext={async (res) => {
+          progressCaller.openNonstopProgress({ id: PROGRESS_ID, message: lang.device.processing });
           if (res) {
             await saveCheckPoint(calibratingParam.current);
             setUsePreviousData(true);
           }
+          progressCaller.popById(PROGRESS_ID);
           onNext();
         }}
         onClose={onClose}
@@ -158,7 +164,9 @@ const AdorCalibrationV2 = ({ onClose }: Props): JSX.Element => {
         onClose={onClose}
         onBack={() => setStep(Step.PUT_PAPER)}
         onNext={async () => {
+          progressCaller.openNonstopProgress({ id: PROGRESS_ID, message: lang.device.processing });
           await saveCheckPoint(calibratingParam.current);
+          progressCaller.popById(PROGRESS_ID);
           setStep(Step.ELVATED_CUT);
         }}
       />
@@ -171,6 +179,7 @@ const AdorCalibrationV2 = ({ onClose }: Props): JSX.Element => {
         onClose={onClose}
         onBack={() => setStep(Step.PUT_PAPER)}
         onNext={async (rvec, tvec) => {
+          progressCaller.openNonstopProgress({ id: PROGRESS_ID, message: lang.device.processing });
           updateParam({
             rvec,
             tvec,
@@ -181,6 +190,7 @@ const AdorCalibrationV2 = ({ onClose }: Props): JSX.Element => {
           await updateData(calibratingParam.current);
           await saveCheckPoint(calibratingParam.current);
           console.log('calibratingParam.current', calibratingParam.current);
+          progressCaller.popById(PROGRESS_ID);
           setStep(Step.ELVATED_CUT);
         }}
       />
