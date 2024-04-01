@@ -17,10 +17,14 @@ export const calibrateWithDevicePictures =
     const tCali = lang.calibration;
     const tCameraData = lang.camera_data_backup;
     const progressId = 'calibrate-with-device-pictures';
+    let canceled = false;
     try {
       progressCaller.openSteppingProgress({
         id: progressId,
         message: tCali.downloading_pictures,
+        onCancel: () => {
+          canceled = true;
+        },
       });
       const ls = await deviceMaster.ls('camera_calib');
       const { files } = ls as { files: string[] };
@@ -37,8 +41,10 @@ export const calibrateWithDevicePictures =
         [[], []]
       );
       await startFisheyeCalibrate();
+      if (canceled) return null;
       let s = Date.now();
       for (let i = 0; i < names.length; i += 1) {
+        if (canceled) return null;
         // eslint-disable-next-line no-await-in-loop
         const [, blob] = await deviceMaster.downloadFile(
           'camera_calib',
@@ -61,6 +67,7 @@ export const calibrateWithDevicePictures =
         const res = await addFisheyeCalibrateImg(parseFloat(heights[i]), blob);
         if (!res) console.warn(`Fail to add image of height ${heights[i]}`);
       }
+      if (canceled) return null;
       progressCaller.update(progressId, {
         message: tCali.calibrating_with_device_pictures,
         percentage: 0,
@@ -76,6 +83,7 @@ export const calibrateWithDevicePictures =
           });
         }
       });
+      if (canceled) return null;
       return {
         k: data.k,
         d: data.d,
