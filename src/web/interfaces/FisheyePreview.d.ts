@@ -17,6 +17,7 @@ export interface FisheyeCameraParametersV1 {
 }
 
 export interface FisheyeCameraParametersV2Cali {
+  source?: 'device' | 'user'; // k, d calibration source by device pictures or user input
   refHeight?: number;
   k?: number[][];
   d?: number[][];
@@ -25,9 +26,14 @@ export interface FisheyeCameraParametersV2Cali {
   rvec_polyfit?: number[][];
   tvec_polyfit?: number[][];
   dh?: number;
+  levelingData?: Record<string, number>;
+  rvecs?: number[][];
+  tvecs?: number[][];
+  heights?: number[];
 }
 
 export interface FisheyeCameraParametersV2 {
+  source?: 'device' | 'user'; // k, d calibration source by device pictures or user input
   refHeight: number;
   k: number[][];
   d: number[][];
@@ -35,6 +41,7 @@ export interface FisheyeCameraParametersV2 {
   tvec: number[];
   rvec_polyfit: number[][];
   tvec_polyfit: number[][];
+  levelingData: Record<string, number>;
   v: 2;
 }
 

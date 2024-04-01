@@ -205,7 +205,7 @@ class Camera {
     const [cx, cy] = center || [];
     const matrixString = JSON.stringify(matrix, (key, val) => {
       if (typeof val === 'number') {
-        return Math.round(val * 1e3) / 1e3;
+        return Math.round(val * 1e6) / 1e6;
       }
       return val;
     });
@@ -229,7 +229,7 @@ class Camera {
     this.fishEyeSetting = { ...this.fishEyeSetting, param };
     const data = JSON.stringify(param, (key, val) => {
       if (typeof val === 'number') {
-        return Math.round(val * 1e3) / 1e3;
+        return Math.round(val * 1e6) / 1e6;
       }
       return val;
     });

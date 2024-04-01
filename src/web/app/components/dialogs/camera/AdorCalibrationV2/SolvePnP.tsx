@@ -8,27 +8,25 @@ import ObjectPanelIcons from 'app/icons/object-panel/ObjectPanelIcons';
 import progressCaller from 'app/actions/progress-caller';
 import useI18n from 'helpers/useI18n';
 import { FisheyeCameraParametersV2Cali } from 'interfaces/FisheyePreview';
-import { solvePnPFindCorners, solvePnPCalculate } from 'helpers/camera-calibration-helper';
+import {
+  solvePnPFindCorners,
+  solvePnPCalculate,
+  updateData,
+} from 'helpers/camera-calibration-helper';
 
 import styles from './SolvePnP.module.scss';
 
 const PROGRESS_ID = 'camera-solve-pnp';
 
 interface Props {
-  dh: number;
-  updateParam: (param: FisheyeCameraParametersV2Cali) => void;
+  params: FisheyeCameraParametersV2Cali;
+  hasNext?: boolean
   onClose: (complete: boolean) => void;
+  onNext: (rvec: number[], tvec: number[]) => void;
   onBack: () => void;
-  onFinish: () => void;
 }
 
-const SolvePnP = ({
-  dh,
-  updateParam,
-  onClose,
-  onBack,
-  onFinish,
-}: Props): JSX.Element => {
+const SolvePnP = ({ params, hasNext = false, onClose, onNext, onBack }: Props): JSX.Element => {
   const [img, setImg] = useState<{ blob: Blob; url: string; success: boolean }>(null);
   const [imgLoaded, setImgLoaded] = useState(false);
   const [points, setPoints] = useState<[number, number][]>([]);
@@ -69,14 +67,18 @@ const SolvePnP = ({
       else alertCaller.popUpError({ message: 'Unable to get image' });
     } else {
       try {
-        const { success, blob, data } = await solvePnPFindCorners(imgBlob, dh);
-        if (!success) {
-          if (retryTimes < 3) handleTakePicture(retryTimes + 1);
-          else alertCaller.popUpError({ message: 'Failed to get correct corners' });
-        }
-        setImg({ blob, url: URL.createObjectURL(blob), success });
-        if (success) {
+        const res = await solvePnPFindCorners(imgBlob, params.dh);
+        if (res.success) {
+          const { success, blob, data } = res;
+          setImg({ blob, url: URL.createObjectURL(blob), success });
           setPoints(data.points);
+        } else if (res.success === false) {
+          const { data } = res;
+          if (data.info === 'NO_DATA') {
+            await updateData(params);
+          } else if (retryTimes < 3) {
+            handleTakePicture(retryTimes + 1);
+          } else alertCaller.popUpError({ message: 'Failed to get correct corners' });
         }
       } catch (err) {
         alertCaller.popUpError({ message: err.message });
@@ -213,10 +215,10 @@ const SolvePnP = ({
   );
 
   const handleDone = async () => {
-    const res = await solvePnPCalculate(dh, points);
+    const res = await solvePnPCalculate(params.dh, points);
     if (res.success) {
-      updateParam(res.data);
-      onFinish();
+      const { rvec, tvec } = res.data;
+      onNext(rvec, tvec);
     } else {
       alertCaller.popUpError({ message: 'Failed to solvePnP' });
     }
@@ -246,13 +248,13 @@ const SolvePnP = ({
           key="done"
           type="primary"
         >
-          {lang.buttons.done}
+          {hasNext ? lang.buttons.next :  lang.buttons.done}
         </Button>,
       ]}
       closable
       maskClosable={false}
     >
-      {'tPlease Check Detected Corners'}
+      tPlease Align the points to the engraved points
       <Row gutter={[16, 0]}>
         <Col span={18}>
           <div className={styles.container}>
@@ -278,12 +280,15 @@ const SolvePnP = ({
                     href={img?.url}
                   />
                   {points.map((p, idx) => (
-                    // eslint-disable-next-line react/no-array-index-key
-                    <g key={idx} className={classNames({ [styles.selected]: idx === selectedPointIdx })}>
+                    <g
+                      // eslint-disable-next-line react/no-array-index-key
+                      key={idx}
+                      className={classNames({ [styles.selected]: idx === selectedPointIdx })}
+                    >
                       <circle
                         cx={p[0]}
                         cy={p[1]}
-                        r={3 / scale}
+                        r={5 / scale}
                         onMouseDown={(e) => handlePointDragStart(idx, e)}
                       />
                       <circle className={styles.center} cx={p[0]} cy={p[1]} r={1 / scale} />

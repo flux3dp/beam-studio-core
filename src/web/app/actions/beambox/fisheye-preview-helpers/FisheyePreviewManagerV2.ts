@@ -28,7 +28,6 @@ class FisheyePreviewManagerV2 extends FisheyePreviewManagerBase implements Fishe
     if (!progressId) progressCaller.openNonstopProgress({ id: this.progressId });
     const { device, params } = this;
     progressCaller.update(progressId || this.progressId, { message: 'Fetching leveling data...' });
-    this.levelingData = await getLevelingData('bottom_cover');
     this.levelingOffset = await getLevelingData('offset');
     await rawAndHome(progressId || this.progressId);
     const height = await getHeight(device, progressId || this.progressId);
@@ -51,13 +50,12 @@ class FisheyePreviewManagerV2 extends FisheyePreviewManagerBase implements Fishe
   }
 
   updateLevelingData = async (): Promise<void> => {
-    const data = { ...this.levelingData };
+    const data = { ...this.params.levelingData };
     const keys = Object.keys(data);
-    const refHeight = data.E;
     keys.forEach((key) => {
-      data[key] = Math.round((refHeight - data[key] + this.levelingOffset[key] ?? 0) * 1000) / 1000;
+      data[key] = Math.round((data[key] + this.levelingOffset[key] ?? 0) * 1000) / 1000;
     });
-    await deviceMaster.setFisheyeLevelingData(data);
+    await deviceMaster.setFisheyeLevelingData(this.levelingOffset);
   };
 
   async reloadLevelingOffset(): Promise<void> {
@@ -67,11 +65,8 @@ class FisheyePreviewManagerV2 extends FisheyePreviewManagerBase implements Fishe
   }
 
   onObjectHeightChanged = async (): Promise<void> => {
-    const { autoFocusRefKey, objectHeight, levelingData, levelingOffset } = this;
-    const heightCompensation =
-      levelingData[autoFocusRefKey] -
-      levelingOffset[autoFocusRefKey] -
-      (levelingData.E - levelingOffset.E);
+    const { autoFocusRefKey, objectHeight, levelingOffset } = this;
+    const heightCompensation = levelingOffset.E - levelingOffset[autoFocusRefKey];
     const finalHeight = objectHeight - heightCompensation;
     await deviceMaster.setFisheyeObjectHeight(finalHeight);
   };
