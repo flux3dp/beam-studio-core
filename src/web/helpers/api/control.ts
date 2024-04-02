@@ -813,6 +813,11 @@ class Control extends EventEmitter {
     return res;
   };
 
+  getDoorOpen = async () => {
+    const res = (await this.useWaitOKResponse('play get_door_open')).response;
+    return res;
+  };
+
   getDeviceSetting = (name: string) => this.useWaitAnyResponse(`config get ${name}`);
 
   setDeviceSetting = (name: string, value: string) => this.useWaitAnyResponse(`config set ${name} ${value}`);
