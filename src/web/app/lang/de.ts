@@ -1182,6 +1182,7 @@ const lang: ILang = {
   },
   editor: {
     prespray_area: 'Grundierbereich',
+    opacity: 'Vorschau Transparenz',
   },
   flux_id_login: {
     connection_fail: '#847 Verbindung zum FLUX Mitgliederservice fehlgeschlagen.',

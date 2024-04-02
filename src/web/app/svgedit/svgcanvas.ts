@@ -177,7 +177,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       'xmlns:xlink': NS.XLINK,
       style: 'will-change: scroll-position, contents, transform;'
     }).appendTo(svgroot);
-    const isUsingAntiAliasing = BeamboxPreference.read('anti-aliasing') !== false;
+    const isUsingAntiAliasing = BeamboxPreference.read('anti-aliasing');
     viewMenu.updateAntiAliasing(isUsingAntiAliasing);
   };
   clearSvgContentElement();
@@ -683,7 +683,8 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   textEdit.updateCurText(curText);
   textEdit.useDefaultFont();
 
-  this.isUsingLayerColor = BeamboxPreference.read('use_layer_color') !== false;
+  this.isUsingLayerColor = BeamboxPreference.read('use_layer_color');
+  this.isBezierPathAlignToEdge = BeamboxPreference.read('show_align_lines');
   this.isBorderlessMode = BeamboxPreference.read('borderless');
 
   // State for save before close warning
@@ -4578,10 +4579,12 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   };
 
   this.toggleBezierPathAlignToEdge = () => {
-    const isBezierPathAlignToEdge = !(this.isBezierPathAlignToEdge || false);
-    this.isBezierPathAlignToEdge = isBezierPathAlignToEdge;
+    const newVal = !BeamboxPreference.read('show_align_lines');
+    this.isBezierPathAlignToEdge = newVal;
+    BeamboxPreference.write('show_align_lines', newVal);
     $('#x_align_line').remove();
     $('#y_align_line').remove();
+    return newVal;
   };
 
   this.drawAlignLine = function (x, y, xMatchPoint, yMatchPoint) {

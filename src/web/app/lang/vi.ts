@@ -1242,6 +1242,7 @@ const lang: ILang = {
   },
   editor: {
     prespray_area: 'Vùng làm ẩm ban đầu',
+    opacity: 'Độ mờ xem trước',
   },
   flux_id_login: {
     connection_fail: '#847 Lỗi kết nối dịch vụ thành viên FLUX.',

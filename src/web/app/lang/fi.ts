@@ -1243,6 +1243,7 @@ const lang: ILang = {
   },
   editor: {
     prespray_area: 'Esisuihkutusalue',
+    opacity: 'Esikatselun läpinäkyvyys',
   },
   flux_id_login: {
     connection_fail: '#847 Yhteyden muodostaminen FLUX-jäsenyyteen epäonnistui.',

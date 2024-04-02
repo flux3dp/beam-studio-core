@@ -1182,6 +1182,7 @@ const lang: ILang = {
   },
   editor: {
     prespray_area: 'Área de Imprimación',
+    opacity: 'Opacidad de vista previa',
   },
   flux_id_login: {
     connection_fail: '#847 La conexión con el servicio al cliente de Flux ha fallado.',
