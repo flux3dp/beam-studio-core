@@ -85,7 +85,7 @@ const CheckPictures = ({ updateParam, onClose, onNext }: Props): JSX.Element => 
       onOk={() => handleNext(true)}
       onCancel={() => handleNext(false)}
     >
-      {checking ? lang.calibration.checking_pictures : 'tDevice has pictures. Use device pictures?'}
+      {checking ? lang.calibration.checking_pictures : lang.calibration.found_pictures}
     </Modal>
   );
 };
