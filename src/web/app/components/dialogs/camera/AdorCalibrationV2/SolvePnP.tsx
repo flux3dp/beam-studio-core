@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import React, { SyntheticEvent, useCallback, useEffect, useRef, useState } from 'react';
-import { Button, Col, ConfigProvider, Form, InputNumber, Modal, Row } from 'antd';
+import { Button, Col, InputNumber, Modal, Row } from 'antd';
 
 import alertCaller from 'app/actions/alert-caller';
 import deviceMaster from 'helpers/device-master';
@@ -20,7 +20,7 @@ const PROGRESS_ID = 'camera-solve-pnp';
 
 interface Props {
   params: FisheyeCameraParametersV2Cali;
-  hasNext?: boolean
+  hasNext?: boolean;
   onClose: (complete: boolean) => void;
   onNext: (rvec: number[], tvec: number[]) => void;
   onBack: () => void;
@@ -248,7 +248,7 @@ const SolvePnP = ({ params, hasNext = false, onClose, onNext, onBack }: Props): 
           key="done"
           type="primary"
         >
-          {hasNext ? lang.buttons.next :  lang.buttons.done}
+          {hasNext ? lang.buttons.next : lang.buttons.done}
         </Button>,
       ]}
       closable
@@ -308,49 +308,43 @@ const SolvePnP = ({ params, hasNext = false, onClose, onNext, onBack }: Props): 
           </div>
         </Col>
         <Col span={6}>
-          <ConfigProvider
-            theme={{
-              components: {
-                Form: {
-                  itemMarginBottom: 12,
-                },
-              },
-            }}
-          >
-            <Form size="middle">
-              {points[selectedPointIdx] && (
-                <>
-                  <div>Selecting #{selectedPointIdx}</div>
-                  <InputNumber<number>
-                    type="number"
-                    value={points[selectedPointIdx][0]}
-                    onChange={(val) =>
-                      setPoints((prev) =>
-                        prev.map((p, i) => (i === selectedPointIdx ? [val, p[1]] : p))
-                      )
-                    }
-                    step={1}
-                    precision={0}
-                    onKeyUp={(e) => e.stopPropagation()}
-                    onKeyDown={(e) => e.stopPropagation()}
-                  />
-                  <InputNumber<number>
-                    type="number"
-                    value={points[selectedPointIdx][1]}
-                    onChange={(val) =>
-                      setPoints((prev) =>
-                        prev.map((p, i) => (i === selectedPointIdx ? [p[0], val] : p))
-                      )
-                    }
-                    step={1}
-                    precision={0}
-                    onKeyUp={(e) => e.stopPropagation()}
-                    onKeyDown={(e) => e.stopPropagation()}
-                  />
-                </>
-              )}
-            </Form>
-          </ConfigProvider>
+          {points[selectedPointIdx] && (
+            <Row gutter={[0, 12]} align="middle">
+              <Col span={24}>Selecting #{selectedPointIdx}</Col>
+              <Col span={4}>{lang.calibration.dx}</Col>
+              <Col span={20}>
+                <InputNumber<number>
+                  type="number"
+                  value={points[selectedPointIdx][0]}
+                  onChange={(val) =>
+                    setPoints((prev) =>
+                      prev.map((p, i) => (i === selectedPointIdx ? [val, p[1]] : p))
+                    )
+                  }
+                  step={1}
+                  precision={0}
+                  onKeyUp={(e) => e.stopPropagation()}
+                  onKeyDown={(e) => e.stopPropagation()}
+                />
+              </Col>
+              <Col span={4}>{lang.calibration.dy}</Col>
+              <Col span={20}>
+                <InputNumber<number>
+                  type="number"
+                  value={points[selectedPointIdx][1]}
+                  onChange={(val) =>
+                    setPoints((prev) =>
+                      prev.map((p, i) => (i === selectedPointIdx ? [p[0], val] : p))
+                    )
+                  }
+                  step={1}
+                  precision={0}
+                  onKeyUp={(e) => e.stopPropagation()}
+                  onKeyDown={(e) => e.stopPropagation()}
+                />
+              </Col>
+            </Row>
+          )}
         </Col>
       </Row>
     </Modal>
