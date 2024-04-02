@@ -1564,7 +1564,7 @@ const lang: ILang = {
     put_paper_center: 'Place a piece of A4 or Letter size paper at the center of the workarea.',
     put_paper_whole_workarea: 'Place a piece of paper to cover the whole workarea.',
     elevate_and_cut: 'Elevate and Cut',
-    elevate_and_cut_desc: 'Place a material with a height of about 15mm at the center of the work area.',
+    elevate_and_cut_desc: 'Place a material with a height of about 20 mm at the center of the work area.',
     camera_parameter_saved_successfully: 'Camera parameter saved successfully.',
     failed_to_save_camera_parameter: 'Failed to save camera parameter.',
     align_points: 'Please align the marks to the center of engraved points.',

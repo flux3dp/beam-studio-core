@@ -1561,7 +1561,7 @@ const lang: ILang = {
     put_paper_center: 'Placera ett A4- eller brevpapper i mitten av arbetsytan.',
     put_paper_whole_workarea: 'Lägg ett papper för att täcka hela arbetsytan.',
     elevate_and_cut: 'Lyft och Skär',
-    elevate_and_cut_desc: 'Placera ett material med en höjd på cirka 15 mm i mitten av arbetsytan.',
+    elevate_and_cut_desc: 'Placera ett material med en höjd på cirka 20 mm i mitten av arbetsytan.',
     camera_parameter_saved_successfully: 'Kameraparametrar sparade framgångsrikt.',
     failed_to_save_camera_parameter: 'Misslyckades med att spara kameraparametrarna.',
     align_points: 'Vänligen justera markeringarna till mitten av de graverade punkterna.',

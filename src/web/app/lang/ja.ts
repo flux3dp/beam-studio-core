@@ -1564,7 +1564,7 @@ const lang: ILang = {
     put_paper_center: 'A4 サイズまたはレターサイズの紙をワークエリアの中央に置いてください。',
     put_paper_whole_workarea: '全体のワークエリアを覆うように紙を置いてください。',
     elevate_and_cut: '高さを上げて切り取る',
-    elevate_and_cut_desc: 'ワークエリアの中央に、高さ約 15mm の材料を置いてください。',
+    elevate_and_cut_desc: 'ワークエリアの中央に、高さ約 20mm の材料を置いてください。',
     camera_parameter_saved_successfully: 'カメラパラメータを正常に保存しました。',
     failed_to_save_camera_parameter: 'カメラパラメータの保存に失敗しました。',
     align_points: '刻まれたポイントの中心にマークを整列してください。',

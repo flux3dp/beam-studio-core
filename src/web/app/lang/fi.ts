@@ -1561,7 +1561,7 @@ const lang: ILang = {
     put_paper_center: 'Aseta A4- tai kirjeen kokoisen paperin pala työalueen keskelle.',
     put_paper_whole_workarea: 'Aseta paperin pala peittämään koko työalue.',
     elevate_and_cut: 'Nosta ja Leikkaa',
-    elevate_and_cut_desc: 'Aseta materiaali, jonka korkeus on noin 15 mm, työalueen keskelle.',
+    elevate_and_cut_desc: 'Aseta materiaali, jonka korkeus on noin 20 mm, työalueen keskelle.',
     camera_parameter_saved_successfully: 'Kameran parametrit tallennettu onnistuneesti.',
     failed_to_save_camera_parameter: 'Kameran parametrien tallennus epäonnistui.',
     align_points: 'Ole hyvä ja kohdista merkit kaiverrettujen pisteiden keskelle.',

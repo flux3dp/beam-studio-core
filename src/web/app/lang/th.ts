@@ -1561,7 +1561,7 @@ const lang: ILang = {
     put_paper_center: 'วางชิ้นกระดาษขนาด A4 หรือเล็ตเตอร์ที่กลางพื้นที่ทำงาน',
     put_paper_whole_workarea: 'วางชิ้นกระดาษเพื่อปิดพื้นที่ทำงานทั้งหมด',
     elevate_and_cut: 'ยกและตัด',
-    elevate_and_cut_desc: 'วางวัสดุที่มีความสูงประมาณ 15 มม. ที่กลางพื้นที่ทำงาน',
+    elevate_and_cut_desc: 'วางวัสดุที่มีความสูงประมาณ 20 มม. ที่กลางพื้นที่ทำงาน',
     camera_parameter_saved_successfully: 'บันทึกพารามิเตอร์ของกล้องสำเร็จ',
     failed_to_save_camera_parameter: 'การบันทึกพารามิเตอร์ของกล้องล้มเหลว',
     align_points: 'กรุณาจัดวางเครื่องหมายที่กึ่งกลางของจุดที่สลัก.',

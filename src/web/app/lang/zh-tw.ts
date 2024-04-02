@@ -1564,7 +1564,7 @@ const lang: ILang = {
     put_paper_center: '在工作區域中央放置一張A4大小的紙張。',
     put_paper_whole_workarea: '放置一張紙以覆蓋整個工作區域。',
     elevate_and_cut: '抬升和切割',
-    elevate_and_cut_desc: '在工作區域中央放置高度約為15mm的材料。',
+    elevate_and_cut_desc: '在工作區域中央放置高度約為 20mm 的材料。',
     camera_parameter_saved_successfully: '相機參數保存成功。',
     failed_to_save_camera_parameter: '保存相機參數失敗。',
     align_points: '請將標記對齊雕刻點的中心。',

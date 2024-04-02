@@ -1561,7 +1561,7 @@ const lang: ILang = {
     put_paper_center: 'Letakkan selembar kertas ukuran A4 atau surat di tengah area kerja.',
     put_paper_whole_workarea: 'Letakkan selembar kertas untuk menutupi seluruh area kerja.',
     elevate_and_cut: 'Menaikkan dan Memotong',
-    elevate_and_cut_desc: 'Letakkan bahan dengan ketinggian sekitar 15 mm di tengah area kerja.',
+    elevate_and_cut_desc: 'Letakkan bahan dengan ketinggian sekitar 20 mm di tengah area kerja.',
     camera_parameter_saved_successfully: 'Parameter kamera berhasil disimpan.',
     failed_to_save_camera_parameter: 'Gagal menyimpan parameter kamera.',
     align_points: 'Tolong sesuaikan tanda dengan tengah titik yang diukir.',

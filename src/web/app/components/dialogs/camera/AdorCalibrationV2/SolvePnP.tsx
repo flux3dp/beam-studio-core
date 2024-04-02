@@ -311,7 +311,7 @@ const SolvePnP = ({ params, hasNext = false, onClose, onNext, onBack }: Props): 
           {points[selectedPointIdx] && (
             <Row gutter={[0, 12]} align="middle">
               <Col span={24}>Point #{selectedPointIdx}</Col>
-              <Col span={4}>{lang.calibration.dx}</Col>
+              <Col span={4}>X</Col>
               <Col span={20}>
                 <InputNumber<number>
                   type="number"
@@ -327,7 +327,7 @@ const SolvePnP = ({ params, hasNext = false, onClose, onNext, onBack }: Props): 
                   onKeyDown={(e) => e.stopPropagation()}
                 />
               </Col>
-              <Col span={4}>{lang.calibration.dy}</Col>
+              <Col span={4}>Y</Col>
               <Col span={20}>
                 <InputNumber<number>
                   type="number"

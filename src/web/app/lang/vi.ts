@@ -1561,7 +1561,7 @@ const lang: ILang = {
     put_paper_center: 'Đặt một tờ giấy kích thước A4 hoặc Letter ở giữa khu vực làm việc.',
     put_paper_whole_workarea: 'Đặt một tờ giấy để che phủ toàn bộ khu vực làm việc.',
     elevate_and_cut: 'Nâng và Cắt',
-    elevate_and_cut_desc: 'Đặt vật liệu có chiều cao khoảng 15mm ở giữa khu vực làm việc.',
+    elevate_and_cut_desc: 'Đặt vật liệu có chiều cao khoảng 20mm ở giữa khu vực làm việc.',
     camera_parameter_saved_successfully: 'Thông số máy ảnh đã được lưu thành công.',
     failed_to_save_camera_parameter: 'Lưu thông số máy ảnh không thành công.',
     align_points: 'Vui lòng căn chỉnh các dấu vào giữa các điểm được khắc.',

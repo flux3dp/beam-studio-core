@@ -1564,7 +1564,7 @@ const lang: ILang = {
     put_paper_center: 'A4 또는 레터 사이즈의 종이 조각을 작업 영역 중앙에 놓으십시오.',
     put_paper_whole_workarea: '작업 영역 전체를 덮을 종이를 놓으십시오.',
     elevate_and_cut: '들어 올리고 자르기',
-    elevate_and_cut_desc: '작업 영역 중앙에 높이 약 15mm의 재료를 놓으십시오.',
+    elevate_and_cut_desc: '작업 영역 중앙에 높이 약 20mm의 재료를 놓으십시오.',
     camera_parameter_saved_successfully: '카메라 매개변수가 성공적으로 저장되었습니다.',
     failed_to_save_camera_parameter: '카메라 매개변수 저장에 실패했습니다.',
     align_points: '표시를 새겨진 점의 중심에 맞추십시오.',

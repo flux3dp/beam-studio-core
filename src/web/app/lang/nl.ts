@@ -1561,7 +1561,7 @@ const lang: ILang = {
     put_paper_center: 'Plaats een vel A4- of briefpapier in het midden van het werkgebied.',
     put_paper_whole_workarea: 'Plaats een vel papier om het hele werkgebied te bedekken.',
     elevate_and_cut: 'Optillen en Snijden',
-    elevate_and_cut_desc: 'Plaats een materiaal met een hoogte van ongeveer 15 mm in het midden van het werkgebied.',
+    elevate_and_cut_desc: 'Plaats een materiaal met een hoogte van ongeveer 20 mm in het midden van het werkgebied.',
     camera_parameter_saved_successfully: 'Camera parameters succesvol opgeslagen.',
     failed_to_save_camera_parameter: 'Opslaan van camera parameters mislukt.',
     align_points: 'Richt de markeringen uit op het midden van de gegraveerde punten.',

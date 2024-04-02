@@ -1564,7 +1564,7 @@ const lang: ILang = {
     put_paper_center: 'Umieść kawałek papieru w formacie A4 lub Letter w środku obszaru roboczego.',
     put_paper_whole_workarea: 'Połóż kawałek papieru, aby pokryć cały obszar roboczy.',
     elevate_and_cut: 'Podnieś i Wytnij',
-    elevate_and_cut_desc: 'Umieść materiał o wysokości około 15 mm w środku obszaru roboczego.',
+    elevate_and_cut_desc: 'Umieść materiał o wysokości około 20 mm w środku obszaru roboczego.',
     camera_parameter_saved_successfully: 'Parametry kamery zapisane pomyślnie.',
     failed_to_save_camera_parameter: 'Nie udało się zapisać parametrów kamery.',
     align_points: 'Proszę wyregulować znaki do środka wygrawerowanych punktów.',

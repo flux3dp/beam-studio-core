@@ -1564,7 +1564,7 @@ const lang: ILang = {
     put_paper_center: 'Coloque un trozo de papel tamaño A4 o carta en el centro del área de trabajo.',
     put_paper_whole_workarea: 'Coloque un trozo de papel para cubrir toda el área de trabajo.',
     elevate_and_cut: 'Elevar y Cortar',
-    elevate_and_cut_desc: 'Coloque un material con una altura de aproximadamente 15 mm en el centro del área de trabajo.',
+    elevate_and_cut_desc: 'Coloque un material con una altura de aproximadamente 20 mm en el centro del área de trabajo.',
     camera_parameter_saved_successfully: 'Parámetros de la cámara guardados con éxito.',
     failed_to_save_camera_parameter: 'No se pudo guardar el parámetro de la cámara.',
     align_points: 'Por favor, alinee las marcas al centro de los puntos grabados.',

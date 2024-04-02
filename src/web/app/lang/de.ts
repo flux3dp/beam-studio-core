@@ -1564,7 +1564,7 @@ const lang: ILang = {
     put_paper_center: 'Legen Sie ein Stück A4- oder Letter-Papier in die Mitte des Arbeitsbereichs.',
     put_paper_whole_workarea: 'Legen Sie ein Stück Papier über den gesamten Arbeitsbereich.',
     elevate_and_cut: 'Anheben und Schneiden',
-    elevate_and_cut_desc: 'Legen Sie ein Material mit einer Höhe von etwa 15 mm in die Mitte des Arbeitsbereichs.',
+    elevate_and_cut_desc: 'Legen Sie ein Material mit einer Höhe von etwa 20 mm in die Mitte des Arbeitsbereichs.',
     camera_parameter_saved_successfully: 'Kameraparameter erfolgreich gespeichert.',
     failed_to_save_camera_parameter: 'Speichern der Kameraparameter fehlgeschlagen.',
     align_points: 'Bitte richten Sie die Markierungen auf das Zentrum der gravierten Punkte aus.',
