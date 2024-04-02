@@ -936,6 +936,11 @@ class DeviceMaster {
     return null;
   }
 
+  getDoorOpen() {
+    const controlSocket = this.currentDevice.control;
+    return controlSocket.addTask(controlSocket.getDoorOpen);
+  }
+
   async getDeviceSetting(name: string) {
     const { currentDevice } = this;
     const controlSocket = currentDevice.control;
