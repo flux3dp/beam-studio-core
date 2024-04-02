@@ -1564,6 +1564,8 @@ const lang: ILang = {
     elevate_and_cut_desc: 'Plaats een materiaal met een hoogte van ongeveer 15 mm in het midden van het werkgebied.',
     camera_parameter_saved_successfully: 'Camera parameters succesvol opgeslagen.',
     failed_to_save_camera_parameter: 'Opslaan van camera parameters mislukt.',
+    align_points: 'Richt de markeringen uit op het midden van de gegraveerde punten.',
+    failed_to_solve_pnp: 'Het lukte niet om de camerapositie op te lossen.',
   },
   input_machine_password: {
     require_password: '"%s" vereist een wachtwoord',

@@ -1567,6 +1567,8 @@ const lang: ILang = {
     elevate_and_cut_desc: 'Umieść materiał o wysokości około 15 mm w środku obszaru roboczego.',
     camera_parameter_saved_successfully: 'Parametry kamery zapisane pomyślnie.',
     failed_to_save_camera_parameter: 'Nie udało się zapisać parametrów kamery.',
+    align_points: 'Proszę wyregulować znaki do środka wygrawerowanych punktów.',
+    failed_to_solve_pnp: 'Nie udało się rozwiązać pozycji kamery.',
   },
   input_machine_password: {
     require_password: '"%s" wymaga hasła',

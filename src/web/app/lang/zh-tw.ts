@@ -1567,6 +1567,8 @@ const lang: ILang = {
     elevate_and_cut_desc: '在工作區域中央放置高度約為15mm的材料。',
     camera_parameter_saved_successfully: '相機參數保存成功。',
     failed_to_save_camera_parameter: '保存相機參數失敗。',
+    align_points: '請將標記對齊雕刻點的中心。',
+    failed_to_solve_pnp: '無法解出相機位置。',
   },
   input_machine_password: {
     require_password: '"%s" 需要密碼',

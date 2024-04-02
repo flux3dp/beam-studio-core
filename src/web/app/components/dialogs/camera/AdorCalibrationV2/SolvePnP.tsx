@@ -78,7 +78,7 @@ const SolvePnP = ({ params, hasNext = false, onClose, onNext, onBack }: Props): 
             await updateData(params);
           } else if (retryTimes < 3) {
             handleTakePicture(retryTimes + 1);
-          } else alertCaller.popUpError({ message: 'Failed to get correct corners' });
+          }
         }
       } catch (err) {
         alertCaller.popUpError({ message: err.message });
@@ -239,7 +239,7 @@ const SolvePnP = ({ params, hasNext = false, onClose, onNext, onBack }: Props): 
           onClick={() => handleTakePicture(0)}
           key="retry"
         >
-          Retry
+          {lang.calibration.retake}
         </Button>,
         <Button
           className={styles['footer-button']}
@@ -254,7 +254,7 @@ const SolvePnP = ({ params, hasNext = false, onClose, onNext, onBack }: Props): 
       closable
       maskClosable={false}
     >
-      tPlease Align the points to the engraved points
+      {lang.calibration.align_points}
       <Row gutter={[16, 0]}>
         <Col span={18}>
           <div className={styles.container}>
@@ -310,7 +310,7 @@ const SolvePnP = ({ params, hasNext = false, onClose, onNext, onBack }: Props): 
         <Col span={6}>
           {points[selectedPointIdx] && (
             <Row gutter={[0, 12]} align="middle">
-              <Col span={24}>Selecting #{selectedPointIdx}</Col>
+              <Col span={24}>Point #{selectedPointIdx}</Col>
               <Col span={4}>{lang.calibration.dx}</Col>
               <Col span={20}>
                 <InputNumber<number>

@@ -1564,6 +1564,8 @@ export interface ILang {
     elevate_and_cut_desc: string;
     camera_parameter_saved_successfully: string;
     failed_to_save_camera_parameter: string;
+    align_points: string;
+    failed_to_solve_pnp: string;
   };
   input_machine_password: {
     require_password: string,

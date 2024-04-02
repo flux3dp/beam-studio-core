@@ -1564,6 +1564,8 @@ const lang: ILang = {
     elevate_and_cut_desc: 'Aseta materiaali, jonka korkeus on noin 15 mm, työalueen keskelle.',
     camera_parameter_saved_successfully: 'Kameran parametrit tallennettu onnistuneesti.',
     failed_to_save_camera_parameter: 'Kameran parametrien tallennus epäonnistui.',
+    align_points: 'Ole hyvä ja kohdista merkit kaiverrettujen pisteiden keskelle.',
+    failed_to_solve_pnp: 'Kameran sijaintia ei voitu ratkaista.',
   },
   input_machine_password: {
     require_password: '"%s" vaatii salasanan',

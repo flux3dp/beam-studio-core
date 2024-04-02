@@ -1564,6 +1564,8 @@ const lang: ILang = {
     elevate_and_cut_desc: "Posiziona un materiale con un'altezza di circa 15 mm al centro dell'area di lavoro.",
     camera_parameter_saved_successfully: 'Parametri della fotocamera salvati con successo.',
     failed_to_save_camera_parameter: 'Impossibile salvare i parametri della fotocamera.',
+    align_points: 'Si prega di allineare i segni al centro dei punti incisi.',
+    failed_to_solve_pnp: 'Impossibile risolvere la posizione della fotocamera.',
   },
   input_machine_password: {
     require_password: '"%s" richiede una password',

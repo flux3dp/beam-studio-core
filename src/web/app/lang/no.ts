@@ -1564,6 +1564,8 @@ const lang: ILang = {
     elevate_and_cut_desc: 'Legg et materiale med en høyde på ca. 15 mm midt på arbeidsområdet.',
     camera_parameter_saved_successfully: 'Kameraparametrene er lagret.',
     failed_to_save_camera_parameter: 'Feilet i å lagre kameraparametre.',
+    align_points: 'Vennligst juster merkene til midten av de graverte punktene.',
+    failed_to_solve_pnp: 'Klarte ikke å løse kameraposisjonen.',
   },
   input_machine_password: {
     require_password: '"%s" krever passord',

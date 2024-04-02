@@ -1567,6 +1567,8 @@ const lang: ILang = {
     elevate_and_cut_desc: 'Legen Sie ein Material mit einer Höhe von etwa 15 mm in die Mitte des Arbeitsbereichs.',
     camera_parameter_saved_successfully: 'Kameraparameter erfolgreich gespeichert.',
     failed_to_save_camera_parameter: 'Speichern der Kameraparameter fehlgeschlagen.',
+    align_points: 'Bitte richten Sie die Markierungen auf das Zentrum der gravierten Punkte aus.',
+    failed_to_solve_pnp: 'Die Kameraposition konnte nicht gelöst werden.',
   },
   input_machine_password: {
     require_password: '%s erfordert ein Passwort',
