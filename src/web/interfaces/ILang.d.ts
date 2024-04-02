@@ -1555,6 +1555,15 @@ export interface ILang {
     calibrating_with_device_pictures: string;
     failed_to_calibrate_with_pictures: string;
     found_pictures: string;
+    getting_plane_height: string;
+    preparing_to_take_picture: string;
+    put_paper: string;
+    put_paper_center: string;
+    put_paper_whole_workarea: string;
+    elevate_and_cut: string;
+    elevate_and_cut_desc: string;
+    camera_parameter_saved_successfully: string;
+    failed_to_save_camera_parameter: string;
   };
   input_machine_password: {
     require_password: string,

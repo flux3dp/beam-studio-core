@@ -29,7 +29,7 @@ enum Step {
   PUT_PAPER = 3,
   FIND_CORNER = 4,
   SOLVE_PNP_1 = 5,
-  ELVATED_CUT = 6,
+  ELEVATED_CUT = 6,
   SOLVE_PNP_2 = 7,
   FINISH = 8,
 }
@@ -78,7 +78,8 @@ const AdorCalibrationV2 = ({ onClose }: Props): JSX.Element => {
           if (res) {
             setUsePreviousData(true);
             console.log('calibratingParam.current', calibratingParam.current);
-            if (calibratingParam.current.heights?.length > 0) setStep(Step.ELVATED_CUT);
+            const { heights, source } = calibratingParam.current;
+            if (heights?.length > 0 && source === 'user') setStep(Step.ELEVATED_CUT);
             else setStep(Step.PUT_PAPER);
           } else onNext();
         }}
@@ -107,7 +108,7 @@ const AdorCalibrationV2 = ({ onClose }: Props): JSX.Element => {
     const handleNext = async (doCutting = true) => {
       progressCaller.openNonstopProgress({
         id: PROGRESS_ID,
-        message: 'tGetting plane height',
+        message: tCali.getting_plane_height,
       });
       try {
         const height = await getMaterialHeight();
@@ -123,7 +124,7 @@ const AdorCalibrationV2 = ({ onClose }: Props): JSX.Element => {
           if (usePreviousData) await deviceMaster.doAdorCalibrationV2(2);
           else await deviceMaster.doAdorCalibrationV2(1, withPitch);
         }
-        progressCaller.update(PROGRESS_ID, { message: 'tPreparing to taking picture' });
+        progressCaller.update(PROGRESS_ID, { message: tCali.preparing_to_take_picture });
         await prepareToTakePicture();
         setStep(usePreviousData ? Step.SOLVE_PNP_1 : Step.FIND_CORNER);
       } catch (err) {
@@ -139,11 +140,8 @@ const AdorCalibrationV2 = ({ onClose }: Props): JSX.Element => {
           { src: 'video/ador-put-paper.webm', type: 'video/webm' },
           { src: 'video/ador-put-paper.mp4', type: 'video/mp4' },
         ]}
-        title={
-          usePreviousData
-            ? 'Please put paper at the center of workarea'
-            : 'Please put paper to cover the whole work area'
-        }
+        title={tCali.put_paper}
+        text={usePreviousData ? tCali.put_paper_center : tCali.put_paper_whole_workarea}
         buttons={[
           { label: tCali.back, onClick: () => setStep(Step.CHECKPOINT_DATA) },
           { label: tCali.skip, onClick: () => handleNext(false) },
@@ -167,7 +165,7 @@ const AdorCalibrationV2 = ({ onClose }: Props): JSX.Element => {
           progressCaller.openNonstopProgress({ id: PROGRESS_ID, message: lang.device.processing });
           await saveCheckPoint(calibratingParam.current);
           progressCaller.popById(PROGRESS_ID);
-          setStep(Step.ELVATED_CUT);
+          setStep(Step.ELEVATED_CUT);
         }}
       />
     );
@@ -191,16 +189,16 @@ const AdorCalibrationV2 = ({ onClose }: Props): JSX.Element => {
           await saveCheckPoint(calibratingParam.current);
           console.log('calibratingParam.current', calibratingParam.current);
           progressCaller.popById(PROGRESS_ID);
-          setStep(Step.ELVATED_CUT);
+          setStep(Step.ELEVATED_CUT);
         }}
       />
     );
   }
-  if (step === Step.ELVATED_CUT) {
+  if (step === Step.ELEVATED_CUT) {
     const handleNext = async () => {
       progressCaller.openNonstopProgress({
         id: PROGRESS_ID,
-        message: 'tGetting plane height',
+        message: tCali.getting_plane_height,
       });
       try {
         const height = await getMaterialHeight();
@@ -210,7 +208,7 @@ const AdorCalibrationV2 = ({ onClose }: Props): JSX.Element => {
         calibratingParam.current.dh = dh;
         progressCaller.update(PROGRESS_ID, { message: tCali.drawing_calibration_image });
         await deviceMaster.doAdorCalibrationV2(2, withPitch);
-        progressCaller.update(PROGRESS_ID, { message: 'tPreparing to taking picture' });
+        progressCaller.update(PROGRESS_ID, { message: tCali.preparing_to_take_picture });
         await prepareToTakePicture();
         onNext();
       } catch (err) {
@@ -223,7 +221,8 @@ const AdorCalibrationV2 = ({ onClose }: Props): JSX.Element => {
       <Instruction
         animationSrcs={[]}
         onClose={() => onClose(true)}
-        title="Please put material about 15mm at the center of the work area"
+        title={tCali.elevate_and_cut}
+        text={tCali.elevate_and_cut_desc}
         buttons={[
           { label: tCali.back, onClick: () => setStep(Step.PUT_PAPER) },
           {
@@ -268,11 +267,11 @@ const AdorCalibrationV2 = ({ onClose }: Props): JSX.Element => {
         const res = await setFisheyeConfig(param);
         console.log(res);
         if (res.status === 'ok') {
-          alertCaller.popUp({ message: 'Camera parameters saved successfully.' });
+          alertCaller.popUp({ message: tCali.camera_parameter_saved_successfully });
           onClose(true);
         } else {
           alertCaller.popUpError({
-            message: `Failed to save camera parameters. ${JSON.stringify(res)}`,
+            message: `${tCali.failed_to_save_camera_parameter}:<br />${JSON.stringify(res)}`,
           });
         }
       }}
