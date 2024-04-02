@@ -65,9 +65,15 @@ class FisheyePreviewManagerV2 extends FisheyePreviewManagerBase implements Fishe
   }
 
   onObjectHeightChanged = async (): Promise<void> => {
-    const { autoFocusRefKey, objectHeight, levelingOffset } = this;
-    const heightCompensation = levelingOffset.E - levelingOffset[autoFocusRefKey];
-    const finalHeight = objectHeight - heightCompensation;
+    const { params, autoFocusRefKey, objectHeight, levelingOffset } = this;
+    const { levelingData, source } = params;
+    const refKey = source === 'device' ? 'A' : 'E';
+    const heightCompensation =
+      levelingData[refKey] -
+      levelingData[autoFocusRefKey] -
+      levelingOffset[refKey] +
+      levelingOffset[autoFocusRefKey];
+    const finalHeight = objectHeight + heightCompensation;
     await deviceMaster.setFisheyeObjectHeight(finalHeight);
   };
 }
