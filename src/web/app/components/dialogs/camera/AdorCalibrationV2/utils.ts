@@ -78,7 +78,7 @@ export const calibrateWithDevicePictures =
           const timeElapsed = (Date.now() - s) / 1000;
           const timeLeft = durationFormatter(timeElapsed / val - timeElapsed);
           progressCaller.update(progressId, {
-            message: `${tCali.calibrating_with_device_pictures}<br>${tCameraData.estimated_time_left} ${timeLeft}`,
+            message: `${tCali.calibrating_with_device_pictures}<br/>${tCameraData.estimated_time_left} ${timeLeft}`,
             percentage: Math.round(100 * val),
           });
         }
@@ -133,6 +133,8 @@ export const prepareToTakePicture = async (): Promise<void> => {
 };
 
 export default {
+  calibrateWithDevicePictures,
   getMaterialHeight,
   prepareToTakePicture,
+  saveCheckPoint,
 };
