@@ -214,6 +214,7 @@ class CameraCalibrationApi {
     success: boolean;
     blob: Blob;
     data?: {
+      ret: number;
       k: number[][];
       d: number[][];
       rvec: number[];

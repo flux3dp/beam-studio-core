@@ -400,6 +400,7 @@ export const findCorners = async (
   success: boolean;
   blob: Blob;
   data?: {
+    ret: number;
     k: number[][];
     d: number[][];
     rvec: number[];

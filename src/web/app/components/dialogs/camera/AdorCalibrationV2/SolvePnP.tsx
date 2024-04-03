@@ -30,7 +30,7 @@ const SolvePnP = ({ params, hasNext = false, onClose, onNext, onBack }: Props): 
   const [img, setImg] = useState<{ blob: Blob; url: string; success: boolean }>(null);
   const [imgLoaded, setImgLoaded] = useState(false);
   const [points, setPoints] = useState<[number, number][]>([]);
-  const [selectedPointIdx, setSelectedPointIdx] = useState<number>(0);
+  const [selectedPointIdx, setSelectedPointIdx] = useState<number>(-1);
   const [scale, setScale] = useState(1);
   const dragStartPos = useRef<{
     x: number;
@@ -308,7 +308,7 @@ const SolvePnP = ({ params, hasNext = false, onClose, onNext, onBack }: Props): 
           </div>
         </Col>
         <Col span={6}>
-          {points[selectedPointIdx] && (
+          {selectedPointIdx >= 0 && points[selectedPointIdx] && (
             <Row gutter={[0, 12]} align="middle">
               <Col span={24}>Point #{selectedPointIdx}</Col>
               <Col span={4}>X</Col>

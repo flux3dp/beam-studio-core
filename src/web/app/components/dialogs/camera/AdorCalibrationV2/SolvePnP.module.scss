@@ -1,3 +1,5 @@
+@use 'styles/variables' as variables;
+
 .footer-button {
   text-transform: capitalize;
 }
@@ -38,8 +40,8 @@
       position: absolute;
 
       circle {
-        fill: #00ff00;
-        stroke: #00ff00;
+        fill: #ff4d4f;
+        stroke: #ff4d4f;
         fill-opacity: 0;
         cursor: move;
 
@@ -52,8 +54,8 @@
 
       g.selected {
         circle {
-          fill: #ff0000;
-          stroke: #ff0000;
+          fill: variables.$primary-blue;
+          stroke: variables.$primary-blue;
         }
       }
     }
