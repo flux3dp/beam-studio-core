@@ -12,6 +12,7 @@ import checkSoftwareForAdor from 'helpers/check-software';
 import constant from 'app/actions/beambox/constant';
 import Discover from 'helpers/api/discover';
 import dialogCaller from 'app/actions/dialog-caller';
+import isWeb from 'helpers/is-web';
 import menuDeviceActions from 'app/actions/beambox/menuDeviceActions';
 import network from 'implementations/network';
 import storage from 'implementations/storage';
@@ -95,7 +96,7 @@ const ConnectMachineIp = (): JSX.Element => {
   };
 
   const setUpLocalStorageIp = (ip: string) => {
-    if (window.FLUX.version === 'web') {
+    if (isWeb()) {
       localStorage.setItem('host', ip);
       localStorage.setItem('port', '8000');
     }
@@ -114,7 +115,7 @@ const ConnectMachineIp = (): JSX.Element => {
           const device = discoveredDevicesRef.current.find((d) => testingIps.includes(d.ipaddr));
           if (device) {
             if (
-              window.FLUX.version === 'web' &&
+              isWeb() &&
               !versionChecker(device.version).meetRequirement('LATEST_GHOST_FOR_WEB')
             ) {
               alertCaller.popUp({

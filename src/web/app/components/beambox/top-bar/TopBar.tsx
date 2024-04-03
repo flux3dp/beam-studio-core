@@ -14,6 +14,7 @@ import FrameButton from 'app/components/beambox/top-bar/FrameButton';
 import getDevice from 'helpers/device/get-device';
 import GoButton from 'app/components/beambox/top-bar/GoButton';
 import i18n from 'helpers/i18n';
+import isWeb from 'helpers/is-web';
 import Menu from 'app/components/beambox/top-bar/Menu';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import PathPreviewButton from 'app/components/beambox/top-bar/PathPreviewButton';
@@ -42,7 +43,7 @@ getSVGAsync((globalSVG) => {
 
 const { $ } = window;
 const LANG = i18n.lang.topbar;
-const isWhiteTopBar = window.os !== 'MacOS' && window.FLUX.version !== 'web';
+const isWhiteTopBar = window.os !== 'MacOS' && !isWeb();
 
 interface State {
   hasDiscoverdMachine: boolean;
@@ -198,7 +199,7 @@ export default class TopBar extends React.PureComponent<Record<string, never>, S
 
   // eslint-disable-next-line class-methods-use-this
   renderMenu(): JSX.Element {
-    if (window.FLUX.version === 'web') {
+    if (isWeb()) {
       const { currentUser } = this.context;
       return (
         <div className={classNames('top-bar-menu-container', styles.menu)}>
@@ -239,7 +240,7 @@ export default class TopBar extends React.PureComponent<Record<string, never>, S
         {this.renderHint()}
         {this.renderMenu()}
         <CommonTools
-          isWeb={window.FLUX.version === 'web'}
+          isWeb={isWeb()}
           hide={isPreviewing || isPathPreviewing}
         />
       </div>

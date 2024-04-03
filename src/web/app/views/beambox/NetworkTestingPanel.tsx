@@ -8,6 +8,7 @@ import AlertConstants from 'app/constants/alert-constants';
 import browser from 'implementations/browser';
 import Discover from 'helpers/api/discover';
 import i18n from 'helpers/i18n';
+import isWeb from 'helpers/is-web';
 import network from 'implementations/network';
 import os from 'implementations/os';
 import Progress from 'app/actions/progress-caller';
@@ -196,7 +197,7 @@ class NetworkTestingPanel extends React.Component<Props> {
 
   renderLocalIP(): JSX.Element {
     const { localIps } = this;
-    if (!localIps.length && window.FLUX.version === 'web') return null;
+    if (!localIps.length && isWeb()) return null;
     return <Form.Item label={LANG.local_ip}>{localIps.join(', ')}</Form.Item>;
   }
 

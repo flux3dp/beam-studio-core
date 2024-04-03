@@ -8,6 +8,7 @@ import Alert from 'app/actions/alert-caller';
 import getClipperLib from 'helpers/clipper/getClipperLib';
 import history from 'app/svgedit/history/history';
 import i18n from 'helpers/i18n';
+import isWeb from 'helpers/is-web';
 import Modal from 'app/widgets/Modal';
 import requirejsHelper from 'helpers/requirejs-helper';
 import workareaManager from 'app/svgedit/workarea';
@@ -15,12 +16,15 @@ import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgCanvas;
 let svgedit;
-getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; svgedit = globalSVG.Edit; });
+getSVGAsync((globalSVG) => {
+  svgCanvas = globalSVG.Canvas;
+  svgedit = globalSVG.Edit;
+});
 
 const LANG = i18n.lang.beambox.tool_panels;
 
 async function setUpSvgNest() {
-  if (window.FLUX.version === 'web') {
+  if (isWeb()) {
     await requirejsHelper('js/lib/svg-nest/svgnest');
     await requirejsHelper('js/lib/svg-nest/util/geometryutil');
     await requirejsHelper('js/lib/svg-nest/util/parallel');
@@ -63,7 +67,12 @@ class SvgNestButtons extends React.Component<Props, State> {
       containerPoints = ClipperLib.dPathtoPointPathsAndScale(containerDpath, rotation, 1);
     } else {
       const { width: w, height: h } = workareaManager;
-      containerPoints = [{ x: 0, y: 0 }, { x: w, y: 0 }, { x: w, y: h }, { x: 0, y: h }];
+      containerPoints = [
+        { x: 0, y: 0 },
+        { x: w, y: 0 },
+        { x: w, y: h },
+        { x: 0, y: h },
+      ];
     }
 
     const elemPoints = [];
@@ -214,7 +223,10 @@ class SvgNestButtons extends React.Component<Props, State> {
         for (let i = 0; i < layerNumber; i += 1) {
           const name = drawing.getLayerName(i);
           const layer = drawing.getLayerByName(name);
-          if (layer.getAttribute('display') === 'none' || layer.getAttribute('data-lock') === 'true') {
+          if (
+            layer.getAttribute('display') === 'none' ||
+            layer.getAttribute('data-lock') === 'true'
+          ) {
             continue;
           }
           const { childNodes } = layer;
@@ -262,7 +274,7 @@ class SvgNestButtons extends React.Component<Props, State> {
     const { isWorking } = this.state;
     // eslint-disable-next-line no-underscore-dangle
     const endText = LANG._nest.end;
-    const className = classNames('svg-nest-buttons', { win: window.FLUX.version !== 'web' && window.os === 'Windows' });
+    const className = classNames('svg-nest-buttons', { win: !isWeb() && window.os === 'Windows' });
     if (isWorking) {
       return (
         <Modal className={{ 'no-background': true }}>

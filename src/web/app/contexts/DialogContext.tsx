@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
+import isWeb from 'helpers/is-web';
 
 export const DialogContext = React.createContext({
   dialogComponents: [],
@@ -24,7 +25,7 @@ export class DialogContextProvider extends React.Component<any> {
     eventEmitter.on('CLEAR_ALL_DIALOG_COMPONENTS', this.clearAllDialogComponents.bind(this));
     eventEmitter.on('CHECK_ID_EXIST', this.isIdExist.bind(this));
     eventEmitter.on('POP_DIALOG_BY_ID', this.popDialogById.bind(this));
-    if (window.FLUX.version === 'web') {
+    if (isWeb()) {
       window.addEventListener('DISMISS_FLUX_LOGIN', () => {
         this.popDialogById.call(this, 'flux-id-login');
       });

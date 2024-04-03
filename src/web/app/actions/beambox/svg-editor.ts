@@ -55,6 +55,7 @@ import storage from 'implementations/storage';
 import pdfHelper from 'implementations/pdfHelper';
 import Shortcuts from 'helpers/shortcuts';
 import i18n from 'helpers/i18n';
+import isWeb from 'helpers/is-web';
 import SvgLaserParser from 'helpers/api/svg-laser-parser';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import { IFont } from 'interfaces/IFont';
@@ -334,7 +335,7 @@ const svgEditor = window['svgEditor'] = (function () {
       },
       text: {
         stroke_width: 1,
-        font_size: window.FLUX.version === 'web' ? 200 : 100,
+        font_size: isWeb() ? 200 : 100,
         font_family: defaultFont ? defaultFont.family : 'Arial',
         font_postscriptName: defaultFont ? defaultFont.postscriptName : 'ArialMT',
         fill: '#fff',

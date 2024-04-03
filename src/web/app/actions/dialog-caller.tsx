@@ -14,6 +14,7 @@ import FluxCredit from 'app/components/dialogs/FluxCredit';
 import FluxIdLogin from 'app/components/dialogs/FluxIdLogin';
 import FluxPlusWarning from 'app/components/dialogs/FluxPlusWarning';
 import i18n from 'helpers/i18n';
+import isWeb from 'helpers/is-web';
 import InputLightBox from 'app/widgets/InputLightbox';
 import LayerColorConfigPanel from 'app/views/beambox/Layer-Color-Config';
 import MediaTutorial from 'app/components/dialogs/MediaTutorial';
@@ -78,7 +79,7 @@ const getPromptId = (): string => {
 
 const showLoginDialog = (callback?: () => void, silent = false): void => {
   if (isIdExist('flux-id-login')) return;
-  if (window.FLUX.version === 'web' && callback) {
+  if (isWeb() && callback) {
     window.addEventListener('DISMISS_FLUX_LOGIN', callback);
   }
   addDialogComponent(

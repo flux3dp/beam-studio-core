@@ -19,6 +19,7 @@ import FontConstants from 'app/constants/font-constants';
 import fontHelper from 'helpers/fonts/fontHelper';
 import getDevice from 'helpers/device/get-device';
 import i18n from 'helpers/i18n';
+import isWeb from 'helpers/is-web';
 import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
 import menu from 'implementations/menu';
 import ratingHelper from 'helpers/rating-helper';
@@ -93,7 +94,7 @@ class BeamboxInit {
     const isNewUser = !!storage.get('new-user');
     const defaultFontConvert = BeamboxPreference.read('font-convert');
     const hasMachineConnection = checkConnection();
-    if (window.FLUX.version === 'web' && navigator.maxTouchPoints >= 1) {
+    if (isWeb() && navigator.maxTouchPoints >= 1) {
       const res = await fluxId.getPreference('did_gesture_tutorial', true);
       if (res && !res.error) {
         if (res.status === 'ok' && !res.value) {
@@ -109,7 +110,7 @@ class BeamboxInit {
         }
       }
     }
-    await this.showFirstCalibrationDialog()
+    await this.showFirstCalibrationDialog();
     if (hasMachineConnection && !isMobile()) {
       await this.showTutorial(isNewUser);
     }
@@ -197,13 +198,13 @@ class BeamboxInit {
 
   private initDefaultFont(): void {
     const lang = navigator.language;
-    const isWeb = window.FLUX.version === 'web';
+    const web = isWeb();
     const { os } = window;
     let defaultFontFamily = 'Arial';
-    if (isWeb) defaultFontFamily = 'Noto Sans';
+    if (web) defaultFontFamily = 'Noto Sans';
     else if (os === 'Linux') defaultFontFamily = 'Ubuntu';
     if (FontConstants[lang]) {
-      if (isWeb && FontConstants[lang].web) {
+      if (web && FontConstants[lang].web) {
         defaultFontFamily = FontConstants[lang].web;
       } else if (FontConstants[lang][os]) {
         defaultFontFamily = FontConstants[lang][os];
@@ -250,14 +251,14 @@ class BeamboxInit {
     const hasDoneFirstCali = AlertConfig.read('done-first-cali');
     let hasMachineConnection = checkConnection();
     // in web, wait for websocket connection
-    if (window.FLUX.version === 'web' && !hasDoneFirstCali && !hasMachineConnection) {
+    const web = isWeb();
+    if (web && !hasDoneFirstCali && !hasMachineConnection) {
       await new Promise((r) => setTimeout(r, 1000));
       hasMachineConnection = checkConnection();
     }
-    const shouldShow =
-      window.FLUX.version === 'web'
-        ? hasMachineConnection && !hasDoneFirstCali
-        : isNewUser || !hasDoneFirstCali;
+    const shouldShow = web
+      ? hasMachineConnection && !hasDoneFirstCali
+      : isNewUser || !hasDoneFirstCali;
     let caliRes = true;
     if (shouldShow) {
       const res = await this.askFirstTimeCameraCalibration();

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import * as React from 'react';
+import React from 'react';
 import classNames from 'classnames';
 
 import AdorModule from 'app/components/settings/AdorModule';
@@ -15,6 +15,7 @@ import Engraving from 'app/components/settings/Engraving';
 import Experimental from 'app/components/settings/Experimental';
 import General from 'app/components/settings/General';
 import i18n from 'helpers/i18n';
+import isWeb from 'helpers/is-web';
 import layerModuleHelper from 'helpers/layer-module/layer-module-helper';
 import Mask from 'app/components/settings/Mask';
 import Module from 'app/components/settings/Module';
@@ -291,20 +292,21 @@ class Settings extends React.PureComponent<null, State> {
     );
 
     const isAllValid = !warnings || Object.keys(warnings).length === 0;
+    const web = isWeb();
 
     return (
       <div className="studio-container settings-studio">
         <div className="settings-gradient-overlay" />
         <div className="form general">
           <General
-            isWeb={window.FLUX.version === 'web'}
+            isWeb={web}
             supportedLangs={supported_langs}
             notificationOptions={notificationOptions}
             changeActiveLang={this.changeActiveLang}
             updateConfigChange={this.updateConfigChange}
           />
           <Update
-            isWeb={window.FLUX.version === 'web'}
+            isWeb={web}
             updateNotificationOptions={updateNotificationOptions}
             updateConfigChange={this.updateConfigChange}
           />
@@ -315,7 +317,7 @@ class Settings extends React.PureComponent<null, State> {
             updateConfigChange={this.updateConfigChange}
           />
           <AutoSave
-            isWeb={window.FLUX.version === 'web'}
+            isWeb={web}
             autoSaveOptions={autoSaveOptions}
             editingAutosaveConfig={editingAutosaveConfig}
             warnings={warnings}

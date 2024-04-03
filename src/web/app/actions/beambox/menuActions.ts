@@ -11,6 +11,7 @@ import ExportFuncs from 'app/actions/beambox/export-funcs';
 import FileExportHelper from 'helpers/file-export-helper';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import i18n from 'helpers/i18n';
+import isWeb from 'helpers/is-web';
 import imageEdit from 'helpers/image-edit';
 import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
 import OutputError from 'helpers/output-error';
@@ -69,7 +70,7 @@ const loadExampleFile = async (path: string) => {
   const oReq = new XMLHttpRequest();
   oReq.open(
     'GET',
-    window.FLUX.version === 'web' ? `https://beam-studio-web.s3.ap-northeast-1.amazonaws.com/${path}` : path,
+    isWeb() ? `https://beam-studio-web.s3.ap-northeast-1.amazonaws.com/${path}` : path,
     true
   );
   oReq.responseType = 'blob';
@@ -122,9 +123,8 @@ export default {
   EXPORT_PNG: () => FileExportHelper.exportAsImage('png'),
   EXPORT_JPG: () => FileExportHelper.exportAsImage('jpg'),
   EXPORT_FLUX_TASK: (): void => {
-    ExportFuncs.exportFcode();
-    // if (window.FLUX.version === 'web') Dialog.forceLoginWrapper(() => ExportFuncs.exportFcode());
-    // else ExportFuncs.exportFcode();
+    if (isWeb()) Dialog.forceLoginWrapper(() => ExportFuncs.exportFcode());
+    else ExportFuncs.exportFcode();
   },
   UNDO: () => svgEditor.clickUndo(),
   REDO: () => svgEditor.clickRedo(),

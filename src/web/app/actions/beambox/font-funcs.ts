@@ -12,6 +12,7 @@ import fontHelper from 'helpers/fonts/fontHelper';
 import history from 'app/svgedit/history/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import i18n from 'helpers/i18n';
+import isWeb from 'helpers/is-web';
 import localFontHelper from 'implementations/localFontHelper';
 import Progress from 'app/actions/progress-caller';
 import SvgLaserParser from 'helpers/api/svg-laser-parser';
@@ -165,8 +166,7 @@ const getFontObj = async (font: WebFont | FontDescriptor): Promise<fontkit.Font 
       if ((font as FontDescriptor).path) {
         fontObj = localFontHelper.getLocalFont(font);
       } else {
-        let { protocol } = window.location;
-        if (window.FLUX.version !== 'web') protocol = 'https:';
+        const protocol = isWeb() ? window.location.protocol : 'https:';
         const fileName = (font as WebFont).fileName || `${postscriptName}.ttf`;
         let url = `${protocol}//beam-studio-web.s3.ap-northeast-1.amazonaws.com/fonts/${fileName}`;
         if ('hasLoaded' in font) {
@@ -296,10 +296,11 @@ const convertTextToPathByGhost = async (
     if ('hasLoaded' in font) {
       throw new Error('Monotype');
     }
-    if (window.FLUX.version !== 'web' && !('path' in font)) {
+    const web = isWeb();
+    if (!web && !('path' in font)) {
       throw new Error('Web font');
     }
-    if (window.FLUX.version === 'web' && !checkConnection()) {
+    if (web && !checkConnection()) {
       throw new Error('No connection');
     }
     const bbox = svgCanvas.calculateTransformedBBox(textElem);
@@ -372,7 +373,7 @@ const substitutedFont = async (font: WebFont | FontDescriptor, textElement: Elem
     return { font: originFont };
   }
 
-  if (window.FLUX.version !== 'web') {
+  if (!isWeb()) {
     unsupportedChar = [];
     textContent.forEach((char) => {
       const sub = localFontHelper.substituteFont(originPostscriptName, char);
@@ -543,7 +544,7 @@ const convertTextToPath = async (
 
     let res: IConvertInfo = null;
     if (BeamboxPreference.read('font-convert') === '1.0') {
-      if (window.FLUX.version === 'web' && !checkConnection()) {
+      if (isWeb() && !checkConnection()) {
         Alert.popUp({
           caption: i18n.lang.alert.oops,
           message: i18n.lang.device_selection.no_device_web,
