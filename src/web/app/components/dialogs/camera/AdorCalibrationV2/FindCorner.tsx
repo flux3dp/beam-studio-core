@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Button, Modal } from 'antd';
 
 import alertCaller from 'app/actions/alert-caller';
+import alertConstants from 'app/constants/alert-constants';
 import deviceMaster from 'helpers/device-master';
 import progressCaller from 'app/actions/progress-caller';
 import useI18n from 'helpers/useI18n';
@@ -55,6 +56,12 @@ const FindCorner = ({ withPitch, updateParam, onClose, onBack, onNext }: Props):
         }
         setImg({ blob, url: URL.createObjectURL(blob), success });
         if (success) {
+          if (data.ret > 3) {
+            alertCaller.popUp({
+              type: alertConstants.WARNING,
+              message: `Large deviation: ${data.ret}, please check engraved points.`,
+            });
+          }
           updateParam({
             k: data.k,
             d: data.d,
