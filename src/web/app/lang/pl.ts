@@ -1767,6 +1767,12 @@ const lang: ILang = {
     download_success: 'Pomyślnie pobrano dane z kamery.',
     upload_success: 'Pomyślnie przesłano dane z kamery.',
   },
+  insecure_websocket: {
+    extension_detected: 'Wykryto rozszerzenie Beam Studio Connect',
+    extension_detected_description: 'Wykryliśmy, że zainstalowałeś rozszerzenie Beam Studio Connect. Kliknij "Potwierdź", aby przekierować do protokołu HTTPS, lub kliknij "Anuluj", aby kontynuować korzystanie z protokołu HTTP.',
+    extension_not_deteced: 'Nie można wykryć rozszerzenia Beam Studio Connect',
+    extension_not_deteced_description: 'Aby używać protokołu HTTPS, kliknij "Potwierdź", aby zainstalować rozszerzenie Beam Studio Connect, lub kliknij "Anuluj", aby przekierować do protokołu HTTP.',
+  },
 };
 
 export default lang;

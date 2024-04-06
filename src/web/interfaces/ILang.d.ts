@@ -1764,4 +1764,10 @@ export interface ILang {
     download_success: string;
     upload_success: string;
   };
+  insecure_websocket: {
+    extension_detected: string;
+    extension_detected_description: string;
+    extension_not_deteced: string;
+    extension_not_deteced_description: string;
+  };
 }

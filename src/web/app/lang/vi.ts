@@ -1764,6 +1764,12 @@ const lang: ILang = {
     download_success: 'Dữ liệu máy ảnh đã được tải xuống thành công.',
     upload_success: 'Dữ liệu máy ảnh đã được tải lên thành công.',
   },
+  insecure_websocket: {
+    extension_detected: 'Phát hiện Phần mở rộng Beam Studio Connect',
+    extension_detected_description: "Chúng tôi đã phát hiện bạn đã cài đặt phần mở rộng Beam Studio Connect. Nhấn vào 'Xác nhận' để chuyển hướng đến HTTPS, hoặc nhấn vào 'Hủy' để tiếp tục sử dụng HTTP.",
+    extension_not_deteced: 'Không thể phát hiện Phần mở rộng Beam Studio Connect',
+    extension_not_deteced_description: "Để sử dụng HTTPS, hãy nhấn vào 'Xác nhận' để cài đặt Phần mở rộng Beam Studio Connect, hoặc nhấn vào 'Hủy' để chuyển hướng đến HTTP.",
+  },
 };
 
 export default lang;

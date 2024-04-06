@@ -5,6 +5,7 @@ import blobSegments from 'helpers/blob-segments';
 import InsecureWebsocket, { checkFluxTunnel } from 'helpers/InsecureWebsocket';
 import i18n from 'helpers/i18n';
 import isJson from 'helpers/is-json';
+import isWeb from 'helpers/is-web';
 import Logger from 'helpers/logger';
 import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
 import outputError from 'helpers/output-error';
@@ -47,7 +48,7 @@ export default function (options) {
     },
     get port() {
       if (localStorage.getItem('port')) return localStorage.getItem('port');
-      return window.FLUX.version === 'web' ? '8000' : window.FLUX.ghostPort;
+      return isWeb() ? '8000' : window.FLUX.ghostPort;
     },
     autoReconnect: true,
     ignoreAbnormalDisconnect: false,
@@ -85,6 +86,30 @@ export default function (options) {
     url: `/ws/${options.method}`,
     log: [],
   };
+  const handleCreateWebSocketFailed = () => {
+    wsCreateFailedCount += 1;
+    if (wsCreateFailedCount === 100 && !isWeb()) {
+      const LANG = i18n.lang.beambox.popup;
+      Alert.popById('backend-error');
+      Alert.popUp({
+        id: 'backend-error',
+        type: AlertConstants.SHOW_POPUP_ERROR,
+        message: LANG.backend_connect_failed_ask_to_upload,
+        buttonType: AlertConstants.YES_NO,
+        onYes: () => {
+          outputError.uploadBackendErrorLog();
+        },
+      });
+      MessageCaller.openMessage({
+        key: 'backend-error-hint',
+        content: LANG.backend_error_hint,
+        level: MessageLevel.ERROR,
+        duration: 0,
+        onClick: () => MessageCaller.closeMessage('backend-error-hint'),
+      });
+    }
+  };
+
   const createWebSocket = (createWsOpts) => {
     if (ws && ws.readyState !== readyState.CLOSED) ws.close();
 
@@ -92,39 +117,28 @@ export default function (options) {
     const port = createWsOpts.port || defaultOptions.port;
     const url = `ws://${hostName}:${port}/ws/${createWsOpts.method}`;
     if (port === undefined) {
-      wsCreateFailedCount += 1;
-      if (wsCreateFailedCount === 100 && window.FLUX.version !== 'web') {
-        const LANG = i18n.lang.beambox.popup;
-        Alert.popById('backend-error');
-        Alert.popUp({
-          id: 'backend-error',
-          type: AlertConstants.SHOW_POPUP_ERROR,
-          message: LANG.backend_connect_failed_ask_to_upload,
-          buttonType: AlertConstants.YES_NO,
-          onYes: () => {
-            outputError.uploadBackendErrorLog();
-          },
-        });
-        MessageCaller.openMessage({
-          key: 'backend-error-hint',
-          content: LANG.backend_error_hint,
-          level: MessageLevel.ERROR,
-          duration: 0,
-          onClick: () => MessageCaller.closeMessage('backend-error-hint'),
-        });
-      }
+      handleCreateWebSocketFailed();
       return null;
     }
     // TODO: determine when to use InsecureWebsocket
     const WebSocketClass =
-      window.FLUX.version === 'web' && checkFluxTunnel() ? InsecureWebsocket : WebSocket;
-    const nodeWs = new WebSocketClass(url);
+      isWeb() && window.location.protocol === 'https:' && checkFluxTunnel()
+        ? InsecureWebsocket
+        : WebSocket;
+    let nodeWs;
+    try {
+      nodeWs = new WebSocketClass(url);
+    } catch (error) {
+      console.error('Failed to create websocket', error);
+      handleCreateWebSocketFailed();
+      return null;
+    }
     wsCreateFailedCount = 0;
 
     nodeWs.onerror = () => {
       wsErrorCount += 1;
       // If ws error count exceed certian number Alert user there may be problems with backend
-      if (wsErrorCount === 50 && window.FLUX.version !== 'web') {
+      if (wsErrorCount === 50 && !isWeb()) {
         const LANG = i18n.lang.beambox.popup;
         Alert.popById('backend-error');
         Alert.popUp({

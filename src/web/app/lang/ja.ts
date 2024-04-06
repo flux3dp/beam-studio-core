@@ -1767,6 +1767,12 @@ const lang: ILang = {
     download_success: 'カメラデータのダウンロードに成功しました。',
     upload_success: 'カメラデータのアップロードに成功しました。',
   },
+  insecure_websocket: {
+    extension_detected: 'Beam Studio Connect 拡張機能が検出されました',
+    extension_detected_description: 'Beam Studio Connect 拡張機能がインストールされていることが検出されました。HTTPS にリダイレクトするには「確認」をクリックするか、HTTP を継続するには「キャンセル」をクリックしてください。',
+    extension_not_deteced: 'Beam Studio Connect 拡張機能を検出できません',
+    extension_not_deteced_description: 'HTTPS を使用するには、Beam Studio Connect 拡張機能をインストールするには「確認」をクリックするか、HTTP にリダイレクトするには「キャンセル」をクリックしてください。',
+  },
 };
 
 export default lang;

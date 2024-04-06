@@ -1764,6 +1764,12 @@ const lang: ILang = {
     download_success: 'Data kamera berhasil diunduh.',
     upload_success: 'Data kamera berhasil diunggah.',
   },
+  insecure_websocket: {
+    extension_detected: 'Perpanjangan Beam Studio Connect Terdeteksi',
+    extension_detected_description: "Kami telah mendeteksi bahwa Anda telah menginstal perpanjangan Beam Studio Connect. Klik 'Konfirmasi' untuk mengalihkan ke HTTPS, atau klik 'Batal' untuk melanjutkan menggunakan HTTP.",
+    extension_not_deteced: 'Tidak dapat Mendeteksi Perpanjangan Beam Studio Connect',
+    extension_not_deteced_description: "Untuk menggunakan HTTPS, klik 'Konfirmasi' untuk menginstal perpanjangan Beam Studio Connect, atau klik 'Batal' untuk mengalihkan ke HTTP.",
+  },
 };
 
 export default lang;

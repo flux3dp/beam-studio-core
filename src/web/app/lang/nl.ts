@@ -1764,6 +1764,12 @@ const lang: ILang = {
     download_success: 'Camera-gegevens succesvol gedownload.',
     upload_success: 'Camera-gegevens succesvol geüpload.',
   },
+  insecure_websocket: {
+    extension_detected: 'Beam Studio Connect-extensie gedetecteerd',
+    extension_detected_description: "We hebben gedetecteerd dat u de Beam Studio Connect-extensie heeft geïnstalleerd. Klik op 'Bevestigen' om door te verwijzen naar HTTPS, of klik op 'Annuleren' om HTTP te blijven gebruiken.",
+    extension_not_deteced: 'Kan Beam Studio Connect-extensie niet detecteren',
+    extension_not_deteced_description: "Om HTTPS te gebruiken, klik op 'Bevestigen' om de Beam Studio Connect-extensie te installeren, of klik op 'Annuleren' om door te verwijzen naar HTTP.",
+  },
 };
 
 export default lang;

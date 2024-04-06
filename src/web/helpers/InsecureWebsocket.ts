@@ -1,13 +1,52 @@
+import alertCaller from 'app/actions/alert-caller';
+import alertConstants from 'app/constants/alert-constants';
+import i18n from 'helpers/i18n';
+import isWeb from 'helpers/is-web';
+import switchProtocol from 'helpers/switch-protocol';
+import { getBrowser } from 'helpers/browser';
+
 const wrappedSockets = {};
 
 let fluxTunnelLoaded = false;
 window.addEventListener('FluxTunnelLoaded', () => {
   fluxTunnelLoaded = true;
+  if (isWeb() && window.location.protocol === 'http:') {
+    alertCaller.popUp({
+      caption: i18n.lang.insecure_websocket.extension_detected,
+      message: i18n.lang.insecure_websocket.extension_detected_description,
+      buttonType: alertConstants.CONFIRM_CANCEL,
+      onConfirm: () => switchProtocol('https:'),
+    });
+  }
 });
 window.dispatchEvent(new CustomEvent('CheckFluxTunnel'));
 
+let failedCount = 0;
+let chromeExtensionAlertPopped = false;
+
 export const checkFluxTunnel = (): boolean => {
   window.dispatchEvent(new CustomEvent('CheckFluxTunnel'));
+  if (!fluxTunnelLoaded && isWeb()) {
+    const browser = getBrowser();
+    const isHttps = window.location.protocol === 'https:';
+    if (browser !== 'Chrome' && isHttps) {
+      switchProtocol('http:');
+      return false;
+    }
+    failedCount += 1;
+    if (failedCount > 30 && isHttps && !chromeExtensionAlertPopped) {
+      alertCaller.popUp({
+        caption: i18n.lang.insecure_websocket.extension_not_deteced,
+        message: i18n.lang.insecure_websocket.extension_not_deteced_description,
+        buttonType: alertConstants.CONFIRM_CANCEL,
+        onConfirm: () => {
+          console.log('TODO: Open Chrome extension page');
+        },
+        onCancel: () => switchProtocol('http:'),
+      });
+      chromeExtensionAlertPopped = true;
+    }
+  }
   return fluxTunnelLoaded;
 };
 
@@ -24,7 +63,7 @@ class InsecureWebsocket {
 
   onmessage: (message: string) => void;
 
-  onclose: (data: { code?: number; reason: string; }) => void;
+  onclose: (data: { code?: number; reason: string }) => void;
 
   readyState = 0;
 
