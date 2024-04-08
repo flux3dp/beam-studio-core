@@ -1,6 +1,7 @@
 import React, { useCallback, useRef, useState } from 'react';
 
 import alertCaller from 'app/actions/alert-caller';
+import checkDeviceStatus from 'helpers/check-device-status';
 import deviceMaster from 'helpers/device-master';
 import dialogCaller from 'app/actions/dialog-caller';
 import progressCaller from 'app/actions/progress-caller';
@@ -106,6 +107,8 @@ const AdorCalibrationV2 = ({ onClose }: Props): JSX.Element => {
   }
   if (step === Step.PUT_PAPER) {
     const handleNext = async (doCutting = true) => {
+      const deviceStatus = await checkDeviceStatus(deviceMaster.currentDevice.info);
+      if (!deviceStatus) return;
       progressCaller.openNonstopProgress({
         id: PROGRESS_ID,
         message: tCali.getting_plane_height,
@@ -196,6 +199,8 @@ const AdorCalibrationV2 = ({ onClose }: Props): JSX.Element => {
   }
   if (step === Step.ELEVATED_CUT) {
     const handleNext = async () => {
+      const deviceStatus = await checkDeviceStatus(deviceMaster.currentDevice.info);
+      if (!deviceStatus) return;
       progressCaller.openNonstopProgress({
         id: PROGRESS_ID,
         message: tCali.getting_plane_height,
