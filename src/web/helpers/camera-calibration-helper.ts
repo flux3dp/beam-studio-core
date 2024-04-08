@@ -393,6 +393,28 @@ export const getPerspectivePointsZ3Regression = (
   return result;
 };
 
+export const calibrateChessboard = async (
+  img: Blob | ArrayBuffer,
+  height: number,
+  chessboard = [48, 36]
+): Promise<
+  | {
+      success: true;
+      blob: Blob;
+      data?: {
+        ret: number;
+        k: number[][];
+        d: number[][];
+        rvec: number[];
+        tvec: number[];
+      };
+    }
+  | { success: false; data: { reason: string } }
+> => {
+  const resp = api.calibrateChessboard(img, height, chessboard);
+  return resp;
+};
+
 export const findCorners = async (
   imgBlob: Blob,
   withPitch = false

@@ -19,6 +19,7 @@ export interface FisheyeCameraParametersV1 {
 export interface FisheyeCameraParametersV2Cali {
   source?: 'device' | 'user'; // k, d calibration source by device pictures or user input
   refHeight?: number;
+  ret?: number;
   k?: number[][];
   d?: number[][];
   rvec?: number[];

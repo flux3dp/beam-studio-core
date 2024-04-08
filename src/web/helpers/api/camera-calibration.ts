@@ -207,6 +207,56 @@ class CameraCalibrationApi {
     });
   }
 
+  calibrateChessboard(
+    img: Blob | ArrayBuffer,
+    height: number,
+    chessboard = [48, 36]
+  ): Promise<
+    | {
+        success: true;
+        blob: Blob;
+        data?: {
+          ret: number;
+          k: number[][];
+          d: number[][];
+          rvec: number[];
+          tvec: number[];
+        };
+      }
+    | { success: false; data: { reason: string } }
+  > {
+    return new Promise((resolve, reject) => {
+      let blob: Blob;
+      this.events.onMessage = (response) => {
+        if (response instanceof Blob) {
+          blob = response;
+        } else if (response.status === 'continue') {
+          this.ws.send(img);
+        } else if (response.status === 'fail') {
+          resolve({ success: false, data: { reason: response.reason } });
+        } else if (response.status.toLowerCase?.() === 'error') {
+          console.log('error', response);
+          resolve({ success: false, data: { reason: response.message } });
+        } else if (response.status === 'ok') {
+          const { status, ...rest } = response;
+          resolve({ success: true, blob, data: rest });
+        }
+      };
+
+      this.events.onError = (response) => {
+        reject(response);
+        console.log('on error', response);
+      };
+      this.events.onFatal = (response) => {
+        reject(response);
+        console.log('on fatal', response);
+      };
+      const size = img instanceof Blob ? img.size : img.byteLength;
+      // calibrate_chessboard [file_length] [height] [chessboard_w] [chessboard_h]
+      this.ws.send(`calibrate_chessboard ${size} ${height.toFixed(2)} ${chessboard.join(' ')}`);
+    });
+  }
+
   findCorners(
     img: Blob | ArrayBuffer,
     withPitch = false
@@ -224,11 +274,11 @@ class CameraCalibrationApi {
     return new Promise((resolve, reject) => {
       let success = true;
       let data = {} as {
+        ret: number;
         k: number[][];
         d: number[][];
         rvec: number[];
         tvec: number[];
-        points: [number, number][][];
       };
       this.events.onMessage = (response) => {
         if (response instanceof Blob) {
@@ -261,15 +311,18 @@ class CameraCalibrationApi {
   solvePnPFindCorners = (
     img: Blob | ArrayBuffer,
     dh: number
-  ): Promise<{
-    success: true;
-    blob: Blob;
-    data?: { points: [number, number][] };
-  } | {
-    success: false;
-    blob: null;
-    data: { status: string; info: string; reason: string };
-  }> =>
+  ): Promise<
+    | {
+        success: true;
+        blob: Blob;
+        data?: { points: [number, number][] };
+      }
+    | {
+        success: false;
+        blob: null;
+        data: { status: string; info: string; reason: string };
+      }
+  > =>
     new Promise((resolve, reject) => {
       let data = {} as { points: [number, number][] };
       this.events.onMessage = (response) => {

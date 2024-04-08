@@ -16,6 +16,7 @@ import {
   updateData,
 } from 'helpers/camera-calibration-helper';
 
+import CalibrateChessBoard from './AdorCalibrationV2/CalibrateChessBoard';
 import CheckpointData from './AdorCalibrationV2/CheckpointData';
 import CheckPictures from './AdorCalibrationV2/CheckPictures';
 import FindCorner from './AdorCalibrationV2/FindCorner';
@@ -24,53 +25,38 @@ import SolvePnP from './AdorCalibrationV2/SolvePnP';
 import { getMaterialHeight, prepareToTakePicture, saveCheckPoint } from './AdorCalibrationV2/utils';
 
 enum Step {
-  ASK_CAMERA_TYPE = 0,
-  CHECKPOINT_DATA = 1,
-  CHECK_PICTURE = 2,
-  PUT_PAPER = 3,
-  FIND_CORNER = 4,
-  SOLVE_PNP_1 = 5,
-  ELEVATED_CUT = 6,
-  SOLVE_PNP_2 = 7,
-  FINISH = 8,
+  CHECKPOINT_DATA = 0,
+  CHECK_PICTURE = 1,
+  CALIBRATE_CHESSBOARD = 2,
+  ASK_CAMERA_TYPE = 3,
+  PUT_PAPER = 4,
+  FIND_CORNER = 5,
+  SOLVE_PNP_1 = 6,
+  ELEVATED_CUT = 7,
+  SOLVE_PNP_2 = 8,
+  FINISH = 9,
 }
 
 const PROGRESS_ID = 'fisheye-calibration-v2';
 const DIALOG_ID = 'fisheye-calibration-v2';
 
 interface Props {
+  factoryMode?: boolean;
   onClose: (completed?: boolean) => void;
 }
 
-const AdorCalibrationV2 = ({ onClose }: Props): JSX.Element => {
+const AdorCalibrationV2 = ({ factoryMode = false, onClose }: Props): JSX.Element => {
   const calibratingParam = useRef<FisheyeCameraParametersV2Cali>({});
   const lang = useI18n();
   const tCali = lang.calibration;
   const [withPitch, setWithPitch] = useState(false);
-  const [step, setStep] = useState<Step>(Step.ASK_CAMERA_TYPE);
+  const [step, setStep] = useState<Step>(Step.CHECKPOINT_DATA);
   const [usePreviousData, setUsePreviousData] = useState(false);
   const onBack = useCallback(() => setStep((prev) => prev - 1), []);
   const onNext = useCallback(() => setStep((prev) => prev + 1), []);
   const updateParam = useCallback((param: FisheyeCameraParametersV2Cali) => {
     calibratingParam.current = { ...calibratingParam.current, ...param };
   }, []);
-  if (step === Step.ASK_CAMERA_TYPE) {
-    const onClick = (val: boolean) => {
-      setWithPitch(val);
-      onNext();
-    };
-    return (
-      <Instruction
-        onClose={() => onClose(false)}
-        animationSrcs={[]}
-        title="Please Select your camera type"
-        buttons={[
-          { label: '正拍', type: 'primary', onClick: () => onClick(false) },
-          { label: '斜拍', type: 'primary', onClick: () => onClick(true) },
-        ]}
-      />
-    );
-  }
   if (step === Step.CHECKPOINT_DATA) {
     return (
       <CheckpointData
@@ -82,7 +68,7 @@ const AdorCalibrationV2 = ({ onClose }: Props): JSX.Element => {
             const { heights, source } = calibratingParam.current;
             if (heights?.length > 0 && source === 'user') setStep(Step.ELEVATED_CUT);
             else setStep(Step.PUT_PAPER);
-          } else onNext();
+          } else setStep(factoryMode ? Step.CALIBRATE_CHESSBOARD : Step.CHECK_PICTURE);
         }}
         onClose={onClose}
       />
@@ -99,9 +85,39 @@ const AdorCalibrationV2 = ({ onClose }: Props): JSX.Element => {
             setUsePreviousData(true);
           }
           progressCaller.popById(PROGRESS_ID);
-          onNext();
+          setStep(res ? Step.PUT_PAPER : Step.ASK_CAMERA_TYPE);
         }}
         onClose={onClose}
+      />
+    );
+  }
+  if (step === Step.CALIBRATE_CHESSBOARD) {
+    return (
+      <CalibrateChessBoard
+        updateParam={updateParam}
+        onNext={() => {
+          setUsePreviousData(true);
+          setStep(Step.PUT_PAPER);
+        }}
+        onBack={() => setStep(Step.CHECKPOINT_DATA)}
+        onClose={onClose}
+      />
+    );
+  }
+  if (step === Step.ASK_CAMERA_TYPE) {
+    const onClick = (val: boolean) => {
+      setWithPitch(val);
+      onNext();
+    };
+    return (
+      <Instruction
+        onClose={() => onClose(false)}
+        animationSrcs={[]}
+        title="Please Select your camera type"
+        buttons={[
+          { label: '正拍', type: 'primary', onClick: () => onClick(false) },
+          { label: '斜拍', type: 'primary', onClick: () => onClick(true) },
+        ]}
       />
     );
   }
@@ -212,7 +228,7 @@ const AdorCalibrationV2 = ({ onClose }: Props): JSX.Element => {
         console.log('dh', dh);
         calibratingParam.current.dh = dh;
         progressCaller.update(PROGRESS_ID, { message: tCali.drawing_calibration_image });
-        await deviceMaster.doAdorCalibrationV2(2, withPitch);
+        await deviceMaster.doAdorCalibrationV2(2);
         progressCaller.update(PROGRESS_ID, { message: tCali.preparing_to_take_picture });
         await prepareToTakePicture();
         onNext();
@@ -284,12 +300,13 @@ const AdorCalibrationV2 = ({ onClose }: Props): JSX.Element => {
   );
 };
 
-export const showAdorCalibrationV2 = async (): Promise<boolean> => {
+export const showAdorCalibrationV2 = async (factoryMode = false): Promise<boolean> => {
   if (dialogCaller.isIdExist(DIALOG_ID)) return false;
   return new Promise((resolve) => {
     dialogCaller.addDialogComponent(
       DIALOG_ID,
       <AdorCalibrationV2
+        factoryMode={factoryMode}
         onClose={(completed = false) => {
           dialogCaller.popDialogById(DIALOG_ID);
           resolve(completed);

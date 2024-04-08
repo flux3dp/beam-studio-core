@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { Button, Modal } from 'antd';
 
 import deviceMaster from 'helpers/device-master';
@@ -17,8 +17,33 @@ interface Props {
 }
 const CheckPictures = ({ updateParam, onClose, onNext }: Props): JSX.Element => {
   const progressId = useMemo(() => 'camera-check-pictures', []);
-  const [checking, setChecking] = useState(true);
   const lang = useI18n();
+
+  const calibrateDevicePictures = useCallback(async () => {
+    progressCaller.openNonstopProgress({
+      id: progressId,
+      message: lang.device.processing,
+    });
+    const levelingData = await getLevelingData('hexa_platform');
+    const refHeight = levelingData.A;
+    Object.keys(levelingData).forEach((key) => {
+      levelingData[key] = refHeight - levelingData[key];
+    });
+    try {
+      progressCaller.update(progressId, {
+        message: lang.calibration.calibrating_with_device_pictures,
+      });
+      const res = await calibrateWithDevicePictures();
+      if (res) {
+        updateParam({ ...res, source: 'device', refHeight: 0, levelingData });
+        await updateData(res);
+      } else return;
+      onNext(true);
+    } finally {
+      progressCaller.popById(progressId);
+    }
+  }, [lang, onNext, progressId, updateParam]);
+
   const checkPictures = useCallback(async () => {
     progressCaller.openNonstopProgress({
       id: progressId,
@@ -32,40 +57,10 @@ const CheckPictures = ({ updateParam, onClose, onNext }: Props): JSX.Element => 
       /* do nothing */
     }
     progressCaller.popById(progressId);
-    if (!hasPictures) {
-      onNext(false);
-    } else {
-      setChecking(false);
-    }
-  }, [lang, progressId, onNext]);
+    if (hasPictures) calibrateDevicePictures();
+    else onNext(false);
+  }, [lang, progressId, onNext, calibrateDevicePictures]);
 
-  const handleNext = async (usePictures: boolean) => {
-    progressCaller.openNonstopProgress({
-      id: progressId,
-      message: lang.device.processing,
-    });
-    const levelingData = await getLevelingData(usePictures ? 'hexa_platform' : 'bottom_cover');
-    const refHeight = usePictures ? levelingData.A : levelingData.E;
-    Object.keys(levelingData).forEach((key) => {
-      levelingData[key] = refHeight - levelingData[key];
-    });
-    updateParam({ levelingData });
-    try {
-      if (usePictures) {
-        progressCaller.update(progressId, {
-          message: lang.calibration.calibrating_with_device_pictures,
-        });
-        const res = await calibrateWithDevicePictures();
-        if (res) {
-          updateParam({ ...res, source: 'device', refHeight: 0 });
-          await updateData(res);
-        } else return;
-      }
-      onNext(usePictures);
-    } finally {
-      progressCaller.popById(progressId);
-    }
-  };
 
   useEffect(() => {
     checkPictures();
@@ -82,15 +77,15 @@ const CheckPictures = ({ updateParam, onClose, onNext }: Props): JSX.Element => 
       closable={!!onClose}
       onCancel={() => onClose?.(false)}
       footer={[
-        <Button key="yes" type="primary" onClick={() => handleNext(true)}>
+        <Button key="yes" type="primary" onClick={calibrateDevicePictures}>
           {lang.alert.yes}
         </Button>,
-        <Button key="no" onClick={() => handleNext(false)}>
+        <Button key="no" onClick={() => onNext(false)}>
           {lang.alert.no}
         </Button>,
       ]}
     >
-      {checking ? lang.calibration.checking_pictures : lang.calibration.found_pictures}
+      {lang.calibration.checking_pictures}
     </Modal>
   );
 };

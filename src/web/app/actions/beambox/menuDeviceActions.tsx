@@ -30,9 +30,9 @@ const { lang } = i18n;
 
 const calibrateCamera = async (
   device: IDeviceInfo,
-  args: { isBorderless?: boolean; calibrateVersion?: number } = {}
+  args: { isBorderless?: boolean; calibrateVersion?: number, factoryMode?: boolean } = {}
 ) => {
-  const { isBorderless = false, calibrateVersion = 1 } = args;
+  const { isBorderless = false, calibrateVersion = 1, factoryMode = false } = args;
   try {
     const deviceStatus = await checkDeviceStatus(device);
     if (!deviceStatus) {
@@ -41,7 +41,7 @@ const calibrateCamera = async (
     const res = await DeviceMaster.select(device);
     if (res.success) {
       if (constant.adorModels.includes(device.model)) {
-        if (calibrateVersion === 2) showAdorCalibrationV2();
+        if (calibrateVersion === 2) showAdorCalibrationV2(factoryMode);
         else showAdorCalibration();
       } else showCameraCalibration(device, isBorderless);
     }
@@ -331,6 +331,16 @@ export default {
       return;
     }
     calibrateCamera(device, { calibrateVersion: 2 });
+  },
+  CALIBRATE_CAMERA_V2_FACTORY: async (device: IDeviceInfo): Promise<void> => {
+    if (window.location.hash !== '#/studio/beambox') {
+      Alert.popUp({
+        type: AlertConstants.SHOW_POPUP_INFO,
+        message: lang.calibration.please_goto_beambox_first,
+      });
+      return;
+    }
+    calibrateCamera(device, { calibrateVersion: 2, factoryMode: true });
   },
   CALIBRATE_PRINTER_MODULE: async (device: IDeviceInfo): Promise<void> => {
     if (window.location.hash !== '#/studio/beambox') {
