@@ -1,8 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
 import ConfigPanelContext from './ConfigPanelContext';
-import RepeatBlock from './RepeatBlock';
 
 jest.mock('helpers/useI18n', () => () => ({
   beambox: {
@@ -54,11 +54,31 @@ jest.mock('helpers/layer/layer-config-helper', () => ({
   writeData: (...args) => mockWriteData(...args),
 }));
 
+const mockAddCommandToHistory = jest.fn();
+jest.mock('helpers/svg-editor-helper', () => ({
+  getSVGAsync: (callback) =>
+    callback({
+      Canvas: {
+        addCommandToHistory: mockAddCommandToHistory,
+      },
+    }),
+}));
+
+let batchCmd = { onAfter: undefined, count: 0 };
+const mockBatchCommand = jest.fn().mockImplementation(() => {
+  batchCmd = { onAfter: undefined, count: batchCmd.count + 1 };
+  return batchCmd;
+});
+jest.mock('app/svgedit/history', () => ({
+  BatchCommand: mockBatchCommand,
+}));
+
 const mockSelectedLayers = ['layer1', 'layer2'];
 const mockContextState = {
   repeat: { value: 3, hasMultiValue: false },
 };
 const mockDispatch = jest.fn();
+const mockInitState = jest.fn();
 
 const mockCreateEventEmitter = jest.fn();
 jest.mock('helpers/eventEmitterFactory', () => ({
@@ -66,9 +86,12 @@ jest.mock('helpers/eventEmitterFactory', () => ({
 }));
 const mockEmit = jest.fn();
 
+// eslint-disable-next-line import/first
+import RepeatBlock from './RepeatBlock';
+
 describe('test RepeatBlock', () => {
   beforeEach(() => {
-    jest.resetAllMocks();
+    jest.clearAllMocks();
     mockCreateEventEmitter.mockReturnValueOnce({
       emit: mockEmit,
     });
@@ -77,7 +100,12 @@ describe('test RepeatBlock', () => {
   it('should render correctly', () => {
     const { container } = render(
       <ConfigPanelContext.Provider
-        value={{ state: mockContextState as any, dispatch: mockDispatch, selectedLayers: mockSelectedLayers }}
+        value={{
+          state: mockContextState as any,
+          dispatch: mockDispatch,
+          selectedLayers: mockSelectedLayers,
+          initState: mockInitState,
+        }}
       >
         <RepeatBlock />
       </ConfigPanelContext.Provider>
@@ -92,6 +120,7 @@ describe('test RepeatBlock', () => {
           state: mockContextState as any,
           dispatch: mockDispatch,
           selectedLayers: mockSelectedLayers,
+          initState: mockInitState,
         }}
       >
         <RepeatBlock type="panel-item" />
@@ -105,7 +134,12 @@ describe('test RepeatBlock', () => {
 
     const { getByText } = render(
       <ConfigPanelContext.Provider
-        value={{ state: mockContextState as any, dispatch: mockDispatch, selectedLayers: mockSelectedLayers }}
+        value={{
+          state: mockContextState as any,
+          dispatch: mockDispatch,
+          selectedLayers: mockSelectedLayers,
+          initState: mockInitState,
+        }}
       >
         <RepeatBlock />
       </ConfigPanelContext.Provider>
@@ -116,19 +150,39 @@ describe('test RepeatBlock', () => {
     expect(mockDispatch).not.toBeCalled();
     expect(mockWriteData).not.toBeCalled();
     expect(mockEmit).not.toBeCalled();
+    expect(mockBatchCommand).not.toBeCalled();
+    expect(batchCmd.count).toBe(0);
     fireEvent.click(getByText('change'));
     expect(mockDispatch).toBeCalledTimes(1);
     expect(mockDispatch).toHaveBeenLastCalledWith({
       type: 'change',
       payload: { repeat: 7, configName: 'CUSTOM_PRESET_CONSTANT' },
     });
+    expect(mockBatchCommand).toBeCalledTimes(1);
+    expect(mockBatchCommand).lastCalledWith('Change repeat');
+    expect(batchCmd.count).toBe(1);
     expect(mockWriteData).toBeCalledTimes(4);
-    expect(mockWriteData).toHaveBeenNthCalledWith(1, 'layer1', 'repeat', 7);
-    expect(mockWriteData).toHaveBeenNthCalledWith(2, 'layer1', 'configName', 'CUSTOM_PRESET_CONSTANT');
-    expect(mockWriteData).toHaveBeenNthCalledWith(3, 'layer2', 'repeat', 7);
-    expect(mockWriteData).toHaveBeenNthCalledWith(4, 'layer2', 'configName', 'CUSTOM_PRESET_CONSTANT');
+    expect(mockWriteData).toHaveBeenNthCalledWith(1, 'layer1', 'repeat', 7, { batchCmd });
+    expect(mockWriteData).toHaveBeenNthCalledWith(
+      2,
+      'layer1',
+      'configName',
+      'CUSTOM_PRESET_CONSTANT',
+      { batchCmd }
+    );
+    expect(mockWriteData).toHaveBeenNthCalledWith(3, 'layer2', 'repeat', 7, { batchCmd });
+    expect(mockWriteData).toHaveBeenNthCalledWith(
+      4,
+      'layer2',
+      'configName',
+      'CUSTOM_PRESET_CONSTANT',
+      { batchCmd }
+    );
     expect(mockEmit).toBeCalledTimes(1);
     expect(mockEmit).toHaveBeenLastCalledWith('SET_ESTIMATED_TIME', null);
+    expect(batchCmd.onAfter).toBe(mockInitState);
+    expect(mockAddCommandToHistory).toBeCalledTimes(1);
+    expect(mockAddCommandToHistory).lastCalledWith(batchCmd);
   });
 
   test('onChange should work correctly when type is modal', () => {
@@ -140,6 +194,7 @@ describe('test RepeatBlock', () => {
           state: mockContextState as any,
           dispatch: mockDispatch,
           selectedLayers: mockSelectedLayers,
+          initState: mockInitState,
         }}
       >
         <RepeatBlock type="modal" />
@@ -158,5 +213,6 @@ describe('test RepeatBlock', () => {
       payload: { repeat: 7, configName: 'CUSTOM_PRESET_CONSTANT' },
     });
     expect(mockWriteData).not.toBeCalled();
+    expect(mockBatchCommand).not.toBeCalled();
   });
 });

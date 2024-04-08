@@ -2,13 +2,21 @@ import classNames from 'classnames';
 import React, { memo, useContext, useMemo } from 'react';
 
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
+import history from 'app/svgedit/history';
+import ISVGCanvas from 'interfaces/ISVGCanvas';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import useI18n from 'helpers/useI18n';
 import { CUSTOM_PRESET_CONSTANT, DataType, writeData } from 'helpers/layer/layer-config-helper';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 import ConfigPanelContext from './ConfigPanelContext';
 import styles from './Block.module.scss';
+
+let svgCanvas: ISVGCanvas;
+getSVGAsync((globalSVG) => {
+  svgCanvas = globalSVG.Canvas;
+});
 
 const RepeatBlock = ({
   type = 'default',
@@ -18,10 +26,11 @@ const RepeatBlock = ({
   const lang = useI18n();
   const t = lang.beambox.right_panel.laser_panel;
 
-  const { selectedLayers, state, dispatch } = useContext(ConfigPanelContext);
+  const { selectedLayers, state, dispatch, initState } = useContext(ConfigPanelContext);
   const { repeat } = state;
   const timeEstimationButtonEventEmitter = useMemo(
-    () => eventEmitterFactory.createEventEmitter('time-estimation-button'), []
+    () => eventEmitterFactory.createEventEmitter('time-estimation-button'),
+    []
   );
 
   const handleChange = (value: number) => {
@@ -30,11 +39,15 @@ const RepeatBlock = ({
       payload: { repeat: value, configName: CUSTOM_PRESET_CONSTANT },
     });
     timeEstimationButtonEventEmitter.emit('SET_ESTIMATED_TIME', null);
-    if (type !== 'modal')
+    if (type !== 'modal') {
+      const batchCmd = new history.BatchCommand('Change repeat');
       selectedLayers.forEach((layerName) => {
-        writeData(layerName, DataType.repeat, value);
-        writeData(layerName, DataType.configName, CUSTOM_PRESET_CONSTANT);
+        writeData(layerName, DataType.repeat, value, { batchCmd });
+        writeData(layerName, DataType.configName, CUSTOM_PRESET_CONSTANT, { batchCmd });
       });
+      batchCmd.onAfter = initState;
+      svgCanvas.addCommandToHistory(batchCmd);
+    }
   };
 
   return type === 'panel-item' ? (

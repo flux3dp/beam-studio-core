@@ -4,11 +4,14 @@ import { Button, Popover } from 'antd-mobile';
 
 import ConfigPanelIcons from 'app/icons/config-panel/ConfigPanelIcons';
 import configOptions from 'app/constants/config-options';
+import history from 'app/svgedit/history';
+import ISVGCanvas from 'interfaces/ISVGCanvas';
 import ObjectPanelIcons from 'app/icons/object-panel/ObjectPanelIcons';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import objectPanelItemStyles from 'app/views/beambox/Right-Panels/ObjectPanelItem.module.scss';
 import useI18n from 'helpers/useI18n';
 import { CUSTOM_PRESET_CONSTANT, DataType, writeData } from 'helpers/layer/layer-config-helper';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ObjectPanelContext } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
 import { PrintingColors } from 'app/constants/color-constants';
 
@@ -17,6 +20,11 @@ import ColorRationModal from './ColorRatioModal';
 import ConfigSlider from './ConfigSlider';
 import ConfigValueDisplay from './ConfigValueDisplay';
 import styles from './InkBlock.module.scss';
+
+let svgCanvas: ISVGCanvas;
+getSVGAsync((globalSVG) => {
+  svgCanvas = globalSVG.Canvas;
+});
 
 const MAX_VALUE = 15;
 const MIN_VALUE = 1;
@@ -28,7 +36,13 @@ function InkBlock({
 }): JSX.Element {
   const lang = useI18n();
   const t = lang.beambox.right_panel.laser_panel;
-  const { selectedLayers, state, dispatch, simpleMode = true } = useContext(ConfigPanelContext);
+  const {
+    selectedLayers,
+    state,
+    dispatch,
+    simpleMode = true,
+    initState,
+  } = useContext(ConfigPanelContext);
   const { activeKey } = useContext(ObjectPanelContext);
   const [showModal, setShowModal] = useState(false);
   const visible = activeKey === 'power';
@@ -38,11 +52,15 @@ function InkBlock({
       type: 'change',
       payload: { ink: value, configName: CUSTOM_PRESET_CONSTANT },
     });
-    if (type !== 'modal')
+    if (type !== 'modal') {
+      const batchCmd = new history.BatchCommand('Change ink');
       selectedLayers.forEach((layerName) => {
-        writeData(layerName, DataType.ink, value);
-        writeData(layerName, DataType.configName, CUSTOM_PRESET_CONSTANT);
+        writeData(layerName, DataType.ink, value, { batchCmd });
+        writeData(layerName, DataType.configName, CUSTOM_PRESET_CONSTANT, { batchCmd });
       });
+      batchCmd.onAfter = initState;
+      svgCanvas.addCommandToHistory(batchCmd);
+    }
   };
   const sliderOptions = useMemo(() => {
     if (!simpleMode) return null;

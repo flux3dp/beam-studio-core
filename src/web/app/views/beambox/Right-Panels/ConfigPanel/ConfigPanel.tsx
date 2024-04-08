@@ -19,11 +19,13 @@ import DropdownControl from 'app/widgets/Dropdown-Control';
 import dialogCaller from 'app/actions/dialog-caller';
 import diodeBoundaryDrawer from 'app/actions/canvas/diode-boundary-drawer';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
+import history from 'app/svgedit/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import i18n from 'helpers/i18n';
 import isDev from 'helpers/is-dev';
 import LaserManageModal from 'app/views/beambox/Right-Panels/LaserManage/LaserManageModal';
 import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
+import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
 import LayerPanelIcons from 'app/icons/layer-panel/LayerPanelIcons';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
@@ -139,17 +141,19 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [workarea]);
 
-  useEffect(() => {
-    if (selectedLayers.length > 1) {
+  const initState = useCallback((layers: string[] = LayerPanelController.getSelectedLayers()) => {
+    if (layers.length > 1) {
       const drawing = svgCanvas.getCurrentDrawing();
       const currentLayerName = drawing.getCurrentLayerName();
-      const config = getLayersConfig(selectedLayers, currentLayerName);
+      const config = getLayersConfig(layers, currentLayerName);
       dispatch({ type: 'update', payload: config });
-    } else if (selectedLayers.length === 1) {
-      const config = getLayerConfig(selectedLayers[0]);
+    } else if (layers.length === 1) {
+      const config = getLayerConfig(layers[0]);
       dispatch({ type: 'update', payload: config });
     }
-  }, [selectedLayers]);
+  }, []);
+
+  useEffect(() => initState(selectedLayers), [initState, selectedLayers]);
 
   const model = beamboxPreference.read('workarea') || beamboxPreference.read('model');
   const parametersSet = getModulePresets(model, state.module.value);
@@ -220,16 +224,20 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
         multipass,
       },
     });
-    if (UIType !== 'modal')
+    if (UIType !== 'modal') {
+      const batchCmd = new history.BatchCommand('Change layer preset');
       selectedLayers.forEach((layerName: string) => {
-        writeData(layerName, DataType.speed, speed, true);
-        writeData(layerName, DataType.strength, power);
-        writeData(layerName, DataType.repeat, repeat);
-        writeData(layerName, DataType.zstep, zStep);
-        writeData(layerName, DataType.configName, name);
-        writeData(layerName, DataType.ink, ink);
-        writeData(layerName, DataType.multipass, multipass);
+        writeData(layerName, DataType.speed, speed, { applyPrinting: true, batchCmd });
+        writeData(layerName, DataType.strength, power, { batchCmd });
+        writeData(layerName, DataType.repeat, repeat, { batchCmd });
+        writeData(layerName, DataType.zstep, zStep, { batchCmd });
+        writeData(layerName, DataType.configName, name, { batchCmd });
+        writeData(layerName, DataType.ink, ink, { batchCmd });
+        writeData(layerName, DataType.multipass, multipass, { batchCmd });
       });
+      batchCmd.onAfter = initState;
+      svgCanvas.addCommandToHistory(batchCmd);
+    }
 
     const { SET_PRESET_WOOD_ENGRAVING, SET_PRESET_WOOD_CUTTING } = tutorialConstants;
     if (SET_PRESET_WOOD_ENGRAVING === tutorialController.getNextStepRequirement()) {
@@ -359,15 +367,21 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
     const onSave = (): void => {
       const destLayer = selectedLayers[0];
       const saveDataAndClose = () => {
+        const batchCmd = new history.BatchCommand('Change layer parameter');
         selectedLayers.forEach((layerName: string) => {
-          writeData(layerName, DataType.speed, state.speed.value, true);
-          writeData(layerName, DataType.strength, state.power.value);
-          writeData(layerName, DataType.repeat, state.repeat.value);
-          writeData(layerName, DataType.zstep, state.zStep.value);
-          writeData(layerName, DataType.configName, state.configName.value);
-          writeData(layerName, DataType.ink, state.ink.value);
-          writeData(layerName, DataType.multipass, state.multipass.value);
+          writeData(layerName, DataType.speed, state.speed.value, {
+            applyPrinting: true,
+            batchCmd,
+          });
+          writeData(layerName, DataType.strength, state.power.value, { batchCmd });
+          writeData(layerName, DataType.repeat, state.repeat.value, { batchCmd });
+          writeData(layerName, DataType.zstep, state.zStep.value, { batchCmd });
+          writeData(layerName, DataType.configName, state.configName.value, { batchCmd });
+          writeData(layerName, DataType.ink, state.ink.value, { batchCmd });
+          writeData(layerName, DataType.multipass, state.multipass.value, { batchCmd });
         });
+        batchCmd.onAfter = initState;
+        svgCanvas.addCommandToHistory(batchCmd);
         onClose();
       };
       if (destLayer !== initLayers[0]) {
@@ -467,6 +481,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
         state,
         dispatch,
         selectedLayers,
+        initState,
       }}
     >
       {getContent()}

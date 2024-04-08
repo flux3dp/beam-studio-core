@@ -1,8 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
 import ConfigPanelContext from './ConfigPanelContext';
-import PowerBlock from './PowerBlock';
 
 jest.mock('helpers/useI18n', () => () => ({
   beambox: {
@@ -72,11 +72,34 @@ jest.mock('helpers/layer/layer-config-helper', () => ({
   writeData: (...args) => mockWriteData(...args),
 }));
 
+const mockAddCommandToHistory = jest.fn();
+jest.mock('helpers/svg-editor-helper', () => ({
+  getSVGAsync: (callback) =>
+    callback({
+      Canvas: {
+        addCommandToHistory: mockAddCommandToHistory,
+      },
+    }),
+}));
+
+let batchCmd = { onAfter: undefined, count: 0 };
+const mockBatchCommand = jest.fn().mockImplementation(() => {
+  batchCmd = { onAfter: undefined, count: batchCmd.count + 1 };
+  return batchCmd;
+});
+jest.mock('app/svgedit/history', () => ({
+  BatchCommand: mockBatchCommand,
+}));
+
 const mockSelectedLayers = ['layer1', 'layer2'];
 const mockContextState = {
   power: { value: 87, hasMultiValue: false },
 };
 const mockDispatch = jest.fn();
+const mockInitState = jest.fn();
+
+// eslint-disable-next-line import/first
+import PowerBlock from './PowerBlock';
 
 describe('test PowerBlock', () => {
   beforeEach(() => {
@@ -90,6 +113,7 @@ describe('test PowerBlock', () => {
           state: mockContextState as any,
           dispatch: mockDispatch,
           selectedLayers: mockSelectedLayers,
+          initState: mockInitState,
         }}
       >
         <PowerBlock />
@@ -105,6 +129,7 @@ describe('test PowerBlock', () => {
           state: mockContextState as any,
           dispatch: mockDispatch,
           selectedLayers: mockSelectedLayers,
+          initState: mockInitState,
         }}
       >
         <PowerBlock type="panel-item" />
@@ -120,7 +145,12 @@ describe('test PowerBlock', () => {
     } as any;
     const { container } = render(
       <ConfigPanelContext.Provider
-        value={{ state, dispatch: mockDispatch, selectedLayers: mockSelectedLayers }}
+        value={{
+          state,
+          dispatch: mockDispatch,
+          selectedLayers: mockSelectedLayers,
+          initState: mockInitState,
+        }}
       >
         <PowerBlock />
       </ConfigPanelContext.Provider>
@@ -135,6 +165,7 @@ describe('test PowerBlock', () => {
           state: mockContextState as any,
           dispatch: mockDispatch,
           selectedLayers: mockSelectedLayers,
+          initState: mockInitState,
         }}
       >
         <PowerBlock />
@@ -142,6 +173,8 @@ describe('test PowerBlock', () => {
     );
     expect(mockDispatch).not.toBeCalled();
     expect(mockWriteData).not.toBeCalled();
+    expect(mockBatchCommand).not.toBeCalled();
+    expect(batchCmd.count).toBe(0);
     const input = container.querySelector('input');
     fireEvent.change(input, { target: { value: '88' } });
     expect(mockDispatch).toBeCalledTimes(1);
@@ -149,21 +182,29 @@ describe('test PowerBlock', () => {
       type: 'change',
       payload: { power: 88, configName: 'CUSTOM_PRESET_CONSTANT' },
     });
+    expect(mockBatchCommand).toBeCalledTimes(1);
+    expect(mockBatchCommand).lastCalledWith('Change power');
+    expect(batchCmd.count).toBe(1);
     expect(mockWriteData).toBeCalledTimes(4);
-    expect(mockWriteData).toHaveBeenNthCalledWith(1, 'layer1', 'power', 88);
+    expect(mockWriteData).toHaveBeenNthCalledWith(1, 'layer1', 'power', 88, { batchCmd });
     expect(mockWriteData).toHaveBeenNthCalledWith(
       2,
       'layer1',
       'configName',
-      'CUSTOM_PRESET_CONSTANT'
+      'CUSTOM_PRESET_CONSTANT',
+      { batchCmd }
     );
-    expect(mockWriteData).toHaveBeenNthCalledWith(3, 'layer2', 'power', 88);
+    expect(mockWriteData).toHaveBeenNthCalledWith(3, 'layer2', 'power', 88, { batchCmd });
     expect(mockWriteData).toHaveBeenNthCalledWith(
       4,
       'layer2',
       'configName',
-      'CUSTOM_PRESET_CONSTANT'
+      'CUSTOM_PRESET_CONSTANT',
+      { batchCmd }
     );
+    expect(batchCmd.onAfter).toBe(mockInitState);
+    expect(mockAddCommandToHistory).toBeCalledTimes(1);
+    expect(mockAddCommandToHistory).lastCalledWith(batchCmd);
   });
 
   test('onChange of value display should work correctly', () => {
@@ -173,6 +214,7 @@ describe('test PowerBlock', () => {
           state: mockContextState as any,
           dispatch: mockDispatch,
           selectedLayers: mockSelectedLayers,
+          initState: mockInitState,
         }}
       >
         <PowerBlock type="modal" />
@@ -188,5 +230,6 @@ describe('test PowerBlock', () => {
       payload: { power: 88, configName: 'CUSTOM_PRESET_CONSTANT' },
     });
     expect(mockWriteData).not.toBeCalled();
+    expect(mockBatchCommand).not.toBeCalled();
   });
 });

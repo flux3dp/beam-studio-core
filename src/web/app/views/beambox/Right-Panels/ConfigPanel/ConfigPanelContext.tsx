@@ -40,7 +40,6 @@ export const reducer = (state: State, action: Action): State => {
     Object.keys(payload).forEach((key) => {
       if (key !== 'selectedItem') newState[key] = { value: payload[key] };
       else newState[key] = payload[key];
-
     });
     return newState;
   }
@@ -59,6 +58,7 @@ interface Context {
   selectedLayers: string[];
   dispatch: Dispatch<Action>;
   simpleMode?: boolean;
+  initState: (layers?: string[]) => void;
 }
 
 export default createContext<Context>({} as Context);
