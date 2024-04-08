@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Modal } from 'antd';
+import { Button, Modal } from 'antd';
 
 import alertCaller from 'app/actions/alert-caller';
 import deviceMaster from 'helpers/device-master';
@@ -16,17 +16,19 @@ interface Props {
 
 const CheckpointData = ({ updateParam, onClose, onNext }: Props): JSX.Element => {
   const progressId = useMemo(() => 'camera-check-point', []);
-  const [checking, setChecking] = useState(true);
+  const [checkpointData, setCheckpointData] = useState<FisheyeCameraParametersV2Cali>(null);
   const lang = useI18n();
   const checkData = useCallback(async () => {
     progressCaller.openNonstopProgress({
       id: progressId,
       message: lang.calibration.checking_checkpoint,
     });
-    let res = false;
+    let res = null;
     try {
-      const ls = await deviceMaster.ls('fisheye');
-      res = ls.files.includes('checkpoint.json');
+      const data = await deviceMaster.downloadFile('fisheye', 'checkpoint.json');
+      const [, blob] = data;
+      const dataString = await (blob as Blob).text();
+      res = JSON.parse(dataString);
     } catch {
       /* do nothing */
     }
@@ -34,7 +36,7 @@ const CheckpointData = ({ updateParam, onClose, onNext }: Props): JSX.Element =>
     if (!res) {
       onNext(false);
     } else {
-      setChecking(false);
+      setCheckpointData(res);
     }
   }, [lang, progressId, onNext]);
 
@@ -75,12 +77,18 @@ const CheckpointData = ({ updateParam, onClose, onNext }: Props): JSX.Element =>
       maskClosable={false}
       title={lang.calibration.check_checkpoint_data}
       closable={!!onClose}
-      okText={lang.alert.yes}
-      cancelText={lang.alert.no}
-      onOk={handleOk}
-      onCancel={() => onNext(false)}
+      onCancel={() => onClose?.(false)}
+      footer={[
+        <Button key="yes" type="primary" onClick={() => onNext(true)}>
+          {lang.alert.yes}
+        </Button>,
+        <Button key="no" onClick={() => onNext(false)}>
+          {lang.alert.no}
+        </Button>,
+      ]}
     >
-      {checking ? lang.calibration.checking_checkpoint : lang.calibration.found_checkpoint}
+      {checkpointData ? lang.calibration.found_checkpoint: lang.calibration.checking_checkpoint}
+      {checkpointData && <><br />Data Source: {checkpointData.source}</>}
     </Modal>
   );
 };

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Modal } from 'antd';
+import { Button, Modal } from 'antd';
 
 import deviceMaster from 'helpers/device-master';
 import getLevelingData from 'app/actions/beambox/fisheye-preview-helpers/getLevelingData';
@@ -80,10 +80,15 @@ const CheckPictures = ({ updateParam, onClose, onNext }: Props): JSX.Element => 
       maskClosable={false}
       title={lang.calibration.check_device_pictures}
       closable={!!onClose}
-      okText={lang.alert.yes}
-      cancelText={lang.alert.no}
-      onOk={() => handleNext(true)}
-      onCancel={() => handleNext(false)}
+      onCancel={() => onClose?.(false)}
+      footer={[
+        <Button key="yes" type="primary" onClick={() => handleNext(true)}>
+          {lang.alert.yes}
+        </Button>,
+        <Button key="no" onClick={() => handleNext(false)}>
+          {lang.alert.no}
+        </Button>,
+      ]}
     >
       {checking ? lang.calibration.checking_pictures : lang.calibration.found_pictures}
     </Modal>
