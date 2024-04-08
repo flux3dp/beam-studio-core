@@ -1557,7 +1557,6 @@ const lang: ILang = {
     checking_pictures: 'Sprawdzanie zdjęć urządzenia...',
     calibrating_with_device_pictures: 'Kalibracja za pomocą zdjęć urządzenia...',
     failed_to_calibrate_with_pictures: 'Nie udało się skalibrować za pomocą zdjęć urządzenia.',
-    found_pictures: 'Zdjęcia zostały znalezione na Twoim urządzeniu. Czy chcesz dokonać kalibracji za pomocą tych zdjęć?',
     getting_plane_height: 'Pobieranie Wysokości Płaszczyzny...',
     preparing_to_take_picture: 'Przygotowanie do zrobienia zdjęcia...',
     put_paper: 'Połóż Papier',

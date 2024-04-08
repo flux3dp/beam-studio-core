@@ -1557,7 +1557,6 @@ const lang: ILang = {
     checking_pictures: '장치 사진 확인 중...',
     calibrating_with_device_pictures: '장치 사진을 사용하여 보정 중...',
     failed_to_calibrate_with_pictures: '장치 사진을 사용한 보정에 실패했습니다.',
-    found_pictures: '장치에서 사진이 발견되었습니다. 해당 사진을 사용하여 보정하시겠습니까?',
     getting_plane_height: '평면 높이 가져오는 중...',
     preparing_to_take_picture: '사진 촬영 준비 중...',
     put_paper: '종이를 놓으세요',

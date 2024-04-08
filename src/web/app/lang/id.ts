@@ -1554,7 +1554,6 @@ const lang: ILang = {
     checking_pictures: 'Memeriksa gambar perangkat...',
     calibrating_with_device_pictures: 'Melakukan kalibrasi dengan gambar perangkat...',
     failed_to_calibrate_with_pictures: 'Gagal melakukan kalibrasi dengan gambar perangkat.',
-    found_pictures: 'Gambar ditemukan di perangkat Anda. Apakah Anda ingin melakukan kalibrasi dengan gambar tersebut?',
     getting_plane_height: 'Mendapatkan Tinggi Bidang...',
     preparing_to_take_picture: 'Persiapan untuk mengambil foto...',
     put_paper: 'Letakkan kertas',

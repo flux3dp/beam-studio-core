@@ -1557,7 +1557,6 @@ const lang: ILang = {
     checking_pictures: 'デバイスの写真を確認しています...',
     calibrating_with_device_pictures: 'デバイスの写真でキャリブレーション中...',
     failed_to_calibrate_with_pictures: 'デバイスの写真でのキャリブレーションに失敗しました。',
-    found_pictures: 'デバイスに写真が見つかりました。写真でキャリブレーションしますか？',
     getting_plane_height: '平面の高さを取得しています...',
     preparing_to_take_picture: '写真撮影の準備中...',
     put_paper: '紙を置く',

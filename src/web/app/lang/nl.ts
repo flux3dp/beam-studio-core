@@ -1554,7 +1554,6 @@ const lang: ILang = {
     checking_pictures: "Apparaatfoto's controleren...",
     calibrating_with_device_pictures: "Kalibreren met apparaatfoto's...",
     failed_to_calibrate_with_pictures: "Kalibratie met apparaatfoto's mislukt.",
-    found_pictures: "Foto's zijn gevonden op uw apparaat. Wilt u kalibreren met de foto's?",
     getting_plane_height: 'Hoogte van het vlak ophalen...',
     preparing_to_take_picture: 'Voorbereiden om foto te nemen...',
     put_paper: 'Plaats papier',

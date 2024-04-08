@@ -1554,7 +1554,6 @@ const lang: ILang = {
     checking_pictures: 'Tarkistetaan laitteen kuvia...',
     calibrating_with_device_pictures: 'Kalibroidaan laitteen kuvien avulla...',
     failed_to_calibrate_with_pictures: 'Kalibrointi laitteen kuvilla epäonnistui.',
-    found_pictures: 'Kuvia löytyi laitteestasi. Haluatko kalibroida niiden avulla?',
     getting_plane_height: 'Haetaan Tasokorkeutta...',
     preparing_to_take_picture: 'Valmistaudutaan valokuvan ottamiseen...',
     put_paper: 'Aseta paperi',

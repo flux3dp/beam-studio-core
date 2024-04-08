@@ -1557,7 +1557,6 @@ const lang: ILang = {
     checking_pictures: '正在检查设备图片...',
     calibrating_with_device_pictures: '使用设备图片进行校准...',
     failed_to_calibrate_with_pictures: '使用设备图片进行校准失败。',
-    found_pictures: '在您的设备中找到了图片。您是否想要使用这些图片进行校准？',
     getting_plane_height: '获取平面高度...',
     preparing_to_take_picture: '准备拍照...',
     put_paper: '放置纸张',

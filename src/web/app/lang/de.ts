@@ -1557,7 +1557,6 @@ const lang: ILang = {
     checking_pictures: 'Überprüfe Gerätebilder...',
     calibrating_with_device_pictures: 'Kalibrieren mit Gerätebildern...',
     failed_to_calibrate_with_pictures: 'Kalibrierung mit Gerätebildern fehlgeschlagen.',
-    found_pictures: 'Bilder wurden auf Ihrem Gerät gefunden. Möchten Sie mit den Bildern kalibrieren?',
     getting_plane_height: 'Ermittlung der Höhe der Ebene...',
     preparing_to_take_picture: 'Vorbereitung zum Fotografieren...',
     put_paper: 'Papier einlegen',

@@ -1554,7 +1554,6 @@ export interface ILang {
     checking_pictures: string;
     calibrating_with_device_pictures: string;
     failed_to_calibrate_with_pictures: string;
-    found_pictures: string;
     getting_plane_height: string;
     preparing_to_take_picture: string;
     put_paper: string;

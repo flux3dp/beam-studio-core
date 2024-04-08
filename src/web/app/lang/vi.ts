@@ -1554,7 +1554,6 @@ const lang: ILang = {
     checking_pictures: 'Đang kiểm tra hình ảnh thiết bị...',
     calibrating_with_device_pictures: 'Đang hiệu chỉnh với hình ảnh thiết bị...',
     failed_to_calibrate_with_pictures: 'Không thể hiệu chỉnh với hình ảnh thiết bị.',
-    found_pictures: 'Hình ảnh được tìm thấy trên thiết bị của bạn. Bạn có muốn hiệu chỉnh với các hình ảnh đó không?',
     getting_plane_height: 'Đang Lấy Độ Cao Mặt Phẳng...',
     preparing_to_take_picture: 'Chuẩn bị để chụp ảnh...',
     put_paper: 'Đặt Giấy',

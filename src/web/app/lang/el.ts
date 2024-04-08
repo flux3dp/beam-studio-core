@@ -1554,7 +1554,6 @@ const lang: ILang = {
     checking_pictures: 'Γίνεται έλεγχος των εικόνων της συσκευής...',
     calibrating_with_device_pictures: 'Βαθμονόμηση με τις εικόνες της συσκευής...',
     failed_to_calibrate_with_pictures: 'Απέτυχε η βαθμονόμηση με τις εικόνες της συσκευής.',
-    found_pictures: 'Βρέθηκαν εικόνες στη συσκευή σας. Θέλετε να βαθμονομήσετε με τις εικόνες;',
     getting_plane_height: 'Λήψη Ύψους Επιπέδου...',
     preparing_to_take_picture: 'Προετοιμασία για λήψη φωτογραφίας...',
     put_paper: 'Τοποθετήστε χαρτί',

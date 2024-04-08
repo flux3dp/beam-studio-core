@@ -1554,7 +1554,6 @@ const lang: ILang = {
     checking_pictures: 'Kontrollerer enhedens billeder...',
     calibrating_with_device_pictures: 'Kalibrerer med enhedens billeder...',
     failed_to_calibrate_with_pictures: 'Kunne ikke kalibrere med enhedens billeder.',
-    found_pictures: 'Billeder er fundet på din enhed. Vil du kalibrere med billederne?',
     getting_plane_height: 'Får Højde på Plan...',
     preparing_to_take_picture: 'Forbereder til at tage billede...',
     put_paper: 'Læg papir',
