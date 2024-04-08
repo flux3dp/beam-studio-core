@@ -95,8 +95,11 @@ const AdorCalibrationV2 = ({ factoryMode = false, onClose }: Props): JSX.Element
     return (
       <CalibrateChessBoard
         updateParam={updateParam}
-        onNext={() => {
+        onNext={async () => {
+          progressCaller.openNonstopProgress({ id: PROGRESS_ID, message: lang.device.processing });
+          await saveCheckPoint(calibratingParam.current);
           setUsePreviousData(true);
+          progressCaller.popById(PROGRESS_ID);
           setStep(Step.PUT_PAPER);
         }}
         onBack={() => setStep(Step.CHECKPOINT_DATA)}
