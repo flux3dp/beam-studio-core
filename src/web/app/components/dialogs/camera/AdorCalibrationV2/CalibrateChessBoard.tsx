@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Button, Col, Modal, Row } from 'antd';
 
 import alertCaller from 'app/actions/alert-caller';
@@ -29,14 +29,20 @@ const CalibrateChessBoard = ({ updateParam, onClose, onBack, onNext }: Props): J
     imgUrl: string;
     data: FisheyeCameraParametersV2Cali;
   }>(null);
-
   useEffect(() => () => URL.revokeObjectURL(res?.imgUrl), [res]);
+  const objectHeight = useRef<number>(0);
 
   const initSetup = useCallback(async () => {
     progressCaller.openNonstopProgress({
       id: progressId,
-      message: lang.calibration.taking_picture,
+      message: lang.calibration.getting_plane_height,
     });
+    const height = await getMaterialHeight();
+    progressCaller.update(progressId, { message: lang.calibration.preparing_to_take_picture });
+    await prepareToTakePicture();
+    console.log('height', height);
+    objectHeight.current = height;
+    progressCaller.update(progressId, { message: lang.calibration.taking_picture });
     try {
       await deviceMaster.connectCamera();
     } finally {
@@ -48,13 +54,8 @@ const CalibrateChessBoard = ({ updateParam, onClose, onBack, onNext }: Props): J
   const handleCalibrate = async (retryTimes = 0) => {
     progressCaller.openNonstopProgress({
       id: progressId,
-      message: lang.calibration.getting_plane_height,
+      message: lang.calibration.taking_picture,
     });
-    const height = await getMaterialHeight();
-    console.log('height', height);
-    progressCaller.update(progressId, { message: lang.calibration.preparing_to_take_picture });
-    await prepareToTakePicture();
-    progressCaller.update(progressId, { message: lang.calibration.taking_picture });
     const { imgBlob } = (await deviceMaster.takeOnePicture()) || {};
     if (!imgBlob) {
       if (retryTimes < 3) handleCalibrate(retryTimes + 1);
@@ -62,7 +63,7 @@ const CalibrateChessBoard = ({ updateParam, onClose, onBack, onNext }: Props): J
     } else {
       try {
         await startFisheyeCalibrate();
-        const calibrateRes = await calibrateChessboard(imgBlob, height);
+        const calibrateRes = await calibrateChessboard(imgBlob, objectHeight.current);
         console.log(calibrateRes);
         let displayBlob = imgBlob;
         if (calibrateRes.success === false) {
@@ -120,7 +121,10 @@ const CalibrateChessBoard = ({ updateParam, onClose, onBack, onNext }: Props): J
   const handleDownloadImage = useCallback(async () => {
     const tFile = lang.topmenu.file;
     dialog.writeFileDialog(() => res.imgblob, 'Download Image', 'chessboard.jpg', [
-      { name: window.os === 'MacOS' ? `${tFile.jpg_files} (*.jpg)` : tFile.jpg_files, extensions: ['jpg'] },
+      {
+        name: window.os === 'MacOS' ? `${tFile.jpg_files} (*.jpg)` : tFile.jpg_files,
+        extensions: ['jpg'],
+      },
       { name: tFile.all_files, extensions: ['*'] },
     ]);
   }, [res?.imgblob, lang]);
@@ -133,9 +137,11 @@ const CalibrateChessBoard = ({ updateParam, onClose, onBack, onNext }: Props): J
       <Button onClick={() => handleCalibrate(0)} key="retry">
         Retry
       </Button>,
-      res?.imgblob ? <Button onClick={handleDownloadImage} key="download">
-        Download Image
-      </Button> : null,
+      res?.imgblob ? (
+        <Button onClick={handleDownloadImage} key="download">
+          Download Image
+        </Button>
+      ) : null,
       <Button onClick={handleNext} disabled={!res?.success} key="next" type="primary">
         {lang.buttons.next}
       </Button>,
@@ -159,6 +165,7 @@ const CalibrateChessBoard = ({ updateParam, onClose, onBack, onNext }: Props): J
           </div>
         </Col>
         <Col span={6}>
+          <div>Object Height: {objectHeight.current}</div>
           {res?.success && (
             <div>
               <div>
