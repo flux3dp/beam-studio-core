@@ -30,17 +30,11 @@ jest.mock('helpers/useI18n', () => () => ({
 }));
 
 const mockAddCommandToHistory = jest.fn();
-const mockBeginUndoableChange = jest.fn();
-const mockFinishUndoableChange = jest.fn();
 jest.mock('helpers/svg-editor-helper', () => ({
   getSVGAsync: (callback) => {
     callback({
       Canvas: {
         addCommandToHistory: mockAddCommandToHistory,
-        undoMgr: {
-          beginUndoableChange: (...args) => mockBeginUndoableChange(...args),
-          finishUndoableChange: (...args) => mockFinishUndoableChange(...args),
-        },
       },
     });
   },
@@ -78,7 +72,7 @@ jest.mock('app/actions/canvas/prespray-area', () => ({
 }));
 
 const mockWriteDataLayer = jest.fn();
-const mockGetData = jest.fn();
+const mockGetData = jest.fn().mockReturnValue('configName');
 jest.mock('helpers/layer/layer-config-helper', () => ({
   DataType: {
     speed: 'speed',
@@ -129,8 +123,10 @@ const mockBatchCommand = jest.fn().mockImplementation(() => {
   batchCmd = { onAfter: null, addSubCommand: jest.fn() };
   return batchCmd;
 });
+const mockChangeElementCommand = jest.fn().mockReturnValue('mock-change-element-cmd');
 jest.mock('app/svgedit/history', () => ({
   BatchCommand: mockBatchCommand,
+  ChangeElementCommand: mockChangeElementCommand,
 }));
 
 const mockSelectedLayers = ['layer1', 'layer2'];
@@ -254,6 +250,8 @@ describe('test ModuleBlock', () => {
     expect(mockTogglePresprayArea).toBeCalledTimes(1);
     expect(mockAddCommandToHistory).toBeCalledTimes(1);
     expect(mockAddCommandToHistory).toHaveBeenNthCalledWith(1, batchCmd);
+    expect(mockElem.removeAttribute).not.toBeCalled();
+    expect(mockChangeElementCommand).not.toBeCalled();
     expect(baseElement).toMatchSnapshot();
 
     batchCmd.onAfter();
@@ -327,6 +325,13 @@ describe('test ModuleBlock', () => {
     expect(mockElem1.removeAttribute).toHaveBeenNthCalledWith(1, 'data-configName');
     expect(mockElem2.removeAttribute).toBeCalledTimes(1);
     expect(mockElem2.removeAttribute).toHaveBeenNthCalledWith(1, 'data-configName');
+    expect(mockChangeElementCommand).toBeCalledTimes(2);
+    expect(mockChangeElementCommand).toHaveBeenNthCalledWith(1, mockElem1, {
+      'data-configName': 'configName',
+    });
+    expect(mockChangeElementCommand).toHaveBeenNthCalledWith(2, mockElem2, {
+      'data-configName': 'configName',
+    });
     expect(mockToggleFullColorLayer).toBeCalledTimes(2);
     expect(mockToggleFullColorLayer).toHaveBeenNthCalledWith(1, mockElem1, { val: true });
     expect(mockToggleFullColorLayer).toHaveBeenNthCalledWith(2, mockElem2, { val: true });

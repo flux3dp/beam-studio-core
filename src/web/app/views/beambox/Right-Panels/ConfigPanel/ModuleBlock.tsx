@@ -132,9 +132,9 @@ const ModuleBlock = (): JSX.Element => {
         writeDataLayer(layer, DataType.strength, power, { batchCmd });
         writeDataLayer(layer, DataType.repeat, repeat || 1, { batchCmd });
       } else {
-        svgCanvas.undoMgr.beginUndoableChange('data-configName', [layer]);
         layer.removeAttribute('data-configName');
-        batchCmd.addSubCommand(svgCanvas.undoMgr.finishUndoableChange());
+        const cmd = new history.ChangeElementCommand(layer, { 'data-configName': currentConfig });
+        batchCmd.addSubCommand(cmd);
         if (value === LayerModule.PRINTER && val !== LayerModule.PRINTER) {
           writeDataLayer(layer, DataType.speed, defaultConfig.speed, { batchCmd });
           writeDataLayer(layer, DataType.strength, defaultConfig.strength, { batchCmd });

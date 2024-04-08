@@ -1,21 +1,15 @@
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
-import ISVGCanvas from 'interfaces/ISVGCanvas';
+import history from 'app/svgedit/history';
 import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import layerModuleHelper from 'helpers/layer-module/layer-module-helper';
 import storage from 'implementations/storage';
 import toggleFullColorLayer from 'helpers/layer/full-color/toggleFullColorLayer';
 import { getAllLayerNames, getLayerByName } from 'helpers/layer/layer-helper';
 import { getAllPresets } from 'app/constants/right-panel-constants';
-import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 import { IBatchCommand } from 'interfaces/IHistory';
 import { ILaserConfig } from 'interfaces/ILaserConfig';
 import { ILayerConfig } from 'interfaces/ILayerConfig';
-
-let svgCanvas: ISVGCanvas;
-getSVGAsync((globalSVG) => {
-  svgCanvas = globalSVG.Canvas;
-});
 
 const getLayerElementByName = (layerName: string) => {
   const allLayers = Array.from(document.querySelectorAll('g.layer'));
@@ -156,10 +150,11 @@ export const writeDataLayer = (
   ) {
     targetDataType = DataType.printingSpeed;
   }
-  svgCanvas?.undoMgr.beginUndoableChange(`data-${targetDataType}`, [layer]);
-  layer.setAttribute(`data-${targetDataType}`, String(value));
-  const cmd = svgCanvas?.undoMgr.finishUndoableChange();
-  if (opts?.batchCmd && cmd && !cmd.isEmpty()) {
+  const attr = `data-${targetDataType}`;
+  const originalValue = layer.getAttribute(attr);
+  layer.setAttribute(attr, String(value));
+  if (opts?.batchCmd) {
+    const cmd = new history.ChangeElementCommand(layer, { [attr]: originalValue });
     opts.batchCmd.addSubCommand(cmd);
   }
 };
