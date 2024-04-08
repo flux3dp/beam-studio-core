@@ -56,6 +56,10 @@
         circle {
           fill: variables.$primary-blue;
           stroke: variables.$primary-blue;
+
+          &.center {
+            stroke: none;
+          }
         }
       }
     }
