@@ -15,7 +15,6 @@ import alertCaller from 'app/actions/alert-caller';
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import constant from 'app/actions/beambox/constant';
 import ColorBlock from 'app/components/beambox/right-panel/ColorBlock';
-import DropdownControl from 'app/widgets/Dropdown-Control';
 import dialogCaller from 'app/actions/dialog-caller';
 import diodeBoundaryDrawer from 'app/actions/canvas/diode-boundary-drawer';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
@@ -311,13 +310,17 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
           <ModuleBlock />
           <div className="layerparams">
             <ConfigOperations onMoreClick={handleOpenManageModal} />
-            <div className="preset-dropdown-containter">
-              <DropdownControl
+            <div className={styles['preset-dropdown-container']}>
+              <Select
                 id="laser-config-dropdown"
+                className={styles['preset-dropdown']}
                 value={dropdownValue}
                 onChange={handleSelectPresets}
-                options={dropdownOptions}
-                hiddenOptions={hiddenOptions}
+                options={[
+                  ...dropdownOptions,
+                  ...hiddenOptions.filter((option) => option.value === dropdownValue),
+                ]}
+                popupMatchSelectWidth={false}
               />
               {module.value !== LayerModule.PRINTER && <SaveConfigButton />}
             </div>
