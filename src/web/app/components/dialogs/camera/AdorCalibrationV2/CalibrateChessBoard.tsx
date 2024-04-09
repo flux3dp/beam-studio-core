@@ -114,13 +114,13 @@ const CalibrateChessBoard = ({ updateParam, onClose, onBack, onNext }: Props): J
       levelingData: { A: 0, B: 0, C: 0, D: 0, E: 0, F: 0, G: 0, H: 0, I: 0 },
       source: 'device',
     });
-    // TODO: override device images
     const ls = await deviceMaster.ls('camera_calib');
     if (ls.files.length > 0) {
       const override = await new Promise((resolve) => {
         alertCaller.popUp({
           type: alertConstants.WARNING,
           message: 'Do you want to override the device images?',
+          buttonType: alertConstants.CONFIRM_CANCEL,
           onConfirm: () => resolve(true),
           onCancel: () => resolve(false),
         });
