@@ -4,6 +4,7 @@ import alertCaller from 'app/actions/alert-caller';
 import checkDeviceStatus from 'helpers/check-device-status';
 import deviceMaster from 'helpers/device-master';
 import dialogCaller from 'app/actions/dialog-caller';
+import getLevelingData from 'app/actions/beambox/fisheye-preview-helpers/getLevelingData';
 import progressCaller from 'app/actions/progress-caller';
 import useI18n from 'helpers/useI18n';
 import {
@@ -185,6 +186,12 @@ const AdorCalibrationV2 = ({ factoryMode = false, onClose }: Props): JSX.Element
         onBack={() => setStep(Step.PUT_PAPER)}
         onNext={async () => {
           progressCaller.openNonstopProgress({ id: PROGRESS_ID, message: lang.device.processing });
+          const levelingData = await getLevelingData('hexa_platform');
+          const refHeight = levelingData.E;
+          Object.keys(levelingData).forEach((key) => {
+            levelingData[key] = refHeight - levelingData[key];
+          });
+          updateParam({ levelingData });
           await saveCheckPoint(calibratingParam.current);
           progressCaller.popById(PROGRESS_ID);
           setStep(Step.ELEVATED_CUT);
