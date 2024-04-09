@@ -107,14 +107,14 @@ export const saveCheckPoint = async (param: FisheyeCameraParametersV2Cali): Prom
   await deviceMaster.uploadToDirectory(dataBlob, 'fisheye', 'checkpoint.json');
 };
 
-export const getMaterialHeight = async (): Promise<number> => {
+export const getMaterialHeight = async (position: 'A' | 'E' = 'E'): Promise<number> => {
   const device = deviceMaster.currentDevice;
   await deviceMaster.enterRawMode();
   await deviceMaster.rawHome();
   await deviceMaster.rawStartLineCheckMode();
   const workarea = getWorkarea(device.info.model as WorkAreaModel, 'ado1');
   const { cameraCenter, deep } = workarea;
-  if (cameraCenter) await deviceMaster.rawMove({ x: cameraCenter[0], y: cameraCenter[1], f: 7500 });
+  if (cameraCenter && position === 'E') await deviceMaster.rawMove({ x: cameraCenter[0], y: cameraCenter[1], f: 7500 });
   await deviceMaster.rawEndLineCheckMode();
   await deviceMaster.rawAutoFocus();
   const { didAf, z } = await deviceMaster.rawGetProbePos();

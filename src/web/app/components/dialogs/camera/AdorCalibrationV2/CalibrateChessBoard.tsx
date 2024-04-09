@@ -37,7 +37,7 @@ const CalibrateChessBoard = ({ updateParam, onClose, onBack, onNext }: Props): J
       id: progressId,
       message: lang.calibration.getting_plane_height,
     });
-    const height = await getMaterialHeight();
+    const height = await getMaterialHeight('A');
     progressCaller.update(progressId, { message: lang.calibration.preparing_to_take_picture });
     await prepareToTakePicture();
     console.log('height', height);
