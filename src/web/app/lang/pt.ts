@@ -44,10 +44,6 @@ const lang: ILang = {
         '#803 Falha ao iniciar o modo de visualização. Reinicie seu computador ou o Beam Studio. Se este erro persistir, siga <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">este guia</a>.',
       fail_to_connect_with_camera:
         '#803 Falha ao conectar com a câmera da máquina. Reinicie seu computador ou o Beam Studio. Se este erro persistir, siga <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">este guia</a>.',
-      power_too_high: 'POTÊNCIA MUITO ALTA',
-      power_too_high_msg:
-        'Usar potência laser mais baixa (abaixo de 70%) estenderá a vida útil do tubo laser.\nDigite "ENTENDI" para continuar.',
-      power_too_high_confirm: 'ENTENDI',
       add_content_first: 'Por favor, adicione objetos primeiro',
     },
     hint: {

@@ -44,10 +44,6 @@ const lang: ILang = {
         '#803 Échec du démarrage du mode aperçu. Veuillez redémarrer votre machine ou Beam Studio. Si cette erreur persiste, veuillez suivre <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">ce guide</a>.',
       fail_to_connect_with_camera:
         '#803 Échec de la connexion avec la caméra de la machine. Veuillez redémarrer votre machine ou Beam Studio. Si cette erreur persiste, veuillez suivre <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">ce guide</a>.',
-      power_too_high: 'PUISSANCE TROP ÉLEVÉE',
-      power_too_high_msg:
-        'Utiliser une puissance laser inférieure (moins de 70 %) prolongera la durée de vie du tube laser.\nEntrez "PRIS EN COMPTE" pour continuer.',
-      power_too_high_confirm: 'PRIS EN COMPTE',
       add_content_first: "Veuillez d'abord ajouter des objets",
     },
     hint: {

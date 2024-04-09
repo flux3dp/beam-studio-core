@@ -44,10 +44,6 @@ const lang: ILang = {
         '#803 Gagal memulakan mod pratonton. Sila mulakan semula mesin atau Beam Studio anda. Jika ralat ini berterusan, sila ikuti <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">panduan ini</a>.',
       fail_to_connect_with_camera:
         '#803 Gagal menghubungi kamera mesin. Sila mulakan semula mesin atau Beam Studio anda. Jika ralat ini berterusan, sila ikuti <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">panduan ini</a>.',
-      power_too_high: 'KUASA TERLALU TINGGI',
-      power_too_high_msg:
-        'Menggunakan kuasa laser yang lebih rendah (bawah 70%) akan memanjangkan jangka hayat tiub laser.\nMasukkan "DIAMBIL PERHATIAN" untuk meneruskan.',
-      power_too_high_confirm: 'DIAMBIL PERHATIAN',
       add_content_first: 'Sila tambah objek terlebih dahulu',
     },
     hint: {

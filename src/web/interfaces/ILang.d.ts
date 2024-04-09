@@ -38,14 +38,11 @@ export interface ILang {
       start_preview_timeout: string,
       fail_to_start_preview: string,
       fail_to_connect_with_camera: string,
-      power_too_high: string,
-      power_too_high_msg: string,
-      power_too_high_confirm: string,
       add_content_first: string,
-    },
+    };
     hint: {
-      polygon: string,
-    },
+      polygon: string;
+    };
     menu: {
       preferences: string;
       hide: string;

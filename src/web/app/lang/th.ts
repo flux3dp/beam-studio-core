@@ -44,10 +44,6 @@ const lang: ILang = {
         '#803 ไม่สามารถเริ่มโหมดแสดงตัวอย่างได้ โปรดรีสตาร์ทเครื่องของคุณหรือ Beam Studio หากยังคงเกิดข้อผิดพลาดนี้ โปรดปฏิบัติตาม <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">คําแนะนํานี้</a>',
       fail_to_connect_with_camera:
         '#803 ไม่สามารถเชื่อมต่อกับกล้องได้ โปรดรีสตาร์ทเครื่องหรือ Beam Studio หากยังคงเกิดข้อผิดพลาดนี้ โปรดปฏิบัติตาม <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">คําแนะนํานี้</a>',
-      power_too_high: 'พลังงานสูงเกินไป',
-      power_too_high_msg:
-        'การใช้พลังงานเลเซอร์ต่ํากว่า 70% จะช่วยยืดอายุการใช้งานของหลอดเลเซอร์\nกด "ทราบแล้ว" เพื่อดําเนินการต่อ',
-      power_too_high_confirm: 'ทราบแล้ว',
       add_content_first: 'โปรดเพิ่มวัตถุก่อน',
     },
     hint: {

@@ -44,10 +44,6 @@ const lang: ILang = {
         '#803 Không thể bắt đầu chế độ xem trước. Vui lòng khởi động lại máy hoặc Beam Studio. Nếu lỗi này vẫn xảy ra, vui lòng làm theo <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">hướng dẫn này</a>.',
       fail_to_connect_with_camera:
         '#803 Không thể kết nối với camera máy. Vui lòng khởi động lại máy hoặc Beam Studio. Nếu lỗi này vẫn xảy ra, vui lòng làm theo <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">hướng dẫn này</a>.',
-      power_too_high: 'CÔNG SUẤT QUÁ CAO',
-      power_too_high_msg:
-        'Sử dụng công suất laser thấp hơn (dưới 70%) sẽ kéo dài tuổi thọ ống laser.\nNhập "ĐÃ GHI NHẬN" để tiếp tục.',
-      power_too_high_confirm: 'ĐÃ GHI NHẬN',
       add_content_first: 'Vui lòng thêm đối tượng trước khi thêm nội dung',
     },
     hint: {

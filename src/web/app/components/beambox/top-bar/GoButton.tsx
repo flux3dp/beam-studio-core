@@ -49,13 +49,6 @@ const GoButton = (props: Props): JSX.Element => {
   const handleExportAlerts = async () => {
     const layers = [...document.querySelectorAll('#svgcontent > g.layer:not([display="none"])')];
 
-    const isPowerTooHigh =
-      !constant.adorModels.includes(BeamboxPreference.read('workarea')) &&
-      layers.some((layer) => {
-        const strength = Number(layer.getAttribute('data-strength'));
-        const diode = Number(layer.getAttribute('data-diode'));
-        return strength > 70 && diode !== 1;
-      });
     SymbolMaker.switchImageSymbolForAll(false);
     let isTooFastForPath = false;
     const tooFastLayers = [];
@@ -95,17 +88,6 @@ const GoButton = (props: Props): JSX.Element => {
     }
     SymbolMaker.switchImageSymbolForAll(true);
 
-    if (!alertConfig.read('skip-high-power-confirm') && isPowerTooHigh && !isDev()) {
-      const confirmed = await Dialog.showConfirmPromptDialog({
-        caption: lang.topbar.alerts.power_too_high,
-        message: lang.topbar.alerts.power_too_high_msg,
-        confirmValue: lang.topbar.alerts.power_too_high_confirm,
-        alertConfigKey: 'skip-high-power-confirm',
-      });
-      if (!confirmed) {
-        return false;
-      }
-    }
     if (isTooFastForPath) {
       await new Promise((resolve) => {
         if (BeamboxPreference.read('vector_speed_contraint') === false) {
@@ -160,8 +142,7 @@ const GoButton = (props: Props): JSX.Element => {
   const checkModuleCalibration = useCallback(
     async (device: IDeviceInfo) => {
       const workarea = BeamboxPreference.read('workarea');
-      if (!modelsWithModules.has(workarea) || !modelsWithModules.has(device.model))
-        return;
+      if (!modelsWithModules.has(workarea) || !modelsWithModules.has(device.model)) return;
       const moduleOffsets = BeamboxPreference.read('module-offsets') || {};
       const getLayers = (module: LayerModules) =>
         document.querySelectorAll(
