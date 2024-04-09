@@ -45,6 +45,14 @@ const lang: ILang = {
       power_too_high_msg: 'より低いレーザー出力（70％未満）を使用すると、レーザー管の寿命が延びます。\n「了解」と入力して続行します。',
       power_too_high_confirm: '了解',
       add_content_first: '最初にオブジェクトを追加してください',
+      headtype_mismatch: 'モジュールの種類が正しくありません。',
+      headtype_none: 'モジュールが検出されませんでした。',
+      headtype_unknown: '不明なモジュールが検出されました。',
+      install_correct_headtype:
+        '10W/20Wダイオードレーザーモジュールを正しく取り付けて、フレームを実行するための低レーザーを有効にしてください。',
+      door_opened: 'ドアカバーを閉じて、フレームを実行するための低レーザーを有効にしてください。',
+      fail_to_get_door_status:
+        'ドアカバーが閉まっていることを確認して、フレームを実行するための低レーザーを有効にしてください。',
     },
     hint: {
       polygon: '+ / - キーを押して、辺を増減します。',

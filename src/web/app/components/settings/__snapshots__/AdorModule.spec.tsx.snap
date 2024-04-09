@@ -50,29 +50,17 @@ exports[`test AdorModule should render correctly 1`] = `
     </div>
   </div>
   <div>
-    Mock SelectControl
     <div>
+      Mock Control
       Laser for Running Frame
     </div>
     <div>
-      low-power
-    </div>
-    <div>
-      <button
-        type="button"
-      >
-        None
-      </button>
-      <button
-        type="button"
-      >
-        Regular
-      </button>
-      <button
-        type="button"
-      >
-        Max
-      </button>
+      <input
+        data-testid="low-power"
+        id="low-power"
+        type="number"
+        value="3"
+      />
     </div>
   </div>
   <div>

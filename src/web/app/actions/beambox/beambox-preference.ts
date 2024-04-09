@@ -14,7 +14,7 @@ const DEFAULT_PREFERENCE = {
   engrave_dpi: 'medium', // low, medium, high
   diode_offset_x: constant.diode.defaultOffsetX,
   diode_offset_y: constant.diode.defaultOffsetY,
-  low_power: 3,
+  low_power: 10,
 };
 
 class BeamboxPreference {

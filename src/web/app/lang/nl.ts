@@ -49,6 +49,15 @@ const lang: ILang = {
         'Gebruik een lager laservermogen (onder 70%) om de levensduur van de lasertube te verlengen.\nVoer "BEGREPEN" in om door te gaan.',
       power_too_high_confirm: 'BEGREPEN',
       add_content_first: 'Voeg eerst objecten toe',
+      headtype_mismatch: 'Onjuiste module gedetecteerd. ',
+      headtype_none: 'Module niet gedetecteerd. ',
+      headtype_unknown: 'Onbekende module gedetecteerd. ',
+      install_correct_headtype:
+        'Installeer de 10W/20W diode lasermodules correct om laag laservermogen voor het uitvoeren van frames in te schakelen.',
+      door_opened:
+        'Sluit het deksel om laag laservermogen voor het uitvoeren van frames in te schakelen.',
+      fail_to_get_door_status:
+        'Zorg ervoor dat het deksel gesloten is om laag laservermogen voor het uitvoeren van frames in te schakelen.',
     },
     hint: {
       polygon: 'Druk op + / - om het aantal zijden te verhogen / verlagen.',

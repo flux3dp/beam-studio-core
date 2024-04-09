@@ -45,6 +45,15 @@ const lang: ILang = {
       power_too_high_msg: 'Usar una potencia de láser menor (menos del 70%) alargará la vida del tubo láser.\nPulsa "ANOTADO" para proceder.',
       power_too_high_confirm: 'ANOTADO',
       add_content_first: 'Por favor agregue objetos primero',
+      headtype_mismatch: 'Módulo incorrecto detectado. ',
+      headtype_none: 'Módulo no detectado. ',
+      headtype_unknown: 'Módulo desconocido detectado. ',
+      install_correct_headtype:
+        'Instale los módulos láser de diodo de 10W/20W correctamente para habilitar el láser para ejecutar el marco.',
+      door_opened:
+        'Cierre la cubierta de la puerta para habilitar el láser para ejecutar el marco.',
+      fail_to_get_door_status:
+        'Asegúrese de que la cubierta de la puerta esté cerrada para habilitar el láser para ejecutar el marco.',
     },
     hint: {
       polygon: 'Presiona la tecla + / - para aumentar / disminuir los lados.',

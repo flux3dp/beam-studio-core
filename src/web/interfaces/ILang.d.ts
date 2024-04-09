@@ -35,14 +35,20 @@ export interface ILang {
       dxf: string,
     },
     alerts: {
-      start_preview_timeout: string,
-      fail_to_start_preview: string,
-      fail_to_connect_with_camera: string,
-      power_too_high: string,
-      power_too_high_msg: string,
-      power_too_high_confirm: string,
-      add_content_first: string,
-    },
+      start_preview_timeout: string;
+      fail_to_start_preview: string;
+      fail_to_connect_with_camera: string;
+      power_too_high: string;
+      power_too_high_msg: string;
+      power_too_high_confirm: string;
+      add_content_first: string;
+      headtype_mismatch: string;
+      headtype_none: string;
+      headtype_unknown: string;
+      install_correct_headtype: string;
+      door_opened: string;
+      fail_to_get_door_status: string;
+    };
     hint: {
       polygon: string,
     },

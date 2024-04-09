@@ -49,6 +49,14 @@ const lang: ILang = {
         'Utiliser une puissance laser inférieure (moins de 70 %) prolongera la durée de vie du tube laser.\nEntrez "PRIS EN COMPTE" pour continuer.',
       power_too_high_confirm: 'PRIS EN COMPTE',
       add_content_first: "Veuillez d'abord ajouter des objets",
+      headtype_mismatch: 'Module incorrect détecté. ',
+      headtype_none: 'Aucun module détecté. ',
+      headtype_unknown: 'Module inconnu détecté. ',
+      install_correct_headtype:
+        'Veuillez installer correctement les modules laser diode 10W/20W pour activer le laser de découpe.',
+      door_opened: 'Veuillez fermer le couvercle de protection pour activer le laser de découpe.',
+      fail_to_get_door_status:
+        'Veuillez vous assurer que le couvercle de protection est fermé pour activer le laser de découpe.',
     },
     hint: {
       polygon: 'Appuyez sur les touches + / - pour augmenter / diminuer les côtés.',

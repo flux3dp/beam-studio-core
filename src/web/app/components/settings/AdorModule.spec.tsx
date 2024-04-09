@@ -224,7 +224,7 @@ describe('test AdorModule', () => {
   });
 
   test('edit low laser power', () => {
-    const { getByText } = render(
+    const { getByTestId } = render(
       <AdorModule
         defaultLaserModule={LayerModule.LASER_10W_DIODE}
         defaultUnit="mm"
@@ -235,8 +235,8 @@ describe('test AdorModule', () => {
         currentLowPower={3}
       />
     );
-    const button = getByText('Max');
-    fireEvent.click(button);
+    const input = getByTestId('low-power') as HTMLInputElement;
+    fireEvent.change(input, { target: { value: '5' } });
     expect(mockUpdateBeamboxPreferenceChange).toBeCalledTimes(1);
     expect(mockUpdateBeamboxPreferenceChange).toHaveBeenLastCalledWith('low_power', 5);
   });

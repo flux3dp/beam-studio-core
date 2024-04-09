@@ -49,6 +49,14 @@ const lang: ILang = {
         'Bruk av lavere lasereffekt (under 70%) forlenger laserens levetid.\nSkriv inn "FORSTÅTT" for å fortsette.',
       power_too_high_confirm: 'FORSTÅTT',
       add_content_first: 'Legg til objekter først',
+      headtype_mismatch: 'Feil modul oppdaget. ',
+      headtype_none: 'Modul ikke oppdaget. ',
+      headtype_unknown: 'Ukjent modul oppdaget. ',
+      install_correct_headtype:
+        'Vennligst installer 10W/20W diode laser moduler ordentlig for å aktivere lav laser for å kjøre ramme.',
+      door_opened: 'Vennligst lukk dørdekselet for å aktivere lav laser for å kjøre ramme.',
+      fail_to_get_door_status:
+        'Vennligst sørg for at dørdekselet er lukket for å aktivere lav laser for å kjøre ramme.',
     },
     hint: {
       polygon: 'Trykk + / -tasten for å øke / redusere sider.',

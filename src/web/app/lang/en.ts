@@ -45,6 +45,14 @@ const lang: ILang = {
       power_too_high_msg: 'Using lower laser power (under 70%) will extends laser tube\'s lifetime.\nEnter "NOTED" to proceed.',
       power_too_high_confirm: 'NOTED',
       add_content_first: 'Please add objects first',
+      headtype_mismatch: 'Incorrect module detected. ',
+      headtype_none: 'Module not detected. ',
+      headtype_unknown: 'Unknown module detected. ',
+      install_correct_headtype:
+        'Please install 10W/20W diode laser modules properly to enable low laser for running frame.',
+      door_opened: 'Please close the door cover to enable low laser for running frame.',
+      fail_to_get_door_status:
+        'Please make sure the door cover is closed to enable low laser for running frame.',
     },
     hint: {
       polygon: 'Press + / - key to increase / decrease sides.',

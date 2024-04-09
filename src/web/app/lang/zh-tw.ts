@@ -45,6 +45,12 @@ const lang: ILang = {
       power_too_high_msg: '雷射管在高功率（70％ 以上）下耗損較快，使用低功率可以延長雷試管使用壽命。\n輸入「知道了」以繼續。',
       power_too_high_confirm: '知道了',
       add_content_first: '請先新增物件',
+      headtype_mismatch: '偵測到不相符的模組，',
+      headtype_none: '未偵測到模組，',
+      headtype_unknown: '偵測到未知模組，',
+      install_correct_headtype: '請正確安裝10W或20W雷射模組以進行弱出光。',
+      door_opened: '請將門蓋關閉以進行弱出光。',
+      fail_to_get_door_status: '請確保門蓋關閉以進行弱出光。',
     },
     hint: {
       polygon: '按下 + / - 鍵以增加 / 減少邊數。',

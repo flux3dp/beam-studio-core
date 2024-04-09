@@ -49,6 +49,14 @@ const lang: ILang = {
         'Usar potência laser mais baixa (abaixo de 70%) estenderá a vida útil do tubo laser.\nDigite "ENTENDI" para continuar.',
       power_too_high_confirm: 'ENTENDI',
       add_content_first: 'Por favor, adicione objetos primeiro',
+      headtype_mismatch: 'Módulo incorreto detectado. ',
+      headtype_none: 'Módulo não detectado. ',
+      headtype_unknown: 'Módulo desconhecido detectado. ',
+      install_correct_headtype:
+        'Instale os módulos laser de diodo de 10W/20W corretos para habilitar o laser baixo para executar o quadro.',
+      door_opened: 'Feche a tampa da porta para habilitar o laser baixo para executar o quadro.',
+      fail_to_get_door_status:
+        'Certifique-se de que a tampa da porta esteja fechada para habilitar o laser baixo para executar o quadro.',
     },
     hint: {
       polygon: 'Pressione as teclas + / - para aumentar / diminuir os lados.',

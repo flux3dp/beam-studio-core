@@ -49,6 +49,14 @@ const lang: ILang = {
         'Matalampi laserteho (alle 70 %) pidentää laserputken käyttöikää.\nKirjoita "HUOMAUTETTU" jatkaaksesi.',
       power_too_high_confirm: 'HUOMAUTETTU',
       add_content_first: 'Lisää ensin kohteita',
+      headtype_mismatch: 'Väärä moduuli havaittu. ',
+      headtype_none: 'Moduulia ei havaittu. ',
+      headtype_unknown: 'Tuntematon moduuli havaittu. ',
+      install_correct_headtype:
+        'Asenna 10 W / 20 W diodilasermoduulit asianmukaisesti, jotta kehys voidaan käynnistää matalalla teholla.',
+      door_opened: 'Sulje ovensuojus, jotta kehys voidaan käynnistää matalalla teholla.',
+      fail_to_get_door_status:
+        'Varmista, että ovensuojus on kiinni, jotta kehys voidaan käynnistää matalalla teholla.',
     },
     hint: {
       polygon: 'Paina +-näppäintä lisätäksesi/vähentääksesi sivuja.',

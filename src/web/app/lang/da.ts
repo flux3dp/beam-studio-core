@@ -49,6 +49,14 @@ const lang: ILang = {
         'Brug af lavere laserstyrke (under 70%) forlænger laserens levetid.\nIndtast "NOTERET" for at fortsætte.',
       power_too_high_confirm: 'NOTERET',
       add_content_first: 'Tilføj venligst objekter først',
+      headtype_mismatch: 'Forkert modul registreret. ',
+      headtype_none: 'Modul ikke registreret. ',
+      headtype_unknown: 'Ukendt modul registreret. ',
+      install_correct_headtype:
+        'Installer venligst 10W/20W diode laser moduler korrekt for at aktivere lav laser til kørsel af ramme.',
+      door_opened: 'Luk venligst døren for at aktivere lav laser til kørsel af ramme.',
+      fail_to_get_door_status:
+        'Sørg venligst for at døren er lukket for at aktivere lav laser til kørsel af ramme.',
     },
     hint: {
       polygon: 'Tryk på + / - tasten for at øge / mindske sider.',

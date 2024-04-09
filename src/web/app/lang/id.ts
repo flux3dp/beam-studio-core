@@ -49,6 +49,15 @@ const lang: ILang = {
         'Menggunakan daya laser yang lebih rendah (di bawah 70%) akan memperpanjang masa pakai tabung laser.\nMasukkan "SAYA MENGERTI" untuk melanjutkan.',
       power_too_high_confirm: 'SAYA MENGERTI',
       add_content_first: 'Silakan tambahkan objek terlebih dahulu',
+      headtype_mismatch: 'Modul yang tidak cocok terdeteksi. ',
+      headtype_none: 'Modul tidak terdeteksi. ',
+      headtype_unknown: 'Modul tidak dikenali terdeteksi. ',
+      install_correct_headtype:
+        'Harap pasang modul laser diode 10W/20W dengan benar untuk mengaktifkan laser rendah agar bingkai dapat berjalan.',
+      door_opened:
+        'Harap tutup pintu penutup untuk mengaktifkan laser rendah agar bingkai dapat berjalan.',
+      fail_to_get_door_status:
+        'Harap pastikan pintu penutup tertutup untuk mengaktifkan laser rendah agar bingkai dapat berjalan.',
     },
     hint: {
       polygon: 'Tekan tombol + / - untuk menambah / mengurangi sisi.',

@@ -45,6 +45,15 @@ const lang: ILang = {
       power_too_high_msg: 'Die Verwendung einer niedrigeren Laserleistung (unter 70%) verlängert die Lebensdauer der Laserröhre!\nGeben Sie "OK" ein, um fortzufahren.',
       power_too_high_confirm: 'OK',
       add_content_first: 'Bitte fügen Sie zuerst Objekte hinzu',
+      headtype_mismatch: 'Falsches Modul erkannt. ',
+      headtype_none: 'Modul nicht erkannt. ',
+      headtype_unknown: 'Unbekanntes Modul erkannt. ',
+      install_correct_headtype:
+        'Bitte installieren Sie 10W/20W-Diodenlasermodule ordnungsgemäß, um Niedriglaser zum Ausführen des Rahmens zu aktivieren.',
+      door_opened:
+        'Bitte schließen Sie die Tür abdeckung, um Niedriglaser zum Ausführen des Rahmens zu aktivieren.',
+      fail_to_get_door_status:
+        'Bitte stellen Sie sicher, dass die Tür abdeckung geschlossen ist, um Niedriglaser zum Ausführen des Rahmens zu aktivieren.',
     },
     hint: {
       polygon: 'Press + / - key to increse / decrease sides.',

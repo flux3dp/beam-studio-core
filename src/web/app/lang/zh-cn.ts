@@ -45,6 +45,12 @@ const lang: ILang = {
       power_too_high_msg: '激光管在高功率（70％ 以上）下耗损较快，使用低功率可以延长雷试管使用寿命。\n输入「知道了」以继续。',
       power_too_high_confirm: '知道了',
       add_content_first: '请先新增物件',
+      headtype_mismatch: '检测到错误的模块，',
+      headtype_none: '未检测到模块，',
+      headtype_unknown: '检测到未知模块，',
+      install_correct_headtype: '请正确安装10W或20W雷射模块以进入低激光模式。',
+      door_opened: '请将门盖关闭以进入低激光模式。',
+      fail_to_get_door_status: '请确保门盖关闭以进入低激光模式。',
     },
     hint: {
       polygon: '按下 + / - 键以增加 / 减少边数。',

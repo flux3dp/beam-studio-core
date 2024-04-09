@@ -28,6 +28,7 @@ getSVGAsync((globalSVG) => {
 const PROGRESS_ID = 'frame-task';
 const FrameButton = (): JSX.Element => {
   const lang = useI18n();
+  const tAlerts = lang.topbar.alerts;
   const { isPreviewing } = useContext(CanvasContext);
 
   const getCoords = useCallback(() => {
@@ -73,7 +74,7 @@ const FrameButton = (): JSX.Element => {
       MessageCaller.openMessage({
         key: 'no-element-to-frame',
         level: MessageLevel.INFO,
-        content: lang.topbar.alerts.add_content_first,
+        content: tAlerts.add_content_first,
         duration: 3,
       });
       return;
@@ -93,14 +94,36 @@ const FrameButton = (): JSX.Element => {
     let lowLaserPower = 0;
     const isAdor = constant.adorModels.includes(device.model);
     if (isAdor) {
+      let warningMessage = '';
       const deviceDetailInfo = await deviceMaster.getDeviceDetailInfo();
       const headType = parseInt(deviceDetailInfo.head_type, 10);
-      if (
-        [LayerModule.LASER_10W_DIODE, LayerModule.LASER_20W_DIODE, LayerModule.LASER_1064].includes(
-          headType
-        )
-      ) {
+      if ([LayerModule.LASER_10W_DIODE, LayerModule.LASER_20W_DIODE].includes(headType)) {
         lowLaserPower = beamboxPreference.read('low_power') * 10;
+      } else if (headType === 0) {
+        warningMessage = tAlerts.headtype_none + tAlerts.install_correct_headtype;
+      } else if ([LayerModule.LASER_1064, LayerModule.PRINTER].includes(headType)) {
+        warningMessage = tAlerts.headtype_mismatch + tAlerts.install_correct_headtype;
+      } else {
+        warningMessage = tAlerts.headtype_unknown + tAlerts.install_correct_headtype;
+      }
+      if (lowLaserPower) {
+        try {
+          const res = await deviceMaster.getDoorOpen();
+          const isDoorOpened = res.value === '1';
+          if (isDoorOpened) {
+            warningMessage = tAlerts.door_opened;
+          }
+        } catch (error) {
+          console.error(error);
+          warningMessage = tAlerts.fail_to_get_door_status;
+        }
+      }
+      if (warningMessage) {
+        MessageCaller.openMessage({
+          key: 'low-laser-warning',
+          level: MessageLevel.INFO,
+          content: warningMessage,
+        });
       }
     }
     try {

@@ -49,6 +49,14 @@ const lang: ILang = {
         'Att använda lägre laserstyrka (under 70%) förlänger laserns livslängd.\nSkriv in "NOTERAT" för att fortsätta.',
       power_too_high_confirm: 'NOTERAT',
       add_content_first: 'Lägg till objekt först',
+      headtype_mismatch: 'Fel modultyp upptäckt. ',
+      headtype_none: 'Ingen modul upptäckt. ',
+      headtype_unknown: 'Okänd modul upptäckt. ',
+      install_correct_headtype:
+        'Installera 10W/20W diodlasermoduler korrekt för att aktivera lågeffektslaser för skärning.',
+      door_opened: 'Stäng luckan för att aktivera lågeffektslaser för skärning.',
+      fail_to_get_door_status:
+        'Kontrollera att luckan är stängd för att aktivera lågeffektslaser för skärning.',
     },
     hint: {
       polygon: 'Tryck på + / - tangenten för att öka / minska sidor.',

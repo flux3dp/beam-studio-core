@@ -49,6 +49,15 @@ const lang: ILang = {
         'Utilizzare una potenza laser inferiore (sotto il 70%) estende la durata del tubo laser.\nInserire "HO CAPITO" per procedere.',
       power_too_high_confirm: 'HO CAPITO',
       add_content_first: 'Si prega di aggiungere prima gli oggetti',
+      headtype_mismatch: 'Modulo non corrispondente rilevato. ',
+      headtype_none: 'Modulo non rilevato. ',
+      headtype_unknown: 'Modulo sconosciuto rilevato. ',
+      install_correct_headtype:
+        "Installare correttamente i moduli laser da 10W/20W per abilitare il laser a bassa potenza per l'esecuzione della cornice.",
+      door_opened:
+        "Chiudere lo sportello per abilitare il laser a bassa potenza per l'esecuzione della cornice.",
+      fail_to_get_door_status:
+        "Assicurarsi che lo sportello sia chiuso per abilitare il laser a bassa potenza per l'esecuzione della cornice.",
     },
     hint: {
       polygon: 'Premere + / - per aumentare / diminuire i lati.',

@@ -26,7 +26,7 @@ const mockOpenMessage = jest.fn();
 jest.mock('app/actions/message-caller', () => ({
   __esModule: true,
   default: { openMessage: (...args) => mockOpenMessage(...args) },
-  MessageLevel: {},
+  MessageLevel: { INFO: 'info' },
 }));
 
 const mockOpenNonstopProgress = jest.fn();
@@ -52,6 +52,14 @@ jest.mock('helpers/useI18n', () => () => ({
     frame_task: 'frame_task',
     alerts: {
       add_content_first: 'Please add objects first',
+      headtype_mismatch: 'Incorrect module detected. ',
+      headtype_none: 'Module not detected. ',
+      headtype_unknown: 'Unknown module detected. ',
+      install_correct_headtype:
+        'Please install 10W/20W diode laser modules properly to enable low laser for running frame.',
+      door_opened: 'Please close the door cover to enable low laser for running frame.',
+      fail_to_get_door_status:
+        'Please make sure the door cover is closed to enable low laser for running frame.',
     },
   },
   device: {
@@ -80,6 +88,7 @@ jest.mock(
 );
 
 const mockGetDeviceDetailInfo = jest.fn();
+const mockGetDoorOpen = jest.fn();
 const mockEnterRawMode = jest.fn();
 const mockRawSetRotary = jest.fn();
 const mockRawHome = jest.fn();
@@ -97,6 +106,7 @@ const mockKick = jest.fn();
 
 jest.mock('helpers/device-master', () => ({
   getDeviceDetailInfo: () => mockGetDeviceDetailInfo(),
+  getDoorOpen: () => mockGetDoorOpen(),
   enterRawMode: (...args) => mockEnterRawMode(...args),
   rawSetRotary: (...args) => mockRawSetRotary(...args),
   rawHome: (...args) => mockRawHome(...args),
@@ -195,6 +205,12 @@ describe('test FrameButton', () => {
     const { container } = render(<FrameButton />);
     fireEvent.click(container.querySelector('div[class*="button"]'));
     expect(mockOpenMessage).toBeCalledTimes(1);
+    expect(mockOpenMessage).toBeCalledWith({
+      key: 'no-element-to-frame',
+      level: 'info',
+      content: 'Please add objects first',
+      duration: 3,
+    });
   });
 
   test('low laser', async () => {
@@ -205,6 +221,7 @@ describe('test FrameButton', () => {
     mockGetDevice.mockResolvedValue({ device: { model: 'ado1', version: '4.1.7' } });
     mockGetDeviceDetailInfo.mockResolvedValue({ head_type: 1 });
     mockRead.mockReturnValue(3);
+    mockGetDoorOpen.mockResolvedValue({ value: '1', cmd: 'play get_door_open', status: 'ok' });
     fireEvent.click(container.querySelector('div[class*="button"]'));
     await waitFor(() => expect(mockPopById).toBeCalledTimes(1));
     expect(mockGetDevice).toBeCalledTimes(1);
@@ -212,6 +229,13 @@ describe('test FrameButton', () => {
     expect(mockOpenNonstopProgress).toBeCalledTimes(1);
     expect(mockGetDeviceDetailInfo).toBeCalledTimes(1);
     expect(mockRead).toBeCalledTimes(1);
+    expect(mockGetDoorOpen).toBeCalledTimes(1);
+    expect(mockOpenMessage).toBeCalledTimes(1);
+    expect(mockOpenMessage).toBeCalledWith({
+      key: 'low-laser-warning',
+      level: 'info',
+      content: 'Please close the door cover to enable low laser for running frame.',
+    });
     expect(mockUpdate).toBeCalledTimes(6);
     expect(mockEnterRawMode).toBeCalledTimes(1);
     expect(mockRawSetRotary).toBeCalledTimes(1);

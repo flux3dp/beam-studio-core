@@ -45,6 +45,14 @@ const lang: ILang = {
       power_too_high_msg: '70% 미만의 낮은 레이저 파워를 사용하면 레이저 튜브의 수명이 연장됩니다. 계속하려면 "확인"을 눌러주세요.',
       power_too_high_confirm: '확인',
       add_content_first: '먼저 개체를 추가해 주세요.',
+      headtype_mismatch: '잘못된 모듈이 감지되었습니다.',
+      headtype_none: '모듈이 감지되지 않았습니다.',
+      headtype_unknown: '알 수 없는 모듈이 감지되었습니다.',
+      install_correct_headtype:
+        '10W/20W 다이오드 레이저 모듈을 제대로 설치하여 저전력 레이저를 활성화하고 프레임을 실행하세요.',
+      door_opened: '문을 닫아 저전력 레이저를 활성화하고 프레임을 실행하세요.',
+      fail_to_get_door_status:
+        '문이 닫혀 있는지 확인하여 저전력 레이저를 활성화하고 프레임을 실행하세요.',
     },
     hint: {
       polygon: '늘리기 / 줄이기를 위해 + /- 키를 누르세요.',

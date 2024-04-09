@@ -49,6 +49,13 @@ const lang: ILang = {
         'Menggunakan kuasa laser yang lebih rendah (bawah 70%) akan memanjangkan jangka hayat tiub laser.\nMasukkan "DIAMBIL PERHATIAN" untuk meneruskan.',
       power_too_high_confirm: 'DIAMBIL PERHATIAN',
       add_content_first: 'Sila tambah objek terlebih dahulu',
+      headtype_mismatch: 'Modul tidak sepadan dikesan. ',
+      headtype_none: 'Modul tidak dikesan. ',
+      headtype_unknown: 'Modul tidak diketahui dikesan. ',
+      install_correct_headtype:
+        'Sila pasang modul laser diod 10W/20W dengan betul untuk membolehkan laser beroperasi.',
+      door_opened: 'Sila tutup pintu untuk membolehkan laser beroperasi.',
+      fail_to_get_door_status: 'Sila pastikan pintu ditutup untuk membolehkan laser beroperasi.',
     },
     hint: {
       polygon: 'Tekan kekunci + / - untuk menambah / mengurangkan sisi.',

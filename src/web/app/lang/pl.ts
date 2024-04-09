@@ -45,6 +45,14 @@ const lang: ILang = {
       power_too_high_msg: 'Użycie mniejszej mocy lasera (poniżej 70%) wydłuży żywotność tuby laserowej. Wpisz „ROZUMIEM”, aby kontynuować.',
       power_too_high_confirm: 'ROZUMIEM',
       add_content_first: 'Please add objects first',
+      headtype_mismatch: 'Nieprawidłowy moduł wykryty. ',
+      headtype_none: 'Nie wykryto modułu. ',
+      headtype_unknown: 'Wykryto nieznany moduł. ',
+      install_correct_headtype:
+        'Zainstaluj prawidłowe moduły lasera diodowego 10 W/20 W, aby włączyć niską moc lasera do uruchomienia ramki.',
+      door_opened: 'Zamknij pokrywę drzwi, aby włączyć niską moc lasera do uruchomienia ramki.',
+      fail_to_get_door_status:
+        'Upewnij się, że pokrywa drzwi jest zamknięta, aby włączyć niską moc lasera do uruchomienia ramki.',
     },
     hint: {
       polygon: 'Naciśnij klawisz + / -, aby zwiększyć / zmniejszyć ilość boków.',
