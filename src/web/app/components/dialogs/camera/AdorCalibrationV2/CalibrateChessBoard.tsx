@@ -125,7 +125,10 @@ const CalibrateChessBoard = ({ updateParam, onClose, onBack, onNext }: Props): J
           onCancel: () => resolve(false),
         });
       });
-      if (!override) return;
+      if (!override) {
+        onNext();
+        return;
+      }
       for (let i = 0; i < ls.files.length; i += 1) {
         // eslint-disable-next-line no-await-in-loop
         await deviceMaster.deleteFile('camera_calib', ls.files[i]);
