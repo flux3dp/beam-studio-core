@@ -102,7 +102,7 @@ const CalibrateChessBoard = ({ updateParam, onClose, onBack, onNext }: Props): J
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleNext = useCallback(() => {
+  const handleNext = useCallback(async () => {
     if (!res.success) return;
     updateParam({
       k: res.data.k,
@@ -115,6 +115,27 @@ const CalibrateChessBoard = ({ updateParam, onClose, onBack, onNext }: Props): J
       source: 'device',
     });
     // TODO: override device images
+    const ls = await deviceMaster.ls('camera_calib');
+    if (ls.files.length > 0) {
+      const override = await new Promise((resolve) => {
+        alertCaller.popUp({
+          type: alertConstants.WARNING,
+          message: 'Do you want to override the device images?',
+          onConfirm: () => resolve(true),
+          onCancel: () => resolve(false),
+        });
+      });
+      if (!override) return;
+      for (let i = 0; i < ls.files.length; i += 1) {
+        // eslint-disable-next-line no-await-in-loop
+        await deviceMaster.deleteFile('camera_calib', ls.files[i]);
+      }
+    }
+    await deviceMaster.uploadToDirectory(
+      res.imgblob,
+      'camera_calib',
+      `pic_${objectHeight.current.toFixed(1)}_top_left.jpg`
+    );
     onNext();
   }, [updateParam, onNext, res]);
 
@@ -157,7 +178,7 @@ const CalibrateChessBoard = ({ updateParam, onClose, onBack, onNext }: Props): J
       closable
       maskClosable={false}
     >
-      {lang.calibration.align_points}
+      Calibrate Chessboard
       <Row gutter={[16, 0]}>
         <Col span={18}>
           <div className={styles['img-container']}>
