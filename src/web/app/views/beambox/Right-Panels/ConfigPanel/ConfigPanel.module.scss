@@ -45,3 +45,14 @@
     padding-right: 0;
   }
 }
+
+.preset-dropdown-container {
+  display: flex;
+  margin: 0 15px;
+  justify-content: space-between;
+  align-items: center;
+
+  .preset-dropdown {
+    width: calc(100% - 35px);
+  }
+}

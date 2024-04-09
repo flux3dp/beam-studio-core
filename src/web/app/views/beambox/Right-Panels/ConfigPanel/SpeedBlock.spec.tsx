@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
@@ -5,7 +6,6 @@ import LayerModule from 'app/constants/layer-module/layer-modules';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
 
 import ConfigPanelContext from './ConfigPanelContext';
-import SpeedBlock from './SpeedBlock';
 
 jest.mock('helpers/useI18n', () => () => ({
   beambox: {
@@ -103,12 +103,32 @@ jest.mock('app/actions/beambox/beambox-preference', () => ({
   read: (...args) => mockPrefRead(...args),
 }));
 
+const mockAddCommandToHistory = jest.fn();
+jest.mock('helpers/svg-editor-helper', () => ({
+  getSVGAsync: (callback) =>
+    callback({
+      Canvas: {
+        addCommandToHistory: mockAddCommandToHistory,
+      },
+    }),
+}));
+
+let batchCmd = { onAfter: undefined, count: 0 };
+const mockBatchCommand = jest.fn().mockImplementation(() => {
+  batchCmd = { onAfter: undefined, count: batchCmd.count + 1 };
+  return batchCmd;
+});
+jest.mock('app/svgedit/history', () => ({
+  BatchCommand: mockBatchCommand,
+}));
+
 const mockSelectedLayers = ['layer1', 'layer2'];
 const mockContextState = {
   speed: { value: 87, hasMultiValue: false },
   module: { value: LayerModule.LASER_10W_DIODE, hasMultiValue: false },
 };
 const mockDispatch = jest.fn();
+const mockInitState = jest.fn();
 
 const mockCreateEventEmitter = jest.fn();
 jest.mock('helpers/eventEmitterFactory', () => ({
@@ -125,6 +145,9 @@ jest.mock('app/views/beambox/Right-Panels/contexts/ObjectPanelContext', () => ({
 }));
 
 jest.mock('helpers/layer/check-vector', () => jest.fn());
+
+// eslint-disable-next-line import/first
+import SpeedBlock from './SpeedBlock';
 
 describe('test SpeedBlock', () => {
   beforeEach(() => {
@@ -143,6 +166,7 @@ describe('test SpeedBlock', () => {
           state: mockContextState as any,
           dispatch: mockDispatch,
           selectedLayers: mockSelectedLayers,
+          initState: mockInitState,
         }}
       >
         <SpeedBlock />
@@ -165,6 +189,7 @@ describe('test SpeedBlock', () => {
           state: mockContextState as any,
           dispatch: mockDispatch,
           selectedLayers: mockSelectedLayers,
+          initState: mockInitState,
         }}
       >
         <SpeedBlock />
@@ -182,6 +207,7 @@ describe('test SpeedBlock', () => {
           state: mockContextState as any,
           dispatch: mockDispatch,
           selectedLayers: mockSelectedLayers,
+          initState: mockInitState,
         }}
       >
         <SpeedBlock type="panel-item" />
@@ -205,6 +231,7 @@ describe('test SpeedBlock', () => {
             state: mockContextState as any,
             dispatch: mockDispatch,
             selectedLayers: mockSelectedLayers,
+            initState: mockInitState,
           }}
         >
           <SpeedBlock />
@@ -229,6 +256,7 @@ describe('test SpeedBlock', () => {
             state: state as any,
             dispatch: mockDispatch,
             selectedLayers: mockSelectedLayers,
+            initState: mockInitState,
           }}
         >
           <SpeedBlock />
@@ -250,6 +278,7 @@ describe('test SpeedBlock', () => {
           state: mockContextState as any,
           dispatch: mockDispatch,
           selectedLayers: mockSelectedLayers,
+          initState: mockInitState,
         }}
       >
         <SpeedBlock />
@@ -261,6 +290,8 @@ describe('test SpeedBlock', () => {
     expect(mockDispatch).not.toBeCalled();
     expect(mockWriteData).not.toBeCalled();
     expect(mockEmit).not.toBeCalled();
+    expect(mockBatchCommand).not.toBeCalled();
+    expect(batchCmd.count).toBe(0);
     const input = container.querySelector('input');
     fireEvent.change(input, { target: { value: '88' } });
     expect(mockDispatch).toBeCalledTimes(1);
@@ -268,23 +299,37 @@ describe('test SpeedBlock', () => {
       type: 'change',
       payload: { speed: 88, configName: 'CUSTOM_PRESET_CONSTANT' },
     });
+    expect(mockBatchCommand).toBeCalledTimes(1);
+    expect(mockBatchCommand).lastCalledWith('Change speed');
+    expect(batchCmd.count).toBe(1);
     expect(mockWriteData).toBeCalledTimes(4);
-    expect(mockWriteData).toHaveBeenNthCalledWith(1, 'layer1', 'speed', 88, true);
+    expect(mockWriteData).toHaveBeenNthCalledWith(1, 'layer1', 'speed', 88, {
+      applyPrinting: true,
+      batchCmd,
+    });
     expect(mockWriteData).toHaveBeenNthCalledWith(
       2,
       'layer1',
       'configName',
-      'CUSTOM_PRESET_CONSTANT'
+      'CUSTOM_PRESET_CONSTANT',
+      { batchCmd }
     );
-    expect(mockWriteData).toHaveBeenNthCalledWith(3, 'layer2', 'speed', 88, true);
+    expect(mockWriteData).toHaveBeenNthCalledWith(3, 'layer2', 'speed', 88, {
+      applyPrinting: true,
+      batchCmd,
+    });
     expect(mockWriteData).toHaveBeenNthCalledWith(
       4,
       'layer2',
       'configName',
-      'CUSTOM_PRESET_CONSTANT'
+      'CUSTOM_PRESET_CONSTANT',
+      { batchCmd }
     );
     expect(mockEmit).toBeCalledTimes(1);
     expect(mockEmit).toHaveBeenLastCalledWith('SET_ESTIMATED_TIME', null);
+    expect(batchCmd.onAfter).toBe(mockInitState);
+    expect(mockAddCommandToHistory).toBeCalledTimes(1);
+    expect(mockAddCommandToHistory).lastCalledWith(batchCmd);
   });
 
   test('onChange of value display should work correctly', () => {
@@ -296,6 +341,7 @@ describe('test SpeedBlock', () => {
           state: mockContextState as any,
           dispatch: mockDispatch,
           selectedLayers: mockSelectedLayers,
+          initState: mockInitState,
         }}
       >
         <SpeedBlock type="modal" />
@@ -315,5 +361,6 @@ describe('test SpeedBlock', () => {
       payload: { speed: 88, configName: 'CUSTOM_PRESET_CONSTANT' },
     });
     expect(mockWriteData).not.toBeCalled();
+    expect(mockBatchCommand).not.toBeCalled();
   });
 });

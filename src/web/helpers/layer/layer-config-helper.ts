@@ -1,4 +1,5 @@
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import history from 'app/svgedit/history';
 import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import layerModuleHelper from 'helpers/layer-module/layer-module-helper';
 import storage from 'implementations/storage';
@@ -6,6 +7,7 @@ import toggleFullColorLayer from 'helpers/layer/full-color/toggleFullColorLayer'
 import { getAllLayerNames, getLayerByName } from 'helpers/layer/layer-helper';
 import { getAllPresets } from 'app/constants/right-panel-constants';
 import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
+import { IBatchCommand } from 'interfaces/IHistory';
 import { ILaserConfig } from 'interfaces/ILaserConfig';
 import { ILayerConfig } from 'interfaces/ILayerConfig';
 
@@ -137,29 +139,35 @@ export const writeDataLayer = (
   layer: Element,
   dataType: DataType,
   value: number | string,
-  applyPrinting = false
+  opts?: { applyPrinting?: boolean; batchCmd?: IBatchCommand }
 ): void => {
   if (!layer) return;
   let targetDataType = dataType;
   if (
     targetDataType === DataType.speed &&
-    applyPrinting &&
+    opts?.applyPrinting &&
     layer.getAttribute(`data-${DataType.module}`) === String(LayerModule.PRINTER)
   ) {
     targetDataType = DataType.printingSpeed;
   }
-  layer.setAttribute(`data-${targetDataType}`, String(value));
+  const attr = `data-${targetDataType}`;
+  const originalValue = layer.getAttribute(attr);
+  layer.setAttribute(attr, String(value));
+  if (opts?.batchCmd) {
+    const cmd = new history.ChangeElementCommand(layer, { [attr]: originalValue });
+    opts.batchCmd.addSubCommand(cmd);
+  }
 };
 
 export const writeData = (
   layerName: string,
   dataType: DataType,
   value: number | string,
-  applyPrinting = false
+  opts?: { applyPrinting?: boolean; batchCmd?: IBatchCommand }
 ): void => {
   const layer = getLayerElementByName(layerName);
   if (!layer) return;
-  writeDataLayer(layer, dataType, value, applyPrinting);
+  writeDataLayer(layer, dataType, value, opts);
 };
 
 const getMultiSelectData = <T = number>(
@@ -272,7 +280,8 @@ export const toggleFullColorAfterWorkareaChange = (): void => {
 export const postPresetChange = (): void => {
   // TODO: add test
   const customizedLaserConfigs = (storage.get('customizedLaserConfigs') as ILaserConfig[]) || [];
-  const workarea: WorkAreaModel = BeamboxPreference.read('workarea') || BeamboxPreference.read('model');
+  const workarea: WorkAreaModel =
+    BeamboxPreference.read('workarea') || BeamboxPreference.read('model');
   const parametersSet = getAllPresets(workarea);
   const layerNames = getAllLayerNames();
 
