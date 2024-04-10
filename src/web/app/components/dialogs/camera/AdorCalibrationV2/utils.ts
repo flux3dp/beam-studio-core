@@ -118,6 +118,7 @@ export const getMaterialHeight = async (position: 'A' | 'E' = 'E'): Promise<numb
   await deviceMaster.rawEndLineCheckMode();
   await deviceMaster.rawAutoFocus();
   const { didAf, z } = await deviceMaster.rawGetProbePos();
+  if (cameraCenter && position === 'E') await deviceMaster.rawMove({ x: 0, y: 0, f: 7500 });
   await deviceMaster.rawLooseMotor();
   await deviceMaster.endRawMode();
   if (!didAf) throw new Error('Auto focus failed');

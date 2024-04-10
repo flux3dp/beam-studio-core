@@ -98,8 +98,9 @@ describe('test AdorCalibrationV2 utils', () => {
     expect(mockEnterRawMode).toHaveBeenCalledTimes(1);
     expect(mockRawHome).toHaveBeenCalledTimes(1);
     expect(mockRawStartLineCheckMode).toHaveBeenCalledTimes(1);
-    expect(mockRawMove).toHaveBeenCalledTimes(1);
-    expect(mockRawMove).toHaveBeenLastCalledWith({ x: 100, y: 100, f: 7500 });
+    expect(mockRawMove).toHaveBeenCalledTimes(2);
+    expect(mockRawMove).toHaveBeenNthCalledWith(1, { x: 100, y: 100, f: 7500 });
+    expect(mockRawMove).toHaveBeenNthCalledWith(2, { x: 0, y: 0, f: 7500 });
     expect(mockRawEndLineCheckMode).toHaveBeenCalledTimes(1);
     expect(mockRawAutoFocus).toHaveBeenCalledTimes(1);
     expect(mockRawGetProbePos).toHaveBeenCalledTimes(1);
