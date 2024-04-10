@@ -10,7 +10,7 @@ import i18n from 'helpers/i18n';
 import ImageTracePanel from 'app/views/beambox/ImageTracePanel/ImageTracePanel';
 import LeftPanel from 'app/components/beambox/left-panel/LeftPanel';
 import openFileHelper from 'helpers/open-file-helper';
-import PreviewOpacitySlider from 'app/components/beambox/PreviewOpacitySlider';
+import PreviewSlider from 'app/components/beambox/PreviewSlider';
 import RightPanel from 'app/components/beambox/right-panel/RightPanel';
 import sentryHelper from 'helpers/sentry-helper';
 import SvgEditor from 'app/components/beambox/SvgEditor';
@@ -62,7 +62,7 @@ const Beambox = (): JSX.Element => {
               <TimeEstimationButtonContextProvider>
                 <TimeEstimationButton />
               </TimeEstimationButtonContextProvider>
-              <PreviewOpacitySlider />
+              <PreviewSlider />
             </div>
             <div id="tool-panels-placeholder" />
             <ImageTracePanel />

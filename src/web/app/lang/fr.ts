@@ -1261,6 +1261,7 @@ const lang: ILang = {
   editor: {
     prespray_area: 'Zone de pré-pulvérisation',
     opacity: "Opacité de l'aperçu",
+    exposure: "Aperçu de l'exposition",
   },
   flux_id_login: {
     connection_fail: '#847 Échec de la connexion au service de membres FLUX.',

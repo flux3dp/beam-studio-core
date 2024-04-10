@@ -48,7 +48,6 @@ interface CanvasContextType {
   updateCanvasContext: () => void;
   selectedDevice: IDeviceInfo | null;
   setSelectedDevice: (IDeviceInfo) => void;
-  updateTopBar: () => void;
 }
 
 const CanvasContext = createContext<CanvasContextType>({
@@ -74,7 +73,6 @@ const CanvasContext = createContext<CanvasContextType>({
   updateCanvasContext: () => {},
   selectedDevice: null,
   setSelectedDevice: () => {},
-  updateTopBar: () => {},
 });
 
 const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>): JSX.Element => {
@@ -125,11 +123,6 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
     }
   };
 
-  const updateTopBar = useCallback((): void => {
-    console.log('Force update?');
-    forceUpdate();
-  }, [forceUpdate]);
-
   const setUser = useCallback((user) => setCurrentUser({ ...user }), []);
 
   const setTitle = (newFileName: string) => {
@@ -146,7 +139,6 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
   useEffect(() => {
     // Listen to events from TopBarControllers (non-react parts)
     fluxIDEventEmitter.on('update-user', setUser);
-    topBarEventEmitter.on('UPDATE_TOP_BAR', updateTopBar); // This force rerender the context
     topBarEventEmitter.on('SET_FILE_NAME', setTitle);
     topBarEventEmitter.on('SET_HAS_UNSAVED_CHANGE', setHasUnsavedChange);
     topBarEventEmitter.on('SET_SHOULD_START_PREVIEW_CONTROLLER', setShouldStartPreviewController);
@@ -174,7 +166,7 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
       fluxIDEventEmitter.removeListener('update-user', setUser);
       topBarEventEmitter.removeAllListeners();
     };
-  }, [setUser, isPreviewing, selectedDevice, updateTopBar]);
+  }, [setUser, isPreviewing, selectedDevice]);
 
   const updateCanvasContext = useCallback(() => {
     forceUpdate();
@@ -235,7 +227,6 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
         updateCanvasContext,
         selectedDevice,
         setSelectedDevice,
-        updateTopBar,
       }}
     >
       {children}
