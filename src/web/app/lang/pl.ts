@@ -41,9 +41,6 @@ const lang: ILang = {
       start_preview_timeout: '#803 Upłynął limit czasu podczas uruchamiania trybu podglądu. Uruchom ponownie komputer i Beam Studio. Jeśli błąd będzie się powtarzał, postępuj zgodnie z <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">tym przewodnikiem</a>.',
       fail_to_start_preview: '#803 Nie udało się uruchomić trybu podglądu. Uruchom ponownie komputer i Beam Studio. Jeśli błąd będzie się powtarzał, postępuj zgodnie z <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">tym przewodnikiem</a>.',
       fail_to_connect_with_camera: '#803 Nie udało się nawiązać połączenia z kamerą maszyny. Uruchom ponownie komputer i Beam Studio. Jeśli błąd będzie się powtarzał, postępuj zgodnie z <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">tym przewodnikiem</a>.',
-      power_too_high: 'ZBYT WYSOKA MOC',
-      power_too_high_msg: 'Użycie mniejszej mocy lasera (poniżej 70%) wydłuży żywotność tuby laserowej. Wpisz „ROZUMIEM”, aby kontynuować.',
-      power_too_high_confirm: 'ROZUMIEM',
       add_content_first: 'Please add objects first',
     },
     hint: {

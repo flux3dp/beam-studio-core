@@ -44,10 +44,6 @@ const lang: ILang = {
         '#803 Kunne ikke starte forhåndsvisning. Start maskinen eller Beam Studio på nytt. Hvis feilen vedvarer, følg denne veiledningen',
       fail_to_connect_with_camera:
         '#803 Kunne ikke opprette tilkobling til maskinkamera. Start maskinen eller Beam Studio på nytt. Hvis feilen vedvarer, følg denne veiledningen',
-      power_too_high: 'FOR HØY EFFEKT',
-      power_too_high_msg:
-        'Bruk av lavere lasereffekt (under 70%) forlenger laserens levetid.\nSkriv inn "FORSTÅTT" for å fortsette.',
-      power_too_high_confirm: 'FORSTÅTT',
       add_content_first: 'Legg til objekter først',
     },
     hint: {

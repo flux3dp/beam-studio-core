@@ -44,10 +44,6 @@ const lang: ILang = {
         '#803 Esikatselutilan käynnistys epäonnistui. Käynnistä kone tai Beam Studio uudelleen. Jos virhe toistuu, noudata <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">tätä ohjetta</a>.',
       fail_to_connect_with_camera:
         '#803 Yhteyden muodostaminen kameraan epäonnistui. Käynnistä tietokone tai Beam Studio uudelleen. Jos virhe toistuu, noudata <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">näitä ohjeita</a>.',
-      power_too_high: 'LIIAN SUURI TEHO',
-      power_too_high_msg:
-        'Matalampi laserteho (alle 70 %) pidentää laserputken käyttöikää.\nKirjoita "HUOMAUTETTU" jatkaaksesi.',
-      power_too_high_confirm: 'HUOMAUTETTU',
       add_content_first: 'Lisää ensin kohteita',
     },
     hint: {

@@ -44,10 +44,6 @@ const lang: ILang = {
         '#803 Gagal memulai mode pratinjau. Harap mulai ulang mesin Anda atau Beam Studio. Jika kesalahan ini berlanjut, ikuti <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">panduan ini</a>.',
       fail_to_connect_with_camera:
         '#803 Gagal membuat koneksi dengan kamera mesin. Harap mulai ulang mesin Anda atau Beam Studio. Jika kesalahan ini berlanjut, ikuti <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">panduan ini</a>.',
-      power_too_high: 'DAYA TERLALU TINGGI',
-      power_too_high_msg:
-        'Menggunakan daya laser yang lebih rendah (di bawah 70%) akan memperpanjang masa pakai tabung laser.\nMasukkan "SAYA MENGERTI" untuk melanjutkan.',
-      power_too_high_confirm: 'SAYA MENGERTI',
       add_content_first: 'Silakan tambahkan objek terlebih dahulu',
     },
     hint: {

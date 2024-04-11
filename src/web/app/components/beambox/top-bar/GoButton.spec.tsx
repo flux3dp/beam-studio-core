@@ -47,7 +47,12 @@ jest.mock('app/constants/tutorial-constants', () => ({
 }));
 
 const versionChecker = jest.fn();
-jest.mock('helpers/version-checker', () => (...args) => versionChecker(...args));
+jest.mock(
+  'helpers/version-checker',
+  () =>
+    (...args) =>
+      versionChecker(...args)
+);
 
 const getNextStepRequirement = jest.fn();
 const handleNextStep = jest.fn();
@@ -63,11 +68,6 @@ jest.mock('app/actions/beambox/menuDeviceActions', () => ({
 
 jest.mock('helpers/useI18n', () => () => ({
   topbar: {
-    alerts: {
-      power_too_high: 'POWER TOO HIGH',
-      power_too_high_msg: 'power_too_high_msg',
-      power_too_high_confirm: 'NOTED',
-    },
     export: 'GO',
   },
   update: {
@@ -81,7 +81,7 @@ jest.mock('helpers/useI18n', () => () => ({
       too_fast_for_path: 'too_fast_for_path.',
       too_fast_for_path_and_constrain: 'too_fast_for_path_and_constrain',
       should_update_firmware_to_continue: 'should_update_firmware_to_continue',
-      dont_show_again: 'Don\'t Show this next time.',
+      dont_show_again: "Don't Show this next time.",
     },
   },
   message: {
@@ -104,11 +104,12 @@ jest.mock('helpers/useI18n', () => () => ({
 
 const getCurrentDrawing = jest.fn();
 jest.mock('helpers/svg-editor-helper', () => ({
-  getSVGAsync: (callback) => callback({
-    Canvas: {
-      getCurrentDrawing: (...args) => getCurrentDrawing(...args),
-    },
-  }),
+  getSVGAsync: (callback) =>
+    callback({
+      Canvas: {
+        getCurrentDrawing: (...args) => getCurrentDrawing(...args),
+      },
+    }),
 }));
 
 jest.mock('app/contexts/CanvasContext', () => ({
@@ -148,11 +149,8 @@ describe('test GoButton', () => {
   test('should render correctly', () => {
     const endPreviewMode = jest.fn();
     const { container } = render(
-      <CanvasContext.Provider value={{
-        endPreviewMode,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } as any}
-      >
+      <CanvasContext.Provider value={{ endPreviewMode } as any}>
         <GoButton hasText={false} hasDiscoverdMachine={false} />
       </CanvasContext.Provider>
     );
