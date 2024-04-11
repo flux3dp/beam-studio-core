@@ -5,14 +5,20 @@ import { ConfigProvider, InputNumber, Slider } from 'antd';
 import styles from './ColorRatioModal.module.scss';
 
 interface Props {
-  value: number;
-  setValue: (value: number) => void;
-  color: 'c' | 'm' | 'y' | 'k';
+  ratio: number;
+  setRatio: (value: number) => void;
+  smooth: number;
+  setSmooth: (value: number) => void;
+  color?: 'c' | 'm' | 'y' | 'k';
 }
 
-const ColorRatioBlock = ({ value, setValue, color }: Props): JSX.Element => {
-  const [displayValue, setDisplayValue] = useState(value);
-  useEffect(() => setDisplayValue(value), [value]);
+// TODO: fix test
+const ColorRatioBlock = ({ ratio, setRatio, smooth, setSmooth, color }: Props): JSX.Element => {
+  const [displayRatio, setDisplayRatio] = useState(ratio);
+  const [displaySmooth, setDisplaySmooth] = useState(smooth);
+  useEffect(() => setDisplayRatio(ratio), [ratio]);
+  useEffect(() => setDisplaySmooth(smooth), [smooth]);
+
   const { title } = useMemo(() => {
     switch (color) {
       case 'c':
@@ -24,14 +30,15 @@ const ColorRatioBlock = ({ value, setValue, color }: Props): JSX.Element => {
       case 'k':
         return { title: 'Black' };
       default:
-        return { title: 'Cyan' };
+        return { title: '' };
     }
   }, [color]);
 
   return (
     <div className={classNames(styles.block, styles[color])}>
+      <div>{title}</div>
       <div className={styles.header}>
-        <span className={styles.title}>{title}</span>
+        <span className={styles.title}>Strength</span>
         <span className={styles.input}>
           <ConfigProvider
             theme={{
@@ -42,11 +49,11 @@ const ColorRatioBlock = ({ value, setValue, color }: Props): JSX.Element => {
           >
             <InputNumber
               size="small"
-              value={value}
+              value={ratio}
               controls={false}
               min={0}
-              max={100}
-              onChange={setValue}
+              max={200}
+              onChange={setRatio}
             />
           </ConfigProvider>
           <span className={styles.unit}>%</span>
@@ -54,14 +61,45 @@ const ColorRatioBlock = ({ value, setValue, color }: Props): JSX.Element => {
       </div>
       <Slider
         min={0}
-        max={100}
+        max={200}
         step={1}
-        value={displayValue}
-        onAfterChange={setValue}
-        onChange={(v: number) => setDisplayValue(v)}
+        value={displayRatio}
+        onAfterChange={setRatio}
+        onChange={(v: number) => setDisplayRatio(v)}
         tooltip={{
           formatter: (v: number) => `${v}%`,
         }}
+      />
+      <div className={styles.header}>
+        <span className={styles.title}>Smooth</span>
+        <span className={styles.input}>
+          <ConfigProvider
+            theme={{
+              token: {
+                lineWidth: 0,
+              },
+            }}
+          >
+            <InputNumber
+              size="small"
+              value={smooth}
+              controls={false}
+              min={0}
+              max={2}
+              step={0.1}
+              precision={1}
+              onChange={setSmooth}
+            />
+          </ConfigProvider>
+        </span>
+      </div>
+      <Slider
+        min={0}
+        max={2}
+        step={0.1}
+        value={displaySmooth}
+        onAfterChange={setSmooth}
+        onChange={(v: number) => setDisplaySmooth(v)}
       />
     </div>
   );

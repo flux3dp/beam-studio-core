@@ -55,23 +55,25 @@ const splitFullColorLayer = async (
   const mRatio = getData<number>(layer, DataType.mRatio);
   const yRatio = getData<number>(layer, DataType.yRatio);
   const kRatio = getData<number>(layer, DataType.kRatio);
+  const cSmooth = getData<number>(layer, DataType.cSmooth);
+  const mSmooth = getData<number>(layer, DataType.mSmooth);
+  const ySmooth = getData<number>(layer, DataType.ySmooth);
+  const kSmooth = getData<number>(layer, DataType.kSmooth);
+
   const includeWhite = isDev() && whiteInkStaturation > 0;
   const layerImageUrl = URL.createObjectURL(blob);
-  const channelBlobs = await splitColor(layerImageUrl, {
-    includeWhite,
-    colorRatio: {
-      c: cRatio,
-      m: mRatio,
-      y: yRatio,
-      k: kRatio,
-    },
-  });
-  console.log(channelBlobs);
+  const channelBlobs = await splitColor(layerImageUrl, { includeWhite });
 
   const batchCmd = new history.BatchCommand('Split Full Color Layer');
   const newLayers: Element[] = [];
   const nameSuffix = ['W', 'K', 'C', 'M', 'Y'];
-  // revert order to make sure the order of new layers is correct
+  const params = [
+    null,
+    { strength: kRatio, smooth: kSmooth },
+    { strength: cRatio, smooth: cSmooth },
+    { strength: mRatio, smooth: mSmooth },
+    { strength: yRatio, smooth: ySmooth },
+  ]
   for (let i = 0; i < nameSuffix.length; i += 1) {
     // eslint-disable-next-line no-continue
     if (i === 0 && !includeWhite) {
@@ -104,6 +106,10 @@ const splitFullColorLayer = async (
         writeDataLayer(elem, DataType.printingSpeed, whiteSpeed);
         writeDataLayer(elem, DataType.multipass, whiteMultipass);
         writeDataLayer(elem, DataType.repeat, whiteRepeat);
+      } else {
+        const { strength, smooth } = params[i];
+        writeDataLayer(elem, DataType.printingStrength, strength);
+        writeDataLayer(elem, DataType.smooth, smooth);
       }
       layer.parentNode.insertBefore(elem, layer.nextSibling);
       newLayers.push(elem);

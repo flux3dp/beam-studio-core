@@ -16,6 +16,8 @@ export interface ILayerConfig {
   backlash: IConfig<number>;
   multipass: IConfig<number>;
   uv: IConfig<number>;
+  halftone: IConfig<number>;
+  amDensity: IConfig<number>;
   wInk: IConfig<number>;
   wSpeed: IConfig<number>;
   wMultipass: IConfig<number>;
@@ -26,4 +28,10 @@ export interface ILayerConfig {
   mRatio: IConfig<number>;
   yRatio: IConfig<number>;
   kRatio: IConfig<number>;
+  cSmooth: IConfig<number>;
+  mSmooth: IConfig<number>;
+  ySmooth: IConfig<number>;
+  kSmooth: IConfig<number>;
+  printingStrength: IConfig<number>;
+  smooth: IConfig<number>;
 }

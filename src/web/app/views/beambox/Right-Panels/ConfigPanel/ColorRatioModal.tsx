@@ -1,56 +1,65 @@
 import React, { useContext, useState } from 'react';
-import { ConfigProvider, Modal } from 'antd';
+import { Col, ConfigProvider, Modal, Row } from 'antd';
 
 import useI18n from 'helpers/useI18n';
 import { DataType, writeDataLayer } from 'helpers/layer/layer-config-helper';
 import { getLayerByName } from 'helpers/layer/layer-helper';
+import { IConfig } from 'interfaces/ILayerConfig';
 
 import ConfigPanelContext from './ConfigPanelContext';
 import ColorRatioBlock from './ColorRatioBlock';
 
 interface Props {
+  fullColor?: boolean;
   onClose: () => void;
 }
 
 // TODO: add test
-const ColorRationModal = ({ onClose }: Props): JSX.Element => {
+const ColorRationModal = ({ fullColor, onClose }: Props): JSX.Element => {
   const t = useI18n().beambox.right_panel.laser_panel;
   const { dispatch, selectedLayers, state } = useContext(ConfigPanelContext);
-  const { cRatio, mRatio, yRatio, kRatio } = state;
-  const [c, setC] = useState(cRatio);
-  const [m, setM] = useState(mRatio);
-  const [y, setY] = useState(yRatio);
-  const [k, setK] = useState(kRatio);
+  const [draftValue, setDraftValue] = useState<{ [key: string]: IConfig<number> }>({
+    cRatio: state.cRatio,
+    cSmooth: state.cSmooth,
+    mRatio: state.mRatio,
+    mSmooth: state.mSmooth,
+    yRatio: state.yRatio,
+    ySmooth: state.ySmooth,
+    kRatio: state.kRatio,
+    kSmooth: state.kSmooth,
+    printingStrength: state.printingStrength,
+    smooth: state.smooth,
+  });
   const handleSave = () => {
     const newState = { ...state };
+    const keys = fullColor
+      ? ['cRatio', 'cSmooth', 'mRatio', 'mSmooth', 'yRatio', 'ySmooth', 'kRatio', 'kSmooth']
+      : ['printingStrength', 'smooth'];
     selectedLayers.forEach((layerName) => {
       const layer = getLayerByName(layerName);
-      if (cRatio.value !== c.value || cRatio.hasMultiValue !== c.hasMultiValue) {
-        writeDataLayer(layer, DataType.cRatio, c.value);
-        newState.cRatio = c;
-      }
-      if (mRatio.value !== m.value || mRatio.hasMultiValue !== m.hasMultiValue) {
-        writeDataLayer(layer, DataType.mRatio, m.value);
-        newState.mRatio = m;
-      }
-      if (yRatio.value !== y.value || yRatio.hasMultiValue !== y.hasMultiValue) {
-        writeDataLayer(layer, DataType.yRatio, y.value);
-        newState.yRatio = y;
-      }
-      if (kRatio.value !== k.value || kRatio.hasMultiValue !== k.hasMultiValue) {
-        writeDataLayer(layer, DataType.kRatio, k.value);
-        newState.kRatio = k;
-      }
+      keys.forEach((key) => {
+        if (
+          state[key].value !== draftValue[key].value ||
+          state[key].hasMultiValue !== draftValue[key].hasMultiValue
+        ) {
+          writeDataLayer(layer, DataType[key], draftValue[key].value);
+          newState[key] = draftValue[key];
+        }
+      });
     });
     dispatch({ type: 'update', payload: newState });
     onClose();
   };
+  const handleValueChange = (key: string, value: number) => {
+    setDraftValue((cur) => ({ ...cur, [key]: { value, hasMultiValue: false } }));
+  };
+
   return (
     <Modal
       centered
       open
       maskClosable={false}
-      width={290}
+      width={fullColor ? 600 : 300}
       onOk={handleSave}
       onCancel={onClose}
       cancelText={t.cancel}
@@ -83,26 +92,55 @@ const ColorRationModal = ({ onClose }: Props): JSX.Element => {
           },
         }}
       >
-        <ColorRatioBlock
-          value={c.value}
-          setValue={(val) => setC({ value: val, hasMultiValue: false })}
-          color="c"
-        />
-        <ColorRatioBlock
-          value={m.value}
-          setValue={(val) => setM({ value: val, hasMultiValue: false })}
-          color="m"
-        />
-        <ColorRatioBlock
-          value={y.value}
-          setValue={(val) => setY({ value: val, hasMultiValue: false })}
-          color="y"
-        />
-        <ColorRatioBlock
-          value={k.value}
-          setValue={(val) => setK({ value: val, hasMultiValue: false })}
-          color="k"
-        />
+        {fullColor ? (
+          <>
+            <Row gutter={[10, 0]}>
+              <Col span={12}>
+                <ColorRatioBlock
+                  color="c"
+                  ratio={draftValue.cRatio.value}
+                  setRatio={(val) => handleValueChange('cRatio', val)}
+                  smooth={draftValue.cSmooth.value}
+                  setSmooth={(val) => handleValueChange('cSmooth', val)}
+                />
+              </Col>
+              <Col span={12}>
+                <ColorRatioBlock
+                  color="m"
+                  ratio={draftValue.mRatio.value}
+                  setRatio={(val) => handleValueChange('mRatio', val)}
+                  smooth={draftValue.mSmooth.value}
+                  setSmooth={(val) => handleValueChange('mSmooth', val)}
+                />
+              </Col>
+              <Col span={12}>
+                <ColorRatioBlock
+                  color="y"
+                  ratio={draftValue.yRatio.value}
+                  setRatio={(val) => handleValueChange('yRatio', val)}
+                  smooth={draftValue.ySmooth.value}
+                  setSmooth={(val) => handleValueChange('ySmooth', val)}
+                />
+              </Col>
+              <Col span={12}>
+                <ColorRatioBlock
+                  color="k"
+                  ratio={draftValue.kRatio.value}
+                  setRatio={(val) => handleValueChange('kRatio', val)}
+                  smooth={draftValue.kSmooth.value}
+                  setSmooth={(val) => handleValueChange('kSmooth', val)}
+                />
+              </Col>
+            </Row>
+          </>
+        ) : (
+          <ColorRatioBlock
+            ratio={draftValue.printingStrength.value}
+            setRatio={(val) => handleValueChange('printingStrength', val)}
+            smooth={draftValue.smooth.value}
+            setSmooth={(val) => handleValueChange('smooth', val)}
+          />
+        )}
       </ConfigProvider>
     </Modal>
   );
