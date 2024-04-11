@@ -89,6 +89,8 @@
       'data-backlash',
       'data-multipass',
       'data-uv',
+      'data-halftone',
+      'data-amDensity',
       'data-printingSpeed',
       'data-wSpeed',
       'data-wInk',
