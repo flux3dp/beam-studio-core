@@ -6,7 +6,7 @@ import importSvg from 'app/svgedit/operations/import/importSvg';
 import Websocket from 'helpers/websocket';
 import { DataType, writeData } from 'helpers/layer/layer-config-helper';
 
-const init = () => {
+const init = (): { connection: any } => {
   const events = {
     onMessage: async (data) => {
       if (data.svg) {
@@ -25,13 +25,13 @@ const init = () => {
       }
     },
     onError: (response: any) => {
-      console.log('IP_ERROR');
+      console.log('AI extension error: ', response);
     },
     onFatal: (response: any) => {
-      console.log('FATAL');
+      console.log('AI extension fatal error: ', response);
     },
-    onOpen: (response: any) => {
-      console.log('Open interprocess socket! ');
+    onOpen: () => {
+      console.log('AI extension connected');
     },
   };
   const ws = Websocket({
