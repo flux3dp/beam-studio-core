@@ -1548,6 +1548,7 @@ const lang: ILang = {
     check_checkpoint_data: 'Dữ liệu kiểm tra điểm',
     checking_checkpoint: 'Đang kiểm tra dữ liệu kiểm tra điểm...',
     found_checkpoint: 'Dữ liệu kiểm tra điểm được tìm thấy trên thiết bị của bạn. Bạn có muốn khôi phục từ điểm kiểm tra không?',
+    use_old_camera_parameter: 'Bạn có muốn sử dụng thông số ống kính máy ảnh hiện tại không?',
     downloading_checkpoint: 'Đang tải dữ liệu kiểm tra điểm...',
     failed_to_parse_checkpoint: 'Không thể phân tích dữ liệu kiểm tra điểm.',
     check_device_pictures: 'Kiểm tra hình ảnh thiết bị',

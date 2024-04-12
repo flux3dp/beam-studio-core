@@ -1547,6 +1547,7 @@ export interface ILang {
     calibrate_camera_before_calibrate_modules: string;
     check_checkpoint_data: string;
     checking_checkpoint: string;
+    use_old_camera_parameter: string;
     found_checkpoint: string;
     downloading_checkpoint: string;
     failed_to_parse_checkpoint: string;

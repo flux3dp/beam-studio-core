@@ -1548,6 +1548,7 @@ const lang: ILang = {
     check_checkpoint_data: 'Data titik kontrol',
     checking_checkpoint: 'Memeriksa data titik kontrol...',
     found_checkpoint: 'Data titik kontrol ditemukan di perangkat Anda. Apakah Anda ingin memulihkannya dari titik kontrol?',
+    use_old_camera_parameter: 'Apakah Anda ingin menggunakan parameter lensa kamera saat ini?',
     downloading_checkpoint: 'Mengunduh data titik kontrol...',
     failed_to_parse_checkpoint: 'Gagal mengurai data titik kontrol.',
     check_device_pictures: 'Periksa Gambar Perangkat',

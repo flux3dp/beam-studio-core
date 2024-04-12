@@ -1548,6 +1548,7 @@ const lang: ILang = {
     check_checkpoint_data: 'Dados do ponto de verificação',
     checking_checkpoint: 'Verificando dados do ponto de verificação...',
     found_checkpoint: 'Dados do ponto de verificação encontrados no seu dispositivo. Deseja recuperar do ponto de verificação?',
+    use_old_camera_parameter: 'Deseja usar os parâmetros atuais da lente da câmera?',
     downloading_checkpoint: 'Baixando dados do ponto de verificação...',
     failed_to_parse_checkpoint: 'Falha ao analisar os dados do ponto de verificação.',
     check_device_pictures: 'Verificar imagens do dispositivo',

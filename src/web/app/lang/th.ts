@@ -1548,6 +1548,7 @@ const lang: ILang = {
     check_checkpoint_data: 'ข้อมูลจุดตรวจสอบ',
     checking_checkpoint: 'กำลังตรวจสอบข้อมูลจุดตรวจสอบ...',
     found_checkpoint: 'พบข้อมูลจุดตรวจสอบบนอุปกรณ์ของคุณ คุณต้องการกู้คืนจากจุดตรวจสอบหรือไม่?',
+    use_old_camera_parameter: 'คุณต้องการใช้พารามิเตอร์เลนส์กล้องปัจจุบันหรือไม่?',
     downloading_checkpoint: 'กำลังดาวน์โหลดข้อมูลจุดตรวจสอบ...',
     failed_to_parse_checkpoint: 'การวิเคราะห์ข้อมูลจุดตรวจสอบล้มเหลว.',
     check_device_pictures: 'ตรวจสอบภาพอุปกรณ์',

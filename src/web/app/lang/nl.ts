@@ -1548,6 +1548,7 @@ const lang: ILang = {
     check_checkpoint_data: 'Controlepuntgegevens',
     checking_checkpoint: 'Controleer controlepuntgegevens...',
     found_checkpoint: 'Controlepuntgegevens gevonden op uw apparaat. Wilt u herstellen vanuit het controlepunt?',
+    use_old_camera_parameter: 'Wilt u de huidige camerobjectiefparameters gebruiken?',
     downloading_checkpoint: 'Downloaden van controlepuntgegevens...',
     failed_to_parse_checkpoint: 'Kan de controlepuntgegevens niet analyseren.',
     check_device_pictures: "Apparaatfoto's controleren",

@@ -1548,6 +1548,7 @@ const lang: ILang = {
     check_checkpoint_data: 'Kontrolpunktdata',
     checking_checkpoint: 'Kontrollerer kontrolpunktdata...',
     found_checkpoint: 'Kontrolpunktdata fundet på din enhed. Ønsker du at gendanne fra kontrolpunkt?',
+    use_old_camera_parameter: 'Ønsker du at bruge de aktuelle kamerelinseparametre?',
     downloading_checkpoint: 'Downloader kontrolpunktdata...',
     failed_to_parse_checkpoint: 'Kunne ikke analysere kontrolpunktdata.',
     check_device_pictures: 'Kontroller enhedens billeder',

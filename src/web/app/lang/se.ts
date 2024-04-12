@@ -1548,6 +1548,7 @@ const lang: ILang = {
     check_checkpoint_data: 'Kontrollpunktsdata',
     checking_checkpoint: 'Kontrollerar kontrollpunktsdata...',
     found_checkpoint: 'Kontrollpunktsdata hittades på din enhet. Vill du återställa från kontrollpunkten?',
+    use_old_camera_parameter: 'Vill du använda aktuella kamerans objektivparametrar?',
     downloading_checkpoint: 'Laddar ner kontrollpunktsdata...',
     failed_to_parse_checkpoint: 'Misslyckades med att analysera kontrollpunktsdata.',
     check_device_pictures: 'Kontrollera enhetsbilder',

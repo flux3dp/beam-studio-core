@@ -1548,6 +1548,7 @@ const lang: ILang = {
     check_checkpoint_data: 'Data kawalan titik',
     checking_checkpoint: 'Memeriksa data kawalan titik...',
     found_checkpoint: 'Data kawalan titik dijumpai pada peranti anda. Mahukah anda pulih daripada titik kawalan?',
+    use_old_camera_parameter: 'Adakah anda ingin menggunakan parameter lensa kamera semasa?',
     downloading_checkpoint: 'Memuat turun data kawalan titik...',
     failed_to_parse_checkpoint: 'Gagal mengurai data kawalan titik.',
     check_device_pictures: 'Semak Gambar Peranti',

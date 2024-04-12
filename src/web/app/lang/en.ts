@@ -1551,6 +1551,7 @@ const lang: ILang = {
     check_checkpoint_data: 'Checkpoint Data',
     checking_checkpoint: 'Checking checkpoint data...',
     found_checkpoint: 'Checkpoint data is found in your device. Do you want to recover from the checkpoint?',
+    use_old_camera_parameter: 'Do you want to use current camera lens parameter?',
     downloading_checkpoint: 'Downloading checkpoint data...',
     failed_to_parse_checkpoint: 'Failed to parse the checkpoint data.',
     check_device_pictures: 'Check Device Pictures',
@@ -1567,7 +1568,7 @@ const lang: ILang = {
     camera_parameter_saved_successfully: 'Camera parameter saved successfully.',
     failed_to_save_camera_parameter: 'Failed to save camera parameter.',
     align_points: 'Please align the marks to the center of engraved points.',
-    failed_to_solve_pnp: 'Failed to solve camera position.'
+    failed_to_solve_pnp: 'Failed to solve camera position.',
   },
   input_machine_password: {
     require_password: '"%s" requires a password',

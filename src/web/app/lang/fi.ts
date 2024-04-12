@@ -1548,6 +1548,7 @@ const lang: ILang = {
     check_checkpoint_data: 'Tarkistuspisteen tiedot',
     checking_checkpoint: 'Tarkistetaan tarkistuspisteen tietoja...',
     found_checkpoint: 'Tarkistuspisteen tiedot löytyivät laitteestasi. Haluatko palauttaa ne tarkistuspisteestä?',
+    use_old_camera_parameter: 'Haluatko käyttää nykyisiä kameran linssiparametreja?',
     downloading_checkpoint: 'Ladataan tarkistuspisteen tietoja...',
     failed_to_parse_checkpoint: 'Tarkistuspisteen tietojen jäsentäminen epäonnistui.',
     check_device_pictures: 'Tarkista laitteen kuvat',
