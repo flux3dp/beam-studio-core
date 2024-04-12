@@ -40,6 +40,7 @@ const CheckpointData = ({ updateParam, onClose, onNext }: Props): JSX.Element =>
             d: res.d,
             rvec: res.rvec,
             tvec: res.tvec,
+            refHeight: res.refHeight,
             source: res.source,
           },
         });
