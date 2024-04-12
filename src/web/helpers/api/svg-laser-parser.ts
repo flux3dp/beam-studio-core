@@ -105,7 +105,7 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
       if (constant.adorModels.includes(model)) {
         const { x, y, w, h } = presprayArea.getPosition(true);
         args.push('-prespray');
-        args.push(`${x},${y},${w},${h}`);
+        args.push(rotaryMode ? `0,27,${w},${h}` :`${x},${y},${w},${h}`);
         if (!isDevMode || BeamboxPreference.read('multipass-compensation') !== false) args.push('-mpc');
         if (!isDevMode || BeamboxPreference.read('one-way-printing') !== false) args.push('-owp');
       }
