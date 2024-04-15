@@ -25,6 +25,7 @@ const CalibrateChessBoard = ({ updateParam, onClose, onBack, onNext }: Props): J
   const progressId = useMemo(() => 'ador-calibration-v2', []);
   const [res, setRes] = useState<{
     success: boolean;
+    origBlob: Blob;
     imgblob: Blob;
     imgUrl: string;
     data: FisheyeCameraParametersV2Cali;
@@ -83,6 +84,7 @@ const CalibrateChessBoard = ({ updateParam, onClose, onBack, onNext }: Props): J
         }
         setRes({
           success: calibrateRes.success,
+          origBlob: imgBlob,
           imgblob: displayBlob,
           imgUrl: URL.createObjectURL(displayBlob),
           data: calibrateRes.success ? calibrateRes.data : null,
@@ -135,7 +137,7 @@ const CalibrateChessBoard = ({ updateParam, onClose, onBack, onNext }: Props): J
       }
     }
     await deviceMaster.uploadToDirectory(
-      res.imgblob,
+      res.origBlob,
       'camera_calib',
       `pic_${objectHeight.current.toFixed(1)}_top_left.jpg`
     );
