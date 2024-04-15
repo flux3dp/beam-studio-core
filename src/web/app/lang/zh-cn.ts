@@ -42,6 +42,12 @@ const lang: ILang = {
       fail_to_start_preview: '#803 启动相机预览失败，请重新开启您的机器或是 Beam Studio，如果此错误持续发生，请参考<a target="_blank" href="https://flux3dp.zendesk.com/hc/zh-tw/articles/360001111355">此则引导</a>。',
       fail_to_connect_with_camera: '#803 与机器相机建立连线时失败，请重新开启您的机器或是 Beam Studio ，如果此错误持续发生，请参考<a target="_blank" href="https://flux3dp.zendesk.com/hc/zh-tw/articles/360001111355">此則引導</a>。',
       add_content_first: '请先新增物件',
+      headtype_mismatch: '检测到错误的模块，',
+      headtype_none: '未检测到模块，',
+      headtype_unknown: '检测到未知模块，',
+      install_correct_headtype: '请正确安装10W或20W雷射模块以进入低激光模式。',
+      door_opened: '请将门盖关闭以进入低激光模式。',
+      fail_to_get_door_status: '请确保门盖关闭以进入低激光模式。',
     },
     hint: {
       polygon: '按下 + / - 键以增加 / 减少边数。',
@@ -447,6 +453,7 @@ const lang: ILang = {
     module_offset_2w_ir: '2W 红外激光偏移',
     printer_advanced_mode: '打印机高级模式',
     default_laser_module: '默认激光模块',
+    low_laser_for_preview: '外框预览低激光',
     groups: {
       general: '一般',
       update: '软体更新',

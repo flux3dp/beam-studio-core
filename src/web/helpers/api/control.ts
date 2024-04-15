@@ -1183,6 +1183,27 @@ class Control extends EventEmitter {
     return this.useRawLineCheckCommand(command);
   };
 
+  rawSetLaser = (args: { on: boolean; s?: number }) => {
+    if (this.mode !== 'raw') {
+      throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
+    }
+    let command = args.on ? 'M3' : 'M5';
+    if (typeof args.s !== 'undefined') {
+      command += `S${args.s}`;
+    }
+    if (!this._isLineCheckMode) return this.useRawWaitOKResponse(command);
+    return this.useRawLineCheckCommand(command);
+  };
+
+  rawSet24V = (on: boolean) => {
+    if (this.mode !== 'raw') {
+      throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
+    }
+    const command = on ? 'M136P173' : 'M136P174';
+    if (!this._isLineCheckMode) return this.useRawWaitOKResponse(command);
+    return this.useRawLineCheckCommand(command);
+  };
+
   rawAutoFocus = (): Promise<void> => {
     if (this.mode !== 'raw') {
       throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);

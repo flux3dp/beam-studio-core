@@ -42,6 +42,12 @@ const lang: ILang = {
       fail_to_start_preview: '#803 啟動相機預覽失敗，請重新開啟您的機器或是 Beam Studio ，如果此錯誤持續發生，請參考<a target="_blank" href="https://flux3dp.zendesk.com/hc/zh-tw/articles/360001111355">此則引導</a>。',
       fail_to_connect_with_camera: '#803 與機器相機建立連線時失敗，請重新開啟您的機器或是 Beam Studio ，如果此錯誤持續發生，請參考<a target="_blank" href="https://flux3dp.zendesk.com/hc/zh-tw/articles/360001111355">此則引導</a>。',
       add_content_first: '請先新增物件',
+      headtype_mismatch: '偵測到不相符的模組，',
+      headtype_none: '未偵測到模組，',
+      headtype_unknown: '偵測到未知模組，',
+      install_correct_headtype: '請正確安裝10W或20W雷射模組以進行弱出光。',
+      door_opened: '請將門蓋關閉以進行弱出光。',
+      fail_to_get_door_status: '請確保門蓋關閉以進行弱出光。',
     },
     hint: {
       polygon: '按下 + / - 鍵以增加 / 減少邊數。',
@@ -447,6 +453,7 @@ const lang: ILang = {
     module_offset_2w_ir: '2W 紅外線雷射偏移',
     printer_advanced_mode: '列印進階模式',
     default_laser_module: '預設雷射模組',
+    low_laser_for_preview: '外框預覽弱出光',
     groups: {
       general: '一般',
       update: '軟體更新',

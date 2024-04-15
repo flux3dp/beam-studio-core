@@ -42,6 +42,14 @@ const lang: ILang = {
       fail_to_start_preview: '#803 미리보기 모드 시작 실패. 기계 또는 빔스튜디오를 다시 시작해 주세요. 이 에러가 지속된다면 다음 가이드를 따라 주세요. <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">this guide</a>',
       fail_to_connect_with_camera: '#803 기계의 카메라와의 접속을 설정하지 못했습니다. 기계 또는 빔스튜디오를 다시 시작해 주세요. 이 에러가 지속된다면 다음 가이드를 따라 주세요.<a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">this guide</a>',
       add_content_first: '먼저 개체를 추가해 주세요.',
+      headtype_mismatch: '잘못된 모듈이 감지되었습니다.',
+      headtype_none: '모듈이 감지되지 않았습니다.',
+      headtype_unknown: '알 수 없는 모듈이 감지되었습니다.',
+      install_correct_headtype:
+        '10W/20W 다이오드 레이저 모듈을 제대로 설치하여 저전력 레이저를 활성화하고 프레임을 실행하세요.',
+      door_opened: '문을 닫아 저전력 레이저를 활성화하고 프레임을 실행하세요.',
+      fail_to_get_door_status:
+        '문이 닫혀 있는지 확인하여 저전력 레이저를 활성화하고 프레임을 실행하세요.',
     },
     hint: {
       polygon: '늘리기 / 줄이기를 위해 + /- 키를 누르세요.',
@@ -447,6 +455,7 @@ const lang: ILang = {
     module_offset_2w_ir: '2W 적외선 레이저 오프셋',
     printer_advanced_mode: '프린터 고급 모드',
     default_laser_module: '기본 레이저 모듈',
+    low_laser_for_preview: '프레임 미리보기용 레이저',
     groups: {
       general: '일반',
       update: '소프트웨어 업데이트',

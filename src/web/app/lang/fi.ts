@@ -45,6 +45,14 @@ const lang: ILang = {
       fail_to_connect_with_camera:
         '#803 Yhteyden muodostaminen kameraan epäonnistui. Käynnistä tietokone tai Beam Studio uudelleen. Jos virhe toistuu, noudata <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">näitä ohjeita</a>.',
       add_content_first: 'Lisää ensin kohteita',
+      headtype_mismatch: 'Väärä moduuli havaittu. ',
+      headtype_none: 'Moduulia ei havaittu. ',
+      headtype_unknown: 'Tuntematon moduuli havaittu. ',
+      install_correct_headtype:
+        'Asenna 10 W / 20 W diodilasermoduulit asianmukaisesti, jotta kehys voidaan käynnistää matalalla teholla.',
+      door_opened: 'Sulje ovensuojus, jotta kehys voidaan käynnistää matalalla teholla.',
+      fail_to_get_door_status:
+        'Varmista, että ovensuojus on kiinni, jotta kehys voidaan käynnistää matalalla teholla.',
     },
     hint: {
       polygon: 'Paina +-näppäintä lisätäksesi/vähentääksesi sivuja.',
@@ -464,6 +472,7 @@ const lang: ILang = {
     module_offset_2w_ir: '2 W infrapunalaerin siirtymä',
     printer_advanced_mode: 'Tulostimen lisäasetukset',
     default_laser_module: 'Oletuslasermoduuli',
+    low_laser_for_preview: 'Käynnissä oleva kehys:lle',
     groups: {
       general: 'Yleiset',
       update: 'Ohjelmistopäivitykset',

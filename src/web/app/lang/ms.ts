@@ -45,6 +45,13 @@ const lang: ILang = {
       fail_to_connect_with_camera:
         '#803 Gagal menghubungi kamera mesin. Sila mulakan semula mesin atau Beam Studio anda. Jika ralat ini berterusan, sila ikuti <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">panduan ini</a>.',
       add_content_first: 'Sila tambah objek terlebih dahulu',
+      headtype_mismatch: 'Modul tidak sepadan dikesan. ',
+      headtype_none: 'Modul tidak dikesan. ',
+      headtype_unknown: 'Modul tidak diketahui dikesan. ',
+      install_correct_headtype:
+        'Sila pasang modul laser diod 10W/20W dengan betul untuk membolehkan laser beroperasi.',
+      door_opened: 'Sila tutup pintu untuk membolehkan laser beroperasi.',
+      fail_to_get_door_status: 'Sila pastikan pintu ditutup untuk membolehkan laser beroperasi.',
     },
     hint: {
       polygon: 'Tekan kekunci + / - untuk menambah / mengurangkan sisi.',
@@ -466,6 +473,7 @@ const lang: ILang = {
     module_offset_2w_ir: 'Ofset Laser Inframerah 2W',
     printer_advanced_mode: 'Mod Lanjutan Pencetak',
     default_laser_module: 'Modul Laser Lalai',
+    low_laser_for_preview: 'Laser untuk Bingkai sedang berjalan',
     groups: {
       general: 'Umum',
       update: 'Kemaskini Perisian',

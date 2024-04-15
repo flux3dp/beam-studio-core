@@ -42,6 +42,15 @@ const lang: ILang = {
       fail_to_start_preview: '#803 No se puede iniciar el modo de vista previa. Por favor, reinicia tu máquina o Beam Studio. Si este error persiste, por favor sigue <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">esta guía</a>.',
       fail_to_connect_with_camera: '#803 No se pudo establecer conexión con la cámara de la máquina. Por favor, reinicia tu máquina o Beam Studio. Si este error persiste, por favor sigue <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">esta guía</a>.',
       add_content_first: 'Por favor agregue objetos primero',
+      headtype_mismatch: 'Módulo incorrecto detectado. ',
+      headtype_none: 'Módulo no detectado. ',
+      headtype_unknown: 'Módulo desconocido detectado. ',
+      install_correct_headtype:
+        'Instale los módulos láser de diodo de 10W/20W correctamente para habilitar el láser para ejecutar el marco.',
+      door_opened:
+        'Cierre la cubierta de la puerta para habilitar el láser para ejecutar el marco.',
+      fail_to_get_door_status:
+        'Asegúrese de que la cubierta de la puerta esté cerrada para habilitar el láser para ejecutar el marco.',
     },
     hint: {
       polygon: 'Presiona la tecla + / - para aumentar / disminuir los lados.',
@@ -447,6 +456,7 @@ const lang: ILang = {
     module_offset_2w_ir: 'Desplazamiento del láser infrarrojo de 2W',
     printer_advanced_mode: 'Modo Avanzado de Impresión',
     default_laser_module: 'Módulo láser predeterminado',
+    low_laser_for_preview: 'Láser para Vista previa del cuadro',
     groups: {
       general: 'General',
       update: 'Actualizaciones de software',

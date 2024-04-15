@@ -45,6 +45,14 @@ const lang: ILang = {
       fail_to_connect_with_camera:
         '#803 Falha ao conectar com a câmera da máquina. Reinicie seu computador ou o Beam Studio. Se este erro persistir, siga <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">este guia</a>.',
       add_content_first: 'Por favor, adicione objetos primeiro',
+      headtype_mismatch: 'Módulo incorreto detectado. ',
+      headtype_none: 'Módulo não detectado. ',
+      headtype_unknown: 'Módulo desconhecido detectado. ',
+      install_correct_headtype:
+        'Instale os módulos laser de diodo de 10W/20W corretos para habilitar o laser baixo para executar o quadro.',
+      door_opened: 'Feche a tampa da porta para habilitar o laser baixo para executar o quadro.',
+      fail_to_get_door_status:
+        'Certifique-se de que a tampa da porta esteja fechada para habilitar o laser baixo para executar o quadro.',
     },
     hint: {
       polygon: 'Pressione as teclas + / - para aumentar / diminuir os lados.',
@@ -465,6 +473,7 @@ const lang: ILang = {
     module_offset_2w_ir: 'Deslocamento do laser infravermelho de 2W',
     printer_advanced_mode: 'Modo avançado da impressora',
     default_laser_module: 'Módulo laser padrão',
+    low_laser_for_preview: 'Laser para Executando quadro',
     groups: {
       general: 'Geral',
       update: 'Atualizações de software',

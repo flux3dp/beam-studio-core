@@ -45,6 +45,13 @@ const lang: ILang = {
       fail_to_connect_with_camera:
         '#803 Không thể kết nối với camera máy. Vui lòng khởi động lại máy hoặc Beam Studio. Nếu lỗi này vẫn xảy ra, vui lòng làm theo <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">hướng dẫn này</a>.',
       add_content_first: 'Vui lòng thêm đối tượng trước khi thêm nội dung',
+      headtype_mismatch: 'Phát hiện mô-đun không chính xác. ',
+      headtype_none: 'Không tìm thấy mô-đun. ',
+      headtype_unknown: 'Phát hiện mô-đun không xác định. ',
+      install_correct_headtype:
+        'Vui lòng lắp đặt mô-đun laser diode 10W/20W đúng để bật laser thấp cho khung chạy.',
+      door_opened: 'Vui lòng đóng nắp để bật laser thấp cho khung chạy.',
+      fail_to_get_door_status: 'Vui lòng đảm bảo nắp đã đóng để bật laser thấp cho khung chạy.',
     },
     hint: {
       polygon: 'Nhấn phím + / - để tăng / giảm số cạnh',
@@ -466,6 +473,7 @@ const lang: ILang = {
     module_offset_2w_ir: 'Bù đắp Laser Hồng ngoại 2W',
     printer_advanced_mode: 'Chế độ nâng cao Máy in',
     default_laser_module: 'Module Laser mặc định',
+    low_laser_for_preview: 'Laser cho Đang chạy khung',
     groups: {
       general: 'Chung',
       update: 'Cập nhật phần mềm',

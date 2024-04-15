@@ -45,6 +45,14 @@ const lang: ILang = {
       fail_to_connect_with_camera:
         '#803 Kunne ikke opprette tilkobling til maskinkamera. Start maskinen eller Beam Studio på nytt. Hvis feilen vedvarer, følg denne veiledningen',
       add_content_first: 'Legg til objekter først',
+      headtype_mismatch: 'Feil modul oppdaget. ',
+      headtype_none: 'Modul ikke oppdaget. ',
+      headtype_unknown: 'Ukjent modul oppdaget. ',
+      install_correct_headtype:
+        'Vennligst installer 10W/20W diode laser moduler ordentlig for å aktivere lav laser for å kjøre ramme.',
+      door_opened: 'Vennligst lukk dørdekselet for å aktivere lav laser for å kjøre ramme.',
+      fail_to_get_door_status:
+        'Vennligst sørg for at dørdekselet er lukket for å aktivere lav laser for å kjøre ramme.',
     },
     hint: {
       polygon: 'Trykk + / -tasten for å øke / redusere sider.',
@@ -463,6 +471,7 @@ const lang: ILang = {
     module_offset_2w_ir: '2W infrarød laserforskyvning',
     printer_advanced_mode: 'Avansert skrivermodus',
     default_laser_module: 'Standard lasermodul',
+    low_laser_for_preview: 'Laser for Kjører ramme',
     groups: {
       general: 'Generelt',
       update: 'Programvareoppdateringer',

@@ -45,6 +45,15 @@ const lang: ILang = {
       fail_to_connect_with_camera:
         '#803 Impossibile stabilire la connessione con la videocamera della macchina. Riavviare la macchina o Beam Studio. Se l\'errore persiste, seguire <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">questa guida</a>.',
       add_content_first: 'Si prega di aggiungere prima gli oggetti',
+      headtype_mismatch: 'Modulo non corrispondente rilevato. ',
+      headtype_none: 'Modulo non rilevato. ',
+      headtype_unknown: 'Modulo sconosciuto rilevato. ',
+      install_correct_headtype:
+        "Installare correttamente i moduli laser da 10W/20W per abilitare il laser a bassa potenza per l'esecuzione della cornice.",
+      door_opened:
+        "Chiudere lo sportello per abilitare il laser a bassa potenza per l'esecuzione della cornice.",
+      fail_to_get_door_status:
+        "Assicurarsi che lo sportello sia chiuso per abilitare il laser a bassa potenza per l'esecuzione della cornice.",
     },
     hint: {
       polygon: 'Premere + / - per aumentare / diminuire i lati.',
@@ -465,6 +474,7 @@ const lang: ILang = {
     module_offset_2w_ir: 'Offset Laser a Infrarossi 2W',
     printer_advanced_mode: 'Modalità Avanzata Stampante',
     default_laser_module: 'Modulo Laser Predefinito',
+    low_laser_for_preview: 'Laser per Esecuzione cornice',
     groups: {
       general: 'Generale',
       update: 'Aggiornamenti software',

@@ -45,6 +45,14 @@ const lang: ILang = {
       fail_to_connect_with_camera:
         '#803 Kunne ikke oprette forbindelse til maskinkamera. Genstart venligst din maskine eller Beam Studio. Hvis denne fejl fortsætter, skal du følge <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">denne vejledning</a>.',
       add_content_first: 'Tilføj venligst objekter først',
+      headtype_mismatch: 'Forkert modul registreret. ',
+      headtype_none: 'Modul ikke registreret. ',
+      headtype_unknown: 'Ukendt modul registreret. ',
+      install_correct_headtype:
+        'Installer venligst 10W/20W diode laser moduler korrekt for at aktivere lav laser til kørsel af ramme.',
+      door_opened: 'Luk venligst døren for at aktivere lav laser til kørsel af ramme.',
+      fail_to_get_door_status:
+        'Sørg venligst for at døren er lukket for at aktivere lav laser til kørsel af ramme.',
     },
     hint: {
       polygon: 'Tryk på + / - tasten for at øge / mindske sider.',
@@ -466,6 +474,7 @@ const lang: ILang = {
     module_offset_2w_ir: '2W infrarød laserforskydning',
     printer_advanced_mode: 'Avanceret printer tilstand',
     default_laser_module: 'Standard lasermodul',
+    low_laser_for_preview: 'Laser til Kørende Ramme',
     groups: {
       general: 'Generelt',
       update: 'Softwareopdateringer',

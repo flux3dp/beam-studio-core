@@ -42,6 +42,14 @@ const lang: ILang = {
       fail_to_start_preview: '#803 Fail to start preview mode. Please Restart your machine or Beam Studio. If this error persists, please follow <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">this guide</a>.',
       fail_to_connect_with_camera: '#803 Failed to establish connection with machine camera. Please Restart your machine or Beam Studio. If this error persists, please follow <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">this guide</a>.',
       add_content_first: 'Please add objects first',
+      headtype_mismatch: 'Incorrect module detected. ',
+      headtype_none: 'Module not detected. ',
+      headtype_unknown: 'Unknown module detected. ',
+      install_correct_headtype:
+        'Please install 10W/20W diode laser modules properly to enable low laser for running frame.',
+      door_opened: 'Please close the door cover to enable low laser for running frame.',
+      fail_to_get_door_status:
+        'Please make sure the door cover is closed to enable low laser for running frame.',
     },
     hint: {
       polygon: 'Press + / - key to increase / decrease sides.',
@@ -447,6 +455,7 @@ const lang: ILang = {
     module_offset_2w_ir: '2W Infrared Laser Offset',
     printer_advanced_mode: 'Printer Advanced Mode',
     default_laser_module: 'Default Laser Module',
+    low_laser_for_preview: 'Laser for Running Frame',
     groups: {
       general: 'General',
       update: 'Software Updates',

@@ -35,10 +35,16 @@ export interface ILang {
       dxf: string,
     },
     alerts: {
-      start_preview_timeout: string,
-      fail_to_start_preview: string,
-      fail_to_connect_with_camera: string,
-      add_content_first: string,
+      start_preview_timeout: string;
+      fail_to_start_preview: string;
+      fail_to_connect_with_camera: string;
+      add_content_first: string;
+      headtype_mismatch: string;
+      headtype_none: string;
+      headtype_unknown: string;
+      install_correct_headtype: string;
+      door_opened: string;
+      fail_to_get_door_status: string;
     };
     hint: {
       polygon: string;
@@ -444,6 +450,7 @@ export interface ILang {
     module_offset_2w_ir: string;
     printer_advanced_mode: string;
     default_laser_module: string;
+    low_laser_for_preview: string;
     groups: {
       general: string,
       update: string,

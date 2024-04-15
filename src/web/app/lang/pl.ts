@@ -42,6 +42,14 @@ const lang: ILang = {
       fail_to_start_preview: '#803 Nie udało się uruchomić trybu podglądu. Uruchom ponownie komputer i Beam Studio. Jeśli błąd będzie się powtarzał, postępuj zgodnie z <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">tym przewodnikiem</a>.',
       fail_to_connect_with_camera: '#803 Nie udało się nawiązać połączenia z kamerą maszyny. Uruchom ponownie komputer i Beam Studio. Jeśli błąd będzie się powtarzał, postępuj zgodnie z <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">tym przewodnikiem</a>.',
       add_content_first: 'Please add objects first',
+      headtype_mismatch: 'Nieprawidłowy moduł wykryty. ',
+      headtype_none: 'Nie wykryto modułu. ',
+      headtype_unknown: 'Wykryto nieznany moduł. ',
+      install_correct_headtype:
+        'Zainstaluj prawidłowe moduły lasera diodowego 10 W/20 W, aby włączyć niską moc lasera do uruchomienia ramki.',
+      door_opened: 'Zamknij pokrywę drzwi, aby włączyć niską moc lasera do uruchomienia ramki.',
+      fail_to_get_door_status:
+        'Upewnij się, że pokrywa drzwi jest zamknięta, aby włączyć niską moc lasera do uruchomienia ramki.',
     },
     hint: {
       polygon: 'Naciśnij klawisz + / -, aby zwiększyć / zmniejszyć ilość boków.',
@@ -447,6 +455,7 @@ const lang: ILang = {
     module_offset_2w_ir: 'Laser offsetowy na podczerwień o mocy 2 W',
     printer_advanced_mode: 'Tryb zaawansowany drukarki',
     default_laser_module: 'Domyślny moduł laserowy',
+    low_laser_for_preview: 'Laser dla Rama do biegania',
     groups: {
       general: 'Ogólne',
       update: 'Aktualizacje oprogramowania',

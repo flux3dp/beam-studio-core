@@ -45,6 +45,15 @@ const lang: ILang = {
       fail_to_connect_with_camera:
         '#803 Gagal membuat koneksi dengan kamera mesin. Harap mulai ulang mesin Anda atau Beam Studio. Jika kesalahan ini berlanjut, ikuti <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">panduan ini</a>.',
       add_content_first: 'Silakan tambahkan objek terlebih dahulu',
+      headtype_mismatch: 'Modul yang tidak cocok terdeteksi. ',
+      headtype_none: 'Modul tidak terdeteksi. ',
+      headtype_unknown: 'Modul tidak dikenali terdeteksi. ',
+      install_correct_headtype:
+        'Harap pasang modul laser diode 10W/20W dengan benar untuk mengaktifkan laser rendah agar bingkai dapat berjalan.',
+      door_opened:
+        'Harap tutup pintu penutup untuk mengaktifkan laser rendah agar bingkai dapat berjalan.',
+      fail_to_get_door_status:
+        'Harap pastikan pintu penutup tertutup untuk mengaktifkan laser rendah agar bingkai dapat berjalan.',
     },
     hint: {
       polygon: 'Tekan tombol + / - untuk menambah / mengurangi sisi.',
@@ -467,6 +476,7 @@ const lang: ILang = {
     module_offset_2w_ir: 'Offset Laser Inframerah 2W',
     printer_advanced_mode: 'Mode Printer Lanjutan',
     default_laser_module: 'Modul Laser Default',
+    low_laser_for_preview: 'Laser untuk Jalankan Bingkai',
     groups: {
       general: 'Umum',
       update: 'Pembaruan Perangkat Lunak',

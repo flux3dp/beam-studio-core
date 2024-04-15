@@ -45,6 +45,14 @@ const lang: ILang = {
       fail_to_connect_with_camera:
         '#803 Échec de la connexion avec la caméra de la machine. Veuillez redémarrer votre machine ou Beam Studio. Si cette erreur persiste, veuillez suivre <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">ce guide</a>.',
       add_content_first: "Veuillez d'abord ajouter des objets",
+      headtype_mismatch: 'Module incorrect détecté. ',
+      headtype_none: 'Aucun module détecté. ',
+      headtype_unknown: 'Module inconnu détecté. ',
+      install_correct_headtype:
+        'Veuillez installer correctement les modules laser diode 10W/20W pour activer le laser de découpe.',
+      door_opened: 'Veuillez fermer le couvercle de protection pour activer le laser de découpe.',
+      fail_to_get_door_status:
+        'Veuillez vous assurer que le couvercle de protection est fermé pour activer le laser de découpe.',
     },
     hint: {
       polygon: 'Appuyez sur les touches + / - pour augmenter / diminuer les côtés.',
@@ -470,6 +478,7 @@ const lang: ILang = {
     module_offset_2w_ir: 'Décalage du laser infrarouge 2W',
     printer_advanced_mode: "Mode avancé de l'imprimante",
     default_laser_module: 'Module laser par défaut',
+    low_laser_for_preview: 'Laser pour Exécution du cadre',
     groups: {
       general: 'Général',
       update: 'Mises à jour logicielles',

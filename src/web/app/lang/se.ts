@@ -45,6 +45,14 @@ const lang: ILang = {
       fail_to_connect_with_camera:
         '#803 Det gick inte att ansluta till maskinkameran. Starta om din maskin eller Beam Studio. Om felet kvarstår, följ <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">denna guide</a>.',
       add_content_first: 'Lägg till objekt först',
+      headtype_mismatch: 'Fel modultyp upptäckt. ',
+      headtype_none: 'Ingen modul upptäckt. ',
+      headtype_unknown: 'Okänd modul upptäckt. ',
+      install_correct_headtype:
+        'Installera 10W/20W diodlasermoduler korrekt för att aktivera lågeffektslaser för skärning.',
+      door_opened: 'Stäng luckan för att aktivera lågeffektslaser för skärning.',
+      fail_to_get_door_status:
+        'Kontrollera att luckan är stängd för att aktivera lågeffektslaser för skärning.',
     },
     hint: {
       polygon: 'Tryck på + / - tangenten för att öka / minska sidor.',
@@ -467,6 +475,7 @@ const lang: ILang = {
     module_offset_2w_ir: '2W Infraröd Laser Offset',
     printer_advanced_mode: 'Avancerat Skrivarläge',
     default_laser_module: 'Standard Lasermodul',
+    low_laser_for_preview: 'Laser för Kör ram',
     groups: {
       general: 'Allmänt',
       update: 'Programuppdateringar',

@@ -42,6 +42,15 @@ const lang: ILang = {
       fail_to_start_preview: '#803 Fehler beim Starten des Vorschaumodus. Bitte starten Sie Ihren Maschinen oder Beam Studio neu. Wenn dieser Fehler weiterhin besteht, befolgen Sie <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">diese Anleitung</a>.',
       fail_to_connect_with_camera: '#803 Verbindung zur Maschinenkamera konnte nicht hergestellt werden. Bitte starten Sie Ihren Maschinen oder Beam Studio neu. Wenn dieser Fehler weiterhin besteht, befolgen Sie <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">diese Anleitung</a>.',
       add_content_first: 'Bitte fügen Sie zuerst Objekte hinzu',
+      headtype_mismatch: 'Falsches Modul erkannt. ',
+      headtype_none: 'Modul nicht erkannt. ',
+      headtype_unknown: 'Unbekanntes Modul erkannt. ',
+      install_correct_headtype:
+        'Bitte installieren Sie 10W/20W-Diodenlasermodule ordnungsgemäß, um Niedriglaser zum Ausführen des Rahmens zu aktivieren.',
+      door_opened:
+        'Bitte schließen Sie die Tür abdeckung, um Niedriglaser zum Ausführen des Rahmens zu aktivieren.',
+      fail_to_get_door_status:
+        'Bitte stellen Sie sicher, dass die Tür abdeckung geschlossen ist, um Niedriglaser zum Ausführen des Rahmens zu aktivieren.',
     },
     hint: {
       polygon: 'Press + / - key to increse / decrease sides.',
@@ -447,6 +456,7 @@ const lang: ILang = {
     module_offset_2w_ir: '2W Infrarotlaser-Versatz',
     printer_advanced_mode: 'Druckerfortgeschrittener Modus',
     default_laser_module: 'Standard-Lasermodul',
+    low_laser_for_preview: 'Laser für Frame-Vorschau',
     groups: {
       general: 'Allgemeines',
       update: 'Software-Updates',
