@@ -8,7 +8,7 @@ import React, {
   useReducer,
   useState,
 } from 'react';
-import { ConfigProvider, Modal, Select } from 'antd';
+import { ConfigProvider, Modal } from 'antd';
 import { sprintf } from 'sprintf-js';
 
 import alertCaller from 'app/actions/alert-caller';
@@ -29,6 +29,7 @@ import LayerPanelIcons from 'app/icons/layer-panel/LayerPanelIcons';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import presprayArea from 'app/actions/canvas/prespray-area';
+import Select from 'app/widgets/AntdSelect';
 import storage from 'implementations/storage';
 import tutorialConstants from 'app/constants/tutorial-constants';
 import tutorialController from 'app/views/tutorials/tutorialController';
@@ -321,6 +322,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
                   ...hiddenOptions.filter((option) => option.value === dropdownValue),
                 ]}
                 popupMatchSelectWidth={false}
+                placement="bottomRight"
               />
               {module.value !== LayerModule.PRINTER && <SaveConfigButton />}
             </div>

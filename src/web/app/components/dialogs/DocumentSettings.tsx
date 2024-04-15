@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import React, { useEffect, useMemo, useState } from 'react';
-import { Checkbox, Col, ConfigProvider, Form, Modal, Row, Select, Switch } from 'antd';
+import { Checkbox, Col, ConfigProvider, Form, Modal, Row, Switch } from 'antd';
 
 import alertCaller from 'app/actions/alert-caller';
 import alertConstants from 'app/constants/alert-constants';
@@ -12,6 +12,7 @@ import EngraveDpiSlider from 'app/widgets/EngraveDpiSlider';
 import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
 import rotaryAxis from 'app/actions/canvas/rotary-axis';
+import Select from 'app/widgets/AntdSelect';
 import useI18n from 'helpers/useI18n';
 import { WorkAreaModel, getWorkarea } from 'app/constants/workarea-constants';
 

@@ -1,19 +1,9 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
-import {
-  Button,
-  Divider,
-  Form,
-  InputNumber,
-  Radio,
-  Select,
-  Slider,
-  Space,
-  Switch,
-  Tooltip,
-} from 'antd';
+import { Button, Divider, Form, InputNumber, Radio, Slider, Space, Switch, Tooltip } from 'antd';
 import { PlusOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 import { sprintf } from 'sprintf-js';
 
+import Select from 'app/widgets/AntdSelect';
 import useI18n from 'helpers/useI18n';
 import { BoxgenContext } from 'app/contexts/BoxgenContext';
 import { IController } from 'interfaces/IBoxgen';

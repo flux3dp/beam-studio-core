@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Button, Col, Input, InputNumber, Modal, Radio, Row, Select, Tabs } from 'antd';
+import { Button, Col, Input, InputNumber, Modal, Radio, Row, Tabs } from 'antd';
 
 import alertCaller from 'app/actions/alert-caller';
 import deviceMaster from 'helpers/device-master';
 import progressCaller from 'app/actions/progress-caller';
+import Select from 'app/widgets/AntdSelect';
 
 interface ChipSettings {
   uid: string;
