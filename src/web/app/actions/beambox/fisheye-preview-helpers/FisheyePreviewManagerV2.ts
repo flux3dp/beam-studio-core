@@ -23,21 +23,26 @@ class FisheyePreviewManagerV2 extends FisheyePreviewManagerBase implements Fishe
     this.params = params;
   }
 
-  async setupFisheyePreview(progressId?: string): Promise<boolean> {
+  async setupFisheyePreview(args: {
+    progressId?: string;
+    focusPosition?: string;
+    defaultHeight?: number;
+  } = {}): Promise<boolean> {
     const { lang } = i18n;
+    const { progressId, focusPosition, defaultHeight } = args;
     if (!progressId) progressCaller.openNonstopProgress({ id: this.progressId });
     const { device, params } = this;
     progressCaller.update(progressId || this.progressId, { message: 'Fetching leveling data...' });
     this.levelingOffset = await getLevelingData('offset');
     await rawAndHome(progressId || this.progressId);
-    const height = await getHeight(device, progressId || this.progressId);
+    const height = await getHeight(device, progressId || this.progressId, defaultHeight);
     if (typeof height !== 'number') return false;
     this.objectHeight = height;
     progressCaller.openNonstopProgress({
       id: progressId || this.progressId,
       message: lang.message.getProbePosition,
     });
-    this.autoFocusRefKey = await getAutoFocusPosition(device);
+    this.autoFocusRefKey = focusPosition ?? (await getAutoFocusPosition(device));
     progressCaller.update(progressId || this.progressId, { message: lang.message.endingRawMode });
     await deviceMaster.endRawMode();
     // V2 calibration use point E as reference

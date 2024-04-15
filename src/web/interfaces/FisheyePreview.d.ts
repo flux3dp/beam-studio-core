@@ -97,7 +97,7 @@ interface FisheyePreviewManagerBase {
   objectHeight: number;
   levelingOffset: Record<string, number>;
 
-  setupFisheyePreview(progressId?: string): Promise<boolean>;
+  setupFisheyePreview(args?: { progressId?: string; }): Promise<boolean>;
 
   onObjectHeightChanged(): Promise<void>;
 
@@ -116,7 +116,7 @@ export interface FisheyePreviewManager {
   levelingData: Record<string, number>;
   levelingOffset: Record<string, number>;
 
-  setupFisheyePreview(progressId?: string): Promise<boolean>;
+  setupFisheyePreview(args?: { progressId?: string; }): Promise<boolean>;
 
   update3DRotation?(newData: RotationParameters3DCalibration): Promise<void>;
 

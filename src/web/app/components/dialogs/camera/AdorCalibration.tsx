@@ -13,7 +13,7 @@ import {
   doFishEyeCalibration,
   startFisheyeCalibrate,
 } from 'helpers/camera-calibration-helper';
-import { FisheyeCameraParametersV1 } from 'interfaces/FisheyePreview';
+import { FisheyeCameraParameters } from 'interfaces/FisheyePreview';
 
 import Align from './AdorCalibration/Align';
 import Calibrate from './AdorCalibration/Calibrate';
@@ -46,14 +46,15 @@ const calibrated = {
 const AdorCalibration = ({ type = CalibrationType.CAMERA, onClose }: Props): JSX.Element => {
   const isDevMode = isDev();
   const lang = useI18n().calibration;
-  const param = useRef<FisheyeCameraParametersV1>({} as any);
+  const param = useRef<FisheyeCameraParameters>({} as any);
   const [step, setStep] = useState<Step>(Step.WAITING);
   const currentDeviceId = useMemo(() => deviceMaster.currentDevice.info.uuid, []);
   const checkFirstStep = async () => {
-    let fisheyeParameters: FisheyeCameraParametersV1 = null;
+    let fisheyeParameters: FisheyeCameraParameters = null;
     try {
       const currentParameter = await deviceMaster.fetchFisheyeParams();
-      if (!('v' in currentParameter)) fisheyeParameters = currentParameter;
+      console.log(currentParameter);
+      fisheyeParameters = currentParameter;
     } catch (err) {
       // do nothing
     }
@@ -67,6 +68,13 @@ const AdorCalibration = ({ type = CalibrationType.CAMERA, onClose }: Props): JSX
       return;
     }
     if (type === CalibrationType.CAMERA && isDevMode) {
+      if (!('v' in fisheyeParameters)) {
+        alertCaller.popUp({
+          message: 'V2 calibration detected, please use v2 to calibrate camera.',
+        });
+        onClose(false);
+        return;
+      }
       const res = await new Promise<boolean>((resolve) => {
         alertCaller.popUp({
           message: 'Skip Caculating?',
@@ -80,9 +88,8 @@ const AdorCalibration = ({ type = CalibrationType.CAMERA, onClose }: Props): JSX
         return;
       }
     }
-    const { k, d, heights, points, z3regParam, center } = fisheyeParameters;
-    param.current = { ...param.current, k, d, heights, points, z3regParam, center };
-    if (calibrated[type].has(currentDeviceId)) {
+    param.current = { ...fisheyeParameters };
+    if (calibrated[type].has(currentDeviceId) || true) {
       const res = await new Promise<boolean>((resolve) => {
         alertCaller.popUp({
           message: lang.ask_for_readjust,
