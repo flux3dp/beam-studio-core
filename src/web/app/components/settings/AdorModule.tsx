@@ -1,12 +1,12 @@
 import React, { useCallback, useMemo } from 'react';
 
 import Controls from 'app/components/settings/Control';
-import constant, { WorkAreaModel } from 'app/actions/beambox/constant';
 import LayerModule from 'app/constants/layer-module/layer-modules';
 import moduleOffsets from 'app/constants/layer-module/module-offsets';
 import SelectControl from 'app/components/settings/SelectControl';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import useI18n from 'helpers/useI18n';
+import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 import { OptionValues } from 'app/constants/enums';
 
 interface Props {
@@ -49,14 +49,10 @@ const AdorModule = ({
     },
     [currentModuleOffsets, getModuleOffset, updateBeamboxPreferenceChange]
   );
-  const workareaWidth = useMemo(
-    () => constant.dimension.getWidth(selectedModel) / 10,
-    [selectedModel]
-  );
-  const workareaHeight = useMemo(
-    () => constant.dimension.getHeight(selectedModel) / 10,
-    [selectedModel]
-  );
+  const { workareaWidth, workareaHeight } = useMemo(() => {
+    const { width, height, displayHeight } = getWorkarea(selectedModel, 'ado1');
+    return { workareaWidth: width, workareaHeight: displayHeight ?? height };
+  }, [selectedModel]);
   const editDefaultLaserModule = useCallback(
     (module: LayerModule) => {
       updateBeamboxPreferenceChange('default-laser-module', module);

@@ -6,6 +6,7 @@ import PathPreview from 'app/components/beambox/path-preview/PathPreview';
 import storage from 'implementations/storage';
 import svgEditor from 'app/actions/beambox/svg-editor';
 import Workarea from 'app/components/beambox/Workarea';
+import workareaManager from 'app/svgedit/workarea';
 import ZoomBlock from 'app/components/beambox/ZoomBlock';
 import { CanvasContext } from 'app/contexts/CanvasContext';
 
@@ -400,7 +401,7 @@ export default class SvgEditor extends React.Component {
         {isPathPreviewing && <PathPreview />}
         {!isPathPreviewing && (
           <ZoomBlock
-            setZoom={(zoom) => svgEditor.zoomChanged(window, { zoomLevel: zoom / constant.dpmm })}
+            setZoom={(zoom) => workareaManager.zoom(zoom / constant.dpmm)}
             resetView={svgEditor.resetView}
           />
         )}

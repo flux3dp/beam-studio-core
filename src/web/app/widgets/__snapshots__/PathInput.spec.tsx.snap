@@ -3,21 +3,21 @@
 exports[`test PathInput should render correctly 1`] = `
 <div>
   <div
-    class="path-input with-error"
+    class="container with-error"
   >
-    <input
-      id="location-input"
-      type="text"
-      value="defaultFolder"
-    />
     <div
-      class="dialog-btn"
+      class="btn"
       title="Choose Folder"
     >
       <img
         src="img/right-panel/icon-import.svg"
       />
     </div>
+    <input
+      id="location-input"
+      type="text"
+      value="defaultFolder"
+    />
   </div>
 </div>
 `;
@@ -25,21 +25,21 @@ exports[`test PathInput should render correctly 1`] = `
 exports[`test PathInput should render correctly 2`] = `
 <div>
   <div
-    class="path-input with-error"
+    class="container with-error"
   >
-    <input
-      id="location-input"
-      type="text"
-      value="defaultFolder"
-    />
     <div
-      class="dialog-btn"
+      class="btn"
       title="Choose Folder"
     >
       <img
         src="img/right-panel/icon-import.svg"
       />
     </div>
+    <input
+      id="location-input"
+      type="text"
+      value="defaultFolder"
+    />
   </div>
 </div>
 `;
@@ -47,21 +47,21 @@ exports[`test PathInput should render correctly 2`] = `
 exports[`test PathInput should render correctly 3`] = `
 <div>
   <div
-    class="path-input with-error"
+    class="container with-error"
   >
-    <input
-      id="location-input"
-      type="text"
-      value="defaultFolder"
-    />
     <div
-      class="dialog-btn"
+      class="btn"
       title="Choose Folder"
     >
       <img
         src="img/right-panel/icon-import.svg"
       />
     </div>
+    <input
+      id="location-input"
+      type="text"
+      value="myDocuments"
+    />
   </div>
 </div>
 `;

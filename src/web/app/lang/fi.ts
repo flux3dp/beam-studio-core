@@ -44,10 +44,6 @@ const lang: ILang = {
         '#803 Esikatselutilan käynnistys epäonnistui. Käynnistä kone tai Beam Studio uudelleen. Jos virhe toistuu, noudata <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">tätä ohjetta</a>.',
       fail_to_connect_with_camera:
         '#803 Yhteyden muodostaminen kameraan epäonnistui. Käynnistä tietokone tai Beam Studio uudelleen. Jos virhe toistuu, noudata <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">näitä ohjeita</a>.',
-      power_too_high: 'LIIAN SUURI TEHO',
-      power_too_high_msg:
-        'Matalampi laserteho (alle 70 %) pidentää laserputken käyttöikää.\nKirjoita "HUOMAUTETTU" jatkaaksesi.',
-      power_too_high_confirm: 'HUOMAUTETTU',
       add_content_first: 'Lisää ensin kohteita',
     },
     hint: {
@@ -1059,6 +1055,7 @@ const lang: ILang = {
       engrave_dpi: 'Resoluutio',
       enable_diode: 'Diodilaser',
       enable_autofocus: 'Autofokus',
+      extend_workarea: 'Laajenna työaluetta',
       add_on: 'Lisäosat',
       low: 'Matala',
       medium: 'Keskitaso',
@@ -1205,11 +1202,35 @@ const lang: ILang = {
     },
     shapes_panel: {
       title: 'Kuvakkeet',
+      basic: 'Perus',
       shape: 'Muoto',
       graphics: 'Grafiikka',
       arrow: 'Nuoli',
-      line: 'Viiva',
       label: 'Teksti',
+      decor: 'Koriste',
+      circular: 'Ympyrä',
+      corner: 'Kulma',
+      line: 'Viiva',
+      photo: 'Valokuva',
+      ribbon: 'Nauha',
+      speech: 'Puhe',
+      text: 'Tekstikehys',
+      animals: 'Eläin',
+      birds: 'Lintu',
+      land: 'Maa',
+      sea: 'Meri',
+      holidays: 'Juhlapäivä',
+      celebration: 'Juhlinta',
+      CNY: 'Kiinalainen uusivuosi',
+      easter: 'Pääsiäinen',
+      halloween: 'Halloween',
+      valentines: 'Ystävänpäivä',
+      Xmas: 'Joulu',
+      nature: 'Luonto',
+      elements: 'Alkuaineet',
+      environment: 'Ympäristö',
+      plants: 'Kasvit',
+      weather: 'Sää',
     },
     announcement_panel: {
       title: 'Tiedote',
@@ -1218,6 +1239,7 @@ const lang: ILang = {
   },
   editor: {
     prespray_area: 'Esisuihkutusalue',
+    opacity: 'Esikatselun läpinäkyvyys',
   },
   flux_id_login: {
     connection_fail: '#847 Yhteyden muodostaminen FLUX-jäsenyyteen epäonnistui.',
@@ -1790,6 +1812,17 @@ const lang: ILang = {
       storage_limit_exceeded:
         'Pilvitallennustilasi on saavuttanut ylärajan. Poista kaikki tarpeettomat tiedostot ennen uusien tallentamista.',
     },
+  },
+  camera_data_backup: {
+    title: 'Kameran tietojen varmuuskopiointi',
+    no_picture_found: 'Kuvaa ei löytynyt laitteesta.',
+    folder_not_exists: 'Valittu kansio ei ole olemassa.',
+    incorrect_folder: 'Kalibrointitietojen lataaminen epäonnistui. Tarkista, että valitsemasi kansio on oikea.',
+    downloading_data: 'Tietojen lataaminen...',
+    estimated_time_left: 'Arvioitu jäljellä oleva aika:',
+    uploading_data: 'Tietojen lataaminen...',
+    download_success: 'Kameran tiedot on ladattu onnistuneesti.',
+    upload_success: 'Kameran tiedot on ladattu onnistuneesti.',
   },
 };
 

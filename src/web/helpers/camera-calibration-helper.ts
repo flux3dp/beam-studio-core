@@ -409,24 +409,32 @@ export const getPerspectivePointsZ3Regression = (
 };
 
 export const findCorners = async (
-  imgBlob: Blob
+  imgBlob: Blob,
+  withPitch = false
 ): Promise<{
   success: boolean;
   blob: Blob;
-  data?: { k: number[][]; d: number[][]; rvec: number[]; points: [number, number][][] };
+  data?: {
+    k: number[][];
+    d: number[][];
+    rvec: number[];
+    tvec: number[];
+    points: [number, number][][];
+  };
 }> => {
-  const resp = await api.findCorners(imgBlob);
+  const resp = await api.findCorners(imgBlob, withPitch);
   return resp;
 };
 
 export const calculateCameraPosition = async (
   img: Blob | ArrayBuffer,
-  dh: number
+  dh: number,
+  withPitch = false
 ): Promise<{
   success: boolean;
   blob: Blob;
-  data?: { center: number[]; h: number[]; s: number[] };
+  data?: { xc: number[]; yc: number[]; hx: number[]; hy: number[]; s: number[] };
 }> => {
-  const resp = await api.calculateCameraPosition(img, dh);
+  const resp = await api.calculateCameraPosition(img, dh, withPitch);
   return resp;
 };

@@ -1,4 +1,5 @@
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import grid from 'app/actions/canvas/grid';
 import updateLayerColor from 'helpers/color/updateLayerColor';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
@@ -17,7 +18,7 @@ const updateAntiAliasing = (on: boolean): void => {
 };
 
 const toggleLayerColor = (): boolean => {
-  const isUsingLayerColor = !(svgCanvas.isUsingLayerColor);
+  const isUsingLayerColor = !svgCanvas.isUsingLayerColor;
   svgCanvas.isUsingLayerColor = isUsingLayerColor;
   BeamboxPreference.write('use_layer_color', isUsingLayerColor);
   const layers = Array.from(document.querySelectorAll('g.layer'));
@@ -28,11 +29,10 @@ const toggleLayerColor = (): boolean => {
 };
 
 const toggleGrid = (): boolean => {
-  const showGrid = !(svgEditor.curConfig.showGrid || false);
-  svgEditor.curConfig.showGrid = showGrid;
-  const canvasGridDisplay = showGrid ? 'inline' : 'none';
-  $('#canvasGrid').attr('style', `display: ${canvasGridDisplay}`);
-  return showGrid;
+  const newVal = !BeamboxPreference.read('show_grids');
+  BeamboxPreference.write('show_grids', newVal);
+  grid.toggleGrids();
+  return newVal;
 };
 
 const toggleRulers = (): boolean => {
@@ -45,22 +45,21 @@ const toggleRulers = (): boolean => {
   return shouldShowRulers;
 };
 
-let zoomWithWindow = false;
 const toggleZoomWithWindow = (): boolean => {
   svgEditor.resetView();
-  zoomWithWindow = !zoomWithWindow;
+  const zoomWithWindow = !BeamboxPreference.read('zoom_with_window');
   if (zoomWithWindow) {
+    window.removeEventListener('resize', svgEditor.resetView);
     window.addEventListener('resize', svgEditor.resetView);
   } else {
     window.removeEventListener('resize', svgEditor.resetView);
   }
+  BeamboxPreference.write('zoom_with_window', zoomWithWindow);
   return zoomWithWindow;
 };
 
 const toggleAntiAliasing = (): boolean => {
-  // Default True
-  const currentValue = BeamboxPreference.read('anti-aliasing') !== false;
-  const newValue = !currentValue;
+  const newValue = !BeamboxPreference.read('anti-aliasing');
   updateAntiAliasing(newValue);
   BeamboxPreference.write('anti-aliasing', newValue);
   return newValue;

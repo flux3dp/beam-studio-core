@@ -6,7 +6,6 @@ import AlertConstants from 'app/constants/alert-constants';
 import Browser from 'implementations/browser';
 import CheckDeviceStatus from 'helpers/check-device-status';
 import Constant from 'app/actions/beambox/constant';
-import DeviceConstants from 'app/constants/device-constants';
 import DeviceErrorHandler from 'helpers/device-error-handler';
 import DeviceMaster from 'helpers/device-master';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
@@ -91,7 +90,7 @@ const StepRefocus = (): JSX.Element => {
 
   let child = null;
   let message: string;
-  if (device.model === DeviceConstants.Model.Beamo) {
+  if (device.model === 'fbm1') {
     child = (
       <div className="video-container">
         <div className="tab-container">
@@ -108,7 +107,7 @@ const StepRefocus = (): JSX.Element => {
       </div>
     );
     message = isAutoFocus ? langCalibration.please_refocus.beamo_af : langCalibration.please_refocus.beamo;
-  } else if (device.model === DeviceConstants.Model.HEXA) {
+  } else if (device.model === 'fhexa1') {
     message = langCalibration.please_refocus.hexa;
     child = (
       <video className="video" ref={videoElem} autoPlay loop>

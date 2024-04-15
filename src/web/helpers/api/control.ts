@@ -220,6 +220,7 @@ class Control extends EventEmitter {
 
   setTimeoutTimer(reject: Function, timeout = 30000) {
     const timeoutTimer = setTimeout(() => {
+      this.removeCommandListeners();
       reject({
         status: 'error',
         text: 'TIMEOUT',
@@ -423,24 +424,31 @@ class Control extends EventEmitter {
     });
     this.setDefaultErrorResponse(reject);
     this.setDefaultFatalResponse(reject);
-  };
+};
 
   upload = (data, path?: string, fileName?: string) => new Promise((resolve, reject) => {
     this.prepareUpload(data, resolve, reject);
-
+    const mimeTypes = {
+      fc: 'application/fcode',
+      jpg: 'image/jpeg',
+      png: 'image/png',
+      json: 'application/json',
+    };
     if (path && fileName) {
       // eslint-disable-next-line no-param-reassign
       fileName = fileName.replace(/ /g, '_');
-      const ext = fileName.split('.');
-      if (ext[ext.length - 1] === 'fc') {
-        this.ws.send(`upload application/fcode ${data.size} ${path}/${fileName}`);
-      } else if (ext[ext.length - 1] === 'gcode') {
+      const ext = fileName.split('.').at(-1);
+      if (mimeTypes[ext]) {
+        this.ws.send(`upload ${mimeTypes[ext]} ${data.size} ${path}/${fileName}`);
+      } else if (ext === 'gcode') {
         const newFileName = fileName.split('.');
         newFileName.pop();
         newFileName.push('fc');
         // eslint-disable-next-line no-param-reassign
         fileName = newFileName.join('.');
         this.ws.send(`upload text/gcode ${data.size} ${path}/${fileName}`);
+      } else {
+        throw new Error(`Unsupported file type ${ext}`);
       }
     } else {
       this.ws.send(`file upload application/fcode ${data.size}`);
@@ -802,6 +810,11 @@ class Control extends EventEmitter {
 
   setOriginY = async (y: number) => {
     const res = (await this.useWaitOKResponse(`play set_origin_y ${y}`)).response;
+    return res;
+  };
+
+  getDoorOpen = async () => {
+    const res = (await this.useWaitOKResponse('play get_door_open')).response;
     return res;
   };
 
@@ -1181,7 +1194,7 @@ class Control extends EventEmitter {
       this.on(EVENT_COMMAND_MESSAGE, (response) => {
         clearTimeout(timeoutTimer);
         if (response && response.status === 'raw') {
-          console.log('raw get probe position:\t', response.text);
+          console.log('raw auto focus:\t', response.text);
           responseString += response.text;
         }
         const resps = responseString.split('\r\n');

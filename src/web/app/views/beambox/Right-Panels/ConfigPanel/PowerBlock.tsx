@@ -2,16 +2,24 @@ import classNames from 'classnames';
 import React, { memo, useContext } from 'react';
 import { Button, Popover } from 'antd-mobile';
 
+import history from 'app/svgedit/history';
+import ISVGCanvas from 'interfaces/ISVGCanvas';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import objectPanelItemStyles from 'app/views/beambox/Right-Panels/ObjectPanelItem.module.scss';
 import useI18n from 'helpers/useI18n';
 import { CUSTOM_PRESET_CONSTANT, DataType, writeData } from 'helpers/layer/layer-config-helper';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ObjectPanelContext } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
 
 import ConfigPanelContext from './ConfigPanelContext';
 import ConfigSlider from './ConfigSlider';
 import ConfigValueDisplay from './ConfigValueDisplay';
 import styles from './Block.module.scss';
+
+let svgCanvas: ISVGCanvas;
+getSVGAsync((globalSVG) => {
+  svgCanvas = globalSVG.Canvas;
+});
 
 const MAX_VALUE = 100;
 const MIN_VALUE = 1;
@@ -23,7 +31,7 @@ function PowerBlock({
 }): JSX.Element {
   const lang = useI18n();
   const t = lang.beambox.right_panel.laser_panel;
-  const { selectedLayers, state, dispatch } = useContext(ConfigPanelContext);
+  const { selectedLayers, state, dispatch, initState } = useContext(ConfigPanelContext);
   const { activeKey } = useContext(ObjectPanelContext);
   const visible = activeKey === 'power';
   const { power } = state;
@@ -32,18 +40,22 @@ function PowerBlock({
       type: 'change',
       payload: { power: value, configName: CUSTOM_PRESET_CONSTANT },
     });
-    if (type !== 'modal')
+    if (type !== 'modal') {
+      const batchCmd = new history.BatchCommand('Change power');
       selectedLayers.forEach((layerName) => {
-        writeData(layerName, DataType.strength, value);
-        writeData(layerName, DataType.configName, CUSTOM_PRESET_CONSTANT);
+        writeData(layerName, DataType.strength, value, { batchCmd });
+        writeData(layerName, DataType.configName, CUSTOM_PRESET_CONSTANT, { batchCmd });
       });
+      batchCmd.onAfter = initState;
+      svgCanvas.addCommandToHistory(batchCmd);
+    }
   };
 
   const content = (
     <div className={classNames(styles.panel, styles[type])}>
       <span className={styles.title}>{t.strength}</span>
       <ConfigValueDisplay
-        inputId='power-input'
+        inputId="power-input"
         type={type}
         max={MAX_VALUE}
         min={MIN_VALUE}

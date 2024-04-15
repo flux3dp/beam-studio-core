@@ -22,7 +22,7 @@ const updateLayerColorFilter = (layer: SVGGElement): void => {
     filter?.remove();
     return;
   }
-  const useLayerColor = beamboxPrefernce.read('use_layer_color') !== false;
+  const useLayerColor = beamboxPrefernce.read('use_layer_color');
   const color = useLayerColor ? layer.getAttribute('data-color') : '#000';
   const { r, g, b } = hexToRgb(color);
   if (filter) {

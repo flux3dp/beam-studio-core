@@ -1,3 +1,4 @@
+import workareaManager from 'app/svgedit/workarea';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import {
   ISVGPath,
@@ -84,8 +85,9 @@ export default class PathNodePoint implements IPathNodePoint {
     if (this.path.matrix) {
       out = svgedit.math.transformPoint(this.x, this.y, this.path.matrix);
     }
-    out.x *= svgCanvas.getCurrentZoom();
-    out.y *= svgCanvas.getCurrentZoom();
+    const zoom = workareaManager.zoomRatio;
+    out.x *= zoom;
+    out.y *= zoom;
     return out;
   }
 

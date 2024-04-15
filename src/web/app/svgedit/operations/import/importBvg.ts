@@ -1,16 +1,18 @@
 import alertCaller from 'app/actions/alert-caller';
+import alertConstants from 'app/constants/alert-constants';
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
-import beamboxStore from 'app/stores/beambox-store';
+import changeWorkarea from 'app/svgedit/operations/changeWorkarea';
 import constant from 'app/actions/beambox/constant';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import i18n from 'helpers/i18n';
 import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
+import rotaryAxis from 'app/actions/canvas/rotary-axis';
 import symbolMaker from 'helpers/symbol-maker';
+import workareaManager from 'app/svgedit/workarea';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { WorkAreaModel } from 'app/constants/workarea-constants';
 import { toggleFullColorAfterWorkareaChange } from 'helpers/layer/layer-config-helper';
-import alertConstants from 'app/constants/alert-constants';
-import changeWorkarea from '../changeWorkarea';
 
 let svgCanvas: ISVGCanvas;
 let svgEditor;
@@ -27,7 +29,7 @@ export const importBvgString = async (str: string): Promise<void> => {
     str.replace(/STYLE>/g, 'style>').replace(/<STYLE/g, '<style')
   );
 
-  const currentWorkarea = beamboxPreference.read('workarea');
+  const currentWorkarea: WorkAreaModel = beamboxPreference.read('workarea');
   // loadFromString will lose data-xform and data-wireframe of `use` so set it back here
   if (typeof str === 'string') {
     const workarea = document.getElementById('workarea');
@@ -49,19 +51,17 @@ export const importBvgString = async (str: string): Promise<void> => {
       elem?.setAttribute('data-xform', xform);
       elem?.setAttribute('data-wireframe', String(wireframe === 'true'));
     }
-    let match = str.match(/data-rotary_mode="[a-zA-Z]+"/);
+    let match = str.match(/data-rotary_mode="([^"]*)"/);
     if (match) {
-      let rotaryMode = match[0].substring(18, match[0].length - 1);
+      let rotaryMode = match[1];
+
       if (rotaryMode === 'true') rotaryMode = '1';
-      const isRotaryModeOn = ['true', '1', '2'].includes(rotaryMode);
       if (constant.addonsSupportList.rotary.includes(currentWorkarea)) {
         beamboxPreference.write('rotary_mode', parseInt(rotaryMode, 10));
-        svgCanvas.setRotaryMode(isRotaryModeOn);
       } else {
         beamboxPreference.write('rotary_mode', 0);
-        svgCanvas.setRotaryMode(false);
       }
-      svgCanvas.runExtensions('updateRotaryAxis');
+      rotaryAxis.toggleDisplay();
     }
     match = str.match(/data-engrave_dpi="[a-zA-Z]+"/);
     if (match) {
@@ -94,26 +94,25 @@ export const importBvgString = async (str: string): Promise<void> => {
     match = str.match(/data-zoom="[0-9.]+"/);
     if (match) {
       const zoom = parseFloat(match[0].substring(11, match[0].length - 1));
-      svgEditor.zoomChanged(window, { zoomLevel: zoom, staticPoint: { x: 0, y: 0 } });
+      workareaManager.zoom(zoom);
     }
     match = str.match(/data-left="[-0-9]+"/);
+    const { width, height, zoomRatio } = workareaManager;
     if (match) {
       let left = parseInt(match[0].substring(11, match[0].length - 1), 10);
-      left = Math.round(
-        (left + constant.dimension.getWidth(currentWorkarea)) * svgCanvas.getZoom()
-      );
+      left = Math.round((left + width) * zoomRatio);
       workarea.scrollLeft = left;
     }
     match = str.match(/data-top="[-0-9]+"/);
     if (match) {
       let top = parseInt(match[0].substring(10, match[0].length - 1), 10);
-      top = Math.round((top + constant.dimension.getHeight(currentWorkarea)) * svgCanvas.getZoom());
+      top = Math.round((top + height) * zoomRatio);
       workarea.scrollTop = top;
     }
   }
   const { lang } = i18n;
   let newWorkarea = currentWorkarea;
-  if (!modelsWithModules.includes(currentWorkarea)) {
+  if (!modelsWithModules.has(currentWorkarea)) {
     const hasPrintingLayer =
       document
         .getElementById('svgcontent')
@@ -139,10 +138,9 @@ export const importBvgString = async (str: string): Promise<void> => {
       }
     }
   }
-  if (!modelsWithModules.includes(newWorkarea)) {
+  if (!modelsWithModules.has(newWorkarea)) {
     toggleFullColorAfterWorkareaChange();
   }
-  beamboxStore.emitUpdateWorkArea();
   svgedit.utilities.findDefs().remove();
   svgedit.utilities.moveDefsOutfromSvgContent();
   await symbolMaker.reRenderAllImageSymbol();

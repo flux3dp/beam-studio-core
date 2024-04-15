@@ -44,10 +44,6 @@ const lang: ILang = {
         '#803 Échec du démarrage du mode aperçu. Veuillez redémarrer votre machine ou Beam Studio. Si cette erreur persiste, veuillez suivre <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">ce guide</a>.',
       fail_to_connect_with_camera:
         '#803 Échec de la connexion avec la caméra de la machine. Veuillez redémarrer votre machine ou Beam Studio. Si cette erreur persiste, veuillez suivre <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">ce guide</a>.',
-      power_too_high: 'PUISSANCE TROP ÉLEVÉE',
-      power_too_high_msg:
-        'Utiliser une puissance laser inférieure (moins de 70 %) prolongera la durée de vie du tube laser.\nEntrez "PRIS EN COMPTE" pour continuer.',
-      power_too_high_confirm: 'PRIS EN COMPTE',
       add_content_first: "Veuillez d'abord ajouter des objets",
     },
     hint: {
@@ -1070,6 +1066,7 @@ const lang: ILang = {
       engrave_dpi: 'Résolution',
       enable_diode: 'Laser à diode',
       enable_autofocus: 'Mise au point automatique',
+      extend_workarea: 'Étendre la zone de travail',
       add_on: 'Modules complémentaires',
       low: 'Faible',
       medium: 'Moyen',
@@ -1217,11 +1214,35 @@ const lang: ILang = {
     },
     shapes_panel: {
       title: 'Formes',
+      basic: 'De base',
       shape: 'Forme',
       graphics: 'Graphiques',
       arrow: 'Flèche',
-      line: 'Ligne',
       label: 'Étiquette',
+      decor: 'Décor',
+      circular: 'Circulaire',
+      corner: 'Coin',
+      line: 'Ligne',
+      photo: 'Photo',
+      ribbon: 'Ruban',
+      speech: 'Discours',
+      text: 'Zone de texte',
+      animals: 'Animal',
+      birds: 'Oiseau',
+      land: 'Terre',
+      sea: 'Mer',
+      holidays: 'Vacances',
+      celebration: 'Célébration',
+      CNY: 'Nouvel an chinois',
+      easter: 'Pâques',
+      halloween: 'Halloween',
+      valentines: 'Saint-Valentin',
+      Xmas: 'Noël',
+      nature: 'Nature',
+      elements: 'Éléments',
+      environment: 'Environnement',
+      plants: 'Plantes',
+      weather: 'Météo',
     },
     announcement_panel: {
       title: 'Annonce',
@@ -1230,6 +1251,7 @@ const lang: ILang = {
   },
   editor: {
     prespray_area: 'Zone de pré-pulvérisation',
+    opacity: "Opacité de l'aperçu",
   },
   flux_id_login: {
     connection_fail: '#847 Échec de la connexion au service de membres FLUX.',
@@ -1822,6 +1844,17 @@ const lang: ILang = {
       storage_limit_exceeded:
         "Votre stockage cloud a atteint la limite supérieure. Veuillez supprimer les fichiers inutiles avant d'en sauvegarder de nouveaux.",
     },
+  },
+  camera_data_backup: {
+    title: 'Sauvegarde des données de la caméra',
+    no_picture_found: 'Aucune image trouvée dans la machine.',
+    folder_not_exists: 'Le dossier sélectionné n\'existe pas.',
+    incorrect_folder: 'Échec du téléversement des données de calibration. Veuillez vérifier si le dossier que vous avez sélectionné est correct.',
+    downloading_data: 'Téléchargement des données...',
+    estimated_time_left: 'Temps estimé restant :',
+    uploading_data: 'Chargement des données...',
+    download_success: 'Données de la caméra téléchargées avec succès.',
+    upload_success: 'Données de la caméra téléchargées avec succès.',
   },
 };
 

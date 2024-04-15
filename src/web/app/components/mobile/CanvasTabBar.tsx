@@ -17,6 +17,7 @@ import svgEditor from 'app/actions/beambox/svg-editor';
 import TabBarIcons from 'app/icons/tab-bar/TabBarIcons';
 import TopBarIcons from 'app/icons/top-bar/TopBarIcons';
 import useI18n from 'helpers/useI18n';
+import workareaManager from 'app/svgedit/workarea';
 import { DmktIcon } from 'app/icons/icons';
 import { CanvasContext, CanvasContextType } from 'app/contexts/CanvasContext';
 import { getCurrentUser } from 'helpers/api/flux-id';
@@ -157,9 +158,7 @@ const CanvasTabBar = (): JSX.Element => {
       setTimeout(resetActiveKey, 300);
     } else if (key === 'text') {
       events.once('addText', (newText: SVGTextElement) => {
-        svgEditor.zoomChanged(window, {
-          zoomLevel: (window.innerWidth / newText.getBBox().width) * 0.8,
-        });
+        workareaManager.zoom((window.innerWidth / newText.getBBox().width) * 0.8);
         newText.scrollIntoView({ block: 'center', inline: 'center' });
         resetActiveKey();
       });

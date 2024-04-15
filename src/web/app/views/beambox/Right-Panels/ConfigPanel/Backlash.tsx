@@ -2,18 +2,26 @@ import classNames from 'classnames';
 import React, { memo, useContext, useMemo } from 'react';
 import { Button, Popover } from 'antd-mobile';
 
+import history from 'app/svgedit/history';
+import ISVGCanvas from 'interfaces/ISVGCanvas';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import objectPanelItemStyles from 'app/views/beambox/Right-Panels/ObjectPanelItem.module.scss';
 import storage from 'implementations/storage';
 import units from 'helpers/units';
 import useI18n from 'helpers/useI18n';
 import { DataType, writeData } from 'helpers/layer/layer-config-helper';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ObjectPanelContext } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
 
 import ConfigPanelContext from './ConfigPanelContext';
 import ConfigSlider from './ConfigSlider';
 import ConfigValueDisplay from './ConfigValueDisplay';
 import styles from './Block.module.scss';
+
+let svgCanvas: ISVGCanvas;
+getSVGAsync((globalSVG) => {
+  svgCanvas = globalSVG.Canvas;
+});
 
 const Backlash = ({
   type = 'default',
@@ -24,16 +32,19 @@ const Backlash = ({
   const t = lang.beambox.right_panel.laser_panel;
   const { activeKey } = useContext(ObjectPanelContext);
   const visible = activeKey === 'backlash';
-  const { selectedLayers, state, dispatch } = useContext(ConfigPanelContext);
+  const { selectedLayers, state, dispatch, initState } = useContext(ConfigPanelContext);
   const { backlash } = state;
   const handleChange = (value: number) => {
     dispatch({
       type: 'change',
       payload: { backlash: value },
     });
+    const batchCmd = new history.BatchCommand('Change backlash');
     selectedLayers.forEach((layerName) => {
-      writeData(layerName, DataType.backlash, value);
+      writeData(layerName, DataType.backlash, value, { batchCmd });
     });
+    batchCmd.onAfter = initState;
+    svgCanvas.addCommandToHistory(batchCmd);
   };
   const {
     display: displayUnit,

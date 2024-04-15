@@ -2,10 +2,10 @@ import classNames from 'classnames';
 import React from 'react';
 
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
-import Constant from 'app/actions/beambox/constant';
 import i18n from 'helpers/i18n';
 import storage from 'implementations/storage';
 import UnitInput from 'app/widgets/Unit-Input-v2';
+import { getWorkarea } from 'app/constants/workarea-constants';
 
 const LANG = i18n.lang.beambox.tool_panels;
 
@@ -22,7 +22,7 @@ interface State {
 }
 
 class Interval extends React.Component<Props, State> {
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
     const { dx, dy } = this.props;
     this.state = {
@@ -32,14 +32,14 @@ class Interval extends React.Component<Props, State> {
     };
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps: Props): void {
     this.setState({
       dx: nextProps.dx,
       dy: nextProps.dy,
     });
   }
 
-  onDxChanged = (dx: number) => {
+  onDxChanged = (dx: number): void => {
     const { onValueChange } = this.props;
     const { dy } = this.state;
     onValueChange({
@@ -49,7 +49,7 @@ class Interval extends React.Component<Props, State> {
     this.setState({ dx });
   };
 
-  onDyChanged = (dy: number) => {
+  onDyChanged = (dy: number): void => {
     const { onValueChange } = this.props;
     const { dx } = this.state;
     onValueChange({
@@ -63,12 +63,13 @@ class Interval extends React.Component<Props, State> {
     const { dx, dy } = this.state;
     const units = storage.get('default-units') || 'mm';
     return units === 'inches'
-      ? `${Number(dx / 25.4).toFixed(3)}\", ${Number(dy / 25.4).toFixed(3)}\"`
+      ? `${Number(dx / 25.4).toFixed(3)}", ${Number(dy / 25.4).toFixed(3)}"`
       : `${dx}, ${dy} mm`;
   };
 
   render(): JSX.Element {
     const { dx, dy, isCollapsed } = this.state;
+    const workarea = getWorkarea(BeamboxPreference.read('workarea'));
     return (
       <div className="tool-panel">
         <label className="controls accordion">
@@ -83,7 +84,7 @@ class Interval extends React.Component<Props, State> {
               <UnitInput
                 id="array_width"
                 min={0}
-                max={Constant.dimension.getWidth(BeamboxPreference.read('workarea')) / Constant.dpmm}
+                max={workarea.width}
                 unit="mm"
                 defaultValue={dx}
                 getValue={this.onDxChanged}
@@ -94,7 +95,7 @@ class Interval extends React.Component<Props, State> {
               <UnitInput
                 id="array_height"
                 min={0}
-                max={Constant.dimension.getHeight(BeamboxPreference.read('workarea')) / Constant.dpmm}
+                max={workarea.displayHeight || workarea.height}
                 unit="mm"
                 defaultValue={dy}
                 getValue={this.onDyChanged}

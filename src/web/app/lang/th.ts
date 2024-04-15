@@ -44,10 +44,6 @@ const lang: ILang = {
         '#803 ไม่สามารถเริ่มโหมดแสดงตัวอย่างได้ โปรดรีสตาร์ทเครื่องของคุณหรือ Beam Studio หากยังคงเกิดข้อผิดพลาดนี้ โปรดปฏิบัติตาม <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">คําแนะนํานี้</a>',
       fail_to_connect_with_camera:
         '#803 ไม่สามารถเชื่อมต่อกับกล้องได้ โปรดรีสตาร์ทเครื่องหรือ Beam Studio หากยังคงเกิดข้อผิดพลาดนี้ โปรดปฏิบัติตาม <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">คําแนะนํานี้</a>',
-      power_too_high: 'พลังงานสูงเกินไป',
-      power_too_high_msg:
-        'การใช้พลังงานเลเซอร์ต่ํากว่า 70% จะช่วยยืดอายุการใช้งานของหลอดเลเซอร์\nกด "ทราบแล้ว" เพื่อดําเนินการต่อ',
-      power_too_high_confirm: 'ทราบแล้ว',
       add_content_first: 'โปรดเพิ่มวัตถุก่อน',
     },
     hint: {
@@ -1053,6 +1049,7 @@ const lang: ILang = {
       engrave_dpi: 'ความละเอียด',
       enable_diode: 'เลเซอร์ไดโอด',
       enable_autofocus: 'โฟกัสอัตโนมัติ',
+      extend_workarea: 'ขยายพื้นที่ทำงาน',
       add_on: 'เพิ่มเติม',
       low: 'ต่ํา',
       medium: 'ปานกลาง',
@@ -1196,11 +1193,35 @@ const lang: ILang = {
     },
     shapes_panel: {
       title: 'องค์ประกอบ',
+      basic: 'พื้นฐาน',
       shape: 'รูปร่าง',
       graphics: 'กราฟิก',
       arrow: 'ลูกศร',
-      line: 'เส้น',
       label: 'ป้ายชื่อ',
+      decor: 'ตกแต่ง',
+      circular: 'วงกลม',
+      corner: 'มุม',
+      line: 'เส้น',
+      photo: 'รูปภาพ',
+      ribbon: 'ริบบิ้น',
+      speech: 'คําพูด',
+      text: 'กรอบข้อความ',
+      animals: 'สัตว์',
+      birds: 'นก',
+      land: 'บก',
+      sea: 'ทะเล',
+      holidays: 'วันหยุด',
+      celebration: 'งานเฉลิมฉลอง',
+      CNY: 'ตรุษจีน',
+      easter: 'อีสเตอร์',
+      halloween: 'ฮาโลวีน',
+      valentines: 'วาเลนไทน์',
+      Xmas: 'คริสต์มาส',
+      nature: 'ธรรมชาติ',
+      elements: 'องค์ประกอบ',
+      environment: 'สิ่งแวดล้อม',
+      plants: 'พืช',
+      weather: 'สภาพอากาศ',
     },
     announcement_panel: {
       title: 'ประกาศ',
@@ -1209,6 +1230,7 @@ const lang: ILang = {
   },
   editor: {
     prespray_area: 'พื้นที่พ่นสารเคมี',
+    opacity: 'ความโปร่งแสงของตัวอย่างภาพ',
   },
   flux_id_login: {
     connection_fail: '#847 เชื่อมต่อกับบริการสมาชิก FLUX ไม่สําเร็จ',
@@ -1237,7 +1259,8 @@ const lang: ILang = {
       access_plus_feature_2: 'คุณสมบัติ',
       access_plus_feature_note: 'คุณต้องเป็นสมาชิก FLUX+ เพื่อใช้คุณสมบัตินี้',
       access_monotype_feature: 'คุณไม่มีโมโนไทป์ ฟอนต์ แอดออน',
-      access_monotype_feature_note: 'คุณต้องเป็นสมาชิก FLUX+ Pro หรือซื้อโมโนไทป์ ฟอนต์ แอดออน เพื่อใช้คุณสมบัตินี้',
+      access_monotype_feature_note:
+        'คุณต้องเป็นสมาชิก FLUX+ Pro หรือซื้อโมโนไทป์ ฟอนต์ แอดออน เพื่อใช้คุณสมบัตินี้',
       learn_more: 'เรียนรู้เพิ่มเติม',
       get_addon: 'รับแอดออน',
       subscribe_now: 'สมัครรับข่าวสารตอนนี้',
@@ -1773,6 +1796,17 @@ const lang: ILang = {
       storage_limit_exceeded:
         'พื้นที่จัดเก็บข้อมูลบนคลาวด์ของคุณเต็มแล้ว โปรดลบไฟล์ที่ไม่จําเป็นออกก่อนบันทึกไฟล์ใหม่',
     },
+  },
+  camera_data_backup: {
+    title: 'การสำรองข้อมูลกล้อง',
+    no_picture_found: 'ไม่พบรูปในเครื่อง',
+    folder_not_exists: 'โฟลเดอร์ที่เลือกไม่มีอยู่',
+    incorrect_folder: 'การอัปโหลดข้อมูลการจัดเก็บล้มเหลว โปรดตรวจสอบว่าโฟลเดอร์ที่คุณเลือกถูกต้องหรือไม่',
+    downloading_data: 'กำลังดาวน์โหลดข้อมูล...',
+    estimated_time_left: 'เวลาที่เหลือโดยประมาณ:',
+    uploading_data: 'กำลังอัปโหลดข้อมูล...',
+    download_success: 'ดาวน์โหลดข้อมูลกล้องสำเร็จ',
+    upload_success: 'อัปโหลดข้อมูลกล้องสำเร็จ',
   },
 };
 

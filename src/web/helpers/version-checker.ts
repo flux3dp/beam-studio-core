@@ -1,4 +1,5 @@
 const requirement = {
+  ADOR_STATIC_FILE_ENTRY: '5.1.17',
   ADOR_RELEASE: '5.1.12',
   LATEST_GHOST_FOR_WEB: '3.5.2',
   CALIBRATION_MODE: '3.5.1',

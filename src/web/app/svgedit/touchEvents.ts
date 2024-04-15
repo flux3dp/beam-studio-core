@@ -1,6 +1,7 @@
 import Hammer from 'hammerjs';
 
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
+import workareaManager from 'app/svgedit/workarea';
 
 const calculateTouchCenter = (touches: TouchList) => {
   const center = { x: 0, y: 0 };
@@ -21,13 +22,10 @@ const multi = 3;
 const setupCanvasTouchEvents = (
   container: Element,
   workarea: Element,
-  contentW: number,
-  contentH: number,
   onMouseDown: (e: Event) => void,
   onMouseMove: (e: Event) => void,
   onMouseUp: (e: Event, blocked?: boolean) => void,
   onDoubleClick: (e: Event) => void,
-  getZoom: () => number,
   setZoom: (zoom: number, staticPoint: { x: number, y: number }) => void,
 ): void => {
   let touchStartTimeout: NodeJS.Timeout;
@@ -56,7 +54,7 @@ const setupCanvasTouchEvents = (
       };
       // @ts-expect-error scale is defined in chrome & safari
       if (e.scale === undefined) {
-        startZoom = getZoom();
+        startZoom = workareaManager.zoomRatio;
         startDist = Math.hypot(
           e.touches[0].screenX - e.touches[1].screenX,
           e.touches[0].screenY - e.touches[1].screenY
@@ -64,7 +62,7 @@ const setupCanvasTouchEvents = (
         currentScale = 1;
         // @ts-expect-error scale is defined in chrome & safari
       } else if (e.scale === 1) {
-        startZoom = getZoom();
+        startZoom = workareaManager.zoomRatio;
         currentScale = 1;
       }
     }
@@ -89,7 +87,7 @@ const setupCanvasTouchEvents = (
             e.touches[0].screenX - e.touches[1].screenX,
             e.touches[0].screenY - e.touches[1].screenY
           ) / startDist;
-        let newZoom = getZoom();
+        let newZoom = workareaManager.zoomRatio;
         if (startZoom && Math.abs(Math.log(currentScale / scale)) >= Math.log(1.05)) {
           newZoom = startZoom * scale ** 0.5;
           setZoom(newZoom, center);
@@ -102,7 +100,7 @@ const setupCanvasTouchEvents = (
         }
         const wOrig = workarea.clientWidth;
         const hOrig = workarea.clientHeight;
-        if (wOrig >= contentW * newZoom * multi || hOrig >= contentH * newZoom * multi) {
+        if (wOrig >= workareaManager.width * newZoom * multi || hOrig >= workareaManager.height * newZoom * multi) {
           lastMoveEventTimestamp = timeStamp;
           return;
         }

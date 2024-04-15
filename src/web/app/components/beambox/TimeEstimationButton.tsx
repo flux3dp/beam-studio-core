@@ -1,22 +1,20 @@
 import React, { useContext } from 'react';
-import classNames from 'classnames';
+import { Tooltip } from 'antd';
 
 import ExportFuncs from 'app/actions/beambox/export-funcs';
 import FormatDuration from 'helpers/duration-formatter';
-import i18n from 'helpers/i18n';
+import useI18n from 'helpers/useI18n';
 import webNeedConnectionWrapper from 'helpers/web-need-connection-helper';
+import WorkareaIcons from 'app/icons/workarea/WorkareaIcons';
 import { CanvasContext } from 'app/contexts/CanvasContext';
 import { TimeEstimationButtonContext } from 'app/contexts/TimeEstimationButtonContext';
-import { useIsMobile } from 'helpers/system-helper';
 
 import styles from './TimeEstimationButton.module.scss';
-
-const LANG = i18n.lang.beambox.time_est_button;
 
 const TimeEstimationButton = (): JSX.Element => {
   const { estimatedTime, setEstimatedTime } = useContext(TimeEstimationButtonContext);
   const { isPathPreviewing } = useContext(CanvasContext);
-  const isMobile = useIsMobile();
+  const lang = useI18n().beambox.time_est_button;
 
   if (isPathPreviewing) return <div />;
 
@@ -28,22 +26,20 @@ const TimeEstimationButton = (): JSX.Element => {
   };
 
   const renderButton = () => (
-    <div className={styles.btn} title={LANG.calculate} onClick={calculateEstimatedTime}>
-      <img src="img/icon-stopwatch.svg" draggable="false" />
-    </div>
+    <Tooltip title={lang.calculate}>
+      <div className={styles.btn} onClick={calculateEstimatedTime}>
+        <WorkareaIcons.Time />
+      </div>
+    </Tooltip>
   );
 
   const renderResult = () => (
     <div className={styles.result}>
-      {`Estimated Time: ${FormatDuration(estimatedTime)}`}
+      {lang.estimate_time} {FormatDuration(estimatedTime)}
     </div>
   );
 
-  return (
-    <div className={classNames(styles.container, { [styles.mac]: window.os === 'MacOS', [styles.mobile]: isMobile })}>
-      {estimatedTime ? renderResult() : renderButton()}
-    </div>
-  );
+  return estimatedTime ? renderResult() : renderButton();
 };
 
 export default TimeEstimationButton;

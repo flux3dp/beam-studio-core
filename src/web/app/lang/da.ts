@@ -44,10 +44,6 @@ const lang: ILang = {
         '#803 Kunne ikke starte forhåndsvisning. Genstart maskinen eller Beam Studio. Hvis fejlen fortsætter, se <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">denne vejledning</a>.',
       fail_to_connect_with_camera:
         '#803 Kunne ikke oprette forbindelse til maskinkamera. Genstart venligst din maskine eller Beam Studio. Hvis denne fejl fortsætter, skal du følge <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">denne vejledning</a>.',
-      power_too_high: 'FOR HØJ EFFEKT',
-      power_too_high_msg:
-        'Brug af lavere laserstyrke (under 70%) forlænger laserens levetid.\nIndtast "NOTERET" for at fortsætte.',
-      power_too_high_confirm: 'NOTERET',
       add_content_first: 'Tilføj venligst objekter først',
     },
     hint: {
@@ -1061,6 +1057,7 @@ const lang: ILang = {
       engrave_dpi: 'Opløsning',
       enable_diode: 'Diodelaser',
       enable_autofocus: 'Autofokus',
+      extend_workarea: 'Udvid arbejdsområdet',
       add_on: 'Tilføjelser',
       low: 'Lav',
       medium: 'Medium',
@@ -1207,11 +1204,35 @@ const lang: ILang = {
     },
     shapes_panel: {
       title: 'Elementer',
+      basic: 'Grundlæggende',
       shape: 'Form',
       graphics: 'Grafik',
       arrow: 'Pil',
-      line: 'Linje',
       label: 'Etiket',
+      decor: 'Dekoration',
+      circular: 'Cirkulær',
+      corner: 'Hjørne',
+      line: 'Linje',
+      photo: 'Foto',
+      ribbon: 'Bånd',
+      speech: 'Tale',
+      text: 'Tekstboks',
+      animals: 'Dyr',
+      birds: 'Fugle',
+      land: 'Land',
+      sea: 'Hav',
+      holidays: 'Helligdage',
+      celebration: 'Fest',
+      CNY: 'Kinesisk nytår',
+      easter: 'Påske',
+      halloween: 'Allehelgensaften',
+      valentines: 'Valentinsdag',
+      Xmas: 'Jul',
+      nature: 'Natur',
+      elements: 'Elementer',
+      environment: 'Miljø',
+      plants: 'Planter',
+      weather: 'Vejr',
     },
     announcement_panel: {
       title: 'Meddelelse',
@@ -1220,6 +1241,7 @@ const lang: ILang = {
   },
   editor: {
     prespray_area: 'Primeområde',
+    opacity: 'Forhåndsvisning gennemsigtighed',
   },
   flux_id_login: {
     connection_fail: '#847 Kunne ikke oprette forbindelse til FLUX medlemsservice.',
@@ -1798,6 +1820,17 @@ const lang: ILang = {
       storage_limit_exceeded:
         'Din cloud-lager har nået øvre grænse. Slet venligst eventuelle unødvendige filer, før du gemmer nye.',
     },
+  },
+  camera_data_backup: {
+    title: 'Kameradata Backup',
+    no_picture_found: 'Ingen billeder fundet i maskinen.',
+    folder_not_exists: 'Valgte mappe findes ikke.',
+    incorrect_folder: 'Fejl ved upload af kalibreringsdata. Kontroller, om den valgte mappe er korrekt.',
+    downloading_data: 'Downloader data...',
+    estimated_time_left: 'Estimeret resterende tid:',
+    uploading_data: 'Uploader data...',
+    download_success: 'Kameradata er downloadet succesfuldt.',
+    upload_success: 'Kameradata er uploadet succesfuldt.',
   },
 };
 

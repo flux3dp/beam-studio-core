@@ -12,10 +12,10 @@ import {
 } from '@ant-design/icons';
 
 import useI18n from 'helpers/useI18n';
+import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 import { IFile } from 'interfaces/IMyCloud';
 import { MyCloudContext } from 'app/contexts/MyCloudContext';
 import { useIsMobile } from 'helpers/system-helper';
-import { WorkareaMap, WorkAreaModel } from 'app/actions/beambox/constant';
 
 import styles from './GridFile.module.scss';
 
@@ -38,7 +38,7 @@ const getFileSize = (bytes: number) => {
 const GridFile = ({ file }: Props): JSX.Element => {
   const lang = useI18n().my_cloud.action;
   const isMobile = useIsMobile();
-  const workarea = WorkareaMap.get(file.workarea as WorkAreaModel);
+  const workarea = getWorkarea(file.workarea as WorkAreaModel);
   const [actionDropdownOpen, setActionDropdownOpen] = useState(false);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const { fileOperation, editingId, setEditingId, selectedId, setSelectedId } =

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
@@ -50,12 +51,18 @@ const mockContextState = {
   zStep: { value: 0.1, hasMultiValue: false },
 };
 const mockDispatch = jest.fn();
+const mockInitState = jest.fn();
 
 describe('test SaveConfigButton', () => {
   it('should render correctly', () => {
     const { container } = render(
       <ConfigPanelContext.Provider
-        value={{ selectedLayers: mockSelectedLayers, state: mockContextState as any, dispatch: mockDispatch }}
+        value={{
+          selectedLayers: mockSelectedLayers,
+          state: mockContextState as any,
+          dispatch: mockDispatch,
+          initState: mockInitState,
+        }}
       >
         <SaveConfigButton />
       </ConfigPanelContext.Provider>
@@ -66,7 +73,12 @@ describe('test SaveConfigButton', () => {
   test('button should work when customized config is empty', () => {
     const { container } = render(
       <ConfigPanelContext.Provider
-        value={{ selectedLayers: mockSelectedLayers, state: mockContextState as any, dispatch: mockDispatch }}
+        value={{
+          selectedLayers: mockSelectedLayers,
+          state: mockContextState as any,
+          dispatch: mockDispatch,
+          initState: mockInitState,
+        }}
       >
         <SaveConfigButton />
       </ConfigPanelContext.Provider>

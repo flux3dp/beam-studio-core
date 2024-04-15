@@ -14,7 +14,7 @@ const isProgress = (d: IAlert | IProgressDialog): d is IProgressDialog => d.isPr
 const AlertsAndProgress = (): JSX.Element => {
   const messageRef = useRef<HTMLPreElement>();
 
-  const { alertProgressStack } = React.useContext(AlertProgressContext);
+  const { alertProgressStack } = useContext(AlertProgressContext);
 
   useEffect(() => {
     const message = messageRef.current as Element;

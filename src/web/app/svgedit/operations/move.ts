@@ -1,5 +1,6 @@
 import history from 'app/svgedit/history';
 import selector from 'app/svgedit/selector';
+import workareaManager from 'app/svgedit/workarea';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IBatchCommand } from 'interfaces/IHistory';
 
@@ -17,7 +18,7 @@ export function moveElements(
   let zoomedX: number;
   let zoomedY: number;
   if (typeof dx === 'number' && typeof dy === 'number') {
-    const currentZoom = svgCanvas.getZoom();
+    const currentZoom = workareaManager.zoomRatio;
     zoomedX = dx / currentZoom;
     zoomedY = dy / currentZoom;
   }

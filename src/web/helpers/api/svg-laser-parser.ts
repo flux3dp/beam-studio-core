@@ -15,24 +15,22 @@ import i18n from 'helpers/i18n';
 import isDev from 'helpers/is-dev';
 import moduleOffsets from 'app/constants/layer-module/module-offsets';
 import Progress from 'app/actions/progress-caller';
-import presprayArea from 'app/actions/beambox/prespray-area';
+import presprayArea from 'app/actions/canvas/prespray-area';
 import storage from 'implementations/storage';
 import Websocket from 'helpers/websocket';
-import { getSVGAsync } from 'helpers/svg-editor-helper';
-
-let svgCanvas;
-getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
+import rotaryAxis from 'app/actions/canvas/rotary-axis';
+import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
+export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
   parserOpts = parserOpts || {};
 
   const apiMethod = {
     svgeditor: 'svgeditor-laser-parser',
   }[parserOpts.type || 'svgeditor'];
-  const events: { onMessage: (data?) => void, onError: (data?) => void } = {
-    onMessage: () => { },
-    onError: () => { },
+  const events: { onMessage: (data?) => void; onError: (data?) => void } = {
+    onMessage: () => {},
+    onError: () => {},
   };
   const ws = Websocket({
     method: apiMethod,
@@ -42,7 +40,7 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
     onFatal: (data) => {
       if (parserOpts.onFatal) parserOpts.onFatal(data);
       else events.onError(data);
-    }
+    },
   });
   let lastOrder = '';
 
@@ -66,15 +64,11 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
   return {
     async getTaskCode(names, opts) {
       opts = opts || {};
-      opts.onProgressing = opts.onProgressing || (() => { });
-      opts.onFinished = opts.onFinished || (() => { });
+      opts.onProgressing = opts.onProgressing || (() => {});
+      opts.onFinished = opts.onFinished || (() => {});
       lastOrder = 'getTaskCode';
 
-      const args = [
-        'go',
-        names.join(' '),
-        opts.fileMode || '-f',
-      ];
+      const args = ['go', names.join(' '), opts.fileMode || '-f'];
       const blobs = [];
       let duration;
       let totalLength = 0;
@@ -83,12 +77,14 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
       const isDevMode = isDev();
       const paddingAccel = BeamboxPreference.read('padding_accel');
       // Not real acceleration, just for calculating padding distance
-      if (opts.model === 'fhexa1') {
+      const { model }: { model: WorkAreaModel } = opts;
+      const { minSpeed: modelMinSpeed, rotary } = getWorkarea(model);
+      if (model === 'fhexa1') {
         args.push('-hexa');
         if (!isDevMode || !paddingAccel) args.push('-acc', '7500');
-      } else if (opts.model === 'fbb1p') args.push('-pro');
-      else if (opts.model === 'fbm1') args.push('-beamo');
-      else if (opts.model === 'ado1') {
+      } else if (model === 'fbb1p') args.push('-pro');
+      else if (model === 'fbm1') args.push('-beamo');
+      else if (model === 'ado1') {
         args.push('-ado1');
         if (!isDevMode || !paddingAccel) args.push('-acc', opts.paddingAccel?.toString() || '3200');
       }
@@ -98,14 +94,15 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
       const rotaryMode = BeamboxPreference.read('rotary_mode');
       if (rotaryMode) {
         args.push('-spin');
-        args.push(svgCanvas.runExtensions('getRotaryAxisAbsoluteCoord'));
-        if (rotaryMode !== 1 && constant.getRotaryModels(opts.model).includes(rotaryMode)) {
+        const rotaryPos = rotaryAxis.getPosition();
+        args.push(rotaryPos);
+        if (rotaryMode !== 1 && rotary.includes(rotaryMode)) {
           args.push('-rotary-y-ratio');
           args.push(Math.round(constant.rotaryYRatio[rotaryMode] * 10 ** 6) / 10 ** 6);
         }
       }
 
-      if (constant.adorModels.includes(opts.model)) {
+      if (constant.adorModels.includes(model)) {
         const { x, y, w, h } = presprayArea.getPosition(true);
         args.push('-prespray');
         args.push(`${x},${y},${w},${h}`);
@@ -114,14 +111,17 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
       }
 
       if (
-        i18n.getActiveLang() === 'zh-cn'
-        && BeamboxPreference.read('blade_radius') && BeamboxPreference.read('blade_radius') > 0
+        i18n.getActiveLang() === 'zh-cn' &&
+        BeamboxPreference.read('blade_radius') &&
+        BeamboxPreference.read('blade_radius') > 0
       ) {
         args.push('-blade');
         args.push(BeamboxPreference.read('blade_radius'));
         if (BeamboxPreference.read('blade_precut')) {
           args.push('-precut');
-          args.push(`${BeamboxPreference.read('precut_x') || 0},${BeamboxPreference.read('precut_y') || 0}`);
+          args.push(
+            `${BeamboxPreference.read('precut_x') || 0},${BeamboxPreference.read('precut_y') || 0}`
+          );
         }
       }
 
@@ -131,13 +131,18 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
       }
       if (opts.enableDiode) {
         args.push('-diode');
-        args.push(`${BeamboxPreference.read('diode_offset_x') || 0},${BeamboxPreference.read('diode_offset_y') || 0}`);
+        args.push(
+          `${BeamboxPreference.read('diode_offset_x') || 0},${
+            BeamboxPreference.read('diode_offset_y') || 0
+          }`
+        );
         if (BeamboxPreference.read('diode-one-way-engraving') !== false) {
           args.push('-diode-owe');
         }
       }
-      const isBorderLess = BeamboxPreference.read('borderless')
-        && constant.addonsSupportList.openBottom.includes(opts.model);
+      const isBorderLess =
+        BeamboxPreference.read('borderless') &&
+        constant.addonsSupportList.openBottom.includes(model);
       if (BeamboxPreference.read('enable_mask') || isBorderLess) {
         args.push('-mask');
         const clipRect = [0, 0, 0, 0]; // top right bottom left
@@ -147,36 +152,41 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
       if (opts.shouldUseFastGradient) args.push('-fg');
       if (opts.shouldMockFastGradient) args.push('-mfg');
       if (opts.vectorSpeedConstraint) args.push('-vsc');
-      const modelMinSpeed = constant.dimension.getMinSpeed(opts.model);
       if (modelMinSpeed < 3) args.push(`-min-speed ${modelMinSpeed}`);
       else if (BeamboxPreference.read('enable-low-speed')) args.push('-min-speed 1');
       if (BeamboxPreference.read('reverse-engraving')) args.push('-rev');
       if (BeamboxPreference.read('enable-custom-backlash')) args.push('-cbl');
-      if (isDevMode && localStorage.getItem('min_engraving_padding')) {
-        args.push('-mep');
-        args.push(localStorage.getItem('min_engraving_padding'));
+      if (isDevMode) {
+        if (localStorage.getItem('min_engraving_padding')) {
+          args.push('-mep');
+          args.push(localStorage.getItem('min_engraving_padding'));
+        }
+        if (localStorage.getItem('min_printing_padding')) {
+          args.push('-mpp');
+          args.push(localStorage.getItem('min_printing_padding'));
+        }
+        if (localStorage.getItem('printing_top_padding')) {
+          args.push('-ptp');
+          args.push(localStorage.getItem('printing_top_padding'));
+        }
+        if (localStorage.getItem('printing_bot_padding')) {
+          args.push('-pbp');
+          args.push(localStorage.getItem('printing_bot_padding'));
+        }
+        if (localStorage.getItem('nozzle_votage')) {
+          args.push('-nv');
+          args.push(localStorage.getItem('nozzle_votage'));
+        }
+        if (localStorage.getItem('nozzle_pulse_width')) {
+          args.push('-npw');
+          args.push(localStorage.getItem('nozzle_pulse_width'));
+        }
+        if (localStorage.getItem('travel_speed')) {
+          args.push('-ts');
+          args.push(localStorage.getItem('travel_speed'));
+        }
       }
-      if (isDevMode && localStorage.getItem('min_printing_padding')) {
-        args.push('-mpp');
-        args.push(localStorage.getItem('min_printing_padding'));
-      }
-      if (isDevMode && localStorage.getItem('printing_top_padding')) {
-        args.push('-ptp');
-        args.push(localStorage.getItem('printing_top_padding'));
-      }
-      if (isDevMode && localStorage.getItem('printing_bot_padding')) {
-        args.push('-pbp');
-        args.push(localStorage.getItem('printing_bot_padding'));
-      }
-      if (isDevMode && localStorage.getItem('nozzle_votage')) {
-        args.push('-nv');
-        args.push(localStorage.getItem('nozzle_votage'));
-      }
-      if (isDevMode && localStorage.getItem('nozzle_pulse_width')) {
-        args.push('-npw');
-        args.push(localStorage.getItem('nozzle_pulse_width'));
-      }
-      if (opts.model === 'ado1') {
+      if (model === 'ado1') {
         const offsets = { ...moduleOffsets, ...BeamboxPreference.read('module-offsets') };
         args.push('-mof');
         args.push(JSON.stringify(offsets));
@@ -204,14 +214,12 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
       ws.send(args.join(' '));
     },
     gcodeToFcode(
-      taskData: { arrayBuffer: ArrayBuffer, thumbnailSize: number, size: number },
-      opts,
+      taskData: { arrayBuffer: ArrayBuffer; thumbnailSize: number; size: number },
+      opts
     ) {
       const $deferred = $.Deferred();
       const warningCollection = [];
-      const args = [
-        'g2f',
-      ];
+      const args = ['g2f'];
       const blobs = [];
       let duration;
       let totalLength = 0;
@@ -255,19 +263,15 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
         console.error(data);
       };
 
-      ws.send([
-        'g2f',
-        taskData.size,
-        taskData.thumbnailSize,
-      ].join(' '));
+      ws.send(['g2f', taskData.size, taskData.thumbnailSize].join(' '));
 
       return $deferred.promise();
     },
     divideSVG(opts?) {
       const $deferred = $.Deferred();
       opts = opts || {};
-      opts.onProgressing = opts.onProgressing || (() => { });
-      opts.onFinished = opts.onFinished || (() => { });
+      opts.onProgressing = opts.onProgressing || (() => {});
+      opts.onFinished = opts.onFinished || (() => {});
       lastOrder = 'divideSVG';
 
       const args = ['divide_svg'];
@@ -316,8 +320,8 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
     divideSVGbyLayer(opts?) {
       const $deferred = $.Deferred();
       opts = opts || {};
-      opts.onProgressing = opts.onProgressing || (() => { });
-      opts.onFinished = opts.onFinished || (() => { });
+      opts.onProgressing = opts.onProgressing || (() => {});
+      opts.onFinished = opts.onFinished || (() => {});
       lastOrder = 'divideSVGbyLayer';
 
       const args = ['divide_svg_by_layer'];
@@ -404,7 +408,8 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
             if (hrefCleaned.startsWith('data:')) {
               continue;
             }
-            let newPath = hrefCleaned.replace(/&apos;/g, '\'')
+            let newPath = hrefCleaned
+              .replace(/&apos;/g, "'")
               .replace(/&quot;/g, '"')
               .replace(/&gt;/g, '>')
               .replace(/&lt;/g, '<')
@@ -418,12 +423,16 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
             if (file.path) {
               newPath = fs.join(basename, newPath);
               if (fs.exists(newPath)) {
-                newPath = newPath.replace(/&/g, '&amp;')
+                newPath = newPath
+                  .replace(/&/g, '&amp;')
                   .replace(/'/g, '&apos;')
                   .replace(/"/g, '&quot;')
                   .replace(/>/g, '&gt;')
                   .replace(/</g, '&lt;');
-                svgString = svgString.replace(`xlink:href="${hrefCleaned}"`, `xlink:href="${newPath}"`);
+                svgString = svgString.replace(
+                  `xlink:href="${hrefCleaned}"`,
+                  `xlink:href="${newPath}"`
+                );
                 continue;
               }
             }
@@ -446,11 +455,7 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
             type: 'text/plain',
           });
 
-          ws.send([
-            'upload_plain_svg',
-            'plain-svg',
-            file.size,
-          ].join(' '));
+          ws.send(['upload_plain_svg', 'plain-svg', file.size].join(' '));
         }
       };
       reader.readAsText(file);
@@ -500,11 +505,7 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
             break;
         }
       };
-      ws.send([
-        'upload_plain_svg',
-        'text-svg',
-        file.size,
-      ].join(' '));
+      ws.send(['upload_plain_svg', 'text-svg', file.size].join(' '));
       return $deferred.promise();
     },
 
@@ -513,7 +514,7 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
       let currIndex = 0;
       const orderName = 'svgeditor_upload';
       const setMessages = (file, isBroken, warningCollection) => {
-        file.status = (warningCollection.length > 0 ? 'bad' : 'good');
+        file.status = warningCollection.length > 0 ? 'bad' : 'good';
         file.messages = warningCollection;
         file.isBroken = isBroken;
         return file;
@@ -558,12 +559,11 @@ export default (parserOpts: { type?: string, onFatal?: (data) => void }) => {
           opts.onError(data.message || data.symbol.join('_'));
           $deferred.resolve();
         };
-        const args = [
-          orderName,
-          file.uploadName,
-          file.size,
-          file.thumbnailSize,
-        ];
+        const args = [orderName, file.uploadName, file.size, file.thumbnailSize];
+
+        const rotaryMode = BeamboxPreference.read('rotary_mode');
+        const extendRotaryWorkarea = BeamboxPreference.read('extend-rotary-workarea');
+        if (rotaryMode && extendRotaryWorkarea) args.push('-spin');
 
         if (opts) {
           if (opts.model === 'fhexa1') args.push('-hexa');

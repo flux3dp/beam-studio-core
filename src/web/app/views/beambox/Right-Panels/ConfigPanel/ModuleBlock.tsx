@@ -1,17 +1,18 @@
-import React, { memo, useContext, useEffect } from 'react';
+import React, { memo, useContext, useEffect, useState } from 'react';
 import { Select } from 'antd';
 
 import alertCaller from 'app/actions/alert-caller';
 import alertConfig from 'helpers/api/alert-config';
 import alertConstants from 'app/constants/alert-constants';
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
-import beamboxStore from 'app/stores/beambox-store';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
+import history from 'app/svgedit/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
+import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
 import moduleBoundaryDrawer from 'app/actions/canvas/module-boundary-drawer';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
-import presprayArea from 'app/actions/beambox/prespray-area';
+import presprayArea from 'app/actions/canvas/prespray-area';
 import storage from 'implementations/storage';
 import toggleFullColorLayer from 'helpers/layer/full-color/toggleFullColorLayer';
 import useI18n from 'helpers/useI18n';
@@ -19,14 +20,13 @@ import {
   DataType,
   defaultConfig,
   getData,
-  getLayerConfig,
-  getLayersConfig,
-  writeData,
+  writeDataLayer,
 } from 'helpers/layer/layer-config-helper';
 import { getLayerElementByName } from 'helpers/layer/layer-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ILaserConfig } from 'interfaces/ILaserConfig';
 import { useIsMobile } from 'helpers/system-helper';
+import { WorkAreaModel } from 'app/constants/workarea-constants';
 
 import ConfigPanelContext from './ConfigPanelContext';
 import styles from './ModuleBlock.module.scss';
@@ -35,26 +35,31 @@ let svgCanvas: ISVGCanvas;
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
 });
-const layerPanelEventEmitter = eventEmitterFactory.createEventEmitter('layer-panel');
+
+const documentEventEmitter = eventEmitterFactory.createEventEmitter('document-panel');
 
 const ModuleBlock = (): JSX.Element => {
   const isMobile = useIsMobile();
   const lang = useI18n();
   const t = lang.beambox.right_panel.laser_panel;
-  const { selectedLayers, state, dispatch } = useContext(ConfigPanelContext);
+  const { selectedLayers, state, initState } = useContext(ConfigPanelContext);
   const { module } = state;
   const { value } = module;
+  const [workarea, setWorkarea] = useState(beamboxPreference.read('workarea'));
 
   useEffect(() => {
-    const updateBoundary = () => moduleBoundaryDrawer.update(value);
-    updateBoundary();
-    beamboxStore.onUpdateWorkArea(updateBoundary);
+    // handle boundary change due to rotary mode change
+    const handleWorkareaChange = (newWorkarea: WorkAreaModel) => {
+      moduleBoundaryDrawer.update(value);
+      setWorkarea(newWorkarea);
+    };
+    moduleBoundaryDrawer.update(value);
+    documentEventEmitter.on('workarea-change', handleWorkareaChange);
     return () => {
-      beamboxStore.removeUpdateWorkAreaListener(updateBoundary);
+      documentEventEmitter.off('workarea-change', handleWorkareaChange);
     };
   }, [value]);
-
-  if (!modelsWithModules.includes(beamboxPreference.read('workarea'))) return null;
+  if (!modelsWithModules.has(workarea)) return null;
 
   const handleChange = async (val: number) => {
     if (
@@ -113,42 +118,43 @@ const ModuleBlock = (): JSX.Element => {
       if (!res) return;
     }
     const customizedLaserConfigs = (storage.get('customizedLaserConfigs') as ILaserConfig[]) || [];
+    const batchCmd = new history.BatchCommand('Change layer module');
     selectedLayers.forEach((layerName) => {
-      writeData(layerName, DataType.module, val);
       const layer = getLayerElementByName(layerName);
+      writeDataLayer(layer, DataType.module, val, { batchCmd });
       const currentConfig = getData<string>(layer, DataType.configName);
       const newConfig = customizedLaserConfigs.find(
         (config) => config.name === currentConfig && (config.module === val || !config.isDefault)
       );
       if (newConfig) {
         const { speed, power, repeat } = newConfig;
-        layer.setAttribute('data-speed', String(speed));
-        layer.setAttribute('data-strength', String(power));
-        layer.setAttribute('data-repeat', String(repeat || 1));
+        writeDataLayer(layer, DataType.speed, speed, { batchCmd });
+        writeDataLayer(layer, DataType.strength, power, { batchCmd });
+        writeDataLayer(layer, DataType.repeat, repeat || 1, { batchCmd });
       } else {
         layer.removeAttribute('data-configName');
+        const cmd = new history.ChangeElementCommand(layer, { 'data-configName': currentConfig });
+        batchCmd.addSubCommand(cmd);
         if (value === LayerModule.PRINTER && val !== LayerModule.PRINTER) {
-          layer.setAttribute('data-speed', String(defaultConfig.speed));
-          layer.setAttribute('data-strength', String(defaultConfig.strength));
+          writeDataLayer(layer, DataType.speed, defaultConfig.speed, { batchCmd });
+          writeDataLayer(layer, DataType.strength, defaultConfig.strength, { batchCmd });
         } else if (value !== LayerModule.PRINTER && val === LayerModule.PRINTER) {
-          layer.setAttribute('data-printingSpeed', String(defaultConfig.printingSpeed));
-          layer.setAttribute('data-ink', String(defaultConfig.ink));
-          layer.setAttribute('data-multipass', String(defaultConfig.multipass));
+          writeDataLayer(layer, DataType.printingSpeed, defaultConfig.printingSpeed, { batchCmd });
+          writeDataLayer(layer, DataType.ink, defaultConfig.ink, { batchCmd });
+          writeDataLayer(layer, DataType.multipass, defaultConfig.multipass, { batchCmd });
         }
       }
-      toggleFullColorLayer(layer, { val: val === LayerModule.PRINTER });
+      batchCmd.addSubCommand(toggleFullColorLayer(layer, { val: val === LayerModule.PRINTER }));
     });
-    if (selectedLayers.length > 1) {
-      const drawing = svgCanvas.getCurrentDrawing();
-      const currentLayerName = drawing.getCurrentLayerName();
-      const config = getLayersConfig(selectedLayers, currentLayerName);
-      dispatch({ type: 'update', payload: config });
-    } else if (selectedLayers.length === 1) {
-      const config = getLayerConfig(selectedLayers[0]);
-      dispatch({ type: 'update', payload: config });
-    }
-    layerPanelEventEmitter.emit('UPDATE_LAYER_PANEL');
+    initState(selectedLayers);
+    LayerPanelController.updateLayerPanel();
     presprayArea.togglePresprayArea();
+    batchCmd.onAfter = () => {
+      initState();
+      LayerPanelController.updateLayerPanel();
+      presprayArea.togglePresprayArea();
+    };
+    svgCanvas.addCommandToHistory(batchCmd);
   };
 
   const options = [

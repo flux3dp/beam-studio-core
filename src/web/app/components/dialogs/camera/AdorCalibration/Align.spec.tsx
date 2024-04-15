@@ -108,6 +108,7 @@ describe('test Align', () => {
     );
     expect(baseElement.querySelector('img').src).toBe('');
     await waitFor(() => {
+      expect(baseElement.querySelector('.ant-modal')).not.toHaveClass('ant-zoom-appear');
       expect(baseElement.querySelector('img').src).not.toBe('');
     });
     expect(mockConnectCamera).toBeCalledTimes(1);
@@ -157,6 +158,7 @@ describe('test Align', () => {
     );
     expect(baseElement.querySelector('img').src).toBe('');
     await waitFor(() => {
+      expect(baseElement.querySelector('.ant-modal')).not.toHaveClass('ant-zoom-appear');
       expect(baseElement.querySelector('img').src).not.toBe('');
     });
     expect(mockOpenNonstopProgress).toBeCalledTimes(2);
@@ -207,6 +209,7 @@ describe('test Align', () => {
     );
     expect(baseElement.querySelector('img').src).toBe('');
     await waitFor(() => {
+      expect(baseElement.querySelector('.ant-modal')).not.toHaveClass('ant-zoom-appear')
       expect(baseElement.querySelector('img').src).not.toBe('');
     });
     expect(mockOpenNonstopProgress).toBeCalledTimes(2);

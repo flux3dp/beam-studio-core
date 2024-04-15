@@ -1,12 +1,12 @@
 import React, { createContext, Dispatch, SetStateAction, useMemo, useState } from 'react';
 
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
-import constant, { WorkareaMap } from 'app/actions/beambox/constant';
 import LayerModule from 'app/constants/layer-module/layer-modules';
 import layerModuleHelper from 'helpers/layer-module/layer-module-helper';
 import moduleBoundary from 'app/constants/layer-module/module-boundary';
 import storage from 'implementations/storage';
 import { DEFAULT_CONTROLLER_INCH, DEFAULT_CONTROLLER_MM } from 'app/constants/boxgen-constants';
+import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 import { IController } from 'interfaces/IBoxgen';
 
 interface BoxgenContextType {
@@ -39,10 +39,11 @@ interface BoxgenProviderProps {
 }
 
 export function BoxgenProvider({ onClose, children }: BoxgenProviderProps): JSX.Element {
-  const workareaValue = BeamboxPreference.read('workarea') || 'fbm1';
+  const workareaValue: WorkAreaModel = BeamboxPreference.read('workarea') || 'fbm1';
   const workarea = useMemo(() => {
-    const currentWorkarea = WorkareaMap.get(workareaValue);
-    if (currentWorkarea.label === 'Ador') {
+    const currentWorkarea = getWorkarea(workareaValue, 'fbm1');
+    const { width, height, displayHeight } = currentWorkarea;
+    if (workareaValue === 'ado1') {
       const laserModule = layerModuleHelper.getDefaultLaserModule();
       const boundary = moduleBoundary[laserModule] as {
         top: number;
@@ -55,15 +56,15 @@ export function BoxgenProvider({ onClose, children }: BoxgenProviderProps): JSX.
         label: `${currentWorkarea.label} ${
           laserModule === LayerModule.LASER_10W_DIODE ? '10W' : '20W'
         }`,
-        canvasWidth: currentWorkarea.width / constant.dpmm - boundary.left - boundary.right,
-        canvasHeight: currentWorkarea.height / constant.dpmm - boundary.top - boundary.bottom,
+        canvasWidth: width - boundary.left - boundary.right,
+        canvasHeight: (displayHeight ?? height) - boundary.top - boundary.bottom,
       };
     }
     return {
       value: workareaValue,
       label: currentWorkarea.label,
-      canvasWidth: currentWorkarea.width / constant.dpmm,
-      canvasHeight: currentWorkarea.height / constant.dpmm,
+      canvasWidth: width,
+      canvasHeight: (displayHeight ?? height),
     };
   }, [workareaValue]);
 

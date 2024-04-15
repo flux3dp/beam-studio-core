@@ -214,6 +214,7 @@ const fetchTaskCode = async (
   });
   await svgeditorParser.uploadToSvgeditorAPI([uploadFile], {
     model: BeamboxPreference.read('workarea') || BeamboxPreference.read('model'),
+    rotaryMode: BeamboxPreference.read('rotary_mode'),
     engraveDpi:
       // (isDev() && BeamboxPreference.read('engrave-dpi-value')) ||
       BeamboxPreference.read('engrave_dpi'),

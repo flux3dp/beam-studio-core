@@ -18,13 +18,9 @@ jest.mock('helpers/camera-calibration-helper', () => ({
   interpolatePointsFromHeight: (...args) => mockInterpolatePointsFromHeight(...args),
 }));
 
-jest.mock('app/constants/device-constants', () => ({
-  WORKAREA_DEEP: {
-    ado1: 2,
-  },
-  WORKAREA_IN_MM: {
-    ado1: [100, 100],
-  },
+const mockGetWorkarea = jest.fn();
+jest.mock('app/constants/workarea-constants', () => ({
+  getWorkarea: (...args) => mockGetWorkarea(...args),
 }));
 
 describe('test getPerspectiveForAlign', () => {
@@ -69,12 +65,16 @@ describe('test getPerspectiveForAlign', () => {
   });
 
   it('should return correct perspective when using z3regParam', async () => {
+    mockGetWorkarea.mockReturnValue({ width: 100, height: 100, deep: 2 });
     mockGetPerspectivePointsZ3Regression.mockReturnValueOnce('mock-perspective');
     const res = await getPerspectiveForAlign(
       { model: 'ado1' } as any,
       { heights: 'mock-heights', z3regParam: 'mock-z3-reg-param' } as any,
       'mock-center' as any
     );
+    expect(mockGetWorkarea).toBeCalledTimes(2);
+    expect(mockGetWorkarea).toHaveBeenNthCalledWith(1, 'ado1', 'ado1');
+    expect(mockGetWorkarea).toHaveBeenNthCalledWith(2, 'ado1', 'ado1');
     expect(mockFetchAutoLevelingData).toBeCalledTimes(3);
     expect(mockFetchAutoLevelingData).toHaveBeenNthCalledWith(1, 'hexa_platform');
     expect(mockFetchAutoLevelingData).toHaveBeenNthCalledWith(2, 'bottom_cover');

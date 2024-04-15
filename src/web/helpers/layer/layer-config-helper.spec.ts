@@ -177,7 +177,7 @@ describe('test layer-config-helper', () => {
       speed: { value: 60 },
       module: { value: 5 },
     });
-    writeData('layer 1', DataType.speed, 30, true);
+    writeData('layer 1', DataType.speed, 30, { applyPrinting: true });
     expect(getLayerConfig('layer 1')).toEqual({
       ...defaultLaserConfigs,
       speed: { value: 30 },

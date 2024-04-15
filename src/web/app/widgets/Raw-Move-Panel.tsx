@@ -1,7 +1,7 @@
 import * as React from 'react';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
-import DeviceConstants from 'app/constants/device-constants';
 import DeviceMaster from 'helpers/device-master';
+import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 
 interface Props {
   onMoveStart: () => void;
@@ -27,8 +27,9 @@ class RawMovePanel extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     const device = DeviceMaster.currentDevice.info;
+    const workarea = getWorkarea(device.model as WorkAreaModel);
     this.state = {
-      workarea: DeviceConstants.WORKAREA_IN_MM[device.model],
+      workarea: { maxX: workarea.width, maxY: workarea.height },
       safeDistance: this.getSafeDistance(),
       currentX: 0, // mm
       currentY: 0, // mm

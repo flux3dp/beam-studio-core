@@ -5,6 +5,8 @@ import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer
 import i18n from 'helpers/i18n';
 import moduleBoundary from 'app/constants/layer-module/module-boundary';
 import moduleOffsets from 'app/constants/layer-module/module-offsets';
+import workareaManager from 'app/svgedit/workarea';
+import { WorkAreaModel } from 'app/constants/workarea-constants';
 
 const { svgedit } = window;
 const documentPanelEventEmitter = eventEmitterFactory.createEventEmitter('document-panel');
@@ -18,7 +20,7 @@ const createBoundary = () => {
   boundaryPath = document.createElementNS(svgedit.NS.SVG, 'path') as unknown as SVGPathElement;
   boundaryDescText = document.createElementNS(svgedit.NS.SVG, 'text') as unknown as SVGTextElement;
   document.getElementById('canvasBackground')?.appendChild(boundarySvg);
-  const workarea = BeamboxPreference.read('workarea');
+  const { width, height } = workareaManager;
   boundarySvg.appendChild(boundaryPath);
   boundarySvg.appendChild(boundaryDescText);
   boundarySvg.setAttribute('id', 'module-boundary');
@@ -26,10 +28,7 @@ const createBoundary = () => {
   boundarySvg.setAttribute('y', '0');
   boundarySvg.setAttribute('width', '100%');
   boundarySvg.setAttribute('height', '100%');
-  boundarySvg.setAttribute(
-    'viewBox',
-    `0 0 ${constant.dimension.getWidth(workarea)} ${constant.dimension.getHeight(workarea)}`
-  );
+  boundarySvg.setAttribute('viewBox', `0 0 ${width} ${height}`);
   boundarySvg.setAttribute('style', 'pointer-events:none');
 
   boundaryPath.setAttribute('fill', '#CCC');
@@ -49,22 +48,23 @@ const createBoundary = () => {
 };
 
 const updateCanvasSize = (): void => {
-  const workarea = BeamboxPreference.read('workarea');
-  const viewBox = `0 0 ${constant.dimension.getWidth(workarea)} ${constant.dimension.getHeight(workarea)}`;
+  const { width, height } = workareaManager;
+  const viewBox = `0 0 ${width} ${height}`;
   boundarySvg?.setAttribute('viewBox', viewBox);
 };
 documentPanelEventEmitter.on('workarea-change', updateCanvasSize);
 
 const update = (module: LayerModule): void => {
-  const workarea = BeamboxPreference.read('workarea');
-  if (!modelsWithModules.includes(workarea)) {
+  const workarea = BeamboxPreference.read('workarea') as WorkAreaModel;
+  if (!modelsWithModules.has(workarea)) {
     boundaryPath?.setAttribute('d', '');
     boundaryDescText?.setAttribute('display', 'none');
     return;
   }
   if (!boundaryPath) createBoundary();
-  const w = constant.dimension.getWidth(workarea);
-  const h = constant.dimension.getHeight(workarea);
+  const { width: w, height: h } = workareaManager;
+  const viewBox = `0 0 ${w} ${h}`;
+  boundarySvg?.setAttribute('viewBox', viewBox);
   const d1 = `M0,0H${w}V${h}H0V0`;
   const { dpmm } = constant;
   let { top, left, bottom, right } = moduleBoundary[module];
@@ -73,11 +73,19 @@ const update = (module: LayerModule): void => {
   if (module === LayerModule.PRINTER && offsetY < 0) top = Math.max(top + offsetY, 0);
   if (offsetX >= 0) left = Math.max(left, offsetX);
   else right = Math.max(right, -offsetX);
-  if (offsetY >= 0) {
+  const rotaryMode = BeamboxPreference.read('rotary_mode');
+  if (rotaryMode) {
+    top = 0;
+    bottom = 0;
+  } else if (offsetY >= 0) {
     top = Math.max(top, offsetY);
     bottom = Math.max(bottom - offsetY, 0);
+  } else bottom = Math.max(bottom, -offsetY);
+  if (!top && !bottom && !left && !right) {
+    boundaryPath?.setAttribute('d', '');
+    boundaryDescText?.setAttribute('display', 'none');
+    return;
   }
-  else bottom = Math.max(bottom, -offsetY);
   top *= dpmm;
   left *= dpmm;
   bottom *= dpmm;
@@ -85,7 +93,7 @@ const update = (module: LayerModule): void => {
   const d2 = `M${left},${top}H${w - right}V${h - bottom}H${left}V${top}`;
   boundaryPath?.setAttribute('d', `${d1} ${d2}`);
   boundaryDescText?.removeAttribute('display');
-  if (top > bottom) {
+  if (top >= bottom) {
     boundaryDescText?.setAttribute('x', `${top / 2 - 40}`);
     boundaryDescText?.setAttribute('y', `${top / 2 + 40} `);
   } else {

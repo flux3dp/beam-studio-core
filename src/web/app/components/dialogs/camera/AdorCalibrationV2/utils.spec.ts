@@ -25,21 +25,9 @@ jest.mock('helpers/device-master', () => ({
   }
 }));
 
-jest.mock('app/constants/device-constants', () => ({
-  WORKAREA_DEEP: {
-    'model-1': 100,
-    'model-2': 200,
-  },
-}));
-
-jest.mock('app/actions/beambox/constant', () => ({
-  dimension: {
-    cameraCenter: (model) => {
-      if (model === 'model-1') return [100, 100];
-      if (model === 'model-2') return [200, 200];
-      return null;
-    },
-  },
+const mockGetWorkarea = jest.fn();
+jest.mock('app/constants/workarea-constants', () => ({
+  getWorkarea: (...args) => mockGetWorkarea(...args),
 }));
 
 describe('test AdorCalibrationV2 utils', () => {
@@ -48,9 +36,12 @@ describe('test AdorCalibrationV2 utils', () => {
   });
 
   it('should work for getMaterialHeight', async () => {
+    mockGetWorkarea.mockReturnValue({ cameraCenter: [100, 100], deep: 100 });
     mockGetCurrentDevice.mockReturnValue({ info: { model: 'model-1' } });
     mockRawGetProbePos.mockResolvedValue({ didAf: true, z: 10 });
     const res = await getMaterialHeight();
+    expect(mockGetWorkarea).toHaveBeenCalledTimes(1);
+    expect(mockGetWorkarea).toHaveBeenLastCalledWith('model-1', 'ado1');
     expect(mockEnterRawMode).toHaveBeenCalledTimes(1);
     expect(mockRawHome).toHaveBeenCalledTimes(1);
     expect(mockRawStartLineCheckMode).toHaveBeenCalledTimes(1);

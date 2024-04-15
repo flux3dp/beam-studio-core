@@ -44,10 +44,6 @@ const lang: ILang = {
         '#803 Gagal memulai mode pratinjau. Harap mulai ulang mesin Anda atau Beam Studio. Jika kesalahan ini berlanjut, ikuti <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">panduan ini</a>.',
       fail_to_connect_with_camera:
         '#803 Gagal membuat koneksi dengan kamera mesin. Harap mulai ulang mesin Anda atau Beam Studio. Jika kesalahan ini berlanjut, ikuti <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">panduan ini</a>.',
-      power_too_high: 'DAYA TERLALU TINGGI',
-      power_too_high_msg:
-        'Menggunakan daya laser yang lebih rendah (di bawah 70%) akan memperpanjang masa pakai tabung laser.\nMasukkan "SAYA MENGERTI" untuk melanjutkan.',
-      power_too_high_confirm: 'SAYA MENGERTI',
       add_content_first: 'Silakan tambahkan objek terlebih dahulu',
     },
     hint: {
@@ -1066,6 +1062,7 @@ const lang: ILang = {
       engrave_dpi: 'Resolusi',
       enable_diode: 'Laser Diode',
       enable_autofocus: 'Autofokus',
+      extend_workarea: 'Perluas area kerja',
       add_on: 'Add-on',
       low: 'Rendah',
       medium: 'Sedang',
@@ -1212,11 +1209,35 @@ const lang: ILang = {
     },
     shapes_panel: {
       title: 'Elemen',
+      basic: 'Dasar',
       shape: 'Bentuk',
       graphics: 'Grafis',
       arrow: 'Panah',
-      line: 'Garis',
       label: 'Label',
+      decor: 'Dekorasi',
+      circular: 'Lingkaran',
+      corner: 'Sudut',
+      line: 'Garis',
+      photo: 'Foto',
+      ribbon: 'Pita',
+      speech: 'Pidato',
+      text: 'Teks',
+      animals: 'Hewan',
+      birds: 'Burung',
+      land: 'Daratan',
+      sea: 'Laut',
+      holidays: 'Liburan',
+      celebration: 'Perayaan',
+      CNY: 'Tahun Baru Imlek',
+      easter: 'Paskah',
+      halloween: 'Halloween',
+      valentines: 'Valentine',
+      Xmas: 'Natal',
+      nature: 'Alam',
+      elements: 'Elemen',
+      environment: 'Lingkungan',
+      plants: 'Tanaman',
+      weather: 'Cuaca',
     },
     announcement_panel: {
       title: 'Pengumuman',
@@ -1225,6 +1246,7 @@ const lang: ILang = {
   },
   editor: {
     prespray_area: 'Area Priming',
+    opacity: 'Opasitas Pratinjau',
   },
   flux_id_login: {
     connection_fail: '#847 Gagal terhubung ke layanan keanggotaan FLUX.',
@@ -1802,6 +1824,17 @@ const lang: ILang = {
       storage_limit_exceeded:
         'Penyimpanan cloud Anda telah mencapai batas atas. Harap hapus file yang tidak diperlukan sebelum menyimpan file baru.',
     },
+  },
+  camera_data_backup: {
+    title: 'Cadangkan Data Kamera',
+    no_picture_found: 'Tidak ada gambar ditemukan di mesin.',
+    folder_not_exists: 'Folder yang dipilih tidak ada.',
+    incorrect_folder: 'Gagal mengunggah data kalibrasi. Harap periksa apakah folder yang Anda pilih sudah benar.',
+    downloading_data: 'Mengunduh data...',
+    estimated_time_left: 'Estimasi waktu tersisa:',
+    uploading_data: 'Mengunggah data...',
+    download_success: 'Data kamera berhasil diunduh.',
+    upload_success: 'Data kamera berhasil diunggah.',
   },
 };
 

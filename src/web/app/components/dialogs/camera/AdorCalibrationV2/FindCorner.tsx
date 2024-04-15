@@ -13,13 +13,14 @@ import styles from './FindCorner.module.scss';
 const PROGRESS_ID = 'camera-find-corner';
 
 interface Props {
+  withPitch?: boolean;
   updateParam: (param: FisheyeCameraParametersV2Cali) => void;
   onClose: (complete: boolean) => void;
   onBack: () => void;
   onNext: () => void;
 }
 
-const FindCorner = ({updateParam, onClose, onBack, onNext }: Props): JSX.Element => {
+const FindCorner = ({ withPitch, updateParam, onClose, onBack, onNext }: Props): JSX.Element => {
   const [img, setImg] = useState<{ blob: Blob; url: string; success: boolean }>(null);
   const lang = useI18n();
 
@@ -47,7 +48,7 @@ const FindCorner = ({updateParam, onClose, onBack, onNext }: Props): JSX.Element
       else alertCaller.popUpError({ message: 'Unable to get image' });
     } else {
       try {
-        const { success, blob, data } = await findCorners(imgBlob);
+        const { success, blob, data } = await findCorners(imgBlob, withPitch);
         if (!success) {
           if (retryTimes < 3) handleTakePicture(retryTimes + 1);
           else alertCaller.popUpError({ message: 'Failed to get correct corners' });
@@ -55,7 +56,7 @@ const FindCorner = ({updateParam, onClose, onBack, onNext }: Props): JSX.Element
         setImg({ blob, url: URL.createObjectURL(blob), success });
         if (success) {
           console.log(data);
-          updateParam({ k: data.k, d: data.d, rvec: data.rvec, points: data.points });
+          updateParam({ k: data.k, d: data.d, rvec: data.rvec, tvec: data.tvec, points: data.points });
         }
       } catch (err) {
         alertCaller.popUpError({ message: err.message || 'Fail to find corners' });
@@ -82,7 +83,11 @@ const FindCorner = ({updateParam, onClose, onBack, onNext }: Props): JSX.Element
         <Button className={styles['footer-button']} onClick={onBack} key="back">
           {lang.buttons.back}
         </Button>,
-        <Button className={styles['footer-button']} onClick={() => handleTakePicture(0)} key="retry">
+        <Button
+          className={styles['footer-button']}
+          onClick={() => handleTakePicture(0)}
+          key="retry"
+        >
           Retry
         </Button>,
         <Button

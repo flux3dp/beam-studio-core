@@ -8,6 +8,6 @@ enum LayerModule {
   UNKNOWN = 9,
 }
 
-export const modelsWithModules = ['fad1', 'ado1'];
+export const modelsWithModules = new Set(['fad1', 'ado1']);
 
 export default LayerModule;

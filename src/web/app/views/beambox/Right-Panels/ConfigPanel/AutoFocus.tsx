@@ -1,36 +1,57 @@
 import classNames from 'classnames';
 import React, { memo, useContext } from 'react';
 
+import history from 'app/svgedit/history';
+import ISVGCanvas from 'interfaces/ISVGCanvas';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import useI18n from 'helpers/useI18n';
 import { CUSTOM_PRESET_CONSTANT, DataType, writeData } from 'helpers/layer/layer-config-helper';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 import ConfigPanelContext from './ConfigPanelContext';
 import styles from './Block.module.scss';
 
+let svgCanvas: ISVGCanvas;
+getSVGAsync((globalSVG) => {
+  svgCanvas = globalSVG.Canvas;
+});
+
 const AutoFocus = (): JSX.Element => {
   const lang = useI18n();
   const t = lang.beambox.right_panel.laser_panel;
-  const { selectedLayers, state, dispatch } = useContext(ConfigPanelContext);
+  const { selectedLayers, state, dispatch, initState } = useContext(ConfigPanelContext);
   const { height, repeat, zStep } = state;
 
   const handleToggle = () => {
     const value = -height.value;
     dispatch({ type: 'change', payload: { height: value } });
-    selectedLayers.forEach((layerName) => writeData(layerName, DataType.height, value));
+    const batchCmd = new history.BatchCommand('Change auto focus toggle');
+    selectedLayers.forEach((layerName) =>
+      writeData(layerName, DataType.height, value, { batchCmd })
+    );
+    batchCmd.onAfter = initState;
+    svgCanvas.addCommandToHistory(batchCmd);
   };
 
   const handleHeightChange = (value: number) => {
     dispatch({ type: 'change', payload: { height: value } });
-    selectedLayers.forEach((layerName) => writeData(layerName, DataType.height, value));
+    const batchCmd = new history.BatchCommand('Change auto focus height');
+    selectedLayers.forEach((layerName) =>
+      writeData(layerName, DataType.height, value, { batchCmd })
+    );
+    batchCmd.onAfter = initState;
+    svgCanvas.addCommandToHistory(batchCmd);
   };
 
   const handleZStepChange = (value: number) => {
     dispatch({ type: 'change', payload: { zStep: value, configName: CUSTOM_PRESET_CONSTANT } });
+    const batchCmd = new history.BatchCommand('Change auto focus z step');
     selectedLayers.forEach((layerName) => {
-      writeData(layerName, DataType.zstep, value);
-      writeData(layerName, DataType.configName, CUSTOM_PRESET_CONSTANT);
+      writeData(layerName, DataType.zstep, value, { batchCmd });
+      writeData(layerName, DataType.configName, CUSTOM_PRESET_CONSTANT, { batchCmd });
     });
+    batchCmd.onAfter = initState;
+    svgCanvas.addCommandToHistory(batchCmd);
   };
 
   return (

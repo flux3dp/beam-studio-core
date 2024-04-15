@@ -44,10 +44,6 @@ const lang: ILang = {
         '#803 Αποτυχία εκκίνησης προεπισκόπησης. Κάντε επανεκκίνηση του μηχανήματος ή του Beam Studio. Αν το σφάλμα επιμένει, ακολουθήστε <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">αυτόν τον οδηγό</a>.',
       fail_to_connect_with_camera:
         '#803 Αποτυχία σύνδεσης με την κάμερα. Κάντε επανεκκίνηση του μηχανήματος ή του Beam Studio. Αν το σφάλμα επιμένει, ακολουθήστε <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">αυτόν τον οδηγό</a>.',
-      power_too_high: 'ΥΠΕΡΒΟΛΙΚΗ ΙΣΧΥΣ',
-      power_too_high_msg:
-        'Η χρήση χαμηλότερης ισχύος λέιζερ (κάτω από 70%) θα επεκτείνει τη διάρκεια ζωής του σωλήνα λέιζερ.\nΕισάγετε "ΣΗΜΕΙΩΘΗΚΕ" για να προχωρήσετε.',
-      power_too_high_confirm: 'ΣΗΜΕΙΩΘΗΚΕ',
       add_content_first: 'Παρακαλώ προσθέστε αντικείμενα πρώτα',
     },
     hint: {
@@ -1072,6 +1068,7 @@ const lang: ILang = {
       engrave_dpi: 'Ανάλυση',
       enable_diode: 'Λέιζερ διόδου',
       enable_autofocus: 'Αυτόματη εστίαση',
+      extend_workarea: 'Επέκταση περιοχής εργασίας',
       add_on: 'Πρόσθετες λειτουργίες',
       low: 'Χαμηλή',
       medium: 'Μέτρια',
@@ -1218,11 +1215,35 @@ const lang: ILang = {
     },
     shapes_panel: {
       title: 'Σχήματα',
+      basic: 'Βασικά',
       shape: 'Σχήμα',
       graphics: 'Γραφικά',
       arrow: 'Βέλος',
-      line: 'Γραμμή',
       label: 'Ετικέτα',
+      decor: 'Διακόσμηση',
+      circular: 'Κυκλικό',
+      corner: 'Γωνία',
+      line: 'Γραμμή',
+      photo: 'Φωτογραφία',
+      ribbon: 'Κορδέλα',
+      speech: 'Ομιλία',
+      text: 'Πλαίσιο κειμένου',
+      animals: 'Ζώο',
+      birds: 'Πουλί',
+      land: 'Ξηρά',
+      sea: 'Θάλασσα',
+      holidays: 'Αργίες',
+      celebration: 'Εορτασμός',
+      CNY: 'Κινεζική Πρωτοχρονιά',
+      easter: 'Πάσχα',
+      halloween: 'Απόκριες',
+      valentines: 'Αγίου Βαλεντίνου',
+      Xmas: 'Χριστούγεννα',
+      nature: 'Φύση',
+      elements: 'Στοιχεία',
+      environment: 'Περιβάλλον',
+      plants: 'Φυτά',
+      weather: 'Καιρός',
     },
     announcement_panel: {
       title: 'Ανακοίνωση',
@@ -1231,6 +1252,7 @@ const lang: ILang = {
   },
   editor: {
     prespray_area: 'Περιοχή προετοιμασίας',
+    opacity: 'Προεπισκόπηση Αδιαφάνειας',
   },
   flux_id_login: {
     connection_fail: '#847 Αποτυχία σύνδεσης στην υπηρεσία μέλους FLUX.',
@@ -1824,6 +1846,17 @@ const lang: ILang = {
       storage_limit_exceeded:
         'Η αποθήκευση στο cloud σας έχει φτάσει στο ανώτατο όριο. Παρακαλώ διαγράψτε τυχόν περιττά αρχεία πριν αποθηκεύσετε νέα.',
     },
+  },
+  camera_data_backup: {
+    title: 'Αντίγραφο ασφαλείας δεδομένων κάμερας',
+    no_picture_found: 'Δεν βρέθηκε εικόνα στη μηχανή.',
+    folder_not_exists: 'Ο επιλεγμένος φάκελος δεν υπάρχει.',
+    incorrect_folder: 'Αποτυχία μεταφόρτωσης δεδομένων βαθμονόμησης. Παρακαλώ ελέγξτε εάν ο φάκελος που επιλέξατε είναι σωστός.',
+    downloading_data: 'Λήψη δεδομένων...',
+    estimated_time_left: 'Υπολοιπόμενος εκτιμώμενος χρόνος:',
+    uploading_data: 'Ανεβάζοντας δεδομένα...',
+    download_success: 'Επιτυχής λήψη δεδομένων κάμερας.',
+    upload_success: 'Επιτυχής αποστολή δεδομένων κάμερας.',
   },
 };
 

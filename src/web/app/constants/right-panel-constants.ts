@@ -758,7 +758,7 @@ export const getModulePresets = (
   };
 } => {
   const modelName = modelMap[model] || 'BEAMO';
-  if (modelsWithModules.includes(model)) {
+  if (modelsWithModules.has(model)) {
     const data = Object.keys(constants[modelName]).reduce((acc, key) => {
       const { module: m, ...rest } = constants.ADOR[key];
       if (m === module) {

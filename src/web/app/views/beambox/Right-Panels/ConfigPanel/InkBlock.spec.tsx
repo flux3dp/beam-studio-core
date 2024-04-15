@@ -1,10 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
 import { PrintingColors } from 'app/constants/color-constants';
 
 import ConfigPanelContext from './ConfigPanelContext';
-import InkBlock from './InkBlock';
 
 jest.mock('helpers/useI18n', () => () => ({
   beambox: {
@@ -90,6 +90,25 @@ jest.mock('helpers/layer/layer-config-helper', () => ({
   writeData: (...args) => mockWriteData(...args),
 }));
 
+const mockAddCommandToHistory = jest.fn();
+jest.mock('helpers/svg-editor-helper', () => ({
+  getSVGAsync: (callback) =>
+    callback({
+      Canvas: {
+        addCommandToHistory: mockAddCommandToHistory,
+      },
+    }),
+}));
+
+let batchCmd = { onAfter: undefined, count: 0 };
+const mockBatchCommand = jest.fn().mockImplementation(() => {
+  batchCmd = { onAfter: undefined, count: batchCmd.count + 1 };
+  return batchCmd;
+});
+jest.mock('app/svgedit/history', () => ({
+  BatchCommand: mockBatchCommand,
+}));
+
 const mockSelectedLayers = ['layer1', 'layer2'];
 const mockContextState = {
   ink: { value: 7, hasMultiValue: false },
@@ -97,10 +116,15 @@ const mockContextState = {
   fullcolor: { value: true, hasMultiValue: false },
 };
 const mockDispatch = jest.fn();
+const mockInitState = jest.fn();
+
+// eslint-disable-next-line import/first
+import InkBlock from './InkBlock';
 
 describe('test InkBlock', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    batchCmd = { onAfter: undefined, count: 0 };
   });
 
   it('should render correctly', () => {
@@ -110,6 +134,7 @@ describe('test InkBlock', () => {
           state: mockContextState as any,
           dispatch: mockDispatch,
           selectedLayers: mockSelectedLayers,
+          initState: mockInitState,
         }}
       >
         <InkBlock />
@@ -125,6 +150,7 @@ describe('test InkBlock', () => {
           state: mockContextState as any,
           dispatch: mockDispatch,
           selectedLayers: mockSelectedLayers,
+          initState: mockInitState,
         }}
       >
         <InkBlock />
@@ -132,6 +158,8 @@ describe('test InkBlock', () => {
     );
     expect(mockDispatch).not.toBeCalled();
     expect(mockWriteData).not.toBeCalled();
+    expect(mockBatchCommand).not.toBeCalled();
+    expect(batchCmd.count).toBe(0);
     const input = container.querySelector('input');
     fireEvent.change(input, { target: { value: '8' } });
     expect(mockDispatch).toBeCalledTimes(1);
@@ -139,21 +167,29 @@ describe('test InkBlock', () => {
       type: 'change',
       payload: { ink: 8, configName: 'CUSTOM_PRESET_CONSTANT' },
     });
+    expect(mockBatchCommand).toBeCalledTimes(1);
+    expect(mockBatchCommand).lastCalledWith('Change ink');
+    expect(batchCmd.count).toBe(1);
     expect(mockWriteData).toBeCalledTimes(4);
-    expect(mockWriteData).toHaveBeenNthCalledWith(1, 'layer1', 'ink', 8);
+    expect(mockWriteData).toHaveBeenNthCalledWith(1, 'layer1', 'ink', 8, { batchCmd });
     expect(mockWriteData).toHaveBeenNthCalledWith(
       2,
       'layer1',
       'configName',
-      'CUSTOM_PRESET_CONSTANT'
+      'CUSTOM_PRESET_CONSTANT',
+      { batchCmd }
     );
-    expect(mockWriteData).toHaveBeenNthCalledWith(3, 'layer2', 'ink', 8);
+    expect(mockWriteData).toHaveBeenNthCalledWith(3, 'layer2', 'ink', 8, { batchCmd });
     expect(mockWriteData).toHaveBeenNthCalledWith(
       4,
       'layer2',
       'configName',
-      'CUSTOM_PRESET_CONSTANT'
+      'CUSTOM_PRESET_CONSTANT',
+      { batchCmd }
     );
+    expect(batchCmd.onAfter).toBe(mockInitState);
+    expect(mockAddCommandToHistory).toBeCalledTimes(1);
+    expect(mockAddCommandToHistory).lastCalledWith(batchCmd);
   });
 
   test('onChange of value display should work', () => {
@@ -163,6 +199,7 @@ describe('test InkBlock', () => {
           state: mockContextState as any,
           dispatch: mockDispatch,
           selectedLayers: mockSelectedLayers,
+          initState: mockInitState,
         }}
       >
         <InkBlock />
@@ -170,27 +207,37 @@ describe('test InkBlock', () => {
     );
     expect(mockDispatch).not.toBeCalled();
     expect(mockWriteData).not.toBeCalled();
+    expect(mockBatchCommand).not.toBeCalled();
+    expect(batchCmd.count).toBe(0);
     fireEvent.click(getByText('MockConfigValueDisplayButton'));
     expect(mockDispatch).toBeCalledTimes(1);
     expect(mockDispatch).toHaveBeenLastCalledWith({
       type: 'change',
       payload: { ink: 8, configName: 'CUSTOM_PRESET_CONSTANT' },
     });
+    expect(mockBatchCommand).toBeCalledTimes(1);
+    expect(mockBatchCommand).lastCalledWith('Change ink');
+    expect(batchCmd.count).toBe(1);
     expect(mockWriteData).toBeCalledTimes(4);
-    expect(mockWriteData).toHaveBeenNthCalledWith(1, 'layer1', 'ink', 8);
+    expect(mockWriteData).toHaveBeenNthCalledWith(1, 'layer1', 'ink', 8, { batchCmd });
     expect(mockWriteData).toHaveBeenNthCalledWith(
       2,
       'layer1',
       'configName',
-      'CUSTOM_PRESET_CONSTANT'
+      'CUSTOM_PRESET_CONSTANT',
+      { batchCmd }
     );
-    expect(mockWriteData).toHaveBeenNthCalledWith(3, 'layer2', 'ink', 8);
+    expect(mockWriteData).toHaveBeenNthCalledWith(3, 'layer2', 'ink', 8, { batchCmd });
     expect(mockWriteData).toHaveBeenNthCalledWith(
       4,
       'layer2',
       'configName',
-      'CUSTOM_PRESET_CONSTANT'
+      'CUSTOM_PRESET_CONSTANT',
+      { batchCmd }
     );
+    expect(batchCmd.onAfter).toBe(mockInitState);
+    expect(mockAddCommandToHistory).toBeCalledTimes(1);
+    expect(mockAddCommandToHistory).lastCalledWith(batchCmd);
   });
 
   test('open and close modal should work', () => {
@@ -200,6 +247,7 @@ describe('test InkBlock', () => {
           state: mockContextState as any,
           dispatch: mockDispatch,
           selectedLayers: mockSelectedLayers,
+          initState: mockInitState,
         }}
       >
         <InkBlock />

@@ -10,10 +10,9 @@ getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
 });
 
-
 // TODO: add test
 const updateLayerColor = async (layer: SVGGElement): Promise<void> => {
-  const useLayerColor = beamboxPrefernce.read('use_layer_color') !== false;
+  const useLayerColor = beamboxPrefernce.read('use_layer_color');
   const color = useLayerColor ? layer.getAttribute('data-color') : '#000';
   const isFullColor = layer.getAttribute('data-fullcolor') === '1';
   const elems = Array.from(layer.childNodes);

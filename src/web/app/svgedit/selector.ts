@@ -7,7 +7,7 @@
  * Copyright(c) 2010 Alexis Deveria
  * Copyright(c) 2010 Jeff Schiller
  */
-
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import storage from 'implementations/storage';
 import units from 'helpers/units';
@@ -25,6 +25,7 @@ let svgCanvas;
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
 });
+const canvasEventEmitter = eventEmitterFactory.createEventEmitter('canvas');
 
 type BBox = {
   x: number;
@@ -157,7 +158,10 @@ class Selector {
       this.resizeGrips[dir] = grip;
     }
 
-    this.rotateGripConnector = document.createElementNS(NS.SVG, 'line') as unknown as SVGLineElement;
+    this.rotateGripConnector = document.createElementNS(
+      NS.SVG,
+      'line'
+    ) as unknown as SVGLineElement;
     this.rotateGripConnector.setAttribute('id', 'selectorGrip_rotateconnector');
     this.rotateGripConnector.setAttribute('stroke', '#0000FF');
     this.rotateGripConnector.setAttribute('stroke-width', '1');
@@ -170,7 +174,10 @@ class Selector {
     this.rotateGripTop.setAttribute('fill', '#12B700');
     this.rotateGripTop.setAttribute('stroke', '#0000FF');
     this.rotateGripTop.setAttribute('stroke-width', '2');
-    this.rotateGripTop.setAttribute('style', `cursor:url(${config.imgPath}rotate.png) 12 12, auto;`);
+    this.rotateGripTop.setAttribute(
+      'style',
+      `cursor:url(${config.imgPath}rotate.png) 12 12, auto;`
+    );
     this.rotateGripTop.setAttribute('class', 'hidden-mobile');
     this.gripsGroup.appendChild(this.rotateGripTop);
     $.data(this.rotateGripTop, 'type', 'rotate');
@@ -187,7 +194,7 @@ class Selector {
       <filter id="filter0_d_93_1829" x="0" y="0" width="${2 * (btnRadius + btnMargin)}" height="30"
         filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
       <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-      <feColorMatrix in="SourceAlpha" type="matrix" 
+      <feColorMatrix in="SourceAlpha" type="matrix"
         values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
       <feOffset dy="4"/>
       <feGaussianBlur stdDeviation="2"/>
@@ -275,16 +282,14 @@ class Selector {
       return;
     }
 
-    const {
-      x, y, width, height,
-    } = elemBBox;
+    const { x, y, width, height } = elemBBox;
 
     let transformedBBox = svgedit.math.transformBox(
       x * currentZoom,
       y * currentZoom,
       width * currentZoom,
       height * currentZoom,
-      m,
+      m
     );
     let { aabox } = transformedBBox;
 
@@ -301,15 +306,15 @@ class Selector {
         y * currentZoom,
         width * currentZoom,
         height * currentZoom,
-        m,
+        m
       );
       aabox = transformedBBox.aabox;
     }
     this.dimension = {
       x: aabox.x - offset,
       y: aabox.y - offset,
-      width: aabox.width + (2 * offset),
-      height: aabox.height + (2 * offset),
+      width: aabox.width + 2 * offset,
+      height: aabox.height + 2 * offset,
       angle,
     };
   }
@@ -337,11 +342,9 @@ class Selector {
 
   applyDimensions() {
     if (!this.dimension) return;
-    const {
-      x, y, width, height, angle,
-    } = this.dimension;
-    const cx = x + (width / 2);
-    const cy = y + (height / 2);
+    const { x, y, width, height, angle } = this.dimension;
+    const cx = x + width / 2;
+    const cy = y + height / 2;
     const dStr = `M${x},${y}L${x + width},${y}L${x + width},${y + height}L${x},${y + height}z`;
     this.selectorRect.setAttribute('d', dStr);
     if (svgCanvas.getCurrentMode() === 'preview_color') {
@@ -495,7 +498,7 @@ export class SelectorManager {
     this.initGroup();
   }
 
-  initGroup() {
+  initGroup(): void {
     if (this.selectorParentGroup) {
       this.selectorParentGroup.remove();
     }
@@ -507,7 +510,24 @@ export class SelectorManager {
     this.selectorMap = {};
     this.rubberBandBox?.remove();
     this.rubberBandBox = null;
+
+    canvasEventEmitter.on('zoom-changed', () => {
+      requestAnimationFrame(() => this.handleZoomChange());
+    });
   }
+
+  handleZoomChange(): void {
+    const svgcontent = document.getElementById('svgcontent');
+    const x = svgcontent.getAttribute('x');
+    const y = svgcontent.getAttribute('y');
+    this.selectorParentGroup.setAttribute('transform', `translate(${x},${y})`);
+
+    const selectors = Object.values(this.selectorMap);
+    selectors.forEach((selector) => {
+      if (selector.inUse) selector.resize();
+    });
+  }
+
 
   resizeSelectors(elems: Element[]): void {
     for (let i = 0; i < elems.length; i += 1) {
@@ -541,7 +561,7 @@ export class SelectorManager {
     return selector;
   }
 
-  releaseSelector(elem: Element) {
+  releaseSelector(elem: Element): void {
     if (!elem) return;
     const selector = this.selectorMap[elem.id];
     if (selector && selector.inUse) {
@@ -566,7 +586,10 @@ export class SelectorManager {
       this.rubberBandBox.setAttribute('fill', '#0000FF');
       this.rubberBandBox.setAttribute('fill-opacity', '0.15');
       this.rubberBandBox.setAttribute('display', 'none');
-      this.rubberBandBox.setAttribute('style', 'pointer-events:none;will-change: transform, x, y, width, height, scroll-position;');
+      this.rubberBandBox.setAttribute(
+        'style',
+        'pointer-events:none;will-change: transform, x, y, width, height, scroll-position;'
+      );
       this.selectorParentGroup.appendChild(this.rubberBandBox);
     }
     return this.rubberBandBox;

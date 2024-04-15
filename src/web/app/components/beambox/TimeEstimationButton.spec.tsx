@@ -7,15 +7,11 @@ import { TimeEstimationButtonContext } from 'app/contexts/TimeEstimationButtonCo
 
 import TimeEstimationButton from './TimeEstimationButton';
 
+// for duration-formatter and connection helper
 jest.mock('helpers/i18n', () => ({
   lang: {
     alert: {
       oops: 'Oops...',
-    },
-    beambox: {
-      time_est_button: {
-        calculate: 'Estimate time',
-      },
     },
     device_selection: {
       no_beambox: '#801',
@@ -29,6 +25,15 @@ jest.mock('helpers/i18n', () => ({
       menu: {
         add_new_machine: 'Machine Setup',
       },
+    },
+  },
+}));
+
+jest.mock('helpers/useI18n', () => () => ({
+  beambox: {
+    time_est_button: {
+      calculate: 'Estimate time',
+      estimate_time: 'Estimated Time:',
     },
   },
 }));
@@ -63,10 +68,11 @@ describe('should render correctly', () => {
       value: 'MacOS',
     });
     const { container } = render(
-      <TimeEstimationButtonContext.Provider value={{
-        setEstimatedTime: () => { },
-        estimatedTime: 60,
-      }}
+      <TimeEstimationButtonContext.Provider
+        value={{
+          setEstimatedTime: () => {},
+          estimatedTime: 60,
+        }}
       >
         <TimeEstimationButton />
       </TimeEstimationButtonContext.Provider>
@@ -81,12 +87,13 @@ describe('should render correctly', () => {
         value={
           {
             isPathPreviewing: true,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
           } as any
         }
       >
         <TimeEstimationButtonContext.Provider
           value={{
-            setEstimatedTime: () => { },
+            setEstimatedTime: () => {},
             estimatedTime: 60,
           }}
         >
@@ -141,7 +148,7 @@ describe('should render correctly', () => {
         }}
       >
         <TimeEstimationButton />
-      </TimeEstimationButtonContext.Provider>,
+      </TimeEstimationButtonContext.Provider>
     );
 
     expect(container).toMatchSnapshot();

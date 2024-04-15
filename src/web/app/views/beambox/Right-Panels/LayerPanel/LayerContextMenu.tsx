@@ -12,7 +12,7 @@ import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer
 import LayerPanelIcons from 'app/icons/layer-panel/LayerPanelIcons';
 import ObjectPanelIcons from 'app/icons/object-panel/ObjectPanelIcons';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
-import presprayArea from 'app/actions/beambox/prespray-area';
+import presprayArea from 'app/actions/canvas/prespray-area';
 import splitFullColorLayer from 'helpers/layer/full-color/splitFullColorLayer';
 import toggleFullColorLayer from 'helpers/layer/full-color/toggleFullColorLayer';
 import updateLayerColor from 'helpers/color/updateLayerColor';
@@ -119,7 +119,7 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
   const isSelectingPrinterLayer =
     selectedLayers.length === 1 &&
     layerElem &&
-    modelsWithModules.includes(workarea) &&
+    modelsWithModules.has(workarea) &&
     getData<LayerModule>(layerElem, DataType.module) === LayerModule.PRINTER;
   const isFullColor = layerElem?.getAttribute('data-fullcolor') === '1';
 

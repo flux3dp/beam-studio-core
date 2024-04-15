@@ -4,9 +4,10 @@ import { Button, Popover } from 'antd-mobile';
 
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import configOptions from 'app/constants/config-options';
-import constant from 'app/actions/beambox/constant';
 import doLayersContainsVector from 'helpers/layer/check-vector';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
+import history from 'app/svgedit/history';
+import ISVGCanvas from 'interfaces/ISVGCanvas';
 import LayerModule from 'app/constants/layer-module/layer-modules';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import objectPanelItemStyles from 'app/views/beambox/Right-Panels/ObjectPanelItem.module.scss';
@@ -14,6 +15,8 @@ import storage from 'implementations/storage';
 import units from 'helpers/units';
 import useI18n from 'helpers/useI18n';
 import { CUSTOM_PRESET_CONSTANT, DataType, writeData } from 'helpers/layer/layer-config-helper';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
 import { ObjectPanelContext } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
 
@@ -22,6 +25,11 @@ import ConfigSlider from './ConfigSlider';
 import ConfigValueDisplay from './ConfigValueDisplay';
 import styles from './Block.module.scss';
 
+let svgCanvas: ISVGCanvas;
+getSVGAsync((globalSVG) => {
+  svgCanvas = globalSVG.Canvas;
+});
+
 const SpeedBlock = ({
   type = 'default',
 }: {
@@ -29,7 +37,13 @@ const SpeedBlock = ({
 }): JSX.Element => {
   const lang = useI18n();
   const t = lang.beambox.right_panel.laser_panel;
-  const { selectedLayers, state, dispatch, simpleMode = true } = useContext(ConfigPanelContext);
+  const {
+    selectedLayers,
+    state,
+    dispatch,
+    simpleMode = true,
+    initState,
+  } = useContext(ConfigPanelContext);
   const { activeKey } = useContext(ObjectPanelContext);
   const visible = activeKey === 'speed';
   const { hasVector } = useContext(LayerPanelContext);
@@ -53,9 +67,11 @@ const SpeedBlock = ({
     const d = { mm: 1, inches: 2 }[unit];
     return { display, decimal: d, calculateUnit };
   }, []);
-  const workarea = BeamboxPreference.read('workarea');
-  const maxValue = useMemo(() => constant.dimension.getMaxSpeed(workarea), [workarea]);
-  const workareaMinSpeed = constant.dimension.getMinSpeed(workarea);
+  const workarea: WorkAreaModel = BeamboxPreference.read('workarea');
+  const { workareaMaxSpeed: maxValue, workareaMinSpeed } = useMemo(() => {
+    const workareaObj = getWorkarea(workarea);
+    return { workareaMaxSpeed: workareaObj.maxSpeed, workareaMinSpeed: workareaObj.minSpeed };
+  }, [workarea]);
   let minValue = workareaMinSpeed;
   const enableLowSpeed = BeamboxPreference.read('enable-low-speed');
   if (minValue > 1 && enableLowSpeed) minValue = 1;
@@ -72,11 +88,15 @@ const SpeedBlock = ({
       payload: { speed: val, configName: CUSTOM_PRESET_CONSTANT },
     });
     timeEstimationButtonEventEmitter.emit('SET_ESTIMATED_TIME', null);
-    if (type !== 'modal')
+    if (type !== 'modal') {
+      const batchCmd = new history.BatchCommand('Change speed');
       selectedLayers.forEach((layerName) => {
-        writeData(layerName, DataType.speed, val, true);
-        writeData(layerName, DataType.configName, CUSTOM_PRESET_CONSTANT);
+        writeData(layerName, DataType.speed, val, { applyPrinting: true, batchCmd });
+        writeData(layerName, DataType.configName, CUSTOM_PRESET_CONSTANT, { batchCmd });
       });
+      batchCmd.onAfter = initState;
+      svgCanvas.addCommandToHistory(batchCmd);
+    }
   };
 
   const sliderOptions = useMemo(

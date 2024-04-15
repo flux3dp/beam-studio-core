@@ -38,14 +38,11 @@ export interface ILang {
       start_preview_timeout: string,
       fail_to_start_preview: string,
       fail_to_connect_with_camera: string,
-      power_too_high: string,
-      power_too_high_msg: string,
-      power_too_high_confirm: string,
       add_content_first: string,
-    },
+    };
     hint: {
-      polygon: string,
-    },
+      polygon: string;
+    };
     menu: {
       preferences: string;
       hide: string;
@@ -1003,6 +1000,7 @@ export interface ILang {
       engrave_dpi: string,
       enable_diode: string,
       enable_autofocus: string,
+      extend_workarea: string;
       add_on: string,
       low: string,
       medium: string,
@@ -1138,11 +1136,35 @@ export interface ILang {
     },
     shapes_panel: {
       title: string;
+      basic: string;
       shape: string;
       graphics: string;
       arrow: string;
-      line: string;
       label: string;
+      decor: string;
+      circular: string;
+      corner: string;
+      line: string;
+      photo: string;
+      ribbon: string;
+      speech: string;
+      text: string;
+      animals: string;
+      birds: string;
+      land: string;
+      sea: string;
+      holidays: string;
+      celebration: string;
+      CNY: string;
+      easter: string;
+      halloween: string;
+      valentines: string;
+      Xmas: string;
+      nature: string;
+      elements: string;
+      environment: string;
+      plants: string;
+      weather: string;
     };
     announcement_panel: {
       title: string;
@@ -1151,6 +1173,7 @@ export interface ILang {
   };
   editor: {
     prespray_area: string;
+    opacity: string;
   };
   flux_id_login: {
     connection_fail: string;
@@ -1675,5 +1698,16 @@ export interface ILang {
       invalid_char: string;
       storage_limit_exceeded: string;
     };
+  };
+  camera_data_backup: {
+    title: string;
+    no_picture_found: string;
+    folder_not_exists: string;
+    incorrect_folder: string;
+    downloading_data: string;
+    estimated_time_left: string;
+    uploading_data: string;
+    download_success: string;
+    upload_success: string;
   };
 }

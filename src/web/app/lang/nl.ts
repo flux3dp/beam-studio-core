@@ -44,10 +44,6 @@ const lang: ILang = {
         '#803 Kan voorbeeldmodus niet starten. Start uw machine of Beam Studio opnieuw op. Als deze fout zich blijft voordoen, volg dan <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">deze handleiding</a>.',
       fail_to_connect_with_camera:
         '#803 Kan geen verbinding maken met machinecamera. Start uw machine of Beam Studio opnieuw op. Als deze fout zich blijft voordoen, volg dan <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">deze handleiding</a>.',
-      power_too_high: 'TE HOGE SPANNING',
-      power_too_high_msg:
-        'Gebruik een lager laservermogen (onder 70%) om de levensduur van de lasertube te verlengen.\nVoer "BEGREPEN" in om door te gaan.',
-      power_too_high_confirm: 'BEGREPEN',
       add_content_first: 'Voeg eerst objecten toe',
     },
     hint: {
@@ -1059,6 +1055,7 @@ const lang: ILang = {
       engrave_dpi: 'Resolutie',
       enable_diode: 'Diode laser',
       enable_autofocus: 'Autofocus',
+      extend_workarea: 'Werkgebied uitbreiden',
       add_on: 'Add-ons',
       low: 'Laag',
       medium: 'Gemiddeld',
@@ -1205,11 +1202,35 @@ const lang: ILang = {
     },
     shapes_panel: {
       title: 'Elementen',
+      basic: 'Basis',
       shape: 'Vorm',
       graphics: 'Grafisch',
       arrow: 'Pijl',
-      line: 'Lijn',
       label: 'Label',
+      decor: 'Decoratie',
+      circular: 'Cirkelvormig',
+      corner: 'Hoek',
+      line: 'Lijn',
+      photo: 'Foto',
+      ribbon: 'Lint',
+      speech: 'Spraak',
+      text: 'Tekstframe',
+      animals: 'Dier',
+      birds: 'Vogel',
+      land: 'Land',
+      sea: 'Zee',
+      holidays: 'Feestdag',
+      celebration: 'Viering',
+      CNY: 'Chinees nieuwjaar',
+      easter: 'Pasen',
+      halloween: 'Halloween',
+      valentines: 'Valentijnsdag',
+      Xmas: 'Kerstmis',
+      nature: 'Natuur',
+      elements: 'Elementen',
+      environment: 'Omgeving',
+      plants: 'Planten',
+      weather: 'Weer',
     },
     announcement_panel: {
       title: 'Aankondiging',
@@ -1218,6 +1239,7 @@ const lang: ILang = {
   },
   editor: {
     prespray_area: 'Priming gebied',
+    opacity: 'Voorbeeld dekking',
   },
   flux_id_login: {
     connection_fail: '#847 Verbinding met FLUX-lidservice mislukt.',
@@ -1801,6 +1823,17 @@ const lang: ILang = {
       storage_limit_exceeded:
         'Uw cloudopslag heeft de bovengrens bereikt. Verwijder onnodige bestanden voordat u nieuwe opslaat.',
     },
+  },
+  camera_data_backup: {
+    title: 'Camera gegevens back-up',
+    no_picture_found: 'Geen afbeelding gevonden in de machine.',
+    folder_not_exists: 'Geselecteerde map bestaat niet.',
+    incorrect_folder: 'Mislukt om kalibratiegegevens te uploaden. Controleer of de geselecteerde map correct is.',
+    downloading_data: 'Gegevens downloaden...',
+    estimated_time_left: 'Geschatte resterende tijd:',
+    uploading_data: 'Gegevens uploaden...',
+    download_success: 'Camera-gegevens succesvol gedownload.',
+    upload_success: 'Camera-gegevens succesvol geüpload.',
   },
 };
 

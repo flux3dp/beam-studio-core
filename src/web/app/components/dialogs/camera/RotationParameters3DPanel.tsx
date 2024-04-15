@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Button, Col, InputNumber, Modal, Row } from 'antd';
 
-import { RotationParameters3DCalibration } from 'app/constants/camera-calibration-constants';
+import { RotationParameters3DCalibration } from 'interfaces/FisheyePreview';
 
 interface Props {
   initialParams?: RotationParameters3DCalibration;

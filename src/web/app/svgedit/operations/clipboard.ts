@@ -3,6 +3,7 @@ import history from 'app/svgedit/history';
 import selector from 'app/svgedit/selector';
 import symbolMaker from 'helpers/symbol-maker';
 import updateElementColor from 'helpers/color/updateElementColor';
+import workareaManager from 'app/svgedit/workarea';
 import { deleteElements } from 'app/svgedit/operations/delete';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { moveElements, moveSelectedElements } from 'app/svgedit/operations/move';
@@ -305,10 +306,10 @@ const pasteFromNativeClipboard = async (
 };
 
 const pasteInCenter = async (): Promise<{ cmd: IBatchCommand, elems: Element[] } | null> => {
-  const zoom = svgCanvas.getZoom();
+  const zoom = workareaManager.zoomRatio;
   const workarea = document.getElementById('workarea');
-  const x = (workarea.scrollLeft + workarea.clientWidth / 2) / zoom - svgCanvas.contentW;
-  const y = (workarea.scrollTop + workarea.clientHeight / 2) / zoom - svgCanvas.contentH;
+  const x = (workarea.scrollLeft + workarea.clientWidth / 2) / zoom - workareaManager.width;
+  const y = (workarea.scrollTop + workarea.clientHeight / 2) / zoom - workareaManager.height;
   return pasteFromNativeClipboard('point', x, y);
 };
 

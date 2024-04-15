@@ -116,13 +116,32 @@ jest.mock(
       mockGetDevice(...args)
 );
 
+const mockGetWidth = jest.fn();
+const mockGetHeight = jest.fn();
+const mockGetRotaryExpansion = jest.fn();
+jest.mock('app/svgedit/workarea', () => ({
+  get width() {
+    return mockGetWidth();
+  },
+  get height() {
+    return mockGetHeight();
+  },
+  get rotaryExpansion() {
+    return mockGetRotaryExpansion();
+  },
+}));
+
 describe('test FrameButton', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
+
   test('should render correctly', async () => {
     const { container } = render(<FrameButton />);
     expect(container).toMatchSnapshot();
+    mockGetWidth.mockReturnValue(3000);
+    mockGetHeight.mockReturnValue(2100);
+    mockGetRotaryExpansion.mockReturnValue([0, 0]);
     mockGetDevice.mockResolvedValueOnce({ device: { model: 'fbm1', version: '4.1.7' } });
     fireEvent.click(container.querySelector('div[class*="button"]'));
     await waitFor(() => expect(mockPopById).toBeCalledTimes(1));

@@ -44,10 +44,6 @@ const lang: ILang = {
         '#803 Kunne ikke starte forhåndsvisning. Start maskinen eller Beam Studio på nytt. Hvis feilen vedvarer, følg denne veiledningen',
       fail_to_connect_with_camera:
         '#803 Kunne ikke opprette tilkobling til maskinkamera. Start maskinen eller Beam Studio på nytt. Hvis feilen vedvarer, følg denne veiledningen',
-      power_too_high: 'FOR HØY EFFEKT',
-      power_too_high_msg:
-        'Bruk av lavere lasereffekt (under 70%) forlenger laserens levetid.\nSkriv inn "FORSTÅTT" for å fortsette.',
-      power_too_high_confirm: 'FORSTÅTT',
       add_content_first: 'Legg til objekter først',
     },
     hint: {
@@ -1059,6 +1055,7 @@ const lang: ILang = {
       engrave_dpi: 'Oppløsning',
       enable_diode: 'Diode-laser',
       enable_autofocus: 'Autofokus',
+      extend_workarea: 'Utvid arbeidsområdet',
       add_on: 'Tillegg',
       low: 'Lav',
       medium: 'Medium',
@@ -1201,11 +1198,35 @@ const lang: ILang = {
     },
     shapes_panel: {
       title: 'Elementer',
+      basic: 'Grunnleggende',
       shape: 'Form',
       graphics: 'Grafikk',
       arrow: 'Pil',
-      line: 'Linje',
       label: 'Etikett',
+      decor: 'Dekor',
+      circular: 'Sirkulær',
+      corner: 'Hjørne',
+      line: 'Linje',
+      photo: 'Foto',
+      ribbon: 'Bånd',
+      speech: 'Tale',
+      text: 'Tekstboks',
+      animals: 'Dyr',
+      birds: 'Fugler',
+      land: 'Land',
+      sea: 'Hav',
+      holidays: 'Høytider',
+      celebration: 'Feiring',
+      CNY: 'Kinesisk nyttår',
+      easter: 'Påske',
+      halloween: 'Halloween',
+      valentines: 'Valentinsdag',
+      Xmas: 'Jul',
+      nature: 'Natur',
+      elements: 'Elementer',
+      environment: 'Miljø',
+      plants: 'Planter',
+      weather: 'Vær',
     },
     announcement_panel: {
       title: 'Kunngjøring',
@@ -1214,6 +1235,7 @@ const lang: ILang = {
   },
   editor: {
     prespray_area: 'Primeområde',
+    opacity: 'Forhåndsvisning gjennomsiktighet',
   },
   flux_id_login: {
     connection_fail: '#847 Kunne ikke koble til FLUX medlemstjeneste.',
@@ -1787,6 +1809,17 @@ const lang: ILang = {
       storage_limit_exceeded:
         'Skyen din har nådd øvre grense. Vennligst slett unødvendige filer før du lagrer nye.',
     },
+  },
+  camera_data_backup: {
+    title: 'Sikkerhetskopiering av kameradata',
+    no_picture_found: 'Ingen bilde funnet i maskinen.',
+    folder_not_exists: 'Valgt mappe eksisterer ikke.',
+    incorrect_folder: 'Kunne ikke laste opp kalibreringsdataene. Sjekk om mappen du har valgt er riktig.',
+    downloading_data: 'Laster ned data...',
+    estimated_time_left: 'Estimert gjenværende tid:',
+    uploading_data: 'Laster opp data...',
+    download_success: 'Kameradata er lastet ned.',
+    upload_success: 'Kameradata er lastet opp.',
   },
 };
 

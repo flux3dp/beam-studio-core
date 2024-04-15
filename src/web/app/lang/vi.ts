@@ -44,10 +44,6 @@ const lang: ILang = {
         '#803 Không thể bắt đầu chế độ xem trước. Vui lòng khởi động lại máy hoặc Beam Studio. Nếu lỗi này vẫn xảy ra, vui lòng làm theo <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">hướng dẫn này</a>.',
       fail_to_connect_with_camera:
         '#803 Không thể kết nối với camera máy. Vui lòng khởi động lại máy hoặc Beam Studio. Nếu lỗi này vẫn xảy ra, vui lòng làm theo <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">hướng dẫn này</a>.',
-      power_too_high: 'CÔNG SUẤT QUÁ CAO',
-      power_too_high_msg:
-        'Sử dụng công suất laser thấp hơn (dưới 70%) sẽ kéo dài tuổi thọ ống laser.\nNhập "ĐÃ GHI NHẬN" để tiếp tục.',
-      power_too_high_confirm: 'ĐÃ GHI NHẬN',
       add_content_first: 'Vui lòng thêm đối tượng trước khi thêm nội dung',
     },
     hint: {
@@ -1059,6 +1055,7 @@ const lang: ILang = {
       engrave_dpi: 'Độ phân giải',
       enable_diode: 'Laser điốt',
       enable_autofocus: 'Tự động lấy nét',
+      extend_workarea: 'Mở rộng khu vực làm việc',
       add_on: 'Phụ kiện',
       low: 'Thấp',
       medium: 'Trung bình',
@@ -1204,11 +1201,35 @@ const lang: ILang = {
     },
     shapes_panel: {
       title: 'Các yếu tố',
+      basic: 'Cơ bản',
       shape: 'Hình dạng',
       graphics: 'Đồ họa',
       arrow: 'Mũi tên',
-      line: 'Đường thẳng',
       label: 'Nhãn',
+      decor: 'Trang trí',
+      circular: 'Tròn',
+      corner: 'Góc',
+      line: 'Đường thẳng',
+      photo: 'Ảnh',
+      ribbon: 'Ruy băng',
+      speech: 'Phát biểu',
+      text: 'Khung văn bản',
+      animals: 'Động vật',
+      birds: 'Chim',
+      land: 'Đất liền',
+      sea: 'Biển',
+      holidays: 'Ngày lễ',
+      celebration: 'Kỷ niệm',
+      CNY: 'Tết',
+      easter: 'Phục Sinh',
+      halloween: 'Halloween',
+      valentines: 'Lễ Tình Nhân',
+      Xmas: 'Giáng sinh',
+      nature: 'Thiên nhiên',
+      elements: 'Các yếu tố',
+      environment: 'Môi trường',
+      plants: 'Thực vật',
+      weather: 'Thời tiết',
     },
     announcement_panel: {
       title: 'Thông báo',
@@ -1217,6 +1238,7 @@ const lang: ILang = {
   },
   editor: {
     prespray_area: 'Vùng làm ẩm ban đầu',
+    opacity: 'Độ mờ xem trước',
   },
   flux_id_login: {
     connection_fail: '#847 Lỗi kết nối dịch vụ thành viên FLUX.',
@@ -1790,6 +1812,17 @@ const lang: ILang = {
       storage_limit_exceeded:
         'Bộ nhớ đám mây của bạn đã đạt giới hạn. Vui lòng xóa các tệp không cần thiết trước khi lưu các tệp mới.',
     },
+  },
+  camera_data_backup: {
+    title: 'Sao lưu dữ liệu máy ảnh',
+    no_picture_found: 'Không tìm thấy hình ảnh trong máy.',
+    folder_not_exists: 'Thư mục đã chọn không tồn tại.',
+    incorrect_folder: 'Không thể tải lên dữ liệu hiệu chuẩn. Vui lòng kiểm tra xem thư mục bạn đã chọn có đúng không.',
+    downloading_data: 'Đang tải dữ liệu...',
+    estimated_time_left: 'Thời gian còn lại ước tính:',
+    uploading_data: 'Đang tải lên dữ liệu...',
+    download_success: 'Dữ liệu máy ảnh đã được tải xuống thành công.',
+    upload_success: 'Dữ liệu máy ảnh đã được tải lên thành công.',
   },
 };
 

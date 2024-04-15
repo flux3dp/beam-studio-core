@@ -3,10 +3,10 @@ import React, { memo, useContext, useMemo } from 'react';
 import { Col } from 'antd';
 
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
-import constant from 'app/actions/beambox/constant';
 import storage from 'implementations/storage';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import useI18n from 'helpers/useI18n';
+import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 
 import Context from './Context';
 import styles from './Inputs.module.scss';
@@ -18,8 +18,8 @@ const Inputs = () => {
   const t = lang.beambox.right_panel.laser_panel;
 
   const speedLimit = useMemo(() => {
-    const model = BeamboxPreference.read('workarea') || BeamboxPreference.read('model');
-    return constant.dimension.getMaxSpeed(model);
+    const model: WorkAreaModel = BeamboxPreference.read('workarea');
+    return getWorkarea(model).maxSpeed;
   }, []);
 
   const unit = useMemo(() => storage.get('default-units') || 'mm', []);

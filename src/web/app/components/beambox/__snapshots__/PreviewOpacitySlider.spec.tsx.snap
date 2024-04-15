@@ -1,0 +1,103 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test PreviewOpacitySlider should render correctly with preview image 1`] = `
+<div>
+  <div
+    class="container"
+  >
+    <div>
+      Mock Antd Tooltip
+      <p>
+        title: 
+        Preview Opacity
+      </p>
+      <svgr-url
+        classname="icon"
+      />
+    </div>
+    <div
+      class="slider"
+    >
+      Mock Antd Slider
+      <p>
+        min: 
+        0
+      </p>
+      <p>
+        max: 
+        1
+      </p>
+      <p>
+        step: 
+        0.25
+      </p>
+      <p>
+        value: 
+        1
+      </p>
+      <button
+        type="button"
+      >
+        onChange
+      </button>
+    </div>
+    <div
+      class="value"
+    >
+      100
+      %
+    </div>
+  </div>
+</div>
+`;
+
+exports[`test PreviewOpacitySlider should render correctly with preview image 2`] = `
+<div>
+  <div
+    class="container"
+  >
+    <div>
+      Mock Antd Tooltip
+      <p>
+        title: 
+        Preview Opacity
+      </p>
+      <svgr-url
+        classname="icon"
+      />
+    </div>
+    <div
+      class="slider"
+    >
+      Mock Antd Slider
+      <p>
+        min: 
+        0
+      </p>
+      <p>
+        max: 
+        1
+      </p>
+      <p>
+        step: 
+        0.25
+      </p>
+      <p>
+        value: 
+        0.25
+      </p>
+      <button
+        type="button"
+      >
+        onChange
+      </button>
+    </div>
+    <div
+      class="value"
+    >
+      25
+      %
+    </div>
+  </div>
+</div>
+`;

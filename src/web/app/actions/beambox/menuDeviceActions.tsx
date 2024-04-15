@@ -16,6 +16,7 @@ import MonitorController from 'app/actions/monitor-controller';
 import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
 import ProgressCaller from 'app/actions/progress-caller';
 import VersionChecker from 'helpers/version-checker';
+import { downloadCameraData, uploadCameraData } from 'helpers/device/camera-data-backup';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { InkDetectionStatus } from 'app/constants/layer-module/ink-cartridge';
 import { Mode } from 'app/constants/monitor-constants';
@@ -184,6 +185,25 @@ const getLog = async (device: IDeviceInfo, log: string) => {
     console.error(e);
   }
 };
+
+const BackupCalibrationData = async (device: IDeviceInfo, type: 'download' | 'upload') => {
+  const vc = VersionChecker(device.version);
+  if (!vc.meetRequirement('ADOR_STATIC_FILE_ENTRY')) {
+    Alert.popUpError({
+      message: 'tPlease update firmware.',
+    });
+    return;
+  }
+  try {
+    const res = await DeviceMaster.select(device);
+    if (res.success) {
+      if (type === 'download') downloadCameraData(device.name);
+      else uploadCameraData();
+    }
+  } catch (e) {
+    console.error(e);
+  }
+}
 
 export default {
   DASHBOARD: async (device: IDeviceInfo): Promise<void> => {
@@ -414,6 +434,12 @@ export default {
     } finally {
       ProgressCaller.popById('fetch-cartridge-data');
     }
+  },
+  DOWNLOAD_CALIBRATION_DATA: async (device: IDeviceInfo): Promise<void> => {
+    BackupCalibrationData(device, 'download');
+  },
+  UPLOAD_CALIBRATION_DATA: async (device: IDeviceInfo): Promise<void> => {
+    BackupCalibrationData(device, 'upload');
   },
   UPDATE_FIRMWARE: async (device: IDeviceInfo): Promise<void> => {
     const deviceStatus = await checkDeviceStatus(device);

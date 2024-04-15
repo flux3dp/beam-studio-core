@@ -44,10 +44,6 @@ const lang: ILang = {
         '#803 Det gick inte att starta förhandsgranskningsläget. Starta om din dator eller Beam Studio. Om felet kvarstår, följ <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">denna guide</a>.',
       fail_to_connect_with_camera:
         '#803 Det gick inte att ansluta till maskinkameran. Starta om din maskin eller Beam Studio. Om felet kvarstår, följ <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">denna guide</a>.',
-      power_too_high: 'FÖR HÖG EFFEKT',
-      power_too_high_msg:
-        'Att använda lägre laserstyrka (under 70%) förlänger laserns livslängd.\nSkriv in "NOTERAT" för att fortsätta.',
-      power_too_high_confirm: 'NOTERAT',
       add_content_first: 'Lägg till objekt först',
     },
     hint: {
@@ -1064,6 +1060,7 @@ const lang: ILang = {
       engrave_dpi: 'Upplösning',
       enable_diode: 'Diodlaser',
       enable_autofocus: 'Autofokus',
+      extend_workarea: 'Utvidga arbetsområdet',
       add_on: 'Tillägg',
       low: 'Låg',
       medium: 'Medium',
@@ -1208,11 +1205,35 @@ const lang: ILang = {
     },
     shapes_panel: {
       title: 'Objekt',
+      basic: 'Grundläggande',
       shape: 'Form',
       graphics: 'Grafik',
       arrow: 'Pil',
-      line: 'Linje',
       label: 'Etikett',
+      decor: 'Dekor',
+      circular: 'Cirkulär',
+      corner: 'Hörn',
+      line: 'Linje',
+      photo: 'Foto',
+      ribbon: 'Band',
+      speech: 'Tal',
+      text: 'Textruta',
+      animals: 'Djur',
+      birds: 'Fågel',
+      land: 'Land',
+      sea: 'Hav',
+      holidays: 'Helgdag',
+      celebration: 'Firande',
+      CNY: 'Kinesiskt nyår',
+      easter: 'Påsk',
+      halloween: 'Halloween',
+      valentines: 'Alla hjärtans dag',
+      Xmas: 'Jul',
+      nature: 'Natur',
+      elements: 'Element',
+      environment: 'Miljö',
+      plants: 'Växter',
+      weather: 'Väder',
     },
     announcement_panel: {
       title: 'Meddelande',
@@ -1221,6 +1242,7 @@ const lang: ILang = {
   },
   editor: {
     prespray_area: 'Primeringsyta',
+    opacity: 'Förhandsvisningsgenomskinlighet',
   },
   flux_id_login: {
     connection_fail: '#847 Misslyckades att ansluta till FLUX medlemstjänst.',
@@ -1796,6 +1818,17 @@ const lang: ILang = {
       storage_limit_exceeded:
         'Din molnlagring har nått gränsen. Ta bort eventuella onödiga filer innan du sparar nya.',
     },
+  },
+  camera_data_backup: {
+    title: 'Kamera Data Backup',
+    no_picture_found: 'Inget bild hittades i maskinen.',
+    folder_not_exists: 'Den valda mappen finns inte.',
+    incorrect_folder: 'Misslyckades att ladda upp kalibreringsdata. Kontrollera om den valda mappen är korrekt.',
+    downloading_data: 'Laddar ner data...',
+    estimated_time_left: 'Beräknad återstående tid:',
+    uploading_data: 'Laddar upp data...',
+    download_success: 'Kameradata har laddats ner framgångsrikt.',
+    upload_success: 'Kameradata har laddats upp framgångsrikt.',
   },
 };
 

@@ -1,23 +1,20 @@
 import { useEffect, useState } from 'react';
 
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
-import beamboxStore from 'app/stores/beambox-store';
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
 
+const eventEmitter = eventEmitterFactory.createEventEmitter('document-panel');
 const useWorkarea = (): string => {
   const [workarea, setWorkarea] = useState(beamboxPreference.read('workarea'));
 
-  const onWorkareaChange = () => {
-    setWorkarea(beamboxPreference.read('workarea'));
-  };
-
   useEffect(() => {
-    beamboxStore.onUpdateWorkArea(onWorkareaChange);
+    eventEmitter.on('workarea-change', setWorkarea);
     return () => {
-      beamboxStore.removeUpdateWorkAreaListener(onWorkareaChange);
+      eventEmitter.off('workarea-change', setWorkarea);
     };
   }, []);
 
-  return workarea
+  return workarea;
 };
 
 export default useWorkarea;
