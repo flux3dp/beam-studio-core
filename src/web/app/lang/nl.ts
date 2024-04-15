@@ -44,10 +44,6 @@ const lang: ILang = {
         '#803 Kan voorbeeldmodus niet starten. Start uw machine of Beam Studio opnieuw op. Als deze fout zich blijft voordoen, volg dan <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">deze handleiding</a>.',
       fail_to_connect_with_camera:
         '#803 Kan geen verbinding maken met machinecamera. Start uw machine of Beam Studio opnieuw op. Als deze fout zich blijft voordoen, volg dan <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">deze handleiding</a>.',
-      power_too_high: 'TE HOGE SPANNING',
-      power_too_high_msg:
-        'Gebruik een lager laservermogen (onder 70%) om de levensduur van de lasertube te verlengen.\nVoer "BEGREPEN" in om door te gaan.',
-      power_too_high_confirm: 'BEGREPEN',
       add_content_first: 'Voeg eerst objecten toe',
       headtype_mismatch: 'Onjuiste module gedetecteerd. ',
       headtype_none: 'Module niet gedetecteerd. ',

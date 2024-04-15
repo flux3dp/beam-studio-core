@@ -44,10 +44,6 @@ const lang: ILang = {
         '#803 Kunne ikke starte forhåndsvisning. Genstart maskinen eller Beam Studio. Hvis fejlen fortsætter, se <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">denne vejledning</a>.',
       fail_to_connect_with_camera:
         '#803 Kunne ikke oprette forbindelse til maskinkamera. Genstart venligst din maskine eller Beam Studio. Hvis denne fejl fortsætter, skal du følge <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">denne vejledning</a>.',
-      power_too_high: 'FOR HØJ EFFEKT',
-      power_too_high_msg:
-        'Brug af lavere laserstyrke (under 70%) forlænger laserens levetid.\nIndtast "NOTERET" for at fortsætte.',
-      power_too_high_confirm: 'NOTERET',
       add_content_first: 'Tilføj venligst objekter først',
       headtype_mismatch: 'Forkert modul registreret. ',
       headtype_none: 'Modul ikke registreret. ',

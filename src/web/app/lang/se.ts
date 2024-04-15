@@ -44,10 +44,6 @@ const lang: ILang = {
         '#803 Det gick inte att starta förhandsgranskningsläget. Starta om din dator eller Beam Studio. Om felet kvarstår, följ <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">denna guide</a>.',
       fail_to_connect_with_camera:
         '#803 Det gick inte att ansluta till maskinkameran. Starta om din maskin eller Beam Studio. Om felet kvarstår, följ <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">denna guide</a>.',
-      power_too_high: 'FÖR HÖG EFFEKT',
-      power_too_high_msg:
-        'Att använda lägre laserstyrka (under 70%) förlänger laserns livslängd.\nSkriv in "NOTERAT" för att fortsätta.',
-      power_too_high_confirm: 'NOTERAT',
       add_content_first: 'Lägg till objekt först',
       headtype_mismatch: 'Fel modultyp upptäckt. ',
       headtype_none: 'Ingen modul upptäckt. ',

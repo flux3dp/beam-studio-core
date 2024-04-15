@@ -29,7 +29,7 @@ const workareaConstants: { [key in WorkAreaModel]: WorkArea } = {
     height: 210,
     pxHeight: 210 * dpmm,
     maxSpeed: 300,
-    minSpeed: 3,
+    minSpeed: 0.5,
     rotary: [0, 1],
   },
   fbb1b: {
@@ -39,7 +39,7 @@ const workareaConstants: { [key in WorkAreaModel]: WorkArea } = {
     height: 375,
     pxHeight: 375 * dpmm,
     maxSpeed: 300,
-    minSpeed: 3,
+    minSpeed: 0.5,
     rotary: [0, 1],
   },
   fbb1p: {
@@ -49,7 +49,7 @@ const workareaConstants: { [key in WorkAreaModel]: WorkArea } = {
     height: 375,
     pxHeight: 375 * dpmm,
     maxSpeed: 300,
-    minSpeed: 3,
+    minSpeed: 0.5,
     rotary: [0, 1],
   },
   fhexa1: {
@@ -59,7 +59,7 @@ const workareaConstants: { [key in WorkAreaModel]: WorkArea } = {
     height: 410,
     pxHeight: 410 * dpmm,
     maxSpeed: 900,
-    minSpeed: 3,
+    minSpeed: 0.5,
     rotary: [0, 1],
   },
   ado1: {

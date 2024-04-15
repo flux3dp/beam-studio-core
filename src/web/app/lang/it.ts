@@ -44,10 +44,6 @@ const lang: ILang = {
         '#803 Impossibile avviare la modalità anteprima. Riavviare la macchina o Beam Studio. Se l\'errore persiste, seguire <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">questa guida</a>.',
       fail_to_connect_with_camera:
         '#803 Impossibile stabilire la connessione con la videocamera della macchina. Riavviare la macchina o Beam Studio. Se l\'errore persiste, seguire <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">questa guida</a>.',
-      power_too_high: 'POTENZA TROPPO ALTA',
-      power_too_high_msg:
-        'Utilizzare una potenza laser inferiore (sotto il 70%) estende la durata del tubo laser.\nInserire "HO CAPITO" per procedere.',
-      power_too_high_confirm: 'HO CAPITO',
       add_content_first: 'Si prega di aggiungere prima gli oggetti',
       headtype_mismatch: 'Modulo non corrispondente rilevato. ',
       headtype_none: 'Modulo non rilevato. ',
