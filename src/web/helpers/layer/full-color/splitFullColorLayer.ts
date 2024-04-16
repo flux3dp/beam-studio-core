@@ -44,9 +44,9 @@ const splitFullColorLayer = async (
   });
   const uses = [...layer.querySelectorAll('use')];
   uses.forEach((use) => symbolMaker.switchImageSymbol(use as SVGUseElement, false));
-  const { blob, bbox } = await layerToImage(layer as SVGGElement, { isFullColor: true });
+  const { rgbBlob, cmykBlob, bbox } = await layerToImage(layer as SVGGElement, { isFullColor: true });
   uses.forEach((use) => symbolMaker.switchImageSymbol(use as SVGUseElement, true));
-  if (!blob || bbox.width === 0 || bbox.height === 0) {
+  if (!rgbBlob || bbox.width === 0 || bbox.height === 0) {
     progressCaller.popById(PROGRESS_ID);
     return null;
   }
@@ -61,8 +61,7 @@ const splitFullColorLayer = async (
   const kSmooth = getData<number>(layer, DataType.kSmooth);
 
   const includeWhite = isDev() && whiteInkStaturation > 0;
-  const layerImageUrl = URL.createObjectURL(blob);
-  const channelBlobs = await splitColor(layerImageUrl, { includeWhite });
+  const channelBlobs = await splitColor(rgbBlob, cmykBlob, { includeWhite });
 
   const batchCmd = new history.BatchCommand('Split Full Color Layer');
   const newLayers: Element[] = [];
