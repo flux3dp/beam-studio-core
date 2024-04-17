@@ -224,7 +224,6 @@ class UtilsWebSocket extends EventEmitter {
       colorType: 'rgb',
     }
   ) => {
-    // TODO: make compitable with old firmware on web version
     const data = await arrayBuffer(blob);
     const { colorType = 'rgb' } = opts;
 
