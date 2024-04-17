@@ -1,10 +1,10 @@
 import classNames from 'classnames';
 import React, { memo, useContext, useMemo } from 'react';
-import { Select } from 'antd';
 
 import history from 'app/svgedit/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
+import Select from 'app/widgets/AntdSelect';
 import useI18n from 'helpers/useI18n';
 import { DataType, writeData } from 'helpers/layer/layer-config-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
