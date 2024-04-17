@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
-import { Button, ConfigProvider, Select, Switch } from 'antd';
+import { Button, ConfigProvider, Switch } from 'antd';
 
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import FluxIcons from 'app/icons/flux/FluxIcons';
@@ -16,6 +16,7 @@ import textEdit from 'app/svgedit/text/textedit';
 import textPathEdit, { VerticalAlign } from 'app/actions/beambox/textPathEdit';
 import i18n from 'helpers/i18n';
 import InFillBlock from 'app/views/beambox/Right-Panels/Options-Blocks/InFillBlock';
+import Select from 'app/widgets/AntdSelect';
 import StartOffsetBlock from 'app/views/beambox/Right-Panels/Options-Blocks/TextOptions/StartOffsetBlock';
 import VerticalAlignBlock from 'app/views/beambox/Right-Panels/Options-Blocks/TextOptions/VerticalAlignBlock';
 import UnitInput from 'app/widgets/Unit-Input-v2';
@@ -291,6 +292,7 @@ const TextOptions = ({
           }
           return false;
         }}
+        placement="bottomRight"
         showSearch
       />
     );
