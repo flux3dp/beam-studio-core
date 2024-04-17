@@ -31,7 +31,10 @@ export const SelectedElementContextProvider = memo(({ children }: Props): JSX.El
 
   useEffect(() => {
     canvasEventEmitter.on('SET_SELECTED_ELEMENT', handleSetSelectedElem);
-  });
+    return () => {
+      canvasEventEmitter.off('SET_SELECTED_ELEMENT', handleSetSelectedElem);
+    };
+  }, [handleSetSelectedElem]);
 
   return (
     <SelectedElementContext.Provider value={{ selectedElement }}>

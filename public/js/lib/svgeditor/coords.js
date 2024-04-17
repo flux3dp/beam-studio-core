@@ -216,6 +216,13 @@ svgedit.coords.remapElement = function(selected, changes, m) {
         pstr += pt.x + ',' + pt.y + ' ';
       }
       selected.setAttribute('points', pstr);
+      if (changes.cx && changes.cy) {
+        c = remap(changes.cx,changes.cy);
+        changes.cx = c.x;
+        changes.cy = c.y;
+        selected.setAttribute('cx', changes.cx);
+        selected.setAttribute('cy', changes.cy);
+      }
       break;
     case 'path':
       var seg;
