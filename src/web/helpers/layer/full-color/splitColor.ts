@@ -1,5 +1,73 @@
 import getUtilWS from 'helpers/api/utils-ws';
 
+const handleRgb = async (
+  rgbBlob: Blob
+): Promise<{ c: string; m: string; y: string; k: string }> => {
+  const utilWS = getUtilWS();
+  try {
+    const { c, m, y, k } = await utilWS.splitColor(rgbBlob, { colorType: 'rgb' });
+    return { c, m, y, k };
+  } catch (error) {
+    console.error('Failed to split color', error);
+  }
+  // Handle when splitColor is not support by firmware in web version
+  // Can remove this if make sure firmware is updated
+  const blob = (await utilWS.transformRgbImageToCmyk(rgbBlob, { resultType: 'binary' })) as Blob;
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  await new Promise<void>((resolve) => {
+    const img = new Image();
+    img.onload = () => {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx.drawImage(img, 0, 0);
+      URL.revokeObjectURL(img.src);
+      resolve();
+    };
+    img.src = URL.createObjectURL(blob);
+  });
+  const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  const { data } = imageData;
+  const channelDatas = [
+    new Uint8ClampedArray(data.length),
+    new Uint8ClampedArray(data.length),
+    new Uint8ClampedArray(data.length),
+    new Uint8ClampedArray(data.length),
+  ];
+  for (let i = 0; i < data.length; i += 4) {
+    const r = data[i];
+    const g = data[i + 1];
+    const b = data[i + 2];
+    const a = data[i + 3];
+    let kValue = 255 - Math.max(r, g, b);
+    const cValue = Math.round((255 - r - kValue));
+    const mValue = Math.round((255 - g - kValue));
+    const yValue = Math.round((255 - b - kValue));
+    kValue = Math.round(kValue);
+    const colors = [255 - kValue, 255 - cValue, 255 - mValue, 255 - yValue];
+    for (let j = 0; j < colors.length; j += 1) {
+      channelDatas[j][i] = colors[j];
+      channelDatas[j][i + 1] = colors[j];
+      channelDatas[j][i + 2] = colors[j];
+      channelDatas[j][i + 3] = a;
+    }
+  }
+  const result = { c: '', m: '', y: '', k: '' };
+  imageData.data.set(channelDatas[0]);
+  ctx.putImageData(imageData, 0, 0);
+  [, result.k] = canvas.toDataURL('image/jpeg', 1).split(',');
+  imageData.data.set(channelDatas[1]);
+  ctx.putImageData(imageData, 0, 0);
+  [, result.c] = canvas.toDataURL('image/jpeg', 1).split(',');
+  imageData.data.set(channelDatas[2]);
+  ctx.putImageData(imageData, 0, 0);
+  [, result.m] = canvas.toDataURL('image/jpeg', 1).split(',');
+  imageData.data.set(channelDatas[3]);
+  ctx.putImageData(imageData, 0, 0);
+  [, result.y] = canvas.toDataURL('image/jpeg', 1).split(',');
+  return result;
+};
+
 /**
  * split img into desired color channels, return null if empty
  */
@@ -11,9 +79,8 @@ const splitColor = async (
     includeWhite?: boolean;
   } = {}
 ): Promise<(Blob | null)[]> => {
-  const utilWS = getUtilWS();
   const { includeWhite = false } = opts;
-  const { c, m, y, k } = await utilWS.splitColor(rgbBlob, { colorType: 'rgb' });
+  const { c, m, y, k } = await handleRgb(rgbBlob);
   const channelDatas = [null, null, null, null];
   let width: number;
   let height: number;
@@ -82,9 +149,9 @@ const splitColor = async (
       const b = data[i + 2];
       const a = data[i + 3];
       let kValue = 255 - Math.max(r, g, b);
-      const cValue = Math.round((255 - r - kValue));
-      const mValue = Math.round((255 - g - kValue));
-      const yValue = Math.round((255 - b - kValue));
+      const cValue = Math.round(255 - r - kValue);
+      const mValue = Math.round(255 - g - kValue);
+      const yValue = Math.round(255 - b - kValue);
       kValue = Math.round(kValue);
       // invert color because we print black part
       const colors = [255 - kValue, 255 - cValue, 255 - mValue, 255 - yValue];
