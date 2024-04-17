@@ -651,7 +651,7 @@ export class MonitorContextProvider extends React.Component<Props, State> {
     const { currentPath } = this.state;
     const path = currentPath.join('/');
     if (!path) return;
-    const name = file.name.split('/').at(-1).replace(/ /g, '_');
+    const name = file.name.split(/[\\/]/).at(-1).replace(/ /g, '_');
     const fileExist = await this.doesFileExistInDirectory(path, name);
     if (fileExist) {
       const res = await new Promise((resolve) => {
