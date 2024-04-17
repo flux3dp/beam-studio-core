@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test HalftoneBlock should render correctly 1`] = `
+<div>
+  <div
+    class="panel"
+  >
+    <span
+      class="title"
+    >
+      Halftone
+    </span>
+    <select
+      class="inline-select"
+    >
+      <option
+        value="1"
+      />
+      <option
+        value="2"
+      />
+    </select>
+  </div>
+</div>
+`;

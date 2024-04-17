@@ -48,14 +48,13 @@ const HalftoneBlock = (): JSX.Element => {
       ].filter((option) => option),
     [hasMultiValue]
   );
-
   return isMobile ? (
     <ObjectPanelItem.Select
       id="halftone-type"
       selected={hasMultiValue ? options[0] : options[value]}
       onChange={handleChange}
       options={options}
-      label="Haftone"
+      label="Halftone"
     />
   ) : (
     <div className={classNames(styles.panel)}>

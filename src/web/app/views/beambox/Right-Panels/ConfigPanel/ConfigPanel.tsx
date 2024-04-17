@@ -287,7 +287,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
     <>
       {isDevMode && module.value === LayerModule.PRINTER && UIType === 'default' && <UVBlock />}
       {module.value === LayerModule.PRINTER && <HalftoneBlock />}
-      {module.value === LayerModule.PRINTER && halftone.value === 2 && <AmDensityBlock />}
+      {module.value === LayerModule.PRINTER && halftone.value > 1 && <AmDensityBlock />}
       {module.value !== LayerModule.PRINTER && <PowerBlock type={UIType} />}
       {module.value === LayerModule.PRINTER && <InkBlock type={UIType} />}
       <SpeedBlock type={UIType} />
