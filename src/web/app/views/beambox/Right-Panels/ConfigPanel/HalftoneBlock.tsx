@@ -21,7 +21,7 @@ getSVGAsync((globalSVG) => {
 // TODO: add test
 const HalftoneBlock = (): JSX.Element => {
   const isMobile = useIsMobile();
-  const lang = useI18n();
+  const lang = useI18n().beambox.right_panel.laser_panel;
 
   const { selectedLayers, state, dispatch, initState } = useContext(ConfigPanelContext);
   const { halftone } = state;
@@ -54,11 +54,11 @@ const HalftoneBlock = (): JSX.Element => {
       selected={hasMultiValue ? options[0] : options[value]}
       onChange={handleChange}
       options={options}
-      label="Halftone"
+      label={lang.halftone}
     />
   ) : (
     <div className={classNames(styles.panel)}>
-      <span className={styles.title}>Halftone</span>
+      <span className={styles.title}>{lang.halftone}</span>
       <Select
         className={styles['inline-select']}
         onChange={handleChange}

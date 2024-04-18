@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import React, { useEffect, useMemo, useState } from 'react';
 import { ConfigProvider, InputNumber, Slider } from 'antd';
 
+import useI18n from 'helpers/useI18n';
 import styles from './ColorRatioModal.module.scss';
 
 interface Props {
@@ -14,6 +15,7 @@ interface Props {
 
 // TODO: fix test
 const ColorRatioBlock = ({ ratio, setRatio, smooth, setSmooth, color }: Props): JSX.Element => {
+  const lang = useI18n().beambox.right_panel.laser_panel;
   const [displayRatio, setDisplayRatio] = useState(ratio);
   const [displaySmooth, setDisplaySmooth] = useState(smooth);
   useEffect(() => setDisplayRatio(ratio), [ratio]);
@@ -38,7 +40,7 @@ const ColorRatioBlock = ({ ratio, setRatio, smooth, setSmooth, color }: Props): 
     <div className={classNames(styles.block, styles[color])}>
       <div>{title}</div>
       <div className={styles.header}>
-        <span className={styles.title}>Strength</span>
+        <span className={styles.title}>{lang.color_strength}</span>
         <span className={styles.input}>
           <ConfigProvider
             theme={{
@@ -71,7 +73,7 @@ const ColorRatioBlock = ({ ratio, setRatio, smooth, setSmooth, color }: Props): 
         }}
       />
       <div className={styles.header}>
-        <span className={styles.title}>Smooth</span>
+        <span className={styles.title}>{lang.color_smooth}</span>
         <span className={styles.input}>
           <ConfigProvider
             theme={{
