@@ -73,7 +73,7 @@ const workareaConstants: { [key in WorkAreaModel]: WorkArea } = {
     deep: 40.5,
     maxSpeed: 400,
     minSpeed: 0.5,
-    rotary: isDev() ? [0, 1] : [0],
+    rotary: [0, 1],
     cameraCenter: [215, 150],
   },
 };
