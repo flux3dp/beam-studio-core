@@ -47,6 +47,8 @@ class WorkareaManager {
       } else {
         this.rotaryExpansion = [0, 0];
       }
+      const svgcontent = document.getElementById('svgcontent');
+      svgcontent?.setAttribute('viewBox', `0 0 ${this.width} ${this.height}`);
       const fixedSizeSvg = document.getElementById('fixedSizeSvg');
       fixedSizeSvg?.setAttribute('viewBox', `0 0 ${this.width} ${this.height}`);
       this.zoom(this.zoomRatio);
@@ -86,7 +88,6 @@ class WorkareaManager {
     svgcontent?.setAttribute('y', y.toString());
     svgcontent?.setAttribute('width', w.toString());
     svgcontent?.setAttribute('height', h.toString());
-    svgcontent?.setAttribute('viewBox', `0 0 ${this.width} ${this.height}`);
 
     // eslint-disable-next-line no-param-reassign
     staticPoint = staticPoint ?? {
