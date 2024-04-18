@@ -11,6 +11,7 @@ import Constant from 'app/actions/beambox/constant';
 import dialogCaller from 'app/actions/dialog-caller';
 import deviceMaster from 'helpers/device-master';
 import ErrorConstants from 'app/constants/error-constants';
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import FisheyePreviewManagerV1 from 'app/actions/beambox/fisheye-preview-helpers/FisheyePreviewManagerV1';
 import FisheyePreviewManagerV2 from 'app/actions/beambox/fisheye-preview-helpers/FisheyePreviewManagerV2';
 import i18n from 'helpers/i18n';
@@ -29,6 +30,7 @@ import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 import { IDeviceInfo } from 'interfaces/IDevice';
 
 const LANG = i18n.lang;
+const canvasEventEmitter = eventEmitterFactory.createEventEmitter('canvas');
 
 class PreviewModeController {
   isDrawing: boolean;
@@ -262,6 +264,7 @@ class PreviewModeController {
       deviceMaster.setDeviceControlReconnectOnClose(device);
       this.errorCallback = errCallback;
       this.isPreviewModeOn = true;
+      canvasEventEmitter.emit('UPDATE_CONTEXT');
     } catch (error) {
       console.error(error);
       this.reset();

@@ -1250,6 +1250,7 @@ const lang: ILang = {
   editor: {
     prespray_area: 'Priming gebied',
     opacity: 'Voorbeeld dekking',
+    exposure: 'Voorbeeld belichting',
   },
   flux_id_login: {
     connection_fail: '#847 Verbinding met FLUX-lidservice mislukt.',

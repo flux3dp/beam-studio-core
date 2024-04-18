@@ -1189,6 +1189,7 @@ const lang: ILang = {
   editor: {
     prespray_area: 'Priming Area',
     opacity: 'Preview Opacity',
+    exposure: 'Preview Exposure',
   },
   flux_id_login: {
     connection_fail: '#847 Failed to connect to FLUX member service.',

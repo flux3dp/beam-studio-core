@@ -1181,6 +1181,7 @@ export interface ILang {
   editor: {
     prespray_area: string;
     opacity: string;
+    exposure: string;
   };
   flux_id_login: {
     connection_fail: string;
