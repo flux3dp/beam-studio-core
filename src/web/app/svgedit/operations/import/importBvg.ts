@@ -128,7 +128,6 @@ export const importBvgString = async (str: string): Promise<void> => {
         });
       });
       if (res) {
-        changeWorkarea('ado1', { toggleModule: false });
         newWorkarea = 'ado1';
       } else {
         alertCaller.popUp({
@@ -138,6 +137,7 @@ export const importBvgString = async (str: string): Promise<void> => {
       }
     }
   }
+  changeWorkarea(newWorkarea, { toggleModule: false })
   if (!modelsWithModules.has(newWorkarea)) {
     toggleFullColorAfterWorkareaChange();
   }
