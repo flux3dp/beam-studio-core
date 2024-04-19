@@ -160,7 +160,6 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
       let printingTopPadding: number;
       let printingBotPadding: number;
       if (rotaryMode && constant.adorModels.includes(model)) {
-        travelSpeed = 2000;
         printingTopPadding = 43;
         printingBotPadding = 43;
       }
