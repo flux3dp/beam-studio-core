@@ -585,7 +585,7 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
 
         events.onError = (data) => {
           warningCollection.push(data.message);
-          opts.onError(data.message || data.symbol.join('_'));
+          opts.onError(data.message || data.symbol?.join('_') || String(data) || 'Unknown Error');
           $deferred.resolve();
         };
         const args = [orderName, file.uploadName, file.size, file.thumbnailSize];
