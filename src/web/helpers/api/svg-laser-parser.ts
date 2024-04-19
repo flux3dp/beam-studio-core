@@ -156,7 +156,6 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
       else if (BeamboxPreference.read('enable-low-speed')) args.push('-min-speed 1');
       if (BeamboxPreference.read('reverse-engraving')) args.push('-rev');
       if (BeamboxPreference.read('enable-custom-backlash')) args.push('-cbl');
-      let travelSpeed: number;
       let printingTopPadding: number;
       let printingBotPadding: number;
       if (rotaryMode && constant.adorModels.includes(model)) {
@@ -194,7 +193,18 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
         }
         storageValue = localStorage.getItem('travel_speed');
         if (storageValue && !Number.isNaN(Number(storageValue))) {
-          travelSpeed = Number(storageValue)
+          args.push('-ts');
+          args.push(Number(storageValue));
+        }
+        storageValue = localStorage.getItem('path_travel_speed');
+        if (storageValue && !Number.isNaN(Number(storageValue))) {
+          args.push('-pts');
+          args.push(Number(storageValue));
+        }
+        storageValue = localStorage.getItem('a_travel_speed');
+        if (storageValue && !Number.isNaN(Number(storageValue))) {
+          args.push('-ats');
+          args.push(Number(storageValue));
         }
       }
       if (printingTopPadding !== undefined) {
@@ -204,10 +214,6 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
       if (printingBotPadding !== undefined) {
         args.push('-pbp');
         args.push(printingBotPadding);
-      }
-      if (travelSpeed !== undefined) {
-        args.push('-ts');
-        args.push(travelSpeed);
       }
       if (model === 'ado1') {
         const offsets = { ...moduleOffsets, ...BeamboxPreference.read('module-offsets') };
