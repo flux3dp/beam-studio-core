@@ -365,6 +365,9 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   var assignAttributes = canvas.assignAttributes = svgedit.utilities.assignAttributes;
   var cleanupElement = this.cleanupElement = svgedit.utilities.cleanupElement;
 
+  // Map of deleted reference elements
+  const removedElements = {};
+
   // import from coords.js
   svgedit.coords.init({
     getDrawing: function () {
@@ -611,8 +614,8 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       if (attrVal && attrVal.indexOf('url(') === 0) {
         const id = svgedit.utilities.getUrlFromAttr(attrVal).substr(1);
         const ref = getElem(id);
-        if (!ref) {
-          svgedit.utilities.findDefs().appendChild(removedElements[id]);
+        if (!ref && removedElements[id]) {
+          svgedit.utilities.findDefs()?.appendChild(removedElements[id]);
           delete removedElements[id];
         }
       }
@@ -675,9 +678,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
   // Canvas point for the most recent right click
   let lastClickPoint = null;
-
-  // Map of deleted reference elements
-  const removedElements = {};
 
   const curText = all_properties.text;
   textEdit.updateCurText(curText);
