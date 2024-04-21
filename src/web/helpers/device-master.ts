@@ -389,6 +389,19 @@ class DeviceMaster {
     }
   }
 
+  async getControl(): Promise<Control> {
+    if (!this.currentDevice) {
+      return null;
+    }
+    const controlSocket = this.currentDevice.control;
+    if (controlSocket) return controlSocket;
+    const res = await this.reconnect();
+    if (res.success) {
+      return this.currentDevice.control;
+    }
+    return null;
+  }
+
   async reconnect() {
     this.deviceConnections.delete(this.currentDevice.info.uuid);
     try {
@@ -414,7 +427,7 @@ class DeviceMaster {
 
   // Player functions
   async go(data, onProgress?: (...args: any[]) => void) {
-    const controlSocket = this.currentDevice.control;
+    const controlSocket = await this.getControl();
     if (!data || !(data instanceof Blob)) {
       return DeviceConstants.READY;
     }
@@ -428,7 +441,7 @@ class DeviceMaster {
   }
 
   async goFromFile(path: string, fileName: string) {
-    const controlSocket = this.currentDevice.control;
+    const controlSocket = await this.getControl();
     const selectResult = await controlSocket.addTask(controlSocket.select, path, fileName);
     if (selectResult.status.toUpperCase() === DeviceConstants.OK) {
       const startResult = await controlSocket.addTask(controlSocket.start);
@@ -437,47 +450,47 @@ class DeviceMaster {
     return { status: 'error' };
   }
 
-  resume() {
-    const controlSocket = this.currentDevice.control;
+  async resume() {
+    const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.resume);
   }
 
-  pause() {
-    const controlSocket = this.currentDevice.control;
+  async pause() {
+    const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.pause);
   }
 
-  stop() {
-    const controlSocket = this.currentDevice.control;
+  async stop() {
+    const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.abort);
   }
 
-  restart() {
-    const controlSocket = this.currentDevice.control;
+  async restart() {
+    const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.restart);
   }
 
-  quit() {
-    const controlSocket = this.currentDevice.control;
+  async quit() {
+    const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.quit);
   }
 
-  quitTask() {
-    const controlSocket = this.currentDevice.control;
+  async quitTask() {
+    const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.quitTask);
   }
 
-  kick() {
-    const controlSocket = this.currentDevice.control;
+  async kick() {
+    const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.kick);
   }
 
   // Calibration and Machine test functions
   async waitTillCompleted(onProgress?: (number) => void) {
     return new Promise((resolve, reject) => {
-      const controlSocket = this.currentDevice.control;
       let statusChanged = false;
       const statusCheckInterval = setInterval(async () => {
+        const controlSocket = await this.getControl();
         const r = await controlSocket.addTask(controlSocket.report);
         const { st_id: stId, error, prog } = r.device_status;
         if (stId === 64) {
@@ -638,23 +651,23 @@ class DeviceMaster {
   }
 
   // fs functions
-  ls(path: string) {
-    const controlSocket = this.currentDevice.control;
+  async ls(path: string) {
+    const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.ls, path);
   }
 
-  lsusb() {
-    const controlSocket = this.currentDevice.control;
+  async lsusb() {
+    const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.lsusb);
   }
 
-  fileInfo(path: string, fileName: string) {
-    const controlSocket = this.currentDevice.control;
+  async fileInfo(path: string, fileName: string) {
+    const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.fileInfo, path, fileName);
   }
 
-  deleteFile(path: string, fileName: string) {
-    const controlSocket = this.currentDevice.control;
+  async deleteFile(path: string, fileName: string) {
+    const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.deleteFile, `${path}/${fileName}`);
   }
 
@@ -664,7 +677,7 @@ class DeviceMaster {
     fileName: string,
     onProgress?: (...args: any[]) => void
   ) {
-    const controlSocket = this.currentDevice.control;
+    const controlSocket = await this.getControl();
     if (onProgress) {
       controlSocket.setProgressListener(onProgress);
     }
@@ -672,42 +685,42 @@ class DeviceMaster {
     return res;
   }
 
-  downloadFile(path: string, fileName: string, onProgress?: (...args: any[]) => void) {
-    const controlSocket = this.currentDevice.control;
+  async downloadFile(path: string, fileName: string, onProgress?: (...args: any[]) => void) {
+    const controlSocket = await this.getControl();
     if (onProgress) {
       controlSocket.setProgressListener(onProgress);
     }
     return controlSocket.addTask(controlSocket.downloadFile, `${path}/${fileName}`, onProgress);
   }
 
-  downloadLog(log: string, onProgress: (...args: any[]) => void = () => {}) {
-    const controlSocket = this.currentDevice.control;
+  async downloadLog(log: string, onProgress: (...args: any[]) => void = () => {}) {
+    const controlSocket = await this.getControl();
     if (onProgress) {
       controlSocket.setProgressListener(onProgress);
     }
     return controlSocket.downloadLog(log);
   }
 
-  fetchCameraCalibImage(fileName: string, onProgress: (...args: any[]) => void = () => {}) {
-    const controlSocket = this.currentDevice.control;
+  async fetchCameraCalibImage(fileName: string, onProgress: (...args: any[]) => void = () => {}) {
+    const controlSocket = await this.getControl();
     if (onProgress) {
       controlSocket.setProgressListener(onProgress);
     }
     return controlSocket.fetchCameraCalibImage(fileName);
   }
 
-  fetchFisheyeParams(): Promise<FisheyeCameraParameters> {
-    const controlSocket = this.currentDevice.control;
+  async fetchFisheyeParams(): Promise<FisheyeCameraParameters> {
+    const controlSocket = await this.getControl();
     return controlSocket.fetchFisheyeParams() as Promise<FisheyeCameraParameters>;
   }
 
-  fetchFisheye3DRotation(): Promise<RotationParameters3D> {
-    const controlSocket = this.currentDevice.control;
+  async fetchFisheye3DRotation(): Promise<RotationParameters3D> {
+    const controlSocket = await this.getControl();
     return controlSocket.fetchFisheye3DRotation();
   }
 
-  fetchAutoLevelingData(dataType: 'hexa_platform' | 'bottom_cover' | 'offset') {
-    const controlSocket = this.currentDevice.control;
+  async fetchAutoLevelingData(dataType: 'hexa_platform' | 'bottom_cover' | 'offset') {
+    const controlSocket = await this.getControl();
     return controlSocket.fetchAutoLevelingData(dataType);
   }
 
@@ -726,29 +739,29 @@ class DeviceMaster {
     return res;
   }
 
-  enterCartridgeIOMode() {
-    const controlSocket = this.currentDevice.control;
+  async enterCartridgeIOMode() {
+    const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.enterCartridgeIOMode);
   }
 
-  endCartridgeIOMode() {
-    const controlSocket = this.currentDevice.control;
+  async endCartridgeIOMode() {
+    const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.endCartridgeIOMode);
   }
 
-  getCartridgeChipData() {
-    const controlSocket = this.currentDevice.control;
+  async getCartridgeChipData() {
+    const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.getCartridgeChipData);
   }
 
-  cartridgeIOJsonRpcReq(method: string, params: any[]) {
-    const controlSocket = this.currentDevice.control;
+  async cartridgeIOJsonRpcReq(method: string, params: any[]) {
+    const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.cartridgeIOJsonRpcReq, method, params);
   }
 
   // Maintain mode functions
   async enterMaintainMode() {
-    const controlSocket = this.currentDevice.control;
+    const controlSocket = await this.getControl();
     const vc = VersionChecker(this.currentDevice.info.version);
     if (vc.meetRequirement('RELOCATE_ORIGIN')) {
       await this.setOriginX(0);
@@ -757,13 +770,13 @@ class DeviceMaster {
     return controlSocket.addTask(controlSocket.enterMaintainMode);
   }
 
-  endMaintainMode() {
-    const controlSocket = this.currentDevice.control;
+  async endMaintainMode() {
+    const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.endMaintainMode);
   }
 
   async maintainMove(args: { f: number; x: number; y: number }) {
-    const controlSocket = this.currentDevice.control;
+    const controlSocket = await this.getControl();
     const result = await controlSocket.addTask(controlSocket.maintainMove, args);
     if (result.status === 'ok') {
       return;
@@ -771,80 +784,80 @@ class DeviceMaster {
     console.warn('maintainMove Result', result);
   }
 
-  maintainHome() {
-    const controlSocket = this.currentDevice.control;
+  async maintainHome() {
+    const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.maintainHome);
   }
 
-  maintainCloseFan() {
-    const controlSocket = this.currentDevice.control;
+  async maintainCloseFan() {
+    const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.maintainCloseFan);
   }
 
   // Raw mode functions
-  enterRawMode() {
-    const controlSocket = this.currentDevice.control;
+  async enterRawMode() {
+    const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.enterRawMode);
   }
 
-  endRawMode() {
-    const controlSocket = this.currentDevice.control;
+  async endRawMode() {
+    const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.endRawMode);
   }
 
-  rawHome() {
-    const controlSocket = this.currentDevice.control;
+  async rawHome() {
+    const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.rawHome);
   }
 
-  rawHomeZ() {
-    const controlSocket = this.currentDevice.control;
+  async rawHomeZ() {
+    const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.rawHome, true);
   }
 
-  rawStartLineCheckMode() {
-    const controlSocket = this.currentDevice.control;
+  async rawStartLineCheckMode() {
+    const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.rawStartLineCheckMode);
   }
 
-  rawEndLineCheckMode() {
-    const controlSocket = this.currentDevice.control;
+  async rawEndLineCheckMode() {
+    const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.rawEndLineCheckMode);
   }
 
-  rawMove(args: { x: number; y: number; f: number }) {
-    const controlSocket = this.currentDevice.control;
+  async rawMove(args: { x: number; y: number; f: number }) {
+    const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.rawMove, args);
   }
 
-  rawSetRotary(on: boolean) {
-    const controlSocket = this.currentDevice.control;
+  async rawSetRotary(on: boolean) {
+    const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.rawSetRotary, on);
   }
 
-  rawSetWaterPump(on: boolean) {
-    const controlSocket = this.currentDevice.control;
+  async rawSetWaterPump(on: boolean) {
+    const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.rawSetWaterPump, on);
   }
 
-  rawSetFan(on: boolean) {
-    const controlSocket = this.currentDevice.control;
+  async rawSetFan(on: boolean) {
+    const controlSocket = await this.getControl();
     if (constant.adorModels.includes(this.currentDevice.info.model)) {
       return controlSocket.addTask(controlSocket.adorRawSetFan, on);
     }
     return controlSocket.addTask(controlSocket.rawSetFan, on);
   }
 
-  rawSetAirPump(on: boolean) {
-    const controlSocket = this.currentDevice.control;
+  async rawSetAirPump(on: boolean) {
+    const controlSocket = await this.getControl();
     if (constant.adorModels.includes(this.currentDevice.info.model)) {
       return controlSocket.addTask(controlSocket.adorRawSetAirPump, on);
     }
     return controlSocket.addTask(controlSocket.rawSetAirPump, on);
   }
 
-  rawLooseMotor() {
-    const controlSocket = this.currentDevice.control;
+  async rawLooseMotor() {
+    const controlSocket = await this.getControl();
     if (constant.adorModels.includes(this.currentDevice.info.model)) {
       return controlSocket.addTask(controlSocket.adorRawLooseMotor);
     }
@@ -855,79 +868,79 @@ class DeviceMaster {
     return controlSocket.addTask(controlSocket.rawLooseMotorB12);
   }
 
-  rawSetLaser(args: { on: boolean; s?: number }) {
-    const controlSocket = this.currentDevice.control;
+  async rawSetLaser(args: { on: boolean; s?: number }) {
+    const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.rawSetLaser, args);
   }
 
-  rawSet24V(on: boolean) {
-    const controlSocket = this.currentDevice.control;
+  async rawSet24V(on: boolean) {
+    const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.rawSet24V, on);
   }
 
-  rawAutoFocus() {
-    const controlSocket = this.currentDevice.control;
+  async rawAutoFocus() {
+    const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.rawAutoFocus);
   }
 
-  rawGetProbePos(): Promise<{ x: number; y: number; z: number; a: number; didAf: boolean }> {
-    const controlSocket = this.currentDevice.control;
+  async rawGetProbePos(): Promise<{ x: number; y: number; z: number; a: number; didAf: boolean }> {
+    const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.rawGetProbePos);
   }
 
-  rawGetLastPos(): Promise<{ x: number; y: number; z: number; a: number }> {
-    const controlSocket = this.currentDevice.control;
+  async rawGetLastPos(): Promise<{ x: number; y: number; z: number; a: number }> {
+    const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.rawGetLastPos);
   }
 
   // Get, Set functions
-  getLaserPower() {
-    const controlSocket = this.currentDevice.control;
+  async getLaserPower() {
+    const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.getLaserPower);
   }
 
-  setLaserPower(power: number) {
-    const controlSocket = this.currentDevice.control;
+  async setLaserPower(power: number) {
+    const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.setLaserPower, power);
   }
 
-  setLaserPowerTemp(power: number) {
-    const controlSocket = this.currentDevice.control;
+  async setLaserPowerTemp(power: number) {
+    const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.setLaserPowerTemp, power);
   }
 
-  getLaserSpeed() {
-    const controlSocket = this.currentDevice.control;
+  async getLaserSpeed() {
+    const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.getLaserSpeed);
   }
 
-  setLaserSpeed(speed: number) {
-    const controlSocket = this.currentDevice.control;
+  async setLaserSpeed(speed: number) {
+    const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.setLaserSpeed, speed);
   }
 
-  setLaserSpeedTemp(speed: number) {
-    const controlSocket = this.currentDevice.control;
+  async setLaserSpeedTemp(speed: number) {
+    const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.setLaserSpeedTemp, speed);
   }
 
-  getFan() {
-    const controlSocket = this.currentDevice.control;
+  async getFan() {
+    const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.getFan);
   }
 
-  setFan(fanSpeed: number) {
-    const controlSocket = this.currentDevice.control;
+  async setFan(fanSpeed: number) {
+    const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.setFan, fanSpeed);
   }
 
-  setFanTemp(fanSpeed: number) {
-    const controlSocket = this.currentDevice.control;
+  async setFanTemp(fanSpeed: number) {
+    const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.setFanTemp, fanSpeed);
   }
 
-  setOriginX(x = 0) {
-    const controlSocket = this.currentDevice.control;
+  async setOriginX(x = 0) {
+    const controlSocket = await this.getControl();
     const vc = VersionChecker(this.currentDevice.info.version);
     if (vc.meetRequirement('RELOCATE_ORIGIN')) {
       return controlSocket.addTask(controlSocket.setOriginX, x);
@@ -936,8 +949,8 @@ class DeviceMaster {
     return null;
   }
 
-  setOriginY(y = 0) {
-    const controlSocket = this.currentDevice.control;
+  async setOriginY(y = 0) {
+    const controlSocket = await this.getControl();
     const vc = VersionChecker(this.currentDevice.info.version);
     if (vc.meetRequirement('RELOCATE_ORIGIN')) {
       return controlSocket.addTask(controlSocket.setOriginY, y);
@@ -946,14 +959,14 @@ class DeviceMaster {
     return null;
   }
 
-  getDoorOpen() {
-    const controlSocket = this.currentDevice.control;
+  async getDoorOpen() {
+    const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.getDoorOpen);
   }
 
   async getDeviceSetting(name: string) {
     const { currentDevice } = this;
-    const controlSocket = currentDevice.control;
+    const controlSocket = await this.getControl();
     const res = await controlSocket.addTask(controlSocket.getDeviceSetting, name);
 
     if (
@@ -967,21 +980,21 @@ class DeviceMaster {
     return res;
   }
 
-  setDeviceSetting(name: string, value: string) {
-    const controlSocket = this.currentDevice.control;
+  async setDeviceSetting(name: string, value: string) {
+    const controlSocket = await this.getControl();
     if (value === 'delete') {
       return controlSocket.addTask(controlSocket.deleteDeviceSetting, name);
     }
     return controlSocket.addTask(controlSocket.setDeviceSetting, name, value);
   }
 
-  getDeviceDetailInfo(): Promise<IDeviceDetailInfo> {
-    const controlSocket = this.currentDevice.control;
+  async getDeviceDetailInfo(): Promise<IDeviceDetailInfo> {
+    const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.deviceDetailInfo);
   }
 
   async getReport() {
-    const controlSocket = this.currentDevice.control;
+    const controlSocket = await this.getControl();
     const result = await controlSocket.addTask(controlSocket.report);
     const s = result.device_status;
     // Force update st_label for a backend inconsistancy
@@ -991,38 +1004,38 @@ class DeviceMaster {
     return s;
   }
 
-  getPreviewInfo() {
-    const controlSocket = this.currentDevice.control;
+  async getPreviewInfo() {
+    const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.getPreview);
   }
 
   // update functions
-  updateFirmware = (file: File, onProgress: (...args: any[]) => void) => {
-    const controlSocket = this.currentDevice.control;
+  updateFirmware = async (file: File, onProgress: (...args: any[]) => void) => {
+    const controlSocket = await this.getControl();
     if (onProgress) {
       controlSocket.setProgressListener(onProgress);
     }
     return controlSocket.addTask(controlSocket.fwUpdate, file);
   };
 
-  updateToolhead = (file: File, onProgress: (...args: any[]) => void) => {
-    const controlSocket = this.currentDevice.control;
+  updateToolhead = async (file: File, onProgress: (...args: any[]) => void) => {
+    const controlSocket = await this.getControl();
     if (onProgress) {
       controlSocket.setProgressListener(onProgress);
     }
     return controlSocket.addTask(controlSocket.toolheadUpdate, file);
   };
 
-  uploadFisheyeParams = (data: string, onProgress: (...args: any[]) => void) => {
-    const controlSocket = this.currentDevice.control;
+  uploadFisheyeParams = async (data: string, onProgress: (...args: any[]) => void) => {
+    const controlSocket = await this.getControl();
     if (onProgress) {
       controlSocket.setProgressListener(onProgress);
     }
     return controlSocket.addTask(controlSocket.uploadFisheyeParams, data);
   };
 
-  updateFisheye3DRotation = (data: RotationParameters3D) => {
-    const controlSocket = this.currentDevice.control;
+  updateFisheye3DRotation = async (data: RotationParameters3D) => {
+    const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.updateFisheye3DRotation, data);
   };
 
@@ -1151,6 +1164,6 @@ class DeviceMaster {
 }
 
 const deviceMaster = new DeviceMaster();
-// eslint-disable-next-line @typescript-eslint/dot-notation
-window['deviceMaster'] = deviceMaster;
+// // eslint-disable-next-line @typescript-eslint/dot-notation
+// window['deviceMaster'] = deviceMaster;
 export default deviceMaster;

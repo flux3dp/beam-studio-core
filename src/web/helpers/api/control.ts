@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
@@ -116,6 +117,7 @@ class Control extends EventEmitter {
       const res = await taskFunction(...args);
       resolve(res);
     } catch (error) {
+      console.error(`Control ${this.uuid} task error:`, error, taskFunction.name, args);
       reject(error);
     }
     if (this.taskQueue.length > 0) {
