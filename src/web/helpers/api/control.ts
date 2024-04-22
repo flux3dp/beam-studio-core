@@ -117,8 +117,8 @@ class Control extends EventEmitter {
       const res = await taskFunction(...args);
       resolve(res);
     } catch (error) {
-      console.error(`Control ${this.uuid} task error:`, error, taskFunction.name, args);
       reject(error);
+      console.error(`Control ${this.uuid} task error:`, error, taskFunction?.name, args);
     }
     if (this.taskQueue.length > 0) {
       this.doTask();
