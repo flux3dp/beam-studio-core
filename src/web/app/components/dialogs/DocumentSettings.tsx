@@ -11,6 +11,7 @@ import diodeBoundaryDrawer from 'app/actions/canvas/diode-boundary-drawer';
 import EngraveDpiSlider from 'app/widgets/EngraveDpiSlider';
 import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
+import presprayArea from 'app/actions/canvas/prespray-area';
 import rotaryAxis from 'app/actions/canvas/rotary-axis';
 import Select from 'app/widgets/AntdSelect';
 import useI18n from 'helpers/useI18n';
@@ -93,13 +94,14 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
     BeamboxPreference.write('extend-rotary-workarea', extendRotaryWorkarea);
     if (workareaChanged || rotaryChanged) {
       changeWorkarea(workarea, { toggleModule: workareaChanged });
+      rotaryAxis.toggleDisplay();
+      presprayArea.togglePresprayArea();
     } else {
       // this is called in changeWorkarea
       OpenBottomBoundaryDrawer.update();
       if (enableDiode) diodeBoundaryDrawer.show();
       else diodeBoundaryDrawer.hide();
     }
-    rotaryAxis.toggleDisplay();
   };
 
   const doesSupportOpenBottom = constant.addonsSupportList.openBottom.includes(workarea);
