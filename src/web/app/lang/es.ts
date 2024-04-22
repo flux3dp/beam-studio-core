@@ -45,12 +45,9 @@ const lang: ILang = {
       headtype_mismatch: 'Módulo incorrecto detectado. ',
       headtype_none: 'Módulo no detectado. ',
       headtype_unknown: 'Módulo desconocido detectado. ',
-      install_correct_headtype:
-        'Instale los módulos láser de diodo de 10W/20W correctamente para habilitar el láser para ejecutar el marco.',
-      door_opened:
-        'Cierre la cubierta de la puerta para habilitar el láser para ejecutar el marco.',
-      fail_to_get_door_status:
-        'Asegúrese de que la cubierta de la puerta esté cerrada para habilitar el láser para ejecutar el marco.',
+      install_correct_headtype: 'Instale los módulos láser de diodo de 10W/20W correctamente para habilitar el láser para ejecutar el marco.',
+      door_opened: 'Cierre la cubierta de la puerta para habilitar el láser para ejecutar el marco.',
+      fail_to_get_door_status: 'Asegúrese de que la cubierta de la puerta esté cerrada para habilitar el láser para ejecutar el marco.',
     },
     hint: {
       polygon: 'Presiona la tecla + / - para aumentar / disminuir los lados.',
@@ -204,7 +201,7 @@ const lang: ILang = {
   },
   device_selection: {
     no_beambox: '#801 No podemos encontrar tu máquina en la red.\nPor favor, sigue esta <a target="_blank" href="https://tupport.flux3dp.com/hc/en-us/articles/360001683556">guía</a> para solucionar el problema de conexión.',
-    no_device_web: '#801 Verifique el estado de su máquina o haga clic en \'Configuración de la máquina\' a continuación para configurar la máquina.'
+    no_device_web: "#801 Verifique el estado de su máquina o haga clic en 'Configuración de la máquina' a continuación para configurar la máquina.",
   },
   update: {
     update: 'Actualizar',
@@ -340,10 +337,10 @@ const lang: ILang = {
       title: 'Conexión USB',
       title_sub: ' (Solo para HEXA y Ador)',
       tutorial1: 'Conecta la máquina a tu computadora con el cable USB.',
-      tutorial2: 'Haz clic en \'Siguiente\'.',
+      tutorial2: "Haz clic en 'Siguiente'.",
       turn_off_machine: 'Apague la máquina.',
       turn_on_machine: 'Encienda la máquina.',
-      wait_for_turning_on: 'Haz clic en \'Siguiente\' después de que el proceso de inicio esté completo y hayas ingresado en la pantalla principal.',
+      wait_for_turning_on: "Haz clic en 'Siguiente' después de que el proceso de inicio esté completo y hayas ingresado en la pantalla principal.",
     },
     connect_machine_ip: {
       check_usb: 'Verificar la conexión USB',
@@ -591,8 +588,7 @@ const lang: ILang = {
       },
       text_to_path: {
         caption: 'Convertidor de texto a trayectoria 2.0',
-        message:
-          '¡Beam Studio ahora presenta un nuevo convertidor de texto a trayectoria (Convertidor 2.0), que produce resultados más confiables! ¿Le gustaría cambiar a él ahora? \nTambién puede ajustar esta configuración más tarde en la sección "Convertidor de texto a trayectoria" dentro de las preferencias.',
+        message: '¡Beam Studio ahora presenta un nuevo convertidor de texto a trayectoria (Convertidor 2.0), que produce resultados más confiables! ¿Le gustaría cambiar a él ahora? \nTambién puede ajustar esta configuración más tarde en la sección "Convertidor de texto a trayectoria" dentro de las preferencias.',
       },
     },
     zoom_block: {
@@ -654,7 +650,7 @@ const lang: ILang = {
           enterUniqueLayerName: 'Por favor, introduce un nombre de capa único',
           enterNewLayerName: 'Por favor, introduce el nuevo nombre de la capa',
           layerHasThatName: 'La capa ya tiene ese nombre',
-          QmoveElemsToLayer: '¿Mover los elementos seleccionados a la capa \'%s\'?',
+          QmoveElemsToLayer: "¿Mover los elementos seleccionados a la capa '%s'?",
           moveElemFromPrintingLayerTitle: '¿Mover el elemento seleccionado a %s y convertirlo en un elemento láser?',
           moveElemFromPrintingLayerMsg: 'Tenga en cuenta que si completa esta operación, la configuración de color del elemento seleccionado se eliminará y se establecerá según %s.',
           moveElemToPrintingLayerTitle: '¿Mover el elemento seleccionado a %s y convertirlo en un elemento de impresión?',
@@ -800,26 +796,26 @@ const lang: ILang = {
             glass_printing: 'Vidrio - Impresión',
           },
           inches: {
-            wood_3mm_cutting: 'Madera - Corte de 0.1\'\'',
-            wood_5mm_cutting: 'Madera - Corte de 0.2\'\'',
-            wood_7mm_cutting: 'Madera - Corte de 0.3\'\'',
-            wood_8mm_cutting: 'Madera - Corte de 0.3\'\'',
-            wood_10mm_cutting: 'Madera - Corte de 0.4\'\'',
+            wood_3mm_cutting: "Madera - Corte de 0.1''",
+            wood_5mm_cutting: "Madera - Corte de 0.2''",
+            wood_7mm_cutting: "Madera - Corte de 0.3''",
+            wood_8mm_cutting: "Madera - Corte de 0.3''",
+            wood_10mm_cutting: "Madera - Corte de 0.4''",
             wood_engraving: 'Madera - Grabado',
-            acrylic_3mm_cutting: 'Acrílico - Corte de 0.1\'\'',
-            acrylic_5mm_cutting: 'Acrílico - Corte de 0.2\'\'',
-            acrylic_8mm_cutting: 'Acrílico - Corte de 0.3\'\'',
-            acrylic_10mm_cutting: 'Acrílico - Corte de 0.4\'\'',
+            acrylic_3mm_cutting: "Acrílico - Corte de 0.1''",
+            acrylic_5mm_cutting: "Acrílico - Corte de 0.2''",
+            acrylic_8mm_cutting: "Acrílico - Corte de 0.3''",
+            acrylic_10mm_cutting: "Acrílico - Corte de 0.4''",
             acrylic_engraving: 'Acrílico - Grabado',
-            mdf_3mm_cutting: 'MDF de Nueva Zelanda - Corte de 0.1\'\'',
-            mdf_5mm_cutting: 'MDF de Nueva Zelanda - Corte de 0.2\'\'',
+            mdf_3mm_cutting: "MDF de Nueva Zelanda - Corte de 0.1''",
+            mdf_5mm_cutting: "MDF de Nueva Zelanda - Corte de 0.2''",
             mdf_engraving: 'MDF de Nueva Zelanda - Grabado',
-            leather_3mm_cutting: 'Cuero - Corte de 0.1\'\'',
-            leather_5mm_cutting: 'Cuero - Corte de 0.2\'\'',
+            leather_3mm_cutting: "Cuero - Corte de 0.1''",
+            leather_5mm_cutting: "Cuero - Corte de 0.2''",
             leather_engraving: 'Cuero - Grabado',
-            denim_1mm_cutting: 'Mezclilla - Corte de 0.04\'\'',
-            fabric_3mm_cutting: 'Tejido - Corte de 0.1\'\'',
-            fabric_5mm_cutting: 'Tejido - Corte de  0.2\'\'',
+            denim_1mm_cutting: "Mezclilla - Corte de 0.04''",
+            fabric_3mm_cutting: "Tejido - Corte de 0.1''",
+            fabric_5mm_cutting: "Tejido - Corte de  0.2''",
             fabric_engraving: 'Tejido - Grabado',
             rubber_bw_engraving: 'Goma - Grabado',
             glass_bw_engraving: 'Vidrio - Grabado',
@@ -831,8 +827,8 @@ const lang: ILang = {
             ti_engraving: 'Titanio - Grabado',
             stainless_steel_engraving: 'Acero inoxidable - Grabado',
             aluminum_engraving: 'Aluminio - Grabado',
-            black_acrylic_3mm_cutting: 'Acrílico negro - Corte de 0.1\'\'',
-            black_acrylic_5mm_cutting: 'Acrílico negro - Corte de 0.2\'\'',
+            black_acrylic_3mm_cutting: "Acrílico negro - Corte de 0.1''",
+            black_acrylic_5mm_cutting: "Acrílico negro - Corte de 0.2''",
             black_acrylic_engraving: 'Acrílico negro - Grabado',
             abs_engraving: 'ABS - Grabado',
             silver_engraving: 'Plata - Grabado',
@@ -1031,10 +1027,8 @@ const lang: ILang = {
     object_panels: {
       wait_for_parsing_font: 'Fuente de análisis... Por favor, espera un segundo.',
       text_to_path: {
-        font_substitute_pop:
-          'Su texto contiene caracteres que no son compatibles con la fuente actual. <br/>¿Le gustaría usar <strong>%s</strong> como sustituto?',
-        check_thumbnail_warning:
-          'Algunos textos fueron cambiados a otras fuentes cuando se analizan los textos en las rutas y algunos caracteres no se convierten normalmente.\nPor favor, comprueba otra vez la imagen de vista previa antes de enviar la tarea.',
+        font_substitute_pop: 'Su texto contiene caracteres que no son compatibles con la fuente actual. <br/>¿Le gustaría usar <strong>%s</strong> como sustituto?',
+        check_thumbnail_warning: 'Algunos textos fueron cambiados a otras fuentes cuando se analizan los textos en las rutas y algunos caracteres no se convierten normalmente.\nPor favor, comprueba otra vez la imagen de vista previa antes de enviar la tarea.',
         error_when_parsing_text: 'Error al convertir texto a ruta',
         use_current_font: 'Usar fuente actual',
         retry: 'Por favor, inténtelo de nuevo más tarde o elija otra fuente',
@@ -1219,8 +1213,7 @@ const lang: ILang = {
       access_plus_feature_2: 'característica.',
       access_plus_feature_note: 'Debe tener la membresía FLUX+ para acceder a esta característica.',
       access_monotype_feature: 'No tiene el complemento Fuentes Monotype.',
-      access_monotype_feature_note:
-        'Debe tener la membresía FLUX+ Pro o el complemento Fuentes Monotype para acceder a esta característica.',
+      access_monotype_feature_note: 'Debe tener la membresía FLUX+ Pro o el complemento Fuentes Monotype para acceder a esta característica.',
       learn_more: 'Más información',
       get_addon: 'Obtener complemento',
       subscribe_now: 'Suscríbase ahora',
@@ -1244,8 +1237,7 @@ const lang: ILang = {
     search: 'Buscar',
     clear: 'Borrar',
     export_svg_title: 'No se puede exportar SVG',
-    export_svg_warning:
-      'Este proyecto contiene objetos que están protegidos por la ley de propiedad intelectual. Por lo tanto, Beam Studio excluirá automáticamente estos objetos durante la exportación. Aún puede guardar su proyecto dentro Escena de Beam Studio (formato .beam) para mantener todos sus datos. ¿Todavía quieres exportar?',
+    export_svg_warning: 'Este proyecto contiene objetos que están protegidos por la ley de propiedad intelectual. Por lo tanto, Beam Studio excluirá automáticamente estos objetos durante la exportación. Aún puede guardar su proyecto dentro Escena de Beam Studio (formato .beam) para mantener todos sus datos. ¿Todavía quieres exportar?',
     learn_more: 'Aprende más',
   },
   change_logs: {
@@ -1340,6 +1332,13 @@ const lang: ILang = {
     HARDWARE_ERROR_PRINTER_NO_RESPONSE: '#919 Módulo de impresora sin respuesta.',
     USER_OPERATION_ROTARY_PAUSE: 'Por favor, cambia al motor rotativo',
     USER_OPERATION_REMOVE_CARTRIDGE: 'Por favor, retire el cartucho para continuar.',
+    USER_OPERATION_CHANGE_TOOLHEAD_HEADTYPE_MISMATCH: '#915 Módulo incorrecto detectado. Por favor, instale el módulo correcto para continuar.',
+    USER_OPERATION_CHANGE_TOOLHEAD_HEADTYPE_NONE: '#917 Módulo no detectado. Por favor, asegúrese de que el módulo esté instalado correctamente para continuar.',
+    USER_OPERATION_CHANGE_TOOLHEAD_HEADTYPE_UNKNOWN: '#918 Módulo desconocido detectado. Por favor, instale el módulo correcto para continuar.',
+    USER_OPERATION_CHANGE_TOOLHEAD: 'Por favor, instale el módulo correcto para continuar.',
+    USER_OPERATION_CHANGE_CARTRIDGE_CARTRIDGE_NOT_DETECTED: 'Por favor, inserte el cartucho para continuar.',
+    USER_OPERATION_CHANGE_CARTRIDGE: 'Por favor, inserte el cartucho correcto para continuar.',
+    USER_OPERATION: 'Por favor, siga las instrucciones en el panel del dispositivo para continuar.',
     RESOURCE_BUSY: 'La máquina está ocupada\nSi no está funcionando, por favor reinicia la máquina.',
     DEVICE_ERROR: 'Algo salió mal.\nPor favor, reinicia la máquina', // Deprecated in FW 3.3.1
     NO_RESPONSE: '#905 Error al conectarse a la placa principal.\nPor favor, reinicia la máquina.',
@@ -1680,8 +1679,7 @@ const lang: ILang = {
     merge: 'Fusionar',
     text_label: 'Etiqueta',
     beam_radius: 'Compensación del radio del láser',
-    beam_radius_warning:
-      'Elimine la compensación de corte cuando los bordes o uniones de la caja sean cortos para asegurar el montaje de la caja',
+    beam_radius_warning: 'Elimine la compensación de corte cuando los bordes o uniones de la caja sean cortos para asegurar el montaje de la caja',
     import: 'Importar',
     cancel: 'Cancelar',
     reset: 'Restablecer',
@@ -1708,8 +1706,7 @@ const lang: ILang = {
       duplicate: 'Duplicar',
       download: 'Descargar',
       delete: 'Eliminar',
-      confirmFileDelete:
-        '¿Está seguro de que desea eliminar este archivo? Esta acción no se puede deshacer.',
+      confirmFileDelete: '¿Está seguro de que desea eliminar este archivo? Esta acción no se puede deshacer.',
     },
     save_file: {
       choose_action: 'Guardar archivo:',
@@ -1717,8 +1714,7 @@ const lang: ILang = {
       save_new: 'Guardar como nuevo archivo',
       input_file_name: 'Introducir nombre de archivo:',
       invalid_char: 'Caracteres no válidos:',
-      storage_limit_exceeded:
-        'Su almacenamiento en la nube ha alcanzado el límite superior. Elimine cualquier archivo innecesario antes de guardar nuevos.',
+      storage_limit_exceeded: 'Su almacenamiento en la nube ha alcanzado el límite superior. Elimine cualquier archivo innecesario antes de guardar nuevos.',
     },
   },
   camera_data_backup: {

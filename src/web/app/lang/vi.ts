@@ -38,18 +38,14 @@ const lang: ILang = {
       dxf: 'Đối tượng DXF',
     },
     alerts: {
-      start_preview_timeout:
-        '#803 Đã xảy ra lỗi khi bắt đầu chế độ xem trước. Vui lòng khởi động lại máy hoặc Beam Studio. Nếu lỗi này vẫn xảy ra, vui lòng làm theo <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">hướng dẫn này</a>.',
-      fail_to_start_preview:
-        '#803 Không thể bắt đầu chế độ xem trước. Vui lòng khởi động lại máy hoặc Beam Studio. Nếu lỗi này vẫn xảy ra, vui lòng làm theo <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">hướng dẫn này</a>.',
-      fail_to_connect_with_camera:
-        '#803 Không thể kết nối với camera máy. Vui lòng khởi động lại máy hoặc Beam Studio. Nếu lỗi này vẫn xảy ra, vui lòng làm theo <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">hướng dẫn này</a>.',
+      start_preview_timeout: '#803 Đã xảy ra lỗi khi bắt đầu chế độ xem trước. Vui lòng khởi động lại máy hoặc Beam Studio. Nếu lỗi này vẫn xảy ra, vui lòng làm theo <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">hướng dẫn này</a>.',
+      fail_to_start_preview: '#803 Không thể bắt đầu chế độ xem trước. Vui lòng khởi động lại máy hoặc Beam Studio. Nếu lỗi này vẫn xảy ra, vui lòng làm theo <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">hướng dẫn này</a>.',
+      fail_to_connect_with_camera: '#803 Không thể kết nối với camera máy. Vui lòng khởi động lại máy hoặc Beam Studio. Nếu lỗi này vẫn xảy ra, vui lòng làm theo <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">hướng dẫn này</a>.',
       add_content_first: 'Vui lòng thêm đối tượng trước khi thêm nội dung',
       headtype_mismatch: 'Phát hiện mô-đun không chính xác. ',
       headtype_none: 'Không tìm thấy mô-đun. ',
       headtype_unknown: 'Phát hiện mô-đun không xác định. ',
-      install_correct_headtype:
-        'Vui lòng lắp đặt mô-đun laser diode 10W/20W đúng để bật laser thấp cho khung chạy.',
+      install_correct_headtype: 'Vui lòng lắp đặt mô-đun laser diode 10W/20W đúng để bật laser thấp cho khung chạy.',
       door_opened: 'Vui lòng đóng nắp để bật laser thấp cho khung chạy.',
       fail_to_get_door_status: 'Vui lòng đảm bảo nắp đã đóng để bật laser thấp cho khung chạy.',
     },
@@ -198,18 +194,14 @@ const lang: ILang = {
     no_vcredist: 'Vui lòng cài đặt Visual C++ Redistributable 2015\nCó thể tải về tại flux3dp.com',
   },
   generic_error: {
-    UNKNOWN_ERROR:
-      '[Lỗi không xác định] Đã xảy ra lỗi không xác định. Vui lòng khởi động lại Beam Studio và máy.',
-    OPERATION_ERROR:
-      '[Xung đột trạng thái] Xung đột trạng thái đã xảy ra, vui lòng thử lại hành động.',
-    SUBSYSTEM_ERROR:
-      '[Lỗi hệ thống phụ] Lỗi khi phần mềm máy thực hiện nhiệm vụ. Vui lòng khởi động lại máy.',
+    UNKNOWN_ERROR: '[Lỗi không xác định] Đã xảy ra lỗi không xác định. Vui lòng khởi động lại Beam Studio và máy.',
+    OPERATION_ERROR: '[Xung đột trạng thái] Xung đột trạng thái đã xảy ra, vui lòng thử lại hành động.',
+    SUBSYSTEM_ERROR: '[Lỗi hệ thống phụ] Lỗi khi phần mềm máy thực hiện nhiệm vụ. Vui lòng khởi động lại máy.',
     UNKNOWN_COMMAND: '[Lệnh không xác định] Vui lòng cập nhật phần mềm thiết bị',
   },
   device_selection: {
-    no_beambox:
-      '#801 Chúng tôi không tìm thấy máy của bạn trên mạng.\nVui lòng làm theo <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">hướng dẫn</a> để khắc phục sự cố kết nối.',
-    no_device_web: '#801 Vui lòng kiểm tra tình trạng của máy bạn, hoặc nhấn vào \'Thiết lập máy in\' bên dưới để cài đặt máy.'
+    no_beambox: '#801 Chúng tôi không tìm thấy máy của bạn trên mạng.\nVui lòng làm theo <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">hướng dẫn</a> để khắc phục sự cố kết nối.',
+    no_device_web: "#801 Vui lòng kiểm tra tình trạng của máy bạn, hoặc nhấn vào 'Thiết lập máy in' bên dưới để cài đặt máy.",
   },
   update: {
     update: 'Cập nhật',
@@ -228,32 +220,26 @@ const lang: ILang = {
       upload_file: 'Tải lên firmware (*.bin / *.fxfw)',
       update_success: 'Cập nhật firmware thành công',
       update_fail: '#822 Cập nhật thất bại',
-      too_old_for_web:
-        'Phiên bản firmware máy hiện tại của bạn là %s.\nNếu bạn muốn sử dụng phiên bản trực tuyến của Beam Studio, vui lòng cập nhật firmware máy lên phiên bản mới nhất.',
+      too_old_for_web: 'Phiên bản firmware máy hiện tại của bạn là %s.\nNếu bạn muốn sử dụng phiên bản trực tuyến của Beam Studio, vui lòng cập nhật firmware máy lên phiên bản mới nhất.',
       force_update_message: '#814 Vui lòng cập nhật máy của bạn lên phiên bản firmware mới nhất.',
-      firmware_too_old_update_by_sdcard:
-        'Phiên bản firmware quá cũ. Vui lòng cập nhật firmware bằng thẻ SD.',
+      firmware_too_old_update_by_sdcard: 'Phiên bản firmware quá cũ. Vui lòng cập nhật firmware bằng thẻ SD.',
     },
     software: {
       checking: 'Đang kiểm tra cập nhật',
       switch_version: 'Chuyển đổi phiên bản',
       check_update: 'Kiểm tra cập nhật',
       caption: 'Có bản cập nhật Beam Studio',
-      downloading:
-        'Đang tải các bản cập nhật trong nền, bạn có thể nhấn "OK" để tiếp tục công việc.',
+      downloading: 'Đang tải các bản cập nhật trong nền, bạn có thể nhấn "OK" để tiếp tục công việc.',
       install_or_not: 'sẵn sàng để cập nhật. Bạn có muốn khởi động lại và cập nhật ngay bây giờ?',
       switch_or_not: 'sẵn sàng để nâng cấp. Bạn có muốn khởi động lại và nâng cấp ngay bây giờ?',
-      available_update:
-        'Beam Studio phiên bản %s đã sẵn sàng. Bạn đang dùng phiên bản %s. Bạn có muốn tải bản cập nhật?',
-      available_switch:
-        'Beam Studio phiên bản %s đã sẵn sàng. Bạn đang dùng phiên bản %s. Bạn có muốn chuyển sang phiên bản này?',
+      available_update: 'Beam Studio phiên bản %s đã sẵn sàng. Bạn đang dùng phiên bản %s. Bạn có muốn tải bản cập nhật?',
+      available_switch: 'Beam Studio phiên bản %s đã sẵn sàng. Bạn đang dùng phiên bản %s. Bạn có muốn chuyển sang phiên bản này?',
       not_found: 'Bạn đang sử dụng phiên bản mới nhất của Beam Studio.',
       no_response: 'Không kết nối được máy chủ, vui lòng kiểm tra cài đặt mạng.',
       switch_version_not_found: 'Không tìm thấy Phiên Bản có thể Nâng cấp.',
       yes: 'Có',
       no: 'Không',
-      update_for_ador:
-        'Phiên bản phần mềm hiện tại %s không tương thích, vui lòng tải phiên bản Beam Studio mới nhất cho Ador.',
+      update_for_ador: 'Phiên bản phần mềm hiện tại %s không tương thích, vui lòng tải phiên bản Beam Studio mới nhất cho Ador.',
     },
     updating: 'Đang cập nhật...',
     skip: 'Bỏ qua Phiên Bản này',
@@ -266,8 +252,7 @@ const lang: ILang = {
   },
   topmenu: {
     version: 'Phiên bản',
-    credit:
-      'Beam Studio được tạo ra nhờ dự án nguồn mở <a target="_blank" href="https://github.com/flux3dp/beam-studio">Beam Studio</a> và các <a target="_blank" href="https://flux3dp.com/credits/">phần mềm nguồn mở</a> khác.',
+    credit: 'Beam Studio được tạo ra nhờ dự án nguồn mở <a target="_blank" href="https://github.com/flux3dp/beam-studio">Beam Studio</a> và các <a target="_blank" href="https://flux3dp.com/credits/">phần mềm nguồn mở</a> khác.',
     ok: 'OK',
     file: {
       label: 'Tập tin',
@@ -318,15 +303,12 @@ const lang: ILang = {
     connect_wifi: {
       title: 'Đang kết nối với Wi-Fi',
       tutorial1: '1. Đi đến Bảng điều khiển cảm ứng > Nhấp vào "Mạng" > "Kết nối với WiFi".',
-      tutorial1_ador:
-        '1. Đi đến Bảng điều khiển cảm ứng > Nhấp vào "MÁY" > Nhấp vào "Mạng" > "Kết nối với WiFi".',
+      tutorial1_ador: '1. Đi đến Bảng điều khiển cảm ứng > Nhấp vào "MÁY" > Nhấp vào "Mạng" > "Kết nối với WiFi".',
       tutorial2: '2. Chọn và kết nối Wi-Fi ưa thích của bạn.',
       what_if_1: 'Nếu tôi không thấy Wi-Fi của mình thì sao?',
-      what_if_1_content:
-        '1. Chế độ mã hóa Wi-Fi nên là WPA2 hoặc không có mật khẩu.\n2. Chế độ mã hóa có thể được đặt trong giao diện quản trị bộ định tuyến Wi-Fi. Nếu bộ định tuyến không hỗ trợ WPA2 và bạn cần trợ giúp để chọn đúng bộ định tuyến, vui lòng liên hệ với bộ phận hỗ trợ FLUX.',
+      what_if_1_content: '1. Chế độ mã hóa Wi-Fi nên là WPA2 hoặc không có mật khẩu.\n2. Chế độ mã hóa có thể được đặt trong giao diện quản trị bộ định tuyến Wi-Fi. Nếu bộ định tuyến không hỗ trợ WPA2 và bạn cần trợ giúp để chọn đúng bộ định tuyến, vui lòng liên hệ với bộ phận hỗ trợ FLUX.',
       what_if_2: 'Nếu tôi không thấy bất kỳ Wi-Fi nào thì sao?',
-      what_if_2_content:
-        '1. Đảm bảo rằng đầu nối Wi-Fi được cắm đầy đủ.\n2. Nếu không có Địa chỉ MAC của mạng không dây trên màn hình cảm ứng, vui lòng liên hệ với bộ phận hỗ trợ FLUX.\n3. Kênh Wi-Fi nên là 2.4Ghz (5Ghz không được hỗ trợ).',
+      what_if_2_content: '1. Đảm bảo rằng đầu nối Wi-Fi được cắm đầy đủ.\n2. Nếu không có Địa chỉ MAC của mạng không dây trên màn hình cảm ứng, vui lòng liên hệ với bộ phận hỗ trợ FLUX.\n3. Kênh Wi-Fi nên là 2.4Ghz (5Ghz không được hỗ trợ).',
     },
     connect_wired: {
       title: 'Kết nối với Mạng có dây',
@@ -334,11 +316,9 @@ const lang: ILang = {
       tutorial2: '2. Nhấn "Mạng" để lấy IP mạng có dây.',
       tutorial2_ador: '2. Nhấn "MÁY" > "Mạng" để lấy IP mạng có dây.',
       what_if_1: 'Nếu IP trống thì sao?',
-      what_if_1_content:
-        '1. Đảm bảo cáp Ethernet được cắm đầy đủ.\n2. Nếu không có Địa chỉ MAC của mạng có dây trên màn hình cảm ứng, vui lòng liên hệ với bộ phận hỗ trợ FLUX.',
+      what_if_1_content: '1. Đảm bảo cáp Ethernet được cắm đầy đủ.\n2. Nếu không có Địa chỉ MAC của mạng có dây trên màn hình cảm ứng, vui lòng liên hệ với bộ phận hỗ trợ FLUX.',
       what_if_2: 'Nếu IP bắt đầu bằng 169 thì sao?',
-      what_if_2_content:
-        '1. Nếu địa chỉ IP bắt đầu bằng 169.254, đó nên là vấn đề cài đặt DHCP, vui lòng liên hệ với nhà cung cấp dịch vụ internet của bạn để được hỗ trợ thêm.\n2. Nếu máy tính của bạn kết nối internet trực tiếp bằng PPPoE, vui lòng thay đổi sang sử dụng bộ định tuyến để kết nối bằng PPPoE, và bật tính năng DHCP trong bộ định tuyến.',
+      what_if_2_content: '1. Nếu địa chỉ IP bắt đầu bằng 169.254, đó nên là vấn đề cài đặt DHCP, vui lòng liên hệ với nhà cung cấp dịch vụ internet của bạn để được hỗ trợ thêm.\n2. Nếu máy tính của bạn kết nối internet trực tiếp bằng PPPoE, vui lòng thay đổi sang sử dụng bộ định tuyến để kết nối bằng PPPoE, và bật tính năng DHCP trong bộ định tuyến.',
     },
     connect_ethernet: {
       title: 'Kết nối trực tiếp',
@@ -357,8 +337,7 @@ const lang: ILang = {
       tutorial2: "Nhấn 'Tiếp theo'.",
       turn_off_machine: 'Tắt máy.',
       turn_on_machine: 'Bật máy.',
-      wait_for_turning_on:
-        "Nhấn 'Tiếp theo' sau khi quá trình khởi động hoàn tất và bạn đã vào màn hình chính.",
+      wait_for_turning_on: "Nhấn 'Tiếp theo' sau khi quá trình khởi động hoàn tất và bạn đã vào màn hình chính.",
     },
     connect_machine_ip: {
       check_usb: 'Kiểm tra kết nối USB',
@@ -385,8 +364,7 @@ const lang: ILang = {
     },
   },
   error_pages: {
-    screen_size:
-      'Lưu ý rằng Beam Studio có thể không hoạt động tối ưu trên thiết bị của bạn. Để trải nghiệm tốt nhất, nên sử dụng thiết bị có độ rộng màn hình tối thiểu 1024 pixel.',
+    screen_size: 'Lưu ý rằng Beam Studio có thể không hoạt động tối ưu trên thiết bị của bạn. Để trải nghiệm tốt nhất, nên sử dụng thiết bị có độ rộng màn hình tối thiểu 1024 pixel.',
   },
   menu: {
     mm: 'mm',
@@ -458,8 +436,7 @@ const lang: ILang = {
     diode_offset: 'Bù đắp Laser Diode',
     autofocus_offset: 'Bù đắp Lấy nét tự động',
     diode_one_way_engraving: 'Khắc Laser Diode một chiều',
-    diode_two_way_warning:
-      'Phát sáng hai chiều nhanh hơn và có thể tạo ra một số sai lệch vị trí khắc laser. Khuyến nghị kiểm tra trước.',
+    diode_two_way_warning: 'Phát sáng hai chiều nhanh hơn và có thể tạo ra một số sai lệch vị trí khắc laser. Khuyến nghị kiểm tra trước.',
     share_with_flux: 'Chia sẻ Phân tích Beam Studio',
     none: 'Không có',
     close: 'Đóng',
@@ -541,60 +518,45 @@ const lang: ILang = {
       layer_by_color: 'Màu sắc',
       nolayer: 'Lớp đơn',
       loading_image: 'Đang tải hình ảnh, vui lòng đợi...',
-      no_support_text:
-        'Beam Studio hiện không hỗ trợ chữ. Vui lòng chuyển đổi chữ thành đường dẫn trước khi nhập.',
-      speed_too_high_lower_the_quality:
-        'Sử dụng tốc độ quá cao ở độ phân giải này có thể làm giảm chất lượng khắc.',
-      both_power_and_speed_too_high:
-        'Sử dụng công suất thấp hơn sẽ kéo dài tuổi thọ laser. Ngoài ra, tốc độ quá cao có thể làm giảm chất lượng khắc.',
-      too_fast_for_path:
-        'Sử dụng tốc độ quá cao cho đường dẫn có thể làm giảm độ chính xác khi cắt. Chúng tôi không khuyến nghị dùng tốc độ trên 20 mm/s khi cắt đường dẫn.',
-      too_fast_for_path_and_constrain:
-        'Các lớp: %s\nchứa đường dẫn vector và có tốc độ trên 20 mm/s.\nTốc độ cắt đường dẫn sẽ bị giới hạn ở 20 mm/s.\nBạn có thể bỏ giới hạn này trong Cài đặt.',
-      should_update_firmware_to_continue:
-        '#814 Phần mềm của bạn không hỗ trợ phiên bản Beam Studio này. Vui lòng cập nhật firmware để tiếp tục. (Menu > Máy > [Máy của bạn] > Cập nhật firmware)',
-      recommend_downgrade_software:
-        'Chúng tôi phát hiện ra phiên bản firmware cũ hơn. Chúng tôi đang khắc phục các vấn đề tương thích, nhưng hiện tại, khuyên bạn dùng <a target="_blank" href="https://beamstudio.s3.ap-northeast-1.amazonaws.com/mac/Beam+Studio+1.9.5.dmg">Beam Studio 1.9.5</a>.',
-      recommend_upgrade_firmware:
-        'Chúng tôi phát hiện ra phiên bản firmware cũ hơn. Chúng tôi đang khắc phục các vấn đề tương thích, nhưng hiện tại, khuyên bạn nên cập nhật lên phiên bản firmware mới nhất.',
+      no_support_text: 'Beam Studio hiện không hỗ trợ chữ. Vui lòng chuyển đổi chữ thành đường dẫn trước khi nhập.',
+      speed_too_high_lower_the_quality: 'Sử dụng tốc độ quá cao ở độ phân giải này có thể làm giảm chất lượng khắc.',
+      both_power_and_speed_too_high: 'Sử dụng công suất thấp hơn sẽ kéo dài tuổi thọ laser. Ngoài ra, tốc độ quá cao có thể làm giảm chất lượng khắc.',
+      too_fast_for_path: 'Sử dụng tốc độ quá cao cho đường dẫn có thể làm giảm độ chính xác khi cắt. Chúng tôi không khuyến nghị dùng tốc độ trên 20 mm/s khi cắt đường dẫn.',
+      too_fast_for_path_and_constrain: 'Các lớp: %s\nchứa đường dẫn vector và có tốc độ trên 20 mm/s.\nTốc độ cắt đường dẫn sẽ bị giới hạn ở 20 mm/s.\nBạn có thể bỏ giới hạn này trong Cài đặt.',
+      should_update_firmware_to_continue: '#814 Phần mềm của bạn không hỗ trợ phiên bản Beam Studio này. Vui lòng cập nhật firmware để tiếp tục. (Menu > Máy > [Máy của bạn] > Cập nhật firmware)',
+      recommend_downgrade_software: 'Chúng tôi phát hiện ra phiên bản firmware cũ hơn. Chúng tôi đang khắc phục các vấn đề tương thích, nhưng hiện tại, khuyên bạn dùng <a target="_blank" href="https://beamstudio.s3.ap-northeast-1.amazonaws.com/mac/Beam+Studio+1.9.5.dmg">Beam Studio 1.9.5</a>.',
+      recommend_upgrade_firmware: 'Chúng tôi phát hiện ra phiên bản firmware cũ hơn. Chúng tôi đang khắc phục các vấn đề tương thích, nhưng hiện tại, khuyên bạn nên cập nhật lên phiên bản firmware mới nhất.',
       still_continue: 'Tiếp tục',
       more_than_two_object: 'Chỉ hỗ trợ 2 đối tượng',
       not_support_object_type: 'Không hỗ trợ loại đối tượng này',
       select_first: 'Hãy chọn một đối tượng trước',
       select_at_least_two: 'Chọn hai đối tượng để tiếp tục',
-      import_file_contain_invalid_path:
-        '#808 Tệp SVG được nhập chứa đường dẫn hình ảnh không hợp lệ. Hãy đảm bảo tất cả hình ảnh tồn tại hoặc nhúng hình vào tệp',
-      import_file_error_ask_for_upload:
-        'Nhập tệp SVG thất bại. Bạn có muốn cung cấp tệp cho nhóm phát triển để báo cáo lỗi?',
+      import_file_contain_invalid_path: '#808 Tệp SVG được nhập chứa đường dẫn hình ảnh không hợp lệ. Hãy đảm bảo tất cả hình ảnh tồn tại hoặc nhúng hình vào tệp',
+      import_file_error_ask_for_upload: 'Nhập tệp SVG thất bại. Bạn có muốn cung cấp tệp cho nhóm phát triển để báo cáo lỗi?',
       upload_file_too_large: '#819 Tệp quá lớn để tải lên.',
       successfully_uploaded: 'Tải tệp thành công.',
       upload_failed: '#819 Tải tệp thất bại.',
       or_turn_off_borderless_mode: 'Hoặc tắt chế độ toàn màn hình',
       svg_1_1_waring: 'Phiên bản SVG này là 1.1, có thể gặp vấn đề tương thích',
-      svg_image_path_waring:
-        'Tệp SVG này chứa <image> từ đường dẫn tệp. Điều này có thể gây lỗi khi mở.\nĐể tránh rủi ro, hãy dùng ảnh nhúng khi xuất SVG',
+      svg_image_path_waring: 'Tệp SVG này chứa <image> từ đường dẫn tệp. Điều này có thể gây lỗi khi mở.\nĐể tránh rủi ro, hãy dùng ảnh nhúng khi xuất SVG',
       dxf_version_waring: 'Phiên bản DXF này có thể gặp vấn đề tương thích',
       dont_show_again: 'Không hiển thị lần sau',
       convert_to_path_fail: 'Không thể chuyển thành đường dẫn',
       save_unsave_changed: 'Bạn có muốn lưu thay đổi chưa lưu?',
-      dxf_bounding_box_size_over:
-        'Kích thước bản vẽ vượt quá khu vực làm việc. Vui lòng di chuyển gần gốc tọa độ hơn hoặc đảm bảo đơn vị chính xác',
+      dxf_bounding_box_size_over: 'Kích thước bản vẽ vượt quá khu vực làm việc. Vui lòng di chuyển gần gốc tọa độ hơn hoặc đảm bảo đơn vị chính xác',
       progress: {
         uploading: 'Đang tải lên',
         calculating: 'Đang tính toán',
       },
-      backend_connect_failed_ask_to_upload:
-        '#802 Lỗi liên tục khi kết nối backend. Bạn có muốn gửi báo cáo lỗi?',
+      backend_connect_failed_ask_to_upload: '#802 Lỗi liên tục khi kết nối backend. Bạn có muốn gửi báo cáo lỗi?',
       backend_error_hint: 'Các tính năng có thể không hoạt động do lỗi backend',
       pdf2svg: {
         error_when_converting_pdf: '#824 Lỗi khi chuyển đổi PDF sang SVG:',
         error_pdf2svg_not_found: '#825 Lỗi: Không tìm thấy lệnh pdf2svg. Vui lòng cài đặt pdf2svg',
       },
       ungroup_use: 'Điều này sẽ bỏ nhóm và có thể mất thời gian. Bạn có chắc tiếp tục?',
-      vectorize_shading_image:
-        'Ảnh gradient mất nhiều thời gian vector hóa và dễ bị nhiễu. Vui lòng tắt trước khi thực thi',
-      change_workarea_before_preview:
-        'Khu vực làm việc không khớp. Bạn có muốn đổi khu vực làm việc hiện tại?',
+      vectorize_shading_image: 'Ảnh gradient mất nhiều thời gian vector hóa và dễ bị nhiễu. Vui lòng tắt trước khi thực thi',
+      change_workarea_before_preview: 'Khu vực làm việc không khớp. Bạn có muốn đổi khu vực làm việc hiện tại?',
       bug_report: 'Báo cáo lỗi',
       sentry: {
         title: 'Hãy cùng cải thiện Beam Studio',
@@ -603,14 +565,12 @@ const lang: ILang = {
       questionnaire: {
         caption: 'Giúp chúng tôi điền vào bảng câu hỏi',
         message: 'Giúp chúng tôi điền bảng câu hỏi để Beam Studio tốt hơn',
-        unable_to_get_url:
-          'Không lấy được liên kết đến bảng câu hỏi qua mạng. Vui lòng kiểm tra kết nối internet',
+        unable_to_get_url: 'Không lấy được liên kết đến bảng câu hỏi qua mạng. Vui lòng kiểm tra kết nối internet',
         no_questionnaire_available: 'Hiện không có bảng câu hỏi nào',
       },
       facebook_group_invitation: {
         title: 'Tham gia nhóm người dùng chính thức FLUX',
-        message:
-          'Tham gia nhóm Facebook chính thức của chúng tôi để kết nối với các người dùng laser FLUX khác, thảo luận về sản phẩm laser FLUX, chia sẻ tác phẩm và cập nhật các bản cập nhật mới nhất. Chúng tôi mong được gặp bạn!',
+        message: 'Tham gia nhóm Facebook chính thức của chúng tôi để kết nối với các người dùng laser FLUX khác, thảo luận về sản phẩm laser FLUX, chia sẻ tác phẩm và cập nhật các bản cập nhật mới nhất. Chúng tôi mong được gặp bạn!',
         join_now: 'Tôi tham gia',
         later: 'Có lẽ sau',
         already_joined: 'Đã tham gia',
@@ -619,15 +579,13 @@ const lang: ILang = {
       ai_credit: {
         relogin_to_use: 'Vui lòng đăng nhập lại để sử dụng chức năng này.',
         insufficient_credit: 'Bạn đã hết Tín dụng',
-        insufficient_credit_msg:
-          'Bạn không thể sử dụng %s. Vào trung tâm thành viên và mua Tín dụng AI.',
+        insufficient_credit_msg: 'Bạn không thể sử dụng %s. Vào trung tâm thành viên và mua Tín dụng AI.',
         buy_link: 'https://member.flux3dp.com/en-US/credit',
         go: 'Đi',
       },
       text_to_path: {
         caption: 'Bộ chuyển đổi Văn bản thành Đường dẫn 2.0',
-        message:
-          "Beam Studio giới thiệu một bộ chuyển đổi văn bản thành đường dẫn mới (Bộ chuyển đổi 2.0), tạo ra kết quả đáng tin cậy hơn! Bạn có muốn chuyển sang nó bây giờ không? \nBạn cũng có thể điều chỉnh cài đặt này sau trong phần 'Cài đặt bộ chuyển đổi văn bản thành đường dẫn' trong tùy chọn.",
+        message: "Beam Studio giới thiệu một bộ chuyển đổi văn bản thành đường dẫn mới (Bộ chuyển đổi 2.0), tạo ra kết quả đáng tin cậy hơn! Bạn có muốn chuyển sang nó bây giờ không? \nBạn cũng có thể điều chỉnh cài đặt này sau trong phần 'Cài đặt bộ chuyển đổi văn bản thành đường dẫn' trong tùy chọn.",
       },
     },
     zoom_block: {
@@ -690,25 +648,16 @@ const lang: ILang = {
           enterNewLayerName: 'Vui lòng nhập tên lớp mới',
           layerHasThatName: 'Lớp đã có tên này',
           QmoveElemsToLayer: "Di chuyển các phần tử đã chọn đến lớp '%s'?",
-          moveElemFromPrintingLayerTitle:
-            'Di chuyển phần tử đã chọn sang %s và chuyển nó thành phần tử laser?',
-          moveElemFromPrintingLayerMsg:
-            'Lưu ý rằng nếu hoàn tất thao tác này, cài đặt màu của phần tử đã chọn sẽ bị xóa và đặt theo %s.',
-          moveElemToPrintingLayerTitle:
-            'Di chuyển phần tử đã chọn sang %s và chuyển nó thành phần tử in ấn?',
-          moveElemToPrintingLayerMsg:
-            'Lưu ý rằng nếu hoàn tất thao tác này, cài đặt của phần tử đã chọn sẽ bị xóa và đặt theo %s.',
+          moveElemFromPrintingLayerTitle: 'Di chuyển phần tử đã chọn sang %s và chuyển nó thành phần tử laser?',
+          moveElemFromPrintingLayerMsg: 'Lưu ý rằng nếu hoàn tất thao tác này, cài đặt màu của phần tử đã chọn sẽ bị xóa và đặt theo %s.',
+          moveElemToPrintingLayerTitle: 'Di chuyển phần tử đã chọn sang %s và chuyển nó thành phần tử in ấn?',
+          moveElemToPrintingLayerMsg: 'Lưu ý rằng nếu hoàn tất thao tác này, cài đặt của phần tử đã chọn sẽ bị xóa và đặt theo %s.',
           splitColorTitle: 'Bạn có muốn mở rộng lớp đã chọn thành các lớp CMYK?',
-          splitColorMsg:
-            'Lưu ý rằng nếu tiếp tục thao tác này, bạn sẽ không thể quay lại các lớp màu ban đầu.',
-          mergeLaserLayerToPrintingLayerTitle:
-            'Bạn có muốn hợp nhất các lớp này thành một lớp In ấn?',
-          mergeLaserLayerToPrintingLayerMsg:
-            'Lưu ý rằng nếu hoàn tất thao tác này, cài đặt của lớp laser sẽ bị xóa và đặt theo lớp hiện tại.',
-          mergePrintingLayerToLaserLayerTitle:
-            'Bạn có muốn hợp nhất các lớp này thành một lớp Laser?',
-          mergePrintingLayerToLaserLayerMsg:
-            'Lưu ý rằng nếu hoàn tất thao tác này, cài đặt màu của lớp in ấn sẽ bị xóa và đặt theo lớp hiện tại.',
+          splitColorMsg: 'Lưu ý rằng nếu tiếp tục thao tác này, bạn sẽ không thể quay lại các lớp màu ban đầu.',
+          mergeLaserLayerToPrintingLayerTitle: 'Bạn có muốn hợp nhất các lớp này thành một lớp In ấn?',
+          mergeLaserLayerToPrintingLayerMsg: 'Lưu ý rằng nếu hoàn tất thao tác này, cài đặt của lớp laser sẽ bị xóa và đặt theo lớp hiện tại.',
+          mergePrintingLayerToLaserLayerTitle: 'Bạn có muốn hợp nhất các lớp này thành một lớp Laser?',
+          mergePrintingLayerToLaserLayerMsg: 'Lưu ý rằng nếu hoàn tất thao tác này, cài đặt màu của lớp in ấn sẽ bị xóa và đặt theo lớp hiện tại.',
         },
         layers: {
           layer: 'Lớp',
@@ -739,8 +688,7 @@ const lang: ILang = {
         strength: 'Công suất',
         low_power_warning: 'Công suất laser thấp (dưới 10%) có thể không phát ra ánh sáng laser.',
         speed: 'Tốc độ',
-        speed_contrain_warning:
-          'Tốc độ cắt của các đối tượng đường vector sẽ bị giới hạn ở 20 mm/s (0,79 inch/s). Bạn có thể loại bỏ giới hạn này tại Cài đặt Tùy chọn.',
+        speed_contrain_warning: 'Tốc độ cắt của các đối tượng đường vector sẽ bị giới hạn ở 20 mm/s (0,79 inch/s). Bạn có thể loại bỏ giới hạn này tại Cài đặt Tùy chọn.',
         low_speed_warning: 'Tốc độ thấp có thể gây cháy vật liệu.',
         repeat: 'Thực hiện',
         add_on: 'Phụ kiện',
@@ -761,8 +709,7 @@ const lang: ILang = {
         more: 'Quản lý',
         delete: 'Xóa',
         reset: 'Đặt lại',
-        sure_to_reset:
-          'Điều này sẽ đặt lại tất cả các thiết lập mặc định và giữ lại các thông số tùy chỉnh của bạn, bạn có chắc chắn muốn tiếp tục không?',
+        sure_to_reset: 'Điều này sẽ đặt lại tất cả các thiết lập mặc định và giữ lại các thông số tùy chỉnh của bạn, bạn có chắc chắn muốn tiếp tục không?',
         apply: 'Áp dụng',
         cancel: 'Hủy',
         save: 'Lưu',
@@ -773,8 +720,7 @@ const lang: ILang = {
         inuse: 'Đang sử dụng',
         export_config: 'Xuất cấu hình mặc định',
         new_config_name: 'Tên cấu hình mới',
-        sure_to_load_config:
-          'Điều này sẽ tải các thiết lập mặc định và ghi đè các thông số tùy chỉnh đã đặt trong tệp, bạn có chắc chắn muốn tiếp tục không?',
+        sure_to_load_config: 'Điều này sẽ tải các thiết lập mặc định và ghi đè các thông số tùy chỉnh đã đặt trong tệp, bạn có chắc chắn muốn tiếp tục không?',
         custom_preset: 'Tùy chỉnh',
         various_preset: 'Các cài đặt mặc định khác nhau',
         module: 'Mô-đun',
@@ -1000,8 +946,7 @@ const lang: ILang = {
           simplify: 'Đơn giản hóa',
           ai_bg_removal: 'Xóa nền',
           ai_bg_removal_short: 'Xóa nền',
-          ai_bg_removal_reminder:
-            'Nhấn nút sẽ sử dụng ngay 0.2 Tín dụng, bạn có muốn tiếp tục không?',
+          ai_bg_removal_reminder: 'Nhấn nút sẽ sử dụng ngay 0.2 Tín dụng, bạn có muốn tiếp tục không?',
           outline: 'Đường viền',
         },
         path_edit_panel: {
@@ -1017,8 +962,7 @@ const lang: ILang = {
     bottom_right_panel: {
       convert_text_to_path_before_export: 'Đang chuyển đổi chữ thành đường dẫn...',
       retreive_image_data: 'Đang truy xuất dữ liệu hình ảnh...',
-      export_file_error_ask_for_upload:
-        'Xuất tệp thất bại. Bạn có muốn cung cấp cảnh làm việc để báo cáo lỗi không?',
+      export_file_error_ask_for_upload: 'Xuất tệp thất bại. Bạn có muốn cung cấp cảnh làm việc để báo cáo lỗi không?',
     },
     image_trace_panel: {
       apply: 'Áp dụng',
@@ -1080,10 +1024,8 @@ const lang: ILang = {
     object_panels: {
       wait_for_parsing_font: 'Đang phân tích font... Vui lòng đợi',
       text_to_path: {
-        font_substitute_pop:
-          'Văn bản của bạn chứa các ký tự không được hỗ trợ bởi font hiện tại. <br/>Bạn có muốn sử dụng <strong>%s</strong> làm ký tự thay thế?',
-        check_thumbnail_warning:
-          'Một số văn bản đã được thay đổi sang các font khác khi chuyển đổi văn bản thành đường dẫn và một số ký tự có thể không được chuyển đổi bình thường. Vui lòng kiểm tra lại trước khi gửi.',
+        font_substitute_pop: 'Văn bản của bạn chứa các ký tự không được hỗ trợ bởi font hiện tại. <br/>Bạn có muốn sử dụng <strong>%s</strong> làm ký tự thay thế?',
+        check_thumbnail_warning: 'Một số văn bản đã được thay đổi sang các font khác khi chuyển đổi văn bản thành đường dẫn và một số ký tự có thể không được chuyển đổi bình thường. Vui lòng kiểm tra lại trước khi gửi.',
         error_when_parsing_text: 'Lỗi khi chuyển đổi văn bản thành đường dẫn',
         use_current_font: 'Sử dụng font hiện tại',
         retry: 'Vui lòng thử lại sau hoặc chọn font khác',
@@ -1111,8 +1053,7 @@ const lang: ILang = {
         sharp: 'Sắc nét',
         round: 'Tròn',
         fail_message: 'Không thể offset đối tượng',
-        not_support_message:
-          'Các phần tử được chọn chứa thẻ SVG không hỗ trợ:\nHình ảnh, Nhóm, Văn bản và Đối tượng nhập:\n',
+        not_support_message: 'Các phần tử được chọn chứa thẻ SVG không hỗ trợ:\nHình ảnh, Nhóm, Văn bản và Đối tượng nhập:\n',
       },
       _nest: {
         start_nest: 'Sắp xếp',
@@ -1138,22 +1079,18 @@ const lang: ILang = {
       test_completed: 'Kiểm tra hoàn tất',
       test_fail: 'Kiểm tra thất bại',
       cannot_connect_1: '#840 Không thể kết nối với địa chỉ IP đích.',
-      cannot_connect_2:
-        '#840 Không thể kết nối với địa chỉ IP đích. Hãy chắc chắn rằng địa chỉ đích cùng mạng.',
+      cannot_connect_2: '#840 Không thể kết nối với địa chỉ IP đích. Hãy chắc chắn rằng địa chỉ đích cùng mạng.',
       network_unhealthy: '#841 Chất lượng kết nối <70 hoặc thời gian phản hồi trung bình >100ms',
-      device_not_on_list:
-        '#842 Máy không có trong danh sách, nhưng chất lượng kết nối >70 và thời gian phản hồi trung bình <100ms',
+      device_not_on_list: '#842 Máy không có trong danh sách, nhưng chất lượng kết nối >70 và thời gian phản hồi trung bình <100ms',
       hint_device_often_on_list: 'Máy thường không có trong danh sách?',
       link_device_often_on_list: 'https://support.flux3dp.com/hc/en-us/articles/360001841636',
       hint_connect_failed_when_sending_job: 'Không thể kết nối khi gửi công việc?',
-      link_connect_failed_when_sending_job:
-        'https://support.flux3dp.com/hc/en-us/articles/360001841656',
+      link_connect_failed_when_sending_job: 'https://support.flux3dp.com/hc/en-us/articles/360001841656',
       hint_connect_camera_timeout: 'Có lỗi kết nối khi gửi công việc?',
       link_connect_camera_timeout: 'https://support.flux3dp.com/hc/en-us/articles/360001791895',
       cannot_get_local: 'Không lấy được địa chỉ IP cục bộ',
       fail_to_start_network_test: '#817 Không thể bắt đầu kiểm tra mạng',
-      linux_permission_hint:
-        'Lỗi này thường do quyền truy cập không đủ. Hãy chạy "sudo beam-studio --no-sandbox" trong Terminal để có quyền và kiểm tra mạng',
+      linux_permission_hint: 'Lỗi này thường do quyền truy cập không đủ. Hãy chạy "sudo beam-studio --no-sandbox" trong Terminal để có quyền và kiểm tra mạng',
     },
     layer_color_config_panel: {
       layer_color_config: 'Cấu hình màu theo lớp',
@@ -1168,20 +1105,17 @@ const lang: ILang = {
       add_config: 'Thêm màu',
       in_use: 'Màu này đang được sử dụng',
       no_input: 'Vui lòng nhập mã màu hợp lệ',
-      sure_to_reset:
-        'Bạn sẽ mất tất cả các thiết lập tùy chỉnh, bạn có chắc chắn muốn đặt lại về mặc định?',
+      sure_to_reset: 'Bạn sẽ mất tất cả các thiết lập tùy chỉnh, bạn có chắc chắn muốn đặt lại về mặc định?',
       sure_to_delete: 'Bạn có chắc chắn muốn xóa cài đặt màu này?',
     },
     rating_panel: {
       title: 'Thích Beam Studio?',
-      description:
-        'Nếu bạn thích Beam Studio, chúng tôi rất đánh giá cao nếu bạn có thể đánh giá ứng dụng của chúng tôi.',
+      description: 'Nếu bạn thích Beam Studio, chúng tôi rất đánh giá cao nếu bạn có thể đánh giá ứng dụng của chúng tôi.',
       dont_show_again: 'Không hiển thị lần sau.',
       thank_you: 'Cảm ơn bạn!',
     },
     svg_editor: {
-      unnsupported_file_type:
-        'Định dạng tệp không được hỗ trợ trực tiếp. Vui lòng chuyển đổi tệp thành SVG hoặc ảnh bitmap.',
+      unnsupported_file_type: 'Định dạng tệp không được hỗ trợ trực tiếp. Vui lòng chuyển đổi tệp thành SVG hoặc ảnh bitmap.',
       unable_to_fetch_clipboard_img: 'Không tải được hình ảnh từ bộ nhớ tạm.',
     },
     units: {
@@ -1300,8 +1234,7 @@ const lang: ILang = {
     search: 'Tìm kiếm',
     clear: 'Xóa',
     export_svg_title: 'Không thể Xuất SVG',
-    export_svg_warning:
-      'Dự án này chứa các đối tượng được bảo vệ bởi luật sở hữu trí tuệ. Vì vậy Beam Studio sẽ tự động loại trừ các đối tượng này trong quá trình xuất. Bạn vẫn có thể lưu dự án trong định dạng Beam Studio Scene (.beam) để giữ toàn bộ dữ liệu. Bạn vẫn muốn xuất?',
+    export_svg_warning: 'Dự án này chứa các đối tượng được bảo vệ bởi luật sở hữu trí tuệ. Vì vậy Beam Studio sẽ tự động loại trừ các đối tượng này trong quá trình xuất. Bạn vẫn có thể lưu dự án trong định dạng Beam Studio Scene (.beam) để giữ toàn bộ dữ liệu. Bạn vẫn muốn xuất?',
     learn_more: 'Tìm hiểu thêm',
   },
   change_logs: {
@@ -1363,10 +1296,8 @@ const lang: ILang = {
     ink_color: 'Ink color',
     ink_type: 'Ink type',
     ink_level: 'Ink level',
-    close_door_to_read_cartridge_info:
-      "To access ink information, please close the machine's door cover.",
-    cartridge_info_read_failed:
-      'Please ensure that the ink is fully inserted. Try to remove the ink and install it back.',
+    close_door_to_read_cartridge_info: "To access ink information, please close the machine's door cover.",
+    cartridge_info_read_failed: 'Please ensure that the ink is fully inserted. Try to remove the ink and install it back.',
     cartridge_info_verification_failed: 'Please verify that your ink is FLUX authentic.',
   },
   monitor: {
@@ -1380,10 +1311,8 @@ const lang: ILang = {
     camera: 'Camera',
     taskTab: 'Nhiệm vụ',
     connecting: 'Đang kết nối, vui lòng đợi...',
-    HARDWARE_ERROR_MAINBOARD_ERROR:
-      '#401 Lỗi nghiêm trọng: Bo mạch chủ ngoại tuyến. Vui lòng liên hệ hỗ trợ FLUX.',
-    HARDWARE_ERROR_SUBSYSTEM_ERROR:
-      '#402 Lỗi nghiêm trọng: Hệ thống phụ không phản hồi. Vui lòng liên hệ hỗ trợ FLUX.',
+    HARDWARE_ERROR_MAINBOARD_ERROR: '#401 Lỗi nghiêm trọng: Bo mạch chủ ngoại tuyến. Vui lòng liên hệ hỗ trợ FLUX.',
+    HARDWARE_ERROR_SUBSYSTEM_ERROR: '#402 Lỗi nghiêm trọng: Hệ thống phụ không phản hồi. Vui lòng liên hệ hỗ trợ FLUX.',
     HARDWARE_ERROR_PUMP_ERROR: '#900 Vui lòng kiểm tra bể nước của bạn.',
     HARDWARE_ERROR_DOOR_OPENED: '#901 Đóng cửa để tiếp tục.',
     HARDWARE_ERROR_OVER_TEMPERATURE: '#902 Quá nóng. Vui lòng đợi vài phút.',
@@ -1394,20 +1323,23 @@ const lang: ILang = {
     HARDWARE_ERROR_AIR_ASSIST_ABNORMAL: 'Cảm biến luồng khí bất thường',
     HARDWARE_ERROR_ROTARY_NOT_DETECTED: 'Không phát hiện module quay',
     HARDWARE_ERROR_HOMING_PULLOFF_FAILED: 'Lỗi kéo về vị trí gốc',
-    HARDWARE_ERROR_HEADTYPE_MISMATCH:
-      'Phát hiện module không khớp. Vui lòng lắp đúng module để tiếp tục.',
-    HARDWARE_ERROR_HEADTYPE_NONE:
-      'Không phát hiện module. Vui lòng đảm bảo module được lắp đúng để tiếp tục.',
-    HARDWARE_ERROR_HEADTYPE_UNKNOWN:
-      'Phát hiện module không xác định. Vui lòng lắp đúng module để tiếp tục.',
+    HARDWARE_ERROR_HEADTYPE_MISMATCH: 'Phát hiện module không khớp. Vui lòng lắp đúng module để tiếp tục.',
+    HARDWARE_ERROR_HEADTYPE_NONE: 'Không phát hiện module. Vui lòng đảm bảo module được lắp đúng để tiếp tục.',
+    HARDWARE_ERROR_HEADTYPE_UNKNOWN: 'Phát hiện module không xác định. Vui lòng lắp đúng module để tiếp tục.',
     HARDWARE_ERROR_PRINTER_NO_RESPONSE: 'Module máy in không phản hồi.',
     USER_OPERATION_ROTARY_PAUSE: 'Vui lòng chuyển sang module quay.',
     USER_OPERATION_REMOVE_CARTRIDGE: 'Vui lòng tháo hộp mực để tiếp tục.',
+    USER_OPERATION_CHANGE_TOOLHEAD_HEADTYPE_MISMATCH: 'Phát hiện module không khớp. Vui lòng lắp đúng module để tiếp tục.',
+    USER_OPERATION_CHANGE_TOOLHEAD_HEADTYPE_NONE: 'Không phát hiện module. Vui lòng đảm bảo module được lắp đúng để tiếp tục.',
+    USER_OPERATION_CHANGE_TOOLHEAD_HEADTYPE_UNKNOWN: 'Phát hiện module không xác định. Vui lòng lắp đúng module để tiếp tục.',
+    USER_OPERATION_CHANGE_TOOLHEAD: 'Vui lòng lắp đúng module để tiếp tục.',
+    USER_OPERATION_CHANGE_CARTRIDGE_CARTRIDGE_NOT_DETECTED: 'Vui lòng chèn hộp mực để tiếp tục.',
+    USER_OPERATION_CHANGE_CARTRIDGE: 'Vui lòng chèn hộp mực chính xác để tiếp tục.',
+    USER_OPERATION: 'Vui lòng tuân theo hướng dẫn trên bảng điều khiển của thiết bị để tiếp tục.',
     RESOURCE_BUSY: 'Máy đang bận\nNếu không đang chạy, vui lòng khởi động lại máy',
     DEVICE_ERROR: 'Đã xảy ra lỗi\nVui lòng khởi động lại máy',
     NO_RESPONSE: '#905 Lỗi kết nối với bo mạch chủ.\nVui lòng khởi động lại máy.',
-    SUBSYSTEM_ERROR:
-      '#402 Lỗi nghiêm trọng: Hệ thống con không phản hồi. Vui lòng liên hệ hỗ trợ FLUX.',
+    SUBSYSTEM_ERROR: '#402 Lỗi nghiêm trọng: Hệ thống con không phản hồi. Vui lòng liên hệ hỗ trợ FLUX.',
     HARDWARE_FAILURE: 'Đã xảy ra lỗi\nVui lòng khởi động lại máy',
     MAINBOARD_OFFLINE: '#905 Lỗi kết nối với bo mạch chủ.\nVui lòng khởi động lại máy.',
     bug_report: 'Báo cáo lỗi',
@@ -1476,8 +1408,7 @@ const lang: ILang = {
     retrievingCameraOffset: 'Đang đọc bù camera...',
     connectingCamera: 'Đang kết nối camera...',
     homing: 'Đang hoàn vị...',
-    connectionTimeout:
-      '#805 Hết thời gian kết nối thiết bị. Vui lòng kiểm tra kết nối mạng và đèn báo Wi-Fi của máy.',
+    connectionTimeout: '#805 Hết thời gian kết nối thiết bị. Vui lòng kiểm tra kết nối mạng và đèn báo Wi-Fi của máy.',
     getProbePosition: 'Đang lấy vị trí đầu dò...',
     device_not_found: {
       caption: 'Không tìm thấy máy mặc định',
@@ -1485,52 +1416,39 @@ const lang: ILang = {
     },
     device_busy: {
       caption: 'Máy bận',
-      message:
-        'Máy đang thực hiện tác vụ khác, vui lòng thử lại sau. Nếu máy ngừng hoạt động, vui lòng khởi động lại.',
+      message: 'Máy đang thực hiện tác vụ khác, vui lòng thử lại sau. Nếu máy ngừng hoạt động, vui lòng khởi động lại.',
     },
     device_is_used: 'Máy đang được sử dụng, bạn có muốn hủy tác vụ hiện tại không?',
     monitor_too_old: {
       caption: 'Phiên bản phần mềm lỗi thời',
-      content:
-        '#814 Vui lòng cài đặt phiên bản phần mềm mới nhất theo <a target="_blank" href="http://helpcenter.flux3dp.com/hc/en-us/articles/216251077">hướng dẫn này</a>.',
+      content: '#814 Vui lòng cài đặt phiên bản phần mềm mới nhất theo <a target="_blank" href="http://helpcenter.flux3dp.com/hc/en-us/articles/216251077">hướng dẫn này</a>.',
     },
-    unknown_error:
-      '#821 Ứng dụng gặp lỗi không xác định, vui lòng sử dụng Trợ giúp > Menu > Báo cáo lỗi.',
+    unknown_error: '#821 Ứng dụng gặp lỗi không xác định, vui lòng sử dụng Trợ giúp > Menu > Báo cáo lỗi.',
     unknown_device: '#826 Không thể kết nối với máy, vui lòng đảm bảo USB được cắm vào máy',
-    unsupport_osx_version:
-      'Phiên bản macOS %s có thể không hỗ trợ một số chức năng. Vui lòng nâng cấp lên macOS 11+.',
-    unsupport_win_version:
-      'Phiên bản HĐH %s có thể không hỗ trợ một số chức năng. Vui lòng nâng cấp lên phiên bản mới nhất.',
+    unsupport_osx_version: 'Phiên bản macOS %s có thể không hỗ trợ một số chức năng. Vui lòng nâng cấp lên macOS 11+.',
+    unsupport_win_version: 'Phiên bản HĐH %s có thể không hỗ trợ một số chức năng. Vui lòng nâng cấp lên phiên bản mới nhất.',
     need_password: 'Cần Mật khẩu để Kết nối với Máy',
-    unavailableWorkarea:
-      '#804 Khu vực làm việc hiện tại vượt quá khu vực làm việc của máy này. Vui lòng kiểm tra khu vực làm việc của máy đã chọn hoặc đặt lại khu vực làm việc.',
+    unavailableWorkarea: '#804 Khu vực làm việc hiện tại vượt quá khu vực làm việc của máy này. Vui lòng kiểm tra khu vực làm việc của máy đã chọn hoặc đặt lại khu vực làm việc.',
     please_enter_dpi: 'Vui lòng nhập Đơn vị của tệp tin (tính bằng mm)',
-    auth_error:
-      '#820 Lỗi xác thực: Vui lòng cập nhật Beam Studio và firmware máy lên phiên bản mới nhất.',
+    auth_error: '#820 Lỗi xác thực: Vui lòng cập nhật Beam Studio và firmware máy lên phiên bản mới nhất.',
     usb_unplugged: 'Kết nối USB bị mất. Vui lòng kiểm tra kết nối USB của bạn',
     uploading_fcode: 'Đang tải lên FCode',
     cant_connect_to_device: '#827 Không thể kết nối với máy, vui lòng kiểm tra kết nối của bạn',
     unable_to_find_machine: 'Không tìm thấy máy ',
     disconnected: 'Kết nối không ổn định, vui lòng kiểm tra kết nối thiết bị và thử lại sau',
-    unable_to_start:
-      '#830 Không thể bắt đầu tác vụ. Vui lòng thử lại. Nếu điều này xảy ra lại, vui lòng liên hệ với chúng tôi để báo cáo lỗi:',
+    unable_to_start: '#830 Không thể bắt đầu tác vụ. Vui lòng thử lại. Nếu điều này xảy ra lại, vui lòng liên hệ với chúng tôi để báo cáo lỗi:',
     camera: {
-      camera_cable_unstable:
-        'Phát hiện camera đang truyền ảnh không ổn định. Xem trước vẫn có thể thực hiện bình thường, nhưng có thể gặp vấn đề xem trước chậm hoặc hết thời gian chờ.',
-      fail_to_transmit_image:
-        '#845 Đã xảy ra lỗi khi truyền ảnh. Vui lòng khởi động lại máy hoặc Beam Studio. Nếu lỗi này vẫn xảy ra, vui lòng làm theo <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/4402756056079">hướng dẫn này</a>.',
-      ws_closed_unexpectly:
-        '#844 Kết nối với camera máy đã bị đóng bất ngờ. Nếu lỗi này vẫn xảy ra, vui lòng làm theo <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/4402755805071">hướng dẫn này</a>.',
+      camera_cable_unstable: 'Phát hiện camera đang truyền ảnh không ổn định. Xem trước vẫn có thể thực hiện bình thường, nhưng có thể gặp vấn đề xem trước chậm hoặc hết thời gian chờ.',
+      fail_to_transmit_image: '#845 Đã xảy ra lỗi khi truyền ảnh. Vui lòng khởi động lại máy hoặc Beam Studio. Nếu lỗi này vẫn xảy ra, vui lòng làm theo <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/4402756056079">hướng dẫn này</a>.',
+      ws_closed_unexpectly: '#844 Kết nối với camera máy đã bị đóng bất ngờ. Nếu lỗi này vẫn xảy ra, vui lòng làm theo <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/4402755805071">hướng dẫn này</a>.',
       continue_preview: 'Tiếp tục',
       abort_preview: 'Hủy bỏ',
     },
     preview: {
       camera_preview: 'Xem trước Camera',
       auto_focus: 'Lấy nét tự động',
-      auto_focus_instruction:
-        'Vui lòng di chuyển đầu mô-đun laser phía trên vật thể, và làm theo hướng dẫn hoạt ảnh để nhấn AF để lấy nét.',
-      already_performed_auto_focus:
-        'Bạn đã thực hiện lấy nét tự động, có sử dụng giá trị hiện tại không?',
+      auto_focus_instruction: 'Vui lòng di chuyển đầu mô-đun laser phía trên vật thể, và làm theo hướng dẫn hoạt ảnh để nhấn AF để lấy nét.',
+      already_performed_auto_focus: 'Bạn đã thực hiện lấy nét tự động, có sử dụng giá trị hiện tại không?',
       please_enter_height: 'Vui lòng nhập chiều cao của vật thể. Để chụp ảnh camera chính xác.',
       apply: 'Áp dụng',
       enter_manually: 'Nhập thủ công',
@@ -1565,8 +1483,7 @@ const lang: ILang = {
     UNKNOWN: 'Không xác định',
   },
   calibration: {
-    update_firmware_msg1:
-      'Phần mềm của bạn không hỗ trợ chức năng này. Vui lòng nâng cấp lên phiên bản',
+    update_firmware_msg1: 'Phần mềm của bạn không hỗ trợ chức năng này. Vui lòng nâng cấp lên phiên bản',
     update_firmware_msg2: 'trở lên để tiếp tục。 (Menu > Máy > [Máy của bạn] > Cập nhật phần mềm)',
     camera_calibration: 'Hiệu chỉnh camera',
     diode_calibration: 'Hiệu chỉnh module laser điốt',
@@ -1581,20 +1498,14 @@ const lang: ILang = {
     start_engrave: 'BẮT ĐẦU KHẮC',
     start_printing: 'BẮT ĐẦU IN ẤN',
     ask_for_readjust: 'Bạn có muốn bỏ qua bước khắc và chụp ảnh để hiệu chỉnh trực tiếp?',
-    please_goto_beambox_first:
-      'Vui lòng chuyển sang Chế độ Khắc (Beambox) để sử dụng tính năng này.',
-    please_place_paper:
-      'Vui lòng đặt một tờ giấy khổ A4 hoặc Letter màu trắng ở góc trái trên của khu vực làm việc.',
-    please_place_paper_center:
-      'Vui lòng đặt một tờ giấy khổ A4 hoặc Letter màu trắng ở giữa khu vực làm việc.',
-    please_place_dark_colored_paper:
-      'Vui lòng đặt một tờ giấy khổ A4 hoặc Letter màu tối ở giữa khu vực làm việc.',
+    please_goto_beambox_first: 'Vui lòng chuyển sang Chế độ Khắc (Beambox) để sử dụng tính năng này.',
+    please_place_paper: 'Vui lòng đặt một tờ giấy khổ A4 hoặc Letter màu trắng ở góc trái trên của khu vực làm việc.',
+    please_place_paper_center: 'Vui lòng đặt một tờ giấy khổ A4 hoặc Letter màu trắng ở giữa khu vực làm việc.',
+    please_place_dark_colored_paper: 'Vui lòng đặt một tờ giấy khổ A4 hoặc Letter màu tối ở giữa khu vực làm việc.',
     please_refocus: {
       beambox: 'Vui lòng điều chỉnh bệ đỡ đến điểm tiêu cự (chiều cao của mặt acrylic úp xuống)',
-      beamo:
-        'Vui lòng điều chỉnh đầu laser để lấy nét vào vật khắc (chiều cao của mặt acrylic úp xuống)',
-      beamo_af:
-        'Vui lòng nhấn đúp nút bên của phụ kiện lấy nét tự động và để đầu dò chạm nhẹ vào vật liệu.',
+      beamo: 'Vui lòng điều chỉnh đầu laser để lấy nét vào vật khắc (chiều cao của mặt acrylic úp xuống)',
+      beamo_af: 'Vui lòng nhấn đúp nút bên của phụ kiện lấy nét tự động và để đầu dò chạm nhẹ vào vật liệu.',
       hexa: 'Nhấn đúp nút điều chỉnh chiều cao để nâng bàn tổ ong lên và làm cho đầu dò chạm vào vật liệu khắc.',
     },
     without_af: 'Không có lấy nét tự động',
@@ -1607,8 +1518,7 @@ const lang: ILang = {
     show_last_config: 'Hiển thị kết quả gần nhất',
     use_last_config: 'Sử dụng giá trị hiệu chỉnh gần nhất',
     taking_picture: 'Đang chụp ảnh...',
-    analyze_result_fail:
-      'Không thể phân tích ảnh chụp.<br/>Vui lòng đảm bảo:<br/>1. Ảnh chụp phủ kín toàn bộ tờ giấy.<br/>2. Bệ đỡ được lấy nét đúng cách.',
+    analyze_result_fail: 'Không thể phân tích ảnh chụp.<br/>Vui lòng đảm bảo:<br/>1. Ảnh chụp phủ kín toàn bộ tờ giấy.<br/>2. Bệ đỡ được lấy nét đúng cách.',
     drawing_calibration_image: 'Đang vẽ ảnh hiệu chỉnh...',
     calibrate_done: 'Hiệu chỉnh hoàn tất. Độ chính xác của camera tốt hơn khi lấy nét chính xác.',
     calibrate_done_diode: 'Hiệu chỉnh hoàn tất. Offset của mô-đun laser đi-ốt đã được lưu.',
@@ -1616,10 +1526,8 @@ const lang: ILang = {
     hint_adjust_parameters: 'Sử dụng các thông số này để điều chỉnh hình vuông đỏ',
     zendesk_link: 'https://support.flux3dp.com/hc/en-us/articles/360001811416',
     please_do_camera_calibration_and_focus: {
-      beambox:
-        'Khi hiệu chỉnh mô-đun laser đi-ốt, cần có máy ảnh.\nHãy đảm bảo máy ảnh của máy này đã được hiệu chỉnh.\nVà hãy điều chỉnh nền tảng đến điểm tiêu cự (chiều cao của acrylic đã quay xuống)',
-      beamo:
-        'Khi hiệu chỉnh mô-đun laser đi-ốt, cần có máy ảnh.\nHãy đảm bảo máy ảnh của máy này đã được hiệu chỉnh.\nVà hãy điều chỉnh đầu laser để lấy nét vào vật khắc (chiều cao của acrylic đã quay xuống)',
+      beambox: 'Khi hiệu chỉnh mô-đun laser đi-ốt, cần có máy ảnh.\nHãy đảm bảo máy ảnh của máy này đã được hiệu chỉnh.\nVà hãy điều chỉnh nền tảng đến điểm tiêu cự (chiều cao của acrylic đã quay xuống)',
+      beamo: 'Khi hiệu chỉnh mô-đun laser đi-ốt, cần có máy ảnh.\nHãy đảm bảo máy ảnh của máy này đã được hiệu chỉnh.\nVà hãy điều chỉnh đầu laser để lấy nét vào vật khắc (chiều cao của acrylic đã quay xuống)',
     },
     downloading_pictures: 'Đang tải ảnh...',
     failed_to_download_pictures: '#848 Tải ảnh thất bại, vui lòng liên hệ hỗ trợ FLUX.',
@@ -1627,17 +1535,13 @@ const lang: ILang = {
     calculating_camera_matrix: 'Đang tính toán ma trận camera...',
     calculating_regression_parameters: 'Đang tính toán tham số hồi quy...',
     failed_to_calibrate_camera: '#848 Hiệu chỉnh camera thất bại, vui lòng liên hệ hỗ trợ FLUX.',
-    failed_to_save_calibration_results:
-      '#849 Lưu kết quả hiệu chỉnh thất bại, vui lòng thử lại. Nếu vẫn xảy ra, vui lòng liên hệ hỗ trợ FLUX.',
-    ador_autofocus_material:
-      'Nhấn biểu tượng “AF” trên màn hình chính của máy trong 3 giây và để đầu dò chạm nhẹ vào vật liệu.',
-    ador_autofocus_focusing_block:
-      'Nhấn biểu tượng “AF” trên màn hình chính của máy trong 3 giây và để đầu dò chạm vào khối lấy nét.',
+    failed_to_save_calibration_results: '#849 Lưu kết quả hiệu chỉnh thất bại, vui lòng thử lại. Nếu vẫn xảy ra, vui lòng liên hệ hỗ trợ FLUX.',
+    ador_autofocus_material: 'Nhấn biểu tượng “AF” trên màn hình chính của máy trong 3 giây và để đầu dò chạm nhẹ vào vật liệu.',
+    ador_autofocus_focusing_block: 'Nhấn biểu tượng “AF” trên màn hình chính của máy trong 3 giây và để đầu dò chạm vào khối lấy nét.',
     align_red_cross_cut: 'Hãy căn chỉnh giữa dấu cộng đỏ với dấu cắt.',
     align_red_cross_print: 'Hãy căn chỉnh giữa dấu cộng đỏ với dấu in.',
     retake: 'Chụp lại',
-    calibrate_camera_before_calibrate_modules:
-      'Vui lòng hiệu chỉnh camera trước khi hiệu chỉnh các mô-đun.',
+    calibrate_camera_before_calibrate_modules: 'Vui lòng hiệu chỉnh camera trước khi hiệu chỉnh các mô-đun.',
   },
   input_machine_password: {
     require_password: '"%s" yêu cầu mật khẩu',
@@ -1647,21 +1551,17 @@ const lang: ILang = {
   tutorial: {
     skip: 'Bỏ qua',
     welcome: 'CHÀO MỪNG',
-    suggest_calibrate_camera_first:
-      'Đối với beamo, Beambox và HEXA, chúng tôi khuyên bạn nên hiệu chỉnh camera khi sử dụng máy lần đầu tiên (Menu > Máy > [Tên máy] > Hiệu chỉnh camera), và lấy nét lại nền tảng mỗi lần trước khi xem trước để có kết quả xem trước tốt hơn.',
+    suggest_calibrate_camera_first: 'Đối với beamo, Beambox và HEXA, chúng tôi khuyên bạn nên hiệu chỉnh camera khi sử dụng máy lần đầu tiên (Menu > Máy > [Tên máy] > Hiệu chỉnh camera), và lấy nét lại nền tảng mỗi lần trước khi xem trước để có kết quả xem trước tốt hơn.',
     camera_calibration_failed: 'Hiệu chỉnh camera thất bại',
     ask_retry_calibration: 'Bạn có muốn hiệu chuẩn lại máy ảnh không?',
-    skipped_camera_calibration:
-      'Bạn đã bỏ qua hiệu chuẩn máy ảnh. Bạn có thể hiệu chuẩn máy ảnh bất cứ lúc nào từ menu (Menu > Máy > [Máy của bạn] > Hiệu chuẩn Máy ảnh).',
+    skipped_camera_calibration: 'Bạn đã bỏ qua hiệu chuẩn máy ảnh. Bạn có thể hiệu chuẩn máy ảnh bất cứ lúc nào từ menu (Menu > Máy > [Máy của bạn] > Hiệu chuẩn Máy ảnh).',
     skipped_ador_calibration: 'Máy ảnh Ador đã được hiệu chuẩn trong quá trình kiểm tra nhà máy.',
     needNewUserTutorial: 'Bạn có muốn bắt đầu hướng dẫn không?',
     needNewInterfaceTutorial: 'Bạn có muốn bắt đầu hướng dẫn giao diện mới của Beam Studio không?',
     next: 'TIẾP',
     look_for_machine: 'Đang tìm kiếm máy cho hướng dẫn...',
-    unable_to_find_machine:
-      'Không tìm thấy máy cho Hướng dẫn. Bạn có muốn đến trang cài đặt kết nối, thử lại hoặc bỏ qua hướng dẫn?',
-    skip_tutorial:
-      'Bạn đã bỏ qua hướng dẫn. Bạn luôn có thể bắt đầu hướng dẫn bằng cách nhấp vào "Trợ giúp" > "Hiển thị hướng dẫn bắt đầu"',
+    unable_to_find_machine: 'Không tìm thấy máy cho Hướng dẫn. Bạn có muốn đến trang cài đặt kết nối, thử lại hoặc bỏ qua hướng dẫn?',
+    skip_tutorial: 'Bạn đã bỏ qua hướng dẫn. Bạn luôn có thể bắt đầu hướng dẫn bằng cách nhấp vào "Trợ giúp" > "Hiển thị hướng dẫn bắt đầu"',
     set_connection: 'Thiết lập kết nối',
     retry: 'Thử lại',
     newUser: {
@@ -1725,20 +1625,15 @@ const lang: ILang = {
     unknown: 'Unknown Module',
     notification: {
       convertFromPrintingModuleTitle: 'Bạn có muốn chuyển đổi mô-đun In ấn thành mô-đun Laser?',
-      convertFromPrintingModuleMsg:
-        'Vui lòng lưu ý rằng nếu bạn hoàn tất thao tác này, các cài đặt màu của lớp in ấn sẽ bị xóa và được đặt theo lớp hiện tại.',
+      convertFromPrintingModuleMsg: 'Vui lòng lưu ý rằng nếu bạn hoàn tất thao tác này, các cài đặt màu của lớp in ấn sẽ bị xóa và được đặt theo lớp hiện tại.',
       convertFromLaserModuleTitle: 'Bạn có muốn chuyển đổi Module Laser thành Module In ấn?',
-      convertFromLaserModuleMsg:
-        'Lưu ý rằng nếu hoàn tất thao tác này, cài đặt của lớp laser sẽ bị xóa và được đặt theo lớp hiện tại.',
-      importedDocumentContainsPrinting:
-        'Tài liệu chứa lớp in ấn, bạn có muốn chuyển sang Không gian Làm việc Ador?',
+      convertFromLaserModuleMsg: 'Lưu ý rằng nếu hoàn tất thao tác này, cài đặt của lớp laser sẽ bị xóa và được đặt theo lớp hiện tại.',
+      importedDocumentContainsPrinting: 'Tài liệu chứa lớp in ấn, bạn có muốn chuyển sang Không gian Làm việc Ador?',
       printingLayersCoverted: 'Các lớp in ấn đã được chuyển đổi thành các lớp laser.',
       performPrintingCaliTitle: 'Thực hiện hiệu chuẩn Module In ấn',
-      performPrintingCaliMsg:
-        'Nhấp “Xác nhận” để thực hiện hiệu chuẩn, hoặc truy cập hiệu chuẩn qua menu trên cùng.<br /> (Máy > [Tên máy của bạn] > Hiệu chuẩn Module In ấn)',
+      performPrintingCaliMsg: 'Nhấp “Xác nhận” để thực hiện hiệu chuẩn, hoặc truy cập hiệu chuẩn qua menu trên cùng.<br /> (Máy > [Tên máy của bạn] > Hiệu chuẩn Module In ấn)',
       performIRCaliTitle: 'Thực hiện hiệu chuẩn Module Hồng ngoại',
-      performIRCaliMsg:
-        'Nhấp “Xác nhận” để thực hiện hiệu chuẩn, hoặc truy cập hiệu chuẩn qua menu trên cùng. <br />(Máy > [Tên máy của bạn] > Hiệu chuẩn Module Hồng ngoại)',
+      performIRCaliMsg: 'Nhấp “Xác nhận” để thực hiện hiệu chuẩn, hoặc truy cập hiệu chuẩn qua menu trên cùng. <br />(Máy > [Tên máy của bạn] > Hiệu chuẩn Module Hồng ngoại)',
     },
     non_working_area: 'Khu Vực Không Làm Việc',
   },
@@ -1781,8 +1676,7 @@ const lang: ILang = {
     merge: 'Gộp',
     text_label: 'Nhãn',
     beam_radius: 'Bù đường kính tia laser',
-    beam_radius_warning:
-      'Xóa bỏ bù độ rộng lưỡi cắt khi các cạnh hoặc khớp của hộp ngắn để đảm bảo lắp ráp hộp',
+    beam_radius_warning: 'Xóa bỏ bù độ rộng lưỡi cắt khi các cạnh hoặc khớp của hộp ngắn để đảm bảo lắp ráp hộp',
     import: 'Nhập',
     cancel: 'Hủy',
     reset: 'Đặt lại',
@@ -1809,8 +1703,7 @@ const lang: ILang = {
       duplicate: 'Nhân bản',
       download: 'Tải xuống',
       delete: 'Xóa',
-      confirmFileDelete:
-        'Bạn có chắc chắn muốn xóa tệp tin này không? Hành động này không thể hoàn tác.',
+      confirmFileDelete: 'Bạn có chắc chắn muốn xóa tệp tin này không? Hành động này không thể hoàn tác.',
     },
     save_file: {
       choose_action: 'Lưu tệp:',
@@ -1818,8 +1711,7 @@ const lang: ILang = {
       save_new: 'Lưu thành tệp mới',
       input_file_name: 'Nhập tên tệp:',
       invalid_char: 'Ký tự không hợp lệ:',
-      storage_limit_exceeded:
-        'Bộ nhớ đám mây của bạn đã đạt giới hạn. Vui lòng xóa các tệp không cần thiết trước khi lưu các tệp mới.',
+      storage_limit_exceeded: 'Bộ nhớ đám mây của bạn đã đạt giới hạn. Vui lòng xóa các tệp không cần thiết trước khi lưu các tệp mới.',
     },
   },
   camera_data_backup: {

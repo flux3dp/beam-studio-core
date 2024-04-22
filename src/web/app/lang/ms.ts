@@ -38,18 +38,14 @@ const lang: ILang = {
       dxf: 'Objek DXF',
     },
     alerts: {
-      start_preview_timeout:
-        '#803 Timeout telah berlaku ketika memulakan mod pratonton. Sila mulakan semula mesin atau Beam Studio anda. Jika ralat ini berterusan, sila ikuti <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">panduan ini</a>.',
-      fail_to_start_preview:
-        '#803 Gagal memulakan mod pratonton. Sila mulakan semula mesin atau Beam Studio anda. Jika ralat ini berterusan, sila ikuti <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">panduan ini</a>.',
-      fail_to_connect_with_camera:
-        '#803 Gagal menghubungi kamera mesin. Sila mulakan semula mesin atau Beam Studio anda. Jika ralat ini berterusan, sila ikuti <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">panduan ini</a>.',
+      start_preview_timeout: '#803 Timeout telah berlaku ketika memulakan mod pratonton. Sila mulakan semula mesin atau Beam Studio anda. Jika ralat ini berterusan, sila ikuti <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">panduan ini</a>.',
+      fail_to_start_preview: '#803 Gagal memulakan mod pratonton. Sila mulakan semula mesin atau Beam Studio anda. Jika ralat ini berterusan, sila ikuti <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">panduan ini</a>.',
+      fail_to_connect_with_camera: '#803 Gagal menghubungi kamera mesin. Sila mulakan semula mesin atau Beam Studio anda. Jika ralat ini berterusan, sila ikuti <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">panduan ini</a>.',
       add_content_first: 'Sila tambah objek terlebih dahulu',
       headtype_mismatch: 'Modul tidak sepadan dikesan. ',
       headtype_none: 'Modul tidak dikesan. ',
       headtype_unknown: 'Modul tidak diketahui dikesan. ',
-      install_correct_headtype:
-        'Sila pasang modul laser diod 10W/20W dengan betul untuk membolehkan laser beroperasi.',
+      install_correct_headtype: 'Sila pasang modul laser diod 10W/20W dengan betul untuk membolehkan laser beroperasi.',
       door_opened: 'Sila tutup pintu untuk membolehkan laser beroperasi.',
       fail_to_get_door_status: 'Sila pastikan pintu ditutup untuk membolehkan laser beroperasi.',
     },
@@ -195,20 +191,17 @@ const lang: ILang = {
   },
   support: {
     no_webgl: 'WebGL tidak disokong. Sila gunakan peranti lain.',
-    no_vcredist:
-      'Sila pasang Visual C++ Redistributable 2015<br/>Ia boleh dimuat turun di flux3dp.com',
+    no_vcredist: 'Sila pasang Visual C++ Redistributable 2015<br/>Ia boleh dimuat turun di flux3dp.com',
   },
   generic_error: {
     UNKNOWN_ERROR: '[UE] Ralat tidak diketahui berlaku. Sila mulakan semula Beam Studio dan mesin.',
     OPERATION_ERROR: '[OE] Konflik status berlaku, sila cuba semula tindakan.',
-    SUBSYSTEM_ERROR:
-      '[SE] Ralat perisian mesin sewaktu melaksanakan tugas. Sila mulakan semula mesin.',
+    SUBSYSTEM_ERROR: '[SE] Ralat perisian mesin sewaktu melaksanakan tugas. Sila mulakan semula mesin.',
     UNKNOWN_COMMAND: '[UC] Sila kemaskini Perisian Peranti',
   },
   device_selection: {
-    no_beambox:
-      '#801 Kami tidak dapat mengesan mesin anda dalam rangkaian.\nSila ikuti <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">panduan</a> untuk menyelesaikan masalah sambungan.',
-    no_device_web: '#801 Semak status mesin anda, atau klik pada \'Tambah Mesin Baru\' di bawah untuk menetapkan mesin.',
+    no_beambox: '#801 Kami tidak dapat mengesan mesin anda dalam rangkaian.\nSila ikuti <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">panduan</a> untuk menyelesaikan masalah sambungan.',
+    no_device_web: "#801 Semak status mesin anda, atau klik pada 'Tambah Mesin Baru' di bawah untuk menetapkan mesin.",
   },
   update: {
     update: 'Kemaskini',
@@ -227,33 +220,26 @@ const lang: ILang = {
       upload_file: 'Muat naik perisian peranti (*.bin / *.fxfw)',
       update_success: 'Kemaskini perisian peranti berjaya dimuat naik',
       update_fail: '#822 Kemaskini Gagal',
-      too_old_for_web:
-        'Versi perisian peranti mesin semasa anda ialah v%s.\nJika anda mahu menggunakan versi atas talian Studio Beam, sila kemaskini perisian peranti mesin ke versi terkini.',
+      too_old_for_web: 'Versi perisian peranti mesin semasa anda ialah v%s.\nJika anda mahu menggunakan versi atas talian Studio Beam, sila kemaskini perisian peranti mesin ke versi terkini.',
       force_update_message: '#814 Sila kemaskini mesin anda ke versi perisian peranti terkini.',
-      firmware_too_old_update_by_sdcard:
-        'Versi perisian peranti terlalu lama. Sila kemaskini perisian peranti menggunakan kad SD.',
+      firmware_too_old_update_by_sdcard: 'Versi perisian peranti terlalu lama. Sila kemaskini perisian peranti menggunakan kad SD.',
     },
     software: {
       checking: 'Memeriksa Kemaskini',
       switch_version: 'Tukar Versi',
       check_update: 'Semak Kemaskini',
       caption: 'Kemaskini Perisian Beam Studio tersedia',
-      downloading:
-        'Memuat turun kemaskini di latar belakang, anda boleh klik "OK" untuk meneruskan kerja anda.',
-      install_or_not:
-        'sedia untuk dikemaskini. Adakah anda mahu memulakan semula dan mengemaskini sekarang?',
+      downloading: 'Memuat turun kemaskini di latar belakang, anda boleh klik "OK" untuk meneruskan kerja anda.',
+      install_or_not: 'sedia untuk dikemaskini. Adakah anda mahu memulakan semula dan mengemaskini sekarang?',
       switch_or_not: 'sedia untuk ditukar. Adakah anda mahu memulakan semula dan menukar sekarang?',
-      available_update:
-        'Beam Studio v%s tersedia sekarang. Anda mempunyai v%s. Adakah anda mahu memuat turun kemaskini?',
-      available_switch:
-        'Beam Studio v%s tersedia sekarang. Anda mempunyai v%s. Adakah anda mahu beralih ke versi ini?',
+      available_update: 'Beam Studio v%s tersedia sekarang. Anda mempunyai v%s. Adakah anda mahu memuat turun kemaskini?',
+      available_switch: 'Beam Studio v%s tersedia sekarang. Anda mempunyai v%s. Adakah anda mahu beralih ke versi ini?',
       not_found: 'Anda menggunakan versi terkini Beam Studio.',
       no_response: 'Pelayan tidak boleh dicapai<br/>Sila semak sambungan internet',
       switch_version_not_found: 'Versi Boleh Tukar tidak dijumpai.',
       yes: 'Ya',
       no: 'Tidak',
-      update_for_ador:
-        'Versi perisian semasa %s tidak serasi, sila muat turun versi terkini Beam Studio untuk Ador.',
+      update_for_ador: 'Versi perisian semasa %s tidak serasi, sila muat turun versi terkini Beam Studio untuk Ador.',
     },
     updating: 'Mengemaskini...',
     skip: 'Langkau Versi Ini',
@@ -266,8 +252,7 @@ const lang: ILang = {
   },
   topmenu: {
     version: 'Versi',
-    credit:
-      'Beam Studio dimungkinkan oleh projek sumber terbuka <a target="_blank" href="https://github.com/flux3dp/beam-studio">Beam Studio</a> dan <a target="_blank" href="https://flux3dp.com/credits/">perisian sumber terbuka</a> lain.',
+    credit: 'Beam Studio dimungkinkan oleh projek sumber terbuka <a target="_blank" href="https://github.com/flux3dp/beam-studio">Beam Studio</a> dan <a target="_blank" href="https://flux3dp.com/credits/">perisian sumber terbuka</a> lain.',
     ok: 'OK',
     file: {
       label: 'Fail',
@@ -318,15 +303,12 @@ const lang: ILang = {
     connect_wifi: {
       title: 'Menyambung ke Wi-Fi',
       tutorial1: '1. Pergi ke Panel Sentuh > Klik "Rangkaian" > "Sambung ke WiFi".',
-      tutorial1_ador:
-        '1. Pergi ke Panel Sentuh > Klik "MESIN" > Klik "Rangkaian" > "Sambung ke WiFi".',
+      tutorial1_ador: '1. Pergi ke Panel Sentuh > Klik "MESIN" > Klik "Rangkaian" > "Sambung ke WiFi".',
       tutorial2: '2. Pilih dan sambung Wi-Fi pilihan anda.',
       what_if_1: 'Apa yang perlu dilakukan jika saya tidak nampak Wi-Fi saya?',
-      what_if_1_content:
-        '1. Mod penyulitan Wi-Fi perlu WPA2 atau tiada kata laluan.\n2. Mod penyulitan boleh ditetapkan dalam antara muka pentadbiran penghala Wi-Fi. Jika penghala tidak menyokong WPA2 dan anda memerlukan bantuan untuk memilih penghala yang betul, sila hubungi Sokongan FLUX.',
+      what_if_1_content: '1. Mod penyulitan Wi-Fi perlu WPA2 atau tiada kata laluan.\n2. Mod penyulitan boleh ditetapkan dalam antara muka pentadbiran penghala Wi-Fi. Jika penghala tidak menyokong WPA2 dan anda memerlukan bantuan untuk memilih penghala yang betul, sila hubungi Sokongan FLUX.',
       what_if_2: 'Apa yang perlu dilakukan jika saya tidak dapat melihat sebarang Wi-Fi?',
-      what_if_2_content:
-        '1. Pastikan dongle Wi-Fi dimasukkan sepenuhnya.\n2. Jika tiada Alamat MAC rangkaian wayarles pada skrin sentuh, sila hubungi Sokongan FLUX.\n3. Saluran Wi-Fi perlu 2.4Ghz (5Ghz tidak disokong).',
+      what_if_2_content: '1. Pastikan dongle Wi-Fi dimasukkan sepenuhnya.\n2. Jika tiada Alamat MAC rangkaian wayarles pada skrin sentuh, sila hubungi Sokongan FLUX.\n3. Saluran Wi-Fi perlu 2.4Ghz (5Ghz tidak disokong).',
     },
     connect_wired: {
       title: 'Menyambung ke Rangkaian Berwayar',
@@ -334,11 +316,9 @@ const lang: ILang = {
       tutorial2: '2. Tekan "Rangkaian" untuk mendapatkan IP rangkaian berwayar.',
       tutorial2_ador: '2. Tekan "MESIN" > "Rangkaian" untuk mendapatkan IP rangkaian berwayar.',
       what_if_1: 'Apa yang perlu dilakukan jika IP kosong?',
-      what_if_1_content:
-        '1. Pastikan Kabel Ethernet dimasukkan sepenuhnya.\n2. Jika tiada Alamat MAC rangkaian berwayar pada skrin sentuh, sila hubungi Sokongan FLUX.',
+      what_if_1_content: '1. Pastikan Kabel Ethernet dimasukkan sepenuhnya.\n2. Jika tiada Alamat MAC rangkaian berwayar pada skrin sentuh, sila hubungi Sokongan FLUX.',
       what_if_2: 'Apa yang perlu dilakukan jika IP bermula dengan 169?',
-      what_if_2_content:
-        '1. Jika alamat IP bermula dengan 169.254, ia sepatutnya isu tetapan DHCP, sila hubungi ISP (pembekal perkhidmatan internet) anda untuk bantuan lanjut.\n2. Jika komputer anda menyambung ke internet secara terus menggunakan PPPoE, sila tukar kepada menggunakan penghala untuk menyambung menggunakan PPPoE, dan hidupkan ciri DHCP dalam penghala.',
+      what_if_2_content: '1. Jika alamat IP bermula dengan 169.254, ia sepatutnya isu tetapan DHCP, sila hubungi ISP (pembekal perkhidmatan internet) anda untuk bantuan lanjut.\n2. Jika komputer anda menyambung ke internet secara terus menggunakan PPPoE, sila tukar kepada menggunakan penghala untuk menyambung menggunakan PPPoE, dan hidupkan ciri DHCP dalam penghala.',
     },
     connect_ethernet: {
       title: 'Sambungan Terus',
@@ -357,8 +337,7 @@ const lang: ILang = {
       tutorial2: '2. Klik Seterusnya.',
       turn_off_machine: 'Matikan mesin.',
       turn_on_machine: 'Hidupkan mesin.',
-      wait_for_turning_on:
-        "Klik 'Seterusnya' selepas proses permulaan selesai dan anda telah masuk ke skrin utama.",
+      wait_for_turning_on: "Klik 'Seterusnya' selepas proses permulaan selesai dan anda telah masuk ke skrin utama.",
     },
     connect_machine_ip: {
       check_usb: 'Semak Sambungan USB',
@@ -385,8 +364,7 @@ const lang: ILang = {
     },
   },
   error_pages: {
-    screen_size:
-      'Sila ambil perhatian bahawa Beam Studio mungkin tidak berfungsi dengan optimum pada peranti anda. Untuk pengalaman yang terbaik, ia memerlukan peranti dengan lebar skrin minimum 1024 piksel.',
+    screen_size: 'Sila ambil perhatian bahawa Beam Studio mungkin tidak berfungsi dengan optimum pada peranti anda. Untuk pengalaman yang terbaik, ia memerlukan peranti dengan lebar skrin minimum 1024 piksel.',
   },
   menu: {
     mm: 'mm',
@@ -458,8 +436,7 @@ const lang: ILang = {
     diode_offset: 'Ofset Laser Diod',
     autofocus_offset: 'Ofset Autofokus',
     diode_one_way_engraving: 'Ukiran Satu Arah Laser Diod',
-    diode_two_way_warning:
-      'Pancaran dua arah lebih pantas dan berkemungkinan menjana ketidaktepatan pada kedudukan ukiran laser. Disyorkan untuk uji dahulu.',
+    diode_two_way_warning: 'Pancaran dua arah lebih pantas dan berkemungkinan menjana ketidaktepatan pada kedudukan ukiran laser. Disyorkan untuk uji dahulu.',
     share_with_flux: 'Kongsi Analitik Studio Sinar',
     none: 'Tiada',
     close: 'Tutup',
@@ -541,81 +518,59 @@ const lang: ILang = {
       layer_by_color: 'Warna',
       nolayer: 'Lapisan Tunggal',
       loading_image: 'Memuatkan imej, sila tunggu...',
-      no_support_text:
-        'Beam Studio tidak menyokong tag teks pada masa ini. Sila tukar teks kepada laluan sebelum import.',
-      speed_too_high_lower_the_quality:
-        'Menggunakan kelajuan terlalu tinggi pada resolusi ini boleh mengakibatkan kualiti ukiran bayangan yang lebih rendah.',
-      both_power_and_speed_too_high:
-        'Menggunakan kuasa laser yang lebih rendah akan melanjutkan jangka hayat tiub laser. Juga, kelajuan yang terlalu tinggi pada resolusi ini boleh mengakibatkan kualiti ukiran bayangan yang lebih rendah.',
-      too_fast_for_path:
-        'Menggunakan kelajuan yang terlalu tinggi dalam lapisan yang mengandungi objek laluan boleh mengakibatkan ketepatan yang lebih rendah semasa memotong. Kami tidak mengesyorkan menggunakan kelajuan lebih pantas daripada 20 mm/s semasa memotong.',
-      too_fast_for_path_and_constrain:
-        'Lapisan berikut: %s mengandungi objek laluan vektor, dan mempunyai kelajuan melebihi 20 mm/s. Kelajuan pemotongan objek laluan vektor akan dihadkan kepada 20 mm/s. Anda boleh mengalih keluar had ini di Tetapan Keutamaan.',
-      should_update_firmware_to_continue:
-        '#814 Perisian tegar anda tidak menyokong versi Beam Studio ini. Sila kemas kini perisian tegar untuk meneruskan. (Menu > Mesin > [Mesin Anda] > Kemas kini Perisian Tegar)',
-      recommend_downgrade_software:
-        'Kami mengesan versi perisian tegar yang lebih lama. Kami sedang menangani isu-isu keserasian, tetapi buat masa ini, kami mengesyorkan kembali ke <a target="_blank" href="https://beamstudio.s3.ap-northeast-1.amazonaws.com/mac/Beam+Studio+1.9.5.dmg">Beam Studio 1.9.5</a>.',
-      recommend_upgrade_firmware:
-        'Kami mengesan versi firmware yang lebih lama. Kami sedang menangani isu-isu keserasian, tetapi buat masa ini, kami mengesyorkan mengemas kini ke firmware terkini.',
+      no_support_text: 'Beam Studio tidak menyokong tag teks pada masa ini. Sila tukar teks kepada laluan sebelum import.',
+      speed_too_high_lower_the_quality: 'Menggunakan kelajuan terlalu tinggi pada resolusi ini boleh mengakibatkan kualiti ukiran bayangan yang lebih rendah.',
+      both_power_and_speed_too_high: 'Menggunakan kuasa laser yang lebih rendah akan melanjutkan jangka hayat tiub laser. Juga, kelajuan yang terlalu tinggi pada resolusi ini boleh mengakibatkan kualiti ukiran bayangan yang lebih rendah.',
+      too_fast_for_path: 'Menggunakan kelajuan yang terlalu tinggi dalam lapisan yang mengandungi objek laluan boleh mengakibatkan ketepatan yang lebih rendah semasa memotong. Kami tidak mengesyorkan menggunakan kelajuan lebih pantas daripada 20 mm/s semasa memotong.',
+      too_fast_for_path_and_constrain: 'Lapisan berikut: %s mengandungi objek laluan vektor, dan mempunyai kelajuan melebihi 20 mm/s. Kelajuan pemotongan objek laluan vektor akan dihadkan kepada 20 mm/s. Anda boleh mengalih keluar had ini di Tetapan Keutamaan.',
+      should_update_firmware_to_continue: '#814 Perisian tegar anda tidak menyokong versi Beam Studio ini. Sila kemas kini perisian tegar untuk meneruskan. (Menu > Mesin > [Mesin Anda] > Kemas kini Perisian Tegar)',
+      recommend_downgrade_software: 'Kami mengesan versi perisian tegar yang lebih lama. Kami sedang menangani isu-isu keserasian, tetapi buat masa ini, kami mengesyorkan kembali ke <a target="_blank" href="https://beamstudio.s3.ap-northeast-1.amazonaws.com/mac/Beam+Studio+1.9.5.dmg">Beam Studio 1.9.5</a>.',
+      recommend_upgrade_firmware: 'Kami mengesan versi firmware yang lebih lama. Kami sedang menangani isu-isu keserasian, tetapi buat masa ini, kami mengesyorkan mengemas kini ke firmware terkini.',
       still_continue: 'Teruskan',
       more_than_two_object: 'Terlalu banyak objek. Hanya menyokong 2 objek',
       not_support_object_type: 'Tidak menyokong jenis objek',
       select_first: 'Pilih objek pertama.',
       select_at_least_two: 'Pilih dua objek untuk teruskan',
-      import_file_contain_invalid_path:
-        '#808 Fail SVG yang diimport mengandungi laluan imej yang tidak sah. Sila pastikan semua fail imej wujud atau benam imej dalam fail',
-      import_file_error_ask_for_upload:
-        'Gagal untuk Imported SVG file. Adakah anda bersedia untuk menyediakan fail kepada pasukan pembangunan untuk laporan pepijat ?',
+      import_file_contain_invalid_path: '#808 Fail SVG yang diimport mengandungi laluan imej yang tidak sah. Sila pastikan semua fail imej wujud atau benam imej dalam fail',
+      import_file_error_ask_for_upload: 'Gagal untuk Imported SVG file. Adakah anda bersedia untuk menyediakan fail kepada pasukan pembangunan untuk laporan pepijat ?',
       upload_file_too_large: '#819 Fail terlalu besar untuk dimuat naik.',
       successfully_uploaded: 'Muat naik fail berjaya.',
       upload_failed: '#819 Gagal memuat naik fail.',
       or_turn_off_borderless_mode: ' Atau matikan mod Buka Bawah.',
       svg_1_1_waring: 'Versi fail SVG ini ialah v 1.1, mungkin terdapat masalah ketidakserasian.',
-      svg_image_path_waring:
-        'Fail SVG ini mengandungi <image> memuat dari laluan fail. Ini mungkin menyebabkan kegagalan semasa memuat.\nUntuk mengelakkan risiko ini, Sila baik guna imej terbenam semasa mengeksport SVG.',
-      dxf_version_waring:
-        'Versi fail DXF ini bukan 2013, mungkin terdapat masalah ketidakserasian.',
+      svg_image_path_waring: 'Fail SVG ini mengandungi <image> memuat dari laluan fail. Ini mungkin menyebabkan kegagalan semasa memuat.\nUntuk mengelakkan risiko ini, Sila baik guna imej terbenam semasa mengeksport SVG.',
+      dxf_version_waring: 'Versi fail DXF ini bukan 2013, mungkin terdapat masalah ketidakserasian.',
       dont_show_again: 'Jangan Tunjuk ini pada masa akan datang.',
       convert_to_path_fail: 'Gagal menukar ke laluan.',
       save_unsave_changed: 'Adakah anda mahu menyimpan perubahan yang belum disimpan?',
-      dxf_bounding_box_size_over:
-        'Saiz lukisan melebihi kawasan kerja. Sila pindahkan lukisan anda lebih dekat kepada asal dalam perisian CAD anda, atau pastikan unit ditetapkan dengan betul.',
+      dxf_bounding_box_size_over: 'Saiz lukisan melebihi kawasan kerja. Sila pindahkan lukisan anda lebih dekat kepada asal dalam perisian CAD anda, atau pastikan unit ditetapkan dengan betul.',
       progress: {
         uploading: 'Memuat naik',
         calculating: 'Mengira',
       },
-      backend_connect_failed_ask_to_upload:
-        '#802 Ralat berterusan berlaku semasa cuba menyambung ke backend. Adakah anda mahu memuat naik laporan pepijat log anda?',
-      backend_error_hint:
-        'Ciri-ciri mungkin tidak berfungsi dengan betul disebabkan ralat backend.',
+      backend_connect_failed_ask_to_upload: '#802 Ralat berterusan berlaku semasa cuba menyambung ke backend. Adakah anda mahu memuat naik laporan pepijat log anda?',
+      backend_error_hint: 'Ciri-ciri mungkin tidak berfungsi dengan betul disebabkan ralat backend.',
       pdf2svg: {
         error_when_converting_pdf: '#824 Ralat semasa menukar PDF ke SVG:',
-        error_pdf2svg_not_found:
-          '#825 Ralat: Arahan pdf2svg tidak dijumpai. Sila pasang pdf2svg dengan pengurus pakej anda (cth., "yum install pdf2svg" atau "apt-get install pdf2svg").',
+        error_pdf2svg_not_found: '#825 Ralat: Arahan pdf2svg tidak dijumpai. Sila pasang pdf2svg dengan pengurus pakej anda (cth., "yum install pdf2svg" atau "apt-get install pdf2svg").',
       },
-      ungroup_use:
-        'Ini akan menyahkumpulkan DXF atau SVG yang diimport. Oleh kerana fail itu mungkin mengandungi sejumlah besar elemen, ia mungkin mengambil masa untuk menyahkumpulkan. Adakah anda pasti untuk meneruskan?',
-      vectorize_shading_image:
-        'Imej gradien mengambil lebih masa untuk mengesan dan cenderung kepada hingar. Sila matikan gradien imej sebelum melaksanakan.',
-      change_workarea_before_preview:
-        'Kawasan kerja %s tidak sepadan dengan kawasan kerja yang ditetapkan sekarang. Adakah anda mahu menukar kawasan kerja semasa?',
+      ungroup_use: 'Ini akan menyahkumpulkan DXF atau SVG yang diimport. Oleh kerana fail itu mungkin mengandungi sejumlah besar elemen, ia mungkin mengambil masa untuk menyahkumpulkan. Adakah anda pasti untuk meneruskan?',
+      vectorize_shading_image: 'Imej gradien mengambil lebih masa untuk mengesan dan cenderung kepada hingar. Sila matikan gradien imej sebelum melaksanakan.',
+      change_workarea_before_preview: 'Kawasan kerja %s tidak sepadan dengan kawasan kerja yang ditetapkan sekarang. Adakah anda mahu menukar kawasan kerja semasa?',
       bug_report: 'Laporan Pepijat',
       sentry: {
         title: 'Mari kita baikkan Beam Studio bersama-sama',
-        message:
-          'Adakah anda bersetuju untuk memuat naik maklumat yang berkaitan secara automatik kepada pasukan pembangunan apabila ralat berlaku?',
+        message: 'Adakah anda bersetuju untuk memuat naik maklumat yang berkaitan secara automatik kepada pasukan pembangunan apabila ralat berlaku?',
       },
       questionnaire: {
         caption: 'Bantu Kami Isi Soal Selidik',
         message: 'Bantu kami mengisi soal selidik untuk menjadikan Beam Studio lebih baik.',
-        unable_to_get_url:
-          'Gagal mendapatkan pautan ke soal selidik melalui internet. Sila sahkan sambungan internet anda.',
+        unable_to_get_url: 'Gagal mendapatkan pautan ke soal selidik melalui internet. Sila sahkan sambungan internet anda.',
         no_questionnaire_available: 'Tiada soal selidik yang tersedia buat masa ini.',
       },
       facebook_group_invitation: {
         title: 'Sertai Kumpulan Pengguna Rasmi FLUX',
-        message:
-          'Sertai kumpulan Facebook rasmi kami untuk berhubung dengan pengguna laser FLUX yang lain, berkongsi karya laser, dan sentiasa dikemas kini dengan maklumat terkini mengenai produk kami. Kami tidak sabar untuk berjumpa dengan anda di sana!',
+        message: 'Sertai kumpulan Facebook rasmi kami untuk berhubung dengan pengguna laser FLUX yang lain, berkongsi karya laser, dan sentiasa dikemas kini dengan maklumat terkini mengenai produk kami. Kami tidak sabar untuk berjumpa dengan anda di sana!',
         join_now: 'Sertai Sekarang',
         later: 'Mungkin Nanti',
         already_joined: 'Sudah Sertai',
@@ -624,15 +579,13 @@ const lang: ILang = {
       ai_credit: {
         relogin_to_use: 'Sila log masuk semula untuk guna fungsi ini.',
         insufficient_credit: 'Anda kehabisan Kredit',
-        insufficient_credit_msg:
-          'Anda tidak boleh guna %s. Pergi ke pusat ahli dan beli Kredit AI.',
+        insufficient_credit_msg: 'Anda tidak boleh guna %s. Pergi ke pusat ahli dan beli Kredit AI.',
         buy_link: 'https://member.flux3dp.com/en-us/credit',
         go: 'Pergi',
       },
       text_to_path: {
         caption: 'Penukar Teks ke Laluan 2.0',
-        message:
-          "Beam Studio kini memperkenalkan penukar teks ke laluan yang baru (Penukar 2.0), yang menghasilkan keputusan yang lebih boleh dipercayai! Adakah anda mahu beralih kepadanya sekarang? \nAnda juga boleh menyesuaikan tetapan ini kemudian dalam bahagian 'Penukar Teks ke Laluan' dalam keutamaan.",
+        message: "Beam Studio kini memperkenalkan penukar teks ke laluan yang baru (Penukar 2.0), yang menghasilkan keputusan yang lebih boleh dipercayai! Adakah anda mahu beralih kepadanya sekarang? \nAnda juga boleh menyesuaikan tetapan ini kemudian dalam bahagian 'Penukar Teks ke Laluan' dalam keutamaan.",
       },
     },
     zoom_block: {
@@ -696,23 +649,15 @@ const lang: ILang = {
           layerHasThatName: 'Lapisan sudah ada nama itu',
           QmoveElemsToLayer: "Alihkan elemen terpilih ke lapisan '%s'?",
           moveElemFromPrintingLayerTitle: 'Alih elemen terpilih ke %s dan tukar ke elemen laser?',
-          moveElemFromPrintingLayerMsg:
-            'Sila ambil perhatian bahawa jika anda lengkapkan operasi ini, tetapan warna elemen terpilih akan dibuang dan ditetapkan mengikut %s.',
-          moveElemToPrintingLayerTitle:
-            'Alih elemen terpilih ke %s dan tukar ia ke elemen percetakan?',
-          moveElemToPrintingLayerMsg:
-            'Sila ambil perhatian bahawa jika anda lengkapkan operasi ini, tetapan elemen terpilih akan dibuang dan ditetapkan mengikut %s.',
+          moveElemFromPrintingLayerMsg: 'Sila ambil perhatian bahawa jika anda lengkapkan operasi ini, tetapan warna elemen terpilih akan dibuang dan ditetapkan mengikut %s.',
+          moveElemToPrintingLayerTitle: 'Alih elemen terpilih ke %s dan tukar ia ke elemen percetakan?',
+          moveElemToPrintingLayerMsg: 'Sila ambil perhatian bahawa jika anda lengkapkan operasi ini, tetapan elemen terpilih akan dibuang dan ditetapkan mengikut %s.',
           splitColorTitle: 'Adakah anda mahu mengembangkan lapisan terpilih ke lapisan CMYK?',
-          splitColorMsg:
-            'Sila ambil perhatian bahawa jika anda teruskan dengan operasi ini, anda tidak akan dapat kembali ke lapisan warna asal.',
-          mergeLaserLayerToPrintingLayerTitle:
-            'Adakah anda mahu menggabungkan lapisan ini ke satu Lapisan Percetakan?',
-          mergeLaserLayerToPrintingLayerMsg:
-            'Sila ambil perhatian bahawa jika anda lengkapkan operasi ini, tetapan lapisan laser akan dibuang dan ditetapkan mengikut lapisan semasa.',
-          mergePrintingLayerToLaserLayerTitle:
-            'Adakah anda mahu menggabungkan lapisan ini ke satu Lapisan Laser?',
-          mergePrintingLayerToLaserLayerMsg:
-            'Sila ambil perhatian bahawa jika anda lengkapkan operasi ini, tetapan warna lapisan percetakan akan dibuang dan ditetapkan mengikut lapisan semasa.',
+          splitColorMsg: 'Sila ambil perhatian bahawa jika anda teruskan dengan operasi ini, anda tidak akan dapat kembali ke lapisan warna asal.',
+          mergeLaserLayerToPrintingLayerTitle: 'Adakah anda mahu menggabungkan lapisan ini ke satu Lapisan Percetakan?',
+          mergeLaserLayerToPrintingLayerMsg: 'Sila ambil perhatian bahawa jika anda lengkapkan operasi ini, tetapan lapisan laser akan dibuang dan ditetapkan mengikut lapisan semasa.',
+          mergePrintingLayerToLaserLayerTitle: 'Adakah anda mahu menggabungkan lapisan ini ke satu Lapisan Laser?',
+          mergePrintingLayerToLaserLayerMsg: 'Sila ambil perhatian bahawa jika anda lengkapkan operasi ini, tetapan warna lapisan percetakan akan dibuang dan ditetapkan mengikut lapisan semasa.',
         },
         layers: {
           layer: 'Lapisan',
@@ -741,11 +686,9 @@ const lang: ILang = {
         multi_layer: 'Lapisan Pelbagai',
         parameters: 'Parameter',
         strength: 'Kuasa',
-        low_power_warning:
-          'Kuasa laser yang rendah (bawah 10%) mungkin tidak memancarkan cahaya laser.',
+        low_power_warning: 'Kuasa laser yang rendah (bawah 10%) mungkin tidak memancarkan cahaya laser.',
         speed: 'Kelajuan',
-        speed_contrain_warning:
-          'Kelajuan pemotongan objek laluan vektor akan dihadkan kepada 20 mm/s. Anda boleh mengalih had ini di Tetapan Keutamaan.',
+        speed_contrain_warning: 'Kelajuan pemotongan objek laluan vektor akan dihadkan kepada 20 mm/s. Anda boleh mengalih had ini di Tetapan Keutamaan.',
         low_speed_warning: 'Kelajuan rendah mungkin menyebabkan bahan terbakar.',
         repeat: 'Laksana',
         add_on: 'Tambahan',
@@ -766,8 +709,7 @@ const lang: ILang = {
         more: 'Urus',
         delete: 'Padam',
         reset: 'Tetap Semula',
-        sure_to_reset:
-          'Ini akan menetapkan semula semua praset dan mengekalkan parameter tersuai anda, anda pasti untuk meneruskan?',
+        sure_to_reset: 'Ini akan menetapkan semula semua praset dan mengekalkan parameter tersuai anda, anda pasti untuk meneruskan?',
         apply: 'Guna',
         cancel: 'Batal',
         save: 'Simpan',
@@ -778,8 +720,7 @@ const lang: ILang = {
         inuse: 'Menggunakan',
         export_config: 'Eksport Praset',
         new_config_name: 'Nama Praset Baharu',
-        sure_to_load_config:
-          'Ini akan memuatkan susunan praset dan menggantikan parameter disesuaikan yang ditetapkan dalam fail, anda pasti untuk meneruskan?',
+        sure_to_load_config: 'Ini akan memuatkan susunan praset dan menggantikan parameter disesuaikan yang ditetapkan dalam fail, anda pasti untuk meneruskan?',
         custom_preset: 'Suai',
         various_preset: 'Pelbagai Praset',
         module: 'Modul',
@@ -1005,8 +946,7 @@ const lang: ILang = {
           simplify: 'Ringkas',
           ai_bg_removal: 'Buang Latar Belakang',
           ai_bg_removal_short: 'Buang LB',
-          ai_bg_removal_reminder:
-            'Menekan butang akan menggunakan 0.2 Kredit dengan serta-merta, anda mahu meneruskan?',
+          ai_bg_removal_reminder: 'Menekan butang akan menggunakan 0.2 Kredit dengan serta-merta, anda mahu meneruskan?',
           outline: 'Garis luar',
         },
         path_edit_panel: {
@@ -1022,8 +962,7 @@ const lang: ILang = {
     bottom_right_panel: {
       convert_text_to_path_before_export: 'Tukar Teks ke Laluan...',
       retreive_image_data: 'Dapatkan Data Imej...',
-      export_file_error_ask_for_upload:
-        'Gagal eksport tugas. Adakah anda bersedia untuk memberikan adegan kerja kepada pasukan pembangunan untuk laporan pepijat?',
+      export_file_error_ask_for_upload: 'Gagal eksport tugas. Adakah anda bersedia untuk memberikan adegan kerja kepada pasukan pembangunan untuk laporan pepijat?',
     },
     image_trace_panel: {
       apply: 'Terap',
@@ -1079,17 +1018,14 @@ const lang: ILang = {
       cancel: 'Batal',
       save: 'Simpan',
       notification: {
-        changeFromPrintingWorkareaTitle:
-          'Adakah anda mahu menukar Lapisan Cetakan kepada Lapisan Laser?',
+        changeFromPrintingWorkareaTitle: 'Adakah anda mahu menukar Lapisan Cetakan kepada Lapisan Laser?',
       },
     },
     object_panels: {
       wait_for_parsing_font: 'Menghurai font... Sila tunggu sebentar',
       text_to_path: {
-        font_substitute_pop:
-          'Teks anda mengandungi aksara yang tidak disokong oleh fon semasa. <br/>Adakah anda mahu menggunakan <strong>%s</strong> sebagai pengganti?',
-        check_thumbnail_warning:
-          'Sesetengah teks telah ditukar kepada font lain semasa menukar teks kepada laluan dan sesetengah aksara mungkin tidak ditukar dengan betul.\nSila semak pratonton imej sekali lagi sebelum menghantar tugasan.',
+        font_substitute_pop: 'Teks anda mengandungi aksara yang tidak disokong oleh fon semasa. <br/>Adakah anda mahu menggunakan <strong>%s</strong> sebagai pengganti?',
+        check_thumbnail_warning: 'Sesetengah teks telah ditukar kepada font lain semasa menukar teks kepada laluan dan sesetengah aksara mungkin tidak ditukar dengan betul.\nSila semak pratonton imej sekali lagi sebelum menghantar tugasan.',
         error_when_parsing_text: 'Ralat semasa menukar teks kepada laluan',
         use_current_font: 'Guna Font Semasa',
         retry: 'Sila cuba semula kemudian atau pilih fon lain',
@@ -1117,8 +1053,7 @@ const lang: ILang = {
         sharp: 'Tajam',
         round: 'Bulat',
         fail_message: 'Gagal untuk Mengoset Objek.',
-        not_support_message:
-          'Elemen terpilih mengandungi tag SVG yang tidak disokong:\nImej, Kumpulan, Teks dan Objek Diimport.',
+        not_support_message: 'Elemen terpilih mengandungi tag SVG yang tidak disokong:\nImej, Kumpulan, Teks dan Objek Diimport.',
       },
       _nest: {
         start_nest: 'Susun',
@@ -1144,22 +1079,18 @@ const lang: ILang = {
       test_completed: 'Ujian Selesai',
       test_fail: 'Ujian Gagal',
       cannot_connect_1: '#840 Gagal menyambung ke IP sasaran.',
-      cannot_connect_2:
-        '#840 Gagal menyambung ke IP sasaran. Sila pastikan sasaran berada dalam rangkaian yang sama.',
+      cannot_connect_2: '#840 Gagal menyambung ke IP sasaran. Sila pastikan sasaran berada dalam rangkaian yang sama.',
       network_unhealthy: '#841 Kualiti sambungan <70 atau purata masa gerak balas > 100ms',
-      device_not_on_list:
-        '#842 Mesin tidak berada dalam senarai, tetapi Kualiti sambungan> 70 dan purata masa gerak balas <100ms',
+      device_not_on_list: '#842 Mesin tidak berada dalam senarai, tetapi Kualiti sambungan> 70 dan purata masa gerak balas <100ms',
       hint_device_often_on_list: 'Mesin kerap tidak ditemui dalam senarai?',
       link_device_often_on_list: 'https://support.flux3dp.com/hc/en-us/articles/360001841636',
       hint_connect_failed_when_sending_job: 'Gagal menyambung ketika menghantar tugasan?',
-      link_connect_failed_when_sending_job:
-        'https://support.flux3dp.com/hc/en-us/articles/360001841656',
+      link_connect_failed_when_sending_job: 'https://support.flux3dp.com/hc/en-us/articles/360001841656',
       hint_connect_camera_timeout: 'Timeout berlaku ketika memulakan pratonton kamera?',
       link_connect_camera_timeout: 'https://support.flux3dp.com/hc/en-us/articles/360001791895',
       cannot_get_local: 'Akses ke alamat IP tempatan gagal.',
       fail_to_start_network_test: '#817 Gagal memulakan ujian rangkaian.',
-      linux_permission_hint:
-        'Ralat ini biasanya berlaku disebabkan kekurangan kebenaran.\nSila jalankan "sudo beam-studio --no-sandbox" dalam terminal untuk mendapatkan kebenaran dan melakukan ujian rangkaian.',
+      linux_permission_hint: 'Ralat ini biasanya berlaku disebabkan kekurangan kebenaran.\nSila jalankan "sudo beam-studio --no-sandbox" dalam terminal untuk mendapatkan kebenaran dan melakukan ujian rangkaian.',
     },
     layer_color_config_panel: {
       layer_color_config: 'Konfigurasi Warna Lapisan',
@@ -1174,8 +1105,7 @@ const lang: ILang = {
       add_config: 'Tambah Warna',
       in_use: 'Warna ini sedang digunakan.',
       no_input: 'Sila masukkan kod warna heks yang sah.',
-      sure_to_reset:
-        'Anda akan kehilangan semua parameter tersuai, adakah anda pasti untuk menetapkan semula kepada lalai?',
+      sure_to_reset: 'Anda akan kehilangan semua parameter tersuai, adakah anda pasti untuk menetapkan semula kepada lalai?',
       sure_to_delete: 'Adakah anda pasti untuk memadam tetapan warna ini?',
     },
     rating_panel: {
@@ -1185,8 +1115,7 @@ const lang: ILang = {
       thank_you: 'Terima kasih!',
     },
     svg_editor: {
-      unnsupported_file_type:
-        'Jenis fail ini tidak disokong secara langsung. Sila tukar fail ke SVG atau bitmap',
+      unnsupported_file_type: 'Jenis fail ini tidak disokong secara langsung. Sila tukar fail ke SVG atau bitmap',
       unable_to_fetch_clipboard_img: 'Gagal mengambil imej dari papan keratan anda',
     },
     units: {
@@ -1305,8 +1234,7 @@ const lang: ILang = {
     search: 'Cari',
     clear: 'Kosongkan',
     export_svg_title: 'Tidak Dapat Eksport SVG',
-    export_svg_warning:
-      'Projek ini mengandungi objek yang dilindungi oleh undang-undang harta intelek. Oleh itu, Beam Studio akan mengecualikan objek ini secara automatik semasa eksport. Anda masih boleh menyimpan projek anda dalam format Beam Studio Scene (.beam) untuk mengekalkan keseluruhan data anda. Anda masih mahu eksport?',
+    export_svg_warning: 'Projek ini mengandungi objek yang dilindungi oleh undang-undang harta intelek. Oleh itu, Beam Studio akan mengecualikan objek ini secara automatik semasa eksport. Anda masih boleh menyimpan projek anda dalam format Beam Studio Scene (.beam) untuk mengekalkan keseluruhan data anda. Anda masih mahu eksport?',
     learn_more: 'Ketahui Lebih Lanjut',
   },
   change_logs: {
@@ -1368,10 +1296,8 @@ const lang: ILang = {
     ink_color: 'Ink color',
     ink_type: 'Ink type',
     ink_level: 'Ink level',
-    close_door_to_read_cartridge_info:
-      "To access ink information, please close the machine's door cover.",
-    cartridge_info_read_failed:
-      'Please ensure that the ink is fully inserted. Try to remove the ink and install it back.',
+    close_door_to_read_cartridge_info: "To access ink information, please close the machine's door cover.",
+    cartridge_info_read_failed: 'Please ensure that the ink is fully inserted. Try to remove the ink and install it back.',
     cartridge_info_verification_failed: 'Please verify that your ink is FLUX authentic.',
   },
   monitor: {
@@ -1385,30 +1311,31 @@ const lang: ILang = {
     camera: 'Kamera',
     taskTab: 'Tugas',
     connecting: 'Menyambung, sila tunggu...',
-    HARDWARE_ERROR_MAINBOARD_ERROR:
-      '#401 Ralat Kritikal: Papan utama luar talian. Sila hubungi Sokongan FLUX.',
-    HARDWARE_ERROR_SUBSYSTEM_ERROR:
-      '#402 Ralat Kritikal: Tiada respons subsistem. Sila hubungi Sokongan FLUX.',
+    HARDWARE_ERROR_MAINBOARD_ERROR: '#401 Ralat Kritikal: Papan utama luar talian. Sila hubungi Sokongan FLUX.',
+    HARDWARE_ERROR_SUBSYSTEM_ERROR: '#402 Ralat Kritikal: Tiada respons subsistem. Sila hubungi Sokongan FLUX.',
     HARDWARE_ERROR_PUMP_ERROR: '#900 Sila semak tangki air anda.',
     HARDWARE_ERROR_DOOR_OPENED: '#901 Tutup pintu untuk teruskan.',
     HARDWARE_ERROR_OVER_TEMPERATURE: '#902 Terlalu panas. Sila tunggu beberapa minit.',
-    HARDWARE_ERROR_BOTTOM_OPENED:
-      '#903 Bahagian bawah Dibuka. Tutup bahagian bawah untuk teruskan.',
+    HARDWARE_ERROR_BOTTOM_OPENED: '#903 Bahagian bawah Dibuka. Tutup bahagian bawah untuk teruskan.',
     HARDWARE_ERROR_PLATFORM_HOMING_FAILED: '#910 Penetapan semula paksi-Z gagal',
     HARDWARE_ERROR_DRAWER_OPENED: '#911 Laci dibuka',
     HARDWARE_ERROR_FIRE_DETECTED: '#912 Sensor api mengesan anomali',
     HARDWARE_ERROR_AIR_ASSIST_ABNORMAL: '#913 Sensor aliran udara mengesan anomali',
     HARDWARE_ERROR_ROTARY_NOT_DETECTED: '#914 Tiada modul putar dikesan',
     HARDWARE_ERROR_HOMING_PULLOFF_FAILED: '#920 Ralat Tarikan Pulang Penjuruhan',
-    HARDWARE_ERROR_HEADTYPE_MISMATCH:
-      '#915 Modul yang salah dikesan. Sila pasang modul yang betul untuk meneruskan.',
-    HARDWARE_ERROR_HEADTYPE_NONE:
-      '#917 Modul tidak dikesan. Sila pastikan modul dipasang dengan betul untuk meneruskan.',
-    HARDWARE_ERROR_HEADTYPE_UNKNOWN:
-      '#918 Modul tidak diketahui dikesan. Sila pasang modul yang betul untuk meneruskan.',
+    HARDWARE_ERROR_HEADTYPE_MISMATCH: '#915 Modul yang salah dikesan. Sila pasang modul yang betul untuk meneruskan.',
+    HARDWARE_ERROR_HEADTYPE_NONE: '#917 Modul tidak dikesan. Sila pastikan modul dipasang dengan betul untuk meneruskan.',
+    HARDWARE_ERROR_HEADTYPE_UNKNOWN: '#918 Modul tidak diketahui dikesan. Sila pasang modul yang betul untuk meneruskan.',
     HARDWARE_ERROR_PRINTER_NO_RESPONSE: '#919 Tiada respons daripada modul pencetak.',
     USER_OPERATION_ROTARY_PAUSE: 'Sila tukar kepada motor putar',
     USER_OPERATION_REMOVE_CARTRIDGE: 'Sila keluarkan kartrij untuk meneruskan.',
+    USER_OPERATION_CHANGE_TOOLHEAD_HEADTYPE_MISMATCH: '#915 Modul yang salah dikesan. Sila pasang modul yang betul untuk meneruskan.',
+    USER_OPERATION_CHANGE_TOOLHEAD_HEADTYPE_NONE: '#917 Modul tidak dikesan. Sila pastikan modul dipasang dengan betul untuk meneruskan.',
+    USER_OPERATION_CHANGE_TOOLHEAD_HEADTYPE_UNKNOWN: '#918 Modul tidak diketahui dikesan. Sila pasang modul yang betul untuk meneruskan.',
+    USER_OPERATION_CHANGE_TOOLHEAD: 'Sila pasang modul yang betul untuk meneruskan.',
+    USER_OPERATION_CHANGE_CARTRIDGE_CARTRIDGE_NOT_DETECTED: 'Sila masukkan kartrij untuk meneruskan.',
+    USER_OPERATION_CHANGE_CARTRIDGE: 'Sila masukkan kartrij yang betul untuk meneruskan.',
+    USER_OPERATION: 'Sila ikuti arahan di panel peranti untuk meneruskan.',
     RESOURCE_BUSY: 'Mesin sibuk\nJika tidak beroperasi, sila mulakan semula mesin',
     DEVICE_ERROR: 'Sesuatu telah berlaku\nSila mulakan semula mesin',
     NO_RESPONSE: '#905 Ralat semasa menyambung ke papan induk.\nSila mulakan semula mesin.',
@@ -1481,8 +1408,7 @@ const lang: ILang = {
     retrievingCameraOffset: 'Membaca ofset kamera...',
     connectingCamera: 'Menyambung kamera...',
     homing: 'Penjajaran semula...',
-    connectionTimeout:
-      '#805 Sambungan Peranti Tamat Masa. Sila semak keadaan rangkaian anda dan penunjuk Wi-Fi mesin anda.',
+    connectionTimeout: '#805 Sambungan Peranti Tamat Masa. Sila semak keadaan rangkaian anda dan penunjuk Wi-Fi mesin anda.',
     getProbePosition: 'Mendapatkan Kedudukan Probe...',
     device_not_found: {
       caption: 'Mesin Lalai tidak dijumpai',
@@ -1490,53 +1416,40 @@ const lang: ILang = {
     },
     device_busy: {
       caption: 'Mesin Sibuk',
-      message:
-        'Mesin sedang melaksanakan tugas lain, cuba lagi nanti. Jika berhenti berfungsi, sila mulakan semula mesin.',
+      message: 'Mesin sedang melaksanakan tugas lain, cuba lagi nanti. Jika berhenti berfungsi, sila mulakan semula mesin.',
     },
     device_is_used: 'Mesin sedang digunakan, adakah anda mahu membatalkan tugas semasa?',
     monitor_too_old: {
       caption: 'Firmware Usang',
-      content:
-        '#814 Sila pasang firmware terkini dengan <a target="_blank" href="http://helpcenter.flux3dp.com/hc/en-us/articles/216251077">panduan ini</a>.',
+      content: '#814 Sila pasang firmware terkini dengan <a target="_blank" href="http://helpcenter.flux3dp.com/hc/en-us/articles/216251077">panduan ini</a>.',
     },
-    unknown_error:
-      '#821 Aplikasi telah menghadapi ralat yang tidak diketahui, sila gunakan Bantuan > Menu > Laporan Pepijat.',
+    unknown_error: '#821 Aplikasi telah menghadapi ralat yang tidak diketahui, sila gunakan Bantuan > Menu > Laporan Pepijat.',
     unknown_device: '#826 Tidak dapat disambung ke mesin, pastikan USB disambung ke mesin',
-    unsupport_osx_version:
-      'Versi macOS %s semasa mungkin tidak menyokong beberapa fungsi. Sila kemas kini ke macOS 11+.',
-    unsupport_win_version:
-      'Versi OS %s semasa mungkin tidak menyokong beberapa fungsi. Sila kemas kini ke versi terkini.',
+    unsupport_osx_version: 'Versi macOS %s semasa mungkin tidak menyokong beberapa fungsi. Sila kemas kini ke macOS 11+.',
+    unsupport_win_version: 'Versi OS %s semasa mungkin tidak menyokong beberapa fungsi. Sila kemas kini ke versi terkini.',
     need_password: 'Kata laluan diperlukan untuk Menyambung ke Mesin',
-    unavailableWorkarea:
-      '#804 Kawasan kerja semasa melebihi kawasan kerja mesin ini. Sila semak kawasan kerja mesin yang dipilih atau tetapkan kawasan kerja dari Edit > Tetapan Dokumen.',
+    unavailableWorkarea: '#804 Kawasan kerja semasa melebihi kawasan kerja mesin ini. Sila semak kawasan kerja mesin yang dipilih atau tetapkan kawasan kerja dari Edit > Tetapan Dokumen.',
     please_enter_dpi: 'Sila masukkan unit fail anda (dalam mm)',
-    auth_error:
-      '#820 Ralat Pengesahan: Sila kemas kini Beam Studio dan firmware mesin ke versi terkini.',
+    auth_error: '#820 Ralat Pengesahan: Sila kemas kini Beam Studio dan firmware mesin ke versi terkini.',
     usb_unplugged: 'Sambungan USB terputus. Sila semak sambungan USB anda',
     uploading_fcode: 'Memuat naik FCode',
     cant_connect_to_device: '#827 Tidak dapat disambung ke mesin, sila semak sambungan anda',
     unable_to_find_machine: 'Tidak dapat menjumpai mesin ',
     disconnected: 'Sambungan tidak stabil, Sila semak sambungan peranti dan cuba lagi nanti',
-    unable_to_start:
-      '#830 Tidak dapat memulakan tugasan. Sila cuba lagi. Jika ini berlaku lagi, sila hubungi kami dengan laporan bug:',
+    unable_to_start: '#830 Tidak dapat memulakan tugasan. Sila cuba lagi. Jika ini berlaku lagi, sila hubungi kami dengan laporan bug:',
     camera: {
-      camera_cable_unstable:
-        'Kamera menghantar gambar secara tidak stabil dikesan. Pratonton masih boleh dilakukan dengan normal, tetapi mungkin ada masalah pratonton perlahan atau masa tamat.',
-      fail_to_transmit_image:
-        '#845 Sesuatu telah berlaku dengan penghantaran imej. Sila mulakan semula mesin atau Beam Studio anda. Jika ralat ini berterusan, sila ikuti <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/4402756056079">panduan ini</a>.',
-      ws_closed_unexpectly:
-        '#844 Sambungan ke kamera mesin telah ditutup secara mengejut. Jika ralat ini berterusan, sila ikuti <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/4402755805071">panduan ini</a>.',
+      camera_cable_unstable: 'Kamera menghantar gambar secara tidak stabil dikesan. Pratonton masih boleh dilakukan dengan normal, tetapi mungkin ada masalah pratonton perlahan atau masa tamat.',
+      fail_to_transmit_image: '#845 Sesuatu telah berlaku dengan penghantaran imej. Sila mulakan semula mesin atau Beam Studio anda. Jika ralat ini berterusan, sila ikuti <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/4402756056079">panduan ini</a>.',
+      ws_closed_unexpectly: '#844 Sambungan ke kamera mesin telah ditutup secara mengejut. Jika ralat ini berterusan, sila ikuti <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/4402755805071">panduan ini</a>.',
       continue_preview: 'Teruskan',
       abort_preview: 'Batalkan',
     },
     preview: {
       camera_preview: 'Pratonton Kamera',
       auto_focus: 'Fokus Automatik',
-      auto_focus_instruction:
-        'Sila gerakkan kepala modul laser di atas objek, dan ikut arahan animasi untuk menekan AF bagi memfokus.',
+      auto_focus_instruction: 'Sila gerakkan kepala modul laser di atas objek, dan ikut arahan animasi untuk menekan AF bagi memfokus.',
       already_performed_auto_focus: 'Anda telah melakukan fokus automatik, guna nilai sedia ada?',
-      please_enter_height:
-        'Sila masukkan ketinggian objek. Bagi menangkap gambar kamera yang tepat.',
+      please_enter_height: 'Sila masukkan ketinggian objek. Bagi menangkap gambar kamera yang tepat.',
       apply: 'Guna',
       enter_manually: 'Masukkan Secara Manual',
       adjust: 'Laras',
@@ -1571,8 +1484,7 @@ const lang: ILang = {
   },
   calibration: {
     update_firmware_msg1: 'Firmware anda tidak menyokong fungsi ini. Sila kemaskini firmware ke v',
-    update_firmware_msg2:
-      'atau lebih tinggi untuk meneruskan。 (Menu > Mesin > [Mesin Anda] > Kemaskini Firmware)',
+    update_firmware_msg2: 'atau lebih tinggi untuk meneruskan。 (Menu > Mesin > [Mesin Anda] > Kemaskini Firmware)',
     camera_calibration: 'Penentukuran Kamera',
     diode_calibration: 'Penentukuran Modul Laser Diod',
     module_calibration_printer: 'Penentukuran Modul Pencetak',
@@ -1585,21 +1497,15 @@ const lang: ILang = {
     do_engraving: 'MULA UKIRAN',
     start_engrave: 'MULA UKIRAN',
     start_printing: 'MULA CETAK',
-    ask_for_readjust:
-      'Adakah anda mahu melangkau langkah pengukiran dan kemudian mengambil gambar dan menentusahkan secara langsung?',
+    ask_for_readjust: 'Adakah anda mahu melangkau langkah pengukiran dan kemudian mengambil gambar dan menentusahkan secara langsung?',
     please_goto_beambox_first: 'Sila tukar ke Mod Pengukiran (Beambox) untuk menggunakan ciri ini.',
-    please_place_paper:
-      'Sila letakkan kertas A4 atau Saiz Surat berwarna putih di penjuru kiri atas ruang kerja.',
-    please_place_paper_center:
-      'Sila letakkan kertas A4 atau Saiz Surat berwarna putih di tengah ruang kerja.',
-    please_place_dark_colored_paper:
-      'Sila letakkan kertas berwarna gelap bersaiz A4 atau Surat di tengah kawasan kerja.',
+    please_place_paper: 'Sila letakkan kertas A4 atau Saiz Surat berwarna putih di penjuru kiri atas ruang kerja.',
+    please_place_paper_center: 'Sila letakkan kertas A4 atau Saiz Surat berwarna putih di tengah ruang kerja.',
+    please_place_dark_colored_paper: 'Sila letakkan kertas berwarna gelap bersaiz A4 atau Surat di tengah kawasan kerja.',
     please_refocus: {
       beambox: 'Sila laraskan platform ke titik fokus (ketinggian akrilik songsang)',
-      beamo:
-        'Sila laraskan kepala laser untuk fokus pada objek ukiran (ketinggian akrilik songsang)',
-      beamo_af:
-        'Sila ketuk dua kali butang sisi tambahan fokus automatik dan biarkan prob menyentuh bahan dengan lembut.',
+      beamo: 'Sila laraskan kepala laser untuk fokus pada objek ukiran (ketinggian akrilik songsang)',
+      beamo_af: 'Sila ketuk dua kali butang sisi tambahan fokus automatik dan biarkan prob menyentuh bahan dengan lembut.',
       hexa: 'Klik dua kali butang pelarasan ketinggian untuk menaikkan meja sarang lebah dan membuat prob menyentuh bahan ukiran.',
     },
     without_af: 'Tanpa Fokus Automatik',
@@ -1612,20 +1518,16 @@ const lang: ILang = {
     show_last_config: 'Tunjukkan Keputusan Terakhir',
     use_last_config: 'Guna Nilai Pentakbiran Terakhir',
     taking_picture: 'Mengambil Gambar...',
-    analyze_result_fail:
-      'Gagal menganalisis imej yang ditangkap. <br/> Pastikan: <br/> 1. Gambar yang ditangkap diliputi sepenuhnya dengan kertas putih. <br/> 2. Platform difokuskan dengan betul.',
+    analyze_result_fail: 'Gagal menganalisis imej yang ditangkap. <br/> Pastikan: <br/> 1. Gambar yang ditangkap diliputi sepenuhnya dengan kertas putih. <br/> 2. Platform difokuskan dengan betul.',
     drawing_calibration_image: 'Melukis imej pentakbiran...',
-    calibrate_done:
-      'Pentakbiran selesai. Ketepatan kamera yang lebih baik diberikan apabila fokus dengan tepat.',
+    calibrate_done: 'Pentakbiran selesai. Ketepatan kamera yang lebih baik diberikan apabila fokus dengan tepat.',
     calibrate_done_diode: 'Pentakbiran selesai. Ofset modul laser diod telah disimpan.',
     hint_red_square: 'Sila sejajarkan luar petak merah dengan petak yang dipotong.',
     hint_adjust_parameters: 'Sila gunakan parameter ini untuk melaraskan kotak merah',
     zendesk_link: 'https://support.flux3dp.com/hc/en-us/articles/360001811416',
     please_do_camera_calibration_and_focus: {
-      beambox:
-        'Semasa menentusahkan modul laser diod, kamera diperlukan.\nPastikan kamera mesin ini telah ditentusahkan.\nDan laraskan platform pada titik fokus (ketinggian akrilik songsang)',
-      beamo:
-        'Semasa menentusahkan modul laser diod, kamera diperlukan.\nPastikan kamera mesin ini telah ditentusahkan.\nDan laraskan kepala laser untuk fokus pada objek ukiran (ketinggian akrilik songsang)',
+      beambox: 'Semasa menentusahkan modul laser diod, kamera diperlukan.\nPastikan kamera mesin ini telah ditentusahkan.\nDan laraskan platform pada titik fokus (ketinggian akrilik songsang)',
+      beamo: 'Semasa menentusahkan modul laser diod, kamera diperlukan.\nPastikan kamera mesin ini telah ditentusahkan.\nDan laraskan kepala laser untuk fokus pada objek ukiran (ketinggian akrilik songsang)',
     },
     downloading_pictures: 'Memuat turun Gambar...',
     failed_to_download_pictures: '#848 Gagal memuat turun gambar, hubungi Sokongan FLUX.',
@@ -1633,17 +1535,13 @@ const lang: ILang = {
     calculating_camera_matrix: 'Mengira Matriks Kamera...',
     calculating_regression_parameters: 'Mengira Parameter Regresi...',
     failed_to_calibrate_camera: '#848 Gagal menentusahkan kamera, hubungi Sokongan FLUX.',
-    failed_to_save_calibration_results:
-      '#849 Gagal menyimpan keputusan penentusahan, cuba lagi. Jika masalah berterusan, hubungi Sokongan FLUX.',
-    ador_autofocus_material:
-      'Tekan ikon "AF" pada halaman utama mesin selama 3 saat dan biarkan probe menyentuh bahan dengan lembut.',
-    ador_autofocus_focusing_block:
-      'Tekan ikon "AF" pada halaman utama mesin selama 3 saat dan biarkan probe menyentuh Blok Fokus.',
+    failed_to_save_calibration_results: '#849 Gagal menyimpan keputusan penentusahan, cuba lagi. Jika masalah berterusan, hubungi Sokongan FLUX.',
+    ador_autofocus_material: 'Tekan ikon "AF" pada halaman utama mesin selama 3 saat dan biarkan probe menyentuh bahan dengan lembut.',
+    ador_autofocus_focusing_block: 'Tekan ikon "AF" pada halaman utama mesin selama 3 saat dan biarkan probe menyentuh Blok Fokus.',
     align_red_cross_cut: 'Sejajarkan tengah salib merah dengan potongan salib.',
     align_red_cross_print: 'Sejajarkan tengah salib merah dengan salib yang dicetak.',
     retake: 'Ambil Semula Gambar',
-    calibrate_camera_before_calibrate_modules:
-      'Lakukan penentusahan kamera sebelum menentusahkan modul.',
+    calibrate_camera_before_calibrate_modules: 'Lakukan penentusahan kamera sebelum menentusahkan modul.',
   },
   input_machine_password: {
     require_password: '"%s" memerlukan kata laluan',
@@ -1653,21 +1551,17 @@ const lang: ILang = {
   tutorial: {
     skip: 'Langkau',
     welcome: 'SELAMAT DATANG',
-    suggest_calibrate_camera_first:
-      'Sila tentukur kamera apabila menggunakan mesin buat pertama kali. (Menu > Mesin > [Mesin Anda] > Tentukur Kamera) Dan fokus semula platform dengan betul setiap kali sebelum pratonton untuk mendapatkan keputusan pratonton yang lebih baik.',
+    suggest_calibrate_camera_first: 'Sila tentukur kamera apabila menggunakan mesin buat pertama kali. (Menu > Mesin > [Mesin Anda] > Tentukur Kamera) Dan fokus semula platform dengan betul setiap kali sebelum pratonton untuk mendapatkan keputusan pratonton yang lebih baik.',
     camera_calibration_failed: 'Penentukuran Kamera Gagal',
     ask_retry_calibration: 'Adakah anda ingin menentukur semula kamera?',
-    skipped_camera_calibration:
-      'Anda telah melangkau penentukuran kamera. Anda boleh menentukur kamera pada bila-bila masa dari menu bar (Menu > Mesin > [Mesin Anda] > Tentukur Kamera).',
+    skipped_camera_calibration: 'Anda telah melangkau penentukuran kamera. Anda boleh menentukur kamera pada bila-bila masa dari menu bar (Menu > Mesin > [Mesin Anda] > Tentukur Kamera).',
     skipped_ador_calibration: 'Kamera Ador telah ditentusahkan semasa pemeriksaan kilang.',
     needNewUserTutorial: 'Adakah anda ingin memulakan tutorial?',
     needNewInterfaceTutorial: 'Adakah anda ingin memulakan tutorial antara muka baru Beam Studio?',
     next: 'SETERUSNYA',
     look_for_machine: 'Mencari mesin untuk tutorial...',
-    unable_to_find_machine:
-      'Tidak dapat mencari mesin untuk Tutorial. Adakah anda ingin pergi ke halaman tetapan sambungan, cuba semula atau langkau tutorial?',
-    skip_tutorial:
-      'Anda telah melangkau tutorial. Anda sentiasa boleh mulakan tutorial dengan klik "Bantuan" > "Tunjukkan Mulakan Tutorial"',
+    unable_to_find_machine: 'Tidak dapat mencari mesin untuk Tutorial. Adakah anda ingin pergi ke halaman tetapan sambungan, cuba semula atau langkau tutorial?',
+    skip_tutorial: 'Anda telah melangkau tutorial. Anda sentiasa boleh mulakan tutorial dengan klik "Bantuan" > "Tunjukkan Mulakan Tutorial"',
     set_connection: 'Tetapkan Sambungan',
     retry: 'Cuba Semula',
     newUser: {
@@ -1698,8 +1592,7 @@ const lang: ILang = {
       add_new_layer: 'Tambah Lapisan Baru',
       rename_by_double_click: 'Namakan Semula dengan klik dua kali',
       drag_to_sort: 'Seret untuk susun',
-      layer_controls:
-        'Klik kanan untuk pilih Kawalan Lapisan:\nDuplikat / Gabung / Kunci / Padam Lapisan',
+      layer_controls: 'Klik kanan untuk pilih Kawalan Lapisan:\nDuplikat / Gabung / Kunci / Padam Lapisan',
       switch_between_layer_panel_and_object_panel: 'Tukar antara Panel Lapisan dan Panel Objek',
       align_controls: 'Kawalan Jajar',
       group_controls: 'Kawalan Kumpulan',
@@ -1731,22 +1624,16 @@ const lang: ILang = {
     printing: 'Pencetakan',
     unknown: 'Unknown Module',
     notification: {
-      convertFromPrintingModuleTitle:
-        'Adakah anda mahu menukar modul Pencetakan kepada modul Laser?',
-      convertFromPrintingModuleMsg:
-        'Sila ambil perhatian bahawa jika anda melengkapkan operasi ini, tetapan warna lapisan pencetakan akan dibuang dan ditetapkan mengikut lapisan semasa.',
+      convertFromPrintingModuleTitle: 'Adakah anda mahu menukar modul Pencetakan kepada modul Laser?',
+      convertFromPrintingModuleMsg: 'Sila ambil perhatian bahawa jika anda melengkapkan operasi ini, tetapan warna lapisan pencetakan akan dibuang dan ditetapkan mengikut lapisan semasa.',
       convertFromLaserModuleTitle: 'Adakah anda mahu menukar modul Laser kepada modul Pencetakan?',
-      convertFromLaserModuleMsg:
-        'Sila ambil perhatian bahawa jika anda melengkapkan operasi ini, tetapan lapisan laser akan dibuang dan ditetapkan mengikut lapisan semasa.',
-      importedDocumentContainsPrinting:
-        'Dokumen mengandungi lapisan pencetakan, adakah anda mahu menukar ruang kerja kepada Ador?',
+      convertFromLaserModuleMsg: 'Sila ambil perhatian bahawa jika anda melengkapkan operasi ini, tetapan lapisan laser akan dibuang dan ditetapkan mengikut lapisan semasa.',
+      importedDocumentContainsPrinting: 'Dokumen mengandungi lapisan pencetakan, adakah anda mahu menukar ruang kerja kepada Ador?',
       printingLayersCoverted: 'Lapisan percetakan telah ditukar kepada lapisan laser.',
       performPrintingCaliTitle: 'Lakukan penentukuran modul percetakan',
-      performPrintingCaliMsg:
-        'Klik “Sahkan” untuk melaksanakan penentukuran, atau akses penentukuran melalui menu atas.<br />(Mesin > [Nama Mesin Anda] > Tentukur Modul Percetakan)',
+      performPrintingCaliMsg: 'Klik “Sahkan” untuk melaksanakan penentukuran, atau akses penentukuran melalui menu atas.<br />(Mesin > [Nama Mesin Anda] > Tentukur Modul Percetakan)',
       performIRCaliTitle: 'Lakukan penentukuran modul Inframerah',
-      performIRCaliMsg:
-        'Klik “Sahkan” untuk melaksanakan penentukuran, atau akses penentukuran melalui menu atas.<br />(Mesin > [Nama Mesin Anda] > Tentukur Modul Inframerah)',
+      performIRCaliMsg: 'Klik “Sahkan” untuk melaksanakan penentukuran, atau akses penentukuran melalui menu atas.<br />(Mesin > [Nama Mesin Anda] > Tentukur Modul Inframerah)',
     },
     non_working_area: 'Kawasan Bukan Kerja',
   },
@@ -1789,8 +1676,7 @@ const lang: ILang = {
     merge: 'Gabung',
     text_label: 'Label Teks',
     beam_radius: 'Pampasan kerf',
-    beam_radius_warning:
-      'Alih keluar pampasan kerf apabila tepi atau sambungan kotak pendek untuk memastikan pemasangan kotak',
+    beam_radius_warning: 'Alih keluar pampasan kerf apabila tepi atau sambungan kotak pendek untuk memastikan pemasangan kotak',
     import: 'Import',
     cancel: 'Batal',
     reset: 'Tetapkan Semula',
@@ -1825,8 +1711,7 @@ const lang: ILang = {
       save_new: 'Simpan sebagai fail baru',
       input_file_name: 'Masukkan nama fail:',
       invalid_char: 'Aksara tidak sah:',
-      storage_limit_exceeded:
-        'Penyimpanan awan anda telah mencapai had atas. Sila padam mana-mana fail yang tidak diperlukan sebelum menyimpan fail baru.',
+      storage_limit_exceeded: 'Penyimpanan awan anda telah mencapai had atas. Sila padam mana-mana fail yang tidak diperlukan sebelum menyimpan fail baru.',
     },
   },
   camera_data_backup: {

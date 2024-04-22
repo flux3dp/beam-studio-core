@@ -38,21 +38,16 @@ const lang: ILang = {
       dxf: 'Objet DXF',
     },
     alerts: {
-      start_preview_timeout:
-        '#803 Délai d’attente dépassé lors du démarrage du mode aperçu. Veuillez redémarrer votre machine ou Beam Studio. Si cette erreur persiste, veuillez suivre <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">ce guide</a>.',
-      fail_to_start_preview:
-        '#803 Échec du démarrage du mode aperçu. Veuillez redémarrer votre machine ou Beam Studio. Si cette erreur persiste, veuillez suivre <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">ce guide</a>.',
-      fail_to_connect_with_camera:
-        '#803 Échec de la connexion avec la caméra de la machine. Veuillez redémarrer votre machine ou Beam Studio. Si cette erreur persiste, veuillez suivre <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">ce guide</a>.',
+      start_preview_timeout: '#803 Délai d’attente dépassé lors du démarrage du mode aperçu. Veuillez redémarrer votre machine ou Beam Studio. Si cette erreur persiste, veuillez suivre <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">ce guide</a>.',
+      fail_to_start_preview: '#803 Échec du démarrage du mode aperçu. Veuillez redémarrer votre machine ou Beam Studio. Si cette erreur persiste, veuillez suivre <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">ce guide</a>.',
+      fail_to_connect_with_camera: '#803 Échec de la connexion avec la caméra de la machine. Veuillez redémarrer votre machine ou Beam Studio. Si cette erreur persiste, veuillez suivre <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">ce guide</a>.',
       add_content_first: "Veuillez d'abord ajouter des objets",
       headtype_mismatch: 'Module incorrect détecté. ',
       headtype_none: 'Aucun module détecté. ',
       headtype_unknown: 'Module inconnu détecté. ',
-      install_correct_headtype:
-        'Veuillez installer correctement les modules laser diode 10W/20W pour activer le laser de découpe.',
+      install_correct_headtype: 'Veuillez installer correctement les modules laser diode 10W/20W pour activer le laser de découpe.',
       door_opened: 'Veuillez fermer le couvercle de protection pour activer le laser de découpe.',
-      fail_to_get_door_status:
-        'Veuillez vous assurer que le couvercle de protection est fermé pour activer le laser de découpe.',
+      fail_to_get_door_status: 'Veuillez vous assurer que le couvercle de protection est fermé pour activer le laser de découpe.',
     },
     hint: {
       polygon: 'Appuyez sur les touches + / - pour augmenter / diminuer les côtés.',
@@ -196,21 +191,17 @@ const lang: ILang = {
   },
   support: {
     no_webgl: "WebGL n'est pas pris en charge. Veuillez utiliser d'autres appareils.",
-    no_vcredist:
-      'Veuillez installer Visual C++ Redistributable 2015<br/>Cela peut être téléchargé sur flux3dp.com',
+    no_vcredist: 'Veuillez installer Visual C++ Redistributable 2015<br/>Cela peut être téléchargé sur flux3dp.com',
   },
   generic_error: {
-    UNKNOWN_ERROR:
-      "[UE] Une erreur inconnue s'est produite. Veuillez redémarrer Beam Studio et la machine.",
+    UNKNOWN_ERROR: "[UE] Une erreur inconnue s'est produite. Veuillez redémarrer Beam Studio et la machine.",
     OPERATION_ERROR: "[OE] Un conflit d'état s'est produit, veuillez réessayer l'action.",
-    SUBSYSTEM_ERROR:
-      "[SE] Erreur lors de l'exécution de la tâche par le micrologiciel de la machine. Veuillez redémarrer la machine.",
+    SUBSYSTEM_ERROR: "[SE] Erreur lors de l'exécution de la tâche par le micrologiciel de la machine. Veuillez redémarrer la machine.",
     UNKNOWN_COMMAND: "[UC] Veuillez mettre à jour le micrologiciel de l'appareil",
   },
   device_selection: {
-    no_beambox:
-      '#801 Nous ne pouvons pas trouver votre machine sur le réseau.\nVeuillez suivre le <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">guide</a> pour résoudre le problème de connexion.',
-    no_device_web: '#801 Vérifiez l\'état de votre machine, ou cliquez sur \'Configuration de la machine\' ci-dessous pour configurer la machine.',
+    no_beambox: '#801 Nous ne pouvons pas trouver votre machine sur le réseau.\nVeuillez suivre le <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">guide</a> pour résoudre le problème de connexion.',
+    no_device_web: "#801 Vérifiez l'état de votre machine, ou cliquez sur 'Configuration de la machine' ci-dessous pour configurer la machine.",
   },
   update: {
     update: 'Mettre à jour',
@@ -229,49 +220,39 @@ const lang: ILang = {
       upload_file: 'Téléchargement du micrologiciel (*.bin / *.fxfw)',
       update_success: 'Micrologiciel mis à jour avec succès',
       update_fail: '#822 Échec de la mise à jour',
-      too_old_for_web:
-        'La version actuelle du micrologiciel de votre machine est la v%s.\nSi vous souhaitez utiliser la version en ligne de Beam Studio, veuillez mettre à jour le micrologiciel de la machine vers la dernière version.',
-      force_update_message:
-        '#814 Veuillez mettre à jour votre machine avec la dernière version du micrologiciel.',
-      firmware_too_old_update_by_sdcard:
-        "La version du micrologiciel est trop ancienne. Veuillez mettre à jour le micrologiciel à l'aide d'une carte SD.",
+      too_old_for_web: 'La version actuelle du micrologiciel de votre machine est la v%s.\nSi vous souhaitez utiliser la version en ligne de Beam Studio, veuillez mettre à jour le micrologiciel de la machine vers la dernière version.',
+      force_update_message: '#814 Veuillez mettre à jour votre machine avec la dernière version du micrologiciel.',
+      firmware_too_old_update_by_sdcard: "La version du micrologiciel est trop ancienne. Veuillez mettre à jour le micrologiciel à l'aide d'une carte SD.",
     },
     software: {
       checking: 'Vérification des mises à jour',
       switch_version: 'Changer de version',
       check_update: 'Rechercher les mises à jour',
       caption: 'Une mise à jour logicielle de Beam Studio est disponible',
-      downloading:
-        'Téléchargement des mises à jour en arrière-plan, vous pouvez cliquer sur "OK" pour continuer votre travail.',
-      install_or_not:
-        'est prêt pour la mise à jour. Voulez-vous redémarrer et mettre à jour maintenant ?',
+      downloading: 'Téléchargement des mises à jour en arrière-plan, vous pouvez cliquer sur "OK" pour continuer votre travail.',
+      install_or_not: 'est prêt pour la mise à jour. Voulez-vous redémarrer et mettre à jour maintenant ?',
       switch_or_not: 'est prêt pour le changement. Voulez-vous redémarrer et changer maintenant ?',
-      available_update:
-        'Beam Studio v%s est disponible maintenant. Vous avez la v%s. Voulez-vous télécharger la mise à jour ?',
-      available_switch:
-        'Beam Studio v%s est disponible maintenant. Vous avez la v%s. Voulez-vous passer à cette version ?',
+      available_update: 'Beam Studio v%s est disponible maintenant. Vous avez la v%s. Voulez-vous télécharger la mise à jour ?',
+      available_switch: 'Beam Studio v%s est disponible maintenant. Vous avez la v%s. Voulez-vous passer à cette version ?',
       not_found: 'Vous utilisez la dernière version de Beam Studio.',
       no_response: 'Échec de la connexion au serveur, veuillez vérifier vos paramètres réseau.',
       switch_version_not_found: 'Version commutable introuvable.',
       yes: 'Oui',
       no: 'Non',
-      update_for_ador:
-        "La version logicielle actuelle %s n'est pas compatible, veuillez télécharger la dernière version de Beam Studio pour Ador.",
+      update_for_ador: "La version logicielle actuelle %s n'est pas compatible, veuillez télécharger la dernière version de Beam Studio pour Ador.",
     },
     updating: 'Mise à jour en cours...',
     skip: 'Ignorer cette version',
     preparing: 'Préparation en cours...',
     later: 'PLUS TARD',
     download: 'MISE À JOUR EN LIGNE',
-    cannot_reach_internet:
-      '#823 Le serveur est inaccessible<br/>Veuillez vérifier la connexion Internet',
+    cannot_reach_internet: '#823 Le serveur est inaccessible<br/>Veuillez vérifier la connexion Internet',
     install: 'INSTALLER',
     upload: 'TÉLÉCHARGER',
   },
   topmenu: {
     version: 'Version',
-    credit:
-      'Beam Studio est rendu possible par le <a target="_blank" href="https://github.com/flux3dp/beam-studio">Beam Studio</a> projet open source et d\'autres <a target="_blank" href="https://flux3dp.com/credits/">logiciels open source</a>.',
+    credit: 'Beam Studio est rendu possible par le <a target="_blank" href="https://github.com/flux3dp/beam-studio">Beam Studio</a> projet open source et d\'autres <a target="_blank" href="https://flux3dp.com/credits/">logiciels open source</a>.',
     ok: 'OK',
     file: {
       label: 'Fichier',
@@ -322,15 +303,12 @@ const lang: ILang = {
     connect_wifi: {
       title: 'Connexion au Wi-Fi',
       tutorial1: '1. Accédez au panneau tactile > Cliquez sur "RÉSEAU" > "Se connecter au Wi-Fi".',
-      tutorial1_ador:
-        '1. Accédez au panneau tactile > Cliquez sur "MACHINE" > Cliquez sur "RÉSEAU" > "Se connecter au Wi-Fi".',
+      tutorial1_ador: '1. Accédez au panneau tactile > Cliquez sur "MACHINE" > Cliquez sur "RÉSEAU" > "Se connecter au Wi-Fi".',
       tutorial2: '2. Sélectionnez et connectez-vous au Wi-Fi de votre choix.',
       what_if_1: 'Que faire si je ne vois pas mon Wi-Fi ?',
-      what_if_1_content:
-        "1. Le chiffrement Wi-Fi doit être WPA2 ou sans mot de passe.\n2. Le chiffrement peut être défini dans l'interface d'administration du routeur Wi-Fi. Si le routeur ne prend pas en charge WPA2 et que vous avez besoin d'aide pour choisir le bon routeur, veuillez contacter le support FLUX.",
+      what_if_1_content: "1. Le chiffrement Wi-Fi doit être WPA2 ou sans mot de passe.\n2. Le chiffrement peut être défini dans l'interface d'administration du routeur Wi-Fi. Si le routeur ne prend pas en charge WPA2 et que vous avez besoin d'aide pour choisir le bon routeur, veuillez contacter le support FLUX.",
       what_if_2: 'Que faire si je ne vois aucun Wi-Fi ?',
-      what_if_2_content:
-        "1. Assurez-vous que la clé Wi-Fi est entièrement branchée.\n2. S'il n'y a pas d'adresse MAC du réseau sans fil sur l'écran tactile, veuillez contacter le support FLUX.\n3. Le canal Wi-Fi doit être 2.4Ghz (5Ghz n'est pas pris en charge).",
+      what_if_2_content: "1. Assurez-vous que la clé Wi-Fi est entièrement branchée.\n2. S'il n'y a pas d'adresse MAC du réseau sans fil sur l'écran tactile, veuillez contacter le support FLUX.\n3. Le canal Wi-Fi doit être 2.4Ghz (5Ghz n'est pas pris en charge).",
     },
     connect_wired: {
       title: 'Connexion au réseau filaire',
@@ -338,11 +316,9 @@ const lang: ILang = {
       tutorial2: '2. Appuyez sur "RÉSEAU" pour obtenir l\'IP du réseau filaire.',
       tutorial2_ador: '2. Appuyez sur "MACHINE" > "RÉSEAU" pour obtenir l\'IP du réseau filaire.',
       what_if_1: "Que faire si l'IP est vide ?",
-      what_if_1_content:
-        "1. Assurez-vous que le câble Ethernet est entièrement branché.\n2. S'il n'y a pas d'adresse MAC du réseau filaire sur l'écran tactile, veuillez contacter le support FLUX.",
+      what_if_1_content: "1. Assurez-vous que le câble Ethernet est entièrement branché.\n2. S'il n'y a pas d'adresse MAC du réseau filaire sur l'écran tactile, veuillez contacter le support FLUX.",
       what_if_2: "Que faire si l'IP commence par 169 ?",
-      what_if_2_content:
-        "1. Si l'adresse IP commence par 169.254, il devrait s'agir d'un problème de configuration DHCP, veuillez contacter votre fournisseur d'accès à Internet pour plus d'assistance.\n2. Si votre ordinateur se connecte à Internet directement en utilisant PPPoE, veuillez passer à l'utilisation du routeur pour se connecter en utilisant PPPoE, et activer la fonction DHCP dans le routeur.",
+      what_if_2_content: "1. Si l'adresse IP commence par 169.254, il devrait s'agir d'un problème de configuration DHCP, veuillez contacter votre fournisseur d'accès à Internet pour plus d'assistance.\n2. Si votre ordinateur se connecte à Internet directement en utilisant PPPoE, veuillez passer à l'utilisation du routeur pour se connecter en utilisant PPPoE, et activer la fonction DHCP dans le routeur.",
     },
     connect_ethernet: {
       title: 'Connexion directe',
@@ -361,8 +337,7 @@ const lang: ILang = {
       tutorial2: 'Cliquez sur "Suivant".',
       turn_off_machine: 'Éteignez la machine.',
       turn_on_machine: 'Allumez la machine.',
-      wait_for_turning_on:
-        'Cliquez sur "Suivant" une fois le processus de démarrage terminé et que vous êtes arrivé sur l\'écran principal.',
+      wait_for_turning_on: 'Cliquez sur "Suivant" une fois le processus de démarrage terminé et que vous êtes arrivé sur l\'écran principal.',
     },
     connect_machine_ip: {
       check_usb: 'Vérifier la connexion USB',
@@ -383,15 +358,13 @@ const lang: ILang = {
     setting_completed: {
       start: 'Démarrer',
       great: 'Bienvenue sur Beam Studio',
-      setup_later:
-        'Vous pouvez toujours configurer votre machine depuis la barre de titre > "Machines" > "Configuration de la machine"',
+      setup_later: 'Vous pouvez toujours configurer votre machine depuis la barre de titre > "Machines" > "Configuration de la machine"',
       back: 'Retour',
       ok: 'COMMENCER À CRÉER',
     },
   },
   error_pages: {
-    screen_size:
-      "Veuillez noter que Beam Studio peut ne pas fonctionner de manière optimale sur votre appareil. Pour une expérience optimale, il devrait s'agir d'un appareil avec une largeur d'écran d'au moins 1024 pixels.",
+    screen_size: "Veuillez noter que Beam Studio peut ne pas fonctionner de manière optimale sur votre appareil. Pour une expérience optimale, il devrait s'agir d'un appareil avec une largeur d'écran d'au moins 1024 pixels.",
   },
   menu: {
     mm: 'mm',
@@ -463,8 +436,7 @@ const lang: ILang = {
     diode_offset: 'Décalage du laser à diode',
     autofocus_offset: 'Décalage de la mise au point automatique',
     diode_one_way_engraving: 'Gravure à sens unique au laser à diode',
-    diode_two_way_warning:
-      "L'émission bidirectionnelle de lumière est plus rapide et risque de générer une certaine imprécision sur la position de gravure au laser. Il est recommandé de tester d'abord.",
+    diode_two_way_warning: "L'émission bidirectionnelle de lumière est plus rapide et risque de générer une certaine imprécision sur la position de gravure au laser. Il est recommandé de tester d'abord.",
     share_with_flux: 'Partager les analyses de Beam Studio',
     none: 'Aucun',
     close: 'Fermer',
@@ -546,82 +518,59 @@ const lang: ILang = {
       layer_by_color: 'Couleur',
       nolayer: 'Couche unique',
       loading_image: "Chargement de l'image, veuillez patienter...",
-      no_support_text:
-        "Beam Studio ne prend pas en charge les balises de texte pour le moment. Veuillez convertir le texte en chemin avant l'importation.",
-      speed_too_high_lower_the_quality:
-        "Utiliser une vitesse trop élevée à cette résolution peut entraîner une qualité d'ombrage de gravure inférieure.",
-      both_power_and_speed_too_high:
-        "Utiliser une puissance laser inférieure prolongera la durée de vie du tube laser.\\nDe plus, une vitesse trop élevée à cette résolution peut entraîner une qualité d'ombrage de gravure inférieure.",
-      too_fast_for_path:
-        "Utiliser une vitesse trop élevée dans les couches contenant des objets de chemin peut entraîner une précision inférieure lors de la découpe.\\nNous ne recommandons pas d'utiliser une vitesse supérieure à 20 mm/s lors de la découpe.",
-      too_fast_for_path_and_constrain:
-        'Les couches suivantes : %s\\ncontiennent des objets de chemin vectoriel, et ont une vitesse supérieure à 20 mm/s.\\nLa vitesse de découpe des objets de chemin vectoriel sera limitée à 20 mm/s.\\nVous pouvez supprimer cette limite dans les paramètres de préférences.',
-      should_update_firmware_to_continue:
-        '#814 Votre micrologiciel ne prend pas en charge cette version de Beam Studio. Veuillez mettre à jour le micrologiciel pour continuer. (Menu > Machine > [Votre machine] > Mettre à jour le micrologiciel)',
-      recommend_downgrade_software:
-        'Nous avons détecté une ancienne version du micrologiciel. Nous traitons activement les problèmes de compatibilité, mais pour l\'instant, nous vous recommandons de revenir à <a target="_blank" href="https://beamstudio.s3.ap-northeast-1.amazonaws.com/mac/Beam+Studio+1.9.5.dmg">Beam Studio 1.9.5</a>.',
-      recommend_upgrade_firmware:
-        "Nous avons détecté une ancienne version du micrologiciel. Nous traitons activement les problèmes de compatibilité, mais pour l'instant, nous vous recommandons de mettre à jour vers le dernier micrologiciel.",
+      no_support_text: "Beam Studio ne prend pas en charge les balises de texte pour le moment. Veuillez convertir le texte en chemin avant l'importation.",
+      speed_too_high_lower_the_quality: "Utiliser une vitesse trop élevée à cette résolution peut entraîner une qualité d'ombrage de gravure inférieure.",
+      both_power_and_speed_too_high: "Utiliser une puissance laser inférieure prolongera la durée de vie du tube laser.\\nDe plus, une vitesse trop élevée à cette résolution peut entraîner une qualité d'ombrage de gravure inférieure.",
+      too_fast_for_path: "Utiliser une vitesse trop élevée dans les couches contenant des objets de chemin peut entraîner une précision inférieure lors de la découpe.\\nNous ne recommandons pas d'utiliser une vitesse supérieure à 20 mm/s lors de la découpe.",
+      too_fast_for_path_and_constrain: 'Les couches suivantes : %s\\ncontiennent des objets de chemin vectoriel, et ont une vitesse supérieure à 20 mm/s.\\nLa vitesse de découpe des objets de chemin vectoriel sera limitée à 20 mm/s.\\nVous pouvez supprimer cette limite dans les paramètres de préférences.',
+      should_update_firmware_to_continue: '#814 Votre micrologiciel ne prend pas en charge cette version de Beam Studio. Veuillez mettre à jour le micrologiciel pour continuer. (Menu > Machine > [Votre machine] > Mettre à jour le micrologiciel)',
+      recommend_downgrade_software: 'Nous avons détecté une ancienne version du micrologiciel. Nous traitons activement les problèmes de compatibilité, mais pour l\'instant, nous vous recommandons de revenir à <a target="_blank" href="https://beamstudio.s3.ap-northeast-1.amazonaws.com/mac/Beam+Studio+1.9.5.dmg">Beam Studio 1.9.5</a>.',
+      recommend_upgrade_firmware: "Nous avons détecté une ancienne version du micrologiciel. Nous traitons activement les problèmes de compatibilité, mais pour l'instant, nous vous recommandons de mettre à jour vers le dernier micrologiciel.",
       still_continue: 'Continuer',
       more_than_two_object: "Trop d'objets. Seuls 2 objets sont pris en charge",
       not_support_object_type: "Type d'objet non pris en charge",
       select_first: "Sélectionnez d'abord un objet.",
       select_at_least_two: 'Sélectionnez deux objets pour continuer',
-      import_file_contain_invalid_path:
-        "#808 Le fichier SVG importé contient un chemin d'image non valide. Assurez-vous que tous les fichiers image existent ou intégrez l'image dans le fichier",
-      import_file_error_ask_for_upload:
-        "Échec de l'importation du fichier SVG. Êtes-vous prêt à fournir le fichier à l'équipe de développement pour le rapport de bug ?",
+      import_file_contain_invalid_path: "#808 Le fichier SVG importé contient un chemin d'image non valide. Assurez-vous que tous les fichiers image existent ou intégrez l'image dans le fichier",
+      import_file_error_ask_for_upload: "Échec de l'importation du fichier SVG. Êtes-vous prêt à fournir le fichier à l'équipe de développement pour le rapport de bug ?",
       upload_file_too_large: '#819 Le fichier est trop volumineux pour être téléversé.',
       successfully_uploaded: 'Téléversement du fichier réussi.',
       upload_failed: '#819 Échec du téléversement du fichier.',
       or_turn_off_borderless_mode: 'Ou désactivez le mode Open Bottom.',
-      svg_1_1_waring:
-        'La version de ce fichier SVG est v 1.1, il pourrait y avoir des problèmes de compatibilité potentiels.',
-      svg_image_path_waring:
-        "Ce fichier SVG contient <image> chargé à partir du chemin du fichier. Cela pourrait causer des échecs lors du chargement. \\nPour éviter ce risque, veuillez utiliser une image intégrée lors de l'exportation SVG.",
-      dxf_version_waring:
-        "La version de ce fichier DXF n'est pas 2013, il pourrait y avoir des problèmes de compatibilité potentiels.",
+      svg_1_1_waring: 'La version de ce fichier SVG est v 1.1, il pourrait y avoir des problèmes de compatibilité potentiels.',
+      svg_image_path_waring: "Ce fichier SVG contient <image> chargé à partir du chemin du fichier. Cela pourrait causer des échecs lors du chargement. \\nPour éviter ce risque, veuillez utiliser une image intégrée lors de l'exportation SVG.",
+      dxf_version_waring: "La version de ce fichier DXF n'est pas 2013, il pourrait y avoir des problèmes de compatibilité potentiels.",
       dont_show_again: 'Ne plus afficher ceci la prochaine fois.',
       convert_to_path_fail: 'Échec de la conversion en chemin.',
       save_unsave_changed: 'Voulez-vous enregistrer les modifications non enregistrées ?',
-      dxf_bounding_box_size_over:
-        "La taille du dessin dépasse la zone de travail. Veuillez déplacer votre dessin plus près de l'origine dans votre logiciel CAO, ou assurez-vous que l'unité est définie correctement.",
+      dxf_bounding_box_size_over: "La taille du dessin dépasse la zone de travail. Veuillez déplacer votre dessin plus près de l'origine dans votre logiciel CAO, ou assurez-vous que l'unité est définie correctement.",
       progress: {
         uploading: 'Téléversement',
         calculating: 'Calcul',
       },
-      backend_connect_failed_ask_to_upload:
-        '#802 Des erreurs se sont produites en essayant de se connecter au backend. Voulez-vous télécharger votre journal de rapport de bug ?',
-      backend_error_hint:
-        "Les fonctionnalités pourraient ne pas fonctionner correctement en raison d'une erreur de backend.",
+      backend_connect_failed_ask_to_upload: '#802 Des erreurs se sont produites en essayant de se connecter au backend. Voulez-vous télécharger votre journal de rapport de bug ?',
+      backend_error_hint: "Les fonctionnalités pourraient ne pas fonctionner correctement en raison d'une erreur de backend.",
       pdf2svg: {
         error_when_converting_pdf: '#824 Erreur lors de la conversion PDF en SVG :',
-        error_pdf2svg_not_found:
-          '#825 Erreur : commande pdf2svg introuvable. Veuillez installer pdf2svg avec votre gestionnaire de paquets (par exemple, "yum install pdf2svg" ou "apt-get install pdf2svg").',
+        error_pdf2svg_not_found: '#825 Erreur : commande pdf2svg introuvable. Veuillez installer pdf2svg avec votre gestionnaire de paquets (par exemple, "yum install pdf2svg" ou "apt-get install pdf2svg").',
       },
-      ungroup_use:
-        "Cela dégroupera le DXF ou le SVG importé. Comme le fichier pourrait contenir un grand nombre d'éléments, le dégroupage pourrait prendre du temps. Êtes-vous sûr de procéder ?",
-      vectorize_shading_image:
-        "Les images dégradées prennent plus de temps à tracer et sont sujettes au bruit. Veuillez désactiver le dégradé de l'image avant d'exécuter.",
-      change_workarea_before_preview:
-        'La zone de travail de %s ne correspond pas à la zone de travail actuellement définie. Voulez-vous basculer la zone de travail actuelle ?',
+      ungroup_use: "Cela dégroupera le DXF ou le SVG importé. Comme le fichier pourrait contenir un grand nombre d'éléments, le dégroupage pourrait prendre du temps. Êtes-vous sûr de procéder ?",
+      vectorize_shading_image: "Les images dégradées prennent plus de temps à tracer et sont sujettes au bruit. Veuillez désactiver le dégradé de l'image avant d'exécuter.",
+      change_workarea_before_preview: 'La zone de travail de %s ne correspond pas à la zone de travail actuellement définie. Voulez-vous basculer la zone de travail actuelle ?',
       bug_report: 'Rapport de bug',
       sentry: {
         title: 'Améliorons Beam Studio ensemble',
-        message:
-          "Acceptez-vous de télécharger automatiquement des informations pertinentes vers l'équipe de développement lorsque des erreurs se produisent ?",
+        message: "Acceptez-vous de télécharger automatiquement des informations pertinentes vers l'équipe de développement lorsque des erreurs se produisent ?",
       },
       questionnaire: {
         caption: 'Aidez-nous à remplir le questionnaire',
         message: 'Aidez-nous à remplir le questionnaire pour améliorer Beam Studio.',
-        unable_to_get_url:
-          "Échec de l'obtention du lien vers le questionnaire via Internet. Veuillez confirmer votre connexion Internet.",
+        unable_to_get_url: "Échec de l'obtention du lien vers le questionnaire via Internet. Veuillez confirmer votre connexion Internet.",
         no_questionnaire_available: "Il n'y a pas de questionnaire disponible pour le moment.",
       },
       facebook_group_invitation: {
         title: 'Rejoignez le groupe officiel des utilisateurs FLUX',
-        message:
-          "Rejoignez notre groupe Facebook officiel pour vous connecter avec d'autres utilisateurs de découpe laser FLUX, discuter des lasers FLUX, partager des œuvres laser et rester à jour avec les dernières mises à jour sur nos produits. Nous avons hâte de vous y voir !",
+        message: "Rejoignez notre groupe Facebook officiel pour vous connecter avec d'autres utilisateurs de découpe laser FLUX, discuter des lasers FLUX, partager des œuvres laser et rester à jour avec les dernières mises à jour sur nos produits. Nous avons hâte de vous y voir !",
         join_now: 'Comptez sur moi',
         later: 'Peut-être plus tard',
         already_joined: 'Déjà rejoint',
@@ -630,15 +579,13 @@ const lang: ILang = {
       ai_credit: {
         relogin_to_use: 'Veuillez vous reconnecter pour utiliser cette fonction.',
         insufficient_credit: "Vous n'avez plus de crédit",
-        insufficient_credit_msg:
-          'Vous ne pouvez pas utiliser le %s. Allez au centre des membres et achetez un crédit IA.',
+        insufficient_credit_msg: 'Vous ne pouvez pas utiliser le %s. Allez au centre des membres et achetez un crédit IA.',
         buy_link: 'https://member.flux3dp.com/en-us/credit',
         go: 'Aller',
       },
       text_to_path: {
         caption: 'Convertisseur de texte en tracé 2.0',
-        message:
-          "Beam Studio introduit maintenant un nouveau convertisseur de texte en tracé (Convertisseur 2.0), qui produit des résultats plus fiables ! Voulez-vous passer à celui-ci maintenant ?\nVous pouvez également ajuster ce paramètre plus tard dans la section 'Convertisseur de texte en tracé' dans les préférences.",
+        message: "Beam Studio introduit maintenant un nouveau convertisseur de texte en tracé (Convertisseur 2.0), qui produit des résultats plus fiables ! Voulez-vous passer à celui-ci maintenant ?\nVous pouvez également ajuster ce paramètre plus tard dans la section 'Convertisseur de texte en tracé' dans les préférences.",
       },
     },
     zoom_block: {
@@ -701,25 +648,16 @@ const lang: ILang = {
           enterNewLayerName: 'Veuillez saisir le nouveau nom de calque',
           layerHasThatName: 'Le calque a déjà ce nom',
           QmoveElemsToLayer: 'Déplacer les éléments sélectionnés vers le calque « %s » ?',
-          moveElemFromPrintingLayerTitle:
-            "Déplacer l'élément sélectionné vers %s et le convertir en élément laser ?",
-          moveElemFromPrintingLayerMsg:
-            "Veuillez noter que si vous terminez cette opération, les paramètres de couleur de l'élément sélectionné seront supprimés et définis en fonction de %s.",
-          moveElemToPrintingLayerTitle:
-            "Déplacer l'élément sélectionné vers %s et le convertir en élément d'impression ?",
-          moveElemToPrintingLayerMsg:
-            "Veuillez noter que si vous terminez cette opération, les paramètres de l'élément sélectionné seront supprimés et définis en fonction de %s.",
+          moveElemFromPrintingLayerTitle: "Déplacer l'élément sélectionné vers %s et le convertir en élément laser ?",
+          moveElemFromPrintingLayerMsg: "Veuillez noter que si vous terminez cette opération, les paramètres de couleur de l'élément sélectionné seront supprimés et définis en fonction de %s.",
+          moveElemToPrintingLayerTitle: "Déplacer l'élément sélectionné vers %s et le convertir en élément d'impression ?",
+          moveElemToPrintingLayerMsg: "Veuillez noter que si vous terminez cette opération, les paramètres de l'élément sélectionné seront supprimés et définis en fonction de %s.",
           splitColorTitle: 'Voulez-vous décomposer le calque sélectionné en calques CMJN ?',
-          splitColorMsg:
-            "Veuillez noter que si vous poursuivez cette opération, vous ne pourrez pas revenir aux calques de couleur d'origine.",
-          mergeLaserLayerToPrintingLayerTitle:
-            "Voulez-vous fusionner ces calques en un seul calque d'impression ?",
-          mergeLaserLayerToPrintingLayerMsg:
-            'Veuillez noter que si vous terminez cette opération, les paramètres du calque laser seront supprimés et définis en fonction du calque actuel.',
-          mergePrintingLayerToLaserLayerTitle:
-            'Voulez-vous fusionner ces calques en un seul calque laser ?',
-          mergePrintingLayerToLaserLayerMsg:
-            "Veuillez noter que si vous terminez cette opération, les paramètres de couleur du calque d'impression seront supprimés et définis en fonction du calque actuel.",
+          splitColorMsg: "Veuillez noter que si vous poursuivez cette opération, vous ne pourrez pas revenir aux calques de couleur d'origine.",
+          mergeLaserLayerToPrintingLayerTitle: "Voulez-vous fusionner ces calques en un seul calque d'impression ?",
+          mergeLaserLayerToPrintingLayerMsg: 'Veuillez noter que si vous terminez cette opération, les paramètres du calque laser seront supprimés et définis en fonction du calque actuel.',
+          mergePrintingLayerToLaserLayerTitle: 'Voulez-vous fusionner ces calques en un seul calque laser ?',
+          mergePrintingLayerToLaserLayerMsg: "Veuillez noter que si vous terminez cette opération, les paramètres de couleur du calque d'impression seront supprimés et définis en fonction du calque actuel.",
         },
         layers: {
           layer: 'Calque',
@@ -748,11 +686,9 @@ const lang: ILang = {
         multi_layer: 'Couches multiples',
         parameters: 'Paramètres',
         strength: 'Puissance',
-        low_power_warning:
-          'Une puissance laser inférieure (moins de 10 %) pourrait ne pas émettre la lumière laser.',
+        low_power_warning: 'Une puissance laser inférieure (moins de 10 %) pourrait ne pas émettre la lumière laser.',
         speed: 'Vitesse',
-        speed_contrain_warning:
-          'La vitesse de découpe des objets de trajet vectoriel sera limitée à 20 mm/s. Vous pouvez supprimer cette limite dans les paramètres de préférences.',
+        speed_contrain_warning: 'La vitesse de découpe des objets de trajet vectoriel sera limitée à 20 mm/s. Vous pouvez supprimer cette limite dans les paramètres de préférences.',
         low_speed_warning: 'Une vitesse lente pourrait brûler le matériau.',
         repeat: 'Exécuter',
         add_on: 'Add-on',
@@ -773,8 +709,7 @@ const lang: ILang = {
         more: 'Plus',
         delete: 'Supprimer',
         reset: 'Réinitialiser',
-        sure_to_reset:
-          'Cela réinitialisera tous les paramètres par défaut et conservera vos paramètres personnalisés, êtes-vous sûr de vouloir procéder ?',
+        sure_to_reset: 'Cela réinitialisera tous les paramètres par défaut et conservera vos paramètres personnalisés, êtes-vous sûr de vouloir procéder ?',
         apply: 'Appliquer',
         cancel: 'Annuler',
         save: 'Enregistrer',
@@ -785,8 +720,7 @@ const lang: ILang = {
         inuse: "En cours d'utilisation",
         export_config: 'Exporter les paramètres prédéfinis',
         new_config_name: 'Nouveau nom de préréglage',
-        sure_to_load_config:
-          'Cela chargera la disposition des préréglages et remplacera les paramètres personnalisés définis dans le fichier, êtes-vous sûr de vouloir procéder ?',
+        sure_to_load_config: 'Cela chargera la disposition des préréglages et remplacera les paramètres personnalisés définis dans le fichier, êtes-vous sûr de vouloir procéder ?',
         custom_preset: 'Personnalisé',
         various_preset: 'Divers préréglages',
         module: 'Module',
@@ -1012,8 +946,7 @@ const lang: ILang = {
           simplify: 'Simplifier',
           ai_bg_removal: "Suppression de l'arrière-plan",
           ai_bg_removal_short: 'Suppr. arrière-plan',
-          ai_bg_removal_reminder:
-            "L'appui sur le bouton utilisera immédiatement 0,2 crédit, voulez-vous continuer ?",
+          ai_bg_removal_reminder: "L'appui sur le bouton utilisera immédiatement 0,2 crédit, voulez-vous continuer ?",
           outline: 'Contour',
         },
         path_edit_panel: {
@@ -1029,8 +962,7 @@ const lang: ILang = {
     bottom_right_panel: {
       convert_text_to_path_before_export: 'Convertir le texte en tracé...',
       retreive_image_data: "Récupérer les données d'image...",
-      export_file_error_ask_for_upload:
-        "Échec de l'exportation de la tâche. Êtes-vous prêt à fournir la scène de travail à l'équipe de développement pour le rapport de bug ?",
+      export_file_error_ask_for_upload: "Échec de l'exportation de la tâche. Êtes-vous prêt à fournir la scène de travail à l'équipe de développement pour le rapport de bug ?",
     },
     image_trace_panel: {
       apply: 'Appliquer',
@@ -1086,17 +1018,14 @@ const lang: ILang = {
       cancel: 'Annuler',
       save: 'Enregistrer',
       notification: {
-        changeFromPrintingWorkareaTitle:
-          "Voulez-vous convertir les calques d'impression en calques laser?",
+        changeFromPrintingWorkareaTitle: "Voulez-vous convertir les calques d'impression en calques laser?",
       },
     },
     object_panels: {
       wait_for_parsing_font: 'Analyse de la police en cours... Veuillez patienter une seconde',
       text_to_path: {
-        font_substitute_pop:
-          'Votre texte contient des caractères qui ne sont pas pris en charge par la police actuelle. <br/>Souhaitez-vous utiliser <strong>%s</strong> comme substitution ?',
-        check_thumbnail_warning:
-          "Certains textes ont été modifiés avec d'autres polices lors de la conversion des textes en tracés et certains caractères peuvent ne pas être convertis normalement. <br/> Veuillez vérifier à nouveau l'image d'aperçu avant d'envoyer la tâche.",
+        font_substitute_pop: 'Votre texte contient des caractères qui ne sont pas pris en charge par la police actuelle. <br/>Souhaitez-vous utiliser <strong>%s</strong> comme substitution ?',
+        check_thumbnail_warning: "Certains textes ont été modifiés avec d'autres polices lors de la conversion des textes en tracés et certains caractères peuvent ne pas être convertis normalement. <br/> Veuillez vérifier à nouveau l'image d'aperçu avant d'envoyer la tâche.",
         error_when_parsing_text: 'Erreur lors de la conversion du texte en tracé',
         use_current_font: 'Utiliser la police actuelle',
         retry: 'Veuillez réessayer plus tard ou choisir une autre police',
@@ -1124,8 +1053,7 @@ const lang: ILang = {
         sharp: 'Pointu',
         round: 'Arrondi',
         fail_message: 'Échec du décalage des objets.',
-        not_support_message:
-          'Éléments sélectionnés contenant des balises SVG non prises en charge :\nImage, Groupe, Texte et Objet importé.',
+        not_support_message: 'Éléments sélectionnés contenant des balises SVG non prises en charge :\nImage, Groupe, Texte et Objet importé.',
       },
       _nest: {
         start_nest: 'Arranger',
@@ -1151,22 +1079,18 @@ const lang: ILang = {
       test_completed: 'Test terminé',
       test_fail: 'Échec du test',
       cannot_connect_1: "#840 Échec de connexion à l'adresse IP cible",
-      cannot_connect_2:
-        "#840 Échec de connexion à l'adresse IP cible. Assurez-vous que la cible se trouve dans le même réseau.",
+      cannot_connect_2: "#840 Échec de connexion à l'adresse IP cible. Assurez-vous que la cible se trouve dans le même réseau.",
       network_unhealthy: '#841 Qualité de connexion <70 ou temps de réponse moyen >100ms',
-      device_not_on_list:
-        '#842 La machine ne figure pas dans la liste, mais la qualité de la connexion est >70 et le temps de réponse moyen est <100ms',
+      device_not_on_list: '#842 La machine ne figure pas dans la liste, mais la qualité de la connexion est >70 et le temps de réponse moyen est <100ms',
       hint_device_often_on_list: 'La machine ne se trouve souvent pas dans la liste ?',
       link_device_often_on_list: 'https://support.flux3dp.com/hc/en-us/articles/360001841636',
       hint_connect_failed_when_sending_job: "Échec de la connexion lors de l'envoi d'une tâche ?",
-      link_connect_failed_when_sending_job:
-        'https://support.flux3dp.com/hc/en-us/articles/360001841656',
+      link_connect_failed_when_sending_job: 'https://support.flux3dp.com/hc/en-us/articles/360001841656',
       hint_connect_camera_timeout: "Délai d'attente lors du démarrage de l'aperçu de la caméra ?",
       link_connect_camera_timeout: 'https://support.flux3dp.com/hc/en-us/articles/360001791895',
       cannot_get_local: "Accès à l'adresse IP locale échoué.",
       fail_to_start_network_test: '#817 Échec du démarrage des tests réseau.',
-      linux_permission_hint:
-        'Cette erreur se produit généralement en raison de permissions insuffisantes.\nVeuillez exécuter "sudo beam-studio --no-sandbox" dans le terminal pour obtenir les permissions et effectuer des tests réseau.',
+      linux_permission_hint: 'Cette erreur se produit généralement en raison de permissions insuffisantes.\nVeuillez exécuter "sudo beam-studio --no-sandbox" dans le terminal pour obtenir les permissions et effectuer des tests réseau.',
     },
     layer_color_config_panel: {
       layer_color_config: 'Configurations de couleur de couche',
@@ -1181,22 +1105,18 @@ const lang: ILang = {
       add_config: 'Ajouter une couleur',
       in_use: 'Cette couleur est utilisée.',
       no_input: 'Veuillez saisir un code couleur hexadécimal valide.',
-      sure_to_reset:
-        'Vous perdrez tous les paramètres personnalisés, êtes-vous sûr de réinitialiser aux paramètres par défaut ?',
+      sure_to_reset: 'Vous perdrez tous les paramètres personnalisés, êtes-vous sûr de réinitialiser aux paramètres par défaut ?',
       sure_to_delete: 'Êtes-vous sûr de supprimer ce paramètre de couleur ?',
     },
     rating_panel: {
       title: 'Aimez-vous Beam Studio ?',
-      description:
-        'Si vous aimez Beam Studio, nous vous serions très reconnaissants si vous pouviez nous évaluer.',
+      description: 'Si vous aimez Beam Studio, nous vous serions très reconnaissants si vous pouviez nous évaluer.',
       dont_show_again: 'Ne plus afficher',
       thank_you: 'Merci !',
     },
     svg_editor: {
-      unnsupported_file_type:
-        "Le type de fichier n'est pas directement pris en charge. Veuillez convertir le fichier en SVG ou bitmap",
-      unable_to_fetch_clipboard_img:
-        "Échec de la récupération de l'image depuis votre presse-papiers",
+      unnsupported_file_type: "Le type de fichier n'est pas directement pris en charge. Veuillez convertir le fichier en SVG ou bitmap",
+      unable_to_fetch_clipboard_img: "Échec de la récupération de l'image depuis votre presse-papiers",
     },
     units: {
       walt: 'W',
@@ -1282,14 +1202,14 @@ const lang: ILang = {
     lost_password_url: 'https://id.flux3dp.com/user/forgot-password',
     flux_plus: {
       explore_plans: 'Explorez les forfaits FLUX+',
-      thank_you: 'Merci d\'être un membre précieux !',
-      ai_credit_tooltip: 'Pour la suppression de l\'arrière-plan par IA',
-      flux_credit_tooltip: 'Pour les fichiers Design Market et la suppression de l\'arrière-plan par IA',
+      thank_you: "Merci d'être un membre précieux !",
+      ai_credit_tooltip: "Pour la suppression de l'arrière-plan par IA",
+      flux_credit_tooltip: "Pour les fichiers Design Market et la suppression de l'arrière-plan par IA",
       goto_member_center: 'Accédez à votre espace membre',
       access_plus_feature_1: 'Vous accédez à une',
       access_plus_feature_2: 'fonctionnalité.',
       access_plus_feature_note: 'Vous devez être membre de FLUX+ pour accéder à cette fonctionnalité.',
-      access_monotype_feature: 'Vous n\'avez pas le module complémentaire Polices Monotype.',
+      access_monotype_feature: "Vous n'avez pas le module complémentaire Polices Monotype.",
       access_monotype_feature_note: 'Vous devez être membre de FLUX+ Pro ou avoir le module complémentaire Polices Monotype pour accéder à cette fonctionnalité.',
       learn_more: 'En savoir plus',
       get_addon: 'Obtenir le module',
@@ -1297,7 +1217,7 @@ const lang: ILang = {
       website_url: 'https://flux3dp.com/subscription',
       member_center_url: 'https://member.flux3dp.com/en-US/subscription',
       features: {
-        ai_bg_removal: 'Suppression de l\'arrière-plan par IA',
+        ai_bg_removal: "Suppression de l'arrière-plan par IA",
         my_cloud: 'Stockage cloud illimité',
         boxgen: 'Générateur de boîtes 3D',
         dmkt: '1000+ fichiers de conception',
@@ -1314,8 +1234,7 @@ const lang: ILang = {
     search: 'Rechercher',
     clear: 'Effacer',
     export_svg_title: "Impossible d'exporter le SVG",
-    export_svg_warning:
-      "Ce projet contient des objets protégés par les droits d'auteur. Par conséquent, Beam Studio exclura automatiquement ces objets lors de l'exportation. Vous pouvez toujours enregistrer votre projet au format Beam Studio Scene (.beam) pour conserver toutes vos données. Voulez-vous toujours exporter ?",
+    export_svg_warning: "Ce projet contient des objets protégés par les droits d'auteur. Par conséquent, Beam Studio exclura automatiquement ces objets lors de l'exportation. Vous pouvez toujours enregistrer votre projet au format Beam Studio Scene (.beam) pour conserver toutes vos données. Voulez-vous toujours exporter ?",
     learn_more: 'En savoir plus',
   },
   change_logs: {
@@ -1377,10 +1296,8 @@ const lang: ILang = {
     ink_color: 'Ink color',
     ink_type: 'Ink type',
     ink_level: 'Ink level',
-    close_door_to_read_cartridge_info:
-      "To access ink information, please close the machine's door cover.",
-    cartridge_info_read_failed:
-      'Please ensure that the ink is fully inserted. Try to remove the ink and install it back.',
+    close_door_to_read_cartridge_info: "To access ink information, please close the machine's door cover.",
+    cartridge_info_read_failed: 'Please ensure that the ink is fully inserted. Try to remove the ink and install it back.',
     cartridge_info_verification_failed: 'Please verify that your ink is FLUX authentic.',
   },
   monitor: {
@@ -1394,10 +1311,8 @@ const lang: ILang = {
     camera: 'Caméra',
     taskTab: 'Tâche',
     connecting: 'Connexion en cours, veuillez patienter...',
-    HARDWARE_ERROR_MAINBOARD_ERROR:
-      '#401 Erreur critique : Carte mère hors ligne. Veuillez contacter le support FLUX.',
-    HARDWARE_ERROR_SUBSYSTEM_ERROR:
-      '#402 Erreur critique : Sous-système sans réponse. Veuillez contacter le support FLUX.',
+    HARDWARE_ERROR_MAINBOARD_ERROR: '#401 Erreur critique : Carte mère hors ligne. Veuillez contacter le support FLUX.',
+    HARDWARE_ERROR_SUBSYSTEM_ERROR: '#402 Erreur critique : Sous-système sans réponse. Veuillez contacter le support FLUX.',
     HARDWARE_ERROR_PUMP_ERROR: "#900 Veuillez vérifier votre réservoir d'eau.",
     HARDWARE_ERROR_DOOR_OPENED: '#901 Fermez la porte pour continuer.',
     HARDWARE_ERROR_OVER_TEMPERATURE: '#902 Surchauffe. Veuillez attendre quelques minutes.',
@@ -1408,24 +1323,25 @@ const lang: ILang = {
     HARDWARE_ERROR_AIR_ASSIST_ABNORMAL: "#913 Débit d'air anormal",
     HARDWARE_ERROR_ROTARY_NOT_DETECTED: '#914 Aucun module rotatif détecté',
     HARDWARE_ERROR_HOMING_PULLOFF_FAILED: "#920 Erreur de retrait lors de l'homing",
-    HARDWARE_ERROR_HEADTYPE_MISMATCH:
-      '#915 Module incorrect détecté. Veuillez installer le bon module pour continuer.',
-    HARDWARE_ERROR_HEADTYPE_NONE:
-      '#917 Aucun module détecté. Assurez-vous que le module est correctement installé pour continuer.',
-    HARDWARE_ERROR_HEADTYPE_UNKNOWN:
-      '#918 Module inconnu détecté. Veuillez installer le bon module pour continuer.',
+    HARDWARE_ERROR_HEADTYPE_MISMATCH: '#915 Module incorrect détecté. Veuillez installer le bon module pour continuer.',
+    HARDWARE_ERROR_HEADTYPE_NONE: '#917 Aucun module détecté. Assurez-vous que le module est correctement installé pour continuer.',
+    HARDWARE_ERROR_HEADTYPE_UNKNOWN: '#918 Module inconnu détecté. Veuillez installer le bon module pour continuer.',
     HARDWARE_ERROR_PRINTER_NO_RESPONSE: '#919 Aucune réponse du module imprimante.',
     USER_OPERATION_ROTARY_PAUSE: 'Veuillez passer au moteur rotatif.',
     USER_OPERATION_REMOVE_CARTRIDGE: 'Veuillez retirer la cartouche pour continuer.',
-    RESOURCE_BUSY:
-      'La machine est occupée. \nSi elle ne fonctionne pas, veuillez redémarrer la machine',
+    USER_OPERATION_CHANGE_TOOLHEAD_HEADTYPE_MISMATCH: '#915 Module incorrect détecté. Veuillez installer le bon module pour continuer.',
+    USER_OPERATION_CHANGE_TOOLHEAD_HEADTYPE_NONE: '#917 Aucun module détecté. Assurez-vous que le module est correctement installé pour continuer.',
+    USER_OPERATION_CHANGE_TOOLHEAD_HEADTYPE_UNKNOWN: '#918 Module inconnu détecté. Veuillez installer le bon module pour continuer.',
+    USER_OPERATION_CHANGE_TOOLHEAD: 'Veuillez installer le bon module pour continuer.',
+    USER_OPERATION_CHANGE_CARTRIDGE_CARTRIDGE_NOT_DETECTED: 'Veuillez insérer la cartouche pour continuer.',
+    USER_OPERATION_CHANGE_CARTRIDGE: 'Veuillez insérer la cartouche correcte pour continuer.',
+    USER_OPERATION: "Veuillez suivre les instructions sur le panneau de l'appareil pour continuer.",
+    RESOURCE_BUSY: 'La machine est occupée. \nSi elle ne fonctionne pas, veuillez redémarrer la machine',
     DEVICE_ERROR: "Quelque chose s'est mal passé\\nVeuillez redémarrer la machine",
     NO_RESPONSE: '#905 Erreur de connexion à la carte mère.\\nVeuillez redémarrer la machine.',
-    SUBSYSTEM_ERROR:
-      "#402 Erreur critique : aucune réponse du sous-système. Veuillez contacter l'assistance FLUX.",
+    SUBSYSTEM_ERROR: "#402 Erreur critique : aucune réponse du sous-système. Veuillez contacter l'assistance FLUX.",
     HARDWARE_FAILURE: "Quelque chose s'est mal passé\\nVeuillez redémarrer la machine",
-    MAINBOARD_OFFLINE:
-      '#905 Erreur de connexion à la carte mère.\\nVeuillez redémarrer la machine.',
+    MAINBOARD_OFFLINE: '#905 Erreur de connexion à la carte mère.\\nVeuillez redémarrer la machine.',
     bug_report: 'Rapport de bug',
     processing: 'Traitement en cours',
     savingPreview: 'Génération de miniatures',
@@ -1492,8 +1408,7 @@ const lang: ILang = {
     retrievingCameraOffset: 'Lecture du décalage de la caméra...',
     connectingCamera: 'Connexion de la caméra...',
     homing: 'Homing...',
-    connectionTimeout:
-      "#805 Délai de connexion du périphérique. Veuillez vérifier l'état de votre réseau et le voyant Wi-Fi de votre machine.",
+    connectionTimeout: "#805 Délai de connexion du périphérique. Veuillez vérifier l'état de votre réseau et le voyant Wi-Fi de votre machine.",
     getProbePosition: 'Obtention de la position de la sonde...',
     device_not_found: {
       caption: 'Machine par défaut introuvable',
@@ -1501,64 +1416,46 @@ const lang: ILang = {
     },
     device_busy: {
       caption: 'Machine occupée',
-      message:
-        'La machine exécute une autre tâche, réessayez plus tard. Si elle ne fonctionne plus, veuillez redémarrer la machine.',
+      message: 'La machine exécute une autre tâche, réessayez plus tard. Si elle ne fonctionne plus, veuillez redémarrer la machine.',
     },
     device_is_used: 'La machine est utilisée, voulez-vous annuler la tâche en cours ?',
     monitor_too_old: {
       caption: 'Micrologiciel obsolète',
-      content:
-        '#814 Veuillez installer le dernier micrologiciel avec <a target="_blank" href="http://helpcenter.flux3dp.com/hc/en-us/articles/216251077">ce guide</a>.',
+      content: '#814 Veuillez installer le dernier micrologiciel avec <a target="_blank" href="http://helpcenter.flux3dp.com/hc/en-us/articles/216251077">ce guide</a>.',
     },
-    unknown_error:
-      "#821 L'application a rencontré une erreur inconnue, veuillez utiliser Aide > Menu > Rapport de bug.",
-    unknown_device:
-      "#826 Impossible de se connecter à la machine, assurez-vous que l'USB est connecté à la machine",
-    unsupport_osx_version:
-      'La version actuelle de macOS %s peut ne pas prendre en charge certaines fonctions. Veuillez mettre à jour vers macOS 11+.',
-    unsupport_win_version:
-      'La version actuelle de %s peut ne pas prendre en charge certaines fonctions. Veuillez mettre à jour vers la dernière version.',
+    unknown_error: "#821 L'application a rencontré une erreur inconnue, veuillez utiliser Aide > Menu > Rapport de bug.",
+    unknown_device: "#826 Impossible de se connecter à la machine, assurez-vous que l'USB est connecté à la machine",
+    unsupport_osx_version: 'La version actuelle de macOS %s peut ne pas prendre en charge certaines fonctions. Veuillez mettre à jour vers macOS 11+.',
+    unsupport_win_version: 'La version actuelle de %s peut ne pas prendre en charge certaines fonctions. Veuillez mettre à jour vers la dernière version.',
     need_password: 'Mot de passe requis pour se connecter à la machine',
-    unavailableWorkarea:
-      '#804 La zone de travail actuelle dépasse la zone de travail de cette machine. Veuillez vérifier la zone de travail de la machine sélectionnée ou définir la zone de travail à partir de Edition > Paramètres du document.',
+    unavailableWorkarea: '#804 La zone de travail actuelle dépasse la zone de travail de cette machine. Veuillez vérifier la zone de travail de la machine sélectionnée ou définir la zone de travail à partir de Edition > Paramètres du document.',
     please_enter_dpi: "Veuillez entrer l'unité de votre fichier (en mm)",
-    auth_error:
-      "#820 Erreur d'authentification : veuillez mettre à jour Beam Studio et le firmware de la machine vers la dernière version.",
+    auth_error: "#820 Erreur d'authentification : veuillez mettre à jour Beam Studio et le firmware de la machine vers la dernière version.",
     usb_unplugged: 'La connexion USB est perdue. Veuillez vérifier votre connexion USB',
     uploading_fcode: 'Téléversement du code F',
-    cant_connect_to_device:
-      '#827 Impossible de se connecter à la machine, veuillez vérifier votre connexion',
+    cant_connect_to_device: '#827 Impossible de se connecter à la machine, veuillez vérifier votre connexion',
     unable_to_find_machine: 'Impossible de trouver la machine',
-    disconnected:
-      "Connexion instable, veuillez vérifier la connexion de l'appareil et réessayer plus tard",
-    unable_to_start:
-      '#830 Impossible de démarrer la tâche. Veuillez réessayer. Si cela se reproduit, veuillez nous contacter avec un rapport de bug :',
+    disconnected: "Connexion instable, veuillez vérifier la connexion de l'appareil et réessayer plus tard",
+    unable_to_start: '#830 Impossible de démarrer la tâche. Veuillez réessayer. Si cela se reproduit, veuillez nous contacter avec un rapport de bug :',
     camera: {
-      camera_cable_unstable:
-        "Il est détecté que la caméra transfère des photos de manière instable. L'aperçu peut encore être effectué normalement, mais il peut y avoir un problème d'aperçu lent ou de dépassement de délai.",
-      fail_to_transmit_image:
-        '#845 Quelque chose s\'est mal passé avec la transmission de l\'image. Veuillez redémarrer votre machine ou Beam Studio. Si cette erreur persiste, veuillez suivre <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/4402756056079">ce guide</a>.',
-      ws_closed_unexpectly:
-        '#844 La connexion à la caméra de la machine a été fermée de manière inattendue. Si cette erreur persiste, veuillez suivre <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/4402755805071">ce guide</a>.',
+      camera_cable_unstable: "Il est détecté que la caméra transfère des photos de manière instable. L'aperçu peut encore être effectué normalement, mais il peut y avoir un problème d'aperçu lent ou de dépassement de délai.",
+      fail_to_transmit_image: '#845 Quelque chose s\'est mal passé avec la transmission de l\'image. Veuillez redémarrer votre machine ou Beam Studio. Si cette erreur persiste, veuillez suivre <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/4402756056079">ce guide</a>.',
+      ws_closed_unexpectly: '#844 La connexion à la caméra de la machine a été fermée de manière inattendue. Si cette erreur persiste, veuillez suivre <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/4402755805071">ce guide</a>.',
       continue_preview: 'Continuer',
       abort_preview: 'Abandonner',
     },
     preview: {
       camera_preview: 'Aperçu de la caméra',
       auto_focus: 'Mise au point automatique',
-      auto_focus_instruction:
-        "Veuillez déplacer la tête du module laser au-dessus de l'objet et suivre les instructions d'animation pour appuyer sur AF pour effectuer la mise au point.",
-      already_performed_auto_focus:
-        'Vous avez déjà effectué la mise au point automatique, utiliser les valeurs existantes ?',
-      please_enter_height:
-        "Veuillez entrer la hauteur de l'objet. Afin de capturer un cliché de caméra précis.",
+      auto_focus_instruction: "Veuillez déplacer la tête du module laser au-dessus de l'objet et suivre les instructions d'animation pour appuyer sur AF pour effectuer la mise au point.",
+      already_performed_auto_focus: 'Vous avez déjà effectué la mise au point automatique, utiliser les valeurs existantes ?',
+      please_enter_height: "Veuillez entrer la hauteur de l'objet. Afin de capturer un cliché de caméra précis.",
       apply: 'Appliquer',
       enter_manually: 'Entrer manuellement',
       adjust: 'Ajuster',
       adjust_height_tooltip: "Cliquez sur la case à cocher pour activer l'édition.",
     },
-    unsupported_example_file:
-      "Le fichier d'exemple sélectionné n'est pas pris en charge par la zone de travail actuelle.",
+    unsupported_example_file: "Le fichier d'exemple sélectionné n'est pas pris en charge par la zone de travail actuelle.",
   },
   machine_status: {
     '0': 'Inactif',
@@ -1586,10 +1483,8 @@ const lang: ILang = {
     UNKNOWN: 'Inconnu',
   },
   calibration: {
-    update_firmware_msg1:
-      'Votre micrologiciel ne prend pas en charge cette fonctionnalité. Veuillez mettre à jour le micrologiciel en v',
-    update_firmware_msg2:
-      'ou supérieur pour continuer。 (Menu > Machine > [Votre machine] > Mettre à jour le micrologiciel)',
+    update_firmware_msg1: 'Votre micrologiciel ne prend pas en charge cette fonctionnalité. Veuillez mettre à jour le micrologiciel en v',
+    update_firmware_msg2: 'ou supérieur pour continuer。 (Menu > Machine > [Votre machine] > Mettre à jour le micrologiciel)',
     camera_calibration: 'Étalonnage de la caméra',
     diode_calibration: 'Étalonnage du module laser à diode',
     module_calibration_printer: "Étalonnage du module d'impression",
@@ -1602,23 +1497,15 @@ const lang: ILang = {
     do_engraving: 'GRAVURE',
     start_engrave: 'COMMENCER GRAVURE',
     start_printing: 'COMMENCER IMPRESSION',
-    ask_for_readjust:
-      "Voulez-vous sauter l'étape de gravure et ensuite prendre une photo et calibrer directement ?",
-    please_goto_beambox_first:
-      "Veuillez passer en mode gravure (Beambox) afin d'utiliser cette fonctionnalité.",
-    please_place_paper:
-      'Veuillez placer une feuille de papier blanc de format A4 ou Letter dans le coin supérieur gauche de la zone de travail.',
-    please_place_paper_center:
-      'Veuillez placer une feuille de papier blanc de format A4 ou Letter au centre de la zone de travail.',
-    please_place_dark_colored_paper:
-      'Veuillez placer une feuille de papier de couleur foncée de format A4 ou Letter au centre de la zone de travail.',
+    ask_for_readjust: "Voulez-vous sauter l'étape de gravure et ensuite prendre une photo et calibrer directement ?",
+    please_goto_beambox_first: "Veuillez passer en mode gravure (Beambox) afin d'utiliser cette fonctionnalité.",
+    please_place_paper: 'Veuillez placer une feuille de papier blanc de format A4 ou Letter dans le coin supérieur gauche de la zone de travail.',
+    please_place_paper_center: 'Veuillez placer une feuille de papier blanc de format A4 ou Letter au centre de la zone de travail.',
+    please_place_dark_colored_paper: 'Veuillez placer une feuille de papier de couleur foncée de format A4 ou Letter au centre de la zone de travail.',
     please_refocus: {
-      beambox:
-        "Veuillez ajuster la plateforme au point focal (la hauteur de l'acrylique retournée)",
-      beamo:
-        "Veuillez ajuster la tête laser pour se concentrer sur l'objet de gravure (la hauteur de l'acrylique retournée)",
-      beamo_af:
-        "Veuillez double-cliquer sur le bouton latéral de l'accessoire de mise au point automatique et laisser la sonde toucher doucement le matériau.",
+      beambox: "Veuillez ajuster la plateforme au point focal (la hauteur de l'acrylique retournée)",
+      beamo: "Veuillez ajuster la tête laser pour se concentrer sur l'objet de gravure (la hauteur de l'acrylique retournée)",
+      beamo_af: "Veuillez double-cliquer sur le bouton latéral de l'accessoire de mise au point automatique et laisser la sonde toucher doucement le matériau.",
       hexa: "Double-cliquez sur le bouton de réglage de la hauteur pour soulever la table en nid d'abeille et faire toucher la sonde au matériau de gravure.",
     },
     without_af: 'Sans mise au point automatique',
@@ -1631,41 +1518,30 @@ const lang: ILang = {
     show_last_config: 'Afficher le dernier résultat',
     use_last_config: "Utiliser la dernière valeur d'étalonnage",
     taking_picture: 'Prise de photo...',
-    analyze_result_fail:
-      "Échec de l'analyse de l'image capturée. <br/> Veuillez vous assurer : <br/> 1. L'image capturée couvre entièrement la feuille blanche. <br/> 2. La plateforme est correctement mise au point.",
+    analyze_result_fail: "Échec de l'analyse de l'image capturée. <br/> Veuillez vous assurer : <br/> 1. L'image capturée couvre entièrement la feuille blanche. <br/> 2. La plateforme est correctement mise au point.",
     drawing_calibration_image: "Dessin de l'image d'étalonnage...",
-    calibrate_done:
-      "Étalonnage terminé. Une meilleure précision de l'appareil photo est obtenue lorsque la mise au point est précise.",
-    calibrate_done_diode:
-      'Étalonnage terminé. Le décalage du module laser à diode a été enregistré.',
+    calibrate_done: "Étalonnage terminé. Une meilleure précision de l'appareil photo est obtenue lorsque la mise au point est précise.",
+    calibrate_done_diode: 'Étalonnage terminé. Le décalage du module laser à diode a été enregistré.',
     hint_red_square: "Veuillez aligner l'extérieur du carré rouge avec le carré découpé.",
     hint_adjust_parameters: 'Utilisez ces paramètres pour ajuster le carré rouge',
     zendesk_link: 'https://support.flux3dp.com/hc/en-us-fr/articles/360001811416',
     please_do_camera_calibration_and_focus: {
-      beambox:
-        "Lors de l'étalonnage du module laser à diode, une caméra est nécessaire.\nVeuillez vous assurer que la caméra de cette machine a été étalonnée.\nEt veuillez régler la plateforme au point focal (la hauteur de l'acrylique retournée)",
-      beamo:
-        "Lors de l'étalonnage du module laser à diode, une caméra est nécessaire.\nVeuillez vous assurer que la caméra de cette machine a été étalonnée.\nEt veuillez régler la tête laser pour se concentrer sur l'objet de gravure (la hauteur de l'acrylique retournée)",
+      beambox: "Lors de l'étalonnage du module laser à diode, une caméra est nécessaire.\nVeuillez vous assurer que la caméra de cette machine a été étalonnée.\nEt veuillez régler la plateforme au point focal (la hauteur de l'acrylique retournée)",
+      beamo: "Lors de l'étalonnage du module laser à diode, une caméra est nécessaire.\nVeuillez vous assurer que la caméra de cette machine a été étalonnée.\nEt veuillez régler la tête laser pour se concentrer sur l'objet de gravure (la hauteur de l'acrylique retournée)",
     },
     downloading_pictures: 'Téléchargement des images...',
-    failed_to_download_pictures:
-      '#848 Échec du téléchargement des images, veuillez contacter le support FLUX.',
+    failed_to_download_pictures: '#848 Échec du téléchargement des images, veuillez contacter le support FLUX.',
     uploading_images: 'Téléversement des images...',
     calculating_camera_matrix: 'Calcul de la matrice de caméra...',
     calculating_regression_parameters: 'Calcul des paramètres de régression...',
-    failed_to_calibrate_camera:
-      "#848 Échec de l'étalonnage de la caméra, veuillez contacter le support FLUX.",
-    failed_to_save_calibration_results:
-      "#849 Échec de l'enregistrement des résultats d'étalonnage, veuillez réessayer. Si cela se reproduit, veuillez contacter le support FLUX.",
-    ador_autofocus_material:
-      "Appuyez sur l'icône « AF » sur la page principale de la machine pendant 3 secondes et laissez la sonde toucher doucement le matériau.",
-    ador_autofocus_focusing_block:
-      "Appuyez sur l'icône « AF » sur la page principale de la machine pendant 3 secondes et laissez la sonde toucher le bloc de mise au point.",
+    failed_to_calibrate_camera: "#848 Échec de l'étalonnage de la caméra, veuillez contacter le support FLUX.",
+    failed_to_save_calibration_results: "#849 Échec de l'enregistrement des résultats d'étalonnage, veuillez réessayer. Si cela se reproduit, veuillez contacter le support FLUX.",
+    ador_autofocus_material: "Appuyez sur l'icône « AF » sur la page principale de la machine pendant 3 secondes et laissez la sonde toucher doucement le matériau.",
+    ador_autofocus_focusing_block: "Appuyez sur l'icône « AF » sur la page principale de la machine pendant 3 secondes et laissez la sonde toucher le bloc de mise au point.",
     align_red_cross_cut: 'Veuillez aligner le milieu de la croix rouge avec la croix de coupe.',
     align_red_cross_print: 'Veuillez aligner le milieu de la croix rouge avec la croix imprimée.',
     retake: 'Reprendre la photo',
-    calibrate_camera_before_calibrate_modules:
-      "Veuillez effectuer l'étalonnage de la caméra avant d'étalonner les modules.",
+    calibrate_camera_before_calibrate_modules: "Veuillez effectuer l'étalonnage de la caméra avant d'étalonner les modules.",
   },
   input_machine_password: {
     require_password: '"%s" nécessite un mot de passe',
@@ -1675,22 +1551,17 @@ const lang: ILang = {
   tutorial: {
     skip: 'Passer',
     welcome: 'BIENVENUE',
-    suggest_calibrate_camera_first:
-      'Pour les utilisateurs de beamo, Beambox et HEXA, nous vous recommandons d"étalonner la caméra lors de la première utilisation (Menu > Machine > [Votre machine] > Étalonner la caméra), et de refocaliser correctement la plateforme avant chaque aperçu pour obtenir un meilleur résultat. ',
+    suggest_calibrate_camera_first: 'Pour les utilisateurs de beamo, Beambox et HEXA, nous vous recommandons d"étalonner la caméra lors de la première utilisation (Menu > Machine > [Votre machine] > Étalonner la caméra), et de refocaliser correctement la plateforme avant chaque aperçu pour obtenir un meilleur résultat. ',
     camera_calibration_failed: "Échec d'étalonnage de la caméra",
     ask_retry_calibration: 'Voulez-vous réétalonner la caméra ?',
-    skipped_camera_calibration:
-      "Vous avez ignoré l'étalonnage de la caméra. Vous pouvez l'étalonner à tout moment dans le menu (Menu > Machine > [Votre machine] > Étalonner la caméra).",
+    skipped_camera_calibration: "Vous avez ignoré l'étalonnage de la caméra. Vous pouvez l'étalonner à tout moment dans le menu (Menu > Machine > [Votre machine] > Étalonner la caméra).",
     skipped_ador_calibration: 'La caméra Ador a été étalonnée en usine.',
     needNewUserTutorial: 'Voulez-vous commencer un didacticiel ?',
-    needNewInterfaceTutorial:
-      'Voulez-vous commencer un didacticiel pour la nouvelle interface de Beam Studio ?',
+    needNewInterfaceTutorial: 'Voulez-vous commencer un didacticiel pour la nouvelle interface de Beam Studio ?',
     next: 'SUIVANT',
     look_for_machine: 'Recherche de la machine pour le didacticiel...',
-    unable_to_find_machine:
-      'Impossible de trouver la machine pour le didacticiel. Voulez-vous accéder à la page des paramètres de connexion, réessayer ou ignorer le didacticiel ?',
-    skip_tutorial:
-      'Vous avez sauté le tutoriel. Vous pouvez toujours démarrer le tutoriel en cliquant sur "Aide" > "Afficher le tutoriel de démarrage"',
+    unable_to_find_machine: 'Impossible de trouver la machine pour le didacticiel. Voulez-vous accéder à la page des paramètres de connexion, réessayer ou ignorer le didacticiel ?',
+    skip_tutorial: 'Vous avez sauté le tutoriel. Vous pouvez toujours démarrer le tutoriel en cliquant sur "Aide" > "Afficher le tutoriel de démarrage"',
     set_connection: 'Définir la connexion',
     retry: 'Réessayer',
     newUser: {
@@ -1721,17 +1592,14 @@ const lang: ILang = {
       add_new_layer: 'Ajouter un nouveau calque',
       rename_by_double_click: 'Renommer en double-cliquant',
       drag_to_sort: 'Glisser pour trier',
-      layer_controls:
-        'Clic droit pour sélectionner les contrôles de calque :\nDupliquer / Fusionner / Verrouiller / Supprimer des calques',
-      switch_between_layer_panel_and_object_panel:
-        'Basculer entre le panneau des calques et le panneau des objets',
+      layer_controls: 'Clic droit pour sélectionner les contrôles de calque :\nDupliquer / Fusionner / Verrouiller / Supprimer des calques',
+      switch_between_layer_panel_and_object_panel: 'Basculer entre le panneau des calques et le panneau des objets',
       align_controls: 'Aligner les commandes',
       group_controls: 'Grouper les commandes',
       shape_operation: 'Opération de forme',
       flip: 'Retourner',
       object_actions: "Actions sur l'objet",
-      end_alert:
-        "Êtes-vous sûr de vouloir terminer l'introduction à la nouvelle interface utilisateur ?",
+      end_alert: "Êtes-vous sûr de vouloir terminer l'introduction à la nouvelle interface utilisateur ?",
       select_machine: 'Sélectionner une machine',
       start_work: 'Commencer le travail',
     },
@@ -1756,22 +1624,16 @@ const lang: ILang = {
     printing: 'Impression',
     unknown: 'Unknown Module',
     notification: {
-      convertFromPrintingModuleTitle:
-        'Voulez-vous convertir le module Impression en module Laser ?',
-      convertFromPrintingModuleMsg:
-        "Veuillez noter que si vous terminez cette opération, les paramètres de couleur de la couche d'impression seront supprimés et définis en fonction de la couche actuelle.",
+      convertFromPrintingModuleTitle: 'Voulez-vous convertir le module Impression en module Laser ?',
+      convertFromPrintingModuleMsg: "Veuillez noter que si vous terminez cette opération, les paramètres de couleur de la couche d'impression seront supprimés et définis en fonction de la couche actuelle.",
       convertFromLaserModuleTitle: 'Voulez-vous convertir le module Laser en module Impression ?',
-      convertFromLaserModuleMsg:
-        'Veuillez noter que si vous terminez cette opération, les paramètres de la couche laser seront supprimés et définis en fonction de la couche actuelle.',
-      importedDocumentContainsPrinting:
-        "Le document contient une couche d'impression, souhaitez-vous changer l'espace de travail en Ador ?",
+      convertFromLaserModuleMsg: 'Veuillez noter que si vous terminez cette opération, les paramètres de la couche laser seront supprimés et définis en fonction de la couche actuelle.',
+      importedDocumentContainsPrinting: "Le document contient une couche d'impression, souhaitez-vous changer l'espace de travail en Ador ?",
       printingLayersCoverted: "Les couches d'impression ont été converties en couches laser.",
       performPrintingCaliTitle: "Effectuez l'étalonnage du module d'impression",
-      performPrintingCaliMsg:
-        "Cliquez sur « Confirmer » pour exécuter l'étalonnage ou accédez à l'étalonnage via le menu supérieur. <br /> (Machine> [Nom de votre machine]> Étalonner le module d'impression)",
+      performPrintingCaliMsg: "Cliquez sur « Confirmer » pour exécuter l'étalonnage ou accédez à l'étalonnage via le menu supérieur. <br /> (Machine> [Nom de votre machine]> Étalonner le module d'impression)",
       performIRCaliTitle: "Effectuez l'étalonnage du module infrarouge",
-      performIRCaliMsg:
-        "Cliquez sur « Confirmer » pour exécuter l'étalonnage ou accédez à l'étalonnage via le menu supérieur. <br /> (Machine > [Nom de votre machine] > Étalonner le module infrarouge)",
+      performIRCaliMsg: "Cliquez sur « Confirmer » pour exécuter l'étalonnage ou accédez à l'étalonnage via le menu supérieur. <br /> (Machine > [Nom de votre machine] > Étalonner le module infrarouge)",
     },
     non_working_area: 'Zone non-travail',
   },
@@ -1814,8 +1676,7 @@ const lang: ILang = {
     merge: 'Fusionner',
     text_label: 'Étiquette',
     beam_radius: 'Compensation du faisceau',
-    beam_radius_warning:
-      "Supprimez la compensation de la rainure lorsque les bords ou les joints de la boîte sont courts pour assurer l'assemblage de la boîte",
+    beam_radius_warning: "Supprimez la compensation de la rainure lorsque les bords ou les joints de la boîte sont courts pour assurer l'assemblage de la boîte",
     import: 'Importer',
     cancel: 'Annuler',
     reset: 'Réinitialiser',
@@ -1842,8 +1703,7 @@ const lang: ILang = {
       duplicate: 'Dupliquer',
       download: 'Télécharger',
       delete: 'Supprimer',
-      confirmFileDelete:
-        'Êtes-vous sûr de vouloir supprimer ce fichier ? Cette action est irréversible.',
+      confirmFileDelete: 'Êtes-vous sûr de vouloir supprimer ce fichier ? Cette action est irréversible.',
     },
     save_file: {
       choose_action: 'Enregistrer le fichier :',
@@ -1851,14 +1711,13 @@ const lang: ILang = {
       save_new: 'Enregistrer sous',
       input_file_name: 'Entrer le nom du fichier :',
       invalid_char: 'Caractères non valides :',
-      storage_limit_exceeded:
-        "Votre stockage cloud a atteint la limite supérieure. Veuillez supprimer les fichiers inutiles avant d'en sauvegarder de nouveaux.",
+      storage_limit_exceeded: "Votre stockage cloud a atteint la limite supérieure. Veuillez supprimer les fichiers inutiles avant d'en sauvegarder de nouveaux.",
     },
   },
   camera_data_backup: {
     title: 'Sauvegarde des données de la caméra',
     no_picture_found: 'Aucune image trouvée dans la machine.',
-    folder_not_exists: 'Le dossier sélectionné n\'existe pas.',
+    folder_not_exists: "Le dossier sélectionné n'existe pas.",
     incorrect_folder: 'Échec du téléversement des données de calibration. Veuillez vérifier si le dossier que vous avez sélectionné est correct.',
     downloading_data: 'Téléchargement des données...',
     estimated_time_left: 'Temps estimé restant :',

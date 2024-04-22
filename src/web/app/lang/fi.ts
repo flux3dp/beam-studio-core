@@ -38,21 +38,16 @@ const lang: ILang = {
       dxf: 'DXF-kohde',
     },
     alerts: {
-      start_preview_timeout:
-        '#803 Aikakatkaisu esikatselutilan käynnistyksessä. Käynnistä kone tai Beam Studio uudelleen. Jos virhe toistuu, noudata <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">tätä ohjetta</a>.',
-      fail_to_start_preview:
-        '#803 Esikatselutilan käynnistys epäonnistui. Käynnistä kone tai Beam Studio uudelleen. Jos virhe toistuu, noudata <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">tätä ohjetta</a>.',
-      fail_to_connect_with_camera:
-        '#803 Yhteyden muodostaminen kameraan epäonnistui. Käynnistä tietokone tai Beam Studio uudelleen. Jos virhe toistuu, noudata <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">näitä ohjeita</a>.',
+      start_preview_timeout: '#803 Aikakatkaisu esikatselutilan käynnistyksessä. Käynnistä kone tai Beam Studio uudelleen. Jos virhe toistuu, noudata <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">tätä ohjetta</a>.',
+      fail_to_start_preview: '#803 Esikatselutilan käynnistys epäonnistui. Käynnistä kone tai Beam Studio uudelleen. Jos virhe toistuu, noudata <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">tätä ohjetta</a>.',
+      fail_to_connect_with_camera: '#803 Yhteyden muodostaminen kameraan epäonnistui. Käynnistä tietokone tai Beam Studio uudelleen. Jos virhe toistuu, noudata <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">näitä ohjeita</a>.',
       add_content_first: 'Lisää ensin kohteita',
       headtype_mismatch: 'Väärä moduuli havaittu. ',
       headtype_none: 'Moduulia ei havaittu. ',
       headtype_unknown: 'Tuntematon moduuli havaittu. ',
-      install_correct_headtype:
-        'Asenna 10 W / 20 W diodilasermoduulit asianmukaisesti, jotta kehys voidaan käynnistää matalalla teholla.',
+      install_correct_headtype: 'Asenna 10 W / 20 W diodilasermoduulit asianmukaisesti, jotta kehys voidaan käynnistää matalalla teholla.',
       door_opened: 'Sulje ovensuojus, jotta kehys voidaan käynnistää matalalla teholla.',
-      fail_to_get_door_status:
-        'Varmista, että ovensuojus on kiinni, jotta kehys voidaan käynnistää matalalla teholla.',
+      fail_to_get_door_status: 'Varmista, että ovensuojus on kiinni, jotta kehys voidaan käynnistää matalalla teholla.',
     },
     hint: {
       polygon: 'Paina +-näppäintä lisätäksesi/vähentääksesi sivuja.',
@@ -196,20 +191,17 @@ const lang: ILang = {
   },
   support: {
     no_webgl: 'WebGL ei ole tuettu. Käytä muita laitteita.',
-    no_vcredist:
-      'Asenna Visual C++ Redistributable 2015<br/>Sen voi ladata osoitteesta flux3dp.com',
+    no_vcredist: 'Asenna Visual C++ Redistributable 2015<br/>Sen voi ladata osoitteesta flux3dp.com',
   },
   generic_error: {
     UNKNOWN_ERROR: '[UE] Tuntematon virhe. Käynnistä Beam Studio ja laite uudelleen.',
     OPERATION_ERROR: '[OE] Tilakonflikti tapahtui, yritä toimintoa uudelleen.',
-    SUBSYSTEM_ERROR:
-      '[SE] Virhe, kun laiteohjelmisto suoritti tehtävää. Käynnistä laite uudelleen.',
+    SUBSYSTEM_ERROR: '[SE] Virhe, kun laiteohjelmisto suoritti tehtävää. Käynnistä laite uudelleen.',
     UNKNOWN_COMMAND: '[UC] Päivitä laitteen laiteohjelmisto',
   },
   device_selection: {
-    no_beambox:
-      '#801 Emme löydä laitettasi verkosta.\nNoudata <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">ohjetta</a> yhteysongelman vianmääritykseen.',
-    no_device_web: '#801 Tarkista koneesi tila tai napsauta alla olevaa \'Koneen asetukset\' asettaaksesi koneen.',
+    no_beambox: '#801 Emme löydä laitettasi verkosta.\nNoudata <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">ohjetta</a> yhteysongelman vianmääritykseen.',
+    no_device_web: "#801 Tarkista koneesi tila tai napsauta alla olevaa 'Koneen asetukset' asettaaksesi koneen.",
   },
   update: {
     update: 'Päivitä',
@@ -228,11 +220,9 @@ const lang: ILang = {
       upload_file: 'Laiteohjelmiston lataus (*.bin / *.fxfw)',
       update_success: 'Laiteohjelmistopäivitys ladattu onnistuneesti',
       update_fail: '#822 Päivitys epäonnistui',
-      too_old_for_web:
-        'Nykyinen laitteen laiteohjelmistoversiosi on v%s.\nJos haluat käyttää Beam Studion verkkoversiota, päivitä laitteen laiteohjelmisto uusimpaan versioon.',
+      too_old_for_web: 'Nykyinen laitteen laiteohjelmistoversiosi on v%s.\nJos haluat käyttää Beam Studion verkkoversiota, päivitä laitteen laiteohjelmisto uusimpaan versioon.',
       force_update_message: '#814 Päivitä laitteesi uusimpaan laiteohjelmistoversioon.',
-      firmware_too_old_update_by_sdcard:
-        'Laiteohjelmistoversio on liian vanha. Päivitä laiteohjelmisto SD-kortin avulla.',
+      firmware_too_old_update_by_sdcard: 'Laiteohjelmistoversio on liian vanha. Päivitä laiteohjelmisto SD-kortin avulla.',
     },
     software: {
       checking: 'Tarkistetaan päivityksiä',
@@ -242,17 +232,14 @@ const lang: ILang = {
       downloading: 'Lataan päivityksiä taustalla, voit jatkaa työskentelyä painamalla "OK".',
       install_or_not: 'on valmis päivittämään. Haluatko käynnistää uudelleen ja päivittää nyt?',
       switch_or_not: 'on valmis vaihtamaan. Haluatko käynnistää uudelleen ja vaihtaa nyt?',
-      available_update:
-        'Uusi Beam Studio v%s on nyt saatavilla. Sinulla on v%s. Haluatko ladata päivityksen?',
-      available_switch:
-        'Uusi Beam Studio v%s on nyt saatavilla. Sinulla on v%s. Haluatko vaihtaa tähän versioon?',
+      available_update: 'Uusi Beam Studio v%s on nyt saatavilla. Sinulla on v%s. Haluatko ladata päivityksen?',
+      available_switch: 'Uusi Beam Studio v%s on nyt saatavilla. Sinulla on v%s. Haluatko vaihtaa tähän versioon?',
       not_found: 'Käytät uusinta Beam Studio -versiota.',
       no_response: 'Yhteys palvelimeen epäonnistui, tarkista verkkoasetuksesi.',
       switch_version_not_found: 'Vaihdettavaa versiota ei löytynyt.',
       yes: 'Kyllä',
       no: 'Ei',
-      update_for_ador:
-        'Ohjelmistoversio %s ei ole yhteensopiva, lataa uusin Beam Studio -versio Adorille.',
+      update_for_ador: 'Ohjelmistoversio %s ei ole yhteensopiva, lataa uusin Beam Studio -versio Adorille.',
     },
     updating: 'Päivitetään...',
     skip: 'Ohita tämä versio',
@@ -265,8 +252,7 @@ const lang: ILang = {
   },
   topmenu: {
     version: 'Versio',
-    credit:
-      'Beam Studio on mahdollinen <a target="_blank" href="https://github.com/flux3dp/beam-studio">Beam Studio</a> avoimen lähdekoodin projektin ja muiden <a target="_blank" href="https://flux3dp.com/credits/">avoimen lähdekoodin ohjelmistojen</a> ansiosta.',
+    credit: 'Beam Studio on mahdollinen <a target="_blank" href="https://github.com/flux3dp/beam-studio">Beam Studio</a> avoimen lähdekoodin projektin ja muiden <a target="_blank" href="https://flux3dp.com/credits/">avoimen lähdekoodin ohjelmistojen</a> ansiosta.',
     ok: 'OK',
     file: {
       label: 'Tiedosto',
@@ -317,15 +303,12 @@ const lang: ILang = {
     connect_wifi: {
       title: 'Yhdistetään Wi-Fiin',
       tutorial1: '1. Siirry kosketusnäytössä kohtaan Verkko > Valitse "Yhdistä WiFiin".',
-      tutorial1_ador:
-        '1. Siirry kosketusnäytölle > Paina "KONE" > Paina "Verkko" > "Yhdistä WiFiin".',
+      tutorial1_ador: '1. Siirry kosketusnäytölle > Paina "KONE" > Paina "Verkko" > "Yhdistä WiFiin".',
       tutorial2: '2. Valitse ja yhdistä haluamasi Wi-Fi.',
       what_if_1: 'Entä jos en näe Wi-Fiäni?',
-      what_if_1_content:
-        '1. Wi-Fi-salauksen tilan tulisi olla WPA2 tai ei salasanaa.\n2. Salaustilan voi asettaa Wi-Fi-reitittimen hallintaliittymässä. Jos reititin ei tue WPA2:ta ja tarvitset apua oikean reitittimen valinnassa, ota yhteyttä FLUX-tukeen.',
+      what_if_1_content: '1. Wi-Fi-salauksen tilan tulisi olla WPA2 tai ei salasanaa.\n2. Salaustilan voi asettaa Wi-Fi-reitittimen hallintaliittymässä. Jos reititin ei tue WPA2:ta ja tarvitset apua oikean reitittimen valinnassa, ota yhteyttä FLUX-tukeen.',
       what_if_2: 'Mitä teen, jos en näe yhtään Wi-Fi-verkkoa?',
-      what_if_2_content:
-        '1. Varmista, että Wi-Fi-tikku on kytketty kunnolla.\n2. Jos kosketusnäytöllä ei näy langattoman verkon MAC-osoitetta, ota yhteyttä FLUX-tukeen.\n3. Wi-Fi-kanavan tulisi olla 2,4 GHz (5 GHz ei ole tuettu).',
+      what_if_2_content: '1. Varmista, että Wi-Fi-tikku on kytketty kunnolla.\n2. Jos kosketusnäytöllä ei näy langattoman verkon MAC-osoitetta, ota yhteyttä FLUX-tukeen.\n3. Wi-Fi-kanavan tulisi olla 2,4 GHz (5 GHz ei ole tuettu).',
     },
     connect_wired: {
       title: 'Langallisen verkon yhdistäminen',
@@ -333,11 +316,9 @@ const lang: ILang = {
       tutorial2: '2. Paina "Verkko" saadaksesi langallisen verkon IP:n.',
       tutorial2_ador: '2. Paina "KONE" > "Verkko" saadaksesi langallisen verkon IP:n.',
       what_if_1: 'Mitä teen, jos IP on tyhjä?',
-      what_if_1_content:
-        '1. Varmista, että Ethernet-kaapeli on kytketty kunnolla.\n2. Jos kosketusnäytöllä ei näy langallisen verkon MAC-osoitetta, ota yhteyttä FLUX-tukeen.',
+      what_if_1_content: '1. Varmista, että Ethernet-kaapeli on kytketty kunnolla.\n2. Jos kosketusnäytöllä ei näy langallisen verkon MAC-osoitetta, ota yhteyttä FLUX-tukeen.',
       what_if_2: 'Mitä teen, jos IP alkaa numerolla 169?',
-      what_if_2_content:
-        '1. Jos IP-osoite alkaa numerolla 169.254, kyseessä on todennäköisesti DHCP-asetusten ongelma, ota yhteyttä internetpalveluntarjoajaasi lisäavun saamiseksi.\n2. Jos tietokoneesi yhdistyy internetiin suoraan käyttäen PPPoE:tä, vaihda käyttämään reititintä PPPoE-yhteyden muodostamiseen ja ota DHCP käyttöön reitittimessä.',
+      what_if_2_content: '1. Jos IP-osoite alkaa numerolla 169.254, kyseessä on todennäköisesti DHCP-asetusten ongelma, ota yhteyttä internetpalveluntarjoajaasi lisäavun saamiseksi.\n2. Jos tietokoneesi yhdistyy internetiin suoraan käyttäen PPPoE:tä, vaihda käyttämään reititintä PPPoE-yhteyden muodostamiseen ja ota DHCP käyttöön reitittimessä.',
     },
     connect_ethernet: {
       title: 'Suora yhteys',
@@ -377,15 +358,13 @@ const lang: ILang = {
     setting_completed: {
       start: 'Aloita',
       great: 'Tervetuloa Beam Studioon',
-      setup_later:
-        'Voit määrittää laitteesi myöhemmin yläpalkista kohdasta "Laitteet" > "Laitteen asetukset"',
+      setup_later: 'Voit määrittää laitteesi myöhemmin yläpalkista kohdasta "Laitteet" > "Laitteen asetukset"',
       back: 'Takaisin',
       ok: 'ALOITA LUOMINEN',
     },
   },
   error_pages: {
-    screen_size:
-      'Huomaa, että Beam Studio ei välttämättä toimi optimaalisesti laitteellasi. Paras kokemus saadaan näytöllä, jonka leveys on vähintään 1024 pikseliä.',
+    screen_size: 'Huomaa, että Beam Studio ei välttämättä toimi optimaalisesti laitteellasi. Paras kokemus saadaan näytöllä, jonka leveys on vähintään 1024 pikseliä.',
   },
   menu: {
     mm: 'mm',
@@ -457,8 +436,7 @@ const lang: ILang = {
     diode_offset: 'Diodilaserin siirtymä',
     autofocus_offset: 'Automaattitarkennuksen siirtymä',
     diode_one_way_engraving: 'Diodilaserin yksisuuntainen kaiverrus',
-    diode_two_way_warning:
-      'Kaksisuuntainen valon lähettäminen on nopeampaa ja todennäköisesti tuottaa epätarkkuutta laserkaiverruksen sijainnissa. Suositellaan testaamaan ensin.',
+    diode_two_way_warning: 'Kaksisuuntainen valon lähettäminen on nopeampaa ja todennäköisesti tuottaa epätarkkuutta laserkaiverruksen sijainnissa. Suositellaan testaamaan ensin.',
     share_with_flux: 'Jaa Beam Studion analytiikka',
     none: 'Ei mitään',
     close: 'Sulje',
@@ -540,68 +518,49 @@ const lang: ILang = {
       layer_by_color: 'Väri',
       nolayer: 'Yksikerroksinen',
       loading_image: 'Ladataan kuvaa, odota...',
-      no_support_text:
-        'Beam Studio ei tällä hetkellä tue tekstiä. Muuta teksti poluiksi ennen tuontia.',
-      speed_too_high_lower_the_quality:
-        'Liian korkea nopeus tällä resoluutiolla voi heikentää varjostuksen laatua.',
-      both_power_and_speed_too_high:
-        'Matalampi laserteho pidentää laserputken käyttöikää. Liian korkea nopeus tällä resoluutiolla voi myös heikentää varjostuksen laatua.',
-      too_fast_for_path:
-        'Liian korkea nopeus polkuobjekteja sisältävissä kerroksissa voi heikentää leikkaustarkkuutta. Emme suosittele yli 20 mm/s nopeutta leikattaessa.',
-      too_fast_for_path_and_constrain:
-        'Seuraavat kerrokset: %s sisältävät vektoripolkuobjekteja yli 20 mm/s nopeudella. Polkuobjektien leikkausnopeus rajoitetaan 20 mm/s:iin. Voit poistaa rajoituksen asetuksista.',
-      should_update_firmware_to_continue:
-        '#814 Nykyinen laiteohjelmisto ei tue tätä Beam Studion versiota. Päivitä laiteohjelmisto jatkaaksesi. (Valikko > Laite > [Laite] > Päivitä laiteohjelmisto)',
-      recommend_downgrade_software:
-        'Havaitsimme vanhemman laiteohjelmistoversion. Työskentelemme parhaillaan yhteensopivuusongelmien kanssa, mutta toistaiseksi suosittelemme palaamaan Beam Studioon 1.9.5.',
-      recommend_upgrade_firmware:
-        'Havaitsimme vanhemman laiteohjelmistoversion. Yhteensopivuusongelmia korjataan parhaillaan, mutta toistaiseksi suosittelemme päivittämään uusimpaan laiteohjelmistoversioon.',
+      no_support_text: 'Beam Studio ei tällä hetkellä tue tekstiä. Muuta teksti poluiksi ennen tuontia.',
+      speed_too_high_lower_the_quality: 'Liian korkea nopeus tällä resoluutiolla voi heikentää varjostuksen laatua.',
+      both_power_and_speed_too_high: 'Matalampi laserteho pidentää laserputken käyttöikää. Liian korkea nopeus tällä resoluutiolla voi myös heikentää varjostuksen laatua.',
+      too_fast_for_path: 'Liian korkea nopeus polkuobjekteja sisältävissä kerroksissa voi heikentää leikkaustarkkuutta. Emme suosittele yli 20 mm/s nopeutta leikattaessa.',
+      too_fast_for_path_and_constrain: 'Seuraavat kerrokset: %s sisältävät vektoripolkuobjekteja yli 20 mm/s nopeudella. Polkuobjektien leikkausnopeus rajoitetaan 20 mm/s:iin. Voit poistaa rajoituksen asetuksista.',
+      should_update_firmware_to_continue: '#814 Nykyinen laiteohjelmisto ei tue tätä Beam Studion versiota. Päivitä laiteohjelmisto jatkaaksesi. (Valikko > Laite > [Laite] > Päivitä laiteohjelmisto)',
+      recommend_downgrade_software: 'Havaitsimme vanhemman laiteohjelmistoversion. Työskentelemme parhaillaan yhteensopivuusongelmien kanssa, mutta toistaiseksi suosittelemme palaamaan Beam Studioon 1.9.5.',
+      recommend_upgrade_firmware: 'Havaitsimme vanhemman laiteohjelmistoversion. Yhteensopivuusongelmia korjataan parhaillaan, mutta toistaiseksi suosittelemme päivittämään uusimpaan laiteohjelmistoversioon.',
       still_continue: 'Jatka',
       more_than_two_object: 'Liikaa objekteja. Vain 2 objektia tuetaan.',
       not_support_object_type: 'Objektityyppiä ei tueta.',
       select_first: 'Valitse objekti ensin.',
       select_at_least_two: 'Valitse kaksi objektia jatkaaksesi',
-      import_file_contain_invalid_path:
-        '#808 Tuodussa SVG-tiedostossa on virheellisiä kuvapolkuja. Varmista, että kaikki kuvatiedostot ovat olemassa tai upota kuvat tiedostoon.',
-      import_file_error_ask_for_upload:
-        'Tiedoston tuonti epäonnistui. Haluatko tarjota tiedoston kehitystiimille vianraporttia varten?',
+      import_file_contain_invalid_path: '#808 Tuodussa SVG-tiedostossa on virheellisiä kuvapolkuja. Varmista, että kaikki kuvatiedostot ovat olemassa tai upota kuvat tiedostoon.',
+      import_file_error_ask_for_upload: 'Tiedoston tuonti epäonnistui. Haluatko tarjota tiedoston kehitystiimille vianraporttia varten?',
       upload_file_too_large: '#819 Tiedosto on liian suuri latausta varten.',
       successfully_uploaded: 'Tiedoston lataus onnistui.',
       upload_failed: '#819 Tiedoston lataus epäonnistui.',
       or_turn_off_borderless_mode: ' Tai poista avoimen pohjan tila käytöstä.',
       svg_1_1_waring: 'Tämän SVG-tiedoston versio 1.1 voi aiheuttaa yhteensopivuusongelmia.',
-      svg_image_path_waring:
-        'Tämä SVG-tiedosto sisältää tiedostopolkuja. Se voi aiheuttaa virheitä ladattaessa.\nVälttääksesi tämän riskin, liitä kuvat SVG-tiedostoon vietäessä.',
-      dxf_version_waring:
-        'Tämän DXF-tiedoston versio ei ole 2013, mikä voi aiheuttaa yhteensopivuusongelmia.',
+      svg_image_path_waring: 'Tämä SVG-tiedosto sisältää tiedostopolkuja. Se voi aiheuttaa virheitä ladattaessa.\nVälttääksesi tämän riskin, liitä kuvat SVG-tiedostoon vietäessä.',
+      dxf_version_waring: 'Tämän DXF-tiedoston versio ei ole 2013, mikä voi aiheuttaa yhteensopivuusongelmia.',
       dont_show_again: 'Älä näytä tätä enää',
       convert_to_path_fail: 'Muuntaminen poluiksi epäonnistui.',
       save_unsave_changed: 'Haluatko tallentaa tallentamattomat muutokset?',
-      dxf_bounding_box_size_over:
-        'Piirroksen koko ylittää työalueen. Siirrä piirrosta lähemmäs origoa CAD-ohjelmassa tai tarkista mittayksiköt.',
+      dxf_bounding_box_size_over: 'Piirroksen koko ylittää työalueen. Siirrä piirrosta lähemmäs origoa CAD-ohjelmassa tai tarkista mittayksiköt.',
       progress: {
         uploading: 'Lähetetään',
         calculating: 'Lasketaan',
       },
-      backend_connect_failed_ask_to_upload:
-        '#802 Virheitä yhdistettäessä taustajärjestelmään. Haluatko lähettää vianraportin?',
+      backend_connect_failed_ask_to_upload: '#802 Virheitä yhdistettäessä taustajärjestelmään. Haluatko lähettää vianraportin?',
       backend_error_hint: 'Ominaisuuksissa voi olla ongelmia taustajärjestelmän virheen takia.',
       pdf2svg: {
         error_when_converting_pdf: '#824 Virhe muunnettaessa PDF:ää SVG:ksi:',
-        error_pdf2svg_not_found:
-          '#825 Virhe: pdf2svg-komentoa ei löydy. Asenna pdf2svg paketinhallinnalla.',
+        error_pdf2svg_not_found: '#825 Virhe: pdf2svg-komentoa ei löydy. Asenna pdf2svg paketinhallinnalla.',
       },
-      ungroup_use:
-        'Tämä purkaa tuodun tiedoston ryhmityksen. Koska tiedosto voi sisältää suuren määrän elementtejä, ryhmityksen purku voi viedä aikaa. Haluatko jatkaa?',
-      vectorize_shading_image:
-        'Liukuvärit kuvissa altistuvat kohinalle. Poista kuvan liukuvärit ennen suorittamista.',
-      change_workarea_before_preview:
-        '%s:n työalue ei vastaa nykyistä työaluetta. Haluatko vaihtaa nykyisen työalueen?',
+      ungroup_use: 'Tämä purkaa tuodun tiedoston ryhmityksen. Koska tiedosto voi sisältää suuren määrän elementtejä, ryhmityksen purku voi viedä aikaa. Haluatko jatkaa?',
+      vectorize_shading_image: 'Liukuvärit kuvissa altistuvat kohinalle. Poista kuvan liukuvärit ennen suorittamista.',
+      change_workarea_before_preview: '%s:n työalue ei vastaa nykyistä työaluetta. Haluatko vaihtaa nykyisen työalueen?',
       bug_report: 'Vianraportti',
       sentry: {
         title: 'Tehdään Beam Studio paremmaksi yhdessä',
-        message:
-          'Hyväksytkö automaattisen virheraporttien lähettämisen kehitystiimille virheiden sattuessa?',
+        message: 'Hyväksytkö automaattisen virheraporttien lähettämisen kehitystiimille virheiden sattuessa?',
       },
       questionnaire: {
         caption: 'Auta meitä täyttämään kysely',
@@ -611,8 +570,7 @@ const lang: ILang = {
       },
       facebook_group_invitation: {
         title: 'Liity FLUX:n viralliseen käyttäjäryhmään',
-        message:
-          'Liity viralliseen FLUX Facebook-ryhmäämme yhdistääksesi muiden FLUX-laserkäyttäjien kanssa, keskustellaksesi FLUX-lasereista, jakaaksesi laser-taidetta ja pysyäksesi ajan tasalla tuotteidemme uusimmista päivityksistä. Odotamme sinua innolla!',
+        message: 'Liity viralliseen FLUX Facebook-ryhmäämme yhdistääksesi muiden FLUX-laserkäyttäjien kanssa, keskustellaksesi FLUX-lasereista, jakaaksesi laser-taidetta ja pysyäksesi ajan tasalla tuotteidemme uusimmista päivityksistä. Odotamme sinua innolla!',
         join_now: 'Liity nyt',
         later: 'Ehkä myöhemmin',
         already_joined: 'Jo liittynyt',
@@ -627,8 +585,7 @@ const lang: ILang = {
       },
       text_to_path: {
         caption: 'Teksti-polku muunnin 2.0',
-        message:
-          'Beam Studio esittelee nyt uuden teksti-polku muuntimen (Muunnin 2.0), joka tuottaa luotettavampia tuloksia! Haluaisitko vaihtaa siihen nyt? \nVoit myös säätää tätä asetusta myöhemmin Teksti-polku muunnin -osiossa asetuksissa.',
+        message: 'Beam Studio esittelee nyt uuden teksti-polku muuntimen (Muunnin 2.0), joka tuottaa luotettavampia tuloksia! Haluaisitko vaihtaa siihen nyt? \nVoit myös säätää tätä asetusta myöhemmin Teksti-polku muunnin -osiossa asetuksissa.',
       },
     },
     zoom_block: {
@@ -691,25 +648,16 @@ const lang: ILang = {
           enterNewLayerName: 'Anna uusi tason nimi',
           layerHasThatName: 'Tasolla on jo tuo nimi',
           QmoveElemsToLayer: "Siirretäänkö valitut kuvio tasolle '%s'?",
-          moveElemFromPrintingLayerTitle:
-            'Siirretäänkö valitut elementit kerrokseen %s ja muunnetaan laser-elementeiksi?',
-          moveElemFromPrintingLayerMsg:
-            'Huomioi, että jos suoritat tämän toiminnon, valitun elementin väriasetukset poistetaan ja asetetaan %s mukaisesti.',
-          moveElemToPrintingLayerTitle:
-            'Siirretäänkö valittu elementti kohteeseen %s ja muunnetaan se tulostuselementiksi?',
-          moveElemToPrintingLayerMsg:
-            'Huomioi, että jos suoritat tämän toiminnon, valitun elementin asetukset poistetaan ja asetetaan %s mukaisesti.',
+          moveElemFromPrintingLayerTitle: 'Siirretäänkö valitut elementit kerrokseen %s ja muunnetaan laser-elementeiksi?',
+          moveElemFromPrintingLayerMsg: 'Huomioi, että jos suoritat tämän toiminnon, valitun elementin väriasetukset poistetaan ja asetetaan %s mukaisesti.',
+          moveElemToPrintingLayerTitle: 'Siirretäänkö valittu elementti kohteeseen %s ja muunnetaan se tulostuselementiksi?',
+          moveElemToPrintingLayerMsg: 'Huomioi, että jos suoritat tämän toiminnon, valitun elementin asetukset poistetaan ja asetetaan %s mukaisesti.',
           splitColorTitle: 'Haluatko laajentaa valitun tason CMYK-tasoiksi?',
-          splitColorMsg:
-            'Huomioi, että jos jatkat tätä toimintoa, et voi palata alkuperäisiin väritasoihin.',
-          mergeLaserLayerToPrintingLayerTitle:
-            'Haluatko yhdistää nämä tasot yhdeksi tulostustasoksi?',
-          mergeLaserLayerToPrintingLayerMsg:
-            'Huomioi, että jos suoritat tämän toiminnon, laser-tason asetukset poistetaan ja asetetaan nykyisen tason mukaisesti.',
-          mergePrintingLayerToLaserLayerTitle:
-            'Haluatko yhdistää nämä tasot yhdeksi laser-tasoksi?',
-          mergePrintingLayerToLaserLayerMsg:
-            'Huomioi, että jos suoritat tämän toiminnon, tulostustason väriasetukset poistetaan ja asetetaan nykyisen tason mukaisesti.',
+          splitColorMsg: 'Huomioi, että jos jatkat tätä toimintoa, et voi palata alkuperäisiin väritasoihin.',
+          mergeLaserLayerToPrintingLayerTitle: 'Haluatko yhdistää nämä tasot yhdeksi tulostustasoksi?',
+          mergeLaserLayerToPrintingLayerMsg: 'Huomioi, että jos suoritat tämän toiminnon, laser-tason asetukset poistetaan ja asetetaan nykyisen tason mukaisesti.',
+          mergePrintingLayerToLaserLayerTitle: 'Haluatko yhdistää nämä tasot yhdeksi laser-tasoksi?',
+          mergePrintingLayerToLaserLayerMsg: 'Huomioi, että jos suoritat tämän toiminnon, tulostustason väriasetukset poistetaan ja asetetaan nykyisen tason mukaisesti.',
         },
         layers: {
           layer: 'Taso',
@@ -740,8 +688,7 @@ const lang: ILang = {
         strength: 'Teho',
         low_power_warning: 'Alhainen laserteho (alle 10 %) ei välttämättä emittoi lasersädettä.',
         speed: 'Nopeus',
-        speed_contrain_warning:
-          'Vektoripolkuobjektien leikkausnopeus rajoitetaan 20 mm/s. Voit poistaa tämän rajoituksen asetuksista.',
+        speed_contrain_warning: 'Vektoripolkuobjektien leikkausnopeus rajoitetaan 20 mm/s. Voit poistaa tämän rajoituksen asetuksista.',
         low_speed_warning: 'Alhainen nopeus voi aiheuttaa materiaalin palamista.',
         repeat: 'Suorita',
         add_on: 'Lisäosa',
@@ -762,8 +709,7 @@ const lang: ILang = {
         more: 'Hallitse',
         delete: 'Poista',
         reset: 'Nollaa',
-        sure_to_reset:
-          'Tämä nollaa kaikki esiasetukset ja säilyttää mukautetut parametrit, haluatko varmasti jatkaa?',
+        sure_to_reset: 'Tämä nollaa kaikki esiasetukset ja säilyttää mukautetut parametrit, haluatko varmasti jatkaa?',
         apply: 'Käytä',
         cancel: 'Peruuta',
         save: 'Tallenna',
@@ -774,8 +720,7 @@ const lang: ILang = {
         inuse: 'Käytössä',
         export_config: 'Vie esiasetukset',
         new_config_name: 'Uusi esiasetuksen nimi',
-        sure_to_load_config:
-          'Tämä lataa esiasetusten järjestyksen ja korvaa tiedostossa määritetyt mukautetut parametrit, haluatko varmasti jatkaa?',
+        sure_to_load_config: 'Tämä lataa esiasetusten järjestyksen ja korvaa tiedostossa määritetyt mukautetut parametrit, haluatko varmasti jatkaa?',
         custom_preset: 'Mukautettu',
         various_preset: 'Useita esiasetuksia',
         module: 'Moduuli',
@@ -1001,8 +946,7 @@ const lang: ILang = {
           simplify: 'Yksinkertaista',
           ai_bg_removal: 'Taustan poisto',
           ai_bg_removal_short: 'TP',
-          ai_bg_removal_reminder:
-            'Painamalla nappia käytetään välittömästi 0,2 hyvitystä, haluatko jatkaa?',
+          ai_bg_removal_reminder: 'Painamalla nappia käytetään välittömästi 0,2 hyvitystä, haluatko jatkaa?',
           outline: 'Ääriviiva',
         },
         path_edit_panel: {
@@ -1018,8 +962,7 @@ const lang: ILang = {
     bottom_right_panel: {
       convert_text_to_path_before_export: 'Muunna teksti poluksi...',
       retreive_image_data: 'Nouda kuvan tiedot...',
-      export_file_error_ask_for_upload:
-        'Vientitehtävän epäonnistui. Haluatko tarjota toimivan näkymän kehitystiimille vianraportointia varten?',
+      export_file_error_ask_for_upload: 'Vientitehtävän epäonnistui. Haluatko tarjota toimivan näkymän kehitystiimille vianraportointia varten?',
     },
     image_trace_panel: {
       apply: 'Käytä',
@@ -1081,10 +1024,8 @@ const lang: ILang = {
     object_panels: {
       wait_for_parsing_font: 'Jäsentää fonttia... Odota hetki',
       text_to_path: {
-        font_substitute_pop:
-          'Tekstissäsi on merkkejä, joita nykyinen fontti ei tue. <br/>Haluaisitko käyttää <strong>%s</strong> korvaavana fonttina?',
-        check_thumbnail_warning:
-          'Joitakin tekstejä vaihdettiin toisiin fontteihin muunnettaessa tekstejä poluiksi ja joitakin merkkejä ei ehkä muunnettu oikein. <br/>Tarkista esikatselukuva uudelleen ennen tehtävän lähettämistä.',
+        font_substitute_pop: 'Tekstissäsi on merkkejä, joita nykyinen fontti ei tue. <br/>Haluaisitko käyttää <strong>%s</strong> korvaavana fonttina?',
+        check_thumbnail_warning: 'Joitakin tekstejä vaihdettiin toisiin fontteihin muunnettaessa tekstejä poluiksi ja joitakin merkkejä ei ehkä muunnettu oikein. <br/>Tarkista esikatselukuva uudelleen ennen tehtävän lähettämistä.',
         error_when_parsing_text: 'Virhe tekstiä poluksi muunnettaessa',
         use_current_font: 'Käytä nykyistä fonttia',
         retry: 'Yritä myöhemmin uudelleen tai valitse toinen fontti',
@@ -1112,8 +1053,7 @@ const lang: ILang = {
         sharp: 'Terävä',
         round: 'Pyöreä',
         fail_message: 'Siirtymä epäonnistui.',
-        not_support_message:
-          'Valitut elementit sisältävät SVG-tageja, joita ei tueta:\nKuva, Ryhmä, Teksti ja Tuotu objekti.',
+        not_support_message: 'Valitut elementit sisältävät SVG-tageja, joita ei tueta:\nKuva, Ryhmä, Teksti ja Tuotu objekti.',
       },
       _nest: {
         start_nest: 'Järjestä',
@@ -1139,23 +1079,18 @@ const lang: ILang = {
       test_completed: 'Testi valmis',
       test_fail: 'Testi epäonnistui',
       cannot_connect_1: '#840 Yhteyden muodostaminen kohde-IP-osoitteeseen epäonnistui.',
-      cannot_connect_2:
-        '#840 Yhteyden muodostaminen kohde-IP-osoitteeseen epäonnistui. Varmista, että kohde on samassa verkossa.',
+      cannot_connect_2: '#840 Yhteyden muodostaminen kohde-IP-osoitteeseen epäonnistui. Varmista, että kohde on samassa verkossa.',
       network_unhealthy: '#841 Yhteyden laatu <70 tai keskimääräinen vasteaika >100 ms',
-      device_not_on_list:
-        '#842 Laite ei ole listalla, mutta yhteyden laatu on >70 ja keskimääräinen vasteaika on <100 ms',
+      device_not_on_list: '#842 Laite ei ole listalla, mutta yhteyden laatu on >70 ja keskimääräinen vasteaika on <100 ms',
       hint_device_often_on_list: 'Laite ei usein löydy listalta?',
       link_device_often_on_list: 'https://support.flux3dp.com/hc/en-us/articles/360001841636',
-      hint_connect_failed_when_sending_job:
-        'Yhteyden muodostaminen epäonnistui työn lähetyksen yhteydessä?',
-      link_connect_failed_when_sending_job:
-        'https://support.flux3dp.com/hc/en-us/articles/360001841656',
+      hint_connect_failed_when_sending_job: 'Yhteyden muodostaminen epäonnistui työn lähetyksen yhteydessä?',
+      link_connect_failed_when_sending_job: 'https://support.flux3dp.com/hc/en-us/articles/360001841656',
       hint_connect_camera_timeout: 'Aikakatkaisu esikatselun käynnistyksen yhteydessä?',
       link_connect_camera_timeout: 'https://support.flux3dp.com/hc/en-us/articles/360001791895',
       cannot_get_local: 'Paikallisen IP-osoitteen käyttö epäonnistui.',
       fail_to_start_network_test: '#817 Verkkotestauksen käynnistys epäonnistui.',
-      linux_permission_hint:
-        'Tämä virhe johtuu yleensä riittämättömistä käyttöoikeuksista.\nSuorita terminaalissa komento "sudo beam-studio --no-sandbox" käyttöoikeuksien saamiseksi ja verkkotestauksen suorittamiseksi.',
+      linux_permission_hint: 'Tämä virhe johtuu yleensä riittämättömistä käyttöoikeuksista.\nSuorita terminaalissa komento "sudo beam-studio --no-sandbox" käyttöoikeuksien saamiseksi ja verkkotestauksen suorittamiseksi.',
     },
     layer_color_config_panel: {
       layer_color_config: 'Kerroksen värimääritykset',
@@ -1170,20 +1105,17 @@ const lang: ILang = {
       add_config: 'Lisää väri',
       in_use: 'Tätä väriä käytetään.',
       no_input: 'Anna kelvollinen heksavärikoodi.',
-      sure_to_reset:
-        'Menetät kaikki mukautetut asetukset, haluatko varmasti palauttaa oletusarvot?',
+      sure_to_reset: 'Menetät kaikki mukautetut asetukset, haluatko varmasti palauttaa oletusarvot?',
       sure_to_delete: 'Haluatko varmasti poistaa tämän väriasetuksen?',
     },
     rating_panel: {
       title: 'Pidätkö Beam Studio -ohjelmasta?',
-      description:
-        'Jos pidät Beam Studiosta, arvostaisimme suuresti, jos voisit arvostella meidät.',
+      description: 'Jos pidät Beam Studiosta, arvostaisimme suuresti, jos voisit arvostella meidät.',
       dont_show_again: 'Älä näytä tätä seuraavalla kerralla.',
       thank_you: 'Kiitos!',
     },
     svg_editor: {
-      unnsupported_file_type:
-        'Tiedostotyyppiä ei tueta suoraan. Muunna tiedosto SVG:ksi tai bittikartaksi',
+      unnsupported_file_type: 'Tiedostotyyppiä ei tueta suoraan. Muunna tiedosto SVG:ksi tai bittikartaksi',
       unable_to_fetch_clipboard_img: 'Leikepöydältä kuvan haku epäonnistui',
     },
     units: {
@@ -1302,8 +1234,7 @@ const lang: ILang = {
     search: 'Etsi',
     clear: 'Tyhjennä',
     export_svg_title: 'SVG-viennin virhe',
-    export_svg_warning:
-      'Tämä projekti sisältää tekijänoikeussuojan alaisia objekteja. Beam Studio jättää nämä objektit automaattisesti pois viennin yhteydessä. Voit silti tallentaa projektisi Beam Studio -kohtauksena (.beam-muodossa) säilyttääksesi kaikki tiedot. Haluatko silti viedä?',
+    export_svg_warning: 'Tämä projekti sisältää tekijänoikeussuojan alaisia objekteja. Beam Studio jättää nämä objektit automaattisesti pois viennin yhteydessä. Voit silti tallentaa projektisi Beam Studio -kohtauksena (.beam-muodossa) säilyttääksesi kaikki tiedot. Haluatko silti viedä?',
     learn_more: 'Lue lisää',
   },
   change_logs: {
@@ -1365,10 +1296,8 @@ const lang: ILang = {
     ink_color: 'Ink color',
     ink_type: 'Ink type',
     ink_level: 'Ink level',
-    close_door_to_read_cartridge_info:
-      "To access ink information, please close the machine's door cover.",
-    cartridge_info_read_failed:
-      'Please ensure that the ink is fully inserted. Try to remove the ink and install it back.',
+    close_door_to_read_cartridge_info: "To access ink information, please close the machine's door cover.",
+    cartridge_info_read_failed: 'Please ensure that the ink is fully inserted. Try to remove the ink and install it back.',
     cartridge_info_verification_failed: 'Please verify that your ink is FLUX authentic.',
   },
   monitor: {
@@ -1382,10 +1311,8 @@ const lang: ILang = {
     camera: 'Kamera',
     taskTab: 'Tehtävä',
     connecting: 'Yhdistetään, odota...',
-    HARDWARE_ERROR_MAINBOARD_ERROR:
-      '#401 Kriittinen virhe: Pääkortti offline. Ota yhteyttä FLUX-tukeen.',
-    HARDWARE_ERROR_SUBSYSTEM_ERROR:
-      '#402 Kriittinen virhe: Alijärjestelmä ei vastaa. Ota yhteyttä FLUX-tukeen.',
+    HARDWARE_ERROR_MAINBOARD_ERROR: '#401 Kriittinen virhe: Pääkortti offline. Ota yhteyttä FLUX-tukeen.',
+    HARDWARE_ERROR_SUBSYSTEM_ERROR: '#402 Kriittinen virhe: Alijärjestelmä ei vastaa. Ota yhteyttä FLUX-tukeen.',
     HARDWARE_ERROR_PUMP_ERROR: '#900 Tarkista vesisäiliö.',
     HARDWARE_ERROR_DOOR_OPENED: '#901 Sulje ovi jatkaaksesi',
     HARDWARE_ERROR_OVER_TEMPERATURE: '#902 Ylikuumeneminen. Odota muutama minuutti',
@@ -1396,15 +1323,19 @@ const lang: ILang = {
     HARDWARE_ERROR_AIR_ASSIST_ABNORMAL: '#913 Ilmavirtausanturi poikkeava',
     HARDWARE_ERROR_ROTARY_NOT_DETECTED: '#914 Pyörivää moduulia ei havaittu',
     HARDWARE_ERROR_HOMING_PULLOFF_FAILED: '#920 Kotiutumisen irrotusvirhe',
-    HARDWARE_ERROR_HEADTYPE_MISMATCH:
-      '#915 Virheellinen moduuli havaittu. Asenna oikea moduuli jatkaaksesi.',
-    HARDWARE_ERROR_HEADTYPE_NONE:
-      '#917 Moduulia ei havaittu. Varmista, että moduuli on asennettu oikein jatkaaksesi.',
-    HARDWARE_ERROR_HEADTYPE_UNKNOWN:
-      '#918 Tuntematon moduuli havaittu. Asenna oikea moduuli jatkaaksesi.',
+    HARDWARE_ERROR_HEADTYPE_MISMATCH: '#915 Virheellinen moduuli havaittu. Asenna oikea moduuli jatkaaksesi.',
+    HARDWARE_ERROR_HEADTYPE_NONE: '#917 Moduulia ei havaittu. Varmista, että moduuli on asennettu oikein jatkaaksesi.',
+    HARDWARE_ERROR_HEADTYPE_UNKNOWN: '#918 Tuntematon moduuli havaittu. Asenna oikea moduuli jatkaaksesi.',
     HARDWARE_ERROR_PRINTER_NO_RESPONSE: '#919 Tulostinmoduuli ei vastaa.',
     USER_OPERATION_ROTARY_PAUSE: 'Vaihda pyörivään moottoriin',
     USER_OPERATION_REMOVE_CARTRIDGE: 'Poista kasetti jatkaaksesi.',
+    USER_OPERATION_CHANGE_TOOLHEAD_HEADTYPE_MISMATCH: '#915 Virheellinen moduuli havaittu. Asenna oikea moduuli jatkaaksesi.',
+    USER_OPERATION_CHANGE_TOOLHEAD_HEADTYPE_NONE: '#917 Moduulia ei havaittu. Varmista, että moduuli on asennettu oikein jatkaaksesi.',
+    USER_OPERATION_CHANGE_TOOLHEAD_HEADTYPE_UNKNOWN: '#918 Tuntematon moduuli havaittu. Asenna oikea moduuli jatkaaksesi.',
+    USER_OPERATION_CHANGE_TOOLHEAD: 'Asenna oikea moduuli jatkaaksesi.',
+    USER_OPERATION_CHANGE_CARTRIDGE_CARTRIDGE_NOT_DETECTED: 'Lisää patruuna jatkaaksesi.',
+    USER_OPERATION_CHANGE_CARTRIDGE: 'Lisää oikea patruuna jatkaaksesi.',
+    USER_OPERATION: 'Noudata laitteen paneelissa olevia ohjeita jatkaaksesi.',
     RESOURCE_BUSY: 'Laite varattu\nJos ei toimi, käynnistä uudelleen',
     DEVICE_ERROR: 'Jotain meni pieleen\nKäynnistä uudelleen',
     NO_RESPONSE: '#905 Virhe yhdistettäessä pääkorttiin.\nKäynnistä uudelleen.',
@@ -1477,8 +1408,7 @@ const lang: ILang = {
     retrievingCameraOffset: 'Luetaan kameran siirtymää...',
     connectingCamera: 'Yhdistetään kameraan...',
     homing: 'Hakeudutaan kotiasentoon...',
-    connectionTimeout:
-      '#805 Laitteen yhteys katkaistiin. Tarkista verkkoyhteytesi ja laitteen Wi-Fi-merkkivalo.',
+    connectionTimeout: '#805 Laitteen yhteys katkaistiin. Tarkista verkkoyhteytesi ja laitteen Wi-Fi-merkkivalo.',
     getProbePosition: 'Haetaan anturin sijaintia...',
     device_not_found: {
       caption: 'Oletuslaitetta ei löytynyt',
@@ -1486,53 +1416,39 @@ const lang: ILang = {
     },
     device_busy: {
       caption: 'Kone varattu',
-      message:
-        'Kone suorittaa toista tehtävää, yritä myöhemmin uudelleen. Jos se lakkaa toimimasta, käynnistä kone uudelleen.',
+      message: 'Kone suorittaa toista tehtävää, yritä myöhemmin uudelleen. Jos se lakkaa toimimasta, käynnistä kone uudelleen.',
     },
     device_is_used: 'Konetta käytetään, haluatko keskeyttää nykyisen tehtävän?',
     monitor_too_old: {
       caption: 'Vanhentunut laiteohjelmisto',
-      content:
-        '#814 Asenna uusin laiteohjelmisto tällä <a target="_blank" href="http://helpcenter.flux3dp.com/hc/en-us/articles/216251077">ohjeella</a>.',
+      content: '#814 Asenna uusin laiteohjelmisto tällä <a target="_blank" href="http://helpcenter.flux3dp.com/hc/en-us/articles/216251077">ohjeella</a>.',
     },
-    unknown_error:
-      '#821 Sovelluksessa tapahtui tuntematon virhe, ilmoita virheestä valikossa Apua > Valikko > Virheraportti.',
-    unknown_device:
-      '#826 Ei voi muodostaa yhteyttä koneeseen, varmista että USB on liitetty koneeseen',
-    unsupport_osx_version:
-      'Nykyinen macOS-versio %s ei ehkä tue kaikkia toimintoja. Päivitä macOS 11+ -versioon.',
-    unsupport_win_version:
-      'Nykyinen käyttöjärjestelmäversio %s ei ehkä tue kaikkia toimintoja. Päivitä uusimpaan versioon.',
+    unknown_error: '#821 Sovelluksessa tapahtui tuntematon virhe, ilmoita virheestä valikossa Apua > Valikko > Virheraportti.',
+    unknown_device: '#826 Ei voi muodostaa yhteyttä koneeseen, varmista että USB on liitetty koneeseen',
+    unsupport_osx_version: 'Nykyinen macOS-versio %s ei ehkä tue kaikkia toimintoja. Päivitä macOS 11+ -versioon.',
+    unsupport_win_version: 'Nykyinen käyttöjärjestelmäversio %s ei ehkä tue kaikkia toimintoja. Päivitä uusimpaan versioon.',
     need_password: 'Tarvitaan salasana koneeseen yhdistämiseen',
-    unavailableWorkarea:
-      '#804 Nykyinen työalue ylittää koneen työalueen. Tarkista valitun koneen työalue tai aseta työalue valikosta Muokkaa > Asiakirja-asetukset.',
+    unavailableWorkarea: '#804 Nykyinen työalue ylittää koneen työalueen. Tarkista valitun koneen työalue tai aseta työalue valikosta Muokkaa > Asiakirja-asetukset.',
     please_enter_dpi: 'Anna tiedoston mittayksikkö (mm)',
-    auth_error:
-      '#820 Todennusvirhe: Päivitä Beam Studio ja koneen laiteohjelmisto uusimpaan versioon.',
+    auth_error: '#820 Todennusvirhe: Päivitä Beam Studio ja koneen laiteohjelmisto uusimpaan versioon.',
     usb_unplugged: 'USB-yhteys katkesi. Tarkista USB-yhteys',
     uploading_fcode: 'Lähetetään FCodea',
     cant_connect_to_device: '#827 Ei voi muodostaa yhteyttä koneeseen, tarkista yhteys',
     unable_to_find_machine: 'Ei löydy konetta ',
     disconnected: 'Epävakaa yhteys, tarkista laitteen yhteys ja yritä myöhemmin uudelleen',
-    unable_to_start:
-      '#830 Tehtävän käynnistäminen ei onnistunut. Yritä uudelleen. Jos tämä toistuu, ota meihin yhteyttä vianraportilla:',
+    unable_to_start: '#830 Tehtävän käynnistäminen ei onnistunut. Yritä uudelleen. Jos tämä toistuu, ota meihin yhteyttä vianraportilla:',
     camera: {
-      camera_cable_unstable:
-        'Kameran kuvan siirrossa havaittiin epävakautta. Esikatselu toimii edelleen normaalisti, mutta esikatselussa voi ilmetä hitautta tai aikakatkaisuja.',
-      fail_to_transmit_image:
-        '#845 Kuvan siirrossa tapahtui virhe. Käynnistä kone tai Beam Studio uudelleen. Jos virhe ei poistu, noudata <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/4402756056079">tätä ohjetta</a>.',
-      ws_closed_unexpectly:
-        '#844 Yhteys kameran ja koneen välillä katkesi odottamatta. Jos virhe ei poistu, noudata <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/4402755805071">tätä ohjetta</a>.',
+      camera_cable_unstable: 'Kameran kuvan siirrossa havaittiin epävakautta. Esikatselu toimii edelleen normaalisti, mutta esikatselussa voi ilmetä hitautta tai aikakatkaisuja.',
+      fail_to_transmit_image: '#845 Kuvan siirrossa tapahtui virhe. Käynnistä kone tai Beam Studio uudelleen. Jos virhe ei poistu, noudata <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/4402756056079">tätä ohjetta</a>.',
+      ws_closed_unexpectly: '#844 Yhteys kameran ja koneen välillä katkesi odottamatta. Jos virhe ei poistu, noudata <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/4402755805071">tätä ohjetta</a>.',
       continue_preview: 'Jatka',
       abort_preview: 'Keskeytä',
     },
     preview: {
       camera_preview: 'Kameran esikatselu',
       auto_focus: 'Automaattitarkennus',
-      auto_focus_instruction:
-        'Siirrä lasermoduulin pää kohteen yläpuolelle ja seuraa animaatio-ohjeita painaaksesi AF tarkentaaksesi.',
-      already_performed_auto_focus:
-        'Olet jo suorittanut automaattitarkennuksen, käytetäänkö olemassa olevia arvoja?',
+      auto_focus_instruction: 'Siirrä lasermoduulin pää kohteen yläpuolelle ja seuraa animaatio-ohjeita painaaksesi AF tarkentaaksesi.',
+      already_performed_auto_focus: 'Olet jo suorittanut automaattitarkennuksen, käytetäänkö olemassa olevia arvoja?',
       please_enter_height: 'Anna kohteen korkeus. Jotta kameran kuva olisi tarkka.',
       apply: 'Käytä',
       enter_manually: 'Anna manuaalisesti',
@@ -1568,8 +1484,7 @@ const lang: ILang = {
   },
   calibration: {
     update_firmware_msg1: 'Firmwaresi ei tue tätä toimintoa. Päivitä firmwareen v',
-    update_firmware_msg2:
-      'tai uudempaan jatkaaksesi。 (Valikko > Kone > [Sinun koneesi] > Päivitä firmware)',
+    update_firmware_msg2: 'tai uudempaan jatkaaksesi。 (Valikko > Kone > [Sinun koneesi] > Päivitä firmware)',
     camera_calibration: 'Kameran kalibrointi',
     diode_calibration: 'Diodilasermoduulin kalibrointi',
     module_calibration_printer: 'Tulostinmoduulin kalibrointi',
@@ -1584,16 +1499,13 @@ const lang: ILang = {
     start_printing: 'ALOITA TULOSTUS',
     ask_for_readjust: 'Haluatko ohittaa kaiverrusvaiheen ja ottaa kuvan ja kalibroida suoraan?',
     please_goto_beambox_first: 'Siirry kaiverrustilaan (Beambox) käyttääksesi tätä ominaisuutta.',
-    please_place_paper:
-      'Aseta A4- tai kirjekokoinen valkoinen paperi työalueen vasempaan ylänurkkaan.',
+    please_place_paper: 'Aseta A4- tai kirjekokoinen valkoinen paperi työalueen vasempaan ylänurkkaan.',
     please_place_paper_center: 'Aseta A4- tai kirjekokoinen valkoinen paperi työalueen keskelle.',
     please_place_dark_colored_paper: 'Aseta A4- tai kirjekokoinen tumma paperi työalueen keskelle.',
     please_refocus: {
       beambox: 'Säädä työtasoa polttoetäisyydelle (käännetyn akryylin korkeus).',
-      beamo:
-        'Säädä laserpäätä kohdistumaan kaiverrettavaan esineeseen (käännetyn akryylin korkeus).',
-      beamo_af:
-        'Napauta kaksoisnapautus autofokus-lisälaitteen sivupainiketta ja anna anturin koskettaa materiaalia kevyesti.',
+      beamo: 'Säädä laserpäätä kohdistumaan kaiverrettavaan esineeseen (käännetyn akryylin korkeus).',
+      beamo_af: 'Napauta kaksoisnapautus autofokus-lisälaitteen sivupainiketta ja anna anturin koskettaa materiaalia kevyesti.',
       hexa: 'Napsauta korkeudensäätöpainiketta kahdesti nostaaksesi hunajakennopöydän ylös ja saadaksesi anturin koskettamaan kaiverrettavaa materiaalia.',
     },
     without_af: 'Ilman autofokusta',
@@ -1606,20 +1518,16 @@ const lang: ILang = {
     show_last_config: 'Näytä viimeisin tulos',
     use_last_config: 'Käytä viimeisintä kalibrointiarvoa',
     taking_picture: 'Otetaan kuvaa...',
-    analyze_result_fail:
-      'Kuvan analysointi epäonnistui.<br/>Tarkista:<br/>1. Kuvassa on kokonaan valkoinen paperi.<br/>2. Työtaso on tarkennettu oikein.',
+    analyze_result_fail: 'Kuvan analysointi epäonnistui.<br/>Tarkista:<br/>1. Kuvassa on kokonaan valkoinen paperi.<br/>2. Työtaso on tarkennettu oikein.',
     drawing_calibration_image: 'Piirretään kalibrointikuva...',
-    calibrate_done:
-      'Kalibrointi valmis. Tarkempi kameratarkkuus saavutetaan tarkalla tarkennuksella.',
+    calibrate_done: 'Kalibrointi valmis. Tarkempi kameratarkkuus saavutetaan tarkalla tarkennuksella.',
     calibrate_done_diode: 'Kalibrointi valmis. Diodilasermoduulin poikkeama on tallennettu.',
     hint_red_square: 'Kohdista punaisen neliön ulkoreuna leikatun neliön kanssa.',
     hint_adjust_parameters: 'Käytä näitä parametreja punaisen neliön säätämiseen',
     zendesk_link: 'https://support.flux3dp.com/hc/en-us/articles/360001811416',
     please_do_camera_calibration_and_focus: {
-      beambox:
-        'Diodilasermoduulin kalibrointi vaatii kameran.\nVarmista, että tämän koneen kamera on kalibroitu.\nJa säädä alusta polttopisteeseen (käännetyn akryylin korkeus)',
-      beamo:
-        'Diodilasermoduulin kalibrointi vaatii kameran.\nVarmista, että tämän koneen kamera on kalibroitu.\nJa kohdista laserpää kaiverrettavaan kohteeseen (käännetyn akryylin korkeus)',
+      beambox: 'Diodilasermoduulin kalibrointi vaatii kameran.\nVarmista, että tämän koneen kamera on kalibroitu.\nJa säädä alusta polttopisteeseen (käännetyn akryylin korkeus)',
+      beamo: 'Diodilasermoduulin kalibrointi vaatii kameran.\nVarmista, että tämän koneen kamera on kalibroitu.\nJa kohdista laserpää kaiverrettavaan kohteeseen (käännetyn akryylin korkeus)',
     },
     downloading_pictures: 'Ladataan kuvia...',
     failed_to_download_pictures: '#848 Kuvien lataus epäonnistui, ota yhteyttä FLUX-tukeen.',
@@ -1627,17 +1535,13 @@ const lang: ILang = {
     calculating_camera_matrix: 'Lasketaan kameramatriisia...',
     calculating_regression_parameters: 'Lasketaan regressioparametreja...',
     failed_to_calibrate_camera: '#848 Kameran kalibrointi epäonnistui, ota yhteyttä FLUX-tukeen.',
-    failed_to_save_calibration_results:
-      '#849 Kalibrointitulosten tallennus epäonnistui, yritä uudelleen. Jos ongelma jatkuu, ota yhteyttä FLUX-tukeen.',
-    ador_autofocus_material:
-      'Paina pääsivulla "AF"-kuvaketta 3 sekunnin ajan ja anna anturin koskettaa materiaalia kevyesti.',
-    ador_autofocus_focusing_block:
-      'Paina koneen pääsivulla "AF"-kuvaketta 3 sekunnin ajan ja anna anturin koskettaa tarkennuslohkoa.',
+    failed_to_save_calibration_results: '#849 Kalibrointitulosten tallennus epäonnistui, yritä uudelleen. Jos ongelma jatkuu, ota yhteyttä FLUX-tukeen.',
+    ador_autofocus_material: 'Paina pääsivulla "AF"-kuvaketta 3 sekunnin ajan ja anna anturin koskettaa materiaalia kevyesti.',
+    ador_autofocus_focusing_block: 'Paina koneen pääsivulla "AF"-kuvaketta 3 sekunnin ajan ja anna anturin koskettaa tarkennuslohkoa.',
     align_red_cross_cut: 'Kohdista punaisen ristin keskikohta leikkausristin kanssa.',
     align_red_cross_print: 'Kohdista punaisen ristin keskikohta tulostetun ristin kanssa.',
     retake: 'Ota kuva uudelleen',
-    calibrate_camera_before_calibrate_modules:
-      'Suorita kamerakalibrointi ennen moduulien kalibrointia.',
+    calibrate_camera_before_calibrate_modules: 'Suorita kamerakalibrointi ennen moduulien kalibrointia.',
   },
   input_machine_password: {
     require_password: '"%s" vaatii salasanan',
@@ -1647,22 +1551,17 @@ const lang: ILang = {
   tutorial: {
     skip: 'Ohita',
     welcome: 'TERVETULOA',
-    suggest_calibrate_camera_first:
-      'Kalibroi kamera, kun käytät laitetta ensimmäistä kertaa. (Valikko > Laite > [Laitteesi] > Kalibroi kamera) Ja tarkenna alusta aina uudelleen ennen esikatselua saadaksesi paremman esikatselutuloksen.',
+    suggest_calibrate_camera_first: 'Kalibroi kamera, kun käytät laitetta ensimmäistä kertaa. (Valikko > Laite > [Laitteesi] > Kalibroi kamera) Ja tarkenna alusta aina uudelleen ennen esikatselua saadaksesi paremman esikatselutuloksen.',
     camera_calibration_failed: 'Kameran kalibrointi epäonnistui',
     ask_retry_calibration: 'Haluaisitko kalibroida kameran uudelleen?',
-    skipped_camera_calibration:
-      'Ohitat kameran kalibroinnin. Voit kalibroida kameran milloin tahansa valikkopalkista (Valikko > Kone > [Koneesi] > Kalibroi kamera).',
+    skipped_camera_calibration: 'Ohitat kameran kalibroinnin. Voit kalibroida kameran milloin tahansa valikkopalkista (Valikko > Kone > [Koneesi] > Kalibroi kamera).',
     skipped_ador_calibration: 'Adorin kamera on kalibroitu tehdastarkastuksen yhteydessä.',
     needNewUserTutorial: 'Haluaisitko aloittaa opetusohjelman?',
-    needNewInterfaceTutorial:
-      'Haluaisitko aloittaa opetusohjelman Beam Studion uudelle käyttöliittymälle?',
+    needNewInterfaceTutorial: 'Haluaisitko aloittaa opetusohjelman Beam Studion uudelle käyttöliittymälle?',
     next: 'SEURAAVA',
     look_for_machine: 'Etsitään konetta opetusohjelmaa varten...',
-    unable_to_find_machine:
-      'Opetusohjelman konetta ei löydy. Haluatko mennä yhteysasetussivulle, yrittää uudelleen tai ohittaa opetusohjelman?',
-    skip_tutorial:
-      'Ohitat opetusohjelman. Voit aina käynnistää opetusohjelman napsauttamalla "Ohje" > "Näytä aloita opetusohjelma"',
+    unable_to_find_machine: 'Opetusohjelman konetta ei löydy. Haluatko mennä yhteysasetussivulle, yrittää uudelleen tai ohittaa opetusohjelman?',
+    skip_tutorial: 'Ohitat opetusohjelman. Voit aina käynnistää opetusohjelman napsauttamalla "Ohje" > "Näytä aloita opetusohjelma"',
     set_connection: 'Aseta yhteys',
     retry: 'Yritä uudelleen',
     newUser: {
@@ -1693,8 +1592,7 @@ const lang: ILang = {
       add_new_layer: 'Lisää uusi taso',
       rename_by_double_click: 'Nimeä uudelleen kaksoisnapsauttamalla',
       drag_to_sort: 'Lajittele raahaamalla',
-      layer_controls:
-        'Napsauta hiiren oikealla painikkeella valitaksesi tason hallinta:\nKopioi / Yhdistä / Lukitse / Poista tasoja',
+      layer_controls: 'Napsauta hiiren oikealla painikkeella valitaksesi tason hallinta:\nKopioi / Yhdistä / Lukitse / Poista tasoja',
       switch_between_layer_panel_and_object_panel: 'Vaihda tason ja objektin välillä',
       align_controls: 'Kohdistushallinta',
       group_controls: 'Ryhmähallinta',
@@ -1727,20 +1625,15 @@ const lang: ILang = {
     unknown: 'Unknown Module',
     notification: {
       convertFromPrintingModuleTitle: 'Haluatko muuntaa tulostusmoduulin lasermoduuliksi?',
-      convertFromPrintingModuleMsg:
-        'Huomaa, että jos suoritat tämän toiminnon, tulostuskerroksen väriasetukset poistetaan ja asetetaan nykyisen kerroksen mukaan.',
+      convertFromPrintingModuleMsg: 'Huomaa, että jos suoritat tämän toiminnon, tulostuskerroksen väriasetukset poistetaan ja asetetaan nykyisen kerroksen mukaan.',
       convertFromLaserModuleTitle: 'Haluatko muuntaa lasermoduulin tulostusmoduuliksi?',
-      convertFromLaserModuleMsg:
-        'Huomaa, että jos suoritat tämän toiminnon, laserkerroksen asetukset poistetaan ja asetetaan nykyisen kerroksen mukaan.',
-      importedDocumentContainsPrinting:
-        'Asiakirja sisältää tulostuskerroksen, haluatko vaihtaa työalueen Adoriin?',
+      convertFromLaserModuleMsg: 'Huomaa, että jos suoritat tämän toiminnon, laserkerroksen asetukset poistetaan ja asetetaan nykyisen kerroksen mukaan.',
+      importedDocumentContainsPrinting: 'Asiakirja sisältää tulostuskerroksen, haluatko vaihtaa työalueen Adoriin?',
       printingLayersCoverted: 'Tulostuskerrokset on muunnettu laserkerroksiksi.',
       performPrintingCaliTitle: 'Suorita tulostusmoduulin kalibrointi',
-      performPrintingCaliMsg:
-        'Napsauta "Vahvista" suorittaaksesi kalibroinnin, tai käytä kalibrointia ylävalikon kautta.<br />(Kone > [Koneen nimi] > Kalibroi tulostusmoduuli)',
+      performPrintingCaliMsg: 'Napsauta "Vahvista" suorittaaksesi kalibroinnin, tai käytä kalibrointia ylävalikon kautta.<br />(Kone > [Koneen nimi] > Kalibroi tulostusmoduuli)',
       performIRCaliTitle: 'Suorita infrapunamoduulin kalibrointi',
-      performIRCaliMsg:
-        'Napsauta "Vahvista" suorittaaksesi kalibroinnin, tai käytä kalibrointia ylävalikon kautta.<br />(Kone > [Koneen nimi] > Kalibroi infrapunamoduuli)',
+      performIRCaliMsg: 'Napsauta "Vahvista" suorittaaksesi kalibroinnin, tai käytä kalibrointia ylävalikon kautta.<br />(Kone > [Koneen nimi] > Kalibroi infrapunamoduuli)',
     },
     non_working_area: 'Ei-Työskentelyalue',
   },
@@ -1783,8 +1676,7 @@ const lang: ILang = {
     merge: 'Yhdistä',
     text_label: 'Tekstikenttä',
     beam_radius: 'Säteen kompensaatio',
-    beam_radius_warning:
-      'Poista saumakompensaatio, kun laatikon reunat tai liitokset ovat lyhyitä, jotta laatikon kokoaminen onnistuu',
+    beam_radius_warning: 'Poista saumakompensaatio, kun laatikon reunat tai liitokset ovat lyhyitä, jotta laatikon kokoaminen onnistuu',
     import: 'Tuo',
     cancel: 'Peruuta',
     reset: 'Nollaa',
@@ -1819,8 +1711,7 @@ const lang: ILang = {
       save_new: 'Tallenna uutena tiedostona',
       input_file_name: 'Anna tiedoston nimi:',
       invalid_char: 'Virheelliset merkit:',
-      storage_limit_exceeded:
-        'Pilvitallennustilasi on saavuttanut ylärajan. Poista kaikki tarpeettomat tiedostot ennen uusien tallentamista.',
+      storage_limit_exceeded: 'Pilvitallennustilasi on saavuttanut ylärajan. Poista kaikki tarpeettomat tiedostot ennen uusien tallentamista.',
     },
   },
   camera_data_backup: {

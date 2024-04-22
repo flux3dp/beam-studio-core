@@ -116,7 +116,7 @@ interface Context extends State {
 export const MonitorContext = React.createContext<Context>(null);
 
 export class MonitorContextProvider extends React.Component<Props, State> {
-  didErrorPopped: boolean;
+  lastErrorId: string;
 
   modeBeforeCamera: Mode;
 
@@ -131,7 +131,7 @@ export class MonitorContextProvider extends React.Component<Props, State> {
     const { mode, previewTask } = props;
     updateLang();
     this.isGettingReport = false;
-    this.didErrorPopped = false;
+    this.lastErrorId = null;
     this.modeBeforeCamera = mode;
     this.modeBeforeRelocate = mode;
     this.state = {
@@ -258,6 +258,13 @@ export class MonitorContextProvider extends React.Component<Props, State> {
     }
   }
 
+  clearErrorPopup = (): void => {
+    if (this.lastErrorId) {
+      Alert.popById(this.lastErrorId);
+      this.lastErrorId = null;
+    }
+  }
+
   async processReport(report: IReport): Promise<void> {
     const { report: currentReport, mode } = this.state;
     const keys = Object.keys(report);
@@ -290,6 +297,7 @@ export class MonitorContextProvider extends React.Component<Props, State> {
     }
 
     if (!report.error || report.error.length === 0) {
+      this.clearErrorPopup();
       return;
     }
 
@@ -310,6 +318,10 @@ export class MonitorContextProvider extends React.Component<Props, State> {
         onClose();
       }
       return;
+    }
+    const errorId = error.join('_');
+    if (this.lastErrorId && this.lastErrorId !== errorId) {
+      this.clearErrorPopup();
     }
 
     const state = [
@@ -381,13 +393,11 @@ export class MonitorContextProvider extends React.Component<Props, State> {
           },
         ]);
       };
-      const id = error.join('_');
       const errorMessage = DeviceErrorHandler.translate(error);
-      if (!Alert.checkIdExist(id) && !this.didErrorPopped) {
-        this.didErrorPopped = true;
+      if (!Alert.checkIdExist(errorId) && !this.lastErrorId) {
         if ([ALARM, FATAL].includes(report.st_id)) {
           Alert.popUp({
-            id,
+            id: errorId,
             type: AlertConstants.SHOW_POPUP_ERROR,
             message: errorMessage,
             primaryButtonIndex: 0,
@@ -397,7 +407,7 @@ export class MonitorContextProvider extends React.Component<Props, State> {
         } else if (error[0] === 'HARDWARE_ERROR' || error[0] === 'USER_OPERATION') {
           if (error[1] !== 'REMOVE_CARTRIDGE') {
             Alert.popUp({
-              id,
+              id: errorId,
               type:
                 error[0] === 'USER_OPERATION'
                   ? AlertConstants.SHOW_POPUP_INSTRUCTION
@@ -408,7 +418,7 @@ export class MonitorContextProvider extends React.Component<Props, State> {
             });
           } else {
             Alert.popUp({
-              id,
+              id: errorId,
               type:
                 error[0] === 'USER_OPERATION'
                   ? AlertConstants.SHOW_POPUP_INSTRUCTION
@@ -418,7 +428,7 @@ export class MonitorContextProvider extends React.Component<Props, State> {
           }
         } else {
           Alert.popUp({
-            id,
+            id: errorId,
             type: AlertConstants.SHOW_POPUP_ERROR,
             message: errorMessage,
             primaryButtonIndex: 0,
@@ -426,6 +436,7 @@ export class MonitorContextProvider extends React.Component<Props, State> {
             callbacks: [handleRetry, handleReport, () => {}],
           });
         }
+        this.lastErrorId = errorId;
       }
     }
   }
@@ -439,7 +450,8 @@ export class MonitorContextProvider extends React.Component<Props, State> {
   // eslint-disable-next-line class-methods-use-this
   getTaskInfo(info: any[]): { imageBlob: Blob; taskTime: number } {
     const imageBlob = getFirstBlobInArray(info);
-    const taskTime = findKeyInObjectArray(info, 'TIME_COST') || findKeyInObjectArray(info, 'time_cost');
+    const taskTime =
+      findKeyInObjectArray(info, 'TIME_COST') || findKeyInObjectArray(info, 'time_cost');
 
     return { imageBlob, taskTime };
   }
@@ -732,7 +744,7 @@ export class MonitorContextProvider extends React.Component<Props, State> {
   onPlay = async (): Promise<void> => {
     const { device } = this.props;
     const { mode, report, currentPath, fileInfo, relocateOrigin } = this.state;
-    this.didErrorPopped = false;
+    this.clearErrorPopup();
     if (report.st_id === IDLE) {
       const vc = VersionChecker(device.version);
       console.log(device.version);

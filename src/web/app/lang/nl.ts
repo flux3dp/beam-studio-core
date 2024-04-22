@@ -38,22 +38,16 @@ const lang: ILang = {
       dxf: 'DXF-object',
     },
     alerts: {
-      start_preview_timeout:
-        '#803 Time-out opgetreden bij het starten van de voorbeeldmodus. Start uw machine of Beam Studio opnieuw op. Als deze fout zich blijft voordoen, volg dan <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">deze handleiding</a>.',
-      fail_to_start_preview:
-        '#803 Kan voorbeeldmodus niet starten. Start uw machine of Beam Studio opnieuw op. Als deze fout zich blijft voordoen, volg dan <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">deze handleiding</a>.',
-      fail_to_connect_with_camera:
-        '#803 Kan geen verbinding maken met machinecamera. Start uw machine of Beam Studio opnieuw op. Als deze fout zich blijft voordoen, volg dan <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">deze handleiding</a>.',
+      start_preview_timeout: '#803 Time-out opgetreden bij het starten van de voorbeeldmodus. Start uw machine of Beam Studio opnieuw op. Als deze fout zich blijft voordoen, volg dan <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">deze handleiding</a>.',
+      fail_to_start_preview: '#803 Kan voorbeeldmodus niet starten. Start uw machine of Beam Studio opnieuw op. Als deze fout zich blijft voordoen, volg dan <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">deze handleiding</a>.',
+      fail_to_connect_with_camera: '#803 Kan geen verbinding maken met machinecamera. Start uw machine of Beam Studio opnieuw op. Als deze fout zich blijft voordoen, volg dan <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">deze handleiding</a>.',
       add_content_first: 'Voeg eerst objecten toe',
       headtype_mismatch: 'Onjuiste module gedetecteerd. ',
       headtype_none: 'Module niet gedetecteerd. ',
       headtype_unknown: 'Onbekende module gedetecteerd. ',
-      install_correct_headtype:
-        'Installeer de 10W/20W diode lasermodules correct om laag laservermogen voor het uitvoeren van frames in te schakelen.',
-      door_opened:
-        'Sluit het deksel om laag laservermogen voor het uitvoeren van frames in te schakelen.',
-      fail_to_get_door_status:
-        'Zorg ervoor dat het deksel gesloten is om laag laservermogen voor het uitvoeren van frames in te schakelen.',
+      install_correct_headtype: 'Installeer de 10W/20W diode lasermodules correct om laag laservermogen voor het uitvoeren van frames in te schakelen.',
+      door_opened: 'Sluit het deksel om laag laservermogen voor het uitvoeren van frames in te schakelen.',
+      fail_to_get_door_status: 'Zorg ervoor dat het deksel gesloten is om laag laservermogen voor het uitvoeren van frames in te schakelen.',
     },
     hint: {
       polygon: 'Druk op + / - om het aantal zijden te verhogen / verlagen.',
@@ -202,14 +196,12 @@ const lang: ILang = {
   generic_error: {
     UNKNOWN_ERROR: '[UE] Onbekende fout opgetreden. Herstart Beam Studio en de machine.',
     OPERATION_ERROR: '[OE] Er is een statusconflict opgetreden, probeer de actie opnieuw.',
-    SUBSYSTEM_ERROR:
-      '[SE] Fout bij het uitvoeren van de taak door de firmware van de machine. Herstart de machine.',
+    SUBSYSTEM_ERROR: '[SE] Fout bij het uitvoeren van de taak door de firmware van de machine. Herstart de machine.',
     UNKNOWN_COMMAND: '[UC] Werk de firmware van het apparaat bij',
   },
   device_selection: {
-    no_beambox:
-      '#801 We kunnen uw machine niet vinden in het netwerk.\nVolg de <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">handleiding</a> om verbindingsproblemen op te lossen.',
-    no_device_web: '#801 Controleer de status van uw machine, of klik op \'Machine-instellingen\' hieronder om de machine in te stellen.',
+    no_beambox: '#801 We kunnen uw machine niet vinden in het netwerk.\nVolg de <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">handleiding</a> om verbindingsproblemen op te lossen.',
+    no_device_web: "#801 Controleer de status van uw machine, of klik op 'Machine-instellingen' hieronder om de machine in te stellen.",
   },
   update: {
     update: 'Bijwerken',
@@ -228,32 +220,26 @@ const lang: ILang = {
       upload_file: 'Firmware uploaden (*.bin / *.fxfw)',
       update_success: 'Firmware-update succesvol geüpload',
       update_fail: '#822 Update mislukt',
-      too_old_for_web:
-        'Uw huidige machinefirmwareversie is v%s.\nAls u de online versie van Beam Studio wilt gebruiken, werk dan de machinefirmware bij naar de nieuwste versie.',
+      too_old_for_web: 'Uw huidige machinefirmwareversie is v%s.\nAls u de online versie van Beam Studio wilt gebruiken, werk dan de machinefirmware bij naar de nieuwste versie.',
       force_update_message: '#814 Werk uw machine bij naar de nieuwste firmwareversie.',
-      firmware_too_old_update_by_sdcard:
-        'De firmwareversie is te oud. Werk de firmware bij met behulp van een SD-kaart.',
+      firmware_too_old_update_by_sdcard: 'De firmwareversie is te oud. Werk de firmware bij met behulp van een SD-kaart.',
     },
     software: {
       checking: 'Controleren op updates',
       switch_version: 'Versie wisselen',
       check_update: 'Controleren op updates',
       caption: 'Er is een software-update voor Beam Studio beschikbaar',
-      downloading:
-        'Updates worden op de achtergrond gedownload, u kunt op "OK" klikken om door te gaan met uw werk.',
+      downloading: 'Updates worden op de achtergrond gedownload, u kunt op "OK" klikken om door te gaan met uw werk.',
       install_or_not: 'is klaar voor update. Wilt u nu opnieuw opstarten en updaten?',
       switch_or_not: 'is klaar om te wisselen. Wilt u nu opnieuw opstarten en wisselen?',
-      available_update:
-        'Beam Studio v%s is nu beschikbaar. U heeft versie %s. Wilt u de update downloaden?',
-      available_switch:
-        'Beam Studio v%s is nu beschikbaar. U heeft versie %s. Wilt u upgraden naar deze versie?',
+      available_update: 'Beam Studio v%s is nu beschikbaar. U heeft versie %s. Wilt u de update downloaden?',
+      available_switch: 'Beam Studio v%s is nu beschikbaar. U heeft versie %s. Wilt u upgraden naar deze versie?',
       not_found: 'U gebruikt de nieuwste versie van Beam Studio.',
       no_response: 'Kan geen verbinding maken met server, controleer uw netwerkinstellingen.',
       switch_version_not_found: 'Te upgraden versie niet gevonden.',
       yes: 'Ja',
       no: 'Nee',
-      update_for_ador:
-        'De huidige softwareversie %s is niet compatibel, download de nieuwste versie van Beam Studio voor Ador.',
+      update_for_ador: 'De huidige softwareversie %s is niet compatibel, download de nieuwste versie van Beam Studio voor Ador.',
     },
     updating: 'Bezig met updaten...',
     skip: 'Deze versie overslaan',
@@ -266,8 +252,7 @@ const lang: ILang = {
   },
   topmenu: {
     version: 'Versie',
-    credit:
-      'Beam Studio is mogelijk gemaakt door het <a target="_blank" href="https://github.com/flux3dp/beam-studio">Beam Studio</a> open source project en andere <a target="_blank" href="https://flux3dp.com/credits/">open source software</a>.',
+    credit: 'Beam Studio is mogelijk gemaakt door het <a target="_blank" href="https://github.com/flux3dp/beam-studio">Beam Studio</a> open source project en andere <a target="_blank" href="https://flux3dp.com/credits/">open source software</a>.',
     ok: 'OK',
     file: {
       label: 'Bestand',
@@ -318,28 +303,22 @@ const lang: ILang = {
     connect_wifi: {
       title: 'Verbinden met Wi-Fi',
       tutorial1: '1. Ga naar het aanraakscherm > Tik op "Netwerk" > "Verbind met WiFi".',
-      tutorial1_ador:
-        '1. Ga naar het aanraakscherm > Tik op "MACHINE" > Tik op "Netwerk" > "Verbind met WiFi".',
+      tutorial1_ador: '1. Ga naar het aanraakscherm > Tik op "MACHINE" > Tik op "Netwerk" > "Verbind met WiFi".',
       tutorial2: '2. Selecteer en verbind met uw voorkeurs Wi-Fi.',
       what_if_1: 'Wat als ik mijn Wi-Fi niet zie?',
-      what_if_1_content:
-        '1. De Wi-Fi-encryptiemodus moet WPA2 zijn of geen wachtwoord hebben.\n2. De encryptiemodus kan worden ingesteld in de Wi-Fi-routerbeheerinterface. Als de router WPA2 niet ondersteunt en u hulp nodig heeft bij het uitkiezen van de juiste router, neem dan contact op met FLUX-ondersteuning.',
+      what_if_1_content: '1. De Wi-Fi-encryptiemodus moet WPA2 zijn of geen wachtwoord hebben.\n2. De encryptiemodus kan worden ingesteld in de Wi-Fi-routerbeheerinterface. Als de router WPA2 niet ondersteunt en u hulp nodig heeft bij het uitkiezen van de juiste router, neem dan contact op met FLUX-ondersteuning.',
       what_if_2: 'Wat als ik helemaal geen Wi-Fi zie?',
-      what_if_2_content:
-        '1. Zorg ervoor dat de Wi-Fi-dongle volledig is aangesloten.\n2. Als er geen MAC-adres van het draadloze netwerk op het aanraakscherm staat, neem dan contact op met FLUX-ondersteuning.\n3. Het Wi-Fi-kanaal moet 2.4Ghz zijn (5Ghz wordt niet ondersteund).',
+      what_if_2_content: '1. Zorg ervoor dat de Wi-Fi-dongle volledig is aangesloten.\n2. Als er geen MAC-adres van het draadloze netwerk op het aanraakscherm staat, neem dan contact op met FLUX-ondersteuning.\n3. Het Wi-Fi-kanaal moet 2.4Ghz zijn (5Ghz wordt niet ondersteund).',
     },
     connect_wired: {
       title: 'Verbinden met bekabeld netwerk',
       tutorial1: '1. Verbind de machine met uw router.',
       tutorial2: '2. Druk op "Netwerk" om het IP-adres van het bekabelde netwerk te krijgen.',
-      tutorial2_ador:
-        '2. Druk op "MACHINE" > "Netwerk" om het IP-adres van het bekabelde netwerk te krijgen.',
+      tutorial2_ador: '2. Druk op "MACHINE" > "Netwerk" om het IP-adres van het bekabelde netwerk te krijgen.',
       what_if_1: 'Wat als het IP-adres leeg is?',
-      what_if_1_content:
-        '1. Zorg ervoor dat de ethernetkabel volledig is aangesloten.\n2. Als er geen MAC-adres van het bekabelde netwerk op het aanraakscherm staat, neem dan contact op met FLUX-ondersteuning.',
+      what_if_1_content: '1. Zorg ervoor dat de ethernetkabel volledig is aangesloten.\n2. Als er geen MAC-adres van het bekabelde netwerk op het aanraakscherm staat, neem dan contact op met FLUX-ondersteuning.',
       what_if_2: 'Wat als het IP begint met 169?',
-      what_if_2_content:
-        '1. Als het IP-adres begint met 169.254, zou het een DHCP-instellingsprobleem moeten zijn, neem voor verdere hulp contact op met uw ISP (internet service provider).\n2. Als uw computer direct verbinding maakt met internet via PPPoE, verander dit dan naar verbinding maken via de router met PPPoE en schakel de DHCP-functie op de router in.',
+      what_if_2_content: '1. Als het IP-adres begint met 169.254, zou het een DHCP-instellingsprobleem moeten zijn, neem voor verdere hulp contact op met uw ISP (internet service provider).\n2. Als uw computer direct verbinding maakt met internet via PPPoE, verander dit dan naar verbinding maken via de router met PPPoE en schakel de DHCP-functie op de router in.',
     },
     connect_ethernet: {
       title: 'Directe verbinding',
@@ -358,8 +337,7 @@ const lang: ILang = {
       tutorial2: "Klik op 'Volgende'.",
       turn_off_machine: 'Zet de machine uit.',
       turn_on_machine: 'Zet de machine aan.',
-      wait_for_turning_on:
-        "Klik op 'Volgende' nadat het opstartproces is voltooid en u het hoofdscherm hebt bereikt.",
+      wait_for_turning_on: "Klik op 'Volgende' nadat het opstartproces is voltooid en u het hoofdscherm hebt bereikt.",
     },
     connect_machine_ip: {
       check_usb: 'Controleer USB-verbinding',
@@ -380,15 +358,13 @@ const lang: ILang = {
     setting_completed: {
       start: 'Start',
       great: 'Welkom bij Beam Studio',
-      setup_later:
-        'U kunt uw machine altijd instellen via de titelbalk > "Machines" > "Machine instellen"',
+      setup_later: 'U kunt uw machine altijd instellen via de titelbalk > "Machines" > "Machine instellen"',
       back: 'Terug',
       ok: 'BEGIN MET ONTWERPEN',
     },
   },
   error_pages: {
-    screen_size:
-      'Houd er rekening mee dat Beam Studio mogelijk niet optimaal werkt op uw apparaat. Voor een optimale ervaring moet het een apparaat zijn met een schermbreedte van minimaal 1024 pixels.',
+    screen_size: 'Houd er rekening mee dat Beam Studio mogelijk niet optimaal werkt op uw apparaat. Voor een optimale ervaring moet het een apparaat zijn met een schermbreedte van minimaal 1024 pixels.',
   },
   menu: {
     mm: 'mm',
@@ -460,8 +436,7 @@ const lang: ILang = {
     diode_offset: 'Diode laser offset',
     autofocus_offset: 'Autofocus offset',
     diode_one_way_engraving: 'Diode laser eenrichtingsgravering',
-    diode_two_way_warning:
-      'Bidirectioneel licht uitstralen is sneller en genereert waarschijnlijk enige onnauwkeurigheid in de lasergraveerpositie. Aanbevolen om eerst te testen.',
+    diode_two_way_warning: 'Bidirectioneel licht uitstralen is sneller en genereert waarschijnlijk enige onnauwkeurigheid in de lasergraveerpositie. Aanbevolen om eerst te testen.',
     share_with_flux: 'Beam Studio-analyses delen',
     none: 'Geen',
     close: 'Sluiten',
@@ -543,79 +518,59 @@ const lang: ILang = {
       layer_by_color: 'Kleur',
       nolayer: 'Enkele laag',
       loading_image: 'Afbeelding laden, even geduld...',
-      no_support_text:
-        'Beam Studio ondersteunt momenteel geen teksttag. Zet tekst om naar pad voordat u importeert.',
-      speed_too_high_lower_the_quality:
-        'Te hoge snelheid bij deze resolutie kan resulteren in lagere kwaliteit van arcering.',
-      both_power_and_speed_too_high:
-        'Gebruik van lagere lasersterkte verlengt de levensduur van de laserbuis.\nTe hoge snelheid bij deze resolutie kan resulteren in lagere kwaliteit van arcering.',
-      too_fast_for_path:
-        'Te hoge snelheid in lagen met padobjecten kan resulteren in lagere precisie bij snijden.\nWe raden geen snelheid hoger dan 20 mm/s aan bij snijden.',
-      too_fast_for_path_and_constrain:
-        'De volgende lagen: %s\nbevatten vector padobjecten, en hebben een snelheid hoger dan 20 mm/s.\nDe snijsnelheid van vector padobjecten wordt beperkt tot 20 mm/s.\nU kunt deze beperking opheffen bij de voorkeuren.',
-      should_update_firmware_to_continue:
-        '#814 Uw firmware ondersteunt deze versie van Beam Studio niet. Werk de firmware bij om door te gaan. (Menu > Machine > [Uw machine] > Firmware bijwerken)',
-      recommend_downgrade_software:
-        'We hebben een oudere firmwareversie gedetecteerd. We werken actief aan compatibiliteitsproblemen, maar voor nu raden we aan terug te keren naar <a target="_blank" href="https://beamstudio.s3.ap-northeast-1.amazonaws.com/mac/Beam+Studio+1.9.5.dmg">Beam Studio 1.9.5</a>.',
-      recommend_upgrade_firmware:
-        'We hebben een oudere firmwareversie gedetecteerd. We werken actief aan compatibiliteitsproblemen, maar voor nu raden we aan de firmware bij te werken naar de laatste versie.',
+      no_support_text: 'Beam Studio ondersteunt momenteel geen teksttag. Zet tekst om naar pad voordat u importeert.',
+      speed_too_high_lower_the_quality: 'Te hoge snelheid bij deze resolutie kan resulteren in lagere kwaliteit van arcering.',
+      both_power_and_speed_too_high: 'Gebruik van lagere lasersterkte verlengt de levensduur van de laserbuis.\nTe hoge snelheid bij deze resolutie kan resulteren in lagere kwaliteit van arcering.',
+      too_fast_for_path: 'Te hoge snelheid in lagen met padobjecten kan resulteren in lagere precisie bij snijden.\nWe raden geen snelheid hoger dan 20 mm/s aan bij snijden.',
+      too_fast_for_path_and_constrain: 'De volgende lagen: %s\nbevatten vector padobjecten, en hebben een snelheid hoger dan 20 mm/s.\nDe snijsnelheid van vector padobjecten wordt beperkt tot 20 mm/s.\nU kunt deze beperking opheffen bij de voorkeuren.',
+      should_update_firmware_to_continue: '#814 Uw firmware ondersteunt deze versie van Beam Studio niet. Werk de firmware bij om door te gaan. (Menu > Machine > [Uw machine] > Firmware bijwerken)',
+      recommend_downgrade_software: 'We hebben een oudere firmwareversie gedetecteerd. We werken actief aan compatibiliteitsproblemen, maar voor nu raden we aan terug te keren naar <a target="_blank" href="https://beamstudio.s3.ap-northeast-1.amazonaws.com/mac/Beam+Studio+1.9.5.dmg">Beam Studio 1.9.5</a>.',
+      recommend_upgrade_firmware: 'We hebben een oudere firmwareversie gedetecteerd. We werken actief aan compatibiliteitsproblemen, maar voor nu raden we aan de firmware bij te werken naar de laatste versie.',
       still_continue: 'Doorgaan',
       more_than_two_object: 'Te veel objecten. Ondersteuning voor slechts 2 objecten',
       not_support_object_type: 'Objecttype wordt niet ondersteund',
       select_first: 'Selecteer eerst een object.',
       select_at_least_two: 'Selecteer twee objecten om door te gaan',
-      import_file_contain_invalid_path:
-        '#808 Geïmporteerd SVG-bestand bevat ongeldig pad naar afbeelding. Zorg ervoor dat alle afbeeldingen bestaan of inbed de afbeelding in het bestand',
-      import_file_error_ask_for_upload:
-        'Importeren van SVG-bestand mislukt. Wilt u het bestand beschikbaar stellen aan het ontwikkelteam voor bugrapportage?',
+      import_file_contain_invalid_path: '#808 Geïmporteerd SVG-bestand bevat ongeldig pad naar afbeelding. Zorg ervoor dat alle afbeeldingen bestaan of inbed de afbeelding in het bestand',
+      import_file_error_ask_for_upload: 'Importeren van SVG-bestand mislukt. Wilt u het bestand beschikbaar stellen aan het ontwikkelteam voor bugrapportage?',
       upload_file_too_large: '#819 Bestand is te groot om te uploaden.',
       successfully_uploaded: 'Uploaden van bestand gelukt.',
       upload_failed: '#819 Uploaden van bestand mislukt.',
       or_turn_off_borderless_mode: 'Of schakel de modus zonder onderrand uit.',
       svg_1_1_waring: 'Deze SVG-versie is 1.1, er kunnen compatibiliteitsproblemen zijn.',
-      svg_image_path_waring:
-        'Dit SVG-bestand bevat <image> paden. Dit kan mislukken bij laden.\nGebruik ingesloten afbeeldingen bij exporteren van SVG om dit te voorkomen.',
+      svg_image_path_waring: 'Dit SVG-bestand bevat <image> paden. Dit kan mislukken bij laden.\nGebruik ingesloten afbeeldingen bij exporteren van SVG om dit te voorkomen.',
       dxf_version_waring: 'De DXF-versie is niet 2013, er kunnen compatibiliteitsproblemen zijn.',
       dont_show_again: 'Niet meer tonen.',
       convert_to_path_fail: 'Converteren naar pad is mislukt.',
       save_unsave_changed: 'Wilt u de niet-opgeslagen wijzigingen opslaan?',
-      dxf_bounding_box_size_over:
-        'De tekeninggrootte is buiten het werkgebied. Verplaats uw tekening dichter bij de oorsprong in uw CAD-software, of zorg dat de eenheid correct is.',
+      dxf_bounding_box_size_over: 'De tekeninggrootte is buiten het werkgebied. Verplaats uw tekening dichter bij de oorsprong in uw CAD-software, of zorg dat de eenheid correct is.',
       progress: {
         uploading: 'Uploaden',
         calculating: 'Berekenen',
       },
-      backend_connect_failed_ask_to_upload:
-        '#802 Fouten blijven optreden bij verbinden met de backend. Wilt u uw bugrapport uploaden?',
+      backend_connect_failed_ask_to_upload: '#802 Fouten blijven optreden bij verbinden met de backend. Wilt u uw bugrapport uploaden?',
       backend_error_hint: 'Functies werken mogelijk niet goed vanwege een backendfout.',
       pdf2svg: {
         error_when_converting_pdf: '#824 Fout bij converteren van PDF naar SVG:',
-        error_pdf2svg_not_found:
-          '#825 Fout: opdracht pdf2svg niet gevonden. Installeer pdf2svg met uw pakketbeheerder.',
+        error_pdf2svg_not_found: '#825 Fout: opdracht pdf2svg niet gevonden. Installeer pdf2svg met uw pakketbeheerder.',
       },
-      ungroup_use:
-        'Dit zal geïmporteerde DXF/SVG ontgroeperen. Omdat er veel elementen kunnen zijn, kan het even duren. Weet u zeker dat u wilt doorgaan?',
-      vectorize_shading_image:
-        'Gradientafbeeldingen vergen meer verwerkingstijd voor vectorisatie en zijn gevoelig voor ruis. Schakel de afbeeldingsgradiënt uit voordat u verdergaat.',
-      change_workarea_before_preview:
-        'Het werkgebied van %s komt niet overeen met het huidige werkgebied. Wilt u overschakelen naar het huidige werkgebied?',
+      ungroup_use: 'Dit zal geïmporteerde DXF/SVG ontgroeperen. Omdat er veel elementen kunnen zijn, kan het even duren. Weet u zeker dat u wilt doorgaan?',
+      vectorize_shading_image: 'Gradientafbeeldingen vergen meer verwerkingstijd voor vectorisatie en zijn gevoelig voor ruis. Schakel de afbeeldingsgradiënt uit voordat u verdergaat.',
+      change_workarea_before_preview: 'Het werkgebied van %s komt niet overeen met het huidige werkgebied. Wilt u overschakelen naar het huidige werkgebied?',
       bug_report: 'Bugrapportage',
       sentry: {
         title: 'Laten we Beam Studio samen beter maken',
-        message:
-          'Gaat u ermee akkoord om relevante informatie automatisch te uploaden naar het ontwikkelingsteam wanneer er fouten optreden?',
+        message: 'Gaat u ermee akkoord om relevante informatie automatisch te uploaden naar het ontwikkelingsteam wanneer er fouten optreden?',
       },
       questionnaire: {
         caption: 'Help ons met het invullen van de vragenlijst',
         message: 'Help ons met het invullen van de vragenlijst om Beam Studio beter te maken.',
-        unable_to_get_url:
-          'Het ophalen van de link naar de vragenlijst via internet is mislukt. Controleer uw internetverbinding.',
+        unable_to_get_url: 'Het ophalen van de link naar de vragenlijst via internet is mislukt. Controleer uw internetverbinding.',
         no_questionnaire_available: 'Er is momenteel geen vragenlijst beschikbaar.',
       },
       facebook_group_invitation: {
         title: 'Word lid van de officiële FLUX gebruikersgroep',
-        message:
-          'Word lid van onze officiële Facebook-groep om in contact te komen met andere FLUX-lasergebruikers, FLUX-lasers te bespreken, laserkunstwerken te delen en op de hoogte te blijven van de nieuwste updates over onze producten. We kijken ernaar uit u daar te zien!',
+        message: 'Word lid van onze officiële Facebook-groep om in contact te komen met andere FLUX-lasergebruikers, FLUX-lasers te bespreken, laserkunstwerken te delen en op de hoogte te blijven van de nieuwste updates over onze producten. We kijken ernaar uit u daar te zien!',
         join_now: 'Ik doe mee',
         later: 'Misschien later',
         already_joined: 'Al lid',
@@ -624,15 +579,13 @@ const lang: ILang = {
       ai_credit: {
         relogin_to_use: 'Log opnieuw in om deze functie te gebruiken.',
         insufficient_credit: 'Je hebt geen tegoed meer',
-        insufficient_credit_msg:
-          'Je kunt %s niet gebruiken. Ga naar het tegoedcentrum en koop AI-tegoed.',
+        insufficient_credit_msg: 'Je kunt %s niet gebruiken. Ga naar het tegoedcentrum en koop AI-tegoed.',
         buy_link: 'https://member.flux3dp.com/en-US/credit',
         go: 'Ga',
       },
       text_to_path: {
         caption: 'Tekst naar pad Converter 2.0',
-        message:
-          "Beam Studio introduceert nu een nieuwe tekst naar pad converter (Converter 2.0), die betrouwbaardere resultaten oplevert! Wilt u nu overschakelen? \nU kunt deze instelling later ook aanpassen in het gedeelte 'Tekst naar pad Converter' binnen de voorkeuren.",
+        message: "Beam Studio introduceert nu een nieuwe tekst naar pad converter (Converter 2.0), die betrouwbaardere resultaten oplevert! Wilt u nu overschakelen? \nU kunt deze instelling later ook aanpassen in het gedeelte 'Tekst naar pad Converter' binnen de voorkeuren.",
       },
     },
     zoom_block: {
@@ -695,23 +648,16 @@ const lang: ILang = {
           enterNewLayerName: 'Voer de nieuwe laagnaam in',
           layerHasThatName: 'Laag heeft al die naam',
           QmoveElemsToLayer: "Geselecteerde elementen verplaatsen naar laag '%s'?",
-          moveElemFromPrintingLayerTitle:
-            'Wilt u het geselecteerde element verplaatsen naar %s en converteren naar een laser element?',
-          moveElemFromPrintingLayerMsg:
-            'Houd er rekening mee dat als u deze bewerking voltooit, de kleurinstellingen van het geselecteerde element worden verwijderd en ingesteld volgens %s.',
-          moveElemToPrintingLayerTitle:
-            'Wilt u het geselecteerde element verplaatsen naar %s en converteren naar een print element?',
-          moveElemToPrintingLayerMsg:
-            'Houd er rekening mee dat als u deze bewerking voltooit, de instellingen van het geselecteerde element worden verwijderd en ingesteld volgens %s.',
+          moveElemFromPrintingLayerTitle: 'Wilt u het geselecteerde element verplaatsen naar %s en converteren naar een laser element?',
+          moveElemFromPrintingLayerMsg: 'Houd er rekening mee dat als u deze bewerking voltooit, de kleurinstellingen van het geselecteerde element worden verwijderd en ingesteld volgens %s.',
+          moveElemToPrintingLayerTitle: 'Wilt u het geselecteerde element verplaatsen naar %s en converteren naar een print element?',
+          moveElemToPrintingLayerMsg: 'Houd er rekening mee dat als u deze bewerking voltooit, de instellingen van het geselecteerde element worden verwijderd en ingesteld volgens %s.',
           splitColorTitle: 'Wilt u de geselecteerde laag uitbreiden naar CMYK-lagen?',
-          splitColorMsg:
-            'Houd er rekening mee dat u, als u doorgaat met deze bewerking, niet meer kunt terugkeren naar de oorspronkelijke kleurlagen.',
+          splitColorMsg: 'Houd er rekening mee dat u, als u doorgaat met deze bewerking, niet meer kunt terugkeren naar de oorspronkelijke kleurlagen.',
           mergeLaserLayerToPrintingLayerTitle: 'Wilt u deze lagen samenvoegen tot één printlaag?',
-          mergeLaserLayerToPrintingLayerMsg:
-            'Houd er rekening mee dat als u deze bewerking voltooit, de instellingen van de laserlaag worden verwijderd en ingesteld volgens de huidige laag.',
+          mergeLaserLayerToPrintingLayerMsg: 'Houd er rekening mee dat als u deze bewerking voltooit, de instellingen van de laserlaag worden verwijderd en ingesteld volgens de huidige laag.',
           mergePrintingLayerToLaserLayerTitle: 'Wilt u deze lagen samenvoegen tot één laserlaag?',
-          mergePrintingLayerToLaserLayerMsg:
-            'Houd er rekening mee dat als u deze bewerking voltooit, de kleurinstellingen van de printlaag worden verwijderd en ingesteld volgens de huidige laag.',
+          mergePrintingLayerToLaserLayerMsg: 'Houd er rekening mee dat als u deze bewerking voltooit, de kleurinstellingen van de printlaag worden verwijderd en ingesteld volgens de huidige laag.',
         },
         layers: {
           layer: 'Laag',
@@ -742,8 +688,7 @@ const lang: ILang = {
         strength: 'Vermogen',
         low_power_warning: 'Lager laservermogen (onder 10%) zou geen laserlicht kunnen uitstralen.',
         speed: 'Snelheid',
-        speed_contrain_warning:
-          'De snijsnelheid van vectorpadobjecten wordt beperkt tot 20 mm/s (0,79 inch/s). U kunt deze beperking opheffen bij de voorkeursinstellingen.',
+        speed_contrain_warning: 'De snijsnelheid van vectorpadobjecten wordt beperkt tot 20 mm/s (0,79 inch/s). U kunt deze beperking opheffen bij de voorkeursinstellingen.',
         low_speed_warning: 'Lage snelheid kan brandplekken op het materiaal veroorzaken.',
         repeat: 'Uitvoeren',
         add_on: 'Add-on',
@@ -764,8 +709,7 @@ const lang: ILang = {
         more: 'Beheren',
         delete: 'Verwijderen',
         reset: 'Resetten',
-        sure_to_reset:
-          'Dit zal alle standaardinstellingen resetten en uw aangepaste parameters behouden, weet u zeker dat u wilt doorgaan?',
+        sure_to_reset: 'Dit zal alle standaardinstellingen resetten en uw aangepaste parameters behouden, weet u zeker dat u wilt doorgaan?',
         apply: 'Toepassen',
         cancel: 'Annuleren',
         save: 'Opslaan',
@@ -776,8 +720,7 @@ const lang: ILang = {
         inuse: 'Gebruiken',
         export_config: 'Voorinstellingen exporteren',
         new_config_name: 'Nieuwe voorinstelling naam',
-        sure_to_load_config:
-          'Dit zal de voorinstellingen laden en uw aangepaste parameters vervangen. Weet u zeker dat u wilt doorgaan?',
+        sure_to_load_config: 'Dit zal de voorinstellingen laden en uw aangepaste parameters vervangen. Weet u zeker dat u wilt doorgaan?',
         custom_preset: 'Aangepast',
         various_preset: 'Diverse voorinstellingen',
         module: 'Module',
@@ -1019,8 +962,7 @@ const lang: ILang = {
     bottom_right_panel: {
       convert_text_to_path_before_export: 'Tekst naar pad omzetten...',
       retreive_image_data: 'Gegevens ophalen...',
-      export_file_error_ask_for_upload:
-        'Export mislukt. Wilt u de werkende scène naar het ontwikkelteam sturen voor een bugrapport?',
+      export_file_error_ask_for_upload: 'Export mislukt. Wilt u de werkende scène naar het ontwikkelteam sturen voor een bugrapport?',
     },
     image_trace_panel: {
       apply: 'Toepassen',
@@ -1082,10 +1024,8 @@ const lang: ILang = {
     object_panels: {
       wait_for_parsing_font: 'Lettertypen aan het verwerken... Een moment geduld',
       text_to_path: {
-        font_substitute_pop:
-          'Uw tekst bevat tekens die niet worden ondersteund door het huidige lettertype. <br/>Wilt u <strong>%s</strong> gebruiken als vervanging?',
-        check_thumbnail_warning:
-          'Sommige teksten zijn veranderd in andere lettertypen bij het converteren van tekst naar paden en sommige tekens zijn mogelijk niet correct geconverteerd.\nControleer de voorbeeldafbeelding opnieuw voordat u de taak verstuurt.',
+        font_substitute_pop: 'Uw tekst bevat tekens die niet worden ondersteund door het huidige lettertype. <br/>Wilt u <strong>%s</strong> gebruiken als vervanging?',
+        check_thumbnail_warning: 'Sommige teksten zijn veranderd in andere lettertypen bij het converteren van tekst naar paden en sommige tekens zijn mogelijk niet correct geconverteerd.\nControleer de voorbeeldafbeelding opnieuw voordat u de taak verstuurt.',
         error_when_parsing_text: 'Fout bij het converteren van tekst naar pad',
         use_current_font: 'Huidig lettertype gebruiken',
         retry: 'Probeer het later opnieuw of kies een ander lettertype',
@@ -1113,8 +1053,7 @@ const lang: ILang = {
         sharp: 'Scherp',
         round: 'Rond',
         fail_message: 'Kan objecten niet verplaatsen.',
-        not_support_message:
-          'Geselecteerde elementen bevatten niet-ondersteunde SVG-tag:\nAfbeelding, Groep, Tekst en Geïmporteerd Object.',
+        not_support_message: 'Geselecteerde elementen bevatten niet-ondersteunde SVG-tag:\nAfbeelding, Groep, Tekst en Geïmporteerd Object.',
       },
       _nest: {
         start_nest: 'Inpakken',
@@ -1140,23 +1079,18 @@ const lang: ILang = {
       test_completed: 'Test voltooid',
       test_fail: 'Test mislukt',
       cannot_connect_1: '#840 Kan geen verbinding maken met doel-IP.',
-      cannot_connect_2:
-        '#840 Kan geen verbinding maken met doel-IP. Zorg ervoor dat het doel zich in hetzelfde netwerk bevindt.',
+      cannot_connect_2: '#840 Kan geen verbinding maken met doel-IP. Zorg ervoor dat het doel zich in hetzelfde netwerk bevindt.',
       network_unhealthy: '#841 Verbinding onder 70% of reactietijd boven 100ms',
-      device_not_on_list:
-        '#842 Machine staat niet in lijst, maar verbinding boven 70% en reactietijd onder 100ms',
+      device_not_on_list: '#842 Machine staat niet in lijst, maar verbinding boven 70% en reactietijd onder 100ms',
       hint_device_often_on_list: 'Staat de machine vaak niet in de lijst?',
       link_device_often_on_list: 'https://support.flux3dp.com/hc/en-us/articles/360001841636',
-      hint_connect_failed_when_sending_job:
-        'Mislukt om verbinding te maken bij versturen van taak?',
-      link_connect_failed_when_sending_job:
-        'https://support.flux3dp.com/hc/en-us/articles/360001841656',
+      hint_connect_failed_when_sending_job: 'Mislukt om verbinding te maken bij versturen van taak?',
+      link_connect_failed_when_sending_job: 'https://support.flux3dp.com/hc/en-us/articles/360001841656',
       hint_connect_camera_timeout: 'Time-out bij starten camera voorbeeld?',
       link_connect_camera_timeout: 'https://support.flux3dp.com/hc/en-us/articles/360001791895',
       cannot_get_local: 'Ophalen lokaal IP-adres mislukt',
       fail_to_start_network_test: '#817 Kan netwerktest niet starten',
-      linux_permission_hint:
-        'Deze fout komt meestal door onvoldoende rechten.\nVoer alsjeblieft "sudo beam-studio --no-sandbox" uit in terminal om rechten te krijgen en de netwerktest uit te voeren.',
+      linux_permission_hint: 'Deze fout komt meestal door onvoldoende rechten.\nVoer alsjeblieft "sudo beam-studio --no-sandbox" uit in terminal om rechten te krijgen en de netwerktest uit te voeren.',
     },
     layer_color_config_panel: {
       layer_color_config: 'Laagkleurconfiguraties',
@@ -1171,20 +1105,17 @@ const lang: ILang = {
       add_config: 'Kleur toevoegen',
       in_use: 'Deze kleur wordt gebruikt.',
       no_input: 'Voer een geldige hex-kleurcode in.',
-      sure_to_reset:
-        'U verliest alle aangepaste parameters, weet u zeker dat u terug wilt naar standaard?',
+      sure_to_reset: 'U verliest alle aangepaste parameters, weet u zeker dat u terug wilt naar standaard?',
       sure_to_delete: 'Weet u zeker dat u deze kleurinstelling wilt verwijderen?',
     },
     rating_panel: {
       title: 'Geniet u van Beam Studio?',
-      description:
-        'Als u van Beam Studio houdt, zouden we het zeer op prijs stellen als u ons kunt beoordelen.',
+      description: 'Als u van Beam Studio houdt, zouden we het zeer op prijs stellen als u ons kunt beoordelen.',
       dont_show_again: 'Niet meer weergeven de volgende keer.',
       thank_you: 'Bedankt!',
     },
     svg_editor: {
-      unnsupported_file_type:
-        'Het bestandstype wordt niet direct ondersteund. Converteer het bestand naar SVG of bitmap',
+      unnsupported_file_type: 'Het bestandstype wordt niet direct ondersteund. Converteer het bestand naar SVG of bitmap',
       unable_to_fetch_clipboard_img: 'Het ophalen van de afbeelding uit het klembord is mislukt',
     },
     units: {
@@ -1303,8 +1234,7 @@ const lang: ILang = {
     search: 'Zoeken',
     clear: 'Wissen',
     export_svg_title: 'Kan geen SVG exporteren',
-    export_svg_warning:
-      'Dit project bevat objecten die beschermd zijn door de intellectuele eigendomswet. Beam Studio zal deze objecten daarom automatisch uitsluiten tijdens de export. U kunt uw project nog steeds opslaan in het Beam Studio Scene (.beam)-formaat om al uw gegevens te behouden. Wilt u nog steeds exporteren?',
+    export_svg_warning: 'Dit project bevat objecten die beschermd zijn door de intellectuele eigendomswet. Beam Studio zal deze objecten daarom automatisch uitsluiten tijdens de export. U kunt uw project nog steeds opslaan in het Beam Studio Scene (.beam)-formaat om al uw gegevens te behouden. Wilt u nog steeds exporteren?',
     learn_more: 'Meer informatie',
   },
   change_logs: {
@@ -1366,10 +1296,8 @@ const lang: ILang = {
     ink_color: 'Ink color',
     ink_type: 'Ink type',
     ink_level: 'Ink level',
-    close_door_to_read_cartridge_info:
-      "To access ink information, please close the machine's door cover.",
-    cartridge_info_read_failed:
-      'Please ensure that the ink is fully inserted. Try to remove the ink and install it back.',
+    close_door_to_read_cartridge_info: "To access ink information, please close the machine's door cover.",
+    cartridge_info_read_failed: 'Please ensure that the ink is fully inserted. Try to remove the ink and install it back.',
     cartridge_info_verification_failed: 'Please verify that your ink is FLUX authentic.',
   },
   monitor: {
@@ -1383,10 +1311,8 @@ const lang: ILang = {
     camera: 'Camera',
     taskTab: 'Taak',
     connecting: 'Verbinden...',
-    HARDWARE_ERROR_MAINBOARD_ERROR:
-      '#401 Kritieke fout: Hoofdprintplaat offline. Neem contact op met FLUX-ondersteuning.',
-    HARDWARE_ERROR_SUBSYSTEM_ERROR:
-      '#402 Kritieke fout: Geen reactie van subsysteem. Neem contact op met FLUX-ondersteuning.',
+    HARDWARE_ERROR_MAINBOARD_ERROR: '#401 Kritieke fout: Hoofdprintplaat offline. Neem contact op met FLUX-ondersteuning.',
+    HARDWARE_ERROR_SUBSYSTEM_ERROR: '#402 Kritieke fout: Geen reactie van subsysteem. Neem contact op met FLUX-ondersteuning.',
     HARDWARE_ERROR_PUMP_ERROR: '#900 Controleer uw watertank.',
     HARDWARE_ERROR_DOOR_OPENED: '#901 Sluit de deur om door te gaan.',
     HARDWARE_ERROR_OVER_TEMPERATURE: '#902 Oververhit. Wacht een paar minuten.',
@@ -1397,20 +1323,23 @@ const lang: ILang = {
     HARDWARE_ERROR_AIR_ASSIST_ABNORMAL: '#913 Luchtstroomsensor afwijkend',
     HARDWARE_ERROR_ROTARY_NOT_DETECTED: '#914 Geen draaitafelmodule gedetecteerd',
     HARDWARE_ERROR_HOMING_PULLOFF_FAILED: '#920 Homing pull-off fout',
-    HARDWARE_ERROR_HEADTYPE_MISMATCH:
-      '#915 Onjuiste module gedetecteerd. Installeer de juiste module om door te gaan.',
-    HARDWARE_ERROR_HEADTYPE_NONE:
-      '#917 Module niet gedetecteerd. Zorg dat de module juist is geïnstalleerd om door te gaan.',
-    HARDWARE_ERROR_HEADTYPE_UNKNOWN:
-      '#918 Onbekende module gedetecteerd. Installeer de juiste module om door te gaan.',
+    HARDWARE_ERROR_HEADTYPE_MISMATCH: '#915 Onjuiste module gedetecteerd. Installeer de juiste module om door te gaan.',
+    HARDWARE_ERROR_HEADTYPE_NONE: '#917 Module niet gedetecteerd. Zorg dat de module juist is geïnstalleerd om door te gaan.',
+    HARDWARE_ERROR_HEADTYPE_UNKNOWN: '#918 Onbekende module gedetecteerd. Installeer de juiste module om door te gaan.',
     HARDWARE_ERROR_PRINTER_NO_RESPONSE: 'Geen reactie van printermodule.',
     USER_OPERATION_ROTARY_PAUSE: 'Schakel over naar de draaimotor.',
     USER_OPERATION_REMOVE_CARTRIDGE: 'Verwijder de cartridge om door te gaan.',
+    USER_OPERATION_CHANGE_TOOLHEAD_HEADTYPE_MISMATCH: '#915 Onjuiste module gedetecteerd. Installeer de juiste module om door te gaan.',
+    USER_OPERATION_CHANGE_TOOLHEAD_HEADTYPE_NONE: '#917 Module niet gedetecteerd. Zorg dat de module juist is geïnstalleerd om door te gaan.',
+    USER_OPERATION_CHANGE_TOOLHEAD_HEADTYPE_UNKNOWN: '#918 Onbekende module gedetecteerd. Installeer de juiste module om door te gaan.',
+    USER_OPERATION_CHANGE_TOOLHEAD: 'Installeer de juiste module om door te gaan.',
+    USER_OPERATION_CHANGE_CARTRIDGE_CARTRIDGE_NOT_DETECTED: 'Plaats de cartridge om door te gaan.',
+    USER_OPERATION_CHANGE_CARTRIDGE: 'Plaats de juiste cartridge om door te gaan.',
+    USER_OPERATION: 'Volg de instructies op het apparaatpaneel om door te gaan.',
     RESOURCE_BUSY: 'De machine is bezet. Herstart de machine als deze niet draait.',
     DEVICE_ERROR: 'Er ging iets mis. Start de machine opnieuw op.',
     NO_RESPONSE: '#905 Fout bij verbinden met moederbord. Start de machine opnieuw op.',
-    SUBSYSTEM_ERROR:
-      '#402 Kritieke fout: subsysteem reageert niet. Neem contact op met FLUX-ondersteuning.',
+    SUBSYSTEM_ERROR: '#402 Kritieke fout: subsysteem reageert niet. Neem contact op met FLUX-ondersteuning.',
     HARDWARE_FAILURE: 'Er ging iets mis. Start de machine opnieuw op.',
     MAINBOARD_OFFLINE: '#905 Fout bij verbinden met moederbord. Start de machine opnieuw op.',
     bug_report: 'Foutrapport',
@@ -1479,8 +1408,7 @@ const lang: ILang = {
     retrievingCameraOffset: 'Camera-offset lezen...',
     connectingCamera: 'Camera verbinden...',
     homing: 'Refereren...',
-    connectionTimeout:
-      '#805 Apparaat verbinding time-out. Controleer uw netwerkstatus en de Wi-Fi-indicator van uw machine.',
+    connectionTimeout: '#805 Apparaat verbinding time-out. Controleer uw netwerkstatus en de Wi-Fi-indicator van uw machine.',
     getProbePosition: 'Probe-positie ophalen...',
     device_not_found: {
       caption: 'Standaardmachine niet gevonden',
@@ -1488,63 +1416,46 @@ const lang: ILang = {
     },
     device_busy: {
       caption: 'Apparaat bezet',
-      message:
-        'Het apparaat voert een andere taak uit, probeer het later opnieuw. Als het apparaat niet meer werkt, start het dan opnieuw op.',
+      message: 'Het apparaat voert een andere taak uit, probeer het later opnieuw. Als het apparaat niet meer werkt, start het dan opnieuw op.',
     },
     device_is_used: 'Het apparaat wordt gebruikt, wilt u de huidige taak annuleren?',
     monitor_too_old: {
       caption: 'Verouderde firmware',
-      content:
-        '#814 Installeer de nieuwste firmware met <a target="_blank" href="http://helpcenter.flux3dp.com/hc/en-us/articles/216251077">deze handleiding</a>.',
+      content: '#814 Installeer de nieuwste firmware met <a target="_blank" href="http://helpcenter.flux3dp.com/hc/en-us/articles/216251077">deze handleiding</a>.',
     },
-    unknown_error:
-      '#821 De applicatie heeft een onbekende fout gevonden, gebruik Help > Menu > Fout rapporteren.',
-    unknown_device:
-      '#826 Kan geen verbinding maken met het apparaat, zorg ervoor dat de USB is aangesloten op het apparaat',
-    unsupport_osx_version:
-      'De huidige macOS-versie %s ondersteunt mogelijk niet alle functies. Werk alsjeblieft bij naar macOS 11+.',
-    unsupport_win_version:
-      'De huidige besturingssysteemversie %s ondersteunt mogelijk niet alle functies. Werk alsjeblieft bij naar de nieuwste versie.',
+    unknown_error: '#821 De applicatie heeft een onbekende fout gevonden, gebruik Help > Menu > Fout rapporteren.',
+    unknown_device: '#826 Kan geen verbinding maken met het apparaat, zorg ervoor dat de USB is aangesloten op het apparaat',
+    unsupport_osx_version: 'De huidige macOS-versie %s ondersteunt mogelijk niet alle functies. Werk alsjeblieft bij naar macOS 11+.',
+    unsupport_win_version: 'De huidige besturingssysteemversie %s ondersteunt mogelijk niet alle functies. Werk alsjeblieft bij naar de nieuwste versie.',
     need_password: 'Wachtwoord vereist om verbinding te maken met het apparaat',
-    unavailableWorkarea:
-      '#804 Huidige werkgebied overschrijdt het werkgebied van dit apparaat. Controleer het werkgebied van het geselecteerde apparaat of stel het werkgebied in via Bewerken > Documentinstellingen.',
+    unavailableWorkarea: '#804 Huidige werkgebied overschrijdt het werkgebied van dit apparaat. Controleer het werkgebied van het geselecteerde apparaat of stel het werkgebied in via Bewerken > Documentinstellingen.',
     please_enter_dpi: 'Voer de eenheid van uw bestand in (in mm)',
     auth_error: '#820 Auth-fout: Werk Beam Studio en apparaatfirmware bij naar de nieuwste versie.',
     usb_unplugged: 'USB-verbinding verbroken. Controleer uw USB-verbinding',
     uploading_fcode: 'FCode uploaden',
-    cant_connect_to_device:
-      '#827 Kan geen verbinding maken met de machine, controleer uw verbinding',
+    cant_connect_to_device: '#827 Kan geen verbinding maken met de machine, controleer uw verbinding',
     unable_to_find_machine: 'Kan machine niet vinden',
-    disconnected:
-      'Verbinding instabiel, controleer apparaatverbinding en probeer het later opnieuw',
-    unable_to_start:
-      '#830 Kan de taak niet starten. Probeer het opnieuw. Als dit opnieuw gebeurt, neem dan contact met ons op met een bugrapportage:',
+    disconnected: 'Verbinding instabiel, controleer apparaatverbinding en probeer het later opnieuw',
+    unable_to_start: '#830 Kan de taak niet starten. Probeer het opnieuw. Als dit opnieuw gebeurt, neem dan contact met ons op met een bugrapportage:',
     camera: {
-      camera_cable_unstable:
-        "Er is gedetecteerd dat de camera foto's instabiel overdraagt. Voorbeeldweergave kan nog steeds normaal worden uitgevoerd, maar er kan sprake zijn van trage voorbeeldweergave of time-out.",
-      fail_to_transmit_image:
-        '#845 Er ging iets mis met beeldoverdracht. Start uw machine of Beam Studio opnieuw op. Als deze fout aanhoudt, volg dan <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/4402756056079">deze handleiding</a>.',
-      ws_closed_unexpectly:
-        '#844 Verbinding met machinecamera onverwacht verbroken. Als deze fout aanhoudt, volg dan <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/4402755805071">deze handleiding</a>.',
+      camera_cable_unstable: "Er is gedetecteerd dat de camera foto's instabiel overdraagt. Voorbeeldweergave kan nog steeds normaal worden uitgevoerd, maar er kan sprake zijn van trage voorbeeldweergave of time-out.",
+      fail_to_transmit_image: '#845 Er ging iets mis met beeldoverdracht. Start uw machine of Beam Studio opnieuw op. Als deze fout aanhoudt, volg dan <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/4402756056079">deze handleiding</a>.',
+      ws_closed_unexpectly: '#844 Verbinding met machinecamera onverwacht verbroken. Als deze fout aanhoudt, volg dan <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/4402755805071">deze handleiding</a>.',
       continue_preview: 'Doorgaan',
       abort_preview: 'Afbreken',
     },
     preview: {
       camera_preview: 'Camera voorbeeldweergave',
       auto_focus: 'Auto scherpstellen',
-      auto_focus_instruction:
-        'Verplaats de lasermodulekop boven het object en volg de animatie-instructies om op AF te drukken om scherp te stellen.',
-      already_performed_auto_focus:
-        'U heeft al automatisch scherpgesteld, bestaande waarden gebruiken?',
-      please_enter_height:
-        'Voer de hoogte van het object in om een nauwkeurige camerafoto te maken.',
+      auto_focus_instruction: 'Verplaats de lasermodulekop boven het object en volg de animatie-instructies om op AF te drukken om scherp te stellen.',
+      already_performed_auto_focus: 'U heeft al automatisch scherpgesteld, bestaande waarden gebruiken?',
+      please_enter_height: 'Voer de hoogte van het object in om een nauwkeurige camerafoto te maken.',
       apply: 'Toepassen',
       enter_manually: 'Handmatig invoeren',
       adjust: 'Aanpassen',
       adjust_height_tooltip: 'Schakel het selectievakje in om bewerken mogelijk te maken.',
     },
-    unsupported_example_file:
-      'Het geselecteerde voorbeeldbestand wordt niet ondersteund door het huidige werkgebied.',
+    unsupported_example_file: 'Het geselecteerde voorbeeldbestand wordt niet ondersteund door het huidige werkgebied.',
   },
   machine_status: {
     '0': 'Inactief',
@@ -1573,8 +1484,7 @@ const lang: ILang = {
   },
   calibration: {
     update_firmware_msg1: 'Uw firmware ondersteunt deze functie niet. Werk de firmware bij naar v',
-    update_firmware_msg2:
-      'of hoger om door te gaan。 (Menu > Machine > [Uw machine] > Firmware bijwerken)',
+    update_firmware_msg2: 'of hoger om door te gaan。 (Menu > Machine > [Uw machine] > Firmware bijwerken)',
     camera_calibration: 'Camera-calibratie',
     diode_calibration: 'Diode lasermodule-calibratie',
     module_calibration_printer: 'Printermodule-calibratie',
@@ -1587,23 +1497,15 @@ const lang: ILang = {
     do_engraving: 'GRAVEREN UITVOEREN',
     start_engrave: 'GRAVEREN STARTEN',
     start_printing: 'AFDRUKKEN STARTEN',
-    ask_for_readjust:
-      'Wilt u de graveerstap overslaan en dan een foto nemen en rechtstreeks kalibreren?',
-    please_goto_beambox_first:
-      'Schakel over naar de graveermodus (Beambox) om deze functie te gebruiken.',
-    please_place_paper:
-      'Plaats een A4- of briefpapierformaat wit papier linksboven in het werkgebied.',
-    please_place_paper_center:
-      'Plaats een A4- of briefpapierformaat wit papier in het midden van het werkgebied.',
-    please_place_dark_colored_paper:
-      'Plaats een A4- of briefpapierformaat donkergekleurd papier in het midden van het werkgebied.',
+    ask_for_readjust: 'Wilt u de graveerstap overslaan en dan een foto nemen en rechtstreeks kalibreren?',
+    please_goto_beambox_first: 'Schakel over naar de graveermodus (Beambox) om deze functie te gebruiken.',
+    please_place_paper: 'Plaats een A4- of briefpapierformaat wit papier linksboven in het werkgebied.',
+    please_place_paper_center: 'Plaats een A4- of briefpapierformaat wit papier in het midden van het werkgebied.',
+    please_place_dark_colored_paper: 'Plaats een A4- of briefpapierformaat donkergekleurd papier in het midden van het werkgebied.',
     please_refocus: {
-      beambox:
-        'Stel het platform af op de brandpuntsafstand (de hoogte van de omlaag gedraaide acryl).',
-      beamo:
-        'Stel de laserkop af om scherp te stellen op het graveerobject (de hoogte van de omlaag gedraaide acryl).',
-      beamo_af:
-        'Dubbeltik de zijknop van de autofocus-accessoire en laat de sonde het materiaal zachtjes aanraken.',
+      beambox: 'Stel het platform af op de brandpuntsafstand (de hoogte van de omlaag gedraaide acryl).',
+      beamo: 'Stel de laserkop af om scherp te stellen op het graveerobject (de hoogte van de omlaag gedraaide acryl).',
+      beamo_af: 'Dubbeltik de zijknop van de autofocus-accessoire en laat de sonde het materiaal zachtjes aanraken.',
       hexa: 'Dubbelklik op de hoogteverstelknop om de honingraattabel omhoog te brengen en de sonde het graveermateriaal te laten aanraken.',
     },
     without_af: 'Zonder autofocus',
@@ -1616,8 +1518,7 @@ const lang: ILang = {
     show_last_config: 'Laatste resultaat weergeven',
     use_last_config: 'Laatste kalibratiewaarden gebruiken',
     taking_picture: 'Foto maken...',
-    analyze_result_fail:
-      'Kan vastgelegde afbeelding niet analyseren.<br/>Controleer het volgende:<br/>1. Gefotografeerd papier volledig bedekt met wit papier.<br/>2. Het platform is goed scherpgesteld.',
+    analyze_result_fail: 'Kan vastgelegde afbeelding niet analyseren.<br/>Controleer het volgende:<br/>1. Gefotografeerd papier volledig bedekt met wit papier.<br/>2. Het platform is goed scherpgesteld.',
     drawing_calibration_image: 'Kalibratieafbeelding tekenen...',
     calibrate_done: 'Kalibratie voltooid. Betere cameranauwkeurigheid bij precieze scherpstelling.',
     calibrate_done_diode: 'Kalibratie voltooid. Offset van diode lasermodule is opgeslagen.',
@@ -1625,30 +1526,22 @@ const lang: ILang = {
     hint_adjust_parameters: 'Gebruik deze parameters om het rode vierkant aan te passen',
     zendesk_link: 'https://support.flux3dp.com/hc/en-us/articles/360001811416',
     please_do_camera_calibration_and_focus: {
-      beambox:
-        'Wanneer u de diode lasermodule kalibreert, is een camera nodig.\nZorg ervoor dat de camera van deze machine is gekalibreerd.\nEn pas het platform vriendelijk aan op het brandpunt (de hoogte van het omgekeerde acryl)',
-      beamo:
-        'Wanneer u de diode lasermodule kalibreert, is een camera nodig.\nZorg ervoor dat de camera van deze machine is gekalibreerd.\nEn pas de laserkop vriendelijk aan om scherp te stellen op het graveerobject (de hoogte van het omgekeerde acryl)',
+      beambox: 'Wanneer u de diode lasermodule kalibreert, is een camera nodig.\nZorg ervoor dat de camera van deze machine is gekalibreerd.\nEn pas het platform vriendelijk aan op het brandpunt (de hoogte van het omgekeerde acryl)',
+      beamo: 'Wanneer u de diode lasermodule kalibreert, is een camera nodig.\nZorg ervoor dat de camera van deze machine is gekalibreerd.\nEn pas de laserkop vriendelijk aan om scherp te stellen op het graveerobject (de hoogte van het omgekeerde acryl)',
     },
     downloading_pictures: "Foto's downloaden...",
-    failed_to_download_pictures:
-      "#848 Fout bij downloaden foto's, neem contact op met FLUX Support.",
+    failed_to_download_pictures: "#848 Fout bij downloaden foto's, neem contact op met FLUX Support.",
     uploading_images: 'Afbeeldingen uploaden...',
     calculating_camera_matrix: 'Camera matrix berekenen...',
     calculating_regression_parameters: 'Regressieparameters berekenen...',
-    failed_to_calibrate_camera:
-      '#848 Fout bij camera kalibratie, neem contact op met FLUX Support.',
-    failed_to_save_calibration_results:
-      '#849 Fout bij opslaan kalibratieresultaten, probeer opnieuw. Neem contact op met FLUX Support als dit blijft gebeuren.',
-    ador_autofocus_material:
-      'Druk 3 seconden op het "AF"-pictogram en laat de sonde het materiaal zachtjes aanraken.',
-    ador_autofocus_focusing_block:
-      'Druk 3 seconden op het "AF"-pictogram en laat de sonde het scherpstelblok aanraken.',
+    failed_to_calibrate_camera: '#848 Fout bij camera kalibratie, neem contact op met FLUX Support.',
+    failed_to_save_calibration_results: '#849 Fout bij opslaan kalibratieresultaten, probeer opnieuw. Neem contact op met FLUX Support als dit blijft gebeuren.',
+    ador_autofocus_material: 'Druk 3 seconden op het "AF"-pictogram en laat de sonde het materiaal zachtjes aanraken.',
+    ador_autofocus_focusing_block: 'Druk 3 seconden op het "AF"-pictogram en laat de sonde het scherpstelblok aanraken.',
     align_red_cross_cut: 'Lijn het midden van het rode kruis uit met het snijdende kruis.',
     align_red_cross_print: 'Lijn het midden van het rode kruis uit met het geprinte kruis.',
     retake: 'Foto opnieuw nemen',
-    calibrate_camera_before_calibrate_modules:
-      'Voer eerst een camerakalibratie uit voordat u modules kalibreert.',
+    calibrate_camera_before_calibrate_modules: 'Voer eerst een camerakalibratie uit voordat u modules kalibreert.',
   },
   input_machine_password: {
     require_password: '"%s" vereist een wachtwoord',
@@ -1658,22 +1551,17 @@ const lang: ILang = {
   tutorial: {
     skip: 'Overslaan',
     welcome: 'WELKOM',
-    suggest_calibrate_camera_first:
-      'Voor beamo, Beambox-serie en HEXA-gebruikers raden we aan de camera te kalibreren wanneer u de machine voor het eerst gebruikt (Menu > Machine > [Uw machine] > Camera kalibreren) en het platform elke keer opnieuw scherp te stellen voordat u een voorbeeld bekijkt voor een beter voorbeeldresultaat.',
+    suggest_calibrate_camera_first: 'Voor beamo, Beambox-serie en HEXA-gebruikers raden we aan de camera te kalibreren wanneer u de machine voor het eerst gebruikt (Menu > Machine > [Uw machine] > Camera kalibreren) en het platform elke keer opnieuw scherp te stellen voordat u een voorbeeld bekijkt voor een beter voorbeeldresultaat.',
     camera_calibration_failed: 'Camerakalibratie mislukt',
     ask_retry_calibration: 'Wilt u de camera opnieuw kalibreren?',
-    skipped_camera_calibration:
-      'U heeft de camerakalibratie overgeslagen. U kunt de camera op elk gewenst moment kalibreren via het menu (Menu > Machine > [Uw machine] > Camera kalibreren).',
+    skipped_camera_calibration: 'U heeft de camerakalibratie overgeslagen. U kunt de camera op elk gewenst moment kalibreren via het menu (Menu > Machine > [Uw machine] > Camera kalibreren).',
     skipped_ador_calibration: 'De Ador-camera is gekalibreerd tijdens de fabrieksinspectie.',
     needNewUserTutorial: 'Wilt u een tutorial starten?',
-    needNewInterfaceTutorial:
-      'Wilt u een tutorial starten voor de nieuwe interface van Beam Studio?',
+    needNewInterfaceTutorial: 'Wilt u een tutorial starten voor de nieuwe interface van Beam Studio?',
     next: 'VOLGENDE',
     look_for_machine: 'Machine zoeken voor tutorial...',
-    unable_to_find_machine:
-      'Kan geen machine vinden voor tutorial. Wilt u naar de verbindingsinstellingenpagina gaan, de tutorial opnieuw proberen of overslaan?',
-    skip_tutorial:
-      'U heeft de tutorial overgeslagen. U kunt altijd de tutorial starten door te klikken op "Help" > "Tutorial tonen"',
+    unable_to_find_machine: 'Kan geen machine vinden voor tutorial. Wilt u naar de verbindingsinstellingenpagina gaan, de tutorial opnieuw proberen of overslaan?',
+    skip_tutorial: 'U heeft de tutorial overgeslagen. U kunt altijd de tutorial starten door te klikken op "Help" > "Tutorial tonen"',
     set_connection: 'Verbinding instellen',
     retry: 'Opnieuw proberen',
     newUser: {
@@ -1704,8 +1592,7 @@ const lang: ILang = {
       add_new_layer: 'Voeg nieuwe laag toe',
       rename_by_double_click: 'Hernoem door dubbel te klikken',
       drag_to_sort: 'Sleep om te sorteren',
-      layer_controls:
-        'Rechtsklik voor laagopties:\nDupliceren / Samenvoegen / Vergrendelen / Lagen verwijderen',
+      layer_controls: 'Rechtsklik voor laagopties:\nDupliceren / Samenvoegen / Vergrendelen / Lagen verwijderen',
       switch_between_layer_panel_and_object_panel: 'Schakel tussen laagpaneel en objectpaneel',
       align_controls: 'Lijn uitlijnen',
       group_controls: 'Groepeer',
@@ -1738,20 +1625,15 @@ const lang: ILang = {
     unknown: 'Unknown Module',
     notification: {
       convertFromPrintingModuleTitle: 'Wilt u de Printmodule converteren naar de Lasermodule?',
-      convertFromPrintingModuleMsg:
-        'Houd er rekening mee dat als u deze bewerking voltooit, de kleurinstellingen van de printlaag worden verwijderd en ingesteld volgens de huidige laag.',
+      convertFromPrintingModuleMsg: 'Houd er rekening mee dat als u deze bewerking voltooit, de kleurinstellingen van de printlaag worden verwijderd en ingesteld volgens de huidige laag.',
       convertFromLaserModuleTitle: 'Wilt u de lasermodule converteren naar de printmodule?',
-      convertFromLaserModuleMsg:
-        'Houd er rekening mee dat als u deze bewerking voltooit, de instellingen van de laserlaag worden verwijderd en ingesteld volgens de huidige laag.',
-      importedDocumentContainsPrinting:
-        'Het document bevat een printlaag, wilt u het werkgebied wijzigen naar printen?',
+      convertFromLaserModuleMsg: 'Houd er rekening mee dat als u deze bewerking voltooit, de instellingen van de laserlaag worden verwijderd en ingesteld volgens de huidige laag.',
+      importedDocumentContainsPrinting: 'Het document bevat een printlaag, wilt u het werkgebied wijzigen naar printen?',
       printingLayersCoverted: 'De printlagen zijn geconverteerd naar laserlagen.',
       performPrintingCaliTitle: 'Voer de kalibratie van de printmodule uit',
-      performPrintingCaliMsg:
-        'Klik op "Bevestigen" om de kalibratie uit te voeren, of open de kalibratie via het bovenste menu. <br /> (Machine> [Uw machinenaam]> Kalibreer printmodule)',
+      performPrintingCaliMsg: 'Klik op "Bevestigen" om de kalibratie uit te voeren, of open de kalibratie via het bovenste menu. <br /> (Machine> [Uw machinenaam]> Kalibreer printmodule)',
       performIRCaliTitle: 'Voer de kalibratie van de lasermodule uit',
-      performIRCaliMsg:
-        'Klik op "Bevestigen" om de kalibratie uit te voeren, of open de kalibratie via het bovenste menu. <br /> (Machine> [Uw machinenaam]> Kalibreer lasermodule)',
+      performIRCaliMsg: 'Klik op "Bevestigen" om de kalibratie uit te voeren, of open de kalibratie via het bovenste menu. <br /> (Machine> [Uw machinenaam]> Kalibreer lasermodule)',
     },
     non_working_area: 'Niet-Werkgebied',
   },
@@ -1794,8 +1676,7 @@ const lang: ILang = {
     merge: 'Samenvoegen',
     text_label: 'Label',
     beam_radius: 'Straalcompensatie',
-    beam_radius_warning:
-      'Verwijder de zaagcompensatie wanneer de randen of verbindingen van de doos kort zijn om de doosassemblage te garanderen',
+    beam_radius_warning: 'Verwijder de zaagcompensatie wanneer de randen of verbindingen van de doos kort zijn om de doosassemblage te garanderen',
     import: 'Importeren',
     cancel: 'Annuleren',
     reset: 'Resetten',
@@ -1822,8 +1703,7 @@ const lang: ILang = {
       duplicate: 'Dupliceren',
       download: 'Downloaden',
       delete: 'Verwijderen',
-      confirmFileDelete:
-        'Weet u zeker dat u dit bestand wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt.',
+      confirmFileDelete: 'Weet u zeker dat u dit bestand wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt.',
     },
     save_file: {
       choose_action: 'Bestand opslaan:',
@@ -1831,8 +1711,7 @@ const lang: ILang = {
       save_new: 'Opslaan als nieuw bestand',
       input_file_name: 'Voer bestandsnaam in:',
       invalid_char: 'Ongeldige tekens:',
-      storage_limit_exceeded:
-        'Uw cloudopslag heeft de bovengrens bereikt. Verwijder onnodige bestanden voordat u nieuwe opslaat.',
+      storage_limit_exceeded: 'Uw cloudopslag heeft de bovengrens bereikt. Verwijder onnodige bestanden voordat u nieuwe opslaat.',
     },
   },
   camera_data_backup: {

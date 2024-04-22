@@ -38,22 +38,16 @@ const lang: ILang = {
       dxf: 'Objek DXF',
     },
     alerts: {
-      start_preview_timeout:
-        '#803 Timeout telah terjadi saat memulai mode pratinjau. Harap mulai ulang mesin Anda atau Beam Studio. Jika kesalahan ini berlanjut, ikuti <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">panduan ini</a>.',
-      fail_to_start_preview:
-        '#803 Gagal memulai mode pratinjau. Harap mulai ulang mesin Anda atau Beam Studio. Jika kesalahan ini berlanjut, ikuti <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">panduan ini</a>.',
-      fail_to_connect_with_camera:
-        '#803 Gagal membuat koneksi dengan kamera mesin. Harap mulai ulang mesin Anda atau Beam Studio. Jika kesalahan ini berlanjut, ikuti <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">panduan ini</a>.',
+      start_preview_timeout: '#803 Timeout telah terjadi saat memulai mode pratinjau. Harap mulai ulang mesin Anda atau Beam Studio. Jika kesalahan ini berlanjut, ikuti <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">panduan ini</a>.',
+      fail_to_start_preview: '#803 Gagal memulai mode pratinjau. Harap mulai ulang mesin Anda atau Beam Studio. Jika kesalahan ini berlanjut, ikuti <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">panduan ini</a>.',
+      fail_to_connect_with_camera: '#803 Gagal membuat koneksi dengan kamera mesin. Harap mulai ulang mesin Anda atau Beam Studio. Jika kesalahan ini berlanjut, ikuti <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">panduan ini</a>.',
       add_content_first: 'Silakan tambahkan objek terlebih dahulu',
       headtype_mismatch: 'Modul yang tidak cocok terdeteksi. ',
       headtype_none: 'Modul tidak terdeteksi. ',
       headtype_unknown: 'Modul tidak dikenali terdeteksi. ',
-      install_correct_headtype:
-        'Harap pasang modul laser diode 10W/20W dengan benar untuk mengaktifkan laser rendah agar bingkai dapat berjalan.',
-      door_opened:
-        'Harap tutup pintu penutup untuk mengaktifkan laser rendah agar bingkai dapat berjalan.',
-      fail_to_get_door_status:
-        'Harap pastikan pintu penutup tertutup untuk mengaktifkan laser rendah agar bingkai dapat berjalan.',
+      install_correct_headtype: 'Harap pasang modul laser diode 10W/20W dengan benar untuk mengaktifkan laser rendah agar bingkai dapat berjalan.',
+      door_opened: 'Harap tutup pintu penutup untuk mengaktifkan laser rendah agar bingkai dapat berjalan.',
+      fail_to_get_door_status: 'Harap pastikan pintu penutup tertutup untuk mengaktifkan laser rendah agar bingkai dapat berjalan.',
     },
     hint: {
       polygon: 'Tekan tombol + / - untuk menambah / mengurangi sisi.',
@@ -200,17 +194,14 @@ const lang: ILang = {
     no_vcredist: 'Mohon instal Visual C++ Redistributable 2015<br/>Dapat diunduh di flux3dp.com',
   },
   generic_error: {
-    UNKNOWN_ERROR:
-      '[UE] Terjadi kesalahan yang tidak diketahui. Harap mulai ulang Beam Studio dan mesin.',
+    UNKNOWN_ERROR: '[UE] Terjadi kesalahan yang tidak diketahui. Harap mulai ulang Beam Studio dan mesin.',
     OPERATION_ERROR: '[OE] Terjadi konflik status, harap coba ulangi tindakan.',
-    SUBSYSTEM_ERROR:
-      '[SE] Terjadi kesalahan saat firmware mesin mengeksekusi tugas. Harap mulai ulang mesin.',
+    SUBSYSTEM_ERROR: '[SE] Terjadi kesalahan saat firmware mesin mengeksekusi tugas. Harap mulai ulang mesin.',
     UNKNOWN_COMMAND: '[UC] Harap perbarui Firmware Perangkat',
   },
   device_selection: {
-    no_beambox:
-      '#801 Kami tidak dapat menemukan mesin Anda di jaringan.\nHarap ikuti <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">panduan</a> untuk mengatasi masalah koneksi.',
-    no_device_web: '#801 Periksa status mesin Anda, atau klik \'Setup Mesin\' di bawah untuk mengatur mesin.',
+    no_beambox: '#801 Kami tidak dapat menemukan mesin Anda di jaringan.\nHarap ikuti <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">panduan</a> untuk mengatasi masalah koneksi.',
+    no_device_web: "#801 Periksa status mesin Anda, atau klik 'Setup Mesin' di bawah untuk mengatur mesin.",
   },
   update: {
     update: 'Perbarui',
@@ -229,33 +220,26 @@ const lang: ILang = {
       upload_file: 'Firmware upload (*.bin / *.fxfw)',
       update_success: 'Pembaruan firmware berhasil diunggah',
       update_fail: '#822 Pembaruan Gagal',
-      too_old_for_web:
-        'Versi firmware mesin Anda saat ini adalah v%s.\nJika Anda ingin menggunakan versi online dari Beam Studio, harap perbarui firmware mesin ke versi terbaru.',
+      too_old_for_web: 'Versi firmware mesin Anda saat ini adalah v%s.\nJika Anda ingin menggunakan versi online dari Beam Studio, harap perbarui firmware mesin ke versi terbaru.',
       force_update_message: '#814 Harap perbarui mesin Anda ke versi firmware terbaru.',
-      firmware_too_old_update_by_sdcard:
-        'Versi firmware terlalu lama. Harap perbarui firmware menggunakan kartu SD.',
+      firmware_too_old_update_by_sdcard: 'Versi firmware terlalu lama. Harap perbarui firmware menggunakan kartu SD.',
     },
     software: {
       checking: 'Memeriksa Pembaruan',
       switch_version: 'Ganti Versi',
       check_update: 'Periksa Pembaruan',
       caption: 'Pembaruan Perangkat Lunak Beam Studio tersedia',
-      downloading:
-        'Mengunduh pembaruan di latar belakang, Anda dapat mengeklik "OK" untuk melanjutkan pekerjaan Anda.',
-      install_or_not:
-        '%s siap untuk diperbarui. Apakah Anda ingin memulai ulang dan memperbarui sekarang?',
+      downloading: 'Mengunduh pembaruan di latar belakang, Anda dapat mengeklik "OK" untuk melanjutkan pekerjaan Anda.',
+      install_or_not: '%s siap untuk diperbarui. Apakah Anda ingin memulai ulang dan memperbarui sekarang?',
       switch_or_not: '%s siap untuk beralih. Apakah Anda ingin memulai ulang dan beralih sekarang?',
-      available_update:
-        'Beam Studio v%s tersedia sekarang. Anda memiliki v%s. Apakah Anda ingin mengunduh pembaruan?',
-      available_switch:
-        'Beam Studio v%s tersedia sekarang. Anda memiliki v%s. Apakah Anda ingin beralih ke versi ini?',
+      available_update: 'Beam Studio v%s tersedia sekarang. Anda memiliki v%s. Apakah Anda ingin mengunduh pembaruan?',
+      available_switch: 'Beam Studio v%s tersedia sekarang. Anda memiliki v%s. Apakah Anda ingin beralih ke versi ini?',
       not_found: 'Anda menggunakan versi Beam Studio terbaru.',
       no_response: 'Gagal terhubung ke server, harap periksa pengaturan jaringan Anda.',
       switch_version_not_found: 'Versi yang dapat diubah tidak ditemukan.',
       yes: 'Ya',
       no: 'Tidak',
-      update_for_ador:
-        'Versi perangkat lunak saat ini %s tidak kompatibel, harap unduh versi terbaru dari Beam Studio untuk Ador.',
+      update_for_ador: 'Versi perangkat lunak saat ini %s tidak kompatibel, harap unduh versi terbaru dari Beam Studio untuk Ador.',
     },
     updating: 'Memperbarui...',
     skip: 'Lewati Versi Ini',
@@ -268,8 +252,7 @@ const lang: ILang = {
   },
   topmenu: {
     version: 'Versi',
-    credit:
-      'Beam Studio dimungkinkan oleh proyek sumber terbuka <a target="_blank" href="https://github.com/flux3dp/beam-studio">Beam Studio</a> dan perangkat lunak sumber terbuka lainnya <a target="_blank" href="https://flux3dp.com/credits/">sumber terbuka</a>.',
+    credit: 'Beam Studio dimungkinkan oleh proyek sumber terbuka <a target="_blank" href="https://github.com/flux3dp/beam-studio">Beam Studio</a> dan perangkat lunak sumber terbuka lainnya <a target="_blank" href="https://flux3dp.com/credits/">sumber terbuka</a>.',
     ok: 'OK',
     file: {
       label: 'File',
@@ -320,15 +303,12 @@ const lang: ILang = {
     connect_wifi: {
       title: 'Menyambung ke Wi-Fi',
       tutorial1: '1. Pergi ke Panel Sentuh > Klik "MESIN" > Klik "Jaringan" > "Sambung ke WiFi".',
-      tutorial1_ador:
-        '1. Pergi ke Panel Sentuh > Klik "MESIN" > Klik "Jaringan" > "Sambung ke WiFi".',
+      tutorial1_ador: '1. Pergi ke Panel Sentuh > Klik "MESIN" > Klik "Jaringan" > "Sambung ke WiFi".',
       tutorial2: '2. Pilih dan sambung Wi-Fi pilihan Anda.',
       what_if_1: 'Bagaimana jika saya tidak melihat Wi-Fi saya?',
-      what_if_1_content:
-        '1. Mode enkripsi Wi-Fi harus WPA2 atau tanpa kata sandi.\n2. Mode enkripsi dapat diatur di antarmuka administrasi router Wi-Fi. Jika router tidak mendukung WPA2 dan Anda membutuhkan bantuan memilih router yang tepat, silakan hubungi Dukungan FLUX.',
+      what_if_1_content: '1. Mode enkripsi Wi-Fi harus WPA2 atau tanpa kata sandi.\n2. Mode enkripsi dapat diatur di antarmuka administrasi router Wi-Fi. Jika router tidak mendukung WPA2 dan Anda membutuhkan bantuan memilih router yang tepat, silakan hubungi Dukungan FLUX.',
       what_if_2: 'Bagaimana jika saya tidak melihat Wi-Fi sama sekali?',
-      what_if_2_content:
-        '1. Pastikan stik Wi-Fi terpasang dengan benar.\n2. Jika tidak ada Alamat MAC jaringan nirkabel di layar sentuh, silakan hubungi Dukungan FLUX.\n3. Saluran Wi-Fi harus 2,4Ghz (5Ghz tidak didukung).',
+      what_if_2_content: '1. Pastikan stik Wi-Fi terpasang dengan benar.\n2. Jika tidak ada Alamat MAC jaringan nirkabel di layar sentuh, silakan hubungi Dukungan FLUX.\n3. Saluran Wi-Fi harus 2,4Ghz (5Ghz tidak didukung).',
     },
     connect_wired: {
       title: 'Menyambung ke Jaringan Kabel',
@@ -336,11 +316,9 @@ const lang: ILang = {
       tutorial2: '2. Tekan "MESIN" > "Jaringan" untuk mendapatkan IP jaringan kabel.',
       tutorial2_ador: '2. Tekan "MESIN" > "Jaringan" untuk mendapatkan IP jaringan kabel.',
       what_if_1: 'Bagaimana jika IP kosong?',
-      what_if_1_content:
-        '1. Pastikan kabel Ethernet terpasang dengan benar.\n2. Jika tidak ada Alamat MAC jaringan kabel di layar sentuh, silakan hubungi Dukungan FLUX.',
+      what_if_1_content: '1. Pastikan kabel Ethernet terpasang dengan benar.\n2. Jika tidak ada Alamat MAC jaringan kabel di layar sentuh, silakan hubungi Dukungan FLUX.',
       what_if_2: 'Bagaimana jika IP dimulai dengan 169?',
-      what_if_2_content:
-        '1. Jika alamat IP dimulai dengan 169.254, itu harus masalah pengaturan DHCP, silakan hubungi ISP (penyedia layanan internet) Anda untuk bantuan lebih lanjut.\n2. Jika komputer Anda terhubung ke internet langsung menggunakan PPPoE, silakan ganti menggunakan router untuk menyambung menggunakan PPPoE, dan aktifkan fitur DHCP di router.',
+      what_if_2_content: '1. Jika alamat IP dimulai dengan 169.254, itu harus masalah pengaturan DHCP, silakan hubungi ISP (penyedia layanan internet) Anda untuk bantuan lebih lanjut.\n2. Jika komputer Anda terhubung ke internet langsung menggunakan PPPoE, silakan ganti menggunakan router untuk menyambung menggunakan PPPoE, dan aktifkan fitur DHCP di router.',
     },
     connect_ethernet: {
       title: 'Sambungan Langsung',
@@ -359,8 +337,7 @@ const lang: ILang = {
       tutorial2: "Klik 'Lanjutkan'.",
       turn_off_machine: 'Matikan mesin.',
       turn_on_machine: 'Nyalakan mesin.',
-      wait_for_turning_on:
-        'Klik "Lanjutkan" setelah proses startup selesai dan Anda telah masuk ke layar utama.',
+      wait_for_turning_on: 'Klik "Lanjutkan" setelah proses startup selesai dan Anda telah masuk ke layar utama.',
     },
     connect_machine_ip: {
       check_usb: 'Periksa Koneksi USB',
@@ -381,15 +358,13 @@ const lang: ILang = {
     setting_completed: {
       start: 'Mulai',
       great: 'Selamat datang di Beam Studio',
-      setup_later:
-        'Anda selalu dapat mengatur mesin Anda dari Bilah Judul > "Mesin" > "Pengaturan Mesin"',
+      setup_later: 'Anda selalu dapat mengatur mesin Anda dari Bilah Judul > "Mesin" > "Pengaturan Mesin"',
       back: 'Kembali',
       ok: 'MULAI MEMBUAT',
     },
   },
   error_pages: {
-    screen_size:
-      'Harap dicatat bahwa Beam Studio mungkin tidak berfungsi secara optimal pada perangkat Anda. Untuk pengalaman terbaik, disarankan perangkat dengan lebar layar minimal 1024 piksel.',
+    screen_size: 'Harap dicatat bahwa Beam Studio mungkin tidak berfungsi secara optimal pada perangkat Anda. Untuk pengalaman terbaik, disarankan perangkat dengan lebar layar minimal 1024 piksel.',
   },
   menu: {
     mm: 'mm',
@@ -461,8 +436,7 @@ const lang: ILang = {
     diode_offset: 'Offset Laser Diode',
     autofocus_offset: 'Offset Fokus Otomatis',
     diode_one_way_engraving: 'Grafir Laser Diode Satu Arah',
-    diode_two_way_warning:
-      'Pancaran cahaya dua arah lebih cepat dan mungkin menghasilkan ketidaktepatan posisi ukiran laser. Disarankan untuk menguji terlebih dahulu.',
+    diode_two_way_warning: 'Pancaran cahaya dua arah lebih cepat dan mungkin menghasilkan ketidaktepatan posisi ukiran laser. Disarankan untuk menguji terlebih dahulu.',
     share_with_flux: 'Bagikan Analitik Beam Studio',
     none: 'Tidak Ada',
     close: 'Tutup',
@@ -544,81 +518,59 @@ const lang: ILang = {
       layer_by_color: 'Warna',
       nolayer: 'Lapisan Tunggal',
       loading_image: 'Memuat gambar, harap tunggu...',
-      no_support_text:
-        'Beam Studio saat ini tidak mendukung teks. Harap ubah teks ke path sebelum mengimpor.',
-      speed_too_high_lower_the_quality:
-        'Menggunakan kecepatan terlalu tinggi pada resolusi ini dapat mengurangi kualitas ukiran bayangan.',
-      both_power_and_speed_too_high:
-        'Menggunakan daya laser lebih rendah akan memperpanjang umur tabung laser. Juga, kecepatan terlalu tinggi pada resolusi ini dapat mengurangi kualitas ukiran bayangan.',
-      too_fast_for_path:
-        'Menggunakan kecepatan terlalu tinggi pada lapisan yang berisi objek path dapat mengurangi presisi saat pemotongan. Kami tidak menyarankan menggunakan kecepatan lebih dari 20 mm/detik saat pemotongan.',
-      too_fast_for_path_and_constrain:
-        'Lapisan berikut: %s berisi objek path vektor, dan memiliki kecepatan melebihi 20 mm/detik. Kecepatan pemotongan objek path vektor akan dibatasi hingga 20 mm/detik. Anda dapat menghapus batasan ini di Pengaturan Preferensi.',
-      should_update_firmware_to_continue:
-        '#814 Firmware Anda tidak mendukung versi Beam Studio ini. Harap perbarui firmware untuk melanjutkan. (Menu > Mesin > [Mesin Anda] > Perbarui Firmware)',
-      recommend_downgrade_software:
-        'Kami mendeteksi versi firmware yang lebih lama. Kami sedang menangani masalah kompatibilitas, tetapi untuk saat ini, kami menyarankan kembali ke <a target="_blank" href="https://beamstudio.s3.ap-northeast-1.amazonaws.com/mac/Beam+Studio+1.9.5.dmg">Beam Studio 1.9.5</a>.',
-      recommend_upgrade_firmware:
-        'Kami mendeteksi versi firmware yang lebih lama. Kami sedang menangani masalah kompatibilitas, tetapi untuk saat ini, kami menyarankan memperbarui ke firmware terbaru.',
+      no_support_text: 'Beam Studio saat ini tidak mendukung teks. Harap ubah teks ke path sebelum mengimpor.',
+      speed_too_high_lower_the_quality: 'Menggunakan kecepatan terlalu tinggi pada resolusi ini dapat mengurangi kualitas ukiran bayangan.',
+      both_power_and_speed_too_high: 'Menggunakan daya laser lebih rendah akan memperpanjang umur tabung laser. Juga, kecepatan terlalu tinggi pada resolusi ini dapat mengurangi kualitas ukiran bayangan.',
+      too_fast_for_path: 'Menggunakan kecepatan terlalu tinggi pada lapisan yang berisi objek path dapat mengurangi presisi saat pemotongan. Kami tidak menyarankan menggunakan kecepatan lebih dari 20 mm/detik saat pemotongan.',
+      too_fast_for_path_and_constrain: 'Lapisan berikut: %s berisi objek path vektor, dan memiliki kecepatan melebihi 20 mm/detik. Kecepatan pemotongan objek path vektor akan dibatasi hingga 20 mm/detik. Anda dapat menghapus batasan ini di Pengaturan Preferensi.',
+      should_update_firmware_to_continue: '#814 Firmware Anda tidak mendukung versi Beam Studio ini. Harap perbarui firmware untuk melanjutkan. (Menu > Mesin > [Mesin Anda] > Perbarui Firmware)',
+      recommend_downgrade_software: 'Kami mendeteksi versi firmware yang lebih lama. Kami sedang menangani masalah kompatibilitas, tetapi untuk saat ini, kami menyarankan kembali ke <a target="_blank" href="https://beamstudio.s3.ap-northeast-1.amazonaws.com/mac/Beam+Studio+1.9.5.dmg">Beam Studio 1.9.5</a>.',
+      recommend_upgrade_firmware: 'Kami mendeteksi versi firmware yang lebih lama. Kami sedang menangani masalah kompatibilitas, tetapi untuk saat ini, kami menyarankan memperbarui ke firmware terbaru.',
       still_continue: 'Lanjutkan',
       more_than_two_object: 'Terlalu banyak objek. Hanya mendukung 2 objek',
       not_support_object_type: 'Tidak mendukung jenis objek',
       select_first: 'Pilih objek terlebih dahulu.',
       select_at_least_two: 'Pilih dua objek untuk melanjutkan',
-      import_file_contain_invalid_path:
-        '#808 File SVG yang diimpor berisi path gambar yang tidak valid. Pastikan semua file gambar ada atau sisipkan gambar dalam file',
-      import_file_error_ask_for_upload:
-        'Gagal mengimpor file SVG. Apakah Anda bersedia memberikan file ke tim pengembang untuk laporan bug ?',
+      import_file_contain_invalid_path: '#808 File SVG yang diimpor berisi path gambar yang tidak valid. Pastikan semua file gambar ada atau sisipkan gambar dalam file',
+      import_file_error_ask_for_upload: 'Gagal mengimpor file SVG. Apakah Anda bersedia memberikan file ke tim pengembang untuk laporan bug ?',
       upload_file_too_large: '#819 File terlalu besar untuk diunggah.',
       successfully_uploaded: 'Unggah file berhasil.',
       upload_failed: '#819 Unggah file gagal.',
       or_turn_off_borderless_mode: 'Atau matikan mode Open Bottom.',
-      svg_1_1_waring:
-        'Versi file SVG ini adalah v 1.1, mungkin ada masalah kompatibilitas potensial.',
-      svg_image_path_waring:
-        'File SVG ini berisi <image> memuat dari jalur file. Ini mungkin menyebabkan kegagalan saat memuat.\nUntuk menghindari risiko ini, mohon gunakan gambar yang disematkan saat mengekspor SVG.',
-      dxf_version_waring:
-        'Versi file DXF ini bukan 2013, mungkin ada masalah kompatibilitas potensial.',
+      svg_1_1_waring: 'Versi file SVG ini adalah v 1.1, mungkin ada masalah kompatibilitas potensial.',
+      svg_image_path_waring: 'File SVG ini berisi <image> memuat dari jalur file. Ini mungkin menyebabkan kegagalan saat memuat.\nUntuk menghindari risiko ini, mohon gunakan gambar yang disematkan saat mengekspor SVG.',
+      dxf_version_waring: 'Versi file DXF ini bukan 2013, mungkin ada masalah kompatibilitas potensial.',
       dont_show_again: 'Jangan tampilkan ini lagi nanti.',
       convert_to_path_fail: 'Gagal mengubah ke jalur.',
       save_unsave_changed: 'Apakah Anda ingin menyimpan perubahan yang belum disimpan?',
-      dxf_bounding_box_size_over:
-        'Ukuran gambar melebihi area kerja. Harap pindahkan gambar Anda lebih dekat ke asal dalam perangkat lunak CAD Anda, atau pastikan bahwa unit diatur dengan benar.',
+      dxf_bounding_box_size_over: 'Ukuran gambar melebihi area kerja. Harap pindahkan gambar Anda lebih dekat ke asal dalam perangkat lunak CAD Anda, atau pastikan bahwa unit diatur dengan benar.',
       progress: {
         uploading: 'Mengunggah',
         calculating: 'Menghitung',
       },
-      backend_connect_failed_ask_to_upload:
-        '#802 Kesalahan terus terjadi saat mencoba terhubung ke backend. Apakah Anda ingin mengunggah log laporan bug Anda?',
+      backend_connect_failed_ask_to_upload: '#802 Kesalahan terus terjadi saat mencoba terhubung ke backend. Apakah Anda ingin mengunggah log laporan bug Anda?',
       backend_error_hint: 'Fitur mungkin tidak berfungsi dengan benar karena kesalahan backend.',
       pdf2svg: {
         error_when_converting_pdf: '#824 Kesalahan saat mengonversi PDF ke SVG:',
-        error_pdf2svg_not_found:
-          '#825 Kesalahan: Perintah pdf2svg tidak ditemukan. Harap pasang pdf2svg dengan manajer paket Anda (mis. "yum install pdf2svg" atau "apt-get install pdf2svg").',
+        error_pdf2svg_not_found: '#825 Kesalahan: Perintah pdf2svg tidak ditemukan. Harap pasang pdf2svg dengan manajer paket Anda (mis. "yum install pdf2svg" atau "apt-get install pdf2svg").',
       },
-      ungroup_use:
-        'Ini akan membatalkan pengelompokan DXF atau SVG yang diimpor. Karena file mungkin berisi sejumlah besar elemen, mungkin memerlukan waktu untuk membatalkan pengelompokan. Apakah Anda yakin untuk melanjutkan?',
-      vectorize_shading_image:
-        'Gambar gradien memerlukan waktu lebih lama untuk melacak dan rentan terhadap noise. Harap matikan gradien gambar sebelum mengeksekusi.',
-      change_workarea_before_preview:
-        'Area kerja %s tidak cocok dengan area kerja yang saat ini diatur. Apakah Anda ingin beralih area kerja saat ini?',
+      ungroup_use: 'Ini akan membatalkan pengelompokan DXF atau SVG yang diimpor. Karena file mungkin berisi sejumlah besar elemen, mungkin memerlukan waktu untuk membatalkan pengelompokan. Apakah Anda yakin untuk melanjutkan?',
+      vectorize_shading_image: 'Gambar gradien memerlukan waktu lebih lama untuk melacak dan rentan terhadap noise. Harap matikan gradien gambar sebelum mengeksekusi.',
+      change_workarea_before_preview: 'Area kerja %s tidak cocok dengan area kerja yang saat ini diatur. Apakah Anda ingin beralih area kerja saat ini?',
       bug_report: 'Laporan Bug',
       sentry: {
         title: 'Mari kita membuat Beam Studio lebih baik bersama',
-        message:
-          'Apakah Anda setuju untuk secara otomatis mengunggah informasi yang relevan ke tim pengembangan ketika terjadi kesalahan?',
+        message: 'Apakah Anda setuju untuk secara otomatis mengunggah informasi yang relevan ke tim pengembangan ketika terjadi kesalahan?',
       },
       questionnaire: {
         caption: 'Bantu Kami Mengisi Kuesioner',
         message: 'Bantu kami mengisi kuesioner untuk membuat Beam Studio lebih baik.',
-        unable_to_get_url:
-          'Gagal mendapatkan tautan ke kuesioner melalui internet. Harap konfirmasi koneksi internet Anda.',
+        unable_to_get_url: 'Gagal mendapatkan tautan ke kuesioner melalui internet. Harap konfirmasi koneksi internet Anda.',
         no_questionnaire_available: 'Saat ini tidak ada kuesioner yang tersedia.',
       },
       facebook_group_invitation: {
         title: 'Bergabung dengan Grup Pengguna Resmi FLUX',
-        message:
-          'Bergabunglah dengan grup Facebook resmi kami untuk terhubung dengan pengguna laser FLUX lainnya, membahas laser FLUX, berbagi karya seni laser, dan tetap update dengan pembaruan terbaru pada produk kami. Kami tidak sabar melihat Anda di sana!',
+        message: 'Bergabunglah dengan grup Facebook resmi kami untuk terhubung dengan pengguna laser FLUX lainnya, membahas laser FLUX, berbagi karya seni laser, dan tetap update dengan pembaruan terbaru pada produk kami. Kami tidak sabar melihat Anda di sana!',
         join_now: 'Gabung Sekarang',
         later: 'Mungkin Nanti',
         already_joined: 'Sudah Bergabung',
@@ -627,15 +579,13 @@ const lang: ILang = {
       ai_credit: {
         relogin_to_use: 'Silakan login ulang untuk menggunakan fitur ini.',
         insufficient_credit: 'Anda kehabisan Kredit',
-        insufficient_credit_msg:
-          'Anda tidak dapat menggunakan %s. Pergi ke pusat anggota dan beli Kredit AI.',
+        insufficient_credit_msg: 'Anda tidak dapat menggunakan %s. Pergi ke pusat anggota dan beli Kredit AI.',
         buy_link: 'https://member.flux3dp.com/en-US/credit',
         go: 'Pergi',
       },
       text_to_path: {
         caption: 'Konverter Teks ke Jalur 2.0',
-        message:
-          "Beam Studio sekarang memperkenalkan konverter teks ke jalur yang baru (Konverter 2.0), yang menghasilkan hasil yang lebih andal! Apakah Anda ingin beralih ke sana sekarang? \nAnda juga dapat menyesuaikan pengaturan ini nanti di bagian 'Konverter Teks ke Jalur' dalam preferensi.",
+        message: "Beam Studio sekarang memperkenalkan konverter teks ke jalur yang baru (Konverter 2.0), yang menghasilkan hasil yang lebih andal! Apakah Anda ingin beralih ke sana sekarang? \nAnda juga dapat menyesuaikan pengaturan ini nanti di bagian 'Konverter Teks ke Jalur' dalam preferensi.",
       },
     },
     zoom_block: {
@@ -698,25 +648,16 @@ const lang: ILang = {
           enterNewLayerName: 'Silakan masukkan nama lapisan baru',
           layerHasThatName: 'Lapisan sudah memiliki nama itu',
           QmoveElemsToLayer: "Pindahkan elemen terpilih ke lapisan '%s'?",
-          moveElemFromPrintingLayerTitle:
-            'Pindahkan elemen terpilih ke %s dan ubah menjadi elemen laser?',
-          moveElemFromPrintingLayerMsg:
-            'Harap perhatikan bahwa jika Anda menyelesaikan operasi ini, pengaturan warna dari elemen terpilih akan dihapus dan diatur sesuai dengan %s.',
-          moveElemToPrintingLayerTitle:
-            'Pindahkan elemen terpilih ke %s dan ubah menjadi elemen pencetakan?',
-          moveElemToPrintingLayerMsg:
-            'Harap perhatikan bahwa jika Anda menyelesaikan operasi ini, pengaturan dari elemen terpilih akan dihapus dan diatur sesuai dengan %s.',
+          moveElemFromPrintingLayerTitle: 'Pindahkan elemen terpilih ke %s dan ubah menjadi elemen laser?',
+          moveElemFromPrintingLayerMsg: 'Harap perhatikan bahwa jika Anda menyelesaikan operasi ini, pengaturan warna dari elemen terpilih akan dihapus dan diatur sesuai dengan %s.',
+          moveElemToPrintingLayerTitle: 'Pindahkan elemen terpilih ke %s dan ubah menjadi elemen pencetakan?',
+          moveElemToPrintingLayerMsg: 'Harap perhatikan bahwa jika Anda menyelesaikan operasi ini, pengaturan dari elemen terpilih akan dihapus dan diatur sesuai dengan %s.',
           splitColorTitle: 'Apakah Anda ingin memperluas lapisan terpilih menjadi lapisan CMYK?',
-          splitColorMsg:
-            'Harap perhatikan bahwa jika Anda melanjutkan operasi ini, Anda tidak akan dapat kembali ke lapisan warna asli.',
-          mergeLaserLayerToPrintingLayerTitle:
-            'Apakah Anda ingin menggabungkan lapisan ini menjadi satu lapisan Pencetakan?',
-          mergeLaserLayerToPrintingLayerMsg:
-            'Harap perhatikan bahwa jika Anda menyelesaikan operasi ini, pengaturan lapisan laser akan dihapus dan diatur sesuai dengan lapisan saat ini.',
-          mergePrintingLayerToLaserLayerTitle:
-            'Apakah Anda ingin menggabungkan lapisan ini menjadi satu lapisan Laser?',
-          mergePrintingLayerToLaserLayerMsg:
-            'Harap perhatikan bahwa jika Anda menyelesaikan operasi ini, pengaturan warna lapisan pencetakan akan dihapus dan diatur sesuai dengan lapisan saat ini.',
+          splitColorMsg: 'Harap perhatikan bahwa jika Anda melanjutkan operasi ini, Anda tidak akan dapat kembali ke lapisan warna asli.',
+          mergeLaserLayerToPrintingLayerTitle: 'Apakah Anda ingin menggabungkan lapisan ini menjadi satu lapisan Pencetakan?',
+          mergeLaserLayerToPrintingLayerMsg: 'Harap perhatikan bahwa jika Anda menyelesaikan operasi ini, pengaturan lapisan laser akan dihapus dan diatur sesuai dengan lapisan saat ini.',
+          mergePrintingLayerToLaserLayerTitle: 'Apakah Anda ingin menggabungkan lapisan ini menjadi satu lapisan Laser?',
+          mergePrintingLayerToLaserLayerMsg: 'Harap perhatikan bahwa jika Anda menyelesaikan operasi ini, pengaturan warna lapisan pencetakan akan dihapus dan diatur sesuai dengan lapisan saat ini.',
         },
         layers: {
           layer: 'Lapisan',
@@ -745,11 +686,9 @@ const lang: ILang = {
         multi_layer: 'Beberapa Lapisan',
         parameters: 'Parameter',
         strength: 'Daya',
-        low_power_warning:
-          'Daya laser yang lebih rendah (di bawah 10%) mungkin tidak memancarkan cahaya laser.',
+        low_power_warning: 'Daya laser yang lebih rendah (di bawah 10%) mungkin tidak memancarkan cahaya laser.',
         speed: 'Kecepatan',
-        speed_contrain_warning:
-          'Kecepatan pemotongan path vector akan dibatasi hingga 20 mm/detik (0,79 in/detik). Anda dapat menghapus batasan ini di Pengaturan Preferensi.',
+        speed_contrain_warning: 'Kecepatan pemotongan path vector akan dibatasi hingga 20 mm/detik (0,79 in/detik). Anda dapat menghapus batasan ini di Pengaturan Preferensi.',
         low_speed_warning: 'Kecepatan rendah dapat menyebabkan pembakaran bahan.',
         repeat: 'Jalankan',
         add_on: 'Add-on',
@@ -770,8 +709,7 @@ const lang: ILang = {
         more: 'Kelola',
         delete: 'Hapus',
         reset: 'Atur Ulang',
-        sure_to_reset:
-          'Ini akan mengatur ulang semua preset dan menghapus parameter yang disesuaikan Anda, apakah Anda yakin untuk melanjutkan?',
+        sure_to_reset: 'Ini akan mengatur ulang semua preset dan menghapus parameter yang disesuaikan Anda, apakah Anda yakin untuk melanjutkan?',
         apply: 'Terapkan',
         cancel: 'Batal',
         save: 'Simpan',
@@ -782,8 +720,7 @@ const lang: ILang = {
         inuse: 'Digunakan',
         export_config: 'Ekspor Preset',
         new_config_name: 'Nama Preset Baru',
-        sure_to_load_config:
-          'Ini akan memuat preset dan mengganti parameter disesuaikan yang diatur dalam file, apakah Anda yakin untuk melanjutkan?',
+        sure_to_load_config: 'Ini akan memuat preset dan mengganti parameter disesuaikan yang diatur dalam file, apakah Anda yakin untuk melanjutkan?',
         custom_preset: 'Kustom',
         various_preset: 'Berbagai Preset',
         module: 'Modul',
@@ -1009,8 +946,7 @@ const lang: ILang = {
           simplify: 'Peredaan',
           ai_bg_removal: 'Hapus Latar Belakang',
           ai_bg_removal_short: 'Hps Latar Blkg',
-          ai_bg_removal_reminder:
-            'Menekan tombol akan segera menggunakan 0,2 Kredit, apakah Anda ingin melanjutkan?',
+          ai_bg_removal_reminder: 'Menekan tombol akan segera menggunakan 0,2 Kredit, apakah Anda ingin melanjutkan?',
           outline: 'Garis Besar',
         },
         path_edit_panel: {
@@ -1026,8 +962,7 @@ const lang: ILang = {
     bottom_right_panel: {
       convert_text_to_path_before_export: 'Ubah Teks Menjadi Lintasan...',
       retreive_image_data: 'Ambil Data Gambar...',
-      export_file_error_ask_for_upload:
-        'Gagal mengekspor pekerjaan. Apakah Anda bersedia memberikan adegan kerja kepada tim pengembang untuk laporan bug?',
+      export_file_error_ask_for_upload: 'Gagal mengekspor pekerjaan. Apakah Anda bersedia memberikan adegan kerja kepada tim pengembang untuk laporan bug?',
     },
     image_trace_panel: {
       apply: 'Terapkan',
@@ -1083,17 +1018,14 @@ const lang: ILang = {
       cancel: 'Batal',
       save: 'Simpan',
       notification: {
-        changeFromPrintingWorkareaTitle:
-          'Apakah Anda ingin mengubah Lapisan Cetak menjadi Lapisan Laser?',
+        changeFromPrintingWorkareaTitle: 'Apakah Anda ingin mengubah Lapisan Cetak menjadi Lapisan Laser?',
       },
     },
     object_panels: {
       wait_for_parsing_font: 'Mengurai font... Mohon tunggu sebentar',
       text_to_path: {
-        font_substitute_pop:
-          'Teks Anda berisi karakter yang tidak didukung oleh font saat ini. <br/>Apakah Anda ingin menggunakan <strong>%s</strong> sebagai pengganti?',
-        check_thumbnail_warning:
-          'Beberapa teks diubah ke font lain saat mengubah teks ke path dan beberapa karakter mungkin tidak dikonversi dengan normal.\nPeriksa gambar pratinjau lagi sebelum mengirim tugas.',
+        font_substitute_pop: 'Teks Anda berisi karakter yang tidak didukung oleh font saat ini. <br/>Apakah Anda ingin menggunakan <strong>%s</strong> sebagai pengganti?',
+        check_thumbnail_warning: 'Beberapa teks diubah ke font lain saat mengubah teks ke path dan beberapa karakter mungkin tidak dikonversi dengan normal.\nPeriksa gambar pratinjau lagi sebelum mengirim tugas.',
         error_when_parsing_text: 'Kesalahan saat mengubah teks ke path',
         use_current_font: 'Gunakan Font Saat Ini',
         retry: 'Coba lagi nanti atau pilih font lain',
@@ -1121,8 +1053,7 @@ const lang: ILang = {
         sharp: 'Tajam',
         round: 'Bulat',
         fail_message: 'Gagal Meng-offset Objek',
-        not_support_message:
-          'Elemen terpilih mengandung tag SVG yang tidak didukung:\nGambar, Grup, Teks dan Objek Terimpor.',
+        not_support_message: 'Elemen terpilih mengandung tag SVG yang tidak didukung:\nGambar, Grup, Teks dan Objek Terimpor.',
       },
       _nest: {
         start_nest: 'Atur',
@@ -1148,22 +1079,18 @@ const lang: ILang = {
       test_completed: 'Pengujian Selesai',
       test_fail: 'Pengujian Gagal',
       cannot_connect_1: '#840 Gagal terhubung ke IP target.',
-      cannot_connect_2:
-        '#840 Gagal terhubung ke IP target. Pastikan target berada di jaringan yang sama.',
+      cannot_connect_2: '#840 Gagal terhubung ke IP target. Pastikan target berada di jaringan yang sama.',
       network_unhealthy: '#841 Kualitas koneksi <70 atau rata-rata waktu respon >100ms',
-      device_not_on_list:
-        '#842 Mesin tidak ada di daftar, tetapi Kualitas koneksi >70 dan rata-rata waktu respon <100ms',
+      device_not_on_list: '#842 Mesin tidak ada di daftar, tetapi Kualitas koneksi >70 dan rata-rata waktu respon <100ms',
       hint_device_often_on_list: 'Mesin sering tidak ditemukan di daftar?',
       link_device_often_on_list: 'https://support.flux3dp.com/hc/en-us/articles/360001841636',
       hint_connect_failed_when_sending_job: 'Gagal terhubung saat mengirim pekerjaan?',
-      link_connect_failed_when_sending_job:
-        'https://support.flux3dp.com/hc/en-us/articles/360001841656',
+      link_connect_failed_when_sending_job: 'https://support.flux3dp.com/hc/en-us/articles/360001841656',
       hint_connect_camera_timeout: 'Timeout terjadi saat memulai pratinjau kamera?',
       link_connect_camera_timeout: 'https://support.flux3dp.com/hc/en-us/articles/360001791895',
       cannot_get_local: 'Akses ke alamat IP lokal gagal.',
       fail_to_start_network_test: '#817 Gagal memulai pengujian jaringan.',
-      linux_permission_hint:
-        'Kesalahan ini biasanya terjadi karena izin yang tidak memadai.\nHarap jalankan "sudo beam-studio --no-sandbox" di terminal untuk mendapatkan izin dan melakukan pengujian jaringan.',
+      linux_permission_hint: 'Kesalahan ini biasanya terjadi karena izin yang tidak memadai.\nHarap jalankan "sudo beam-studio --no-sandbox" di terminal untuk mendapatkan izin dan melakukan pengujian jaringan.',
     },
     layer_color_config_panel: {
       layer_color_config: 'Konfigurasi Warna Lapisan',
@@ -1178,20 +1105,17 @@ const lang: ILang = {
       add_config: 'Tambah Warna',
       in_use: 'Warna ini sedang digunakan.',
       no_input: 'Harap masukkan kode warna heksadesimal yang valid.',
-      sure_to_reset:
-        'Anda akan kehilangan semua parameter yang disesuaikan, apakah Anda yakin untuk menyetel ulang ke default?',
+      sure_to_reset: 'Anda akan kehilangan semua parameter yang disesuaikan, apakah Anda yakin untuk menyetel ulang ke default?',
       sure_to_delete: 'Apakah Anda yakin untuk menghapus pengaturan warna ini?',
     },
     rating_panel: {
       title: 'Menikmati Beam Studio?',
-      description:
-        'Jika Anda menyukai Beam Studio, kami akan sangat menghargai jika Anda dapat memberi penilaian.',
+      description: 'Jika Anda menyukai Beam Studio, kami akan sangat menghargai jika Anda dapat memberi penilaian.',
       dont_show_again: 'Jangan Tampilkan ini lagi.',
       thank_you: 'Terima kasih!',
     },
     svg_editor: {
-      unnsupported_file_type:
-        'Jenis file tidak didukung secara langsung. Silakan konversi file menjadi SVG atau bitmap',
+      unnsupported_file_type: 'Jenis file tidak didukung secara langsung. Silakan konversi file menjadi SVG atau bitmap',
       unable_to_fetch_clipboard_img: 'Gagal mengambil gambar dari clipboard Anda',
     },
     units: {
@@ -1310,8 +1234,7 @@ const lang: ILang = {
     search: 'Cari',
     clear: 'Hapus',
     export_svg_title: 'Tidak dapat Mengekspor SVG',
-    export_svg_warning:
-      'Proyek ini berisi objek yang dilindungi oleh hukum kekayaan intelektual. Oleh karena itu Beam Studio akan secara otomatis mengecualikan objek-objek ini selama ekspor. Anda masih dapat menyimpan proyek Anda dalam format Beam Studio Scene (.beam) untuk menyimpan seluruh data Anda. Apakah Anda masih ingin mengekspor?',
+    export_svg_warning: 'Proyek ini berisi objek yang dilindungi oleh hukum kekayaan intelektual. Oleh karena itu Beam Studio akan secara otomatis mengecualikan objek-objek ini selama ekspor. Anda masih dapat menyimpan proyek Anda dalam format Beam Studio Scene (.beam) untuk menyimpan seluruh data Anda. Apakah Anda masih ingin mengekspor?',
     learn_more: 'Pelajari Lebih Lanjut',
   },
   change_logs: {
@@ -1373,10 +1296,8 @@ const lang: ILang = {
     ink_color: 'Ink color',
     ink_type: 'Ink type',
     ink_level: 'Ink level',
-    close_door_to_read_cartridge_info:
-      "To access ink information, please close the machine's door cover.",
-    cartridge_info_read_failed:
-      'Please ensure that the ink is fully inserted. Try to remove the ink and install it back.',
+    close_door_to_read_cartridge_info: "To access ink information, please close the machine's door cover.",
+    cartridge_info_read_failed: 'Please ensure that the ink is fully inserted. Try to remove the ink and install it back.',
     cartridge_info_verification_failed: 'Please verify that your ink is FLUX authentic.',
   },
   monitor: {
@@ -1390,10 +1311,8 @@ const lang: ILang = {
     camera: 'Kamera',
     taskTab: 'Tugas',
     connecting: 'Menghubungkan, mohon tunggu...',
-    HARDWARE_ERROR_MAINBOARD_ERROR:
-      '#401 Kesalahan Kritis: Papan utama offline. Silakan hubungi Dukungan FLUX.',
-    HARDWARE_ERROR_SUBSYSTEM_ERROR:
-      '#402 Kesalahan Kritis: Subsistem tidak merespons. Silakan hubungi Dukungan FLUX.',
+    HARDWARE_ERROR_MAINBOARD_ERROR: '#401 Kesalahan Kritis: Papan utama offline. Silakan hubungi Dukungan FLUX.',
+    HARDWARE_ERROR_SUBSYSTEM_ERROR: '#402 Kesalahan Kritis: Subsistem tidak merespons. Silakan hubungi Dukungan FLUX.',
     HARDWARE_ERROR_PUMP_ERROR: '#900 Silakan periksa dengan tangki air Anda.',
     HARDWARE_ERROR_DOOR_OPENED: '#901 Tutup pintu untuk melanjutkan.',
     HARDWARE_ERROR_OVER_TEMPERATURE: '#902 Terlalu panas. Mohon tunggu beberapa menit.',
@@ -1404,20 +1323,23 @@ const lang: ILang = {
     HARDWARE_ERROR_AIR_ASSIST_ABNORMAL: '#913 Sensor aliran udara abnormal',
     HARDWARE_ERROR_ROTARY_NOT_DETECTED: '#914 Tidak terdeteksi modul putar',
     HARDWARE_ERROR_HOMING_PULLOFF_FAILED: '#920 Kesalahan Tarik Lepas Penghomatan',
-    HARDWARE_ERROR_HEADTYPE_MISMATCH:
-      '#915 Terdeteksi modul yang salah. Mohon pasang modul yang benar untuk melanjutkan.',
-    HARDWARE_ERROR_HEADTYPE_NONE:
-      '#917 Tidak terdeteksi modul. Pastikan modul terpasang dengan benar untuk melanjutkan.',
-    HARDWARE_ERROR_HEADTYPE_UNKNOWN:
-      '#918 Terdeteksi modul yang tidak diketahui. Pasang modul yang benar untuk melanjutkan.',
+    HARDWARE_ERROR_HEADTYPE_MISMATCH: '#915 Terdeteksi modul yang salah. Mohon pasang modul yang benar untuk melanjutkan.',
+    HARDWARE_ERROR_HEADTYPE_NONE: '#917 Tidak terdeteksi modul. Pastikan modul terpasang dengan benar untuk melanjutkan.',
+    HARDWARE_ERROR_HEADTYPE_UNKNOWN: '#918 Terdeteksi modul yang tidak diketahui. Pasang modul yang benar untuk melanjutkan.',
     HARDWARE_ERROR_PRINTER_NO_RESPONSE: '#919 Tidak ada respon dari modul printer.',
     USER_OPERATION_ROTARY_PAUSE: 'Harap beralih ke motor putar.',
     USER_OPERATION_REMOVE_CARTRIDGE: 'Harap lepas kartrid untuk melanjutkan.',
+    USER_OPERATION_CHANGE_TOOLHEAD_HEADTYPE_MISMATCH: '#915 Terdeteksi modul yang salah. Mohon pasang modul yang benar untuk melanjutkan.',
+    USER_OPERATION_CHANGE_TOOLHEAD_HEADTYPE_NONE: '#917 Tidak terdeteksi modul. Pastikan modul terpasang dengan benar untuk melanjutkan.',
+    USER_OPERATION_CHANGE_TOOLHEAD_HEADTYPE_UNKNOWN: '#918 Terdeteksi modul yang tidak diketahui. Pasang modul yang benar untuk melanjutkan.',
+    USER_OPERATION_CHANGE_TOOLHEAD: 'Pasang modul yang benar untuk melanjutkan.',
+    USER_OPERATION_CHANGE_CARTRIDGE_CARTRIDGE_NOT_DETECTED: 'Silakan masukkan kartrid untuk melanjutkan.',
+    USER_OPERATION_CHANGE_CARTRIDGE: 'Silakan masukkan kartrid yang benar untuk melanjutkan.',
+    USER_OPERATION: 'Silakan ikuti petunjuk di panel perangkat untuk melanjutkan.',
     RESOURCE_BUSY: 'Mesin sibuk\nJika tidak berjalan, harap mulai ulang mesin',
     DEVICE_ERROR: 'Ada kesalahan\nHarap mulai ulang mesin',
     NO_RESPONSE: '#905 Kesalahan saat menyambung ke papan utama.\nHarap mulai ulang mesin.',
-    SUBSYSTEM_ERROR:
-      '#402 Kesalahan Kritis: Subsistem tidak merespons. Harap hubungi Dukungan FLUX.',
+    SUBSYSTEM_ERROR: '#402 Kesalahan Kritis: Subsistem tidak merespons. Harap hubungi Dukungan FLUX.',
     HARDWARE_FAILURE: 'Ada kesalahan\nHarap mulai ulang mesin',
     MAINBOARD_OFFLINE: '#905 Kesalahan saat menyambung ke papan utama.\nHarap mulai ulang mesin.',
     bug_report: 'Laporan Bug',
@@ -1486,8 +1408,7 @@ const lang: ILang = {
     retrievingCameraOffset: 'Membaca offset kamera...',
     connectingCamera: 'Menghubungkan kamera...',
     homing: 'Melakukan pengaturan awal...',
-    connectionTimeout:
-      '#805 Waktu Koneksi Perangkat Habis. Silakan periksa koneksi jaringan Anda dan indikator Wi-Fi mesin.',
+    connectionTimeout: '#805 Waktu Koneksi Perangkat Habis. Silakan periksa koneksi jaringan Anda dan indikator Wi-Fi mesin.',
     getProbePosition: 'Mendapatkan Posisi Probe...',
     device_not_found: {
       caption: 'Mesin Default tidak ditemukan',
@@ -1495,53 +1416,40 @@ const lang: ILang = {
     },
     device_busy: {
       caption: 'Mesin Sibuk',
-      message:
-        'Mesin sedang mengerjakan tugas lain, coba lagi nanti. Jika berhenti bekerja, harap mulai ulang mesin.',
+      message: 'Mesin sedang mengerjakan tugas lain, coba lagi nanti. Jika berhenti bekerja, harap mulai ulang mesin.',
     },
     device_is_used: 'Mesin sedang digunakan, apakah Anda ingin membatalkan tugas saat ini?',
     monitor_too_old: {
       caption: 'Firmware Usang',
-      content:
-        '#814 Mohon pasang firmware terbaru dengan <a target="_blank" href="http://helpcenter.flux3dp.com/hc/en-us/articles/216251077">panduan ini</a>.',
+      content: '#814 Mohon pasang firmware terbaru dengan <a target="_blank" href="http://helpcenter.flux3dp.com/hc/en-us/articles/216251077">panduan ini</a>.',
     },
-    unknown_error:
-      '#821 Aplikasi mengalami kesalahan yang tidak diketahui, harap gunakan Bantuan > Menu > Laporan Bug.',
+    unknown_error: '#821 Aplikasi mengalami kesalahan yang tidak diketahui, harap gunakan Bantuan > Menu > Laporan Bug.',
     unknown_device: '#826 Tidak dapat terhubung ke mesin, pastikan USB terpasang ke mesin',
-    unsupport_osx_version:
-      'Versi macOS %s saat ini mungkin tidak mendukung beberapa fungsi. Harap perbarui ke macOS 11+.',
-    unsupport_win_version:
-      'Versi OS %s saat ini mungkin tidak mendukung beberapa fungsi. Harap perbarui ke versi terbaru.',
+    unsupport_osx_version: 'Versi macOS %s saat ini mungkin tidak mendukung beberapa fungsi. Harap perbarui ke macOS 11+.',
+    unsupport_win_version: 'Versi OS %s saat ini mungkin tidak mendukung beberapa fungsi. Harap perbarui ke versi terbaru.',
     need_password: 'Memerlukan Kata Sandi untuk Menghubungkan ke Mesin',
-    unavailableWorkarea:
-      '#804 Area kerja saat ini melebihi area kerja mesin ini. Harap periksa area kerja mesin yang dipilih atau atur area kerja dari Edit > Pengaturan Dokumen.',
+    unavailableWorkarea: '#804 Area kerja saat ini melebihi area kerja mesin ini. Harap periksa area kerja mesin yang dipilih atau atur area kerja dari Edit > Pengaturan Dokumen.',
     please_enter_dpi: 'Harap masukkan Satuan file Anda (dalam mm)',
-    auth_error:
-      '#820 Kesalahan Otentikasi: Harap perbarui Beam Studio dan firmware mesin ke versi terbaru.',
+    auth_error: '#820 Kesalahan Otentikasi: Harap perbarui Beam Studio dan firmware mesin ke versi terbaru.',
     usb_unplugged: 'Koneksi USB terputus. Harap periksa koneksi USB Anda',
     uploading_fcode: 'Mengunggah FCode',
     cant_connect_to_device: '#827 Tidak dapat terhubung ke mesin, harap periksa koneksi Anda',
     unable_to_find_machine: 'Tidak dapat menemukan mesin',
     disconnected: 'Koneksi tidak stabil, harap periksa koneksi perangkat dan coba lagi nanti',
-    unable_to_start:
-      '#830 Tidak dapat memulai tugas. Harap coba lagi. Jika ini terjadi lagi, hubungi kami dengan laporan bug:',
+    unable_to_start: '#830 Tidak dapat memulai tugas. Harap coba lagi. Jika ini terjadi lagi, hubungi kami dengan laporan bug:',
     camera: {
-      camera_cable_unstable:
-        'Terdeteksi kamera mentransfer foto secara tidak stabil. Pratinjau masih dapat dilakukan, tetapi mungkin ada masalah lambat atau waktu habis.',
-      fail_to_transmit_image:
-        '#845 Terjadi kesalahan transmisi gambar. Harap mulai ulang mesin atau Beam Studio. Jika error berlanjut, ikuti <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/4402756056079">panduan ini</a>.',
-      ws_closed_unexpectly:
-        '#844 Koneksi ke kamera mesin ditutup secara tidak terduga. Jika error berlanjut, ikuti <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/4402755805071">panduan ini</a>.',
+      camera_cable_unstable: 'Terdeteksi kamera mentransfer foto secara tidak stabil. Pratinjau masih dapat dilakukan, tetapi mungkin ada masalah lambat atau waktu habis.',
+      fail_to_transmit_image: '#845 Terjadi kesalahan transmisi gambar. Harap mulai ulang mesin atau Beam Studio. Jika error berlanjut, ikuti <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/4402756056079">panduan ini</a>.',
+      ws_closed_unexpectly: '#844 Koneksi ke kamera mesin ditutup secara tidak terduga. Jika error berlanjut, ikuti <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/4402755805071">panduan ini</a>.',
       continue_preview: 'Lanjutkan',
       abort_preview: 'Batalkan',
     },
     preview: {
       camera_preview: 'Pratinjau Kamera',
       auto_focus: 'Fokus Otomatis',
-      auto_focus_instruction:
-        'Harap pindahkan kepala modul laser di atas objek, dan ikuti petunjuk animasi untuk menekan AF untuk memfokuskan.',
+      auto_focus_instruction: 'Harap pindahkan kepala modul laser di atas objek, dan ikuti petunjuk animasi untuk menekan AF untuk memfokuskan.',
       already_performed_auto_focus: 'Anda sudah melakukan fokus otomatis, gunakan nilai yang ada?',
-      please_enter_height:
-        'Silakan masukkan tinggi objek agar dapat mengambil gambar kamera yang akurat.',
+      please_enter_height: 'Silakan masukkan tinggi objek agar dapat mengambil gambar kamera yang akurat.',
       apply: 'Terapkan',
       enter_manually: 'Masukkan Secara Manual',
       adjust: 'Sesuaikan',
@@ -1576,8 +1484,7 @@ const lang: ILang = {
   },
   calibration: {
     update_firmware_msg1: 'Firmware Anda tidak mendukung fungsi ini. Harap perbarui firmware ke v',
-    update_firmware_msg2:
-      'atau di atas untuk melanjutkan。 (Menu > Mesin > [Mesin Anda] > Perbarui Firmware)',
+    update_firmware_msg2: 'atau di atas untuk melanjutkan。 (Menu > Mesin > [Mesin Anda] > Perbarui Firmware)',
     camera_calibration: 'Kalibrasi Kamera',
     diode_calibration: 'Kalibrasi Modul Laser Diode',
     module_calibration_printer: 'Kalibrasi Modul Printer',
@@ -1590,22 +1497,15 @@ const lang: ILang = {
     do_engraving: 'LAKUKAN PENGUKIRAN',
     start_engrave: 'MULAI UKIR',
     start_printing: 'MULAI CETAK',
-    ask_for_readjust:
-      'Apakah Anda ingin melewati langkah pengukiran dan kemudian mengambil foto dan mengkalibrasi secara langsung?',
-    please_goto_beambox_first:
-      'Silakan beralih ke Mode Pengukiran ( Beambox ) untuk menggunakan fitur ini.',
-    please_place_paper:
-      'Silakan letakkan kertas putih ukuran A4 atau Letter di pojok kiri atas area kerja.',
-    please_place_paper_center:
-      'Silakan letakkan kertas putih ukuran A4 atau Letter di tengah area kerja.',
-    please_place_dark_colored_paper:
-      'Silakan letakkan kertas berwarna gelap ukuran A4 atau Letter di tengah area kerja.',
+    ask_for_readjust: 'Apakah Anda ingin melewati langkah pengukiran dan kemudian mengambil foto dan mengkalibrasi secara langsung?',
+    please_goto_beambox_first: 'Silakan beralih ke Mode Pengukiran ( Beambox ) untuk menggunakan fitur ini.',
+    please_place_paper: 'Silakan letakkan kertas putih ukuran A4 atau Letter di pojok kiri atas area kerja.',
+    please_place_paper_center: 'Silakan letakkan kertas putih ukuran A4 atau Letter di tengah area kerja.',
+    please_place_dark_colored_paper: 'Silakan letakkan kertas berwarna gelap ukuran A4 atau Letter di tengah area kerja.',
     please_refocus: {
       beambox: 'Silakan sesuaikan platform ke titik fokus (tinggi akrilik yang dibalik)',
-      beamo:
-        'Silakan sesuaikan kepala laser untuk memfokuskan pada benda ukiran (tinggi akrilik yang dibalik)',
-      beamo_af:
-        'Silakan ketuk dua kali tombol di samping penambahan fokus otomatis dan biarkan probe menyentuh material dengan lembut.',
+      beamo: 'Silakan sesuaikan kepala laser untuk memfokuskan pada benda ukiran (tinggi akrilik yang dibalik)',
+      beamo_af: 'Silakan ketuk dua kali tombol di samping penambahan fokus otomatis dan biarkan probe menyentuh material dengan lembut.',
       hexa: 'Klik dua kali tombol penyesuaian tinggi untuk menaikkan meja sarang lebah dan membuat probe menyentuh bahan benda ukiran.',
     },
     without_af: 'Tanpa Fokus Otomatis',
@@ -1618,8 +1518,7 @@ const lang: ILang = {
     show_last_config: 'Tampilkan Hasil Terakhir',
     use_last_config: 'Gunakan Nilai Kalibrasi Terakhir',
     taking_picture: 'Mengambil Gambar...',
-    analyze_result_fail:
-      'Gagal menganalisis gambar yang ditangkap.<br/>Pastikan:<br/>1. Gambar yang ditangkap sepenuhnya tertutup kertas putih.<br/>2. Platform difokuskan dengan benar.',
+    analyze_result_fail: 'Gagal menganalisis gambar yang ditangkap.<br/>Pastikan:<br/>1. Gambar yang ditangkap sepenuhnya tertutup kertas putih.<br/>2. Platform difokuskan dengan benar.',
     drawing_calibration_image: 'Menggambar gambar kalibrasi...',
     calibrate_done: 'Kalibrasi selesai. Akurasi kamera yang lebih baik diberikan saat fokus tepat.',
     calibrate_done_diode: 'Kalibrasi selesai. Offset modul laser diode telah disimpan.',
@@ -1627,10 +1526,8 @@ const lang: ILang = {
     hint_adjust_parameters: 'Gunakan parameter ini untuk menyesuaikan kotak merah',
     zendesk_link: 'https://support.flux3dp.com/hc/en-us/articles/360001811416',
     please_do_camera_calibration_and_focus: {
-      beambox:
-        'Saat mengkalibrasi modul laser diode, kamera diperlukan.\nPastikan kamera mesin ini telah dikalibrasi.\nDan sesuaikan platform ke titik fokus (tinggi akrilik yang dibalik)',
-      beamo:
-        'Saat mengkalibrasi modul laser diode, kamera diperlukan.\nPastikan kamera mesin ini telah dikalibrasi.\nDan sesuaikan kepala laser untuk fokus pada objek ukiran (tinggi akrilik yang dibalik)',
+      beambox: 'Saat mengkalibrasi modul laser diode, kamera diperlukan.\nPastikan kamera mesin ini telah dikalibrasi.\nDan sesuaikan platform ke titik fokus (tinggi akrilik yang dibalik)',
+      beamo: 'Saat mengkalibrasi modul laser diode, kamera diperlukan.\nPastikan kamera mesin ini telah dikalibrasi.\nDan sesuaikan kepala laser untuk fokus pada objek ukiran (tinggi akrilik yang dibalik)',
     },
     downloading_pictures: 'Mengunduh Gambar...',
     failed_to_download_pictures: '#848 Gagal mengunduh gambar, silakan hubungi Dukungan FLUX.',
@@ -1638,17 +1535,13 @@ const lang: ILang = {
     calculating_camera_matrix: 'Menghitung Matriks Kamera...',
     calculating_regression_parameters: 'Menghitung Parameter Regresi...',
     failed_to_calibrate_camera: '#848 Gagal mengkalibrasi kamera, silakan hubungi Layanan FLUX.',
-    failed_to_save_calibration_results:
-      '#849 Gagal menyimpan hasil kalibrasi, silakan coba lagi. Jika ini terus terjadi, silakan hubungi Layanan FLUX.',
-    ador_autofocus_material:
-      'Tekan ikon “AF” di halaman utama mesin selama 3 detik dan biarkan probe menyentuh bahan dengan lembut.',
-    ador_autofocus_focusing_block:
-      'Tekan ikon "AF" di halaman utama mesin selama 3 detik dan biarkan probe menyentuh Blok Fokus.',
+    failed_to_save_calibration_results: '#849 Gagal menyimpan hasil kalibrasi, silakan coba lagi. Jika ini terus terjadi, silakan hubungi Layanan FLUX.',
+    ador_autofocus_material: 'Tekan ikon “AF” di halaman utama mesin selama 3 detik dan biarkan probe menyentuh bahan dengan lembut.',
+    ador_autofocus_focusing_block: 'Tekan ikon "AF" di halaman utama mesin selama 3 detik dan biarkan probe menyentuh Blok Fokus.',
     align_red_cross_cut: 'Harap sejajarkan tengah salib merah dengan salib pemotongan.',
     align_red_cross_print: 'Harap sejajarkan tengah salib merah dengan salib cetak.',
     retake: 'Ambil Ulang Gambar',
-    calibrate_camera_before_calibrate_modules:
-      'Harap lakukan kalibrasi kamera sebelum mengkalibrasi modul.',
+    calibrate_camera_before_calibrate_modules: 'Harap lakukan kalibrasi kamera sebelum mengkalibrasi modul.',
   },
   input_machine_password: {
     require_password: '"%s" memerlukan kata sandi',
@@ -1658,22 +1551,17 @@ const lang: ILang = {
   tutorial: {
     skip: 'Lewati',
     welcome: 'SELAMAT DATANG',
-    suggest_calibrate_camera_first:
-      'Untuk pengguna beamo, Beambox series dan HEXA, kami menyarankan mengkalibrasi kamera saat pertama kali menggunakan mesin (Menu > Mesin > [Mesin Anda] > Kalibrasi Kamera), dan fokus ulang platform dengan benar setiap kali sebelum pratinjau untuk mendapatkan hasil pratinjau yang lebih baik.',
+    suggest_calibrate_camera_first: 'Untuk pengguna beamo, Beambox series dan HEXA, kami menyarankan mengkalibrasi kamera saat pertama kali menggunakan mesin (Menu > Mesin > [Mesin Anda] > Kalibrasi Kamera), dan fokus ulang platform dengan benar setiap kali sebelum pratinjau untuk mendapatkan hasil pratinjau yang lebih baik.',
     camera_calibration_failed: 'Kalibrasi Kamera Gagal',
     ask_retry_calibration: 'Apakah Anda ingin mengkalibrasi kamera lagi?',
-    skipped_camera_calibration:
-      'Anda telah melewati kalibrasi kamera. Anda dapat mengkalibrasi kamera kapan saja dari menu (Menu > Mesin > [Mesin Anda] > Kalibrasi Kamera).',
+    skipped_camera_calibration: 'Anda telah melewati kalibrasi kamera. Anda dapat mengkalibrasi kamera kapan saja dari menu (Menu > Mesin > [Mesin Anda] > Kalibrasi Kamera).',
     skipped_ador_calibration: 'Ador kamera telah dikalibrasi selama pemeriksaan pabrik.',
     needNewUserTutorial: 'Apakah Anda ingin memulai tutorial?',
-    needNewInterfaceTutorial:
-      'Apakah Anda ingin memulai tutorial untuk antarmuka Beam Studio yang baru?',
+    needNewInterfaceTutorial: 'Apakah Anda ingin memulai tutorial untuk antarmuka Beam Studio yang baru?',
     next: 'BERIKUTNYA',
     look_for_machine: 'Mencari mesin untuk tutorial...',
-    unable_to_find_machine:
-      'Tidak dapat menemukan mesin untuk Tutorial. Apakah Anda ingin pergi ke halaman pengaturan koneksi, mencoba lagi atau melewati tutorial?',
-    skip_tutorial:
-      'Anda telah melewati tutorial. Anda selalu dapat memulai tutorial dengan mengklik "Bantuan" > "Tampilkan Tutorial Awal"',
+    unable_to_find_machine: 'Tidak dapat menemukan mesin untuk Tutorial. Apakah Anda ingin pergi ke halaman pengaturan koneksi, mencoba lagi atau melewati tutorial?',
+    skip_tutorial: 'Anda telah melewati tutorial. Anda selalu dapat memulai tutorial dengan mengklik "Bantuan" > "Tampilkan Tutorial Awal"',
     set_connection: 'Atur Koneksi',
     retry: 'Coba lagi',
     newUser: {
@@ -1704,8 +1592,7 @@ const lang: ILang = {
       add_new_layer: 'Tambahkan Lapisan Baru',
       rename_by_double_click: 'Ganti nama dengan klik dua kali',
       drag_to_sort: 'Seret untuk mengurutkan',
-      layer_controls:
-        'Klik kanan untuk memilih Kontrol Lapisan:\nDuplikat / Gabung / Kunci / Hapus Lapisan',
+      layer_controls: 'Klik kanan untuk memilih Kontrol Lapisan:\nDuplikat / Gabung / Kunci / Hapus Lapisan',
       switch_between_layer_panel_and_object_panel: 'Beralih antara Panel Lapisan dan Panel Objek',
       align_controls: 'Kontrol Perataan',
       group_controls: 'Kontrol Pengelompokan',
@@ -1737,22 +1624,16 @@ const lang: ILang = {
     printing: 'Pencetakan',
     unknown: 'Unknown Module',
     notification: {
-      convertFromPrintingModuleTitle:
-        'Apakah Anda ingin mengubah modul Pencetakan menjadi modul Laser?',
-      convertFromPrintingModuleMsg:
-        'Harap perhatikan bahwa jika Anda menyelesaikan operasi ini, pengaturan warna lapisan cetak akan dihapus dan disesuaikan dengan lapisan saat ini.',
+      convertFromPrintingModuleTitle: 'Apakah Anda ingin mengubah modul Pencetakan menjadi modul Laser?',
+      convertFromPrintingModuleMsg: 'Harap perhatikan bahwa jika Anda menyelesaikan operasi ini, pengaturan warna lapisan cetak akan dihapus dan disesuaikan dengan lapisan saat ini.',
       convertFromLaserModuleTitle: 'Apakah Anda ingin mengubah modul Laser menjadi modul Cetak?',
-      convertFromLaserModuleMsg:
-        'Harap perhatikan bahwa jika Anda menyelesaikan operasi ini, pengaturan lapisan laser akan dihapus dan disesuaikan dengan lapisan saat ini.',
-      importedDocumentContainsPrinting:
-        'Dokumen berisi lapisan cetak, apakah Anda ingin mengubah area kerja ke Ador?',
+      convertFromLaserModuleMsg: 'Harap perhatikan bahwa jika Anda menyelesaikan operasi ini, pengaturan lapisan laser akan dihapus dan disesuaikan dengan lapisan saat ini.',
+      importedDocumentContainsPrinting: 'Dokumen berisi lapisan cetak, apakah Anda ingin mengubah area kerja ke Ador?',
       printingLayersCoverted: 'Lapisan cetak telah dikonversi menjadi lapisan laser.',
       performPrintingCaliTitle: 'Lakukan kalibrasi modul cetak',
-      performPrintingCaliMsg:
-        'Klik "Konfirmasi" untuk mengeksekusi kalibrasi, atau akses kalibrasi melalui menu atas. <br /> (Mesin> [Nama Mesin Anda]> Kalibrasi Modul Cetak)',
+      performPrintingCaliMsg: 'Klik "Konfirmasi" untuk mengeksekusi kalibrasi, atau akses kalibrasi melalui menu atas. <br /> (Mesin> [Nama Mesin Anda]> Kalibrasi Modul Cetak)',
       performIRCaliTitle: 'Lakukan kalibrasi modul Inframerah',
-      performIRCaliMsg:
-        'Klik "Konfirmasi" untuk mengeksekusi kalibrasi, atau akses kalibrasi melalui menu atas. <br /> (Mesin> [Nama Mesin Anda]> Kalibrasi Modul Inframerah)',
+      performIRCaliMsg: 'Klik "Konfirmasi" untuk mengeksekusi kalibrasi, atau akses kalibrasi melalui menu atas. <br /> (Mesin> [Nama Mesin Anda]> Kalibrasi Modul Inframerah)',
     },
     non_working_area: 'Area Non-kerja',
   },
@@ -1795,8 +1676,7 @@ const lang: ILang = {
     merge: 'Gabung',
     text_label: 'Label',
     beam_radius: 'Kompensasi kerf',
-    beam_radius_warning:
-      'Hapus kompensasi kerf saat tepi atau sambungan kotak pendek untuk memastikan perakitan kotak yang tepat',
+    beam_radius_warning: 'Hapus kompensasi kerf saat tepi atau sambungan kotak pendek untuk memastikan perakitan kotak yang tepat',
     import: 'Impor',
     cancel: 'Batal',
     reset: 'Setel Ulang',
@@ -1823,8 +1703,7 @@ const lang: ILang = {
       duplicate: 'Duplikat',
       download: 'Unduh',
       delete: 'Hapus',
-      confirmFileDelete:
-        'Apakah Anda yakin ingin menghapus berkas ini? Tindakan ini tidak dapat dibatalkan.',
+      confirmFileDelete: 'Apakah Anda yakin ingin menghapus berkas ini? Tindakan ini tidak dapat dibatalkan.',
     },
     save_file: {
       choose_action: 'Simpan Berkas:',
@@ -1832,8 +1711,7 @@ const lang: ILang = {
       save_new: 'Simpan sebagai berkas baru',
       input_file_name: 'Masukkan nama berkas:',
       invalid_char: 'Karakter tidak valid:',
-      storage_limit_exceeded:
-        'Penyimpanan cloud Anda telah mencapai batas atas. Harap hapus file yang tidak diperlukan sebelum menyimpan file baru.',
+      storage_limit_exceeded: 'Penyimpanan cloud Anda telah mencapai batas atas. Harap hapus file yang tidak diperlukan sebelum menyimpan file baru.',
     },
   },
   camera_data_backup: {

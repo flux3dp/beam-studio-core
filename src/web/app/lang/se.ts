@@ -38,21 +38,16 @@ const lang: ILang = {
       dxf: 'DXF-objekt',
     },
     alerts: {
-      start_preview_timeout:
-        '#803 Timeout uppstod när förhandsgranskningsläget startades. Starta om din dator eller Beam Studio. Om felet kvarstår, följ <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">denna guide</a>.',
-      fail_to_start_preview:
-        '#803 Det gick inte att starta förhandsgranskningsläget. Starta om din dator eller Beam Studio. Om felet kvarstår, följ <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">denna guide</a>.',
-      fail_to_connect_with_camera:
-        '#803 Det gick inte att ansluta till maskinkameran. Starta om din maskin eller Beam Studio. Om felet kvarstår, följ <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">denna guide</a>.',
+      start_preview_timeout: '#803 Timeout uppstod när förhandsgranskningsläget startades. Starta om din dator eller Beam Studio. Om felet kvarstår, följ <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">denna guide</a>.',
+      fail_to_start_preview: '#803 Det gick inte att starta förhandsgranskningsläget. Starta om din dator eller Beam Studio. Om felet kvarstår, följ <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">denna guide</a>.',
+      fail_to_connect_with_camera: '#803 Det gick inte att ansluta till maskinkameran. Starta om din maskin eller Beam Studio. Om felet kvarstår, följ <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">denna guide</a>.',
       add_content_first: 'Lägg till objekt först',
       headtype_mismatch: 'Fel modultyp upptäckt. ',
       headtype_none: 'Ingen modul upptäckt. ',
       headtype_unknown: 'Okänd modul upptäckt. ',
-      install_correct_headtype:
-        'Installera 10W/20W diodlasermoduler korrekt för att aktivera lågeffektslaser för skärning.',
+      install_correct_headtype: 'Installera 10W/20W diodlasermoduler korrekt för att aktivera lågeffektslaser för skärning.',
       door_opened: 'Stäng luckan för att aktivera lågeffektslaser för skärning.',
-      fail_to_get_door_status:
-        'Kontrollera att luckan är stängd för att aktivera lågeffektslaser för skärning.',
+      fail_to_get_door_status: 'Kontrollera att luckan är stängd för att aktivera lågeffektslaser för skärning.',
     },
     hint: {
       polygon: 'Tryck på + / - tangenten för att öka / minska sidor.',
@@ -201,14 +196,12 @@ const lang: ILang = {
   generic_error: {
     UNKNOWN_ERROR: '[UE] Ett okänt fel inträffade. Starta om Beam Studio och maskinen.',
     OPERATION_ERROR: '[OE] En statuskonflikt inträffade, försök igen.',
-    SUBSYSTEM_ERROR:
-      '[SE] Fel vid maskinvarans programvara när uppgiften utfördes. Starta om maskinen.',
+    SUBSYSTEM_ERROR: '[SE] Fel vid maskinvarans programvara när uppgiften utfördes. Starta om maskinen.',
     UNKNOWN_COMMAND: '[UC] Uppdatera maskinvarans programvara',
   },
   device_selection: {
-    no_beambox:
-      '#801 Vi hittar inte din maskin i nätverket.\nFölj <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">guiden</a> för att felsöka anslutningsproblemet.',
-    no_device_web: '#801 Kontrollera statusen för din maskin, eller klicka på \'Maskininställning\' nedan för att ställa in maskinen.',
+    no_beambox: '#801 Vi hittar inte din maskin i nätverket.\nFölj <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">guiden</a> för att felsöka anslutningsproblemet.',
+    no_device_web: "#801 Kontrollera statusen för din maskin, eller klicka på 'Maskininställning' nedan för att ställa in maskinen.",
   },
   update: {
     update: 'Uppdatera',
@@ -227,34 +220,26 @@ const lang: ILang = {
       upload_file: 'Ladda upp maskinvara (*.bin / *.fxfw)',
       update_success: 'Maskinvarans programvara har uppdaterats',
       update_fail: '#822 Uppdateringen misslyckades',
-      too_old_for_web:
-        'Din nuvarande version av maskinvarans programvara är v%s.\nOm du vill använda Beam Studios onlineversion, uppdatera maskinvarans programvara till den senaste versionen.',
-      force_update_message:
-        '#814 Uppdatera maskinen till den senaste versionen av maskinvarans programvara.',
-      firmware_too_old_update_by_sdcard:
-        'Versionen av maskinvarans programvara är för gammal. Uppdatera med ett SD-kort.',
+      too_old_for_web: 'Din nuvarande version av maskinvarans programvara är v%s.\nOm du vill använda Beam Studios onlineversion, uppdatera maskinvarans programvara till den senaste versionen.',
+      force_update_message: '#814 Uppdatera maskinen till den senaste versionen av maskinvarans programvara.',
+      firmware_too_old_update_by_sdcard: 'Versionen av maskinvarans programvara är för gammal. Uppdatera med ett SD-kort.',
     },
     software: {
       checking: 'Söker efter uppdateringar',
       switch_version: 'Byt version',
       check_update: 'Sök efter uppdateringar',
       caption: 'En uppdatering för Beam Studio är tillgänglig',
-      downloading:
-        'Laddar ner uppdateringar i bakgrunden, du kan klicka "OK" för att fortsätta arbeta.',
+      downloading: 'Laddar ner uppdateringar i bakgrunden, du kan klicka "OK" för att fortsätta arbeta.',
       install_or_not: 'är redo för uppdatering. Vill du starta om och uppdatera nu?',
       switch_or_not: 'är redo för byte. Vill du starta om och byta nu?',
-      available_update:
-        'Beam Studio v%s är tillgänglig nu. Du har v%s. Vill du ladda ner uppdateringen?',
-      available_switch:
-        'Beam Studio v%s är tillgänglig nu. Du har v%s. Vill du byta till den här versionen?',
+      available_update: 'Beam Studio v%s är tillgänglig nu. Du har v%s. Vill du ladda ner uppdateringen?',
+      available_switch: 'Beam Studio v%s är tillgänglig nu. Du har v%s. Vill du byta till den här versionen?',
       not_found: 'Du använder den senaste versionen av Beam Studio.',
-      no_response:
-        'Det gick inte att ansluta till servern, kontrollera dina nätverksinställningar.',
+      no_response: 'Det gick inte att ansluta till servern, kontrollera dina nätverksinställningar.',
       switch_version_not_found: 'Bytebar version hittades inte.',
       yes: 'Ja',
       no: 'Nej',
-      update_for_ador:
-        'Den aktuella programvaruversionen %s är inkompatibel, vänligen ladda ner den senaste versionen av Beam Studio för Ador.',
+      update_for_ador: 'Den aktuella programvaruversionen %s är inkompatibel, vänligen ladda ner den senaste versionen av Beam Studio för Ador.',
     },
     updating: 'Uppdaterar...',
     skip: 'Hoppa över den här versionen',
@@ -267,8 +252,7 @@ const lang: ILang = {
   },
   topmenu: {
     version: 'Version',
-    credit:
-      'Beam Studio är möjlig tack vare det öppen källkodsprojektet <a target="_blank" href="https://github.com/flux3dp/beam-studio">Beam Studio</a> och annan <a target="_blank" href="https://flux3dp.com/credits/">öppen källkod</a>.',
+    credit: 'Beam Studio är möjlig tack vare det öppen källkodsprojektet <a target="_blank" href="https://github.com/flux3dp/beam-studio">Beam Studio</a> och annan <a target="_blank" href="https://flux3dp.com/credits/">öppen källkod</a>.',
     ok: 'OK',
     file: {
       label: 'Fil',
@@ -319,15 +303,12 @@ const lang: ILang = {
     connect_wifi: {
       title: 'Ansluter till Wi-Fi',
       tutorial1: '1. Gå till pekskärmen > Klicka på "Nätverk" > "Anslut till WiFi".',
-      tutorial1_ador:
-        '1. Gå till pekskärmen > Klicka på "MASKIN" > Klicka på "Nätverk" > "Anslut till WiFi".',
+      tutorial1_ador: '1. Gå till pekskärmen > Klicka på "MASKIN" > Klicka på "Nätverk" > "Anslut till WiFi".',
       tutorial2: '2. Välj och anslut till ditt föredragna Wi-Fi.',
       what_if_1: 'Vad gör jag om jag inte ser mitt Wi-Fi?',
-      what_if_1_content:
-        '1. Wi-Fi-krypteringen bör vara WPA2 eller inget lösenord.\n2. Krypteringsläget kan ställas in i Wi-Fi-routerns administrationsgränssnitt. Om routern inte stöder WPA2 och du behöver hjälp med att välja rätt router, kontakta FLUX-supporten.',
+      what_if_1_content: '1. Wi-Fi-krypteringen bör vara WPA2 eller inget lösenord.\n2. Krypteringsläget kan ställas in i Wi-Fi-routerns administrationsgränssnitt. Om routern inte stöder WPA2 och du behöver hjälp med att välja rätt router, kontakta FLUX-supporten.',
       what_if_2: 'Vad händer om jag inte ser något Wi-Fi?',
-      what_if_2_content:
-        '1. Se till att Wi-Fi-dongeln är ordentligt ansluten.\n2. Om det inte finns någon MAC-adress för det trådlösa nätverket på pekskärmen, kontakta FLUX-supporten.\n3. Wi-Fi-kanalen bör vara 2,4 GHz (5 GHz stöds inte).',
+      what_if_2_content: '1. Se till att Wi-Fi-dongeln är ordentligt ansluten.\n2. Om det inte finns någon MAC-adress för det trådlösa nätverket på pekskärmen, kontakta FLUX-supporten.\n3. Wi-Fi-kanalen bör vara 2,4 GHz (5 GHz stöds inte).',
     },
     connect_wired: {
       title: 'Ansluter till kabelanslutet nätverk',
@@ -335,11 +316,9 @@ const lang: ILang = {
       tutorial2: '2. Tryck på "Nätverk" för att få den kabelanslutna nätverks-IP:n.',
       tutorial2_ador: '2. Tryck på "MASKIN" > "Nätverk" för att få den trådbundna IP-adressen.',
       what_if_1: 'Vad händer om IP:n är tom?',
-      what_if_1_content:
-        '1. Se till att Ethernet-kabeln är ordentligt ansluten.\n2 Om det inte finns någon MAC-adress för det kabelanslutna nätverket på pekskärmen, kontakta FLUX-supporten.',
+      what_if_1_content: '1. Se till att Ethernet-kabeln är ordentligt ansluten.\n2 Om det inte finns någon MAC-adress för det kabelanslutna nätverket på pekskärmen, kontakta FLUX-supporten.',
       what_if_2: 'Vad händer om IP:n börjar med 169?',
-      what_if_2_content:
-        '1. Om IP-adressen börjar med 169.254 bör det vara ett DHCP-inställningsproblem, kontakta din internetleverantör för ytterligare hjälp.\n2. Om din dator ansluter direkt till internet med PPPoE, ändra till att ansluta via router med PPPoE och aktivera DHCP-funktionen i routern.',
+      what_if_2_content: '1. Om IP-adressen börjar med 169.254 bör det vara ett DHCP-inställningsproblem, kontakta din internetleverantör för ytterligare hjälp.\n2. Om din dator ansluter direkt till internet med PPPoE, ändra till att ansluta via router med PPPoE och aktivera DHCP-funktionen i routern.',
     },
     connect_ethernet: {
       title: 'Direktanslutning',
@@ -358,8 +337,7 @@ const lang: ILang = {
       tutorial2: '2. Klicka på Nästa.',
       turn_off_machine: 'Stäng av maskinen.',
       turn_on_machine: 'Slå på maskinen.',
-      wait_for_turning_on:
-        'Klicka på "Nästa" när startprocessen är klar och du har kommit till huvudskärmen.',
+      wait_for_turning_on: 'Klicka på "Nästa" när startprocessen är klar och du har kommit till huvudskärmen.',
     },
     connect_machine_ip: {
       check_usb: 'Kontrollera USB-anslutning',
@@ -380,15 +358,13 @@ const lang: ILang = {
     setting_completed: {
       start: 'Starta',
       great: 'Välkommen till Beam Studio',
-      setup_later:
-        'Du kan alltid konfigurera din maskin från titelraden > "Maskiner" > "Maskinkonfiguration"',
+      setup_later: 'Du kan alltid konfigurera din maskin från titelraden > "Maskiner" > "Maskinkonfiguration"',
       back: 'Tillbaka',
       ok: 'BÖRJA SKAPA',
     },
   },
   error_pages: {
-    screen_size:
-      'Observera att Beam Studio kanske inte fungerar optimalt på din enhet. För bästa upplevelse bör enheten ha en skärmstorlek på minst 1024 bildpunkter.',
+    screen_size: 'Observera att Beam Studio kanske inte fungerar optimalt på din enhet. För bästa upplevelse bör enheten ha en skärmstorlek på minst 1024 bildpunkter.',
   },
   menu: {
     mm: 'mm',
@@ -460,8 +436,7 @@ const lang: ILang = {
     diode_offset: 'Diodlaseroffset',
     autofocus_offset: 'Autofokusoffset',
     diode_one_way_engraving: 'Diodlaser enkelriktad gravering',
-    diode_two_way_warning:
-      'Tvåvägs ljusemittering är snabbare och genererar förmodligen viss felmarginal på lasergraveringspositionen. Rekommenderar att testa först.',
+    diode_two_way_warning: 'Tvåvägs ljusemittering är snabbare och genererar förmodligen viss felmarginal på lasergraveringspositionen. Rekommenderar att testa först.',
     share_with_flux: 'Dela Beam Studio-analys',
     none: 'Ingen',
     close: 'Stäng',
@@ -543,81 +518,59 @@ const lang: ILang = {
       layer_by_color: 'Färg',
       nolayer: 'Ett skikt',
       loading_image: 'Läser in bild, vänta...',
-      no_support_text:
-        'Beam Studio stöder inte text just nu. Vänligen omvandla text till bana innan import.',
-      speed_too_high_lower_the_quality:
-        'För hög hastighet vid denna upplösning kan ge sämre kvalitet på skugggravering.',
-      both_power_and_speed_too_high:
-        'Att använda lägre laserstyrka förlänger laserns livslängd.\nOckså, för hög hastighet vid denna upplösning kan ge sämre kvalitet på skugggravering.',
-      too_fast_for_path:
-        'För hög hastighet i lager med banobjekt kan ge lägre precision vid skärning.\nVi rekommenderar inte hastigheter över 20 mm/s vid skärning.',
-      too_fast_for_path_and_constrain:
-        'Följande lager: %s\ninnehåller vektorbanaobjekt och har hastighet över 20 mm/s.\nSkärhastigheten för vektorbanaobjekt kommer begränsas till 20 mm/s.\nDu kan ta bort denna begränsning under inställningar.',
-      should_update_firmware_to_continue:
-        '#814 Din firmware stöder inte denna version av Beam Studio. Uppdatera firmware för att fortsätta. (Meny > Maskin > [Din maskin] > Uppdatera firmware)',
-      recommend_downgrade_software:
-        'Vi upptäckte en äldre firmwareversion. Vi arbetar aktivt med kompatibilitetsproblem, men för närvarande rekommenderar vi att återgå till Beam Studio 1.9.5.',
-      recommend_upgrade_firmware:
-        'Vi upptäckte en äldre firmware-version. Vi arbetar aktivt med kompatibilitetsproblem, men tills vidare rekommenderar vi att du uppdaterar till den senaste firmware-versionen.',
+      no_support_text: 'Beam Studio stöder inte text just nu. Vänligen omvandla text till bana innan import.',
+      speed_too_high_lower_the_quality: 'För hög hastighet vid denna upplösning kan ge sämre kvalitet på skugggravering.',
+      both_power_and_speed_too_high: 'Att använda lägre laserstyrka förlänger laserns livslängd.\nOckså, för hög hastighet vid denna upplösning kan ge sämre kvalitet på skugggravering.',
+      too_fast_for_path: 'För hög hastighet i lager med banobjekt kan ge lägre precision vid skärning.\nVi rekommenderar inte hastigheter över 20 mm/s vid skärning.',
+      too_fast_for_path_and_constrain: 'Följande lager: %s\ninnehåller vektorbanaobjekt och har hastighet över 20 mm/s.\nSkärhastigheten för vektorbanaobjekt kommer begränsas till 20 mm/s.\nDu kan ta bort denna begränsning under inställningar.',
+      should_update_firmware_to_continue: '#814 Din firmware stöder inte denna version av Beam Studio. Uppdatera firmware för att fortsätta. (Meny > Maskin > [Din maskin] > Uppdatera firmware)',
+      recommend_downgrade_software: 'Vi upptäckte en äldre firmwareversion. Vi arbetar aktivt med kompatibilitetsproblem, men för närvarande rekommenderar vi att återgå till Beam Studio 1.9.5.',
+      recommend_upgrade_firmware: 'Vi upptäckte en äldre firmware-version. Vi arbetar aktivt med kompatibilitetsproblem, men tills vidare rekommenderar vi att du uppdaterar till den senaste firmware-versionen.',
       still_continue: 'Fortsätt',
       more_than_two_object: 'För många objekt. Stöder endast 2 objekt',
       not_support_object_type: 'Stöder inte objekttyp',
       select_first: 'Välj ett objekt först.',
       select_at_least_two: 'Välj två objekt för att fortsätta',
-      import_file_contain_invalid_path:
-        '#808 Importerad SVG-fil innehåller ogiltig bildsökväg. Se till att alla bildfiler finns eller bädda in bild i filen',
-      import_file_error_ask_for_upload:
-        'Misslyckades med att importera SVG-filen. Vill du skicka filen till utvecklingsteamet för felrapportering?',
+      import_file_contain_invalid_path: '#808 Importerad SVG-fil innehåller ogiltig bildsökväg. Se till att alla bildfiler finns eller bädda in bild i filen',
+      import_file_error_ask_for_upload: 'Misslyckades med att importera SVG-filen. Vill du skicka filen till utvecklingsteamet för felrapportering?',
       upload_file_too_large: '#819 Filen är för stor för uppladdning.',
       successfully_uploaded: 'Filuppladdningen lyckades.',
       upload_failed: '#819 Filuppladdningen misslyckades.',
       or_turn_off_borderless_mode: 'Eller stäng av öppen bottenläge.',
-      svg_1_1_waring:
-        'Versionen av denna SVG-fil är v 1.1, det kan finnas potentiella kompatibilitetsproblem.',
-      svg_image_path_waring:
-        'Denna SVG-fil innehåller <image> som läser in från filsökväg. Detta kan orsaka fel vid inläsning.\nFör att undvika denna risk, använd inbäddade bilder vid export av SVG.',
-      dxf_version_waring:
-        'Versionen av denna DXF-fil är inte 2013, det kan finnas potentiella kompatibilitetsproblem.',
+      svg_1_1_waring: 'Versionen av denna SVG-fil är v 1.1, det kan finnas potentiella kompatibilitetsproblem.',
+      svg_image_path_waring: 'Denna SVG-fil innehåller <image> som läser in från filsökväg. Detta kan orsaka fel vid inläsning.\nFör att undvika denna risk, använd inbäddade bilder vid export av SVG.',
+      dxf_version_waring: 'Versionen av denna DXF-fil är inte 2013, det kan finnas potentiella kompatibilitetsproblem.',
       dont_show_again: 'Visa inte detta igen.',
       convert_to_path_fail: 'Misslyckades med att konvertera till bana.',
       save_unsave_changed: 'Vill du spara osparade ändringar?',
-      dxf_bounding_box_size_over:
-        'Ritningens storlek är utanför arbetsområdet. Flytta din ritning närmare origo i ditt CAD-program, eller se till att enheten är korrekt inställd.',
+      dxf_bounding_box_size_over: 'Ritningens storlek är utanför arbetsområdet. Flytta din ritning närmare origo i ditt CAD-program, eller se till att enheten är korrekt inställd.',
       progress: {
         uploading: 'Laddar upp',
         calculating: 'Beräknar',
       },
-      backend_connect_failed_ask_to_upload:
-        '#802 Fel uppstår hela tiden när anslutning till servern försöks. Vill du ladda upp din felrapportlogg?',
+      backend_connect_failed_ask_to_upload: '#802 Fel uppstår hela tiden när anslutning till servern försöks. Vill du ladda upp din felrapportlogg?',
       backend_error_hint: 'Funktioner kanske inte fungerar korrekt på grund av serverfel.',
       pdf2svg: {
         error_when_converting_pdf: '#824 Fel vid konvertering av PDF till SVG:',
-        error_pdf2svg_not_found:
-          '#825 Fel: Kommandot pdf2svg hittades inte. Installera pdf2svg med ditt pakethanterare (t.ex. "yum install pdf2svg" eller "apt-get install pdf2svg").',
+        error_pdf2svg_not_found: '#825 Fel: Kommandot pdf2svg hittades inte. Installera pdf2svg med ditt pakethanterare (t.ex. "yum install pdf2svg" eller "apt-get install pdf2svg").',
       },
-      ungroup_use:
-        'Detta kommer att separera importerad DXF eller SVG. Eftersom filen kan innehålla ett stort antal element kan det ta tid att separera. Är du säker på att du vill fortsätta?',
-      vectorize_shading_image:
-        'Gradientbilder tar längre tid att spåra och är benägna till brus. Vänligen stäng av bildgradienten innan du kör.',
-      change_workarea_before_preview:
-        'Arbetsområdet för %s matchar inte det för närvarande inställda arbetsområdet. Vill du byta nuvarande arbetsområde?',
+      ungroup_use: 'Detta kommer att separera importerad DXF eller SVG. Eftersom filen kan innehålla ett stort antal element kan det ta tid att separera. Är du säker på att du vill fortsätta?',
+      vectorize_shading_image: 'Gradientbilder tar längre tid att spåra och är benägna till brus. Vänligen stäng av bildgradienten innan du kör.',
+      change_workarea_before_preview: 'Arbetsområdet för %s matchar inte det för närvarande inställda arbetsområdet. Vill du byta nuvarande arbetsområde?',
       bug_report: 'Felrapport',
       sentry: {
         title: 'Låt oss göra Beam Studio bättre tillsammans',
-        message:
-          'Godkänner du att relevant information automatiskt laddas upp till utvecklingsteamet när fel uppstår?',
+        message: 'Godkänner du att relevant information automatiskt laddas upp till utvecklingsteamet när fel uppstår?',
       },
       questionnaire: {
         caption: 'Hjälp oss fylla i frågeformuläret',
         message: 'Hjälp oss fylla i frågeformuläret för att göra Beam Studio bättre.',
-        unable_to_get_url:
-          'Det gick inte att hämta länken till frågeformuläret via internet. Bekräfta din internetanslutning.',
+        unable_to_get_url: 'Det gick inte att hämta länken till frågeformuläret via internet. Bekräfta din internetanslutning.',
         no_questionnaire_available: 'Det finns inget frågeformulär tillgängligt just nu.',
       },
       facebook_group_invitation: {
         title: 'Gå med i FLUX officiella användargrupp',
-        message:
-          'Gå med i vår officiella Facebook-grupp för att kontakta andra FLUX-laseranvändare, diskutera FLUX-lasrar, dela laserkonst och hålla dig uppdaterad om de senaste uppdateringarna av våra produkter. Vi ser fram emot att se dig där!',
+        message: 'Gå med i vår officiella Facebook-grupp för att kontakta andra FLUX-laseranvändare, diskutera FLUX-lasrar, dela laserkonst och hålla dig uppdaterad om de senaste uppdateringarna av våra produkter. Vi ser fram emot att se dig där!',
         join_now: 'Räkna in mig',
         later: 'Kanske senare',
         already_joined: 'Redan ansluten',
@@ -632,8 +585,7 @@ const lang: ILang = {
       },
       text_to_path: {
         caption: 'Text till bana konverterare 2.0',
-        message:
-          'Beam Studio introducerar nu en ny text till bana konverterare (Konverterare 2.0), som producerar mer tillförlitliga resultat! Vill du byta till den nu?\\nDu kan också justera den här inställningen senare i avsnittet "Text till bana konverterare" under inställningarna.',
+        message: 'Beam Studio introducerar nu en ny text till bana konverterare (Konverterare 2.0), som producerar mer tillförlitliga resultat! Vill du byta till den nu?\\nDu kan också justera den här inställningen senare i avsnittet "Text till bana konverterare" under inställningarna.',
       },
     },
     zoom_block: {
@@ -696,25 +648,16 @@ const lang: ILang = {
           enterNewLayerName: 'Ange det nya lagernamnet',
           layerHasThatName: 'Lagret har redan det namnet',
           QmoveElemsToLayer: "Flytta markerade objekt till lager '%s'?",
-          moveElemFromPrintingLayerTitle:
-            'Flytta valt element till %s och konvertera det till laser-element?',
-          moveElemFromPrintingLayerMsg:
-            'Observera att om du slutför den här åtgärden kommer färginställningarna för det valda elementet att tas bort och ställas in enligt %s.',
-          moveElemToPrintingLayerTitle:
-            'Flytta valt element till %s och konvertera det till utskrifts-element?',
-          moveElemToPrintingLayerMsg:
-            'Observera att om du slutför den här åtgärden kommer inställningarna för det valda elementet att tas bort och ställas in enligt %s.',
+          moveElemFromPrintingLayerTitle: 'Flytta valt element till %s och konvertera det till laser-element?',
+          moveElemFromPrintingLayerMsg: 'Observera att om du slutför den här åtgärden kommer färginställningarna för det valda elementet att tas bort och ställas in enligt %s.',
+          moveElemToPrintingLayerTitle: 'Flytta valt element till %s och konvertera det till utskrifts-element?',
+          moveElemToPrintingLayerMsg: 'Observera att om du slutför den här åtgärden kommer inställningarna för det valda elementet att tas bort och ställas in enligt %s.',
           splitColorTitle: 'Vill du expandera det valda lagret till CMYK-lager?',
-          splitColorMsg:
-            'Observera att om du fortsätter med den här åtgärden kan du inte återgå till de ursprungliga färgskikten.',
-          mergeLaserLayerToPrintingLayerTitle:
-            'Vill du slå samman dessa lager till ett utskriftslager?',
-          mergeLaserLayerToPrintingLayerMsg:
-            'Observera att om du slutför den här åtgärden kommer laser-lagrets inställningar att tas bort och ställas in enligt aktuellt lager.',
-          mergePrintingLayerToLaserLayerTitle:
-            'Vill du slå samman dessa lager till ett laser-lager?',
-          mergePrintingLayerToLaserLayerMsg:
-            'Observera att om du slutför den här åtgärden kommer färginställningarna för utskrifts-lagret att tas bort och ställas in enligt aktuellt lager.',
+          splitColorMsg: 'Observera att om du fortsätter med den här åtgärden kan du inte återgå till de ursprungliga färgskikten.',
+          mergeLaserLayerToPrintingLayerTitle: 'Vill du slå samman dessa lager till ett utskriftslager?',
+          mergeLaserLayerToPrintingLayerMsg: 'Observera att om du slutför den här åtgärden kommer laser-lagrets inställningar att tas bort och ställas in enligt aktuellt lager.',
+          mergePrintingLayerToLaserLayerTitle: 'Vill du slå samman dessa lager till ett laser-lager?',
+          mergePrintingLayerToLaserLayerMsg: 'Observera att om du slutför den här åtgärden kommer färginställningarna för utskrifts-lagret att tas bort och ställas in enligt aktuellt lager.',
         },
         layers: {
           layer: 'Lager',
@@ -745,8 +688,7 @@ const lang: ILang = {
         strength: 'Effekt',
         low_power_warning: 'Lägre laserstyrka (under 10%) kanske inte avger laserljuset.',
         speed: 'Hastighet',
-        speed_contrain_warning:
-          'Skärhastigheten för vektorbanor kommer att begränsas till 20 mm/s. Du kan ta bort denna gräns i inställningarna.',
+        speed_contrain_warning: 'Skärhastigheten för vektorbanor kommer att begränsas till 20 mm/s. Du kan ta bort denna gräns i inställningarna.',
         low_speed_warning: 'Låg hastighet kan orsaka brännskador på materialet.',
         repeat: 'Utför',
         add_on: 'Tillägg',
@@ -767,8 +709,7 @@ const lang: ILang = {
         more: 'Hantera',
         delete: 'Ta bort',
         reset: 'Återställ',
-        sure_to_reset:
-          'Detta kommer att återställa alla förinställningar och behålla dina anpassade parametrar, är du säker på att fortsätta?',
+        sure_to_reset: 'Detta kommer att återställa alla förinställningar och behålla dina anpassade parametrar, är du säker på att fortsätta?',
         apply: 'Verkställ',
         cancel: 'Avbryt',
         save: 'Spara',
@@ -779,8 +720,7 @@ const lang: ILang = {
         inuse: 'Använder',
         export_config: 'Exportera förinställningar',
         new_config_name: 'Nytt förinställningsnamn',
-        sure_to_load_config:
-          'Detta kommer att ladda förinställningsarrangemang och ersätta anpassade parametrar som anges i filen, är du säker på att fortsätta?',
+        sure_to_load_config: 'Detta kommer att ladda förinställningsarrangemang och ersätta anpassade parametrar som anges i filen, är du säker på att fortsätta?',
         custom_preset: 'Anpassad',
         various_preset: 'Olika förinställningar',
         module: 'Modul',
@@ -1006,8 +946,7 @@ const lang: ILang = {
           simplify: 'Förenkla',
           ai_bg_removal: 'Ta bort bakgrunden',
           ai_bg_removal_short: 'BG bort',
-          ai_bg_removal_reminder:
-            'Tryck på knappen kommer omedelbart att använda 0,2 kredit, vill du fortsätta?',
+          ai_bg_removal_reminder: 'Tryck på knappen kommer omedelbart att använda 0,2 kredit, vill du fortsätta?',
           outline: 'Kontur',
         },
         path_edit_panel: {
@@ -1023,8 +962,7 @@ const lang: ILang = {
     bottom_right_panel: {
       convert_text_to_path_before_export: 'Konvertera text till bana...',
       retreive_image_data: 'Hämtar bilddata...',
-      export_file_error_ask_for_upload:
-        'Misslyckades att exportera uppgift. Vill du skicka arbetsytan till utvecklingsteamet för felrapportering?',
+      export_file_error_ask_for_upload: 'Misslyckades att exportera uppgift. Vill du skicka arbetsytan till utvecklingsteamet för felrapportering?',
     },
     image_trace_panel: {
       apply: 'Tillämpa',
@@ -1086,10 +1024,8 @@ const lang: ILang = {
     object_panels: {
       wait_for_parsing_font: 'Tolkar teckensnitt ... Vänta en sekund',
       text_to_path: {
-        font_substitute_pop:
-          'Din text innehåller tecken som inte stöds av aktuellt typsnitt. <br/>Vill du använda <strong>%s</strong> som ersättning?',
-        check_thumbnail_warning:
-          'Vissa texter ändrades till andra typsnitt när text tolkades till banor och vissa tecken kanske inte konverterades korrekt. <br/> Kontrollera förhandsgranskningsbilden igen innan du skickar uppgiften.',
+        font_substitute_pop: 'Din text innehåller tecken som inte stöds av aktuellt typsnitt. <br/>Vill du använda <strong>%s</strong> som ersättning?',
+        check_thumbnail_warning: 'Vissa texter ändrades till andra typsnitt när text tolkades till banor och vissa tecken kanske inte konverterades korrekt. <br/> Kontrollera förhandsgranskningsbilden igen innan du skickar uppgiften.',
         error_when_parsing_text: 'Fel vid omvandling av text till bana',
         use_current_font: 'Använd aktuellt typsnitt',
         retry: 'Försök igen senare eller välj ett annat typsnitt',
@@ -1117,8 +1053,7 @@ const lang: ILang = {
         sharp: 'Skarp',
         round: 'Rund',
         fail_message: 'Misslyckades att förskjuta objekt.',
-        not_support_message:
-          'Valda element som innehåller ej supportade SVG-taggar:\nBild, Grupp, Text och Importerat Objekt.',
+        not_support_message: 'Valda element som innehåller ej supportade SVG-taggar:\nBild, Grupp, Text och Importerat Objekt.',
       },
       _nest: {
         start_nest: 'Optimera',
@@ -1144,21 +1079,18 @@ const lang: ILang = {
       test_completed: 'Test slutförd',
       test_fail: 'Test misslyckades',
       cannot_connect_1: '#840 Misslyckades att ansluta till mål-IP.',
-      cannot_connect_2:
-        '#840 Misslyckades att ansluta till mål-IP. Kontrollera att målet är i samma nätverk.',
+      cannot_connect_2: '#840 Misslyckades att ansluta till mål-IP. Kontrollera att målet är i samma nätverk.',
       network_unhealthy: '#841 Dålig anslutningskvalitet eller hög svarstid',
       device_not_on_list: '#842 Maskinen hittades inte i listan men anslutningen verkar fungera',
       hint_device_often_on_list: 'Hittas maskinen sällan i listan?',
       link_device_often_on_list: 'https://support.flux3dp.com/hc/en-us/articles/360001841636',
       hint_connect_failed_when_sending_job: 'Problem att ansluta vid jobbsändning?',
-      link_connect_failed_when_sending_job:
-        'https://support.flux3dp.com/hc/en-us/articles/360001841656',
+      link_connect_failed_when_sending_job: 'https://support.flux3dp.com/hc/en-us/articles/360001841656',
       hint_connect_camera_timeout: 'Tidsgränser vid kameraförhandsgranskning?',
       link_connect_camera_timeout: 'https://support.flux3dp.com/hc/en-us/articles/360001791895',
       cannot_get_local: 'Kunde inte hämta lokal IP-adress',
       fail_to_start_network_test: '#817 Misslyckades starta nätverktest',
-      linux_permission_hint:
-        'Otillräckliga behörigheter. Kör "sudo beam-studio --no-sandbox" för nätverktest.',
+      linux_permission_hint: 'Otillräckliga behörigheter. Kör "sudo beam-studio --no-sandbox" för nätverktest.',
     },
     layer_color_config_panel: {
       layer_color_config: 'Lagerfärgsinställningar',
@@ -1173,20 +1105,17 @@ const lang: ILang = {
       add_config: 'Lägg till färg',
       in_use: 'Den här färgen används.',
       no_input: 'Ange giltig hex-färgkod.',
-      sure_to_reset:
-        'Du kommer att förlora alla anpassade inställningar, är du säker på att du vill återställa till standard?',
+      sure_to_reset: 'Du kommer att förlora alla anpassade inställningar, är du säker på att du vill återställa till standard?',
       sure_to_delete: 'Är du säker på att du vill ta bort den här färginställningen?',
     },
     rating_panel: {
       title: 'Gillar du Beam Studio?',
-      description:
-        'Om du gillar Beam Studio skulle vi uppskatta det mycket om du kunde betygsätta oss.',
+      description: 'Om du gillar Beam Studio skulle vi uppskatta det mycket om du kunde betygsätta oss.',
       dont_show_again: 'Visa inte detta nästa gång.',
       thank_you: 'Tack!',
     },
     svg_editor: {
-      unnsupported_file_type:
-        'Filtypen stöds inte direkt. Vänligen konvertera filen till SVG eller bitmap',
+      unnsupported_file_type: 'Filtypen stöds inte direkt. Vänligen konvertera filen till SVG eller bitmap',
       unable_to_fetch_clipboard_img: 'Misslyckades att hämta bild från urklipp',
     },
     units: {
@@ -1305,8 +1234,7 @@ const lang: ILang = {
     search: 'Sök',
     clear: 'Rensa',
     export_svg_title: 'Kan inte exportera SVG',
-    export_svg_warning:
-      'Det här projektet innehåller objekt som skyddas av upphovsrätten. Därför kommer Beam Studio automatiskt utesluta dessa objekt vid exporten. Du kan fortfarande spara ditt projekt i Beam Studio Scene (.beam-format) för att behålla alla dina data. Vill du fortfarande exportera?',
+    export_svg_warning: 'Det här projektet innehåller objekt som skyddas av upphovsrätten. Därför kommer Beam Studio automatiskt utesluta dessa objekt vid exporten. Du kan fortfarande spara ditt projekt i Beam Studio Scene (.beam-format) för att behålla alla dina data. Vill du fortfarande exportera?',
     learn_more: 'Läs mer',
   },
   change_logs: {
@@ -1368,10 +1296,8 @@ const lang: ILang = {
     ink_color: 'Ink color',
     ink_type: 'Ink type',
     ink_level: 'Ink level',
-    close_door_to_read_cartridge_info:
-      "To access ink information, please close the machine's door cover.",
-    cartridge_info_read_failed:
-      'Please ensure that the ink is fully inserted. Try to remove the ink and install it back.',
+    close_door_to_read_cartridge_info: "To access ink information, please close the machine's door cover.",
+    cartridge_info_read_failed: 'Please ensure that the ink is fully inserted. Try to remove the ink and install it back.',
     cartridge_info_verification_failed: 'Please verify that your ink is FLUX authentic.',
   },
   monitor: {
@@ -1386,8 +1312,7 @@ const lang: ILang = {
     taskTab: 'Uppgift',
     connecting: 'Ansluter, vänta...',
     HARDWARE_ERROR_MAINBOARD_ERROR: '#401 Kritiskt fel: Huvudkort offline. Kontakta FLUX support.',
-    HARDWARE_ERROR_SUBSYSTEM_ERROR:
-      '#402 Kritiskt fel: Inget svar från delsystem. Kontakta FLUX support.',
+    HARDWARE_ERROR_SUBSYSTEM_ERROR: '#402 Kritiskt fel: Inget svar från delsystem. Kontakta FLUX support.',
     HARDWARE_ERROR_PUMP_ERROR: '#900 Kontrollera din vattentank.',
     HARDWARE_ERROR_DOOR_OPENED: '#901 Stäng dörren för att fortsätta.',
     HARDWARE_ERROR_OVER_TEMPERATURE: '#902 Överhettad. Vänta några minuter.',
@@ -1398,15 +1323,19 @@ const lang: ILang = {
     HARDWARE_ERROR_AIR_ASSIST_ABNORMAL: '#913 Luftflödessensor avvikande',
     HARDWARE_ERROR_ROTARY_NOT_DETECTED: '#914 Ingen roterande modul detekterad',
     HARDWARE_ERROR_HOMING_PULLOFF_FAILED: '#920 Homing Pull-Off-fel',
-    HARDWARE_ERROR_HEADTYPE_MISMATCH:
-      '#915 Fel modul upptäckt. Installera rätt modul för att fortsätta.',
-    HARDWARE_ERROR_HEADTYPE_NONE:
-      '#917 Modul ej upptäckt. Kontrollera att modulen är korrekt installerad för att fortsätta.',
-    HARDWARE_ERROR_HEADTYPE_UNKNOWN:
-      '#918 Okänd modul upptäckt. Installera rätt modul för att fortsätta.',
+    HARDWARE_ERROR_HEADTYPE_MISMATCH: '#915 Fel modul upptäckt. Installera rätt modul för att fortsätta.',
+    HARDWARE_ERROR_HEADTYPE_NONE: '#917 Modul ej upptäckt. Kontrollera att modulen är korrekt installerad för att fortsätta.',
+    HARDWARE_ERROR_HEADTYPE_UNKNOWN: '#918 Okänd modul upptäckt. Installera rätt modul för att fortsätta.',
     HARDWARE_ERROR_PRINTER_NO_RESPONSE: '#919 Inget svar från skrivarmodul.',
     USER_OPERATION_ROTARY_PAUSE: 'Växla till den roterande motorn',
     USER_OPERATION_REMOVE_CARTRIDGE: 'Ta bort patronen för att fortsätta.',
+    USER_OPERATION_CHANGE_TOOLHEAD_HEADTYPE_MISMATCH: '#915 Fel modul upptäckt. Installera rätt modul för att fortsätta.',
+    USER_OPERATION_CHANGE_TOOLHEAD_HEADTYPE_NONE: '#917 Modul ej upptäckt. Kontrollera att modulen är korrekt installerad för att fortsätta.',
+    USER_OPERATION_CHANGE_TOOLHEAD_HEADTYPE_UNKNOWN: '#918 Okänd modul upptäckt. Installera rätt modul för att fortsätta.',
+    USER_OPERATION_CHANGE_TOOLHEAD: 'Installera rätt modul för att fortsätta.',
+    USER_OPERATION_CHANGE_CARTRIDGE_CARTRIDGE_NOT_DETECTED: 'Sätt i patronen för att fortsätta.',
+    USER_OPERATION_CHANGE_CARTRIDGE: 'Sätt i rätt patron för att fortsätta.',
+    USER_OPERATION: 'Följ instruktionerna på enhetspanelen för att fortsätta.',
     RESOURCE_BUSY: 'Maskinen är upptagen. Om den inte körs, starta om maskinen',
     DEVICE_ERROR: 'Något gick fel. Starta om maskinen',
     NO_RESPONSE: '#905 Fel vid anslutning till huvudkortet. Starta om maskinen.',
@@ -1479,8 +1408,7 @@ const lang: ILang = {
     retrievingCameraOffset: 'Läser kameraoffset...',
     connectingCamera: 'Ansluter kamera...',
     homing: 'Hemkörning...',
-    connectionTimeout:
-      '#805 Enhetens anslutningstid gick ut. Kontrollera ditt nätverkstillstånd och maskinens WiFi-indikator.',
+    connectionTimeout: '#805 Enhetens anslutningstid gick ut. Kontrollera ditt nätverkstillstånd och maskinens WiFi-indikator.',
     getProbePosition: 'Hämtar sondposition...',
     device_not_found: {
       caption: 'Standardmaskin hittades inte',
@@ -1488,51 +1416,38 @@ const lang: ILang = {
     },
     device_busy: {
       caption: 'Maskinen är upptagen',
-      message:
-        'Maskinen utför en annan uppgift, försök igen senare. Om den slutar fungera, starta om maskinen.',
+      message: 'Maskinen utför en annan uppgift, försök igen senare. Om den slutar fungera, starta om maskinen.',
     },
     device_is_used: 'Maskinen används, vill du avbryta aktuell uppgift?',
     monitor_too_old: {
       caption: 'Föråldrad firmware',
-      content:
-        '#814 Installera den senaste firmware med <a target="_blank" href="http://helpcenter.flux3dp.com/hc/en-us/articles/216251077">denna guide</a>.',
+      content: '#814 Installera den senaste firmware med <a target="_blank" href="http://helpcenter.flux3dp.com/hc/en-us/articles/216251077">denna guide</a>.',
     },
-    unknown_error:
-      '#821 Applikationen har stött på ett okänt fel, använd Hjälp > Meny > Rapportera bugg.',
-    unknown_device:
-      '#826 Kan inte ansluta till maskinen, kontrollera att USB är ansluten till maskinen',
-    unsupport_osx_version:
-      'Aktuell macOS-version %s kanske inte stöder alla funktioner. Uppdatera gärna till macOS 11+.',
-    unsupport_win_version:
-      'Aktuell OS-version %s kanske inte stöder alla funktioner. Uppdatera gärna till den senaste versionen.',
+    unknown_error: '#821 Applikationen har stött på ett okänt fel, använd Hjälp > Meny > Rapportera bugg.',
+    unknown_device: '#826 Kan inte ansluta till maskinen, kontrollera att USB är ansluten till maskinen',
+    unsupport_osx_version: 'Aktuell macOS-version %s kanske inte stöder alla funktioner. Uppdatera gärna till macOS 11+.',
+    unsupport_win_version: 'Aktuell OS-version %s kanske inte stöder alla funktioner. Uppdatera gärna till den senaste versionen.',
     need_password: 'Lösenord krävs för att ansluta till maskinen',
-    unavailableWorkarea:
-      '#804 Aktuellt arbetsområde överskrider maskinens arbetsområde. Kontrollera arbetsområdet för vald maskin eller ställ in arbetsområde från Redigera > Dokumentinställningar.',
+    unavailableWorkarea: '#804 Aktuellt arbetsområde överskrider maskinens arbetsområde. Kontrollera arbetsområdet för vald maskin eller ställ in arbetsområde från Redigera > Dokumentinställningar.',
     please_enter_dpi: 'Ange enheten för din fil (i mm)',
-    auth_error:
-      '#820 Autentiseringsfel: Uppdatera Beam Studio och maskinens firmware till senaste versionen.',
+    auth_error: '#820 Autentiseringsfel: Uppdatera Beam Studio och maskinens firmware till senaste versionen.',
     usb_unplugged: 'USB-anslutningen förlorades. Kontrollera din USB-anslutning',
     uploading_fcode: 'Laddar upp FCode',
     cant_connect_to_device: '#827 Kan inte ansluta till maskinen, kontrollera din anslutning',
     unable_to_find_machine: 'Kan inte hitta maskin ',
     disconnected: 'Ostabil anslutning, kontrollera enhetsanslutning och försök igen senare',
-    unable_to_start:
-      '#830 Det gick inte att starta uppgiften. Försök igen. Om detta händer igen, vänligen kontakta oss med en felrapport:',
+    unable_to_start: '#830 Det gick inte att starta uppgiften. Försök igen. Om detta händer igen, vänligen kontakta oss med en felrapport:',
     camera: {
-      camera_cable_unstable:
-        'Det upptäcktes att kameran överför bilder ostabilt. Förhandsgranskning kan fortfarande utföras normalt, men det kan finnas problem med långsam förhandsgranskning eller timeout.',
-      fail_to_transmit_image:
-        '#845 Något gick fel med bildöverföringen. Starta om din maskin eller Beam Studio. Om felet kvarstår, följ <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/4402756056079">denna guide</a>.',
-      ws_closed_unexpectly:
-        '#844 Anslutningen till maskinkameran har stängts oväntat. Om felet kvarstår, följ <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/4402755805071">denna guide</a>.',
+      camera_cable_unstable: 'Det upptäcktes att kameran överför bilder ostabilt. Förhandsgranskning kan fortfarande utföras normalt, men det kan finnas problem med långsam förhandsgranskning eller timeout.',
+      fail_to_transmit_image: '#845 Något gick fel med bildöverföringen. Starta om din maskin eller Beam Studio. Om felet kvarstår, följ <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/4402756056079">denna guide</a>.',
+      ws_closed_unexpectly: '#844 Anslutningen till maskinkameran har stängts oväntat. Om felet kvarstår, följ <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/4402755805071">denna guide</a>.',
       continue_preview: 'Fortsätt',
       abort_preview: 'Avbryt',
     },
     preview: {
       camera_preview: 'Kameraförhandsgranskning',
       auto_focus: 'Autofokus',
-      auto_focus_instruction:
-        'Flytta laserhuvudet över objektet och följ anvisningarna för att trycka på AF för att fokusera.',
+      auto_focus_instruction: 'Flytta laserhuvudet över objektet och följ anvisningarna för att trycka på AF för att fokusera.',
       already_performed_auto_focus: 'Du har redan utfört autofokus, använd befintliga värden?',
       please_enter_height: 'Ange objektets höjd. För att ta en exakt kamerabild.',
       apply: 'Verkställ',
@@ -1569,8 +1484,7 @@ const lang: ILang = {
   },
   calibration: {
     update_firmware_msg1: 'Din firmware stöder inte den här funktionen. Uppdatera firmware till v',
-    update_firmware_msg2:
-      'eller senare för att fortsätta。 (Meny > Maskin > [Din maskin] > Uppdatera firmware)',
+    update_firmware_msg2: 'eller senare för att fortsätta。 (Meny > Maskin > [Din maskin] > Uppdatera firmware)',
     camera_calibration: 'Kamerakalibrering',
     diode_calibration: 'Diodlasermodulkalibrering',
     module_calibration_printer: 'Skrivarmodulkalibrering',
@@ -1584,20 +1498,14 @@ const lang: ILang = {
     start_engrave: 'STARTA GRAVYR',
     start_printing: 'STARTA UTSKRIFT',
     ask_for_readjust: 'Vill du hoppa över gravyret och sedan ta en bild och kalibrera direkt?',
-    please_goto_beambox_first:
-      'Växla till graveringsläge (Beambox) för att kunna använda den här funktionen.',
-    please_place_paper:
-      'Placera ett A4- eller brevpappersark i vitt papper i det övre vänstra hörnet av arbetsområdet.',
-    please_place_paper_center:
-      'Placera ett A4- eller brevpappersark i vitt papper i mitten av arbetsområdet.',
-    please_place_dark_colored_paper:
-      'Placera ett A4- eller brevpappersark i mörkt färgat papper i mitten av arbetsområdet.',
+    please_goto_beambox_first: 'Växla till graveringsläge (Beambox) för att kunna använda den här funktionen.',
+    please_place_paper: 'Placera ett A4- eller brevpappersark i vitt papper i det övre vänstra hörnet av arbetsområdet.',
+    please_place_paper_center: 'Placera ett A4- eller brevpappersark i vitt papper i mitten av arbetsområdet.',
+    please_place_dark_colored_paper: 'Placera ett A4- eller brevpappersark i mörkt färgat papper i mitten av arbetsområdet.',
     please_refocus: {
       beambox: 'Justera plattformen till fokalpunkten (höjden på den vända akrylen).',
-      beamo:
-        'Justera laserhuvudet för att fokusera på graveringsobjektet (höjden på den vända akrylen).',
-      beamo_af:
-        'Dubbelklicka på sidoknappen på autofokustillägget och låt sonden mjukt vidröra materialet.',
+      beamo: 'Justera laserhuvudet för att fokusera på graveringsobjektet (höjden på den vända akrylen).',
+      beamo_af: 'Dubbelklicka på sidoknappen på autofokustillägget och låt sonden mjukt vidröra materialet.',
       hexa: 'Dubbelklicka på höjdjusteringsknappen för att höja honungskakan uppåt och låta sonden vidröra graveringsmaterialet.',
     },
     without_af: 'Utan autofokus',
@@ -1610,8 +1518,7 @@ const lang: ILang = {
     show_last_config: 'Visa senaste resultat',
     use_last_config: 'Använd senaste kalibreringsvärden',
     taking_picture: 'Tar bild...',
-    analyze_result_fail:
-      'Misslyckades med att analysera den fångade bilden. <br/> Kontrollera: <br/> 1. Bilden täcks helt av vitt papper. <br/> 2. Plattformen är korrekt fokuserad.',
+    analyze_result_fail: 'Misslyckades med att analysera den fångade bilden. <br/> Kontrollera: <br/> 1. Bilden täcks helt av vitt papper. <br/> 2. Plattformen är korrekt fokuserad.',
     drawing_calibration_image: 'Ritar kalibreringsbild...',
     calibrate_done: 'Kalibrering klar. Bättre kameranoggrannhet vid korrekt fokus.',
     calibrate_done_diode: 'Kalibrering klar. Förskjutning för diodlasermodul sparad.',
@@ -1619,25 +1526,18 @@ const lang: ILang = {
     hint_adjust_parameters: 'Använd dessa parametrar för att justera den röda rutan',
     zendesk_link: 'https://support.flux3dp.com/hc/en-us/articles/360001811416',
     please_do_camera_calibration_and_focus: {
-      beambox:
-        'När kalibrering av diodlasermodul utförs behövs kamera.\nSe till att kameran på den här maskinen är kalibrerad.\nOch justera plattformen till fokalpunkten (höjden på den vända akrylen)',
-      beamo:
-        'När kalibrering av diodlasermodul utförs behövs kamera.\nSe till att kameran på den här maskinen är kalibrerad.\nOch justera laserhuvudet för att fokusera på graveringsobjektet (höjden på den vända akrylen)',
+      beambox: 'När kalibrering av diodlasermodul utförs behövs kamera.\nSe till att kameran på den här maskinen är kalibrerad.\nOch justera plattformen till fokalpunkten (höjden på den vända akrylen)',
+      beamo: 'När kalibrering av diodlasermodul utförs behövs kamera.\nSe till att kameran på den här maskinen är kalibrerad.\nOch justera laserhuvudet för att fokusera på graveringsobjektet (höjden på den vända akrylen)',
     },
     downloading_pictures: 'Laddar ner bilder...',
-    failed_to_download_pictures:
-      '#848 Det gick inte att ladda ner bilder, kontakta FLUX-supporten.',
+    failed_to_download_pictures: '#848 Det gick inte att ladda ner bilder, kontakta FLUX-supporten.',
     uploading_images: 'Laddar upp bilder...',
     calculating_camera_matrix: 'Beräknar kameramatris...',
     calculating_regression_parameters: 'Beräknar regressionsparametrar...',
-    failed_to_calibrate_camera:
-      '#848 Det gick inte att kalibrera kameran, kontakta FLUX-supporten.',
-    failed_to_save_calibration_results:
-      '#849 Det gick inte att spara kalibreringsresultat, försök igen. Om detta fortsätter hända, kontakta FLUX-supporten.',
-    ador_autofocus_material:
-      'Tryck på "AF"-ikonen på maskinens huvudsida i 3 sekunder och låt sonden vidröra materialet mjukt.',
-    ador_autofocus_focusing_block:
-      'Tryck på "AF"-ikonen på maskinens huvudsida i 3 sekunder och låt sonden vidröra fokuseringsblocket.',
+    failed_to_calibrate_camera: '#848 Det gick inte att kalibrera kameran, kontakta FLUX-supporten.',
+    failed_to_save_calibration_results: '#849 Det gick inte att spara kalibreringsresultat, försök igen. Om detta fortsätter hända, kontakta FLUX-supporten.',
+    ador_autofocus_material: 'Tryck på "AF"-ikonen på maskinens huvudsida i 3 sekunder och låt sonden vidröra materialet mjukt.',
+    ador_autofocus_focusing_block: 'Tryck på "AF"-ikonen på maskinens huvudsida i 3 sekunder och låt sonden vidröra fokuseringsblocket.',
     align_red_cross_cut: 'Justera mitten av det röda korset med skärkorset.',
     align_red_cross_print: 'Justera mitten av det röda korset med det utskrivna korset.',
     retake: 'Ta om bild',
@@ -1651,22 +1551,17 @@ const lang: ILang = {
   tutorial: {
     skip: 'Hoppa över',
     welcome: 'VÄLKOMMEN',
-    suggest_calibrate_camera_first:
-      'Kalibrera kameran när du använder maskinen för första gången. (Meny > Maskin > [Din Maskin] > Kalibrera Kamera) Och fokusera om plattformen ordentligt varje gång före förhandsgranskning för att få ett bättre förhandsgranskningsresultat.',
+    suggest_calibrate_camera_first: 'Kalibrera kameran när du använder maskinen för första gången. (Meny > Maskin > [Din Maskin] > Kalibrera Kamera) Och fokusera om plattformen ordentligt varje gång före förhandsgranskning för att få ett bättre förhandsgranskningsresultat.',
     camera_calibration_failed: 'Kamerakalibrering misslyckades',
     ask_retry_calibration: 'Skulle du vilja kalibrera kameran igen?',
-    skipped_camera_calibration:
-      'Du har hoppat över kamerakalibreringen. Du kan kalibrera kameran när som helst från menyraden (Meny > Maskin > [Din maskin] > Kalibrera kamera).',
+    skipped_camera_calibration: 'Du har hoppat över kamerakalibreringen. Du kan kalibrera kameran när som helst från menyraden (Meny > Maskin > [Din maskin] > Kalibrera kamera).',
     skipped_ador_calibration: 'Adors kamera kalibrerades vid fabrik.',
     needNewUserTutorial: 'Skulle du vilja starta en handledning?',
-    needNewInterfaceTutorial:
-      'Skulle du vilja starta en handledning för Beam Studios nya gränssnitt?',
+    needNewInterfaceTutorial: 'Skulle du vilja starta en handledning för Beam Studios nya gränssnitt?',
     next: 'NÄSTA',
     look_for_machine: 'Söker maskin för handledning...',
-    unable_to_find_machine:
-      'Det gick inte att hitta maskinen för handledningen. Vill du gå till anslutningsinställningssidan, försöka igen eller hoppa över handledningen?',
-    skip_tutorial:
-      'Du har hoppat över handledningen. Du kan alltid starta handledningen genom att klicka på "Hjälp" > "Visa starthandledning"',
+    unable_to_find_machine: 'Det gick inte att hitta maskinen för handledningen. Vill du gå till anslutningsinställningssidan, försöka igen eller hoppa över handledningen?',
+    skip_tutorial: 'Du har hoppat över handledningen. Du kan alltid starta handledningen genom att klicka på "Hjälp" > "Visa starthandledning"',
     set_connection: 'Ställ in anslutning',
     retry: 'Försök igen',
     newUser: {
@@ -1697,16 +1592,14 @@ const lang: ILang = {
       add_new_layer: 'Lägg till nytt lager',
       rename_by_double_click: 'Byt namn genom dubbelklick',
       drag_to_sort: 'Dra för att sortera',
-      layer_controls:
-        'Högerklicka för att välja lagerkontroller:\nDuplicera / Slå samman / Lås / Ta bort lager',
+      layer_controls: 'Högerklicka för att välja lagerkontroller:\nDuplicera / Slå samman / Lås / Ta bort lager',
       switch_between_layer_panel_and_object_panel: 'Växla mellan lagerpanel och objektpanel',
       align_controls: 'Justeringskontroller',
       group_controls: 'Gruppkontroller',
       shape_operation: 'Formåtgärd',
       flip: 'Vänd',
       object_actions: 'Objektåtgärder',
-      end_alert:
-        'Är du säker på att du vill avsluta introduktionen till det nya användargränssnittet?',
+      end_alert: 'Är du säker på att du vill avsluta introduktionen till det nya användargränssnittet?',
       select_machine: 'Välj maskin',
       start_work: 'Börja arbeta',
     },
@@ -1732,20 +1625,15 @@ const lang: ILang = {
     unknown: 'Unknown Module',
     notification: {
       convertFromPrintingModuleTitle: 'Vill du konvertera utskriftsmodulen till lasermodul?',
-      convertFromPrintingModuleMsg:
-        'Observera att om du slutför den här åtgärden kommer färginställningarna för utskriftslagret att tas bort och ställas in enligt aktuellt lager.',
+      convertFromPrintingModuleMsg: 'Observera att om du slutför den här åtgärden kommer färginställningarna för utskriftslagret att tas bort och ställas in enligt aktuellt lager.',
       convertFromLaserModuleTitle: 'Vill du konvertera lasermodulen till utskriftsmodul?',
-      convertFromLaserModuleMsg:
-        'Observera att om du slutför den här åtgärden kommer inställningarna för laserskiktet att tas bort och ställas in enligt aktuellt skikt.',
-      importedDocumentContainsPrinting:
-        'Dokumentet innehåller utskriftslager, vill du ändra arbetsområde till Ador?',
+      convertFromLaserModuleMsg: 'Observera att om du slutför den här åtgärden kommer inställningarna för laserskiktet att tas bort och ställas in enligt aktuellt skikt.',
+      importedDocumentContainsPrinting: 'Dokumentet innehåller utskriftslager, vill du ändra arbetsområde till Ador?',
       printingLayersCoverted: 'Skrivarlagren har konverterats till laserskikt.',
       performPrintingCaliTitle: 'Utför utskriftsmodulkalibreringen',
-      performPrintingCaliMsg:
-        'Klicka på "Bekräfta" för att utföra kalibreringen eller gå till kalibrering via huvudmenyn.<br />(Maskin > [Ditt maskinnamn] > Kalibrera utskriftsmodul)',
+      performPrintingCaliMsg: 'Klicka på "Bekräfta" för att utföra kalibreringen eller gå till kalibrering via huvudmenyn.<br />(Maskin > [Ditt maskinnamn] > Kalibrera utskriftsmodul)',
       performIRCaliTitle: 'Utför infraröd modulkalibrering',
-      performIRCaliMsg:
-        'Klicka på "Bekräfta" för att utföra kalibreringen eller gå till kalibrering via huvudmenyn.<br />(Maskin > [Ditt maskinnamn] > Kalibrera infraröd modul)',
+      performIRCaliMsg: 'Klicka på "Bekräfta" för att utföra kalibreringen eller gå till kalibrering via huvudmenyn.<br />(Maskin > [Ditt maskinnamn] > Kalibrera infraröd modul)',
     },
     non_working_area: 'Icke-Arbetsområde',
   },
@@ -1788,8 +1676,7 @@ const lang: ILang = {
     merge: 'Sammanfoga',
     text_label: 'Etikett',
     beam_radius: 'Kompensation för skärstråle',
-    beam_radius_warning:
-      'Ta bort kompensation för sågkärv när kanterna eller fogarna på lådan är korta för att säkerställa montering',
+    beam_radius_warning: 'Ta bort kompensation för sågkärv när kanterna eller fogarna på lådan är korta för att säkerställa montering',
     import: 'Importera',
     cancel: 'Avbryt',
     reset: 'Återställ',
@@ -1816,8 +1703,7 @@ const lang: ILang = {
       duplicate: 'Duplicera',
       download: 'Ladda ner',
       delete: 'Ta bort',
-      confirmFileDelete:
-        'Är du säker på att du vill ta bort den här filen? Den här åtgärden kan inte ångras.',
+      confirmFileDelete: 'Är du säker på att du vill ta bort den här filen? Den här åtgärden kan inte ångras.',
     },
     save_file: {
       choose_action: 'Spara fil:',
@@ -1825,8 +1711,7 @@ const lang: ILang = {
       save_new: 'Spara som ny fil',
       input_file_name: 'Ange filnamn:',
       invalid_char: 'Ogiltiga tecken:',
-      storage_limit_exceeded:
-        'Din molnlagring har nått gränsen. Ta bort eventuella onödiga filer innan du sparar nya.',
+      storage_limit_exceeded: 'Din molnlagring har nått gränsen. Ta bort eventuella onödiga filer innan du sparar nya.',
     },
   },
   camera_data_backup: {
