@@ -57,7 +57,19 @@ const {
   ALARM,
   FATAL,
   COMPLETED,
+  TOOLHEAD_CHANGE,
 } = DeviceConstants.status;
+const reportStates = new Set([
+  PAUSED_FROM_STARTING,
+  PAUSED_FROM_RUNNING,
+  ABORTED,
+  PAUSING_FROM_RUNNING,
+  PAUSING_FROM_STARTING,
+  ALARM,
+  FATAL,
+  TOOLHEAD_CHANGE,
+  COMPLETED,
+]);
 
 interface Props {
   mode: Mode;
@@ -263,7 +275,7 @@ export class MonitorContextProvider extends React.Component<Props, State> {
       Alert.popById(this.lastErrorId);
       this.lastErrorId = null;
     }
-  }
+  };
 
   async processReport(report: IReport): Promise<void> {
     const { report: currentReport, mode } = this.state;
@@ -324,19 +336,9 @@ export class MonitorContextProvider extends React.Component<Props, State> {
       this.clearErrorPopup();
     }
 
-    const state = [
-      PAUSED_FROM_STARTING,
-      PAUSED_FROM_RUNNING,
-      ABORTED,
-      PAUSING_FROM_RUNNING,
-      PAUSING_FROM_STARTING,
-      ALARM,
-      FATAL,
-      COMPLETED,
-    ];
-
-    if (state.includes(report.st_id)) {
+    if (reportStates.has(report.st_id)) {
       const handleRetry = async () => {
+        this.clearErrorPopup();
         const pauseStates = [
           PAUSED,
           PAUSED_FROM_STARTING,

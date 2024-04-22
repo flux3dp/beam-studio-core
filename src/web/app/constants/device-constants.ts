@@ -27,6 +27,7 @@ export default {
     ABORTING: 130,
     ALARM: 256,
     FATAL: 512,
+    TOOLHEAD_CHANGE: 1024,
   },
   statusColor: {
     '-17': 'grey',
@@ -49,5 +50,6 @@ export default {
     128: 'red',
     256: 'red',
     512: 'red',
+    1024: 'orange',
   },
 };
