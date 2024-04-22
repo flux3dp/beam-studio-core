@@ -13,12 +13,11 @@ export default {
     // always process error as array, hard fix for the backend
     // eslint-disable-next-line no-param-reassign
     error = error instanceof Array ? error : [error];
-
     if (error.length) {
       if (lang.generic_error[error[0]]) {
         return lang.generic_error[error[0]];
       }
-      for (let i = error.length - 1; i >= 0; i -= 1) {
+      for (let i = error.length; i >= 1; i -= 1) {
         errorOutput = lang.monitor[error.slice(0, i).join('_')];
         if (errorOutput) break;
       }
