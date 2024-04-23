@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { Button, Modal } from 'antd';
 
+import alertCaller from 'app/actions/alert-caller';
 import deviceMaster from 'helpers/device-master';
 import getLevelingData from 'app/actions/beambox/fisheye-preview-helpers/getLevelingData';
 import progressCaller from 'app/actions/progress-caller';
@@ -13,7 +14,7 @@ import { calibrateWithDevicePictures } from './utils';
 interface Props {
   updateParam: (param: FisheyeCameraParametersV2Cali) => void;
   onClose: (complete: boolean) => void;
-  onNext: (res: boolean) => void;
+  onNext: () => void;
 }
 const CheckPictures = ({ updateParam, onClose, onNext }: Props): JSX.Element => {
   const progressId = useMemo(() => 'camera-check-pictures', []);
@@ -37,12 +38,14 @@ const CheckPictures = ({ updateParam, onClose, onNext }: Props): JSX.Element => 
       if (res) {
         updateParam({ ...res, source: 'device', refHeight: 0, levelingData });
         await updateData(res);
-      } else return;
-      onNext(true);
+        onNext();
+      } else {
+        onClose?.(false);
+      }
     } finally {
       progressCaller.popById(progressId);
     }
-  }, [lang, onNext, progressId, updateParam]);
+  }, [lang, onNext, onClose, progressId, updateParam]);
 
   const checkPictures = useCallback(async () => {
     progressCaller.openNonstopProgress({
@@ -53,14 +56,14 @@ const CheckPictures = ({ updateParam, onClose, onNext }: Props): JSX.Element => 
     try {
       const ls = await deviceMaster.ls('camera_calib');
       hasPictures = ls.files.length > 0;
-    } catch {
-      /* do nothing */
-    }
+    } catch { /* do nothing */ }
     progressCaller.popById(progressId);
     if (hasPictures) calibrateDevicePictures();
-    else onNext(false);
-  }, [lang, progressId, onNext, calibrateDevicePictures]);
-
+    else {
+      alertCaller.popUpError({ message: lang.calibration.no_picutre_found });
+      onClose?.(false);
+    }
+  }, [lang, progressId, onClose, calibrateDevicePictures]);
 
   useEffect(() => {
     checkPictures();
@@ -79,9 +82,6 @@ const CheckPictures = ({ updateParam, onClose, onNext }: Props): JSX.Element => 
       footer={[
         <Button key="yes" type="primary" onClick={calibrateDevicePictures}>
           {lang.alert.yes}
-        </Button>,
-        <Button key="no" onClick={() => onNext(false)}>
-          {lang.alert.no}
         </Button>,
       ]}
     >

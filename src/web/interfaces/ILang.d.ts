@@ -1553,13 +1553,15 @@ export interface ILang {
     failed_to_parse_checkpoint: string;
     check_device_pictures: string;
     checking_pictures: string;
+    no_picutre_found: string;
     calibrating_with_device_pictures: string;
     failed_to_calibrate_with_pictures: string;
     getting_plane_height: string;
     preparing_to_take_picture: string;
     put_paper: string;
-    put_paper_center: string;
-    put_paper_whole_workarea: string;
+    put_paper_step1: string;
+    put_paper_step2: string;
+    put_paper_step3: string;
     elevate_and_cut: string;
     elevate_and_cut_desc: string;
     camera_parameter_saved_successfully: string;

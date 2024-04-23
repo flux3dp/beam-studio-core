@@ -79,14 +79,12 @@ const AdorCalibrationV2 = ({ factoryMode = false, onClose }: Props): JSX.Element
     return (
       <CheckPictures
         updateParam={updateParam}
-        onNext={async (res) => {
+        onNext={async () => {
           progressCaller.openNonstopProgress({ id: PROGRESS_ID, message: lang.device.processing });
-          if (res) {
-            await saveCheckPoint(calibratingParam.current);
-            setUsePreviousData(true);
-          }
+          await saveCheckPoint(calibratingParam.current);
+          setUsePreviousData(true);
           progressCaller.popById(PROGRESS_ID);
-          setStep(res ? Step.PUT_PAPER : Step.ASK_CAMERA_TYPE);
+          setStep(Step.PUT_PAPER);
         }}
         onClose={onClose}
       />
@@ -164,10 +162,10 @@ const AdorCalibrationV2 = ({ factoryMode = false, onClose }: Props): JSX.Element
           { src: 'video/ador-put-paper.mp4', type: 'video/mp4' },
         ]}
         title={tCali.put_paper}
-        text={usePreviousData ? tCali.put_paper_center : tCali.put_paper_whole_workarea}
+        steps={[tCali.put_paper_step1, tCali.put_paper_step2, tCali.put_paper_step3]}
         buttons={[
           { label: tCali.back, onClick: () => setStep(Step.CHECKPOINT_DATA) },
-          { label: tCali.skip, onClick: () => handleNext(false) },
+          // { label: tCali.skip, onClick: () => handleNext(false) },
           {
             label: tCali.start_engrave,
             onClick: () => handleNext(true),

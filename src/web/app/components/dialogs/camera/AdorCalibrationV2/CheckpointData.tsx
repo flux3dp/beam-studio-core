@@ -106,11 +106,11 @@ const CheckpointData = ({ updateParam, onClose, onNext }: Props): JSX.Element =>
       closable={!!onClose}
       onCancel={() => onClose?.(false)}
       footer={[
-        <Button key="yes" type="primary" onClick={handleOk}>
-          {lang.alert.yes}
-        </Button>,
         <Button key="no" onClick={() => onNext(false)}>
           {lang.alert.no}
+        </Button>,
+        <Button key="yes" type="primary" onClick={handleOk}>
+          {lang.alert.yes}
         </Button>,
       ]}
     >
