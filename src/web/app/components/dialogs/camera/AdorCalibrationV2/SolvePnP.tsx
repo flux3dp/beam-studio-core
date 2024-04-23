@@ -41,6 +41,8 @@ const SolvePnP = ({ params, hasNext = false, onClose, onNext, onBack }: Props): 
   } | null>(null);
   const imageSizeRef = useRef<{ width: number; height: number }>({ width: 0, height: 0 });
   const imgContainerRef = useRef<HTMLDivElement>(null);
+  const zoomThrottle = useRef<boolean>(false);
+  const zoomCenter = useRef<{ x: number; y: number }>(null);
   const lang = useI18n();
 
   const initSetup = useCallback(async () => {
@@ -159,23 +161,32 @@ const SolvePnP = ({ params, hasNext = false, onClose, onNext, onBack }: Props): 
 
   const handleZoom = useCallback(
     (delta) => {
-      const newScale = Math.round(Math.max(Math.min(2, scale + delta), 0.2) * 100) / 100;
-      if (newScale === scale) return;
-      setScale(newScale);
-      if (!imgContainerRef.current) return;
-      const currentCenter = {
-        x: imgContainerRef.current.scrollLeft + imgContainerRef.current.clientWidth / 2,
-        y: imgContainerRef.current.scrollTop + imgContainerRef.current.clientHeight / 2,
-      };
-      const newCenter = {
-        x: (currentCenter.x * newScale) / scale,
-        y: (currentCenter.y * newScale) / scale,
-      };
-      imgContainerRef.current.scrollLeft = newCenter.x - imgContainerRef.current.clientWidth / 2;
-      imgContainerRef.current.scrollTop = newCenter.y - imgContainerRef.current.clientHeight / 2;
+      setScale((val) => {
+        const newScale = Math.round(Math.max(Math.min(2, val + delta), 0.2) * 100) / 100;
+        if (newScale === val) return val;
+        if (imgContainerRef.current) {
+          const currentCenter = {
+            x: imgContainerRef.current.scrollLeft + imgContainerRef.current.clientWidth / 2,
+            y: imgContainerRef.current.scrollTop + imgContainerRef.current.clientHeight / 2,
+          };
+          zoomCenter.current = {
+            x: currentCenter.x / val,
+            y: currentCenter.y / val,
+          };
+        }
+        return newScale;
+      });
     },
-    [scale]
+    []
   );
+
+  useEffect(() => {
+    if (zoomCenter.current && imgContainerRef.current) {
+      const { x, y } = zoomCenter.current;
+      imgContainerRef.current.scrollLeft = x * scale - imgContainerRef.current.clientWidth / 2;
+      imgContainerRef.current.scrollTop = y * scale - imgContainerRef.current.clientHeight / 2;
+    }
+  }, [scale]);
 
   const zoomToAllPoints = useCallback(() => {
     if (!imgContainerRef.current || !points.length) return;
@@ -213,6 +224,28 @@ const SolvePnP = ({ params, hasNext = false, onClose, onNext, onBack }: Props): 
     },
     [zoomToAllPoints]
   );
+
+  const handleWheel = useCallback((e: WheelEvent) => {
+    const { deltaY } = e;
+    if (Math.abs(deltaY) >= 40) {
+      e.preventDefault();
+      e.stopPropagation();
+      // mouse
+      if (zoomThrottle.current) return;
+      zoomThrottle.current = true;
+      if (deltaY > 0) handleZoom(-0.2);
+      else handleZoom(0.2);
+      setTimeout(() => {
+        zoomThrottle.current = false;
+      }, 100);
+    }
+  }, [handleZoom]);
+  useEffect(() => {
+    imgContainerRef.current?.addEventListener('wheel', handleWheel);
+    return () => {
+      imgContainerRef.current?.removeEventListener('wheel', handleWheel);
+    };
+  }, [handleWheel]);
 
   const handleDone = async () => {
     const res = await solvePnPCalculate(params.dh, points);
