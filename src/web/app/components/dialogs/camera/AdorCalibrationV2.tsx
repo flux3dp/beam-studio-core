@@ -32,10 +32,12 @@ enum Step {
   ASK_CAMERA_TYPE = 3,
   PUT_PAPER = 4,
   FIND_CORNER = 5,
-  SOLVE_PNP_1 = 6,
-  ELEVATED_CUT = 7,
-  SOLVE_PNP_2 = 8,
-  FINISH = 9,
+  SOLVE_PNP_INSTRUCTION_1 = 6,
+  SOLVE_PNP_1 = 7,
+  ELEVATED_CUT = 8,
+  SOLVE_PNP_INSTRUCTION_2 = 9,
+  SOLVE_PNP_2 = 10,
+  FINISH = 11,
 }
 
 const PROGRESS_ID = 'fisheye-calibration-v2';
@@ -147,7 +149,7 @@ const AdorCalibrationV2 = ({ factoryMode = false, onClose }: Props): JSX.Element
         }
         progressCaller.update(PROGRESS_ID, { message: tCali.preparing_to_take_picture });
         await prepareToTakePicture();
-        setStep(usePreviousData ? Step.SOLVE_PNP_1 : Step.FIND_CORNER);
+        setStep(usePreviousData ? Step.SOLVE_PNP_INSTRUCTION_1 : Step.FIND_CORNER);
       } catch (err) {
         console.error(err);
       } finally {
@@ -166,11 +168,7 @@ const AdorCalibrationV2 = ({ factoryMode = false, onClose }: Props): JSX.Element
         buttons={[
           { label: tCali.back, onClick: () => setStep(Step.CHECKPOINT_DATA) },
           // { label: tCali.skip, onClick: () => handleNext(false) },
-          {
-            label: tCali.start_engrave,
-            onClick: () => handleNext(true),
-            type: 'primary',
-          },
+          { label: tCali.start_engrave, onClick: () => handleNext(true), type: 'primary' },
         ]}
       />
     );
@@ -196,13 +194,30 @@ const AdorCalibrationV2 = ({ factoryMode = false, onClose }: Props): JSX.Element
         }}
       />
     );
+  if (step === Step.SOLVE_PNP_INSTRUCTION_1) {
+    return (
+      <Instruction
+        onClose={() => onClose(false)}
+        animationSrcs={[
+          { src: 'video/ador-put-paper.webm', type: 'video/webm' },
+          { src: 'video/ador-put-paper.mp4', type: 'video/mp4' },
+        ]}
+        title={tCali.solve_pnp_title}
+        steps={[tCali.solve_pnp_step1, tCali.solve_pnp_step2]}
+        buttons={[
+          { label: tCali.back, onClick: () => setStep(Step.PUT_PAPER) },
+          { label: tCali.next, onClick: onNext, type: 'primary' },
+        ]}
+      />
+    );
+  }
   if (step === Step.SOLVE_PNP_1) {
     return (
       <SolvePnP
         hasNext
         params={calibratingParam.current}
         onClose={onClose}
-        onBack={() => setStep(Step.PUT_PAPER)}
+        onBack={() => setStep(Step.SOLVE_PNP_INSTRUCTION_1)}
         onNext={async (rvec, tvec) => {
           progressCaller.openNonstopProgress({ id: PROGRESS_ID, message: lang.device.processing });
           updateParam({
@@ -259,6 +274,24 @@ const AdorCalibrationV2 = ({ factoryMode = false, onClose }: Props): JSX.Element
             onClick: () => handleNext(),
             type: 'primary',
           },
+        ]}
+      />
+    );
+  }
+
+  if (step === Step.SOLVE_PNP_INSTRUCTION_2) {
+    return (
+      <Instruction
+        onClose={() => onClose(false)}
+        animationSrcs={[
+          { src: 'video/ador-put-paper.webm', type: 'video/webm' },
+          { src: 'video/ador-put-paper.mp4', type: 'video/mp4' },
+        ]}
+        title={tCali.solve_pnp_title}
+        steps={[tCali.solve_pnp_step1, tCali.solve_pnp_step2, tCali.solve_pnp_step3]}
+        buttons={[
+          { label: tCali.back, onClick: onBack },
+          { label: tCali.next, onClick: onNext, type: 'primary' },
         ]}
       />
     );

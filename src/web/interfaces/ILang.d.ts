@@ -1562,6 +1562,10 @@ export interface ILang {
     put_paper_step1: string;
     put_paper_step2: string;
     put_paper_step3: string;
+    solve_pnp_title: string;
+    solve_pnp_step1: string;
+    solve_pnp_step2: string;
+    solve_pnp_step3: string;
     elevate_and_cut: string;
     elevate_and_cut_desc: string;
     camera_parameter_saved_successfully: string;
