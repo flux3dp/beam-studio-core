@@ -31,7 +31,6 @@ const SolvePnP = ({ params, hasNext = false, onClose, onNext, onBack }: Props): 
   const [imgLoaded, setImgLoaded] = useState(false);
   const [points, setPoints] = useState<[number, number][]>([]);
   const [selectedPointIdx, setSelectedPointIdx] = useState<number>(-1);
-  const [scale, setScale] = useState(1);
   const dragStartPos = useRef<{
     x: number;
     y: number;
@@ -39,11 +38,51 @@ const SolvePnP = ({ params, hasNext = false, onClose, onNext, onBack }: Props): 
     startY: number;
     pointIdx?: number;
   } | null>(null);
+  const svgRef = useRef<SVGSVGElement>(null);
+  const scaleRef = useRef<number>(1);
   const imageSizeRef = useRef<{ width: number; height: number }>({ width: 0, height: 0 });
   const imgContainerRef = useRef<HTMLDivElement>(null);
-  const zoomThrottle = useRef<boolean>(false);
+  const zoomDelta = useRef<number>(0);
+  const zoomProcess = useRef<NodeJS.Timeout>(null);
   const zoomCenter = useRef<{ x: number; y: number }>(null);
   const lang = useI18n();
+
+  const scrollToZoomCenter = useCallback(() => {
+    if (zoomCenter.current && imgContainerRef.current) {
+      const { x, y } = zoomCenter.current;
+      imgContainerRef.current.scrollLeft =
+        x * scaleRef.current - imgContainerRef.current.clientWidth / 2;
+      imgContainerRef.current.scrollTop =
+        y * scaleRef.current - imgContainerRef.current.clientHeight / 2;
+    }
+  }, []);
+
+  const updateScale = useCallback((newValue, scrollToCenter = false) => {
+    if (scrollToCenter && imgContainerRef.current) {
+      const currentCenter = {
+        x: imgContainerRef.current.scrollLeft + imgContainerRef.current.clientWidth / 2,
+        y: imgContainerRef.current.scrollTop + imgContainerRef.current.clientHeight / 2,
+      };
+      zoomCenter.current = {
+        x: currentCenter.x / scaleRef.current,
+        y: currentCenter.y / scaleRef.current,
+      };
+    }
+    scaleRef.current = newValue;
+    if (svgRef.current) {
+      svgRef.current.style.width = `${imageSizeRef.current.width * newValue}px`;
+      svgRef.current.style.height = `${imageSizeRef.current.height * newValue}px`;
+      const circles = svgRef.current.querySelectorAll('circle');
+      circles.forEach((c) => {
+        if (c.classList.contains('center')) {
+          c.setAttribute('r', `${1 / newValue}`);
+        } else {
+          c.setAttribute('r', `${5 / newValue}`);
+        }
+      });
+      if (scrollToCenter) scrollToZoomCenter();
+    }
+  }, [scrollToZoomCenter]);
 
   const initSetup = useCallback(async () => {
     progressCaller.openNonstopProgress({
@@ -121,28 +160,25 @@ const SolvePnP = ({ params, hasNext = false, onClose, onNext, onBack }: Props): 
     [points]
   );
 
-  const handleDragMove = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
-      if (dragStartPos.current) {
-        const { x, y, startX, startY, pointIdx } = dragStartPos.current;
-        const dx = e.screenX - x;
-        const dy = e.screenY - y;
-        if (pointIdx !== undefined) {
-          imgContainerRef.current
-            .querySelectorAll('svg > g')
-            [pointIdx]?.querySelectorAll('circle')
-            .forEach((c) => {
-              c.setAttribute('cx', `${startX + dx / scale}`);
-              c.setAttribute('cy', `${startY + dy / scale}`);
-            });
-        } else {
-          e.currentTarget.scrollLeft = startX - dx;
-          e.currentTarget.scrollTop = startY - dy;
-        }
+  const handleDragMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (dragStartPos.current) {
+      const { x, y, startX, startY, pointIdx } = dragStartPos.current;
+      const dx = e.screenX - x;
+      const dy = e.screenY - y;
+      if (pointIdx !== undefined) {
+        imgContainerRef.current
+          .querySelectorAll('svg > g')
+          [pointIdx]?.querySelectorAll('circle')
+          .forEach((c) => {
+            c.setAttribute('cx', `${startX + dx / scaleRef.current}`);
+            c.setAttribute('cy', `${startY + dy / scaleRef.current}`);
+          });
+      } else {
+        e.currentTarget.scrollLeft = startX - dx;
+        e.currentTarget.scrollTop = startY - dy;
       }
-    },
-    [scale]
-  );
+    }
+  }, []);
 
   const handleDragEnd = useCallback(() => {
     if (dragStartPos.current) {
@@ -159,34 +195,12 @@ const SolvePnP = ({ params, hasNext = false, onClose, onNext, onBack }: Props): 
     dragStartPos.current = null;
   }, []);
 
-  const handleZoom = useCallback(
-    (delta) => {
-      setScale((val) => {
-        const newScale = Math.round(Math.max(Math.min(2, val + delta), 0.2) * 100) / 100;
-        if (newScale === val) return val;
-        if (imgContainerRef.current) {
-          const currentCenter = {
-            x: imgContainerRef.current.scrollLeft + imgContainerRef.current.clientWidth / 2,
-            y: imgContainerRef.current.scrollTop + imgContainerRef.current.clientHeight / 2,
-          };
-          zoomCenter.current = {
-            x: currentCenter.x / val,
-            y: currentCenter.y / val,
-          };
-        }
-        return newScale;
-      });
-    },
-    []
-  );
-
-  useEffect(() => {
-    if (zoomCenter.current && imgContainerRef.current) {
-      const { x, y } = zoomCenter.current;
-      imgContainerRef.current.scrollLeft = x * scale - imgContainerRef.current.clientWidth / 2;
-      imgContainerRef.current.scrollTop = y * scale - imgContainerRef.current.clientHeight / 2;
-    }
-  }, [scale]);
+  const handleZoom = useCallback((delta) => {
+    const cur = scaleRef.current;
+    const newScale = Math.round(Math.max(Math.min(2, cur + delta), 0.2) * 100) / 100;
+    if (newScale === cur) return;
+    updateScale(newScale, true);
+  }, [updateScale]);
 
   const zoomToAllPoints = useCallback(() => {
     if (!imgContainerRef.current || !points.length) return;
@@ -206,12 +220,12 @@ const SolvePnP = ({ params, hasNext = false, onClose, onNext, onBack }: Props): 
     const scaleW = imgContainerRef.current.clientWidth / width;
     const scaleH = imgContainerRef.current.clientHeight / height;
     const targetScale = Math.min(scaleW, scaleH) * 0.8;
-    setScale(targetScale);
+    updateScale(targetScale);
     imgContainerRef.current.scrollLeft =
       center[0] * targetScale - imgContainerRef.current.clientWidth / 2;
     imgContainerRef.current.scrollTop =
       center[1] * targetScale - imgContainerRef.current.clientHeight / 2;
-  }, [points]);
+  }, [updateScale, points]);
 
   const handleImgLoad = useCallback(
     (e: SyntheticEvent<HTMLImageElement>) => {
@@ -225,25 +239,32 @@ const SolvePnP = ({ params, hasNext = false, onClose, onNext, onBack }: Props): 
     [zoomToAllPoints]
   );
 
-  const handleWheel = useCallback((e: WheelEvent) => {
-    const { deltaY } = e;
-    if (Math.abs(deltaY) >= 40) {
-      e.preventDefault();
-      e.stopPropagation();
-      // mouse
-      if (zoomThrottle.current) return;
-      zoomThrottle.current = true;
-      if (deltaY > 0) handleZoom(-0.2);
-      else handleZoom(0.2);
-      setTimeout(() => {
-        zoomThrottle.current = false;
-      }, 100);
-    }
-  }, [handleZoom]);
+  const handleWheel = useCallback(
+    (e: WheelEvent) => {
+      // @ts-expect-error use wheelDelta if exists
+      const { deltaY, wheelDelta, detail, ctrlKey } = e;
+      const delta = wheelDelta ?? -detail ?? 0;
+      if (Math.abs(deltaY) >= 40) {
+        // mouse
+        e.preventDefault();
+        e.stopPropagation();
+      } else if (!ctrlKey) return;
+      zoomDelta.current += delta / 12000;
+      if (!zoomProcess.current) {
+        zoomProcess.current = setTimeout(() => {
+          if (zoomDelta.current !== 0) handleZoom(zoomDelta.current);
+          zoomDelta.current = 0;
+          zoomProcess.current = null;
+        }, 20);
+      }
+    },
+    [handleZoom]
+  );
   useEffect(() => {
-    imgContainerRef.current?.addEventListener('wheel', handleWheel);
+    const imgContainer = imgContainerRef.current;
+    imgContainer?.addEventListener('wheel', handleWheel);
     return () => {
-      imgContainerRef.current?.removeEventListener('wheel', handleWheel);
+      imgContainer?.removeEventListener('wheel', handleWheel);
     };
   }, [handleWheel]);
 
@@ -303,8 +324,9 @@ const SolvePnP = ({ params, hasNext = false, onClose, onNext, onBack }: Props): 
                 <img src={img?.url} onLoad={handleImgLoad} />
               ) : (
                 <svg
-                  width={imageSizeRef.current.width * scale}
-                  height={imageSizeRef.current.height * scale}
+                  ref={svgRef}
+                  width={imageSizeRef.current.width * scaleRef.current}
+                  height={imageSizeRef.current.height * scaleRef.current}
                   viewBox={`0 0 ${imageSizeRef.current.width} ${imageSizeRef.current.height}`}
                 >
                   <image
@@ -321,10 +343,15 @@ const SolvePnP = ({ params, hasNext = false, onClose, onNext, onBack }: Props): 
                       <circle
                         cx={p[0]}
                         cy={p[1]}
-                        r={5 / scale}
+                        r={5 / scaleRef.current}
                         onMouseDown={(e) => handlePointDragStart(idx, e)}
                       />
-                      <circle className={styles.center} cx={p[0]} cy={p[1]} r={1 / scale} />
+                      <circle
+                        className={classNames('center', styles.center)}
+                        cx={p[0]}
+                        cy={p[1]}
+                        r={1 / scaleRef.current}
+                      />
                     </g>
                   ))}
                 </svg>
