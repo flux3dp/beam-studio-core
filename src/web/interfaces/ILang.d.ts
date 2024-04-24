@@ -705,7 +705,6 @@ export interface ILang {
         color_adjustment_short: string;
         halftone: string;
         color_strength: string;
-        color_smooth: string;
         times: string,
         cut: string,
         engrave: string,

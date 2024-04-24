@@ -705,7 +705,6 @@ const lang: ILang = {
         color_adjustment_short: 'Canale',
         halftone: 'Semitono',
         color_strength: 'Intensità',
-        color_smooth: 'Levigare',
         times: 'volte',
         cut: 'Taglia',
         engrave: 'Incide',

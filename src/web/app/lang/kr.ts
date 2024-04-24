@@ -708,7 +708,6 @@ const lang: ILang = {
         color_adjustment_short: '컬러 버전',
         halftone: '반톤',
         color_strength: '강도',
-        color_smooth: '부드러운',
         times: '회',
         cut: '절단',
         engrave: '각인',

@@ -708,7 +708,6 @@ const lang: ILang = {
         color_adjustment_short: 'カラーバージョン',
         halftone: 'ハーフトーン',
         color_strength: '強度',
-        color_smooth: 'スムース',
         times: '回',
         cut: 'カット',
         engrave: '彫刻する',

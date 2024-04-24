@@ -20,21 +20,16 @@ const ColorRationModal = ({ fullColor, onClose }: Props): JSX.Element => {
   const { dispatch, selectedLayers, state } = useContext(ConfigPanelContext);
   const [draftValue, setDraftValue] = useState<{ [key: string]: IConfig<number> }>({
     cRatio: state.cRatio,
-    cSmooth: state.cSmooth,
     mRatio: state.mRatio,
-    mSmooth: state.mSmooth,
     yRatio: state.yRatio,
-    ySmooth: state.ySmooth,
     kRatio: state.kRatio,
-    kSmooth: state.kSmooth,
     printingStrength: state.printingStrength,
-    smooth: state.smooth,
   });
   const handleSave = () => {
     const newState = { ...state };
     const keys = fullColor
-      ? ['cRatio', 'cSmooth', 'mRatio', 'mSmooth', 'yRatio', 'ySmooth', 'kRatio', 'kSmooth']
-      : ['printingStrength', 'smooth'];
+      ? ['cRatio', 'mRatio', 'yRatio', 'kRatio']
+      : ['printingStrength'];
     selectedLayers.forEach((layerName) => {
       const layer = getLayerByName(layerName);
       keys.forEach((key) => {
@@ -100,8 +95,6 @@ const ColorRationModal = ({ fullColor, onClose }: Props): JSX.Element => {
                   color="c"
                   ratio={draftValue.cRatio.value}
                   setRatio={(val) => handleValueChange('cRatio', val)}
-                  smooth={draftValue.cSmooth.value}
-                  setSmooth={(val) => handleValueChange('cSmooth', val)}
                 />
               </Col>
               <Col span={12}>
@@ -109,8 +102,6 @@ const ColorRationModal = ({ fullColor, onClose }: Props): JSX.Element => {
                   color="m"
                   ratio={draftValue.mRatio.value}
                   setRatio={(val) => handleValueChange('mRatio', val)}
-                  smooth={draftValue.mSmooth.value}
-                  setSmooth={(val) => handleValueChange('mSmooth', val)}
                 />
               </Col>
               <Col span={12}>
@@ -118,8 +109,6 @@ const ColorRationModal = ({ fullColor, onClose }: Props): JSX.Element => {
                   color="y"
                   ratio={draftValue.yRatio.value}
                   setRatio={(val) => handleValueChange('yRatio', val)}
-                  smooth={draftValue.ySmooth.value}
-                  setSmooth={(val) => handleValueChange('ySmooth', val)}
                 />
               </Col>
               <Col span={12}>
@@ -127,8 +116,6 @@ const ColorRationModal = ({ fullColor, onClose }: Props): JSX.Element => {
                   color="k"
                   ratio={draftValue.kRatio.value}
                   setRatio={(val) => handleValueChange('kRatio', val)}
-                  smooth={draftValue.kSmooth.value}
-                  setSmooth={(val) => handleValueChange('kSmooth', val)}
                 />
               </Col>
             </Row>
@@ -137,8 +124,6 @@ const ColorRationModal = ({ fullColor, onClose }: Props): JSX.Element => {
           <ColorRatioBlock
             ratio={draftValue.printingStrength.value}
             setRatio={(val) => handleValueChange('printingStrength', val)}
-            smooth={draftValue.smooth.value}
-            setSmooth={(val) => handleValueChange('smooth', val)}
           />
         )}
       </ConfigProvider>

@@ -705,7 +705,6 @@ const lang: ILang = {
         color_adjustment_short: 'ช่องสี',
         halftone: 'ฮาล์ฟทอน',
         color_strength: 'ความเข้ม',
-        color_smooth: 'ราบเรียบ',
         times: 'ครั้ง',
         cut: 'ตัด',
         engrave: 'กัดสลัก',

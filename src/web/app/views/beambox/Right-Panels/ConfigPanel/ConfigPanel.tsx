@@ -55,7 +55,6 @@ import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/Layer
 import { updateDefaultPresetData } from 'helpers/presets/preset-helper';
 
 import AddOnBlock from './AddOnBlock';
-import AmDensityBlock from './AmDensityBlock';
 import Backlash from './Backlash';
 import ConfigOperations from './ConfigOperations';
 import ConfigPanelContext, { getDefaultState, reducer } from './ConfigPanelContext';
@@ -281,13 +280,12 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
       });
 
   const displayName = selectedLayers.length === 1 ? selectedLayers[0] : lang.multi_layer;
-  const { module, fullcolor, halftone } = state;
+  const { module, fullcolor } = state;
   const isDevMode = isDev();
   const commonContent = (
     <>
       {isDevMode && module.value === LayerModule.PRINTER && UIType === 'default' && <UVBlock />}
       {module.value === LayerModule.PRINTER && <HalftoneBlock />}
-      {module.value === LayerModule.PRINTER && halftone.value > 1 && <AmDensityBlock />}
       {module.value !== LayerModule.PRINTER && <PowerBlock type={UIType} />}
       {module.value === LayerModule.PRINTER && <InkBlock type={UIType} />}
       <SpeedBlock type={UIType} />

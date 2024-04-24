@@ -705,7 +705,6 @@ const lang: ILang = {
         color_adjustment_short: 'Saluran',
         halftone: 'Setengah nada',
         color_strength: 'Kekuatan',
-        color_smooth: 'Lancar',
         times: 'kali',
         cut: 'Potong',
         engrave: 'Ukir',

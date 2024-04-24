@@ -705,7 +705,6 @@ const lang: ILang = {
         color_adjustment_short: 'Kanal',
         halftone: 'Halvton',
         color_strength: 'Styrka',
-        color_smooth: 'Jämn',
         times: 'gånger',
         cut: 'Skär',
         engrave: 'Gravera',

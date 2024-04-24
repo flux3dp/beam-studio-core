@@ -705,7 +705,6 @@ const lang: ILang = {
         color_adjustment_short: 'Värikanava',
         halftone: 'Puolitonni',
         color_strength: 'Voimakkuus',
-        color_smooth: 'Tasainen',
         times: 'kertaa',
         cut: 'Leikkaa',
         engrave: 'Kaiverra',

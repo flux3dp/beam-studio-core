@@ -705,7 +705,6 @@ const lang: ILang = {
         color_adjustment_short: 'Couleur',
         halftone: 'Demi-teinte',
         color_strength: 'Intensité',
-        color_smooth: 'Lissage',
         times: 'fois',
         cut: 'Couper',
         engrave: 'Graver',

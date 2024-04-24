@@ -55,10 +55,6 @@ const splitFullColorLayer = async (
   const mRatio = getData<number>(layer, DataType.mRatio);
   const yRatio = getData<number>(layer, DataType.yRatio);
   const kRatio = getData<number>(layer, DataType.kRatio);
-  const cSmooth = getData<number>(layer, DataType.cSmooth);
-  const mSmooth = getData<number>(layer, DataType.mSmooth);
-  const ySmooth = getData<number>(layer, DataType.ySmooth);
-  const kSmooth = getData<number>(layer, DataType.kSmooth);
 
   const includeWhite = isDev() && whiteInkStaturation > 0;
   const channelBlobs = await splitColor(rgbBlob, cmykBlob, { includeWhite });
@@ -68,10 +64,10 @@ const splitFullColorLayer = async (
   const nameSuffix = ['W', 'K', 'C', 'M', 'Y'];
   const params = [
     null,
-    { strength: kRatio, smooth: kSmooth },
-    { strength: cRatio, smooth: cSmooth },
-    { strength: mRatio, smooth: mSmooth },
-    { strength: yRatio, smooth: ySmooth },
+    { strength: kRatio },
+    { strength: cRatio },
+    { strength: mRatio },
+    { strength: yRatio },
   ]
   for (let i = 0; i < nameSuffix.length; i += 1) {
     // eslint-disable-next-line no-continue
@@ -106,9 +102,8 @@ const splitFullColorLayer = async (
         writeDataLayer(elem, DataType.multipass, whiteMultipass);
         writeDataLayer(elem, DataType.repeat, whiteRepeat);
       } else {
-        const { strength, smooth } = params[i];
+        const { strength } = params[i];
         writeDataLayer(elem, DataType.printingStrength, strength);
-        writeDataLayer(elem, DataType.smooth, smooth);
       }
       layer.parentNode.insertBefore(elem, layer.nextSibling);
       newLayers.push(elem);

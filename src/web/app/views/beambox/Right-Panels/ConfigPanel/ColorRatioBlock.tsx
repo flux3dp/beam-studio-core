@@ -8,18 +8,14 @@ import styles from './ColorRatioModal.module.scss';
 interface Props {
   ratio: number;
   setRatio: (value: number) => void;
-  smooth: number;
-  setSmooth: (value: number) => void;
   color?: 'c' | 'm' | 'y' | 'k';
 }
 
 // TODO: fix test
-const ColorRatioBlock = ({ ratio, setRatio, smooth, setSmooth, color }: Props): JSX.Element => {
+const ColorRatioBlock = ({ ratio, setRatio, color }: Props): JSX.Element => {
   const lang = useI18n().beambox.right_panel.laser_panel;
   const [displayRatio, setDisplayRatio] = useState(ratio);
-  const [displaySmooth, setDisplaySmooth] = useState(smooth);
   useEffect(() => setDisplayRatio(ratio), [ratio]);
-  useEffect(() => setDisplaySmooth(smooth), [smooth]);
 
   const { title } = useMemo(() => {
     switch (color) {
@@ -71,37 +67,6 @@ const ColorRatioBlock = ({ ratio, setRatio, smooth, setSmooth, color }: Props): 
         tooltip={{
           formatter: (v: number) => `${v}%`,
         }}
-      />
-      <div className={styles.header}>
-        <span className={styles.title}>{lang.color_smooth}</span>
-        <span className={styles.input}>
-          <ConfigProvider
-            theme={{
-              token: {
-                lineWidth: 0,
-              },
-            }}
-          >
-            <InputNumber
-              size="small"
-              value={smooth}
-              controls={false}
-              min={0}
-              max={2}
-              step={0.1}
-              precision={1}
-              onChange={setSmooth}
-            />
-          </ConfigProvider>
-        </span>
-      </div>
-      <Slider
-        min={0}
-        max={2}
-        step={0.1}
-        value={displaySmooth}
-        onAfterChange={setSmooth}
-        onChange={(v: number) => setDisplaySmooth(v)}
       />
     </div>
   );

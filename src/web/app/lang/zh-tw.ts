@@ -708,7 +708,6 @@ const lang: ILang = {
         color_adjustment_short: '色版',
         halftone: '半色調',
         color_strength: '強度',
-        color_smooth: '平滑',
         times: '次',
         cut: '切割',
         engrave: '雕刻',

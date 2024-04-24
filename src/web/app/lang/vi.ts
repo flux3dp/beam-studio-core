@@ -705,7 +705,6 @@ const lang: ILang = {
         color_adjustment_short: 'Kênh màu',
         halftone: 'Nửa tone',
         color_strength: 'Sức mạnh',
-        color_smooth: 'Mịn màng',
         times: 'lần',
         cut: 'Cắt',
         engrave: 'Khắc',
