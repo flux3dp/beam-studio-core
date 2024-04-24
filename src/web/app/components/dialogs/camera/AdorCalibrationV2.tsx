@@ -23,6 +23,7 @@ import CheckPictures from './AdorCalibrationV2/CheckPictures';
 import FindCorner from './AdorCalibrationV2/FindCorner';
 import Instruction from './AdorCalibration/Instruction';
 import SolvePnP from './AdorCalibrationV2/SolvePnP';
+import StepElevate from './AdorCalibrationV2/StepElevate';
 import { getMaterialHeight, prepareToTakePicture, saveCheckPoint } from './AdorCalibrationV2/utils';
 
 enum Step {
@@ -262,20 +263,7 @@ const AdorCalibrationV2 = ({ factoryMode = false, onClose }: Props): JSX.Element
       }
     };
     return (
-      <Instruction
-        animationSrcs={[]}
-        onClose={() => onClose(true)}
-        title={tCali.elevate_and_cut}
-        text={tCali.elevate_and_cut_desc}
-        buttons={[
-          { label: tCali.back, onClick: () => setStep(Step.PUT_PAPER) },
-          {
-            label: tCali.start_engrave,
-            onClick: () => handleNext(),
-            type: 'primary',
-          },
-        ]}
-      />
+      <StepElevate onNext={handleNext} onBack={() => setStep(Step.PUT_PAPER)} onClose={onClose} />
     );
   }
 

@@ -1567,7 +1567,10 @@ export interface ILang {
     solve_pnp_step2: string;
     solve_pnp_step3: string;
     elevate_and_cut: string;
-    elevate_and_cut_desc: string;
+    elevate_and_cut_step_1: string;
+    elevate_and_cut_step_1_prism_lift: string;
+    with_prism_lift: string;
+    without_prism_lift: string;
     camera_parameter_saved_successfully: string;
     failed_to_save_camera_parameter: string;
     align_points: string;
