@@ -7,6 +7,7 @@ import ISVGCanvas from 'interfaces/ISVGCanvas';
 import i18n from 'helpers/i18n';
 import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
+import presprayArea from 'app/actions/canvas/prespray-area';
 import rotaryAxis from 'app/actions/canvas/rotary-axis';
 import symbolMaker from 'helpers/symbol-maker';
 import workareaManager from 'app/svgedit/workarea';
@@ -144,6 +145,7 @@ export const importBvgString = async (str: string): Promise<void> => {
   svgedit.utilities.findDefs().remove();
   svgedit.utilities.moveDefsOutfromSvgContent();
   await symbolMaker.reRenderAllImageSymbol();
+  presprayArea.togglePresprayArea();
   LayerPanelController.setSelectedLayers([]);
 };
 

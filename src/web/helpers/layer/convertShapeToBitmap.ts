@@ -24,7 +24,7 @@ const convertShapeToBitmap = async (): Promise<() => void> => {
     ) {
       // eslint-disable-next-line no-async-promise-executor
       const promise = new Promise<void>(async (resolve) => {
-        const { blob, bbox } = await layerToImage(layer as SVGGElement, { shapesOnly: true });
+        const { rgbBlob: blob, bbox } = await layerToImage(layer as SVGGElement, { shapesOnly: true });
         const elemsToRemove = Array.from(layer.querySelectorAll(`*${excludeSelecter}`)).reverse();
         elemsToRemove.forEach((elem) => {
           const { parentNode, nextSibling } = elem;

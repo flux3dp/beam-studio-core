@@ -58,6 +58,7 @@ import AddOnBlock from './AddOnBlock';
 import Backlash from './Backlash';
 import ConfigOperations from './ConfigOperations';
 import ConfigPanelContext, { getDefaultState, reducer } from './ConfigPanelContext';
+import HalftoneBlock from './HalftoneBlock';
 import InkBlock from './InkBlock';
 import ModuleBlock from './ModuleBlock';
 import MultipassBlock from './MultipassBlock';
@@ -284,6 +285,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
   const commonContent = (
     <>
       {isDevMode && module.value === LayerModule.PRINTER && UIType === 'default' && <UVBlock />}
+      {module.value === LayerModule.PRINTER && <HalftoneBlock type={UIType} />}
       {module.value !== LayerModule.PRINTER && <PowerBlock type={UIType} />}
       {module.value === LayerModule.PRINTER && <InkBlock type={UIType} />}
       <SpeedBlock type={UIType} />
@@ -384,6 +386,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
           writeData(layerName, DataType.configName, state.configName.value, { batchCmd });
           writeData(layerName, DataType.ink, state.ink.value, { batchCmd });
           writeData(layerName, DataType.multipass, state.multipass.value, { batchCmd });
+          writeData(layerName, DataType.halftone, state.halftone.value, { batchCmd });
         });
         batchCmd.onAfter = initState;
         svgCanvas.addCommandToHistory(batchCmd);

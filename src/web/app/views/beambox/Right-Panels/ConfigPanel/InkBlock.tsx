@@ -74,7 +74,7 @@ function InkBlock({
     <div className={classNames(styles.panel, styles[type])}>
       <span className={styles.title}>
         {t.ink_saturation}
-        {fullcolor.value && type !== 'panel-item' && (
+        {!fullcolor.hasMultiValue && type !== 'panel-item' && (
           <span className={styles.icon} title={t.color_adjustment} onClick={openModal}>
             <ConfigPanelIcons.ColorAdjustment />
           </span>
@@ -142,7 +142,7 @@ function InkBlock({
       ) : (
         content
       )}
-      {showModal && <ColorRationModal onClose={closeModal} />}
+      {showModal && <ColorRationModal fullColor={fullcolor.value} onClose={closeModal} />}
     </>
   );
 }

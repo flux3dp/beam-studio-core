@@ -703,6 +703,9 @@ export interface ILang {
         white_ink_settings: string;
         color_adjustment: string;
         color_adjustment_short: string;
+        halftone: string;
+        halftone_link: string;
+        color_strength: string;
         times: string,
         cut: string,
         engrave: string,

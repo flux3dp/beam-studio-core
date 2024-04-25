@@ -44,9 +44,9 @@ const splitFullColorLayer = async (
   });
   const uses = [...layer.querySelectorAll('use')];
   uses.forEach((use) => symbolMaker.switchImageSymbol(use as SVGUseElement, false));
-  const { blob, bbox } = await layerToImage(layer as SVGGElement, { isFullColor: true });
+  const { rgbBlob, cmykBlob, bbox } = await layerToImage(layer as SVGGElement, { isFullColor: true });
   uses.forEach((use) => symbolMaker.switchImageSymbol(use as SVGUseElement, true));
-  if (!blob || bbox.width === 0 || bbox.height === 0) {
+  if (!rgbBlob || bbox.width === 0 || bbox.height === 0) {
     progressCaller.popById(PROGRESS_ID);
     return null;
   }
@@ -55,23 +55,20 @@ const splitFullColorLayer = async (
   const mRatio = getData<number>(layer, DataType.mRatio);
   const yRatio = getData<number>(layer, DataType.yRatio);
   const kRatio = getData<number>(layer, DataType.kRatio);
+
   const includeWhite = isDev() && whiteInkStaturation > 0;
-  const layerImageUrl = URL.createObjectURL(blob);
-  const channelBlobs = await splitColor(layerImageUrl, {
-    includeWhite,
-    colorRatio: {
-      c: cRatio,
-      m: mRatio,
-      y: yRatio,
-      k: kRatio,
-    },
-  });
-  console.log(channelBlobs);
+  const channelBlobs = await splitColor(rgbBlob, cmykBlob, { includeWhite });
 
   const batchCmd = new history.BatchCommand('Split Full Color Layer');
   const newLayers: Element[] = [];
   const nameSuffix = ['W', 'K', 'C', 'M', 'Y'];
-  // revert order to make sure the order of new layers is correct
+  const params = [
+    null,
+    { strength: kRatio },
+    { strength: cRatio },
+    { strength: mRatio },
+    { strength: yRatio },
+  ]
   for (let i = 0; i < nameSuffix.length; i += 1) {
     // eslint-disable-next-line no-continue
     if (i === 0 && !includeWhite) {
@@ -104,6 +101,9 @@ const splitFullColorLayer = async (
         writeDataLayer(elem, DataType.printingSpeed, whiteSpeed);
         writeDataLayer(elem, DataType.multipass, whiteMultipass);
         writeDataLayer(elem, DataType.repeat, whiteRepeat);
+      } else {
+        const { strength } = params[i];
+        writeDataLayer(elem, DataType.printingStrength, strength);
       }
       layer.parentNode.insertBefore(elem, layer.nextSibling);
       newLayers.push(elem);

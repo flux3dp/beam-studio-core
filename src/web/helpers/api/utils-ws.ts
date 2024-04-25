@@ -179,7 +179,6 @@ class UtilsWebSocket extends EventEmitter {
       this.on(
         'message',
         (response: Blob | { data?: string; status: string; length: number; progress?: number }) => {
-          console.log(response);
           if (response instanceof Blob) {
             blobs.push(response as Blob);
             const result = new Blob(blobs);
@@ -215,6 +214,53 @@ class UtilsWebSocket extends EventEmitter {
         }
       );
       const args = ['rgb_to_cmyk', data.byteLength, resultType === 'binary' ? 'binary' : 'base64'];
+      this.ws.send(args.join(' '));
+    });
+  };
+
+  splitColor = async (
+    blob: Blob,
+    opts: { onProgress?: (progress: number) => void; colorType: 'rgb' | 'cmyk' } = {
+      colorType: 'rgb',
+    }
+  ) => {
+    const data = await arrayBuffer(blob);
+    const { colorType = 'rgb' } = opts;
+
+    return new Promise<{ c: string; m: string; y: string; k: string; }>((resolve, reject) => {
+      this.removeCommandListeners();
+      this.setDefaultErrorResponse(reject);
+      this.setDefaultFatalResponse(reject);
+      this.on(
+        'message',
+        (response: { data?: string; status: string; c?: string; m?: string; y?: string; k?: string }) => {
+          if (response instanceof Blob) {
+            console.log('strange message from /ws/utils', response);
+            reject(Error('strange message from /ws/utils'));
+          } else {
+            const { status } = response as {
+              status: string;
+            };
+            if (status === 'continue') {
+              let sentLength = 0;
+              while (sentLength < data.byteLength) {
+                const end = Math.min(sentLength + 1000000, data.byteLength);
+                this.ws.send(data.slice(sentLength, end));
+                sentLength = end;
+              }
+            } else if (status === 'uploaded') {
+              console.log('Upload finished');
+            } else if (status === 'ok') {
+              const { c, m, y, k } = response as { c: string; m: string; y: string; k: string };
+              resolve({ c, m, y, k });
+            } else {
+              console.log('strange message from /ws/utils', response);
+              reject(Error('strange message from /ws/utils'));
+            }
+          }
+        }
+      );
+      const args = ['split_color', data.byteLength, colorType];
       this.ws.send(args.join(' '));
     });
   };
