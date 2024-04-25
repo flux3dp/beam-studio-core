@@ -262,7 +262,7 @@ const AdorCalibrationV2 = ({ factoryMode = false, onClose }: Props): JSX.Element
       }
     };
     return (
-      <StepElevate onNext={handleNext} onBack={() => setStep(Step.PUT_PAPER)} onClose={onClose} />
+      <StepElevate onNext={handleNext} onBack={() => setStep(Step.SOLVE_PNP_1)} onClose={onClose} />
     );
   }
 
