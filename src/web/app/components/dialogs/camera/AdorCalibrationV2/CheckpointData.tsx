@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Button, Modal } from 'antd';
+import { SpinLoading } from 'antd-mobile';
 
 import alertCaller from 'app/actions/alert-caller';
 import deviceMaster from 'helpers/device-master';
@@ -9,12 +10,13 @@ import { FisheyeCameraParametersV2Cali } from 'interfaces/FisheyePreview';
 import { updateData } from 'helpers/camera-calibration-helper';
 
 interface Props {
+  factoryMode?: boolean;
   updateParam: (param: FisheyeCameraParametersV2Cali) => void;
   onClose: (complete: boolean) => void;
   onNext: (res: boolean) => void;
 }
 
-const CheckpointData = ({ updateParam, onClose, onNext }: Props): JSX.Element => {
+const CheckpointData = ({ factoryMode, updateParam, onClose, onNext }: Props): JSX.Element => {
   const progressId = useMemo(() => 'camera-check-point', []);
   const [checkpointData, setCheckpointData] = useState<{
     file: string;
@@ -70,7 +72,7 @@ const CheckpointData = ({ updateParam, onClose, onNext }: Props): JSX.Element =>
     onNext(false);
   }, [lang, progressId, onNext]);
 
-  const handleOk = async () => {
+  const handleOk = useCallback(async () => {
     progressCaller.openNonstopProgress({
       id: progressId,
       message: lang.calibration.downloading_checkpoint,
@@ -89,12 +91,31 @@ const CheckpointData = ({ updateParam, onClose, onNext }: Props): JSX.Element =>
     } finally {
       progressCaller.popById(progressId);
     }
-  };
+  }, [checkpointData, lang, onNext, progressId, updateParam]);
 
   useEffect(() => {
     checkData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (checkpointData && !factoryMode) handleOk();
+  }, [checkpointData, factoryMode, handleOk]);
+
+  if (!factoryMode)
+    return (
+      <Modal
+        width={400}
+        open
+        centered
+        maskClosable={false}
+        closable={!!onClose}
+        onCancel={() => onClose?.(false)}
+        footer={[]}
+      >
+        <SpinLoading color="primary" style={{ '--size': '48px' }} />
+      </Modal>
+    );
 
   return (
     <Modal
