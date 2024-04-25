@@ -63,6 +63,7 @@ const AdorCalibrationV2 = ({ factoryMode = false, onClose }: Props): JSX.Element
   if (step === Step.CHECKPOINT_DATA) {
     return (
       <CheckpointData
+        factoryMode={factoryMode}
         updateParam={updateParam}
         onNext={(res) => {
           if (res) {
