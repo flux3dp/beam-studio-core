@@ -1,6 +1,8 @@
 import classNames from 'classnames';
 import React, { memo, useContext, useMemo } from 'react';
+import { QuestionCircleOutlined } from '@ant-design/icons';
 
+import browser from 'implementations/browser';
 import history from 'app/svgedit/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
@@ -11,14 +13,13 @@ import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { useIsMobile } from 'helpers/system-helper';
 
 import ConfigPanelContext from './ConfigPanelContext';
-import styles from './Block.module.scss';
+import styles from './HalftoneBlock.module.scss';
 
 let svgCanvas: ISVGCanvas;
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
 });
 
-// TODO: add test
 const HalftoneBlock = (): JSX.Element => {
   const isMobile = useIsMobile();
   const lang = useI18n().beambox.right_panel.laser_panel;
@@ -58,7 +59,10 @@ const HalftoneBlock = (): JSX.Element => {
     />
   ) : (
     <div className={classNames(styles.panel)}>
-      <span className={styles.title}>{lang.halftone}</span>
+      <span className={styles.title}>
+        {lang.halftone}
+        <QuestionCircleOutlined className={styles.icon} onClick={() => browser.open(lang.halftone_link)} />
+      </span>
       <Select
         className={styles['inline-select']}
         onChange={handleChange}

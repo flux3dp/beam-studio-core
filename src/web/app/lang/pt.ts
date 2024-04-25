@@ -704,6 +704,7 @@ const lang: ILang = {
         color_adjustment: 'Ajuste de canal',
         color_adjustment_short: 'Canal',
         halftone: 'Meio-tom',
+        halftone_link: 'https://support.flux3dp.com/hc/en-us/articles/9402670389647',
         color_strength: 'Intensidade',
         times: 'vezes',
         cut: 'Cortar',

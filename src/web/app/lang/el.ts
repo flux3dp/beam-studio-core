@@ -704,6 +704,7 @@ const lang: ILang = {
         color_adjustment: 'Ρύθμιση καναλιού',
         color_adjustment_short: 'Κανάλι',
         halftone: 'Μισοτόνος',
+        halftone_link: 'https://support.flux3dp.com/hc/en-us/articles/9402670389647',
         color_strength: 'Δύναμη',
         times: 'φορές',
         cut: 'Κόψιμο',

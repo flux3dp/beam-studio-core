@@ -704,6 +704,7 @@ const lang: ILang = {
         color_adjustment: 'Kanaljustering',
         color_adjustment_short: 'Kanal',
         halftone: 'Halvtoner',
+        halftone_link: 'https://support.flux3dp.com/hc/zh-tw/articles/9402670389647',
         color_strength: 'Styrke',
         times: 'gange',
         cut: 'Skær',

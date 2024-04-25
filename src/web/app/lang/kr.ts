@@ -707,6 +707,7 @@ const lang: ILang = {
         color_adjustment: '컬러 버전 조정',
         color_adjustment_short: '컬러 버전',
         halftone: '반톤',
+        halftone_link: 'https://support.flux3dp.com/hc/en-us/articles/9402670389647',
         color_strength: '강도',
         times: '회',
         cut: '절단',

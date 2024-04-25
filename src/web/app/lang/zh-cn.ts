@@ -707,6 +707,7 @@ const lang: ILang = {
         color_adjustment: '色版调整',
         color_adjustment_short: '色版',
         halftone: '半色调',
+        halftone_link: 'https://support.flux3dp.com/hc/zh-tw/articles/9402670389647',
         color_strength: '强度',
         times: '次',
         cut: '切割',

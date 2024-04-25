@@ -35,7 +35,21 @@ jest.mock('helpers/layer/layer-config-helper', () => ({
   writeData: (...args) => mockWriteData(...args),
 }));
 
-jest.mock('helpers/useI18n', () => () => ({}));
+jest.mock('helpers/useI18n', () => () => ({
+  beambox: {
+    right_panel: {
+      laser_panel: {
+        halftone: 'Halftone',
+        halftone_link: 'halftone_link',
+      },
+    },
+  },
+}));
+
+const mockOpen = jest.fn();
+jest.mock('implementations/browser', () => ({
+  open: (...args) => mockOpen(...args),
+}));
 
 const mockSelectedLayers = ['layer1', 'layer2'];
 const mockContextState = {
@@ -103,5 +117,10 @@ describe('test HalftoneBlock', () => {
     expect(batchCmd.onAfter).toBe(mockInitState);
     expect(mockAddCommandToHistory).toBeCalledTimes(1);
     expect(mockAddCommandToHistory).lastCalledWith(batchCmd);
+    const img = container.querySelector('[aria-label="question-circle"]');
+    expect(mockOpen).not.toBeCalled();
+    fireEvent.click(img);
+    expect(mockOpen).toBeCalledTimes(1);
+    expect(mockOpen).lastCalledWith('halftone_link');
   });
 });

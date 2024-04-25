@@ -704,6 +704,7 @@ const lang: ILang = {
         color_adjustment: 'Réglage couleur',
         color_adjustment_short: 'Couleur',
         halftone: 'Demi-teinte',
+        halftone_link: 'https://support.flux3dp.com/hc/en-us/articles/9402670389647',
         color_strength: 'Intensité',
         times: 'fois',
         cut: 'Couper',

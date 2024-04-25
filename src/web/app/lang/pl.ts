@@ -707,6 +707,7 @@ const lang: ILang = {
         color_adjustment: 'Regulacja kanału',
         color_adjustment_short: 'Kanał',
         halftone: 'Połton',
+        halftone_link: 'https://support.flux3dp.com/hc/en-us/articles/9402670389647',
         color_strength: 'Siła',
         times: 'czasy',
         cut: 'Cięcie',

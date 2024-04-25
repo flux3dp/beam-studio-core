@@ -704,6 +704,7 @@ const lang: ILang = {
         color_adjustment: 'การปรับสี',
         color_adjustment_short: 'ช่องสี',
         halftone: 'ฮาล์ฟทอน',
+        halftone_link: 'https://support.flux3dp.com/hc/en-us/articles/9402670389647',
         color_strength: 'ความเข้ม',
         times: 'ครั้ง',
         cut: 'ตัด',
