@@ -30,7 +30,7 @@ const { lang } = i18n;
 
 const calibrateCamera = async (
   device: IDeviceInfo,
-  args: { isBorderless?: boolean; calibrateVersion?: number, factoryMode?: boolean } = {}
+  args: { isBorderless?: boolean; factoryMode?: boolean } = {}
 ) => {
   const { isBorderless = false, factoryMode = false } = args;
   try {
@@ -329,7 +329,7 @@ export default {
       });
       return;
     }
-    calibrateCamera(device, { calibrateVersion: 2, factoryMode: true });
+    calibrateCamera(device, { factoryMode: true });
   },
   CALIBRATE_PRINTER_MODULE: async (device: IDeviceInfo): Promise<void> => {
     if (window.location.hash !== '#/studio/beambox') {
