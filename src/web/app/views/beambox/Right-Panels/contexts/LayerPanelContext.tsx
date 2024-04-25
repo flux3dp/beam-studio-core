@@ -90,7 +90,7 @@ export const LayerPanelContextProvider = ({ children }: Props): JSX.Element => {
     <LayerPanelContext.Provider
       value={{
         selectedLayers,
-        setSelectedLayers,
+        setSelectedLayers: lazySetSelectedLayers,
         forceUpdate,
         forceUpdateSelectedLayers,
         hasVector,
