@@ -20,13 +20,14 @@ const PROGRESS_ID = 'camera-solve-pnp';
 
 interface Props {
   params: FisheyeCameraParametersV2Cali;
+  dh: number;
   hasNext?: boolean;
   onClose: (complete: boolean) => void;
   onNext: (rvec: number[], tvec: number[]) => void;
   onBack: () => void;
 }
 
-const SolvePnP = ({ params, hasNext = false, onClose, onNext, onBack }: Props): JSX.Element => {
+const SolvePnP = ({ params, dh, hasNext = false, onClose, onNext, onBack }: Props): JSX.Element => {
   const [img, setImg] = useState<{ blob: Blob; url: string; success: boolean }>(null);
   const [imgLoaded, setImgLoaded] = useState(false);
   const [points, setPoints] = useState<[number, number][]>([]);
@@ -108,7 +109,7 @@ const SolvePnP = ({ params, hasNext = false, onClose, onNext, onBack }: Props): 
       else alertCaller.popUpError({ message: 'Unable to get image' });
     } else {
       try {
-        const res = await solvePnPFindCorners(imgBlob, params.dh);
+        const res = await solvePnPFindCorners(imgBlob, dh);
         if (res.success) {
           const { success, blob, data } = res;
           setImg({ blob, url: URL.createObjectURL(blob), success });
@@ -269,7 +270,7 @@ const SolvePnP = ({ params, hasNext = false, onClose, onNext, onBack }: Props): 
   }, [handleWheel]);
 
   const handleDone = async () => {
-    const res = await solvePnPCalculate(params.dh, points);
+    const res = await solvePnPCalculate(dh, points);
     if (res.success) {
       const { rvec, tvec } = res.data;
       onNext(rvec, tvec);

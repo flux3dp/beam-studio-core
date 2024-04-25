@@ -138,7 +138,7 @@ const AdorCalibrationV2 = ({ factoryMode = false, onClose }: Props): JSX.Element
         console.log('height', height);
         if (usePreviousData) {
           const dh = height - calibratingParam.current.refHeight;
-          calibratingParam.current.dh = dh;
+          calibratingParam.current.dh1 = dh;
         } else {
           calibratingParam.current.refHeight = height;
         }
@@ -216,6 +216,7 @@ const AdorCalibrationV2 = ({ factoryMode = false, onClose }: Props): JSX.Element
       <SolvePnP
         hasNext
         params={calibratingParam.current}
+        dh={calibratingParam.current.dh1}
         onClose={onClose}
         onBack={() => setStep(Step.SOLVE_PNP_INSTRUCTION_1)}
         onNext={async (rvec, tvec) => {
@@ -225,7 +226,7 @@ const AdorCalibrationV2 = ({ factoryMode = false, onClose }: Props): JSX.Element
             tvec,
             rvecs: [rvec],
             tvecs: [tvec],
-            heights: [calibratingParam.current.dh],
+            heights: [calibratingParam.current.dh1],
           });
           await updateData(calibratingParam.current);
           await saveCheckPoint(calibratingParam.current);
@@ -249,7 +250,7 @@ const AdorCalibrationV2 = ({ factoryMode = false, onClose }: Props): JSX.Element
         console.log('height', height);
         const dh = height - calibratingParam.current.refHeight;
         console.log('dh', dh);
-        calibratingParam.current.dh = dh;
+        calibratingParam.current.dh2 = dh;
         progressCaller.update(PROGRESS_ID, { message: tCali.drawing_calibration_image });
         await deviceMaster.doAdorCalibrationV2(2);
         progressCaller.update(PROGRESS_ID, { message: tCali.preparing_to_take_picture });
@@ -269,13 +270,14 @@ const AdorCalibrationV2 = ({ factoryMode = false, onClose }: Props): JSX.Element
   return (
     <SolvePnP
       params={calibratingParam.current}
+      dh={calibratingParam.current.dh2}
       onClose={onClose}
       onBack={onBack}
       onNext={async (rvec, tvec) => {
         const { rvecs, tvecs, heights } = calibratingParam.current;
         rvecs.push(rvec);
         tvecs.push(tvec);
-        heights.push(calibratingParam.current.dh);
+        heights.push(calibratingParam.current.dh2);
         updateParam({ rvecs, tvecs, heights });
         const { success, data } = await extrinsicRegression(rvecs, tvecs, heights);
         if (!success) {

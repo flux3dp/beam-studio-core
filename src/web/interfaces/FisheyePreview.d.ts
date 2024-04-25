@@ -26,7 +26,8 @@ export interface FisheyeCameraParametersV2Cali {
   tvec?: number[];
   rvec_polyfit?: number[][];
   tvec_polyfit?: number[][];
-  dh?: number;
+  dh1?: number;
+  dh2?: number;
   levelingData?: Record<string, number>;
   rvecs?: number[][];
   tvecs?: number[][];

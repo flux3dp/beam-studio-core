@@ -4,13 +4,14 @@
   text-transform: capitalize;
 }
 
+.steps {
+  margin: 0;
+  padding: 0 0 0 24px;
+}
+
 .container {
   position: relative;
   box-shadow: 0 0 0 1px #000000;
-
-  .steps {
-    margin: 0;
-  }
 
   .img-container {
     position: relative;
