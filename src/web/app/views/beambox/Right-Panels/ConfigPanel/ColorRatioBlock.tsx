@@ -11,7 +11,6 @@ interface Props {
   color?: 'c' | 'm' | 'y' | 'k';
 }
 
-// TODO: fix test
 const ColorRatioBlock = ({ ratio, setRatio, color }: Props): JSX.Element => {
   const lang = useI18n().beambox.right_panel.laser_panel;
   const [displayRatio, setDisplayRatio] = useState(ratio);
