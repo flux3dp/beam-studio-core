@@ -36,9 +36,8 @@ enum Step {
   SOLVE_PNP_INSTRUCTION_1 = 6,
   SOLVE_PNP_1 = 7,
   ELEVATED_CUT = 8,
-  SOLVE_PNP_INSTRUCTION_2 = 9,
-  SOLVE_PNP_2 = 10,
-  FINISH = 11,
+  SOLVE_PNP_2 = 9,
+  FINISH = 10,
 }
 
 const PROGRESS_ID = 'fisheye-calibration-v2';
@@ -267,23 +266,6 @@ const AdorCalibrationV2 = ({ factoryMode = false, onClose }: Props): JSX.Element
     );
   }
 
-  if (step === Step.SOLVE_PNP_INSTRUCTION_2) {
-    return (
-      <Instruction
-        onClose={() => onClose(false)}
-        animationSrcs={[
-          { src: 'video/ador-calibration-2/align.webm', type: 'video/webm' },
-          { src: 'video/ador-calibration-2/align.mp4', type: 'video/mp4' },
-        ]}
-        title={tCali.solve_pnp_title}
-        steps={[tCali.solve_pnp_step1, tCali.solve_pnp_step2, tCali.solve_pnp_step3]}
-        buttons={[
-          { label: tCali.back, onClick: onBack },
-          { label: tCali.next, onClick: onNext, type: 'primary' },
-        ]}
-      />
-    );
-  }
   return (
     <SolvePnP
       params={calibratingParam.current}
