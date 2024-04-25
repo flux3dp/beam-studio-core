@@ -1567,7 +1567,7 @@ const lang: ILang = {
     solve_pnp_step2: 'Bạn có thể nhấn "Chụp lại" để điều chỉnh lại hoặc điều chỉnh vị trí của các đánh dấu theo cách thủ công.',
     solve_pnp_step3: 'Nhấn vào "Hoàn tất" để lưu kết quả hiệu chuẩn.',
     elevate_and_cut: 'Nâng và Cắt',
-    elevate_and_cut_step_1: 'Vui lòng đặt một miếng gỗ màu sáng kích thước A4 ở giữa khu vực làm việc và nâng lên đến độ cao 20 mm.',
+    elevate_and_cut_step_1: 'Đặt một miếng gỗ màu sáng kích thước A4 ở giữa không gian làm việc và nâng lên đến 20mm.',
     elevate_and_cut_step_1_prism_lift: 'Sử dụng Ador Prism Lift với chiều dài tối đa là 14 mm cùng với một miếng gỗ có độ dày ít nhất 6 mm để nâng cao gỗ lên đến độ cao 20 mm.',
     with_prism_lift: 'Với Ador Prism Lift',
     without_prism_lift: 'Không có Ador Prism Lift',

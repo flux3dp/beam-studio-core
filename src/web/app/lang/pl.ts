@@ -1570,7 +1570,7 @@ const lang: ILang = {
     solve_pnp_step2: 'Możesz nacisnąć przycisk "Powtórz zdjęcie" w celu ponownego wyrównania lub ręcznej regulacji pozycji znaczników.',
     solve_pnp_step3: 'Kliknij "Gotowe", aby zapisać wynik kalibracji.',
     elevate_and_cut: 'Podnieś i Wytnij',
-    elevate_and_cut_step_1: 'Plasser et A4-størrelse lysfarget tre i midten av arbeidsområdet og hev det til en høyde på 20 mm.',
+    elevate_and_cut_step_1: 'Umieść jasno kolorowany kawałek drewna o rozmiarze A4 na środku powierzchni roboczej, unieś go na wysokość 20mm.',
     elevate_and_cut_step_1_prism_lift: 'Użyj Ador Prism Lift z jego maksymalną długością 14 mm wraz z drewnem o grubości co najmniej 6 mm, aby podnieść drewno do wysokości 20 mm.',
     with_prism_lift: 'Z Ador Prism Lift',
     without_prism_lift: 'Bez Ador Prism Lift',

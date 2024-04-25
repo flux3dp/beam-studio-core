@@ -1567,7 +1567,7 @@ const lang: ILang = {
     solve_pnp_step2: 'Você pode pressionar "Tirar foto novamente" para realinhar ou ajustar manualmente as posições dos marcadores.',
     solve_pnp_step3: 'Clique em "Concluído" para salvar o resultado da calibração.',
     elevate_and_cut: 'Elevar e Cortar',
-    elevate_and_cut_step_1: 'Coloque um pedaço de madeira de cor clara de tamanho A4 no centro da área de trabalho e eleve-o até uma altura de 20 mm.',
+    elevate_and_cut_step_1: 'Coloque um pedaço de madeira de cor clara de tamanho A4 no centro da área de trabalho, elevado a 20mm.',
     elevate_and_cut_step_1_prism_lift: 'Use o Ador Prism Lift com seu comprimento máximo de 14 mm junto com uma madeira com pelo menos 6 mm de espessura para elevar a madeira a uma altura de 20 mm.',
     with_prism_lift: 'Com Ador Prism Lift',
     without_prism_lift: 'Sem Ador Prism Lift',
