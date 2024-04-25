@@ -10,7 +10,6 @@ import Select from 'app/widgets/AntdSelect';
 import useI18n from 'helpers/useI18n';
 import { DataType, writeData } from 'helpers/layer/layer-config-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import { useIsMobile } from 'helpers/system-helper';
 
 import ConfigPanelContext from './ConfigPanelContext';
 import styles from './HalftoneBlock.module.scss';
@@ -19,9 +18,11 @@ let svgCanvas: ISVGCanvas;
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
 });
-
-const HalftoneBlock = (): JSX.Element => {
-  const isMobile = useIsMobile();
+const HalftoneBlock = ({
+  type = 'default',
+}: {
+  type?: 'default' | 'panel-item' | 'modal';
+}): JSX.Element => {
   const lang = useI18n().beambox.right_panel.laser_panel;
 
   const { selectedLayers, state, dispatch, initState } = useContext(ConfigPanelContext);
@@ -30,12 +31,14 @@ const HalftoneBlock = (): JSX.Element => {
   const handleChange = (value: number) => {
     if (value === halftone.value) return;
     dispatch({ type: 'change', payload: { halftone: value } });
-    const batchCmd = new history.BatchCommand('Change Halftone');
-    selectedLayers.forEach((layerName) =>
-      writeData(layerName, DataType.halftone, value, { batchCmd })
-    );
-    batchCmd.onAfter = initState;
-    svgCanvas.addCommandToHistory(batchCmd);
+    if (type !== 'modal') {
+      const batchCmd = new history.BatchCommand('Change Halftone');
+      selectedLayers.forEach((layerName) =>
+        writeData(layerName, DataType.halftone, value, { batchCmd })
+      );
+      batchCmd.onAfter = initState;
+      svgCanvas.addCommandToHistory(batchCmd);
+    }
   };
 
   const { value, hasMultiValue } = halftone;
@@ -49,10 +52,10 @@ const HalftoneBlock = (): JSX.Element => {
       ].filter((option) => option),
     [hasMultiValue]
   );
-  return isMobile ? (
+  return type === 'panel-item' ? (
     <ObjectPanelItem.Select
       id="halftone-type"
-      selected={hasMultiValue ? options[0] : options[value]}
+      selected={hasMultiValue ? options[0] : options[value - 1]}
       onChange={handleChange}
       options={options}
       label={lang.halftone}
@@ -61,7 +64,10 @@ const HalftoneBlock = (): JSX.Element => {
     <div className={classNames(styles.panel)}>
       <span className={styles.title}>
         {lang.halftone}
-        <QuestionCircleOutlined className={styles.icon} onClick={() => browser.open(lang.halftone_link)} />
+        <QuestionCircleOutlined
+          className={styles.icon}
+          onClick={() => browser.open(lang.halftone_link)}
+        />
       </span>
       <Select
         className={styles['inline-select']}

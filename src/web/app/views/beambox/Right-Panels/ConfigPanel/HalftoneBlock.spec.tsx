@@ -91,6 +91,38 @@ describe('test HalftoneBlock', () => {
     expect(container).toMatchSnapshot();
   });
 
+  it('should render correctly when type is panel-item', () => {
+    const { container } = render(
+      <ConfigPanelContext.Provider
+        value={{
+          state: mockContextState as any,
+          dispatch: mockDispatch,
+          selectedLayers: mockSelectedLayers,
+          initState: mockInitState,
+        }}
+      >
+        <HalftoneBlock type="panel-item" />
+      </ConfigPanelContext.Provider>
+    );
+    expect(container).toMatchSnapshot();
+  });
+
+  it('should render correctly when type is modal', () => {
+    const { container } = render(
+      <ConfigPanelContext.Provider
+        value={{
+          state: mockContextState as any,
+          dispatch: mockDispatch,
+          selectedLayers: mockSelectedLayers,
+          initState: mockInitState,
+        }}
+      >
+        <HalftoneBlock type="modal" />
+      </ConfigPanelContext.Provider>
+    );
+    expect(container).toMatchSnapshot();
+  });
+
   it('should change halftone value', () => {
     const { container } = render(
       <ConfigPanelContext.Provider
