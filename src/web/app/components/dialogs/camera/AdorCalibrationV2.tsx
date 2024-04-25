@@ -161,8 +161,8 @@ const AdorCalibrationV2 = ({ factoryMode = false, onClose }: Props): JSX.Element
       <Instruction
         onClose={() => onClose(false)}
         animationSrcs={[
-          { src: 'video/ador-put-paper.webm', type: 'video/webm' },
-          { src: 'video/ador-put-paper.mp4', type: 'video/mp4' },
+          { src: 'video/ador-calibration-2/paper.webm', type: 'video/webm' },
+          { src: 'video/ador-calibration-2/paper.mp4', type: 'video/mp4' },
         ]}
         title={tCali.put_paper}
         steps={[tCali.put_paper_step1, tCali.put_paper_step2, tCali.put_paper_step3]}
@@ -200,8 +200,8 @@ const AdorCalibrationV2 = ({ factoryMode = false, onClose }: Props): JSX.Element
       <Instruction
         onClose={() => onClose(false)}
         animationSrcs={[
-          { src: 'video/ador-put-paper.webm', type: 'video/webm' },
-          { src: 'video/ador-put-paper.mp4', type: 'video/mp4' },
+          { src: 'video/ador-calibration-2/align.webm', type: 'video/webm' },
+          { src: 'video/ador-calibration-2/align.mp4', type: 'video/mp4' },
         ]}
         title={tCali.solve_pnp_title}
         steps={[tCali.solve_pnp_step1, tCali.solve_pnp_step2]}
@@ -272,8 +272,8 @@ const AdorCalibrationV2 = ({ factoryMode = false, onClose }: Props): JSX.Element
       <Instruction
         onClose={() => onClose(false)}
         animationSrcs={[
-          { src: 'video/ador-put-paper.webm', type: 'video/webm' },
-          { src: 'video/ador-put-paper.mp4', type: 'video/mp4' },
+          { src: 'video/ador-calibration-2/align.webm', type: 'video/webm' },
+          { src: 'video/ador-calibration-2/align.mp4', type: 'video/mp4' },
         ]}
         title={tCali.solve_pnp_title}
         steps={[tCali.solve_pnp_step1, tCali.solve_pnp_step2, tCali.solve_pnp_step3]}

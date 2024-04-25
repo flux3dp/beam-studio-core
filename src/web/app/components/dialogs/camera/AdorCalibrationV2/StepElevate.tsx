@@ -49,7 +49,10 @@ const StepElevate = ({ onNext, onBack, onClose }: Props): JSX.Element => {
         <li>{withPrismLift ? lang.elevate_and_cut_step_1_prism_lift : lang.elevate_and_cut_step_1}</li>
         <li>{lang.put_paper_step3}</li>
       </ol>
-      <video className={styles.video} ref={videoRef} autoPlay loop muted></video>
+      <video className={styles.video} ref={videoRef} autoPlay loop muted>
+      <source  src={`video/ador-calibration-2/${withPrismLift ? 'prism-lift' : 'wood'}.webm`} type="video/webm" />
+      <source  src={`video/ador-calibration-2/${withPrismLift ? 'prism-lift' : 'wood'}.mp4`} type="video/mp4" />
+      </video>
     </Modal>
   );
 };
