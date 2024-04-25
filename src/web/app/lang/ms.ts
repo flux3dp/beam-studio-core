@@ -1573,7 +1573,6 @@ const lang: ILang = {
     without_prism_lift: 'Tanpa Ador Prism Lift',
     camera_parameter_saved_successfully: 'Parameter kamera berjaya disimpan.',
     failed_to_save_camera_parameter: 'Gagal menyimpan parameter kamera.',
-    align_points: 'Sila selaraskan tanda ke tengah-tengah titik yang terukir.',
     failed_to_solve_pnp: 'Gagal menyelesaikan kedudukan kamera.',
   },
   input_machine_password: {

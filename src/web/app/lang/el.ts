@@ -1573,7 +1573,6 @@ const lang: ILang = {
     without_prism_lift: 'Χωρίς το Ador Prism Lift',
     camera_parameter_saved_successfully: 'Οι παράμετροι της κάμερας αποθηκεύτηκαν επιτυχώς.',
     failed_to_save_camera_parameter: 'Αποτυχία αποθήκευσης των παραμέτρων της κάμερας.',
-    align_points: 'Παρακαλώ ευθυγραμμίστε τις επισημάνσεις στο κέντρο των χαραγμένων σημείων.',
     failed_to_solve_pnp: 'Δεν ήταν δυνατή η επίλυση της θέσης της κάμερας.',
   },
   input_machine_password: {

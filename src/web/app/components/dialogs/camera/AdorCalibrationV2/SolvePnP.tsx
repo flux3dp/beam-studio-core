@@ -308,7 +308,10 @@ const SolvePnP = ({ params, hasNext = false, onClose, onNext, onBack }: Props): 
       closable
       maskClosable={false}
     >
-      {lang.calibration.align_points}
+      <ol className={styles.steps}>
+        <li>{lang.calibration.solve_pnp_step1}</li>
+        <li>{lang.calibration.solve_pnp_step2}</li>
+      </ol>
       <Row gutter={[16, 0]}>
         <Col span={18}>
           <div className={styles.container}>

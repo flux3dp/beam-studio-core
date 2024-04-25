@@ -1573,7 +1573,6 @@ const lang: ILang = {
     without_prism_lift: 'Uden Ador Prism Lift',
     camera_parameter_saved_successfully: 'Kameraparameter gemt succesfuldt.',
     failed_to_save_camera_parameter: 'Kunne ikke gemme kameraparameter.',
-    align_points: 'Venligst juster mærkerne til midten af de graverede punkter.',
     failed_to_solve_pnp: 'Kunne ikke løse kamerapositionen.',
   },
   input_machine_password: {

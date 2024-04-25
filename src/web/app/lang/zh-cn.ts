@@ -1576,7 +1576,6 @@ const lang: ILang = {
     without_prism_lift: '不使用 Ador Prism Lift',
     camera_parameter_saved_successfully: '相机参数保存成功。',
     failed_to_save_camera_parameter: '保存相机参数失败。',
-    align_points: '请将标记对准雕刻点的中心。',
     failed_to_solve_pnp: '无法解出相机位置。',
   },
   input_machine_password: {

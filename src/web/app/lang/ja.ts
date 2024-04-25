@@ -1576,7 +1576,6 @@ const lang: ILang = {
     without_prism_lift: 'Ador Prism Liftなし',
     camera_parameter_saved_successfully: 'カメラパラメータを正常に保存しました。',
     failed_to_save_camera_parameter: 'カメラパラメータの保存に失敗しました。',
-    align_points: '刻まれたポイントの中心にマークを整列してください。',
     failed_to_solve_pnp: 'カメラの位置を解決できませんでした。',
   },
   input_machine_password: {

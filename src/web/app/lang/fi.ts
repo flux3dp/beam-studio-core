@@ -1573,7 +1573,6 @@ const lang: ILang = {
     without_prism_lift: 'Ilman Ador Prism Liftiä',
     camera_parameter_saved_successfully: 'Kameran parametrit tallennettu onnistuneesti.',
     failed_to_save_camera_parameter: 'Kameran parametrien tallennus epäonnistui.',
-    align_points: 'Ole hyvä ja kohdista merkit kaiverrettujen pisteiden keskelle.',
     failed_to_solve_pnp: 'Kameran sijaintia ei voitu ratkaista.',
   },
   input_machine_password: {

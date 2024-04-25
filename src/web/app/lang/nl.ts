@@ -1573,7 +1573,6 @@ const lang: ILang = {
     without_prism_lift: 'Zonder Ador Prism Lift',
     camera_parameter_saved_successfully: 'Camera parameters succesvol opgeslagen.',
     failed_to_save_camera_parameter: 'Opslaan van camera parameters mislukt.',
-    align_points: 'Richt de markeringen uit op het midden van de gegraveerde punten.',
     failed_to_solve_pnp: 'Het lukte niet om de camerapositie op te lossen.',
   },
   input_machine_password: {

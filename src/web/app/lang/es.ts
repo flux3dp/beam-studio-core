@@ -1576,7 +1576,6 @@ const lang: ILang = {
     without_prism_lift: 'Sin Ador Prism Lift',
     camera_parameter_saved_successfully: 'Parámetros de la cámara guardados con éxito.',
     failed_to_save_camera_parameter: 'No se pudo guardar el parámetro de la cámara.',
-    align_points: 'Por favor, alinee las marcas al centro de los puntos grabados.',
     failed_to_solve_pnp: 'No se pudo resolver la posición de la cámara.',
   },
   input_machine_password: {
