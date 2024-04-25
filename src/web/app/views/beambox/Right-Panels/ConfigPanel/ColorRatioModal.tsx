@@ -1,10 +1,11 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useMemo, useState } from 'react';
 import { Col, ConfigProvider, Modal, Row } from 'antd';
 
 import useI18n from 'helpers/useI18n';
 import { DataType, writeDataLayer } from 'helpers/layer/layer-config-helper';
 import { getLayerByName } from 'helpers/layer/layer-helper';
 import { IConfig } from 'interfaces/ILayerConfig';
+import { PrintingColors } from 'app/constants/color-constants';
 
 import ConfigPanelContext from './ConfigPanelContext';
 import ColorRatioBlock from './ColorRatioBlock';
@@ -27,9 +28,7 @@ const ColorRationModal = ({ fullColor, onClose }: Props): JSX.Element => {
   });
   const handleSave = () => {
     const newState = { ...state };
-    const keys = fullColor
-      ? ['cRatio', 'mRatio', 'yRatio', 'kRatio']
-      : ['printingStrength'];
+    const keys = fullColor ? ['cRatio', 'mRatio', 'yRatio', 'kRatio'] : ['printingStrength'];
     selectedLayers.forEach((layerName) => {
       const layer = getLayerByName(layerName);
       keys.forEach((key) => {
@@ -48,6 +47,18 @@ const ColorRationModal = ({ fullColor, onClose }: Props): JSX.Element => {
   const handleValueChange = (key: string, value: number) => {
     setDraftValue((cur) => ({ ...cur, [key]: { value, hasMultiValue: false } }));
   };
+  const colorLayer = useMemo<'c' | 'm' | 'y' | 'k' | undefined>(
+    () =>
+      state.color.hasMultiValue
+        ? undefined
+        : ({
+            [PrintingColors.CYAN]: 'c',
+            [PrintingColors.MAGENTA]: 'm',
+            [PrintingColors.YELLOW]: 'y',
+            [PrintingColors.BLACK]: 'k',
+          }[state.color.value] as 'c' | 'm' | 'y' | 'k') || undefined,
+    [state.color.hasMultiValue, state.color.value]
+  );
 
   return (
     <Modal
@@ -124,6 +135,7 @@ const ColorRationModal = ({ fullColor, onClose }: Props): JSX.Element => {
           <ColorRatioBlock
             ratio={draftValue.printingStrength.value}
             setRatio={(val) => handleValueChange('printingStrength', val)}
+            color={colorLayer}
           />
         )}
       </ConfigProvider>
