@@ -89,7 +89,7 @@ const AdorCalibration = ({ type = CalibrationType.CAMERA, onClose }: Props): JSX
       }
     }
     param.current = { ...fisheyeParameters };
-    if (calibrated[type].has(currentDeviceId) || true) {
+    if (calibrated[type].has(currentDeviceId)) {
       const res = await new Promise<boolean>((resolve) => {
         alertCaller.popUp({
           message: lang.ask_for_readjust,
