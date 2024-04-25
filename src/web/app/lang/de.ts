@@ -708,7 +708,6 @@ const lang: ILang = {
         color_adjustment_short: 'Kanal',
         halftone: 'Halbton',
         color_strength: 'Stärke',
-        color_smooth: 'Glätten',
         times: 'mal',
         cut: 'Ausschneiden',
         engrave: 'Gravieren',

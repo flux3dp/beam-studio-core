@@ -705,7 +705,6 @@ const lang: ILang = {
         color_adjustment_short: 'Κανάλι',
         halftone: 'Μισοτόνος',
         color_strength: 'Δύναμη',
-        color_smooth: 'Λείανση',
         times: 'φορές',
         cut: 'Κόψιμο',
         engrave: 'Χαράξτε',
