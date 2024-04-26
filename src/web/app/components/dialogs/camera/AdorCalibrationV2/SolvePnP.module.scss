@@ -5,7 +5,6 @@
 }
 
 .steps {
-  margin: 0 0 12px;
   padding: 0 0 0 24px;
 }
 
@@ -81,5 +80,20 @@
       background: none;
       border: none;
     }
+  }
+}
+
+.slider-container {
+  display: flex;
+  align-items: center;
+  margin: 12px 0 0;
+
+  .icon {
+    font-size: 22px;
+    margin-right: 12px;
+  }
+
+  .slider {
+    width: 100%;
   }
 }

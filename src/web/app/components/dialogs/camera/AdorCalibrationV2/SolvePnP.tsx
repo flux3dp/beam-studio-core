@@ -1,13 +1,15 @@
 import classNames from 'classnames';
 import React, { SyntheticEvent, useCallback, useEffect, useRef, useState } from 'react';
-import { Button, Col, InputNumber, Modal, Row } from 'antd';
+import { Button, Col, InputNumber, Modal, Row, Slider, Tooltip } from 'antd';
 
 import alertCaller from 'app/actions/alert-caller';
 import deviceMaster from 'helpers/device-master';
 import ObjectPanelIcons from 'app/icons/object-panel/ObjectPanelIcons';
 import progressCaller from 'app/actions/progress-caller';
 import useI18n from 'helpers/useI18n';
+import WorkareaIcons from 'app/icons/workarea/WorkareaIcons';
 import { FisheyeCameraParametersV2Cali } from 'interfaces/FisheyePreview';
+import { IConfigSetting } from 'interfaces/IDevice';
 import {
   solvePnPFindCorners,
   solvePnPCalculate,
@@ -32,6 +34,7 @@ const SolvePnP = ({ params, dh, hasNext = false, onClose, onNext, onBack }: Prop
   const [imgLoaded, setImgLoaded] = useState(false);
   const [points, setPoints] = useState<[number, number][]>([]);
   const [selectedPointIdx, setSelectedPointIdx] = useState<number>(-1);
+  const [exposureSetting, setExposureSetting] = useState<IConfigSetting | null>(null);
   const dragStartPos = useRef<{
     x: number;
     y: number;
@@ -48,6 +51,12 @@ const SolvePnP = ({ params, dh, hasNext = false, onClose, onNext, onBack }: Prop
   const zoomCenter = useRef<{ x: number; y: number }>(null);
   const lang = useI18n();
 
+  const getSetting = async () => {
+    const exposureRes = await deviceMaster.getDeviceSetting('camera_exposure_absolute');
+    console.log(exposureRes);
+    setExposureSetting(JSON.parse(exposureRes.value));
+  };
+
   const scrollToZoomCenter = useCallback(() => {
     if (zoomCenter.current && imgContainerRef.current) {
       const { x, y } = zoomCenter.current;
@@ -58,32 +67,35 @@ const SolvePnP = ({ params, dh, hasNext = false, onClose, onNext, onBack }: Prop
     }
   }, []);
 
-  const updateScale = useCallback((newValue, scrollToCenter = false) => {
-    if (scrollToCenter && imgContainerRef.current) {
-      const currentCenter = {
-        x: imgContainerRef.current.scrollLeft + imgContainerRef.current.clientWidth / 2,
-        y: imgContainerRef.current.scrollTop + imgContainerRef.current.clientHeight / 2,
-      };
-      zoomCenter.current = {
-        x: currentCenter.x / scaleRef.current,
-        y: currentCenter.y / scaleRef.current,
-      };
-    }
-    scaleRef.current = newValue;
-    if (svgRef.current) {
-      svgRef.current.style.width = `${imageSizeRef.current.width * newValue}px`;
-      svgRef.current.style.height = `${imageSizeRef.current.height * newValue}px`;
-      const circles = svgRef.current.querySelectorAll('circle');
-      circles.forEach((c) => {
-        if (c.classList.contains('center')) {
-          c.setAttribute('r', `${1 / newValue}`);
-        } else {
-          c.setAttribute('r', `${5 / newValue}`);
-        }
-      });
-      if (scrollToCenter) scrollToZoomCenter();
-    }
-  }, [scrollToZoomCenter]);
+  const updateScale = useCallback(
+    (newValue, scrollToCenter = false) => {
+      if (scrollToCenter && imgContainerRef.current) {
+        const currentCenter = {
+          x: imgContainerRef.current.scrollLeft + imgContainerRef.current.clientWidth / 2,
+          y: imgContainerRef.current.scrollTop + imgContainerRef.current.clientHeight / 2,
+        };
+        zoomCenter.current = {
+          x: currentCenter.x / scaleRef.current,
+          y: currentCenter.y / scaleRef.current,
+        };
+      }
+      scaleRef.current = newValue;
+      if (svgRef.current) {
+        svgRef.current.style.width = `${imageSizeRef.current.width * newValue}px`;
+        svgRef.current.style.height = `${imageSizeRef.current.height * newValue}px`;
+        const circles = svgRef.current.querySelectorAll('circle');
+        circles.forEach((c) => {
+          if (c.classList.contains('center')) {
+            c.setAttribute('r', `${1 / newValue}`);
+          } else {
+            c.setAttribute('r', `${5 / newValue}`);
+          }
+        });
+        if (scrollToCenter) scrollToZoomCenter();
+      }
+    },
+    [scrollToZoomCenter]
+  );
 
   const initSetup = useCallback(async () => {
     progressCaller.openNonstopProgress({
@@ -92,6 +104,7 @@ const SolvePnP = ({ params, dh, hasNext = false, onClose, onNext, onBack }: Prop
     });
     try {
       await deviceMaster.connectCamera();
+      getSetting();
     } finally {
       progressCaller.popById(PROGRESS_ID);
     }
@@ -196,12 +209,15 @@ const SolvePnP = ({ params, dh, hasNext = false, onClose, onNext, onBack }: Prop
     dragStartPos.current = null;
   }, []);
 
-  const handleZoom = useCallback((delta) => {
-    const cur = scaleRef.current;
-    const newScale = Math.round(Math.max(Math.min(2, cur + delta), 0.2) * 100) / 100;
-    if (newScale === cur) return;
-    updateScale(newScale, true);
-  }, [updateScale]);
+  const handleZoom = useCallback(
+    (delta) => {
+      const cur = scaleRef.current;
+      const newScale = Math.round(Math.max(Math.min(2, cur + delta), 0.2) * 100) / 100;
+      if (newScale === cur) return;
+      updateScale(newScale, true);
+    },
+    [updateScale]
+  );
 
   const zoomToAllPoints = useCallback(() => {
     if (!imgContainerRef.current || !points.length) return;
@@ -313,7 +329,7 @@ const SolvePnP = ({ params, dh, hasNext = false, onClose, onNext, onBack }: Prop
         <li>{lang.calibration.solve_pnp_step1}</li>
         <li>{lang.calibration.solve_pnp_step2}</li>
       </ol>
-      <Row gutter={[16, 0]}>
+      <Row gutter={[16, 12]}>
         <Col span={18}>
           <div className={styles.container}>
             <div
@@ -411,6 +427,34 @@ const SolvePnP = ({ params, dh, hasNext = false, onClose, onNext, onBack }: Prop
           )}
         </Col>
       </Row>
+      {exposureSetting && (
+        <div className={styles['slider-container']}>
+          <Tooltip title={lang.editor.exposure}>
+            <WorkareaIcons.Exposure className={styles.icon} />
+          </Tooltip>
+          <Slider
+            className={styles.slider}
+            min={Math.max(exposureSetting.min, 250)}
+            max={Math.min(exposureSetting.max, 650)}
+            step={exposureSetting.step}
+            value={exposureSetting.value}
+            onChange={(value: number) => setExposureSetting({ ...exposureSetting, value })}
+            onAfterChange={async (value: number) => {
+              try {
+                progressCaller.openNonstopProgress({
+                  id: PROGRESS_ID,
+                });
+                setExposureSetting({ ...exposureSetting, value });
+                await deviceMaster.setDeviceSetting('camera_exposure_absolute', value.toString());
+                progressCaller.popById(PROGRESS_ID);
+                await handleTakePicture(0);
+              } finally {
+                progressCaller.popById(PROGRESS_ID);
+              }
+            }}
+          />
+        </div>
+      )}
     </Modal>
   );
 };
