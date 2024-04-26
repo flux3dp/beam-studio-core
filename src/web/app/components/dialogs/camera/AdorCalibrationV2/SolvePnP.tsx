@@ -459,6 +459,7 @@ const SolvePnP = ({ params, dh, hasNext = false, onClose, onNext, onBack }: Prop
                       progressCaller.popById(PROGRESS_ID);
                     }
                   }}
+                  tooltip={{ open: false }}
                 />
               </div>
             </Col>
