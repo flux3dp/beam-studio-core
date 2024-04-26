@@ -42,3 +42,10 @@ export interface IDeviceDetailInfo {
   x_acc: string;
   head_type: string;
 }
+
+export interface IConfigSetting {
+  min: number;
+  max: number;
+  value: number;
+  step: number;
+}

@@ -174,7 +174,7 @@ class PreviewModeController {
       } else if (params.v === 2) {
         this.fisheyePreviewManager = new FisheyePreviewManagerV2(device, params);
       }
-      const res = await this.fisheyePreviewManager.setupFisheyePreview('preview-mode-controller');
+      const res = await this.fisheyePreviewManager.setupFisheyePreview({ progressId: 'preview-mode-controller'});
       return res;
     } finally {
       if (deviceMaster.currentControlMode === 'raw') {

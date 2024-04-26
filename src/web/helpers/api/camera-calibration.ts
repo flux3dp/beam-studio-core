@@ -2,6 +2,8 @@
  * API camera calibration
  * Ref: none
  */
+import { FisheyeCameraParametersV2Cali } from 'interfaces/FisheyePreview';
+
 import Websocket from '../websocket';
 
 class CameraCalibrationApi {
@@ -111,11 +113,11 @@ class CameraCalibrationApi {
       };
 
       this.events.onError = (response) => {
-        reject(response);
+        resolve(false);
         console.log('on error', response);
       };
       this.events.onFatal = (response) => {
-        reject(response);
+        resolve(false);
         console.log('on fatal', response);
       };
       const size = img instanceof Blob ? img.size : img.byteLength;
@@ -123,9 +125,7 @@ class CameraCalibrationApi {
     });
   }
 
-  doFisheyeCalibration(
-    onProgress?: (val: number) => void
-  ): Promise<{ k: number[][]; d: number[][] }> {
+  doFisheyeCalibration(onProgress?: (val: number) => void): Promise<FisheyeCameraParametersV2Cali> {
     return new Promise((resolve, reject) => {
       this.events.onMessage = (response) => {
         switch (response.status) {
@@ -207,6 +207,56 @@ class CameraCalibrationApi {
     });
   }
 
+  calibrateChessboard(
+    img: Blob | ArrayBuffer,
+    height: number,
+    chessboard = [48, 36]
+  ): Promise<
+    | {
+        success: true;
+        blob: Blob;
+        data?: {
+          ret: number;
+          k: number[][];
+          d: number[][];
+          rvec: number[];
+          tvec: number[];
+        };
+      }
+    | { success: false; data: { reason: string } }
+  > {
+    return new Promise((resolve, reject) => {
+      let blob: Blob;
+      this.events.onMessage = (response) => {
+        if (response instanceof Blob) {
+          blob = response;
+        } else if (response.status === 'continue') {
+          this.ws.send(img);
+        } else if (response.status === 'fail') {
+          resolve({ success: false, data: { reason: response.reason } });
+        } else if (response.status.toLowerCase?.() === 'error') {
+          console.log('error', response);
+          resolve({ success: false, data: { reason: response.message } });
+        } else if (response.status === 'ok') {
+          const { status, ...rest } = response;
+          resolve({ success: true, blob, data: rest });
+        }
+      };
+
+      this.events.onError = (response) => {
+        reject(response);
+        console.log('on error', response);
+      };
+      this.events.onFatal = (response) => {
+        reject(response);
+        console.log('on fatal', response);
+      };
+      const size = img instanceof Blob ? img.size : img.byteLength;
+      // calibrate_chessboard [file_length] [height] [chessboard_w] [chessboard_h]
+      this.ws.send(`calibrate_chessboard ${size} ${height.toFixed(2)} ${chessboard.join(' ')}`);
+    });
+  }
+
   findCorners(
     img: Blob | ArrayBuffer,
     withPitch = false
@@ -214,25 +264,23 @@ class CameraCalibrationApi {
     success: boolean;
     blob: Blob;
     data?: {
+      ret: number;
       k: number[][];
       d: number[][];
       rvec: number[];
       tvec: number[];
-      points: [number, number][][];
     };
   }> {
     return new Promise((resolve, reject) => {
       let success = true;
       let data = {} as {
+        ret: number;
         k: number[][];
         d: number[][];
         rvec: number[];
         tvec: number[];
-        points: [number, number][][];
       };
       this.events.onMessage = (response) => {
-        console.log(response);
-
         if (response instanceof Blob) {
           resolve({ success, blob: response, data });
         } else if (response.status === 'continue') {
@@ -260,28 +308,31 @@ class CameraCalibrationApi {
     });
   }
 
-  calculateCameraPosition(
+  solvePnPFindCorners = (
     img: Blob | ArrayBuffer,
-    dh: number,
-    withPitch = false
-  ): Promise<{
-    success: boolean;
-    blob: Blob;
-    data?: { xc: number[]; yc: number[]; hx: number[]; hy: number[]; s: number[] };
-  }> {
-    return new Promise((resolve, reject) => {
-      let success = true;
-      let data = {} as { xc: number[]; yc: number[]; hx: number[]; hy: number[]; s: number[] };
+    dh: number
+  ): Promise<
+    | {
+        success: true;
+        blob: Blob;
+        data?: { points: [number, number][] };
+      }
+    | {
+        success: false;
+        blob: null;
+        data: { status: string; info: string; reason: string };
+      }
+  > =>
+    new Promise((resolve, reject) => {
+      let data = {} as { points: [number, number][] };
       this.events.onMessage = (response) => {
-        console.log(response);
-
         if (response instanceof Blob) {
-          resolve({ success, blob: response, data });
+          resolve({ success: true, blob: response, data });
         } else if (response.status === 'continue') {
           this.ws.send(img);
         } else if (response.status === 'fail') {
-          success = false;
           console.log('fail', response);
+          resolve({ success: false, blob: null, data: response });
         } else if (response.status === 'ok') {
           const { status, ...rest } = response;
           data = rest;
@@ -297,10 +348,101 @@ class CameraCalibrationApi {
         console.log('on fatal', response);
       };
       const size = img instanceof Blob ? img.size : img.byteLength;
-      // calculate_camera_position [camera_pitch] [elevated_dh] [file_length] [calibration_version]
-      this.ws.send(`calculate_camera_position ${withPitch ? 20 : 0} ${dh.toFixed(3)} ${size} 2`);
+      // solve_pnp_find_corners [calibration_version] [elevated_dh] [file_length]
+      this.ws.send(`solve_pnp_find_corners 2 ${dh.toFixed(3)} ${size}`);
     });
-  }
+
+  solvePnPCalculate = (
+    dh: number,
+    points: [number, number][]
+  ): Promise<{
+    success: boolean;
+    data?: { rvec: number[]; tvec: number[] };
+  }> =>
+    new Promise((resolve, reject) => {
+      let success = true;
+      let data = {} as { rvec: number[]; tvec: number[] };
+      this.events.onMessage = (response) => {
+        if (response.status === 'fail') {
+          success = false;
+          console.log('fail', response);
+        } else if (response.status === 'ok') {
+          const { status, ...rest } = response;
+          data = rest;
+          resolve({ success, data });
+        }
+      };
+
+      this.events.onError = (response) => {
+        reject(response);
+        console.log('on error', response);
+      };
+      this.events.onFatal = (response) => {
+        reject(response);
+        console.log('on fatal', response);
+      };
+      // solve_pnp_calculate [calibration_version] [elevated_dh] [points]
+      this.ws.send(`solve_pnp_calculate 2 ${dh.toFixed(3)} ${JSON.stringify(points)}`);
+    });
+
+  updateData = (data: FisheyeCameraParametersV2Cali): Promise<boolean> =>
+    new Promise((resolve, reject) => {
+      this.events.onMessage = (response) => {
+        if (response.status === 'ok') {
+          resolve(true);
+        } else {
+          reject(response);
+        }
+      };
+
+      this.events.onError = (response) => {
+        reject(response);
+        console.log('on error', response);
+      };
+      this.events.onFatal = (response) => {
+        reject(response);
+        console.log('on fatal', response);
+      };
+      // update_data [data]
+      this.ws.send(`update_data ${JSON.stringify(data)}`);
+    });
+
+  extrinsicRegression = (
+    rvecs: number[][],
+    tvecs: number[][],
+    heights: number[]
+  ): Promise<{
+    success: boolean;
+    data?: { rvec_polyfit: number[][]; tvec_polyfit: number[][] };
+  }> =>
+    new Promise((resolve, reject) => {
+      let success = true;
+      let data = {} as { rvec_polyfit: number[][]; tvec_polyfit: number[][] };
+      this.events.onMessage = (response) => {
+        if (response.status === 'fail') {
+          success = false;
+          console.log('fail', response);
+        } else if (response.status === 'ok') {
+          const { status, ...rest } = response;
+          data = rest;
+          resolve({ success, data });
+        }
+      };
+
+      this.events.onError = (response) => {
+        reject(response);
+        console.log('on error', response);
+      };
+      this.events.onFatal = (response) => {
+        reject(response);
+        console.log('on fatal', response);
+      };
+      // extrinsic_regression [rvecs] [tvecs] [heights]
+      const rvecsStr = JSON.stringify(rvecs);
+      const tvecsStr = JSON.stringify(tvecs);
+      const heightsStr = JSON.stringify(heights);
+      this.ws.send(`extrinsic_regression ${rvecsStr} ${tvecsStr} ${heightsStr}`);
+    });
 }
 
 export default CameraCalibrationApi;

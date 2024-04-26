@@ -31,7 +31,8 @@ const getProbeHeight = async () => {
     if (!didAf) return null;
     const { deep } = getWorkarea(device.info.model as WorkAreaModel, 'ado1');
     return Math.round((deep - z) * 100) / 100;
-  } catch {
+  } catch (err) {
+    console.log(err);
     return null;
   }
 };

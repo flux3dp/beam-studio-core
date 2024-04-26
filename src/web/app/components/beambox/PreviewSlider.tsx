@@ -7,28 +7,26 @@ import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import useI18n from 'helpers/useI18n';
 import WorkareaIcons from 'app/icons/workarea/WorkareaIcons';
 import { CanvasContext } from 'app/contexts/CanvasContext';
+import { IConfigSetting } from 'interfaces/IDevice';
 
 import styles from './PreviewSlider.module.scss';
-
-interface ISetting {
-  min: number;
-  max: number;
-  value: number;
-  step: number;
-}
 
 const PreviewSlider = (): JSX.Element => {
   const [opacity, setOpacity] = useState(1);
   const [showOpacity, setShowOpacity] = useState(false);
-  const [exposureSetting, setExposureSetting] = useState<ISetting | null>(null);
+  const [exposureSetting, setExposureSetting] = useState<IConfigSetting | null>(null);
   const { isPreviewing, isPathPreviewing } = useContext(CanvasContext);
   const lang = useI18n();
 
   const getSetting = async () => {
     if (!deviceMaster?.currentDevice?.info) return;
     if (!constant.adorModels.includes(deviceMaster.currentDevice.info.model)) return;
-    const exposureRes = await deviceMaster.getDeviceSetting('camera_exposure_absolute');
-    setExposureSetting(JSON.parse(exposureRes.value));
+    try {
+      const exposureRes = await deviceMaster.getDeviceSetting('camera_exposure_absolute');
+      setExposureSetting(JSON.parse(exposureRes.value));
+    } catch (e) {
+      console.error('Failed to get exposure setting', e);
+    }
   };
 
   const updateBgOpacity = useCallback((val: string) => {

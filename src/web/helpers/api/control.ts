@@ -436,6 +436,9 @@ class Control extends EventEmitter {
       png: 'image/png',
       json: 'application/json',
     };
+    if (data.size === 0) {
+      throw new Error('File is empty');
+    }
     if (path && fileName) {
       // eslint-disable-next-line no-param-reassign
       fileName = fileName.replace(/ /g, '_');

@@ -1545,6 +1545,35 @@ export interface ILang {
     align_red_cross_print: string;
     retake: string;
     calibrate_camera_before_calibrate_modules: string;
+    check_checkpoint_data: string;
+    checking_checkpoint: string;
+    use_old_camera_parameter: string;
+    found_checkpoint: string;
+    downloading_checkpoint: string;
+    failed_to_parse_checkpoint: string;
+    check_device_pictures: string;
+    checking_pictures: string;
+    no_picutre_found: string;
+    calibrating_with_device_pictures: string;
+    failed_to_calibrate_with_pictures: string;
+    getting_plane_height: string;
+    preparing_to_take_picture: string;
+    put_paper: string;
+    put_paper_step1: string;
+    put_paper_step2: string;
+    put_paper_step3: string;
+    solve_pnp_title: string;
+    solve_pnp_step1: string;
+    solve_pnp_step2: string;
+    solve_pnp_step3: string;
+    elevate_and_cut: string;
+    elevate_and_cut_step_1: string;
+    elevate_and_cut_step_1_prism_lift: string;
+    with_prism_lift: string;
+    without_prism_lift: string;
+    camera_parameter_saved_successfully: string;
+    failed_to_save_camera_parameter: string;
+    failed_to_solve_pnp: string;
   };
   input_machine_password: {
     require_password: string,

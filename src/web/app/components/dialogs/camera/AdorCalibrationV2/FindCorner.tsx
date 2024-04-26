@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Button, Modal } from 'antd';
 
 import alertCaller from 'app/actions/alert-caller';
+import alertConstants from 'app/constants/alert-constants';
 import deviceMaster from 'helpers/device-master';
 import progressCaller from 'app/actions/progress-caller';
 import useI18n from 'helpers/useI18n';
@@ -55,8 +56,22 @@ const FindCorner = ({ withPitch, updateParam, onClose, onBack, onNext }: Props):
         }
         setImg({ blob, url: URL.createObjectURL(blob), success });
         if (success) {
-          console.log(data);
-          updateParam({ k: data.k, d: data.d, rvec: data.rvec, tvec: data.tvec, points: data.points });
+          if (data.ret > 3) {
+            alertCaller.popUp({
+              type: alertConstants.WARNING,
+              message: `Large deviation: ${data.ret}, please check engraved points.`,
+            });
+          }
+          updateParam({
+            k: data.k,
+            d: data.d,
+            rvec: data.rvec,
+            tvec: data.tvec,
+            rvecs: [data.rvec],
+            tvecs: [data.tvec],
+            heights: [0],
+            source: 'user',
+          });
         }
       } catch (err) {
         alertCaller.popUpError({ message: err.message || 'Fail to find corners' });
