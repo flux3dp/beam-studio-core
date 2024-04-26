@@ -426,35 +426,45 @@ const SolvePnP = ({ params, dh, hasNext = false, onClose, onNext, onBack }: Prop
             </Row>
           )}
         </Col>
+        {exposureSetting && (
+          <>
+            <Col span={18}>
+              <div className={styles['slider-container']}>
+                <Tooltip title={lang.editor.exposure}>
+                  <WorkareaIcons.Exposure className={styles.icon} />
+                </Tooltip>
+                <Slider
+                  className={styles.slider}
+                  min={Math.max(exposureSetting.min, 250)}
+                  max={Math.min(exposureSetting.max, 650)}
+                  step={exposureSetting.step}
+                  value={exposureSetting.value}
+                  onChange={(value: number) => setExposureSetting({ ...exposureSetting, value })}
+                  onAfterChange={async (value: number) => {
+                    try {
+                      progressCaller.openNonstopProgress({
+                        id: PROGRESS_ID,
+                      });
+                      setExposureSetting({ ...exposureSetting, value });
+                      await deviceMaster.setDeviceSetting(
+                        'camera_exposure_absolute',
+                        value.toString()
+                      );
+                      progressCaller.popById(PROGRESS_ID);
+                      await handleTakePicture(0);
+                    } finally {
+                      progressCaller.popById(PROGRESS_ID);
+                    }
+                  }}
+                />
+              </div>
+            </Col>
+            <Col span={6}>
+              <div className={styles.value}>{exposureSetting.value}</div>
+            </Col>
+          </>
+        )}
       </Row>
-      {exposureSetting && (
-        <div className={styles['slider-container']}>
-          <Tooltip title={lang.editor.exposure}>
-            <WorkareaIcons.Exposure className={styles.icon} />
-          </Tooltip>
-          <Slider
-            className={styles.slider}
-            min={Math.max(exposureSetting.min, 250)}
-            max={Math.min(exposureSetting.max, 650)}
-            step={exposureSetting.step}
-            value={exposureSetting.value}
-            onChange={(value: number) => setExposureSetting({ ...exposureSetting, value })}
-            onAfterChange={async (value: number) => {
-              try {
-                progressCaller.openNonstopProgress({
-                  id: PROGRESS_ID,
-                });
-                setExposureSetting({ ...exposureSetting, value });
-                await deviceMaster.setDeviceSetting('camera_exposure_absolute', value.toString());
-                progressCaller.popById(PROGRESS_ID);
-                await handleTakePicture(0);
-              } finally {
-                progressCaller.popById(PROGRESS_ID);
-              }
-            }}
-          />
-        </div>
-      )}
     </Modal>
   );
 };

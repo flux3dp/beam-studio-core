@@ -9,6 +9,8 @@ import useI18n from 'helpers/useI18n';
 import { FisheyeCameraParametersV2Cali } from 'interfaces/FisheyePreview';
 import { updateData } from 'helpers/camera-calibration-helper';
 
+import styles from './CheckpointData.module.scss';
+
 interface Props {
   factoryMode?: boolean;
   updateParam: (param: FisheyeCameraParametersV2Cali) => void;
@@ -113,7 +115,7 @@ const CheckpointData = ({ factoryMode, updateParam, onClose, onNext }: Props): J
         onCancel={() => onClose?.(false)}
         footer={[]}
       >
-        <SpinLoading color="primary" style={{ '--size': '48px' }} />
+        <SpinLoading className={styles.spinner} color="primary" style={{ '--size': '48px' }} />
       </Modal>
     );
 

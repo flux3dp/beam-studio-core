@@ -86,7 +86,6 @@
 .slider-container {
   display: flex;
   align-items: center;
-  margin: 12px 0 0;
 
   .icon {
     font-size: 22px;
@@ -95,5 +94,14 @@
 
   .slider {
     width: 100%;
+    margin-left: 0;
+    margin-right: 0;
   }
+}
+
+.value {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
