@@ -11,7 +11,9 @@ let fluxTunnelLoaded = false;
 window.addEventListener('FluxTunnelLoaded', () => {
   fluxTunnelLoaded = true;
   if (isWeb() && window.location.protocol === 'http:') {
+    alertCaller.popById('insecure_websocket');
     alertCaller.popUp({
+      id: 'insecure_websocket',
       caption: i18n.lang.insecure_websocket.extension_detected,
       message: i18n.lang.insecure_websocket.extension_detected_description,
       buttonType: alertConstants.CONFIRM_CANCEL,
@@ -35,7 +37,9 @@ export const checkFluxTunnel = (): boolean => {
     }
     failedCount += 1;
     if (failedCount > 30 && isHttps && !chromeExtensionAlertPopped) {
+      alertCaller.popById('insecure_websocket');
       alertCaller.popUp({
+        id: 'insecure_websocket',
         caption: i18n.lang.insecure_websocket.extension_not_deteced,
         message: i18n.lang.insecure_websocket.extension_not_deteced_description,
         buttonType: alertConstants.CONFIRM_CANCEL,
