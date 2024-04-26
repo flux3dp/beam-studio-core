@@ -21,8 +21,12 @@ const PreviewSlider = (): JSX.Element => {
   const getSetting = async () => {
     if (!deviceMaster?.currentDevice?.info) return;
     if (!constant.adorModels.includes(deviceMaster.currentDevice.info.model)) return;
-    const exposureRes = await deviceMaster.getDeviceSetting('camera_exposure_absolute');
-    setExposureSetting(JSON.parse(exposureRes.value));
+    try {
+      const exposureRes = await deviceMaster.getDeviceSetting('camera_exposure_absolute');
+      setExposureSetting(JSON.parse(exposureRes.value));
+    } catch (e) {
+      console.error('Failed to get exposure setting', e);
+    }
   };
 
   const updateBgOpacity = useCallback((val: string) => {

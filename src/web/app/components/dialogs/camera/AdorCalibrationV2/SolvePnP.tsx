@@ -52,9 +52,12 @@ const SolvePnP = ({ params, dh, hasNext = false, onClose, onNext, onBack }: Prop
   const lang = useI18n();
 
   const getSetting = async () => {
-    const exposureRes = await deviceMaster.getDeviceSetting('camera_exposure_absolute');
-    console.log(exposureRes);
-    setExposureSetting(JSON.parse(exposureRes.value));
+    try {
+      const exposureRes = await deviceMaster.getDeviceSetting('camera_exposure_absolute');
+      setExposureSetting(JSON.parse(exposureRes.value));
+    } catch (e) {
+      console.error('Failed to get exposure setting', e);
+    }
   };
 
   const scrollToZoomCenter = useCallback(() => {
