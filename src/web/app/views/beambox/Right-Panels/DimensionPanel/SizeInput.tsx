@@ -1,5 +1,7 @@
-import React, { memo, useCallback, useMemo } from 'react';
+import React, { memo, useCallback, useEffect, useMemo, useRef } from 'react';
 
+import constant from 'app/actions/beambox/constant';
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import storage from 'implementations/storage';
 import UnitInput from 'app/widgets/UnitInput';
@@ -14,10 +16,36 @@ interface Props {
   onBlur?: () => void;
 }
 
+const typeKeyMap = {
+  w: 'width',
+  h: 'height',
+  rx: 'rx',
+  ry: 'ry',
+};
+
 const SizeInput = ({ type, value, onChange, onBlur }: Props): JSX.Element => {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const objectPanelEventEmitter = useMemo(() => eventEmitterFactory.createEventEmitter('object-panel'), []);
   const isMobile = useIsMobile();
   const isInch = useMemo(() => storage.get('default-units') === 'inches', []);
   const unit = useMemo(() => (isInch ? 'in' : 'mm'), [isInch]);
+  const precision = useMemo(() => (isInch ? 4 : 2), [isInch]);
+
+  useEffect(() => {
+    const handler = (newValues?: { [type: string]: number }) => {
+      const changeKey = typeKeyMap[type];
+      if (newValues?.[changeKey] !== undefined && inputRef.current) {
+        let newValue = newValues[changeKey] / constant.dpmm / (isInch ? 25.4 : 1);
+        if (type === 'rx' || type === 'ry') newValue *= 2;
+        inputRef.current.value = newValue.toFixed(precision);
+      }
+    }
+    objectPanelEventEmitter.on('UPDATE_DIMENSION_VALUES', handler);
+    return () => {
+      objectPanelEventEmitter.removeListener('UPDATE_DIMENSION_VALUES', handler);
+    }
+  }, [type, isInch, precision, objectPanelEventEmitter]);
+
   const label = useMemo<string | JSX.Element>(() => {
     if (type === 'w') return 'W';
     if (type === 'h') return 'H';
@@ -27,12 +55,7 @@ const SizeInput = ({ type, value, onChange, onBlur }: Props): JSX.Element => {
   }, [type]);
   const handleChange = useCallback(
     (val: number) => {
-      const changeKey = {
-        w: 'width',
-        h: 'height',
-        rx: 'rx',
-        ry: 'ry',
-      }[type];
+      const changeKey = typeKeyMap[type];
       const newVal = type === 'rx' || type === 'ry' ? val / 2 : val;
       onChange(changeKey, newVal);
     },
@@ -49,17 +72,19 @@ const SizeInput = ({ type, value, onChange, onBlur }: Props): JSX.Element => {
       />
     );
   }
+
   return (
     <div className={styles.dimension}>
       <div className={styles.label}>{label}</div>
         <UnitInput
+          ref={inputRef}
           id={`${type}_size`}
           className={styles.input}
           width={66}
           fontSize={12}
           unit={unit}
           isInch={isInch}
-          precision={isInch ? 4 : 2}
+          precision={precision}
           step={isInch ? 2.54 : 1}
           value={value}
           onBlur={onBlur}

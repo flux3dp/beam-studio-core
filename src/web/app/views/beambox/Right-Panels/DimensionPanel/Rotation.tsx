@@ -1,7 +1,8 @@
 import classNames from 'classnames';
-import React, { memo } from 'react';
+import React, { memo, useEffect, useMemo, useRef } from 'react';
 
 import DimensionPanelIcons from 'app/icons/dimension-panel/DimensionPanelIcons';
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import UnitInput from 'app/widgets/UnitInput';
 import useI18n from 'helpers/useI18n';
@@ -15,8 +16,21 @@ interface Props {
 }
 
 const Rotation = ({ value, onChange }: Props): JSX.Element => {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const objectPanelEventEmitter = useMemo(() => eventEmitterFactory.createEventEmitter('object-panel'), []);
   const isMobile = useIsMobile();
   const t = useI18n().topbar.menu;
+  useEffect(() => {
+    const handler = (newValues?: { rotation?: number }) => {
+      if (newValues?.rotation !== undefined && inputRef.current) {
+        inputRef.current.value = newValues.rotation.toFixed(2)
+      }
+    }
+    objectPanelEventEmitter.on('UPDATE_DIMENSION_VALUES', handler);
+    return () => {
+      objectPanelEventEmitter.removeListener('UPDATE_DIMENSION_VALUES', handler);
+    }
+  }, [objectPanelEventEmitter]);
 
   if (isMobile) {
     return (
@@ -36,6 +50,7 @@ const Rotation = ({ value, onChange }: Props): JSX.Element => {
         <DimensionPanelIcons.Rotate />
       </div>
       <UnitInput
+        ref={inputRef}
         id="rotate"
         className={styles.input}
         width={66}
@@ -43,7 +58,7 @@ const Rotation = ({ value, onChange }: Props): JSX.Element => {
         controls={false}
         unit="deg"
         value={value || 0}
-        precision={0}
+        precision={2}
         onChange={onChange}
       />
     </div>

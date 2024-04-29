@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useCallback, useRef } from 'react';
+import React, { forwardRef, useCallback, useRef, useImperativeHandle } from 'react';
 import { ConfigProvider, InputNumber, InputNumberProps } from 'antd';
 
 import styles from './UnitInput.module.scss';
@@ -18,7 +18,7 @@ interface Props extends InputNumberProps<number> {
  * if isInch is true, the unit will be inch but the value will still be mm,
  * the transfer will be handled by formatter and parser
  */
-const UnitInput = ({
+const UnitInput = forwardRef<HTMLInputElement, Props>(({
   unit,
   isInch,
   onBlur,
@@ -27,9 +27,9 @@ const UnitInput = ({
   fontSize = 14,
   precision = 4,
   ...props
-}: Props): JSX.Element => {
+}: Props, outerRef): JSX.Element => {
   const inputRef = useRef<HTMLInputElement>(null);
-
+  useImperativeHandle(outerRef, () => inputRef.current, []);
   const formatter = useCallback(
     (value: string | number) => {
       let newVal = typeof value === 'string' ? parseFloat(value) : value;
@@ -93,6 +93,6 @@ const UnitInput = ({
       </ConfigProvider>
     </div>
   );
-};
+});
 
 export default UnitInput;
