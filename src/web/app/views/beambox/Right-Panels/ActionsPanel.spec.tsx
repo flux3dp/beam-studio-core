@@ -4,9 +4,11 @@ import { fireEvent, render } from '@testing-library/react';
 
 const mockShowCropPanel = jest.fn();
 const showPhotoEditPanel = jest.fn();
+const mockSvgNestButtons = jest.fn();
 jest.mock('app/actions/dialog-caller', () => ({
   showCropPanel: (...args) => mockShowCropPanel(...args),
   showPhotoEditPanel,
+  showSvgNestButtons: (...args) => mockSvgNestButtons(...args),
 }));
 
 const getFileFromDialog = jest.fn();
@@ -55,6 +57,33 @@ jest.mock('app/svgedit/text/textactions', () => ({
   toSelectMode,
 }));
 
+const tActionPanel = {
+  edit_path: 'edit_path',
+  replace_with: 'replace_with',
+  replace_with_short: 'replace_with_short',
+  trace: 'trace',
+  grading: 'grading',
+  brightness: 'brightness',
+  sharpen: 'sharpen',
+  crop: 'crop',
+  bevel: 'bevel',
+  invert: 'invert',
+  convert_to_path: 'convert_to_path',
+  wait_for_parsing_font: 'Parsing font... Please wait a second',
+  offset: 'offset',
+  array: 'array',
+  auto_arrange: 'auto_arrange',
+  decompose_path: 'decompose_path',
+  disassemble_use: 'disassemble_use',
+  disassembling: 'Disassembling...',
+  ungrouping: 'Ungrouping...',
+  simplify: 'simplify',
+  ai_bg_removal: 'ai_bg_removal',
+  ai_bg_removal_short: 'ai_bg_removal_short',
+  outline: 'outline',
+  weld_text: 'weld_text',
+};
+
 jest.mock('helpers/i18n', () => ({
   lang: {
     alert: {
@@ -63,31 +92,7 @@ jest.mock('helpers/i18n', () => ({
     beambox: {
       right_panel: {
         object_panel: {
-          actions_panel: {
-            edit_path: 'edit_path',
-            replace_with: 'Replace With...',
-            replace_with_short: 'Replace',
-            trace: 'Trace',
-            grading: 'Grading',
-            brightness: 'Brightness',
-            sharpen: 'Sharpen',
-            crop: 'Crop',
-            bevel: 'Bevel',
-            invert: 'Invert',
-            convert_to_path: 'Convert to Path',
-            wait_for_parsing_font: 'Parsing font... Please wait a second',
-            offset: 'Offset',
-            array: 'Array',
-            decompose_path: 'Decompose',
-            disassemble_use: 'Disassemble',
-            disassembling: 'Disassembling...',
-            ungrouping: 'Ungrouping...',
-            simplify: 'simplify',
-            ai_bg_removal: 'ai_bg_removal',
-            ai_bg_removal_short: 'BG Removal',
-            outline: 'Outline',
-            weld_text: 'weld_text',
-          },
+          actions_panel: { ...tActionPanel },
         },
       },
     },
@@ -153,7 +158,6 @@ function tick() {
   });
 }
 
-const ActionButtonSelector = 'div.btn-container>button';
 const ActionButtonSelectorMobile = 'div.object-panel-item';
 
 describe('should render correctly', () => {
@@ -168,14 +172,15 @@ describe('should render correctly', () => {
 
   test('image', async () => {
     document.body.innerHTML = '<image id="svg_1" />';
-    const { container } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+    const { container, getByText } = render(
+      <ActionsPanel elem={document.getElementById('svg_1')} />
+    );
     expect(container).toMatchSnapshot();
 
     const blob = new Blob();
     getFileFromDialog.mockResolvedValueOnce(blob);
 
-    const actionButtons = container.querySelectorAll(ActionButtonSelector);
-    fireEvent.click(actionButtons[0]);
+    fireEvent.click(getByText(tActionPanel.replace_with));
     await tick();
     expect(getFileFromDialog).toHaveBeenCalledTimes(1);
     expect(getFileFromDialog).toHaveBeenNthCalledWith(1, {
@@ -205,38 +210,41 @@ describe('should render correctly', () => {
 
     jest.resetAllMocks();
     getFileFromDialog.mockResolvedValueOnce(null);
-    fireEvent.click(actionButtons[0]);
+    fireEvent.click(getByText(tActionPanel.replace_with));
     await tick();
     expect(replaceBitmap).not.toHaveBeenCalled();
 
-    fireEvent.click(actionButtons[1]);
+    fireEvent.click(getByText(tActionPanel.ai_bg_removal));
     expect(mockRemoveBackground).toHaveBeenCalledTimes(1);
     expect(mockRemoveBackground).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
 
-    fireEvent.click(actionButtons[2]);
+    fireEvent.click(getByText(tActionPanel.trace));
     expect(mockTraceImage).toHaveBeenCalledTimes(1);
 
-    fireEvent.click(actionButtons[3]);
+    fireEvent.click(getByText(tActionPanel.grading));
     expect(showPhotoEditPanel).toHaveBeenCalledTimes(1);
     expect(showPhotoEditPanel).toHaveBeenNthCalledWith(1, 'curve');
 
-    fireEvent.click(actionButtons[4]);
+    fireEvent.click(getByText(tActionPanel.sharpen));
     expect(showPhotoEditPanel).toHaveBeenCalledTimes(2);
     expect(showPhotoEditPanel).toHaveBeenNthCalledWith(2, 'sharpen');
 
-    fireEvent.click(actionButtons[5]);
+    fireEvent.click(getByText(tActionPanel.crop));
     expect(mockShowCropPanel).toHaveBeenCalledTimes(1);
 
-    fireEvent.click(actionButtons[6]);
+    fireEvent.click(getByText(tActionPanel.bevel));
     expect(generateStampBevel).toHaveBeenCalledTimes(1);
     expect(generateStampBevel).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
 
-    fireEvent.click(actionButtons[7]);
+    fireEvent.click(getByText(tActionPanel.invert));
     expect(colorInvert).toHaveBeenCalledTimes(1);
     expect(colorInvert).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
 
-    fireEvent.click(actionButtons[8]);
+    fireEvent.click(getByText(tActionPanel.array));
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
+
+    fireEvent.click(getByText(tActionPanel.auto_arrange));
+    expect(mockSvgNestButtons).toHaveBeenCalledTimes(1);
   });
 
   test('text', async () => {
@@ -246,19 +254,18 @@ describe('should render correctly', () => {
       },
     });
     document.body.innerHTML = '<text id="svg_1" />';
-    const { container } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+    const { container, getByText } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
     expect(container).toMatchSnapshot();
 
     convertTextToPath.mockResolvedValueOnce({});
-    const actionButtons = container.querySelectorAll(ActionButtonSelector);
-    fireEvent.click(actionButtons[0]);
+    fireEvent.click(getByText(tActionPanel.convert_to_path));
     await tick();
     expect(toSelectMode).toHaveBeenCalledTimes(1);
     expect(clearSelection).toHaveBeenCalledTimes(1);
     expect(convertTextToPath).toHaveBeenCalledTimes(1);
     expect(convertTextToPath).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
 
-    fireEvent.click(actionButtons[1]);
+    fireEvent.click(getByText(tActionPanel.weld_text));
     await tick();
     expect(toSelectMode).toHaveBeenCalledTimes(2);
     expect(clearSelection).toHaveBeenCalledTimes(2);
@@ -267,104 +274,100 @@ describe('should render correctly', () => {
       weldingTexts: true,
     });
 
-    fireEvent.click(actionButtons[2]);
+    fireEvent.click(getByText(tActionPanel.array));
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
+    fireEvent.click(getByText(tActionPanel.auto_arrange));
+    expect(mockSvgNestButtons).toHaveBeenCalledTimes(1);
   });
 
   test('path', () => {
     document.body.innerHTML = '<path id="svg_1" />';
-    const { container } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+    const { container, getByText } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
     expect(container).toMatchSnapshot();
 
-    const actionButtons = container.querySelectorAll(ActionButtonSelector);
-    fireEvent.click(actionButtons[0]);
+    fireEvent.click(getByText(tActionPanel.edit_path));
     expect(pathActions.toEditMode).toHaveBeenCalledTimes(1);
-
-    fireEvent.click(actionButtons[1]);
+    fireEvent.click(getByText(tActionPanel.decompose_path));
     expect(decomposePath).toHaveBeenCalledTimes(1);
-
-    fireEvent.click(actionButtons[2]);
+    fireEvent.click(getByText(tActionPanel.offset));
     expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
-
-    fireEvent.click(actionButtons[3]);
+    fireEvent.click(getByText(tActionPanel.array));
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
+    fireEvent.click(getByText(tActionPanel.auto_arrange));
+    expect(mockSvgNestButtons).toHaveBeenCalledTimes(1);
   });
 
   test('rect', () => {
     document.body.innerHTML = '<rect id="svg_1" />';
-    const { container } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+    const { container, getByText } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
     expect(container).toMatchSnapshot();
 
-    const actionButtons = container.querySelectorAll(ActionButtonSelector);
-    fireEvent.click(actionButtons[0]);
+    fireEvent.click(getByText(tActionPanel.convert_to_path));
     expect(convertToPath).toHaveBeenCalledTimes(1);
-
-    fireEvent.click(actionButtons[1]);
+    fireEvent.click(getByText(tActionPanel.offset));
     expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
-
-    fireEvent.click(actionButtons[2]);
+    fireEvent.click(getByText(tActionPanel.array));
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
+    fireEvent.click(getByText(tActionPanel.auto_arrange));
+    expect(mockSvgNestButtons).toHaveBeenCalledTimes(1);
   });
 
   test('ellipse', () => {
     document.body.innerHTML = '<ellipse id="svg_1" />';
-    const { container } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+    const { container, getByText } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
     expect(container).toMatchSnapshot();
 
-    const actionButtons = container.querySelectorAll(ActionButtonSelector);
-    fireEvent.click(actionButtons[0]);
+    fireEvent.click(getByText(tActionPanel.convert_to_path));
     expect(convertToPath).toHaveBeenCalledTimes(1);
-
-    fireEvent.click(actionButtons[1]);
+    fireEvent.click(getByText(tActionPanel.offset));
     expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
-
-    fireEvent.click(actionButtons[2]);
+    fireEvent.click(getByText(tActionPanel.array));
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
+    fireEvent.click(getByText(tActionPanel.auto_arrange));
+    expect(mockSvgNestButtons).toHaveBeenCalledTimes(1);
   });
 
   test('polygon', () => {
     document.body.innerHTML = '<polygon id="svg_1" />';
-    const { container } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+    const { container, getByText } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
     expect(container).toMatchSnapshot();
 
-    const actionButtons = container.querySelectorAll(ActionButtonSelector);
-    fireEvent.click(actionButtons[0]);
+    fireEvent.click(getByText(tActionPanel.convert_to_path));
     expect(convertToPath).toHaveBeenCalledTimes(1);
-
-    fireEvent.click(actionButtons[1]);
+    fireEvent.click(getByText(tActionPanel.offset));
     expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
-
-    fireEvent.click(actionButtons[2]);
+    fireEvent.click(getByText(tActionPanel.array));
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
+    fireEvent.click(getByText(tActionPanel.auto_arrange));
+    expect(mockSvgNestButtons).toHaveBeenCalledTimes(1);
   });
 
   test('line', () => {
     document.body.innerHTML = '<line id="svg_1" />';
-    const { container } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+    const { container, getByText } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
     expect(container).toMatchSnapshot();
 
-    const actionButtons = container.querySelectorAll(ActionButtonSelector);
-    fireEvent.click(actionButtons[0]);
+    fireEvent.click(getByText(tActionPanel.convert_to_path));
     expect(convertToPath).toHaveBeenCalledTimes(1);
-
-    fireEvent.click(actionButtons[1]);
+    fireEvent.click(getByText(tActionPanel.offset));
     expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
-
-    fireEvent.click(actionButtons[2]);
+    fireEvent.click(getByText(tActionPanel.array));
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
+    fireEvent.click(getByText(tActionPanel.auto_arrange));
+    expect(mockSvgNestButtons).toHaveBeenCalledTimes(1);
   });
 
   test('use', () => {
     document.body.innerHTML = '<use id="svg_1" />';
-    const { container } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+    const { container, getByText } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
     expect(container).toMatchSnapshot();
 
-    const actionButtons = container.querySelectorAll(ActionButtonSelector);
-    fireEvent.click(actionButtons[0]);
+    fireEvent.click(getByText(tActionPanel.disassemble_use));
     expect(disassembleUse2Group).toHaveBeenCalledTimes(1);
-
-    fireEvent.click(actionButtons[1]);
+    fireEvent.click(getByText(tActionPanel.array));
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
+    fireEvent.click(getByText(tActionPanel.auto_arrange));
+    expect(mockSvgNestButtons).toHaveBeenCalledTimes(1);
   });
 
   describe('g', () => {
@@ -375,25 +378,26 @@ describe('should render correctly', () => {
           <ellipse id="svg_2" />
         </g>
       `;
-      const { container } = render(<ActionsPanel elem={document.getElementById('svg_3')} />);
+      const { container, getByText } = render(<ActionsPanel elem={document.getElementById('svg_3')} />);
       expect(container).toMatchSnapshot();
 
-      const actionButtons = container.querySelectorAll(ActionButtonSelector);
-      fireEvent.click(actionButtons[0]);
+      fireEvent.click(getByText(tActionPanel.offset));
       expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
-
-      fireEvent.click(actionButtons[1]);
+      fireEvent.click(getByText(tActionPanel.array));
       expect(triggerGridTool).toHaveBeenCalledTimes(1);
+      fireEvent.click(getByText(tActionPanel.auto_arrange));
+      expect(mockSvgNestButtons).toHaveBeenCalledTimes(1);
     });
 
     test('single selection', () => {
       document.body.innerHTML = '<g id="svg_1" />';
-      const { container } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+      const { container, getByText } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
       expect(container).toMatchSnapshot();
 
-      const actionButtons = container.querySelectorAll(ActionButtonSelector);
-      fireEvent.click(actionButtons[0]);
+      fireEvent.click(getByText(tActionPanel.array));
       expect(triggerGridTool).toHaveBeenCalledTimes(1);
+      fireEvent.click(getByText(tActionPanel.auto_arrange));
+      expect(mockSvgNestButtons).toHaveBeenCalledTimes(1);
     });
   });
 });
@@ -411,13 +415,13 @@ describe('should render correctly in mobile', () => {
 
   test('image', async () => {
     document.body.innerHTML = '<image id="svg_1" />';
-    const { container } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+    const { container, getByText } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
     expect(container).toMatchSnapshot();
 
     const blob = new Blob();
     getFileFromDialog.mockResolvedValueOnce(blob);
-    const actionButtons = container.querySelectorAll(ActionButtonSelectorMobile);
-    fireEvent.click(actionButtons[0]);
+
+    fireEvent.click(getByText(tActionPanel.replace_with_short));
     await tick();
     expect(getFileFromDialog).toHaveBeenCalledTimes(1);
     expect(getFileFromDialog).toHaveBeenNthCalledWith(1, {
@@ -447,41 +451,41 @@ describe('should render correctly in mobile', () => {
 
     jest.resetAllMocks();
     getFileFromDialog.mockResolvedValueOnce(null);
-    fireEvent.click(actionButtons[0]);
+    fireEvent.click(getByText(tActionPanel.replace_with_short));
     await tick();
     expect(replaceBitmap).not.toHaveBeenCalled();
 
-    fireEvent.click(actionButtons[1]);
+    fireEvent.click(getByText(tActionPanel.outline));
     expect(mockPotrace).toHaveBeenCalledTimes(1);
     expect(mockPotrace).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
 
-    fireEvent.click(actionButtons[2]);
+    fireEvent.click(getByText(tActionPanel.brightness));
     expect(showPhotoEditPanel).toHaveBeenCalledTimes(1);
     expect(showPhotoEditPanel).toHaveBeenNthCalledWith(1, 'curve');
 
     mockCheckConnection.mockReturnValueOnce(true);
-    fireEvent.click(actionButtons[3]);
+    fireEvent.click(getByText(tActionPanel.sharpen));
     expect(showPhotoEditPanel).toHaveBeenCalledTimes(2);
     expect(showPhotoEditPanel).toHaveBeenNthCalledWith(2, 'sharpen');
 
-    fireEvent.click(actionButtons[4]);
+    fireEvent.click(getByText(tActionPanel.crop));
     expect(mockShowCropPanel).toHaveBeenCalledTimes(1);
 
-    fireEvent.click(actionButtons[5]);
+    fireEvent.click(getByText(tActionPanel.bevel));
     expect(generateStampBevel).toHaveBeenCalledTimes(1);
     expect(generateStampBevel).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
 
-    fireEvent.click(actionButtons[6]);
+    fireEvent.click(getByText(tActionPanel.invert));
     expect(colorInvert).toHaveBeenCalledTimes(1);
     expect(colorInvert).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
 
-    fireEvent.click(actionButtons[7]);
+    fireEvent.click(getByText(tActionPanel.array));
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
 
-    fireEvent.click(actionButtons[8]);
+    fireEvent.click(getByText(tActionPanel.trace));
     expect(mockTraceImage).toHaveBeenCalledTimes(1);
 
-    fireEvent.click(actionButtons[9]);
+    fireEvent.click(getByText(tActionPanel.ai_bg_removal_short));
     expect(mockRemoveBackground).toHaveBeenCalledTimes(1);
     expect(mockRemoveBackground).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
   });
@@ -493,19 +497,18 @@ describe('should render correctly in mobile', () => {
       },
     });
     document.body.innerHTML = '<text id="svg_1" />';
-    const { container } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+    const { container, getByText } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
     expect(container).toMatchSnapshot();
 
     convertTextToPath.mockResolvedValueOnce({});
-    const actionButtons = container.querySelectorAll(ActionButtonSelectorMobile);
-    fireEvent.click(actionButtons[0]);
+    fireEvent.click(getByText(tActionPanel.outline));
     await tick();
     expect(toSelectMode).toHaveBeenCalledTimes(1);
     expect(clearSelection).toHaveBeenCalledTimes(1);
     expect(convertTextToPath).toHaveBeenCalledTimes(1);
     expect(convertTextToPath).toHaveBeenNthCalledWith(1, document.getElementById('svg_1'));
 
-    fireEvent.click(actionButtons[1]);
+    fireEvent.click(getByText(tActionPanel.weld_text));
     await tick();
     expect(toSelectMode).toHaveBeenCalledTimes(2);
     expect(clearSelection).toHaveBeenCalledTimes(2);
@@ -514,104 +517,102 @@ describe('should render correctly in mobile', () => {
       weldingTexts: true,
     });
 
-    fireEvent.click(actionButtons[2]);
+    fireEvent.click(getByText(tActionPanel.array));
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
+    fireEvent.click(getByText(tActionPanel.auto_arrange));
+    expect(mockSvgNestButtons).toHaveBeenCalledTimes(1);
   });
 
   test('path', () => {
     document.body.innerHTML = '<path id="svg_1" />';
-    const { container } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+    const { container, getByText } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
     expect(container).toMatchSnapshot();
 
-    const actionButtons = container.querySelectorAll(ActionButtonSelectorMobile);
-    fireEvent.click(actionButtons[0]);
+    fireEvent.click(getByText(tActionPanel.edit_path));
     expect(pathActions.toEditMode).toHaveBeenCalledTimes(1);
-
-    fireEvent.click(actionButtons[1]);
+    fireEvent.click(getByText(tActionPanel.decompose_path));
     expect(decomposePath).toHaveBeenCalledTimes(1);
-
-    fireEvent.click(actionButtons[2]);
+    fireEvent.click(getByText(tActionPanel.offset));
     expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
-
-    fireEvent.click(actionButtons[3]);
+    fireEvent.click(getByText(tActionPanel.array));
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
+    fireEvent.click(getByText(tActionPanel.auto_arrange));
+    expect(mockSvgNestButtons).toHaveBeenCalledTimes(1);
   });
 
   test('rect', () => {
     document.body.innerHTML = '<rect id="svg_1" />';
-    const { container } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+    const { container, getByText } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
     expect(container).toMatchSnapshot();
 
-    const actionButtons = container.querySelectorAll(ActionButtonSelectorMobile);
-    fireEvent.click(actionButtons[0]);
+    fireEvent.click(getByText(tActionPanel.outline));
     expect(convertToPath).toHaveBeenCalledTimes(1);
-
-    fireEvent.click(actionButtons[1]);
+    fireEvent.click(getByText(tActionPanel.offset));
     expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
-
-    fireEvent.click(actionButtons[2]);
+    fireEvent.click(getByText(tActionPanel.array));
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
+    fireEvent.click(getByText(tActionPanel.auto_arrange));
+    expect(mockSvgNestButtons).toHaveBeenCalledTimes(1);
   });
 
   test('ellipse', () => {
     document.body.innerHTML = '<ellipse id="svg_1" />';
-    const { container } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+    const { container, getByText } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
     expect(container).toMatchSnapshot();
 
-    const actionButtons = container.querySelectorAll(ActionButtonSelectorMobile);
-    fireEvent.click(actionButtons[0]);
+    fireEvent.click(getByText(tActionPanel.outline));
     expect(convertToPath).toHaveBeenCalledTimes(1);
-
-    fireEvent.click(actionButtons[1]);
+    fireEvent.click(getByText(tActionPanel.offset));
     expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
-
-    fireEvent.click(actionButtons[2]);
+    fireEvent.click(getByText(tActionPanel.array));
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
+    fireEvent.click(getByText(tActionPanel.auto_arrange));
+    expect(mockSvgNestButtons).toHaveBeenCalledTimes(1);
   });
 
   test('polygon', () => {
     document.body.innerHTML = '<polygon id="svg_1" />';
-    const { container } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+    const { container, getByText } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
     expect(container).toMatchSnapshot();
 
-    const actionButtons = container.querySelectorAll(ActionButtonSelectorMobile);
-    fireEvent.click(actionButtons[0]);
+    fireEvent.click(getByText(tActionPanel.outline));
     expect(convertToPath).toHaveBeenCalledTimes(1);
-
-    fireEvent.click(actionButtons[1]);
+    fireEvent.click(getByText(tActionPanel.offset));
     expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
-
-    fireEvent.click(actionButtons[2]);
+    fireEvent.click(getByText(tActionPanel.array));
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
+    fireEvent.click(getByText(tActionPanel.auto_arrange));
+    expect(mockSvgNestButtons).toHaveBeenCalledTimes(1);
   });
 
   test('line', () => {
     document.body.innerHTML = '<line id="svg_1" />';
-    const { container } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+    const { container, getByText } = render(
+      <ActionsPanel elem={document.getElementById('svg_1')} />
+    );
     expect(container).toMatchSnapshot();
 
-    const actionButtons = container.querySelectorAll(ActionButtonSelectorMobile);
-    fireEvent.click(actionButtons[0]);
+    fireEvent.click(getByText(tActionPanel.outline));
     expect(convertToPath).toHaveBeenCalledTimes(1);
-
-    fireEvent.click(actionButtons[1]);
+    fireEvent.click(getByText(tActionPanel.offset));
     expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
-
-    fireEvent.click(actionButtons[2]);
+    fireEvent.click(getByText(tActionPanel.array));
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
+    fireEvent.click(getByText(tActionPanel.auto_arrange));
+    expect(mockSvgNestButtons).toHaveBeenCalledTimes(1);
   });
 
   test('use', () => {
     document.body.innerHTML = '<use id="svg_1" />';
-    const { container } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+    const { container, getByText } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
     expect(container).toMatchSnapshot();
 
-    const actionButtons = container.querySelectorAll(ActionButtonSelectorMobile);
-    fireEvent.click(actionButtons[0]);
+    fireEvent.click(getByText(tActionPanel.disassemble_use));
     expect(disassembleUse2Group).toHaveBeenCalledTimes(1);
-
-    fireEvent.click(actionButtons[1]);
+    fireEvent.click(getByText(tActionPanel.array));
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
+    fireEvent.click(getByText(tActionPanel.auto_arrange));
+    expect(mockSvgNestButtons).toHaveBeenCalledTimes(1);
   });
 
   describe('g', () => {
@@ -622,25 +623,24 @@ describe('should render correctly in mobile', () => {
           <ellipse id="svg_2" />
         </g>
       `;
-      const { container } = render(<ActionsPanel elem={document.getElementById('svg_3')} />);
+      const { container, getByText } = render(<ActionsPanel elem={document.getElementById('svg_3')} />);
       expect(container).toMatchSnapshot();
-
-      const actionButtons = container.querySelectorAll(ActionButtonSelectorMobile);
-      fireEvent.click(actionButtons[0]);
+      fireEvent.click(getByText(tActionPanel.offset));
       expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
-
-      fireEvent.click(actionButtons[1]);
+      fireEvent.click(getByText(tActionPanel.array));
       expect(triggerGridTool).toHaveBeenCalledTimes(1);
+      fireEvent.click(getByText(tActionPanel.auto_arrange));
+      expect(mockSvgNestButtons).toHaveBeenCalledTimes(1);
     });
 
     test('single selection', () => {
       document.body.innerHTML = '<g id="svg_1" />';
-      const { container } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+      const { container, getByText } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
       expect(container).toMatchSnapshot();
-
-      const actionButtons = container.querySelectorAll(ActionButtonSelectorMobile);
-      fireEvent.click(actionButtons[0]);
+      fireEvent.click(getByText(tActionPanel.array));
       expect(triggerGridTool).toHaveBeenCalledTimes(1);
+      fireEvent.click(getByText(tActionPanel.auto_arrange));
+      expect(mockSvgNestButtons).toHaveBeenCalledTimes(1);
     });
   });
 });

@@ -1,5 +1,6 @@
 import Array from './array.svg';
 import ArrayMobile from './array-mobile.svg';
+import AutoArrange from './auto-arrange.svg';
 import BackgroungRemoval from './background-removal.svg';
 import BackgroungRemovalMobile from './background-removal-mobile.svg';
 import Bevel from './bevel.svg';
@@ -33,6 +34,7 @@ import WeldText from './weld-text.svg';
 export default {
   Array,
   ArrayMobile,
+  AutoArrange,
   BackgroungRemoval,
   BackgroungRemovalMobile,
   Bevel,

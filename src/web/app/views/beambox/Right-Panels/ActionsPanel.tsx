@@ -34,6 +34,13 @@ interface Props {
   elem: Element;
 }
 
+interface ButtonOpts {
+  isFullLine?: boolean;
+  isDisabled?: boolean;
+  autoClose?: boolean;
+  mobileLabel?: string;
+}
+
 class ActionsPanel extends React.Component<Props> {
   replaceImage = async (): Promise<void> => {
     setTimeout(() => ObjectPanelController.updateActiveKey(null), 300);
@@ -74,7 +81,6 @@ class ActionsPanel extends React.Component<Props> {
       textActions.toSelectMode();
     }
     svgCanvas.clearSelection();
-
     await FontFuncs.convertTextToPath(textElem);
   };
 
@@ -86,7 +92,6 @@ class ActionsPanel extends React.Component<Props> {
       textActions.toSelectMode();
     }
     svgCanvas.clearSelection();
-
     await FontFuncs.convertTextToPath(textElem, { weldingTexts: true });
   };
 
@@ -96,12 +101,7 @@ class ActionsPanel extends React.Component<Props> {
     onClick: () => void,
     icon: JSX.Element,
     mobileIcon: JSX.Element,
-    opts: {
-      isFullLine?: boolean;
-      isDisabled?: boolean;
-      autoClose?: boolean;
-      mobileLabel?: string;
-    } = {}
+    opts: ButtonOpts = {}
   ): JSX.Element => {
     const { isFullLine, isDisabled, autoClose, mobileLabel } = opts;
     return isMobile() ? (
@@ -133,10 +133,41 @@ class ActionsPanel extends React.Component<Props> {
     );
   };
 
+  renderArrayButton = (opts: ButtonOpts = {}): JSX.Element =>
+    this.renderButtons(
+      'array',
+      LANG.array,
+      () => svgEditor.triggerGridTool(),
+      <ActionPanelIcons.Array />,
+      <ActionPanelIcons.ArrayMobile />,
+      { autoClose: false, ...opts }
+    );
+
+  renderOffsetButton = (opts: ButtonOpts = {}): JSX.Element =>
+    this.renderButtons(
+      'offset',
+      LANG.offset,
+      () => svgEditor.triggerOffsetTool(),
+      <ActionPanelIcons.Offset />,
+      <ActionPanelIcons.Offset />,
+      { autoClose: false, ...opts }
+    );
+
+  renderAutoArrangeButton = (opts: ButtonOpts = {}): JSX.Element =>
+    this.renderButtons(
+      'auto_arrange',
+      LANG.auto_arrange,
+      () => Dialog.showSvgNestButtons(),
+      <ActionPanelIcons.AutoArrange />,
+      <ActionPanelIcons.AutoArrange />,
+      { isFullLine: true, ...opts }
+    );
+
   renderImageActions = (): JSX.Element[] => {
     const { elem } = this.props;
     const isShading = elem.getAttribute('data-shading') === 'true';
     const content = {
+      autoArrange: this.renderAutoArrangeButton(),
       replace_with: this.renderButtons(
         'replace_with',
         LANG.replace_with,
@@ -201,14 +232,7 @@ class ActionsPanel extends React.Component<Props> {
         <ActionPanelIcons.Invert />,
         <ActionPanelIcons.Invert />
       ),
-      array: this.renderButtons(
-        'array',
-        LANG.array,
-        () => svgEditor.triggerGridTool(),
-        <ActionPanelIcons.Array />,
-        <ActionPanelIcons.ArrayMobile />,
-        { autoClose: false }
-      ),
+      array: this.renderArrayButton(),
       potrace: this.renderButtons(
         'potrace',
         LANG.outline,
@@ -229,10 +253,12 @@ class ActionsPanel extends React.Component<Props> {
           'array',
           'trace',
           'bg-removal',
+          'autoArrange',
         ]
       : [
           'replace_with',
           'bg-removal',
+          'autoArrange',
           'trace',
           'grading',
           'sharpen',
@@ -269,14 +295,8 @@ class ActionsPanel extends React.Component<Props> {
           isFullLine: true,
         }
       ),
-      this.renderButtons(
-        'array',
-        LANG.array,
-        () => svgEditor.triggerGridTool(),
-        <ActionPanelIcons.Array />,
-        <ActionPanelIcons.ArrayMobile />,
-        { isFullLine: true, autoClose: false }
-      ),
+      this.renderAutoArrangeButton(),
+      this.renderArrayButton({ isFullLine: true }),
     ];
     return content;
   };
@@ -312,14 +332,8 @@ class ActionsPanel extends React.Component<Props> {
         <ActionPanelIcons.ConvertToPathMobile />,
         { isFullLine: true, mobileLabel: LANG.outline }
       ),
-      this.renderButtons(
-        'array',
-        LANG.array,
-        () => svgEditor.triggerGridTool(),
-        <ActionPanelIcons.Array />,
-        <ActionPanelIcons.ArrayMobile />,
-        { isFullLine: true, autoClose: false }
-      ),
+      this.renderAutoArrangeButton(),
+      this.renderArrayButton({ isFullLine: true }),
     ];
     return content;
   };
@@ -343,22 +357,9 @@ class ActionsPanel extends React.Component<Props> {
         <ActionPanelIcons.DecomposeMobile />,
         { isFullLine: true }
       ),
-      this.renderButtons(
-        'offset',
-        LANG.offset,
-        () => svgEditor.triggerOffsetTool(),
-        <ActionPanelIcons.Offset />,
-        <ActionPanelIcons.Offset />,
-        { autoClose: false }
-      ),
-      this.renderButtons(
-        'array',
-        LANG.array,
-        () => svgEditor.triggerGridTool(),
-        <ActionPanelIcons.Array />,
-        <ActionPanelIcons.ArrayMobile />,
-        { autoClose: false }
-      ),
+      this.renderAutoArrangeButton(),
+      this.renderOffsetButton(),
+      this.renderArrayButton(),
       this.renderButtons(
         'simplify',
         LANG.simplify,
@@ -382,22 +383,9 @@ class ActionsPanel extends React.Component<Props> {
         <ActionPanelIcons.ConvertToPathMobile />,
         { isFullLine: true, mobileLabel: LANG.outline }
       ),
-      this.renderButtons(
-        'offset',
-        LANG.offset,
-        () => svgEditor.triggerOffsetTool(),
-        <ActionPanelIcons.Offset />,
-        <ActionPanelIcons.Offset />,
-        { autoClose: false }
-      ),
-      this.renderButtons(
-        'array',
-        LANG.array,
-        () => svgEditor.triggerGridTool(),
-        <ActionPanelIcons.Array />,
-        <ActionPanelIcons.ArrayMobile />,
-        { autoClose: false }
-      ),
+      this.renderAutoArrangeButton(),
+      this.renderOffsetButton(),
+      this.renderArrayButton(),
     ];
     return content;
   };
@@ -413,22 +401,9 @@ class ActionsPanel extends React.Component<Props> {
         <ActionPanelIcons.ConvertToPathMobile />,
         { isFullLine: true, mobileLabel: LANG.outline }
       ),
-      this.renderButtons(
-        'offset',
-        LANG.offset,
-        () => svgEditor.triggerOffsetTool(),
-        <ActionPanelIcons.Offset />,
-        <ActionPanelIcons.Offset />,
-        { autoClose: false }
-      ),
-      this.renderButtons(
-        'array',
-        LANG.array,
-        () => svgEditor.triggerGridTool(),
-        <ActionPanelIcons.Array />,
-        <ActionPanelIcons.ArrayMobile />,
-        { autoClose: false }
-      ),
+      this.renderAutoArrangeButton(),
+      this.renderOffsetButton(),
+      this.renderArrayButton(),
     ];
     return content;
   };
@@ -444,22 +419,9 @@ class ActionsPanel extends React.Component<Props> {
         <ActionPanelIcons.ConvertToPathMobile />,
         { isFullLine: true, mobileLabel: LANG.outline }
       ),
-      this.renderButtons(
-        'offset',
-        LANG.offset,
-        () => svgEditor.triggerOffsetTool(),
-        <ActionPanelIcons.Offset />,
-        <ActionPanelIcons.Offset />,
-        { autoClose: false }
-      ),
-      this.renderButtons(
-        'array',
-        LANG.array,
-        () => svgEditor.triggerGridTool(),
-        <ActionPanelIcons.Array />,
-        <ActionPanelIcons.ArrayMobile />,
-        { autoClose: false }
-      ),
+      this.renderAutoArrangeButton(),
+      this.renderOffsetButton(),
+      this.renderArrayButton(),
     ];
     return content;
   };
@@ -475,22 +437,9 @@ class ActionsPanel extends React.Component<Props> {
         <ActionPanelIcons.ConvertToPathMobile />,
         { isFullLine: true, mobileLabel: LANG.outline }
       ),
-      this.renderButtons(
-        'offset',
-        LANG.offset,
-        () => svgEditor.triggerOffsetTool(),
-        <ActionPanelIcons.Offset />,
-        <ActionPanelIcons.Offset />,
-        { autoClose: false }
-      ),
-      this.renderButtons(
-        'array',
-        LANG.array,
-        () => svgEditor.triggerGridTool(),
-        <ActionPanelIcons.Array />,
-        <ActionPanelIcons.ArrayMobile />,
-        { autoClose: false }
-      ),
+      this.renderAutoArrangeButton(),
+      this.renderOffsetButton(),
+      this.renderArrayButton(),
     ];
     return content;
   };
@@ -505,28 +454,16 @@ class ActionsPanel extends React.Component<Props> {
         <ActionPanelIcons.DisassembleMobile />,
         { isFullLine: true }
       ),
-      this.renderButtons(
-        'array',
-        LANG.array,
-        () => svgEditor.triggerGridTool(),
-        <ActionPanelIcons.Array />,
-        <ActionPanelIcons.ArrayMobile />,
-        { isFullLine: true, autoClose: false }
-      ),
+      this.renderAutoArrangeButton(),
+      this.renderArrayButton({ isFullLine: true }),
     ];
     return content;
   };
 
   renderGroupActions = (): JSX.Element[] => {
     const content = [
-      this.renderButtons(
-        'array',
-        LANG.array,
-        () => svgEditor.triggerGridTool(),
-        <ActionPanelIcons.Array />,
-        <ActionPanelIcons.ArrayMobile />,
-        { isFullLine: true, autoClose: false }
-      ),
+      this.renderAutoArrangeButton(),
+      this.renderArrayButton({ isFullLine: true }),
     ];
     return content;
   };
@@ -568,22 +505,9 @@ class ActionsPanel extends React.Component<Props> {
     appendOptionalButtons(content);
     content = [
       ...content,
-      this.renderButtons(
-        'offset',
-        LANG.offset,
-        () => svgEditor.triggerOffsetTool(),
-        <ActionPanelIcons.Offset />,
-        <ActionPanelIcons.Offset />,
-        { isDisabled: !supportOffset, autoClose: false }
-      ),
-      this.renderButtons(
-        'array',
-        LANG.array,
-        () => svgEditor.triggerGridTool(),
-        <ActionPanelIcons.Array />,
-        <ActionPanelIcons.ArrayMobile />,
-        { autoClose: false }
-      ),
+      this.renderAutoArrangeButton(),
+      this.renderOffsetButton({ isDisabled: !supportOffset }),
+      this.renderArrayButton(),
     ];
     return content;
   };
