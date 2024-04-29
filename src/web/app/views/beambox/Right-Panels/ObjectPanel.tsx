@@ -7,10 +7,10 @@ import ConfigPanel from 'app/views/beambox/Right-Panels/ConfigPanel/ConfigPanel'
 import dialogCaller from 'app/actions/dialog-caller';
 import DimensionPanel from 'app/views/beambox/Right-Panels/DimensionPanel/DimensionPanel';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
-import i18n from 'helpers/i18n';
 import ObjectPanelIcons from 'app/icons/object-panel/ObjectPanelIcons';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import OptionsPanel from 'app/views/beambox/Right-Panels/OptionsPanel';
+import useI18n from 'helpers/useI18n';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { iconButtonTheme } from 'app/views/beambox/Right-Panels/antd-config';
 import { ObjectPanelContext } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
@@ -25,9 +25,14 @@ getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
   svgEditor = globalSVG.Editor;
 });
-const LANG = i18n.lang.beambox.right_panel.object_panel;
 
-function ObjectPanel(): JSX.Element {
+interface Props {
+  hide?: boolean;
+}
+
+function ObjectPanel({ hide }: Props): JSX.Element {
+  const lang = useI18n();
+  const tObjectpanel = lang.beambox.right_panel.object_panel;
   const isMobile = useIsMobile();
   const context = useContext(ObjectPanelContext);
   const { selectedElement: elem } = useContext(SelectedElementContext);
@@ -73,19 +78,19 @@ function ObjectPanel(): JSX.Element {
       <ObjectPanelItem.Item
         id="delete"
         content={<ObjectPanelIcons.Trash />}
-        label={i18n.lang.topbar.menu.delete}
+        label={lang.topbar.menu.delete}
         onClick={svgEditor.deleteSelected}
       />
       <ObjectPanelItem.Item
         id="duplicate"
         content={<ObjectPanelIcons.Duplicate />}
-        label={i18n.lang.topbar.menu.duplicate}
+        label={lang.topbar.menu.duplicate}
         onClick={() => svgCanvas.cloneSelectedElements(20, 20)}
       />
       <ObjectPanelItem.Item
         id="parameter"
         content={<ObjectPanelIcons.Parameter />}
-        label={i18n.lang.beambox.right_panel.laser_panel.parameters}
+        label={lang.beambox.right_panel.laser_panel.parameters}
         onClick={() => {
           dialogCaller.addDialogComponent('config-panel', <ConfigPanel UIType="modal" />);
         }}
@@ -102,15 +107,15 @@ function ObjectPanel(): JSX.Element {
         <ObjectPanelItem.Item
           id="group"
           content={<ObjectPanelIcons.Group />}
-          label={LANG.group}
-          onClick={svgCanvas.groupSelectedElements}
+          label={tObjectpanel.group}
+          onClick={() => svgCanvas.groupSelectedElements()}
           disabled={!buttonAvailability.group}
         />
         <ObjectPanelItem.Item
           id="ungroup"
           content={<ObjectPanelIcons.Ungroup />}
-          label={LANG.ungroup}
-          onClick={svgCanvas.ungroupSelectedElement}
+          label={tObjectpanel.ungroup}
+          onClick={() => svgCanvas.ungroupSelectedElement()}
           disabled={!buttonAvailability.ungroup}
         />
         <ObjectPanelItem.ActionList
@@ -118,54 +123,54 @@ function ObjectPanel(): JSX.Element {
           actions={[
             {
               icon: <ObjectPanelIcons.VAlignTop />,
-              label: LANG.top_align,
+              label: tObjectpanel.top_align,
               onClick: FnWrapper.alignTop,
             },
             {
               icon: <ObjectPanelIcons.VAlignMid />,
-              label: LANG.middle_align,
+              label: tObjectpanel.middle_align,
               onClick: FnWrapper.alignMiddle,
             },
             {
               icon: <ObjectPanelIcons.VAlignBot />,
-              label: LANG.bottom_align,
+              label: tObjectpanel.bottom_align,
               onClick: FnWrapper.alignBottom,
             },
             {
               icon: <ObjectPanelIcons.HAlignLeft />,
-              label: LANG.left_align,
+              label: tObjectpanel.left_align,
               onClick: FnWrapper.alignLeft,
             },
             {
               icon: <ObjectPanelIcons.HAlignMid />,
-              label: LANG.center_align,
+              label: tObjectpanel.center_align,
               onClick: FnWrapper.alignCenter,
             },
             {
               icon: <ObjectPanelIcons.HAlignRight />,
-              label: LANG.right_align,
+              label: tObjectpanel.right_align,
               onClick: FnWrapper.alignRight,
             },
           ]}
           content={<ObjectPanelIcons.VAlignMid />}
-          label={LANG.align}
+          label={tObjectpanel.align}
         />
         <ObjectPanelItem.ActionList
           id="distribute"
           actions={[
             {
               icon: <ObjectPanelIcons.HDist />,
-              label: LANG.hdist,
-              onClick: svgCanvas.distHori,
+              label: tObjectpanel.hdist,
+              onClick: () => svgCanvas.distHori(),
             },
             {
               icon: <ObjectPanelIcons.VDist />,
-              label: LANG.vdist,
-              onClick: svgCanvas.distVert,
+              label: tObjectpanel.vdist,
+              onClick: () => svgCanvas.distVert(),
             },
           ]}
           content={<ObjectPanelIcons.VDist />}
-          label={LANG.distribute}
+          label={tObjectpanel.distribute}
           disabled={!buttonAvailability.dist}
         />
         <ObjectPanelItem.ActionList
@@ -173,31 +178,31 @@ function ObjectPanel(): JSX.Element {
           actions={[
             {
               icon: <ObjectPanelIcons.Union />,
-              label: LANG.union,
+              label: tObjectpanel.union,
               onClick: () => svgCanvas.booleanOperationSelectedElements('union'),
               disabled: !buttonAvailability.union,
             },
             {
               icon: <ObjectPanelIcons.Subtract />,
-              label: LANG.subtract,
+              label: tObjectpanel.subtract,
               onClick: () => svgCanvas.booleanOperationSelectedElements('diff'),
               disabled: !buttonAvailability.subtract,
             },
             {
               icon: <ObjectPanelIcons.Intersect />,
-              label: LANG.intersect,
+              label: tObjectpanel.intersect,
               onClick: () => svgCanvas.booleanOperationSelectedElements('intersect'),
               disabled: !buttonAvailability.intersect,
             },
             {
               icon: <ObjectPanelIcons.Diff />,
-              label: LANG.difference,
+              label: tObjectpanel.difference,
               onClick: () => svgCanvas.booleanOperationSelectedElements('xor'),
               disabled: !buttonAvailability.difference,
             },
           ]}
           content={<ObjectPanelIcons.Union />}
-          label={LANG.boolean}
+          label={tObjectpanel.boolean}
           disabled={!buttonAvailability.boolean}
         />
       </div>
@@ -207,28 +212,28 @@ function ObjectPanel(): JSX.Element {
           <div className={styles.row}>
             <div className={classNames(styles.half, styles.left, styles.sep)}>
               {renderToolBtn(
-                LANG.hdist,
+                tObjectpanel.hdist,
                 <ObjectPanelIcons.HDist />,
                 !buttonAvailability.dist,
-                svgCanvas.distHori,
+                () => svgCanvas.distHori(),
                 'hdist'
               )}
               {renderToolBtn(
-                LANG.top_align,
+                tObjectpanel.top_align,
                 <ObjectPanelIcons.VAlignTop />,
                 false,
                 FnWrapper.alignTop,
                 'top_align'
               )}
               {renderToolBtn(
-                LANG.middle_align,
+                tObjectpanel.middle_align,
                 <ObjectPanelIcons.VAlignMid />,
                 false,
                 FnWrapper.alignMiddle,
                 'middle_align'
               )}
               {renderToolBtn(
-                LANG.bottom_align,
+                tObjectpanel.bottom_align,
                 <ObjectPanelIcons.VAlignBot />,
                 false,
                 FnWrapper.alignBottom,
@@ -237,28 +242,28 @@ function ObjectPanel(): JSX.Element {
             </div>
             <div className={classNames(styles.half, styles.right)}>
               {renderToolBtn(
-                LANG.vdist,
+                tObjectpanel.vdist,
                 <ObjectPanelIcons.VDist />,
                 !buttonAvailability.dist,
-                svgCanvas.distVert,
+                () => svgCanvas.distVert(),
                 'vdist'
               )}
               {renderToolBtn(
-                LANG.left_align,
+                tObjectpanel.left_align,
                 <ObjectPanelIcons.HAlignLeft />,
                 false,
                 FnWrapper.alignLeft,
                 'left_align'
               )}
               {renderToolBtn(
-                LANG.center_align,
+                tObjectpanel.center_align,
                 <ObjectPanelIcons.HAlignMid />,
                 false,
                 FnWrapper.alignCenter,
                 'center_align'
               )}
               {renderToolBtn(
-                LANG.right_align,
+                tObjectpanel.right_align,
                 <ObjectPanelIcons.HAlignRight />,
                 false,
                 FnWrapper.alignRight,
@@ -269,14 +274,14 @@ function ObjectPanel(): JSX.Element {
           <div className={styles.row}>
             <div className={classNames(styles.half, styles.left)}>
               {renderToolBtn(
-                LANG.group,
+                tObjectpanel.group,
                 <ObjectPanelIcons.Group />,
                 !buttonAvailability.group,
                 () => svgCanvas.groupSelectedElements(),
                 'group'
               )}
               {renderToolBtn(
-                LANG.ungroup,
+                tObjectpanel.ungroup,
                 <ObjectPanelIcons.Ungroup />,
                 !buttonAvailability.ungroup,
                 () => svgCanvas.ungroupSelectedElement(),
@@ -285,28 +290,28 @@ function ObjectPanel(): JSX.Element {
             </div>
             <div className={classNames(styles.half, styles.right)}>
               {renderToolBtn(
-                LANG.union,
+                tObjectpanel.union,
                 <ObjectPanelIcons.Union />,
                 !buttonAvailability.union,
                 () => svgCanvas.booleanOperationSelectedElements('union'),
                 'union'
               )}
               {renderToolBtn(
-                LANG.subtract,
+                tObjectpanel.subtract,
                 <ObjectPanelIcons.Subtract />,
                 !buttonAvailability.subtract,
                 () => svgCanvas.booleanOperationSelectedElements('diff'),
                 'subtract'
               )}
               {renderToolBtn(
-                LANG.intersect,
+                tObjectpanel.intersect,
                 <ObjectPanelIcons.Intersect />,
                 !buttonAvailability.intersect,
                 () => svgCanvas.booleanOperationSelectedElements('intersect'),
                 'intersect'
               )}
               {renderToolBtn(
-                LANG.difference,
+                tObjectpanel.difference,
                 <ObjectPanelIcons.Diff />,
                 !buttonAvailability.difference,
                 () => svgCanvas.booleanOperationSelectedElements('xor'),
@@ -346,7 +351,7 @@ function ObjectPanel(): JSX.Element {
   const renderActionPanel = (): JSX.Element => <ActionsPanel elem={elem} />;
 
   return (
-    <div id="object-panel" className={styles.container}>
+    <div id="object-panel" className={classNames(styles.container, { [styles.hide]: hide })}>
       {isMobile ? (
         <>
           {renderCommonActionPanel()}
