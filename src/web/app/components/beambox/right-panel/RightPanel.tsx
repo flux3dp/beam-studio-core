@@ -20,6 +20,12 @@ import styles from './RightPanel.module.scss';
 let lastElement: Element;
 let lastMode: RightPanelMode;
 
+enum PanelType {
+  Layer = 1,
+  Object = 2,
+  PathEdit = 3,
+}
+
 const RightPanel = (): JSX.Element => {
   const [selectedTab, setSelectedTab] = useState<'layers' | 'objects'>('layers');
   const { displayLayer, setDisplayLayer } = useContext(CanvasContext);
@@ -48,16 +54,15 @@ const RightPanel = (): JSX.Element => {
     lastElement = selectedElement;
   }, [mode, selectedElement, selectedTab, displayLayer, isMobile]);
 
-  const showLayerPanel =
+  let panelType: PanelType = PanelType.Object;
+  if (
     (mode === 'element' || !isMobile) &&
     (selectedTab === 'layers' || !selectedElement) &&
-    (displayLayer || !isMobile);
-
-  let content;
-  if (mode === 'path-edit' && (selectedTab === 'objects' || isMobile)) {
-    content = <PathEditPanel />;
-  } else if (selectedElement && selectedTab === 'objects') {
-    content = <ObjectPanel />;
+    (displayLayer || !isMobile)
+  ) {
+    panelType = PanelType.Layer;
+  } else if (mode === 'path-edit' && (selectedTab === 'objects' || isMobile)) {
+    panelType = PanelType.PathEdit;
   }
   const sideClass = classNames(styles.sidepanels, {
     [styles.short]: window.os === 'Windows' && window.FLUX.version !== 'web',
@@ -69,8 +74,9 @@ const RightPanel = (): JSX.Element => {
         <Tab mode={mode} selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
         <ObjectPanelContextProvider>
           <ObjectPanelItem.Mask />
-          {content}
-          <LayerPanel hide={!showLayerPanel} setDisplayLayer={setDisplayLayer} />
+          {panelType === PanelType.PathEdit && <PathEditPanel />}
+          <ObjectPanel hide={panelType !== PanelType.Object} />
+          <LayerPanel hide={panelType !== PanelType.Layer} setDisplayLayer={setDisplayLayer} />
         </ObjectPanelContextProvider>
       </div>
     </div>
