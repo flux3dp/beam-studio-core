@@ -14,7 +14,7 @@ exports[`test PositionInput should render correctly on desktop 1`] = `
       class="input"
     >
       <div
-        class="ant-input-number css-dev-only-do-not-override-hash ant-input-number-outlined input"
+        class="ant-input-number css-dev-only-do-not-override-hash input"
       >
         <div
           class="ant-input-number-input-wrap"
@@ -54,7 +54,7 @@ exports[`test PositionInput should render correctly on desktop 2`] = `
       class="input"
     >
       <div
-        class="ant-input-number css-dev-only-do-not-override-hash ant-input-number-outlined input"
+        class="ant-input-number css-dev-only-do-not-override-hash input"
       >
         <div
           class="ant-input-number-input-wrap"
@@ -97,7 +97,7 @@ exports[`test PositionInput should render correctly on desktop 3`] = `
       class="input"
     >
       <div
-        class="ant-input-number css-dev-only-do-not-override-hash ant-input-number-outlined input"
+        class="ant-input-number css-dev-only-do-not-override-hash input"
       >
         <div
           class="ant-input-number-input-wrap"
@@ -140,7 +140,7 @@ exports[`test PositionInput should render correctly on desktop 4`] = `
       class="input"
     >
       <div
-        class="ant-input-number css-dev-only-do-not-override-hash ant-input-number-outlined input"
+        class="ant-input-number css-dev-only-do-not-override-hash input"
       >
         <div
           class="ant-input-number-input-wrap"
@@ -183,7 +183,7 @@ exports[`test PositionInput should render correctly on desktop 5`] = `
       class="input"
     >
       <div
-        class="ant-input-number css-dev-only-do-not-override-hash ant-input-number-outlined input"
+        class="ant-input-number css-dev-only-do-not-override-hash input"
       >
         <div
           class="ant-input-number-input-wrap"
@@ -226,7 +226,7 @@ exports[`test PositionInput should render correctly on desktop 6`] = `
       class="input"
     >
       <div
-        class="ant-input-number css-dev-only-do-not-override-hash ant-input-number-outlined input"
+        class="ant-input-number css-dev-only-do-not-override-hash input"
       >
         <div
           class="ant-input-number-input-wrap"
@@ -269,7 +269,7 @@ exports[`test PositionInput should render correctly on desktop 7`] = `
       class="input"
     >
       <div
-        class="ant-input-number css-dev-only-do-not-override-hash ant-input-number-outlined input"
+        class="ant-input-number css-dev-only-do-not-override-hash input"
       >
         <div
           class="ant-input-number-input-wrap"
@@ -312,7 +312,7 @@ exports[`test PositionInput should render correctly on desktop 8`] = `
       class="input"
     >
       <div
-        class="ant-input-number css-dev-only-do-not-override-hash ant-input-number-outlined input"
+        class="ant-input-number css-dev-only-do-not-override-hash input"
       >
         <div
           class="ant-input-number-input-wrap"

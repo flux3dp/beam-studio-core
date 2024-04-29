@@ -14,7 +14,7 @@ exports[`test Rotation should render correctly on desktop 1`] = `
       class="input"
     >
       <div
-        class="ant-input-number css-dev-only-do-not-override-hash ant-input-number-outlined input"
+        class="ant-input-number css-dev-only-do-not-override-hash input"
       >
         <div
           class="ant-input-number-input-wrap"

@@ -58,14 +58,13 @@ jest.mock('./PositionInput', () => ({ type, value, onChange }: any) => (
   </div>
 ));
 
-jest.mock('./SizeInput', () => ({ type, value, onChange, onBlur, onKeyUp }: any) => (
+jest.mock('./SizeInput', () => ({ type, value, onChange, onBlur }: any) => (
   <div>
     <div>Mock SizeInput</div>
     <div>type: {type}</div>
     <p>value: {value}</p>
     <input
       id={`size-${type}`}
-      onKeyUp={onKeyUp}
       onBlur={onBlur}
       onChange={() => onChange(type === 'w' ? 'width' : 'height', 100)}
     />
@@ -368,12 +367,6 @@ describe('test DimensionPanel', () => {
     );
     const inputW = container.querySelector('#size-w');
     fireEvent.blur(inputW);
-    expect(mockReRenderImageSymbol).toBeCalledTimes(1);
-    expect(mockReRenderImageSymbol).toHaveBeenLastCalledWith(mockElem);
-    jest.clearAllMocks();
-    fireEvent.keyUp(inputW, { key: 'Enter' });
-    expect(mockReRenderImageSymbol).not.toBeCalled();
-    fireEvent.keyUp(inputW, { key: 'ArrowUp' });
     expect(mockReRenderImageSymbol).toBeCalledTimes(1);
     expect(mockReRenderImageSymbol).toHaveBeenLastCalledWith(mockElem);
   });
