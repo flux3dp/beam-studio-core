@@ -48,6 +48,7 @@ const lang: ILang = {
       install_correct_headtype: 'Installeer de 10W/20W diode lasermodules correct om laag laservermogen voor het uitvoeren van frames in te schakelen.',
       door_opened: 'Sluit het deksel om laag laservermogen voor het uitvoeren van frames in te schakelen.',
       fail_to_get_door_status: 'Zorg ervoor dat het deksel gesloten is om laag laservermogen voor het uitvoeren van frames in te schakelen.',
+      QcleanScene: 'Wil je de tekening wissen?<br/>Dit zal ook je undo-geschiedenis wissen!',
     },
     hint: {
       polygon: 'Druk op + / - om het aantal zijden te verhogen / verlagen.',

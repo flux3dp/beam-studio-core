@@ -48,6 +48,7 @@ const lang: ILang = {
       install_correct_headtype: "Installare correttamente i moduli laser da 10W/20W per abilitare il laser a bassa potenza per l'esecuzione della cornice.",
       door_opened: "Chiudere lo sportello per abilitare il laser a bassa potenza per l'esecuzione della cornice.",
       fail_to_get_door_status: "Assicurarsi che lo sportello sia chiuso per abilitare il laser a bassa potenza per l'esecuzione della cornice.",
+      QcleanScene: 'Vuoi cancellare il disegno?<br/>Questo cancellerà anche la tua cronologia di annullamento!',
     },
     hint: {
       polygon: 'Premere + / - per aumentare / diminuire i lati.',

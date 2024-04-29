@@ -45,6 +45,7 @@ export interface ILang {
       install_correct_headtype: string;
       door_opened: string;
       fail_to_get_door_status: string;
+      QcleanScene: string;
     };
     hint: {
       polygon: string;

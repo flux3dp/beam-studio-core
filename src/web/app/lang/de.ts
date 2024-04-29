@@ -48,6 +48,7 @@ const lang: ILang = {
       install_correct_headtype: 'Bitte installieren Sie 10W/20W-Diodenlasermodule ordnungsgemäß, um Niedriglaser zum Ausführen des Rahmens zu aktivieren.',
       door_opened: 'Bitte schließen Sie die Tür abdeckung, um Niedriglaser zum Ausführen des Rahmens zu aktivieren.',
       fail_to_get_door_status: 'Bitte stellen Sie sicher, dass die Tür abdeckung geschlossen ist, um Niedriglaser zum Ausführen des Rahmens zu aktivieren.',
+      QcleanScene: 'Möchtest du die Zeichnung löschen?<br/>Dies löscht auch deine Rückgängig-Historie!',
     },
     hint: {
       polygon: 'Press + / - key to increse / decrease sides.',

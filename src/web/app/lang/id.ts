@@ -48,6 +48,7 @@ const lang: ILang = {
       install_correct_headtype: 'Harap pasang modul laser diode 10W/20W dengan benar untuk mengaktifkan laser rendah agar bingkai dapat berjalan.',
       door_opened: 'Harap tutup pintu penutup untuk mengaktifkan laser rendah agar bingkai dapat berjalan.',
       fail_to_get_door_status: 'Harap pastikan pintu penutup tertutup untuk mengaktifkan laser rendah agar bingkai dapat berjalan.',
+      QcleanScene: 'Apakah Anda ingin menghapus gambar?<br/>Ini juga akan menghapus riwayat undo Anda!',
     },
     hint: {
       polygon: 'Tekan tombol + / - untuk menambah / mengurangi sisi.',

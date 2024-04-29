@@ -431,7 +431,6 @@ const svgEditor = window['svgEditor'] = (function () {
         enterUniqueLayerName: 'Please enter a unique layer name',
         enterNewLayerName: 'Please enter the new layer name',
         layerHasThatName: 'Layer already has that name',
-        QwantToClear: 'Do you want to clear the drawing?\nThis will also erase your undo history!',
         QwantToOpen: 'Do you want to open a new file?\nThis will also erase your undo history!',
         QerrorsRevertToSource: 'There were parsing errors in your SVG source.\nRevert back to original SVG source?',
         QignoreSourceChanges: 'Ignore changes made to SVG source?',
@@ -3621,7 +3620,7 @@ const svgEditor = window['svgEditor'] = (function () {
       Alert.popById('clear-scene');
       Alert.popUp({
         id: 'clear-scene',
-        message: uiStrings.notification.QwantToClear,
+        message: i18n.lang.topbar.alerts.qClearScene,
         buttonType: AlertConstants.YES_NO,
         onYes: () => {
           setSelectMode();

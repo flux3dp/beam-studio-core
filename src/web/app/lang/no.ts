@@ -48,6 +48,7 @@ const lang: ILang = {
       install_correct_headtype: 'Vennligst installer 10W/20W diode laser moduler ordentlig for å aktivere lav laser for å kjøre ramme.',
       door_opened: 'Vennligst lukk dørdekselet for å aktivere lav laser for å kjøre ramme.',
       fail_to_get_door_status: 'Vennligst sørg for at dørdekselet er lukket for å aktivere lav laser for å kjøre ramme.',
+      QcleanScene: 'Vil du slette tegningen?<br/>Dette vil også slette angrehistorikken din!',
     },
     hint: {
       polygon: 'Trykk + / -tasten for å øke / redusere sider.',

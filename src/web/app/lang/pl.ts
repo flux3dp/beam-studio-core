@@ -48,6 +48,7 @@ const lang: ILang = {
       install_correct_headtype: 'Zainstaluj prawidłowe moduły lasera diodowego 10 W/20 W, aby włączyć niską moc lasera do uruchomienia ramki.',
       door_opened: 'Zamknij pokrywę drzwi, aby włączyć niską moc lasera do uruchomienia ramki.',
       fail_to_get_door_status: 'Upewnij się, że pokrywa drzwi jest zamknięta, aby włączyć niską moc lasera do uruchomienia ramki.',
+      QcleanScene: 'Czy chcesz wyczyścić rysunek?<br/>Spowoduje to także usunięcie historii cofania!',
     },
     hint: {
       polygon: 'Naciśnij klawisz + / -, aby zwiększyć / zmniejszyć ilość boków.',

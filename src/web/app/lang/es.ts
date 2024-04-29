@@ -48,6 +48,7 @@ const lang: ILang = {
       install_correct_headtype: 'Instale los módulos láser de diodo de 10W/20W correctamente para habilitar el láser para ejecutar el marco.',
       door_opened: 'Cierre la cubierta de la puerta para habilitar el láser para ejecutar el marco.',
       fail_to_get_door_status: 'Asegúrese de que la cubierta de la puerta esté cerrada para habilitar el láser para ejecutar el marco.',
+      QcleanScene: '¿Quieres borrar el dibujo?<br/>¡Esto también borrará tu historial de deshacer!',
     },
     hint: {
       polygon: 'Presiona la tecla + / - para aumentar / disminuir los lados.',

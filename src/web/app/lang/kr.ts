@@ -48,6 +48,7 @@ const lang: ILang = {
       install_correct_headtype: '10W/20W 다이오드 레이저 모듈을 제대로 설치하여 저전력 레이저를 활성화하고 프레임을 실행하세요.',
       door_opened: '문을 닫아 저전력 레이저를 활성화하고 프레임을 실행하세요.',
       fail_to_get_door_status: '문이 닫혀 있는지 확인하여 저전력 레이저를 활성화하고 프레임을 실행하세요.',
+      QcleanScene: '그림을 지우시겠습니까?<br/>이것은 또한 취소 기록을 지울 것입니다!',
     },
     hint: {
       polygon: '늘리기 / 줄이기를 위해 + /- 키를 누르세요.',

@@ -48,6 +48,7 @@ const lang: ILang = {
       install_correct_headtype: 'Asenna 10 W / 20 W diodilasermoduulit asianmukaisesti, jotta kehys voidaan käynnistää matalalla teholla.',
       door_opened: 'Sulje ovensuojus, jotta kehys voidaan käynnistää matalalla teholla.',
       fail_to_get_door_status: 'Varmista, että ovensuojus on kiinni, jotta kehys voidaan käynnistää matalalla teholla.',
+      QcleanScene: 'Haluatko tyhjentää piirustuksen?<br/>Tämä poistaa myös kumoamishistoriasi!',
     },
     hint: {
       polygon: 'Paina +-näppäintä lisätäksesi/vähentääksesi sivuja.',

@@ -48,6 +48,7 @@ const lang: ILang = {
       install_correct_headtype: 'Vui lòng lắp đặt mô-đun laser diode 10W/20W đúng để bật laser thấp cho khung chạy.',
       door_opened: 'Vui lòng đóng nắp để bật laser thấp cho khung chạy.',
       fail_to_get_door_status: 'Vui lòng đảm bảo nắp đã đóng để bật laser thấp cho khung chạy.',
+      QcleanScene: 'Bạn có muốn xóa bản vẽ không?<br/>Điều này cũng sẽ xóa lịch sử hoàn tác của bạn!',
     },
     hint: {
       polygon: 'Nhấn phím + / - để tăng / giảm số cạnh',

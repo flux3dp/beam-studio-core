@@ -48,6 +48,7 @@ const lang: ILang = {
       install_correct_headtype: 'Instale os módulos laser de diodo de 10W/20W corretos para habilitar o laser baixo para executar o quadro.',
       door_opened: 'Feche a tampa da porta para habilitar o laser baixo para executar o quadro.',
       fail_to_get_door_status: 'Certifique-se de que a tampa da porta esteja fechada para habilitar o laser baixo para executar o quadro.',
+      QcleanScene: 'Quer apagar o desenho?<br/>Isso também apagará seu histórico de desfazer!',
     },
     hint: {
       polygon: 'Pressione as teclas + / - para aumentar / diminuir os lados.',

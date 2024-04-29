@@ -48,6 +48,7 @@ const lang: ILang = {
       install_correct_headtype: '请正确安装10W或20W雷射模块以进入低激光模式。',
       door_opened: '请将门盖关闭以进入低激光模式。',
       fail_to_get_door_status: '请确保门盖关闭以进入低激光模式。',
+      QcleanScene: '您要清除绘图吗？<br/>这还将擦除您的撤消历史！',
     },
     hint: {
       polygon: '按下 + / - 键以增加 / 减少边数。',

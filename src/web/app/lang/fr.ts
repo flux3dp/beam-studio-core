@@ -48,6 +48,7 @@ const lang: ILang = {
       install_correct_headtype: 'Veuillez installer correctement les modules laser diode 10W/20W pour activer le laser de découpe.',
       door_opened: 'Veuillez fermer le couvercle de protection pour activer le laser de découpe.',
       fail_to_get_door_status: 'Veuillez vous assurer que le couvercle de protection est fermé pour activer le laser de découpe.',
+      QcleanScene: 'Voulez-vous effacer le dessin?<br/>Cela effacera également votre historique des annulations !',
     },
     hint: {
       polygon: 'Appuyez sur les touches + / - pour augmenter / diminuer les côtés.',

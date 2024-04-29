@@ -48,6 +48,7 @@ const lang: ILang = {
       install_correct_headtype: 'Installera 10W/20W diodlasermoduler korrekt för att aktivera lågeffektslaser för skärning.',
       door_opened: 'Stäng luckan för att aktivera lågeffektslaser för skärning.',
       fail_to_get_door_status: 'Kontrollera att luckan är stängd för att aktivera lågeffektslaser för skärning.',
+      QcleanScene: 'Vill du rensa ritningen?<br/>Detta kommer också att radera din ånghistorik!',
     },
     hint: {
       polygon: 'Tryck på + / - tangenten för att öka / minska sidor.',

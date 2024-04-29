@@ -48,6 +48,7 @@ const lang: ILang = {
       install_correct_headtype: 'Please install 10W/20W diode laser modules properly to enable low laser for running frame.',
       door_opened: 'Please close the door cover to enable low laser for running frame.',
       fail_to_get_door_status: 'Please make sure the door cover is closed to enable low laser for running frame.',
+      QcleanScene: 'Do you want to clear the drawing?<br/>This will also erase your undo history!',
     },
     hint: {
       polygon: 'Press + / - key to increase / decrease sides.',

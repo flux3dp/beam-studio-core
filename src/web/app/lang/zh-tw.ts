@@ -48,6 +48,7 @@ const lang: ILang = {
       install_correct_headtype: '請正確安裝10W或20W雷射模組以進行弱出光。',
       door_opened: '請將門蓋關閉以進行弱出光。',
       fail_to_get_door_status: '請確保門蓋關閉以進行弱出光。',
+      QcleanScene: '您確定清除場景嗎？<br/>這同時也會刪除您的操作歷史記錄。',
     },
     hint: {
       polygon: '按下 + / - 鍵以增加 / 減少邊數。',

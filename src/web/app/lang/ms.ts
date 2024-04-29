@@ -48,6 +48,7 @@ const lang: ILang = {
       install_correct_headtype: 'Sila pasang modul laser diod 10W/20W dengan betul untuk membolehkan laser beroperasi.',
       door_opened: 'Sila tutup pintu untuk membolehkan laser beroperasi.',
       fail_to_get_door_status: 'Sila pastikan pintu ditutup untuk membolehkan laser beroperasi.',
+      QcleanScene: 'Adakah anda mahu padamkan lukisan?<br/>Ini juga akan memadam sejarah undo anda!',
     },
     hint: {
       polygon: 'Tekan kekunci + / - untuk menambah / mengurangkan sisi.',
