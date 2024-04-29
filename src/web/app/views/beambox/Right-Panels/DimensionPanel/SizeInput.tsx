@@ -1,8 +1,8 @@
 import React, { memo, useCallback, useMemo } from 'react';
 
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
-import UnitInput from 'app/widgets/Unit-Input-v2';
 import storage from 'implementations/storage';
+import UnitInput from 'app/widgets/UnitInput';
 import { useIsMobile } from 'helpers/system-helper';
 
 import styles from './DimensionPanel.module.scss';
@@ -12,13 +12,12 @@ interface Props {
   value: number;
   onChange: (type: string, value: number) => void;
   onBlur?: () => void;
-  onKeyUp?: (e: KeyboardEvent) => void;
 }
 
-const SizeInput = ({ type, value, onChange, onBlur, onKeyUp }: Props): JSX.Element => {
+const SizeInput = ({ type, value, onChange, onBlur }: Props): JSX.Element => {
   const isMobile = useIsMobile();
-  const unit = useMemo(() => storage.get('default-units') === 'inches' ? 'in' : 'mm', []);
-
+  const isInch = useMemo(() => storage.get('default-units') === 'inches', []);
+  const unit = useMemo(() => (isInch ? 'in' : 'mm'), [isInch]);
   const label = useMemo<string | JSX.Element>(() => {
     if (type === 'w') return 'W';
     if (type === 'h') return 'H';
@@ -26,16 +25,19 @@ const SizeInput = ({ type, value, onChange, onBlur, onKeyUp }: Props): JSX.Eleme
     if (type === 'ry') return 'H';
     return null;
   }, [type]);
-  const handleChange = useCallback((val: number) => {
-    const changeKey = {
-      w: 'width',
-      h: 'height',
-      rx: 'rx',
-      ry: 'ry',
-    }[type];
-    const newVal = type === 'rx' || type === 'ry' ? val / 2 : val;
-    onChange(changeKey, newVal);
-  }, [onChange, type]);
+  const handleChange = useCallback(
+    (val: number) => {
+      const changeKey = {
+        w: 'width',
+        h: 'height',
+        rx: 'rx',
+        ry: 'ry',
+      }[type];
+      const newVal = type === 'rx' || type === 'ry' ? val / 2 : val;
+      onChange(changeKey, newVal);
+    },
+    [onChange, type]
+  );
 
   if (isMobile) {
     return (
@@ -50,15 +52,21 @@ const SizeInput = ({ type, value, onChange, onBlur, onKeyUp }: Props): JSX.Eleme
   return (
     <div className={styles.dimension}>
       <div className={styles.label}>{label}</div>
-      <UnitInput
-        id={`${type}_size`}
-        unit={unit}
-        onBlur={onBlur}
-        onKeyUp={onKeyUp}
-        defaultValue={value}
-        getValue={handleChange}
-        min={0}
-      />
+        <UnitInput
+          id={`${type}_size`}
+          className={styles.input}
+          width={66}
+          fontSize={12}
+          unit={unit}
+          isInch={isInch}
+          precision={isInch ? 4 : 2}
+          step={isInch ? 2.54 : 1}
+          value={value}
+          onBlur={onBlur}
+          controls={false}
+          onChange={handleChange}
+          min={0}
+        />
     </div>
   );
 };

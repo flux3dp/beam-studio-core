@@ -1,8 +1,8 @@
 import React, { memo, useCallback, useMemo } from 'react';
 
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
-import UnitInput from 'app/widgets/Unit-Input-v2';
 import storage from 'implementations/storage';
+import UnitInput from 'app/widgets/UnitInput';
 import { useIsMobile } from 'helpers/system-helper';
 
 import styles from './DimensionPanel.module.scss';
@@ -15,7 +15,8 @@ interface Props {
 
 const PositionInput = ({ type, value, onChange }: Props): JSX.Element => {
   const isMobile = useIsMobile();
-  const unit = useMemo(() => (storage.get('default-units') === 'inches' ? 'in' : 'mm'), []);
+  const isInch = useMemo(() => storage.get('default-units') === 'inches', []);
+  const unit = useMemo(() => (isInch ? 'in' : 'mm'), [isInch]);
   const label = useMemo<string | JSX.Element>(() => {
     if (type === 'x') return 'X';
     if (type === 'y') return 'Y';
@@ -66,7 +67,19 @@ const PositionInput = ({ type, value, onChange }: Props): JSX.Element => {
   return (
     <div className={styles.dimension}>
       <div className={styles.label}>{label}</div>
-      <UnitInput id={inputId} unit={unit} defaultValue={value} getValue={handleChange} />
+      <UnitInput
+          id={inputId}
+          className={styles.input}
+          width={66}
+          fontSize={12}
+          unit={unit}
+          isInch={isInch}
+          precision={isInch ? 4 : 2}
+          step={isInch ? 2.54 : 1}
+          value={value}
+          controls={false}
+          onChange={handleChange}
+        />
     </div>
   );
 };

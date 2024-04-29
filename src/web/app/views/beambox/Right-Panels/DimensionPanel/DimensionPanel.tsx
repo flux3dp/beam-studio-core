@@ -87,15 +87,6 @@ const DimensionPanel = ({
     }
   }, [elem]);
 
-  const handleSizeKeyUp = useCallback(
-    (e: KeyboardEvent) => {
-      if (elem?.tagName === 'use' && (e.key === 'ArrowUp' || e.key === 'ArrowDown')) {
-        SymbolMaker.reRenderImageSymbol(elem as SVGUseElement);
-      }
-    },
-    [elem]
-  );
-
   useEffect(
     () => () => {
       handleSizeBlur();
@@ -221,7 +212,6 @@ const DimensionPanel = ({
           type={type as 'w' | 'h' | 'rx' | 'ry'}
           value={displayValue}
           onChange={handleSizeChange}
-          onKeyUp={handleSizeKeyUp}
           onBlur={handleSizeBlur}
         />
       );

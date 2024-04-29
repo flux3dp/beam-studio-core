@@ -3,7 +3,7 @@ import React, { memo } from 'react';
 
 import DimensionPanelIcons from 'app/icons/dimension-panel/DimensionPanelIcons';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
-import UnitInput from 'app/widgets/Unit-Input-v2';
+import UnitInput from 'app/widgets/UnitInput';
 import useI18n from 'helpers/useI18n';
 import { useIsMobile } from 'helpers/system-helper';
 
@@ -37,9 +37,14 @@ const Rotation = ({ value, onChange }: Props): JSX.Element => {
       </div>
       <UnitInput
         id="rotate"
+        className={styles.input}
+        width={66}
+        fontSize={12}
+        controls={false}
         unit="deg"
-        defaultValue={value || 0}
-        getValue={onChange}
+        value={value || 0}
+        precision={0}
+        onChange={onChange}
       />
     </div>
   );
