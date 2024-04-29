@@ -10,21 +10,31 @@ exports[`test PositionInput should render correctly on desktop 1`] = `
     >
       X
     </div>
-    <div>
-      <div>
-        x_position
+    <div
+      class="input"
+    >
+      <div
+        class="ant-input-number css-dev-only-do-not-override-hash ant-input-number-outlined input"
+      >
+        <div
+          class="ant-input-number-input-wrap"
+        >
+          <input
+            aria-valuenow="0"
+            autocomplete="off"
+            class="ant-input-number-input"
+            id="x_position"
+            role="spinbutton"
+            step="1"
+            value="0.00"
+          />
+        </div>
       </div>
-      <div>
+      <span
+        class="unit"
+      >
         mm
-      </div>
-      <div>
-        0
-      </div>
-      <div />
-      <input
-        type="number"
-        value="0"
-      />
+      </span>
     </div>
   </div>
 </div>
@@ -40,21 +50,31 @@ exports[`test PositionInput should render correctly on desktop 2`] = `
     >
       Y
     </div>
-    <div>
-      <div>
-        y_position
+    <div
+      class="input"
+    >
+      <div
+        class="ant-input-number css-dev-only-do-not-override-hash ant-input-number-outlined input"
+      >
+        <div
+          class="ant-input-number-input-wrap"
+        >
+          <input
+            aria-valuenow="0"
+            autocomplete="off"
+            class="ant-input-number-input"
+            id="y_position"
+            role="spinbutton"
+            step="1"
+            value="0.00"
+          />
+        </div>
       </div>
-      <div>
+      <span
+        class="unit"
+      >
         mm
-      </div>
-      <div>
-        0
-      </div>
-      <div />
-      <input
-        type="number"
-        value="0"
-      />
+      </span>
     </div>
   </div>
 </div>
@@ -73,21 +93,31 @@ exports[`test PositionInput should render correctly on desktop 3`] = `
         1
       </sub>
     </div>
-    <div>
-      <div>
-        x1_position
+    <div
+      class="input"
+    >
+      <div
+        class="ant-input-number css-dev-only-do-not-override-hash ant-input-number-outlined input"
+      >
+        <div
+          class="ant-input-number-input-wrap"
+        >
+          <input
+            aria-valuenow="0"
+            autocomplete="off"
+            class="ant-input-number-input"
+            id="x1_position"
+            role="spinbutton"
+            step="1"
+            value="0.00"
+          />
+        </div>
       </div>
-      <div>
+      <span
+        class="unit"
+      >
         mm
-      </div>
-      <div>
-        0
-      </div>
-      <div />
-      <input
-        type="number"
-        value="0"
-      />
+      </span>
     </div>
   </div>
 </div>
@@ -106,21 +136,31 @@ exports[`test PositionInput should render correctly on desktop 4`] = `
         1
       </sub>
     </div>
-    <div>
-      <div>
-        y1_position
+    <div
+      class="input"
+    >
+      <div
+        class="ant-input-number css-dev-only-do-not-override-hash ant-input-number-outlined input"
+      >
+        <div
+          class="ant-input-number-input-wrap"
+        >
+          <input
+            aria-valuenow="0"
+            autocomplete="off"
+            class="ant-input-number-input"
+            id="y1_position"
+            role="spinbutton"
+            step="1"
+            value="0.00"
+          />
+        </div>
       </div>
-      <div>
+      <span
+        class="unit"
+      >
         mm
-      </div>
-      <div>
-        0
-      </div>
-      <div />
-      <input
-        type="number"
-        value="0"
-      />
+      </span>
     </div>
   </div>
 </div>
@@ -139,21 +179,31 @@ exports[`test PositionInput should render correctly on desktop 5`] = `
         2
       </sub>
     </div>
-    <div>
-      <div>
-        x2_position
+    <div
+      class="input"
+    >
+      <div
+        class="ant-input-number css-dev-only-do-not-override-hash ant-input-number-outlined input"
+      >
+        <div
+          class="ant-input-number-input-wrap"
+        >
+          <input
+            aria-valuenow="0"
+            autocomplete="off"
+            class="ant-input-number-input"
+            id="x2_position"
+            role="spinbutton"
+            step="1"
+            value="0.00"
+          />
+        </div>
       </div>
-      <div>
+      <span
+        class="unit"
+      >
         mm
-      </div>
-      <div>
-        0
-      </div>
-      <div />
-      <input
-        type="number"
-        value="0"
-      />
+      </span>
     </div>
   </div>
 </div>
@@ -172,21 +222,31 @@ exports[`test PositionInput should render correctly on desktop 6`] = `
         2
       </sub>
     </div>
-    <div>
-      <div>
-        y2_position
+    <div
+      class="input"
+    >
+      <div
+        class="ant-input-number css-dev-only-do-not-override-hash ant-input-number-outlined input"
+      >
+        <div
+          class="ant-input-number-input-wrap"
+        >
+          <input
+            aria-valuenow="0"
+            autocomplete="off"
+            class="ant-input-number-input"
+            id="y2_position"
+            role="spinbutton"
+            step="1"
+            value="0.00"
+          />
+        </div>
       </div>
-      <div>
+      <span
+        class="unit"
+      >
         mm
-      </div>
-      <div>
-        0
-      </div>
-      <div />
-      <input
-        type="number"
-        value="0"
-      />
+      </span>
     </div>
   </div>
 </div>
@@ -205,21 +265,31 @@ exports[`test PositionInput should render correctly on desktop 7`] = `
         C
       </sub>
     </div>
-    <div>
-      <div>
-        cx_position
+    <div
+      class="input"
+    >
+      <div
+        class="ant-input-number css-dev-only-do-not-override-hash ant-input-number-outlined input"
+      >
+        <div
+          class="ant-input-number-input-wrap"
+        >
+          <input
+            aria-valuenow="0"
+            autocomplete="off"
+            class="ant-input-number-input"
+            id="cx_position"
+            role="spinbutton"
+            step="1"
+            value="0.00"
+          />
+        </div>
       </div>
-      <div>
+      <span
+        class="unit"
+      >
         mm
-      </div>
-      <div>
-        0
-      </div>
-      <div />
-      <input
-        type="number"
-        value="0"
-      />
+      </span>
     </div>
   </div>
 </div>
@@ -238,21 +308,31 @@ exports[`test PositionInput should render correctly on desktop 8`] = `
         C
       </sub>
     </div>
-    <div>
-      <div>
-        cy_position
+    <div
+      class="input"
+    >
+      <div
+        class="ant-input-number css-dev-only-do-not-override-hash ant-input-number-outlined input"
+      >
+        <div
+          class="ant-input-number-input-wrap"
+        >
+          <input
+            aria-valuenow="0"
+            autocomplete="off"
+            class="ant-input-number-input"
+            id="cy_position"
+            role="spinbutton"
+            step="1"
+            value="0.00"
+          />
+        </div>
       </div>
-      <div>
+      <span
+        class="unit"
+      >
         mm
-      </div>
-      <div>
-        0
-      </div>
-      <div />
-      <input
-        type="number"
-        value="0"
-      />
+      </span>
     </div>
   </div>
 </div>
