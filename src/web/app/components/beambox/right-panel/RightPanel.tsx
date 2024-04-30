@@ -55,14 +55,14 @@ const RightPanel = (): JSX.Element => {
   }, [mode, selectedElement, selectedTab, displayLayer, isMobile]);
 
   let panelType: PanelType = PanelType.Object;
-  if (
-    (mode === 'element' || !isMobile) &&
+  if (mode === 'path-edit' && (selectedTab === 'objects' || isMobile)) {
+    panelType = PanelType.PathEdit;
+  } else if (
     (selectedTab === 'layers' || !selectedElement) &&
+    (mode === 'element' || !isMobile) &&
     (displayLayer || !isMobile)
   ) {
     panelType = PanelType.Layer;
-  } else if (mode === 'path-edit' && (selectedTab === 'objects' || isMobile)) {
-    panelType = PanelType.PathEdit;
   }
   const sideClass = classNames(styles.sidepanels, {
     [styles.short]: window.os === 'Windows' && window.FLUX.version !== 'web',
