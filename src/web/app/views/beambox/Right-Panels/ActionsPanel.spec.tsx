@@ -92,7 +92,7 @@ jest.mock('helpers/i18n', () => ({
     beambox: {
       right_panel: {
         object_panel: {
-          actions_panel: { ...tActionPanel },
+          actions_panel: tActionPanel,
         },
       },
     },
@@ -157,8 +157,6 @@ function tick() {
     setTimeout(resolve, 0);
   });
 }
-
-const ActionButtonSelectorMobile = 'div.object-panel-item';
 
 describe('should render correctly', () => {
   beforeEach(() => {
