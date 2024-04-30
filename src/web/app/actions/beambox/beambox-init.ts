@@ -19,6 +19,7 @@ import FontConstants from 'app/constants/font-constants';
 import fontHelper from 'helpers/fonts/fontHelper';
 import getDevice from 'helpers/device/get-device';
 import i18n from 'helpers/i18n';
+import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
 import menu from 'implementations/menu';
 import ratingHelper from 'helpers/rating-helper';
 import recentMenuUpdater from 'implementations/recentMenuUpdater';
@@ -88,7 +89,7 @@ class BeamboxInit {
 
   async showStartUpDialogs(): Promise<void> {
     await this.askAndInitSentry();
-    const isNewUser = storage.get('new-user');
+    const isNewUser = !!storage.get('new-user');
     const defaultFontConvert = BeamboxPreference.read('font-convert');
     const hasMachineConnection = checkConnection();
     if (window.FLUX.version === 'web' && navigator.maxTouchPoints >= 1) {
@@ -97,19 +98,39 @@ class BeamboxInit {
         if (res.status === 'ok' && !res.value) {
           await Dialog.showMediaTutorial(gestureIntroduction);
           await fluxId.setPreference({ did_gesture_tutorial: true });
-        } else if (res.status === 'error' && res.info === 'NOT_LOGGED_IN' && !storage.get('did-gesture-tutorial')) {
+        } else if (
+          res.status === 'error' &&
+          res.info === 'NOT_LOGGED_IN' &&
+          !storage.get('did-gesture-tutorial')
+        ) {
           await Dialog.showMediaTutorial(gestureIntroduction);
           storage.set('did-gesture-tutorial', 1);
         }
       }
     }
-    await this.showFirstCalibrationDialog();
-    if (hasMachineConnection && !isMobile()) await this.showTutorial(isNewUser);
+    const skippedFirstCalibration = !(await this.showFirstCalibrationDialog());
+    let skippedNewUserTutorial = false;
+    if (hasMachineConnection && !isMobile()) {
+      skippedNewUserTutorial = isNewUser && !(await this.showTutorial(isNewUser));
+    }
+    if (skippedFirstCalibration || skippedNewUserTutorial) {
+      const msgs = [];
+      if (skippedFirstCalibration) msgs.push(i18n.lang.tutorial.skipped_camera_calibration);
+      if (skippedNewUserTutorial) msgs.push(i18n.lang.tutorial.skip_tutorial);
+      await new Promise((resolve) => {
+        Alert.popUp({
+          message: msgs.join('<br/>'),
+          callbacks: resolve,
+        });
+      });
+    }
+
     if (!isNewUser) {
       const lastInstalledVersion = storage.get('last-installed-version');
       if (window.FLUX.version !== lastInstalledVersion) {
         await this.showChangeLog();
       }
+      await this.showQuestionnaire();
     }
     if (defaultFontConvert === undefined) {
       if (isNewUser) BeamboxPreference.write('font-convert', '2.0');
@@ -118,14 +139,11 @@ class BeamboxInit {
         BeamboxPreference.write('font-convert', version);
       }
     }
-    if (!isNewUser) {
-      await this.showQuestionnaire();
-    }
+
     ratingHelper.init();
     announcementHelper.init(isNewUser);
     storage.removeAt('new-user');
-    // eslint-disable-next-line @typescript-eslint/dot-notation
-    storage.set('last-installed-version', window['FLUX'].version);
+    storage.set('last-installed-version', window.FLUX.version);
   }
 
   private displayGuides(): void {
@@ -238,7 +256,7 @@ class BeamboxInit {
     }
   }
 
-  private showFirstCalibrationDialog = async () => {
+  private showFirstCalibrationDialog = async (): Promise<boolean> => {
     const isNewUser = storage.get('new-user');
     const hasDoneFirstCali = AlertConfig.read('done-first-cali');
     let hasMachineConnection = checkConnection();
@@ -247,54 +265,48 @@ class BeamboxInit {
       await new Promise((r) => setTimeout(r, 1000));
       hasMachineConnection = checkConnection();
     }
+    const isAdor = Constant.adorModels.includes(BeamboxPreference.read('workarea'));
     const shouldShow =
       window.FLUX.version === 'web'
         ? hasMachineConnection && !hasDoneFirstCali
         : isNewUser || !hasDoneFirstCali;
-    if (shouldShow) {
-      if (await this.askFirstTimeCameraCalibration()) {
-        await this.doFirstTimeCameraCalibration();
-      } else {
-        await this.onCameraCalibrationSkipped();
-      }
+    let caliRes = true;
+    if (!isAdor && shouldShow) {
+      const res = await this.askFirstTimeCameraCalibration();
       AlertConfig.write('done-first-cali', true);
+      if (res) {
+        caliRes = await this.doFirstTimeCameraCalibration();
+      } else return false;
     }
+    return caliRes;
   };
 
-  private askFirstTimeCameraCalibration = () => new Promise<boolean>((resolve) => {
-    Alert.popUp({
-      caption: i18n.lang.topbar.menu.calibrate_beambox_camera,
-      message: i18n.lang.tutorial.suggest_calibrate_camera_first,
-      buttonType: AlertConstants.YES_NO,
-      onNo: () => resolve(false),
-      onYes: () => resolve(true),
-    });
-  });
-
-  private onCameraCalibrationSkipped = () => new Promise((resolve) => {
-    Alert.popUp({
-      message: i18n.lang.tutorial.skipped_camera_calibration,
-      callbacks: resolve,
-    });
-  });
-
-  private async doFirstTimeCameraCalibration(): Promise<void> {
-    const LANG = i18n.lang.tutorial;
-    const askForRetry = () => new Promise((resolve) => {
+  private askFirstTimeCameraCalibration = () =>
+    new Promise<boolean>((resolve) => {
       Alert.popUp({
-        caption: LANG.camera_calibration_failed,
-        message: LANG.ask_retry_calibration,
+        caption: i18n.lang.topbar.menu.calibrate_beambox_camera,
+        message: i18n.lang.tutorial.suggest_calibrate_camera_first,
         buttonType: AlertConstants.YES_NO,
-        onYes: async () => resolve(await this.doFirstTimeCameraCalibration()),
-        onNo: async () => resolve(await this.onCameraCalibrationSkipped()),
+        onNo: () => resolve(false),
+        onYes: () => resolve(true),
       });
     });
 
+  private async doFirstTimeCameraCalibration(): Promise<boolean> {
+    const LANG = i18n.lang.tutorial;
+    const askForRetry = () =>
+      new Promise<boolean>((resolve) => {
+        Alert.popUp({
+          caption: LANG.camera_calibration_failed,
+          message: LANG.ask_retry_calibration,
+          buttonType: AlertConstants.YES_NO,
+          onYes: async () => resolve(await this.doFirstTimeCameraCalibration()),
+          onNo: async () => resolve(false),
+        });
+      });
+
     const { device } = await getDevice();
-    if (!device) {
-      await this.onCameraCalibrationSkipped();
-      return;
-    }
+    if (!device) return false;
     if (Constant.adorModels.includes(device.model)) {
       await new Promise((resolve) => {
         Alert.popUp({
@@ -302,28 +314,26 @@ class BeamboxInit {
           callbacks: resolve,
         });
       });
-      return;
+      return true;
     }
+    let res: boolean;
     try {
       const deviceStatus = await checkDeviceStatus(device);
-      if (!deviceStatus) {
-        await this.onCameraCalibrationSkipped();
-        return;
-      }
+      if (!deviceStatus) return false;
       const caliRes = await showCameraCalibration(device, false);
-      if (!caliRes) {
-        await this.onCameraCalibrationSkipped();
-      }
+      if (!caliRes) return false;
+      return true;
     } catch (e) {
       console.error(e);
-      await askForRetry();
+      res = await askForRetry();
     }
+    return res;
   }
 
-  private showTutorial(isNewUser: boolean): Promise<void> {
+  private showTutorial(isNewUser: boolean): Promise<boolean> {
     if (!AlertConfig.read('skip-interface-tutorial')) {
       const LANG = i18n.lang.tutorial;
-      return new Promise<void>((resolve) => {
+      return new Promise<boolean>((resolve) => {
         Alert.popUp({
           id: 'ask-tutorial',
           caption: LANG.welcome,
@@ -332,10 +342,11 @@ class BeamboxInit {
           onYes: () => {
             const tutorialCallback = () => {
               AlertConfig.write('skip-interface-tutorial', true);
-              Alert.popUp({
-                message: LANG.tutorial_complete,
-                callbacks: () => resolve(),
+              MessageCaller.openMessage({
+                level: MessageLevel.SUCCESS,
+                content: LANG.tutorial_complete,
               });
+              resolve(true);
             };
             if (isNewUser) {
               Tutorials.startNewUserTutorial(tutorialCallback);
@@ -345,14 +356,7 @@ class BeamboxInit {
           },
           onNo: () => {
             AlertConfig.write('skip-interface-tutorial', true);
-            if (isNewUser) {
-              Alert.popUp({
-                message: LANG.skip_tutorial,
-                callbacks: () => resolve(),
-              });
-            } else {
-              resolve();
-            }
+            resolve(false);
           },
         });
       });
@@ -360,9 +364,10 @@ class BeamboxInit {
     return null;
   }
 
-  private showChangeLog = () => new Promise<void>((resolve) => {
-    Dialog.showChangLog({ callback: resolve });
-  });
+  private showChangeLog = () =>
+    new Promise<void>((resolve) => {
+      Dialog.showChangLog({ callback: resolve });
+    });
 
   private async showQuestionnaire(): Promise<void> {
     const res = await checkQuestionnaire();
