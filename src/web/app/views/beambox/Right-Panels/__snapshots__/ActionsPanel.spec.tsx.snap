@@ -29,7 +29,27 @@ exports[`should render correctly ellipse 1`] = `
           <span
             class="label"
           >
-            Convert to Path
+            convert_to_path
+          </span>
+        </button>
+      </div>
+      <div
+        class="btn-container"
+      >
+        <button
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          id="auto_arrange"
+          type="button"
+        >
+          <span
+            class="ant-btn-icon"
+          >
+            <svgr-url />
+          </span>
+          <span
+            class="label"
+          >
+            auto_arrange
           </span>
         </button>
       </div>
@@ -49,7 +69,7 @@ exports[`should render correctly ellipse 1`] = `
           <span
             class="label"
           >
-            Offset
+            offset
           </span>
         </button>
       </div>
@@ -69,7 +89,7 @@ exports[`should render correctly ellipse 1`] = `
           <span
             class="label"
           >
-            Array
+            array
           </span>
         </button>
       </div>
@@ -92,6 +112,26 @@ exports[`should render correctly g multiple selection 1`] = `
       class="btns-container"
     >
       <div
+        class="btn-container"
+      >
+        <button
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          id="auto_arrange"
+          type="button"
+        >
+          <span
+            class="ant-btn-icon"
+          >
+            <svgr-url />
+          </span>
+          <span
+            class="label"
+          >
+            auto_arrange
+          </span>
+        </button>
+      </div>
+      <div
         class="btn-container half"
       >
         <button
@@ -107,7 +147,7 @@ exports[`should render correctly g multiple selection 1`] = `
           <span
             class="label"
           >
-            Offset
+            offset
           </span>
         </button>
       </div>
@@ -127,7 +167,7 @@ exports[`should render correctly g multiple selection 1`] = `
           <span
             class="label"
           >
-            Array
+            array
           </span>
         </button>
       </div>
@@ -154,6 +194,26 @@ exports[`should render correctly g single selection 1`] = `
       >
         <button
           class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          id="auto_arrange"
+          type="button"
+        >
+          <span
+            class="ant-btn-icon"
+          >
+            <svgr-url />
+          </span>
+          <span
+            class="label"
+          >
+            auto_arrange
+          </span>
+        </button>
+      </div>
+      <div
+        class="btn-container"
+      >
+        <button
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
           id="array"
           type="button"
         >
@@ -165,7 +225,7 @@ exports[`should render correctly g single selection 1`] = `
           <span
             class="label"
           >
-            Array
+            array
           </span>
         </button>
       </div>
@@ -203,7 +263,7 @@ exports[`should render correctly image 1`] = `
           <span
             class="label"
           >
-            Replace With...
+            replace_with
           </span>
         </button>
       </div>
@@ -228,6 +288,26 @@ exports[`should render correctly image 1`] = `
         </button>
       </div>
       <div
+        class="btn-container"
+      >
+        <button
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          id="auto_arrange"
+          type="button"
+        >
+          <span
+            class="ant-btn-icon"
+          >
+            <svgr-url />
+          </span>
+          <span
+            class="label"
+          >
+            auto_arrange
+          </span>
+        </button>
+      </div>
+      <div
         class="btn-container half"
       >
         <button
@@ -243,7 +323,7 @@ exports[`should render correctly image 1`] = `
           <span
             class="label"
           >
-            Trace
+            trace
           </span>
         </button>
       </div>
@@ -263,7 +343,7 @@ exports[`should render correctly image 1`] = `
           <span
             class="label"
           >
-            Grading
+            grading
           </span>
         </button>
       </div>
@@ -283,7 +363,7 @@ exports[`should render correctly image 1`] = `
           <span
             class="label"
           >
-            Sharpen
+            sharpen
           </span>
         </button>
       </div>
@@ -303,7 +383,7 @@ exports[`should render correctly image 1`] = `
           <span
             class="label"
           >
-            Crop
+            crop
           </span>
         </button>
       </div>
@@ -323,7 +403,7 @@ exports[`should render correctly image 1`] = `
           <span
             class="label"
           >
-            Bevel
+            bevel
           </span>
         </button>
       </div>
@@ -343,7 +423,7 @@ exports[`should render correctly image 1`] = `
           <span
             class="label"
           >
-            Invert
+            invert
           </span>
         </button>
       </div>
@@ -363,7 +443,7 @@ exports[`should render correctly image 1`] = `
           <span
             class="label"
           >
-            Array
+            array
           </span>
         </button>
       </div>
@@ -383,7 +463,7 @@ exports[`should render correctly image 1`] = `
           <span
             class="label"
           >
-            Outline
+            outline
           </span>
         </button>
       </div>
@@ -412,7 +492,22 @@ exports[`should render correctly in mobile ellipse 1`] = `
       <div
         class="label"
       >
-        Outline
+        outline
+      </div>
+    </div>
+    <div
+      class="object-panel-item"
+      id="auto_arrange"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        auto_arrange
       </div>
     </div>
     <div
@@ -427,7 +522,7 @@ exports[`should render correctly in mobile ellipse 1`] = `
       <div
         class="label"
       >
-        Offset
+        offset
       </div>
     </div>
     <div
@@ -442,7 +537,7 @@ exports[`should render correctly in mobile ellipse 1`] = `
       <div
         class="label"
       >
-        Array
+        array
       </div>
     </div>
   </div>
@@ -459,6 +554,21 @@ exports[`should render correctly in mobile g multiple selection 1`] = `
     />
     <div
       class="object-panel-item"
+      id="auto_arrange"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        auto_arrange
+      </div>
+    </div>
+    <div
+      class="object-panel-item"
       id="offset"
     >
       <div
@@ -469,7 +579,7 @@ exports[`should render correctly in mobile g multiple selection 1`] = `
       <div
         class="label"
       >
-        Offset
+        offset
       </div>
     </div>
     <div
@@ -484,7 +594,7 @@ exports[`should render correctly in mobile g multiple selection 1`] = `
       <div
         class="label"
       >
-        Array
+        array
       </div>
     </div>
   </div>
@@ -501,6 +611,21 @@ exports[`should render correctly in mobile g single selection 1`] = `
     />
     <div
       class="object-panel-item"
+      id="auto_arrange"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        auto_arrange
+      </div>
+    </div>
+    <div
+      class="object-panel-item"
       id="array"
     >
       <div
@@ -511,7 +636,7 @@ exports[`should render correctly in mobile g single selection 1`] = `
       <div
         class="label"
       >
-        Array
+        array
       </div>
     </div>
   </div>
@@ -538,7 +663,7 @@ exports[`should render correctly in mobile image 1`] = `
       <div
         class="label"
       >
-        Replace
+        replace_with_short
       </div>
     </div>
     <div
@@ -553,7 +678,7 @@ exports[`should render correctly in mobile image 1`] = `
       <div
         class="label"
       >
-        Outline
+        outline
       </div>
     </div>
     <div
@@ -568,7 +693,7 @@ exports[`should render correctly in mobile image 1`] = `
       <div
         class="label"
       >
-        Brightness
+        brightness
       </div>
     </div>
     <div
@@ -583,7 +708,7 @@ exports[`should render correctly in mobile image 1`] = `
       <div
         class="label"
       >
-        Sharpen
+        sharpen
       </div>
     </div>
     <div
@@ -598,7 +723,7 @@ exports[`should render correctly in mobile image 1`] = `
       <div
         class="label"
       >
-        Crop
+        crop
       </div>
     </div>
     <div
@@ -613,7 +738,7 @@ exports[`should render correctly in mobile image 1`] = `
       <div
         class="label"
       >
-        Bevel
+        bevel
       </div>
     </div>
     <div
@@ -628,7 +753,7 @@ exports[`should render correctly in mobile image 1`] = `
       <div
         class="label"
       >
-        Invert
+        invert
       </div>
     </div>
     <div
@@ -643,7 +768,7 @@ exports[`should render correctly in mobile image 1`] = `
       <div
         class="label"
       >
-        Array
+        array
       </div>
     </div>
     <div
@@ -658,7 +783,7 @@ exports[`should render correctly in mobile image 1`] = `
       <div
         class="label"
       >
-        Trace
+        trace
       </div>
     </div>
     <div
@@ -673,7 +798,22 @@ exports[`should render correctly in mobile image 1`] = `
       <div
         class="label"
       >
-        BG Removal
+        ai_bg_removal_short
+      </div>
+    </div>
+    <div
+      class="object-panel-item"
+      id="auto_arrange"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        auto_arrange
       </div>
     </div>
   </div>
@@ -700,7 +840,22 @@ exports[`should render correctly in mobile line 1`] = `
       <div
         class="label"
       >
-        Outline
+        outline
+      </div>
+    </div>
+    <div
+      class="object-panel-item"
+      id="auto_arrange"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        auto_arrange
       </div>
     </div>
     <div
@@ -715,7 +870,7 @@ exports[`should render correctly in mobile line 1`] = `
       <div
         class="label"
       >
-        Offset
+        offset
       </div>
     </div>
     <div
@@ -730,7 +885,7 @@ exports[`should render correctly in mobile line 1`] = `
       <div
         class="label"
       >
-        Array
+        array
       </div>
     </div>
   </div>
@@ -784,7 +939,22 @@ exports[`should render correctly in mobile path 1`] = `
       <div
         class="label"
       >
-        Decompose
+        decompose_path
+      </div>
+    </div>
+    <div
+      class="object-panel-item"
+      id="auto_arrange"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        auto_arrange
       </div>
     </div>
     <div
@@ -799,7 +969,7 @@ exports[`should render correctly in mobile path 1`] = `
       <div
         class="label"
       >
-        Offset
+        offset
       </div>
     </div>
     <div
@@ -814,7 +984,7 @@ exports[`should render correctly in mobile path 1`] = `
       <div
         class="label"
       >
-        Array
+        array
       </div>
     </div>
     <div
@@ -856,7 +1026,22 @@ exports[`should render correctly in mobile polygon 1`] = `
       <div
         class="label"
       >
-        Outline
+        outline
+      </div>
+    </div>
+    <div
+      class="object-panel-item"
+      id="auto_arrange"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        auto_arrange
       </div>
     </div>
     <div
@@ -871,7 +1056,7 @@ exports[`should render correctly in mobile polygon 1`] = `
       <div
         class="label"
       >
-        Offset
+        offset
       </div>
     </div>
     <div
@@ -886,7 +1071,7 @@ exports[`should render correctly in mobile polygon 1`] = `
       <div
         class="label"
       >
-        Array
+        array
       </div>
     </div>
   </div>
@@ -913,7 +1098,22 @@ exports[`should render correctly in mobile rect 1`] = `
       <div
         class="label"
       >
-        Outline
+        outline
+      </div>
+    </div>
+    <div
+      class="object-panel-item"
+      id="auto_arrange"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        auto_arrange
       </div>
     </div>
     <div
@@ -928,7 +1128,7 @@ exports[`should render correctly in mobile rect 1`] = `
       <div
         class="label"
       >
-        Offset
+        offset
       </div>
     </div>
     <div
@@ -943,7 +1143,7 @@ exports[`should render correctly in mobile rect 1`] = `
       <div
         class="label"
       >
-        Array
+        array
       </div>
     </div>
   </div>
@@ -970,7 +1170,7 @@ exports[`should render correctly in mobile text 1`] = `
       <div
         class="label"
       >
-        Outline
+        outline
       </div>
     </div>
     <div
@@ -990,6 +1190,21 @@ exports[`should render correctly in mobile text 1`] = `
     </div>
     <div
       class="object-panel-item"
+      id="auto_arrange"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        auto_arrange
+      </div>
+    </div>
+    <div
+      class="object-panel-item"
       id="array"
     >
       <div
@@ -1000,7 +1215,7 @@ exports[`should render correctly in mobile text 1`] = `
       <div
         class="label"
       >
-        Array
+        array
       </div>
     </div>
   </div>
@@ -1027,7 +1242,22 @@ exports[`should render correctly in mobile use 1`] = `
       <div
         class="label"
       >
-        Disassemble
+        disassemble_use
+      </div>
+    </div>
+    <div
+      class="object-panel-item"
+      id="auto_arrange"
+    >
+      <div
+        class="main"
+      >
+        <svgr-url />
+      </div>
+      <div
+        class="label"
+      >
+        auto_arrange
       </div>
     </div>
     <div
@@ -1042,7 +1272,7 @@ exports[`should render correctly in mobile use 1`] = `
       <div
         class="label"
       >
-        Array
+        array
       </div>
     </div>
   </div>
@@ -1078,7 +1308,27 @@ exports[`should render correctly line 1`] = `
           <span
             class="label"
           >
-            Convert to Path
+            convert_to_path
+          </span>
+        </button>
+      </div>
+      <div
+        class="btn-container"
+      >
+        <button
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          id="auto_arrange"
+          type="button"
+        >
+          <span
+            class="ant-btn-icon"
+          >
+            <svgr-url />
+          </span>
+          <span
+            class="label"
+          >
+            auto_arrange
           </span>
         </button>
       </div>
@@ -1098,7 +1348,7 @@ exports[`should render correctly line 1`] = `
           <span
             class="label"
           >
-            Offset
+            offset
           </span>
         </button>
       </div>
@@ -1118,7 +1368,7 @@ exports[`should render correctly line 1`] = `
           <span
             class="label"
           >
-            Array
+            array
           </span>
         </button>
       </div>
@@ -1193,7 +1443,27 @@ exports[`should render correctly path 1`] = `
           <span
             class="label"
           >
-            Decompose
+            decompose_path
+          </span>
+        </button>
+      </div>
+      <div
+        class="btn-container"
+      >
+        <button
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          id="auto_arrange"
+          type="button"
+        >
+          <span
+            class="ant-btn-icon"
+          >
+            <svgr-url />
+          </span>
+          <span
+            class="label"
+          >
+            auto_arrange
           </span>
         </button>
       </div>
@@ -1213,7 +1483,7 @@ exports[`should render correctly path 1`] = `
           <span
             class="label"
           >
-            Offset
+            offset
           </span>
         </button>
       </div>
@@ -1233,7 +1503,7 @@ exports[`should render correctly path 1`] = `
           <span
             class="label"
           >
-            Array
+            array
           </span>
         </button>
       </div>
@@ -1291,7 +1561,27 @@ exports[`should render correctly polygon 1`] = `
           <span
             class="label"
           >
-            Convert to Path
+            convert_to_path
+          </span>
+        </button>
+      </div>
+      <div
+        class="btn-container"
+      >
+        <button
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          id="auto_arrange"
+          type="button"
+        >
+          <span
+            class="ant-btn-icon"
+          >
+            <svgr-url />
+          </span>
+          <span
+            class="label"
+          >
+            auto_arrange
           </span>
         </button>
       </div>
@@ -1311,7 +1601,7 @@ exports[`should render correctly polygon 1`] = `
           <span
             class="label"
           >
-            Offset
+            offset
           </span>
         </button>
       </div>
@@ -1331,7 +1621,7 @@ exports[`should render correctly polygon 1`] = `
           <span
             class="label"
           >
-            Array
+            array
           </span>
         </button>
       </div>
@@ -1369,7 +1659,27 @@ exports[`should render correctly rect 1`] = `
           <span
             class="label"
           >
-            Convert to Path
+            convert_to_path
+          </span>
+        </button>
+      </div>
+      <div
+        class="btn-container"
+      >
+        <button
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          id="auto_arrange"
+          type="button"
+        >
+          <span
+            class="ant-btn-icon"
+          >
+            <svgr-url />
+          </span>
+          <span
+            class="label"
+          >
+            auto_arrange
           </span>
         </button>
       </div>
@@ -1389,7 +1699,7 @@ exports[`should render correctly rect 1`] = `
           <span
             class="label"
           >
-            Offset
+            offset
           </span>
         </button>
       </div>
@@ -1409,7 +1719,7 @@ exports[`should render correctly rect 1`] = `
           <span
             class="label"
           >
-            Array
+            array
           </span>
         </button>
       </div>
@@ -1447,7 +1757,7 @@ exports[`should render correctly text 1`] = `
           <span
             class="label"
           >
-            Convert to Path
+            convert_to_path
           </span>
         </button>
       </div>
@@ -1476,6 +1786,26 @@ exports[`should render correctly text 1`] = `
       >
         <button
           class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          id="auto_arrange"
+          type="button"
+        >
+          <span
+            class="ant-btn-icon"
+          >
+            <svgr-url />
+          </span>
+          <span
+            class="label"
+          >
+            auto_arrange
+          </span>
+        </button>
+      </div>
+      <div
+        class="btn-container"
+      >
+        <button
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
           id="array"
           type="button"
         >
@@ -1487,7 +1817,7 @@ exports[`should render correctly text 1`] = `
           <span
             class="label"
           >
-            Array
+            array
           </span>
         </button>
       </div>
@@ -1525,7 +1855,27 @@ exports[`should render correctly use 1`] = `
           <span
             class="label"
           >
-            Disassemble
+            disassemble_use
+          </span>
+        </button>
+      </div>
+      <div
+        class="btn-container"
+      >
+        <button
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          id="auto_arrange"
+          type="button"
+        >
+          <span
+            class="ant-btn-icon"
+          >
+            <svgr-url />
+          </span>
+          <span
+            class="label"
+          >
+            auto_arrange
           </span>
         </button>
       </div>
@@ -1545,7 +1895,7 @@ exports[`should render correctly use 1`] = `
           <span
             class="label"
           >
-            Array
+            array
           </span>
         </button>
       </div>

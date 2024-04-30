@@ -105,7 +105,6 @@ export interface ILang {
       svg_edit: string;
       path: string;
       decompose_path: string;
-      optimization: string;
       object: string;
       layer_setting: string;
       layer_color_config: string;
@@ -115,7 +114,6 @@ export interface ILang {
       image_stamp: string;
       image_vectorize: string;
       image_curve: string;
-      arrangement_optimization: string;
       align_to_edges: string;
       document_setting: string;
       document_setting_short: string;
@@ -938,6 +936,7 @@ export interface ILang {
           wait_for_parsing_font: string,
           offset: string,
           array: string,
+          auto_arrange: string;
           decompose_path: string,
           disassemble_use: string,
           disassembling: string,
