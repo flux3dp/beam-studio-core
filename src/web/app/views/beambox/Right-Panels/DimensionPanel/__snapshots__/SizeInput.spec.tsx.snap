@@ -27,7 +27,7 @@ exports[`test SizeInput should render correctly on desktop 1`] = `
             id="w_size"
             role="spinbutton"
             step="1"
-            value="0.00"
+            value="0"
           />
         </div>
       </div>

@@ -26,7 +26,7 @@ exports[`test PositionInput should render correctly on desktop 1`] = `
             id="x_position"
             role="spinbutton"
             step="1"
-            value="0.00"
+            value="0"
           />
         </div>
       </div>
@@ -66,7 +66,7 @@ exports[`test PositionInput should render correctly on desktop 2`] = `
             id="y_position"
             role="spinbutton"
             step="1"
-            value="0.00"
+            value="0"
           />
         </div>
       </div>
@@ -109,7 +109,7 @@ exports[`test PositionInput should render correctly on desktop 3`] = `
             id="x1_position"
             role="spinbutton"
             step="1"
-            value="0.00"
+            value="0"
           />
         </div>
       </div>
@@ -152,7 +152,7 @@ exports[`test PositionInput should render correctly on desktop 4`] = `
             id="y1_position"
             role="spinbutton"
             step="1"
-            value="0.00"
+            value="0"
           />
         </div>
       </div>
@@ -195,7 +195,7 @@ exports[`test PositionInput should render correctly on desktop 5`] = `
             id="x2_position"
             role="spinbutton"
             step="1"
-            value="0.00"
+            value="0"
           />
         </div>
       </div>
@@ -238,7 +238,7 @@ exports[`test PositionInput should render correctly on desktop 6`] = `
             id="y2_position"
             role="spinbutton"
             step="1"
-            value="0.00"
+            value="0"
           />
         </div>
       </div>
@@ -281,7 +281,7 @@ exports[`test PositionInput should render correctly on desktop 7`] = `
             id="cx_position"
             role="spinbutton"
             step="1"
-            value="0.00"
+            value="0"
           />
         </div>
       </div>
@@ -324,7 +324,7 @@ exports[`test PositionInput should render correctly on desktop 8`] = `
             id="cy_position"
             role="spinbutton"
             step="1"
-            value="0.00"
+            value="0"
           />
         </div>
       </div>
