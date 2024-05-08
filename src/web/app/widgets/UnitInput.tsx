@@ -85,9 +85,8 @@ const UnitInput = forwardRef<HTMLInputElement, Props>(({
           {...props}
           onBlur={handleBlur}
           onChange={onChange}
-          precision={isInch ? undefined : precision}
-          formatter={isInch ? formatter : undefined}
-          parser={isInch ? parser : undefined}
+          formatter={formatter}
+          parser={parser}
         />
         <span className={styles.unit}>{unit}</span>
       </ConfigProvider>
