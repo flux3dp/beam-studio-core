@@ -52,6 +52,7 @@ class WorkareaManager {
       const fixedSizeSvg = document.getElementById('fixedSizeSvg');
       fixedSizeSvg?.setAttribute('viewBox', `0 0 ${this.width} ${this.height}`);
       this.zoom(this.zoomRatio);
+      canvasEvents.emit('canvas-change');
     }
   }
 
