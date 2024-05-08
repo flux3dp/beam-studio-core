@@ -21,6 +21,7 @@ let lastElement: Element;
 let lastMode: RightPanelMode;
 
 enum PanelType {
+  None = 0, // only used for mobile
   Layer = 1,
   Object = 2,
   PathEdit = 3,
@@ -54,9 +55,11 @@ const RightPanel = (): JSX.Element => {
     lastElement = selectedElement;
   }, [mode, selectedElement, selectedTab, displayLayer, isMobile]);
 
-  let panelType: PanelType = PanelType.Object;
+  let panelType: PanelType = isMobile ? PanelType.None : PanelType.Object;
   if (mode === 'path-edit' && (selectedTab === 'objects' || isMobile)) {
     panelType = PanelType.PathEdit;
+  } else if (selectedElement && selectedTab === 'objects') {
+    panelType = PanelType.Object;
   } else if (
     (selectedTab === 'layers' || !selectedElement) &&
     (mode === 'element' || !isMobile) &&
