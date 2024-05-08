@@ -17,6 +17,7 @@ import RatioLock from './RatioLock';
 import Rotation from './Rotation';
 import SizeInput from './SizeInput';
 import styles from './DimensionPanel.module.scss';
+import { getValue } from './utils';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => {
@@ -58,7 +59,7 @@ const fixedSizeMapping = {
 
 interface Props {
   elem: Element;
-  getDimensionValues: (response: { dimensionValues: any }) => void;
+  getDimensionValues: (response: { dimensionValues: { [key: string]: number } }) => void;
   updateDimensionValues: (newDimensionValue: { [key: string]: any }) => void;
 }
 
@@ -72,11 +73,6 @@ const DimensionPanel = ({
   const sizeKeys = useMemo(() => new Set(['w', 'h', 'rx', 'ry']), []);
 
   const forceUpdate = useForceUpdate();
-
-  const getDisplayValue = useCallback((val: number): number => {
-    if (!val) return 0;
-    return val / Constant.dpmm;
-  }, []);
 
   const handleSizeBlur = useCallback(async () => {
     if (elem?.tagName === 'use') {
@@ -152,7 +148,7 @@ const DimensionPanel = ({
     (type: 'width' | 'height' | 'rx' | 'ry', val: number): void => {
       const batchCmd = HistoryCommandFactory.createBatchCommand('Object Panel Size Change');
       const response = {
-        dimensionValues: {} as any,
+        dimensionValues: {} as { [key: string]: number },
       };
       getDimensionValues(response);
       const { dimensionValues } = response;
@@ -163,18 +159,18 @@ const DimensionPanel = ({
       if (cmd && !cmd.isEmpty()) batchCmd.addSubCommand(cmd);
       const newValues = { [type]: sizeVal };
       if (isRatioFixed) {
-        const ratio = sizeVal / getDisplayValue(dimensionValues[type]);
-        const otherType = fixedSizeMapping[type];
-        const newOtherTypeVal = ratio * getDisplayValue(dimensionValues[otherType]);
-        cmd = changeSize(otherType, newOtherTypeVal);
+        const ratio = sizeVal / dimensionValues[type];
+        const counterPart = fixedSizeMapping[type];
+        const newCounterPartVal = ratio * dimensionValues[counterPart];
+        cmd = changeSize(counterPart, newCounterPartVal);
         if (cmd && !cmd.isEmpty()) batchCmd.addSubCommand(cmd);
-        newValues[otherType] = newOtherTypeVal;
+        newValues[counterPart] = newCounterPartVal;
       }
       updateDimensionValues(newValues);
       if (batchCmd && !batchCmd.isEmpty()) svgCanvas.undoMgr.addCommandToHistory(batchCmd);
       forceUpdate();
     },
-    [changeSize, getDimensionValues, updateDimensionValues, forceUpdate, getDisplayValue]
+    [changeSize, getDimensionValues, updateDimensionValues, forceUpdate]
   );
 
   const handleFixRatio = useCallback((): void => {
@@ -194,23 +190,17 @@ const DimensionPanel = ({
         <PositionInput
           key={type}
           type={type as 'x' | 'y' | 'x1' | 'y1' | 'x2' | 'y2' | 'cx' | 'cy'}
-          value={getDisplayValue(dimensionValues[type])}
+          value={getValue(dimensionValues, type, { unit: 'mm' })}
           onChange={handlePositionChange}
         />
       );
     }
     if (sizeKeys.has(type)) {
-      const displayValue = {
-        w: getDisplayValue(dimensionValues.width),
-        h: getDisplayValue(dimensionValues.height),
-        rx: getDisplayValue(dimensionValues.rx * 2),
-        ry: getDisplayValue(dimensionValues.ry * 2),
-      }[type];
       return (
         <SizeInput
           key={type}
           type={type as 'w' | 'h' | 'rx' | 'ry'}
-          value={displayValue}
+          value={getValue(dimensionValues, type, { unit: 'mm' })}
           onChange={handleSizeChange}
           onBlur={handleSizeBlur}
         />

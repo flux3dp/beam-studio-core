@@ -3,10 +3,6 @@ import { fireEvent, render } from '@testing-library/react';
 
 import SizeInput from './SizeInput';
 
-jest.mock('app/actions/beambox/constant', () => ({
-  dpmm: 10,
-}));
-
 const mockCreateEventEmitter = jest.fn();
 const mockOn = jest.fn();
 const mockRemoveListener = jest.fn();

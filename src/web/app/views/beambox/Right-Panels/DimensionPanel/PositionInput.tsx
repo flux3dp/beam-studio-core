@@ -1,6 +1,5 @@
 import React, { memo, useCallback, useEffect, useMemo, useRef } from 'react';
 
-import constant from 'app/actions/beambox/constant';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import storage from 'implementations/storage';
@@ -8,6 +7,7 @@ import UnitInput from 'app/widgets/UnitInput';
 import { useIsMobile } from 'helpers/system-helper';
 
 import styles from './DimensionPanel.module.scss';
+import { getValue } from './utils';
 
 interface Props {
   type: 'x' | 'y' | 'x1' | 'y1' | 'x2' | 'y2' | 'cx' | 'cy';
@@ -25,8 +25,9 @@ const PositionInput = ({ type, value, onChange }: Props): JSX.Element => {
 
   useEffect(() => {
     const handler = (newValues?: { [type: string]: number }) => {
-      if (newValues?.[type] !== undefined && inputRef.current) {
-        const newVal = newValues[type] / constant.dpmm / (isInch ? 25.4 : 1);
+      if (inputRef.current) {
+        const newVal = getValue(newValues, type, { unit, allowUndefined: true });
+        if (newVal === undefined) return;
         inputRef.current.value = newVal.toFixed(precision);
       }
     }
@@ -34,7 +35,7 @@ const PositionInput = ({ type, value, onChange }: Props): JSX.Element => {
     return () => {
       objectPanelEventEmitter.removeListener('UPDATE_DIMENSION_VALUES', handler);
     }
-  }, [type, isInch, precision, objectPanelEventEmitter]);
+  }, [type, unit, precision, objectPanelEventEmitter]);
 
   const label = useMemo<string | JSX.Element>(() => {
     if (type === 'x') return 'X';
