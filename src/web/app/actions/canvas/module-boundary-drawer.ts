@@ -9,7 +9,7 @@ import workareaManager from 'app/svgedit/workarea';
 import { WorkAreaModel } from 'app/constants/workarea-constants';
 
 const { svgedit } = window;
-const documentPanelEventEmitter = eventEmitterFactory.createEventEmitter('document-panel');
+const canvasEventEmitter = eventEmitterFactory.createEventEmitter('canvas');
 
 let boundarySvg: SVGSVGElement;
 let boundaryPath: SVGPathElement;
@@ -52,7 +52,7 @@ const updateCanvasSize = (): void => {
   const viewBox = `0 0 ${width} ${height}`;
   boundarySvg?.setAttribute('viewBox', viewBox);
 };
-documentPanelEventEmitter.on('workarea-change', updateCanvasSize);
+canvasEventEmitter.on('canvas-change', updateCanvasSize);
 
 const update = (module: LayerModule): void => {
   const workarea = BeamboxPreference.read('workarea') as WorkAreaModel;

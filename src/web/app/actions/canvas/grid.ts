@@ -6,7 +6,6 @@ import workareaManager from 'app/svgedit/workarea';
 import styles from './grid.module.scss';
 
 const canvasEventEmitter = eventEmitterFactory.createEventEmitter('canvas');
-const documentPanelEventEmitter = eventEmitterFactory.createEventEmitter('document-panel');
 const gridIntervals = [1, 10, 100]; // px
 let currentGridInterval: number;
 let gridContainer: SVGSVGElement;
@@ -65,7 +64,7 @@ const updateCanvasSize = (): void => {
   const { width, height } = workareaManager;
   gridContainer.setAttribute('viewBox', `0 0 ${width} ${height}`);
 };
-documentPanelEventEmitter.on('workarea-change', () => {
+canvasEventEmitter.on('canvas-change', () => {
   requestAnimationFrame(() => {
     updateCanvasSize();
     updateGrids(lastZoomRatio, true);
