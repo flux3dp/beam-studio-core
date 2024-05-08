@@ -69,6 +69,7 @@
 import { Buffer } from 'buffer';
 
 import Progress from 'app/actions/progress-caller';
+import updateImagesResolution from 'helpers/image/updateImagesResolution';
 import { importBvgString } from 'app/svgedit/operations/import/importBvg';
 
 // Create VInt Buffer, first bit indicate continue or not, other 7 bits represent value
@@ -248,6 +249,7 @@ const readBlocks = async (buf, offset) => {
     currentOffset = newOffset
     console.log('Size', value);
     readImageSource(buf, currentOffset, currentOffset + value);
+    updateImagesResolution(false);
     currentOffset += value;
   } else if (blockType === 3) {
     // thumbnail
