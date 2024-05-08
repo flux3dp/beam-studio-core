@@ -79,7 +79,7 @@ function ObjectPanel({ hide }: Props): JSX.Element {
         id="delete"
         content={<ObjectPanelIcons.Trash />}
         label={lang.topbar.menu.delete}
-        onClick={svgEditor.deleteSelected}
+        onClick={() => svgEditor.deleteSelected()}
       />
       <ObjectPanelItem.Item
         id="duplicate"
