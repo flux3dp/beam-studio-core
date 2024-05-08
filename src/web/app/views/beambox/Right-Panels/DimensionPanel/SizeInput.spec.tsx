@@ -30,6 +30,11 @@ jest.mock('app/views/beambox/Right-Panels/ObjectPanelItem', () => ({
   ),
 }));
 
+const mockGetValue = jest.fn();
+jest.mock('./utils', () => ({
+  getValue: (...args: any) => mockGetValue(...args),
+}));
+
 const mockOnChange = jest.fn();
 const mockOnBlur = jest.fn();
 
@@ -71,8 +76,11 @@ describe('test SizeInput', () => {
     expect(mockOn).toBeCalledWith('UPDATE_DIMENSION_VALUES', expect.any(Function));
     expect(mockRemoveListener).toBeCalledTimes(0);
     const handler = mockOn.mock.calls[0][1];
+    mockGetValue.mockReturnValue(1);
     handler({ width: 10 });
     expect(container.querySelector('input').value).toBe('1.00');
+    expect(mockGetValue).toBeCalledTimes(1);
+    expect(mockGetValue).toHaveBeenNthCalledWith(1, { width: 10 }, 'w', { unit: 'mm', allowUndefined: true });
     unmount();
     expect(mockRemoveListener).toBeCalledTimes(1);
     expect(mockRemoveListener).toHaveBeenNthCalledWith(1, 'UPDATE_DIMENSION_VALUES', handler);
