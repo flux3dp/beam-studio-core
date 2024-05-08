@@ -4335,8 +4335,8 @@ const svgEditor = window['svgEditor'] = (function () {
             svgCanvas.selectAll();
           });
           Shortcuts.on(['up'], (e) => {
-            e.preventDefault();
             if (isFocusingOnInputs()) return;
+            e.preventDefault();
             if (selectedElement) {
               moveSelected([0], [-moveUnit]);
             } else {
@@ -4345,8 +4345,8 @@ const svgEditor = window['svgEditor'] = (function () {
             }
           });
           Shortcuts.on(['shift', 'up'], (e) => {
-            e.preventDefault();
             if (isFocusingOnInputs()) return;
+            e.preventDefault();
             if (selectedElement) {
               moveSelected([0], [-moveUnit * 10]);
             } else {
@@ -4355,8 +4355,8 @@ const svgEditor = window['svgEditor'] = (function () {
             }
           });
           Shortcuts.on(['down'], (e) => {
-            e.preventDefault();
             if (isFocusingOnInputs()) return;
+            e.preventDefault();
             if (selectedElement) {
               moveSelected([0], [moveUnit]);
             } else {
@@ -4365,8 +4365,8 @@ const svgEditor = window['svgEditor'] = (function () {
             }
           });
           Shortcuts.on(['shift', 'down'], (e) => {
-            e.preventDefault();
             if (isFocusingOnInputs()) return;
+            e.preventDefault();
             if (selectedElement) {
               moveSelected([0], [moveUnit * 10]);
             } else {
@@ -4375,8 +4375,8 @@ const svgEditor = window['svgEditor'] = (function () {
             }
           });
           Shortcuts.on(['left'], (e) => {
-            e.preventDefault();
             if (isFocusingOnInputs()) return;
+            e.preventDefault();
             if (selectedElement) {
               moveSelected([-moveUnit], [0]);
             } else {
@@ -4385,8 +4385,8 @@ const svgEditor = window['svgEditor'] = (function () {
             }
           });
           Shortcuts.on(['shift', 'left'], (e) => {
-            e.preventDefault();
             if (isFocusingOnInputs()) return;
+            e.preventDefault();
             if (selectedElement) {
               moveSelected([-moveUnit * 10], [0]);
             } else {
@@ -4395,8 +4395,8 @@ const svgEditor = window['svgEditor'] = (function () {
             }
           });
           Shortcuts.on(['right'], (e) => {
-            e.preventDefault();
             if (isFocusingOnInputs()) return;
+            e.preventDefault();
             if (selectedElement) {
               moveSelected([moveUnit], [0]);
             } else {
@@ -4405,8 +4405,8 @@ const svgEditor = window['svgEditor'] = (function () {
             }
           });
           Shortcuts.on(['shift', 'right'], (e) => {
-            e.preventDefault();
             if (isFocusingOnInputs()) return;
+            e.preventDefault();
             if (selectedElement) {
               moveSelected([moveUnit * 10], [0]);
             } else {
