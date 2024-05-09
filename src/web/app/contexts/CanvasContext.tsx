@@ -184,6 +184,13 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
     };
   }, [updateCanvasContext]);
 
+  useEffect(() => {
+    canvasEventEmitter.on('SET_COLOR_PREVIEWING', setIsColorPreviewing);
+    return () => {
+      canvasEventEmitter.removeListener('SET_COLOR_PREVIEWING', setIsColorPreviewing);
+    };
+  }, []);
+
   const changeToPreviewMode = () => {
     svgCanvas.setMode('select');
     workareaEvents.emit('update-context-menu', { menuDisabled: true });

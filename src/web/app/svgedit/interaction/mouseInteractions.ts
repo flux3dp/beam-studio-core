@@ -20,7 +20,6 @@ import textEdit from 'app/svgedit/text/textedit';
 import SymbolMaker from 'helpers/symbol-maker';
 import updateElementColor from 'helpers/color/updateElementColor';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
-import RightPanelController from 'app/views/beambox/Right-Panels/contexts/RightPanelController';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { MouseButtons } from 'app/constants/mouse-constants';
 import rotaryAxis from 'app/actions/canvas/rotary-axis';
@@ -1704,7 +1703,7 @@ const dblClick = (evt: MouseEvent) => {
       svgCanvas.textActions.dbClickSelectAll();
     }
   } else if (currentMode === 'preview_color') {
-    RightPanelController.toElementMode();
+    canvasEvents.emit('SET_COLOR_PREVIEWING', false);
   }
 
   if ((tagName === 'g' || tagName === 'a') && svgedit.utilities.getRotationAngle(mouseTarget)) {
