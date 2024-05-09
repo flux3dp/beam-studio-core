@@ -48,6 +48,8 @@ interface CanvasContextType {
   updateCanvasContext: () => void;
   selectedDevice: IDeviceInfo | null;
   setSelectedDevice: (IDeviceInfo) => void;
+  isColorPreviewing: boolean;
+  setIsColorPreviewing: (isColorPreviewing: boolean) => void;
 }
 
 const CanvasContext = createContext<CanvasContextType>({
@@ -73,6 +75,8 @@ const CanvasContext = createContext<CanvasContextType>({
   updateCanvasContext: () => {},
   selectedDevice: null,
   setSelectedDevice: () => {},
+  isColorPreviewing: false,
+  setIsColorPreviewing: () => {},
 });
 
 const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>): JSX.Element => {
@@ -81,6 +85,7 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
   const [displayLayer, setDisplayLayer] = useState<boolean>(!isMobile);
   const [isPreviewing, setIsPreviewing] = useState<boolean>(false);
   const [isPathPreviewing, setIsPathPreviewing] = useState<boolean>(false);
+  const [isColorPreviewing, setIsColorPreviewing] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<IUser>(null);
   const [fileName, setFileName] = useState<string>(null);
   const [hasUnsavedChange, setHasUnsavedChange] = useState<boolean>(false);
@@ -227,6 +232,8 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
         updateCanvasContext,
         selectedDevice,
         setSelectedDevice,
+        isColorPreviewing,
+        setIsColorPreviewing,
       }}
     >
       {children}
