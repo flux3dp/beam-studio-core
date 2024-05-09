@@ -36,6 +36,7 @@ const lang: ILang = {
       use: 'Εισαγόμενο Αντικείμενο',
       svg: 'SVG Αντικείμενο',
       dxf: 'DXF Αντικείμενο',
+      no_selection: 'Καμία επιλογή',
     },
     alerts: {
       start_preview_timeout: '#803 Χρονικό όριο κατά την εκκίνηση της προεπισκόπησης. Κάντε επανεκκίνηση του μηχανήματος ή του Beam Studio. Αν το σφάλμα επιμένει, ακολουθήστε <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">αυτόν τον οδηγό</a>.',

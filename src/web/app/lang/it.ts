@@ -36,6 +36,7 @@ const lang: ILang = {
       use: 'Oggetto importato',
       svg: 'Oggetto SVG',
       dxf: 'Oggetto DXF',
+      no_selection: 'Nessuna selezione',
     },
     alerts: {
       start_preview_timeout: '#803 Timeout durante l\'avvio della modalità anteprima. Riavviare la macchina o Beam Studio. Se l\'errore persiste, seguire <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">questa guida</a>.',

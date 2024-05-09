@@ -36,6 +36,7 @@ const lang: ILang = {
       use: 'Đối tượng nhập khẩu',
       svg: 'Đối tượng SVG',
       dxf: 'Đối tượng DXF',
+      no_selection: 'Không có lựa chọn',
     },
     alerts: {
       start_preview_timeout: '#803 Đã xảy ra lỗi khi bắt đầu chế độ xem trước. Vui lòng khởi động lại máy hoặc Beam Studio. Nếu lỗi này vẫn xảy ra, vui lòng làm theo <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">hướng dẫn này</a>.',

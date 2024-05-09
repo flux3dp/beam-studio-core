@@ -33,6 +33,7 @@ export interface ILang {
       use: string,
       svg: string,
       dxf: string,
+      no_selection: string;
     },
     alerts: {
       start_preview_timeout: string;

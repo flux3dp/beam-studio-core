@@ -36,6 +36,7 @@ const lang: ILang = {
       use: '匯入物件',
       svg: 'SVG 物件',
       dxf: 'DXF 物件',
+      no_selection: '無選取物件',
     },
     alerts: {
       start_preview_timeout: '#803 啟動相機預覽時超時，請重新開啟您的機器或是 Beam Studio ，如果此錯誤持續發生，請參考<a target="_blank" href="https://flux3dp.zendesk.com/hc/zh-tw/articles/360001111355">此則引導</a>。',

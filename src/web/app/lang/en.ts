@@ -36,6 +36,7 @@ const lang: ILang = {
       use: 'Imported Object',
       svg: 'SVG Object',
       dxf: 'DXF Object',
+      no_selection: 'No Selection',
     },
     alerts: {
       start_preview_timeout: '#803 Timeout has occurred when starting preview mode. Please Restart your machine or Beam Studio. If this error persists, please follow <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">this guide</a>.',

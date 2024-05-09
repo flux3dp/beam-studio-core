@@ -36,6 +36,7 @@ const lang: ILang = {
       use: 'Objek Impor',
       svg: 'Objek SVG',
       dxf: 'Objek DXF',
+      no_selection: 'Tidak Ada Pilihan',
     },
     alerts: {
       start_preview_timeout: '#803 Timeout telah terjadi saat memulai mode pratinjau. Harap mulai ulang mesin Anda atau Beam Studio. Jika kesalahan ini berlanjut, ikuti <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">panduan ini</a>.',

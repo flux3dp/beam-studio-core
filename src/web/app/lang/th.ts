@@ -36,6 +36,7 @@ const lang: ILang = {
       use: 'วัตถุที่นําเข้า',
       svg: 'วัตถุ SVG',
       dxf: 'วัตถุ DXF',
+      no_selection: 'ไม่มีการเลือก',
     },
     alerts: {
       start_preview_timeout: '#803 หมดเวลาในการเริ่มโหมดแสดงตัวอย่าง โปรดรีสตาร์ทเครื่องของคุณหรือ Beam Studio หากยังคงเกิดข้อผิดพลาดนี้ โปรดปฏิบัติตาม <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">คําแนะนํานี้</a>',

@@ -36,6 +36,7 @@ const lang: ILang = {
       use: 'Importert objekt',
       svg: 'SVG-objekt',
       dxf: 'DXF-objekt',
+      no_selection: 'Ingen valg',
     },
     alerts: {
       start_preview_timeout: '#803 Tidsavbrudd ved oppstart av forhåndsvisning. Start maskinen eller Beam Studio på nytt. Hvis feilen vedvarer, følg denne veiledningen',

@@ -36,6 +36,7 @@ const lang: ILang = {
       use: 'Zaimportowany obiekt',
       svg: 'Obiekt SVG',
       dxf: 'Obiekt DXF',
+      no_selection: 'Brak wyboru',
     },
     alerts: {
       start_preview_timeout: '#803 Upłynął limit czasu podczas uruchamiania trybu podglądu. Uruchom ponownie komputer i Beam Studio. Jeśli błąd będzie się powtarzał, postępuj zgodnie z <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">tym przewodnikiem</a>.',

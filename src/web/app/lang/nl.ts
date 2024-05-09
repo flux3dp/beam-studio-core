@@ -36,6 +36,7 @@ const lang: ILang = {
       use: 'Geïmporteerd object',
       svg: 'SVG-object',
       dxf: 'DXF-object',
+      no_selection: 'Geen selectie',
     },
     alerts: {
       start_preview_timeout: '#803 Time-out opgetreden bij het starten van de voorbeeldmodus. Start uw machine of Beam Studio opnieuw op. Als deze fout zich blijft voordoen, volg dan <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">deze handleiding</a>.',

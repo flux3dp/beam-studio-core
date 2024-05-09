@@ -36,6 +36,7 @@ const lang: ILang = {
       use: 'Objeto importado',
       svg: 'Objeto SVG',
       dxf: 'Objeto DXF',
+      no_selection: 'Sin selección',
     },
     alerts: {
       start_preview_timeout: '#803 El tiempo de espera se ha agotado al iniciar el modo de vista previa. Por favor, reinicia tu máquina o Beam Studio. Si este error persiste, por favor sigue <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">esta guía</a>.',

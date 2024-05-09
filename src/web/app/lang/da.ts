@@ -36,6 +36,7 @@ const lang: ILang = {
       use: 'Importeret objekt',
       svg: 'SVG-objekt',
       dxf: 'DXF-objekt',
+      no_selection: 'Ingen valg',
     },
     alerts: {
       start_preview_timeout: '#803 Timeout opstod ved start af forhåndsvisning. Genstart maskinen eller Beam Studio. Hvis fejlen fortsætter, se <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">denne vejledning</a>.',

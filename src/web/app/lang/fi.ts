@@ -36,6 +36,7 @@ const lang: ILang = {
       use: 'Tuotu kohde',
       svg: 'SVG-kohde',
       dxf: 'DXF-kohde',
+      no_selection: 'Ei valintaa',
     },
     alerts: {
       start_preview_timeout: '#803 Aikakatkaisu esikatselutilan käynnistyksessä. Käynnistä kone tai Beam Studio uudelleen. Jos virhe toistuu, noudata <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">tätä ohjetta</a>.',

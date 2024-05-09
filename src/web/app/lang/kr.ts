@@ -36,6 +36,7 @@ const lang: ILang = {
       use: '가져온 개체',
       svg: 'SVG 개체',
       dxf: 'DXF 개체',
+      no_selection: '선택 없음',
     },
     alerts: {
       start_preview_timeout: '#803 미리보기 모드로 시작할 때 시간초과가 발생합니다. 기계 또는 빔스튜디오를 다시 시작해 주세요. 이 에러가 지속된다면 다음 가이드를 따라주세요. <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">this guide</a>',
