@@ -1599,6 +1599,7 @@ const lang: ILang = {
       draw_a_circle: 'Gambar Lingkaran',
       drag_to_draw: 'Seret untuk Menggambar',
       infill: 'Nyalakan Isi',
+      switch_to_object_panel: 'Beralih ke Panel Objek',
       switch_to_layer_panel: 'Beralih ke Panel Lapisan',
       set_preset_wood_engraving: 'Atur Preset: Kayu - Ukiran',
       set_preset_wood_cut: 'Atur Preset: Kayu - Pemotongan',

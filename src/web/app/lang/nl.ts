@@ -1599,6 +1599,7 @@ const lang: ILang = {
       draw_a_circle: 'Teken een cirkel',
       drag_to_draw: 'Sleep om te tekenen',
       infill: 'Infill inschakelen',
+      switch_to_object_panel: 'Schakel over naar Objectenpaneel',
       switch_to_layer_panel: 'Schakel over naar laagvenster',
       set_preset_wood_engraving: 'Stel voorinstelling in: Hout - Graveren',
       set_preset_wood_cut: 'Stel voorinstelling in: Hout - Snijden',

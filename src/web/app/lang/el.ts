@@ -1599,6 +1599,7 @@ const lang: ILang = {
       draw_a_circle: 'Σχεδιάστε έναν κύκλο',
       drag_to_draw: 'Σύρετε για σχεδίαση',
       infill: 'Ενεργοποίηση πλήρωσης',
+      switch_to_object_panel: 'Μετάβαση στο πίνακα αντικειμένων',
       switch_to_layer_panel: 'Μετάβαση στο πάνελ στρωμάτων',
       set_preset_wood_engraving: 'Ορισμός προεπιλογής: Ξύλο - χάραξη',
       set_preset_wood_cut: 'Ορισμός προεπιλογής: Ξύλο - κοπή',

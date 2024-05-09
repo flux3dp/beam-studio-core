@@ -1,8 +1,10 @@
 import React from 'react';
 
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
+import RightPanelController from 'app/views/beambox/Right-Panels/contexts/RightPanelController';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ITutorialDialog } from 'interfaces/ITutorial';
+import { PanelType } from 'app/constants/right-panel-types';
 import { TutorialCallbacks } from 'app/constants/tutorial-constants';
 
 let svgCanvas;
@@ -16,6 +18,7 @@ interface Props {
   hasNextButton: boolean,
   dialogStylesAndContents: ITutorialDialog[],
   onClose: () => void,
+  children: React.ReactNode,
 }
 
 interface States {
@@ -68,6 +71,7 @@ export class TutorialContextProvider extends React.Component<Props, States> {
     });
     this.defaultRect = defaultRect;
     svgCanvas.selectOnly([defaultRect], true);
+    RightPanelController.setPanelType(PanelType.Object);
   };
 
   scrollToParameterSelect = async (): Promise<void> => {
@@ -83,6 +87,7 @@ export class TutorialContextProvider extends React.Component<Props, States> {
     if (this.defaultRect) {
       this.defaultRect.remove();
       svgCanvas.clearSelection();
+      RightPanelController.setPanelType(PanelType.Layer);
     }
   };
 

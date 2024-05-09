@@ -1599,6 +1599,7 @@ export interface ILang {
       draw_a_circle: string,
       drag_to_draw: string,
       infill: string,
+      switch_to_object_panel: string;
       switch_to_layer_panel: string,
       set_preset_wood_engraving: string,
       set_preset_wood_cut: string,

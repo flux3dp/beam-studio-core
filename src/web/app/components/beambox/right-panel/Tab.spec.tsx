@@ -47,16 +47,6 @@ jest.mock('app/constants/tutorial-constants', () => ({
   TO_LAYER_PANEL: 'TO_LAYER_PANEL',
 }));
 
-const clearSelection = jest.fn();
-jest.mock('helpers/svg-editor-helper', () => ({
-  getSVGAsync: (callback) =>
-    callback({
-      Canvas: {
-        clearSelection: (...args) => clearSelection(...args),
-      },
-    }),
-}));
-
 describe('should render correctly', () => {
   test('no selected element', () => {
     const { container } = render(
@@ -184,7 +174,6 @@ describe('should render correctly', () => {
         getNextStepRequirement.mockReturnValue('TO_LAYER_PANEL');
         fireEvent.click(container.querySelector('div.layers'));
         expect(switchPanel).toHaveBeenCalledTimes(1);
-        expect(clearSelection).toHaveBeenCalledTimes(1);
         expect(handleNextStep).toHaveBeenCalledTimes(1);
       });
 
@@ -203,7 +192,6 @@ describe('should render correctly', () => {
         getNextStepRequirement.mockReturnValue('');
         fireEvent.click(container.querySelector('div.layers'));
         expect(switchPanel).toHaveBeenCalledTimes(1);
-        expect(clearSelection).not.toHaveBeenCalled();
         expect(handleNextStep).not.toHaveBeenCalled();
       });
     });

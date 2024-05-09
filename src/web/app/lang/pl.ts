@@ -1602,6 +1602,7 @@ const lang: ILang = {
       draw_a_circle: 'Narysuj okrąg',
       drag_to_draw: 'Przeciągnij, aby narysować',
       infill: 'Włącz wypełnienie',
+      switch_to_object_panel: 'Przełącz do panelu obiektów',
       switch_to_layer_panel: 'Przejdź do panelu warstw',
       set_preset_wood_engraving: 'Ustaw ustawienie wstępne: Drewno — grawerowanie',
       set_preset_wood_cut: 'Ustaw ustawienie wstępne: Drewno — cięcie',

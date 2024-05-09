@@ -1602,6 +1602,7 @@ const lang: ILang = {
       draw_a_circle: '円を描く',
       drag_to_draw: 'ドラッグして描画',
       infill: 'インフィルをオンにする',
+      switch_to_object_panel: 'オブジェクトパネルに切り替える',
       switch_to_layer_panel: 'レイヤーパネルに切り替え',
       set_preset_wood_engraving: 'プリセットの設定：木材 - 彫刻',
       set_preset_wood_cut: 'プリセットの設定：木材 - 切断',

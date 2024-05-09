@@ -1599,6 +1599,7 @@ const lang: ILang = {
       draw_a_circle: 'Vẽ một vòng tròn',
       drag_to_draw: 'Kéo để vẽ',
       infill: 'Bật độ rỗng',
+      switch_to_object_panel: 'Chuyển đổi sang Bảng Đối tượng',
       switch_to_layer_panel: 'Chuyển sang Bảng lớp',
       set_preset_wood_engraving: 'Đặt cài đặt sẵn: Gỗ - Khắc',
       set_preset_wood_cut: 'Đặt cài đặt sẵn: Gỗ - Cắt',

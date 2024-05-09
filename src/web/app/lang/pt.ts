@@ -1599,6 +1599,7 @@ const lang: ILang = {
       draw_a_circle: 'Desenhe um círculo',
       drag_to_draw: 'Arraste para desenhar',
       infill: 'Ative o preenchimento',
+      switch_to_object_panel: 'Mudar para o painel de objetos',
       switch_to_layer_panel: 'Mudar para o painel de camadas',
       set_preset_wood_engraving: 'Definir predefinição: Madeira - Gravura',
       set_preset_wood_cut: 'Definir predefinição: Madeira - Corte',

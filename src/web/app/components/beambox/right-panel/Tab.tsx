@@ -4,14 +4,8 @@ import classNames from 'classnames';
 import * as TutorialController from 'app/views/tutorials/tutorialController';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import { SelectedElementContext } from 'app/contexts/SelectedElementContext';
-import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { PanelType } from 'app/constants/right-panel-types';
 import useI18n from 'helpers/useI18n';
-
-let svgCanvas;
-getSVGAsync((globalSVG) => {
-  svgCanvas = globalSVG.Canvas;
-});
 
 interface Props {
   panelType: PanelType;
@@ -56,7 +50,6 @@ function Tab({ panelType, switchPanel }: Props): JSX.Element {
                 if (
                   TutorialController.getNextStepRequirement() === TutorialConstants.TO_LAYER_PANEL
                 ) {
-                  svgCanvas.clearSelection();
                   TutorialController.handleNextStep();
                 }
               }
@@ -73,7 +66,14 @@ function Tab({ panelType, switchPanel }: Props): JSX.Element {
         onClick={
           isObjectDisabled || panelType === PanelType.Object || panelType === PanelType.PathEdit
             ? null
-            : switchPanel
+            : () => {
+              switchPanel();
+              if (
+                TutorialController.getNextStepRequirement() === TutorialConstants.TO_OBJECT_PANEL
+              ) {
+                TutorialController.handleNextStep();
+              }
+            }
         }
       >
         <img className="tab-icon object" src="img/right-panel/icon-adjust.svg" draggable={false} />

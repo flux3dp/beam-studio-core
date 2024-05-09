@@ -1599,6 +1599,7 @@ const lang: ILang = {
       draw_a_circle: 'Dessiner un cercle',
       drag_to_draw: 'Faites glisser pour dessiner',
       infill: 'Activer le remplissage',
+      switch_to_object_panel: 'Passer au panneau des objets',
       switch_to_layer_panel: 'Passer au panneau des calques',
       set_preset_wood_engraving: 'Définir le préréglage : Bois - Gravure',
       set_preset_wood_cut: 'Définir le préréglage : Bois - Découpe',

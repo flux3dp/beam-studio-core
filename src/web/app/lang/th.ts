@@ -1599,6 +1599,7 @@ const lang: ILang = {
       draw_a_circle: 'วาดวงกลม',
       drag_to_draw: 'ลากเพื่อวาด',
       infill: 'เปิดใช้งานช่องว่างภายใน',
+      switch_to_object_panel: 'สลับไปยังหน้าต่างการจัดการอ็อบเจกต์',
       switch_to_layer_panel: 'สลับไปที่แผงชั้น',
       set_preset_wood_engraving: 'ตั้งค่าที่กําหนดไว้ล่วงหน้า: ไม้ - การกัดลาย',
       set_preset_wood_cut: 'ตั้งค่าที่กําหนดไว้ล่วงหน้า: ไม้ - ตัด',

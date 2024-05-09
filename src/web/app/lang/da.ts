@@ -1599,6 +1599,7 @@ const lang: ILang = {
       draw_a_circle: 'Tegn en cirkel',
       drag_to_draw: 'Træk for at tegne',
       infill: 'Aktiver udfyldning',
+      switch_to_object_panel: 'Skift til objektpanel',
       switch_to_layer_panel: 'Skift til lag panel',
       set_preset_wood_engraving: 'Sæt forudindstilling: Træ - gravering',
       set_preset_wood_cut: 'Sæt forudindstilling: Træ - skæring',

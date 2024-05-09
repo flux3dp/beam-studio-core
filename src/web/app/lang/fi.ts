@@ -1599,6 +1599,7 @@ const lang: ILang = {
       draw_a_circle: 'Piirrä ympyrä',
       drag_to_draw: 'Vedä piirtääksesi',
       infill: 'Käännä täyttö päälle',
+      switch_to_object_panel: 'Vaihda objektipaneeliin',
       switch_to_layer_panel: 'Vaihda kerrospaneeliin',
       set_preset_wood_engraving: 'Aseta esiasetus: Puu - kaiverrus',
       set_preset_wood_cut: 'Aseta esiasetus: Puu - leikkaus',

@@ -1602,6 +1602,7 @@ const lang: ILang = {
       draw_a_circle: '원 그리기',
       drag_to_draw: '그리기 위해 드래그',
       infill: '인피룰 켜기',
+      switch_to_object_panel: '객체 패널로 전환',
       switch_to_layer_panel: '레이어 패널로 전환',
       set_preset_wood_engraving: '사전 설정: 목재 - 새길기',
       set_preset_wood_cut: '사전 설정: 목재 - 절단',

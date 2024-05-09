@@ -1602,6 +1602,7 @@ const lang: ILang = {
       draw_a_circle: 'Zeichne einen Kreis',
       drag_to_draw: 'Zum Zeichnen ziehen',
       infill: 'Füllen einschalten',
+      switch_to_object_panel: 'Wechsel zum Objektpanel',
       switch_to_layer_panel: 'Wechseln Sie zum Ebenenbedienfeld',
       set_preset_wood_engraving: 'Set Preset: Holz - Gravur',
       set_preset_wood_cut: 'Set Preset: Holz - Schneiden',

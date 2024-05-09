@@ -26,6 +26,13 @@ const RightPanel = (): JSX.Element => {
   const [panelType, setPanelType] = useState<PanelType>(isMobile ? PanelType.None : PanelType.Layer);
 
   useEffect(() => {
+    rightPanelEventEmitter.on('SET_PANEL_TYPE', setPanelType);
+    return () => {
+      rightPanelEventEmitter.off('SET_PANEL_TYPE', setPanelType);
+    };
+  }, []);
+
+  useEffect(() => {
     const handler = (val: boolean) => {
       if (!isMobile) return;
       setPanelType((cur) => {
