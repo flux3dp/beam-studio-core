@@ -1,6 +1,7 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
+import { PanelType } from 'app/constants/right-panel-types';
 import { SelectedElementContext } from 'app/contexts/SelectedElementContext';
 
 import Tab from './Tab';
@@ -12,33 +13,32 @@ jest.mock('app/views/tutorials/tutorialController', () => ({
   handleNextStep: (...args) => handleNextStep(...args),
 }));
 
-jest.mock('helpers/i18n', () => ({
-  lang: {
-    beambox: {
-      right_panel: {
-        tabs: {
-          layers: 'Layers',
-          objects: 'Objects',
-          path_edit: 'Path Edit',
-        },
+jest.mock('helpers/useI18n', () => () => ({
+  beambox: {
+    right_panel: {
+      tabs: {
+        layers: 'Layers',
+        objects: 'Objects',
+        path_edit: 'Path Edit',
       },
     },
-    topbar: {
-      tag_names: {
-        rect: 'Rectangle',
-        ellipse: 'Oval',
-        path: 'Path',
-        polygon: 'Polygon',
-        image: 'Image',
-        text: 'Text',
-        text_path: 'Text on Path',
-        line: 'Line',
-        g: 'Group',
-        multi_select: 'Multiple Objects',
-        use: 'Imported Object',
-        svg: 'SVG Object',
-        dxf: 'DXF Object',
-      },
+  },
+  topbar: {
+    tag_names: {
+      rect: 'Rectangle',
+      ellipse: 'Oval',
+      path: 'Path',
+      polygon: 'Polygon',
+      image: 'Image',
+      text: 'Text',
+      text_path: 'Text on Path',
+      line: 'Line',
+      g: 'Group',
+      multi_select: 'Multiple Objects',
+      use: 'Imported Object',
+      svg: 'SVG Object',
+      dxf: 'DXF Object',
+      no_selection: 'no_selection',
     },
   },
 }));
@@ -47,21 +47,21 @@ jest.mock('app/constants/tutorial-constants', () => ({
   TO_LAYER_PANEL: 'TO_LAYER_PANEL',
 }));
 
-
 const clearSelection = jest.fn();
 jest.mock('helpers/svg-editor-helper', () => ({
-  getSVGAsync: (callback) => callback({
-    Canvas: {
-      clearSelection: (...args) => clearSelection(...args),
-    },
-  }),
+  getSVGAsync: (callback) =>
+    callback({
+      Canvas: {
+        clearSelection: (...args) => clearSelection(...args),
+      },
+    }),
 }));
 
 describe('should render correctly', () => {
   test('no selected element', () => {
     const { container } = render(
       <SelectedElementContext.Provider value={{ selectedElement: null }}>
-        <Tab mode="element" selectedTab="layers" setSelectedTab={jest.fn()} />
+        <Tab panelType={PanelType.Layer} switchPanel={jest.fn()} />
       </SelectedElementContext.Provider>
     );
     expect(container).toMatchSnapshot();
@@ -74,7 +74,7 @@ describe('should render correctly', () => {
       <SelectedElementContext.Provider
         value={{ selectedElement: document.getElementById('svg_1') }}
       >
-        <Tab mode="element" selectedTab="layers" setSelectedTab={jest.fn()} />
+        <Tab panelType={PanelType.PathEdit} switchPanel={jest.fn()} />
       </SelectedElementContext.Provider>
     );
     expect(container).toMatchSnapshot();
@@ -84,23 +84,18 @@ describe('should render correctly', () => {
     describe('in objects tab', () => {
       test('not use tag', () => {
         document.body.innerHTML = '<ellipse id="svg_1"></ellipse>';
-        const setSelectedTab = jest.fn();
+        const switchPanel = jest.fn();
 
         const { container } = render(
           <SelectedElementContext.Provider
             value={{ selectedElement: document.getElementById('svg_1') }}
           >
-            <Tab
-              mode="element"
-              selectedTab="objects"
-              setSelectedTab={setSelectedTab}
-            />
+            <Tab panelType={PanelType.Object} switchPanel={switchPanel} />
           </SelectedElementContext.Provider>
         );
         expect(container).toMatchSnapshot();
-        fireEvent.click(container.querySelector('div.objects'));
-        expect(setSelectedTab).toHaveBeenCalledTimes(1);
-        expect(setSelectedTab).toHaveBeenNthCalledWith(1, 'objects');
+        fireEvent.click(container.querySelector('div.layers'));
+        expect(switchPanel).toHaveBeenCalledTimes(1);
       });
 
       test('multiple objects', () => {
@@ -109,11 +104,7 @@ describe('should render correctly', () => {
           <SelectedElementContext.Provider
             value={{ selectedElement: document.getElementById('svg_3') }}
           >
-            <Tab
-                mode="element"
-                selectedTab="objects"
-                setSelectedTab={jest.fn()}
-            />
+            <Tab panelType={PanelType.Object} switchPanel={jest.fn()} />
           </SelectedElementContext.Provider>
         );
         expect(container).toMatchSnapshot();
@@ -126,11 +117,7 @@ describe('should render correctly', () => {
           <SelectedElementContext.Provider
             value={{ selectedElement: document.getElementById('svg_1') }}
           >
-            <Tab
-                mode="element"
-                selectedTab="objects"
-                setSelectedTab={jest.fn()}
-            />
+            <Tab panelType={PanelType.Object} switchPanel={jest.fn()} />
           </SelectedElementContext.Provider>
         );
         expect(container).toMatchSnapshot();
@@ -143,11 +130,7 @@ describe('should render correctly', () => {
           <SelectedElementContext.Provider
             value={{ selectedElement: document.getElementById('svg_1') }}
           >
-            <Tab
-                mode="element"
-                selectedTab="objects"
-                setSelectedTab={jest.fn()}
-            />
+            <Tab panelType={PanelType.Object} switchPanel={jest.fn()} />
           </SelectedElementContext.Provider>
         );
         expect(container).toMatchSnapshot();
@@ -160,11 +143,7 @@ describe('should render correctly', () => {
           <SelectedElementContext.Provider
             value={{ selectedElement: document.getElementById('svg_1') }}
           >
-            <Tab
-                mode="element"
-                selectedTab="objects"
-                setSelectedTab={jest.fn()}
-            />
+            <Tab panelType={PanelType.Object} switchPanel={jest.fn()} />
           </SelectedElementContext.Provider>
         );
         expect(container).toMatchSnapshot();
@@ -177,11 +156,7 @@ describe('should render correctly', () => {
           <SelectedElementContext.Provider
             value={{ selectedElement: document.getElementById('svg_1') }}
           >
-            <Tab
-                mode="element"
-                selectedTab="objects"
-                setSelectedTab={jest.fn()}
-            />
+            <Tab panelType={PanelType.Object} switchPanel={jest.fn()} />
           </SelectedElementContext.Provider>
         );
         expect(container).toMatchSnapshot();
@@ -195,49 +170,39 @@ describe('should render correctly', () => {
 
       test('in tutorial mode', () => {
         document.body.innerHTML = '<ellipse id="svg_1"></ellipse>';
-        const setSelectedTab = jest.fn();
+        const switchPanel = jest.fn();
 
         const { container } = render(
           <SelectedElementContext.Provider
             value={{ selectedElement: document.getElementById('svg_1') }}
           >
-            <Tab
-                mode="element"
-                selectedTab="layers"
-                setSelectedTab={setSelectedTab}
-            />
+            <Tab panelType={PanelType.Object} switchPanel={switchPanel} />
           </SelectedElementContext.Provider>
         );
         expect(container).toMatchSnapshot();
 
         getNextStepRequirement.mockReturnValue('TO_LAYER_PANEL');
         fireEvent.click(container.querySelector('div.layers'));
-        expect(setSelectedTab).toHaveBeenCalledTimes(1);
-        expect(setSelectedTab).toHaveBeenNthCalledWith(1, 'layers');
+        expect(switchPanel).toHaveBeenCalledTimes(1);
         expect(clearSelection).toHaveBeenCalledTimes(1);
         expect(handleNextStep).toHaveBeenCalledTimes(1);
       });
 
       test('not in tutorial mode', () => {
         document.body.innerHTML = '<ellipse id="svg_1"></ellipse>';
-        const setSelectedTab = jest.fn();
+        const switchPanel = jest.fn();
 
         const { container } = render(
           <SelectedElementContext.Provider
             value={{ selectedElement: document.getElementById('svg_1') }}
           >
-            <Tab
-                mode="element"
-                selectedTab="layers"
-                setSelectedTab={setSelectedTab}
-            />
+            <Tab panelType={PanelType.Object} switchPanel={switchPanel} />
           </SelectedElementContext.Provider>
         );
 
         getNextStepRequirement.mockReturnValue('');
         fireEvent.click(container.querySelector('div.layers'));
-        expect(setSelectedTab).toHaveBeenCalledTimes(1);
-        expect(setSelectedTab).toHaveBeenNthCalledWith(1, 'layers');
+        expect(switchPanel).toHaveBeenCalledTimes(1);
         expect(clearSelection).not.toHaveBeenCalled();
         expect(handleNextStep).not.toHaveBeenCalled();
       });

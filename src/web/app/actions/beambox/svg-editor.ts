@@ -1513,16 +1513,16 @@ const svgEditor = window['svgEditor'] = (function () {
       if (elem != null && !elem.parentNode) {
         elem = null;
       }
-      var currentLayerName = svgCanvas.getCurrentDrawing().getCurrentLayerName();
       var currentMode = svgCanvas.getMode();
       var unit = curConfig.baseUnit !== 'px' ? curConfig.baseUnit : null;
 
       var is_node = currentMode === 'pathedit'; //elem ? (elem.id && elem.id.indexOf('pathpointgrip') == 0) : false;
       if (is_node) {
-        RightPanelController.toPathEditMode();
+        canvasEvents.setPathEditing(true);
         canvasEvents.setSelectedElement(null);
+        RightPanelController.updatePathEditPanel();
       } else {
-        RightPanelController.toElementMode();
+        canvasEvents.setPathEditing(false);
         canvasEvents.setSelectedElement(elem);
       }
 

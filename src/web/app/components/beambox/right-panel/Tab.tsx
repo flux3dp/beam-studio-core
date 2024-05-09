@@ -2,78 +2,85 @@ import React, { useContext } from 'react';
 import classNames from 'classnames';
 
 import * as TutorialController from 'app/views/tutorials/tutorialController';
-import i18n from 'helpers/i18n';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import { SelectedElementContext } from 'app/contexts/SelectedElementContext';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import { RightPanelMode } from 'app/views/beambox/Right-Panels/contexts/RightPanelContext';
+import { PanelType } from 'app/constants/right-panel-types';
+import useI18n from 'helpers/useI18n';
 
 let svgCanvas;
-getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
-
-const LANG = i18n.lang.beambox.right_panel;
+getSVGAsync((globalSVG) => {
+  svgCanvas = globalSVG.Canvas;
+});
 
 interface Props {
-  mode: RightPanelMode;
-  selectedTab: 'layers' | 'objects';
-  setSelectedTab: (selectedTab: 'layers' | 'objects') => void;
+  panelType: PanelType;
+  switchPanel: () => void;
 }
 
-function Tab({
-  mode,
-  selectedTab,
-  setSelectedTab,
-}: Props): JSX.Element {
+function Tab({ panelType, switchPanel }: Props): JSX.Element {
+  const lang = useI18n()
+  const langTopBar = lang.topbar;
+  const langRightPanel = lang.beambox.right_panel;
   const { selectedElement } = useContext(SelectedElementContext);
-  const isObjectDisabled = (mode === 'element' && !selectedElement);
-  let objectTitle = LANG.tabs.objects;
-  const LangTopBar = i18n.lang.topbar;
-  if (mode === 'path-edit') {
-    objectTitle = LANG.tabs.path_edit;
-  } else if (mode === 'element' && selectedElement) {
+  const isObjectDisabled = panelType !== PanelType.PathEdit && !selectedElement;
+  let objectTitle = langRightPanel.tabs.objects;
+  if (panelType === PanelType.PathEdit) {
+    objectTitle = langRightPanel.tabs.path_edit;
+  } else if (selectedElement) {
     if (selectedElement.getAttribute('data-tempgroup') === 'true') {
-      objectTitle = LangTopBar.tag_names.multi_select;
+      objectTitle = langTopBar.tag_names.multi_select;
     } else if (selectedElement.getAttribute('data-textpath-g')) {
-      objectTitle = LangTopBar.tag_names.text_path;
+      objectTitle = langTopBar.tag_names.text_path;
     } else if (selectedElement.tagName.toLowerCase() !== 'use') {
-      objectTitle = LangTopBar.tag_names[selectedElement.tagName.toLowerCase()];
+      objectTitle = langTopBar.tag_names[selectedElement.tagName.toLowerCase()];
     } else if (selectedElement.getAttribute('data-svg') === 'true') {
-      objectTitle = LangTopBar.tag_names.svg;
+      objectTitle = langTopBar.tag_names.svg;
     } else if (selectedElement.getAttribute('data-dxf') === 'true') {
-      objectTitle = LangTopBar.tag_names.dxf;
+      objectTitle = langTopBar.tag_names.dxf;
     } else {
-      objectTitle = LangTopBar.tag_names.use;
+      objectTitle = langTopBar.tag_names.use;
     }
+  } else {
+    objectTitle = langTopBar.tag_names.no_selection;
   }
   return (
     <div className="right-panel-tabs">
       <div
-        className={classNames('tab', 'layers', { selected: selectedTab === 'layers' })}
-        onClick={() => {
-          setSelectedTab('layers');
-          if (TutorialController.getNextStepRequirement() === TutorialConstants.TO_LAYER_PANEL) {
-            svgCanvas.clearSelection();
-            TutorialController.handleNextStep();
-          }
-        }}
+        className={classNames('tab', 'layers', { selected: panelType === PanelType.Layer })}
+        onClick={
+          panelType === PanelType.Layer
+            ? null
+            : () => {
+                switchPanel();
+                if (
+                  TutorialController.getNextStepRequirement() === TutorialConstants.TO_LAYER_PANEL
+                ) {
+                  svgCanvas.clearSelection();
+                  TutorialController.handleNextStep();
+                }
+              }
+        }
       >
         <img className="tab-icon" src="img/right-panel/icon-layers.svg" draggable={false} />
-        <div className="tab-title">
-          {LANG.tabs.layers}
-        </div>
+        <div className="tab-title">{langRightPanel.tabs.layers}</div>
       </div>
       <div
-        className={classNames('tab', 'objects', { disabled: isObjectDisabled, selected: selectedTab === 'objects' })}
-        onClick={isObjectDisabled ? null : () => setSelectedTab('objects')}
+        className={classNames('tab', 'objects', {
+          disabled: isObjectDisabled,
+          selected: panelType === PanelType.Object || panelType === PanelType.PathEdit,
+        })}
+        onClick={
+          isObjectDisabled || panelType === PanelType.Object || panelType === PanelType.PathEdit
+            ? null
+            : switchPanel
+        }
       >
         <img className="tab-icon object" src="img/right-panel/icon-adjust.svg" draggable={false} />
-        <div className="tab-title">
-          {objectTitle}
-        </div>
+        <div className="tab-title">{objectTitle}</div>
       </div>
     </div>
   );
 }
 
 export default Tab;
-

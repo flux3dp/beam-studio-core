@@ -350,24 +350,26 @@ function ObjectPanel({ hide }: Props): JSX.Element {
 
   const renderActionPanel = (): JSX.Element => <ActionsPanel elem={elem} />;
 
+  const contents = isMobile ? (
+    <>
+      {renderCommonActionPanel()}
+      {renderOptionPanel()}
+      {renderDimensionPanel()}
+      {renderToolBtns()}
+      {renderActionPanel()}
+    </>
+  ) : (
+    <>
+      {renderToolBtns()}
+      {renderDimensionPanel()}
+      {renderOptionPanel()}
+      {renderActionPanel()}
+    </>
+  );
+
   return (
     <div id="object-panel" className={classNames(styles.container, { [styles.hide]: hide })}>
-      {isMobile ? (
-        <>
-          {renderCommonActionPanel()}
-          {renderOptionPanel()}
-          {renderDimensionPanel()}
-          {renderToolBtns()}
-          {renderActionPanel()}
-        </>
-      ) : (
-        <>
-          {renderToolBtns()}
-          {renderDimensionPanel()}
-          {renderOptionPanel()}
-          {renderActionPanel()}
-        </>
-      )}
+      {elem ? contents : null}
     </div>
   );
 }

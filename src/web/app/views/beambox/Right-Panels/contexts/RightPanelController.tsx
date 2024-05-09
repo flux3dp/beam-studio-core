@@ -2,15 +2,15 @@ import eventEmitterFactory from 'helpers/eventEmitterFactory';
 
 const rightPanelEventEmitter = eventEmitterFactory.createEventEmitter('right-panel');
 
-const toPathEditMode = (): void => {
-  rightPanelEventEmitter.emit('SET_MODE', 'path-edit');
+const setDisplayLayer = (val: boolean): void => {
+  rightPanelEventEmitter.emit('DISPLAY_LAYER', val);
 };
 
-const toElementMode = (): void => {
-  rightPanelEventEmitter.emit('SET_MODE', 'element');
-};
+const updatePathEditPanel = (): void => {
+  rightPanelEventEmitter.emit('UPDATE_PATH_EDIT_PANEL');
+}
 
 export default {
-  toPathEditMode,
-  toElementMode,
+  setDisplayLayer,
+  updatePathEditPanel,
 };

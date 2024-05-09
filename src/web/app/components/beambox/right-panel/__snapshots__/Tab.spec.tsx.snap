@@ -6,7 +6,7 @@ exports[`should render correctly in element node in layers tab in tutorial mode 
     class="right-panel-tabs"
   >
     <div
-      class="tab layers selected"
+      class="tab layers"
     >
       <img
         class="tab-icon"
@@ -20,7 +20,7 @@ exports[`should render correctly in element node in layers tab in tutorial mode 
       </div>
     </div>
     <div
-      class="tab objects"
+      class="tab objects selected"
     >
       <img
         class="tab-icon object"
@@ -265,7 +265,7 @@ exports[`should render correctly in path edit mode 1`] = `
     class="right-panel-tabs"
   >
     <div
-      class="tab layers selected"
+      class="tab layers"
     >
       <img
         class="tab-icon"
@@ -279,7 +279,7 @@ exports[`should render correctly in path edit mode 1`] = `
       </div>
     </div>
     <div
-      class="tab objects"
+      class="tab objects selected"
     >
       <img
         class="tab-icon object"
@@ -289,7 +289,7 @@ exports[`should render correctly in path edit mode 1`] = `
       <div
         class="tab-title"
       >
-        Path
+        Path Edit
       </div>
     </div>
   </div>
@@ -326,7 +326,7 @@ exports[`should render correctly no selected element 1`] = `
       <div
         class="tab-title"
       >
-        Objects
+        no_selection
       </div>
     </div>
   </div>
