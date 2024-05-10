@@ -3620,7 +3620,7 @@ const svgEditor = window['svgEditor'] = (function () {
       Alert.popById('clear-scene');
       Alert.popUp({
         id: 'clear-scene',
-        message: i18n.lang.topbar.alerts.qClearScene,
+        message: i18n.lang.topbar.alerts.QcleanScene,
         buttonType: AlertConstants.YES_NO,
         onYes: () => {
           setSelectMode();
