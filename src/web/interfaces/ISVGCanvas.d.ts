@@ -78,7 +78,7 @@ export default interface ISVGCanvas {
   getRootScreenMatrix: () => SVGMatrix;
   getRotationAngle(elem: Element): void;
   getRubberBox: () => SVGRectElement;
-  getSelectedElems: () => SVGElement[];
+  getSelectedElems: (ungroupTempGroup?: boolean) => SVGElement[];
   getStarted: () => boolean;
   getStartTransform: () => any;
   getStrokedBBox(elems: Element[]): IRect;
@@ -108,13 +108,6 @@ export default interface ISVGCanvas {
   moveDownSelectedElement(): void;
   moveTopBottomSelected(direction: 'top' | 'bottom'): void;
   moveUpSelectedElement(): void;
-  offsetElements: (
-    dir: number,
-    dist: number,
-    cornerType: string,
-    elem: SVGElement,
-    skipUndoStack?: boolean
-  ) => Promise<SVGElement>;
   opacityAnimation: SVGAnimateElement;
   open: () => void;
   pathActions: IPathActions;

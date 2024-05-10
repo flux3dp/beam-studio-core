@@ -485,8 +485,8 @@ const potrace = async (elem?: SVGImageElement): Promise<void> => {
 
   g.remove();
   path.setAttribute('d', d);
-  d = svgedit.utilities.convertPath(path, true);
-  path.setAttribute('d', d);
+  path.setAttribute('d', svgCanvas.pathActions.convertPath(path, false));
+  svgCanvas.pathActions.fixEnd(path);
   simplifyPath(path);
   moveElements([dx], [dy], [path], false);
   updateElementColor(path);
