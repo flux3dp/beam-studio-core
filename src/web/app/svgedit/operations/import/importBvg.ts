@@ -37,20 +37,15 @@ export const importBvgString = async (str: string): Promise<void> => {
     const tmp = str.substr(str.indexOf('<use')).split('<use');
 
     for (let i = 1; i < tmp.length; i += 1) {
-      let wireframe: string;
-      let xform: string;
-
       tmp[i] = tmp[i].substring(0, tmp[i].indexOf('/>'));
-      let match = tmp[i].match(/id="svg_\d+"/)[0];
-      const id = match.substring(match.indexOf('"') + 1, match.lastIndexOf('"'));
-      match = tmp[i].match(/data-xform="[^"]*"/)?.[0];
-      if (match) xform = match.substring(match.indexOf('"') + 1, match.lastIndexOf('"'));
-      match = tmp[i].match(/data-wireframe="[a-z]*"/)?.[0];
-      if (match) wireframe = match.substring(match.indexOf('"') + 1, match.lastIndexOf('"'));
-
+      const id = tmp[i].match(/id="(svg_\d+)"/)?.[1];
       const elem = document.getElementById(id);
-      elem?.setAttribute('data-xform', xform);
-      elem?.setAttribute('data-wireframe', String(wireframe === 'true'));
+      if (elem) {
+        const xform = tmp[i].match(/data-xform="([^"]*)"/)?.[1];
+        if (xform) elem.setAttribute('data-xform', xform);
+        const wireframe = tmp[i].match(/data-wireframe="([a-z]*)"/)?.[1];
+        if (wireframe) elem?.setAttribute('data-wireframe', String(wireframe === 'true'));
+      }
     }
     let match = str.match(/data-rotary_mode="([^"]*)"/);
     if (match) {
@@ -64,9 +59,8 @@ export const importBvgString = async (str: string): Promise<void> => {
       }
       rotaryAxis.toggleDisplay();
     }
-    match = str.match(/data-engrave_dpi="[a-zA-Z]+"/);
-    if (match) {
-      const engraveDpi = match[0].substring(18, match[0].length - 1);
+    const engraveDpi = str.match(/data-engrave_dpi="([a-zA-Z]+)"/)?.[1];
+    if (engraveDpi) {
       beamboxPreference.write('engrave_dpi', engraveDpi);
     } else {
       beamboxPreference.write('engrave_dpi', 'medium');
