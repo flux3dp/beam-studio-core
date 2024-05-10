@@ -1603,7 +1603,7 @@ const lang: ILang = {
       drag_to_draw: '拖曳以生成图形',
       infill: '设定填充',
       switch_to_object_panel: '切换到物件面板',
-switch_to_layer_panel: '切换到图层面板',
+      switch_to_layer_panel: '切换到图层面板',
       set_preset_wood_engraving: '設定參數：木板 - 刻印',
       set_preset_wood_cut: '設定參數：木板 - 切割',
       add_new_layer: '新增图层',
