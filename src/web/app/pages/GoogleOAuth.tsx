@@ -1,12 +1,12 @@
 import socialAuth from 'helpers/social-auth';
-import { signInWithGoogleCode } from 'helpers/api/flux-id';
+import { G_REDIRECT_URI, signInWithGoogleCode } from 'helpers/api/flux-id';
 
 function GoogleOAuth(): JSX.Element {
   const [, ...params] = window.location.hash.split('?');
-  const [codeParam, redirectdUrlParam] = params.join('?').split('&');
+  const [codeParam] = params.join('?').split('&');
   signInWithGoogleCode({
     code: codeParam.split('=')[1],
-    redirect_url: [redirectdUrlParam.split('=')[1], redirectdUrlParam.split('=')[2]].join('='),
+    redirect_url: decodeURIComponent(G_REDIRECT_URI),
   }).then(socialAuth);
   return null;
 }

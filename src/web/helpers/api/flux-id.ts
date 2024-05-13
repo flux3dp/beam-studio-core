@@ -15,14 +15,14 @@ import { IUser } from 'interfaces/IUser';
 export interface ResponseWithError extends AxiosResponse {
   error?: AxiosError;
 }
-const OAUTH_REDIRECT_URI = 'https://store.flux3dp.com/beam-studio-oauth';
+const OAUTH_REDIRECT_URI = 'https://id.flux3dp.com/api/beam-studio/auth';
 const FB_OAUTH_URI = 'https://www.facebook.com/v10.0/dialog/oauth';
 const FB_APP_ID = '1071530792957137';
-const FB_REDIRECT_URI = `${OAUTH_REDIRECT_URI}${isWeb() ? '?isWeb=true' : ''}`;
-
+const webState = encodeURIComponent(JSON.stringify({ origin: window.location.origin }));
+const FB_REDIRECT_URI = `${OAUTH_REDIRECT_URI}${isWeb() ? `?isWeb=true&state=${webState}` : ''}`;
 const G_OAUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth';
 const G_CLIENT_ID = '1071432315622-ekdkc89hdt70sevt6iv9ia4659lg70vi.apps.googleusercontent.com';
-const G_REDIRECT_URI = `${OAUTH_REDIRECT_URI}${isWeb() ? '?isWeb=true' : ''}`;
+export const G_REDIRECT_URI = `${OAUTH_REDIRECT_URI}${isWeb() ? `?isWeb=true` : ''}`;
 
 const OAUTH_TOKEN = new Set<string>();
 
