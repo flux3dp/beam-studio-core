@@ -40,9 +40,9 @@ class ClipperBase extends EventEmitter {
     if (!this.worker) return null;
     this.workerMsgId += 1;
     const id = this.workerMsgId;
-    this.worker.postMessage({ id, cmd, data });
     const response = await new Promise((resolve) => {
       this.once(`message_${id}`, resolve);
+      this.worker.postMessage({ id, cmd, data });
     });
     return response;
   };
@@ -58,12 +58,15 @@ class ClipperBase extends EventEmitter {
   execute = async (...args): Promise<any> => {
     if (this.worker) {
       const res = await this.sendMessageToWorker('execute', { args });
-      this.worker.terminate();
       return res;
     }
     this.instance.Execute(args);
     const res = this.type === 'offset' ? args[0] : args[1];
     return res;
+  };
+
+  terminate = () => {
+    if (this.worker) this.worker.terminate();
   };
 }
 

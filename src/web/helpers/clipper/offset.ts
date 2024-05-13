@@ -96,15 +96,17 @@ const offsetElements = async (
     }
   }
   solutionPaths = await co.execute(solutionPaths, Math.abs(dist * scale));
+  co.terminate();
   if (dir === 1) {
     if (solutionPaths.length > 0) {
       const clipper = new ClipperBase('clipper');
-      const res = [solutionPaths[0]];
+      let res = [solutionPaths[0]];
       for (let i = 1; i < solutionPaths.length; i += 1) {
         await clipper.addPaths(res, ClipperLib.PolyType.ptSubject, true);
         await clipper.addPaths([solutionPaths[i]], ClipperLib.PolyType.ptClip, true);
-        await clipper.execute(1, res, 1, 1);
+        res = await clipper.execute(1, res, 1, 1);
       }
+      clipper.terminate();
       solutionPaths = res;
     }
   } else {
