@@ -217,7 +217,11 @@ const readImageSource = (buf, offset, end) => {
     const blob = new Blob([buf.slice(currentOffset, currentOffset + imageSize)]);
     const src = URL.createObjectURL(blob);
     currentOffset += imageSize;
-    document.querySelector(`#${id}`).setAttribute('origImage', src);
+    const image = document.querySelector(`image#${id}`);
+    if (image) {
+      image.setAttribute('origImage', src);
+      image.setAttribute('preserveAspectRatio', 'none');
+    }
   }
 };
 
