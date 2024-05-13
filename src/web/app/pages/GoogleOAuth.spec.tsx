@@ -8,6 +8,7 @@ jest.mock('helpers/social-auth', () => socialAuth);
 const signInWithGoogleCode = jest.fn();
 jest.mock('helpers/api/flux-id', () => ({
   signInWithGoogleCode,
+  G_REDIRECT_URI: 'https://store.flux3dp.com/beam-studio-oauth?isWeb=true',
 }));
 
 import GoogleOAuth from './GoogleOAuth';
