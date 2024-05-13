@@ -1586,13 +1586,11 @@ const lang: ILang = {
   tutorial: {
     skip: 'Saltar',
     welcome: 'BIENVENIDO',
-    suggest_calibrate_camera_first: 'Para los usuarios de beamo, Beambox series y HEXA, recomendamos calibrar la cámara cuando se utilice la máquina por primera vez. (Menú > Máquina > [Tu Máquina] > Calibrar Cámara) Recuerda ajustar el enfoque de la plataforma adecuadamente cada vez antes de la vista preliminar para una mejor pre-visualización.',
+    suggest_calibrate_camera_first: 'Recomendamos a los usuarios calibrar la cámara inicialmente y volver a enfocar antes de cada vista previa para obtener resultados óptimos.<br/>¿Desea confirmar para realizar la calibración ahora?<br/>(Puede omitirlo ahora y hacerlo más tarde haciendo clic en "Menú" > "Máquina" > [Su Máquina] > "Calibrar Cámara".)',
     camera_calibration_failed: 'Falló la calibración de la cámara',
-    ask_retry_calibration: 'Would you like to calibrate the camera again?', // TODO: translate
-    skipped_camera_calibration: 'You have skipped the camera calibration. You can calibrate the camera anytime from menubar (Menu > Machine > [Your Machine] > Calibrate Camera).', // TODO: translate
-    skipped_ador_calibration: 'Ador cámara ha sido calibrada durante la inspección de fábrica.',
-    needNewUserTutorial: '¿Te gustaría empezar un tutorial?',
-    needNewInterfaceTutorial: '¿Le gustaría comenzar un tutorial para la nueva interfaz de Beam Studio?',
+    ask_retry_calibration: 'Would you like to calibrate the camera again?',
+    needNewUserTutorial: '¿Le gustaría iniciar un tutorial?<br/>(Puede omitirlo ahora y comenzarlo más tarde haciendo clic en "Ayuda" > "Mostrar Tutorial de Inicio".)',
+    needNewInterfaceTutorial: '¿Le gustaría iniciar un tutorial para la nueva interfaz de Beam Studio?<br/>(Puede omitirlo ahora y comenzarlo más tarde haciendo clic en "Ayuda" > "Mostrar Introducción a la Interfaz".)',
     next: 'SIGUIENTE',
     look_for_machine: 'Buscador de tutoriales...',
     unable_to_find_machine: 'No se puede encontrar la máquina para el Tutorial. ¿Quieres ir a la página de configuración de la conexión, reintentar o saltar el tutorial?',

@@ -1586,8 +1586,6 @@ export interface ILang {
     suggest_calibrate_camera_first: string,
     camera_calibration_failed: string,
     ask_retry_calibration: string,
-    skipped_camera_calibration: string,
-    skipped_ador_calibration: string,
     needNewUserTutorial: string,
     needNewInterfaceTutorial: string,
     next: string,

@@ -32,6 +32,7 @@ import { checkConnection } from 'helpers/api/discover';
 import { gestureIntroduction } from 'app/constants/media-tutorials';
 import { IFont } from 'interfaces/IFont';
 import { isMobile } from 'helpers/system-helper';
+import { showAdorCalibrationV2 } from 'app/components/dialogs/camera/AdorCalibrationV2';
 import { showCameraCalibration } from 'app/views/beambox/Camera-Calibration';
 
 class BeamboxInit {
@@ -108,21 +109,9 @@ class BeamboxInit {
         }
       }
     }
-    const skippedFirstCalibration = !(await this.showFirstCalibrationDialog());
-    let skippedNewUserTutorial = false;
+    await this.showFirstCalibrationDialog()
     if (hasMachineConnection && !isMobile()) {
-      skippedNewUserTutorial = isNewUser && !(await this.showTutorial(isNewUser));
-    }
-    if (skippedFirstCalibration || skippedNewUserTutorial) {
-      const msgs = [];
-      if (skippedFirstCalibration) msgs.push(i18n.lang.tutorial.skipped_camera_calibration);
-      if (skippedNewUserTutorial) msgs.push(i18n.lang.tutorial.skip_tutorial);
-      await new Promise((resolve) => {
-        Alert.popUp({
-          message: msgs.join('<br/>'),
-          callbacks: resolve,
-        });
-      });
+      await this.showTutorial(isNewUser);
     }
 
     if (!isNewUser) {
@@ -265,13 +254,12 @@ class BeamboxInit {
       await new Promise((r) => setTimeout(r, 1000));
       hasMachineConnection = checkConnection();
     }
-    const isAdor = Constant.adorModels.includes(BeamboxPreference.read('workarea'));
     const shouldShow =
       window.FLUX.version === 'web'
         ? hasMachineConnection && !hasDoneFirstCali
         : isNewUser || !hasDoneFirstCali;
     let caliRes = true;
-    if (!isAdor && shouldShow) {
+    if (shouldShow) {
       const res = await this.askFirstTimeCameraCalibration();
       AlertConfig.write('done-first-cali', true);
       if (res) {
@@ -307,19 +295,14 @@ class BeamboxInit {
 
     const { device } = await getDevice();
     if (!device) return false;
-    if (Constant.adorModels.includes(device.model)) {
-      await new Promise((resolve) => {
-        Alert.popUp({
-          message: i18n.lang.tutorial.skipped_ador_calibration,
-          callbacks: resolve,
-        });
-      });
-      return true;
-    }
     let res: boolean;
     try {
       const deviceStatus = await checkDeviceStatus(device);
       if (!deviceStatus) return false;
+      if (Constant.adorModels.includes(device.model)) {
+        const caliRes = await showAdorCalibrationV2();
+        return caliRes;
+      }
       const caliRes = await showCameraCalibration(device, false);
       if (!caliRes) return false;
       return true;
