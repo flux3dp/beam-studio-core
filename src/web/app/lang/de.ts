@@ -36,6 +36,7 @@ const lang: ILang = {
       use: 'Importierte Objekt',
       svg: 'SVG-Objekt',
       dxf: 'DXF-Objekt',
+      no_selection: 'Keine Auswahl',
     },
     alerts: {
       start_preview_timeout: '#803 Beim Starten des Vorschaumodus ist eine Zeitüberschreitung aufgetreten. Bitte starten Sie Ihren Maschinen oder Beam Studio neu. Wenn dieser Fehler weiterhin besteht, befolgen Sie <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">diese Anleitung</a>.',
@@ -1601,6 +1602,7 @@ const lang: ILang = {
       draw_a_circle: 'Zeichne einen Kreis',
       drag_to_draw: 'Zum Zeichnen ziehen',
       infill: 'Füllen einschalten',
+      switch_to_object_panel: 'Wechsel zum Objektpanel',
       switch_to_layer_panel: 'Wechseln Sie zum Ebenenbedienfeld',
       set_preset_wood_engraving: 'Set Preset: Holz - Gravur',
       set_preset_wood_cut: 'Set Preset: Holz - Schneiden',

@@ -36,6 +36,7 @@ const lang: ILang = {
       use: 'Đối tượng nhập khẩu',
       svg: 'Đối tượng SVG',
       dxf: 'Đối tượng DXF',
+      no_selection: 'Không có lựa chọn',
     },
     alerts: {
       start_preview_timeout: '#803 Đã xảy ra lỗi khi bắt đầu chế độ xem trước. Vui lòng khởi động lại máy hoặc Beam Studio. Nếu lỗi này vẫn xảy ra, vui lòng làm theo <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">hướng dẫn này</a>.',
@@ -1598,6 +1599,7 @@ const lang: ILang = {
       draw_a_circle: 'Vẽ một vòng tròn',
       drag_to_draw: 'Kéo để vẽ',
       infill: 'Bật độ rỗng',
+      switch_to_object_panel: 'Chuyển đổi sang Bảng Đối tượng',
       switch_to_layer_panel: 'Chuyển sang Bảng lớp',
       set_preset_wood_engraving: 'Đặt cài đặt sẵn: Gỗ - Khắc',
       set_preset_wood_cut: 'Đặt cài đặt sẵn: Gỗ - Cắt',

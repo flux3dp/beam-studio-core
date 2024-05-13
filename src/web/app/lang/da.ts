@@ -36,6 +36,7 @@ const lang: ILang = {
       use: 'Importeret objekt',
       svg: 'SVG-objekt',
       dxf: 'DXF-objekt',
+      no_selection: 'Ingen valg',
     },
     alerts: {
       start_preview_timeout: '#803 Timeout opstod ved start af forhåndsvisning. Genstart maskinen eller Beam Studio. Hvis fejlen fortsætter, se <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">denne vejledning</a>.',
@@ -1598,6 +1599,7 @@ const lang: ILang = {
       draw_a_circle: 'Tegn en cirkel',
       drag_to_draw: 'Træk for at tegne',
       infill: 'Aktiver udfyldning',
+      switch_to_object_panel: 'Skift til objektpanel',
       switch_to_layer_panel: 'Skift til lag panel',
       set_preset_wood_engraving: 'Sæt forudindstilling: Træ - gravering',
       set_preset_wood_cut: 'Sæt forudindstilling: Træ - skæring',

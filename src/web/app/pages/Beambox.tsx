@@ -19,7 +19,6 @@ import TimeEstimationButton from 'app/components/beambox/TimeEstimationButton';
 import TopBar from 'app/components/beambox/top-bar/TopBar';
 import { CanvasProvider } from 'app/contexts/CanvasContext';
 import { LayerPanelContextProvider } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
-import { RightPanelContextProvider } from 'app/views/beambox/Right-Panels/contexts/RightPanelContext';
 import { SelectedElementContextProvider } from 'app/contexts/SelectedElementContext';
 import { TimeEstimationButtonContextProvider } from 'app/contexts/TimeEstimationButtonContext';
 
@@ -54,9 +53,7 @@ const Beambox = (): JSX.Element => {
           <div className={classNames('studio-container', 'beambox-studio', activeLang)}>
             <TopBar />
             <LeftPanel />
-            <RightPanelContextProvider>
-              <RightPanel />
-            </RightPanelContextProvider>
+            <RightPanel />
             <SvgEditor />
             <div className={classNames(styles.buttons, { [styles.mac]: window.os === 'MacOS' })}>
               <TimeEstimationButtonContextProvider>

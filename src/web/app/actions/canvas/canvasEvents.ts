@@ -18,7 +18,12 @@ export const addImage = (): void => {
   canvasEventEmitter.emit('ADD_IMAGE');
 };
 
+const setPathEditing = (val: boolean): void => {
+  canvasEventEmitter.emit('SET_PATH_EDITING', val);
+};
+
 export default {
   addImage,
   setSelectedElement,
+  setPathEditing,
 };

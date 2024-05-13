@@ -36,6 +36,7 @@ const lang: ILang = {
       use: 'インポートされたオブジェクト',
       svg: 'SVGオブジェクト',
       dxf: 'DXFオブジェクト',
+      no_selection: '選択なし',
     },
     alerts: {
       start_preview_timeout: '#803 プレビューモードの開始時にタイムアウトが発生しました。マシンまたはBeam Studioを再起動してください。このエラーが続く場合は、この<a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">ガイド</a>に従ってください。',
@@ -1601,6 +1602,7 @@ const lang: ILang = {
       draw_a_circle: '円を描く',
       drag_to_draw: 'ドラッグして描画',
       infill: 'インフィルをオンにする',
+      switch_to_object_panel: 'オブジェクトパネルに切り替える',
       switch_to_layer_panel: 'レイヤーパネルに切り替え',
       set_preset_wood_engraving: 'プリセットの設定：木材 - 彫刻',
       set_preset_wood_cut: 'プリセットの設定：木材 - 切断',

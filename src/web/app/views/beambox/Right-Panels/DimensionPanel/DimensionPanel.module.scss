@@ -39,6 +39,12 @@
         }
       }
 
+      .input {
+        :global(.ant-input-number-input) {
+          padding: 1px 24px 1px 4px;
+        }
+      }
+
       :global(.ui-control-unit-input-v2) {
         input {
           width: 66px;

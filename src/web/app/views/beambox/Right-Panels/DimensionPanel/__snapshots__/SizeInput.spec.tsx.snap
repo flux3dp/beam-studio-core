@@ -10,21 +10,32 @@ exports[`test SizeInput should render correctly on desktop 1`] = `
     >
       W
     </div>
-    <div>
-      <div>
-        w_size
+    <div
+      class="input"
+    >
+      <div
+        class="ant-input-number css-dev-only-do-not-override-hash input"
+      >
+        <div
+          class="ant-input-number-input-wrap"
+        >
+          <input
+            aria-valuemin="0"
+            aria-valuenow="0"
+            autocomplete="off"
+            class="ant-input-number-input"
+            id="w_size"
+            role="spinbutton"
+            step="1"
+            value="0"
+          />
+        </div>
       </div>
-      <div>
+      <span
+        class="unit"
+      >
         mm
-      </div>
-      <div>
-        0
-      </div>
-      <div />
-      <input
-        type="number"
-        value="0"
-      />
+      </span>
     </div>
   </div>
 </div>

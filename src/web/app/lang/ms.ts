@@ -36,6 +36,7 @@ const lang: ILang = {
       use: 'Objek Diimport',
       svg: 'Objek SVG',
       dxf: 'Objek DXF',
+      no_selection: 'Tiada Pilihan',
     },
     alerts: {
       start_preview_timeout: '#803 Timeout telah berlaku ketika memulakan mod pratonton. Sila mulakan semula mesin atau Beam Studio anda. Jika ralat ini berterusan, sila ikuti <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">panduan ini</a>.',
@@ -1598,6 +1599,7 @@ const lang: ILang = {
       draw_a_circle: 'Lukis Bulatan',
       drag_to_draw: 'Seret untuk Melukis',
       infill: 'Hidupkan Isian',
+      switch_to_object_panel: 'Tukar ke Panel Objek',
       switch_to_layer_panel: 'Tukar ke Panel Lapisan',
       set_preset_wood_engraving: 'Tetapkan Praset: Kayu - Ukiran',
       set_preset_wood_cut: 'Tetapkan Praset: Kayu - Pemotongan',

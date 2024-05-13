@@ -36,6 +36,7 @@ const lang: ILang = {
       use: 'Imported Object',
       svg: 'SVG Object',
       dxf: 'DXF Object',
+      no_selection: 'No Selection',
     },
     alerts: {
       start_preview_timeout: '#803 Timeout has occurred when starting preview mode. Please Restart your machine or Beam Studio. If this error persists, please follow <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">this guide</a>.',
@@ -1601,6 +1602,7 @@ const lang: ILang = {
       draw_a_circle: 'Draw a Circle',
       drag_to_draw: 'Drag to Draw',
       infill: 'Turn on Infill',
+      switch_to_object_panel: 'Switch to Object Panel',
       switch_to_layer_panel: 'Switch to Layer Panel',
       set_preset_wood_engraving: 'Set Preset: Wood - Engraving',
       set_preset_wood_cut: 'Set Preset: Wood - Cutting',

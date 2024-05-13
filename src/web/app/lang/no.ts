@@ -36,6 +36,7 @@ const lang: ILang = {
       use: 'Importert objekt',
       svg: 'SVG-objekt',
       dxf: 'DXF-objekt',
+      no_selection: 'Ingen valg',
     },
     alerts: {
       start_preview_timeout: '#803 Tidsavbrudd ved oppstart av forhåndsvisning. Start maskinen eller Beam Studio på nytt. Hvis feilen vedvarer, følg denne veiledningen',
@@ -1598,7 +1599,8 @@ const lang: ILang = {
       draw_a_circle: 'Tegn en sirkel',
       drag_to_draw: 'Dra for å tegne',
       infill: 'Slå på utfylling',
-      switch_to_layer_panel: 'Bytt til lagpanel',
+      switch_to_object_panel: 'Bytt til objektpanel',
+switch_to_layer_panel: 'Bytt til lagpanel',
       set_preset_wood_engraving: 'Angi forhåndsinnstilling: Tre - Gravering',
       set_preset_wood_cut: 'Angi forhåndsinnstilling: Tre - Skjæring',
       add_new_layer: 'Legg til et nytt lag',

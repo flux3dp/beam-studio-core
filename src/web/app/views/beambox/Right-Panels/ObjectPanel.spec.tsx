@@ -36,9 +36,14 @@ jest.mock(
 
 jest.mock('app/views/beambox/Right-Panels/ObjectPanelItem', () => ({
   Item: function DummyObjectPanelItem({ id, label, onClick }: any) {
-    return <div id={id}>This is dummy ObjectPanelItem
-      <button type="button" onClick={onClick}>{label}</button>
-    </div>;
+    return (
+      <div id={id}>
+        This is dummy ObjectPanelItem
+        <button type="button" onClick={onClick}>
+          {label}
+        </button>
+      </div>
+    );
   },
   ActionList: function DummyObjectPanelActionList({ id, actions }: any) {
     return (
@@ -60,39 +65,37 @@ jest.mock('app/views/beambox/Right-Panels/ObjectPanelItem', () => ({
   },
 }));
 
-jest.mock('helpers/i18n', () => ({
-  lang: {
-    beambox: {
-      right_panel: {
-        object_panel: {
-          group: 'Group',
-          ungroup: 'Ungroup',
-          distribute: 'Distribute',
-          hdist: 'Horizontal Distribute',
-          vdist: 'Vertical Distribute',
-          align: 'Align',
-          left_align: 'Left Align',
-          center_align: 'Center Align',
-          right_align: 'Right Align',
-          top_align: 'Top Align',
-          middle_align: 'Middle Align',
-          bottom_align: 'Bottom Align',
-          boolean: 'Boolean',
-          union: 'Union',
-          subtract: 'Subtract',
-          intersect: 'Intersect',
-          difference: 'Difference',
-        },
-        laser_panel: {
-          parameters: 'Parameters',
-        },
+jest.mock('helpers/useI18n', () => () => ({
+  beambox: {
+    right_panel: {
+      object_panel: {
+        group: 'Group',
+        ungroup: 'Ungroup',
+        distribute: 'Distribute',
+        hdist: 'Horizontal Distribute',
+        vdist: 'Vertical Distribute',
+        align: 'Align',
+        left_align: 'Left Align',
+        center_align: 'Center Align',
+        right_align: 'Right Align',
+        top_align: 'Top Align',
+        middle_align: 'Middle Align',
+        bottom_align: 'Bottom Align',
+        boolean: 'Boolean',
+        union: 'Union',
+        subtract: 'Subtract',
+        intersect: 'Intersect',
+        difference: 'Difference',
+      },
+      laser_panel: {
+        parameters: 'Parameters',
       },
     },
-    topbar: {
-      menu: {
-        delete: 'Delete',
-        duplicate: 'Duplicate',
-      },
+  },
+  topbar: {
+    menu: {
+      delete: 'Delete',
+      duplicate: 'Duplicate',
     },
   },
 }));

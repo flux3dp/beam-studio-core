@@ -20,7 +20,6 @@ import textEdit from 'app/svgedit/text/textedit';
 import SymbolMaker from 'helpers/symbol-maker';
 import updateElementColor from 'helpers/color/updateElementColor';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
-import RightPanelController from 'app/views/beambox/Right-Panels/contexts/RightPanelController';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { MouseButtons } from 'app/constants/mouse-constants';
 import rotaryAxis from 'app/actions/canvas/rotary-axis';
@@ -775,7 +774,6 @@ const onResizeMouseMove = (evt: MouseEvent, selected: SVGElement, x, y) => {
 
   svgCanvas.selectorManager.requestSelector(selected).resize();
   svgCanvas.call('transition', svgCanvas.getSelectedElems());
-  ObjectPanelController.updateObjectPanel();
   if (svgedit.utilities.getElem('text_cursor')) {
     svgCanvas.textActions.init();
   }
@@ -927,7 +925,6 @@ const mouseMove = (evt: MouseEvent) => {
               });
             }
           }
-          ObjectPanelController.updateObjectPanel();
 
           svgCanvas.call('transition', selectedElements);
         }
@@ -970,7 +967,6 @@ const mouseMove = (evt: MouseEvent) => {
       shape.setAttributeNS(null, 'x2', x2);
       shape.setAttributeNS(null, 'y2', y2);
       ObjectPanelController.updateDimensionValues({ x2, y2 });
-      ObjectPanelController.updateObjectPanel();
       break;
     case 'foreignObject':
     // fall through
@@ -1010,7 +1006,6 @@ const mouseMove = (evt: MouseEvent) => {
       ObjectPanelController.updateDimensionValues({
         x: newX, y: newY, width: w, height: h,
       });
-      ObjectPanelController.updateObjectPanel();
       svgCanvas.selectorManager.requestSelector(selected).resize();
       break;
     case 'circle':
@@ -1033,7 +1028,6 @@ const mouseMove = (evt: MouseEvent) => {
       shape.setAttributeNS(null, 'ry', ry);
 
       ObjectPanelController.updateDimensionValues({ rx: Math.abs(x - cx), ry });
-      ObjectPanelController.updateObjectPanel();
       svgCanvas.selectorManager.requestSelector(selected).resize();
       break;
     case 'fhellipse':
@@ -1132,7 +1126,6 @@ const mouseMove = (evt: MouseEvent) => {
       ObjectPanelController.updateDimensionValues({
         rotation: angle < -180 ? (360 + angle) : angle,
       });
-      ObjectPanelController.updateObjectPanel();
       if (svgedit.utilities.getElem('text_cursor')) {
         svgCanvas.textActions.init();
       }
@@ -1648,7 +1641,6 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
       svgedit.units.convertAttrs(element);
     }
 
-
     if (element.getAttribute('opacity') !== currentShape.opacity) element.setAttribute('opacity', currentShape.opacity);
     element.setAttribute('style', 'pointer-events:inherit');
     svgCanvas.cleanupElement(element);
@@ -1711,7 +1703,7 @@ const dblClick = (evt: MouseEvent) => {
       svgCanvas.textActions.dbClickSelectAll();
     }
   } else if (currentMode === 'preview_color') {
-    RightPanelController.toElementMode();
+    canvasEvents.emit('SET_COLOR_PREVIEWING', false);
   }
 
   if ((tagName === 'g' || tagName === 'a') && svgedit.utilities.getRotationAngle(mouseTarget)) {

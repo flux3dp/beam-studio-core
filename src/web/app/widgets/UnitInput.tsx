@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useCallback } from 'react';
+import React, { forwardRef, useCallback, useRef, useImperativeHandle } from 'react';
 import { ConfigProvider, InputNumber, InputNumberProps } from 'antd';
 
 import styles from './UnitInput.module.scss';
@@ -7,6 +7,8 @@ import styles from './UnitInput.module.scss';
 interface Props extends InputNumberProps<number> {
   unit: string;
   isInch?: boolean;
+  width?: number;
+  fontSize?: number;
 }
 
 // TODO: add test
@@ -16,13 +18,24 @@ interface Props extends InputNumberProps<number> {
  * if isInch is true, the unit will be inch but the value will still be mm,
  * the transfer will be handled by formatter and parser
  */
-const UnitInput = ({ unit, isInch, precision = 4, ...Props }: Props): JSX.Element => {
+const UnitInput = forwardRef<HTMLInputElement, Props>(({
+  unit,
+  isInch,
+  onBlur,
+  onChange,
+  width = 70,
+  fontSize = 14,
+  precision = 4,
+  ...props
+}: Props, outerRef): JSX.Element => {
+  const inputRef = useRef<HTMLInputElement>(null);
+  useImperativeHandle(outerRef, () => inputRef.current, []);
   const formatter = useCallback(
     (value: string | number) => {
-      // eslint-disable-next-line no-param-reassign
-      if (typeof value === 'string') value = parseFloat(value);
-      if (isInch) return (value / 25.4).toFixed(precision);
-      return value.toFixed(precision);
+      let newVal = typeof value === 'string' ? parseFloat(value) : value;
+      if (isInch) newVal /= 25.4;
+      const res = String(Math.floor(newVal * 10 ** precision) / 10 ** precision);
+      return res;
     },
     [isInch, precision]
   );
@@ -36,28 +49,49 @@ const UnitInput = ({ unit, isInch, precision = 4, ...Props }: Props): JSX.Elemen
     [isInch]
   );
 
+  const handlePressEnter = useCallback(() => {
+    const value = parser(inputRef.current?.value);
+    if (!Number.isNaN(value)) onChange?.(value);
+  }, [parser, onChange]);
+
+  const handleBlur = useCallback((e) => {
+    const value = parser(inputRef.current?.value);
+    if (!Number.isNaN(value)) onChange?.(value);
+    onBlur?.(e);
+  }, [parser, onBlur, onChange]);
+
   return (
     <div className={styles.input}>
       <ConfigProvider
         theme={{
           token: {
             lineWidth: 0,
-            colorBgContainerDisabled: 'none',
+            colorBgContainer: 'transparent',
+            colorBgContainerDisabled: 'transparent',
             controlPaddingHorizontal: 6,
+            fontSize,
           },
           components: {
             InputNumber: {
               activeShadow: 'none',
-              controlWidth: 70,
+              controlWidth: width,
             },
           },
         }}
       >
-        <InputNumber {...Props} formatter={formatter} parser={parser} />
+        <InputNumber
+          ref={inputRef}
+          onPressEnter={handlePressEnter}
+          {...props}
+          onBlur={handleBlur}
+          onChange={onChange}
+          formatter={formatter}
+          parser={parser}
+        />
         <span className={styles.unit}>{unit}</span>
       </ConfigProvider>
     </div>
   );
-};
+});
 
 export default UnitInput;

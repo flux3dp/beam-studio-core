@@ -1,11 +1,13 @@
-import React, { memo, useCallback, useMemo } from 'react';
+import React, { memo, useCallback, useEffect, useMemo, useRef } from 'react';
 
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
-import UnitInput from 'app/widgets/Unit-Input-v2';
 import storage from 'implementations/storage';
+import UnitInput from 'app/widgets/UnitInput';
 import { useIsMobile } from 'helpers/system-helper';
 
 import styles from './DimensionPanel.module.scss';
+import { getValue } from './utils';
 
 interface Props {
   type: 'x' | 'y' | 'x1' | 'y1' | 'x2' | 'y2' | 'cx' | 'cy';
@@ -14,8 +16,27 @@ interface Props {
 }
 
 const PositionInput = ({ type, value, onChange }: Props): JSX.Element => {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const objectPanelEventEmitter = useMemo(() => eventEmitterFactory.createEventEmitter('object-panel'), []);
   const isMobile = useIsMobile();
-  const unit = useMemo(() => (storage.get('default-units') === 'inches' ? 'in' : 'mm'), []);
+  const isInch = useMemo(() => storage.get('default-units') === 'inches', []);
+  const unit = useMemo(() => (isInch ? 'in' : 'mm'), [isInch]);
+  const precision = useMemo(() => (isInch ? 4 : 2), [isInch]);
+
+  useEffect(() => {
+    const handler = (newValues?: { [type: string]: number }) => {
+      if (inputRef.current) {
+        const newVal = getValue(newValues, type, { unit, allowUndefined: true });
+        if (newVal === undefined) return;
+        inputRef.current.value = newVal.toFixed(precision);
+      }
+    }
+    objectPanelEventEmitter.on('UPDATE_DIMENSION_VALUES', handler);
+    return () => {
+      objectPanelEventEmitter.removeListener('UPDATE_DIMENSION_VALUES', handler);
+    }
+  }, [type, unit, precision, objectPanelEventEmitter]);
+
   const label = useMemo<string | JSX.Element>(() => {
     if (type === 'x') return 'X';
     if (type === 'y') return 'Y';
@@ -66,7 +87,20 @@ const PositionInput = ({ type, value, onChange }: Props): JSX.Element => {
   return (
     <div className={styles.dimension}>
       <div className={styles.label}>{label}</div>
-      <UnitInput id={inputId} unit={unit} defaultValue={value} getValue={handleChange} />
+      <UnitInput
+          ref={inputRef}
+          id={inputId}
+          className={styles.input}
+          width={66}
+          fontSize={12}
+          unit={unit}
+          isInch={isInch}
+          precision={isInch ? 4 : 2}
+          step={isInch ? 2.54 : 1}
+          value={value}
+          controls={false}
+          onChange={handleChange}
+        />
     </div>
   );
 };

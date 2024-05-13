@@ -36,6 +36,7 @@ const lang: ILang = {
       use: '汇入物件',
       svg: 'SVG 物件',
       dxf: 'DXF 物件',
+      no_selection: '无选择',
     },
     alerts: {
       start_preview_timeout: '#803 启动相机预览时超时，请重新开启您的机器或是 Beam Studio ，如果此错误持续发生，请参考<a target="_blank" href="https://flux3dp.zendesk.com/hc/zh-tw/articles/360001111355">此则引导</a>。',
@@ -1601,6 +1602,7 @@ const lang: ILang = {
       draw_a_circle: '画一个圆',
       drag_to_draw: '拖曳以生成图形',
       infill: '设定填充',
+      switch_to_object_panel: '切换到物件面板',
       switch_to_layer_panel: '切换到图层面板',
       set_preset_wood_engraving: '設定參數：木板 - 刻印',
       set_preset_wood_cut: '設定參數：木板 - 切割',

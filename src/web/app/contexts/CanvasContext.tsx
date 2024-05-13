@@ -11,7 +11,6 @@ import useForceUpdate from 'helpers/use-force-update';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { IUser } from 'interfaces/IUser';
-import { useIsMobile } from 'helpers/system-helper';
 
 const canvasEventEmitter = eventEmitterFactory.createEventEmitter('canvas');
 const topBarEventEmitter = eventEmitterFactory.createEventEmitter('top-bar');
@@ -28,13 +27,11 @@ const workareaEvents = eventEmitterFactory.createEventEmitter('workarea');
 interface CanvasContextType {
   changeToPreviewMode: () => void;
   currentUser: IUser;
-  displayLayer: boolean;
   endPreviewMode: () => void;
   fileName: string | null;
   hasUnsavedChange: boolean;
   isPathPreviewing: boolean;
   isPreviewing: boolean;
-  setDisplayLayer: (displayLayer: boolean) => void;
   setIsPathPreviewing: (displayLayer: boolean) => void;
   setIsPreviewing: (displayLayer: boolean) => void;
   setShouldStartPreviewController: (shouldStartPreviewController: boolean) => void;
@@ -48,18 +45,20 @@ interface CanvasContextType {
   updateCanvasContext: () => void;
   selectedDevice: IDeviceInfo | null;
   setSelectedDevice: (IDeviceInfo) => void;
+  isColorPreviewing: boolean;
+  setIsColorPreviewing: (isColorPreviewing: boolean) => void;
+  isPathEditing: boolean;
+  setIsPathEditing: (isPathEditing: boolean) => void;
 }
 
 const CanvasContext = createContext<CanvasContextType>({
   changeToPreviewMode: () => {},
   currentUser: null,
-  displayLayer: false,
   endPreviewMode: () => {},
   fileName: null,
   hasUnsavedChange: false,
   isPathPreviewing: false,
   isPreviewing: false,
-  setDisplayLayer: () => {},
   setIsPathPreviewing: () => {},
   setIsPreviewing: () => {},
   setShouldStartPreviewController: () => {},
@@ -73,14 +72,17 @@ const CanvasContext = createContext<CanvasContextType>({
   updateCanvasContext: () => {},
   selectedDevice: null,
   setSelectedDevice: () => {},
+  isColorPreviewing: false,
+  setIsColorPreviewing: () => {},
+  isPathEditing: false,
+  setIsPathEditing: () => {},
 });
 
 const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>): JSX.Element => {
   const forceUpdate = useForceUpdate();
-  const isMobile = useIsMobile();
-  const [displayLayer, setDisplayLayer] = useState<boolean>(!isMobile);
   const [isPreviewing, setIsPreviewing] = useState<boolean>(false);
   const [isPathPreviewing, setIsPathPreviewing] = useState<boolean>(false);
+  const [isColorPreviewing, setIsColorPreviewing] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<IUser>(null);
   const [fileName, setFileName] = useState<string>(null);
   const [hasUnsavedChange, setHasUnsavedChange] = useState<boolean>(false);
@@ -88,6 +90,7 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
   const [shouldStartPreviewController, setShouldStartPreviewController] = useState<boolean>(false);
   const [setupPreviewMode, setSetupPreviewMode] = useState<() => void | null>(null);
   const [selectedDevice, setSelectedDevice] = useState<IDeviceInfo | null>(null);
+  const [isPathEditing, setIsPathEditing] = useState<boolean>(false);
 
   const setTopBarPreviewMode = (preview: boolean): void => {
     const allLayers = document.querySelectorAll('g.layer');
@@ -179,6 +182,15 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
     };
   }, [updateCanvasContext]);
 
+  useEffect(() => {
+    canvasEventEmitter.on('SET_COLOR_PREVIEWING', setIsColorPreviewing);
+    canvasEventEmitter.on('SET_PATH_EDITING', setIsPathEditing);
+    return () => {
+      canvasEventEmitter.removeListener('SET_COLOR_PREVIEWING', setIsColorPreviewing);
+      canvasEventEmitter.removeListener('SET_PATH_EDITING', setIsPathEditing);
+    };
+  }, []);
+
   const changeToPreviewMode = () => {
     svgCanvas.setMode('select');
     workareaEvents.emit('update-context-menu', { menuDisabled: true });
@@ -207,13 +219,11 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
       value={{
         changeToPreviewMode,
         currentUser,
-        displayLayer,
         endPreviewMode,
         fileName,
         hasUnsavedChange,
         isPathPreviewing,
         isPreviewing,
-        setDisplayLayer,
         setIsPathPreviewing,
         setIsPreviewing,
         setShouldStartPreviewController,
@@ -227,6 +237,10 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
         updateCanvasContext,
         selectedDevice,
         setSelectedDevice,
+        isColorPreviewing,
+        setIsColorPreviewing,
+        isPathEditing,
+        setIsPathEditing,
       }}
     >
       {children}

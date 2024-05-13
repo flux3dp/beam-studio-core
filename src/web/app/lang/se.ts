@@ -36,6 +36,7 @@ const lang: ILang = {
       use: 'Importerat objekt',
       svg: 'SVG-objekt',
       dxf: 'DXF-objekt',
+      no_selection: 'Ingen val',
     },
     alerts: {
       start_preview_timeout: '#803 Timeout uppstod när förhandsgranskningsläget startades. Starta om din dator eller Beam Studio. Om felet kvarstår, följ <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">denna guide</a>.',
@@ -1598,7 +1599,8 @@ const lang: ILang = {
       draw_a_circle: 'Rita en cirkel',
       drag_to_draw: 'Dra för att rita',
       infill: 'Aktivera utfyllnad',
-      switch_to_layer_panel: 'Byt till lagerpanelen',
+      switch_to_object_panel: 'Byt till objektpanel',
+switch_to_layer_panel: 'Byt till lagerpanelen',
       set_preset_wood_engraving: 'Ställ in förval: Trä - gravering',
       set_preset_wood_cut: 'Ställ in förval: Trä - skärning',
       add_new_layer: 'Lägg till ett nytt lager',

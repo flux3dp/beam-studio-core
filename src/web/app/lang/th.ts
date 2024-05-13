@@ -36,6 +36,7 @@ const lang: ILang = {
       use: 'วัตถุที่นําเข้า',
       svg: 'วัตถุ SVG',
       dxf: 'วัตถุ DXF',
+      no_selection: 'ไม่มีการเลือก',
     },
     alerts: {
       start_preview_timeout: '#803 หมดเวลาในการเริ่มโหมดแสดงตัวอย่าง โปรดรีสตาร์ทเครื่องของคุณหรือ Beam Studio หากยังคงเกิดข้อผิดพลาดนี้ โปรดปฏิบัติตาม <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">คําแนะนํานี้</a>',
@@ -1598,6 +1599,7 @@ const lang: ILang = {
       draw_a_circle: 'วาดวงกลม',
       drag_to_draw: 'ลากเพื่อวาด',
       infill: 'เปิดใช้งานช่องว่างภายใน',
+      switch_to_object_panel: 'สลับไปยังหน้าต่างการจัดการอ็อบเจกต์',
       switch_to_layer_panel: 'สลับไปที่แผงชั้น',
       set_preset_wood_engraving: 'ตั้งค่าที่กําหนดไว้ล่วงหน้า: ไม้ - การกัดลาย',
       set_preset_wood_cut: 'ตั้งค่าที่กําหนดไว้ล่วงหน้า: ไม้ - ตัด',

@@ -36,6 +36,7 @@ const lang: ILang = {
       use: 'Zaimportowany obiekt',
       svg: 'Obiekt SVG',
       dxf: 'Obiekt DXF',
+      no_selection: 'Brak wyboru',
     },
     alerts: {
       start_preview_timeout: '#803 Upłynął limit czasu podczas uruchamiania trybu podglądu. Uruchom ponownie komputer i Beam Studio. Jeśli błąd będzie się powtarzał, postępuj zgodnie z <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">tym przewodnikiem</a>.',
@@ -1601,6 +1602,7 @@ const lang: ILang = {
       draw_a_circle: 'Narysuj okrąg',
       drag_to_draw: 'Przeciągnij, aby narysować',
       infill: 'Włącz wypełnienie',
+      switch_to_object_panel: 'Przełącz do panelu obiektów',
       switch_to_layer_panel: 'Przejdź do panelu warstw',
       set_preset_wood_engraving: 'Ustaw ustawienie wstępne: Drewno — grawerowanie',
       set_preset_wood_cut: 'Ustaw ustawienie wstępne: Drewno — cięcie',

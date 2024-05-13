@@ -36,6 +36,7 @@ const lang: ILang = {
       use: 'Tuotu kohde',
       svg: 'SVG-kohde',
       dxf: 'DXF-kohde',
+      no_selection: 'Ei valintaa',
     },
     alerts: {
       start_preview_timeout: '#803 Aikakatkaisu esikatselutilan käynnistyksessä. Käynnistä kone tai Beam Studio uudelleen. Jos virhe toistuu, noudata <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">tätä ohjetta</a>.',
@@ -1598,6 +1599,7 @@ const lang: ILang = {
       draw_a_circle: 'Piirrä ympyrä',
       drag_to_draw: 'Vedä piirtääksesi',
       infill: 'Käännä täyttö päälle',
+      switch_to_object_panel: 'Vaihda objektipaneeliin',
       switch_to_layer_panel: 'Vaihda kerrospaneeliin',
       set_preset_wood_engraving: 'Aseta esiasetus: Puu - kaiverrus',
       set_preset_wood_cut: 'Aseta esiasetus: Puu - leikkaus',

@@ -36,6 +36,7 @@ const lang: ILang = {
       use: 'Objet importé',
       svg: 'Objet SVG',
       dxf: 'Objet DXF',
+      no_selection: 'Aucune sélection',
     },
     alerts: {
       start_preview_timeout: '#803 Délai d’attente dépassé lors du démarrage du mode aperçu. Veuillez redémarrer votre machine ou Beam Studio. Si cette erreur persiste, veuillez suivre <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">ce guide</a>.',
@@ -1598,6 +1599,7 @@ const lang: ILang = {
       draw_a_circle: 'Dessiner un cercle',
       drag_to_draw: 'Faites glisser pour dessiner',
       infill: 'Activer le remplissage',
+      switch_to_object_panel: 'Passer au panneau des objets',
       switch_to_layer_panel: 'Passer au panneau des calques',
       set_preset_wood_engraving: 'Définir le préréglage : Bois - Gravure',
       set_preset_wood_cut: 'Définir le préréglage : Bois - Découpe',

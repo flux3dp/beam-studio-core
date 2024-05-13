@@ -36,6 +36,7 @@ const lang: ILang = {
       use: 'Objeto Importado',
       svg: 'Objeto SVG',
       dxf: 'Objeto DXF',
+      no_selection: 'Sem seleção',
     },
     alerts: {
       start_preview_timeout: '#803 O tempo limite ocorreu ao iniciar o modo de visualização. Reinicie seu computador ou o Beam Studio. Se este erro persistir, siga <a target="_blank" href="https://flux3dp.zendesk.com/hc/en-us/articles/360001111355">este guia</a>.',
@@ -1598,6 +1599,7 @@ const lang: ILang = {
       draw_a_circle: 'Desenhe um círculo',
       drag_to_draw: 'Arraste para desenhar',
       infill: 'Ative o preenchimento',
+      switch_to_object_panel: 'Mudar para o painel de objetos',
       switch_to_layer_panel: 'Mudar para o painel de camadas',
       set_preset_wood_engraving: 'Definir predefinição: Madeira - Gravura',
       set_preset_wood_cut: 'Definir predefinição: Madeira - Corte',
