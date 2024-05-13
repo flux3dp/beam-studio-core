@@ -77,7 +77,6 @@ import Progress from 'app/actions/progress-caller';
 import presprayArea from 'app/actions/canvas/prespray-area';
 import viewMenu from 'helpers/menubar/view';
 import autoSaveHelper from 'helpers/auto-save-helper';
-import * as BezierFitCurve from 'helpers/bezier-fit-curve';
 import laserConfigHelper from 'helpers/layer/layer-config-helper';
 import * as LayerHelper from 'helpers/layer/layer-helper';
 import randomColor from 'helpers/randomColor';
@@ -103,7 +102,7 @@ import grid from 'app/actions/canvas/grid';
 
 let svgCanvas;
 let svgEditor;
-const { svgedit, $, ClipperLib } = window;
+const { svgedit, $ } = window;
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
   svgEditor = globalSVG.Editor;
@@ -707,7 +706,13 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   this.getRootScreenMatrix = () => root_sctm;
   this.getRotaryDisplayCoord = () => BeamboxPreference.read('rotary_y_coord') || 5;
   this.getRubberBox = () => rubberBox;
-  this.getSelectedElems = () => selectedElements;
+  this.getSelectedElems = (ungroupTempGroup = false) => {
+    if (ungroupTempGroup && tempGroup) {
+      const children = this.ungroupTempGroup();
+      this.selectOnly(children, false);
+    }
+    return selectedElements;
+  }
   this.getStarted = () => started;
   this.getStartTransform = () => startTransform;
   this.getTempGroup = () => tempGroup;
@@ -4189,161 +4194,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     this.selectOnly(newElements, true);
     addCommandToHistory(batchCmd);
     return batchCmd;
-  };
-
-  /** Function: offsetElements
-   * Create offset of elements
-   * @param {number} dir direction 0: inward 1: outward;
-   * @param {number} dist offset distance;
-   * @param {string} cornerType 'round' or 'sharp';
-   * @param {SVGElement} elem target, selected if not passed;
-   */
-  this.offsetElements = async (dir, dist, cornerType, elems, skipUndoStack = false): Promise<void | SVGElement> => {
-    Progress.openNonstopProgress({
-      id: 'offset-path',
-      message: LANG.popup.progress.calculating,
-    });
-    await new Promise<void>((resolve) => {
-      setTimeout(() => resolve(), 100);
-    });
-    if (tempGroup) {
-      const children = this.ungroupTempGroup();
-      this.selectOnly(children, false);
-    }
-    elems = elems || selectedElements;
-    const batchCmd = new history.BatchCommand('Create Offset Elements');
-    let solution_paths = [];
-    const scale = 100;
-
-    if (dir === 0) {
-      dist *= -1;
-    }
-    let isContainNotSupportTag = false;
-    const co = new ClipperLib.ClipperOffset(2, 0.25);
-    elems.forEach(elem => {
-      if (!elem) {
-        return;
-      }
-      if (['g', 'use', 'image', 'text'].indexOf(elem.tagName) >= 0) {
-        isContainNotSupportTag = true;
-        console.log(elem.tagName);
-        return;
-      }
-      const dpath = svgedit.utilities.getPathDFromElement(elem);
-      const bbox = svgedit.utilities.getBBox(elem);
-      const rotation = {
-        angle: svgedit.utilities.getRotationAngle(elem),
-        cx: bbox.x + bbox.width / 2,
-        cy: bbox.y + bbox.height / 2
-      };
-
-      const paths = ClipperLib.dPathtoPointPathsAndScale(dpath, rotation, scale);
-      let closed = true;
-      for (let j = 0; j < paths.length; ++j) {
-        if (!(paths[j][0].X === paths[j][paths[j].length - 1].X && paths[j][0].Y === paths[j][paths[j].length - 1].Y)) {
-          closed = false;
-          break;
-        }
-      }
-      if (cornerType === 'round') {
-        co.AddPaths(paths, ClipperLib.JoinType.jtRound, ClipperLib.EndType.etOpenRound);
-      } else if (cornerType === 'sharp') {
-        if (closed) {
-          co.AddPaths(paths, ClipperLib.JoinType.jtMiter, ClipperLib.EndType.etClosedLine);
-        } else {
-          co.AddPaths(paths, ClipperLib.JoinType.jtMiter, ClipperLib.EndType.etOpenSquare);
-        }
-      }
-    });
-    co.Execute(solution_paths, Math.abs(dist * scale));
-    if (dir === 1) {
-      if (solution_paths.length > 0) {
-        const clipper = new ClipperLib.Clipper();
-        const res = [solution_paths[0]];
-        let succeeded = true;
-        for (let i = 1; i < solution_paths.length; i++) {
-          clipper.AddPaths(res, ClipperLib.PolyType.ptSubject, true);
-          clipper.AddPaths([solution_paths[i]], ClipperLib.PolyType.ptClip, true);
-          succeeded = clipper.Execute(1, res, 1, 1);
-        }
-        solution_paths = res;
-      }
-    } else {
-      solution_paths = solution_paths.slice(1);
-    }
-    Progress.popById('offset-path');
-    if (solution_paths.length === 0 || !solution_paths[0]) {
-      if (isContainNotSupportTag) {
-        Alert.popUp({
-          id: 'Offset',
-          type: AlertConstants.SHOW_POPUP_WARNING,
-          message: LANG.tool_panels._offset.not_support_message,
-        });
-      } else {
-        Alert.popUp({
-          id: 'Offset',
-          type: AlertConstants.SHOW_POPUP_WARNING,
-          message: LANG.tool_panels._offset.fail_message,
-        });
-      }
-      console.log('clipper.co failed');
-      return;
-    }
-    if (isContainNotSupportTag) {
-      Alert.popUp({
-        id: 'Offset',
-        type: AlertConstants.SHOW_POPUP_WARNING,
-        message: LANG.tool_panels._offset.not_support_message,
-      });
-    }
-    let d = '';
-    for (let i = 0; i < solution_paths.length; ++i) {
-      if (!BeamboxPreference.read('simplify_clipper_path')) {
-        d += 'M';
-        d += solution_paths[i].map(x => `${x.X / scale},${x.Y / scale}`).join(' L');
-        d += ' Z';
-      } else {
-        d += 'M';
-        const points = solution_paths[i].map(p => {
-          return { x: Math.floor(100 * (p.X / scale)) / 100, y: Math.floor(100 * (p.Y / scale)) / 100 };
-        });
-        // TODO: use simplifyPath
-        const segs = BezierFitCurve.fitPath(points);
-        for (let j = 0; j < segs.length; j++) {
-          const seg = segs[j];
-          if (j === 0) {
-            d += `${seg.points[0].x},${seg.points[0].y}`;
-          }
-          const pointsString = seg.points.slice(1).map((p) => `${p.x},${p.y}`).join(' ');
-          d += `${seg.type}${pointsString}`;
-        }
-        d += 'Z';
-      }
-    }
-    const newElem = addSvgElementFromJson({
-      element: 'path',
-      curStyles: false,
-      attr: {
-        id: getNextId(),
-        d: d,
-        stroke: '#000',
-        fill: 'none',
-        'fill-opacity': 0,
-      }
-    });
-    pathActions.fixEnd(newElem);
-
-    if (!skipUndoStack) {
-      batchCmd.addSubCommand(new history.InsertElementCommand(newElem));
-      if (this.isUsingLayerColor) {
-        updateElementColor(newElem);
-      }
-
-      selectOnly([newElem], true);
-      addCommandToHistory(batchCmd);
-    } else {
-      return newElem;
-    }
   };
 
   this.decomposePath = (elems) => {

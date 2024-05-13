@@ -16,6 +16,7 @@ import OffsetCornerPanel from 'app/views/beambox/ToolPanels/OffsetCornerPanel';
 import OffsetDirectionPanel from 'app/views/beambox/ToolPanels/OffsetDirectionPanel';
 import OffsetDistancePanel from 'app/views/beambox/ToolPanels/OffsetDistancePanel';
 import OffsetModal from 'app/views/beambox/ToolPanels/OffsetModal';
+import offsetElements from 'helpers/clipper/offset';
 import RowColumnPanel from 'app/views/beambox/ToolPanels/RowColumn';
 import storage from 'implementations/storage';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
@@ -202,10 +203,10 @@ class ToolPanel extends React.Component<Props> {
         };
       case 'offset':
         return () => {
-          svgCanvas.offsetElements(
+          offsetElements(
             this.offset.dir,
             _mm2pixel(this.offset.distance),
-            this.offset.cornerType
+            this.offset.cornerType as 'sharp' | 'round'
           );
           unmount();
           svgCanvas.setMode('select');

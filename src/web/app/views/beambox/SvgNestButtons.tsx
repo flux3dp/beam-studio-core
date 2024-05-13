@@ -5,6 +5,7 @@ import * as React from 'react';
 import classNames from 'classnames';
 
 import Alert from 'app/actions/alert-caller';
+import getClipperLib from 'helpers/clipper/getClipperLib';
 import history from 'app/svgedit/history';
 import i18n from 'helpers/i18n';
 import Modal from 'app/widgets/Modal';
@@ -50,8 +51,7 @@ class SvgNestButtons extends React.Component<Props, State> {
 
   nestElements = (elements: Element[], containerElem?: HTMLElement, config?: any) => {
     let containerPoints;
-    // eslint-disable-next-line prefer-destructuring, @typescript-eslint/dot-notation
-    const ClipperLib = window['ClipperLib'];
+    const ClipperLib = getClipperLib();
     if (containerElem) {
       const containerDpath = svgedit.utilities.getPathDFromElement(containerElem);
       const bbox = svgedit.utilities.getBBox(containerElem);
