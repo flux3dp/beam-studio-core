@@ -15,6 +15,8 @@ jest.mock('helpers/useI18n', () => () => ({
     module_offset_20w: 'module_offset_20w',
     module_offset_printer: 'module_offset_printer',
     module_offset_2w_ir: 'module_offset_2w_ir',
+    low_laser_for_preview: 'Laser for Running Frame',
+    none: 'None',
     groups: {
       ador_modules: 'ador_modules',
     },
@@ -24,6 +26,16 @@ jest.mock('helpers/useI18n', () => () => ({
     laser_20w_diode: 'laser_20w_diode',
     printing: 'printing',
     laser_2w_infrared: 'laser_2w_infrared',
+  },
+  beambox: {
+    right_panel: {
+      laser_panel: {
+        slider: {
+          regular: 'Regular',
+          very_high: 'Max',
+        },
+      },
+    },
   },
 }));
 jest.mock(
@@ -117,6 +129,7 @@ describe('test AdorModule', () => {
         updateBeamboxPreferenceChange={mockUpdateBeamboxPreferenceChange}
         printAdvancedModeOptions={mockOptions}
         currentModuleOffsets={mockOffsetInit}
+        currentLowPower={3}
       />
     );
     expect(container).toMatchSnapshot();
@@ -131,6 +144,7 @@ describe('test AdorModule', () => {
         updateBeamboxPreferenceChange={mockUpdateBeamboxPreferenceChange}
         printAdvancedModeOptions={mockOptions}
         currentModuleOffsets={mockOffsetInit}
+        currentLowPower={3}
       />
     );
     let input = getByTestId('10w-laser-y-offset') as HTMLInputElement;
@@ -149,6 +163,7 @@ describe('test AdorModule', () => {
         updateBeamboxPreferenceChange={mockUpdateBeamboxPreferenceChange}
         printAdvancedModeOptions={mockOptions}
         currentModuleOffsets={offsetValue}
+        currentLowPower={3}
       />
     );
     input = getByTestId('printer-x-offset') as HTMLInputElement;
@@ -172,6 +187,7 @@ describe('test AdorModule', () => {
         updateBeamboxPreferenceChange={mockUpdateBeamboxPreferenceChange}
         printAdvancedModeOptions={mockOptions}
         currentModuleOffsets={mockInitValue}
+        currentLowPower={3}
       />
     );
     const button = getByText('On');
@@ -195,6 +211,7 @@ describe('test AdorModule', () => {
         updateBeamboxPreferenceChange={mockUpdateBeamboxPreferenceChange}
         printAdvancedModeOptions={mockOptions}
         currentModuleOffsets={mockInitValue}
+        currentLowPower={3}
       />
     );
     const button = getByText('laser_20w_diode');
@@ -204,5 +221,23 @@ describe('test AdorModule', () => {
       'default-laser-module',
       LayerModule.LASER_20W_DIODE
     );
+  });
+
+  test('edit low laser power', () => {
+    const { getByTestId } = render(
+      <AdorModule
+        defaultLaserModule={LayerModule.LASER_10W_DIODE}
+        defaultUnit="mm"
+        selectedModel="ado1"
+        updateBeamboxPreferenceChange={mockUpdateBeamboxPreferenceChange}
+        printAdvancedModeOptions={mockOptions}
+        currentModuleOffsets={mockOffsetInit}
+        currentLowPower={3}
+      />
+    );
+    const input = getByTestId('low-power') as HTMLInputElement;
+    fireEvent.change(input, { target: { value: '5' } });
+    expect(mockUpdateBeamboxPreferenceChange).toBeCalledTimes(1);
+    expect(mockUpdateBeamboxPreferenceChange).toHaveBeenLastCalledWith('low_power', 5);
   });
 });

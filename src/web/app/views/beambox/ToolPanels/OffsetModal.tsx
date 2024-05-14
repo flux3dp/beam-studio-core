@@ -1,10 +1,11 @@
 import classNames from 'classnames';
 import Icon from '@ant-design/icons';
 import React from 'react';
-import { ConfigProvider, InputNumber, Modal, Select, Slider } from 'antd';
+import { ConfigProvider, InputNumber, Modal, Slider } from 'antd';
 
 import ActionPanelIcons from 'app/icons/action-panel/ActionPanelIcons';
 import i18n from 'helpers/i18n';
+import Select from 'app/widgets/AntdSelect';
 import storage from 'implementations/storage';
 import units from 'helpers/units';
 

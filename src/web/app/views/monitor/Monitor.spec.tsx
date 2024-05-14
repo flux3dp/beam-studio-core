@@ -9,7 +9,9 @@ import Monitor from './Monitor';
 jest.mock('app/contexts/MonitorContext', () => ({
   MonitorContext: React.createContext(null),
 }));
-jest.mock('./MonitorCamera', () => ({ device }: any) => <div>Dummy MonitorCamera {device.name}</div>);
+jest.mock('./MonitorCamera', () => ({ device }: any) => (
+  <div>Dummy MonitorCamera {device.name}</div>
+));
 jest.mock('./MonitorFilelist', () => ({ path }: any) => <div>Dummy MonitorFilelist {path}</div>);
 jest.mock('./MonitorTabExtraContent', () => () => <div>Dummy MonitorTabExtraContent</div>);
 jest.mock('./MonitorTask', () => () => <div>Dummy MonitorTask</div>);
@@ -21,11 +23,18 @@ jest.mock('helpers/useI18n', () => () => ({
     taskTab: 'taskTab',
     connecting: 'connecting',
   },
+  beambox: {
+    popup: {
+      progress: {
+        uploading: 'uploading',
+      },
+    },
+  },
 }));
 
 const mockGetDisplayStatus = jest.fn();
 jest.mock('helpers/monitor-status', () => ({
-  getDisplayStatus: (...args) => mockGetDisplayStatus(...args)
+  getDisplayStatus: (...args) => mockGetDisplayStatus(...args),
 }));
 
 const mockOnClose = jest.fn();
@@ -43,6 +52,17 @@ describe('test Monitor', () => {
   it('should render correctly', () => {
     const { baseElement } = render(
       <MonitorContext.Provider value={mockContext as any}>
+        <Monitor device={{ name: 'device' } as any} />
+      </MonitorContext.Provider>
+    );
+    expect(baseElement).toMatchSnapshot();
+    expect(mockGetDisplayStatus).toBeCalledTimes(1);
+    expect(mockGetDisplayStatus).toHaveBeenLastCalledWith(mockContext.report.st_label);
+  });
+
+  it('should display uploading when has upload progress', () => {
+    const { baseElement } = render(
+      <MonitorContext.Provider value={{ ...mockContext, uploadProgress: 50 } as any}>
         <Monitor device={{ name: 'device' } as any} />
       </MonitorContext.Provider>
     );

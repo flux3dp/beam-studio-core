@@ -1628,7 +1628,7 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
         t = t.parentNode;
       }
     } catch (e) {
-      console.log(t, 'has no g parent');
+      console.log(t, t?.id, 'has no g parent');
       throw e;
     }
     // if we are not in the middle of creating a path, and we've clicked on some shape,

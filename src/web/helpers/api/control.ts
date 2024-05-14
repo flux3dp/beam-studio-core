@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
@@ -117,6 +118,7 @@ class Control extends EventEmitter {
       resolve(res);
     } catch (error) {
       reject(error);
+      console.error(`Control ${this.uuid} task error:`, error, taskFunction?.name, args);
     }
     if (this.taskQueue.length > 0) {
       this.doTask();
@@ -434,6 +436,9 @@ class Control extends EventEmitter {
       png: 'image/png',
       json: 'application/json',
     };
+    if (data.size === 0) {
+      throw new Error('File is empty');
+    }
     if (path && fileName) {
       // eslint-disable-next-line no-param-reassign
       fileName = fileName.replace(/ /g, '_');
@@ -1179,6 +1184,27 @@ class Control extends EventEmitter {
       throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
     }
     const command = 'M137P34';
+    if (!this._isLineCheckMode) return this.useRawWaitOKResponse(command);
+    return this.useRawLineCheckCommand(command);
+  };
+
+  rawSetLaser = (args: { on: boolean; s?: number }) => {
+    if (this.mode !== 'raw') {
+      throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
+    }
+    let command = args.on ? 'M3' : 'M5';
+    if (typeof args.s !== 'undefined') {
+      command += `S${args.s}`;
+    }
+    if (!this._isLineCheckMode) return this.useRawWaitOKResponse(command);
+    return this.useRawLineCheckCommand(command);
+  };
+
+  rawSet24V = (on: boolean) => {
+    if (this.mode !== 'raw') {
+      throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
+    }
+    const command = on ? 'M136P173' : 'M136P174';
     if (!this._isLineCheckMode) return this.useRawWaitOKResponse(command);
     return this.useRawLineCheckCommand(command);
   };

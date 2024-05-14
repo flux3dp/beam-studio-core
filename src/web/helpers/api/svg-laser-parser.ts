@@ -105,7 +105,7 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
       if (constant.adorModels.includes(model)) {
         const { x, y, w, h } = presprayArea.getPosition(true);
         args.push('-prespray');
-        args.push(`${x},${y},${w},${h}`);
+        args.push(rotaryMode ? `0,27,${w},${h}` :`${x},${y},${w},${h}`);
         if (!isDevMode || BeamboxPreference.read('multipass-compensation') !== false) args.push('-mpc');
         if (!isDevMode || BeamboxPreference.read('one-way-printing') !== false) args.push('-owp');
       }
@@ -156,35 +156,64 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
       else if (BeamboxPreference.read('enable-low-speed')) args.push('-min-speed 1');
       if (BeamboxPreference.read('reverse-engraving')) args.push('-rev');
       if (BeamboxPreference.read('enable-custom-backlash')) args.push('-cbl');
+      let printingTopPadding: number;
+      let printingBotPadding: number;
+      if (rotaryMode && constant.adorModels.includes(model)) {
+        printingTopPadding = 43;
+        printingBotPadding = 43;
+      }
       if (isDevMode) {
-        if (localStorage.getItem('min_engraving_padding')) {
+        let storageValue = localStorage.getItem('min_engraving_padding');
+        if (storageValue) {
           args.push('-mep');
-          args.push(localStorage.getItem('min_engraving_padding'));
+          args.push(storageValue);
         }
-        if (localStorage.getItem('min_printing_padding')) {
+        storageValue = localStorage.getItem('min_printing_padding');
+        if (storageValue) {
           args.push('-mpp');
-          args.push(localStorage.getItem('min_printing_padding'));
+          args.push(storageValue);
         }
-        if (localStorage.getItem('printing_top_padding')) {
-          args.push('-ptp');
-          args.push(localStorage.getItem('printing_top_padding'));
+        storageValue = localStorage.getItem('printing_top_padding');
+        if (storageValue && !Number.isNaN(Number(storageValue))) {
+          printingTopPadding = Number(storageValue)
         }
-        if (localStorage.getItem('printing_bot_padding')) {
-          args.push('-pbp');
-          args.push(localStorage.getItem('printing_bot_padding'));
+        storageValue = localStorage.getItem('printing_bot_padding');
+        if (storageValue && !Number.isNaN(Number(storageValue))) {
+          printingBotPadding = Number(storageValue)
         }
-        if (localStorage.getItem('nozzle_votage')) {
+        storageValue = localStorage.getItem('nozzle_votage');
+        if (storageValue) {
           args.push('-nv');
-          args.push(localStorage.getItem('nozzle_votage'));
+          args.push(storageValue);
         }
-        if (localStorage.getItem('nozzle_pulse_width')) {
+        storageValue = localStorage.getItem('nozzle_pulse_width');
+        if (storageValue) {
           args.push('-npw');
-          args.push(localStorage.getItem('nozzle_pulse_width'));
+          args.push(storageValue);
         }
-        if (localStorage.getItem('travel_speed')) {
+        storageValue = localStorage.getItem('travel_speed');
+        if (storageValue && !Number.isNaN(Number(storageValue))) {
           args.push('-ts');
-          args.push(localStorage.getItem('travel_speed'));
+          args.push(Number(storageValue));
         }
+        storageValue = localStorage.getItem('path_travel_speed');
+        if (storageValue && !Number.isNaN(Number(storageValue))) {
+          args.push('-pts');
+          args.push(Number(storageValue));
+        }
+        storageValue = localStorage.getItem('a_travel_speed');
+        if (storageValue && !Number.isNaN(Number(storageValue))) {
+          args.push('-ats');
+          args.push(Number(storageValue));
+        }
+      }
+      if (printingTopPadding !== undefined) {
+        args.push('-ptp');
+        args.push(printingTopPadding);
+      }
+      if (printingBotPadding !== undefined) {
+        args.push('-pbp');
+        args.push(printingBotPadding);
       }
       if (model === 'ado1') {
         const offsets = { ...moduleOffsets, ...BeamboxPreference.read('module-offsets') };
@@ -556,7 +585,7 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
 
         events.onError = (data) => {
           warningCollection.push(data.message);
-          opts.onError(data.message || data.symbol.join('_'));
+          opts.onError(data.message || data.symbol?.join('_') || String(data) || 'Unknown Error');
           $deferred.resolve();
         };
         const args = [orderName, file.uploadName, file.size, file.thumbnailSize];

@@ -7,6 +7,7 @@ import ISVGCanvas from 'interfaces/ISVGCanvas';
 import i18n from 'helpers/i18n';
 import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
+import presprayArea from 'app/actions/canvas/prespray-area';
 import rotaryAxis from 'app/actions/canvas/rotary-axis';
 import symbolMaker from 'helpers/symbol-maker';
 import workareaManager from 'app/svgedit/workarea';
@@ -128,7 +129,6 @@ export const importBvgString = async (str: string): Promise<void> => {
         });
       });
       if (res) {
-        changeWorkarea('ado1', { toggleModule: false });
         newWorkarea = 'ado1';
       } else {
         alertCaller.popUp({
@@ -138,12 +138,14 @@ export const importBvgString = async (str: string): Promise<void> => {
       }
     }
   }
+  changeWorkarea(newWorkarea, { toggleModule: false })
   if (!modelsWithModules.has(newWorkarea)) {
     toggleFullColorAfterWorkareaChange();
   }
   svgedit.utilities.findDefs().remove();
   svgedit.utilities.moveDefsOutfromSvgContent();
   await symbolMaker.reRenderAllImageSymbol();
+  presprayArea.togglePresprayArea();
   LayerPanelController.setSelectedLayers([]);
 };
 

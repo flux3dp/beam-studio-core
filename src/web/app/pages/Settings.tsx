@@ -412,6 +412,7 @@ class Settings extends React.PureComponent<null, State> {
             currentModuleOffsets={this.getBeamboxPreferenceEditingValue('module-offsets') || {}}
             printAdvancedModeOptions={printAdvancedModeOptions}
             updateBeamboxPreferenceChange={this.updateBeamboxPreferenceChange}
+            currentLowPower={this.getBeamboxPreferenceEditingValue('low_power')}
           />
           <Privacy
             enableSentryOptions={enableSentryOptions}

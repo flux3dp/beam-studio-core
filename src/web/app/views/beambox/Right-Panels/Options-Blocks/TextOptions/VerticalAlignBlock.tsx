@@ -1,9 +1,9 @@
 import classNames from 'classnames';
 import React from 'react';
-import { Select } from 'antd';
 
 import i18n from 'helpers/i18n';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
+import Select from 'app/widgets/AntdSelect';
 import styles from 'app/views/beambox/Right-Panels/OptionsPanel.module.scss';
 import { useIsMobile } from 'helpers/system-helper';
 import { VerticalAlign } from 'app/actions/beambox/textPathEdit';

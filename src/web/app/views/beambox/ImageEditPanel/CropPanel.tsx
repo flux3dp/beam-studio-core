@@ -1,11 +1,12 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Cropper from 'cropperjs';
-import { Button, ConfigProvider, Modal, Select } from 'antd';
+import { Button, ConfigProvider, Modal } from 'antd';
 
 import calculateBase64 from 'helpers/image-edit-panel/calculate-base64';
 import handleFinish from 'helpers/image-edit-panel/handle-finish';
 import jimpHelper from 'helpers/jimp-helper';
 import progressCaller from 'app/actions/progress-caller';
+import Select from 'app/widgets/AntdSelect';
 import useI18n from 'helpers/useI18n';
 import { CropperDimension, cropPreprocess } from 'helpers/image-edit-panel/preprocess';
 import { useIsMobile } from 'helpers/system-helper';

@@ -8,7 +8,7 @@ import {
   CameraConfig,
   DEFAULT_CAMERA_OFFSET,
 } from 'app/constants/camera-calibration-constants';
-import { FisheyeCameraParameters } from 'interfaces/FisheyePreview';
+import { FisheyeCameraParameters, FisheyeCameraParametersV2Cali } from 'interfaces/FisheyePreview';
 import { IDeviceInfo } from 'interfaces/IDevice';
 
 const api = new CameraCalibrationApi();
@@ -153,7 +153,7 @@ export const addFisheyeCalibrateImg = (height: number, imgBlob: Blob): Promise<b
   api.addFisheyeCalibrateImg(height, imgBlob);
 export const doFishEyeCalibration = (
   onProgress?: (val: number) => void
-): Promise<{ k: number[][]; d: number[][] }> => api.doFisheyeCalibration(onProgress);
+): Promise<FisheyeCameraParametersV2Cali> => api.doFisheyeCalibration(onProgress);
 export const findPerspectivePoints = (
   onProgress?: (val: number) => void
 ): Promise<{
@@ -288,21 +288,6 @@ const getHeightOffsetFromLevelingRegion = (
   return levelingOffsets[key];
 };
 
-// use bilinear interpolation to get the height of a point
-const getHeightOffset = (
-  x: number,
-  y: number,
-  workarea: number[],
-  cornerOffsets: { lt: number; rt: number; lb: number; rb: number }
-) => {
-  const [w, h] = workarea;
-  const { lt, rt, lb, rb } = cornerOffsets;
-  const fxy1 = ((w - x) / w) * lt + (x / w) * rt;
-  const fxy2 = ((w - x) / w) * lb + (x / w) * rb;
-  const result = ((h - y) / h) * fxy1 + (y / h) * fxy2;
-  return result;
-};
-
 export const interpolatePointsFromHeight = (
   height: number,
   heights: number[],
@@ -408,6 +393,28 @@ export const getPerspectivePointsZ3Regression = (
   return result;
 };
 
+export const calibrateChessboard = async (
+  img: Blob | ArrayBuffer,
+  height: number,
+  chessboard = [48, 36]
+): Promise<
+  | {
+      success: true;
+      blob: Blob;
+      data?: {
+        ret: number;
+        k: number[][];
+        d: number[][];
+        rvec: number[];
+        tvec: number[];
+      };
+    }
+  | { success: false; data: { reason: string } }
+> => {
+  const resp = api.calibrateChessboard(img, height, chessboard);
+  return resp;
+};
+
 export const findCorners = async (
   imgBlob: Blob,
   withPitch = false
@@ -415,26 +422,60 @@ export const findCorners = async (
   success: boolean;
   blob: Blob;
   data?: {
+    ret: number;
     k: number[][];
     d: number[][];
     rvec: number[];
     tvec: number[];
-    points: [number, number][][];
   };
 }> => {
   const resp = await api.findCorners(imgBlob, withPitch);
   return resp;
 };
 
-export const calculateCameraPosition = async (
+export const solvePnPFindCorners = async (
   img: Blob | ArrayBuffer,
+  dh: number
+): Promise<
+  | {
+      success: true;
+      blob: Blob;
+      data?: { points: [number, number][] };
+    }
+  | {
+      success: false;
+      blob: null;
+      data: { status: string; info: string; reason: string };
+    }
+> => {
+  const resp = await api.solvePnPFindCorners(img, dh);
+  return resp;
+};
+
+export const solvePnPCalculate = async (
   dh: number,
-  withPitch = false
+  points: [number, number][]
 ): Promise<{
   success: boolean;
-  blob: Blob;
-  data?: { xc: number[]; yc: number[]; hx: number[]; hy: number[]; s: number[] };
+  data?: { rvec: number[]; tvec: number[] };
 }> => {
-  const resp = await api.calculateCameraPosition(img, dh, withPitch);
+  const resp = await api.solvePnPCalculate(dh, points);
+  return resp;
+};
+
+export const updateData = async (data: FisheyeCameraParametersV2Cali): Promise<boolean> => {
+  const resp = await api.updateData(data);
+  return resp;
+};
+
+export const extrinsicRegression = async (
+  rvecs: number[][],
+  tvecs: number[][],
+  heights: number[]
+): Promise<{
+  success: boolean;
+  data?: { rvec_polyfit: number[][]; tvec_polyfit: number[][] };
+}> => {
+  const resp = await api.extrinsicRegression(rvecs, tvecs, heights);
   return resp;
 };

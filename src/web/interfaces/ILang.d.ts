@@ -35,10 +35,16 @@ export interface ILang {
       dxf: string,
     },
     alerts: {
-      start_preview_timeout: string,
-      fail_to_start_preview: string,
-      fail_to_connect_with_camera: string,
-      add_content_first: string,
+      start_preview_timeout: string;
+      fail_to_start_preview: string;
+      fail_to_connect_with_camera: string;
+      add_content_first: string;
+      headtype_mismatch: string;
+      headtype_none: string;
+      headtype_unknown: string;
+      install_correct_headtype: string;
+      door_opened: string;
+      fail_to_get_door_status: string;
     };
     hint: {
       polygon: string;
@@ -444,6 +450,7 @@ export interface ILang {
     module_offset_2w_ir: string;
     printer_advanced_mode: string;
     default_laser_module: string;
+    low_laser_for_preview: string;
     groups: {
       general: string,
       update: string,
@@ -696,6 +703,9 @@ export interface ILang {
         white_ink_settings: string;
         color_adjustment: string;
         color_adjustment_short: string;
+        halftone: string;
+        halftone_link: string;
+        color_strength: string;
         times: string,
         cut: string,
         engrave: string,
@@ -1174,6 +1184,7 @@ export interface ILang {
   editor: {
     prespray_area: string;
     opacity: string;
+    exposure: string;
   };
   flux_id_login: {
     connection_fail: string;
@@ -1319,8 +1330,15 @@ export interface ILang {
     HARDWARE_ERROR_HEADTYPE_NONE: string;
     HARDWARE_ERROR_HEADTYPE_UNKNOWN: string;
     HARDWARE_ERROR_PRINTER_NO_RESPONSE: string;
-    USER_OPERATION_ROTARY_PAUSE: string,
+    USER_OPERATION_ROTARY_PAUSE: string;
     USER_OPERATION_REMOVE_CARTRIDGE: string;
+    USER_OPERATION_CHANGE_TOOLHEAD_HEADTYPE_NONE: string;
+    USER_OPERATION_CHANGE_TOOLHEAD_HEADTYPE_UNKNOWN: string;
+    USER_OPERATION_CHANGE_TOOLHEAD_HEADTYPE_MISMATCH: string;
+    USER_OPERATION_CHANGE_TOOLHEAD: string;
+    USER_OPERATION_CHANGE_CARTRIDGE_CARTRIDGE_NOT_DETECTED: string;
+    USER_OPERATION_CHANGE_CARTRIDGE: string;
+    USER_OPERATION: string;
     RESOURCE_BUSY: string,
     DEVICE_ERROR: string,
     NO_RESPONSE: string,
@@ -1527,6 +1545,35 @@ export interface ILang {
     align_red_cross_print: string;
     retake: string;
     calibrate_camera_before_calibrate_modules: string;
+    check_checkpoint_data: string;
+    checking_checkpoint: string;
+    use_old_camera_parameter: string;
+    found_checkpoint: string;
+    downloading_checkpoint: string;
+    failed_to_parse_checkpoint: string;
+    check_device_pictures: string;
+    checking_pictures: string;
+    no_picutre_found: string;
+    calibrating_with_device_pictures: string;
+    failed_to_calibrate_with_pictures: string;
+    getting_plane_height: string;
+    preparing_to_take_picture: string;
+    put_paper: string;
+    put_paper_step1: string;
+    put_paper_step2: string;
+    put_paper_step3: string;
+    solve_pnp_title: string;
+    solve_pnp_step1: string;
+    solve_pnp_step2: string;
+    solve_pnp_step3: string;
+    elevate_and_cut: string;
+    elevate_and_cut_step_1: string;
+    elevate_and_cut_step_1_prism_lift: string;
+    with_prism_lift: string;
+    without_prism_lift: string;
+    camera_parameter_saved_successfully: string;
+    failed_to_save_camera_parameter: string;
+    failed_to_solve_pnp: string;
   };
   input_machine_password: {
     require_password: string,

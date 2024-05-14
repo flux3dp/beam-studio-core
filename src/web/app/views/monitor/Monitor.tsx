@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { Modal, Tabs } from 'antd';
 import { CameraOutlined, FolderOutlined, PictureOutlined } from '@ant-design/icons';
 
@@ -16,15 +16,18 @@ import MonitorTabExtraContent from './MonitorTabExtraContent';
 import MonitorTask from './MonitorTask';
 
 interface Props {
-  device: IDeviceInfo
+  device: IDeviceInfo;
 }
 
 const Monitor = (props: Props): JSX.Element => {
   const { device } = props;
-  const { currentPath, mode, onClose, report, setMonitorMode, taskImageURL } = useContext(MonitorContext);
+  const { currentPath, mode, onClose, report, setMonitorMode, taskImageURL, uploadProgress } =
+    useContext(MonitorContext);
   const LANG = useI18n();
-  const taskMode = report.st_id === deviceConstants.status.IDLE ? Mode.PREVIEW : Mode.WORKING
-  const monitorMode = [Mode.PREVIEW, Mode.FILE_PREVIEW, Mode.WORKING].includes(mode) ? taskMode : mode;
+  const taskMode = report.st_id === deviceConstants.status.IDLE ? Mode.PREVIEW : Mode.WORKING;
+  const monitorMode = [Mode.PREVIEW, Mode.FILE_PREVIEW, Mode.WORKING].includes(mode)
+    ? taskMode
+    : mode;
 
   // const renderRelocate = (): JSX.Element => {
   //   return (
@@ -57,31 +60,29 @@ const Monitor = (props: Props): JSX.Element => {
     },
   ];
   if (taskImageURL) {
-    tabItems.unshift(
-      {
-        label: (
-          <div>
-            <PictureOutlined />
-            {LANG.monitor.taskTab}
-          </div>
-        ),
-        key: taskMode,
-        children: (
-          <div>
-            <MonitorTask />
-          </div>
-        ),
-      },
-    );
+    tabItems.unshift({
+      label: (
+        <div>
+          <PictureOutlined />
+          {LANG.monitor.taskTab}
+        </div>
+      ),
+      key: taskMode,
+      children: (
+        <div>
+          <MonitorTask />
+        </div>
+      ),
+    });
   }
+  const statusText = useMemo(() => {
+    if (uploadProgress) return LANG.beambox.popup.progress.uploading;
+    if (report) return MonitorStatus.getDisplayStatus(report.st_label);
+    return LANG.monitor.connecting;
+  }, [LANG, report, uploadProgress]);
+
   return (
-    <Modal
-      open
-      centered
-      onCancel={onClose}
-      title={`${device.name} - ${report ? MonitorStatus.getDisplayStatus(report.st_label) : LANG.monitor.connecting}`}
-      footer={null}
-    >
+    <Modal open centered onCancel={onClose} title={`${device.name} - ${statusText}`} footer={null}>
       <Tabs
         activeKey={monitorMode}
         items={tabItems}

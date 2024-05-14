@@ -1,5 +1,10 @@
 import presprayArea from './prespray-area';
 
+const mockRead = jest.fn();
+jest.mock('app/actions/beambox/beambox-preference', () => ({
+  read: (key: string) => mockRead(key),
+}));
+
 const mockGetWidth = jest.fn();
 const mockGetHeight = jest.fn();
 const mockGetRotaryExpansion = jest.fn();
@@ -32,6 +37,7 @@ describe('test canvas/prespray-area', () => {
     mockGetHeight.mockReturnValue(4000);
     mockGetRotaryExpansion.mockReturnValue([0, 0]);
     mockRequestAnimationFrame.mockImplementation((cb) => cb());
+    mockRead.mockReturnValue(0);
     window.requestAnimationFrame = mockRequestAnimationFrame;
     document.body.innerHTML = '<svg id="fixedSizeSvg"><g class="layer" data-module="5"></g></svg>';
   });
@@ -41,6 +47,13 @@ describe('test canvas/prespray-area', () => {
     expect(document.getElementById('fixedSizeSvg').innerHTML).toMatchSnapshot();
     expect(document.getElementById('presprayArea')).not.toBeNull();
     expect(document.getElementById('presprayArea').getAttribute('display')).not.toBe('none');
+  });
+
+  test('hide prespray area when rotary mode is on', () => {
+    mockRead.mockReturnValue(1);
+    presprayArea.generatePresprayArea();
+    expect(document.getElementById('presprayArea')).not.toBeNull();
+    expect(document.getElementById('presprayArea').getAttribute('display')).toBe('none');
   });
 
   test('toggle prespray area', () => {

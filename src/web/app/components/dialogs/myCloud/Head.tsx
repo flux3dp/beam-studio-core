@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { CapsuleTabs } from 'antd-mobile';
-import { Select } from 'antd';
 
+import Select from 'app/widgets/AntdSelect';
 import useI18n from 'helpers/useI18n';
 import { MyCloudContext } from 'app/contexts/MyCloudContext';
 import { useIsMobile } from 'helpers/system-helper';

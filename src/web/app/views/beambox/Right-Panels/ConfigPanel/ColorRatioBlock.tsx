@@ -2,17 +2,20 @@ import classNames from 'classnames';
 import React, { useEffect, useMemo, useState } from 'react';
 import { ConfigProvider, InputNumber, Slider } from 'antd';
 
+import useI18n from 'helpers/useI18n';
 import styles from './ColorRatioModal.module.scss';
 
 interface Props {
-  value: number;
-  setValue: (value: number) => void;
-  color: 'c' | 'm' | 'y' | 'k';
+  ratio: number;
+  setRatio: (value: number) => void;
+  color?: 'c' | 'm' | 'y' | 'k';
 }
 
-const ColorRatioBlock = ({ value, setValue, color }: Props): JSX.Element => {
-  const [displayValue, setDisplayValue] = useState(value);
-  useEffect(() => setDisplayValue(value), [value]);
+const ColorRatioBlock = ({ ratio, setRatio, color }: Props): JSX.Element => {
+  const lang = useI18n().beambox.right_panel.laser_panel;
+  const [displayRatio, setDisplayRatio] = useState(ratio);
+  useEffect(() => setDisplayRatio(ratio), [ratio]);
+
   const { title } = useMemo(() => {
     switch (color) {
       case 'c':
@@ -24,14 +27,15 @@ const ColorRatioBlock = ({ value, setValue, color }: Props): JSX.Element => {
       case 'k':
         return { title: 'Black' };
       default:
-        return { title: 'Cyan' };
+        return { title: '' };
     }
   }, [color]);
 
   return (
     <div className={classNames(styles.block, styles[color])}>
+      <div>{title}</div>
       <div className={styles.header}>
-        <span className={styles.title}>{title}</span>
+        <span className={styles.title}>{lang.color_strength}</span>
         <span className={styles.input}>
           <ConfigProvider
             theme={{
@@ -42,11 +46,11 @@ const ColorRatioBlock = ({ value, setValue, color }: Props): JSX.Element => {
           >
             <InputNumber
               size="small"
-              value={value}
+              value={ratio}
               controls={false}
               min={0}
-              max={100}
-              onChange={setValue}
+              max={200}
+              onChange={setRatio}
             />
           </ConfigProvider>
           <span className={styles.unit}>%</span>
@@ -54,11 +58,11 @@ const ColorRatioBlock = ({ value, setValue, color }: Props): JSX.Element => {
       </div>
       <Slider
         min={0}
-        max={100}
+        max={200}
         step={1}
-        value={displayValue}
-        onAfterChange={setValue}
-        onChange={(v: number) => setDisplayValue(v)}
+        value={displayRatio}
+        onAfterChange={setRatio}
+        onChange={(v: number) => setDisplayRatio(v)}
         tooltip={{
           formatter: (v: number) => `${v}%`,
         }}

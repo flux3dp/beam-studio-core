@@ -2,6 +2,7 @@
 import Alert from 'app/actions/alert-caller';
 import AlertConfig from 'helpers/api/alert-config';
 import AlertConstants from 'app/constants/alert-constants';
+import aiExtension from 'helpers/api/ai-extension';
 import alertHelper from 'helpers/alert-helper';
 import announcementHelper from 'helpers/announcement-helper';
 import autoSaveHelper from 'helpers/auto-save-helper';
@@ -17,7 +18,6 @@ import fluxId from 'helpers/api/flux-id';
 import FontConstants from 'app/constants/font-constants';
 import fontHelper from 'helpers/fonts/fontHelper';
 import getDevice from 'helpers/device/get-device';
-import InterProcess from 'helpers/api/inter-process';
 import i18n from 'helpers/i18n';
 import menu from 'implementations/menu';
 import ratingHelper from 'helpers/rating-helper';
@@ -83,7 +83,7 @@ class BeamboxInit {
     alertHelper.registerAlertEvents(Alert.popUp);
 
     // WebSocket for Adobe Illustrator Plug-In
-    InterProcess();
+    aiExtension.init();
   }
 
   async showStartUpDialogs(): Promise<void> {

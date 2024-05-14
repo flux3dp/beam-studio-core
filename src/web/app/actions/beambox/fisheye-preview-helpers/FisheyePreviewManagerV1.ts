@@ -36,9 +36,10 @@ class FisheyePreviewManagerV1 extends FisheyePreviewManagerBase implements Fishe
     this.params = params;
   }
 
-  public async setupFisheyePreview(progressId?: string): Promise<boolean> {
+  public async setupFisheyePreview(args: { progressId?: string } = {}): Promise<boolean> {
     const { device } = this;
     const { lang } = i18n;
+    const { progressId } = args;
     if (!progressId) progressCaller.openNonstopProgress({ id: this.progressId });
     progressCaller.update(progressId || this.progressId, { message: 'Fetching leveling data...' });
     const levelingData = await getLevelingData('hexa_platform');

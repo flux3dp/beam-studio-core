@@ -16,6 +16,7 @@ interface Props {
   updateBeamboxPreferenceChange: (item_key: string, newVal: any) => void;
   currentModuleOffsets: { [m: number]: [number, number] };
   defaultLaserModule: LayerModule;
+  currentLowPower: number;
 }
 
 const AdorModule = ({
@@ -25,6 +26,7 @@ const AdorModule = ({
   updateBeamboxPreferenceChange,
   currentModuleOffsets,
   defaultLaserModule,
+  currentLowPower,
 }: Props): JSX.Element => {
   const lang = useI18n();
   const getModuleOffset = useCallback(
@@ -90,6 +92,18 @@ const AdorModule = ({
         options={defaultLaserModuleOptions}
         onChange={(e) => editDefaultLaserModule(Number(e.target.value))}
       />
+      <Controls label={lang.settings.low_laser_for_preview}>
+        <UnitInput
+          id="low-power"
+          unit="%"
+          min={0}
+          max={20}
+          decimal={0}
+          defaultValue={currentLowPower}
+          getValue={(val) => updateBeamboxPreferenceChange('low_power', val)}
+          className={{ half: true }}
+        />
+      </Controls>
       <Controls label={lang.settings.module_offset_10w}>
         <span className="font2" style={{ marginRight: '10px', lineHeight: '32px' }}>
           X

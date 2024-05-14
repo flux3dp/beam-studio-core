@@ -65,10 +65,12 @@ const defaultLaserConfigs = {
   wSpeed: { value: 100 },
   color: { value: '#333333' },
   fullcolor: { value: false },
+  halftone: { value: 1 },
   cRatio: { value: 100 },
   mRatio: { value: 100 },
   yRatio: { value: 100 },
   kRatio: { value: 100 },
+  printingStrength: { value: 100 },
 };
 
 const defaultMultiValueLaserConfigs = {
@@ -91,10 +93,12 @@ const defaultMultiValueLaserConfigs = {
   wSpeed: { value: 100, hasMultiValue: false },
   color: { value: '#333333', hasMultiValue: false },
   fullcolor: { value: false, hasMultiValue: false },
+  halftone: { value: 1, hasMultiValue: false },
   cRatio: { value: 100, hasMultiValue: false },
   mRatio: { value: 100, hasMultiValue: false },
   yRatio: { value: 100, hasMultiValue: false },
   kRatio: { value: 100, hasMultiValue: false },
+  printingStrength: { value: 100, hasMultiValue: false },
 };
 
 describe('test layer-config-helper', () => {

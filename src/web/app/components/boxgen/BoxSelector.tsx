@@ -1,6 +1,7 @@
 import React from 'react';
-import { Menu, Select } from 'antd';
+import { Menu } from 'antd';
 
+import Select from 'app/widgets/AntdSelect';
 import useI18n from 'helpers/useI18n';
 import { useIsMobile } from 'helpers/system-helper';
 

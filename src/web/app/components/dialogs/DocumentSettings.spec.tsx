@@ -55,6 +55,11 @@ jest.mock('app/actions/canvas/rotary-axis', () => ({
   toggleDisplay: () => mockToggleDisplay(),
 }));
 
+const mockTogglePresprayArea = jest.fn();
+jest.mock('app/actions/canvas/prespray-area', () => ({
+  togglePresprayArea: () => mockTogglePresprayArea(),
+}));
+
 jest.mock('helpers/useI18n', () => () => ({
   settings: {
     on: 'on',
@@ -146,6 +151,7 @@ describe('test DocumentSettings', () => {
     expect(mockChangeWorkarea).toBeCalledTimes(1);
     expect(mockChangeWorkarea).toHaveBeenLastCalledWith('fbm1', { toggleModule: true });
     expect(mockToggleDisplay).toBeCalledTimes(1);
+    expect(mockTogglePresprayArea).toBeCalledTimes(1);
     expect(update).not.toBeCalled();
     expect(mockUnmount).toBeCalledTimes(1);
   });

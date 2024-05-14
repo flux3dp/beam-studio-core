@@ -37,6 +37,7 @@ export enum DataType {
   backlash = 'backlash',
   multipass = 'multipass',
   UV = 'uv',
+  halftone = 'halftone',
   // parameters for white ink
   wSpeed = 'wSpeed',
   wInk = 'wInk',
@@ -49,6 +50,8 @@ export enum DataType {
   mRatio = 'mRatio',
   yRatio = 'yRatio',
   kRatio = 'kRatio',
+  // parameters single color printing image processing
+  printingStrength = 'printingStrength',
 }
 
 export const dataKey = {
@@ -65,6 +68,7 @@ export const dataKey = {
   [DataType.backlash]: 'backlash',
   [DataType.multipass]: 'multipass',
   [DataType.UV]: 'uv',
+  [DataType.halftone]: 'halftone',
   // parameters for white ink
   [DataType.wSpeed]: 'wSpeed',
   [DataType.wInk]: 'wInk',
@@ -77,6 +81,8 @@ export const dataKey = {
   [DataType.mRatio]: 'mRatio',
   [DataType.yRatio]: 'yRatio',
   [DataType.kRatio]: 'kRatio',
+  // parameters single color printing image processing
+  [DataType.printingStrength]: 'printingStrength',
 };
 
 export const CUSTOM_PRESET_CONSTANT = ' ';
@@ -95,6 +101,8 @@ export const defaultConfig = {
   [DataType.backlash]: 0,
   [DataType.multipass]: 3,
   [DataType.UV]: 0,
+  // 1 for fm, 2 for am
+  [DataType.halftone]: 1,
   // parameters for white ink
   [DataType.wSpeed]: 100,
   [DataType.wInk]: BeamboxPreference.read('multipass-compensation') !== false ? -9 : -3,
@@ -105,6 +113,8 @@ export const defaultConfig = {
   [DataType.mRatio]: 100,
   [DataType.yRatio]: 100,
   [DataType.kRatio]: 100,
+  // parameters single color printing image processing
+  [DataType.printingStrength]: 100,
 };
 
 /**

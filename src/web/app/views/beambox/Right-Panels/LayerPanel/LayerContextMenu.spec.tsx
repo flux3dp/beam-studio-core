@@ -130,6 +130,7 @@ const mockSetSelectedLayers = jest.fn();
 const mockSelectOnlyLayer = jest.fn();
 const mockForceUpdate = jest.fn();
 const mockRenameLayer = jest.fn();
+const mockForceUpdateSelectedLayers = jest.fn();
 describe('test LayerContextMenu', () => {
   beforeEach(() => {
     jest.resetAllMocks();
@@ -145,6 +146,7 @@ describe('test LayerContextMenu', () => {
           selectedLayers: ['layer1', 'layer2'],
           setSelectedLayers: mockSetSelectedLayers,
           forceUpdate: mockForceUpdate,
+          forceUpdateSelectedLayers: mockForceUpdateSelectedLayers,
           hasVector: false,
         }}
       >
@@ -167,6 +169,7 @@ describe('test LayerContextMenu', () => {
           selectedLayers: ['layer1'],
           setSelectedLayers: mockSetSelectedLayers,
           forceUpdate: mockForceUpdate,
+          forceUpdateSelectedLayers: mockForceUpdateSelectedLayers,
           hasVector: false,
         }}
       >
@@ -189,6 +192,7 @@ describe('test LayerContextMenu', () => {
           selectedLayers: ['layer2'],
           setSelectedLayers: mockSetSelectedLayers,
           forceUpdate: mockForceUpdate,
+          forceUpdateSelectedLayers: mockForceUpdateSelectedLayers,
           hasVector: false,
         }}
       >
@@ -209,6 +213,7 @@ describe('test LayerContextMenu', () => {
           selectedLayers: ['layer2'],
           setSelectedLayers: mockSetSelectedLayers,
           forceUpdate: mockForceUpdate,
+          forceUpdateSelectedLayers: mockForceUpdateSelectedLayers,
           hasVector: false,
         }}
       >
@@ -234,6 +239,7 @@ describe('test LayerContextMenu', () => {
           selectedLayers: ['layer1', 'layer2'],
           setSelectedLayers: mockSetSelectedLayers,
           forceUpdate: mockForceUpdate,
+          forceUpdateSelectedLayers: mockForceUpdateSelectedLayers,
           hasVector: false,
         }}
       >
@@ -259,6 +265,7 @@ describe('test LayerContextMenu', () => {
           selectedLayers: ['layer1', 'layer2'],
           setSelectedLayers: mockSetSelectedLayers,
           forceUpdate: mockForceUpdate,
+          forceUpdateSelectedLayers: mockForceUpdateSelectedLayers,
           hasVector: false,
         }}
       >
@@ -290,6 +297,7 @@ describe('test LayerContextMenu', () => {
           selectedLayers: ['layer1'],
           setSelectedLayers: mockSetSelectedLayers,
           forceUpdate: mockForceUpdate,
+          forceUpdateSelectedLayers: mockForceUpdateSelectedLayers,
           hasVector: false,
         }}
       >
@@ -318,6 +326,7 @@ describe('test LayerContextMenu', () => {
           selectedLayers: ['layer1', 'layer2'],
           setSelectedLayers: mockSetSelectedLayers,
           forceUpdate: mockForceUpdate,
+          forceUpdateSelectedLayers: mockForceUpdateSelectedLayers,
           hasVector: false,
         }}
       >
@@ -344,6 +353,7 @@ describe('test LayerContextMenu', () => {
           selectedLayers: ['layer1'],
           setSelectedLayers: mockSetSelectedLayers,
           forceUpdate: mockForceUpdate,
+          forceUpdateSelectedLayers: mockForceUpdateSelectedLayers,
           hasVector: false,
         }}
       >
@@ -378,6 +388,7 @@ describe('test LayerContextMenu', () => {
           selectedLayers: ['layer2'],
           setSelectedLayers: mockSetSelectedLayers,
           forceUpdate: mockForceUpdate,
+          forceUpdateSelectedLayers: mockForceUpdateSelectedLayers,
           hasVector: false,
         }}
       >
@@ -412,6 +423,7 @@ describe('test LayerContextMenu', () => {
           selectedLayers: ['layer1', 'layer2'],
           setSelectedLayers: mockSetSelectedLayers,
           forceUpdate: mockForceUpdate,
+          forceUpdateSelectedLayers: mockForceUpdateSelectedLayers,
           hasVector: false,
         }}
       >
@@ -453,6 +465,7 @@ describe('test LayerContextMenu', () => {
           selectedLayers: ['layer1'],
           setSelectedLayers: mockSetSelectedLayers,
           forceUpdate: mockForceUpdate,
+          forceUpdateSelectedLayers: mockForceUpdateSelectedLayers,
           hasVector: false,
         }}
       >
@@ -481,6 +494,7 @@ describe('test LayerContextMenu', () => {
           selectedLayers: ['layer1'],
           setSelectedLayers: mockSetSelectedLayers,
           forceUpdate: mockForceUpdate,
+          forceUpdateSelectedLayers: mockForceUpdateSelectedLayers,
           hasVector: false,
         }}
       >
@@ -517,6 +531,7 @@ describe('test LayerContextMenu', () => {
           selectedLayers: ['layer1'],
           setSelectedLayers: mockSetSelectedLayers,
           forceUpdate: mockForceUpdate,
+          forceUpdateSelectedLayers: mockForceUpdateSelectedLayers,
           hasVector: false,
         }}
       >

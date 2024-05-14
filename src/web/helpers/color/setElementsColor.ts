@@ -29,7 +29,10 @@ const setElementsColor = (elements: Element[], color: string, isFullColor = fals
           if (((svgByLayer && svgByColor === 0) || attrStroke) && attrStroke !== 'none') {
             elem.setAttribute('stroke', color);
           }
-          if (attrFill !== 'none') elem.setAttribute('fill', color);
+          if (attrFill !== 'none') {
+            elem.setAttribute('fill', color);
+            elem.setAttribute('fill-opacity', '1');
+          }
         } else {
           elem.removeAttribute('vector-effect');
         }

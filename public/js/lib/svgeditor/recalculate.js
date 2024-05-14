@@ -206,10 +206,19 @@ svgedit.recalculate.recalculateDimensions = function(selected) {
       var list = selected.points;
       var len = list.numberOfItems;
       changes.points = new Array(len);
-	  var i;
-      for (i = 0; i < len; ++i) {
+      for (let i = 0; i < len; ++i) {
         var pt = list.getItem(i);
         changes.points[i] = {x:pt.x, y:pt.y};
+      }
+      const cx = selected.getAttribute('cx');
+      const cy = selected.getAttribute('cy');
+      if (cx) {
+        initial.cx = cx;
+        changes.cx = svgedit.units.convertToNum('cx', cx);
+      }
+      if (cy) {
+        initial.cy = cy;
+        changes.cy = svgedit.units.convertToNum('cy', cy);
       }
       break;
     case 'path':
@@ -262,8 +271,7 @@ svgedit.recalculate.recalculateDimensions = function(selected) {
         // FIXME: This blows up if the angle is exactly 0!
         var s = 2/a;
       }
-	  var i;
-      for (i = 0; i < tlist.numberOfItems; ++i) {
+      for (let i = 0; i < tlist.numberOfItems; ++i) {
         var xform = tlist.getItem(i);
         if (xform.type == 4) {
           // extract old center through mystical arts
@@ -682,7 +690,7 @@ svgedit.recalculate.recalculateDimensions = function(selected) {
         box.y + box.height / 2,
         svgedit.math.transformListToTransform(tlist).matrix
       );
-      for (var i = 0; i < tlist.numberOfItems; ++i) {
+      for (let i = 0; i < tlist.numberOfItems; ++i) {
         xform = tlist.getItem(i);
         if (xform.type == 4) {
           var rm = xform.matrix;
@@ -789,7 +797,7 @@ svgedit.recalculate.recalculateDimensions = function(selected) {
             const list = selected.points;
             const len = list.numberOfItems;
             changes.points = new Array(len);
-            for (var i = 0; i < len; ++i) {
+            for (let i = 0; i < len; ++i) {
               var pt = list.getItem(i);
               changes.points[i] = {x:pt.x, y:pt.y};
             }

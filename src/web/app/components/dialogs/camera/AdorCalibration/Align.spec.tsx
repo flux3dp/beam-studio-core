@@ -1,3 +1,4 @@
+/* eslint-disable import/first */
 import React from 'react';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 
@@ -5,6 +6,9 @@ import { FisheyeCameraParametersV1 } from 'interfaces/FisheyePreview';
 
 import LayerModule from 'app/constants/layer-module/layer-modules';
 import moduleOffsets from 'app/constants/layer-module/module-offsets';
+
+const mockFisheyePreviewManagerV2 = jest.fn();
+jest.mock('app/actions/beambox/fisheye-preview-helpers/FisheyePreviewManagerV2', () => mockFisheyePreviewManagerV2);
 
 import Align from './Align';
 import CalibrationType from './calibrationTypes';
@@ -85,6 +89,8 @@ const mockFishEyeParam: FisheyeCameraParametersV1 = {
   z3regParam: [[[[0, 0]]]],
 };
 
+const mockSetupFisheyePreview = jest.fn();
+
 describe('test Align', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -92,6 +98,9 @@ describe('test Align', () => {
     global.URL.revokeObjectURL = mockRevokeObjectURL;
     mockConnectCamera.mockResolvedValue(undefined);
     mockSetFisheyeMatrix.mockResolvedValue(undefined);
+    mockFisheyePreviewManagerV2.mockImplementation(() => ({
+      setupFisheyePreview: mockSetupFisheyePreview,
+    }));
   });
 
   it('should render correctly', async () => {

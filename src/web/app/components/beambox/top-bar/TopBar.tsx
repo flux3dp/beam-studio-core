@@ -49,6 +49,7 @@ interface State {
 }
 
 export default class TopBar extends React.PureComponent<Record<string, never>, State> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private discover: any;
 
   private defaultDeviceSerial: string | undefined;
@@ -105,11 +106,11 @@ export default class TopBar extends React.PureComponent<Record<string, never>, S
     if (this.isSettingUpPreviewMode) return;
     this.isSettingUpPreviewMode = true;
     const { device, isWorkareaMatched } = await getDevice(showModal);
-    if (!await PreviewModeController.checkDevice(device)) {
+    if (!(await PreviewModeController.checkDevice(device))) {
       this.isSettingUpPreviewMode = false;
       return;
     }
-    if (!isWorkareaMatched && !await showResizeAlert(device)) {
+    if (!isWorkareaMatched && !(await showResizeAlert(device))) {
       this.isSettingUpPreviewMode = false;
       return;
     }
@@ -119,7 +120,7 @@ export default class TopBar extends React.PureComponent<Record<string, never>, S
       setTopBarPreviewMode,
       startPreviewCallback,
       setStartPreviewCallback,
-      updateTopBar,
+      updateCanvasContext,
     } = this.context;
     const workarea = document.getElementById('workarea');
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -154,7 +155,7 @@ export default class TopBar extends React.PureComponent<Record<string, never>, S
       $(workarea).css('cursor', 'url(img/camera-cursor.svg), cell');
       if (constant.adorModels.includes(device.model)) {
         PreviewModeController.previewFullWorkarea(() => {
-          updateTopBar();
+          updateCanvasContext();
           if (tutorialController.getNextStepRequirement() === tutorialConstants.PREVIEW_PLATFORM) {
             tutorialController.handleNextStep();
           }

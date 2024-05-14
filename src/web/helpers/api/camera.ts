@@ -75,6 +75,7 @@ class Camera {
     matrix?: FisheyeMatrix;
     shouldCrop?: boolean;
     param?: FisheyeCameraParameters;
+    levelingData?: Record<string, number>;
     objectHeight?: number;
   } = null;
 
@@ -204,7 +205,7 @@ class Camera {
     const [cx, cy] = center || [];
     const matrixString = JSON.stringify(matrix, (key, val) => {
       if (typeof val === 'number') {
-        return Math.round(val * 1e3) / 1e3;
+        return Math.round(val * 1e6) / 1e6;
       }
       return val;
     });
@@ -225,10 +226,10 @@ class Camera {
   };
 
   setFisheyeParam = async (param: FisheyeCameraParameters): Promise<boolean> => {
-    this.fishEyeSetting = { param };
+    this.fishEyeSetting = { ...this.fishEyeSetting, param };
     const data = JSON.stringify(param, (key, val) => {
       if (typeof val === 'number') {
-        return Math.round(val * 1e3) / 1e3;
+        return Math.round(val * 1e6) / 1e6;
       }
       return val;
     });
@@ -240,6 +241,19 @@ class Camera {
   setFisheyeObjectHeight = async (h: number): Promise<boolean> => {
     this.fishEyeSetting = { ...this.fishEyeSetting, objectHeight: h };
     this.ws.send(`set_fisheye_height ${h.toFixed(3)}`);
+    const res = await lastValueFrom(this.nonBinarySource.pipe(take(1)).pipe(timeout(TIMEOUT)));
+    return res.status === 'ok';
+  };
+
+  setFisheyeLevelingData = async(data: Record<string, number>): Promise<boolean> => {
+    this.fishEyeSetting = { ...this.fishEyeSetting, levelingData: data };
+    const strData = JSON.stringify(data, (key, val) => {
+      if (typeof val === 'number') {
+        return Math.round(val * 1e3) / 1e3;
+      }
+      return val;
+    });
+    this.ws.send(`set_leveling_data ${strData}`);
     const res = await lastValueFrom(this.nonBinarySource.pipe(take(1)).pipe(timeout(TIMEOUT)));
     return res.status === 'ok';
   };

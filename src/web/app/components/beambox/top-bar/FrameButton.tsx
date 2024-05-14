@@ -2,11 +2,13 @@ import classNames from 'classnames';
 import React, { useCallback, useContext } from 'react';
 import { sprintf } from 'sprintf-js';
 
+import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import checkDeviceStatus from 'helpers/check-device-status';
 import constant from 'app/actions/beambox/constant';
 import deviceMaster from 'helpers/device-master';
 import getDevice from 'helpers/device/get-device';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
+import LayerModule from 'app/constants/layer-module/layer-modules';
 import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
 import progressCaller from 'app/actions/progress-caller';
 import TopBarIcons from 'app/icons/top-bar/TopBarIcons';
@@ -26,6 +28,7 @@ getSVGAsync((globalSVG) => {
 const PROGRESS_ID = 'frame-task';
 const FrameButton = (): JSX.Element => {
   const lang = useI18n();
+  const tAlerts = lang.topbar.alerts;
   const { isPreviewing } = useContext(CanvasContext);
 
   const getCoords = useCallback(() => {
@@ -71,7 +74,7 @@ const FrameButton = (): JSX.Element => {
       MessageCaller.openMessage({
         key: 'no-element-to-frame',
         level: MessageLevel.INFO,
-        content: lang.topbar.alerts.add_content_first,
+        content: tAlerts.add_content_first,
         duration: 3,
       });
       return;
@@ -88,7 +91,41 @@ const FrameButton = (): JSX.Element => {
       timeout: 30000,
     });
     let isLineCheckEnabled = false;
+    let lowLaserPower = 0;
     const isAdor = constant.adorModels.includes(device.model);
+    if (isAdor) {
+      let warningMessage = '';
+      const deviceDetailInfo = await deviceMaster.getDeviceDetailInfo();
+      const headType = parseInt(deviceDetailInfo.head_type, 10);
+      if ([LayerModule.LASER_10W_DIODE, LayerModule.LASER_20W_DIODE].includes(headType)) {
+        lowLaserPower = beamboxPreference.read('low_power') * 10;
+      } else if (headType === 0) {
+        warningMessage = tAlerts.headtype_none + tAlerts.install_correct_headtype;
+      } else if ([LayerModule.LASER_1064, LayerModule.PRINTER].includes(headType)) {
+        warningMessage = tAlerts.headtype_mismatch + tAlerts.install_correct_headtype;
+      } else {
+        warningMessage = tAlerts.headtype_unknown + tAlerts.install_correct_headtype;
+      }
+      if (lowLaserPower) {
+        try {
+          const res = await deviceMaster.getDoorOpen();
+          const isDoorOpened = res.value === '1';
+          if (isDoorOpened) {
+            warningMessage = tAlerts.door_opened;
+          }
+        } catch (error) {
+          console.error(error);
+          warningMessage = tAlerts.fail_to_get_door_status;
+        }
+      }
+      if (warningMessage) {
+        MessageCaller.openMessage({
+          key: 'low-laser-warning',
+          level: MessageLevel.INFO,
+          content: warningMessage,
+        });
+      }
+    }
     try {
       progressCaller.update(PROGRESS_ID, { message: lang.message.enteringRawMode });
       await deviceMaster.enterRawMode();
@@ -119,6 +156,10 @@ const FrameButton = (): JSX.Element => {
       coords.maxX /= dpmm;
       coords.maxY /= dpmm;
       await deviceMaster.rawMove({ x: coords.minX, y: coords.minY, f: movementFeedrate });
+      if (lowLaserPower > 0) {
+        await deviceMaster.rawSetLaser({ on: true, s: lowLaserPower });
+        await deviceMaster.rawSet24V(true);
+      }
       await deviceMaster.rawMove({ x: coords.maxX, y: coords.minY, f: movementFeedrate });
       await deviceMaster.rawMove({ x: coords.maxX, y: coords.maxY, f: movementFeedrate });
       await deviceMaster.rawMove({ x: coords.minX, y: coords.maxY, f: movementFeedrate });
@@ -128,6 +169,8 @@ const FrameButton = (): JSX.Element => {
     } finally {
       if (deviceMaster.currentControlMode === 'raw') {
         if (isLineCheckEnabled) await deviceMaster.rawEndLineCheckMode();
+        await deviceMaster.rawSetLaser({ on: false, s: 0 });
+        await deviceMaster.rawSet24V(false);
         await deviceMaster.rawLooseMotor();
         await deviceMaster.endRawMode();
       }

@@ -1,3 +1,4 @@
+import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import constant from 'app/actions/beambox/constant';
 import i18n from 'helpers/i18n';
 import LayerModule from 'app/constants/layer-module/layer-modules';
@@ -19,7 +20,8 @@ const togglePresprayArea = (): void => {
   const shouldShow =
     document.querySelectorAll(`g.layer[data-module="${LayerModule.PRINTER}"]:not([display="none"]`)
       .length > 0;
-  if (shouldShow) presprayAreaBlock.removeAttribute('display');
+  const rotaryMode = beamboxPreference.read('rotary_mode');
+  if (shouldShow && !rotaryMode) presprayAreaBlock.removeAttribute('display');
   else presprayAreaBlock.setAttribute('display', 'none');
 };
 

@@ -17,11 +17,13 @@ import alertCaller from 'app/actions/alert-caller';
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import defaultModuleOffset from 'app/constants/layer-module/module-offsets';
 import deviceMaster from 'helpers/device-master';
+import FisheyePreviewManagerV2 from 'app/actions/beambox/fisheye-preview-helpers/FisheyePreviewManagerV2';
 import LayerModule from 'app/constants/layer-module/layer-modules';
 import progressCaller from 'app/actions/progress-caller';
 import useI18n from 'helpers/useI18n';
-import { FisheyeCameraParametersV1 } from 'interfaces/FisheyePreview';
+import { FisheyeCameraParameters } from 'interfaces/FisheyePreview';
 import { setFisheyeConfig } from 'helpers/camera-calibration-helper';
+import { WorkAreaModel, getWorkarea } from 'app/constants/workarea-constants';
 
 import CalibrationType from './calibrationTypes';
 import getPerspectiveForAlign from './getPerspectiveForAlign';
@@ -29,7 +31,7 @@ import styles from './Align.module.scss';
 
 interface Props {
   title: string;
-  fisheyeParam: FisheyeCameraParametersV1;
+  fisheyeParam: FisheyeCameraParameters;
   type: CalibrationType;
   onClose: (complete: boolean) => void;
   onBack: () => void;
@@ -75,13 +77,18 @@ const Align = ({ title, fisheyeParam, type, onClose, onBack }: Props): JSX.Eleme
     });
     try {
       await deviceMaster.connectCamera();
-      const perspectivePoints = await getPerspectiveForAlign(
-        deviceMaster.currentDevice.info,
-        fisheyeParam,
-        fisheyeParam.center || [INIT_GUESS_X, INIT_GUESS_Y]
-      );
-      const { k, d } = fisheyeParam;
-      await deviceMaster.setFisheyeMatrix({ k, d, points: perspectivePoints });
+      if ('v' in fisheyeParam) {
+        const manager = new FisheyePreviewManagerV2(deviceMaster.currentDevice.info, fisheyeParam);
+        await manager.setupFisheyePreview({ focusPosition: 'E', defaultHeight: 0 });
+      } else {
+        const perspectivePoints = await getPerspectiveForAlign(
+          deviceMaster.currentDevice.info,
+          fisheyeParam,
+          fisheyeParam.center || [INIT_GUESS_X, INIT_GUESS_Y]
+        );
+        const { k, d } = fisheyeParam;
+        await deviceMaster.setFisheyeMatrix({ k, d, points: perspectivePoints });
+      }
     } finally {
       progressCaller.popById(PROGRESS_ID);
     }
@@ -103,7 +110,13 @@ const Align = ({ title, fisheyeParam, type, onClose, onBack }: Props): JSX.Eleme
     [img]
   );
 
-  const fisheyeCenter = useMemo(() => fisheyeParam.center, [fisheyeParam.center]);
+  const fisheyeCenter = useMemo(() => {
+    if ('v' in fisheyeParam) {
+      const { cameraCenter } = getWorkarea(deviceMaster.currentDevice.info.model as WorkAreaModel, 'ado1');
+      return [cameraCenter[0] * PX_PER_MM, cameraCenter[1] * PX_PER_MM];
+    }
+    return fisheyeParam.center;
+  }, [fisheyeParam]);
   const lastResult = useMemo(() => {
     if (type === CalibrationType.CAMERA) return fisheyeCenter;
     const moduleOffsets = beamboxPreference.read('module-offsets');
@@ -211,7 +224,7 @@ const Align = ({ title, fisheyeParam, type, onClose, onBack }: Props): JSX.Eleme
     if (type === CalibrationType.CAMERA) {
       const cx = Math.round(x + imgContainerRef.current.clientWidth / 2);
       const cy = Math.round(y + imgContainerRef.current.clientHeight / 2);
-      const newParam = { ...fisheyeParam, center: [cx, cy] } as FisheyeCameraParametersV1;
+      const newParam = { ...fisheyeParam, center: [cx, cy] } as FisheyeCameraParameters;
       try {
         setFisheyeConfig(newParam);
       } catch (err) {

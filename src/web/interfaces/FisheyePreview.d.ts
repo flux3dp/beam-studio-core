@@ -17,34 +17,33 @@ export interface FisheyeCameraParametersV1 {
 }
 
 export interface FisheyeCameraParametersV2Cali {
+  source?: 'device' | 'user'; // k, d calibration source by device pictures or user input
   refHeight?: number;
+  ret?: number;
   k?: number[][];
   d?: number[][];
   rvec?: number[];
   tvec?: number[];
-  points?: [number, number][][];
-  // 3rd order regression parameters for camera position with respect to y position
-  hx?: number[];
-  hy?: number[];
-  xc?: number[];
-  yc?: number[];
-  imageScale?: number[];
-  dh?: number;
+  rvec_polyfit?: number[][];
+  tvec_polyfit?: number[][];
+  dh1?: number;
+  dh2?: number;
+  levelingData?: Record<string, number>;
+  rvecs?: number[][];
+  tvecs?: number[][];
+  heights?: number[];
 }
 
 export interface FisheyeCameraParametersV2 {
+  source?: 'device' | 'user'; // k, d calibration source by device pictures or user input
   refHeight: number;
   k: number[][];
   d: number[][];
   rvec: number[];
   tvec: number[];
-  points: [number, number][][];
-  // 3rd order regression parameters for camera position with respect to y position
-  hx: number[];
-  hy: number[];
-  xc: number[];
-  yc: number[];
-  imageScale: number[];
+  rvec_polyfit: number[][];
+  tvec_polyfit: number[][];
+  levelingData: Record<string, number>;
   v: 2;
 }
 
@@ -99,7 +98,7 @@ interface FisheyePreviewManagerBase {
   objectHeight: number;
   levelingOffset: Record<string, number>;
 
-  setupFisheyePreview(progressId?: string): Promise<boolean>;
+  setupFisheyePreview(args?: { progressId?: string; }): Promise<boolean>;
 
   onObjectHeightChanged(): Promise<void>;
 
@@ -118,7 +117,7 @@ export interface FisheyePreviewManager {
   levelingData: Record<string, number>;
   levelingOffset: Record<string, number>;
 
-  setupFisheyePreview(progressId?: string): Promise<boolean>;
+  setupFisheyePreview(args?: { progressId?: string; }): Promise<boolean>;
 
   update3DRotation?(newData: RotationParameters3DCalibration): Promise<void>;
 

@@ -196,7 +196,7 @@ class LayerPanel extends React.PureComponent<Props, State> {
   };
 
   setLayerColor = (layerName: string, newColor: string): void => {
-    const { selectedLayers } = this.context;
+    const { selectedLayers, forceUpdateSelectedLayers } = this.context;
     let cmd: IBatchCommand;
     if (selectedLayers.includes(layerName)) {
       cmd = changeLayersColor(selectedLayers, newColor);
@@ -204,7 +204,7 @@ class LayerPanel extends React.PureComponent<Props, State> {
       cmd = changeLayersColor([layerName], newColor);
     }
     if (cmd && !cmd.isEmpty()) svgCanvas.addCommandToHistory(cmd);
-    this.forceUpdate();
+    forceUpdateSelectedLayers();
   };
 
   setLayerVisibility = (layerName: string): void => {

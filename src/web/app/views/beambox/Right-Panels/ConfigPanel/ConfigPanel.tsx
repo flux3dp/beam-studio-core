@@ -8,7 +8,7 @@ import React, {
   useReducer,
   useState,
 } from 'react';
-import { ConfigProvider, Modal, Select } from 'antd';
+import { ConfigProvider, Modal } from 'antd';
 import { sprintf } from 'sprintf-js';
 
 import alertCaller from 'app/actions/alert-caller';
@@ -29,6 +29,7 @@ import LayerPanelIcons from 'app/icons/layer-panel/LayerPanelIcons';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import presprayArea from 'app/actions/canvas/prespray-area';
+import Select from 'app/widgets/AntdSelect';
 import storage from 'implementations/storage';
 import tutorialConstants from 'app/constants/tutorial-constants';
 import tutorialController from 'app/views/tutorials/tutorialController';
@@ -57,6 +58,7 @@ import AddOnBlock from './AddOnBlock';
 import Backlash from './Backlash';
 import ConfigOperations from './ConfigOperations';
 import ConfigPanelContext, { getDefaultState, reducer } from './ConfigPanelContext';
+import HalftoneBlock from './HalftoneBlock';
 import InkBlock from './InkBlock';
 import ModuleBlock from './ModuleBlock';
 import MultipassBlock from './MultipassBlock';
@@ -283,6 +285,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
   const commonContent = (
     <>
       {isDevMode && module.value === LayerModule.PRINTER && UIType === 'default' && <UVBlock />}
+      {module.value === LayerModule.PRINTER && <HalftoneBlock type={UIType} />}
       {module.value !== LayerModule.PRINTER && <PowerBlock type={UIType} />}
       {module.value === LayerModule.PRINTER && <InkBlock type={UIType} />}
       <SpeedBlock type={UIType} />
@@ -321,6 +324,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
                   ...hiddenOptions.filter((option) => option.value === dropdownValue),
                 ]}
                 popupMatchSelectWidth={false}
+                placement="bottomRight"
               />
               {module.value !== LayerModule.PRINTER && <SaveConfigButton />}
             </div>
@@ -382,6 +386,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
           writeData(layerName, DataType.configName, state.configName.value, { batchCmd });
           writeData(layerName, DataType.ink, state.ink.value, { batchCmd });
           writeData(layerName, DataType.multipass, state.multipass.value, { batchCmd });
+          writeData(layerName, DataType.halftone, state.halftone.value, { batchCmd });
         });
         batchCmd.onAfter = initState;
         svgCanvas.addCommandToHistory(batchCmd);
