@@ -114,9 +114,7 @@ interface ISVGEditor {
   clickSelect: (clearSelection?: boolean) => void
   curConfig: ISVGConfig
   curPrefs: ISVGPref
-  disableUI: (featList: any) => void
   init: () => void
-  loadFromDataURI: (str: any) => void
   putLocale(lang: string | number | string[], good_langs: any[])
   randomizeIds: () => void
   readSVG: (blob: any, type: any, layerName: any) => Promise<unknown>
@@ -193,9 +191,7 @@ const svgEditor = window['svgEditor'] = (function () {
     clickSelect: () => { },
     curConfig: null,
     curPrefs: null,
-    disableUI: (featList: any) => { },
     init: () => { },
-    loadFromDataURI: (str: any) => { },
     putLocale: (lang: string | number | string[], good_langs: any[]) => { },
     randomizeIds: () => { },
     readSVG: async (blob: any, type: any, layerName: any) => { },
@@ -728,10 +724,6 @@ const svgEditor = window['svgEditor'] = (function () {
         '#linejoin_bevel': 'linejoin_bevel',
 
         '#url_notice': 'warning',
-
-        '#tool_source_save,#tool_prefs_save': 'ok',
-        '#tool_source_cancel,#tool_prefs_cancel': 'cancel',
-
         '#group_opacityLabel': 'opacity',
 
         '.dropdown button, #main_button .dropdown': 'arrow_down',
@@ -958,20 +950,6 @@ const svgEditor = window['svgEditor'] = (function () {
     var cur_context = '';
     var origTitle = $('title:first').text();
 
-    var showSourceEditor = function (e, forSaving) {
-      if (editingsource) {
-        return;
-      }
-
-      editingsource = true;
-      origSource = svgCanvas.getSvgString();
-      $('#save_output_btns').toggle(!!forSaving);
-      $('#tool_source_back').toggle(!forSaving);
-      $('#svg_source_textarea').val(origSource);
-      $('#svg_source_editor').fadeIn();
-      $('#svg_source_textarea').focus();
-    };
-
     var togglePathEditMode = function (editmode, elems) {
       $('#path_node_panel').toggle(editmode);
       $('#tools_bottom_2,#tools_bottom_3').toggle(!editmode);
@@ -997,13 +975,6 @@ const svgEditor = window['svgEditor'] = (function () {
       // by default, we add the XML prolog back, systems integrating SVG-edit (wikis, CMSs)
       // can just provide their own custom save handler and might not want the XML prolog
       svg = '<?xml version="1.0"?>\n' + svg;
-
-      // IE9 doesn't allow standalone Data URLs
-      // https://connect.microsoft.com/IE/feedback/details/542600/data-uri-images-fail-when-loaded-by-themselves
-      if (svgedit.browser.isIE()) {
-        showSourceEditor(0, true);
-        return;
-      }
 
       // Opens the SVG in new window
       var win = wind.open('data:image/svg+xml;base64,' + Utils.encode64(svg));
@@ -3482,71 +3453,6 @@ const svgEditor = window['svgEditor'] = (function () {
       containment: 'window'
     });
 
-    var hideSourceEditor = function () {
-      $('#svg_source_editor').hide();
-      editingsource = false;
-      $('#svg_source_textarea').blur();
-    };
-
-    var saveSourceEditor = function () {
-      if (!editingsource) {
-        return;
-      }
-
-      var saveChanges = function () {
-        svgCanvas.clearSelection();
-        hideSourceEditor();
-        unzoom();
-        LayerPanelController.updateLayerPanel();
-        updateTitle();
-        prepPaints();
-      };
-
-      if (!svgCanvas.setSvgString($('#svg_source_textarea').val())) {
-        $.confirm(uiStrings.notification.QerrorsRevertToSource, function (ok) {
-          if (!ok) {
-            return false;
-          }
-          saveChanges();
-        });
-      } else {
-        saveChanges();
-      }
-      setSelectMode();
-    };
-
-    var hidePreferences = function () {
-      $('#svg_prefs').hide();
-      preferences = false;
-    };
-
-    var resetScrollPos = $.noop;
-
-    var cancelOverlays = function () {
-      $('#dialog_box').hide();
-      if (!editingsource && !preferences) {
-        if (cur_context) {
-          svgCanvas.leaveContext();
-        }
-        return;
-      }
-
-      if (editingsource) {
-        if (origSource !== $('#svg_source_textarea').val()) {
-          $.confirm(uiStrings.notification.QignoreSourceChanges, function (ok) {
-            if (ok) {
-              hideSourceEditor();
-            }
-          });
-        } else {
-          hideSourceEditor();
-        }
-      } else if (preferences) {
-        hidePreferences();
-      }
-      resetScrollPos();
-    };
-
     var win_wh = {
       width: $(window).width(),
       height: $(window).height()
@@ -3964,26 +3870,6 @@ const svgEditor = window['svgEditor'] = (function () {
         sel: '#tool_import',
         fn: clickImport,
         evt: 'mouseup'
-      },
-      {
-        sel: '#tool_source',
-        fn: showSourceEditor,
-        evt: 'click'
-      },
-      {
-        sel: '#tool_source_cancel,.overlay,#tool_prefs_cancel',
-        fn: cancelOverlays,
-        evt: 'click'
-      },
-      {
-        sel: '#tool_source_save',
-        fn: saveSourceEditor,
-        evt: 'click'
-      },
-      {
-        sel: '#copy_save_done',
-        fn: cancelOverlays,
-        evt: 'click'
       },
 
         // Shortcuts not associated with buttons
@@ -4815,30 +4701,6 @@ const svgEditor = window['svgEditor'] = (function () {
           resolve(true);
         });
       });
-    });
-  };
-
-  editor.disableUI = function (featList) {
-    //			$(function() {
-    //				$('#tool_wireframe, #tool_image, #main_button, #tool_source, #sidepanels').remove();
-    //				$('#tools_top').css('left', 5);
-    //			});
-  };
-
-  editor.loadFromDataURI = function (str) {
-    editor.ready(function () {
-      var base64 = false;
-      var pre = str.match(/^data:image\/svg\+xml;base64,/);
-      if (pre) {
-        base64 = true;
-      } else {
-        pre = str.match(/^data:image\/svg\+xml(?:;(?:utf8)?)?,/);
-      }
-      if (pre) {
-        pre = pre[0];
-      }
-      var src = str.slice(pre.length);
-      loadSvgString(base64 ? Utils.decode64(src) : decodeURIComponent(src));
     });
   };
 

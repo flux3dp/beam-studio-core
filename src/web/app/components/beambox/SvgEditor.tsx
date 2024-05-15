@@ -225,31 +225,6 @@ export default class SvgEditor extends React.Component {
       <>
         <div>
           {this.renderSvgEditor()}
-          <div id="svg_source_editor">
-            <div className="overlay" />
-            <div id="svg_source_container">
-              <div id="tool_source_back" className="toolbar_button">
-                <button id="tool_source_save" type="button">
-                  Apply Changes
-                </button>
-                <button id="tool_source_cancel" type="button">
-                  Cancel
-                </button>
-              </div>
-              <div id="save_output_btns">
-                <p id="copy_save_note">
-                  Copy the contents of this box into a text editor, then save the file with a .svg
-                  extension.
-                </p>
-                <button id="copy_save_done" type="button">
-                  Done
-                </button>
-              </div>
-              <form>
-                <textarea id="svg_source_textarea" spellCheck="false" defaultValue="" />
-              </form>
-            </div>
-          </div>
           <div id="svg_docprops">
             <div className="overlay" />
             <div id="svg_docprops_container">

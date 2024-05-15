@@ -104,38 +104,7 @@ svgEditor.addExtension('polygon', function (S) {
         }],
 
         callback: function () {
-
             $('#polygon_panel').hide();
-
-            var endChanges = function () {};
-
-            // TODO: Needs to be done after orig icon loads
-            setTimeout(function () {
-                // Create source save/cancel buttons
-                var save = $('#tool_source_save').clone().hide().attr('id', 'polygon_save').unbind().appendTo('#tool_source_back').click(function () {
-
-                    if (!editingitex) {
-                        return;
-                    }
-                    // Todo: Uncomment the setItexString() function above and handle ajaxEndpoint?
-                    if (!setItexString($('#svg_source_textarea').val())) {
-                        $.confirm('Errors found. Revert to original?', function (ok) {
-                            if (!ok) {
-                                return false;
-                            }
-                            endChanges();
-                        });
-                    } else {
-                        endChanges();
-                    }
-                    // setSelectMode();
-                });
-
-                var cancel = $('#tool_source_cancel').clone().hide().attr('id', 'polygon_cancel').unbind().appendTo('#tool_source_back').click(function () {
-                    endChanges();
-                });
-
-            }, 3000);
         },
         mouseDown: function (opts) {
             // var e = opts.event;
