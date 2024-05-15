@@ -117,7 +117,6 @@ interface ISVGEditor {
   disableUI: (featList: any) => void
   init: () => void
   loadFromDataURI: (str: any) => void
-  loadFromURL: (url: any, opts?: any) => void
   putLocale(lang: string | number | string[], good_langs: any[])
   randomizeIds: () => void
   readSVG: (blob: any, type: any, layerName: any) => Promise<unknown>
@@ -197,7 +196,6 @@ const svgEditor = window['svgEditor'] = (function () {
     disableUI: (featList: any) => { },
     init: () => { },
     loadFromDataURI: (str: any) => { },
-    loadFromURL: (url: any, opts: any) => { },
     putLocale: (lang: string | number | string[], good_langs: any[]) => { },
     randomizeIds: () => { },
     readSVG: async (blob: any, type: any, layerName: any) => { },
@@ -4825,47 +4823,6 @@ const svgEditor = window['svgEditor'] = (function () {
     //				$('#tool_wireframe, #tool_image, #main_button, #tool_source, #sidepanels').remove();
     //				$('#tools_top').css('left', 5);
     //			});
-  };
-
-  editor.loadFromURL = function (url: string, opts?: any) {
-    if (!opts) {
-      opts = {};
-    }
-
-    var cache = opts.cache;
-    var cb = opts.callback;
-
-    editor.ready(function () {
-      $.ajax({
-        'url': url,
-        'dataType': 'text',
-        cache: !!cache,
-        beforeSend: function () {
-          Alert.popUp({
-            id: 'loading_image',
-            message: LANG.popup.loading_image,
-          });
-        },
-        success: function (str) {
-          loadSvgString(str, cb);
-        },
-        error: function (xhr, stat, err) {
-          if (xhr.status != 404 && xhr.responseText) {
-            loadSvgString(xhr.responseText, cb);
-          } else {
-            Alert.popUp({
-              id: 'url_load_error',
-              message: uiStrings.notification.URLloadFail + ': \n' + err,
-              type: AlertConstants.SHOW_POPUP_ERROR,
-              callbacks: cb
-            });
-          }
-        },
-        complete: function () {
-          Progress.popById('loading_image');
-        }
-      });
-    });
   };
 
   editor.loadFromDataURI = function (str) {
