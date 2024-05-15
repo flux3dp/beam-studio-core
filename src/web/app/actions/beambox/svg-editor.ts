@@ -136,7 +136,6 @@ interface ISVGEditor {
   triggerOffsetTool: () => void
   loadFromStringAsync(arg0: any)
   handleFile: (file: any) => Promise<void>
-  loadFromString(arg0: any)
   importLaserConfig: (file: any) => Promise<void>
   openPrep(arg0: (ok: any) => void)
   resetView: () => void
@@ -149,7 +148,6 @@ interface ISVGEditor {
   isClipboardDataReady: any
   triggerNestTool: () => void
   deleteSelected: () => void
-  loadContentAndPrefs: () => void
   tool_scale: number
   exportWindowCt: number
   langChanged: boolean
@@ -218,7 +216,6 @@ const svgEditor = window['svgEditor'] = (function () {
     triggerOffsetTool: () => { },
     loadFromStringAsync: () => { },
     handleFile: async (file) => { },
-    loadFromString: (arg0) => { },
     importLaserConfig: async (file) => { },
     openPrep: () => { },
     resetView: () => { },
@@ -231,7 +228,6 @@ const svgEditor = window['svgEditor'] = (function () {
     isClipboardDataReady: false,
     triggerNestTool: () => { },
     deleteSelected: () => { },
-    loadContentAndPrefs: () => { },
     tool_scale: 1, // Dependent on icon size, so any use to making configurable instead? Used by JQuerySpinBtn.js
     exportWindowCt: 0,
     langChanged: false,
@@ -497,54 +493,6 @@ const svgEditor = window['svgEditor'] = (function () {
        */
 
   /**
-       * Where permitted, sets canvas and/or defaultPrefs based on previous
-       *	storage. This will override URL settings (for security reasons) but
-       *	not config.js configuration (unless initial user overriding is explicitly
-       *	permitted there via allowInitialUserOverride).
-       * @todo Split allowInitialUserOverride into allowOverrideByURL and
-       *	allowOverrideByUserStorage so config.js can disallow some
-       *	individual items for URL setting but allow for user storage AND/OR
-       *	change URL setting so that it always uses a different namespace,
-       *	so it won't affect pre-existing user storage (but then if users saves
-       *	that, it will then be subject to tampering
-       */
-  editor.loadContentAndPrefs = function () {
-    if (!curConfig.forceStorage && (curConfig.noStorageOnLoad || !document.cookie.match(/(?:^|;\s*)store=(?:prefsAndContent|prefsOnly)/))) {
-      return;
-    }
-
-    // LOAD CONTENT
-    if (editor.storage && // Cookies do not have enough available memory to hold large documents
-      (curConfig.forceStorage || (!curConfig.noStorageOnLoad && document.cookie.match(/(?:^|;\s*)store=prefsAndContent/)))
-    ) {
-      var name = `svgedit-${curConfig.canvasName}` as StorageKey;
-      var cached = editor.storage.get(name);
-      if (cached) {
-        editor.loadFromString(cached);
-      }
-    }
-
-    // LOAD PREFS
-    var key;
-    for (key in defaultPrefs) {
-      if (defaultPrefs.hasOwnProperty(key)) { // It's our own config, so we don't need to iterate up the prototype chain
-        var storeKey = `svg-edit-${key}` as StorageKey;
-        if (editor.storage) {
-          var val = editor.storage.get(storeKey);
-          if (val) {
-            defaultPrefs[key] = String(val); // Convert to string for FF (.value fails in Webkit)
-          }
-        } else if (window['widget']) {
-          defaultPrefs[key] = window['widget'].preferenceForKey(storeKey);
-        } else {
-          var result = document.cookie.match(new RegExp('(?:^|;\\s*)' + Utils.preg_quote(encodeURIComponent(storeKey)) + '=([^;]+)'));
-          defaultPrefs[key] = result ? decodeURIComponent(result[1]) : '';
-        }
-      }
-    }
-  };
-
-  /**
        * Allows setting of preferences or configuration (including extensions).
        * @param {object} opts The preferences or configuration (including extensions)
        * @param {object} [cfgCfg] Describes configuration which applies to the particular batch of supplied options
@@ -676,7 +624,6 @@ const svgEditor = window['svgEditor'] = (function () {
       editor.curConfig = curConfig;
     }
     setupCurConfig();
-    editor.loadContentAndPrefs();
     setupCurPrefs();
 
     const shouldShowRulers = !!BeamboxPreference.read('show_rulers');
@@ -2488,9 +2435,6 @@ const svgEditor = window['svgEditor'] = (function () {
 
                 ref_btn.before(show_btn);
 
-                // Create a flyout div
-                flyout_holder = makeFlyoutHolder(tls_id, ref_btn);
-                flyout_holder.data('isLibrary', true);
                 show_btn.data('isLibrary', true);
               }
               //							ref_data = Actions.getButtonData(opts.button);
@@ -2550,9 +2494,6 @@ const svgEditor = window['svgEditor'] = (function () {
                 }));
 
               ref_btn.before(show_btn);
-
-              // Create a flyout div
-              flyout_holder = makeFlyoutHolder(tls_id, ref_btn);
             }
 
             ref_data = Actions.getButtonData(opts.button);
@@ -4085,7 +4026,6 @@ const svgEditor = window['svgEditor'] = (function () {
       return {
         setAll: function () {
           var flyouts = {};
-
           $.each(tool_buttons, function (i, opts) {
             // Bind function to button
             var btn;
@@ -4867,14 +4807,6 @@ const svgEditor = window['svgEditor'] = (function () {
       this();
     });
     isReady = true;
-  };
-
-  editor.loadFromString = function (str) {
-    editor.ready(function () {
-      loadSvgString(str, function () {
-        editor.resetView();
-      });
-    });
   };
 
   editor.loadFromStringAsync = async function (str) {
