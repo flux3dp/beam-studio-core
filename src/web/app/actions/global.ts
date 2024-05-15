@@ -3,12 +3,7 @@ import communicator from 'implementations/communicator';
 import Logger from 'helpers/logger';
 import shortcuts from 'helpers/shortcuts';
 import storage from 'implementations/storage';
-import { getSVGAsync } from 'helpers/svg-editor-helper';
-
-let svgEditor;
-getSVGAsync((globalSVG) => {
-  svgEditor = globalSVG.Editor;
-});
+import workareaManager from 'app/svgedit/workarea';
 
 // const FLUX = window['FLUX'];
 // const analytics = window['analytics'];
@@ -57,11 +52,11 @@ const defaultKeyBehavior = () => {
   const FN_KEY = window.os === 'MacOS' ? 'cmd' : 'ctrl';
 
   shortcuts.on([FN_KEY, 'a'], () => window.document.execCommand('selectAll'));
-  shortcuts.on([FN_KEY, '0'], () => { console.log('Reset View!'); svgEditor.resetView(); });
-  shortcuts.on([FN_KEY, 'plus'], () => { console.log('Zoom In'); svgEditor.zoomIn(); });
-  shortcuts.on([FN_KEY, 'minus'], () => { console.log('Zoom Out'); svgEditor.zoomOut(); });
-  shortcuts.on([FN_KEY, 'num_plus'], () => { console.log('Zoom In with numpad +'); svgEditor.zoomIn(); });
-  shortcuts.on([FN_KEY, 'num_minus'], () => { console.log('Zoom Out with numpad -'); svgEditor.zoomOut(); });
+  shortcuts.on([FN_KEY, '0'], () => { console.log('Reset View!'); workareaManager.resetView(); });
+  shortcuts.on([FN_KEY, 'plus'], () => { console.log('Zoom In'); workareaManager.zoomIn(); });
+  shortcuts.on([FN_KEY, 'minus'], () => { console.log('Zoom Out'); workareaManager.zoomOut(); });
+  shortcuts.on([FN_KEY, 'num_plus'], () => { console.log('Zoom In with numpad +'); workareaManager.zoomIn(); });
+  shortcuts.on([FN_KEY, 'num_minus'], () => { console.log('Zoom Out with numpad -'); workareaManager.zoomOut(); });
   shortcuts.on(['ctrl', 'alt', 'd'], () => {
     if (communicator) {
       communicator.send('DEBUG-INSPECT');

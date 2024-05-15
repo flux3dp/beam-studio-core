@@ -8,8 +8,12 @@ jest.mock('app/actions/beambox/beambox-preference', () => ({
   write: (...args) => mockWrite(...args),
 }));
 
-const updateRulers = jest.fn();
 const resetView = jest.fn();
+jest.mock('app/svgedit/workarea', () => ({
+  resetView: jest.fn(),
+}));
+
+const updateRulers = jest.fn();
 jest.mock('helpers/svg-editor-helper', () => ({
   getSVGAsync: (callback) => {
     callback({
@@ -21,7 +25,6 @@ jest.mock('helpers/svg-editor-helper', () => ({
           showGrid: true,
         },
         updateRulers: (...args) => updateRulers(...args),
-        resetView: (...args) => resetView(...args),
       },
     });
   },

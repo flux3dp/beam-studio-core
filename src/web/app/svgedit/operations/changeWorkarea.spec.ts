@@ -18,19 +18,10 @@ jest.mock('app/actions/beambox/open-bottom-boundary-drawer', () => ({
 }));
 
 const mockSetWorkarea = jest.fn();
+const mockResetView = jest.fn();
 jest.mock('app/svgedit/workarea', () => ({
   setWorkarea: (...args) => mockSetWorkarea(...args),
-}));
-
-const mockResetView = jest.fn();
-jest.mock('helpers/svg-editor-helper', () => ({
-  getSVGAsync: (callback) => {
-    callback({
-      Editor: {
-        resetView: (...args) => mockResetView(...args),
-      },
-    });
-  },
+  resetView: (...args) => mockResetView(...args),
 }));
 
 const mockToggleFullColorAfterWorkareaChange = jest.fn();

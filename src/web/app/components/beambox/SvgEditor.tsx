@@ -82,7 +82,7 @@ export default class SvgEditor extends React.Component {
         {!isPathPreviewing && (
           <ZoomBlock
             setZoom={(zoom) => workareaManager.zoom(zoom / constant.dpmm)}
-            resetView={svgEditor.resetView}
+            resetView={workareaManager.resetView}
           />
         )}
       </>
