@@ -132,9 +132,6 @@ interface ISVGEditor {
   handleFile: (file: any) => Promise<void>
   importLaserConfig: (file: any) => Promise<void>
   openPrep(arg0: (ok: any) => void)
-  resetView: () => void
-  zoomIn: () => void
-  zoomOut: () => void
   ready(arg0: () => void)
   clickUndo: () => void
   clickRedo: () => void
@@ -204,9 +201,6 @@ const svgEditor = window['svgEditor'] = (function () {
     handleFile: async (file) => { },
     importLaserConfig: async (file) => { },
     openPrep: () => { },
-    resetView: () => { },
-    zoomIn: () => { },
-    zoomOut: () => { },
     ready: () => { },
     clickUndo: () => { },
     clickRedo: () => { },
@@ -2159,10 +2153,6 @@ const svgEditor = window['svgEditor'] = (function () {
       });
     })();
 
-    var unzoom = function () {
-      editor.resetView();
-    };
-
     const triggerGridTool = function () {
       if (selectedElement != null || multiselected) {
         ToolPanelsController.setVisibility(ToolPanelsController.type != 'gridArray' || !ToolPanelsController.isVisible);
@@ -2409,7 +2399,7 @@ const svgEditor = window['svgEditor'] = (function () {
         onYes: () => {
           setSelectMode();
           svgCanvas.clear();
-          unzoom();
+          workareaManager.resetView();
           LayerPanelController.updateLayerPanel();
           updateContextPanel();
           svgedit.transformlist.resetListMap();
@@ -2635,12 +2625,12 @@ const svgEditor = window['svgEditor'] = (function () {
           });
           // +
           Shortcuts.on(['plus'], () => {
-            window['polygonAddSides']();
+            window['polygonAddSides']?.();
             ObjectPanelController.updatePolygonSides($(selectedElement).attr('sides'));
           });
           // -
           Shortcuts.on(['minus'], () => {
-            window['polygonDecreaseSides']();
+            window['polygonDecreaseSides']?.();
             ObjectPanelController.updatePolygonSides($(selectedElement).attr('sides'));
           });
           Shortcuts.on(['esc'], clickSelect);
@@ -3056,51 +3046,6 @@ const svgEditor = window['svgEditor'] = (function () {
       //     filter: 'url(#greyscaleFilter)'
       // });
     })();
-  };
-
-  editor.resetView = function () {
-    const { width, height } = workareaManager;
-    const hasRulers = !!BeamboxPreference.read('show_rulers');
-    const sidePanelsWidth = isMobile() ? 0 : Constant.sidePanelsWidth + (hasRulers ? Constant.rulerWidth : 0);
-    const topBarHeight = Constant.topBarHeight + (hasRulers ? Constant.rulerWidth : 0);
-    const workareaToDimensionRatio = Math.min((window.innerWidth - sidePanelsWidth) / width, (window.innerHeight - topBarHeight) / height);
-    const zoomLevel = workareaToDimensionRatio * 0.95;
-    const workAreaWidth = width * zoomLevel;
-    const workAreaHeight = height * zoomLevel;
-    const offsetX = (window.innerWidth - sidePanelsWidth - workAreaWidth) / 2 + (hasRulers ? Constant.rulerWidth : 0);
-    const offsetY = (window.innerHeight - topBarHeight - workAreaHeight) / 2 + (hasRulers ? Constant.rulerWidth : 0);
-    workareaManager.zoom(zoomLevel);
-    const background = document.getElementById('canvasBackground');
-    if (!background) {
-      setTimeout(() => editor.resetView(), 100);
-      return;
-    }
-    const x = parseFloat(background.getAttribute('x'));
-    const y = parseFloat(background.getAttribute('y'));
-    const defaultScroll = {
-      x: (x - offsetX) / zoomLevel,
-      y: (y - offsetY) / zoomLevel
-    };
-    const workArea = document.getElementById('workarea');
-    workArea.scrollLeft = defaultScroll.x * zoomLevel;
-    workArea.scrollTop = defaultScroll.y * zoomLevel;
-  };
-
-  var preventDoubleZoomIn = false;
-
-  editor.zoomIn = function () {
-    if (!preventDoubleZoomIn) {
-      workareaManager.zoom(workareaManager.zoomRatio * 1.1);
-      preventDoubleZoomIn = true;
-
-      setTimeout(() => {
-        preventDoubleZoomIn = false;
-      }, 10);
-    }
-  };
-
-  editor.zoomOut = function () {
-    workareaManager.zoom(workareaManager.zoomRatio / 1.1);
   };
 
   editor.ready = function (cb) {
