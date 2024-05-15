@@ -143,8 +143,6 @@ const appendUseElement = (
 
   currentDrawing.getCurrentLayer().appendChild(useEl);
 
-  $(useEl).data('symbol', symbol).data('ref', symbol);
-
   useEl.setAttribute('data-svg', 'true');
   useEl.setAttribute('data-ratiofixed', 'true');
 
