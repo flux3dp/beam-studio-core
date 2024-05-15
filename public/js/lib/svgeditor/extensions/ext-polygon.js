@@ -255,7 +255,6 @@ svgEditor.addExtension('polygon', function (S) {
                     svgCanvas.selectorManager.requestSelector(opts.selected).resize();
                     const bbox = newPoly.getBBox();
                     opts.ObjectPanelController.updateDimensionValues({x: bbox.x, y: bbox.y, width: bbox.width, height: bbox.height});
-                    opts.ObjectPanelController.updateObjectPanel();
                 }
                 return {
                     started: true
