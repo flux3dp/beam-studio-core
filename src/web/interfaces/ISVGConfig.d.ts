@@ -41,7 +41,6 @@ export default interface ISVGConfig {
   // EDITOR OPTIONS
   // Change the following to preferences (already in the Editor Options dialog)?
   gridSnapping?: boolean,
-  gridColor?: string,
   baseUnit?: string,
   defaultUnit?: string,
   snappingStep?: number,

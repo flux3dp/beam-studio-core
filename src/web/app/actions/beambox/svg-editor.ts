@@ -120,7 +120,6 @@ interface ISVGEditor {
   runCallbacks: () => void
   setConfig: (opts: any, cfgCfg: any) => void
   setIcon: (elem: any, icon_id: any) => void
-  setIconSize: (size: any) => void
   setImageURL: (url: any) => void
   setLang: (lang: any, allStrings: any) => void
   setPanning: (active: any) => void
@@ -159,11 +158,9 @@ interface ISVGEditor {
 interface ISVGPref {
   // EDITOR OPTIONS (DIALOG)
   lang?: string, // Default to "en" if locale.js detection does not detect another language
-  iconsize?: string, // Will default to 's' if the window height is smaller than the minimum height and 'm' otherwise
   bkgd_color?: string,
   bkgd_url?: string,
   // DOCUMENT PROPERTIES (DIALOG)
-  img_save?: string,
   // ALERT NOTICES
   // Only shows in UI as far as alert notices, but useful to remember, so keeping as pref
   save_notice_done?: boolean,
@@ -195,7 +192,6 @@ const svgEditor = window['svgEditor'] = (function () {
     runCallbacks: () => { },
     setConfig: (opts: any, cfgCfg: any) => { },
     setIcon: (elem: any, icon_id: any) => { },
-    setIconSize: (size: any) => { },
     setImageURL: (url: any) => { },
     setLang: (lang: any, allStrings: any) => { },
     setPanning: (active: any) => { },
@@ -288,11 +284,9 @@ const svgEditor = window['svgEditor'] = (function () {
     defaultPrefs: ISVGPref = {
       // EDITOR OPTIONS (DIALOG)
       lang: availableLangMap[i18n.getActiveLang()] || 'en', // Default to "en" if locale.js detection does not detect another language
-      iconsize: '', // Will default to 's' if the window height is smaller than the minimum height and 'm' otherwise
       bkgd_color: '#FFF',
       bkgd_url: '',
       // DOCUMENT PROPERTIES (DIALOG)
-      img_save: 'embed',
       // ALERT NOTICES
       // Only shows in UI as far as alert notices, but useful to remember, so keeping as pref
       save_notice_done: false,
@@ -374,7 +368,6 @@ const svgEditor = window['svgEditor'] = (function () {
       // EDITOR OPTIONS
       // Change the following to preferences (already in the Editor Options dialog)?
       gridSnapping: false,
-      gridColor: 'rgba(0,0,0,0.18)',
       baseUnit: 'px',
       defaultUnit: storage.get('default-units') || 'mm',
       snappingStep: 10,
@@ -653,67 +646,7 @@ const svgEditor = window['svgEditor'] = (function () {
     } else {
       extFunc();
     }
-    $.svgIcons(curConfig.imgPath + 'svg_edit_icons.svg', {
-      w: 24,
-      h: 24,
-      id_match: false,
-      no_img: !svgedit.browser.isWebkit(), // Opera & Firefox 4 gives odd behavior w/images
-      fallback_path: curConfig.imgPath,
-      fallback: {
-        'open': 'open.png',
-        'source': 'source.png',
-
-        'select_node': 'select_node.png',
-        'pencil': 'fhpath.png',
-        'pen': 'line.png',
-        'square': 'square.png',
-        'rect': 'rect.png',
-        'fh_rect': 'freehand-square.png',
-        'circle': 'circle.png',
-        'ellipse': 'ellipse.png',
-        'fh_ellipse': 'freehand-circle.png',
-        'path': 'path.png',
-        'text': 'text.png',
-        'image': 'image.png',
-        'zoom': 'zoom.png',
-
-        'delete': 'delete.png',
-        'to_path': 'to_path.png',
-        'link_controls': 'link_controls.png',
-
-        'go_up': 'go-up.png',
-        'go_down': 'go-down.png',
-
-        'ok': 'save.png',
-        'cancel': 'cancel.png',
-
-        'arrow_right': 'flyouth.png',
-        'arrow_down': 'dropdown.gif'
-      },
-      placement: {
-        '#url_notice': 'warning',
-      },
-      resize: {
-        '.dropdown button .svg_icon': 7,
-        '.toolbar_button button .svg_icon': 16,
-        '.stroke_tool div div .svg_icon': 20,
-      },
-      callback: function (icons) {
-        $('.toolbar_button button > svg, .toolbar_button button > img').each(function () {
-          $(this).parent().prepend(this);
-        });
-
-        var min_height
-
-        var size = $.pref('iconsize');
-        editor.setIconSize(size || ($(window).height() < min_height ? 's' : 'm'));
-        editor.runCallbacks();
-
-        setTimeout(function () {
-        }, 1);
-      }
-    });
-
+    editor.runCallbacks();
     window['svgCanvas'] = editor.canvas = svgCanvas = new $.SvgCanvas(document.getElementById('svgcanvas'), curConfig);
     OpenBottomBoundaryDrawer.update();
     var resize_timer, Actions,
@@ -1554,10 +1487,6 @@ const svgEditor = window['svgEditor'] = (function () {
             }
           }
         });
-
-        cur_context = str;
-      } else {
-        cur_context = null;
       }
       $('#cur_context_panel').toggle(!!context).html(link_str);
 
@@ -1618,122 +1547,6 @@ const svgEditor = window['svgEditor'] = (function () {
           // el.css('outline', '1px solid red');
         }
       });
-    };
-
-    var setIconSize = editor.setIconSize = function (size) {
-
-      //				var elems = $('.tool_button, .push_button, .tool_button_current, .disabled, .icon_label, #url_notice');
-      var sel_toscale = '#editor_panel > *, #history_panel > *,';
-
-      var elems = $(sel_toscale);
-      var scale = 1;
-
-      if (typeof size === 'number') {
-        scale = size;
-      } else {
-        var icon_sizes = {
-          s: 0.75,
-          m: 1,
-          l: 1.25,
-          xl: 1.5
-        };
-        scale = icon_sizes[size];
-      }
-
-      editor.tool_scale = scale;
-      var hidden_ps = elems.parents(':hidden');
-      hidden_ps.css('visibility', 'hidden').show();
-      scaleElements(elems, scale);
-      hidden_ps.css('visibility', 'visible').hide();
-      //				return;
-
-      $.pref('iconsize', size);
-      $('#iconsize').val(size);
-
-      // Note that all rules will be prefixed with '#svg_editor' when parsed
-      var cssResizeRules = {
-        //					'.tool_button,\
-        //					.push_button,\
-        //					.tool_button_current,\
-        //					.push_button_pressed,\
-        //					.disabled,\
-        //					.icon_label,\
-        //					'.tool_sep': {
-        //						'height': {s: '16px', l: '32px', xl: '48px'},
-        //						'margin': {s: '2px 2px', l: '2px 5px', xl: '2px 8px'}
-        //					},
-        'div#workarea': {
-          'left': 38,
-          'top': 74
-        }
-        //					'#zoom_panel': {
-        //						'margin-top': {s: '3px', l: '4px', xl: '5px'}
-        //					},
-        //					'.dropdown button': {
-        //						'height': {s: '18px', l: '34px', xl: '40px'},
-        //						'line-height': {s: '18px', l: '34px', xl: '40px'},
-        //						'margin-top': {s: '3px'}
-        //					},
-        //					'div.toolset': {
-        //						'height': {s: '25px', l: '42px', xl: '64px'}
-        //					},
-        //					'#sidepanels': {
-        //						'top': {s: '50px', l: '88px', xl: '125px'},
-        //						'bottom': {s: '51px', l: '68px', xl: '65px'}
-        //					},
-        //					'#layerlist': {
-        //						'width': {l: '128px', xl: '150px'}
-        //					},
-        //					'input.spin-button': {
-        //						'background-image': {l: 'url('images/spinbtn_updn_big.png')', xl: 'url('images/spinbtn_updn_big.png')'},
-        //						'background-position': {l: '100% -5px', xl: '100% -2px'},
-        //						'padding-right': {l: '24px', xl: '24px' }
-        //					},
-        //					'input.spin-button.up': {
-        //						'background-position': {l: '100% -45px', xl: '100% -42px'}
-        //					},
-        //					'input.spin-button.down': {
-        //						'background-position': {l: '100% -85px', xl: '100% -82px'}
-        //					},
-        //					'#position_opts': {
-        //						'width': {all: (size_num*4) +'px'}
-        //					}
-      };
-
-      var rule_elem = $('#tool_size_rules');
-      if (!rule_elem.length) {
-        rule_elem = $('<style id="tool_size_rules"></style>').appendTo('head');
-      } else {
-        rule_elem.empty();
-      }
-
-      if (size !== 'm') {
-        var styleStr = '';
-        $.each(cssResizeRules, function (origSelector: string, rules) {
-          let selector = '#svg_editor ' + origSelector.replace(/,/g, ', #svg_editor');
-          styleStr += selector + '{';
-          $.each(rules, function (prop, values: any) {
-            var val;
-            if (typeof values === 'number') {
-              val = (values * scale) + 'px';
-            } else if (values[size] || values.all) {
-              val = (values[size] || values.all);
-            }
-            styleStr += (prop + ':' + val + ';');
-          });
-          styleStr += '}';
-        });
-        //this.style[uaPrefix + 'Transform'] = 'scale(' + scale + ')';
-        var prefix = '-' + uaPrefix.toLowerCase() + '-';
-        styleStr += (sel_toscale + '{' + prefix + 'transform: scale(' + scale + ');}' +
-          ' #svg_editor div.toolset .toolset {' + prefix + 'transform: scale(1); margin: 1px !important;}' // Hack for markers
-          +
-          ' #svg_editor .ui-slider {' + prefix + 'transform: scale(' + (1 / scale) + ');}' // Hack for sliders
-        );
-        rule_elem.text(styleStr);
-      }
-
-      setFlyoutPositions();
     };
 
     // TODO: Combine this with addDropDown or find other way to optimize
@@ -1820,19 +1633,6 @@ const svgEditor = window['svgEditor'] = (function () {
           });
         } else {
           extsPreLang.push(ext);
-        }
-      }
-
-      function prepResize() {
-        if (resize_timer) {
-          clearTimeout(resize_timer);
-          resize_timer = null;
-        }
-        if (!resize_done) {
-          resize_timer = setTimeout(function () {
-            resize_done = true;
-            setIconSize($.pref('iconsize'));
-          }, 50);
         }
       }
 
@@ -2093,24 +1893,6 @@ const svgEditor = window['svgEditor'] = (function () {
         if (svgicons) {
           cb_ready = false; // Delay callback
         }
-
-        $.svgIcons(svgicons, {
-          w: 24,
-          h: 24,
-          id_match: false,
-          no_img: (!svgedit.browser.isWebkit()),
-          fallback: fallback_obj,
-          placement: placement_obj,
-          callback: function (icons) {
-            // Non-ideal hack to make the icon match the current size
-            //if (curPrefs.iconsize && curPrefs.iconsize !== 'm') {
-            if ($.pref('iconsize') !== 'm') {
-              prepResize();
-            }
-            cb_ready = true; // Ready for callback
-            runCallback();
-          }
-        });
       }
 
       runCallback();
@@ -2156,27 +1938,6 @@ const svgEditor = window['svgEditor'] = (function () {
     svgCanvas.bind('contextset', contextChanged);
     svgCanvas.bind('extension_added', extAdded);
     textActions.setInputElem($('#text')[0]);
-
-    // Set up editor background functionality
-    // TODO add checkerboard as "pattern"
-    var color_blocks = ['#FFF', '#888', '#000']; // ,'url(data:image/gif;base64,R0lGODlhEAAQAIAAAP%2F%2F%2F9bW1iH5BAAAAAAALAAAAAAQABAAAAIfjG%2Bgq4jM3IFLJgpswNly%2FXkcBpIiVaInlLJr9FZWAQA7)'];
-    let str = '';
-    $.each(color_blocks, function () {
-      str += '<div class="color_block" style="background-color:' + this + ';"></div>';
-    });
-    $('#bg_blocks').append(str);
-    var blocks = $('#bg_blocks div');
-    var cur_bg = 'cur_background';
-    blocks.each(function () {
-      var blk = $(this);
-      blk.click(function () {
-        blocks.removeClass(cur_bg);
-        $(this).addClass(cur_bg);
-      });
-    });
-
-
-    $('#image_save_opts input').val([$.pref('img_save')]);
 
     var changeStrokeWidth = function (ctl) {
       var val = ctl.value;
@@ -2628,12 +2389,6 @@ const svgEditor = window['svgEditor'] = (function () {
       }
     };
 
-    var deletePathNode = function () {
-      if (path.getNodePoint()) {
-        path.deletePathNode();
-      }
-    };
-
     var addSubPath = function () {
       var button = $('#tool_add_subpath');
       var sp = !button.hasClass('push_button_pressed');
@@ -2681,25 +2436,6 @@ const svgEditor = window['svgEditor'] = (function () {
       }
     };
     editor.clickRedo = clickRedo;
-
-    $('#svg_prefs_container').draggable({
-      cancel: 'button,fieldset',
-      containment: 'window'
-    });
-
-    var win_wh = {
-      width: $(window).width(),
-      height: $(window).height()
-    };
-
-    $(window).resize(function (evt) {
-      $.each(win_wh, function (type, val) {
-        var curval = $(window)[type]();
-        workarea[0]['scroll' + (type === 'width' ? 'Left' : 'Top')] -= (curval - val) / 2;
-        win_wh[type] = curval;
-      });
-      setFlyoutPositions();
-    });
 
     (function () {
       workarea.scroll(function () {
@@ -2936,29 +2672,6 @@ const svgEditor = window['svgEditor'] = (function () {
     })();
 
     Actions.setAll();
-
-    // Select given tool
-    editor.ready(function () {
-      if (curConfig.showRulers) {
-        ($('#show_rulers')[0] as HTMLInputElement).checked = true;
-      }
-
-      if (curConfig.baseUnit) {
-        $('#base_unit').val(curConfig.baseUnit);
-      }
-
-      if (curConfig.gridSnapping) {
-        ($('#grid_snapping_on')[0] as HTMLInputElement).checked = true;
-      }
-
-      if (curConfig.snappingStep) {
-        $('#grid_snapping_step').val(curConfig.snappingStep);
-      }
-
-      if (curConfig.gridColor) {
-        $('#grid_color').val(curConfig.gridColor);
-      }
-    });
 
     window.addEventListener('beforeunload', function (e) {
       // Suppress warning if page is empty
@@ -3256,27 +2969,6 @@ const svgEditor = window['svgEditor'] = (function () {
       workarea[0].addEventListener('dragleave', onDragLeave, false);
       workarea[0].addEventListener('drop', importImage, false);
 
-      var open = $('<input type="file">').change(function (this: HTMLInputElement) {
-        var f = this;
-        editor.openPrep(function (ok) {
-          if (!ok) {
-            return;
-          }
-          svgCanvas.clear();
-          if (f.files.length === 1) {
-            Alert.popUp({
-              id: 'loading_image',
-              message: LANG.popup.loading_image,
-            });
-            var reader = new FileReader();
-            reader.onloadend = function (e) {
-              loadSvgString(e.target.result as string);
-            };
-            reader.readAsText(f.files[0]);
-          }
-        });
-      });
-
       // Keep for e2e import image
       // enable beambox-global-interaction to click (data-file-input, trigger_file_input_click)
       var imgImport = $('<input type="file" accept=".svg,.bvg,.jpg,.png,.dxf,.js,.beam,.ai,.pdf" data-file-input="import_image">').change(importImage);
@@ -3335,9 +3027,6 @@ const svgEditor = window['svgEditor'] = (function () {
         });
       }
       svgCanvas.runExtensions('langChanged', lang);
-
-      // Update flyout tooltips
-      setFlyoutTitles();
 
       // Copy alignment titles
       $('#multiselected_panel div[id^=tool_align]').each(function () {

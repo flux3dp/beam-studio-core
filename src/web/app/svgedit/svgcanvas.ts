@@ -376,7 +376,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       return curConfig.gridSnapping;
     }
   });
-  var remapElement = this.remapElement = svgedit.coords.remapElement;
+  this.remapElement = svgedit.coords.remapElement;
 
   // import from recalculate.js
   svgedit.recalculate.init({
