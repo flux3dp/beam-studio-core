@@ -56,7 +56,7 @@ svgEditor.setConfig({
 });
 
 // OTHER CONFIG
-svgEditor.setConfig({	
+svgEditor.setConfig({
 	// canvasName: 'default',
 	// canvas_expansion: 3,
 	// initFill: {
@@ -69,7 +69,6 @@ svgEditor.setConfig({
 		// opacity: 1
 	// },
 	// initOpacity: 1,
-	// colorPickerCSS: null,
 	// initTool: 'select',
 	// exportWindowType: 'new', // 'same'
 	// wireframe: false,

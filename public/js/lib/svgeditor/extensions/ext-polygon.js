@@ -49,19 +49,6 @@ svgEditor.addExtension('polygon', function (S) {
       polygonExt.updatePolygonSide(elem, val);
     };
 
-    function showPanel(on) {
-        var fc_rules = $('#fc_rules');
-        if (!fc_rules.length) {
-            fc_rules = $('<style id="fc_rules"></style>').appendTo('head');
-        }
-        $('#polygon_panel').toggle(on);
-    }
-
-    function setAttr(attr, val) {
-        svgCanvas.changeSelectedAttribute(attr, val);
-        S.call('changed', selectedElement);
-    }
-
     function cot(n) {
         return 1 / Math.tan(n);
     }
@@ -72,40 +59,6 @@ svgEditor.addExtension('polygon', function (S) {
 
     let polygonExt = {
         name: 'polygon',
-        svgicons: svgEditor.curConfig.extPath + 'polygon-icons.svg',
-        buttons: [{
-            id: 'tool_polygon',
-            type: 'mode',
-            title: 'Polygon Tool',
-            position: 11,
-            parent: 'tool_polygon',
-            events: {
-                'mouseup': function () {
-                    console.log('Click polygon');
-                    svgCanvas.setMode('polygon');
-                    showPanel(true);
-                }
-            }
-        }],
-
-        context_tools: [{
-            type: 'input',
-            panel: 'polygon_panel',
-            title: 'Number of Sides',
-            id: 'polySides',
-            label: 'sides',
-            size: 3,
-            defval: 5,
-            events: {
-                change: function () {
-                    setAttr('sides', this.value);
-                }
-            }
-        }],
-
-        callback: function () {
-            $('#polygon_panel').hide();
-        },
         mouseDown: function (opts) {
             // var e = opts.event;
             var sRgb = svgCanvas.getColor('stroke');
@@ -231,7 +184,6 @@ svgEditor.addExtension('polygon', function (S) {
             }
 
         },
-
         mouseUp: function (opts) {
             if (svgCanvas.getMode() == 'polygon') {
                 started = false;
@@ -248,30 +200,6 @@ svgEditor.addExtension('polygon', function (S) {
             }
 
         },
-        selectedChanged: function (opts) {
-            // Use this to update the current selected elements
-            selectedElement = opts.elems;
-
-            var i = selectedElement.length;
-
-            while (i--) {
-                var elem = selectedElement[i];
-                if (elem && elem.getAttributeNS(null, 'shape') === 'regularPoly') {
-                    if (opts.selectedElement && !opts.multiselected) {
-                        $('#polySides').val(elem.getAttribute('sides'));
-
-                        showPanel(true);
-                    } else {
-                        showPanel(false);
-                    }
-                } else {
-                    showPanel(false);
-                }
-            }
-        },
-        elementChanged: function (opts) {
-            // var elem = opts.elems[0];
-        }
     };
 
     return polygonExt;

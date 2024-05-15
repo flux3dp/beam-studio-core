@@ -308,11 +308,6 @@ svgEditor.addExtension("Connector", function(S) {
 			type: "mode",
 			icon: svgEditor.curConfig.imgPath + "cut.png",
 			title: "Connect two objects",
-			includeWith: {
-				button: '#tool_line',
-				isDefault: false,
-				position: 1
-			},
 			events: {
 				'click': function() {
 					svgCanvas.setMode("connector");

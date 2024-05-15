@@ -22,9 +22,6 @@ export default interface ISVGConfig {
     text_anchor: string
   },
   initOpacity?: number,
-  // Defaults to 'left' with a position equal to that of the fill_color or
-  // stroke_color element minus 140, and a 'bottom' equal to 40
-  colorPickerCSS?: any,
   initTool?: string,
   exportWindowType?: string, // 'same' (todo: also support 'download')
   wireframe?: boolean,

@@ -108,7 +108,6 @@ declare global {
 }
 
 interface ISVGEditor {
-  addDropDown(elem: string, callback: JQuery.EventHandler<HTMLLIElement, JQuery.MouseUpEvent<HTMLLIElement>>, dropUp?: boolean)
   addExtension: () => void
   canvas: any
   clickSelect: (clearSelection?: boolean) => void
@@ -116,7 +115,6 @@ interface ISVGEditor {
   curPrefs: ISVGPref
   init: () => void
   putLocale(lang: string | number | string[], good_langs: any[])
-  randomizeIds: () => void
   readSVG: (blob: any, type: any, layerName: any) => Promise<unknown>
   replaceBitmap: any
   runCallbacks: () => void
@@ -185,7 +183,6 @@ const svgEditor = window['svgEditor'] = (function () {
   const workarea = BeamboxPreference.read('workarea') as WorkAreaModel;
   const { pxWidth, pxHeight, pxDisplayHeight } = getWorkarea(workarea);
   const editor: ISVGEditor = {
-    addDropDown: () => { },
     addExtension: () => { },
     canvas: null,
     clickSelect: () => { },
@@ -193,7 +190,6 @@ const svgEditor = window['svgEditor'] = (function () {
     curPrefs: null,
     init: () => { },
     putLocale: (lang: string | number | string[], good_langs: any[]) => { },
-    randomizeIds: () => { },
     readSVG: async (blob: any, type: any, layerName: any) => { },
     replaceBitmap: null,
     runCallbacks: () => { },
@@ -361,7 +357,6 @@ const svgEditor = window['svgEditor'] = (function () {
         text_anchor: 'start'
       },
       initOpacity: 1,
-      colorPickerCSS: null, // Defaults to 'left' with a position equal to that of the fill_color or stroke_color element minus 140, and a 'bottom' equal to 40
       initTool: 'select',
       exportWindowType: 'new', // 'same' (todo: also support 'download')
       wireframe: true,
@@ -574,10 +569,6 @@ const svgEditor = window['svgEditor'] = (function () {
     editor.curConfig = curConfig; // Update exported value
   };
 
-  editor.randomizeIds = function () {
-    svgCanvas.randomizeIds(arguments);
-  };
-
   editor.init = function () {
 
     // var host = location.hostname,
@@ -700,73 +691,22 @@ const svgEditor = window['svgEditor'] = (function () {
         'arrow_down': 'dropdown.gif'
       },
       placement: {
-        '#tool_open div div': 'open',
-        '#tool_import div div': 'import',
-        '#tool_source': 'source',
-
-        '#tool_line': 'pen',
-        '#tool_rect': 'rect',
-        '#tool_square': 'square',
-        '#tool_fhrect': 'fh_rect',
-        '#tool_ellipse,#tools_ellipse_show': 'ellipse',
-        '#tool_circle': 'circle',
-        '#tool_fhellipse': 'fh_ellipse',
-        '#tool_path': 'path',
-        '#tool_text': 'text',
-        '#tool_image': 'image',
-
-        '#linecap_butt,#cur_linecap': 'linecap_butt',
-        '#linecap_round': 'linecap_round',
-        '#linecap_square': 'linecap_square',
-
-        '#linejoin_miter,#cur_linejoin': 'linejoin_miter',
-        '#linejoin_round': 'linejoin_round',
-        '#linejoin_bevel': 'linejoin_bevel',
-
         '#url_notice': 'warning',
-        '#group_opacityLabel': 'opacity',
-
-        '.dropdown button, #main_button .dropdown': 'arrow_down',
-        '#palette .palette_item:first, #stroke_bg': 'no_color'
       },
       resize: {
-        '.layer_button .svg_icon, #layerlist .svg_icon': 14,
         '.dropdown button .svg_icon': 7,
-        '#main_button .dropdown .svg_icon': 9,
-        '.palette_item:first .svg_icon': 15,
-        '#fill_bg .svg_icon, #stroke_bg .svg_icon': 16,
         '.toolbar_button button .svg_icon': 16,
         '.stroke_tool div div .svg_icon': 20,
-        '#tools_bottom label .svg_icon': 18
       },
       callback: function (icons) {
         $('.toolbar_button button > svg, .toolbar_button button > img').each(function () {
           $(this).parent().prepend(this);
         });
 
-        var min_height,
-          tleft = $('#tools_left');
-        if (tleft.length !== 0) {
-          min_height = tleft.offset().top + tleft.outerHeight();
-        }
+        var min_height
 
         var size = $.pref('iconsize');
         editor.setIconSize(size || ($(window).height() < min_height ? 's' : 'm'));
-
-        // Look for any missing flyout icons from plugins
-        $('.tools_flyout').each(function () {
-          var shower = $('#' + this.id + '_show');
-          var sel = shower.attr('data-curopt');
-          // Check if there's an icon here
-          if (!shower.children('svg, img').length) {
-            var clone = $(sel).children().clone();
-            if (clone.length) {
-              clone[0].removeAttribute('style'); //Needed for Opera
-              shower.append(clone);
-            }
-          }
-        });
-
         editor.runCallbacks();
 
         setTimeout(function () {
@@ -776,20 +716,7 @@ const svgEditor = window['svgEditor'] = (function () {
 
     window['svgCanvas'] = editor.canvas = svgCanvas = new $.SvgCanvas(document.getElementById('svgcanvas'), curConfig);
     OpenBottomBoundaryDrawer.update();
-    var supportsNonSS, resize_timer, Actions, curScrollPos,
-      palette = [ // Todo: Make into configuration item?
-        '#000000', '#3f3f3f', '#7f7f7f', '#bfbfbf', '#ffffff',
-        '#ff0000', '#ff7f00', '#ffff00', '#7fff00',
-        '#00ff00', '#00ff7f', '#00ffff', '#007fff',
-        '#0000ff', '#7f00ff', '#ff00ff', '#ff007f',
-        '#7f0000', '#7f3f00', '#7f7f00', '#3f7f00',
-        '#007f00', '#007f3f', '#007f7f', '#003f7f',
-        '#00007f', '#3f007f', '#7f007f', '#7f003f',
-        '#ffaaaa', '#ffd4aa', '#ffffaa', '#d4ffaa',
-        '#aaffaa', '#aaffd4', '#aaffff', '#aad4ff',
-        '#aaaaff', '#d4aaff', '#ffaaff', '#ffaad4'
-      ],
-      modKey = (svgedit.browser.isMac() ? 'meta+' : 'ctrl+'), // ⌘
+    var resize_timer, Actions,
       path = svgCanvas.pathActions,
       undoMgr = svgCanvas.undoMgr,
       defaultImageURL = curConfig.imgPath + 'logo.png',
@@ -797,13 +724,7 @@ const svgEditor = window['svgEditor'] = (function () {
       // layer_menu = $('#cmenu_layers'), // Unused
       exportWindow = null,
       zoomInIcon = 'crosshair',
-      zoomOutIcon = 'crosshair',
-      ui_context = 'toolbars',
-      origSource = '',
-      paintBox = {
-        fill: null,
-        stroke: null
-      };
+      zoomOutIcon = 'crosshair';
 
     // For external openers
     (function () {
@@ -928,11 +849,6 @@ const svgEditor = window['svgEditor'] = (function () {
     })();
 
     var setSelectMode = function () {
-      var curr = $('.tool_button_current');
-      if (curr.length && curr[0].id !== 'tool_select') {
-        curr.removeClass('tool_button_current').addClass('tool_button');
-        $('#tool_select').addClass('tool_button_current').removeClass('tool_button');
-      }
       svgCanvas.setMode('select');
       workarea.css('cursor', 'auto');
       if (PreviewModeController.isPreviewMode() || TopBarController.getTopBarPreviewMode()) {
@@ -942,30 +858,17 @@ const svgEditor = window['svgEditor'] = (function () {
 
     // used to make the flyouts stay on the screen longer the very first time
     // var flyoutspeed = 1250; // Currently unused
-    var textBeingEntered = false;
     var selectedElement = null;
     var multiselected = false;
-    var editingsource = false;
-    var preferences = false;
-    var cur_context = '';
     var origTitle = $('title:first').text();
 
     var togglePathEditMode = function (editmode, elems) {
       $('#path_node_panel').toggle(editmode);
-      $('#tools_bottom_2,#tools_bottom_3').toggle(!editmode);
       if (editmode) {
-        // Change select icon
-        $('.tool_button_current').removeClass('tool_button_current').addClass('tool_button');
-        $('#tool_select').addClass('tool_button_current').removeClass('tool_button');
-        setIcon('#tool_select', 'select_node');
         multiselected = false;
         if (elems.length) {
           selectedElement = elems[0];
         }
-      } else {
-        setTimeout(function () {
-          setIcon('#tool_select', 'select');
-        }, 1000);
       }
     };
 
@@ -1029,19 +932,6 @@ const svgEditor = window['svgEditor'] = (function () {
       }
     };
 
-    function setStrokeOpt(opt, changeElem?: boolean) {
-      var id = opt.id;
-      var bits = id.split('_');
-      var pre = bits[0];
-      var val = bits[1];
-
-      if (changeElem) {
-        svgCanvas.setStrokeAttr('stroke-' + pre, val);
-      }
-      setIcon('#cur_' + pre, id);
-      $(opt).addClass('current').siblings().removeClass('current');
-    }
-
     // This is a common function used when a tool has been clicked (chosen)
     // It does several common things:
     // - removes the tool_button_current class from whatever tool currently has it
@@ -1051,13 +941,7 @@ const svgEditor = window['svgEditor'] = (function () {
       if ($(button).hasClass('disabled')) {
         return false;
       }
-      if ($(button).parent().hasClass('tools_flyout')) {
-        return true;
-      }
       var fadeFlyouts = 'normal';
-      if (!noHiding) {
-        $('.tools_flyout').fadeOut(fadeFlyouts);
-      }
       workarea.css('cursor', 'auto');
       $('.tool_button_current').removeClass('tool_button_current').addClass('tool_button');
       $(button).addClass('tool_button_current').removeClass('tool_button');
@@ -1068,9 +952,7 @@ const svgEditor = window['svgEditor'] = (function () {
       if ([TutorialConstants.DRAW_A_CIRCLE, TutorialConstants.DRAW_A_RECT].includes(getNextStepRequirement())) {
         return;
       }
-      if (toolButtonClick('#tool_select')) {
-        svgCanvas.setMode('select');
-      }
+      svgCanvas.setMode('select');
       if (clearSelection) svgCanvas.clearSelection();
     };
 
@@ -1309,119 +1191,6 @@ const svgEditor = window['svgEditor'] = (function () {
       if (shouldShowRulers) requestAnimationFrame(() => updateRulers());
     });
 
-    var updateToolButtonState = function () {
-      var bNoFill = (svgCanvas.getColor('fill') === 'none');
-      var bNoStroke = (svgCanvas.getColor('stroke') === 'none');
-      var buttonsNeedingStroke = ['#tool_fhpath', '#tool_line'];
-      var buttonsNeedingFillAndStroke = ['#tools_rect .tool_button', '#tools_ellipse .tool_button', '#tool_text', '#tool_path'];
-      if (bNoStroke) {
-        buttonsNeedingStroke.map(btn => {
-          if ($(btn).hasClass('tool_button_current')) {
-            clickSelect();
-          }
-          $(btn).addClass('disabled');
-        });
-      } else {
-        buttonsNeedingStroke.map(btn => {
-          $(btn).removeClass('disabled');
-        });
-      }
-
-      if (bNoStroke && bNoFill) {
-        buttonsNeedingFillAndStroke.map(btn => {
-          if ($(btn).hasClass('tool_button_current')) {
-            clickSelect();
-          }
-          $(btn).addClass('disabled');
-        });
-      } else {
-        buttonsNeedingFillAndStroke.map(btn => {
-          $(btn).removeClass('disabled');
-        });
-      }
-
-      svgCanvas.runExtensions('toolButtonStateUpdate', {
-        nofill: bNoFill,
-        nostroke: bNoStroke
-      });
-
-      // Disable flyouts if all inside are disabled
-      $('.tools_flyout').each(function () {
-        var shower = $('#' + this.id + '_show');
-        var has_enabled = false;
-        $(this).children().each(function () {
-          if (!$(this).hasClass('disabled')) {
-            has_enabled = true;
-          }
-        });
-        shower.toggleClass('disabled', !has_enabled);
-      });
-
-    };
-
-    // Updates the toolbar (colors, opacity, etc) based on the selected element
-    // This function also updates the opacity and id elements that are in the context panel
-    var updateToolbar = function () {
-      var i, len;
-      if (selectedElement != null) {
-        switch (selectedElement.tagName) {
-          case 'text':
-          case 'use':
-          case 'image':
-          case 'foreignObject':
-            break;
-          case 'g':
-          case 'a':
-            // Look for common styles
-            var gWidth = null;
-            var childs = selectedElement.getElementsByTagName('*');
-            for (i = 0, len = childs.length; i < len; i++) {
-              var swidth = childs[i].getAttribute('stroke-width');
-
-              if (i === 0) {
-                gWidth = swidth;
-              } else if (gWidth !== swidth) {
-                gWidth = null;
-              }
-            }
-
-            $('#stroke_width').val(gWidth === null ? '' : gWidth);
-
-            paintBox.fill.update(true);
-            paintBox.stroke.update(true);
-
-            break;
-          default:
-            paintBox.fill.update(true);
-            paintBox.stroke.update(true);
-
-            $('#stroke_width').val(selectedElement.getAttribute('stroke-width') || 1);
-            $('#stroke_style').val(selectedElement.getAttribute('stroke-dasharray') || 'none');
-
-            var attr = selectedElement.getAttribute('stroke-linejoin') || 'miter';
-
-            if ($('#linejoin_' + attr).length !== 0) {
-              setStrokeOpt($('#linejoin_' + attr)[0]);
-            }
-
-            attr = selectedElement.getAttribute('stroke-linecap') || 'butt';
-
-            if ($('#linecap_' + attr).length !== 0) {
-              setStrokeOpt($('#linecap_' + attr)[0]);
-            }
-        }
-      }
-
-      // All elements including image and group have opacity
-      if (selectedElement != null) {
-        var opac_perc = ((selectedElement.getAttribute('opacity') || 1.0) * 100);
-        $('#group_opacity').val(opac_perc);
-        $('#opac_slider').slider('option', 'value', opac_perc);
-      }
-
-      updateToolButtonState();
-    };
-
     // updates the context panel tools based on the selected element
     var updateContextPanel = function () {
       var elem = selectedElement;
@@ -1442,11 +1211,6 @@ const svgEditor = window['svgEditor'] = (function () {
         canvasEvents.setSelectedElement(elem);
       }
 
-      /*
-      $('#selected_panel, #multiselected_panel, #g_panel, #rect_panel, #circle_panel,' +
-      '#ellipse_panel, #line_panel, #text_panel, #image_panel, #container_panel,' +
-      ' #use_panel, #a_panel').hide();
-      */
       if (elem != null) {
         var elname = elem.nodeName;
         // If this is a link with no transform and one child, pretend
@@ -1674,16 +1438,6 @@ const svgEditor = window['svgEditor'] = (function () {
       // if elems[1] is present, then we have more than one element
       selectedElement = (elems.length === 1 || elems[1] == null ? elems[0] : null);
       multiselected = (elems.length >= 2 && elems[1] != null);
-      if (selectedElement != null) {
-        // unless we're already in always set the mode of the editor to select because
-        // upon creation of a text element the editor is switched into
-        // select mode and this event fires - we need our UI to be in sync
-
-        // updateToolbar is for svgeditor, seems not to be used anymore.
-        // if (!is_node) {
-        //     updateToolbar();
-        // }
-      }
       // Deal with pathedit mode
       togglePathEditMode(is_node, elems);
       updateContextPanel();
@@ -1768,12 +1522,6 @@ const svgEditor = window['svgEditor'] = (function () {
       // text element was previously in focus
       updateContextPanel();
 
-      // In the event a gradient was flipped:
-      if (selectedElement && mode === 'select') {
-        paintBox.fill.update();
-        paintBox.stroke.update();
-      }
-
       svgCanvas.runExtensions('elementChanged', {
         elems: elems
       });
@@ -1814,41 +1562,6 @@ const svgEditor = window['svgEditor'] = (function () {
       $('#cur_context_panel').toggle(!!context).html(link_str);
 
       updateTitle();
-    };
-
-    // Makes sure the current selected paint is available to work with
-    var prepPaints = function () {
-      paintBox.fill.prep();
-      paintBox.stroke.prep();
-    };
-
-    var flyout_funcs = {};
-
-    var setFlyoutTitles = function () {
-      $('.tools_flyout').each(function () {
-        var shower = $('#' + this.id + '_show');
-        if (shower.data('isLibrary')) {
-          return;
-        }
-
-        var tooltips = [];
-        $(this).children().each(function () {
-          tooltips.push(this.title);
-        });
-        shower[0].title = tooltips.join(' / ');
-      });
-    };
-
-    var setFlyoutPositions = function () {
-      $('.tools_flyout').each(function () {
-        var shower = $('#' + this.id + '_show');
-        var pos = shower.offset();
-        var w = shower.outerWidth();
-        $(this).css({
-          left: (pos.left + w) * editor.tool_scale,
-          top: pos.top
-        });
-      });
     };
 
     var uaPrefix = (function () {
@@ -1909,10 +1622,8 @@ const svgEditor = window['svgEditor'] = (function () {
 
     var setIconSize = editor.setIconSize = function (size) {
 
-      //				var elems = $('.tool_button, .push_button, .tool_button_current, .disabled, .icon_label, #url_notice, #tool_open');
-      var sel_toscale = '#tools_top .toolset, #editor_panel > *, #history_panel > *,' +
-        '				#main_button, #tools_left > *, #path_node_panel > *, #multiselected_panel > *,' +
-        '				#g_panel > *, .tools_flyout';
+      //				var elems = $('.tool_button, .push_button, .tool_button_current, .disabled, .icon_label, #url_notice');
+      var sel_toscale = '#editor_panel > *, #history_panel > *,';
 
       var elems = $(sel_toscale);
       var scale = 1;
@@ -1930,17 +1641,6 @@ const svgEditor = window['svgEditor'] = (function () {
       }
 
       editor.tool_scale = scale;
-
-      setFlyoutPositions();
-      // $('.tools_flyout').each(function() {
-      //					var pos = $(this).position();
-      //					console.log($(this), pos.left+(34 * scale));
-      //					$(this).css({'left': pos.left+(34 * scale), 'top': pos.top+(77 * scale)});
-      //					console.log('l', $(this).css('left'));
-      //				});
-
-      //				var scale = .75;
-
       var hidden_ps = elems.parents(':hidden');
       hidden_ps.css('visibility', 'hidden').show();
       scaleElements(elems, scale);
@@ -1950,22 +1650,6 @@ const svgEditor = window['svgEditor'] = (function () {
       $.pref('iconsize', size);
       $('#iconsize').val(size);
 
-      // Change icon size
-      //				$('.tool_button, .push_button, .tool_button_current, .disabled, .icon_label, #url_notice, #tool_open')
-      //				.find('> svg, > img').each(function() {
-      //					this.setAttribute('width',size_num);
-      //					this.setAttribute('height',size_num);
-      //				});
-      //
-      //				$.resizeSvgIcons({
-      //					'.flyout_arrow_horiz > svg, .flyout_arrow_horiz > img': size_num / 5,
-      //					'#logo > svg, #logo > img': size_num * 1.3,
-      //					'#tools_bottom .icon_label > *': (size_num === 16 ? 18 : size_num * .75)
-      //				});
-      //				if (size !== 's') {
-      //					$.resizeSvgIcons({'#layerbuttons svg, #layerbuttons img': size_num * .6});
-      //				}
-
       // Note that all rules will be prefixed with '#svg_editor' when parsed
       var cssResizeRules = {
         //					'.tool_button,\
@@ -1974,77 +1658,21 @@ const svgEditor = window['svgEditor'] = (function () {
         //					.push_button_pressed,\
         //					.disabled,\
         //					.icon_label,\
-        //					.tools_flyout .tool_button': {
-        //						'width': {s: '16px', l: '32px', xl: '48px'},
-        //						'height': {s: '16px', l: '32px', xl: '48px'},
-        //						'padding': {s: '1px', l: '2px', xl: '3px'}
-        //					},
         //					'.tool_sep': {
         //						'height': {s: '16px', l: '32px', xl: '48px'},
         //						'margin': {s: '2px 2px', l: '2px 5px', xl: '2px 8px'}
         //					},
-        //					'#main_icon': {
-        //						'width': {s: '31px', l: '53px', xl: '75px'},
-        //						'height': {s: '22px', l: '42px', xl: '64px'}
-        //					},
-        '#tools_top': {
-          'left': 50 + $('#main_button').width(),
-          'height': 72
-        },
-        '#tools_left': {
-          'width': 31,
-          'top': 74
-        },
         'div#workarea': {
           'left': 38,
           'top': 74
         }
-        //					'#tools_bottom': {
-        //						'left': {s: '27px', l: '46px', xl: '65px'},
-        //						'height': {s: '58px', l: '98px', xl: '145px'}
-        //					},
-        //					'#color_tools': {
-        //						'border-spacing': {s: '0 1px'},
-        //						'margin-top': {s: '-1px'}
-        //					},
-        //					'#color_tools .icon_label': {
-        //						'width': {l:'43px', xl: '60px'}
-        //					},
-        //					'.color_tool': {
-        //						'height': {s: '20px'}
-        //					},
-        //					'#tool_opacity': {
-        //						'top': {s: '1px'},
-        //						'height': {s: 'auto', l:'auto', xl:'auto'}
-        //					},
-        //					'#tools_top input, #tools_bottom input': {
-        //						'margin-top': {s: '2px', l: '4px', xl: '5px'},
-        //						'height': {s: 'auto', l: 'auto', xl: 'auto'},
-        //						'border': {s: '1px solid #555', l: 'auto', xl: 'auto'},
-        //						'font-size': {s: '.9em', l: '1.2em', xl: '1.4em'}
-        //					},
         //					'#zoom_panel': {
         //						'margin-top': {s: '3px', l: '4px', xl: '5px'}
-        //					},
-        //					'#copyright, #tools_bottom .label': {
-        //						'font-size': {l: '1.5em', xl: '2em'},
-        //						'line-height': {s: '15px'}
-        //					},
-        //					'#tools_bottom_2': {
-        //						'width': {l: '295px', xl: '355px'},
-        //						'top': {s: '4px'}
-        //					},
-        //					'#tools_top > div, #tools_top': {
-        //						'line-height': {s: '17px', l: '34px', xl: '50px'}
         //					},
         //					'.dropdown button': {
         //						'height': {s: '18px', l: '34px', xl: '40px'},
         //						'line-height': {s: '18px', l: '34px', xl: '40px'},
         //						'margin-top': {s: '3px'}
-        //					},
-        //					'#tools_top label, #tools_bottom label': {
-        //						'font-size': {s: '1em', l: '1.5em', xl: '2em'},
-        //						'height': {s: '25px', l: '42px', xl: '64px'}
         //					},
         //					'div.toolset': {
         //						'height': {s: '25px', l: '42px', xl: '64px'}
@@ -2053,16 +1681,8 @@ const svgEditor = window['svgEditor'] = (function () {
         //						'top': {s: '50px', l: '88px', xl: '125px'},
         //						'bottom': {s: '51px', l: '68px', xl: '65px'}
         //					},
-        //					'#layerbuttons': {
-        //						'width': {l: '130px', xl: '175px'},
-        //						'height': {l: '24px', xl: '30px'}
-        //					},
         //					'#layerlist': {
         //						'width': {l: '128px', xl: '150px'}
-        //					},
-        //					'.layer_button': {
-        //						'width': {l: '19px', xl: '28px'},
-        //						'height': {l: '19px', xl: '28px'}
         //					},
         //					'input.spin-button': {
         //						'background-image': {l: 'url('images/spinbtn_updn_big.png')', xl: 'url('images/spinbtn_updn_big.png')'},
@@ -2349,11 +1969,6 @@ const svgEditor = window['svgEditor'] = (function () {
 
           // Set button up according to its type
           switch (btn.type) {
-            case 'mode_flyout':
-            case 'mode':
-              cls = 'tool_button';
-              parent = '#tools_left';
-              break;
             case 'context':
               cls = 'tool_button';
               parent = '#' + btn.panel;
@@ -2363,10 +1978,6 @@ const svgEditor = window['svgEditor'] = (function () {
                   id: btn.panel
                 }).appendTo('#tools_top');
               }
-              break;
-            case 'app_menu':
-              cls = '';
-              parent = '#main_menu ul';
               break;
           }
           var flyout_holder, cur_h, show_btn, ref_data, ref_btn;
@@ -2384,55 +1995,7 @@ const svgEditor = window['svgEditor'] = (function () {
             } else {
               button.appendTo(parent);
             }
-
-            if (btn.type === 'mode_flyout') {
-              // Add to flyout menu / make flyout menu
-              //							var opts = btn.includeWith;
-              //							// opts.button, default, position
-              ref_btn = $(button);
-
-              flyout_holder = ref_btn.parent();
-              // Create a flyout menu if there isn't one already
-              if (!ref_btn.parent().hasClass('tools_flyout')) {
-                // Create flyout placeholder
-                tls_id = ref_btn[0].id.replace('tool_', 'tools_');
-                show_btn = ref_btn.clone()
-                  .attr('id', tls_id + '_show')
-                  .append($('<div>', {
-                    'class': 'flyout_arrow_horiz'
-                  }));
-
-                ref_btn.before(show_btn);
-
-                show_btn.data('isLibrary', true);
-              }
-              //							ref_data = Actions.getButtonData(opts.button);
-
-              placement_obj['#' + tls_id + '_show'] = btn.id;
-              // TODO: Find way to set the current icon using the iconloader if this is not default
-
-              // Include data for extension button as well as ref button
-              cur_h = holders['#' + flyout_holder[0].id] = [{
-                sel: '#' + id,
-                fn: btn.events.click,
-                icon: btn.id,
-                //									key: btn.key,
-                isDefault: true
-              }, ref_data];
-              //
-              //							// {sel:'#tool_rect', fn: clickRect, evt: 'mouseup', key: 4, parent: '#tools_rect', icon: 'rect'}
-              //
-              //							var pos = ('position' in opts)?opts.position:'last';
-              //							var len = flyout_holder.children().length;
-              //
-              //							// Add at given position or end
-              //							if (!isNaN(pos) && pos >= 0 && pos < len) {
-              //								flyout_holder.children().eq(pos).before(button);
-              //							} else {
-              //								flyout_holder.append(button);
-              //								cur_h.reverse();
-              //							}
-            } else if (btn.type === 'app_menu') {
+            if (btn.type === 'app_menu') {
               button.append('<div>').append(btn.title);
             }
 
@@ -2465,8 +2028,6 @@ const svgEditor = window['svgEditor'] = (function () {
               ref_btn.before(show_btn);
             }
 
-            ref_data = Actions.getButtonData(opts.button);
-
             if (opts.isDefault) {
               placement_obj['#' + tls_id + '_show'] = btn.id;
             }
@@ -2480,8 +2041,6 @@ const svgEditor = window['svgEditor'] = (function () {
               key: btn.key,
               isDefault: btn.includeWith ? btn.includeWith.isDefault : 0
             }, ref_data];
-
-            // {sel:'#tool_rect', fn: clickRect, evt: 'mouseup', key: 4, parent: '#tools_rect', icon: 'rect'}
 
             var pos = ('position' in opts) ? opts.position : 'last';
             var len = flyout_holder.children().length;
@@ -2581,13 +2140,6 @@ const svgEditor = window['svgEditor'] = (function () {
       return new $.jGraduate.Paint(opts);
     };
 
-    $('#text').focus(function () {
-      textBeingEntered = true;
-    });
-    $('#text').blur(function () {
-      textBeingEntered = false;
-    });
-
     // bind the selected event to our function that handles updates to the UI
     svgCanvas.bind('selected', selectedChanged);
     svgCanvas.bind('transition', elementTransition);
@@ -2605,16 +2157,10 @@ const svgEditor = window['svgEditor'] = (function () {
     svgCanvas.bind('extension_added', extAdded);
     textActions.setInputElem($('#text')[0]);
 
-    var str = '<div class="palette_item" data-rgb="none"></div>';
-    $.each(palette, function (i, item) {
-      str += '<div class="palette_item" style="background-color: ' + item + ';" data-rgb="' + item + '"></div>';
-    });
-    $('#palette').append(str);
-
     // Set up editor background functionality
     // TODO add checkerboard as "pattern"
     var color_blocks = ['#FFF', '#888', '#000']; // ,'url(data:image/gif;base64,R0lGODlhEAAQAIAAAP%2F%2F%2F9bW1iH5BAAAAAAALAAAAAAQABAAAAIfjG%2Bgq4jM3IFLJgpswNly%2FXkcBpIiVaInlLJr9FZWAQA7)'];
-    str = '';
+    let str = '';
     $.each(color_blocks, function () {
       str += '<div class="color_block" style="background-color:' + this + ';"></div>';
     });
@@ -2640,18 +2186,6 @@ const svgEditor = window['svgEditor'] = (function () {
       svgCanvas.setStrokeWidth(val);
     };
 
-    // TODO: what is ctl, what is val?
-    var changeOpacity = function (ctl, val?: number) {
-      if (val == null) {
-        val = ctl.value;
-      }
-      $('#group_opacity').val(val);
-      if (!ctl || !ctl.handle) {
-        $('#opac_slider').slider('option', 'value', val);
-      }
-      svgCanvas.setOpacity(val / 100);
-    };
-
     // Maybe useful
     var changeBlur = function (ctl, val?, noUndo?: boolean) {
       if (val == null) {
@@ -2667,14 +2201,6 @@ const svgEditor = window['svgEditor'] = (function () {
         svgCanvas.setBlur(val, complete);
       }
     };
-
-    $('#stroke_style').change(function () {
-      svgCanvas.setStrokeAttr('stroke-dasharray', $(this).val());
-    });
-
-    $('#stroke_linejoin').change(function () {
-      svgCanvas.setStrokeAttr('stroke-linejoin', $(this).val());
-    });
 
     // Lose focus for select elements when changed (Allows keyboard shortcuts to work better)
     $('select').change(function () {
@@ -2797,45 +2323,6 @@ const svgEditor = window['svgEditor'] = (function () {
       updateContextPanel();
     });
 
-    // Prevent selection of elements when shift-clicking
-    $('#palette').mouseover(function () {
-      var inp = $('<input type="hidden">');
-      $(this).append(inp);
-      inp.focus().remove();
-    });
-
-    $('.palette_item').mousedown(function (evt) {
-      // shift key or right click for stroke
-      var picker = evt.shiftKey || evt.button === 2 ? 'stroke' : 'fill';
-      var color = $(this).data('rgb');
-      var paint;
-
-      // Webkit-based browsers returned 'initial' here for no stroke
-      if (color === 'none' || color === 'transparent' || color === 'initial') {
-        color = 'none';
-        paint = new $.jGraduate.Paint();
-      } else {
-        paint = new $.jGraduate.Paint({
-          alpha: 100,
-          solidColor: color.substr(1)
-        });
-      }
-
-      paintBox[picker].setPaint(paint);
-      svgCanvas.setColor(picker, color);
-
-      if (color !== 'none' && svgCanvas.getPaintOpacity(picker) !== 1) {
-        svgCanvas.setPaintOpacity(picker, 1.0);
-      }
-      updateToolButtonState();
-    }).bind('contextmenu', function (e) {
-      e.preventDefault();
-    });
-
-    $('#toggle_stroke_tools').on('click', function () {
-      $('#tools_bottom').toggleClass('expanded');
-    });
-
     (function () {
       var last_x = null,
         last_y = null,
@@ -2892,182 +2379,6 @@ const svgEditor = window['svgEditor'] = (function () {
         svgCanvas.spaceKey = keypan = active;
       };
     })();
-
-    (function () {
-      var button = $('#main_icon');
-      var overlay = $('#main_icon span');
-      var list = $('#main_menu');
-      var on_button = false;
-      var height = 0;
-      var js_hover = true;
-      var set_click = false;
-
-      /*
-          // Currently unused
-          var hideMenu = function() {
-              list.fadeOut(200);
-          };
-          */
-
-      $(window).mouseup(function (evt) {
-        if (!on_button) {
-          button.removeClass('buttondown');
-          // do not hide if it was the file input as that input needs to be visible
-          // for its change event to fire
-          // @ts-ignore only the "window" will fire this event?
-          if (evt.target.tagName !== 'INPUT') {
-            list.fadeOut(200);
-          } else if (!set_click) {
-            set_click = true;
-            $(evt.target).click(function () {
-              list.css('margin-left', '-9999px').show();
-            });
-          }
-        }
-        on_button = false;
-      }).mousedown(function (evt) {
-        var islib = $(evt.target).closest('div.tools_flyout, .contextMenu').length;
-        if (!islib) {
-          $('.tools_flyout:visible,.contextMenu').fadeOut(250);
-        }
-      });
-
-      overlay.bind('mousedown', function () {
-        if (!button.hasClass('buttondown')) {
-          // Margin must be reset in case it was changed before;
-          list.css('margin-left', 0).show();
-          if (!height) {
-            height = list.height();
-          }
-          // Using custom animation as slideDown has annoying 'bounce effect'
-          list.css('height', 0).animate({
-            'height': height
-          }, 200);
-          on_button = true;
-        } else {
-          list.fadeOut(200);
-        }
-        button.toggleClass('buttondown buttonup');
-      }).hover(function () {
-        on_button = true;
-      }).mouseout(function () {
-        on_button = false;
-      });
-
-      var list_items = $('#main_menu li');
-
-      // Check if JS method of hovering needs to be used (Webkit bug)
-      list_items.mouseover(function () {
-        js_hover = ($(this).css('background-color') === 'rgba(0, 0, 0, 0)');
-
-        list_items.unbind('mouseover');
-        if (js_hover) {
-          list_items.mouseover(function () {
-            this.style.backgroundColor = '#FFC';
-          }).mouseout(function () {
-            this.style.backgroundColor = 'transparent';
-            return true;
-          });
-        }
-      });
-    })();
-    // Made public for UI customization.
-    // TODO: Group UI functions into a public editor.ui interface.
-    editor.addDropDown = function (elem, callback, dropUp) {
-      if ($(elem).length === 0) {
-        return;
-      } // Quit if called on non-existant element
-      var button = $(elem).find('button');
-      var list = $(elem).find('ul').attr('id', $(elem)[0].id + '-list');
-      var on_button = false;
-      if (dropUp) {
-        $(elem).addClass('dropup');
-      } else {
-        // Move list to place where it can overflow container
-        $('#option_lists').append(list);
-      }
-      list.find('li').bind('mouseup', callback);
-
-      $(window).mouseup(function (evt) {
-        if (!on_button) {
-          button.removeClass('down');
-          list.hide();
-        }
-        on_button = false;
-      });
-
-      button.bind('mousedown', function () {
-        if (!button.hasClass('down')) {
-          if (!dropUp) {
-            var pos = $(elem).position();
-            list.css({
-              top: pos.top + 24,
-              left: pos.left - 10
-            });
-          }
-          list.show();
-          on_button = true;
-        } else {
-          list.hide();
-        }
-        button.toggleClass('down');
-      }).hover(function () {
-        on_button = true;
-      }).mouseout(function () {
-        on_button = false;
-      });
-    };
-
-    editor.addDropDown('#opacity_dropdown', function () {
-      if ($(this).find('div').length) {
-        return;
-      }
-      var perc = parseInt($(this).text().split('%')[0], 10);
-      changeOpacity(false, perc);
-    }, true);
-
-    // For slider usage, see: http://jqueryui.com/demos/slider/
-    $('#opac_slider').slider({
-      start: function () {
-        $('#opacity_dropdown li:not(.special)').hide();
-      },
-      stop: function () {
-        $('#opacity_dropdown li').show();
-        $(window).mouseup();
-      },
-      slide: function (evt, ui) {
-        changeOpacity(ui);
-      }
-    });
-
-    addAltDropDown('#stroke_linecap', '#linecap_opts', function () {
-      setStrokeOpt(this, true);
-    }, {
-      dropUp: true
-    });
-
-    addAltDropDown('#stroke_linejoin', '#linejoin_opts', function () {
-      setStrokeOpt(this, true);
-    }, {
-      dropUp: true
-    });
-
-    /*
-
-        When a flyout icon is selected
-            (if flyout) {
-            - Change the icon
-            - Make pressing the button run its stuff
-            }
-            - Run its stuff
-
-        When its shortcut key is pressed
-            - If not current in list, do as above
-            , else:
-            - Just run its stuff
-
-        */
-
     // Unfocus text input when workarea is mousedowned.
     (function () {
       var inp;
@@ -3077,10 +2388,8 @@ const svgEditor = window['svgEditor'] = (function () {
 
       $('#svg_editor').find('button, select, input:not(#text)').focus(function () {
         inp = this;
-        ui_context = 'toolbars';
         workarea.mousedown(unfocus);
       }).blur(function () {
-        ui_context = 'canvas';
         workarea.unbind('mousedown', unfocus);
         // Go back to selecting text if in textedit mode
         if (svgCanvas.getMode() === 'textedit') {
@@ -3089,90 +2398,22 @@ const svgEditor = window['svgEditor'] = (function () {
       });
     })();
 
-    var clickFHPath = function () {
-      if (toolButtonClick('#tool_fhpath')) {
-        svgCanvas.setMode('fhpath');
-      }
-    };
-
-    var clickLine = function () {
-      if (toolButtonClick('#tool_line')) {
-        svgCanvas.setMode('line');
-      }
-    };
-
-    var clickSquare = function () {
-      if (toolButtonClick('#tool_square')) {
-        svgCanvas.setMode('square');
-      }
-    };
-
-    var clickRect = function () {
-      if (toolButtonClick('#tool_rect')) {
-        svgCanvas.setMode('rect');
-      }
-    };
-
-    var clickFHRect = function () {
-      if (toolButtonClick('#tool_fhrect')) {
-        svgCanvas.setMode('fhrect');
-      }
-    };
-
-    var clickCircle = function () {
-      if (toolButtonClick('#tool_circle')) {
-        svgCanvas.setMode('circle');
-      }
-    };
-
-    var clickEllipse = function () {
-      if (toolButtonClick('#tool_ellipse')) {
-        svgCanvas.setMode('ellipse');
-      }
-    };
-
-    var clickFHEllipse = function () {
-      if (toolButtonClick('#tool_fhellipse')) {
-        svgCanvas.setMode('fhellipse');
-      }
-    };
-
-    var clickImage = function () {
-      if (toolButtonClick('#tool_image')) {
-        svgCanvas.setMode('image');
-      }
-    };
-
     var unzoom = function () {
       editor.resetView();
     };
 
-    var clickText = function () {
-      if (toolButtonClick('#tool_text')) {
-        svgCanvas.setMode('text');
-      }
-    };
-
-    var clickPath = function () {
-      if (toolButtonClick('#tool_path')) {
-        svgCanvas.setMode('path');
-      }
-    };
-
-    var triggerGridTool = function () {
-      if (toolButtonClick('#tool_grid')) {
-        if (selectedElement != null || multiselected) {
-          ToolPanelsController.setVisibility(ToolPanelsController.type != 'gridArray' || !ToolPanelsController.isVisible);
-          ToolPanelsController.setType('gridArray');
-          ToolPanelsController.render();
-        } else {
-          Alert.popUp({
-            id: 'select first',
-            message: LANG.popup.select_first,
-            caption: LANG.left_panel.label.array,
-            callbacks: () => ObjectPanelController.updateActiveKey(null),
-          });
-        }
+    const triggerGridTool = function () {
+      if (selectedElement != null || multiselected) {
+        ToolPanelsController.setVisibility(ToolPanelsController.type != 'gridArray' || !ToolPanelsController.isVisible);
+        ToolPanelsController.setType('gridArray');
+        ToolPanelsController.render();
+      } else {
+        Alert.popUp({
+          id: 'select first',
+          message: LANG.popup.select_first,
+          caption: LANG.left_panel.label.array,
+          callbacks: () => ObjectPanelController.updateActiveKey(null),
+        });
       }
     }
     editor.triggerGridTool = triggerGridTool;
@@ -3416,7 +2657,6 @@ const svgEditor = window['svgEditor'] = (function () {
           unzoom();
           LayerPanelController.updateLayerPanel();
           updateContextPanel();
-          prepPaints();
           svgedit.transformlist.resetListMap();
           svgCanvas.runExtensions('onNewDocument');
         }
@@ -3424,12 +2664,6 @@ const svgEditor = window['svgEditor'] = (function () {
     };
 
     editor.clearScene = clearScene;
-
-    var clickOpen = function () {
-      svgCanvas.open();
-    };
-
-    var clickImport = function () { };
 
     var clickUndo = function () {
       if (undoMgr.getUndoStackSize() > 0) {
@@ -3505,204 +2739,6 @@ const svgEditor = window['svgEditor'] = (function () {
       });
     })();
 
-    // switch modifier key in tooltips if mac
-    // NOTE: This code is not used yet until I can figure out how to successfully bind ctrl/meta
-    // in Opera and Chrome
-    if (svgedit.browser.isMac() && !window['opera']) {
-      var shortcutButtons = ['tool_source'];
-      let i = shortcutButtons.length;
-      while (i--) {
-        var button = document.getElementById(shortcutButtons[i]);
-        if (button) {
-          var title = button.title;
-          var index = title.indexOf('Ctrl+');
-          button.title = [title.substr(0, index), 'Cmd+', title.substr(index + 5)].join('');
-        }
-      }
-    }
-
-    // TODO: go back to the color boxes having white background-color and then setting
-    //	background-image to none.png (otherwise partially transparent gradients look weird)
-    var colorPicker = function (elem) {
-      var picker = elem.attr('id') === 'stroke_color' ? 'stroke' : 'fill';
-      //				var opacity = (picker === 'stroke' ? $('#stroke_opacity') : $('#fill_opacity'));
-      var paint = paintBox[picker].paint;
-      var title = (picker === 'stroke' ? 'Pick a Stroke Paint and Opacity' : 'Pick a Fill Paint and Opacity');
-      // var was_none = false; // Currently unused
-      var pos = elem.offset();
-      $('#color_picker')
-        .draggable({
-          cancel: '.jGraduate_tabs, .jGraduate_colPick, .jGraduate_gradPick, .jPicker',
-          containment: 'window'
-        })
-        .css(curConfig.colorPickerCSS || {
-          'left': pos.left - 140,
-          'bottom': 40
-        })
-        .jGraduate({
-          paint: paint,
-          window: {
-            pickerTitle: title
-          },
-          images: {
-            clientPath: curConfig.jGraduatePath
-          },
-          newstop: 'inverse'
-        },
-          function (p) {
-            paint = new $.jGraduate.Paint(p);
-            paintBox[picker].setPaint(paint);
-            svgCanvas.setPaint(picker, paint);
-            $('#color_picker').hide();
-          },
-          function () {
-            $('#color_picker').hide();
-          });
-    };
-
-    var PaintBox = function (container, type) {
-      var paintColor, paintOpacity,
-        cur = curConfig[type === 'fill' ? 'initFill' : 'initStroke'];
-      // set up gradients to be used for the buttons
-      var svgdocbox = new DOMParser().parseFromString(
-        '<svg xmlns="http://www.w3.org/2000/svg"><rect width="16.5" height="16.5"' +
-        '					fill="#' + cur.color + '" opacity="' + cur.opacity + '"/>' +
-        '					<defs><linearGradient id="gradbox_"/></defs></svg>', 'text/xml');
-      var docElem = svgdocbox.documentElement;
-
-      docElem = $(container)[0].appendChild(document.importNode(docElem, true));
-      docElem.setAttribute('width', '16.5');
-
-      this.rect = docElem.firstChild;
-      this.defs = docElem.getElementsByTagName('defs')[0];
-      this.grad = this.defs.firstChild;
-      this.paint = new $.jGraduate.Paint({
-        solidColor: cur.color
-      });
-      this.type = type;
-
-      this.setPaint = function (paint, apply) {
-        this.paint = paint;
-
-        var fillAttr = 'none';
-        var ptype = paint.type;
-        var opac = paint.alpha / 100;
-
-        switch (ptype) {
-          case 'solidColor':
-            fillAttr = (paint[ptype] !== 'none') ? '#' + paint[ptype] : paint[ptype];
-            break;
-          case 'linearGradient':
-          case 'radialGradient':
-            this.defs.removeChild(this.grad);
-            this.grad = this.defs.appendChild(paint[ptype]);
-            var id = this.grad.id = 'gradbox_' + this.type;
-            fillAttr = 'url(#' + id + ')';
-            break;
-        }
-
-        this.rect.setAttribute('fill', fillAttr);
-        this.rect.setAttribute('opacity', opac);
-
-        if (apply) {
-          svgCanvas.setColor(this.type, paintColor, true);
-          svgCanvas.setPaintOpacity(this.type, paintOpacity, true);
-        }
-      };
-
-      this.update = function (apply) {
-        if (!selectedElement) {
-          return;
-        }
-        var i, len;
-        var type = this.type;
-        switch (selectedElement.tagName) {
-          case 'use':
-          case 'image':
-          case 'foreignObject':
-            // These elements don't have fill or stroke, so don't change
-            // the current value
-            return;
-          case 'g':
-          case 'a':
-            var gPaint = null;
-
-            var childs = selectedElement.getElementsByTagName('*');
-            for (i = 0, len = childs.length; i < len; i++) {
-              var elem = childs[i];
-              var p = elem.getAttribute(type);
-              if (i === 0) {
-                gPaint = p;
-              } else if (gPaint !== p) {
-                gPaint = null;
-                break;
-              }
-            }
-
-            if (gPaint === null) {
-              // No common color, don't update anything
-              paintColor = null;
-              return;
-            }
-            paintColor = gPaint;
-            paintOpacity = 1;
-            break;
-          default:
-            paintOpacity = parseFloat(selectedElement.getAttribute(type + '-opacity'));
-            if (isNaN(paintOpacity)) {
-              paintOpacity = 1.0;
-            }
-
-            var defColor = type === 'fill' ? 'black' : 'none';
-            paintColor = selectedElement.getAttribute(type) || defColor;
-        }
-
-        if (apply) {
-          svgCanvas.setColor(type, paintColor, true);
-          svgCanvas.setPaintOpacity(type, paintOpacity, true);
-        }
-
-        paintOpacity *= 100;
-
-        var paint = getPaint(paintColor, paintOpacity, type);
-        // update the rect inside #fill_color/#stroke_color
-        this.setPaint(paint);
-      };
-
-      this.prep = function () {
-        var ptype = this.paint.type;
-
-        switch (ptype) {
-          case 'linearGradient':
-          case 'radialGradient':
-            var paint = new $.jGraduate.Paint({
-              copy: this.paint
-            });
-            svgCanvas.setPaint(type, paint);
-            break;
-        }
-      };
-    };
-
-    paintBox.fill = new PaintBox('#fill_color', 'fill');
-    paintBox.stroke = new PaintBox('#stroke_color', 'stroke');
-
-    $('#stroke_width').val(curConfig.initStroke.width);
-    $('#group_opacity').val(curConfig.initOpacity * 100);
-
-    // Use this SVG elem to test vectorEffect support
-    var testEl = paintBox.fill.rect.cloneNode(false);
-    testEl.setAttribute('style', 'vector-effect:non-scaling-stroke');
-    supportsNonSS = (testEl.style.vectorEffect === 'non-scaling-stroke');
-    testEl.removeAttribute('style');
-    var svgdocbox = paintBox.fill.rect.ownerDocument;
-    // Use this to test support for blur element. Seems to work to test support in Webkit
-    var blurTest = svgdocbox.createElementNS(svgedit.NS.SVG, 'feGaussianBlur');
-    if (blurTest.stdDeviationX === undefined) {
-      $('#tool_blur').hide();
-    }
-    $(blurTest).remove();
-
     // Test for zoom icon support
     (function () {
       var pre = '-' + uaPrefix.toLowerCase() + '-zoom-';
@@ -3714,26 +2750,6 @@ const svgEditor = window['svgEditor'] = (function () {
       }
       workarea.css('cursor', 'auto');
     })();
-
-    // Test for embedImage support (use timeout to not interfere with page load)
-
-    $('#fill_color').click(function () {
-      colorPicker($('#fill_color'));
-      updateToolButtonState();
-    });
-
-    $('#group_opacityLabel').click(function () {
-      $('#opacity_dropdown button').mousedown();
-      $(window).mouseup();
-    });
-
-    $('.layer_button').mousedown(function () {
-      $(this).addClass('layer_buttonpressed');
-    }).mouseout(function () {
-      $(this).removeClass('layer_buttonpressed');
-    }).mouseup(function () {
-      $(this).removeClass('layer_buttonpressed');
-    });
 
     $('.push_button').mousedown(function () {
       if (!$(this).hasClass('disabled')) {
@@ -3782,210 +2798,8 @@ const svgEditor = window['svgEditor'] = (function () {
 
     // Associate all button actions as well as non-button keyboard shortcuts
     Actions = (function () {
-      // sel:'selector', fn:function, evt:'event', key:[key, preventDefault, NoDisableInInput]
-      var tool_buttons = [{
-        sel: '#tool_select',
-        fn: clickSelect,
-        evt: 'click',
-      },
-      {
-        sel: '#tool_fhpath',
-        fn: clickFHPath,
-        evt: 'click',
-      },
-      {
-        sel: '#tool_line',
-        fn: clickLine,
-        evt: 'click',
-      },
-      {
-        sel: '#tool_rect',
-        fn: clickRect,
-        evt: 'mouseup',
-        parent: '#tools_rect',
-        icon: 'rect'
-      },
-      {
-        sel: '#tool_square',
-        fn: clickSquare,
-        evt: 'mouseup',
-        parent: '#tools_rect',
-        icon: 'square'
-      },
-      {
-        sel: '#tool_fhrect',
-        fn: clickFHRect,
-        evt: 'mouseup',
-        parent: '#tools_rect',
-        icon: 'fh_rect'
-      },
-      {
-        sel: '#tool_ellipse',
-        fn: clickEllipse,
-        evt: 'mouseup',
-        parent: '#tools_ellipse',
-        icon: 'ellipse'
-      },
-      {
-        sel: '#tool_circle',
-        fn: clickCircle,
-        evt: 'mouseup',
-        parent: '#tools_ellipse',
-        icon: 'circle'
-      },
-      {
-        sel: '#tool_fhellipse',
-        fn: clickFHEllipse,
-        evt: 'mouseup',
-        parent: '#tools_ellipse',
-        icon: 'fh_ellipse'
-      },
-      {
-        sel: '#tool_path',
-        fn: clickPath,
-        evt: 'mouseup',
-        parent: '#tool_path',
-      },
-      {
-        sel: '#tool_text',
-        fn: clickText,
-        evt: 'click',
-      },
-      {
-        sel: '#tool_grid',
-        fn: triggerGridTool,
-        evt: 'mouseup'
-      },
-      {
-        sel: '#tool_image',
-        fn: clickImage,
-        evt: 'mouseup'
-      },
-      {
-        sel: '#tool_open',
-        fn: clickOpen,
-        evt: 'mouseup'
-      },
-      {
-        sel: '#tool_import',
-        fn: clickImport,
-        evt: 'mouseup'
-      },
-
-        // Shortcuts not associated with buttons
-
-        // {key: 'ctrl+left', fn: function(){rotateSelected(0,1);}},
-        // {key: 'ctrl+right', fn: function(){rotateSelected(1,1);}},
-        // {key: 'ctrl+shift+left', fn: function(){rotateSelected(0,5);}},
-        // {key: 'ctrl+shift+right', fn: function(){rotateSelected(1,5);}},
-        // {key: 'shift+O', fn: selectPrev},
-        // {key: 'shift+P', fn: selectNext},
-        // {key: [modKey+'up', true], fn: function(){zoomImage(2);}},
-        // {key: [modKey+'down', true], fn: function(){zoomImage(0.5);}},
-        // {key: [modKey+']', true], fn: function(){moveTopBottomSelected('Up');}},
-        // {key: [modKey+'[', true], fn: function(){moveTopBottomSelected('Down');}},
-        // {key: ['up', true], fn: function(){moveSelected(0,-1);}},
-        // {key: ['down', true], fn: function(){moveSelected(0,1);}},
-        // {key: ['left', true], fn: function(){moveSelected(-1,0);}},
-        // {key: ['right', true], fn: function(){moveSelected(1,0);}},
-        // {key: 'shift+up', fn: function(){moveSelected(0,-10);}},
-        // {key: 'shift+down', fn: function(){moveSelected(0,10);}},
-        // {key: 'shift+left', fn: function(){moveSelected(-10,0);}},
-        // {key: 'shift+right', fn: function(){moveSelected(10,0);}},
-        // {key: ['alt+up', true], fn: function(){svgCanvas.cloneSelectedElements(0,-1);}},
-        // {key: ['alt+down', true], fn: function(){svgCanvas.cloneSelectedElements(0,1);}},
-        // {key: ['alt+left', true], fn: function(){svgCanvas.cloneSelectedElements(-1,0);}},
-        // {key: ['alt+right', true], fn: function(){svgCanvas.cloneSelectedElements(1,0);}},
-        // {key: ['alt+shift+up', true], fn: function(){svgCanvas.cloneSelectedElements(0,-10);}},
-        // {key: ['alt+shift+down', true], fn: function(){svgCanvas.cloneSelectedElements(0,10);}},
-        // {key: ['alt+shift+left', true], fn: function(){svgCanvas.cloneSelectedElements(-10,0);}},
-        // {key: ['alt+shift+right', true], fn: function(){svgCanvas.cloneSelectedElements(10,0);}},
-      ];
-
-      // Tooltips not directly associated with a single function
-      var key_assocs = {
-        '5/Shift+5': '#tools_ellipse_show'
-      };
-
       return {
         setAll: function () {
-          var flyouts = {};
-          $.each(tool_buttons, function (i, opts) {
-            // Bind function to button
-            var btn;
-            if (opts.sel) {
-              btn = $(opts.sel);
-              if (btn.length === 0) {
-                return true;
-              } // Skip if markup does not exist
-              if (opts.evt) {
-                if (svgedit.browser.isTouch() && opts.evt === 'click') {
-                  opts.evt = 'mousedown';
-                }
-                btn[opts.evt](opts.fn);
-              }
-
-              // Add to parent flyout menu, if able to be displayed
-              if (opts.parent && $(opts.parent + '_show').length !== 0) {
-                var f_h = $(opts.parent);
-                if (!f_h.length) {
-                  f_h = makeFlyoutHolder(opts.parent.substr(1));
-                }
-
-                f_h.append(btn);
-
-                if (!$.isArray(flyouts[opts.parent])) {
-                  flyouts[opts.parent] = [];
-                }
-                flyouts[opts.parent].push(opts);
-              }
-            }
-            /*
-                // Bind function to shortcut key
-                if (opts.key) {
-                    // Set shortcut based on options
-                    var keyval, disInInp = true, fn = opts.fn, pd = false;
-                    if ($.isArray(opts.key)) {
-                        keyval = opts.key[0];
-                        if (opts.key.length > 1) {pd = opts.key[1];}
-                        if (opts.key.length > 2) {disInInp = opts.key[2];}
-                    } else {
-                        keyval = opts.key;
-                    }
-                    keyval += '';
-
-                    $.each(keyval.split('/'), function(i, key) {
-                        $(document).bind('keydown', key, function(e) {
-                            fn();
-                            if (pd) {
-                                e.preventDefault();
-                            }
-                            // Prevent default on ALL keys?
-                            // return false; //return false in jquery do both preventDefault and stopPropogation
-                        });
-                    });
-
-                    // Put shortcut in title
-                    if (opts.sel && !opts.hidekey && btn.attr('title')) {
-                        var newTitle = btn.attr('title').split('[')[0] + ' (' + keyval + ')';
-                        key_assocs[keyval] = opts.sel;
-                        // Disregard for menu items
-                        if (!btn.parents('#main_menu').length) {
-                            btn.attr('title', newTitle);
-                        }
-                    }
-                }
-                */
-          });
-
-          // 'fnkey' means 'cmd' or 'ctrl'
-          //Shortcuts.on(['fnkey', 'z'], clickUndo);
-          //if (window.os === 'MacOS') {
-          //    Shortcuts.on(['cmd', 'shift', 'z'], clickRedo);
-          //} else {
-          //    Shortcuts.on(['ctrl', 'y'], clickRedo);
-          //}
-          //Shortcuts.on(['fnkey', 'd'], clickClone);
           const moveUnit = storage.get('default-units') === 'inches' ? 25.4 : 10; // 0.1 in : 1 mm
 
           const isFocusingOnInputs = () => {
@@ -4118,45 +2932,6 @@ const svgEditor = window['svgEditor'] = (function () {
           // });
 
         },
-        setTitles: function () {
-          $.each(key_assocs, function (keyval, sel) {
-            var menu = ($(sel).parents('#main_menu').length);
-
-            $(sel).each(function () {
-              var t;
-              if (menu) {
-                t = $(this).text().split(' [')[0];
-              } else {
-                t = this.title.split(' [')[0];
-              }
-              var key_str = '';
-              // Shift+Up
-              $.each(keyval.split('/'), function (i, key) {
-                var mod_bits = key.split('+'),
-                  mod = '';
-                if (mod_bits.length > 1) {
-                  mod = mod_bits[0] + '+';
-                  key = mod_bits[1];
-                }
-                key_str += (i ? '/' : '') + mod + (uiStrings['key_' + key] || key);
-              });
-              if (menu) {
-                this.lastChild.textContent = t + ' [' + key_str + ']';
-              } else {
-                this.title = t + ' [' + key_str + ']';
-              }
-            });
-          });
-        },
-        getButtonData: function (sel) {
-          var b;
-          $.each(tool_buttons, function (i, btn) {
-            if (btn.sel === sel) {
-              b = btn;
-            }
-          });
-          return b;
-        }
       };
     })();
 
@@ -4164,20 +2939,6 @@ const svgEditor = window['svgEditor'] = (function () {
 
     // Select given tool
     editor.ready(function () {
-      var tool,
-        itool = curConfig.initTool,
-        container = $('#tools_left, #svg_editor .tools_flyout'),
-        pre_tool = container.find('#tool_' + itool),
-        reg_tool = container.find('#' + itool);
-      if (pre_tool.length) {
-        tool = pre_tool;
-      } else if (reg_tool.length) {
-        tool = reg_tool;
-      } else {
-        tool = $('#tool_select');
-      }
-      tool.click().mouseup();
-
       if (curConfig.showRulers) {
         ($('#show_rulers')[0] as HTMLInputElement).checked = true;
       }
@@ -4199,19 +2960,6 @@ const svgEditor = window['svgEditor'] = (function () {
       }
     });
 
-    $('#stroke_width').SpinButton({
-      min: 0,
-      max: 99,
-      smallStep: 0.1,
-      callback: changeStrokeWidth
-    });
-    $('#group_opacity').SpinButton({
-      min: 0,
-      max: 100,
-      step: 5,
-      callback: changeOpacity
-    });
-
     window.addEventListener('beforeunload', function (e) {
       // Suppress warning if page is empty
       if (undoMgr.getUndoStackSize() === 0) {
@@ -4227,7 +2975,6 @@ const svgEditor = window['svgEditor'] = (function () {
     }, false);
 
     editor.openPrep = function (func) {
-      $('#main_menu').hide();
       if (undoMgr.getUndoStackSize() === 0) {
         func(true);
       } else {
@@ -4361,7 +3108,6 @@ const svgEditor = window['svgEditor'] = (function () {
         e.stopPropagation();
         e.preventDefault();
         $('#workarea').removeAttr('style');
-        $('#main_menu').hide();
         if (e.dataTransfer && e.dataTransfer.types.includes('text/noun-project-icon')) {
           const nounProjectIcon = JSON.parse(e.dataTransfer.getData('text/noun-project-icon')) as IIcon;
           NounProjectPanelController.emit('insertIcon', nounProjectIcon);
@@ -4530,11 +3276,12 @@ const svgEditor = window['svgEditor'] = (function () {
           }
         });
       });
-      $('#tool_open').show().prepend(open);
 
+      // Keep for e2e import image
       // enable beambox-global-interaction to click (data-file-input, trigger_file_input_click)
       var imgImport = $('<input type="file" accept=".svg,.bvg,.jpg,.png,.dxf,.js,.beam,.ai,.pdf" data-file-input="import_image">').change(importImage);
       $('#tool_import').show().prepend(imgImport);
+
 
       window['updateContextPanel'] = updateContextPanel;
     }
@@ -4566,7 +3313,6 @@ const svgEditor = window['svgEditor'] = (function () {
 
       $.extend(uiStrings, allStrings);
       svgCanvas.setUiStrings(allStrings);
-      Actions.setTitles();
 
       if (rename_layer) {
         svgCanvas.renameCurrentLayer(uiStrings.layers.layer + ' 1');
@@ -4592,16 +3338,6 @@ const svgEditor = window['svgEditor'] = (function () {
 
       // Update flyout tooltips
       setFlyoutTitles();
-
-      // Copy title for certain tool elements
-      var elems = {
-        '#linejoin_miter': '#cur_linejoin',
-        '#linecap_butt': '#cur_linecap'
-      };
-
-      $.each(elems, function (source, dest) {
-        $(dest).attr('title', $(source)[0].title);
-      });
 
       // Copy alignment titles
       $('#multiselected_panel div[id^=tool_align]').each(function () {
