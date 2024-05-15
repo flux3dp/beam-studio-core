@@ -1935,126 +1935,6 @@ const svgEditor = window['svgEditor'] = (function () {
       });
     };
 
-    var setupFlyouts = function (holders) {
-      $.each(holders, function (hold_sel: string, btn_opts) {
-        var buttons = $(hold_sel).children();
-        var show_sel = hold_sel + '_show';
-        var shower = $(show_sel);
-        let defaultIndex: number = -1;
-        buttons.addClass('tool_button')
-          .unbind('click mousedown mouseup') // may not be necessary
-          .each(function (i) {
-            // Get this buttons options
-            var opts = btn_opts[i];
-
-            // Remember the function that goes with this ID
-            flyout_funcs[opts.sel] = opts.fn;
-
-            if (opts.isDefault) {
-              defaultIndex = i;
-            }
-
-            // Clicking the icon in flyout should set this set's icon
-            var func = function (event) {
-              var options = opts;
-              //find the currently selected tool if comes from keystroke
-              // if (event.type === 'keydown') {
-              // 	var flyoutIsSelected = $(options.parent + '_show').hasClass('tool_button_current');
-              // 	var currentOperation = $(options.parent + '_show').attr('data-curopt');
-              // 	$.each(holders[opts.parent], function(i, tool) {
-              // 		if (tool.sel == currentOperation) {
-              // 			if (!event.shiftKey || !flyoutIsSelected) {
-              // 				options = tool;
-              // 			} else {
-              // 				options = holders[opts.parent][i+1] || holders[opts.parent][0];
-              // 			}
-              // 		}
-              // 	});
-              // }
-              if ($(this).hasClass('disabled')) {
-                return false;
-              }
-              if (toolButtonClick(show_sel)) {
-                options.fn();
-              }
-              var icon;
-              if (options.icon) {
-                icon = $.getSvgIcon(options.icon, true);
-              } else {
-                icon = $(options.sel).children().eq(0).clone();
-              }
-
-              icon[0].setAttribute('width', shower.width());
-              icon[0].setAttribute('height', shower.height());
-              shower.children(':not(.flyout_arrow_horiz)').remove();
-              shower.append(icon).attr('data-curopt', options.sel); // This sets the current mode
-            };
-
-            $(this).mouseup(func);
-
-            if (opts.key) {
-              $(document).bind('keydown', opts.key[0] + ' shift+' + opts.key[0], func);
-            }
-          });
-
-        if (defaultIndex >= 0) {
-          shower.attr('data-curopt', btn_opts[defaultIndex].sel);
-        } else if (!shower.attr('data-curopt')) {
-          // Set first as default
-          shower.attr('data-curopt', btn_opts[0].sel);
-        }
-
-        var timer;
-        var pos = $(show_sel).position();
-
-        // Clicking the "show" icon should set the current mode
-        shower.mousedown(function (evt) {
-          if (shower.hasClass('disabled')) {
-            return false;
-          }
-          var holder = $(hold_sel as string);
-          var l = pos.left + 34;
-          var w = holder.width() * -1;
-          var time = holder.data('shown_popop') ? 200 : 0;
-          timer = setTimeout(function () {
-            // Show corresponding menu
-            if (!shower.data('isLibrary')) {
-              holder.css('left', w).show().animate({
-                left: l
-              }, 150);
-            } else {
-              holder.css('left', l).show();
-            }
-            holder.data('shown_popop', true);
-          }, time);
-          evt.preventDefault();
-        }).mouseup(function (evt) {
-          clearTimeout(timer);
-          var opt = $(this).attr('data-curopt');
-          // Is library and popped up, so do nothing
-          if (shower.data('isLibrary') && $(show_sel.replace('_show', '')).is(':visible')) {
-            toolButtonClick(show_sel, true);
-            return;
-          }
-          if (toolButtonClick(show_sel) && flyout_funcs[opt]) {
-            flyout_funcs[opt]();
-          }
-        });
-        // $('#tools_rect').mouseleave(function(){$('#tools_rect').fadeOut();});
-      });
-      setFlyoutTitles();
-      setFlyoutPositions();
-    };
-
-    var makeFlyoutHolder = function (id, child?) {
-      var div = $('<div>', {
-        'class': 'tools_flyout',
-        id: id
-      }).appendTo('#svg_editor').append(child);
-
-      return div;
-    };
-
     var uaPrefix = (function () {
       var prop;
       var regex = /^(Moz|Webkit|Khtml|O|ms|Icab)(?=[A-Z])/;
@@ -2733,8 +2613,6 @@ const svgEditor = window['svgEditor'] = (function () {
               }
             });
           }
-
-          setupFlyouts(holders);
         });
 
         $.each(btn_selects, function () {
@@ -3665,39 +3543,6 @@ const svgEditor = window['svgEditor'] = (function () {
       containment: 'window'
     });
 
-    var showPreferences = function () {
-      if (preferences) {
-        return;
-      }
-      preferences = true;
-      $('#main_menu').hide();
-
-      // Update background color with current one
-      var blocks = $('#bg_blocks div');
-      var cur_bg = 'cur_background';
-      var canvas_bg = curPrefs.bkgd_color;
-      var url = $.pref('bkgd_url');
-      blocks.each(function () {
-        var blk = $(this);
-        var is_bg = blk.css('background-color') === canvas_bg;
-        blk.toggleClass(cur_bg, is_bg);
-        if (is_bg) {
-          $('#canvas_bg_url').removeClass(cur_bg);
-        }
-      });
-      if (!canvas_bg) {
-        blocks.eq(0).addClass(cur_bg);
-      }
-      if (url) {
-        $('#canvas_bg_url').val(url);
-      }
-      $('#grid_snapping_on').prop('checked', curConfig.gridSnapping);
-      $('#grid_snapping_step').attr('value', curConfig.snappingStep);
-      $('#grid_color').attr('value', curConfig.gridColor);
-
-      $('#svg_prefs').show();
-    };
-
     var hideSourceEditor = function () {
       $('#svg_source_editor').hide();
       editingsource = false;
@@ -4427,9 +4272,6 @@ const svgEditor = window['svgEditor'] = (function () {
           Shortcuts.on(['esc'], clickSelect);
 
           // Setup flyouts
-          setupFlyouts(flyouts);
-
-          // Misc additional actions
 
           // Make 'return' keypress trigger the change event
           $('.attr_changer').bind('keydown', 'return',
