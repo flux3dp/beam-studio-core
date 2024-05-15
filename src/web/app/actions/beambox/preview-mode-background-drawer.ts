@@ -18,7 +18,7 @@ getSVGAsync((globalSVG) => {
 });
 
 const LANG = i18n.lang.beambox.left_panel;
-const documentPanelEventEmitter = eventEmitterFactory.createEventEmitter('document-panel');
+const canvasEventEmitter = eventEmitterFactory.createEventEmitter('canvas');
 const IOS_CANVAS_LIMIT = 16777216;
 
 class PreviewModeBackgroundDrawer {
@@ -47,7 +47,7 @@ class PreviewModeBackgroundDrawer {
     };
     this.backgroundDrawerSubject = new Subject();
     this.cameraOffset = null;
-    documentPanelEventEmitter.on('workarea-change', this.updateCanvasSize);
+    canvasEventEmitter.on('canvas-change', this.updateCanvasSize);
   }
 
   private updateRatio(width: number, height: number) {

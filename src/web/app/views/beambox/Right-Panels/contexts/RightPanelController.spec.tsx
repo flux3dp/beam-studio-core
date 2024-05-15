@@ -6,13 +6,6 @@ jest.mock('helpers/eventEmitterFactory', () => ({
   }),
 }));
 
-const onObjectBlur = jest.fn();
-const onObjectFocus = jest.fn();
-jest.mock('app/actions/beambox/beambox-global-interaction', () => ({
-  onObjectBlur,
-  onObjectFocus,
-}));
-
 import RightPanelController from './RightPanelController';
 
 describe('test RightPanelController', () => {
@@ -20,15 +13,15 @@ describe('test RightPanelController', () => {
     jest.resetAllMocks();
   });
 
-  test('test toPathEditMode', () => {
-    RightPanelController.toPathEditMode();
+  test('test setDisplayLayer', () => {
+    RightPanelController.setDisplayLayer(true);
     expect(emit).toHaveBeenCalledTimes(1);
-    expect(emit).toHaveBeenNthCalledWith(1, 'SET_MODE', 'path-edit');
+    expect(emit).toHaveBeenNthCalledWith(1, 'DISPLAY_LAYER', true);
   });
 
-  test('test toElementMode', () => {
-    RightPanelController.toElementMode();
+  test('test updatePathEditPanel', () => {
+    RightPanelController.updatePathEditPanel();
     expect(emit).toHaveBeenCalledTimes(1);
-    expect(emit).toHaveBeenNthCalledWith(1, 'SET_MODE', 'element');
+    expect(emit).toHaveBeenNthCalledWith(1, 'UPDATE_PATH_EDIT_PANEL');
   });
 });

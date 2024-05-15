@@ -288,12 +288,6 @@ export default function Menu({ email }: Props): JSX.Element {
           </MenuItem>
         </SubMenu>
         <MenuDivider />
-        <SubMenu label={menuCms.optimization}>
-          <MenuItem onClick={() => callback('SVG_NEST')}>
-            {menuCms.arrangement_optimization}
-          </MenuItem>
-        </SubMenu>
-        <MenuDivider />
         <MenuItem onClick={() => callback('DOCUMENT_SETTING')}>{menuCms.document_setting}</MenuItem>
         <MenuItem onClick={() => callback('CLEAR_SCENE')}>{hotkey('clear_scene')}</MenuItem>
       </SubMenu>

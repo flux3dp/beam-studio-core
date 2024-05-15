@@ -1,4 +1,4 @@
-import React, { createContext, memo, useCallback, useEffect, useState } from 'react';
+import React, { createContext, memo, useCallback, useEffect, useState, useRef } from 'react';
 
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 
@@ -18,15 +18,19 @@ interface Props {
 
 export const SelectedElementContextProvider = memo(({ children }: Props): JSX.Element => {
   const [selectedElement, setSelectedElement] = useState<Element | null>(null);
+  const selectedElementRef = useRef<Element | null>(null);
 
   const handleSetSelectedElem = useCallback(
     (elem: Element): void => {
-      if (elem !== selectedElement) {
+      if (elem === selectedElementRef.current) return;
+      selectedElementRef.current = elem;
+      setSelectedElement((cur) => {
+        if (cur === elem) return cur;
         (document.activeElement as HTMLInputElement).blur();
-        setSelectedElement(elem);
-      }
+        return elem;
+      });
     },
-    [selectedElement]
+    []
   );
 
   useEffect(() => {

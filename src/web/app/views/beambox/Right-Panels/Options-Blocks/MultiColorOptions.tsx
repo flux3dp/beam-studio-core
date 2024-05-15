@@ -9,13 +9,12 @@ import FloatingPanel from 'app/widgets/FloatingPanel';
 import HistoryCommandFactory from 'app/svgedit/HistoryCommandFactory';
 import HorizontalScrollContainer from 'app/widgets/HorizontalScrollContainer';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
-import RightPanelController from 'app/views/beambox/Right-Panels/contexts/RightPanelController';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import OptionPanelIcons from 'app/icons/option-panel/OptionPanelIcons';
 import symbolMaker from 'helpers/symbol-maker';
 import useI18n from 'helpers/useI18n';
+import { CanvasContext } from 'app/contexts/CanvasContext';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import { RightPanelContext } from 'app/views/beambox/Right-Panels/contexts/RightPanelContext';
 import { useIsMobile } from 'helpers/system-helper';
 
 import styles from './MultiColorOptions.module.scss';
@@ -50,7 +49,7 @@ const MultiColorOptions = ({ elem }: Props): JSX.Element => {
     origColor: '',
     newColor: '',
   });
-  const { mode } = useContext(RightPanelContext);
+  const { isColorPreviewing, setIsColorPreviewing } = useContext(CanvasContext);
 
   const handleColorChange = (
     origColor: string,
@@ -99,7 +98,7 @@ const MultiColorOptions = ({ elem }: Props): JSX.Element => {
   };
 
   const startPreviewMode = (color: string) => {
-    RightPanelController.toColorPreviewMode();
+    setIsColorPreviewing(true);
     svgCanvas.unsafeAccess.setCurrentMode('preview_color');
     svgCanvas.selectorManager.requestSelector(elem).resize();
     workareaEvents.emit('update-context-menu', { menuDisabled: true });
@@ -110,7 +109,7 @@ const MultiColorOptions = ({ elem }: Props): JSX.Element => {
     const { currentStep, origColor, newColor } = previewState;
     if (currentStep === EditStep.Previewing) {
       if (origColor !== newColor) handleColorChange(origColor, origColor, false);
-      RightPanelController.toElementMode();
+      setIsColorPreviewing(false);
       svgCanvas.unsafeAccess.setCurrentMode('select');
       svgCanvas.selectorManager.requestSelector(elem).resize();
       workareaEvents.emit('update-context-menu', { menuDisabled: false });
@@ -119,11 +118,11 @@ const MultiColorOptions = ({ elem }: Props): JSX.Element => {
   };
 
   useEffect(() => {
-    if (mode !== 'preview-color' && previewState.currentStep === EditStep.Previewing) {
+    if (!isColorPreviewing && previewState.currentStep === EditStep.Previewing) {
       endPreviewMode();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mode]);
+  }, [isColorPreviewing]);
 
   if (Object.keys(colors).length === 0) return null;
 

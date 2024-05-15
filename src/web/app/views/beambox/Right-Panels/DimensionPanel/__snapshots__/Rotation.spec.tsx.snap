@@ -10,21 +10,31 @@ exports[`test Rotation should render correctly on desktop 1`] = `
     >
       <svgr-url />
     </div>
-    <div>
-      <div>
-        rotate
+    <div
+      class="input"
+    >
+      <div
+        class="ant-input-number css-dev-only-do-not-override-hash input"
+      >
+        <div
+          class="ant-input-number-input-wrap"
+        >
+          <input
+            aria-valuenow="0"
+            autocomplete="off"
+            class="ant-input-number-input"
+            id="rotate"
+            role="spinbutton"
+            step="1"
+            value="0"
+          />
+        </div>
       </div>
-      <div>
+      <span
+        class="unit"
+      >
         deg
-      </div>
-      <div>
-        0
-      </div>
-      <div />
-      <input
-        type="number"
-        value="0"
-      />
+      </span>
     </div>
   </div>
 </div>

@@ -6,7 +6,7 @@ import rotaryConstants from 'app/constants/rotary-constants';
 import workareaManager from 'app/svgedit/workarea';
 import { WorkAreaModel } from 'app/constants/workarea-constants';
 
-const documentPanelEventEmitter = eventEmitterFactory.createEventEmitter('document-panel');
+const canvasEventEmitter = eventEmitterFactory.createEventEmitter('canvas');
 let container: SVGSVGElement;
 let rotaryLine: SVGLineElement;
 let transparentRotaryLine: SVGLineElement;
@@ -56,7 +56,7 @@ const updateBoundary = () => {
   }
   checkBoundary();
 };
-documentPanelEventEmitter.on('workarea-change', updateBoundary);
+canvasEventEmitter.on('canvas-change', updateBoundary);
 
 const toggleDisplay = (): void => {
   const rotaryMode = beamboxPreference.read('rotary_mode');

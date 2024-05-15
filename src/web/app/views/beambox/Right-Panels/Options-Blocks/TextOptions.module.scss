@@ -34,7 +34,7 @@
   :global(.ant-select) {
     padding: 5px 0 1px 0;
     :global(.ant-select-selector) {
-      border-width: 0 0 1px 0;
+      border-width: 0 0 1px 0 !important;
     }
   }
 

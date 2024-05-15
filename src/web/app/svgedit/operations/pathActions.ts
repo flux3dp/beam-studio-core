@@ -4,6 +4,7 @@ import * as paper from 'paper';
 import * as BezierFitCurve from 'helpers/bezier-fit-curve';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
+import getClipperLib from 'helpers/clipper/getClipperLib';
 import history from 'app/svgedit/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import ISVGPathElement from 'interfaces/ISVGPathElement';
@@ -31,7 +32,7 @@ getSVGAsync((globalSVG) => {
 
 const drawingToolEventEmitter = eventEmitterFactory.createEventEmitter('drawing-tool');
 
-const { svgedit, ClipperLib } = window;
+const { svgedit } = window;
 const { NS } = svgedit;
 
 // Assign ts module to legacy svgedit.path
@@ -1371,6 +1372,7 @@ const smoothByFitPath = (elem: SVGPathElement) => {
     cy: bbox.y + bbox.height / 2,
   };
   const result = [];
+  const ClipperLib = getClipperLib();
   const paths = ClipperLib.dPathtoPointPathsAndScale(dpath, rotation, scale);
   paths.forEach((path) => {
     result.push('M');

@@ -13,6 +13,7 @@ import LeftPanelIcons from 'app/icons/left-panel/LeftPanelIcons';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
+import RightPanelController from 'app/views/beambox/Right-Panels/contexts/RightPanelController';
 import svgEditor from 'app/actions/beambox/svg-editor';
 import TabBarIcons from 'app/icons/tab-bar/TabBarIcons';
 import TopBarIcons from 'app/icons/top-bar/TopBarIcons';
@@ -27,6 +28,7 @@ import { useIsMobile } from 'helpers/system-helper';
 import styles from './CanvasTabBar.module.scss';
 
 const events = eventEmitterFactory.createEventEmitter('canvas');
+const rightPanelEventEmitter = eventEmitterFactory.createEventEmitter('right-panel');
 let svgCanvas;
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
@@ -38,8 +40,6 @@ const CanvasTabBar = (): JSX.Element => {
   const isSubscribed = getCurrentUser()?.info?.subscription?.is_valid;
 
   const {
-    displayLayer,
-    setDisplayLayer,
     isPreviewing,
     endPreviewMode,
     changeToPreviewMode,
@@ -47,15 +47,25 @@ const CanvasTabBar = (): JSX.Element => {
   } = useContext(CanvasContext) as CanvasContextType;
   const [activeKey, setActiveKey] = useState('none');
 
-  useEffect(() => {
-    if (activeKey === 'layer' && !displayLayer) {
-      setActiveKey('none');
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [displayLayer]);
-
   const resetActiveKey = useCallback(() => {
     setActiveKey('none');
+  }, []);
+
+  useEffect(() => {
+    const handler = (val: boolean) => {
+      setActiveKey((cur) => {
+        if (val) {
+          if (cur !== 'layer') return 'layer';
+          return cur;
+        }
+        if (cur === 'layer') return 'none';
+        return cur;
+      });
+    }
+    rightPanelEventEmitter.on('DISPLAY_LAYER', handler);
+    return () => {
+      rightPanelEventEmitter.off('DISPLAY_LAYER', handler);
+    };
   }, []);
   if (!isMobile) return null;
 
@@ -92,9 +102,8 @@ const CanvasTabBar = (): JSX.Element => {
       icon: (
         <div
           onClick={() => {
-            if (activeKey === 'layer' && displayLayer) {
-              setDisplayLayer(false);
-              setActiveKey('none');
+            if (activeKey === 'layer') {
+              RightPanelController.setDisplayLayer(false);
             }
           }}
         >
@@ -146,7 +155,9 @@ const CanvasTabBar = (): JSX.Element => {
 
   const handleTabClick = (key: string) => {
     svgCanvas.setMode('select');
-    setDisplayLayer(key === 'layer');
+    if (key === 'layer') {
+      RightPanelController.setDisplayLayer(true);
+    } else RightPanelController.setDisplayLayer(false);
 
     if (key === 'camera') {
       changeToPreviewMode();

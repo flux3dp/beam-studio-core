@@ -4,7 +4,7 @@ import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import NS from 'app/constants/namespaces';
 import workareaManager from 'app/svgedit/workarea';
 
-const documentPanelEventEmitter = eventEmitterFactory.createEventEmitter('document-panel');
+const canvasEventEmitter = eventEmitterFactory.createEventEmitter('canvas');
 
 let diodeBoundaryPath: SVGPathElement;
 let diodeBoundarySvg: SVGSVGElement;
@@ -30,11 +30,11 @@ const createBoundary = () => {
 };
 
 const updateCanvasSize = (): void => {
-  const { width, height } = workareaManager
+  const { width, height } = workareaManager;
   const viewBox = `0 0 ${width} ${height}`;
   diodeBoundarySvg?.setAttribute('viewBox', viewBox);
 };
-documentPanelEventEmitter.on('workarea-change', updateCanvasSize);
+canvasEventEmitter.on('canvas-change', updateCanvasSize);
 
 const show = (isDiode = false): void => {
   if (!diodeBoundaryPath) createBoundary();

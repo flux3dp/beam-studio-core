@@ -33,6 +33,7 @@ export interface ILang {
       use: string,
       svg: string,
       dxf: string,
+      no_selection: string;
     },
     alerts: {
       start_preview_timeout: string;
@@ -45,6 +46,7 @@ export interface ILang {
       install_correct_headtype: string;
       door_opened: string;
       fail_to_get_door_status: string;
+      QcleanScene: string;
     };
     hint: {
       polygon: string;
@@ -104,7 +106,6 @@ export interface ILang {
       svg_edit: string;
       path: string;
       decompose_path: string;
-      optimization: string;
       object: string;
       layer_setting: string;
       layer_color_config: string;
@@ -114,7 +115,6 @@ export interface ILang {
       image_stamp: string;
       image_vectorize: string;
       image_curve: string;
-      arrangement_optimization: string;
       align_to_edges: string;
       document_setting: string;
       document_setting_short: string;
@@ -937,6 +937,7 @@ export interface ILang {
           wait_for_parsing_font: string,
           offset: string,
           array: string,
+          auto_arrange: string;
           decompose_path: string,
           disassemble_use: string,
           disassembling: string,
@@ -1586,8 +1587,6 @@ export interface ILang {
     suggest_calibrate_camera_first: string,
     camera_calibration_failed: string,
     ask_retry_calibration: string,
-    skipped_camera_calibration: string,
-    skipped_ador_calibration: string,
     needNewUserTutorial: string,
     needNewInterfaceTutorial: string,
     next: string,
@@ -1600,6 +1599,7 @@ export interface ILang {
       draw_a_circle: string,
       drag_to_draw: string,
       infill: string,
+      switch_to_object_panel: string;
       switch_to_layer_panel: string,
       set_preset_wood_engraving: string,
       set_preset_wood_cut: string,

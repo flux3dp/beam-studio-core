@@ -1,23 +1,49 @@
-import React, { memo, useCallback, useMemo } from 'react';
+import React, { memo, useCallback, useEffect, useMemo, useRef } from 'react';
 
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
-import UnitInput from 'app/widgets/Unit-Input-v2';
 import storage from 'implementations/storage';
+import UnitInput from 'app/widgets/UnitInput';
 import { useIsMobile } from 'helpers/system-helper';
 
 import styles from './DimensionPanel.module.scss';
+import { getValue } from './utils';
 
 interface Props {
   type: 'w' | 'h' | 'rx' | 'ry';
   value: number;
   onChange: (type: string, value: number) => void;
   onBlur?: () => void;
-  onKeyUp?: (e: KeyboardEvent) => void;
 }
 
-const SizeInput = ({ type, value, onChange, onBlur, onKeyUp }: Props): JSX.Element => {
+const typeKeyMap = {
+  w: 'width',
+  h: 'height',
+  rx: 'rx',
+  ry: 'ry',
+};
+
+const SizeInput = ({ type, value, onChange, onBlur }: Props): JSX.Element => {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const objectPanelEventEmitter = useMemo(() => eventEmitterFactory.createEventEmitter('object-panel'), []);
   const isMobile = useIsMobile();
-  const unit = useMemo(() => storage.get('default-units') === 'inches' ? 'in' : 'mm', []);
+  const isInch = useMemo(() => storage.get('default-units') === 'inches', []);
+  const unit = useMemo(() => (isInch ? 'in' : 'mm'), [isInch]);
+  const precision = useMemo(() => (isInch ? 4 : 2), [isInch]);
+
+  useEffect(() => {
+    const handler = (newValues?: { [type: string]: number }) => {
+      if (inputRef.current) {
+        const newVal = getValue(newValues, type, { unit, allowUndefined: true });
+        if (newVal === undefined) return;
+        inputRef.current.value = newVal.toFixed(precision);
+      }
+    }
+    objectPanelEventEmitter.on('UPDATE_DIMENSION_VALUES', handler);
+    return () => {
+      objectPanelEventEmitter.removeListener('UPDATE_DIMENSION_VALUES', handler);
+    }
+  }, [type, unit, precision, objectPanelEventEmitter]);
 
   const label = useMemo<string | JSX.Element>(() => {
     if (type === 'w') return 'W';
@@ -26,16 +52,14 @@ const SizeInput = ({ type, value, onChange, onBlur, onKeyUp }: Props): JSX.Eleme
     if (type === 'ry') return 'H';
     return null;
   }, [type]);
-  const handleChange = useCallback((val: number) => {
-    const changeKey = {
-      w: 'width',
-      h: 'height',
-      rx: 'rx',
-      ry: 'ry',
-    }[type];
-    const newVal = type === 'rx' || type === 'ry' ? val / 2 : val;
-    onChange(changeKey, newVal);
-  }, [onChange, type]);
+  const handleChange = useCallback(
+    (val: number) => {
+      const changeKey = typeKeyMap[type];
+      const newVal = type === 'rx' || type === 'ry' ? val / 2 : val;
+      onChange(changeKey, newVal);
+    },
+    [onChange, type]
+  );
 
   if (isMobile) {
     return (
@@ -47,18 +71,26 @@ const SizeInput = ({ type, value, onChange, onBlur, onKeyUp }: Props): JSX.Eleme
       />
     );
   }
+
   return (
     <div className={styles.dimension}>
       <div className={styles.label}>{label}</div>
-      <UnitInput
-        id={`${type}_size`}
-        unit={unit}
-        onBlur={onBlur}
-        onKeyUp={onKeyUp}
-        defaultValue={value}
-        getValue={handleChange}
-        min={0}
-      />
+        <UnitInput
+          ref={inputRef}
+          id={`${type}_size`}
+          className={styles.input}
+          width={66}
+          fontSize={12}
+          unit={unit}
+          isInch={isInch}
+          precision={precision}
+          step={isInch ? 2.54 : 1}
+          value={value}
+          onBlur={onBlur}
+          controls={false}
+          onChange={handleChange}
+          min={0}
+        />
     </div>
   );
 };

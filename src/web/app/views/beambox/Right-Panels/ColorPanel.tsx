@@ -10,12 +10,11 @@ import FloatingPanel from 'app/widgets/FloatingPanel';
 import HistoryCommandFactory from 'app/svgedit/HistoryCommandFactory';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import OptionPanelIcons from 'app/icons/option-panel/OptionPanelIcons';
-import RightPanelController from 'app/views/beambox/Right-Panels/contexts/RightPanelController';
 import storage from 'implementations/storage';
 import useDidUpdateEffect from 'helpers/hooks/useDidUpdateEffect';
 import useI18n from 'helpers/useI18n';
+import { CanvasContext } from 'app/contexts/CanvasContext';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import { RightPanelContext } from 'app/views/beambox/Right-Panels/contexts/RightPanelContext';
 import { useIsMobile } from 'helpers/system-helper';
 
 import styles from './ColorPanel.module.scss';
@@ -67,7 +66,7 @@ const ColorPanel = ({ elem }: Props): JSX.Element => {
     type: EditType.None,
   });
   const previewRef = useRef({ origColor: '', newColor: '' });
-  const { mode } = useContext(RightPanelContext);
+  const { isColorPreviewing, setIsColorPreviewing } = useContext(CanvasContext);
   const { fill, stroke, strokeWidth } = state;
   useDidUpdateEffect(() => {
     setState(deriveElementState(elem));
@@ -131,7 +130,7 @@ const ColorPanel = ({ elem }: Props): JSX.Element => {
   );
 
   const startPreviewMode = (type: number, color: string) => {
-    RightPanelController.toColorPreviewMode();
+    setIsColorPreviewing(true);
     svgCanvas.unsafeAccess.setCurrentMode('preview_color');
     svgCanvas.selectorManager.requestSelector(elem).resize();
     workareaEvents.emit('update-context-menu', { menuDisabled: true });
@@ -147,7 +146,7 @@ const ColorPanel = ({ elem }: Props): JSX.Element => {
         if (type === EditType.Fill) handleFillColorChange(origColor, false);
         else handleStrokeColorChange(origColor, false);
       }
-      RightPanelController.toElementMode();
+      setIsColorPreviewing(false);
       svgCanvas.unsafeAccess.setCurrentMode('select');
       svgCanvas.selectorManager.requestSelector(elem).resize();
       workareaEvents.emit('update-context-menu', { menuDisabled: false });
@@ -156,11 +155,11 @@ const ColorPanel = ({ elem }: Props): JSX.Element => {
   };
 
   useEffect(() => {
-    if (mode !== 'preview-color' && previewState.currentStep === EditStep.Previewing) {
+    if (!isColorPreviewing && previewState.currentStep === EditStep.Previewing) {
       endPreviewMode();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mode]);
+  }, [isColorPreviewing]);
 
   const renderBackIcon = () => {
     if (previewState.currentStep !== EditStep.Previewing) return null;

@@ -1,11 +1,13 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import classNames from 'classnames';
 import { Button, ConfigProvider, Divider, Space } from 'antd';
 
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import FloatingPanel from 'app/widgets/FloatingPanel';
 import i18n from 'helpers/i18n';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import PathEditIcons from 'app/icons/path-edit-panel/PathEditIcons';
+import useForceUpdate from 'helpers/use-force-update';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ISVGPath } from 'interfaces/ISVGPath';
 import { textButtonTheme } from 'app/views/beambox/Right-Panels/antd-config';
@@ -23,6 +25,7 @@ getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
 });
 
+const rightPanelEventEmitter = eventEmitterFactory.createEventEmitter('right-panel');
 const LANG = i18n.lang.beambox.right_panel.object_panel.path_edit_panel;
 
 const LINKTYPE_CORNER = 0;
@@ -30,10 +33,17 @@ const LINKTYPE_SMOOTH = 1; // same direction, different dist
 const LINKTYPE_SYMMETRIC = 2; // same direction, same dist
 
 const PanelContent = ({ isMobile = false }: { isMobile?: boolean }) => {
+  const forceUpdate = useForceUpdate();
   const onNodeTypeChange = (newType) => {
     svgedit.path.path.setSelectedNodeType(newType);
   };
 
+  useEffect(() => {
+    rightPanelEventEmitter.on('UPDATE_PATH_EDIT_PANEL', forceUpdate);
+    return () => {
+      rightPanelEventEmitter.off('UPDATE_PATH_EDIT_PANEL', forceUpdate);
+    };
+  }, [forceUpdate]);
   const currentPath: ISVGPath = svgedit.path.path;
   let containsSharpNodes = false;
   let containsRoundNodes = false;

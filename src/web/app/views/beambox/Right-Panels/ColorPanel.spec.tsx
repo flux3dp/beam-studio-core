@@ -2,7 +2,17 @@
 import React from 'react';
 import { act, fireEvent, render } from '@testing-library/react';
 
+import { CanvasContext } from 'app/contexts/CanvasContext';
+
 import ColorPanel from './ColorPanel';
+
+const mockSetIsColorPreviewing = jest.fn();
+jest.mock('app/contexts/CanvasContext', () => ({
+  CanvasContext: React.createContext({
+    isColorPreviewing: false,
+    setIsColorPreviewing: (val) => mockSetIsColorPreviewing(val),
+  }),
+}));
 
 jest.mock(
   'app/widgets/ColorPicker',

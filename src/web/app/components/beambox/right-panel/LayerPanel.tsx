@@ -14,6 +14,7 @@ import i18n from 'helpers/i18n';
 import LayerContextMenu from 'app/views/beambox/Right-Panels/LayerPanel/LayerContextMenu';
 import LayerList from 'app/views/beambox/Right-Panels/LayerPanel/LayerList';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
+import RightPanelController from 'app/views/beambox/Right-Panels/contexts/RightPanelController';
 import SelLayerBlock from 'app/components/beambox/right-panel/SelLayerBlock';
 import { ContextMenuTrigger } from 'helpers/react-contextmenu';
 import { cloneLayerConfig } from 'helpers/layer/layer-config-helper';
@@ -34,7 +35,6 @@ const LANG = i18n.lang.beambox.right_panel.layer_panel;
 
 interface Props {
   hide?: boolean;
-  setDisplayLayer: (val: boolean) => void;
 }
 
 interface State {
@@ -429,7 +429,7 @@ class LayerPanel extends React.PureComponent<Props, State> {
     }
     const { setSelectedLayers } = this.context;
     const drawing = svgCanvas.getCurrentDrawing();
-    const { hide, setDisplayLayer } = this.props;
+    const { hide } = this.props;
 
     return (
       <div id="layer-and-laser-panel" className={classNames({ [styles.hide]: hide })}>
@@ -445,7 +445,7 @@ class LayerPanel extends React.PureComponent<Props, State> {
               ]}
               title={LANG.layers.layer}
               fixedContent={<AddLayerButton setSelectedLayers={setSelectedLayers} />}
-              onClose={() => setDisplayLayer(false)}
+              onClose={() => RightPanelController.setDisplayLayer(false)}
               forceClose={hide}
             >
               <ObjectPanelItem.Mask/>

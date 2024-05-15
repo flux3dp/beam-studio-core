@@ -175,7 +175,7 @@ const funcs = {
     setCrosshairCursor();
   },
   insertLine(): void {
-    $('#tool_line').mouseup();
+    svgCanvas.setMode('line');
     setCrosshairCursor();
   },
   insertText(): void {

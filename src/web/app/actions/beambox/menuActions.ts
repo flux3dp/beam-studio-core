@@ -12,6 +12,7 @@ import FileExportHelper from 'helpers/file-export-helper';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import i18n from 'helpers/i18n';
 import imageEdit from 'helpers/image-edit';
+import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
 import OutputError from 'helpers/output-error';
 import Tutorials from 'app/actions/beambox/tutorials';
 import viewMenu from 'helpers/menubar/view';
@@ -149,7 +150,10 @@ export default {
     BeamboxPreference.write('continuous_drawing', false);
     Tutorials.startNewUserTutorial(() => {
       BeamboxPreference.write('continuous_drawing', continuousDrawing);
-      Alert.popUp({ message: lang.tutorial.tutorial_complete });
+      MessageCaller.openMessage({
+        level: MessageLevel.SUCCESS,
+        content: lang.tutorial.tutorial_complete,
+      });
     });
   },
   START_UI_INTRO: () => Tutorials.startInterfaceTutorial(() => { }),

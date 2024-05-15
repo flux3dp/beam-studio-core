@@ -27,6 +27,7 @@ const nextStepRequirements = {
   ADD_NEW_LAYER: 'ADD_NEW_LAYER',
   TO_EDIT_MODE: 'TO_EDIT_MODE',
   TO_LAYER_PANEL: 'TO_LAYER_PANEL',
+  TO_OBJECT_PANEL: 'TO_OBJECT_PANEL',
   TO_PREVIEW_MODE: 'TO_PREVIEW_MODE',
   PREVIEW_PLATFORM: 'PREVIEW_PLATFORM',
   SEND_FILE: 'SEND_FILE',
@@ -148,28 +149,6 @@ const NEW_USER_TUTORIAL: ITutorial = {
       },
       text: LANG.newUser.drag_to_draw,
       nextStepRequirement: nextStepRequirements.DRAW_A_RECT,
-    },
-    {
-      dialogBoxStyles: {
-        position: {
-          right: calculateRight(4, RightRef.RIGHT_PANEL),
-          top: calculateTop(20, TopRef.TOPBAR),
-        },
-        arrowDirection: 'right',
-      },
-      holePosition: {
-        right: calculateRight(211, RightRef.RIGHT_SROLL_BAR),
-        top: calculateTop(0, TopRef.TOPBAR),
-      },
-      holeSize: { width: 32, height: 40 },
-      hintCircle: {
-        right: calculateRight(206, RightRef.RIGHT_SROLL_BAR),
-        top: calculateTop(0, TopRef.TOPBAR),
-        width: 40,
-        height: 40,
-      },
-      text: LANG.newUser.switch_to_layer_panel,
-      nextStepRequirement: nextStepRequirements.TO_LAYER_PANEL,
       callback: TutorialCallbacks.SCROLL_TO_PARAMETER,
     },
     {
@@ -265,6 +244,28 @@ const NEW_USER_TUTORIAL: ITutorial = {
       },
       text: LANG.newUser.drag_to_draw,
       nextStepRequirement: nextStepRequirements.DRAW_A_CIRCLE,
+    },
+    {
+      dialogBoxStyles: {
+        position: {
+          right: calculateRight(44, RightRef.RIGHT_SROLL_BAR),
+          top: calculateTop(20, TopRef.TOPBAR),
+        },
+        arrowDirection: 'right',
+      },
+      holePosition: {
+        right: calculateRight(0, RightRef.RIGHT_SROLL_BAR),
+        top: calculateTop(0, TopRef.TOPBAR),
+      },
+      holeSize: { width: 32, height: 40 },
+      hintCircle: {
+        right: calculateRight(0, RightRef.RIGHT_SROLL_BAR),
+        top: calculateTop(0, TopRef.TOPBAR),
+        width: 40,
+        height: 40,
+      },
+      text: LANG.newUser.switch_to_object_panel,
+      nextStepRequirement: nextStepRequirements.TO_OBJECT_PANEL,
     },
     {
       dialogBoxStyles: {

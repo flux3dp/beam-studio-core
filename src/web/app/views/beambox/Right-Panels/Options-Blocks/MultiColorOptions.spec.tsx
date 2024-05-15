@@ -1,7 +1,13 @@
 import React from 'react';
 import { act, fireEvent, render } from '@testing-library/react';
 
+import { CanvasContext } from 'app/contexts/CanvasContext';
+
 import MultiColorOptions from './MultiColorOptions';
+
+jest.mock('app/contexts/CanvasContext', () => ({
+  CanvasContext: React.createContext({ isColorPreviewing: false }),
+}));
 
 jest.mock(
   'app/widgets/ColorPicker',
@@ -127,6 +133,7 @@ jest.mock('helpers/useI18n', () => () => ({
 }));
 
 const mockUseElem = document.createElement('use');
+const mockSetIsColorPreviewing = jest.fn();
 
 describe('test MultiColorOptions', () => {
   beforeEach(() => {
@@ -142,12 +149,20 @@ describe('test MultiColorOptions', () => {
   });
 
   it('should render correctly', () => {
-    const { container } = render(<MultiColorOptions elem={document.createElement('rect')} />);
+    const { container } = render(
+      <CanvasContext.Provider value={{ isColorPreviewing: false } as any}>
+        <MultiColorOptions elem={document.createElement('rect')} />
+      </CanvasContext.Provider>
+    );
     expect(container).toMatchSnapshot();
   });
 
   test('editing color in use element should work', async () => {
-    const { getByText, getAllByText } = render(<MultiColorOptions elem={mockUseElem} />);
+    const { getByText, getAllByText } = render(
+      <CanvasContext.Provider value={{ isColorPreviewing: false } as any}>
+        <MultiColorOptions elem={mockUseElem} />
+      </CanvasContext.Provider>
+    );
     const mockChangeCmd = { isEmpty: () => false };
     mockColloectColors.mockReturnValue({
       '#AAFFFF': [{ element: '1', attribute: 'fill', useElement: mockUseElem }],
@@ -200,7 +215,11 @@ describe('test MultiColorOptions mobile', () => {
 
   it('should render correctly', () => {
     const { container, getByText } = render(
-      <MultiColorOptions elem={document.createElement('rect')} />
+      <CanvasContext.Provider
+        value={{ isColorPreviewing: false, setIsColorPreviewing: mockSetIsColorPreviewing } as any}
+      >
+        <MultiColorOptions elem={document.createElement('rect')} />
+      </CanvasContext.Provider>
     );
     act(() => {
       fireEvent.click(getByText('Color'));
@@ -212,7 +231,13 @@ describe('test MultiColorOptions mobile', () => {
   });
 
   test('editing color in use element should work', async () => {
-    const { container, getByText } = render(<MultiColorOptions elem={mockUseElem} />);
+    const { container, getByText } = render(
+      <CanvasContext.Provider
+        value={{ isColorPreviewing: false, setIsColorPreviewing: mockSetIsColorPreviewing } as any}
+      >
+        <MultiColorOptions elem={mockUseElem} />
+      </CanvasContext.Provider>
+    );
     const mockChangeCmd = { isEmpty: () => false };
     mockFinishUndoableChange.mockReturnValue(mockChangeCmd);
     act(() => {
