@@ -467,9 +467,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
                 }
               }
             }
-            if (cmd.elem.tagName === 'use') {
-              setUseData(cmd.elem);
-            }
           } else if (cmdType === ChangeElementCommand.type()) {
             // if we are changing layer names, re-identify all layers
             if (cmd.elem.tagName === 'title' && cmd.elem.parentNode.parentNode === svgcontent) {
@@ -2133,27 +2130,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     }
   };
 
-  // Function setUseData
-  // Assigns reference data for each use element
-  var setUseData = this.setUseData = function (parent) {
-    var elems = $(parent);
-
-    if (parent.tagName !== 'use') {
-      elems = elems.find('use');
-    }
-
-    elems.each(function () {
-      var id = getHref(this).substr(1);
-      var ref_elem = svgedit.utilities.getElem(id);
-      if (!ref_elem) {
-        return;
-      }
-      $(this).data('ref', ref_elem);
-      if (ref_elem.tagName === 'symbol' || ref_elem.tagName === 'svg') {
-        $(this).data('symbol', ref_elem).data('ref', ref_elem);
-      }
-    });
-  };
 
   // Function convertGradients
   // Converts gradients from userSpaceOnUse to objectBoundingBox
@@ -2233,139 +2209,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     });
   };
 
-  // Function: convertToGroup
-  // Converts selected/given <use> or child SVG element to a group
-  var convertToGroup = this.convertToGroup = function (elem) {
-    if (!elem) {
-      elem = selectedElements[0];
-    }
-    var $elem = $(elem);
-    var batchCmd = new history.BatchCommand();
-    var ts;
-
-    if ($elem.data('gsvg')) {
-      // Use the gsvg as the new group
-      var svg = elem.firstChild;
-      var pt = $(svg).attr(['x', 'y']) as any;
-
-      $(elem.firstChild.firstChild).unwrap();
-      $(elem).removeData('gsvg');
-
-      var tlist = svgedit.transformlist.getTransformList(elem);
-      var xform = svgroot.createSVGTransform();
-      xform.setTranslate(pt.x, pt.y);
-      tlist.appendItem(xform);
-      svgedit.recalculate.recalculateDimensions(elem);
-      call('selected', [elem]);
-    } else if ($elem.data('symbol')) {
-      elem = $elem.data('symbol');
-
-      ts = $elem.attr('transform') || '';
-      var pos = $elem.attr(['x', 'y']) as any;
-
-      var vb = elem.getAttribute('viewBox');
-
-      if (vb) {
-        var nums = vb.split(' ');
-        pos.x -= +nums[0];
-        pos.y -= +nums[1];
-      }
-
-      // Not ideal, but works
-      ts += ' translate(' + (pos.x || 0) + ',' + (pos.y || 0) + ')';
-
-      var prev = $elem.prev();
-
-      // Remove <use> element
-      batchCmd.addSubCommand(new history.RemoveElementCommand($elem[0], $elem[0].nextSibling, $elem[0].parentNode));
-      $elem.remove();
-
-      // See if other elements reference this symbol
-      var has_more = $(svgcontent).find('use:data(symbol)').length;
-
-      var g = svgdoc.createElementNS(NS.SVG, 'g');
-      var childs = elem.childNodes;
-
-      var i;
-      for (i = 0; i < childs.length; i++) {
-        if (childs[i].tagName !== 'defs') {
-          g.appendChild(childs[i].cloneNode(true));
-        }
-      }
-
-      // Duplicate the gradients for Gecko, since they weren't included in the <symbol>
-      if (svgedit.browser.isGecko()) {
-        var dupeGrads = $(svgedit.utilities.findDefs()).children('linearGradient,radialGradient,pattern').clone();
-        $(g).append(dupeGrads);
-      }
-
-      if (ts) {
-        g.setAttribute('transform', ts);
-      }
-
-      var parent = elem.parentNode;
-
-      uniquifyElems(g);
-
-      // Put the dupe gradients back into <defs> (after uniquifying them)
-      if (svgedit.browser.isGecko()) {
-        $(findDefs()).append($(g).find('linearGradient,radialGradient,pattern'));
-      }
-
-      // now give the g itself a new id
-      g.id = getNextId();
-
-      prev.after(g);
-
-      if (parent) {
-        if (!has_more) {
-          // remove symbol/svg element
-          var nextSibling = elem.nextSibling;
-          parent.removeChild(elem);
-          batchCmd.addSubCommand(new history.RemoveElementCommand(elem, nextSibling, parent));
-        }
-        batchCmd.addSubCommand(new history.InsertElementCommand(g));
-      }
-
-      setUseData(g);
-
-      if (svgedit.browser.isGecko()) {
-        convertGradients(svgedit.utilities.findDefs());
-      } else {
-        convertGradients(g);
-      }
-
-      // recalculate dimensions on the top-level children so that unnecessary transforms
-      // are removed
-      svgedit.utilities.walkTreePost(g, function (n) {
-        try {
-          svgedit.recalculate.recalculateDimensions(n);
-        } catch (e) {
-          console.log(e);
-        }
-      });
-
-      // Give ID for any visible element missing one
-      $(g).find(visElems).each(function () {
-        if (!this.id) {
-          this.id = getNextId();
-        }
-      });
-
-      selectOnly([g]);
-
-      var cm = pushGroupProperties(g, true);
-      if (cm) {
-        batchCmd.addSubCommand(cm);
-      }
-
-      addCommandToHistory(batchCmd);
-
-    } else {
-      console.log('Unexpected element to ungroup:', elem);
-    }
-  };
-
   //
   // Function: setSvgString
   // This function sets the current drawing as the input SVG XML.
@@ -2400,127 +2243,107 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       }
 
       svgroot.appendChild(svgcontent);
-      var content = $(svgcontent);
+      batchCmd.addSubCommand(new history.InsertElementCommand(svgcontent));
 
-      canvas.current_drawing_ = new svgedit.draw.Drawing(svgcontent, idprefix);
+      const postContentChange = () => {
+        const content = $(svgcontent);
+        canvas.current_drawing_ = new svgedit.draw.Drawing(svgcontent, idprefix);
+        // change image href vals if possible
+        content.find('image').each(function () {
+          var image = this;
+          svgedit.utilities.preventClickDefault(image);
+          var val = getHref(this);
+          if (val) {
+            if (val.indexOf('data:') === 0) {
+              // Check if an SVG-edit data URI
+              var m = val.match(/svgedit_url=(.*?);/);
+              if (m) {
+                var url = decodeURIComponent(m[1]);
+                ($(new Image()) as any).load(function () {
+                  image.setAttributeNS(NS.XLINK, 'xlink:href', url);
+                }).attr('src', url);
+              }
+            }
+            // Add to encodableImages if it loads
+            canvas.embedImage(val);
+          }
+        });
+        // Wrap child SVGs in group elements
+        content.find('svg').each(function () {
+          // Skip if it's in a <defs>
+          if ($(this).closest('defs').length) {
+            return;
+          }
+          uniquifyElems(this);
+          // Check if it already has a gsvg group
+          var pa = this.parentNode as Element;
+          if (pa.childNodes.length === 1 && pa.nodeName === 'g') {
+            $(pa).data('gsvg', this);
+            pa.id = pa.id || getNextId();
+          } else {
+            groupSvgElem(this);
+          }
+        });
 
-      // retrieve or set the nonce
-      var nonce = getCurrentDrawing().getNonce();
-      if (nonce) {
-        call('setnonce', nonce);
-      } else {
-        call('unsetnonce');
-      }
+        // Check monotype fonts and load font files
+        const user = getCurrentUser();
+        content.find('text').each(async function () {
+          await fontHelper.getMonotypeFonts();
+          const font = fontHelper.findFont({
+            postscriptName: $(this).attr('font-postscript'),
+          }) as WebFont;
+          const { success } = await fontHelper.applyMonotypeStyle(font, user, true);
+          return success;
+        });
 
-      // change image href vals if possible
-      content.find('image').each(function () {
-        var image = this;
-        svgedit.utilities.preventClickDefault(image);
-        var val = getHref(this);
-        if (val) {
-          if (val.indexOf('data:') === 0) {
-            // Check if an SVG-edit data URI
-            var m = val.match(/svgedit_url=(.*?);/);
-            if (m) {
-              var url = decodeURIComponent(m[1]);
-              ($(new Image()) as any).load(function () {
-                image.setAttributeNS(NS.XLINK, 'xlink:href', url);
-              }).attr('src', url);
+        // For Firefox: Put all paint elems in defs
+        if (svgedit.browser.isGecko()) {
+          content.find('linearGradient, radialGradient, pattern').appendTo(svgedit.utilities.findDefs());
+        }
+
+        // Set ref element for <use> elements
+        convertGradients(content[0]);
+
+        const { pxWidth, pxHeight, pxDisplayHeight } = getWorkarea(BeamboxPreference.read('workarea'));
+        const attrs: { [key: string]: string | number } = {
+          id: 'svgcontent',
+          overflow: curConfig.show_outside_canvas ? 'visible' : 'hidden',
+          width: pxWidth,
+          height: pxDisplayHeight ?? pxHeight,
+          viewBox: `0 0 ${pxWidth} ${pxDisplayHeight ?? pxHeight}`,
+        };
+        content.attr(attrs);
+
+        // identify layers
+        identifyLayers();
+        // Give ID for any visible layer children missing one
+        content.children().find(visElems).each(function () {
+          if (!this.id) this.id = getNextId();
+        });
+        // reset transform lists
+        svgedit.transformlist.resetListMap();
+        clearSelection();
+        svgedit.path.clearData();
+        svgroot.appendChild(selectorManager.selectorParentGroup);
+
+        const layers: SVGGElement[] = Array.from(document.querySelectorAll('#svgcontent > g.layer'));
+        layers.forEach((layer) => {
+          updateLayerColor(layer);
+          const childNodes = Array.from(layer.childNodes);
+          while (childNodes.length > 0) {
+            const child = childNodes.pop() as Element;
+            if (child.tagName !== 'g') {
+              $(child).mouseover(this.handleGenerateSensorArea).mouseleave(this.handleGenerateSensorArea);
+            } else {
+              childNodes.push(...Array.from(child.childNodes));
             }
           }
-          // Add to encodableImages if it loads
-          canvas.embedImage(val);
-        }
-      });
+        });
 
-      // Wrap child SVGs in group elements
-      content.find('svg').each(function () {
-        // Skip if it's in a <defs>
-        if ($(this).closest('defs').length) {
-          return;
-        }
-
-        uniquifyElems(this);
-
-        // Check if it already has a gsvg group
-        var pa = this.parentNode as Element;
-        if (pa.childNodes.length === 1 && pa.nodeName === 'g') {
-          $(pa).data('gsvg', this);
-          pa.id = pa.id || getNextId();
-        } else {
-          groupSvgElem(this);
-        }
-      });
-
-      // Check monotype fonts and load font files
-      const user = getCurrentUser();
-      content.find('text').each(async function () {
-        await fontHelper.getMonotypeFonts();
-        const font = fontHelper.findFont({
-          postscriptName: $(this).attr('font-postscript'),
-        }) as WebFont;
-        const { success } = await fontHelper.applyMonotypeStyle(font, user, true);
-        return success;
-      });
-
-      // For Firefox: Put all paint elems in defs
-      if (svgedit.browser.isGecko()) {
-        content.find('linearGradient, radialGradient, pattern').appendTo(svgedit.utilities.findDefs());
-      }
-
-      // Set ref element for <use> elements
-
-      // TODO: This should also be done if the object is re-added through "redo"
-      setUseData(content);
-
-      convertGradients(content[0]);
-
-      const { pxWidth, pxHeight, pxDisplayHeight } = getWorkarea(BeamboxPreference.read('workarea'));
-      const attrs: { [key: string]: string | number } = {
-        id: 'svgcontent',
-        overflow: curConfig.show_outside_canvas ? 'visible' : 'hidden',
-        width: pxWidth,
-        height: pxDisplayHeight ?? pxHeight,
-        viewBox: `0 0 ${pxWidth} ${pxDisplayHeight ?? pxHeight}`,
       };
-
-      // identify layers
-      identifyLayers();
-
-      // Give ID for any visible layer children missing one
-      content.children().find(visElems).each(function () {
-        if (!this.id) {
-          this.id = getNextId();
-        }
-      });
-
-      content.attr(attrs);
-
-      batchCmd.addSubCommand(new history.InsertElementCommand(svgcontent));
-      // update root to the correct size
-      var changes = content.attr(['width', 'height']);
-      batchCmd.addSubCommand(new history.ChangeElementCommand(svgroot, changes));
-
-      // reset transform lists
-      svgedit.transformlist.resetListMap();
-      clearSelection();
-      svgedit.path.clearData();
-      svgroot.appendChild(selectorManager.selectorParentGroup);
-
+      postContentChange();
+      batchCmd.onAfter = postContentChange;
       addCommandToHistory(batchCmd);
-      const layers: SVGGElement[] = $('#svgcontent > g.layer').toArray();
-      layers.forEach((layer) => {
-        updateLayerColor(layer);
-        const childNodes = Array.from(layer.childNodes);
-        while (childNodes.length > 0) {
-          const child = childNodes.pop() as Element;
-          if (child.tagName !== 'g') {
-            $(child).mouseover(this.handleGenerateSensorArea).mouseleave(this.handleGenerateSensorArea);
-          } else {
-            childNodes.push(...Array.from(child.childNodes));
-          }
-        }
-      });
     } catch (e) {
       console.log(e);
       return false;
@@ -2863,7 +2686,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     if (!elem) {
       return;
     }
-    elem = $(elem).data('gsvg') || $(elem).data('symbol') || elem;
     var childs = elem.childNodes;
     for (i = 0; i < childs.length; i++) {
       if (childs[i].nodeName === 'title') {
@@ -4906,11 +4728,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
     if (g.tagName === 'use') {
       this.disassembleUse2Group([g]);
-      return;
-    }
-    if ($(g).data('gsvg') || $(g).data('symbol')) {
-      // Is svg, so actually convert to group
-      convertToGroup(g);
       return;
     }
     var parents_a = $(g).parents('a');
