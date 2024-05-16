@@ -3,6 +3,7 @@ import alertConstants from 'app/constants/alert-constants';
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import changeWorkarea from 'app/svgedit/operations/changeWorkarea';
 import constant from 'app/actions/beambox/constant';
+import history from 'app/svgedit/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import i18n from 'helpers/i18n';
 import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
@@ -15,20 +16,30 @@ import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { WorkAreaModel } from 'app/constants/workarea-constants';
 import { toggleFullColorAfterWorkareaChange } from 'helpers/layer/layer-config-helper';
 
+import setSvgContent from './setSvgContent';
+
 let svgCanvas: ISVGCanvas;
-let svgEditor;
 let svgedit;
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
-  svgEditor = globalSVG.Editor;
   svgedit = globalSVG.Edit;
 });
 
 export const importBvgString = async (str: string): Promise<void> => {
+  const batchCmd = new history.BatchCommand('Import Bvg');
   svgCanvas.clearSelection();
-  await svgEditor.loadFromStringAsync(
+  const cmd = setSvgContent(
     str.replace(/STYLE>/g, 'style>').replace(/<STYLE/g, '<style')
   );
+  if (!cmd) {
+    alertCaller.popUp({
+      id: 'load SVG fail',
+      type: alertConstants.SHOW_POPUP_WARNING,
+      message: 'Error: Unable to load SVG data',
+    });
+    return;
+  }
+  if (!cmd.isEmpty()) batchCmd.addSubCommand(cmd);
 
   const currentWorkarea: WorkAreaModel = beamboxPreference.read('workarea');
   // loadFromString will lose data-xform and data-wireframe of `use` so set it back here
@@ -132,15 +143,25 @@ export const importBvgString = async (str: string): Promise<void> => {
       }
     }
   }
-  changeWorkarea(newWorkarea, { toggleModule: false })
+  changeWorkarea(newWorkarea, { toggleModule: false });
   if (!modelsWithModules.has(newWorkarea)) {
     toggleFullColorAfterWorkareaChange();
   }
-  svgedit.utilities.findDefs().remove();
+  const defs = svgedit.utilities.findDefs();
+  const { parentNode, nextSibling } = defs;
+  defs.remove();
+  batchCmd.addSubCommand(new history.RemoveElementCommand(defs, nextSibling, parentNode));
   svgedit.utilities.moveDefsOutfromSvgContent();
-  await symbolMaker.reRenderAllImageSymbol();
-  presprayArea.togglePresprayArea();
-  LayerPanelController.setSelectedLayers([]);
+  const newDefs = svgedit.utilities.findDefs();
+  batchCmd.addSubCommand(new history.InsertElementCommand(newDefs));
+  const postImpportBvgString = async () => {
+    await symbolMaker.reRenderAllImageSymbol();
+    presprayArea.togglePresprayArea();
+    LayerPanelController.setSelectedLayers([]);
+  };
+  await postImpportBvgString();
+  batchCmd.onAfter = postImpportBvgString;
+  svgCanvas.addCommandToHistory(batchCmd);
 };
 
 const importBvg = async (file: Blob): Promise<void> => {

@@ -92,13 +92,11 @@ import jimpHelper from 'helpers/jimp-helper';
 import imageProcessor from 'implementations/imageProcessor';
 import recentMenuUpdater from 'implementations/recentMenuUpdater';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
-import updateLayerColor from 'helpers/color/updateLayerColor';
+import grid from 'app/actions/canvas/grid';
 import updateLayerColorFilter from 'helpers/color/updateLayerColorFilter';
-import { getCurrentUser } from 'helpers/api/flux-id';
-import { WebFont } from 'interfaces/IFont';
 import PathActions from './operations/pathActions';
 import MouseInteractions from './interaction/mouseInteractions';
-import grid from 'app/actions/canvas/grid';
+import setSvgContent from './operations/import/setSvgContent';
 
 let svgCanvas;
 let svgEditor;
@@ -125,7 +123,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
   // Default configuration options
   const curConfig: { [key: string]: any } = {
-    show_outside_canvas: true,
     selectNew: true,
     dimensions: [640, 480],
     ...config,
@@ -170,7 +167,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       height: workareaManager.height ?? curConfig.dimensions[1],
       x: workareaManager.width ?? curConfig.dimensions[0],
       y: workareaManager.height ?? curConfig.dimensions[1],
-      overflow: curConfig.show_outside_canvas ? 'visible' : 'hidden',
+      overflow: 'visible',
       xmlns: NS.SVG,
       'xmlns:se': NS.SE,
       'xmlns:xlink': NS.XLINK,
@@ -195,13 +192,16 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
   // Current svgedit.draw.Drawing object
   // @type {svgedit.draw.Drawing}
-  canvas.current_drawing_ = new svgedit.draw.Drawing(svgcontent, idprefix);
+  const resetCurrentDrawing = canvas.resetCurrentDrawing = (content = svgcontent): void => {
+    canvas.currentDrawing = new svgedit.draw.Drawing(content, idprefix);
+  };
+  resetCurrentDrawing();
 
   // Function: getCurrentDrawing
   // Returns the current Drawing.
   // @return {svgedit.draw.Drawing}
   var getCurrentDrawing = canvas.getCurrentDrawing = function () {
-    return canvas.current_drawing_;
+    return canvas.currentDrawing;
   };
 
   // pointer to current group (for in-group editing)
@@ -325,7 +325,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     }
   });
   // import from units.js
-  var convertToNum = canvas.convertToNum = svgedit.units.convertToNum;
+  canvas.convertToNum = svgedit.units.convertToNum;
 
   // import from svgutils.js
   svgedit.utilities.init({
@@ -352,16 +352,16 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       return curConfig.snappingStep;
     }
   });
-  var findDefs = canvas.findDefs = svgedit.utilities.findDefs;
-  var getUrlFromAttr = canvas.getUrlFromAttr = svgedit.utilities.getUrlFromAttr;
+  canvas.findDefs = svgedit.utilities.findDefs;
+  canvas.getUrlFromAttr = svgedit.utilities.getUrlFromAttr;
   var getHref = canvas.getHref = svgedit.utilities.getHref;
   var setHref = canvas.setHref = svgedit.utilities.setHref;
   var getPathBBox = svgedit.utilities.getPathBBox;
-  var getBBox = canvas.getBBox = svgedit.utilities.getBBox;
-  var getRotationAngle = canvas.getRotationAngle = svgedit.utilities.getRotationAngle;
+  canvas.getBBox = svgedit.utilities.getBBox;
+  canvas.getRotationAngle = svgedit.utilities.getRotationAngle;
   var getElem = canvas.getElem = svgedit.utilities.getElem;
-  var getRefElem = canvas.getRefElem = svgedit.utilities.getRefElem;
-  var assignAttributes = canvas.assignAttributes = svgedit.utilities.assignAttributes;
+  canvas.getRefElem = svgedit.utilities.getRefElem;
+  canvas.assignAttributes = svgedit.utilities.assignAttributes;
   var cleanupElement = this.cleanupElement = svgedit.utilities.cleanupElement;
 
   // Map of deleted reference elements
@@ -681,14 +681,15 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
   this.isUsingLayerColor = BeamboxPreference.read('use_layer_color');
   this.isBezierPathAlignToEdge = BeamboxPreference.read('show_align_lines');
-  this.isBorderlessMode = BeamboxPreference.read('borderless');
 
   // State for save before close warning
   canvas.changed = false;
+  let root_sctm = null;;
 
   this.clearBoundingBox = () => { curBBoxes = []; };
   this.getContainer = () => container;
   this.getContentElem = () => svgcontent;
+  this.setContentElem = (content) => { svgcontent = content; };
   this.getCurrentConfig = () => curConfig;
   this.getCurrentGroup = () => current_group;
   this.getCurrentMode = () => current_mode;
@@ -1103,9 +1104,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   var logMatrix = function (m) {
     console.log([m.a, m.b, m.c, m.d, m.e, m.f]);
   };
-
-  // Root Current Transformation Matrix in user units
-  var root_sctm = null;
 
   // Group: Selection
 
@@ -2218,139 +2216,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   //
   // Returns:
   // This function returns false if the set was unsuccessful, true otherwise.
-  this.setSvgString = function (xmlString) {
-    try {
-      // convert string into XML document
-      xmlString = sanitizeXmlString(xmlString);
-      console.log(xmlString);
-      var newDoc = svgedit.utilities.text2xml(xmlString);
-
-      this.prepareSvg(newDoc);
-
-      var batchCmd = new history.BatchCommand('Change Source');
-
-      // remove old svg document
-      var nextSibling = svgcontent.nextSibling;
-      var oldzoom = svgroot.removeChild(svgcontent);
-      batchCmd.addSubCommand(new history.RemoveElementCommand(oldzoom, nextSibling, svgroot));
-
-      // set new svg document
-      // If DOM3 adoptNode() available, use it. Otherwise fall back to DOM2 importNode()
-      if (svgdoc.adoptNode) {
-        svgcontent = svgdoc.adoptNode(newDoc.documentElement);
-      } else {
-        svgcontent = svgdoc.importNode(newDoc.documentElement, true);
-      }
-
-      svgroot.appendChild(svgcontent);
-      batchCmd.addSubCommand(new history.InsertElementCommand(svgcontent));
-
-      const postContentChange = () => {
-        const content = $(svgcontent);
-        canvas.current_drawing_ = new svgedit.draw.Drawing(svgcontent, idprefix);
-        // change image href vals if possible
-        content.find('image').each(function () {
-          var image = this;
-          svgedit.utilities.preventClickDefault(image);
-          var val = getHref(this);
-          if (val) {
-            if (val.indexOf('data:') === 0) {
-              // Check if an SVG-edit data URI
-              var m = val.match(/svgedit_url=(.*?);/);
-              if (m) {
-                var url = decodeURIComponent(m[1]);
-                ($(new Image()) as any).load(function () {
-                  image.setAttributeNS(NS.XLINK, 'xlink:href', url);
-                }).attr('src', url);
-              }
-            }
-            // Add to encodableImages if it loads
-            canvas.embedImage(val);
-          }
-        });
-        // Wrap child SVGs in group elements
-        content.find('svg').each(function () {
-          // Skip if it's in a <defs>
-          if ($(this).closest('defs').length) {
-            return;
-          }
-          uniquifyElems(this);
-          // Check if it already has a gsvg group
-          var pa = this.parentNode as Element;
-          if (pa.childNodes.length === 1 && pa.nodeName === 'g') {
-            $(pa).data('gsvg', this);
-            pa.id = pa.id || getNextId();
-          } else {
-            groupSvgElem(this);
-          }
-        });
-
-        // Check monotype fonts and load font files
-        const user = getCurrentUser();
-        content.find('text').each(async function () {
-          await fontHelper.getMonotypeFonts();
-          const font = fontHelper.findFont({
-            postscriptName: $(this).attr('font-postscript'),
-          }) as WebFont;
-          const { success } = await fontHelper.applyMonotypeStyle(font, user, true);
-          return success;
-        });
-
-        // For Firefox: Put all paint elems in defs
-        if (svgedit.browser.isGecko()) {
-          content.find('linearGradient, radialGradient, pattern').appendTo(svgedit.utilities.findDefs());
-        }
-
-        // Set ref element for <use> elements
-        convertGradients(content[0]);
-
-        const { pxWidth, pxHeight, pxDisplayHeight } = getWorkarea(BeamboxPreference.read('workarea'));
-        const attrs: { [key: string]: string | number } = {
-          id: 'svgcontent',
-          overflow: curConfig.show_outside_canvas ? 'visible' : 'hidden',
-          width: pxWidth,
-          height: pxDisplayHeight ?? pxHeight,
-          viewBox: `0 0 ${pxWidth} ${pxDisplayHeight ?? pxHeight}`,
-        };
-        content.attr(attrs);
-
-        // identify layers
-        identifyLayers();
-        // Give ID for any visible layer children missing one
-        content.children().find(visElems).each(function () {
-          if (!this.id) this.id = getNextId();
-        });
-        // reset transform lists
-        svgedit.transformlist.resetListMap();
-        clearSelection();
-        svgedit.path.clearData();
-        svgroot.appendChild(selectorManager.selectorParentGroup);
-
-        const layers: SVGGElement[] = Array.from(document.querySelectorAll('#svgcontent > g.layer'));
-        layers.forEach((layer) => {
-          updateLayerColor(layer);
-          const childNodes = Array.from(layer.childNodes);
-          while (childNodes.length > 0) {
-            const child = childNodes.pop() as Element;
-            if (child.tagName !== 'g') {
-              $(child).mouseover(this.handleGenerateSensorArea).mouseleave(this.handleGenerateSensorArea);
-            } else {
-              childNodes.push(...Array.from(child.childNodes));
-            }
-          }
-        });
-
-      };
-      postContentChange();
-      batchCmd.onAfter = postContentChange;
-      addCommandToHistory(batchCmd);
-    } catch (e) {
-      console.log(e);
-      return false;
-    }
-
-    return true;
-  };
+  this.setSvgString = setSvgContent;
 
   // Function: importSvgString
   // This function imports the input SVG XML as a <symbol> in the <defs>, then adds a
@@ -2594,7 +2460,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     canvas.clearSvgContentElement();
 
     // create new document
-    canvas.current_drawing_ = new svgedit.draw.Drawing(svgcontent);
+    canvas.resetCurrentDrawing();
 
     // Reset Used Layer colors
     randomColor.reset();

@@ -128,7 +128,6 @@ interface ISVGEditor {
   updateRulers: () => void
   triggerGridTool: () => void
   triggerOffsetTool: () => void
-  loadFromStringAsync(arg0: any)
   handleFile: (file: any) => Promise<void>
   importLaserConfig: (file: any) => Promise<void>
   openPrep(arg0: (ok: any) => void)
@@ -197,7 +196,6 @@ const svgEditor = window['svgEditor'] = (function () {
     updateRulers: () => { },
     triggerGridTool: () => { },
     triggerOffsetTool: () => { },
-    loadFromStringAsync: () => { },
     handleFile: async (file) => { },
     importLaserConfig: async (file) => { },
     openPrep: () => { },
@@ -323,7 +321,7 @@ const svgEditor = window['svgEditor'] = (function () {
       'ext-closepath.js',
     ],
     defaultConfig: ISVGConfig = {
-      // Todo: svgcanvas.js also sets and checks: show_outside_canvas, selectNew; add here?
+      // Todo: svgcanvas.js also sets and checks: selectNew; add here?
       // Change the following to preferences and add pref controls to the UI (e.g., initTool, wireframe, showlayers)?
       canvasName: 'default',
       initFill: {
@@ -413,29 +411,10 @@ const svgEditor = window['svgEditor'] = (function () {
         noteTheseIssues: 'Also note the following issues: ',
         unsavedChanges: 'There are unsaved changes.',
         enterNewLinkURL: 'Enter the new hyperlink URL',
-        errorLoadingSVG: 'Error: Unable to load SVG data',
         URLloadFail: 'Unable to load from URL',
         retrieving: 'Retrieving \'%s\' ...'
       }
     };
-
-  function loadSvgString(str, callback?) {
-    var success = svgCanvas.setSvgString(str) !== false;
-    callback = callback || $.noop;
-    if (success) {
-      callback(true);
-    } else {
-      Alert.popUp({
-        id: 'load SVG fail',
-        type: AlertConstants.SHOW_POPUP_WARNING,
-        message: uiStrings.notification.errorLoadingSVG,
-        callbacks: () => {
-          callback(false);
-        }
-      });
-    }
-  };
-
   /**
        * EXPORTS
        */
@@ -3061,17 +3040,6 @@ const svgEditor = window['svgEditor'] = (function () {
       this();
     });
     isReady = true;
-  };
-
-  editor.loadFromStringAsync = async function (str) {
-    return new Promise((resolve) => {
-      editor.ready(function () {
-        loadSvgString(str, function () {
-          editor.resetView();
-          resolve(true);
-        });
-      });
-    });
   };
 
   editor.addExtension = function () {

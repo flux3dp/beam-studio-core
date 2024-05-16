@@ -1,8 +1,8 @@
 import alertCaller from 'app/actions/alert-caller';
-import dialogCaller from 'app/actions/dialog-caller';
 import { axiosFluxId, FLUXID_HOST } from 'helpers/api/flux-id';
 import { IFont, WebFont } from 'interfaces/IFont';
 import { IUser } from 'interfaces/IUser';
+import { showFluxPlusWarning } from 'app/actions/dialog-controller';
 
 const getUrlWithToken = async (postscriptName: string): Promise<string | null> => {
   const { data } = await axiosFluxId.get('oauth/?response_type=token&scope=4', {
@@ -23,12 +23,12 @@ const applyStyle = async (
 }> => {
   if ('hasLoaded' in font && !font.hasLoaded) {
     if (!user?.info?.subscription?.is_valid || !user?.info?.subscription?.option?.monotype) {
-      if (!silent) dialogCaller.showFluxPlusWarning(true);
+      if (!silent) showFluxPlusWarning(true);
       return { success: false };
     }
     const url = await getUrlWithToken(font.postscriptName);
     if (!url) {
-      if (!silent) dialogCaller.showFluxPlusWarning(true);
+      if (!silent) showFluxPlusWarning(true);
       return { success: false };
     }
     const myFont = new FontFace(font.family, `url(${url})`, {
