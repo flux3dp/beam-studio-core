@@ -10,7 +10,7 @@ jest.mock('app/actions/beambox/beambox-preference', () => ({
 
 const resetView = jest.fn();
 jest.mock('app/svgedit/workarea', () => ({
-  resetView: jest.fn(),
+  resetView: (...args) => resetView(...args),
 }));
 
 const updateRulers = jest.fn();

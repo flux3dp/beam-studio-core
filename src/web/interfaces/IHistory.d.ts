@@ -4,7 +4,9 @@ export interface ICommand {
   type: () => string;
   getText: () => string;
   elements: () => Element[];
+  doApply: () => void;
   apply: (handler) => void;
+  doUnapply: () => void;
   unapply: (handler) => void;
   newParent?: Node | Element;
   oldParent?: Node | Element;

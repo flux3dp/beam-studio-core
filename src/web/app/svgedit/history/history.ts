@@ -13,9 +13,7 @@
 // 2) svgtransformlist.js
 // 3) svgutils.js
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import {
-  IBatchCommand, ICommand, IHistoryHandler, IUndoManager,
-} from 'interfaces/IHistory';
+import { IBatchCommand, ICommand, IHistoryHandler, IUndoManager } from 'interfaces/IHistory';
 
 const { svgedit } = window;
 let svgCanvas = null;
@@ -36,10 +34,12 @@ export const HistoryEventTypes = {
 };
 svgedit.history.HistoryEventTypes = HistoryEventTypes;
 
-export class BaseHistoryCommand {
+export class BaseHistoryCommand implements ICommand {
   public elem: SVGGraphicsElement;
 
   public text: string;
+
+  type = (): string => 'BaseHistoryCommand';
 
   getText(): string {
     return this.text;
@@ -49,14 +49,30 @@ export class BaseHistoryCommand {
     return [this.elem];
   }
 
-  // eslint-disable-next-line class-methods-use-this, @typescript-eslint/no-unused-vars
-  apply(handler?) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  doApply = (handler?: IHistoryHandler): void => {
     throw Error('apply not implemented');
+  };
+
+  apply(handler?: IHistoryHandler): void {
+    handler?.handleHistoryEvent(HistoryEventTypes.BEFORE_APPLY, this);
+    this.onBefore?.();
+    this.doApply(handler);
+    this.onAfter?.();
+    handler?.handleHistoryEvent(HistoryEventTypes.AFTER_APPLY, this);
   }
 
-  // eslint-disable-next-line class-methods-use-this, @typescript-eslint/no-unused-vars
-  unapply(handler?) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  doUnapply = (handler?: IHistoryHandler): void => {
     throw Error('unapply not implemented');
+  };
+
+  unapply(handler: IHistoryHandler): void {
+    handler?.handleHistoryEvent(HistoryEventTypes.BEFORE_UNAPPLY, this);
+    this.onBefore?.();
+    this.doUnapply(handler);
+    this.onAfter?.();
+    handler?.handleHistoryEvent(HistoryEventTypes.AFTER_UNAPPLY, this);
   }
 
   onBefore = null;
@@ -90,22 +106,13 @@ class MoveElementCommand extends BaseHistoryCommand implements ICommand {
 
   type = MoveElementCommand.type;
 
-  apply(handler: IHistoryHandler): void {
-    // TODO(codedread): Refactor this common event code into a base HistoryCommand class.
-    handler?.handleHistoryEvent(HistoryEventTypes.BEFORE_APPLY, this);
+  doApply = (): void => {
+    this.newParent.insertBefore(this.elem, this.newNextSibling);
+  };
 
-    this.elem = this.newParent.insertBefore(this.elem, this.newNextSibling);
-
-    handler?.handleHistoryEvent(HistoryEventTypes.AFTER_APPLY, this);
-  }
-
-  unapply(handler: IHistoryHandler): void {
-    handler?.handleHistoryEvent(HistoryEventTypes.BEFORE_UNAPPLY, this);
-
-    this.elem = this.oldParent.insertBefore(this.elem, this.oldNextSibling);
-
-    handler?.handleHistoryEvent(HistoryEventTypes.AFTER_UNAPPLY, this);
-  }
+  doUnapply = (): void => {
+    this.oldParent.insertBefore(this.elem, this.oldNextSibling);
+  };
 }
 svgedit.history.MoveElementCommand = MoveElementCommand;
 
@@ -129,22 +136,14 @@ class InsertElementCommand extends BaseHistoryCommand implements ICommand {
 
   type = InsertElementCommand.type;
 
-  apply(handler: IHistoryHandler): void {
-    handler?.handleHistoryEvent(HistoryEventTypes.BEFORE_APPLY, this);
+  doApply = (): void => {
+    this.parent.insertBefore(this.elem, this.nextSibling);
+  };
 
-    this.elem = this.parent.insertBefore(this.elem, this.nextSibling);
-
-    handler?.handleHistoryEvent(HistoryEventTypes.AFTER_APPLY, this);
-  }
-
-  unapply(handler: IHistoryHandler): void {
-    handler?.handleHistoryEvent(HistoryEventTypes.BEFORE_UNAPPLY, this);
-
+  doUnapply = (): void => {
     this.parent = this.elem.parentNode;
-    this.elem = this.elem.parentNode.removeChild(this.elem);
-
-    handler?.handleHistoryEvent(HistoryEventTypes.AFTER_UNAPPLY, this);
-  }
+    this.parent.removeChild(this.elem);
+  };
 }
 svgedit.history.InsertElementCommand = InsertElementCommand;
 
@@ -158,7 +157,7 @@ class RemoveElementCommand extends BaseHistoryCommand implements ICommand {
     elem: Element | SVGGraphicsElement,
     oldNextSibling: Node | Element,
     oldParent: Node | Element,
-    text?: string,
+    text?: string
   ) {
     super();
     this.elem = elem as SVGGraphicsElement;
@@ -176,30 +175,16 @@ class RemoveElementCommand extends BaseHistoryCommand implements ICommand {
 
   type = RemoveElementCommand.type;
 
-  apply(handler: IHistoryHandler): void {
-    handler?.handleHistoryEvent(HistoryEventTypes.BEFORE_APPLY, this);
-
+  doApply = (): void => {
     svgedit.transformlist.removeElementFromListMap(this.elem);
     this.parent = this.elem.parentNode;
-    this.elem = this.parent.removeChild(this.elem);
+    this.parent.removeChild(this.elem);
+  };
 
-    handler?.handleHistoryEvent(HistoryEventTypes.AFTER_APPLY, this);
-  }
-
-  unapply(handler: IHistoryHandler): void {
-    handler?.handleHistoryEvent(HistoryEventTypes.BEFORE_UNAPPLY, this);
-
+  doUnapply = (): void => {
     svgedit.transformlist.removeElementFromListMap(this.elem);
-    if (this.nextSibling === null) {
-      if (window.console) {
-        // eslint-disable-next-line no-console
-        // console.log('Error: reference element was lost');
-      }
-    }
     this.parent.insertBefore(this.elem, this.nextSibling);
-
-    handler?.handleHistoryEvent(HistoryEventTypes.AFTER_UNAPPLY, this);
-  }
+  };
 }
 svgedit.history.RemoveElementCommand = RemoveElementCommand;
 
@@ -235,9 +220,7 @@ class ChangeElementCommand extends BaseHistoryCommand implements ICommand {
 
   type = ChangeElementCommand.type;
 
-  apply(handler: IHistoryHandler): void {
-    handler?.handleHistoryEvent(HistoryEventTypes.BEFORE_APPLY, this);
-
+  doApply = (): void => {
     let bChangedTransform = false;
     const keys = Object.keys(this.newValues);
     for (let i = 0; i < keys.length; i += 1) {
@@ -276,13 +259,9 @@ class ChangeElementCommand extends BaseHistoryCommand implements ICommand {
         }
       }
     }
+  };
 
-    handler?.handleHistoryEvent(HistoryEventTypes.AFTER_APPLY, this);
-  }
-
-  unapply(handler: IHistoryHandler): void {
-    handler?.handleHistoryEvent(HistoryEventTypes.BEFORE_UNAPPLY, this);
-
+  doUnapply = (): void => {
     let bChangedTransform = false;
     const keys = Object.keys(this.oldValues);
     for (let i = 0; i < keys.length; i += 1) {
@@ -320,9 +299,7 @@ class ChangeElementCommand extends BaseHistoryCommand implements ICommand {
 
     // Remove transformlist to prevent confusion that causes bugs like 575.
     svgedit.transformlist.removeElementFromListMap(this.elem);
-
-    handler?.handleHistoryEvent(HistoryEventTypes.AFTER_UNAPPLY, this);
-  }
+  };
 }
 svgedit.history.ChangeElementCommand = ChangeElementCommand;
 
@@ -345,21 +322,13 @@ class ChangeTextCommand extends BaseHistoryCommand implements ICommand {
 
   type = ChangeTextCommand.type;
 
-  apply(handler: IHistoryHandler): void {
-    if (handler) {
-      handler.handleHistoryEvent(HistoryEventTypes.BEFORE_APPLY, this);
-      handler.renderText(this.elem as SVGTextElement, this.newText, false);
-      handler.handleHistoryEvent(HistoryEventTypes.AFTER_APPLY, this);
-    }
-  }
+  doApply = (handler?: IHistoryHandler): void => {
+    handler?.renderText?.(this.elem as SVGTextElement, this.newText, false);
+  };
 
-  unapply(handler: IHistoryHandler): void {
-    if (handler) {
-      handler.handleHistoryEvent(HistoryEventTypes.BEFORE_UNAPPLY, this);
-      handler.renderText(this.elem as SVGTextElement, this.oldText, false);
-      handler.handleHistoryEvent(HistoryEventTypes.AFTER_UNAPPLY, this);
-    }
-  }
+  doUnapply = (handler?: IHistoryHandler): void => {
+    handler?.renderText?.(this.elem as SVGTextElement, this.oldText, false);
+  };
 }
 svgedit.history.ChangeTextCommand = ChangeTextCommand;
 
@@ -388,25 +357,17 @@ class BatchCommand extends BaseHistoryCommand implements IBatchCommand {
 
   type = BatchCommand.type;
 
-  apply(handler: IHistoryHandler): void {
-    handler?.handleHistoryEvent(HistoryEventTypes.BEFORE_APPLY, this);
-
+  doApply = (handler?: IHistoryHandler): void => {
     for (let i = 0; i < this.stack.length; i += 1) {
       this.stack[i]?.apply(handler);
     }
-
-    handler?.handleHistoryEvent(HistoryEventTypes.AFTER_APPLY, this);
   }
 
-  unapply(handler: IHistoryHandler): void {
-    handler?.handleHistoryEvent(HistoryEventTypes.BEFORE_UNAPPLY, this);
-
+  doUnapply = (handler?: IHistoryHandler): void => {
     for (let i = this.stack.length - 1; i >= 0; i -= 1) {
       this.stack[i]?.unapply(handler);
     }
-
-    handler?.handleHistoryEvent(HistoryEventTypes.AFTER_UNAPPLY, this);
-  }
+  };
 
   elements(): Element[] {
     const elemSet = new Set<Element>();
@@ -474,7 +435,9 @@ class UndoManager implements IUndoManager {
   }
 
   getNextRedoCommandText(): string {
-    return this.undoStackPointer < this.undoStack.length ? this.undoStack[this.undoStackPointer].getText() : '';
+    return this.undoStackPointer < this.undoStack.length
+      ? this.undoStack[this.undoStackPointer].getText()
+      : '';
   }
 
   undo(): void {

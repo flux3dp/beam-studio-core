@@ -1,8 +1,8 @@
 import changeWorkarea from './changeWorkarea';
 
-const mockWrite = jest.fn();
+const mockRead = jest.fn();
 jest.mock('app/actions/beambox/beambox-preference', () => ({
-  write: (...args) => mockWrite(...args),
+  read: (...args) => mockRead(...args),
 }));
 
 const mockEmit = jest.fn();
@@ -29,15 +29,25 @@ jest.mock('helpers/layer/layer-config-helper', () => ({
   toggleFullColorAfterWorkareaChange: (...args) => mockToggleFullColorAfterWorkareaChange(...args),
 }));
 
+const mockChangeBeamboxPreferenceValue = jest.fn();
+jest.mock('app/svgedit/history/beamboxPreferenceCommand', () => ({
+  changeBeamboxPreferenceValue: (...args) => mockChangeBeamboxPreferenceValue(...args),
+}));
+
 describe('test changeWorkarea', () => {
   beforeEach(() => {
     jest.resetAllMocks();
   });
 
   it('should work correctly', () => {
+    mockRead.mockReturnValue('fbm1');
+    const mockCmd = { onAfter: () => { } };
+    mockChangeBeamboxPreferenceValue.mockReturnValue(mockCmd);
     changeWorkarea('fbm1');
-    expect(mockWrite).toBeCalledTimes(1);
-    expect(mockWrite).toHaveBeenLastCalledWith('workarea', 'fbm1');
+    expect(mockRead).toBeCalledTimes(1);
+    expect(mockRead).toHaveBeenLastCalledWith('workarea');
+    expect(mockChangeBeamboxPreferenceValue).toBeCalledTimes(1);
+    expect(mockChangeBeamboxPreferenceValue).toHaveBeenLastCalledWith('workarea', 'fbm1');
     expect(mockSetWorkarea).toBeCalledTimes(1);
     expect(mockSetWorkarea).toHaveBeenLastCalledWith('fbm1');
     expect(mockResetView).toBeCalledTimes(1);
@@ -45,12 +55,31 @@ describe('test changeWorkarea', () => {
     expect(mockToggleFullColorAfterWorkareaChange).toBeCalledTimes(1);
     expect(mockEmit).toBeCalledTimes(1);
     expect(mockEmit).toHaveBeenLastCalledWith('workarea-change', 'fbm1');
+
+    const { onAfter } = mockCmd;
+    jest.resetAllMocks();
+    mockRead.mockReturnValue('ado1');
+    onAfter();
+    expect(mockRead).toBeCalledTimes(1);
+    expect(mockRead).toHaveBeenLastCalledWith('workarea');
+    expect(mockSetWorkarea).toBeCalledTimes(1);
+    expect(mockSetWorkarea).toHaveBeenLastCalledWith('ado1');
+    expect(mockResetView).toBeCalledTimes(1);
+    expect(mockUpdate).toBeCalledTimes(1);
+    expect(mockToggleFullColorAfterWorkareaChange).toBeCalledTimes(1);
+    expect(mockEmit).toBeCalledTimes(1);
+    expect(mockEmit).toHaveBeenLastCalledWith('workarea-change', 'ado1');
   });
 
   it('should work correctly with toggleModule = false', () => {
+    mockRead.mockReturnValue('fbm1');
+    const mockCmd = { onAfter: () => { } };
+    mockChangeBeamboxPreferenceValue.mockReturnValue(mockCmd);
     changeWorkarea('fbm1', { toggleModule: false });
-    expect(mockWrite).toBeCalledTimes(1);
-    expect(mockWrite).toHaveBeenLastCalledWith('workarea', 'fbm1');
+    expect(mockRead).toBeCalledTimes(1);
+    expect(mockRead).toHaveBeenLastCalledWith('workarea');
+    expect(mockChangeBeamboxPreferenceValue).toBeCalledTimes(1);
+    expect(mockChangeBeamboxPreferenceValue).toHaveBeenLastCalledWith('workarea', 'fbm1');
     expect(mockSetWorkarea).toBeCalledTimes(1);
     expect(mockSetWorkarea).toHaveBeenLastCalledWith('fbm1');
     expect(mockResetView).toBeCalledTimes(1);
@@ -58,5 +87,19 @@ describe('test changeWorkarea', () => {
     expect(mockToggleFullColorAfterWorkareaChange).not.toBeCalled();
     expect(mockEmit).toBeCalledTimes(1);
     expect(mockEmit).toHaveBeenLastCalledWith('workarea-change', 'fbm1');
+
+    const { onAfter } = mockCmd;
+    jest.resetAllMocks();
+    mockRead.mockReturnValue('ado1');
+    onAfter();
+    expect(mockRead).toBeCalledTimes(1);
+    expect(mockRead).toHaveBeenLastCalledWith('workarea');
+    expect(mockSetWorkarea).toBeCalledTimes(1);
+    expect(mockSetWorkarea).toHaveBeenLastCalledWith('ado1');
+    expect(mockResetView).toBeCalledTimes(1);
+    expect(mockUpdate).toBeCalledTimes(1);
+    expect(mockToggleFullColorAfterWorkareaChange).not.toBeCalled();
+    expect(mockEmit).toBeCalledTimes(1);
+    expect(mockEmit).toHaveBeenLastCalledWith('workarea-change', 'ado1');
   });
 });

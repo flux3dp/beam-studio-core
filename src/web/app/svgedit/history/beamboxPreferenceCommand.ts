@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
-import { IBatchCommand, IHistoryHandler } from 'interfaces/IHistory';
+import { IBatchCommand, ICommand } from 'interfaces/IHistory';
 
-import { BaseHistoryCommand, HistoryEventTypes } from './history';
+import { BaseHistoryCommand } from './history';
 
-class BeamboxPreferenceCommand extends BaseHistoryCommand {
+class BeamboxPreferenceCommand extends BaseHistoryCommand implements ICommand {
   private key: string;
 
   private oldValue: any;
@@ -23,18 +23,13 @@ class BeamboxPreferenceCommand extends BaseHistoryCommand {
     this.newValue = newValue;
   }
 
-  public apply(handler: IHistoryHandler): void {
-    handler?.handleHistoryEvent(HistoryEventTypes.BEFORE_APPLY, this);
+  doApply = (): void => {
     beamboxPreference.write(this.key, this.newValue);
-    handler?.handleHistoryEvent(HistoryEventTypes.AFTER_APPLY, this);
-  }
+  };
 
-  public unapply(handler: IHistoryHandler): void {
-    handler?.handleHistoryEvent(HistoryEventTypes.BEFORE_UNAPPLY, this);
-    console.log(this.key, this.oldValue);
+  doUnapply = (): void => {
     beamboxPreference.write(this.key, this.oldValue);
-    handler?.handleHistoryEvent(HistoryEventTypes.AFTER_UNAPPLY, this);
-  }
+  };
 }
 
 export const changeBeamboxPreferenceValue = (
