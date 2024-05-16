@@ -601,6 +601,7 @@ const mouseDown = (evt: MouseEvent) => {
     case 'drag-rotary-axis':
       svgCanvas.unsafeAccess.setStarted(true);
       svgCanvas.clearSelection();
+      rotaryAxis.mouseDown();
       break;
     default:
       // This could occur in an extension
@@ -1558,6 +1559,7 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
       keep = true;
       element = null;
       svgCanvas.setMode('select');
+      presprayArea.endDrag();
       break;
     case 'drag-rotary-axis':
       keep = true;

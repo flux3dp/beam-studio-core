@@ -38,6 +38,10 @@ export class UndoManager implements IUndoManager {
     this.undoableChangeStack = [];
   }
 
+  setHandler(historyEventHandler: IHistoryHandler): void {
+    this.handler = historyEventHandler;
+  };
+
   resetUndoStack(): void {
     this.undoStack = [];
     this.undoStackPointer = 0;
@@ -131,4 +135,7 @@ export class UndoManager implements IUndoManager {
   }
 }
 
-export default {};
+// singleton
+const undoManager = new UndoManager(null);
+
+export default undoManager;

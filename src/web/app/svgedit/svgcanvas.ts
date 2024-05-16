@@ -52,11 +52,11 @@ import importSvgString from 'app/svgedit/operations/import/importSvgString';
 import selector from 'app/svgedit/selector';
 import textActions from 'app/svgedit/text/textactions';
 import textEdit from 'app/svgedit/text/textedit';
+import undoManager from 'app/svgedit/history/undoManager';
 import ungroupElement from 'app/svgedit/group/ungroup';
 import workareaManager from 'app/svgedit/workarea';
 import { deleteSelectedElements } from 'app/svgedit/operations/delete';
 import { moveElements, moveSelectedElements } from 'app/svgedit/operations/move';
-import { UndoManager } from 'app/svgedit/history/undoManager';
 
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
@@ -421,8 +421,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       cmdElements.clear();
     }
   };
-
-  canvas.undoMgr = new UndoManager({
+  undoManager.setHandler({
     renderText: textEdit.renderText,
     handleHistoryEvent: (eventType, cmd) => {
       const EventTypes = history.HistoryEventTypes;
@@ -525,6 +524,8 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       }
     }
   });
+  canvas.undoMgr = undoManager;
+
   const addCommandToHistory = function (cmd) {
     canvas.undoMgr.addCommandToHistory(cmd);
   };

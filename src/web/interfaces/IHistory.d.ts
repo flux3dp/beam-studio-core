@@ -27,6 +27,7 @@ export interface IHistoryHandler {
 }
 
 export interface IUndoManager {
+  setHandler: (handler: IHistoryHandler) => void;
   resetUndoStack: () => void;
   getUndoStackSize: () => number;
   getRedoStackSize: () => number;

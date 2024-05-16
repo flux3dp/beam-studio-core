@@ -1,8 +1,10 @@
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import constant from 'app/actions/beambox/constant';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
+import history from 'app/svgedit/history/history';
 import NS from 'app/constants/namespaces';
 import rotaryConstants from 'app/constants/rotary-constants';
+import undoManager from 'app/svgedit/history/undoManager';
 import workareaManager from 'app/svgedit/workarea';
 import { WorkAreaModel } from 'app/constants/workarea-constants';
 
@@ -120,6 +122,12 @@ const init = (): void => {
 };
 
 const checkMouseTarget = (elem: Element): boolean => !!elem.closest('#rotaryAxis');
+
+let startY = 0;
+const mouseDown = (): void => {
+  startY = getPosition();
+};
+
 const mouseMove = (y: number): void => {
   const val = Math.min(Math.max(y, boundary[0]), boundary[1]);
   setPosition(val, { write: false });
@@ -128,6 +136,20 @@ const mouseUp = (): void => {
   checkBoundary();
   const val = getPosition(false);
   setPosition(val, { write: true });
+  if (rotaryLine) {
+    const batchCmd = new history.BatchCommand('Move Rotary Axis');
+    batchCmd.addSubCommand(
+      new history.ChangeElementCommand(rotaryLine, { y1: startY, y2: startY })
+    );
+    batchCmd.addSubCommand(
+      new history.ChangeElementCommand(transparentRotaryLine, { y1: startY, y2: startY })
+    );
+    batchCmd.onAfter = () => {
+      const position = getPosition();
+      beamboxPreference.write('rotary-y', position);
+    };
+    undoManager.addCommandToHistory(batchCmd);
+  }
 };
 
 // TODO: add test
@@ -135,6 +157,7 @@ export default {
   init,
   getPosition,
   checkMouseTarget,
+  mouseDown,
   mouseMove,
   mouseUp,
   toggleDisplay,
