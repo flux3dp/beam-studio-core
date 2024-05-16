@@ -67,12 +67,17 @@ export const importBvgString = async (str: string): Promise<void> => {
       if (rotaryMode === 'true') rotaryMode = '1';
       let cmd: ICommand;
       if (constant.addonsSupportList.rotary.includes(currentWorkarea)) {
-        cmd = changeBeamboxPreferenceValue('rotary_mode', parseInt(rotaryMode, 10), { parentCmd: batchCmd });
+        cmd = changeBeamboxPreferenceValue('rotary_mode', parseInt(rotaryMode, 10), {
+          parentCmd: batchCmd,
+        });
       } else {
         cmd = changeBeamboxPreferenceValue('rotary_mode', 0, { parentCmd: batchCmd });
         beamboxPreference.write('rotary_mode', 0);
       }
-      cmd.onAfter = () => rotaryAxis.toggleDisplay();
+      cmd.onAfter = () => {
+        rotaryAxis.toggleDisplay();
+        workareaManager.setWorkarea(beamboxPreference.read('workarea'));
+      };
       rotaryAxis.toggleDisplay();
     }
     const engraveDpi = str.match(/data-engrave_dpi="([a-zA-Z]+)"/)?.[1];
