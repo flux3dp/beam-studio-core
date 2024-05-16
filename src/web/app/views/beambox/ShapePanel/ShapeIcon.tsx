@@ -2,8 +2,8 @@ import Icon from '@ant-design/icons';
 import React, { useEffect } from 'react';
 import ReactDomServer from 'react-dom/server';
 
-import history from 'app/svgedit/history';
-import HistoryCommandFactory from 'app/svgedit/HistoryCommandFactory';
+import history from 'app/svgedit/history/history';
+import HistoryCommandFactory from 'app/svgedit/history/HistoryCommandFactory';
 import importSvgString from 'app/svgedit/operations/import/importSvgString';
 import LayerModule from 'app/constants/layer-module/layer-modules';
 import updateElementColor from 'helpers/color/updateElementColor';

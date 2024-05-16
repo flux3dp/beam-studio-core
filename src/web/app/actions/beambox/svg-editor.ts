@@ -23,7 +23,7 @@ TODOS
 1. JSDoc
 */
 import clipboard from 'app/svgedit/operations/clipboard';
-import history from 'app/svgedit/history';
+import history from 'app/svgedit/history/history';
 import svgCanvasClass from 'app/svgedit/svgcanvas';
 import textActions from 'app/svgedit/text/textactions';
 import textEdit from 'app/svgedit/text/textedit';

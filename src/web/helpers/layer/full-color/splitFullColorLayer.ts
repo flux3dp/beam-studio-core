@@ -1,4 +1,4 @@
-import history from 'app/svgedit/history';
+import history from 'app/svgedit/history/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import isDev from 'helpers/is-dev';
 import NS from 'app/constants/namespaces';

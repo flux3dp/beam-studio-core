@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React, { memo, useContext } from 'react';
 
-import history from 'app/svgedit/history';
+import history from 'app/svgedit/history/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import useI18n from 'helpers/useI18n';

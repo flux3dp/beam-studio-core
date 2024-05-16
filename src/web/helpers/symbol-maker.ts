@@ -5,7 +5,7 @@
  */
 
 import communicator from 'implementations/communicator';
-import history from 'app/svgedit/history';
+import history from 'app/svgedit/history/history';
 import ImageSymbolWorker from 'helpers/symbol-helper/image-symbol.worker';
 import Progress from 'app/actions/progress-caller';
 import updateElementColor from 'helpers/color/updateElementColor';

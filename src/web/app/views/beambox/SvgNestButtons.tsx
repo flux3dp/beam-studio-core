@@ -6,7 +6,7 @@ import classNames from 'classnames';
 
 import Alert from 'app/actions/alert-caller';
 import getClipperLib from 'helpers/clipper/getClipperLib';
-import history from 'app/svgedit/history';
+import history from 'app/svgedit/history/history';
 import i18n from 'helpers/i18n';
 import Modal from 'app/widgets/Modal';
 import requirejsHelper from 'helpers/requirejs-helper';

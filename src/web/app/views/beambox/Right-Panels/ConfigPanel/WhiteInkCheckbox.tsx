@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Checkbox, Switch } from 'antd';
 
 import ConfigPanelIcons from 'app/icons/config-panel/ConfigPanelIcons';
-import history from 'app/svgedit/history';
+import history from 'app/svgedit/history/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import useI18n from 'helpers/useI18n';

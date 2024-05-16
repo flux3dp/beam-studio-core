@@ -3,7 +3,7 @@ import ISVGCanvas from 'interfaces/ISVGCanvas';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IBatchCommand } from 'interfaces/IHistory';
 
-import history from '../history';
+import history from '../history/history';
 
 let svgCanvas: ISVGCanvas;
 getSVGAsync((globalSVG) => {

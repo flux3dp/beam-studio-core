@@ -1,4 +1,4 @@
-import history from 'app/svgedit/history';
+import history from 'app/svgedit/history/history';
 
 class HistoryCommandFactory {
   static createBatchCommand(text: string) {

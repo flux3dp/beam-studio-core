@@ -3,7 +3,7 @@
  */
 /* eslint-disable no-console */
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
-import history from 'app/svgedit/history';
+import history from 'app/svgedit/history/history';
 import selector from 'app/svgedit/selector';
 import textPathEdit from 'app/actions/beambox/textPathEdit';
 import workareaManager from 'app/svgedit/workarea';

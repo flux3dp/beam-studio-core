@@ -5,7 +5,7 @@ import * as BezierFitCurve from 'helpers/bezier-fit-curve';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import getClipperLib from 'helpers/clipper/getClipperLib';
-import history from 'app/svgedit/history';
+import history from 'app/svgedit/history/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import ISVGPathElement from 'interfaces/ISVGPathElement';
 import PathNodePoint from 'app/svgedit/path/PathNodePoint';

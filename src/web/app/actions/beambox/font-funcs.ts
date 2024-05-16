@@ -9,7 +9,7 @@ import AlertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import fileExportHelper from 'helpers/file-export-helper';
 import fontHelper from 'helpers/fonts/fontHelper';
-import history from 'app/svgedit/history';
+import history from 'app/svgedit/history/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import i18n from 'helpers/i18n';
 import localFontHelper from 'implementations/localFontHelper';

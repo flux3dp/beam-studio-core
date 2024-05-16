@@ -3,7 +3,7 @@ import alertConstants from 'app/constants/alert-constants';
 import awsHelper from 'helpers/aws-helper';
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import dialogCaller from 'app/actions/dialog-caller';
-import history from 'app/svgedit/history';
+import history from 'app/svgedit/history/history';
 import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
 import layerConfigHelper, { DataType, writeDataLayer } from 'helpers/layer/layer-config-helper';

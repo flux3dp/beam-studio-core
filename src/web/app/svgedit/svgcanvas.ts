@@ -46,8 +46,8 @@
 // svgedit libs
 import canvasBackground from 'app/svgedit/canvasBackground';
 import clipboard from 'app/svgedit/operations/clipboard';
-import history from 'app/svgedit/history';
-import historyRecording from 'app/svgedit/historyrecording';
+import history from 'app/svgedit/history/history';
+import historyRecording from 'app/svgedit/history/historyrecording';
 import importSvgString from 'app/svgedit/operations/import/importSvgString';
 import selector from 'app/svgedit/selector';
 import textActions from 'app/svgedit/text/textactions';
@@ -61,7 +61,6 @@ import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import beamboxStore from 'app/stores/beambox-store';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
-import fontHelper from 'helpers/fonts/fontHelper';
 import i18n from 'helpers/i18n';
 import ISVGConfig from 'interfaces/ISVGConfig';
 import ToolPanelsController from 'app/actions/beambox/toolPanelsController';

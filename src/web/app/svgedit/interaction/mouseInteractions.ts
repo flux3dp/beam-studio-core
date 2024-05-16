@@ -4,7 +4,7 @@ import createNewText from 'app/svgedit/text/createNewText';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import presprayArea from 'app/actions/canvas/prespray-area';
-import history from 'app/svgedit/history';
+import history from 'app/svgedit/history/history';
 import selector from 'app/svgedit/selector';
 import * as LayerHelper from 'helpers/layer/layer-helper';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';

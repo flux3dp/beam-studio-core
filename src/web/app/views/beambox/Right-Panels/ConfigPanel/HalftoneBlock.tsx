@@ -3,7 +3,7 @@ import React, { memo, useContext, useMemo } from 'react';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 
 import browser from 'implementations/browser';
-import history from 'app/svgedit/history';
+import history from 'app/svgedit/history/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import Select from 'app/widgets/AntdSelect';

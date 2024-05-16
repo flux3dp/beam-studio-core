@@ -6,7 +6,7 @@ import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import configOptions from 'app/constants/config-options';
 import doLayersContainsVector from 'helpers/layer/check-vector';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
-import history from 'app/svgedit/history';
+import history from 'app/svgedit/history/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import LayerModule from 'app/constants/layer-module/layer-modules';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';

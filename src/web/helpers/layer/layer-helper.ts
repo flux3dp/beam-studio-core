@@ -2,8 +2,8 @@ import { sprintf } from 'sprintf-js';
 
 import alertCaller from 'app/actions/alert-caller';
 import alertConstants from 'app/constants/alert-constants';
-import HistoryCommandFactory from 'app/svgedit/HistoryCommandFactory';
-import history from 'app/svgedit/history';
+import HistoryCommandFactory from 'app/svgedit/history/HistoryCommandFactory';
+import history from 'app/svgedit/history/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import ISVGDrawing from 'interfaces/ISVGDrawing';
 import i18n from 'helpers/i18n';

@@ -7,7 +7,7 @@ import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import FluxIcons from 'app/icons/flux/FluxIcons';
 import fontHelper from 'helpers/fonts/fontHelper';
 import FontFuncs from 'app/actions/beambox/font-funcs';
-import history from 'app/svgedit/history';
+import history from 'app/svgedit/history/history';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import OptionPanelIcons from 'app/icons/option-panel/OptionPanelIcons';
 import progressCaller from 'app/actions/progress-caller';
