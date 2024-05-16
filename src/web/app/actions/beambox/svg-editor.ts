@@ -2316,36 +2316,6 @@ const svgEditor = window['svgEditor'] = (function () {
       }
     });
 
-    var moveUpSelectedElement = function () {
-      if (selectedElement != null) {
-        svgCanvas.moveUpSelectedElement();
-      }
-    };
-
-    var moveDownSelectedElement = function () {
-      if (selectedElement != null) {
-        svgCanvas.moveDownSelectedElement();
-      }
-    };
-
-    var moveTopSelectedElement = function () {
-      if (selectedElement != null) {
-        svgCanvas.moveTopBottomSelected('top');
-      }
-    };
-
-    var moveBottomSelectedElement = function () {
-      if (selectedElement != null) {
-        svgCanvas.moveTopBottomSelected('bottom');
-      }
-    };
-
-    // var reorientPath = function () {
-    //   if (selectedElement != null) {
-    //     path.reorient();
-    //   }
-    // };
-
     var moveSelected = function (dx, dy) {
       if (selectedElement != null || multiselected) {
         if (curConfig.gridSnapping) {

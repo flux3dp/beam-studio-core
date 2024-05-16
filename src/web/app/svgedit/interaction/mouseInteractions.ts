@@ -749,13 +749,7 @@ const onResizeMouseMove = (evt: MouseEvent, selected: SVGElement, x, y) => {
       }
       break;
     case 'text':
-      // This is a bad hack because vector-effect
-      // seems not working when resize text, but work after receiving new stroke width value
-      if (selected.getAttribute('stroke-width') === '2') {
-        selected.setAttribute('stroke-width', '2.01');
-      } else {
-        selected.setAttribute('stroke-width', '2');
-      }
+      selected.setAttribute('stroke-width', '2');
       break;
     default:
       break;
