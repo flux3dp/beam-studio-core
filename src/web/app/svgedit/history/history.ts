@@ -12,14 +12,9 @@
 // 1) jQuery
 // 2) svgtransformlist.js
 // 3) svgutils.js
-import { getSVGAsync } from 'helpers/svg-editor-helper';
-import { IBatchCommand, ICommand, IHistoryHandler, IUndoManager } from 'interfaces/IHistory';
+import { IBatchCommand, ICommand, IHistoryHandler } from 'interfaces/IHistory';
 
 const { svgedit } = window;
-let svgCanvas = null;
-getSVGAsync((globalSVG) => {
-  svgCanvas = globalSVG.Canvas;
-});
 
 if (!svgedit.history) {
   svgedit.history = {};
