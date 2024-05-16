@@ -1,7 +1,7 @@
 import handleFinish from './handle-finish';
 
 const mockBatchCommand = jest.fn();
-jest.mock('app/svgedit/history', () => ({
+jest.mock('app/svgedit/history/history', () => ({
   BatchCommand: function BatchCommand(...args) {
     return mockBatchCommand(...args);
   },

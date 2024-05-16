@@ -10,7 +10,7 @@ const mockBatchCommand = jest.fn().mockImplementation(() => ({
   isEmpty: mockIsEmpty,
 }));
 
-jest.mock('app/svgedit/history', () => ({
+jest.mock('app/svgedit/history/history', () => ({
   MoveElementCommand: mockMoveElementCommand,
   ChangeElementCommand: mockChangeElementCommand,
   InsertElementCommand: mockInsertElementCommand,
