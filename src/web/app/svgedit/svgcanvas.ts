@@ -56,6 +56,7 @@ import ungroupElement from 'app/svgedit/group/ungroup';
 import workareaManager from 'app/svgedit/workarea';
 import { deleteSelectedElements } from 'app/svgedit/operations/delete';
 import { moveElements, moveSelectedElements } from 'app/svgedit/operations/move';
+import { UndoManager } from 'app/svgedit/history/undoManager';
 
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
@@ -421,7 +422,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     }
   };
 
-  canvas.undoMgr = new history.UndoManager({
+  canvas.undoMgr = new UndoManager({
     renderText: textEdit.renderText,
     handleHistoryEvent: (eventType, cmd) => {
       const EventTypes = history.HistoryEventTypes;
