@@ -70,6 +70,7 @@ import { Buffer } from 'buffer';
 
 import Progress from 'app/actions/progress-caller';
 import updateImagesResolution from 'helpers/image/updateImagesResolution';
+import updateImageDisplay from 'helpers/image/updateImageDisplay';
 import { importBvgString } from 'app/svgedit/operations/import/importBvg';
 
 // Create VInt Buffer, first bit indicate continue or not, other 7 bits represent value
@@ -221,6 +222,7 @@ const readImageSource = (buf, offset, end) => {
     if (image) {
       image.setAttribute('origImage', src);
       image.setAttribute('preserveAspectRatio', 'none');
+      updateImageDisplay(image as SVGImageElement);
     }
   }
 };

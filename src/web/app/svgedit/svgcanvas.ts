@@ -425,7 +425,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     renderText: textEdit.renderText,
     handleHistoryEvent: (eventType, cmd) => {
       const EventTypes = history.HistoryEventTypes;
-      // TODO: handle setBlurOffsets.
       if (eventType === EventTypes.BEFORE_UNAPPLY || eventType === EventTypes.BEFORE_APPLY) {
         onBefore();
         cmd?.onBefore?.();
