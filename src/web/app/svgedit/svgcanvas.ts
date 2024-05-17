@@ -1048,13 +1048,18 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     if (!preventUndo) {
       // we need to undo it, then redo it so it can be undo-able! :)
       // TODO: figure out how to make changes to transform list undo-able cross-browser?
-      var newTransform = elem.getAttribute('transform');
-      if (oldTransform) {
-        elem.setAttribute('transform', oldTransform);
+      if (elem.getAttribute('data-tempgroup') === 'true') {
+        const cmd = svgCanvas.pushGroupProperties(elem, true);
+        if (cmd && !cmd.isEmpty()) addCommandToHistory(cmd);
       } else {
-        elem.removeAttribute('transform');
+        var newTransform = elem.getAttribute('transform');
+        if (oldTransform) {
+          elem.setAttribute('transform', oldTransform);
+        } else {
+          elem.removeAttribute('transform');
+        }
+        changeSelectedAttribute('transform', newTransform, [elem]);
       }
-      changeSelectedAttribute('transform', newTransform, [elem]);
       call('changed', [elem]);
     }
     var pointGripContainer = svgedit.utilities.getElem('pathpointgrip_container');
@@ -4377,10 +4382,8 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     var len = children.length;
     var xform = g.getAttribute('transform');
 
-    var glist = svgedit.transformlist.getTransformList(g);
-    var m = svgedit.math.transformListToTransform(glist).matrix;
-
-    var batchCmd = new history.BatchCommand('Push group properties');
+    const glist = svgedit.transformlist.getTransformList(g);
+    const m = svgedit.math.transformListToTransform(glist).matrix;
 
     // TODO: get all fill/stroke properties from the group that we are about to destroy
     // "fill", "fill-opacity", "fill-rule", "stroke", "stroke-dasharray", "stroke-dashoffset",
@@ -4565,6 +4568,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       changes.transform = xform;
       g.setAttribute('transform', '');
       g.removeAttribute('transform');
+      svgedit.transformlist.removeElementFromListMap(g);
       batchCmd.addSubCommand(new history.ChangeElementCommand(g, changes));
     }
 
@@ -4761,7 +4765,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   // significant recalculations to apply group's transforms, etc to its children
   this.ungroupTempGroup = function (elem = null) {
 
-    let g = (elem || selectedElements[0]) || tempGroup;
+    let g = elem || selectedElements[0] || tempGroup;
     if (!g) {
       return;
     }

@@ -1,5 +1,5 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import React from 'react';
+import { createRoot, Root } from 'react-dom/client';
 import BeamboxGlobalInteraction from 'app/actions/beambox/beambox-global-interaction';
 import ToolPanels from 'app/views/beambox/ToolPanels/ToolPanels';
 
@@ -10,7 +10,9 @@ class ToolPanelsController {
 
   type: ToolPanelType;
 
-  data: { rowcolumn: { row: number; column: number; }; distance: { dx: number; dy: number; }; };
+  data: { rowcolumn: { row: number; column: number }; distance: { dx: number; dy: number } };
+
+  root: Root | null;
 
   constructor() {
     this.isVisible = false;
@@ -25,49 +27,41 @@ class ToolPanelsController {
         dy: 0,
       },
     };
-
-    //bind all
-    for (let obj = this; obj; obj = Object.getPrototypeOf(obj)) {
-      for (let name of Object.getOwnPropertyNames(obj)) {
-        if (typeof this[name] === 'function') {
-          this[name] = this[name].bind(this);
-        }
-      }
-    }
   }
 
-  setVisibility(isVisible) {
+  setVisibility = (isVisible) => {
     this.isVisible = isVisible;
     if (isVisible) {
       BeamboxGlobalInteraction.onObjectFocus();
     } else {
       BeamboxGlobalInteraction.onObjectBlur();
     }
-  }
+  };
 
-  setType(type: ToolPanelType) {
+  setType = (type: ToolPanelType) => {
     this.type = type;
-  }
+  };
 
-  render() {
+  createRoot = () => {
+    if (!this.root && document.getElementById('tool-panels-placeholder')) {
+      this.root = createRoot(document.getElementById('tool-panels-placeholder'));
+    }
+  };
+
+  render = () => {
     if (this.isVisible) {
-      ReactDOM.render(
-        <ToolPanels
-          type={this.type}
-          data={this.data}
-          unmount={this.unmount}
-        />,
-        document.getElementById('tool-panels-placeholder'),
-      );
+      this.createRoot();
+      this.root?.render(<ToolPanels type={this.type} data={this.data} unmount={this.unmount} />);
     } else {
       this.unmount();
     }
-  }
+  };
 
-  unmount() {
+  unmount = () => {
     this.isVisible = false;
-    ReactDOM.unmountComponentAtNode(document.getElementById('tool-panels-placeholder'));
-  }
+    this.root?.unmount();
+    this.root = null;
+  };
 }
 
 const instance = new ToolPanelsController();

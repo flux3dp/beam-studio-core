@@ -107,10 +107,9 @@ const DimensionPanel = ({
       let rotationDeg = val % 360;
       if (rotationDeg > 180) rotationDeg -= 360;
       svgCanvas.setRotationAngle(rotationDeg, false, elem);
-      updateDimensionValues({ rotation: rotationDeg });
       forceUpdate();
     },
-    [elem, updateDimensionValues, forceUpdate]
+    [elem, forceUpdate]
   );
 
   const changeSize = useCallback(
