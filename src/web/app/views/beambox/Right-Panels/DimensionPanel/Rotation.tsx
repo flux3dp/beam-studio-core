@@ -12,24 +12,27 @@ import styles from './DimensionPanel.module.scss';
 
 interface Props {
   value: number;
-  onChange: (value: number) => void;
+  onChange: (value: number, addToHistory?: boolean) => void;
 }
 
 const Rotation = ({ value, onChange }: Props): JSX.Element => {
   const inputRef = useRef<HTMLInputElement>(null);
-  const objectPanelEventEmitter = useMemo(() => eventEmitterFactory.createEventEmitter('object-panel'), []);
+  const objectPanelEventEmitter = useMemo(
+    () => eventEmitterFactory.createEventEmitter('object-panel'),
+    []
+  );
   const isMobile = useIsMobile();
   const t = useI18n().topbar.menu;
   useEffect(() => {
     const handler = (newValues?: { rotation?: number }) => {
       if (newValues?.rotation !== undefined && inputRef.current) {
-        inputRef.current.value = newValues.rotation.toFixed(2)
+        inputRef.current.value = newValues.rotation.toFixed(2);
       }
-    }
+    };
     objectPanelEventEmitter.on('UPDATE_DIMENSION_VALUES', handler);
     return () => {
       objectPanelEventEmitter.removeListener('UPDATE_DIMENSION_VALUES', handler);
-    }
+    };
   }, [objectPanelEventEmitter]);
 
   if (isMobile) {
@@ -60,6 +63,8 @@ const Rotation = ({ value, onChange }: Props): JSX.Element => {
         value={value || 0}
         precision={2}
         onChange={onChange}
+        onBlur={() => onChange(value, true)}
+        onPressEnter={() => onChange(value, true)}
       />
     </div>
   );

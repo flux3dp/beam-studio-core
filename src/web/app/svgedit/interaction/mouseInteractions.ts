@@ -346,6 +346,7 @@ const mouseDown = (evt: MouseEvent) => {
           if (!rightClick) {
             if (evt.altKey) {
               const cmd = clipboard.cloneSelectedElements(0, 0, true);
+              selectedElements = svgCanvas.getSelectedElems();
               if (cmd && !cmd.isEmpty()) {
                 mouseSelectModeCmds.push(cmd);
               }
@@ -586,11 +587,6 @@ const mouseDown = (evt: MouseEvent) => {
       // we are starting an undoable change (a drag-rotation)
       if (!svgCanvas.getTempGroup()) {
         svgCanvas.undoMgr.beginUndoableChange('transform', selectedElements);
-      } else {
-        svgCanvas.undoMgr.beginUndoableChange(
-          'transform',
-          Array.from(svgCanvas.getTempGroup().childNodes as unknown as SVGElement[])
-        );
       }
       break;
     case 'drag-prespray-area':
@@ -1547,10 +1543,16 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
       element = null;
       svgCanvas.unsafeAccess.setCurrentMode('select');
       drawingToolEventEmitter.emit('SET_ACTIVE_BUTTON', 'Cursor');
-      const batchCmd = svgCanvas.undoMgr.finishUndoableChange();
-      if (!batchCmd.isEmpty()) {
-        svgCanvas.addCommandToHistory(batchCmd);
+      const batchCmd = new history.BatchCommand('Rotate Elements');
+      const tempGroup = svgCanvas.getTempGroup();
+      if (tempGroup) {
+        const cmd = svgCanvas.pushGroupProperties(tempGroup, true);
+        if (cmd && !cmd.isEmpty()) batchCmd.addSubCommand(cmd);
+      } else {
+        const cmd = svgCanvas.undoMgr.finishUndoableChange();
+        if (cmd && !cmd.isEmpty()) batchCmd.addSubCommand(cmd);
       }
+      if (!batchCmd.isEmpty()) svgCanvas.addCommandToHistory(batchCmd);
       // perform recalculation to weed out any stray identity transforms that might get stuck
       svgCanvas.recalculateAllSelectedDimensions();
       svgCanvas.call('changed', selectedElements);
