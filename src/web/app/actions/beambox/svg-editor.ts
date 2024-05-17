@@ -858,6 +858,7 @@ const svgEditor = window['svgEditor'] = (function () {
       if ([TutorialConstants.DRAW_A_CIRCLE, TutorialConstants.DRAW_A_RECT].includes(getNextStepRequirement())) {
         return;
       }
+      workarea.css('cursor', 'auto');
       svgCanvas.setMode('select');
       if (clearSelection) svgCanvas.clearSelection();
     };
