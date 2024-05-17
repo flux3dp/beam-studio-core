@@ -87,7 +87,7 @@ const mockBatchCommand = jest.fn().mockImplementation(() => {
   batchCmd = { onAfter: undefined, count: batchCmd.count + 1 };
   return batchCmd;
 });
-jest.mock('app/svgedit/history', () => ({
+jest.mock('app/svgedit/history/history', () => ({
   BatchCommand: mockBatchCommand,
 }));
 

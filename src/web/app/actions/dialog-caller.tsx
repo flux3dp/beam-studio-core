@@ -106,6 +106,7 @@ const forceLoginWrapper = (callback: () => void | Promise<void>, silent?: boolea
   }
 };
 
+// TODO: decouple dialog caller and dialog modals
 const showFluxPlusWarning = (monotype?: boolean): void => {
   if (isIdExist('flux-plus-warning')) return;
   addDialogComponent(
@@ -113,6 +114,7 @@ const showFluxPlusWarning = (monotype?: boolean): void => {
     <FluxPlusWarning onClose={() => popDialogById('flux-plus-warning')} monotype={monotype} />
   );
 };
+eventEmitter.on('SHOW_FLUX_PLUS_WARNING', showFluxPlusWarning);
 
 const showDeviceSelector = (onSelect) => {
   addDialogComponent(
@@ -507,7 +509,6 @@ export default {
       );
     }, true);
   },
-  showFluxPlusWarning,
   showBoxGen: (onClose: () => void): void => {
     if (isIdExist('box-gen')) return;
     shortcuts.pauseAll();

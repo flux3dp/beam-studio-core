@@ -1,6 +1,6 @@
 import getDpmm from 'helpers/image/getDpmm';
 import getExifRotationFlag from 'helpers/image/getExifRotationFlag';
-import history from 'app/svgedit/history';
+import history from 'app/svgedit/history/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import imageData from 'helpers/image-data';
 import updateElementColor from 'helpers/color/updateElementColor';

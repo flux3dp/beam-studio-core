@@ -16,6 +16,7 @@ import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
 import OutputError from 'helpers/output-error';
 import Tutorials from 'app/actions/beambox/tutorials';
 import viewMenu from 'helpers/menubar/view';
+import workareaManager from 'app/svgedit/workarea';
 import { externalLinkMemberDashboard, signOut } from 'helpers/api/flux-id';
 import { gestureIntroduction } from 'app/constants/media-tutorials';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
@@ -158,9 +159,9 @@ export default {
   },
   START_UI_INTRO: () => Tutorials.startInterfaceTutorial(() => { }),
   START_GESTURE_INTRO: (): Promise<void> => Dialog.showMediaTutorial(gestureIntroduction),
-  ZOOM_IN: () => svgEditor.zoomIn(),
-  ZOOM_OUT: () => svgEditor.zoomOut(),
-  FITS_TO_WINDOW: () => svgEditor.resetView(),
+  ZOOM_IN: (): void => workareaManager.zoomIn(),
+  ZOOM_OUT: (): void => workareaManager.zoomOut(),
+  FITS_TO_WINDOW: (): void => workareaManager.resetView(),
   ZOOM_WITH_WINDOW: () => viewMenu.toggleZoomWithWindow(),
   SHOW_GRIDS: () => viewMenu.toggleGrid(),
   SHOW_RULERS: () => viewMenu.toggleRulers(),

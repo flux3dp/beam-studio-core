@@ -3,6 +3,7 @@ import alertConstants from 'app/constants/alert-constants';
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import changeWorkarea from 'app/svgedit/operations/changeWorkarea';
 import constant from 'app/actions/beambox/constant';
+import history from 'app/svgedit/history/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import i18n from 'helpers/i18n';
 import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
@@ -11,24 +12,36 @@ import presprayArea from 'app/actions/canvas/prespray-area';
 import rotaryAxis from 'app/actions/canvas/rotary-axis';
 import symbolMaker from 'helpers/symbol-maker';
 import workareaManager from 'app/svgedit/workarea';
+import { changeBeamboxPreferenceValue } from 'app/svgedit/history/beamboxPreferenceCommand';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { ICommand } from 'interfaces/IHistory';
 import { WorkAreaModel } from 'app/constants/workarea-constants';
 import { toggleFullColorAfterWorkareaChange } from 'helpers/layer/layer-config-helper';
 
+import setSvgContent from './setSvgContent';
+
 let svgCanvas: ISVGCanvas;
-let svgEditor;
 let svgedit;
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
-  svgEditor = globalSVG.Editor;
   svgedit = globalSVG.Edit;
 });
 
 export const importBvgString = async (str: string): Promise<void> => {
+  const batchCmd = new history.BatchCommand('Import Bvg');
   svgCanvas.clearSelection();
-  await svgEditor.loadFromStringAsync(
+  const setContentCmd = setSvgContent(
     str.replace(/STYLE>/g, 'style>').replace(/<STYLE/g, '<style')
   );
+  if (!setContentCmd) {
+    alertCaller.popUp({
+      id: 'load SVG fail',
+      type: alertConstants.SHOW_POPUP_WARNING,
+      message: 'Error: Unable to load SVG data',
+    });
+    return;
+  }
+  if (!setContentCmd.isEmpty()) batchCmd.addSubCommand(setContentCmd);
 
   const currentWorkarea: WorkAreaModel = beamboxPreference.read('workarea');
   // loadFromString will lose data-xform and data-wireframe of `use` so set it back here
@@ -52,26 +65,34 @@ export const importBvgString = async (str: string): Promise<void> => {
       let rotaryMode = match[1];
 
       if (rotaryMode === 'true') rotaryMode = '1';
+      let cmd: ICommand;
       if (constant.addonsSupportList.rotary.includes(currentWorkarea)) {
-        beamboxPreference.write('rotary_mode', parseInt(rotaryMode, 10));
+        cmd = changeBeamboxPreferenceValue('rotary_mode', parseInt(rotaryMode, 10), {
+          parentCmd: batchCmd,
+        });
       } else {
+        cmd = changeBeamboxPreferenceValue('rotary_mode', 0, { parentCmd: batchCmd });
         beamboxPreference.write('rotary_mode', 0);
       }
+      cmd.onAfter = () => {
+        rotaryAxis.toggleDisplay();
+        workareaManager.setWorkarea(beamboxPreference.read('workarea'));
+      };
       rotaryAxis.toggleDisplay();
     }
     const engraveDpi = str.match(/data-engrave_dpi="([a-zA-Z]+)"/)?.[1];
     if (engraveDpi) {
-      beamboxPreference.write('engrave_dpi', engraveDpi);
+      changeBeamboxPreferenceValue('engrave_dpi', engraveDpi, { parentCmd: batchCmd });
     } else {
-      beamboxPreference.write('engrave_dpi', 'medium');
+      changeBeamboxPreferenceValue('engrave_dpi', 'medium', { parentCmd: batchCmd });
     }
     if (constant.addonsSupportList.hybridLaser.includes(currentWorkarea)) {
       match = str.match(/data-en_diode="([a-zA-Z]+)"/);
       if (match && match[1]) {
         if (match[1] === 'true') {
-          beamboxPreference.write('enable-diode', true);
+          changeBeamboxPreferenceValue('enable-diode', true, { parentCmd: batchCmd });
         } else {
-          beamboxPreference.write('enable-diode', false);
+          changeBeamboxPreferenceValue('enable-diode', false, { parentCmd: batchCmd });
         }
       }
     }
@@ -79,9 +100,9 @@ export const importBvgString = async (str: string): Promise<void> => {
       match = str.match(/data-en_af="([a-zA-Z]+)"/);
       if (match && match[1]) {
         if (match[1] === 'true') {
-          beamboxPreference.write('enable-autofocus', true);
+          changeBeamboxPreferenceValue('enable-autofocus', true, { parentCmd: batchCmd });
         } else {
-          beamboxPreference.write('enable-autofocus', false);
+          changeBeamboxPreferenceValue('enable-autofocus', false, { parentCmd: batchCmd });
         }
       }
     }
@@ -132,15 +153,28 @@ export const importBvgString = async (str: string): Promise<void> => {
       }
     }
   }
-  changeWorkarea(newWorkarea, { toggleModule: false })
-  if (!modelsWithModules.has(newWorkarea)) {
-    toggleFullColorAfterWorkareaChange();
-  }
-  svgedit.utilities.findDefs().remove();
+  console.log('Change workarea to', newWorkarea);
+  const changeWorkareaCmd = changeWorkarea(newWorkarea, { toggleModule: false });
+  batchCmd.addSubCommand(changeWorkareaCmd);
+  const defs = svgedit.utilities.findDefs();
+  const { parentNode, nextSibling } = defs;
+  defs.remove();
+  batchCmd.addSubCommand(new history.RemoveElementCommand(defs, nextSibling, parentNode));
   svgedit.utilities.moveDefsOutfromSvgContent();
-  await symbolMaker.reRenderAllImageSymbol();
-  presprayArea.togglePresprayArea();
-  LayerPanelController.setSelectedLayers([]);
+  const newDefs = svgedit.utilities.findDefs();
+  batchCmd.addSubCommand(new history.InsertElementCommand(newDefs));
+  const postImportBvgString = async () => {
+    const workarea = beamboxPreference.read('workarea');
+    if (!modelsWithModules.has(workarea)) {
+      toggleFullColorAfterWorkareaChange();
+    }
+    await symbolMaker.reRenderAllImageSymbol();
+    presprayArea.togglePresprayArea();
+    LayerPanelController.setSelectedLayers([]);
+  };
+  await postImportBvgString();
+  batchCmd.onAfter = postImportBvgString;
+  svgCanvas.addCommandToHistory(batchCmd);
 };
 
 const importBvg = async (file: Blob): Promise<void> => {

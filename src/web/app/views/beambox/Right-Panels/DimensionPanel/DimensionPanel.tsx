@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo } from 'react';
 import { ConfigProvider } from 'antd';
 
 import Constant from 'app/actions/beambox/constant';
-import HistoryCommandFactory from 'app/svgedit/HistoryCommandFactory';
+import HistoryCommandFactory from 'app/svgedit/history/HistoryCommandFactory';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import SymbolMaker from 'helpers/symbol-maker';
 import useForceUpdate from 'helpers/use-force-update';

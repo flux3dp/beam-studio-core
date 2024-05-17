@@ -6,7 +6,7 @@ import ColorPickerMobile from 'app/widgets/ColorPickerMobile';
 import colloectColors from 'helpers/color/collectColors';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import FloatingPanel from 'app/widgets/FloatingPanel';
-import HistoryCommandFactory from 'app/svgedit/HistoryCommandFactory';
+import HistoryCommandFactory from 'app/svgedit/history/HistoryCommandFactory';
 import HorizontalScrollContainer from 'app/widgets/HorizontalScrollContainer';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';

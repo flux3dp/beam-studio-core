@@ -3,7 +3,7 @@ import React, { Fragment } from 'react';
 import { ConfigProvider, InputNumber, Slider, Switch } from 'antd';
 import { Popover } from 'antd-mobile';
 
-import history from 'app/svgedit/history';
+import history from 'app/svgedit/history/history';
 import i18n from 'helpers/i18n';
 import ImageData from 'helpers/image-data';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';

@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import history from 'app/svgedit/history';
+import history from 'app/svgedit/history/history';
 import selector from 'app/svgedit/selector';
 import symbolMaker from 'helpers/symbol-maker';
 import updateElementColor from 'helpers/color/updateElementColor';

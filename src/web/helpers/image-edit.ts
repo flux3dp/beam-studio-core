@@ -5,7 +5,7 @@ import alertConfig from 'helpers/api/alert-config';
 import alertConstants from 'app/constants/alert-constants';
 import browser from 'implementations/browser';
 import dialogCaller from 'app/actions/dialog-caller';
-import history from 'app/svgedit/history';
+import history from 'app/svgedit/history/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import i18n from 'helpers/i18n';
 import imageData from 'helpers/image-data';

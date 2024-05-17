@@ -150,24 +150,24 @@ const funcs = {
   },
   // left panel
   useSelectTool(): void {
-    $('#tool_select').click();
+    svgEditor.clickSelect();
   },
   insertRectangle(): void {
     if (TutorialController.getNextStepRequirement() === TutorialConstants.SELECT_RECT) {
       TutorialController.handleNextStep();
     }
-    $('#tool_rect').mouseup();
+    svgCanvas.setMode('rect');
     setCrosshairCursor();
   },
   insertEllipse(): void {
     if (TutorialController.getNextStepRequirement() === TutorialConstants.SELECT_CIRCLE) {
       TutorialController.handleNextStep();
     }
-    $('#tool_ellipse').mouseup();
+    svgCanvas.setMode('ellipse');
     setCrosshairCursor();
   },
   insertPath(): void {
-    $('#tool_path').mouseup();
+    svgCanvas.setMode('path');
     setCrosshairCursor();
   },
   insertPolygon(): void {
@@ -179,11 +179,7 @@ const funcs = {
     setCrosshairCursor();
   },
   insertText(): void {
-    if (svgedit.browser.isTouch()) {
-      $('#tool_text').mousedown();
-    } else {
-      $('#tool_text').click();
-    }
+    svgCanvas.setMode('text');
     $('#workarea').css('cursor', 'text');
   },
 };

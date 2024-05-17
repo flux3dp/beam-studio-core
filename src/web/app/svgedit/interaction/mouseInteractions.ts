@@ -4,7 +4,7 @@ import createNewText from 'app/svgedit/text/createNewText';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import presprayArea from 'app/actions/canvas/prespray-area';
-import history from 'app/svgedit/history';
+import history from 'app/svgedit/history/history';
 import selector from 'app/svgedit/selector';
 import * as LayerHelper from 'helpers/layer/layer-helper';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
@@ -601,6 +601,7 @@ const mouseDown = (evt: MouseEvent) => {
     case 'drag-rotary-axis':
       svgCanvas.unsafeAccess.setStarted(true);
       svgCanvas.clearSelection();
+      rotaryAxis.mouseDown();
       break;
     default:
       // This could occur in an extension
@@ -749,13 +750,7 @@ const onResizeMouseMove = (evt: MouseEvent, selected: SVGElement, x, y) => {
       }
       break;
     case 'text':
-      // This is a bad hack because vector-effect
-      // seems not working when resize text, but work after receiving new stroke width value
-      if (selected.getAttribute('stroke-width') === '2') {
-        selected.setAttribute('stroke-width', '2.01');
-      } else {
-        selected.setAttribute('stroke-width', '2');
-      }
+      selected.setAttribute('stroke-width', '2');
       break;
     default:
       break;
@@ -1564,6 +1559,7 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
       keep = true;
       element = null;
       svgCanvas.setMode('select');
+      presprayArea.endDrag();
       break;
     case 'drag-rotary-axis':
       keep = true;

@@ -1,4 +1,4 @@
-import history from 'app/svgedit/history';
+import history from 'app/svgedit/history/history';
 import i18n from 'helpers/i18n';
 import LayerModule from 'app/constants/layer-module/layer-modules';
 import layerConfigHelper, {
@@ -142,8 +142,6 @@ const appendUseElement = (
   }
 
   currentDrawing.getCurrentLayer().appendChild(useEl);
-
-  $(useEl).data('symbol', symbol).data('ref', symbol);
 
   useEl.setAttribute('data-svg', 'true');
   useEl.setAttribute('data-ratiofixed', 'true');

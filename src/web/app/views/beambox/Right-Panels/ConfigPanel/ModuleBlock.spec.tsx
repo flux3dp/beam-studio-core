@@ -124,7 +124,7 @@ const mockBatchCommand = jest.fn().mockImplementation(() => {
   return batchCmd;
 });
 const mockChangeElementCommand = jest.fn().mockReturnValue('mock-change-element-cmd');
-jest.mock('app/svgedit/history', () => ({
+jest.mock('app/svgedit/history/history', () => ({
   BatchCommand: mockBatchCommand,
   ChangeElementCommand: mockChangeElementCommand,
 }));

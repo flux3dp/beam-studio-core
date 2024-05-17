@@ -56,7 +56,7 @@ svgEditor.setConfig({
 });
 
 // OTHER CONFIG
-svgEditor.setConfig({	
+svgEditor.setConfig({
 	// canvasName: 'default',
 	// canvas_expansion: 3,
 	// initFill: {
@@ -69,7 +69,6 @@ svgEditor.setConfig({
 		// opacity: 1
 	// },
 	// initOpacity: 1,
-	// colorPickerCSS: null,
 	// initTool: 'select',
 	// exportWindowType: 'new', // 'same'
 	// wireframe: false,
@@ -91,7 +90,6 @@ svgEditor.setConfig({
 	// dimensions: [640, 480],
 	// EDITOR OPTIONS
 	// gridSnapping: false,
-	// gridColor: '#000',
 	// baseUnit: 'px',
 	// snappingStep: 10,
 	// showRulers: true,
@@ -120,7 +118,6 @@ As with configuration, one may use allowInitialUserOverride, but
 svgEditor.setConfig(
 	{
 		// lang: '', // Set dynamically within locale.js if not previously set
-		// iconsize: '', // Will default to 's' if the window height is smaller than the minimum height and 'm' otherwise
 		/**
 		* When showing the preferences dialog, svg-editor.js currently relies
 		* on curPrefs instead of $.pref, so allowing an override for bkgd_color
@@ -130,7 +127,6 @@ svgEditor.setConfig(
 		*/
 		// bkgd_color: '#FFF',
 		// bkgd_url: '',
-		// img_save: 'embed',
 		// Only shows in UI as far as alert notices
 		// save_notice_done: false,
 		// export_notice_done: false
