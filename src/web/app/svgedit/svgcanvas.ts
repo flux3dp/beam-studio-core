@@ -4384,6 +4384,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
     const glist = svgedit.transformlist.getTransformList(g);
     const m = svgedit.math.transformListToTransform(glist).matrix;
+    const batchCmd = new history.BatchCommand('Push group properties');
 
     // TODO: get all fill/stroke properties from the group that we are about to destroy
     // "fill", "fill-opacity", "fill-rule", "stroke", "stroke-dasharray", "stroke-dashoffset",
