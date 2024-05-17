@@ -1872,30 +1872,6 @@ const svgEditor = window['svgEditor'] = (function () {
       runCallback();
     };
 
-    var getPaint = function (color, opac, type) {
-      // update the editor's fill paint
-      var opts: {
-        alpha: number,
-        solidColor?: string
-      } = {
-        alpha: opac
-      };
-      if (color.indexOf('url(#') === 0) {
-        var refElem = svgCanvas.getRefElem(color);
-        if (refElem) {
-          refElem = refElem.cloneNode(true);
-        } else {
-          refElem = $('#' + type + '_color defs *')[0];
-        }
-        opts[refElem.tagName] = refElem;
-      } else if (color.indexOf('#') === 0) {
-        opts.solidColor = color.substr(1);
-      } else {
-        opts.solidColor = 'none';
-      }
-      return new $.jGraduate.Paint(opts);
-    };
-
     // bind the selected event to our function that handles updates to the UI
     svgCanvas.bind('selected', selectedChanged);
     svgCanvas.bind('transition', elementTransition);
@@ -1941,9 +1917,6 @@ const svgEditor = window['svgEditor'] = (function () {
     $('select').change(function () {
       $(this).blur();
     });
-
-    // fired when user wants to move elements to another layer
-    var promptMoveLayerOnce = false;
 
     const textInput = document.getElementById('text') as HTMLInputElement;
     let wasNewLineAdded = false;
