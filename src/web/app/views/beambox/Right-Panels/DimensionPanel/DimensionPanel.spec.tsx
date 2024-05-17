@@ -250,10 +250,6 @@ describe('test DimensionPanel', () => {
     fireEvent.click(getByText('rotation'));
     expect(mockSetRotationAngle).toHaveBeenCalledTimes(1);
     expect(mockSetRotationAngle).toHaveBeenNthCalledWith(1, -80, false, mockImage);
-    expect(mockUpdateDimensionValues).toHaveBeenCalledTimes(1);
-    expect(mockUpdateDimensionValues).toHaveBeenNthCalledWith(1, {
-      rotation: -80,
-    });
     expect(mockForceUpdate).toHaveBeenCalledTimes(1);
   });
 

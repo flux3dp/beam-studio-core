@@ -18,7 +18,7 @@ jest.mock('app/views/beambox/ToolPanels/ToolPanels', () => function DummyToolPan
 
 import toolPanelsController from './toolPanelsController';
 
-test('test render', () => {
+test('test render', async () => {
   expect(toolPanelsController.isVisible).toBeFalsy();
   expect(toolPanelsController.type).toBe('unknown');
   expect(toolPanelsController.data).toEqual({
@@ -46,6 +46,7 @@ test('test render', () => {
   toolPanelsController.setVisibility(true);
   document.body.innerHTML = '<div id="tool-panels-placeholder" />';
   toolPanelsController.render();
+  await new Promise((r) => setTimeout(r, 0));
   expect(document.body.innerHTML).toBe('<div id="tool-panels-placeholder"><div>This is dummy ToolPanels</div></div>');
 
   toolPanelsController.setVisibility(false);
