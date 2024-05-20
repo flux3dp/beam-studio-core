@@ -95,7 +95,6 @@ export class UndoManager implements IUndoManager {
       this.undoStack = this.undoStack.splice(0, this.undoStackPointer);
     }
     this.undoStack.push(cmd);
-    if (this.undoStack.length > 50) this.undoStack.shift();
     this.undoStackPointer = this.undoStack.length;
     const isInitCommand = this.undoStack.length === 1 && cmd.getText() === 'Create Layer';
     if (svgCanvas && !isInitCommand) {
