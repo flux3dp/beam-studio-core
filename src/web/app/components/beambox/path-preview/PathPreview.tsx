@@ -1094,6 +1094,7 @@ class PathPreview extends React.Component<Props, State> {
   };
 
   private searchParams = (gcodeList, target) => {
+    const enableAutofocus = BeamboxPreference.read('enable-autofocus');
     let U = -1;
     let F = -1;
     let Z = -1;
@@ -1101,38 +1102,32 @@ class PathPreview extends React.Component<Props, State> {
     let isEngraving = false;
 
     for (let i = target; i > 0; i -= 1) {
-      if (U < 0 && gcodeList[i].indexOf('G1 U') > -1) {
-        const res = gcodeList[i].match(/G1 U([-0-9.]*)/);
-        if (res && res[1]) U = parseInt(res[1], 10);
+      if (U < 0) {
+        const match = gcodeList[i].match(/G1 U([-0-9.]*)/);
+        if (match && match[1]) U = parseInt(match[1], 10);
       }
 
-      if (F < 0 && gcodeList[i].indexOf('G1 F') > -1) {
-        const res = gcodeList[i].match(/G1 F([-0-9.]*)/);
-        if (res && res[1]) F = parseInt(res[1], 10);
+      if (F < 0) {
+        const match = gcodeList[i].match(/G1 F([-0-9.]*)/);
+        if (match && match[1]) F = parseInt(match[1], 10);
       }
 
-      if (!laserDetected && gcodeList[i].indexOf('G1S0') > -1) {
-        isEngraving = false;
-        laserDetected = true;
+      if (!laserDetected) {
+        if (gcodeList[i].indexOf('G1S0') > -1) {
+          isEngraving = false;
+          laserDetected = true;
+        } else if (gcodeList[i].indexOf('G1V0') > -1) {
+          isEngraving = true;
+          laserDetected = true;
+        }
       }
 
-      if (!laserDetected && gcodeList[i].indexOf('G1V0') > -1) {
-        isEngraving = true;
-        laserDetected = true;
-      }
-
-      if (BeamboxPreference.read('enable-autofocus') && Z < 0 && gcodeList[i].indexOf('Z') > -1) {
+      if (enableAutofocus && Z < 0 && gcodeList[i].indexOf('Z') > -1) {
         const res = gcodeList[i].match(/Z([-0-9.]*)/);
         if (res && res[1]) Z = parseInt(res[1], 10);
       }
 
-      if (
-        F > 0 &&
-        U > 0 &&
-        laserDetected &&
-        (!BeamboxPreference.read('enable-autofocus') ||
-          (BeamboxPreference.read('enable-autofocus') && Z > -1))
-      ) {
+      if (F > 0 && U > 0 && laserDetected && (!enableAutofocus || (enableAutofocus && Z > -1))) {
         break;
       }
     }
@@ -1237,233 +1232,265 @@ class PathPreview extends React.Component<Props, State> {
     let modifiedGcodeList;
 
     if (workspace.simTime > 0 && workspace.simTime < this.simTimeMax - SIM_TIME_MINUTE / 2) {
-      const simTimeInfo = this.gcodePreview.getSimTimeInfo(Number(workspace.simTime));
-      const gcodeList = this.gcodeString.split('\n');
-      let target = 0;
-      let count = -2;
+      progressCaller.openNonstopProgress({
+        id: 'path-preview',
+        caption: i18n.lang.beambox.popup.progress.calculating,
+      });
+      try {
+        const simTimeInfo = this.gcodePreview.getSimTimeInfo(Number(workspace.simTime));
+        const gcodeList = this.gcodeString.split('\n');
+        let target = 0;
+        let count = -2;
 
-      for (let i = 0; i < gcodeList.length; i += 1) {
-        if (gcodeList[i].indexOf('G1') > -1) {
-          count += 1;
-        }
-
-        if (count === simTimeInfo.index) {
-          target = i;
-          break;
-        }
-      }
-
-      const preparation: string[] = [];
-      for (let i = 0; i < gcodeList.length; i += 1) {
-        preparation.push(gcodeList[i]);
-        if (gcodeList[i].indexOf('F7500') > -1) {
-          break;
-        }
-      }
-
-      if (BeamboxPreference.read('fast_gradient')) {
-        const fastGradientGcodeBlob = await exportFuncs.getFastGradientGcode();
-        if (!this.fastGradientGcodeString) {
-          this.fastGradientGcodeString = await new Promise<string>((resolve) => {
-            const fileReader = new FileReader();
-            fileReader.onloadend = (e) => {
-              resolve(e.target.result as string);
-            };
-            fileReader.readAsText(fastGradientGcodeBlob as Blob);
-          });
-        }
-        let resolution = 0;
-        let prefix;
-        const fastGradientGcodeList = this.fastGradientGcodeString.split('\n');
-        let isFastGradientEngraving = false;
-        let targetY;
-
-        // check if is fast gradient engraving and get target Y
-        for (let i = target + 1; i > 0; i -= 1) {
-          const matchX = gcodeList[i].match(/X([0-9.]*)/);
-          const matchY = gcodeList[i].match(/Y([0-9.]*)/);
-          const x = matchX ? matchX[1] : '';
-          const y = matchY ? matchY[1] : '';
-          if ((x && !y) || (!x && y)) {
-            isFastGradientEngraving = true;
+        for (let i = 0; i < gcodeList.length; i += 1) {
+          if (gcodeList[i].indexOf('G1') > -1) {
+            count += 1;
           }
 
-          if (x && y && !isFastGradientEngraving) {
-            break;
-          }
-
-          if (isFastGradientEngraving && y) {
-            targetY = Number(y);
+          if (count === simTimeInfo.index) {
+            target = i;
             break;
           }
         }
 
-        if (isFastGradientEngraving) {
-          // get resolution and prefix gcode
-          let yFound = false;
-          let cacheIndex = -1;
-          let startX = -1;
-          let startBytesIndex = -1;
-          let engravingLineCount = 0;
-          let resolutionLine = '';
+        const preparation: string[] = [];
+        for (let i = 0; i < gcodeList.length; i += 1) {
+          preparation.push(gcodeList[i]);
+          if (gcodeList[i].indexOf('F7500') > -1) {
+            break;
+          }
+        }
 
-          for (let i = 0; i < fastGradientGcodeList.length - 2; i += 1) {
-            if (fastGradientGcodeList[i].indexOf('F16 1') > -1) {
-              const res = fastGradientGcodeList[i].match(/F16 1 ([H|M|L])/);
-              switch (res[1]) {
-                case 'H':
-                  resolution = 0.05;
-                  break;
-                case 'M':
-                  resolution = 0.1;
-                  break;
-                case 'L':
-                  resolution = 0.2;
-                  break;
-                default:
-                  break;
-              }
+        if (BeamboxPreference.read('fast_gradient')) {
+          if (!this.fastGradientGcodeString) {
+            const fastGradientGcodeBlob = await exportFuncs.getFastGradientGcode();
+            this.fastGradientGcodeString = await new Promise<string>((resolve) => {
+              const fileReader = new FileReader();
+              fileReader.onloadend = (e) => {
+                resolve(e.target.result as string);
+              };
+              fileReader.readAsText(fastGradientGcodeBlob as Blob);
+            });
+          }
+          let resolution = 0;
+          let prefix;
+          const fastGradientGcodeList = this.fastGradientGcodeString.split('\n');
+          let isFastGradientEngraving = false;
+          let targetY;
 
-              resolutionLine = fastGradientGcodeList[i];
-            } else if (!prefix && fastGradientGcodeList[i].indexOf('G1 F') > -1) {
-              prefix = fastGradientGcodeList.slice(0, i + 1);
+          // check if is fast gradient engraving and get target Y
+          for (let i = target + 1; i > 0; i -= 1) {
+            const matchX = gcodeList[i].match(/X([0-9.]*)/);
+            const matchY = gcodeList[i].match(/Y([0-9.]*)/);
+            const x = matchX ? matchX[1] : '';
+            const y = matchY ? matchY[1] : '';
+            if ((x && !y) || (!x && y)) {
+              isFastGradientEngraving = true;
             }
 
-            if (
-              !yFound &&
-              fastGradientGcodeList[i].indexOf('Y') > -1 &&
-              (fastGradientGcodeList[i + 1]?.indexOf('F16 2') > -1 ||
-                fastGradientGcodeList[i + 2]?.indexOf('F16 2') > -1)
-            ) {
-              const matchY = fastGradientGcodeList[i].match(/Y([0-9.]*)/);
-              const y = matchY ? Number(matchY[1]) : null;
-              if (y === targetY) {
-                const matchX = fastGradientGcodeList[i].match(/X([0-9.]*)/);
-                const x = Number(matchX[1]);
-                cacheIndex = i;
-                startX = x;
-              }
-
-              i += 1;
-              continue;
+            if (x && y && !isFastGradientEngraving) {
+              break;
             }
-            if (cacheIndex > -1) {
-              if (fastGradientGcodeList[i].indexOf('F16 3') > -1) {
-                if (startBytesIndex < 0) {
-                  startBytesIndex = i;
+
+            if (isFastGradientEngraving && y) {
+              targetY = Number(y);
+              break;
+            }
+          }
+
+          if (isFastGradientEngraving) {
+            // get resolution and prefix gcode
+            let yFound = false;
+            let cacheIndex = -1;
+            let startX = -1;
+            let startBytesIndex = -1;
+            let engravingLineCount = 0;
+            let resolutionLine = '';
+            for (let i = 0; i < fastGradientGcodeList.length - 2; i += 1) {
+              if (fastGradientGcodeList[i].indexOf('F16 1') > -1) {
+                const res = fastGradientGcodeList[i].match(/F16 1 ([H|M|L])/);
+                switch (res[1]) {
+                  case 'H':
+                    resolution = 0.05;
+                    break;
+                  case 'M':
+                    resolution = 0.1;
+                    break;
+                  case 'L':
+                    resolution = 0.2;
+                    break;
+                  default:
+                    break;
                 }
-                engravingLineCount += 1;
+
+                resolutionLine = fastGradientGcodeList[i];
+              } else if (!prefix && fastGradientGcodeList[i].indexOf('G1 F') > -1) {
+                prefix = fastGradientGcodeList.slice(0, i + 1);
               }
 
-              if (fastGradientGcodeList[i].indexOf('F16 4') > -1) {
-                const distBytesCalculation = Math.abs(
-                  (simTimeInfo.position[0] - startX) / (32 * resolution)
-                );
-                const paddingEmptyBytes = Math.floor(distBytesCalculation);
-                if (engravingLineCount > distBytesCalculation) {
-                  modifiedGcodeList = prefix;
+              if (
+                !yFound &&
+                fastGradientGcodeList[i].indexOf('Y') > -1 &&
+                (fastGradientGcodeList[i + 1]?.indexOf('F16 2') > -1 ||
+                  fastGradientGcodeList[i + 2]?.indexOf('F16 2') > -1)
+              ) {
+                const matchY = fastGradientGcodeList[i].match(/Y([0-9.]*)/);
+                const y = matchY ? Number(matchY[1]) : null;
+                if (y === targetY) {
+                  const matchX = fastGradientGcodeList[i].match(/X([0-9.]*)/);
+                  const x = Number(matchX[1]);
+                  cacheIndex = i;
+                  startX = x;
+                }
 
-                  const { U, F, Z } = this.searchParams(fastGradientGcodeList, cacheIndex);
-
-                  if (BeamboxPreference.read('enable-autofocus') && Z > -1) {
-                    modifiedGcodeList.push('G1 Z-1.0000');
-                    modifiedGcodeList.push(`G1 Z${Z}`);
+                i += 1;
+                continue;
+              }
+              if (cacheIndex > -1) {
+                if (fastGradientGcodeList[i].indexOf('F16 3') > -1) {
+                  if (startBytesIndex < 0) {
+                    startBytesIndex = i;
                   }
+                  engravingLineCount += 1;
+                }
 
-                  modifiedGcodeList.push(`G1 U${U}`);
-                  modifiedGcodeList.push(`G1 F${F}`);
-                  if (
-                    modifiedGcodeList.lastIndexOf('F16 5') >
-                    modifiedGcodeList.lastIndexOf(resolutionLine)
-                  ) {
-                    modifiedGcodeList.push(resolutionLine);
-                  }
-
-                  for (let j = cacheIndex; j < startBytesIndex; j += 1) {
-                    modifiedGcodeList.push(fastGradientGcodeList[j]);
-                  }
-
-                  for (let j = 0; j < paddingEmptyBytes; j += 1) {
-                    modifiedGcodeList.push('F16 3 0');
-                  }
-                  const fixedIndex = startBytesIndex + paddingEmptyBytes;
-                  const matchByteInfo = fastGradientGcodeList[fixedIndex].match(/F16 3 ([-0-9]*)/);
-                  const bytesInfo = parseInt(matchByteInfo[1], 10);
-                  const smallDist = Math.floor(
-                    (distBytesCalculation - Math.floor(distBytesCalculation)) * 32
+                if (fastGradientGcodeList[i].indexOf('F16 4') > -1) {
+                  const distBytesCalculation = Math.abs(
+                    (simTimeInfo.position[0] - startX) / (32 * resolution)
                   );
-                  let bitwiseOperand = '';
+                  const paddingEmptyBytes = Math.floor(distBytesCalculation);
+                  if (engravingLineCount > distBytesCalculation) {
+                    modifiedGcodeList = prefix;
+                    const { U, F, Z } = this.searchParams(fastGradientGcodeList, cacheIndex);
 
-                  for (let d = 0; d < 32; d += 1) {
-                    if (d < smallDist) {
-                      bitwiseOperand += '0';
-                    } else {
-                      bitwiseOperand += '1';
+                    if (BeamboxPreference.read('enable-autofocus') && Z > -1) {
+                      modifiedGcodeList.push('G1 Z-1.0000');
+                      modifiedGcodeList.push(`G1 Z${Z}`);
                     }
-                  }
-                  // eslint-disable-next-line no-bitwise
-                  modifiedGcodeList.push(`F16 3 ${bytesInfo & (bitwiseOperand as any)}`);
-                  modifiedGcodeList = modifiedGcodeList.concat(
-                    fastGradientGcodeList.slice(fixedIndex + 1)
-                  );
 
-                  const { fcodeBlob, fileTimeCost } = await exportFuncs.gcodeToFcode(
-                    modifiedGcodeList.join('\n'),
-                    thumbnail
-                  );
-                  let res = await deviceMaster.getReport();
-                  if (res) {
-                    res = await checkDeviceStatus(device);
+                    modifiedGcodeList.push(`G1 U${U}`);
+                    modifiedGcodeList.push(`G1 F${F}`);
+                    if (
+                      modifiedGcodeList.lastIndexOf('F16 5') >
+                      modifiedGcodeList.lastIndexOf(resolutionLine)
+                    ) {
+                      modifiedGcodeList.push(resolutionLine);
+                    }
+
+                    for (let j = cacheIndex; j < startBytesIndex; j += 1) {
+                      modifiedGcodeList.push(fastGradientGcodeList[j]);
+                    }
+
+                    for (let j = 0; j < paddingEmptyBytes; j += 1) {
+                      modifiedGcodeList.push('F16 3 0');
+                    }
+                    const fixedIndex = startBytesIndex + paddingEmptyBytes;
+                    const matchByteInfo =
+                      fastGradientGcodeList[fixedIndex].match(/F16 3 ([-0-9]*)/);
+                    const bytesInfo = parseInt(matchByteInfo[1], 10);
+                    const smallDist = Math.floor(
+                      (distBytesCalculation - Math.floor(distBytesCalculation)) * 32
+                    );
+                    let bitwiseOperand = '';
+
+                    for (let d = 0; d < 32; d += 1) {
+                      if (d < smallDist) {
+                        bitwiseOperand += '0';
+                      } else {
+                        bitwiseOperand += '1';
+                      }
+                    }
+                    // eslint-disable-next-line no-bitwise
+                    modifiedGcodeList.push(`F16 3 ${bytesInfo & (bitwiseOperand as any)}`);
+                    modifiedGcodeList = modifiedGcodeList.concat(
+                      fastGradientGcodeList.slice(fixedIndex + 1)
+                    );
+
+                    const { fcodeBlob, fileTimeCost } = await exportFuncs.gcodeToFcode(
+                      modifiedGcodeList.join('\n'),
+                      thumbnail
+                    );
+                    let res = await deviceMaster.getReport();
                     if (res) {
-                      exportFuncs.openTaskInDeviceMonitor(
-                        device,
-                        fcodeBlob,
-                        thumbnailUrl,
-                        fileTimeCost
-                      );
+                      res = await checkDeviceStatus(device);
+                      if (res) {
+                        exportFuncs.openTaskInDeviceMonitor(
+                          device,
+                          fcodeBlob,
+                          thumbnailUrl,
+                          fileTimeCost
+                        );
+                      }
                     }
+                    break;
+                  } else {
+                    yFound = false;
+                    cacheIndex = -1;
+                    startX = -1;
+                    startBytesIndex = -1;
+                    engravingLineCount = 0;
+                    resolutionLine = '';
                   }
-                  break;
-                } else {
-                  yFound = false;
-                  startX = -1;
-                  startBytesIndex = -1;
-                  engravingLineCount = 0;
-                  resolutionLine = '';
                 }
+              }
+            }
+          } else {
+            for (let i = 0; i < fastGradientGcodeList.length - 1; i += 1) {
+              if (
+                fastGradientGcodeList[i].indexOf('G1') > -1 &&
+                fastGradientGcodeList[i].indexOf('X') > -1 &&
+                fastGradientGcodeList[i].indexOf('Y') > -1
+              ) {
+                const matchX = fastGradientGcodeList[i].match(/X([0-9.]*)/);
+                const matchY = fastGradientGcodeList[i].match(/Y([0-9.]*)/);
+                if (matchX && matchY) {
+                  const x = Number(matchX[1]);
+                  const y = Number(matchY[1]);
+                  if (
+                    Math.abs(x - simTimeInfo.next[0]) < 0.001 &&
+                    Math.abs(y + simTimeInfo.next[1]) < 0.001
+                  ) {
+                    target = i;
+                    break;
+                  }
+                }
+              }
+            }
+
+            const { U, F, Z, isEngraving } = this.searchParams(fastGradientGcodeList, target);
+
+            if (BeamboxPreference.read('enable-autofocus') && Z > 0) {
+              preparation.push('G1 Z-1.0000');
+              preparation.push(`G1 Z${Z}`);
+            }
+
+            preparation.push(`G1 U${U}`);
+            preparation.push(
+              `G1 X${simTimeInfo.position[0].toFixed(4)} Y${simTimeInfo.position[1].toFixed(4)}`
+            );
+            preparation.push(`G1 F${F}`);
+            preparation.push(`G1${isEngraving ? 'V' : 'S'}0`);
+
+            modifiedGcodeList = preparation.concat(fastGradientGcodeList.slice(target));
+            const { fcodeBlob, fileTimeCost } = await exportFuncs.gcodeToFcode(
+              modifiedGcodeList.join('\n'),
+              thumbnail
+            );
+            let res = await deviceMaster.getReport();
+            if (res) {
+              res = await checkDeviceStatus(device);
+              if (res) {
+                exportFuncs.openTaskInDeviceMonitor(device, fcodeBlob, thumbnailUrl, fileTimeCost);
               }
             }
           }
         } else {
-          for (let i = 0; i < fastGradientGcodeList.length - 1; i += 1) {
-            if (
-              fastGradientGcodeList[i].indexOf('G1') > -1 &&
-              fastGradientGcodeList[i].indexOf('X') > -1 &&
-              fastGradientGcodeList[i].indexOf('Y') > -1
-            ) {
-              const matchX = fastGradientGcodeList[i].match(/X([0-9.]*)/);
-              const matchY = fastGradientGcodeList[i].match(/Y([0-9.]*)/);
-              if (matchX && matchY) {
-                const x = Number(matchX[1]);
-                const y = Number(matchY[1]);
-                if (
-                  Math.abs(x - simTimeInfo.next[0]) < 0.001 &&
-                  Math.abs(y + simTimeInfo.next[1]) < 0.001
-                ) {
-                  target = i;
-                  break;
-                }
-              }
-            }
-          }
+          const { U, F, Z, isEngraving } = this.searchParams(gcodeList, target);
 
-          const { U, F, Z, isEngraving } = this.searchParams(fastGradientGcodeList, target);
-
-          if (BeamboxPreference.read('enable-autofocus') && Z > 0) {
+          if (BeamboxPreference.read('enable-autofocus')) {
             preparation.push('G1 Z-1.0000');
             preparation.push(`G1 Z${Z}`);
           }
-
           preparation.push(`G1 U${U}`);
           preparation.push(
             `G1 X${simTimeInfo.position[0].toFixed(4)} Y${simTimeInfo.position[1].toFixed(4)}`
@@ -1471,7 +1498,8 @@ class PathPreview extends React.Component<Props, State> {
           preparation.push(`G1 F${F}`);
           preparation.push(`G1${isEngraving ? 'V' : 'S'}0`);
 
-          modifiedGcodeList = preparation.concat(fastGradientGcodeList.slice(target));
+          modifiedGcodeList = preparation.concat(gcodeList.slice(target));
+
           const { fcodeBlob, fileTimeCost } = await exportFuncs.gcodeToFcode(
             modifiedGcodeList.join('\n'),
             thumbnail
@@ -1484,33 +1512,13 @@ class PathPreview extends React.Component<Props, State> {
             }
           }
         }
-      } else {
-        const { U, F, Z, isEngraving } = this.searchParams(gcodeList, target);
-
-        if (BeamboxPreference.read('enable-autofocus')) {
-          preparation.push('G1 Z-1.0000');
-          preparation.push(`G1 Z${Z}`);
-        }
-        preparation.push(`G1 U${U}`);
-        preparation.push(
-          `G1 X${simTimeInfo.position[0].toFixed(4)} Y${simTimeInfo.position[1].toFixed(4)}`
-        );
-        preparation.push(`G1 F${F}`);
-        preparation.push(`G1${isEngraving ? 'V' : 'S'}0`);
-
-        modifiedGcodeList = preparation.concat(gcodeList.slice(target));
-
-        const { fcodeBlob, fileTimeCost } = await exportFuncs.gcodeToFcode(
-          modifiedGcodeList.join('\n'),
-          thumbnail
-        );
-        let res = await deviceMaster.getReport();
-        if (res) {
-          res = await checkDeviceStatus(device);
-          if (res) {
-            exportFuncs.openTaskInDeviceMonitor(device, fcodeBlob, thumbnailUrl, fileTimeCost);
-          }
-        }
+      } catch (error) {
+        console.error(error);
+        alertCaller.popUpError({
+          message: `Failed to generate task ${error}`,
+        });
+      } finally {
+        progressCaller.popById('path-preview');
       }
     }
   };
