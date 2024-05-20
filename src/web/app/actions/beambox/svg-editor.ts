@@ -75,7 +75,6 @@ if (svgCanvasClass) {
 }
 
 const LANG = i18n.lang.beambox;
-const svgWebSocket = SvgLaserParser({ type: 'svgeditor' });
 // TODO: change to require('svgedit')
 const { svgedit, $ } = window;
 
@@ -2558,7 +2557,7 @@ const svgEditor = window['svgEditor'] = (function () {
           });
           Shortcuts.on(['esc'], clickSelect);
 
-          // Setup flyouts
+          // Misc additional actions
 
           // Make 'return' keypress trigger the change event
           $('.attr_changer').bind('keydown', 'return',
