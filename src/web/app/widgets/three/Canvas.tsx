@@ -2,6 +2,7 @@
 import React, { useRef, useState } from 'react';
 import * as THREE from 'three';
 import { Canvas, RenderProps, useFrame } from '@react-three/fiber';
+import { OrbitControls } from '@react-three/drei';
 
 import CanvasController from './CanvasController';
 
@@ -49,19 +50,21 @@ const Camera = ({ zoomKey, zoomRatio = 1.5 }: CameraProps) => {
 interface Props extends RenderProps<HTMLCanvasElement> {
   children: React.ReactNode;
   withControler?: boolean;
+  orbitControls?: React.ReactNode;
 }
 
-const ThreeCanvas = ({ children, withControler = true, ...props }: Props): JSX.Element => {
+const ThreeCanvas = ({ children, withControler = true, orbitControls, ...props }: Props): JSX.Element => {
   const [resetKey, setResetKey] = useState(0);
   const [zoomKey, setZoomKey] = useState(0);
 
   return (
     <>
+      {withControler && <CanvasController setResetKey={setResetKey} setZoomKey={setZoomKey} />}
       <Canvas key={resetKey} {...props}>
         {children}
+        {orbitControls ?? <OrbitControls dampingFactor={0.3} />}
         <Camera zoomKey={zoomKey} />
       </Canvas>
-      {withControler && <CanvasController setResetKey={setResetKey} setZoomKey={setZoomKey} />}
     </>
   );
 };

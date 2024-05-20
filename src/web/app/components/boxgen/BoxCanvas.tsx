@@ -1,6 +1,6 @@
 import React, { useRef, useContext } from 'react';
 import * as THREE from 'three';
-import { Stage, OrbitControls, Edges } from '@react-three/drei';
+import { Stage, Edges } from '@react-three/drei';
 import { Vector3 } from 'three';
 
 import Canvas from 'app/widgets/three/Canvas';
@@ -97,7 +97,6 @@ const BoxCanvas = (): JSX.Element => {
           ]}
         />
       </Stage>
-      <OrbitControls dampingFactor={0.3} />
     </Canvas>
   );
 };
