@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { Button, Tooltip } from 'antd';
 import {
   QuestionCircleOutlined,
@@ -8,15 +8,18 @@ import {
 } from '@ant-design/icons';
 
 import useI18n from 'helpers/useI18n';
-import { BoxgenContext } from 'app/contexts/BoxgenContext';
 
 import styles from './CanvasController.module.scss';
 
 type ControlType = 'reset' | 'zoomin' | 'zoomout';
 
-const CanvasController = (): JSX.Element => {
+interface Props {
+  setResetKey: Dispatch<SetStateAction<number>>;
+  setZoomKey: Dispatch<SetStateAction<number>>;
+}
+
+const CanvasController = ({ setResetKey, setZoomKey }: Props): JSX.Element => {
   const lang = useI18n().boxgen;
-  const { setZoomKey, setResetKey } = useContext(BoxgenContext);
 
   const onClick = (type: ControlType) => {
     switch (type) {
@@ -70,4 +73,5 @@ const CanvasController = (): JSX.Element => {
     </div>
   );
 };
+
 export default CanvasController;

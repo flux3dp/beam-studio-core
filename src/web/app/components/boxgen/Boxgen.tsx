@@ -12,7 +12,6 @@ import { useIsMobile } from 'helpers/system-helper';
 
 import BoxCanvas from './BoxCanvas';
 import BoxSelector from './BoxSelector';
-import CanvasController from './CanvasController';
 import Controller from './Controller';
 import ExportButton from './ExportButton';
 import styles from './Boxgen.module.scss';
@@ -36,7 +35,6 @@ const Boxgen = ({ onClose }: { onClose?: () => void }): JSX.Element => {
             <div>
               <BoxSelector />
               <div className={styles.canvas}>
-                <CanvasController />
                 <BoxCanvas />
               </div>
             </div>
@@ -74,7 +72,6 @@ const Boxgen = ({ onClose }: { onClose?: () => void }): JSX.Element => {
             </div>
           </div>
           <div className={styles.canvas}>
-            <CanvasController />
             <BoxCanvas />
           </div>
         </div>

@@ -1,8 +1,6 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
-import { BoxgenContext } from 'app/contexts/BoxgenContext';
-
 import CanvasController from './CanvasController';
 
 jest.mock('helpers/useI18n', () => () => ({
@@ -29,14 +27,7 @@ jest.mock('app/contexts/BoxgenContext', () => ({
 
 describe('test CanvasController', () => {
   test('should behave correctly', () => {
-    const { container } = render(
-      <BoxgenContext.Provider
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        value={{ setZoomKey: mockSetZoomKey, setResetKey: mockSetResetKey } as any}
-      >
-        <CanvasController />
-      </BoxgenContext.Provider>
-    );
+    const { container } = render(<CanvasController setResetKey={mockSetResetKey} setZoomKey={mockSetZoomKey} />);
     expect(container).toMatchSnapshot();
     const buttons = container.querySelectorAll('.button');
     fireEvent.click(buttons[0]);

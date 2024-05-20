@@ -1,9 +1,9 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, { useRef, useContext } from 'react';
 import * as THREE from 'three';
-import { Canvas, useFrame } from '@react-three/fiber';
 import { Stage, OrbitControls, Edges } from '@react-three/drei';
 import { Vector3 } from 'three';
 
+import Canvas from 'app/widgets/three/Canvas';
 import {
   getTopBottomShape,
   getFrontBackShape,
@@ -56,49 +56,11 @@ const BoxFace = ({
   );
 };
 
-const Camera = () => {
-  const { zoomKey } = useContext(BoxgenContext);
-  const currentZoomKey = useRef(zoomKey);
-  const [position, setPosition] = useState(null);
-  const zoomRatio = 1.5;
-
-  useFrame(({ camera }) => {
-    if (zoomKey !== currentZoomKey.current) {
-      if (zoomKey === 0) {
-        setPosition(null);
-      } else if (zoomKey > 0) {
-        setPosition(
-          new THREE.Vector3(
-            camera.position.x / zoomRatio,
-            camera.position.y / zoomRatio,
-            camera.position.z / zoomRatio
-          )
-        );
-      } else {
-        setPosition(
-          new THREE.Vector3(
-            camera.position.x * zoomRatio,
-            camera.position.y * zoomRatio,
-            camera.position.z * zoomRatio
-          )
-        );
-      }
-      currentZoomKey.current = zoomKey;
-    }
-    if (position) {
-      if (Math.abs(camera.position.x - position.x) < 1) setPosition(null);
-      else camera.position.lerp(position, 0.1);
-    }
-  });
-  return null;
-};
-
 const BoxCanvas = (): JSX.Element => {
-  const { boxData, resetKey } = useContext(BoxgenContext);
+  const { boxData } = useContext(BoxgenContext);
 
   return (
     <Canvas
-      key={resetKey}
       camera={{
         fov: 55,
         near: 0.1,
@@ -136,7 +98,6 @@ const BoxCanvas = (): JSX.Element => {
         />
       </Stage>
       <OrbitControls dampingFactor={0.3} />
-      <Camera />
     </Canvas>
   );
 };
