@@ -16,19 +16,17 @@ interface ClipboardElement {
   childNodes: ClipboardElement[];
   nodeType: number;
   nodeValue: string;
-  dataGSVG?: string,
-  dataSymbol?: string,
+  dataGSVG?: string;
+  dataSymbol?: string;
   attributes: {
-    namespaceURI: string,
-    nodeName: string,
-    value: string,
+    namespaceURI: string;
+    nodeName: string;
+    value: string;
   }[];
 }
 
 const serializeElement = (el: Element) => {
-  const {
-    namespaceURI, nodeName, innerHTML, nodeType, nodeValue,
-  } = el;
+  const { namespaceURI, nodeName, innerHTML, nodeType, nodeValue } = el;
   const result: ClipboardElement = {
     namespaceURI,
     nodeName,
@@ -56,7 +54,9 @@ const serializeElement = (el: Element) => {
 const { svgedit } = window;
 
 let svgCanvas;
-getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
+getSVGAsync((globalSVG) => {
+  svgCanvas = globalSVG.Canvas;
+});
 
 let clipboard: Element[];
 let refClipboard: { [useId: string]: Element };
@@ -64,7 +64,8 @@ let refClipboard: { [useId: string]: Element };
 const addRefToClipboard = (useElement: SVGUseElement) => {
   const symbolId = svgedit.utilities.getHref(useElement);
   let symbolElement = document.querySelector(symbolId);
-  symbolElement = document.getElementById(symbolElement?.getAttribute('data-origin-symbol')) || symbolElement;
+  symbolElement =
+    document.getElementById(symbolElement?.getAttribute('data-origin-symbol')) || symbolElement;
   if (symbolElement) refClipboard[symbolId] = symbolElement;
 };
 
@@ -78,7 +79,10 @@ const copyElements = async (elems: Element[]): Promise<void> => {
     const layerName = $(elem.parentNode).find('title').text();
     elem.setAttribute('data-origin-layer', layerName);
     if (elem.tagName === 'use') addRefToClipboard(elem as SVGUseElement);
-    else Array.from(elem.querySelectorAll('use')).forEach((use: SVGUseElement) => addRefToClipboard(use));
+    else
+      Array.from(elem.querySelectorAll('use')).forEach((use: SVGUseElement) =>
+        addRefToClipboard(use)
+      );
     if (!layerNames.has(layerName)) {
       layerNames.add(layerName);
       layerCount += 1;
@@ -155,7 +159,7 @@ const applyNativeClipboard = async () => {
   }
 };
 
-const pasteRef = (useElement: SVGUseElement) => {
+const pasteRef = async (useElement: SVGUseElement) => {
   const drawing = svgCanvas.getCurrentDrawing();
   const symbolId = svgedit.utilities.getHref(useElement);
   const refElement = refClipboard[symbolId];
@@ -166,18 +170,16 @@ const pasteRef = (useElement: SVGUseElement) => {
   const defs = svgedit.utilities.findDefs();
   defs.appendChild(copiedRef);
   svgedit.utilities.setHref(useElement, `#${copiedRef.id}`);
-  symbolMaker.reRenderImageSymbol(useElement).then(() => {
-    updateElementColor(useElement);
-  });
+  await symbolMaker.reRenderImageSymbol(useElement);
 };
 
 const pasteElements = (args: {
-  type: 'mouse' | 'in_place' | 'point',
-  x?: number,
-  y?: number,
-  isSubCmd: boolean,
-  selectElement?: boolean
-}): { cmd: IBatchCommand, elems: Element[] } | null => {
+  type: 'mouse' | 'in_place' | 'point';
+  x?: number;
+  y?: number;
+  isSubCmd: boolean;
+  selectElement?: boolean;
+}): { cmd: IBatchCommand; elems: Element[] } | null => {
   const { type, x, y, isSubCmd = false, selectElement = true } = args || {};
   if (!clipboard || !clipboard.length) return null;
 
@@ -201,8 +203,8 @@ const pasteElements = (args: {
 
     pasted.push(copy);
     if (copy.getAttribute('data-origin-layer') && clipboard.length > 1) {
-      const layer = drawing.getLayerByName(copy.getAttribute('data-origin-layer'))
-        || drawing.getCurrentLayer();
+      const layer =
+        drawing.getLayerByName(copy.getAttribute('data-origin-layer')) || drawing.getCurrentLayer();
       layer.appendChild(copy);
     } else {
       drawing.getCurrentLayer().appendChild(copy);
@@ -213,12 +215,18 @@ const pasteElements = (args: {
       const newPath = copy.querySelector('path');
       newTextPath?.setAttribute('href', `#${newPath?.id}`);
     }
-    if (copy.tagName === 'use') pasteRef(copy);
-    else Array.from(copy.querySelectorAll('use')).forEach((use: SVGUseElement) => pasteRef(use));
+    const promises: Promise<void>[] = [];
+    if (copy.tagName === 'use') promises.push(pasteRef(copy));
+    else
+      Array.from(copy.querySelectorAll('use')).forEach((use: SVGUseElement) =>
+        promises.push(pasteRef(use))
+      );
 
     batchCmd.addSubCommand(new history.InsertElementCommand(copy));
     svgCanvas.restoreRefElems(copy);
-    updateElementColor(copy);
+    Promise.allSettled(promises).then(() => {
+      updateElementColor(copy);
+    });
   }
 
   if (selectElement) svgCanvas.selectOnly(pasted, true);
@@ -295,8 +303,8 @@ const pasteFromNativeClipboard = async (
   type: 'mouse' | 'in_place' | 'point',
   x?: number,
   y?: number,
-  isSubCmd = false,
-): Promise<{ cmd: IBatchCommand, elems: Element[] } | null> => {
+  isSubCmd = false
+): Promise<{ cmd: IBatchCommand; elems: Element[] } | null> => {
   if (clipboard?.length) {
     return pasteElements({ type, x, y, isSubCmd });
   }
@@ -305,7 +313,7 @@ const pasteFromNativeClipboard = async (
   return pasteElements({ type, x, y, isSubCmd });
 };
 
-const pasteInCenter = async (): Promise<{ cmd: IBatchCommand, elems: Element[] } | null> => {
+const pasteInCenter = async (): Promise<{ cmd: IBatchCommand; elems: Element[] } | null> => {
   const zoom = workareaManager.zoomRatio;
   const workarea = document.getElementById('workarea');
   const x = (workarea.scrollLeft + workarea.clientWidth / 2) / zoom - workareaManager.width;
@@ -314,8 +322,8 @@ const pasteInCenter = async (): Promise<{ cmd: IBatchCommand, elems: Element[] }
 };
 
 const generateSelectedElementArray = (
-  interval: { dx: number, dy: number },
-  arraySize: { row: number, column: number },
+  interval: { dx: number; dy: number },
+  arraySize: { row: number; column: number }
 ): IBatchCommand => {
   const originalClipboard = clipboard ? [...clipboard] : null;
   const batchCmd = new history.BatchCommand('Grid elements');
@@ -343,7 +351,7 @@ const generateSelectedElementArray = (
   return null;
 };
 
-const getCurrentClipboard = (): boolean => (clipboard && clipboard.length > 0);
+const getCurrentClipboard = (): boolean => clipboard && clipboard.length > 0;
 
 export default {
   copyElements,
