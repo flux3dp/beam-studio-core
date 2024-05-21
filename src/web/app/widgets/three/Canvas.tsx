@@ -48,7 +48,7 @@ const Camera = ({ zoomKey, zoomRatio = 1.5 }: CameraProps) => {
 };
 
 interface Props extends RenderProps<HTMLCanvasElement> {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   withControler?: boolean;
   orbitControls?: React.ReactNode;
 }
