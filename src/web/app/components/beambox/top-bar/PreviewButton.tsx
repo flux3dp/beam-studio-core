@@ -5,7 +5,7 @@ import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import Constant from 'app/actions/beambox/constant';
 import TopBarIcons from 'app/icons/top-bar/TopBarIcons';
 import useI18n from 'helpers/useI18n';
-import { CanvasContext } from 'app/contexts/CanvasContext';
+import { CanvasContext, CanvasMode } from 'app/contexts/CanvasContext';
 import { useIsMobile } from 'helpers/system-helper';
 
 import styles from './PreviewButton.module.scss';
@@ -14,9 +14,10 @@ import styles from './PreviewButton.module.scss';
 function PreviewButton(): JSX.Element {
   const lang = useI18n().topbar;
   const isMobile = useIsMobile();
-  const { changeToPreviewMode, isPathPreviewing, isPreviewing, setupPreviewMode } =
+  const { mode, changeToPreviewMode, setupPreviewMode } =
     useContext(CanvasContext);
-  if (isMobile || isPathPreviewing) return null;
+  if (isMobile || mode === CanvasMode.PathPreview) return null;
+  const isPreviewing = mode === CanvasMode.Preview;
 
   const borderless = BeamboxPreference.read('borderless') || false;
   const supportOpenBottom = Constant.addonsSupportList.openBottom.includes(BeamboxPreference.read('workarea'));

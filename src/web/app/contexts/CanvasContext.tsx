@@ -22,15 +22,19 @@ getSVGAsync((globalSVG) => {
 
 const workareaEvents = eventEmitterFactory.createEventEmitter('workarea');
 
+export enum CanvasMode {
+  Draw = 1,
+  Preview = 2,
+  PathPreview = 3,
+}
+
 interface CanvasContextType {
   changeToPreviewMode: () => void;
   currentUser: IUser;
   endPreviewMode: () => void;
   hasUnsavedChange: boolean;
-  isPathPreviewing: boolean;
-  isPreviewing: boolean;
-  setIsPathPreviewing: (displayLayer: boolean) => void;
-  setIsPreviewing: (displayLayer: boolean) => void;
+  mode: CanvasMode;
+  setMode: (mode: CanvasMode) => void;
   setShouldStartPreviewController: (shouldStartPreviewController: boolean) => void;
   setStartPreviewCallback: (callback: () => void | null) => void;
   setTopBarPreviewMode: (topBarPreviewMode: boolean) => void;
@@ -53,10 +57,8 @@ const CanvasContext = createContext<CanvasContextType>({
   currentUser: null,
   endPreviewMode: () => {},
   hasUnsavedChange: false,
-  isPathPreviewing: false,
-  isPreviewing: false,
-  setIsPathPreviewing: () => {},
-  setIsPreviewing: () => {},
+  mode: CanvasMode.Draw,
+  setMode: () => {},
   setShouldStartPreviewController: () => {},
   setStartPreviewCallback: () => {},
   setTopBarPreviewMode: () => {},
@@ -76,8 +78,7 @@ const CanvasContext = createContext<CanvasContextType>({
 
 const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>): JSX.Element => {
   const forceUpdate = useForceUpdate();
-  const [isPreviewing, setIsPreviewing] = useState<boolean>(false);
-  const [isPathPreviewing, setIsPathPreviewing] = useState<boolean>(false);
+  const [mode, setMode] = useState<CanvasMode>(CanvasMode.Draw);
   const [isColorPreviewing, setIsColorPreviewing] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<IUser>(null);
   const [hasUnsavedChange, setHasUnsavedChange] = useState<boolean>(false);
@@ -97,7 +98,7 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
         g.style.pointerEvents = '';
       }
     }
-    setIsPreviewing(preview);
+    setMode(preview ? CanvasMode.Preview : CanvasMode.Draw);
   };
 
   const endPreviewMode = (): void => {
@@ -117,7 +118,7 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
       $('#workarea').off('contextmenu');
       workareaEventEmitter.emit('update-context-menu', { menuDisabled: false });
       setTopBarPreviewMode(false);
-      setIsPreviewing(false);
+      setMode(CanvasMode.Draw);
     }
   };
 
@@ -151,13 +152,13 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
   }, []);
   useEffect(() => {
     const handler = (response: { isPreviewMode: boolean }): void => {
-      response.isPreviewMode = isPreviewing;
+      response.isPreviewMode = mode === CanvasMode.Preview;
     };
     topBarEventEmitter.on('GET_TOP_BAR_PREVIEW_MODE', handler);
     return () => {
       topBarEventEmitter.removeListener('GET_TOP_BAR_PREVIEW_MODE', handler);
     };
-  }, [isPreviewing]);
+  }, [mode]);
   useEffect(() => {
     const handler = (response: { selectedDevice: IDeviceInfo | null }): void => {
       response.selectedDevice = selectedDevice;
@@ -200,14 +201,14 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
     if (workarea) {
       $(workarea).css('cursor', 'url(img/camera-cursor.svg), cell');
     }
-    setIsPreviewing(true);
+    setMode(CanvasMode.Preview);
     if (TutorialController.getNextStepRequirement() === TutorialConstants.TO_PREVIEW_MODE) {
       TutorialController.handleNextStep();
     }
   };
 
   const togglePathPreview = () => {
-    setIsPathPreviewing(!isPathPreviewing);
+    setMode(mode === CanvasMode.PathPreview ? CanvasMode.Draw : CanvasMode.PathPreview);
   };
 
   const { children } = props;
@@ -218,10 +219,8 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
         currentUser,
         endPreviewMode,
         hasUnsavedChange,
-        isPathPreviewing,
-        isPreviewing,
-        setIsPathPreviewing,
-        setIsPreviewing,
+        mode,
+        setMode,
         setShouldStartPreviewController,
         setSetupPreviewMode,
         setStartPreviewCallback,

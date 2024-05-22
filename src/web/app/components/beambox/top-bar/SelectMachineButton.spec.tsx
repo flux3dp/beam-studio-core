@@ -11,13 +11,20 @@ jest.mock('helpers/useI18n', () => () => ({
   },
 }));
 
+const CanvasMode = {
+  Draw: 1,
+  Preview: 2,
+  PathPreview: 3,
+};
+
 const mockSetupPreviewMode = jest.fn();
 jest.mock('app/contexts/CanvasContext', () => ({
   CanvasContext: React.createContext({
-    isPreviewing: false,
+    mode: CanvasMode.Draw,
     selectedDevice: null,
     setupPreviewMode: (...args) => mockSetupPreviewMode(...args),
   }),
+  CanvasMode,
 }));
 
 const useIsMobile = jest.fn();
@@ -44,7 +51,7 @@ describe('test SelectMachineButton', () => {
       <CanvasContext.Provider
         value={
           {
-            isPreviewing: false,
+            mode: CanvasMode.Draw,
             selectedDevice: null,
             setupPreviewMode: mockSetupPreviewMode,
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -66,7 +73,7 @@ describe('test SelectMachineButton', () => {
       <CanvasContext.Provider
         value={
           {
-            isPreviewing: false,
+            mode: CanvasMode.Draw,
             selectedDevice: null,
             setupPreviewMode: mockSetupPreviewMode,
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -87,7 +94,7 @@ describe('test SelectMachineButton', () => {
       <CanvasContext.Provider
         value={
           {
-            isPreviewing: false,
+            mode: CanvasMode.Draw,
             selectedDevice: { model: 'fbm1', name: 'device name' },
             setupPreviewMode: mockSetupPreviewMode,
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -108,7 +115,7 @@ describe('test SelectMachineButton', () => {
       <CanvasContext.Provider
         value={
           {
-            isPreviewing: true,
+            mode: CanvasMode.Preview,
             selectedDevice: null,
             setupPreviewMode: mockSetupPreviewMode,
             // eslint-disable-next-line @typescript-eslint/no-explicit-any

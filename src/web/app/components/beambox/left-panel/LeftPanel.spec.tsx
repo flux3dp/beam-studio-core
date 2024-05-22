@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
-import { CanvasContext } from 'app/contexts/CanvasContext';
+import { CanvasContext, CanvasMode } from 'app/contexts/CanvasContext';
 
 import LeftPanel from './LeftPanel';
 
@@ -55,6 +55,11 @@ jest.mock('app/components/beambox/left-panel/PreviewToolButtonGroup', () => (
 
 jest.mock('app/contexts/CanvasContext', () => ({
   CanvasContext: React.createContext(null),
+  CanvasMode: {
+    Draw: 1,
+    Preview: 2,
+    PathPreview: 3,
+  },
 }));
 
 jest.mock('helpers/i18n', () => ({
@@ -78,11 +83,10 @@ describe('test LeftPanel', () => {
 
     const { container, unmount } = render(
       <CanvasContext.Provider value={{
-        isPreviewing: false,
         setShouldStartPreviewController: jest.fn(),
         endPreviewMode: jest.fn(),
-        isPathPreviewing: false,
         togglePathPreview: jest.fn(),
+        mode: CanvasMode.Draw,
       } as any}
       >
         <LeftPanel />
@@ -104,11 +108,10 @@ describe('test LeftPanel', () => {
     const endPreviewMode = jest.fn();
     const { container, getByText } = render(
       <CanvasContext.Provider value={{
-        isPreviewing: true,
         setShouldStartPreviewController,
         endPreviewMode,
-        isPathPreviewing: false,
         togglePathPreview: jest.fn(),
+        mode: CanvasMode.Preview,
       } as any}
       >
         <LeftPanel />
@@ -133,11 +136,10 @@ describe('test LeftPanel', () => {
     const togglePathPreview = jest.fn();
     const { container } = render(
       <CanvasContext.Provider value={{
-        isPreviewing: false,
         setShouldStartPreviewController: jest.fn(),
         endPreviewMode: jest.fn(),
-        isPathPreviewing: true,
         togglePathPreview,
+        mode: CanvasMode.PathPreview,
       } as any}
       >
         <LeftPanel />

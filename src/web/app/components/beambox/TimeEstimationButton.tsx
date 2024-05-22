@@ -6,17 +6,17 @@ import FormatDuration from 'helpers/duration-formatter';
 import useI18n from 'helpers/useI18n';
 import webNeedConnectionWrapper from 'helpers/web-need-connection-helper';
 import WorkareaIcons from 'app/icons/workarea/WorkareaIcons';
-import { CanvasContext } from 'app/contexts/CanvasContext';
+import { CanvasContext, CanvasMode } from 'app/contexts/CanvasContext';
 import { TimeEstimationButtonContext } from 'app/contexts/TimeEstimationButtonContext';
 
 import styles from './TimeEstimationButton.module.scss';
 
 const TimeEstimationButton = (): JSX.Element => {
   const { estimatedTime, setEstimatedTime } = useContext(TimeEstimationButtonContext);
-  const { isPathPreviewing } = useContext(CanvasContext);
+  const { mode } = useContext(CanvasContext);
   const lang = useI18n().beambox.time_est_button;
 
-  if (isPathPreviewing) return <div />;
+  if (mode === CanvasMode.PathPreview) return <div />;
 
   const calculateEstimatedTime = async () => {
     webNeedConnectionWrapper(async () => {

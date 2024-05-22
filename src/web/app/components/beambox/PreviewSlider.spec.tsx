@@ -2,7 +2,7 @@
 import React from 'react';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 
-import { CanvasContext } from 'app/contexts/CanvasContext';
+import { CanvasContext, CanvasMode } from 'app/contexts/CanvasContext';
 
 import PreviewSlider from './PreviewSlider';
 
@@ -36,7 +36,11 @@ jest.mock('app/actions/beambox/preview-mode-controller', () => ({
 }));
 
 jest.mock('app/contexts/CanvasContext', () => ({
-  CanvasContext: React.createContext({ isPathPreviewing: false }),
+  CanvasContext: React.createContext({ mode: 1 }),
+  CanvasMode: {
+    Preview: 2,
+    PathPreview: 3,
+  },
 }));
 
 jest.mock('antd', () => ({
@@ -100,7 +104,7 @@ describe('test PreviewSlider', () => {
     bgImage.style.opacity = '0.5';
     mockGetCurrentDevice.mockReturnValue({ info: { model: 'model-1' } });
     const { container } = render(
-      <CanvasContext.Provider value={{ isPreviewing: true } as any}>
+      <CanvasContext.Provider value={{ mode: CanvasMode.Preview } as any}>
         <PreviewSlider />
       </CanvasContext.Provider>
     );
@@ -114,7 +118,7 @@ describe('test PreviewSlider', () => {
     bgImage.style.opacity = '0.5';
     mockGetCurrentDevice.mockReturnValue({ info: { model: 'ado1' } });
     const { container, getByText } = render(
-      <CanvasContext.Provider value={{ isPreviewing: true } as any}>
+      <CanvasContext.Provider value={{ mode: CanvasMode.Preview } as any}>
         <PreviewSlider />
       </CanvasContext.Provider>
     );
@@ -138,7 +142,7 @@ describe('test PreviewSlider', () => {
 
   it('should render correctly when is path previewing', () => {
     const { container } = render(
-      <CanvasContext.Provider value={{ isPathPreviewing: true } as any}>
+      <CanvasContext.Provider value={{ mode: CanvasMode.PathPreview } as any}>
         <PreviewSlider />
       </CanvasContext.Provider>
     );
