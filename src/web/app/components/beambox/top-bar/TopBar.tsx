@@ -142,7 +142,6 @@ export default class TopBar extends React.PureComponent<Record<string, never>, S
         });
       }
       setTopBarPreviewMode(false);
-      setMode(CanvasMode.Draw);
       $(workarea).css('cursor', 'auto');
     };
 
