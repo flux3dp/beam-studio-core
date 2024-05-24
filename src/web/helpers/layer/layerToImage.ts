@@ -1,4 +1,5 @@
 import constant from 'app/actions/beambox/constant';
+import getUtilWS from 'helpers/api/utils-ws';
 import svgStringToCanvas from 'helpers/image/svgStringToCanvas';
 import workareaManager from 'app/svgedit/workarea';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
@@ -13,7 +14,11 @@ getSVGAsync((globalSVG) => {
 const layerToImage = async (
   layer: SVGGElement,
   opt?: { dpi?: number; shapesOnly?: boolean; isFullColor?: boolean }
-): Promise<{ rgbBlob: Blob; cmykBlob?: Blob; bbox: { x: number; y: number; width: number; height: number } }> => {
+): Promise<{
+  rgbBlob: Blob;
+  cmykBlob?: { c: Blob; m: Blob; y: Blob; k: Blob };
+  bbox: { x: number; y: number; width: number; height: number };
+}> => {
   const { dpi = 300, shapesOnly = false, isFullColor = false } = opt || {};
   const layerClone = layer.cloneNode(true) as SVGGElement;
   if (shapesOnly) layerClone.querySelectorAll('image').forEach((image) => image.remove());
@@ -50,16 +55,53 @@ const layerToImage = async (
     return canvas;
   };
   const rgbCanvas = await getCanvas(layerClone);
-  const cmykCanvas = await getCanvas(cmykLayer);
+  let cmykCanvas: { [key: string]: HTMLCanvasElement } = null;
+  if (isFullColor && cmykLayer.querySelector('image[cmyk="1"]')) {
+    const utilWS = getUtilWS();
+    const cLayer = cmykLayer.cloneNode(true) as SVGGElement;
+    const mLayer = cmykLayer.cloneNode(true) as SVGGElement;
+    const yLayer = cmykLayer.cloneNode(true) as SVGGElement;
+    const kLayer = cmykLayer.cloneNode(true) as SVGGElement;
+    const cmykImages = cmykLayer.querySelectorAll('image[cmyk="1"]');
+    for (let i = 0; i < cmykImages.length; i += 1) {
+      const base64 = cmykImages[i].getAttribute('origImage') || cmykImages[i].getAttribute('xlink:href');
+      // eslint-disable-next-line no-await-in-loop
+      const blob = await (await fetch(base64)).blob();
+      // eslint-disable-next-line no-await-in-loop
+      const { c, m, y, k } = await utilWS.splitColor(blob, { colorType: 'cmyk' });
+      cLayer.querySelectorAll('image[cmyk="1"]')[i].setAttribute('xlink:href', `data:image/jpeg;base64,${c}`);
+      mLayer.querySelectorAll('image[cmyk="1"]')[i].setAttribute('xlink:href', `data:image/jpeg;base64,${m}`);
+      yLayer.querySelectorAll('image[cmyk="1"]')[i].setAttribute('xlink:href', `data:image/jpeg;base64,${y}`);
+      kLayer.querySelectorAll('image[cmyk="1"]')[i].setAttribute('xlink:href', `data:image/jpeg;base64,${k}`);
+    }
+    const cCanvas = await getCanvas(cLayer);
+    const mCanvas = await getCanvas(mLayer);
+    const yCanvas = await getCanvas(yLayer);
+    const kCanvas = await getCanvas(kLayer);
+    cmykCanvas = { c: cCanvas, m: mCanvas, y: yCanvas, k: kCanvas };
+  }
   const rgbCtx = rgbCanvas.getContext('2d', { willReadFrequently: true });
-  const cmykCtx = cmykCanvas.getContext('2d', { willReadFrequently: true });
   const { data: rgbData } = rgbCtx.getImageData(0, 0, canvasWidth, canvasHeight);
-  const { data: cmykData } = cmykCtx.getImageData(0, 0, canvasWidth, canvasHeight);
+  const cData = cmykCanvas?.c
+    .getContext('2d', { willReadFrequently: true })
+    .getImageData(0, 0, canvasWidth, canvasHeight).data;
+  const mData = cmykCanvas?.m
+    .getContext('2d', { willReadFrequently: true })
+    .getImageData(0, 0, canvasWidth, canvasHeight).data;
+  const yData = cmykCanvas?.y
+    .getContext('2d', { willReadFrequently: true })
+    .getImageData(0, 0, canvasWidth, canvasHeight).data;
+  const kData = cmykCanvas?.k
+    .getContext('2d', { willReadFrequently: true })
+    .getImageData(0, 0, canvasWidth, canvasHeight).data;
   const bounds = { minX: canvasWidth, minY: canvasHeight, maxX: 0, maxY: 0 };
   for (let y = 0; y < canvasHeight; y += 1) {
     for (let x = 0; x < canvasWidth; x += 1) {
       const i = (y * canvasWidth + x) * 4;
-      const alpha = Math.max(rgbData[i + 3], cmykData[i + 3]);
+      let alpha = rgbData[i + 3];
+      if (cmykCanvas) {
+        alpha = Math.max(alpha, cData[i + 3], mData[i + 3], yData[i + 3], kData[i + 3]);
+      }
       if (alpha > 0) {
         if (x < bounds.minX) bounds.minX = x;
         if (x > bounds.maxX) bounds.maxX = x;
@@ -105,7 +147,12 @@ const layerToImage = async (
   };
   const rgbBlob = await generateBlob(rgbCanvas);
   if (!isFullColor) return { rgbBlob, bbox: outputBbox };
-  const cmykBlob = await generateBlob(cmykCanvas);
+  const cmykBlob = cmykCanvas ? {
+    c: await generateBlob(cmykCanvas.c),
+    m: await generateBlob(cmykCanvas.m),
+    y: await generateBlob(cmykCanvas.y),
+    k: await generateBlob(cmykCanvas.k),
+  } : null;
   return { rgbBlob, cmykBlob, bbox: outputBbox };
 };
 
