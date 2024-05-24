@@ -201,7 +201,6 @@ const fetchTaskCode = async (
     message: 'Generating Upload File',
   });
   const uploadFile = await generateUploadFile(thumbnail, thumbnailBlobURL);
-  URL.revokeObjectURL(thumbnailBlobURL);
   await cleanUp();
   Progress.popById('fetch-task-code');
   Progress.openSteppingProgress({
