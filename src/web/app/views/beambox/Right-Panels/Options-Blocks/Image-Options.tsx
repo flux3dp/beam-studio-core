@@ -4,8 +4,9 @@ import { ConfigProvider, InputNumber, Slider, Switch } from 'antd';
 import { Popover } from 'antd-mobile';
 
 import history from 'app/svgedit/history/history';
-import i18n from 'helpers/i18n';
 import ImageData from 'helpers/image-data';
+import i18n from 'helpers/i18n';
+import isDev from 'helpers/is-dev';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import OptionPanelIcons from 'app/icons/option-panel/OptionPanelIcons';
@@ -61,22 +62,19 @@ class ImageOptions extends React.Component<Props> {
   generateImageData = (isShading: boolean, threshold: number): Promise<IImageDataResult> => {
     const { elem } = this.props as Props;
     return new Promise<IImageDataResult>((resolve) => {
-      ImageData(
-        elem.getAttribute('origImage'),
-        {
-          width: parseFloat(elem.getAttribute('width')),
-          height: parseFloat(elem.getAttribute('height')),
-          grayscale: {
-            is_rgba: true,
-            is_shading: isShading,
-            threshold,
-            is_svg: false,
-          },
-          onComplete: (result: IImageDataResult) => {
-            resolve(result);
-          },
+      ImageData(elem.getAttribute('origImage'), {
+        width: parseFloat(elem.getAttribute('width')),
+        height: parseFloat(elem.getAttribute('height')),
+        grayscale: {
+          is_rgba: true,
+          is_shading: isShading,
+          threshold,
+          is_svg: false,
         },
-      );
+        onComplete: (result: IImageDataResult) => {
+          resolve(result);
+        },
+      });
     });
   };
 
@@ -94,6 +92,15 @@ class ImageOptions extends React.Component<Props> {
     });
     this.forceUpdate();
     updateObjectPanel();
+  };
+
+  handlePwmClick = async (): Promise<void> => {
+    const { elem } = this.props;
+    const cur = elem.getAttribute('data-pwm') === '1';
+    this.changeAttribute({
+      'data-pwm': cur ? '0' : '1',
+    });
+    this.forceUpdate();
   };
 
   handleThresholdChange = async (val: number): Promise<void> => {
@@ -120,18 +127,37 @@ class ImageOptions extends React.Component<Props> {
   renderGradientBlock(): JSX.Element {
     const { elem } = this.props;
     const isGradient = elem.getAttribute('data-shading') === 'true';
+    const isPwm = elem.getAttribute('data-pwm') === '1';
     return isMobile() ? (
-      <ObjectPanelItem.Item
-        id="gradient"
-        content={<Switch checked={isGradient} />}
-        label={LANG.shading}
-        onClick={this.handleGradientClick}
-      />
+      <>
+        <ObjectPanelItem.Item
+          id="gradient"
+          content={<Switch checked={isGradient} />}
+          label={LANG.shading}
+          onClick={this.handleGradientClick}
+        />
+        {isGradient && isDev() && (
+          <ObjectPanelItem.Item
+            id="pwm"
+            content={<Switch checked={isPwm} />}
+            label="tPWM"
+            onClick={this.handlePwmClick}
+          />
+        )}
+      </>
     ) : (
-      <div className={styles['option-block']} key="gradient">
-        <div className={styles.label}>{LANG.shading}</div>
-        <Switch size="small" checked={isGradient} onChange={this.handleGradientClick} />
-      </div>
+      <>
+        <div className={styles['option-block']} key="gradient">
+          <div className={styles.label}>{LANG.shading}</div>
+          <Switch size="small" checked={isGradient} onChange={this.handleGradientClick} />
+        </div>
+        {isGradient && isDev() && (
+          <div className={styles['option-block']} key="pwm">
+            <div className={styles.label}>tPWM</div>
+            <Switch size="small" checked={isPwm} onChange={this.handlePwmClick} />
+          </div>
+        )}
+      </>
     );
   }
 
