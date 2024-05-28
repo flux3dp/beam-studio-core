@@ -377,6 +377,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     }
   });
   this.remapElement = svgedit.coords.remapElement;
+  let startTransform = null;
 
   // import from recalculate.js
   svgedit.recalculate.init({
@@ -636,7 +637,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   let started = false;
 
   // String with an element's initial transform attribute value
-  let startTransform = null;
 
   // String indicating the current editor mode
   let current_mode = 'select';
@@ -1084,7 +1084,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     while (i--) {
       var elem = selectedElements[i];
       //			if (svgedit.utilities.getRotationAngle(elem) && !svgedit.math.hasMatrixTransform(getTransformList(elem))) {continue;}
-      var cmd = svgedit.recalculate.recalculateDimensions(elem);
+      const cmd = svgedit.recalculate.recalculateDimensions(elem);
       if (cmd && !cmd.isEmpty()) {
         batchCmd.addSubCommand(cmd);
       }

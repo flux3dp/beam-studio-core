@@ -107,8 +107,11 @@ svgedit.recalculate.recalculateDimensions = function(selected) {
       }
     }
     // End here if all it has is a rotation
-    if (tlist.numberOfItems === 1 &&
-        svgedit.utilities.getRotationAngle(selected) && selected.tagName !== 'text') {return null;}
+    if (tlist.numberOfItems === 1) {
+      if (selected.tagName !== 'text') {
+        if (svgedit.utilities.getRotationAngle(selected)) return null;
+      }
+    }
   }
 
   // if this element had no transforms, we are done
@@ -805,6 +808,9 @@ svgedit.recalculate.recalculateDimensions = function(selected) {
         }
         operation = 1;
         tlist.clear();
+      } else if (['text', 'tspan', 'use'].includes(selected.tagName)) {
+        // for text and use, we accept a single [M] or [R][M]
+        operation = 0;
       } else if (isNegligible(matrix.b) && isNegligible(matrix.c)) {
         operation = 3; // scale
         m = matrix;
