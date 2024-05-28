@@ -43,6 +43,7 @@ const SENSOR_AREA_RADIUS = 10;
 let newDPath = null;
 let startX = null;
 let startY = null;
+let moved = false;
 let initBBox = {};
 
 let startMouseX = null;
@@ -199,6 +200,7 @@ const mouseDown = (evt: MouseEvent) => {
   let { x, y } = pt;
   startMouseX = x * zoom;
   startMouseY = y * zoom;
+  moved = false;
   const realX = x; // realX/Y ignores grid-snap value
   const realY = y;
 
@@ -916,7 +918,7 @@ const mouseMove = (evt: MouseEvent) => {
               });
             }
           }
-
+          moved = true;
           svgCanvas.call('transition', selectedElements);
         }
       }
@@ -1316,12 +1318,15 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
         // always recalculate dimensions to strip off stray identity transforms
         const cmd = svgCanvas.recalculateAllSelectedDimensions(true);
         if (cmd && !cmd.isEmpty()) {
-          mouseSelectModeCmds.push(cmd);
+          const noRedo = currentMode === 'multiselect' || (currentMode === 'select' && !moved);
+          if (!noRedo) {
+            mouseSelectModeCmds.push(cmd);
+          }
         }
         // if it was being dragged/resized
         if (mouseX !== startMouseX || mouseY !== startMouseY) {
-          let i; const
-            len = selectedElements.length;
+          let i;
+          const len = selectedElements.length;
           if (currentMode === 'resize') {
             const allSelectedUses = [];
             selectedElements.forEach((e) => {
