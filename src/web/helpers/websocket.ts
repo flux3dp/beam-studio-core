@@ -120,7 +120,6 @@ export default function (options) {
       handleCreateWebSocketFailed();
       return null;
     }
-    // TODO: determine when to use InsecureWebsocket
     const WebSocketClass =
       isWeb() && window.location.protocol === 'https:' && checkFluxTunnel()
         ? InsecureWebsocket
