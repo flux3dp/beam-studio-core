@@ -4,6 +4,7 @@ import React, { useContext } from 'react';
 import checkWebGL from 'helpers/check-webgl';
 import constant from 'app/actions/beambox/constant';
 import isDev from 'helpers/is-dev';
+import isWeb from 'helpers/is-web';
 import TopBarIcons from 'app/icons/top-bar/TopBarIcons';
 import useI18n from 'helpers/useI18n';
 import useWorkarea from 'helpers/hooks/useWorkarea';
@@ -44,7 +45,7 @@ function PathPreviewButton({
   };
   const className = classNames(styles.button, {
     [styles.highlighted]: isPathPreviewing,
-    [styles.disabled]: isPreviewing || (!isDeviceConnected && window.FLUX.version === 'web'),
+    [styles.disabled]: isPreviewing || (!isDeviceConnected && isWeb()),
   });
   return (
     <div

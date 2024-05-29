@@ -1,7 +1,8 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import i18n from 'helpers/i18n';
+import isWeb from 'helpers/is-web';
 
 interface Props {
   size: string;
@@ -36,10 +37,14 @@ function SidePanel({
     </div>
   );
 
-  const sideClass = classNames({
-    short: window.os === 'Windows' && window.FLUX.version !== 'web',
-    wide: window.os !== 'MacOS',
-  });
+  const sideClass = useMemo(
+    () =>
+      classNames({
+        short: window.os === 'Windows' && !isWeb(),
+        wide: window.os !== 'MacOS',
+      }),
+    []
+  );
 
   return (
     <div id="path-preview-side-panel" className={sideClass}>
@@ -53,9 +58,7 @@ function SidePanel({
         {renderDataBlock(LANG.rapid_distance, rapidDist)}
         {renderDataBlock(LANG.current_position, currentPosition)}
       </div>
-      <div className="remark">
-        {LANG.remark}
-      </div>
+      <div className="remark">{LANG.remark}</div>
       <div className="buttons">
         <div
           className={classNames('btn btn-default primary', { disabled: !isStartHereEnabled })}

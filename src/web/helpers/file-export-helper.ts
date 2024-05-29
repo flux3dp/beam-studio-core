@@ -8,6 +8,7 @@ import dialog from 'implementations/dialog';
 import dialogCaller from 'app/actions/dialog-caller';
 import fs from 'implementations/fileSystem';
 import i18n from 'helpers/i18n';
+import isWeb from 'helpers/is-web';
 import Progress from 'app/actions/progress-caller';
 import SymbolMaker from 'helpers/symbol-maker';
 import svgStringToCanvas from 'helpers/image/svgStringToCanvas';
@@ -210,7 +211,7 @@ const saveAsFile = async (): Promise<boolean> => {
     svgCanvas.setHasUnsavedChange(false, false);
     return true;
   }
-  if (window.FLUX.version === 'web') {
+  if (isWeb()) {
     svgCanvas.setHasUnsavedChange(false, false);
     return true;
   }

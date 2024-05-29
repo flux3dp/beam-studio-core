@@ -1764,6 +1764,12 @@ const lang: ILang = {
     download_success: 'Données de la caméra téléchargées avec succès.',
     upload_success: 'Données de la caméra téléchargées avec succès.',
   },
+  insecure_websocket: {
+    extension_detected: 'Extension Beam Studio Connect détectée',
+    extension_detected_description: "Nous avons détecté que vous avez installé l'extension Beam Studio Connect. Veuillez cliquer sur 'Confirmer' pour rediriger vers HTTPS, ou cliquez sur 'Annuler' pour continuer à utiliser HTTP.",
+    extension_not_deteced: "Impossible de détecter l'extension Beam Studio Connect",
+    extension_not_deteced_description: "Pour utiliser HTTPS, veuillez cliquer sur 'Confirmer' pour installer l'extension Beam Studio Connect, ou cliquez sur 'Annuler' pour rediriger vers HTTP.",
+  },
 };
 
 export default lang;

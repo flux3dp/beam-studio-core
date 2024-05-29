@@ -1767,6 +1767,12 @@ const lang: ILang = {
     download_success: '相机数据下载成功。',
     upload_success: '相机数据上传成功。',
   },
+  insecure_websocket: {
+    extension_detected: '检测到 Beam Studio Connect 扩展',
+    extension_detected_description: '我们检测到您已安装了 Beam Studio Connect 扩展。请点击“确认”以重定向到 HTTPS，或点击“取消”以继续使用 HTTP。',
+    extension_not_deteced: '无法检测到 Beam Studio Connect 扩展',
+    extension_not_deteced_description: '若要使用 HTTPS，请点击“确认”以安装 Beam Studio Connect 扩展，或点击“取消”以重定向到 HTTP。',
+  },
 };
 
 export default lang;

@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/dot-notation */
 import Dialog from 'app/actions/dialog-caller';
+import isWeb from 'helpers/is-web';
 import storage from 'implementations/storage';
 import { getInfo, submitRating } from 'helpers/api/flux-id';
 
@@ -69,7 +70,7 @@ const setDefaultRatingRecord = (): void => {
 };
 
 const init = (): void => {
-  if (window.FLUX.version === 'web') return;
+  if (isWeb()) return;
   if (!storage.isExisting('rating-record')) {
     setDefaultRatingRecord();
   } else {

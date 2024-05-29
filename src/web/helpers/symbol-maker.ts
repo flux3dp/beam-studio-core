@@ -7,6 +7,7 @@
 import communicator from 'implementations/communicator';
 import history from 'app/svgedit/history/history';
 import ImageSymbolWorker from 'helpers/symbol-helper/image-symbol.worker';
+import isWeb from 'helpers/is-web';
 import Progress from 'app/actions/progress-caller';
 import updateElementColor from 'helpers/color/updateElementColor';
 import workareaManager from 'app/svgedit/workarea';
@@ -476,7 +477,7 @@ const makeImageSymbol = async (
       strokeWidth,
       fullColor,
     };
-    const imageUrl = window.FLUX.version === 'web' ? await svgToImgUrl(param) : await svgToImgUrlByShadowWindow(param);
+    const imageUrl = isWeb() ? await svgToImgUrl(param) : await svgToImgUrlByShadowWindow(param);
     URL.revokeObjectURL(svgUrl);
     if (!imageSymbol) {
       const image = svgdoc.createElementNS(NS.SVG, 'image');

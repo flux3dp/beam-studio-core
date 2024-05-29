@@ -1,29 +1,30 @@
 /* eslint-disable no-case-declarations */
+import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import clipboard from 'app/svgedit/operations/clipboard';
 import constant from 'app/actions/beambox/constant';
 import createNewText from 'app/svgedit/text/createNewText';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
-import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
-import presprayArea from 'app/actions/canvas/prespray-area';
 import history from 'app/svgedit/history/history';
-import selector from 'app/svgedit/selector';
-import * as LayerHelper from 'helpers/layer/layer-helper';
-import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import ISVGCanvas from 'interfaces/ISVGCanvas';
+import isWeb from 'helpers/is-web';
 import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
-import TopBarController from 'app/views/beambox/TopBar/contexts/TopBarController';
-import * as TutorialController from 'app/views/tutorials/tutorialController';
-import TutorialConstants from 'app/constants/tutorial-constants';
-import clipboard from 'app/svgedit/operations/clipboard';
-import TopBarHintsController from 'app/views/beambox/TopBar/contexts/TopBarHintsController';
-import touchEvents from 'app/svgedit/touchEvents';
-import textEdit from 'app/svgedit/text/textedit';
+import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
+import presprayArea from 'app/actions/canvas/prespray-area';
+import rotaryAxis from 'app/actions/canvas/rotary-axis';
 import SymbolMaker from 'helpers/symbol-maker';
+import selector from 'app/svgedit/selector';
+import TopBarController from 'app/views/beambox/TopBar/contexts/TopBarController';
+import TopBarHintsController from 'app/views/beambox/TopBar/contexts/TopBarHintsController';
+import TutorialConstants from 'app/constants/tutorial-constants';
+import textEdit from 'app/svgedit/text/textedit';
+import touchEvents from 'app/svgedit/touchEvents';
 import updateElementColor from 'helpers/color/updateElementColor';
-import ISVGCanvas from 'interfaces/ISVGCanvas';
+import workareaManager from 'app/svgedit/workarea';
+import * as LayerHelper from 'helpers/layer/layer-helper';
+import * as TutorialController from 'app/views/tutorials/tutorialController';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { MouseButtons } from 'app/constants/mouse-constants';
-import rotaryAxis from 'app/actions/canvas/rotary-axis';
-import workareaManager from 'app/svgedit/workarea';
 
 let svgEditor;
 let svgCanvas: ISVGCanvas;
@@ -1296,7 +1297,7 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
           if (selected.tagName === 'text') {
             const curText = textEdit.getCurText();
             curText.font_size = selected.getAttribute('font-size');
-            if (window.os === 'MacOS' && window.FLUX.version !== 'web') {
+            if (window.os === 'MacOS' && !isWeb()) {
               curText.font_family = selected.getAttribute('data-font-family');
             } else {
               curText.font_family = selected.getAttribute('font-family');
@@ -1858,7 +1859,7 @@ const registerEvents = () => {
   svgCanvas.getContainer().addEventListener('mouseenter', mouseEnter);
   svgCanvas.getContainer().addEventListener('dblclick', dblClick);
 
-  if (window.FLUX.version === 'web') {
+  if (isWeb()) {
     const onWindowScroll = (e) => {
       if (e.ctrlKey) e.preventDefault();
     };

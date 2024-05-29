@@ -18,6 +18,7 @@ import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import exportFuncs from 'app/actions/beambox/export-funcs';
 import getDevice from 'helpers/device/get-device';
 import i18n from 'helpers/i18n';
+import isWeb from 'helpers/is-web';
 import Pointable from 'app/components/beambox/path-preview/Pointable';
 import progressCaller from 'app/actions/progress-caller';
 import SidePanel from 'app/components/beambox/path-preview/SidePanel';
@@ -1732,11 +1733,7 @@ class PathPreview extends React.Component<Props, State> {
           rapidDist={`${Math.round(this.gcodePreview.g0DistReal)} mm`}
           currentPosition={this.renderPosition()}
           isStartHereEnabled={playState !== PlayState.PLAY}
-          handleStartHere={
-            window.FLUX.version === 'web'
-              ? () => dialogCaller.forceLoginWrapper(this.handleStartHere)
-              : this.handleStartHere
-          }
+          handleStartHere={isWeb() ? () => dialogCaller.forceLoginWrapper(this.handleStartHere) : this.handleStartHere}
           togglePathPreview={togglePathPreview}
         />
       </div>

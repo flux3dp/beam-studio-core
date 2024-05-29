@@ -1764,6 +1764,12 @@ const lang: ILang = {
     download_success: 'ดาวน์โหลดข้อมูลกล้องสำเร็จ',
     upload_success: 'อัปโหลดข้อมูลกล้องสำเร็จ',
   },
+  insecure_websocket: {
+    extension_detected: 'ตรวจพบส่วนขยาย Beam Studio Connect',
+    extension_detected_description: "เราตรวจพบว่าคุณได้ติดตั้งส่วนขยาย Beam Studio Connect กรุณาคลิก 'ยืนยัน' เพื่อเปลี่ยนเส้นทางไปที่ HTTPS หรือคลิก 'ยกเลิก' เพื่อทำต่อตาม HTTP",
+    extension_not_deteced: 'ไม่สามารถตรวจพบส่วนขยาย Beam Studio Connect',
+    extension_not_deteced_description: "เพื่อใช้ HTTPS กรุณาคลิก 'ยืนยัน' เพื่อติดตั้งส่วนขยาย Beam Studio Connect หรือคลิก 'ยกเลิก' เพื่อเปลี่ยนเส้นทางไปที่ HTTP",
+  },
 };
 
 export default lang;
