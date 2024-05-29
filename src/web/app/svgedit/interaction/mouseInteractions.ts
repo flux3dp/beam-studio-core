@@ -1559,7 +1559,7 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
       }
       if (!batchCmd.isEmpty()) svgCanvas.addCommandToHistory(batchCmd);
       // perform recalculation to weed out any stray identity transforms that might get stuck
-      svgCanvas.recalculateAllSelectedDimensions();
+      svgCanvas.recalculateAllSelectedDimensions(true);
       svgCanvas.call('changed', selectedElements);
       break;
     case 'drag-prespray-area':
