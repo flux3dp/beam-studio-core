@@ -5167,44 +5167,43 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       while (stack.length > 0) {
         const { elem: topElem, originalAngle } = stack.pop();
         if (topElem.tagName !== 'g') {
+          // eslint-disable-next-line no-await-in-loop
           cmd = await this.flipElementWithRespectToCenter(topElem, centers[centers.length - 1], flipPara);
           if (cmd && !cmd.isEmpty()) {
             batchCmd.addSubCommand(cmd);
           }
-        } else {
-          if (originalAngle == null) {
-            const angle = svgedit.utilities.getRotationAngle(topElem);
-            if (angle !== 0) {
-              canvas.undoMgr.beginUndoableChange('transform', [topElem]);
-              canvas.setRotationAngle(0, true, topElem);
-              cmd = canvas.undoMgr.finishUndoableChange();
-              if (cmd && !cmd.isEmpty()) {
-                batchCmd.addSubCommand(cmd);
-              }
-              stack.push({ elem: topElem, originalAngle: angle });
+        } else if (originalAngle == null) {
+          const angle = svgedit.utilities.getRotationAngle(topElem);
+          if (angle !== 0) {
+            canvas.undoMgr.beginUndoableChange('transform', [topElem]);
+            canvas.setRotationAngle(0, true, topElem);
+            cmd = canvas.undoMgr.finishUndoableChange();
+            if (cmd && !cmd.isEmpty()) {
+              batchCmd.addSubCommand(cmd);
             }
-            // if g has tlist, inverse to flip element inside
-            const tlist = svgedit.transformlist.getTransformList(topElem);
-            let { x, y } = centers[centers.length - 1];
-            for (let i = 0; i < tlist.numberOfItems; i++) {
-              const t = tlist.getItem(i);
-              // type 4 does not matter
-              if (t.type === 4) {
-                continue;
-              }
-              const { a, b, c, d, e, f } = t.matrix;
-              const delta = a * d - b * c;
-              x = (d * x - c * y + c * f - d * e) / delta;
-              y = (-b * x + a * y - a * f + b * e) / delta;
-            }
-            centers.push({ x, y });
-            topElem.childNodes.forEach((e: Element) => {
-              stack.push({ elem: e });
-            });
-          } else {
-            centers.pop();
-            canvas.setRotationAngle(-originalAngle, true, topElem);
+            stack.push({ elem: topElem, originalAngle: angle });
           }
+          // if g has tlist, inverse to flip element inside
+          const tlist = svgedit.transformlist.getTransformList(topElem);
+          let { x, y } = centers[centers.length - 1];
+          for (let j = 0; j < tlist.numberOfItems; j++) {
+            const t = tlist.getItem(j);
+            // type 4 does not matter
+            if (t.type === 4) {
+              continue;
+            }
+            const { a, b, c, d, e, f } = t.matrix;
+            const delta = a * d - b * c;
+            x = (d * x - c * y + c * f - d * e) / delta;
+            y = (-b * x + a * y - a * f + b * e) / delta;
+          }
+          centers.push({ x, y });
+          topElem.childNodes.forEach((e: Element) => {
+            stack.push({ elem: e });
+          });
+        } else {
+          centers.pop();
+          canvas.setRotationAngle(-originalAngle, true, topElem);
         }
       }
       selectorManager.requestSelector(elem).resize();
@@ -5238,6 +5237,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     const dy = flipPara.vertical < 0 ? 2 * (center.y - cy) : 0;
     const tlist = svgedit.transformlist.getTransformList(elem);
     if (elem.tagName !== 'image') {
+      startTransform = elem.getAttribute('transform');
       const translateOrigin = svgroot.createSVGTransform();
       const scale = svgroot.createSVGTransform();
       const translateBack = svgroot.createSVGTransform();
