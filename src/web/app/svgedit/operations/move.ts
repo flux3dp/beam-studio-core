@@ -9,10 +9,16 @@ import { IBatchCommand } from 'interfaces/IHistory';
 const { svgedit } = window;
 
 let svgCanvas;
-getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
+getSVGAsync((globalSVG) => {
+  svgCanvas = globalSVG.Canvas;
+});
 
 export function moveElements(
-  dx: number | number[], dy: number | number[], elems: Element[], undoable = true, noCall = false,
+  dx: number | number[],
+  dy: number | number[],
+  elems: Element[],
+  undoable = true,
+  noCall = false
 ): IBatchCommand {
   // if single values, scale them to the zoom
   let zoomedX: number;
@@ -26,7 +32,8 @@ export function moveElements(
   const batchCmd = new history.BatchCommand('Move Elements');
   for (let i = elems.length; i >= 0; i -= 1) {
     const selected = elems[i];
-    if (selected != null) {
+    if (selected) {
+      svgCanvas.unsafeAccess.setStartTransform(selected.getAttribute('transform'));
       const svgroot = document.getElementById('svgroot') as unknown as SVGSVGElement;
       const xform = svgroot.createSVGTransform();
       const tlist = svgedit.transformlist.getTransformList(selected);
@@ -63,7 +70,9 @@ export function moveElements(
 }
 
 export function moveSelectedElements(
-  dx: number | number[], dy: number | number[], undoable = true,
+  dx: number | number[],
+  dy: number | number[],
+  undoable = true
 ): IBatchCommand {
   // if single values, scale them to the zoom
   const selectedElements = svgCanvas.getSelectedElems();
