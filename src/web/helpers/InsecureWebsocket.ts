@@ -1,5 +1,6 @@
 import alertCaller from 'app/actions/alert-caller';
 import alertConstants from 'app/constants/alert-constants';
+import browser from 'implementations/browser';
 import i18n from 'helpers/i18n';
 import isWeb from 'helpers/is-web';
 import switchProtocol from 'helpers/switch-protocol';
@@ -29,9 +30,9 @@ let chromeExtensionAlertPopped = false;
 export const checkFluxTunnel = (): boolean => {
   window.dispatchEvent(new CustomEvent('CheckFluxTunnel'));
   if (!fluxTunnelLoaded && isWeb()) {
-    const browser = getBrowser();
+    const browserName = getBrowser();
     const isHttps = window.location.protocol === 'https:';
-    if (browser !== 'Chrome' && isHttps) {
+    if (browserName !== 'Chrome' && isHttps) {
       switchProtocol('http:');
       return false;
     }
@@ -44,7 +45,7 @@ export const checkFluxTunnel = (): boolean => {
         message: i18n.lang.insecure_websocket.extension_not_deteced_description,
         buttonType: alertConstants.CONFIRM_CANCEL,
         onConfirm: () => {
-          console.log('TODO: Open Chrome extension page');
+          browser.open('https://chromewebstore.google.com/detail/beam-studio-connect/kopngdknlbamdmehbclgbkcekligncla');
         },
         onCancel: () => switchProtocol('http:'),
       });
