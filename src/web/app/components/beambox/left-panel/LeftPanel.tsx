@@ -1,6 +1,7 @@
 import * as React from 'react';
 import classNames from 'classnames';
 
+import CurveEngravingTool from 'app/components/beambox/left-panel/CurveEngravingTool';
 import DrawingToolButtonGroup from 'app/components/beambox/left-panel/DrawingToolButtonGroup';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import i18n from 'helpers/i18n';
@@ -106,6 +107,9 @@ class LeftPanel extends React.PureComponent {
           </div>
         </div>
       );
+    }
+    if (mode === CanvasMode.CurveEngraving) {
+      return (<CurveEngravingTool className={this.leftPanelClass} />);
     }
     return (
       <PreviewToolButtonGroup

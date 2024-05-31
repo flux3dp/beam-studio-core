@@ -118,7 +118,6 @@ export default class TopBar extends React.PureComponent<Record<string, never>, S
 
     const {
       setMode,
-      setTopBarPreviewMode,
       startPreviewCallback,
       setStartPreviewCallback,
       updateCanvasContext,
@@ -141,7 +140,7 @@ export default class TopBar extends React.PureComponent<Record<string, never>, S
           message: `${LANG.alerts.fail_to_start_preview}<br/>${errMessage}`,
         });
       }
-      setTopBarPreviewMode(false);
+      setMode(CanvasMode.Draw);
       $(workarea).css('cursor', 'auto');
     };
 

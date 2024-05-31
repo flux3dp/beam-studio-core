@@ -3,6 +3,10 @@ import Back from './back.svg';
 import Boxgen from './boxgen.svg';
 import Cloud from './cloud.svg';
 import Cursor from './cursor.svg';
+import Curve3D from './curve-3d.svg';
+import CurveEngrave from './curve-engrave.svg';
+import CuverPreview from './curve-preview.svg';
+import CurveSelect from './curve-select.svg';
 import Delete from './delete.svg';
 import DM from './dm.svg';
 import Draw from './draw.svg';
@@ -24,6 +28,10 @@ export default {
   Boxgen,
   Cloud,
   Cursor,
+  Curve3D,
+  CurveEngrave,
+  CuverPreview,
+  CurveSelect,
   Delete,
   DM,
   Draw,

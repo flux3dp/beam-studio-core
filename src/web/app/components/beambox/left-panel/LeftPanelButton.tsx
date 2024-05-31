@@ -28,7 +28,10 @@ function LeftPanelButton({
   return (
     <div
       id={id}
-      className={classNames(styles.container, { [styles.active]: active, disabled })}
+      className={classNames(styles.container, {
+        [styles.active]: active,
+        [styles.disabled]: disabled,
+      })}
       title={title}
       onClick={disabled ? undefined : onClick}
     >

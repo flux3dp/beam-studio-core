@@ -43,7 +43,7 @@ import { getNextStepRequirement } from 'app/views/tutorials/tutorialController';
 import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 import { NounProjectPanelController } from 'app/views/beambox/Noun-Project-Panel';
 import BeamboxPreference from './beambox-preference';
-import Constant from './constant';
+import curveEngravingModeController from 'app/actions/canvas/curveEngravingModeController';
 import OpenBottomBoundaryDrawer from './open-bottom-boundary-drawer';
 import PreviewModeController from './preview-mode-controller';
 import Alert from '../alert-caller';
@@ -758,8 +758,10 @@ const svgEditor = window['svgEditor'] = (function () {
     var setSelectMode = function () {
       svgCanvas.setMode('select');
       workarea.css('cursor', 'auto');
-      if (PreviewModeController.isPreviewMode() || TopBarController.getTopBarPreviewMode()) {
-        $(workarea).css('cursor', 'url(img/camera-cursor.svg), cell');
+      if (curveEngravingModeController.started) {
+        // do nothing for now
+      } else if (PreviewModeController.isPreviewMode() || TopBarController.getTopBarPreviewMode()) {
+        workarea.css('cursor', 'url(img/camera-cursor.svg), cell');
       }
     };
 

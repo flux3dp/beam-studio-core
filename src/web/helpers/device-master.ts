@@ -827,7 +827,7 @@ class DeviceMaster {
     return controlSocket.addTask(controlSocket.rawEndLineCheckMode);
   }
 
-  async rawMove(args: { x: number; y: number; f: number }) {
+  async rawMove(args: { x?: number; y?: number; z?: number; f?: number }) {
     const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.rawMove, args);
   }
@@ -893,6 +893,19 @@ class DeviceMaster {
   async rawGetLastPos(): Promise<{ x: number; y: number; z: number; a: number }> {
     const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.rawGetLastPos);
+  }
+
+  async rawMeasureHeight(baseZ = 0, timeout = 30000): Promise<number> {
+    const { model } = this.currentDevice.info;
+    if (model === 'ado1') {
+      await this.rawAutoFocus();
+      const { didAf, z } = await this.rawGetProbePos();
+      if (didAf) return Math.max(z - 8, 0);
+      return null;
+    }
+    // Hexa only
+    const controlSocket = await this.getControl();
+    return controlSocket.addTask(controlSocket.rawMeasureHeight, baseZ, timeout);
   }
 
   // Get, Set functions

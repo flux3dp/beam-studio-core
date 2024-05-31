@@ -3,6 +3,7 @@ import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import clipboard from 'app/svgedit/operations/clipboard';
 import constant from 'app/actions/beambox/constant';
 import createNewText from 'app/svgedit/text/createNewText';
+import curveEngravingModeController from 'app/actions/canvas/curveEngravingModeController';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import history from 'app/svgedit/history/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
@@ -297,7 +298,10 @@ const mouseDown = (evt: MouseEvent) => {
         }
       }
 
-      if (PreviewModeController.isPreviewMode() || TopBarController.getTopBarPreviewMode()) {
+      if (
+        (PreviewModeController.isPreviewMode() || TopBarController.getTopBarPreviewMode()) &&
+        !curveEngravingModeController.started
+      ) {
         // preview mode
         svgCanvas.clearSelection();
         if (PreviewModeController.isPreviewMode()) {
@@ -375,6 +379,12 @@ const mouseDown = (evt: MouseEvent) => {
           svgCanvas.unsafeAccess.setCurrentMode('multiselect');
           setRubberBoxStart();
         }
+      }
+      break;
+    case 'curve-engraving':
+      if (!rightClick) {
+        svgCanvas.unsafeAccess.setStarted(true);
+        setRubberBoxStart();
       }
       break;
     case 'resize':
@@ -1212,11 +1222,18 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
   };
 
   switch (currentMode) {
-    case 'pre_preview':
-      if (rubberBox !== null) {
-        rubberBox.setAttribute('display', 'none');
-        svgCanvas.clearBoundingBox();
+    case 'curve-engraving':
+      cleanUpRubberBox();
+        const { dpmm } = constant;
+        const bboxX = Math.min(startX, realX) / dpmm;
+        const bboxY = Math.min(startY, realY) / dpmm;
+        const width = Math.abs(startX - realX) / dpmm;
+        const height = Math.abs(startY - realY) / dpmm;
+        curveEngravingModeController.setArea({ x: bboxX, y: bboxY, width, height });
       }
+      return;
+    case 'pre_preview':
+      cleanUpRubberBox();
       svgCanvas.unsafeAccess.setCurrentMode('select');
       TopBarController.setStartPreviewCallback(() => {
         doPreview();

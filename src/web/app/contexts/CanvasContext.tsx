@@ -1,11 +1,12 @@
 import React, { createContext, useCallback, useEffect, useState } from 'react';
 
-import * as TutorialController from 'app/views/tutorials/tutorialController';
-import TutorialConstants from 'app/constants/tutorial-constants';
+import curveEngravingModeController from 'app/actions/canvas/curveEngravingModeController';
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
-import eventEmitterFactory from 'helpers/eventEmitterFactory';
+import TutorialConstants from 'app/constants/tutorial-constants';
 import useForceUpdate from 'helpers/use-force-update';
+import * as TutorialController from 'app/views/tutorials/tutorialController';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { IUser } from 'interfaces/IUser';
@@ -26,6 +27,7 @@ export enum CanvasMode {
   Draw = 1,
   Preview = 2,
   PathPreview = 3,
+  CurveEngraving = 4,
 }
 
 interface CanvasContextType {
@@ -37,7 +39,6 @@ interface CanvasContextType {
   setMode: (mode: CanvasMode) => void;
   setShouldStartPreviewController: (shouldStartPreviewController: boolean) => void;
   setStartPreviewCallback: (callback: () => void | null) => void;
-  setTopBarPreviewMode: (topBarPreviewMode: boolean) => void;
   shouldStartPreviewController: boolean;
   setupPreviewMode: () => void;
   setSetupPreviewMode: (callback: () => void | null) => void;
@@ -61,7 +62,6 @@ const CanvasContext = createContext<CanvasContextType>({
   setMode: () => {},
   setShouldStartPreviewController: () => {},
   setStartPreviewCallback: () => {},
-  setTopBarPreviewMode: () => {},
   shouldStartPreviewController: false,
   setupPreviewMode: () => {},
   setSetupPreviewMode: () => {},
@@ -88,19 +88,6 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
   const [selectedDevice, setSelectedDevice] = useState<IDeviceInfo | null>(null);
   const [isPathEditing, setIsPathEditing] = useState<boolean>(false);
 
-  const setTopBarPreviewMode = (preview: boolean): void => {
-    const allLayers = document.querySelectorAll('g.layer');
-    for (let i = 0; i < allLayers.length; i += 1) {
-      const g = allLayers[i] as SVGGElement;
-      if (preview) {
-        g.style.pointerEvents = 'none';
-      } else {
-        g.style.pointerEvents = '';
-      }
-    }
-    setMode(preview ? CanvasMode.Preview : CanvasMode.Draw);
-  };
-
   const endPreviewMode = (): void => {
     try {
       if (PreviewModeController.isPreviewMode()) {
@@ -117,7 +104,6 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
       FnWrapper.useSelectTool();
       $('#workarea').off('contextmenu');
       workareaEventEmitter.emit('update-context-menu', { menuDisabled: false });
-      setTopBarPreviewMode(false);
       setMode(CanvasMode.Draw);
     }
   };
@@ -183,25 +169,41 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
   useEffect(() => {
     canvasEventEmitter.on('SET_COLOR_PREVIEWING', setIsColorPreviewing);
     canvasEventEmitter.on('SET_PATH_EDITING', setIsPathEditing);
+    canvasEventEmitter.on('SET_MODE', setMode);
     return () => {
       canvasEventEmitter.removeListener('SET_COLOR_PREVIEWING', setIsColorPreviewing);
       canvasEventEmitter.removeListener('SET_PATH_EDITING', setIsPathEditing);
+      canvasEventEmitter.removeListener('SET_MODE', setMode);
     };
   }, []);
+
+  useEffect(() => {
+    if (mode !== CanvasMode.CurveEngraving && curveEngravingModeController.started) {
+      curveEngravingModeController.end();
+    }
+    const allLayers = document.querySelectorAll('g.layer');
+    for (let i = 0; i < allLayers.length; i += 1) {
+      const g = allLayers[i] as SVGGElement;
+      if (mode === CanvasMode.Preview) {
+        g.style.pointerEvents = 'none';
+      } else {
+        g.style.pointerEvents = '';
+      }
+    }
+  }, [mode]);
 
   const changeToPreviewMode = () => {
     svgCanvas.setMode('select');
     workareaEvents.emit('update-context-menu', { menuDisabled: true });
+    const workarea = document.getElementById('workarea');
     $('#workarea').contextmenu(() => {
       endPreviewMode();
       return false;
     });
-    setTopBarPreviewMode(true);
-    const workarea = document.getElementById('workarea');
-    if (workarea) {
-      $(workarea).css('cursor', 'url(img/camera-cursor.svg), cell');
-    }
     setMode(CanvasMode.Preview);
+    if (workarea) {
+      workarea.style.cursor = 'url(img/camera-cursor.svg), cell';
+    }
     if (TutorialController.getNextStepRequirement() === TutorialConstants.TO_PREVIEW_MODE) {
       TutorialController.handleNextStep();
     }
@@ -224,7 +226,6 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
         setShouldStartPreviewController,
         setSetupPreviewMode,
         setStartPreviewCallback,
-        setTopBarPreviewMode,
         shouldStartPreviewController,
         setupPreviewMode,
         startPreviewCallback,
