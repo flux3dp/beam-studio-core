@@ -39,7 +39,8 @@ const Camera = ({ zoomKey, zoomRatio = 1.5 }: CameraProps) => {
       currentZoomKey.current = zoomKey;
     }
     if (position) {
-      if (Math.abs(camera.position.x - position.x) < 1) setPosition(null);
+      const dist = camera.position.distanceTo(position);
+      if (dist < 1) setPosition(null);
       else camera.position.lerp(position, 0.1);
     }
   });
