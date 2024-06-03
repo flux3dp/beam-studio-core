@@ -3,7 +3,7 @@ import svgStringToCanvas from 'helpers/image/svgStringToCanvas';
 import symbolMaker from 'helpers/symbol-maker';
 import workareaManager from 'app/svgedit/workarea';
 
-const getCanvasImage = async (x: number, y: number, width: number, height: number): Promise<string> => {
+const getCanvasImage = async (x: number, y: number, width: number, height: number): Promise<ImageBitmap> => {
   const svgContent = document.getElementById('svgcontent') as unknown as SVGSVGElement;
   const bbox = { x, y, width, height };
   if (bbox.width <= 0 || bbox.height <= 0) return null;
@@ -26,12 +26,8 @@ const getCanvasImage = async (x: number, y: number, width: number, height: numbe
       ${clonedSvgContent.innerHTML}
     </svg>`;
   const canvas = await svgStringToCanvas(svgString, bbox.width, bbox.height);
-  const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
-  ctx.globalCompositeOperation = 'destination-over';
-  ctx.fillStyle = 'white';
-  ctx.fillRect(0, 0, width, height);
-  const base64 = canvas.toDataURL('image/jpeg', 1);
-  return base64;
+  const imageBitmap = await createImageBitmap(canvas);
+  return imageBitmap;
 };
 
 export default getCanvasImage;

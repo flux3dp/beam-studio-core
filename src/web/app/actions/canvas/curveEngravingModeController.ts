@@ -6,10 +6,11 @@ import ISVGCanvas from 'interfaces/ISVGCanvas';
 import NS from 'app/constants/namespaces';
 import workareaManager from 'app/svgedit/workarea';
 import { CanvasMode } from 'app/contexts/CanvasContext';
-import { showCurveEngraving } from 'app/components/dialogs/CurveEngraving/CurveEngraving';
-import { showMeasureArea } from 'app/components/dialogs/CurveEngraving/MeasureArea';
+import { CurveEngraving, MeasureData } from 'interfaces/ICurveEngraving';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { getWorkarea } from 'app/constants/workarea-constants';
+import { showCurveEngraving } from 'app/components/dialogs/CurveEngraving/CurveEngraving';
+import { showMeasureArea } from 'app/components/dialogs/CurveEngraving/MeasureArea';
 
 let svgCanvas: ISVGCanvas;
 getSVGAsync((globalSVG) => {
@@ -21,16 +22,7 @@ const canvasEventEmitter = eventEmitterFactory.createEventEmitter('canvas');
 class CurveEngravingModeController {
   started: boolean;
 
-  bbox: {
-    x: number;
-    y: number;
-    width: number;
-    height: number;
-  };
-
-  points: number[][][];
-
-  gap: number[]; // [x-gap, y-gap]
+  data: CurveEngraving;
 
   boundarySvg: SVGSVGElement;
 
@@ -40,9 +32,7 @@ class CurveEngravingModeController {
 
   constructor() {
     this.started = false;
-    this.bbox = null;
-    this.points = [];
-    this.gap = [0, 0];
+    this.data = null;
     canvasEventEmitter.on('canvas-change', this.updateContainer);
   }
 
@@ -84,6 +74,10 @@ class CurveEngravingModeController {
     }
   };
 
+  applyMeasureData = (data: MeasureData) => {
+    this.data = { ...this.data, ...data };
+  }
+
   setArea = async (bbox: { x: number; y: number; width: number; height: number }) => {
     let { x, y, width, height } = bbox;
     const workarea = beamboxPreference.read('workarea');
@@ -107,30 +101,26 @@ class CurveEngravingModeController {
       height = bottomBound - y;
     }
     if (width <= 0 || height <= 0) return;
-    const res = await showMeasureArea(x, y, width, height);
+    const newBBox = { x, y, width, height };
+    const res = await showMeasureArea(newBBox);
     if (!res) return;
-    const { points, gap } = res;
-    this.bbox = { x, y, width, height };
-    this.points = points;
-    this.gap = gap;
-    await showCurveEngraving(x, y, width, height, points, gap);
+    this.data = { bbox, ...res };
+    await showCurveEngraving(this.data, this.applyMeasureData);
     this.updateAreaPath();
     canvasEventEmitter.emit('CURVE_ENGRAVING_AREA_SET');
   };
 
   clearArea = () => {
-    this.bbox = null;
-    this.points = [];
+    this.data = null;
     this.updateAreaPath();
     canvasEventEmitter.emit('CURVE_ENGRAVING_AREA_SET');
   };
 
-  hasArea = () => Boolean(this.bbox);
+  hasArea = () => Boolean(this.data);
 
   preview = async () => {
-    if (!this.bbox || !this.points) return;
-    const { x, y, width, height } = this.bbox;
-    showCurveEngraving(x, y, width, height, this.points, this.gap);
+    if (!this.data) return;
+    showCurveEngraving(this.data, this.applyMeasureData);
   };
 
   createContainer = () => {
@@ -173,7 +163,8 @@ class CurveEngravingModeController {
     const leftBound = (autoFocusOffset[0] > 0 ? autoFocusOffset[0] : 0) * dpmm;
     const rightBound = (autoFocusOffset[0] < 0 ? workareaW + autoFocusOffset[0] : workareaW) * dpmm;
     const topBound = (autoFocusOffset[1] > 0 ? autoFocusOffset[1] : 0) * dpmm;
-    const bottomBound = (autoFocusOffset[1] < 0 ? workareaH + autoFocusOffset[1] : workareaH) * dpmm;
+    const bottomBound =
+      (autoFocusOffset[1] < 0 ? workareaH + autoFocusOffset[1] : workareaH) * dpmm;
     const d1 = `M0,0H${width}V${height}H0V0Z`;
     const d2 = `M${leftBound},${topBound}H${rightBound}V${bottomBound}H${leftBound}V${topBound}Z`;
     this.boundaryPath.setAttribute('d', `${d1} ${d2}`);
@@ -181,7 +172,7 @@ class CurveEngravingModeController {
 
   updateAreaPath = () => {
     this.createContainer();
-    if (!this.bbox) {
+    if (!this.data) {
       this.areaPath?.setAttribute('d', '');
       return;
     }
@@ -195,7 +186,7 @@ class CurveEngravingModeController {
       this.boundarySvg.appendChild(this.areaPath);
     }
     const { width, height } = workareaManager;
-    let { x, y, width: w, height: h } = this.bbox;
+    let { x, y, width: w, height: h } = this.data.bbox;
     const { dpmm } = constant;
     x *= dpmm;
     y *= dpmm;

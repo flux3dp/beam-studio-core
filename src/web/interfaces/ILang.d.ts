@@ -1460,6 +1460,7 @@ export interface ILang {
       adjust_height_tooltip: string;
     };
     unsupported_example_file: string;
+    time_remaining: string;
   },
   machine_status: {
     '-17': string,
@@ -1770,5 +1771,26 @@ export interface ILang {
     extension_not_deteced: string;
     extension_not_deteced_description: string;
     unsecure_url_help_center_link: string;
+  };
+  curve_engraving: {
+    measure_audofocus_area: string;
+    amount: string;
+    gap: string;
+    rows: string;
+    coloumns: string;
+    row_gap: string;
+    column_gap: string;
+    set_object_height: string;
+    set_object_height_desc: string;
+    measure_area_help: string;
+    reselect_area: string;
+    start_autofocus: string;
+    starting_measurement: string;
+    preview_3d_curve: string;
+    apply_arkwork: string;
+    apply_camera: string;
+    click_to_select_point: string;
+    remeasure: string;
+    remeasuring_points: string;
   };
 }

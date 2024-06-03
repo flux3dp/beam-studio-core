@@ -9,13 +9,15 @@ import checkDeviceStatus from 'helpers/check-device-status';
 import durationFormatter from 'helpers/duration-formatter';
 import deviceMaster from 'helpers/device-master';
 import getDevice from 'helpers/device/get-device';
+import useI18n from 'helpers/useI18n';
 import { addDialogComponent, isIdExist, popDialogById } from 'app/actions/dialog-controller';
 import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
+import { BBox, MeasureData, Points } from 'interfaces/ICurveEngraving';
 
 import rangeGenerator from './rangeGenerator';
 import styles from './MeasureArea.module.scss';
 
-const debugging = false;
+const debugging = true;
 
 enum Type {
   Amount = 1,
@@ -23,20 +25,23 @@ enum Type {
 }
 
 interface Props {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  onFinished: (points: number[][][], gap: number[]) => void;
+  bbox: BBox;
+  onFinished: (data: MeasureData) => void;
   onClose: () => void;
 }
 
-const MeasureArea = ({ x, y, width, height, onFinished, onClose }: Props): JSX.Element => {
+const MeasureArea = ({
+  bbox: { x, y, width, height },
+  onFinished,
+  onClose,
+}: Props): JSX.Element => {
+  const lang = useI18n();
   const [selectedType, setSelectedType] = useState(Type.Amount);
   const [row, setRow] = useState(12);
   const [column, setColumn] = useState(8);
   const [rowGap, setRowGap] = useState(Math.round(width / 10));
   const [columnGap, setColumnGap] = useState(Math.round(height / 10));
+  const [objectHeight, setObjectHeight] = useState(10); // [mm]
   const canceledRef = useRef(false);
   const [isMeasuring, setIsMeasuring] = useState(false);
   const [finishedPoints, setFinishedPoints] = useState<number>(0);
@@ -50,6 +55,13 @@ const MeasureArea = ({ x, y, width, height, onFinished, onClose }: Props): JSX.E
     if (selectedType === Type.Amount) return rangeGenerator.countRangeGenerator(y, y + height, row);
     return rangeGenerator.stepRangeGenerator(y, y + height, rowGap);
   }, [y, height, row, rowGap, selectedType]);
+
+  const checkAndUpdate = useCallback((newVal, setState) => {
+    setState((cur: number) => {
+      if (Number.isNaN(Number(newVal)) || !newVal) return cur;
+      return newVal;
+    });
+  }, []);
 
   const handleStartMeasuring = async () => {
     if (isMeasuring) return;
@@ -66,25 +78,26 @@ const MeasureArea = ({ x, y, width, height, onFinished, onClose }: Props): JSX.E
       setIsMeasuring(false);
       return;
     }
-    setProgressText('tEntering raw mode...');
-    await deviceMaster.enterRawMode();
-    setProgressText('tHoming...');
-    await deviceMaster.rawHome();
-    if (canceledRef.current) {
-      setIsMeasuring(false);
-      return;
-    }
-    const currentPosition = { x: 0, y: 0 };
-    setProgressText('tStarting Measuring...');
-    const points: number[][][] = [];
-    const totalPoints = xRange.length * yRange.length;
-    let finished = 0;
-    const workarea = getWorkarea(device.model as WorkAreaModel);
-    const [offsetX, offsetY] = workarea.autoFocusOffset || [0, 0];
-    const feedrate = 6000;
-    const start = Date.now();
-
     try {
+      setProgressText(lang.message.enteringRawMode);
+      await deviceMaster.enterRawMode();
+      setProgressText(lang.message.homing);
+      await deviceMaster.rawHome();
+      if (canceledRef.current) {
+        setIsMeasuring(false);
+        return;
+      }
+      const currentPosition = { x: 0, y: 0 };
+      setProgressText(lang.curve_engraving.starting_measurement);
+      const points: Points = [];
+      const totalPoints = xRange.length * yRange.length;
+      let finished = 0;
+      const workarea = getWorkarea(device.model as WorkAreaModel);
+      const [offsetX, offsetY] = workarea.autoFocusOffset || [0, 0];
+      const feedrate = 6000;
+      const start = Date.now();
+      let lowest: number = null;
+      let highest: number = null;
       for (let i = 0; i < yRange.length; i += 1) {
         points.push([]);
         for (let j = 0; j < xRange.length; j += 1) {
@@ -100,24 +113,32 @@ const MeasureArea = ({ x, y, width, height, onFinished, onClose }: Props): JSX.E
               y: Math.max(pointY - offsetY),
               f: feedrate,
             });
-            const dist = Math.sqrt(
-              (pointX - currentPosition.x) ** 2 + (pointY - currentPosition.y) ** 2
-            );
+            const dist = Math.hypot(pointX - currentPosition.x, pointY - currentPosition.y);
             const time = (dist / feedrate) * 60;
             await new Promise((resolve) => setTimeout(resolve, time * 1000));
+            currentPosition.x = pointX;
+            currentPosition.y = pointY;
           }
           try {
+            if (Math.random() < 0.1) throw new Error('Test Failed to measure height');
             if (!debugging) {
-              // TODO: better baseZ
-              const z = await deviceMaster.rawMeasureHeight(55);
-              console.log(pointX, pointY, z);
+              const z = await deviceMaster.rawMeasureHeight(
+                lowest === null
+                  ? { relZ: objectHeight }
+                  : { baseZ: Math.max(lowest - objectHeight, 0) }
+              );
+              if (lowest === null || z > lowest) lowest = z;
+              if (highest === null || z < highest) highest = z;
               points[i].push([pointX, pointY, z]);
             } else {
               // Debugging height measurement
               const z = 4 + 2 * Math.sin(pointX) + 2 * Math.cos(pointY);
+              if (lowest === null || z > lowest) lowest = z;
+              if (highest === null || z < highest) highest = z;
               points[i].push([pointX, pointY, z]);
             }
           } catch (error) {
+            points[i].push([pointX, pointY, null]);
             console.error(`Failed to measure height at point ${pointX}, ${pointY}`, error);
           }
           const elapsedTime = Date.now() - start;
@@ -125,10 +146,18 @@ const MeasureArea = ({ x, y, width, height, onFinished, onClose }: Props): JSX.E
           finished += 1;
           const finishedRatio = finished / totalPoints;
           const remainingTime = (elapsedTime / finishedRatio - elapsedTime) / 1000;
-          setProgressText(`tTime remaning: ${durationFormatter(remainingTime)}`);
+          setProgressText(`${lang.message.time_remaining} ${durationFormatter(remainingTime)}`);
           setFinishedPoints(finished);
         }
       }
+      onFinished({
+        points,
+        gap: [xRange[1] - xRange[0], yRange[1] - yRange[0]],
+        objectHeight,
+        lowest,
+        highest,
+      });
+      onClose();
     } catch (error) {
       return;
     } finally {
@@ -137,8 +166,6 @@ const MeasureArea = ({ x, y, width, height, onFinished, onClose }: Props): JSX.E
         await deviceMaster.endRawMode();
       }
     }
-    onFinished(points, [xRange[1] - xRange[0], yRange[1] - yRange[0]]);
-    onClose();
   };
 
   const handleCancel = useCallback(() => {
@@ -147,7 +174,7 @@ const MeasureArea = ({ x, y, width, height, onFinished, onClose }: Props): JSX.E
 
   return (
     <Modal
-      title="Meaure Autofocus Area"
+      title={lang.curve_engraving.measure_audofocus_area}
       open
       centered
       closable={false}
@@ -157,15 +184,15 @@ const MeasureArea = ({ x, y, width, height, onFinished, onClose }: Props): JSX.E
         isMeasuring
           ? [
               <Button key="cancel" onClick={handleCancel}>
-                tCancel
+                {lang.alert.cancel}
               </Button>,
             ]
           : [
               <Button key="cancel" onClick={onClose}>
-                tRe-select Area
+                {lang.curve_engraving.reselect_area}
               </Button>,
               <Button key="start" type="primary" onClick={handleStartMeasuring}>
-                tStart Autofocus
+                {lang.curve_engraving.start_autofocus}
               </Button>,
             ]
       }
@@ -188,41 +215,77 @@ const MeasureArea = ({ x, y, width, height, onFinished, onClose }: Props): JSX.E
         <>
           <div className={styles.controls}>
             <Col span={24}>
-              <Row gutter={[24, 0]} justify="center" align="middle">
-                <Col span={12}>
-                  <Segmented
-                    block
-                    options={[
-                      { value: Type.Amount, label: 'tAmount' },
-                      { value: Type.Gap, label: 'tGap' },
-                    ]}
-                    onChange={(v: Type) => setSelectedType(v)}
-                  />
-                </Col>
-                <Col span={12}>
+              <Row gutter={[48, 0]} justify="center">
+                <Col className={styles.col} span={12}>
                   <Row gutter={[0, 12]} justify="space-around" align="middle">
-                    <Col span={12}>{selectedType === Type.Amount ? 'Rows' : 'Row Gap'}</Col>
+                    <Col span={24}>
+                      <Segmented
+                        block
+                        options={[
+                          { value: Type.Amount, label: lang.curve_engraving.amount },
+                          { value: Type.Gap, label: lang.curve_engraving.gap },
+                        ]}
+                        onChange={(v: Type) => setSelectedType(v)}
+                      />
+                    </Col>
+                    <Col span={12}>
+                      {selectedType === Type.Amount
+                        ? lang.curve_engraving.rows
+                        : lang.curve_engraving.gap}
+                    </Col>
                     <Col span={12}>
                       <InputNumber<number>
                         type="number"
                         value={selectedType === Type.Amount ? row : rowGap}
                         min={selectedType === Type.Amount ? 2 : 1}
-                        onChange={selectedType === Type.Amount ? setRow : setRowGap}
+                        onChange={(val) =>
+                          checkAndUpdate(val, selectedType === Type.Amount ? setRow : setRowGap)
+                        }
                         step={1}
                         precision={0}
                         addonAfter={selectedType === Type.Amount ? undefined : 'mm'}
                       />
                     </Col>
-                    <Col span={12}>{selectedType === Type.Amount ? 'Columns' : 'Column Gap'}</Col>
+                    <Col span={12}>
+                      {selectedType === Type.Amount
+                        ? lang.curve_engraving.coloumns
+                        : lang.curve_engraving.column_gap}
+                    </Col>
                     <Col span={12}>
                       <InputNumber<number>
                         type="number"
                         value={selectedType === Type.Amount ? column : columnGap}
                         min={selectedType === Type.Amount ? 2 : 1}
-                        onChange={selectedType === Type.Amount ? setColumn : setColumnGap}
+                        onChange={(val) =>
+                          checkAndUpdate(
+                            val,
+                            selectedType === Type.Amount ? setColumn : setColumnGap
+                          )
+                        }
                         step={1}
                         precision={0}
                         addonAfter={selectedType === Type.Amount ? undefined : 'mm'}
+                      />
+                    </Col>
+                  </Row>
+                </Col>
+                <Col className={styles.col} span={12}>
+                  <Row gutter={[0, 12]} align="middle">
+                    <Col className={styles.title} span={24}>
+                      {lang.curve_engraving.set_object_height}
+                    </Col>
+                    <Col className={styles.info} span={24}>
+                      {lang.curve_engraving.set_object_height_desc}
+                    </Col>
+                    <Col span={12}>
+                      <InputNumber<number>
+                        type="number"
+                        value={objectHeight}
+                        min={0}
+                        onChange={(val) => checkAndUpdate(val, setObjectHeight)}
+                        step={1}
+                        precision={0}
+                        addonAfter="mm"
                       />
                     </Col>
                   </Row>
@@ -235,7 +298,7 @@ const MeasureArea = ({ x, y, width, height, onFinished, onClose }: Props): JSX.E
             type="button"
             onClick={() => browser.open('https://google.com')}
           >
-            tHow to select the autofocus area for 3D curve
+            {lang.curve_engraving.measure_area_help}
           </button>
         </>
       )}
@@ -246,23 +309,15 @@ const MeasureArea = ({ x, y, width, height, onFinished, onClose }: Props): JSX.E
 
 export default MeasureArea;
 
-export const showMeasureArea = (
-  x: number,
-  y: number,
-  width: number,
-  height: number
-): Promise<{ points: number[][][]; gap: number[] } | null> => {
+export const showMeasureArea = (bbox: BBox): Promise<MeasureData | null> => {
   if (isIdExist('measure-area')) popDialogById('measure-area');
-  return new Promise<{ points: number[][][]; gap: number[] } | null>((resolve) => {
+  return new Promise<MeasureData | null>((resolve) => {
     addDialogComponent(
       'measure-area',
       <MeasureArea
-        x={x}
-        y={y}
-        width={width}
-        height={height}
-        onFinished={(points, gap) => {
-          resolve({ points, gap });
+        bbox={bbox}
+        onFinished={(data) => {
+          resolve(data);
           popDialogById('measure-area');
         }}
         onClose={() => {

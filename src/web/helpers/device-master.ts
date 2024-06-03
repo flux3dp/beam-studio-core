@@ -639,7 +639,9 @@ class DeviceMaster {
   }
 
   async doAdorCalibrationV2(step = 1, withPitch = false) {
-    await this.doCalibration(`fcode/ador-camera-v2-${step}${withPitch && step === 1 ? '-p' : ''}.fc`);
+    await this.doCalibration(
+      `fcode/ador-camera-v2-${step}${withPitch && step === 1 ? '-p' : ''}.fc`
+    );
   }
 
   async doAdorPrinterCalibration() {
@@ -895,17 +897,31 @@ class DeviceMaster {
     return controlSocket.addTask(controlSocket.rawGetLastPos);
   }
 
-  async rawMeasureHeight(baseZ = 0, timeout = 30000): Promise<number> {
+  async rawMeasureHeight({
+    baseZ,
+    relZ,
+    timeout = 30000,
+  }: {
+    baseZ?: number;
+    relZ?: number;
+    timeout?: number;
+  }): Promise<number> {
     const { model } = this.currentDevice.info;
     if (model === 'ado1') {
       await this.rawAutoFocus();
       const { didAf, z } = await this.rawGetProbePos();
-      if (didAf) return Math.max(z - 8, 0);
-      return null;
+      const res = didAf ? Math.max(z - 8, 0) : null;
+      if (typeof baseZ === 'number') await this.rawMove({ z: baseZ });
+      else if (res && relZ) await this.rawMove({ z: Math.max(0, res - relZ) });
+      return res;
     }
     // Hexa only
     const controlSocket = await this.getControl();
-    return controlSocket.addTask(controlSocket.rawMeasureHeight, baseZ, timeout);
+    const res = await controlSocket.addTask(controlSocket.rawMeasureHeight, baseZ, timeout);
+    if (res && typeof baseZ !== 'number' && relZ) {
+      await this.rawMove({ z: Math.max(0, res - relZ) });
+    }
+    return res;
   }
 
   // Get, Set functions

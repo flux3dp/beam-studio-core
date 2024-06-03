@@ -827,7 +827,10 @@ const mouseMove = (evt: MouseEvent) => {
         if (dist < SENSOR_AREA_RADIUS) {
           $('#workarea').css('cursor', 'move');
         } else if ($('#workarea').css('cursor') === 'move') {
-          if (PreviewModeController.isPreviewMode() || TopBarController.getTopBarPreviewMode()) {
+          if (
+            !curveEngravingModeController.started &&
+            (PreviewModeController.isPreviewMode() || TopBarController.getTopBarPreviewMode())
+          ) {
             $('#workarea').css('cursor', 'url(img/camera-cursor.svg), cell');
           } else {
             $('#workarea').css('cursor', 'auto');
@@ -937,6 +940,7 @@ const mouseMove = (evt: MouseEvent) => {
     case 'pre_preview':
     case 'preview':
     case 'multiselect':
+    case 'curve-engraving':
       updateRubberBox();
       // Stop adding elements to selection when mouse moving
       // Select all intersected elements when mouse up
@@ -1221,9 +1225,17 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
     }
   };
 
+  const cleanUpRubberBox = () => {
+    if (rubberBox != null) {
+      rubberBox.setAttribute('display', 'none');
+      svgCanvas.clearBoundingBox();
+    }
+  };
+
   switch (currentMode) {
     case 'curve-engraving':
       cleanUpRubberBox();
+      if (startX !== realX && startY !== realY) {
         const { dpmm } = constant;
         const bboxX = Math.min(startX, realX) / dpmm;
         const bboxY = Math.min(startY, realY) / dpmm;
@@ -1241,10 +1253,7 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
       TopBarController.setShouldStartPreviewController(true);
       return;
     case 'preview':
-      if (rubberBox != null) {
-        rubberBox.setAttribute('display', 'none');
-        svgCanvas.clearBoundingBox();
-      }
+      cleanUpRubberBox();
       doPreview();
       svgCanvas.unsafeAccess.setCurrentMode('select');
     // intentionally fall-through to select here
@@ -1274,10 +1283,7 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
         svgCanvas.unsafeAccess.setSelectedElements(selectedElements);
         svgCanvas.call('selected', selectedElements);
       }
-      if (rubberBox != null) {
-        rubberBox.setAttribute('display', 'none');
-        svgCanvas.clearBoundingBox();
-      }
+      cleanUpRubberBox();
       drawingToolEventEmitter.emit('SET_ACTIVE_BUTTON', 'Cursor');
     // eslint-disable-next-line no-fallthrough
     case 'select':

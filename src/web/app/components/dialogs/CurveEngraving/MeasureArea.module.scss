@@ -1,6 +1,8 @@
+@use "styles/variables" as variables;
+
 .points {
   margin: 32px 8px;
-  height: 40vh;
+  height: 35vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -16,7 +18,7 @@
       width: 6px;
       height: 6px;
       border-radius: 3px;
-      background-color: #7c7c7c;
+      background-color: variables.$secondary-gray;
 
       &.finished {
         background-color: #4fbb30;
@@ -28,10 +30,28 @@
 .controls {
   margin: 32px 8px 20px;
   display: flex;
+
+  .col {
+    &:not(:first-child) {
+      border: 1px solid #d9d9d9;
+      border-width: 0 0 0 1px;
+    }
+  }
+
+  .title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1f1f1f;
+  }
+
+  .info {
+    font-size: 14px;
+    color: variables.$secondary-gray;
+  }
 }
 
 .link {
-  margin: 20px 8px;
+  margin: 0 8px;
   font-size: 14px;
   color: #1890ff;
   background: none;

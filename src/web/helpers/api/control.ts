@@ -1229,7 +1229,7 @@ class Control extends EventEmitter {
     return this.useRawLineCheckCommand(command);
   };
 
-  rawAutoFocus = (): Promise<void> => {
+  rawAutoFocus = (timeout = 20000): Promise<void> => {
     if (this.mode !== 'raw') {
       throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
     }
@@ -1257,11 +1257,11 @@ class Control extends EventEmitter {
         ) {
           this.removeCommandListeners();
           reject(response);
-        } else timeoutTimer = this.setTimeoutTimer(reject, 10000);
+        } else timeoutTimer = this.setTimeoutTimer(reject, timeout);
       });
       this.setDefaultErrorResponse(reject, timeoutTimer);
       this.setDefaultFatalResponse(reject, timeoutTimer);
-      timeoutTimer = this.setTimeoutTimer(reject, 16000);
+      timeoutTimer = this.setTimeoutTimer(reject, timeout);
       this.ws.send(command);
     });
   };
@@ -1284,7 +1284,6 @@ class Control extends EventEmitter {
         }
         const resps = responseString.split('\r\n');
         const i = resps.findIndex((r) => r === 'ok');
-        if (i < 0) responseString = resps[resps.length - 1] || '';
         if (i >= 0) {
           const resIdx = resps.findIndex((r) =>
             r.match(/\[PRB:([-\d.]+),([-\d.]+),([-\d.]+),([-\d.]+):(\d)\]/)
@@ -1405,13 +1404,13 @@ class Control extends EventEmitter {
   };
 
   // Hexa
-  rawMeasureHeight = (baseZ = 0, timeout = 120000): Promise<number> => {
+  rawMeasureHeight = (baseZ: number | undefined, timeout = 120000): Promise<number> => {
     if (this.mode !== 'raw') {
       throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
     }
     return new Promise<number>((resolve, reject) => {
       let responseString = '';
-      const command = `B45Z${baseZ}`;
+      const command = typeof baseZ === 'number' ? `B45Z${baseZ}` : 'B45';
       let timeoutTimer: null | NodeJS.Timeout;
       let retryTimes = 0;
       let isCmdResent = false;

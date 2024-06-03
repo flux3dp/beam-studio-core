@@ -228,9 +228,9 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
 
       if (curveEngravingModeController.hasArea()) {
         const data = {
-          bbox: curveEngravingModeController.bbox,
-          points: curveEngravingModeController.points,
-          gap: curveEngravingModeController.gap,
+          bbox: curveEngravingModeController.data.bbox,
+          points: curveEngravingModeController.data.points.flat().filter((p) => p[2] !== null),
+          gap: curveEngravingModeController.data.gap,
         };
         const dataStr = JSON.stringify(data, (key, val) => {
           if (typeof val === 'number') {
@@ -531,7 +531,8 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
           }
         }
       }
-      const svgString = `<svg viewBox="${bbox.x} ${bbox.y} ${bbox.width} ${bbox.height}"><defs>${defs}</defs>${textString}</svg>`;
+      const { x, y, width, height } = bbox;
+      const svgString = `<svg viewBox="${x} ${y} ${width} ${height}"><defs>${defs}</defs>${textString}</svg>`;
       console.log(svgString);
       const file = new Blob([svgString], {
         type: 'text/plain',
