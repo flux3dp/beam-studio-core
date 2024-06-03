@@ -1696,10 +1696,6 @@ const svgEditor = window['svgEditor'] = (function () {
               // Add to given tool.panel
               var inp = $(html).appendTo(panel).find('input');
 
-              if (tool.spindata) {
-                inp.SpinButton(tool.spindata);
-              }
-
               if (tool.events) {
                 $.each(tool.events, function (evt: string, func) {
                   inp.bind(evt, func);
