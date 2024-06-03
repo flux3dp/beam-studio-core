@@ -1,8 +1,6 @@
 ﻿CACHE MANIFEST
 svg-editor.html
 images/logo.png
-jgraduate/css/jPicker.css
-jgraduate/css/jgraduate.css
 svg-editor.css
 spinbtn/JQuerySpinBtn.css
 jquery.js
@@ -10,9 +8,6 @@ config.js
 custom.css
 js-hotkeys/jquery.hotkeys.min.js
 jquery-ui/jquery-ui-1.8.17.custom.min.js
-jgraduate/jpicker.min.js
-jgraduate/jquery.jgraduate.min.js
-spinbtn/JQuerySpinBtn.js
 svgcanvas.js
 svg-editor.js
 images/align-bottom.png

@@ -86,7 +86,6 @@ const workareaEvents = eventEmitterFactory.createEventEmitter('workarea');
 declare global {
   interface JQueryStatic {
     pref: any
-    jGraduate: any
     confirm: any
     getSvgIcon: any
     select: any
@@ -104,7 +103,6 @@ declare global {
     slider(arg0?: any, arg1?: any, arg3?: any): JQuery
     draggable(options: any): JQuery
     contextMenu: any
-    jGraduate: any
   }
 }
 
@@ -354,7 +352,6 @@ const svgEditor = window['svgEditor'] = (function () {
       imgPath: 'js/lib/svgeditor/images/',
       langPath: 'js/lib/svgeditor/locale/',
       extPath: 'js/lib/svgeditor/extensions/',
-      jGraduatePath: 'js/lib/svgeditor/jgraduate/images/',
       // DOCUMENT PROPERTIES
       // Change the following to a preference (already in the Document Properties dialog)?
       dimensions: editor.dimensions,

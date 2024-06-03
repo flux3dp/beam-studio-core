@@ -142,7 +142,6 @@ export default interface ISVGCanvas {
   setLayerVisibility(layerName: string, visible: boolean): void;
   setMode: (mode: string) => void;
   setOpacity: (opacity: number) => void;
-  setPaint(picker: string, paint: any): void;
   setPaintOpacity: (pickerType: string, opacity: number, preventUndo?: boolean) => void;
   setRootScreenMatrix: (matrix: SVGMatrix) => void;
   setRotationAngle: (val: number, preventUndo: boolean, elem?: SVGElement) => void;

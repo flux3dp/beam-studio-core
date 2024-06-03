@@ -2891,40 +2891,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     }
   };
 
-  // Function: setPaint
-  // Set a color/gradient to a fill/stroke
-  //
-  // Parameters:
-  // type - String with "fill" or "stroke"
-  // paint - The jGraduate paint object to apply
-  this.setPaint = function (type, paint) {
-    // make a copy
-    var p = new $.jGraduate.Paint(paint);
-    this.setPaintOpacity(type, p.alpha / 100, true);
-
-    // now set the current paint object
-    cur_properties[type + '_paint'] = p;
-    switch (p.type) {
-      case 'solidColor':
-        this.setColor(type, p.solidColor !== 'none' ? '#' + p.solidColor : 'none');
-        break;
-      case 'linearGradient':
-      case 'radialGradient':
-        canvas[type + 'Grad'] = p[p.type];
-        setGradient(type);
-        break;
-    }
-  };
-
-  // alias
-  this.setStrokePaint = function (paint) {
-    this.setPaint('stroke', paint);
-  };
-
-  this.setFillPaint = function (paint) {
-    this.setPaint('fill', paint);
-  };
-
   // Function: getStrokeWidth
   // Returns the current stroke-width value
   this.getStrokeWidth = function () {

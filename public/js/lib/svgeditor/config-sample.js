@@ -78,7 +78,6 @@ svgEditor.setConfig({
 	// imgPath: 'images/',
 	// langPath: 'locale/',
 	// extPath: 'extensions/',
-	// jGraduatePath: 'jgraduate/images/',
 	/*
 	Uncomment the following to allow at least same domain (embedded) access,
 	including file:// access.

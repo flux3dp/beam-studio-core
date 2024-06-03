@@ -34,7 +34,6 @@ export default interface ISVGConfig {
   imgPath?: string,
   langPath?: string,
   extPath?: string,
-  jGraduatePath?: string,
   // DOCUMENT PROPERTIES
   // Change the following to a preference (already in the Document Properties dialog)?
   dimensions?: number[],
