@@ -17,7 +17,7 @@ import { BBox, MeasureData, Points } from 'interfaces/ICurveEngraving';
 import rangeGenerator from './rangeGenerator';
 import styles from './MeasureArea.module.scss';
 
-const debugging = true;
+const debugging = false;
 
 enum Type {
   Amount = 1,
