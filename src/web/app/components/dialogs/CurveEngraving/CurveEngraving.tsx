@@ -46,6 +46,7 @@ const CurveEngraving = ({ data: initData, onRemeasure, onClose }: Props): JSX.El
     const { x, y, width, height } = bbox;
     const { dpmm } = constant;
     const canvasUrl = previewModeBackgroundDrawer.getCameraCanvasUrl();
+    if (!canvasUrl) return null;
     const i = new Image();
     await new Promise((resolve) => {
       i.onload = resolve;
@@ -67,7 +68,7 @@ const CurveEngraving = ({ data: initData, onRemeasure, onClose }: Props): JSX.El
     ctx.fillRect(0, 0, outCanvas.width, outCanvas.height);
     if (displayCamera) {
       const cameraImage = await cameraImagePromise;
-      ctx.drawImage(cameraImage, 0, 0);
+      if (cameraImage) ctx.drawImage(cameraImage, 0, 0);
     }
     if (displayCanvas) {
       const canvasImage = await canvasImagePromise;
