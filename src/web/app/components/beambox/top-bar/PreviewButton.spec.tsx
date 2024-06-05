@@ -50,6 +50,7 @@ jest.mock('app/contexts/CanvasContext', () => ({
     Draw: 1,
     Preview: 2,
     PathPreview: 3,
+    CurveEngraving: 4,
   },
 }));
 
@@ -64,6 +65,23 @@ describe('test PreviewButton', () => {
         value={
           {
             mode: 3,
+            changeToPreviewMode: mockChangeToPreviewMode,
+            setupPreviewMode: mockSetupPreviewMode,
+          } as any
+        }
+      >
+        <PreviewButton />
+      </CanvasContext.Provider>
+    );
+    expect(container).toMatchSnapshot();
+  });
+
+  test('when in curve engraving mode', () => {
+    const { container } = render(
+      <CanvasContext.Provider
+        value={
+          {
+            mode: 4,
             changeToPreviewMode: mockChangeToPreviewMode,
             setupPreviewMode: mockSetupPreviewMode,
           } as any
