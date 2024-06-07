@@ -139,13 +139,45 @@ const Plane = ({
     },
     [camera, scene, toggleSelectedIndex]
   );
-
   useEffect(() => {
     gl.domElement.addEventListener('pointerdown', handlePointerDown);
     return () => {
       gl.domElement.removeEventListener('pointerdown', handlePointerDown);
     };
   }, [gl.domElement, handlePointerDown]);
+
+  const handlePointerMove = useCallback(
+    (event: PointerEvent) => {
+      const { offsetX, offsetY } = event;
+      const canvas = event.target as HTMLCanvasElement;
+      const { offsetWidth, offsetHeight } = canvas;
+      const mouse = new THREE.Vector2();
+      mouse.x = (offsetX / offsetWidth) * 2 - 1;
+      mouse.y = -(offsetY / offsetHeight) * 2 + 1;
+
+      const raycaster = new THREE.Raycaster();
+      raycaster.setFromCamera(mouse, camera);
+
+      const intersects = raycaster.intersectObjects(scene.children, true);
+      if (intersects.length > 0) {
+        const intersected = intersects[0].object;
+        if (intersected.userData.isSphere) {
+          canvas.style.cursor = 'pointer';
+          return;
+        }
+      }
+      canvas.style.cursor = 'grab';
+    },
+    [camera, scene]
+  );
+
+
+  useEffect(() => {
+    gl.domElement.addEventListener('pointermove', handlePointerMove);
+    return () => {
+      gl.domElement.removeEventListener('pointermove', handlePointerMove);
+    };
+  }, [gl.domElement, handlePointerMove]);
 
   return (
     <>
