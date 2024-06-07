@@ -2,6 +2,7 @@ import * as React from 'react';
 import browser from 'implementations/browser';
 import Constant from 'app/actions/beambox/constant';
 import i18n from 'helpers/i18n';
+import isWeb from 'helpers/is-web';
 import { ITutorial } from 'interfaces/ITutorial';
 import {
   TopRef, RightRef, calculateTop, calculateRight,
@@ -33,7 +34,7 @@ const nextStepRequirements = {
   SEND_FILE: 'SEND_FILE',
 };
 
-const isMacOrWeb = window.os === 'MacOS' || window.FLUX.version === 'web';
+const isMacOrWeb = window.os === 'MacOS' || isWeb();
 const rightPanelInnerWidth = Constant.rightPanelWidth - Constant.rightPanelScrollBarWidth;
 
 const adjustFocusLinkClick = () => {

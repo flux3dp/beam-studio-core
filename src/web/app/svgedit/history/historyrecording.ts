@@ -7,7 +7,7 @@
  * Copyright(c) 2016 Flint O'Brien
  */
 
-import history from 'app/svgedit/history';
+import history from 'app/svgedit/history/history';
 import { IBatchCommand, ICommand, IUndoManager } from 'interfaces/IHistory';
 
 const { svgedit } = window;

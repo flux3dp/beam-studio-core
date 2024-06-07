@@ -5,7 +5,7 @@ import alertConfig from 'helpers/api/alert-config';
 import alertConstants from 'app/constants/alert-constants';
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
-import history from 'app/svgedit/history';
+import history from 'app/svgedit/history/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';

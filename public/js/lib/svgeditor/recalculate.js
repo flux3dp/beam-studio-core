@@ -106,9 +106,10 @@ svgedit.recalculate.recalculateDimensions = function(selected) {
         tlist.removeItem(k);
       }
     }
-    // End here if all it has is a rotation
-    if (tlist.numberOfItems === 1 &&
-        svgedit.utilities.getRotationAngle(selected) && selected.tagName !== 'text') {return null;}
+
+    if (selected.tagName !== 'text' && selected.tagName !== 'use') {
+      if (tlist.numberOfItems === 1 && svgedit.utilities.getRotationAngle(selected)) return null;
+    }
   }
 
   // if this element had no transforms, we are done

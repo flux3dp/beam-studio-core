@@ -1,9 +1,11 @@
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import constant from 'app/actions/beambox/constant';
+import history from 'app/svgedit/history/history';
 import i18n from 'helpers/i18n';
 import LayerModule from 'app/constants/layer-module/layer-modules';
 import NS from 'app/constants/namespaces';
 import presprayIconUrl from 'app/icons/prespray.svg?url';
+import undoManager from 'app/svgedit/history/undoManager';
 import workareaManager from 'app/svgedit/workarea';
 
 let presprayAreaBlock: SVGImageElement;
@@ -87,6 +89,17 @@ const drag = (dx: number, dy: number): void => {
   });
 };
 
+const endDrag = (): void => {
+  if (presprayAreaBlock) {
+    const cmd = new history.ChangeElementCommand(
+      presprayAreaBlock,
+      { x: startX, y: startY },
+      'Drag Prespray Area'
+    );
+    undoManager.addCommandToHistory(cmd);
+  }
+};
+
 export default {
   checkMouseTarget,
   drag,
@@ -94,4 +107,5 @@ export default {
   getPosition,
   startDrag,
   togglePresprayArea,
+  endDrag,
 };

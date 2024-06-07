@@ -70,7 +70,7 @@ jest.mock('app/actions/beambox/constant', () => ({
 }));
 
 const mockCreateBatchCommand = jest.fn();
-jest.mock('app/svgedit/HistoryCommandFactory', () => ({
+jest.mock('app/svgedit/history/HistoryCommandFactory', () => ({
   createBatchCommand: (...args) => mockCreateBatchCommand(...args),
 }));
 const mockAddSubCommand = jest.fn();

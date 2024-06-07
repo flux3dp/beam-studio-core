@@ -10,12 +10,11 @@ $(function () {'use strict';
     var frame;
 
     initEmbed = function () {
-        var doc, mainButton;
+        var doc;
         svgCanvas = new EmbeddedSVGEdit(frame);
         // Hide main button, as we will be controlling new, load, save, etc. from the host document
         doc = frame.contentDocument || frame.contentWindow.document;
-        mainButton = doc.getElementById('main_button');
-        mainButton.style.display = 'none';
+        doc.getElementById('main_button')?.style.display = 'none';
     };
 
     function handleSvgData(data, error) {

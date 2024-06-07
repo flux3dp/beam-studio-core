@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-import HistoryCommandFactory from 'app/svgedit/HistoryCommandFactory';
+import HistoryCommandFactory from 'app/svgedit/history/HistoryCommandFactory';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import OptionPanelIcons from 'app/icons/option-panel/OptionPanelIcons';
 import UnitInput from 'app/widgets/Unit-Input-v2';

@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import React, { memo, useContext, useMemo } from 'react';
 
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
-import history from 'app/svgedit/history';
+import history from 'app/svgedit/history/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import UnitInput from 'app/widgets/Unit-Input-v2';

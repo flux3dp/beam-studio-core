@@ -4,17 +4,14 @@ import dialog from 'implementations/dialog';
 import i18n from 'helpers/i18n';
 import ImageData from 'helpers/image-data';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
-import ISVGDrawing from 'interfaces/ISVGDrawing';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import { createLayer } from 'helpers/layer/layer-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgCanvas: ISVGCanvas;
-let svgedit: ISVGDrawing;
 let svgEditor;
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
-  svgedit = globalSVG.Edit;
   svgEditor = globalSVG.Editor;
 });
 const LANG = i18n.lang.beambox;
@@ -150,24 +147,24 @@ const funcs = {
   },
   // left panel
   useSelectTool(): void {
-    $('#tool_select').click();
+    svgEditor.clickSelect();
   },
   insertRectangle(): void {
     if (TutorialController.getNextStepRequirement() === TutorialConstants.SELECT_RECT) {
       TutorialController.handleNextStep();
     }
-    $('#tool_rect').mouseup();
+    svgCanvas.setMode('rect');
     setCrosshairCursor();
   },
   insertEllipse(): void {
     if (TutorialController.getNextStepRequirement() === TutorialConstants.SELECT_CIRCLE) {
       TutorialController.handleNextStep();
     }
-    $('#tool_ellipse').mouseup();
+    svgCanvas.setMode('ellipse');
     setCrosshairCursor();
   },
   insertPath(): void {
-    $('#tool_path').mouseup();
+    svgCanvas.setMode('path');
     setCrosshairCursor();
   },
   insertPolygon(): void {
@@ -179,11 +176,7 @@ const funcs = {
     setCrosshairCursor();
   },
   insertText(): void {
-    if (svgedit.browser.isTouch()) {
-      $('#tool_text').mousedown();
-    } else {
-      $('#tool_text').click();
-    }
+    svgCanvas.setMode('text');
     $('#workarea').css('cursor', 'text');
   },
 };

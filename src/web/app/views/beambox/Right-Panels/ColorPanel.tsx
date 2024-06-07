@@ -7,7 +7,7 @@ import ColorPickerMobile from 'app/widgets/ColorPickerMobile';
 import constant from 'app/actions/beambox/constant';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import FloatingPanel from 'app/widgets/FloatingPanel';
-import HistoryCommandFactory from 'app/svgedit/HistoryCommandFactory';
+import HistoryCommandFactory from 'app/svgedit/history/HistoryCommandFactory';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import OptionPanelIcons from 'app/icons/option-panel/OptionPanelIcons';
 import storage from 'implementations/storage';

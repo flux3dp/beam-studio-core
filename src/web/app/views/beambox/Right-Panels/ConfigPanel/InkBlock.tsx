@@ -4,7 +4,7 @@ import { Button, Popover } from 'antd-mobile';
 
 import ConfigPanelIcons from 'app/icons/config-panel/ConfigPanelIcons';
 import configOptions from 'app/constants/config-options';
-import history from 'app/svgedit/history';
+import history from 'app/svgedit/history/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import ObjectPanelIcons from 'app/icons/object-panel/ObjectPanelIcons';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';

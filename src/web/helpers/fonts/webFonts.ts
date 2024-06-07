@@ -1,3 +1,4 @@
+import isWeb from 'helpers/is-web';
 import { WebFont } from 'interfaces/IFont';
 
 const fonts: WebFont[] = [
@@ -1625,7 +1626,7 @@ const getAvailableFonts = (lang?: string): WebFont[] => {
       if (!font.supportLangs) return true;
       return font.supportLangs.includes(lang);
     });
-  if (window.FLUX.version !== 'web')
+  if (!isWeb())
     availableFonts = availableFonts.filter((font) => !font.fontkitError);
   return availableFonts;
 };

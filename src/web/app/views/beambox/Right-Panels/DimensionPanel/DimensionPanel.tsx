@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo } from 'react';
 import { ConfigProvider } from 'antd';
 
 import Constant from 'app/actions/beambox/constant';
-import HistoryCommandFactory from 'app/svgedit/HistoryCommandFactory';
+import HistoryCommandFactory from 'app/svgedit/history/HistoryCommandFactory';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import SymbolMaker from 'helpers/symbol-maker';
 import useForceUpdate from 'helpers/use-force-update';
@@ -103,14 +103,18 @@ const DimensionPanel = ({
   );
 
   const handleRotationChange = useCallback(
-    (val: number): void => {
+    (val: number, addToHistory = false): void => {
       let rotationDeg = val % 360;
       if (rotationDeg > 180) rotationDeg -= 360;
-      svgCanvas.setRotationAngle(rotationDeg, false, elem);
-      updateDimensionValues({ rotation: rotationDeg });
+      if (elem.getAttribute('data-tempgroup') === 'true' && !addToHistory) {
+        svgCanvas.setRotationAngle(rotationDeg, true, elem);
+        updateDimensionValues({ rotation: rotationDeg });
+      } else {
+        svgCanvas.setRotationAngle(rotationDeg, false, elem);
+      }
       forceUpdate();
     },
-    [elem, updateDimensionValues, forceUpdate]
+    [elem, forceUpdate, updateDimensionValues]
   );
 
   const changeSize = useCallback(

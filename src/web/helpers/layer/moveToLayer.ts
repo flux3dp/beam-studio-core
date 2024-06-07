@@ -1,5 +1,5 @@
-import HistoryCommandFactory from 'app/svgedit/HistoryCommandFactory';
-import history from 'app/svgedit/history';
+import HistoryCommandFactory from 'app/svgedit/history/HistoryCommandFactory';
+import history from 'app/svgedit/history/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import updateElementColor from 'helpers/color/updateElementColor';
 import { getSVGAsync } from 'helpers/svg-editor-helper';

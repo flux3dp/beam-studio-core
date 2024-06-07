@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { SyntheticEvent, useCallback, useEffect, useRef, useState } from 'react';
+import React, { SyntheticEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Button, Col, InputNumber, Modal, Row, Slider, Tooltip } from 'antd';
 
 import alertCaller from 'app/actions/alert-caller';
@@ -298,8 +298,20 @@ const SolvePnP = ({ params, dh, hasNext = false, onClose, onNext, onBack }: Prop
     }
   };
 
+  const positionText = useMemo(() => [
+    lang.calibration.align_olt,
+    lang.calibration.align_ort,
+    lang.calibration.align_olb,
+    lang.calibration.align_orb,
+    lang.calibration.align_ilt,
+    lang.calibration.align_irt,
+    lang.calibration.align_ilb,
+    lang.calibration.align_irb,
+  ][selectedPointIdx], [lang, selectedPointIdx]);
+
   return (
     <Modal
+      width="80vw"
       open
       centered
       onCancel={() => onClose(false)}
@@ -333,7 +345,7 @@ const SolvePnP = ({ params, dh, hasNext = false, onClose, onNext, onBack }: Prop
         <li>{lang.calibration.solve_pnp_step2}</li>
       </ol>
       <Row gutter={[16, 12]}>
-        <Col span={18}>
+        <Col span={16}>
           <div className={styles.container}>
             <div
               ref={imgContainerRef}
@@ -390,10 +402,11 @@ const SolvePnP = ({ params, dh, hasNext = false, onClose, onNext, onBack }: Prop
             </div>
           </div>
         </Col>
-        <Col span={6}>
+        <Col span={8}>
           {selectedPointIdx >= 0 && points[selectedPointIdx] && (
             <Row gutter={[0, 12]} align="middle">
-              <Col span={24}>Point #{selectedPointIdx}</Col>
+              <Col span={24} className={styles['point-id']}>Point #{selectedPointIdx}</Col>
+              <Col span={24}>{positionText}</Col>
               <Col span={4}>X</Col>
               <Col span={20}>
                 <InputNumber<number>
@@ -431,7 +444,7 @@ const SolvePnP = ({ params, dh, hasNext = false, onClose, onNext, onBack }: Prop
         </Col>
         {exposureSetting && (
           <>
-            <Col span={18}>
+            <Col span={16}>
               <div className={styles['slider-container']}>
                 <Tooltip title={lang.editor.exposure}>
                   <WorkareaIcons.Exposure className={styles.icon} />
@@ -463,7 +476,7 @@ const SolvePnP = ({ params, dh, hasNext = false, onClose, onNext, onBack }: Prop
                 />
               </div>
             </Col>
-            <Col span={6}>
+            <Col span={8}>
               <div className={styles.value}>{exposureSetting.value}</div>
             </Col>
           </>

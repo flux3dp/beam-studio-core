@@ -1,9 +1,10 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Button } from 'antd';
 
 import constant from 'app/actions/beambox/constant';
 import FloatingPanel from 'app/widgets/FloatingPanel';
+import isWeb from 'helpers/is-web';
 import TopBarIcons from 'app/icons/top-bar/TopBarIcons';
 import useI18n from 'helpers/useI18n';
 import { BoxgenProvider } from 'app/contexts/BoxgenContext';
@@ -19,6 +20,7 @@ import styles from './Boxgen.module.scss';
 const Boxgen = ({ onClose }: { onClose?: () => void }): JSX.Element => {
   const lang = useI18n().boxgen;
   const isMobile = useIsMobile();
+  const web = useMemo(() => isWeb(), []);
 
   return (
     <BoxgenProvider onClose={onClose}>
@@ -26,7 +28,7 @@ const Boxgen = ({ onClose }: { onClose?: () => void }): JSX.Element => {
         <FloatingPanel
           className={classNames(styles.boxgen, {
             [styles.windows]: window.os === 'Windows',
-            [styles.desktop]: window.FLUX.version !== 'web',
+            [styles.desktop]: !web,
           })}
           anchors={[0, window.innerHeight - constant.titlebarHeight]}
           title={lang.title}
@@ -50,7 +52,7 @@ const Boxgen = ({ onClose }: { onClose?: () => void }): JSX.Element => {
         <div
           className={classNames(styles.boxgen, {
             [styles.windows]: window.os === 'Windows',
-            [styles.desktop]: window.FLUX.version !== 'web',
+            [styles.desktop]: !web,
           })}
         >
           <div className={styles.sider}>

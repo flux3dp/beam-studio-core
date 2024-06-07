@@ -50,14 +50,17 @@ export default interface ISVGCanvas {
   deleteSelectedElements: () => void;
   drawAlignLine: (x: number, y: number, xMatchPoint: IPoint, yMatchPoint: IPoint) => void;
   drawing: ISVGDrawing;
-  embedImage(url: string, callback: (dataURI: string) => void): void;
+  embedImage(url: string, callback?: (dataURI: string) => void): void;
   events: EventEmitter;
   findMatchPoint: (x: number, y: number) => { xMatchPoint: IPoint; yMatchPoint: IPoint };
   getVisibleElementsAndBBoxes: () => { elem: Element; bbox: IRect }[];
   getColor: (key: string) => string;
+  getContentElem: () => SVGGElement;
+  setContentElem: (content: Element) => void;
   getContainer: () => SVGElement;
   getCurrentConfig: () => ISVGConfig;
   getCurrentDrawing: () => ISVGDrawing;
+  resetCurrentDrawing: (content?: Element) => void;
   getCurrentGroup: () => SVGGElement;
   getCurrentMode: () => string;
   getCurrentResizeMode: () => string;
@@ -172,4 +175,7 @@ export default interface ISVGCanvas {
     setSelectedElements: (elems: SVGElement[]) => void;
     setStartTransform: (transform: any) => void;
   };
+  uniquifyElems: (elem: SVGElement) => void;
+  groupSvgElem: (elem: SVGElement) => void;
+  convertGradients: (elem: Element) => void;
 }

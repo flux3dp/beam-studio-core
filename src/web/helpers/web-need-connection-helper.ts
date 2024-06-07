@@ -2,12 +2,13 @@ import alertCaller from 'app/actions/alert-caller';
 import alertConstants from 'app/constants/alert-constants';
 import fileExportHelper from 'helpers/file-export-helper';
 import i18n from 'helpers/i18n';
+import isWeb from 'helpers/is-web';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 
 import { checkConnection } from 'helpers/api/discover';
 
 const webNeedConnectionWrapper = <T>(callback: () => T | Promise<T>): T | Promise<T> => {
-  if (window.FLUX.version === 'web' && !checkConnection()) {
+  if (isWeb() && !checkConnection()) {
     alertCaller.popUp({
       caption: i18n.lang.alert.oops,
       message: i18n.lang.device_selection.no_device_web,

@@ -1566,7 +1566,14 @@ export interface ILang {
     solve_pnp_title: string;
     solve_pnp_step1: string;
     solve_pnp_step2: string;
-    solve_pnp_step3: string;
+    align_olt: string;
+    align_ort: string;
+    align_olb: string;
+    align_orb: string;
+    align_ilt: string;
+    align_irt: string;
+    align_ilb: string;
+    align_irb: string;
     elevate_and_cut: string;
     elevate_and_cut_step_1: string;
     elevate_and_cut_step_1_prism_lift: string;
@@ -1756,5 +1763,11 @@ export interface ILang {
     uploading_data: string;
     download_success: string;
     upload_success: string;
+  };
+  insecure_websocket: {
+    extension_detected: string;
+    extension_detected_description: string;
+    extension_not_deteced: string;
+    extension_not_deteced_description: string;
   };
 }

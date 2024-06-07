@@ -61,7 +61,7 @@ jest.mock('helpers/svg-editor-helper', () => ({
 
 const mockBatchCommand = { addSubCommand: jest.fn() };
 const mockCreateBatchCommand = jest.fn().mockImplementation(() => mockBatchCommand);
-jest.mock('app/svgedit/HistoryCommandFactory', () => ({
+jest.mock('app/svgedit/history/HistoryCommandFactory', () => ({
   createBatchCommand: (...args) => mockCreateBatchCommand(...args),
 }));
 

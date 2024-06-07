@@ -138,12 +138,10 @@ extensions/ext-foreignobject.js
 extensions/ext-helloworld.js
 extensions/ext-imagelib.js
 extensions/ext-markers.js
-extensions/ext-mathjax.js
 extensions/ext-overview_window.js
 extensions/ext-panning.js
 extensions/ext-polygon.js
 extensions/ext-star.js
 extensions/ext-storage.js
-extensions/ext-webappfind.js
 extensions/ext-xdomain-messaging.js
 

@@ -1,29 +1,30 @@
 /* eslint-disable no-case-declarations */
+import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import clipboard from 'app/svgedit/operations/clipboard';
 import constant from 'app/actions/beambox/constant';
 import createNewText from 'app/svgedit/text/createNewText';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
-import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
-import presprayArea from 'app/actions/canvas/prespray-area';
-import history from 'app/svgedit/history';
-import selector from 'app/svgedit/selector';
-import * as LayerHelper from 'helpers/layer/layer-helper';
-import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import history from 'app/svgedit/history/history';
+import ISVGCanvas from 'interfaces/ISVGCanvas';
+import isWeb from 'helpers/is-web';
 import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
-import TopBarController from 'app/views/beambox/TopBar/contexts/TopBarController';
-import * as TutorialController from 'app/views/tutorials/tutorialController';
-import TutorialConstants from 'app/constants/tutorial-constants';
-import clipboard from 'app/svgedit/operations/clipboard';
-import TopBarHintsController from 'app/views/beambox/TopBar/contexts/TopBarHintsController';
-import touchEvents from 'app/svgedit/touchEvents';
-import textEdit from 'app/svgedit/text/textedit';
+import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
+import presprayArea from 'app/actions/canvas/prespray-area';
+import rotaryAxis from 'app/actions/canvas/rotary-axis';
 import SymbolMaker from 'helpers/symbol-maker';
+import selector from 'app/svgedit/selector';
+import TopBarController from 'app/views/beambox/TopBar/contexts/TopBarController';
+import TopBarHintsController from 'app/views/beambox/TopBar/contexts/TopBarHintsController';
+import TutorialConstants from 'app/constants/tutorial-constants';
+import textEdit from 'app/svgedit/text/textedit';
+import touchEvents from 'app/svgedit/touchEvents';
 import updateElementColor from 'helpers/color/updateElementColor';
-import ISVGCanvas from 'interfaces/ISVGCanvas';
+import workareaManager from 'app/svgedit/workarea';
+import * as LayerHelper from 'helpers/layer/layer-helper';
+import * as TutorialController from 'app/views/tutorials/tutorialController';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { MouseButtons } from 'app/constants/mouse-constants';
-import rotaryAxis from 'app/actions/canvas/rotary-axis';
-import workareaManager from 'app/svgedit/workarea';
 
 let svgEditor;
 let svgCanvas: ISVGCanvas;
@@ -43,6 +44,7 @@ const SENSOR_AREA_RADIUS = 10;
 let newDPath = null;
 let startX = null;
 let startY = null;
+let moved = false;
 let initBBox = {};
 
 let startMouseX = null;
@@ -199,6 +201,7 @@ const mouseDown = (evt: MouseEvent) => {
   let { x, y } = pt;
   startMouseX = x * zoom;
   startMouseY = y * zoom;
+  moved = false;
   const realX = x; // realX/Y ignores grid-snap value
   const realY = y;
 
@@ -346,6 +349,7 @@ const mouseDown = (evt: MouseEvent) => {
           if (!rightClick) {
             if (evt.altKey) {
               const cmd = clipboard.cloneSelectedElements(0, 0, true);
+              selectedElements = svgCanvas.getSelectedElems();
               if (cmd && !cmd.isEmpty()) {
                 mouseSelectModeCmds.push(cmd);
               }
@@ -586,11 +590,6 @@ const mouseDown = (evt: MouseEvent) => {
       // we are starting an undoable change (a drag-rotation)
       if (!svgCanvas.getTempGroup()) {
         svgCanvas.undoMgr.beginUndoableChange('transform', selectedElements);
-      } else {
-        svgCanvas.undoMgr.beginUndoableChange(
-          'transform',
-          Array.from(svgCanvas.getTempGroup().childNodes as unknown as SVGElement[])
-        );
       }
       break;
     case 'drag-prespray-area':
@@ -601,6 +600,7 @@ const mouseDown = (evt: MouseEvent) => {
     case 'drag-rotary-axis':
       svgCanvas.unsafeAccess.setStarted(true);
       svgCanvas.clearSelection();
+      rotaryAxis.mouseDown();
       break;
     default:
       // This could occur in an extension
@@ -749,13 +749,7 @@ const onResizeMouseMove = (evt: MouseEvent, selected: SVGElement, x, y) => {
       }
       break;
     case 'text':
-      // This is a bad hack because vector-effect
-      // seems not working when resize text, but work after receiving new stroke width value
-      if (selected.getAttribute('stroke-width') === '2') {
-        selected.setAttribute('stroke-width', '2.01');
-      } else {
-        selected.setAttribute('stroke-width', '2');
-      }
+      selected.setAttribute('stroke-width', '2');
       break;
     default:
       break;
@@ -925,7 +919,7 @@ const mouseMove = (evt: MouseEvent) => {
               });
             }
           }
-
+          moved = true;
           svgCanvas.call('transition', selectedElements);
         }
       }
@@ -1303,7 +1297,7 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
           if (selected.tagName === 'text') {
             const curText = textEdit.getCurText();
             curText.font_size = selected.getAttribute('font-size');
-            if (window.os === 'MacOS' && window.FLUX.version !== 'web') {
+            if (window.os === 'MacOS' && !isWeb()) {
               curText.font_family = selected.getAttribute('data-font-family');
             } else {
               curText.font_family = selected.getAttribute('font-family');
@@ -1325,12 +1319,15 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
         // always recalculate dimensions to strip off stray identity transforms
         const cmd = svgCanvas.recalculateAllSelectedDimensions(true);
         if (cmd && !cmd.isEmpty()) {
-          mouseSelectModeCmds.push(cmd);
+          const noRedo = currentMode === 'multiselect' || (currentMode === 'select' && !moved);
+          if (!noRedo) {
+            mouseSelectModeCmds.push(cmd);
+          }
         }
         // if it was being dragged/resized
         if (mouseX !== startMouseX || mouseY !== startMouseY) {
-          let i; const
-            len = selectedElements.length;
+          let i;
+          const len = selectedElements.length;
           if (currentMode === 'resize') {
             const allSelectedUses = [];
             selectedElements.forEach((e) => {
@@ -1552,18 +1549,25 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
       element = null;
       svgCanvas.unsafeAccess.setCurrentMode('select');
       drawingToolEventEmitter.emit('SET_ACTIVE_BUTTON', 'Cursor');
-      const batchCmd = svgCanvas.undoMgr.finishUndoableChange();
-      if (!batchCmd.isEmpty()) {
-        svgCanvas.addCommandToHistory(batchCmd);
+      const batchCmd = new history.BatchCommand('Rotate Elements');
+      const tempGroup = svgCanvas.getTempGroup();
+      if (tempGroup) {
+        const cmd = svgCanvas.pushGroupProperties(tempGroup, true);
+        if (cmd && !cmd.isEmpty()) batchCmd.addSubCommand(cmd);
+      } else {
+        const cmd = svgCanvas.undoMgr.finishUndoableChange();
+        if (cmd && !cmd.isEmpty()) batchCmd.addSubCommand(cmd);
       }
+      if (!batchCmd.isEmpty()) svgCanvas.addCommandToHistory(batchCmd);
       // perform recalculation to weed out any stray identity transforms that might get stuck
-      svgCanvas.recalculateAllSelectedDimensions();
+      svgCanvas.recalculateAllSelectedDimensions(true);
       svgCanvas.call('changed', selectedElements);
       break;
     case 'drag-prespray-area':
       keep = true;
       element = null;
       svgCanvas.setMode('select');
+      presprayArea.endDrag();
       break;
     case 'drag-rotary-axis':
       keep = true;
@@ -1855,7 +1859,7 @@ const registerEvents = () => {
   svgCanvas.getContainer().addEventListener('mouseenter', mouseEnter);
   svgCanvas.getContainer().addEventListener('dblclick', dblClick);
 
-  if (window.FLUX.version === 'web') {
+  if (isWeb()) {
     const onWindowScroll = (e) => {
       if (e.ctrlKey) e.preventDefault();
     };

@@ -2,6 +2,7 @@ import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import getUtilWS from 'helpers/api/utils-ws';
 import i18n from 'helpers/i18n';
 import isFluxPlusActive from 'helpers/is-flux-plus-active';
+import isWeb from 'helpers/is-web';
 import localFontHelper from 'implementations/localFontHelper';
 import progressCaller from 'app/actions/progress-caller';
 import { FontDescriptor, FontDescriptorKeys, FontHelper, WebFont } from 'interfaces/IFont';
@@ -123,7 +124,7 @@ export default {
     return localFontHelper.getFontName(font) || font.family;
   },
   async getWebFontAndUpload(postscriptName: string) {
-    if (window.FLUX.version !== 'web') return true;
+    if (!isWeb()) return true;
     const utilWS = getUtilWS();
     const font = availableFonts.find((f) => f.postscriptName === postscriptName) as WebFont;
     const fileName = font?.fileName || `${postscriptName}.ttf`;
@@ -215,7 +216,7 @@ export default {
   applyMonotypeStyle: monotypeFonts.applyStyle,
   getMonotypeUrl: monotypeFonts.getUrlWithToken,
   usePostscriptAsFamily: (font?: FontDescriptor | string) => {
-    if (window.os !== 'MacOS' || window.FLUX.version === 'web' || !font) return false;
+    if (window.os !== 'MacOS' || isWeb() || !font) return false;
     const currentFont =
       typeof font === 'string' ? availableFonts?.find((f) => f.postscriptName === font) : font;
     if (currentFont) return 'path' in currentFont;

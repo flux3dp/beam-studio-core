@@ -102,7 +102,7 @@ const mockForceUpdate = jest.fn();
 jest.mock('helpers/use-force-update', () => () => mockForceUpdate);
 
 const mockCreateBatchCommand = jest.fn();
-jest.mock('app/svgedit/HistoryCommandFactory', () => ({
+jest.mock('app/svgedit/history/HistoryCommandFactory', () => ({
   createBatchCommand: (...args) => mockCreateBatchCommand(...args),
 }));
 
@@ -250,10 +250,6 @@ describe('test DimensionPanel', () => {
     fireEvent.click(getByText('rotation'));
     expect(mockSetRotationAngle).toHaveBeenCalledTimes(1);
     expect(mockSetRotationAngle).toHaveBeenNthCalledWith(1, -80, false, mockImage);
-    expect(mockUpdateDimensionValues).toHaveBeenCalledTimes(1);
-    expect(mockUpdateDimensionValues).toHaveBeenNthCalledWith(1, {
-      rotation: -80,
-    });
     expect(mockForceUpdate).toHaveBeenCalledTimes(1);
   });
 

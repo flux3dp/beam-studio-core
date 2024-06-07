@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import fs from 'implementations/fileSystem';
+import isWeb from 'helpers/is-web';
 import storage from 'implementations/storage';
 import { generateBeamBuffer } from 'helpers/file-export-helper';
 import { IConfig } from 'interfaces/IAutosave';
@@ -101,7 +102,7 @@ const stopAutoSave = (): void => {
 };
 
 const toggleAutoSave = (start = false): void => {
-  if (window.FLUX.version === 'web') return;
+  if (isWeb()) return;
   if (start) {
     const config = getConfig();
     const { enabled } = config;

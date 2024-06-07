@@ -17,6 +17,7 @@ import useI18n from 'helpers/useI18n';
 import { axiosFluxId, getDefaultHeader, ResponseWithError } from 'helpers/api/flux-id';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IFile } from 'interfaces/IMyCloud';
+import { showFluxPlusWarning } from 'app/actions/dialog-controller';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => {
@@ -111,7 +112,7 @@ export function MyCloudProvider({ children, onClose }: MyCloudProviderProps): JS
       if (status !== 'error') return true;
       if (info === 'NOT_SUBSCRIBED') {
         onClose();
-        dialogCaller.showFluxPlusWarning();
+        showFluxPlusWarning();
         return false;
       }
       Alert.popUpError({ caption: info, message });

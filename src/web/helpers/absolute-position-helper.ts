@@ -1,6 +1,7 @@
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import Constant from 'app/actions/beambox/constant';
 import isDev from 'helpers/is-dev';
+import isWeb from 'helpers/is-web';
 import { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 
 export enum TopRef {
@@ -17,7 +18,7 @@ export enum RightRef {
   PATH_PREVIEW_BTN = 3,
 }
 
-const isMacOrWeb = window.os === 'MacOS' || window.FLUX.version === 'web';
+const isMacOrWeb = window.os === 'MacOS' || isWeb();
 
 export const calculateTop = (top: number, ref: TopRef = TopRef.WINDOW): number => {
   switch (ref) {

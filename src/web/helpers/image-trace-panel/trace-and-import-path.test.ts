@@ -34,7 +34,7 @@ const mockBatchCommand = jest.fn();
 mockBatchCommand.mockImplementation(() => ({
   addSubCommand: mockAddSubCommand,
 }));
-jest.mock('app/svgedit/history', () => ({
+jest.mock('app/svgedit/history/history', () => ({
   InsertElementCommand: function InsertElementCommand(...args) {
     return mockInsertElementCommand(...args);
   },

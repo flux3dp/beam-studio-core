@@ -1,5 +1,5 @@
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
-import history from 'app/svgedit/history';
+import history from 'app/svgedit/history/history';
 import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import layerModuleHelper from 'helpers/layer-module/layer-module-helper';
 import storage from 'implementations/storage';

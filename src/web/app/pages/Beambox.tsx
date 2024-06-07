@@ -14,9 +14,9 @@ import PreviewSlider from 'app/components/beambox/PreviewSlider';
 import RightPanel from 'app/components/beambox/right-panel/RightPanel';
 import sentryHelper from 'helpers/sentry-helper';
 import SvgEditor from 'app/components/beambox/SvgEditor';
-import svgEditor from 'app/actions/beambox/svg-editor';
 import TimeEstimationButton from 'app/components/beambox/TimeEstimationButton';
 import TopBar from 'app/components/beambox/top-bar/TopBar';
+import workareaManager from 'app/svgedit/workarea';
 import { CanvasProvider } from 'app/contexts/CanvasContext';
 import { LayerPanelContextProvider } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
 import { SelectedElementContextProvider } from 'app/contexts/SelectedElementContext';
@@ -33,11 +33,11 @@ const Beambox = (): JSX.Element => {
 
     communicator.send('FRONTEND_READY');
     // Init view
-    svgEditor.resetView();
+    workareaManager.resetView();
     beamboxInit.showStartUpDialogs();
     openFileHelper.loadOpenFile();
     if (BeamboxPreference.read('zoom_with_window')) {
-      window.addEventListener('resize', svgEditor.resetView);
+      window.addEventListener('resize', workareaManager.resetView);
     }
 
     return () => {

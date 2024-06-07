@@ -82,15 +82,15 @@ const onMessage = (device) => {
 };
 const poke = (targetIP: string) => {
   if (!targetIP) return;
-  ws.send(JSON.stringify({ cmd: 'poke', ipaddr: targetIP }));
+  ws?.send(JSON.stringify({ cmd: 'poke', ipaddr: targetIP }));
 };
 const pokeTcp = (targetIP: string) => {
   if (!targetIP) return;
-  ws.send(JSON.stringify({ cmd: 'poketcp', ipaddr: targetIP }));
+  ws?.send(JSON.stringify({ cmd: 'poketcp', ipaddr: targetIP }));
 };
 const testTcp = (targetIP: string) => {
   if (!targetIP) return;
-  ws.send(JSON.stringify({ cmd: 'testtcp', ipaddr: targetIP }));
+  ws?.send(JSON.stringify({ cmd: 'testtcp', ipaddr: targetIP }));
 };
 
 const pokeIPAddr = storage.get('poke-ip-addr');
@@ -198,6 +198,6 @@ const initSmartUpnp = async () => {
 };
 initSmartUpnp();
 
-export const checkConnection = (): boolean => ws.currentState === ws.readyState.OPEN;
+export const checkConnection = (): boolean => ws?.currentState === ws?.readyState.OPEN;
 
 export default Discover;

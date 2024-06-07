@@ -2,7 +2,7 @@ import React, { useContext, useMemo, useState } from 'react';
 import { Button, Form, InputNumber, Modal, Pagination, Switch } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 
-import HistoryCommandFactory from 'app/svgedit/HistoryCommandFactory';
+import HistoryCommandFactory from 'app/svgedit/history/HistoryCommandFactory';
 import importSvgString from 'app/svgedit/operations/import/importSvgString';
 import ISVGLayer from 'interfaces/ISVGLayer';
 import useI18n from 'helpers/useI18n';

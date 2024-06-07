@@ -64,11 +64,10 @@ export default class Workarea extends React.PureComponent<{ className: string },
   }
 
   private updateContextMenu = (newValues) => {
-    const newState = {
-      ...this.state,
+    this.setState((prev) => ({
+      ...prev,
       ...newValues,
-    };
-    this.setState(newState);
+    }));
   };
 
   renderLayerSubMenu = (): JSX.Element => {

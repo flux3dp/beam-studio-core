@@ -10,14 +10,14 @@ const setElementsColor = (elements: Element[], color: string, isFullColor = fals
     ...elements,
   ];
   let svgByColor = 0;
-  let svgByLayer = false;
+  let isWireFrame = false;
   const promises = [];
   while (descendants.length > 0) {
     const elem = descendants.pop();
     if (elem === endByColorSymbol) {
       svgByColor -= 1;
     } else if (elem === endByLayerSymbol) {
-      svgByLayer = false;
+      isWireFrame = false;
     } else {
       const attrStroke = elem.getAttribute('stroke');
       const attrFill = elem.getAttribute('fill');
@@ -26,10 +26,10 @@ const setElementsColor = (elements: Element[], color: string, isFullColor = fals
           // remove stroke for self drawn elements, set stroke color for imported elements
           elem.removeAttribute('stroke-width');
           elem.setAttribute('vector-effect', 'non-scaling-stroke');
-          if (((svgByLayer && svgByColor === 0) || attrStroke) && attrStroke !== 'none') {
+          if (((isWireFrame && svgByColor === 0) || attrStroke) && attrStroke !== 'none') {
             elem.setAttribute('stroke', color);
           }
-          if (attrFill !== 'none') {
+          if (attrFill !== 'none' && !isWireFrame) {
             elem.setAttribute('fill', color);
             elem.setAttribute('fill-opacity', '1');
           }
@@ -57,7 +57,7 @@ const setElementsColor = (elements: Element[], color: string, isFullColor = fals
       } else if (elem.tagName === 'use') {
         if (elem.getAttribute('data-wireframe')) {
           descendants.push(endByLayerSymbol);
-          svgByLayer = true;
+          isWireFrame = true;
         }
         descendants.push(...(elem.childNodes as unknown as Element[]));
         const href = $(elem).attr('href') || $(elem).attr('xlink:href');

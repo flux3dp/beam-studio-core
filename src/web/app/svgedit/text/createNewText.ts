@@ -1,6 +1,6 @@
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import fontHelper from 'helpers/fonts/fontHelper';
-import history from 'app/svgedit/history';
+import history from 'app/svgedit/history/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import textEdit from 'app/svgedit/text/textedit';
 import updateElementColor from 'helpers/color/updateElementColor';

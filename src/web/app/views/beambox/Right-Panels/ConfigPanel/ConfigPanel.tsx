@@ -18,7 +18,7 @@ import ColorBlock from 'app/components/beambox/right-panel/ColorBlock';
 import dialogCaller from 'app/actions/dialog-caller';
 import diodeBoundaryDrawer from 'app/actions/canvas/diode-boundary-drawer';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
-import history from 'app/svgedit/history';
+import history from 'app/svgedit/history/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import i18n from 'helpers/i18n';
 import isDev from 'helpers/is-dev';

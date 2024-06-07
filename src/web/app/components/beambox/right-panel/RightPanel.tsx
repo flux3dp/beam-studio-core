@@ -2,6 +2,7 @@ import React, { memo, useCallback, useContext, useEffect, useRef, useState } fro
 import classNames from 'classnames';
 
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
+import isWeb from 'helpers/is-web';
 import LayerPanel from 'app/components/beambox/right-panel/LayerPanel';
 import ObjectPanel from 'app/views/beambox/Right-Panels/ObjectPanel';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
@@ -79,7 +80,7 @@ const RightPanel = (): JSX.Element => {
   }, [panelType, isPathEditing]);
 
   const sideClass = classNames(styles.sidepanels, {
-    [styles.short]: window.os === 'Windows' && window.FLUX.version !== 'web',
+    [styles.short]: window.os === 'Windows' && !isWeb(),
     [styles.wide]: window.os !== 'MacOS',
   });
   return (

@@ -3,7 +3,7 @@
 import alertCaller from 'app/actions/alert-caller';
 import alertConstants from 'app/constants/alert-constants';
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
-import history from 'app/svgedit/history';
+import history from 'app/svgedit/history/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import i18n from 'helpers/i18n';
 import progressCaller from 'app/actions/progress-caller';
@@ -53,7 +53,7 @@ const offsetElements = async (
   if (dir === 0) dist *= -1;
   let isContainNotSupportTag = false;
   const ClipperLib = getClipperLib();
-  const co = new ClipperBase('offset', 2, 0.25);
+  const co = new ClipperBase('offset', 5, 0.25);
   for (let i = 0; i < elems.length; i += 1) {
     const elem = elems[i];
     if (!elem) {

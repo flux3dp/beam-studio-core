@@ -1,6 +1,7 @@
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import grid from 'app/actions/canvas/grid';
 import updateLayerColor from 'helpers/color/updateLayerColor';
+import workareaManager from 'app/svgedit/workarea';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgCanvas;
@@ -46,13 +47,13 @@ const toggleRulers = (): boolean => {
 };
 
 const toggleZoomWithWindow = (): boolean => {
-  svgEditor.resetView();
+  workareaManager.resetView();
   const zoomWithWindow = !BeamboxPreference.read('zoom_with_window');
   if (zoomWithWindow) {
-    window.removeEventListener('resize', svgEditor.resetView);
-    window.addEventListener('resize', svgEditor.resetView);
+    window.removeEventListener('resize', workareaManager.resetView);
+    window.addEventListener('resize', workareaManager.resetView);
   } else {
-    window.removeEventListener('resize', svgEditor.resetView);
+    window.removeEventListener('resize', workareaManager.resetView);
   }
   BeamboxPreference.write('zoom_with_window', zoomWithWindow);
   return zoomWithWindow;

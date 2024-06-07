@@ -32,7 +32,7 @@ const mockBatchCmd = {
   addSubCommand: jest.fn(),
   isEmpty: jest.fn(),
 };
-jest.mock('app/svgedit/HistoryCommandFactory', () => ({
+jest.mock('app/svgedit/history/HistoryCommandFactory', () => ({
   createBatchCommand: (...args) => mockCreateBatchCommand(...args),
 }));
 

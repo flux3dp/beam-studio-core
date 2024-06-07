@@ -1,5 +1,5 @@
 import appendUseElement from 'app/svgedit/operations/import/appendUseElement';
-import history from 'app/svgedit/history';
+import history from 'app/svgedit/history/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import LayerModule from 'app/constants/layer-module/layer-modules';
 import layerModuleHelper from 'helpers/layer-module/layer-module-helper';

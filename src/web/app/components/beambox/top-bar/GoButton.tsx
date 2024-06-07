@@ -14,6 +14,7 @@ import Dialog from 'app/actions/dialog-caller';
 import ExportFuncs from 'app/actions/beambox/export-funcs';
 import getDevice from 'helpers/device/get-device';
 import isDev from 'helpers/is-dev';
+import isWeb from 'helpers/is-web';
 import LayerModules, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import SymbolMaker from 'helpers/symbol-maker';
 import storage from 'implementations/storage';
@@ -276,7 +277,7 @@ const GoButton = (props: Props): JSX.Element => {
       exportTask(device);
     };
 
-    if (window.FLUX.version === 'web' && navigator.language !== 'da')
+    if (isWeb() && navigator.language !== 'da')
       Dialog.forceLoginWrapper(handleExport);
     else handleExport();
   };

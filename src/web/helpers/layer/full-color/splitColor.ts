@@ -74,7 +74,7 @@ const handleRgb = async (
 // TODO: add unit test
 const splitColor = async (
   rgbBlob: Blob,
-  cmykBlob: Blob,
+  cmykBlob: { c: Blob; m: Blob; y: Blob; k: Blob } | null,
   opts: {
     includeWhite?: boolean;
   } = {}
@@ -127,34 +127,31 @@ const splitColor = async (
   }
 
   if (cmykBlob) {
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    await new Promise<void>((resolve) => {
-      const url = URL.createObjectURL(cmykBlob);
-      const img = new Image();
-      img.onload = () => {
-        canvas.width = img.width;
-        canvas.height = img.height;
-        ctx.drawImage(img, 0, 0);
-        resolve();
-        URL.revokeObjectURL(url);
-      };
-      img.src = url;
-    });
-    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-    const { data } = imageData;
-    for (let i = 0; i < data.length; i += 4) {
-      const r = data[i];
-      const g = data[i + 1];
-      const b = data[i + 2];
-      const a = data[i + 3];
-      let kValue = 255 - Math.max(r, g, b);
-      const cValue = Math.round(255 - r - kValue);
-      const mValue = Math.round(255 - g - kValue);
-      const yValue = Math.round(255 - b - kValue);
-      kValue = Math.round(kValue);
-      // invert color because we print black part
-      const colors = [255 - kValue, 255 - cValue, 255 - mValue, 255 - yValue];
+    const readBlob = async (blob: Blob): Promise<Uint8ClampedArray> => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      await new Promise<void>((resolve) => {
+        const img = new Image();
+        img.onload = () => {
+          canvas.width = img.width;
+          canvas.height = img.height;
+          ctx.drawImage(img, 0, 0);
+          resolve();
+        };
+        img.src = URL.createObjectURL(blob);
+      });
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      return new Uint8ClampedArray(imageData.data);
+    };
+    const [cData, mData, yData, kData] = await Promise.all([
+      readBlob(cmykBlob.c),
+      readBlob(cmykBlob.m),
+      readBlob(cmykBlob.y),
+      readBlob(cmykBlob.k),
+    ]);
+    for (let i = 0; i < cData.length; i += 4) {
+      const a = Math.max(cData[i + 3], mData[i + 3], yData[i + 3], kData[i + 3]);
+      const colors = [kData[i], cData[i], mData[i], yData[i]];
       let hasColor = false;
       for (let j = 0; j < colors.length; j += 1) {
         if (a !== 0 && colors[j] !== 255) {

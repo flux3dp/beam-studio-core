@@ -6,7 +6,7 @@ import ActionPanelIcons from 'app/icons/action-panel/ActionPanelIcons';
 import calculateBase64 from 'helpers/image-edit-panel/calculate-base64';
 import Constants from 'app/actions/beambox/constant';
 import CurveControl from 'app/widgets/Curve-Control';
-import history from 'app/svgedit/history';
+import history from 'app/svgedit/history/history';
 import i18n from 'helpers/i18n';
 import imageProcessor from 'implementations/imageProcessor';
 import jimpHelper from 'helpers/jimp-helper';

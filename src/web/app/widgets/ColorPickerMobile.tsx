@@ -4,6 +4,7 @@ import { Color } from 'antd/es/color-picker';
 import { ColorPicker, Button, Input, Popover } from 'antd';
 
 import ColorBlock from 'app/components/beambox/right-panel/ColorBlock';
+import isWeb from 'helpers/is-web';
 import useI18n from 'helpers/useI18n';
 
 import styles from './ColorPicker.module.scss';
@@ -18,7 +19,7 @@ interface Props {
 const getDisplayValue = (c: string) =>
   !c || c === 'none' ? '00000000' : c.replace('#', '').toUpperCase();
 const isHex = (c: string) => c && c.match(/^[A-Fa-f0-9]{6}$/);
-const isWhiteTopBar = window.os !== 'MacOS' && window.FLUX.version !== 'web';
+const isWhiteTopBar = window.os !== 'MacOS' && !isWeb();
 
 const ColorPickerMobile = ({ color, onChange, open, onClose }: Props): JSX.Element => {
   const lang = useI18n().alert;

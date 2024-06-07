@@ -3,6 +3,7 @@ import React from 'react';
 import browser from 'implementations/browser';
 import changelog from 'implementations/changelog';
 import i18n from 'helpers/i18n';
+import isWeb from 'helpers/is-web';
 import { Button, Modal } from 'antd';
 
 const LANG = i18n.lang.change_logs;
@@ -40,7 +41,7 @@ function ChangeLog({ onClose }: Props): JSX.Element {
 
   const renderVersion = () => {
     const { version } = window.FLUX;
-    if (version === 'web') return null;
+    if (isWeb()) return null;
     return (
       <div className="app">
         {`📖 Beam Studio ${version.replace('-', ' ')} `}

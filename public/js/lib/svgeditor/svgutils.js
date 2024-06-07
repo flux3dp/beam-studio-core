@@ -1278,9 +1278,6 @@ svgedit.utilities.copyElem = function(el, getNextId) {
 
 	if ($(el).data('gsvg')) {
 		$(new_el).data('gsvg', new_el.firstChild);
-	} else if ($(el).data('symbol')) {
-		var ref = $(el).data('symbol');
-		$(new_el).data('ref', ref).data('symbol', ref);
 	} else if (new_el.tagName == 'image') {
 		svgedit.utilities.preventClickDefault(new_el);
 	}
@@ -1325,9 +1322,6 @@ svgedit.utilities.copyElemData = function(elData, getNextId) {
 
 	if (elData.dataGSVG) {
 		$(new_el).data('gsvg', new_el.firstChild);
-	} else if (elData.dataSymbol) {
-		var ref = elData.dataSymbol;
-		$(new_el).data('ref', ref).data('symbol', ref);
 	} else if (new_el.tagName == 'image') {
 		svgedit.utilities.preventClickDefault(new_el);
 	}
