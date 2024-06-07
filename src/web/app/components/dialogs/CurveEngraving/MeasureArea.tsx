@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { Button, Col, Modal, InputNumber, Row, Segmented } from 'antd';
 
+import alertCaller from 'app/actions/alert-caller';
 import browser from 'implementations/browser';
 import checkDeviceStatus from 'helpers/check-device-status';
 import durationFormatter from 'helpers/duration-formatter';
@@ -120,7 +121,6 @@ const MeasureArea = ({
             currentPosition.y = pointY;
           }
           try {
-            if (Math.random() < 0.1) throw new Error('Test Failed to measure height');
             if (!debugging) {
               const z = await deviceMaster.rawMeasureHeight(
                 lowest === null
@@ -159,6 +159,9 @@ const MeasureArea = ({
       });
       onClose();
     } catch (error) {
+      alertCaller.popUpError({ message: `Failed to measure area ${error.message}`});
+      setIsMeasuring(false);
+      console.log(error);
       return;
     } finally {
       if (deviceMaster.currentControlMode === 'raw') {
