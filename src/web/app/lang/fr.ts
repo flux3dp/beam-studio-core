@@ -1768,7 +1768,7 @@ const lang: ILang = {
     extension_detected: 'Extension Beam Studio Connect détectée',
     extension_detected_description: "Nous avons détecté que vous avez installé l'extension Beam Studio Connect. Veuillez cliquer sur 'Confirmer' pour rediriger vers HTTPS, ou cliquez sur 'Annuler' pour continuer à utiliser HTTP.",
     extension_not_deteced: "Impossible de détecter l'extension Beam Studio Connect",
-    extension_not_deteced_description: "Pour utiliser HTTPS, veuillez cliquer sur 'Confirmer' pour installer l'extension Beam Studio Connect, ou cliquez sur 'Annuler' pour rediriger vers HTTP.",
+    extension_not_deteced_description: "Pour utiliser HTTPS, cliquez sur 'Confirmer' pour installer l'extension Beam Studio Connect, ou cliquez sur 'Annuler' pour rediriger vers HTTP.<br/>Après avoir installé l'extension, veuillez actualiser la page pour l'activer.",
   },
 };
 

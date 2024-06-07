@@ -1771,7 +1771,7 @@ const lang: ILang = {
     extension_detected: 'Beam Studio Connect 확장 프로그램이 감지되었습니다',
     extension_detected_description: "Beam Studio Connect 확장 프로그램이 설치되어 있음을 감지했습니다. HTTPS로 리디렉션하려면 '확인'을 클릭하거나 HTTP를 계속 사용하려면 '취소'를 클릭하십시오.",
     extension_not_deteced: 'Beam Studio Connect 확장 프로그램을 감지할 수 없습니다',
-    extension_not_deteced_description: "HTTPS를 사용하려면 Beam Studio Connect 확장 프로그램을 설치하려면 '확인'을 클릭하거나 HTTP로 리디렉션하려면 '취소'를 클릭하십시오.",
+    extension_not_deteced_description: "HTTPS를 사용하려면 '확인'을 클릭하여 Beam Studio Connect 확장 기능을 설치하거나 '취소'를 클릭하여 HTTP로 리디렉션하세요.<br/>확장 기능을 설치한 후 페이지를 새로 고쳐 활성화하세요.",
   },
 };
 

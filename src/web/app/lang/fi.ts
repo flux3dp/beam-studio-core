@@ -1768,7 +1768,7 @@ const lang: ILang = {
     extension_detected: 'Havaittu Beam Studio Connect -laajennus',
     extension_detected_description: "Olemme havainneet, että olet asentanut Beam Studio Connect -laajennuksen. Napsauta 'Vahvista' ohjataksesi HTTPS:ään tai napsauta 'Peruuta' jatkaaksesi HTTP:n käyttöä.",
     extension_not_deteced: 'Beam Studio Connect -laajennusta ei voitu havaita',
-    extension_not_deteced_description: "Käyttääksesi HTTPS:ää napsauta 'Vahvista' asentaaksesi Beam Studio Connect -laajennuksen tai napsauta 'Peruuta' ohjataksesi HTTP:hen.",
+    extension_not_deteced_description: "Käyttääksesi HTTPS:ää, napsauta 'Vahvista' asentaaksesi Beam Studio Connect -laajennuksen, tai napsauta 'Peruuta' ohjataksesi HTTP.<br/>Asennettuasi laajennuksen, päivitä sivu aktivoidaksesi sen.",
   },
 };
 

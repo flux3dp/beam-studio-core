@@ -1768,7 +1768,7 @@ switch_to_layer_panel: 'Bytt til lagpanel',
     extension_detected: 'Beam Studio Connect-utvidelsen er oppdaget',
     extension_detected_description: "Vi har oppdaget at du har installert Beam Studio Connect-utvidelsen. Klik på 'Bekreft' for å omdirigere til HTTPS, eller klikk på 'Avbryt' for å fortsette å bruke HTTP.",
     extension_not_deteced: 'Kunne ikke oppdage Beam Studio Connect-utvidelsen',
-    extension_not_deteced_description: "For å bruke HTTPS, klikk på 'Bekreft' for å installere Beam Studio Connect-utvidelsen, eller klikk på 'Avbryt' for å omdirigere til HTTP.",
+    extension_not_deteced_description: "For å bruke HTTPS, klikk på 'Bekreft' for å installere Beam Studio Connect-utvidelsen, eller klikk på 'Avbryt' for å omdirigere til HTTP.<br/>Etter å ha installert utvidelsen, vennligst oppdater siden for å aktivere den.",
   },
 };
 

@@ -1768,7 +1768,7 @@ const lang: ILang = {
     extension_detected: 'Εντοπίστηκε η επέκταση Beam Studio Connect',
     extension_detected_description: 'Ανιχνεύσαμε ότι έχετε εγκαταστήσει την επέκταση Beam Studio Connect. Κάντε κλικ στο "Επιβεβαίωση" για να ανακατευθυνθείτε στο HTTPS, ή κάντε κλικ στο "Ακύρωση" για να συνεχίσετε να χρησιμοποιείτε το HTTP.',
     extension_not_deteced: 'Δεν ήταν δυνατή η ανίχνευση της επέκτασης Beam Studio Connect',
-    extension_not_deteced_description: 'Για να χρησιμοποιήσετε το HTTPS, πατήστε "Επιβεβαίωση" για να εγκαταστήσετε την επέκταση Beam Studio Connect, ή πατήστε "Ακύρωση" για να ανακατευθυνθείτε στο HTTP.',
+    extension_not_deteced_description: "Για να χρησιμοποιήσετε το HTTPS, κάντε κλικ στο 'Επιβεβαίωση' για να εγκαταστήσετε την επέκταση Beam Studio Connect ή κάντε κλικ στο 'Ακύρωση' για να ανακατευθυνθείτε στο HTTP.<br/>Μετά την εγκατάσταση της επέκτασης, παρακαλώ ανανεώστε τη σελίδα για να την ενεργοποιήσετε.",
   },
 };
 
