@@ -1768,7 +1768,8 @@ const lang: ILang = {
     extension_detected: 'Phát hiện Phần mở rộng Beam Studio Connect',
     extension_detected_description: "Chúng tôi đã phát hiện bạn đã cài đặt phần mở rộng Beam Studio Connect. Nhấn vào 'Xác nhận' để chuyển hướng đến HTTPS, hoặc nhấn vào 'Hủy' để tiếp tục sử dụng HTTP.",
     extension_not_deteced: 'Không thể phát hiện Phần mở rộng Beam Studio Connect',
-    extension_not_deteced_description: "Để sử dụng HTTPS, vui lòng nhấp vào 'Xác nhận' để cài đặt tiện ích mở rộng Beam Studio Connect hoặc nhấp vào 'Hủy' để chuyển hướng sang HTTP.<br/>Sau khi cài đặt tiện ích mở rộng, vui lòng làm mới trang để kích hoạt nó.",
+    extension_not_deteced_description: "Để sử dụng HTTPS, vui lòng nhấp vào 'Xác nhận' để cài đặt tiện ích mở rộng Beam Studio Connect. Sau khi cài đặt tiện ích mở rộng, vui lòng làm mới trang để kích hoạt nó.<br/>Nếu không, hãy nhấp vào liên kết bên dưới để xem cách sử dụng HTTP trên Chrome.",
+    unsecure_url_help_center_link: '<a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/9935859456271">Liên kết</a>',
   },
 };
 

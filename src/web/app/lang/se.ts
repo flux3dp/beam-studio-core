@@ -1768,7 +1768,8 @@ switch_to_layer_panel: 'Byt till lagerpanelen',
     extension_detected: 'Beam Studio Connect-tillägg upptäckt',
     extension_detected_description: "Vi har upptäckt att du har installerat Beam Studio Connect-tillägget. Klicka på 'Bekräfta' för att omdirigera till HTTPS, eller klicka på 'Avbryt' för att fortsätta använda HTTP.",
     extension_not_deteced: 'Kunde inte upptäcka Beam Studio Connect-tillägg',
-    extension_not_deteced_description: "För att använda HTTPS, klicka på 'Bekräfta' för att installera Beam Studio Connect-tillägget, eller klicka på 'Avbryt' för att omdirigera till HTTP.<br/>Efter att ha installerat tillägget, uppdatera sidan för att aktivera det.",
+    extension_not_deteced_description: "För att använda HTTPS, klicka på 'Bekräfta' för att installera Beam Studio Connect-tillägget. Efter att ha installerat tillägget, uppdatera sidan för att aktivera det.<br/>Annars klickar du på länken nedan för att se hur du använder HTTP i Chrome.",
+    unsecure_url_help_center_link: '<a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/9935859456271">Länk</a>',
   },
 };
 

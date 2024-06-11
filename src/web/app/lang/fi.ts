@@ -1768,7 +1768,8 @@ const lang: ILang = {
     extension_detected: 'Havaittu Beam Studio Connect -laajennus',
     extension_detected_description: "Olemme havainneet, että olet asentanut Beam Studio Connect -laajennuksen. Napsauta 'Vahvista' ohjataksesi HTTPS:ään tai napsauta 'Peruuta' jatkaaksesi HTTP:n käyttöä.",
     extension_not_deteced: 'Beam Studio Connect -laajennusta ei voitu havaita',
-    extension_not_deteced_description: "Käyttääksesi HTTPS:ää, napsauta 'Vahvista' asentaaksesi Beam Studio Connect -laajennuksen, tai napsauta 'Peruuta' ohjataksesi HTTP.<br/>Asennettuasi laajennuksen, päivitä sivu aktivoidaksesi sen.",
+    extension_not_deteced_description: "Käyttääksesi HTTPS:ää, napsauta 'Vahvista' asentaaksesi Beam Studio Connect -laajennuksen. Asennettuasi laajennuksen, päivitä sivu aktivoidaksesi sen.<br/>Muussa tapauksessa napsauta alla olevaa linkkiä nähdäksesi, miten HTTP käytetään Chromessa.",
+    unsecure_url_help_center_link: '<a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/9935859456271">Linkki</a>',
   },
 };
 

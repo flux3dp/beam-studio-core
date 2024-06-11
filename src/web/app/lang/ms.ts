@@ -1768,7 +1768,8 @@ const lang: ILang = {
     extension_detected: 'Pengesanan Sambungan Beam Studio Connect',
     extension_detected_description: 'Kami telah mengesan anda telah memasang sambungan Beam Studio Connect. Sila klik ‘Sahkan’ untuk diarahkan ke HTTPS, atau klik ‘Batal’ untuk terus menggunakan HTTP.',
     extension_not_deteced: 'Tidak dapat Mengesan Sambungan Beam Studio Connect',
-    extension_not_deteced_description: "Untuk menggunakan HTTPS, sila klik 'Sahkan' untuk memasang sambungan Beam Studio Connect, atau klik 'Batal' untuk mengalihkan ke HTTP.<br/>Selepas memasang sambungan, sila segarkan halaman untuk mengaktifkannya.",
+    extension_not_deteced_description: "Untuk menggunakan HTTPS, sila klik 'Sahkan' untuk memasang sambungan Beam Studio Connect. Selepas memasang sambungan, sila segarkan halaman untuk mengaktifkannya.<br/>Jika tidak, klik pautan di bawah untuk melihat cara menggunakan HTTP pada Chrome.",
+    unsecure_url_help_center_link: '<a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/9935859456271">Pautan</a>',
   },
 };
 
