@@ -1771,7 +1771,8 @@ const lang: ILang = {
     extension_detected: '偵測到 Beam Studio Connect 擴充功能',
     extension_detected_description: '我們偵測到您已安裝了 Beam Studio Connect 擴充功能。請按下「確認」重新導向至 HTTPS，或者選擇「取消」以繼續使用目前的 HTTP 網址。',
     extension_not_deteced: '無法偵測到 Beam Studio Connect 擴充功能',
-    extension_not_deteced_description: '若要使用 HTTPS，請按下「確認」以前往安裝 Beam Studio Connect 擴充功能，或按下「取消」以導向至 HTTP。<br/>安裝擴充功能後，請重新頁面以啟用。',
+    extension_not_deteced_description: '若要使用 HTTPS，請按下「確認」以前往安裝 Beam Studio Connect 擴充功能，安裝擴充功能後，請重新頁面以啟用。<br/>否則，請點擊下面的連結查看如何在 Chrome 中使用 HTTP。',
+    unsecure_url_help_center_link: '<a target="_blank" href="https://support.flux3dp.com/hc/zh-tw/articles/9935859456271">連結</a>',
   },
 };
 

@@ -1769,5 +1769,6 @@ export interface ILang {
     extension_detected_description: string;
     extension_not_deteced: string;
     extension_not_deteced_description: string;
+    unsecure_url_help_center_link: string;
   };
 }

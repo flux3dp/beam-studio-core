@@ -39,15 +39,20 @@ export const checkFluxTunnel = (): boolean => {
     failedCount += 1;
     if (failedCount > 30 && isHttps && !chromeExtensionAlertPopped) {
       alertCaller.popById('insecure_websocket');
+      const lang = i18n.lang.insecure_websocket;
       alertCaller.popUp({
         id: 'insecure_websocket',
         caption: i18n.lang.insecure_websocket.extension_not_deteced,
-        message: i18n.lang.insecure_websocket.extension_not_deteced_description,
-        buttonType: alertConstants.CONFIRM_CANCEL,
-        onConfirm: () => {
-          browser.open('https://chromewebstore.google.com/detail/beam-studio-connect/kopngdknlbamdmehbclgbkcekligncla');
-        },
-        onCancel: () => switchProtocol('http:'),
+        message: `${lang.extension_not_deteced_description}<br/>${lang.unsecure_url_help_center_link}`,
+        primaryButtonIndex: 0,
+        buttonLabels: [i18n.lang.alert.confirm],
+        callbacks: [
+          () => {
+            browser.open(
+              'https://chromewebstore.google.com/detail/beam-studio-connect/kopngdknlbamdmehbclgbkcekligncla'
+            );
+          },
+        ],
       });
       chromeExtensionAlertPopped = true;
     }

@@ -28,6 +28,10 @@ $icon-margin: 8px;
     &.with-icon {
       width: calc(100% - #{$icon-size + $icon-margin});
     }
+
+    a {
+      font-size: inherit;
+    }
   }
 }
 

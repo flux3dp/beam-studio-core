@@ -1768,7 +1768,8 @@ const lang: ILang = {
     extension_detected: 'Εντοπίστηκε η επέκταση Beam Studio Connect',
     extension_detected_description: 'Ανιχνεύσαμε ότι έχετε εγκαταστήσει την επέκταση Beam Studio Connect. Κάντε κλικ στο "Επιβεβαίωση" για να ανακατευθυνθείτε στο HTTPS, ή κάντε κλικ στο "Ακύρωση" για να συνεχίσετε να χρησιμοποιείτε το HTTP.',
     extension_not_deteced: 'Δεν ήταν δυνατή η ανίχνευση της επέκτασης Beam Studio Connect',
-    extension_not_deteced_description: "Για να χρησιμοποιήσετε το HTTPS, κάντε κλικ στο 'Επιβεβαίωση' για να εγκαταστήσετε την επέκταση Beam Studio Connect ή κάντε κλικ στο 'Ακύρωση' για να ανακατευθυνθείτε στο HTTP.<br/>Μετά την εγκατάσταση της επέκτασης, παρακαλώ ανανεώστε τη σελίδα για να την ενεργοποιήσετε.",
+    extension_not_deteced_description: "Για να χρησιμοποιήσετε το HTTPS, κάντε κλικ στο 'Επιβεβαίωση' για να εγκαταστήσετε την επέκταση Beam Studio Connect. Μετά την εγκατάσταση της επέκτασης, παρακαλώ ανανεώστε τη σελίδα για να την ενεργοποιήσετε.<br/>Διαφορετικά, κάντε κλικ στον παρακάτω σύνδεσμο για να δείτε πώς να χρησιμοποιήσετε το HTTP στο Chrome.",
+    unsecure_url_help_center_link: '<a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/9935859456271">Σύνδεσμος</a>',
   },
 };
 

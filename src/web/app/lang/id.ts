@@ -1768,7 +1768,8 @@ const lang: ILang = {
     extension_detected: 'Perpanjangan Beam Studio Connect Terdeteksi',
     extension_detected_description: "Kami telah mendeteksi bahwa Anda telah menginstal perpanjangan Beam Studio Connect. Klik 'Konfirmasi' untuk mengalihkan ke HTTPS, atau klik 'Batal' untuk melanjutkan menggunakan HTTP.",
     extension_not_deteced: 'Tidak dapat Mendeteksi Perpanjangan Beam Studio Connect',
-    extension_not_deteced_description: "Untuk menggunakan HTTPS, klik 'Konfirmasi' untuk menginstal ekstensi Beam Studio Connect, atau klik 'Batal' untuk dialihkan ke HTTP.<br/>Setelah menginstal ekstensi, silakan segarkan halaman untuk mengaktifkannya.",
+    extension_not_deteced_description: "Untuk menggunakan HTTPS, klik 'Konfirmasi' untuk menginstal ekstensi Beam Studio Connect. Setelah menginstal ekstensi, silakan segarkan halaman untuk mengaktifkannya.<br/>Jika tidak, klik tautan di bawah ini untuk melihat cara menggunakan HTTP di Chrome.",
+    unsecure_url_help_center_link: '<a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/9935859456271">Tautan</a>',
   },
 };
 
