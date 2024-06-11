@@ -19,6 +19,7 @@ const lang: ILang = {
     export: 'EKSPORT',
     preview: 'PRATONTON',
     preview_title: 'Pratonton',
+    curve_engrave: 'Lengkung 3D',
     task_preview: 'Laluan pratonton',
     frame_task: 'Bingkai sedang berjalan',
     borderless: '(BUKA TANPA SEMPADAN)',

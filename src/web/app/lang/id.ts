@@ -19,6 +19,7 @@ const lang: ILang = {
     export: 'Ekspor',
     preview: 'PRATINJAU',
     preview_title: 'Pratinjau',
+    curve_engrave: '3D Kurva',
     task_preview: 'Pratinjau Jalur',
     frame_task: 'Jalankan Bingkai',
     borderless: '(BUKA BAWAH)',

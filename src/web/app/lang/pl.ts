@@ -19,6 +19,7 @@ const lang: ILang = {
     export: 'START',
     preview: 'PODGLĄD',
     preview_title: 'PODGLĄD',
+    curve_engrave: 'Krzywa 3D',
     task_preview: 'Podgląd ścieżki',
     frame_task: 'Rama do biegania',
     borderless: '(OTWARTE DNO)',

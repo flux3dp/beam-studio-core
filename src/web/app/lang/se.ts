@@ -19,6 +19,7 @@ const lang: ILang = {
     export: 'EXPORT',
     preview: 'FÖRHANDSVISA',
     preview_title: 'Förhandsgranskning',
+    curve_engrave: '3D Kurva',
     task_preview: 'Banor',
     frame_task: 'Kör ram',
     borderless: '(ÖPPNA BOTTEN)',

@@ -19,6 +19,7 @@ const lang: ILang = {
     export: 'GO',
     preview: 'VISTA PREVIA',
     preview_title: 'Vista previa',
+    curve_engrave: 'Curva 3D',
     task_preview: 'Previsualizar Trayectoria',
     frame_task: 'Vista previa del cuadro',
     borderless: '(SIN BORDES)',

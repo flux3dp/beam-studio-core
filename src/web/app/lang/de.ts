@@ -19,6 +19,7 @@ const lang: ILang = {
     export: 'GEHEN',
     preview: 'VORSCHAU',
     preview_title: 'Vorschau',
+    curve_engrave: '3D Kurve',
     task_preview: 'Pfadvorschau',
     frame_task: 'Frame-Vorschau',
     borderless: '(RANDLOS)',

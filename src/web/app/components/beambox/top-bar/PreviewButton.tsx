@@ -19,10 +19,10 @@ function PreviewButton(): JSX.Element {
 
   if (mode === CanvasMode.CurveEngraving) {
     return (
-      <div className={classNames(styles.container, styles.active)} title="3D Curve">
+      <div className={classNames(styles.container, styles.active)} title={lang.curve_engrave}>
         <div className={styles.button}>
           <LeftPanelIcons.Curve3D />
-          <div className={styles.title}>3D CURVE</div>
+          <div className={styles.title}>{lang.curve_engrave}</div>
         </div>
       </div>
     );

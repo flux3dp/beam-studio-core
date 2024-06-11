@@ -19,6 +19,7 @@ const lang: ILang = {
     export: 'GO',
     preview: '相机预览',
     preview_title: '相机预览',
+    curve_engrave: '3D 曲线',
     task_preview: '工作预览',
     frame_task: '外框预览',
     borderless: '(开盖模式)',

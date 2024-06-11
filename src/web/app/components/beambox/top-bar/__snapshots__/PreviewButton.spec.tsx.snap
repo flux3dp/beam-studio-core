@@ -4,7 +4,7 @@ exports[`test PreviewButton when in curve engraving mode 1`] = `
 <div>
   <div
     class="container active"
-    title="3D Curve"
+    title="curve_engrave"
   >
     <div
       class="button"
@@ -13,7 +13,7 @@ exports[`test PreviewButton when in curve engraving mode 1`] = `
       <div
         class="title"
       >
-        3D Curve
+        curve_engrave
       </div>
     </div>
   </div>

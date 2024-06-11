@@ -19,6 +19,7 @@ const lang: ILang = {
     export: 'GO',
     preview: '미리보기',
     preview_title: '미리보기',
+    curve_engrave: '3D 곡선',
     task_preview: '경로 미리보기',
     frame_task: '프레임 미리보기',
     borderless: '(하단 열기)',

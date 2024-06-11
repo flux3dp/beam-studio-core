@@ -19,6 +19,7 @@ const lang: ILang = {
     export: 'GO',
     preview: 'PREVIEW',
     preview_title: 'Preview',
+    curve_engrave: '3D Curve',
     task_preview: 'Path preview',
     frame_task: 'Running Frame',
     borderless: '(OPEN BOTTOM)',

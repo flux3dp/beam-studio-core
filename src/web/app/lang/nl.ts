@@ -19,6 +19,7 @@ const lang: ILang = {
     export: 'GA',
     preview: 'Voorbeeld',
     preview_title: 'Voorbeeld',
+    curve_engrave: '3D Curve',
     task_preview: 'Padvoorbeeld',
     frame_task: 'Frame uitvoeren',
     borderless: '(OPEN ONDERKANT)',

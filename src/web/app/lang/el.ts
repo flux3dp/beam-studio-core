@@ -19,6 +19,7 @@ const lang: ILang = {
     export: 'Εξαγωγή',
     preview: 'ΠΡΟΕΠΙΣΚΟΠΗΣΗ',
     preview_title: 'Προεπισκόπηση',
+    curve_engrave: '3D Καμπύλη',
     task_preview: 'Προεπισκόπηση διαδρομής',
     frame_task: 'Εκτέλεση πλαισίου',
     borderless: '(ΑΝΟΙΧΤΟ ΚΑΤΩ)',

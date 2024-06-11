@@ -19,6 +19,7 @@ const lang: ILang = {
     export: 'ESPORTA',
     preview: 'ANTEPRIMA',
     preview_title: 'Anteprima',
+    curve_engrave: 'Curva 3D',
     task_preview: 'Anteprima percorso',
     frame_task: 'Esecuzione cornice',
     borderless: '(APRI A SCHERMO INTERO)',

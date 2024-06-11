@@ -19,6 +19,7 @@ const lang: ILang = {
     export: 'Exportar',
     preview: 'PRÉ-VISUALIZAÇÃO',
     preview_title: 'Pré-visualização',
+    curve_engrave: 'Curva 3D',
     task_preview: 'Visualização da trajetória',
     frame_task: 'Executando quadro',
     borderless: '(ABERTO EM BAIXO)',

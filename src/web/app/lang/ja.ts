@@ -19,6 +19,7 @@ const lang: ILang = {
     export: 'ゴー',
     preview: 'プレビュー',
     preview_title: 'プレビュー',
+    curve_engrave: '3D 曲線',
     task_preview: 'パスプレビュー',
     frame_task: 'フレームプレビュー',
     borderless: '（ボーダーレス）',

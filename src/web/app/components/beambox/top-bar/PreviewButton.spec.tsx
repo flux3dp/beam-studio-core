@@ -23,6 +23,7 @@ jest.mock('helpers/useI18n', () => () => ({
     preview: 'PREVIEW',
     borderless: '(OPEN BOTTOM)',
     preview_title: 'preview_title',
+    curve_engrave: 'curve_engrave',
   },
 }));
 

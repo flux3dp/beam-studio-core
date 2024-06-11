@@ -19,6 +19,7 @@ const lang: ILang = {
     export: 'EKSPORTER',
     preview: 'FORHÅNDSVISNING',
     preview_title: 'Forhåndsvisning',
+    curve_engrave: '3D Kurve',
     task_preview: 'Opgaverammeforhåndsvisning',
     frame_task: 'Kørende ramme',
     borderless: '(ÅBEN NEDERST)',

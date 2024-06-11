@@ -19,6 +19,7 @@ const lang: ILang = {
     export: 'VIENTI',
     preview: 'ESIKATSELU',
     preview_title: 'Esikatselu',
+    curve_engrave: '3D Käyrä',
     task_preview: 'Polun esikatselu',
     frame_task: 'Käynnissä oleva kehys',
     borderless: '(AVAA ALA)',

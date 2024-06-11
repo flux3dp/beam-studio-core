@@ -19,6 +19,7 @@ const lang: ILang = {
     export: 'ส่งออก',
     preview: 'แสดงตัวอย่าง',
     preview_title: 'ดูตัวอย่าง',
+    curve_engrave: 'เส้นโค้ง 3D',
     task_preview: 'ตัวอย่างเส้นทาง',
     frame_task: 'กําลังประมวลผลเฟรม',
     borderless: '(เปิดด้านล่าง)',
