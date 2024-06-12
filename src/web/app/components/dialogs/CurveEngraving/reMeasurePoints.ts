@@ -56,7 +56,7 @@ const reMeasurePoints = async (
     const columns = points[0].length;
     let { lowest, highest } = data;
     const workarea = getWorkarea(device.model as WorkAreaModel);
-    const [offsetX, offsetY] = workarea.autoFocusOffset || [0, 0];
+    const [offsetX, offsetY, offsetZ] = workarea.autoFocusOffset || [0, 0, 0];
     const start = Date.now();
     for (let i = 0; i < indices.length; i += 1) {
       if (canceled) {
@@ -84,9 +84,11 @@ const reMeasurePoints = async (
         const z = await deviceMaster.rawMeasureHeight(
           lowest === null ? { relZ: objectHeight } : { baseZ: Math.max(lowest - objectHeight, 0) }
         );
-        if (lowest === null || z > lowest) lowest = z;
-        if (highest === null || z < highest) highest = z;
-        newPoints[row][column][2] = z;
+        if (lowest === null || z > lowest) lowest = z; // actually the max measured value
+        const pointZ = typeof z === 'number' ? Math.max(0, z - offsetZ) : null;
+        // actually the min measured value, use pointZ to display Plane when z is null
+        if (highest === null || z < highest) highest = pointZ;
+        newPoints[row][column][2] = pointZ;
       } catch (error) {
         console.error(`Failed to measure height at point ${x}, ${y}`, error);
       }

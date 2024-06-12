@@ -94,7 +94,7 @@ const MeasureArea = ({
       const totalPoints = xRange.length * yRange.length;
       let finished = 0;
       const workarea = getWorkarea(device.model as WorkAreaModel);
-      const [offsetX, offsetY] = workarea.autoFocusOffset || [0, 0];
+      const [offsetX, offsetY, offsetZ] = workarea.autoFocusOffset || [0, 0, 0];
       const feedrate = 6000;
       const start = Date.now();
       let lowest: number = null;
@@ -127,9 +127,11 @@ const MeasureArea = ({
                   ? { relZ: objectHeight }
                   : { baseZ: Math.max(lowest - objectHeight, 0) }
               );
-              if (lowest === null || z > lowest) lowest = z;
-              if (highest === null || z < highest) highest = z;
-              points[i].push([pointX, pointY, z]);
+              if (lowest === null || z > lowest) lowest = z; // actually the max measured value
+              const pointZ = typeof z === 'number' ? Math.max(0, z - offsetZ) : null;
+              // actually the min measured value, use pointZ to display Plane when z is null
+              if (highest === null || z < highest) highest = pointZ;
+              points[i].push([pointX, pointY, pointZ]);
             } else {
               // Debugging height measurement
               const z = 4 + 2 * Math.sin(pointX) + 2 * Math.cos(pointY);
@@ -159,7 +161,7 @@ const MeasureArea = ({
       });
       onClose();
     } catch (error) {
-      alertCaller.popUpError({ message: `Failed to measure area ${error.message}`});
+      alertCaller.popUpError({ message: `Failed to measure area ${error.message}` });
       setIsMeasuring(false);
       console.log(error);
       return;

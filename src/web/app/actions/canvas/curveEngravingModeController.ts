@@ -81,7 +81,7 @@ class CurveEngravingModeController {
   setArea = async (bbox: { x: number; y: number; width: number; height: number }) => {
     let { x, y, width, height } = bbox;
     const workarea = beamboxPreference.read('workarea');
-    const { width: workareaW, height: workareaH, autoFocusOffset = [0, 0] } = getWorkarea(workarea);
+    const { width: workareaW, height: workareaH, autoFocusOffset = [0, 0, 0] } = getWorkarea(workarea);
     const leftBound = autoFocusOffset[0] > 0 ? autoFocusOffset[0] : 0;
     const rightBound = autoFocusOffset[0] < 0 ? workareaW + autoFocusOffset[0] : workareaW;
     const topBound = autoFocusOffset[1] > 0 ? autoFocusOffset[1] : 0;
@@ -157,7 +157,7 @@ class CurveEngravingModeController {
       this.boundarySvg.appendChild(this.boundaryPath);
     }
     const workarea = beamboxPreference.read('workarea');
-    const { width: workareaW, height: workareaH, autoFocusOffset = [0, 0] } = getWorkarea(workarea);
+    const { width: workareaW, height: workareaH, autoFocusOffset = [0, 0, 0] } = getWorkarea(workarea);
     const { width, height } = workareaManager;
     const { dpmm } = constant;
     const leftBound = (autoFocusOffset[0] > 0 ? autoFocusOffset[0] : 0) * dpmm;

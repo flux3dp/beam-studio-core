@@ -905,12 +905,12 @@ class DeviceMaster {
     baseZ?: number;
     relZ?: number;
     timeout?: number;
-  }): Promise<number> {
+  }): Promise<number | null> {
     const { model } = this.currentDevice.info;
     if (model === 'ado1') {
       await this.rawAutoFocus();
       const { didAf, z } = await this.rawGetProbePos();
-      const res = didAf ? Math.max(z - 8, 0) : null;
+      const res = didAf ? z : null;
       if (typeof baseZ === 'number') await this.rawMove({ z: baseZ });
       else if (res && relZ) await this.rawMove({ z: Math.max(0, res - relZ) });
       return res;

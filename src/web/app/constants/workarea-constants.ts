@@ -60,7 +60,7 @@ const workareaConstants: { [key in WorkAreaModel]: WorkArea } = {
     maxSpeed: 900,
     minSpeed: 0.5,
     rotary: [0, 1],
-    autoFocusOffset: [31.13, 1.2],
+    autoFocusOffset: [31.13, 1.2, 6.5],
   },
   ado1: {
     label: 'Ador',
@@ -75,7 +75,7 @@ const workareaConstants: { [key in WorkAreaModel]: WorkArea } = {
     minSpeed: 0.5,
     rotary: [0, 1],
     cameraCenter: [215, 150],
-    autoFocusOffset: [20.9, -40.38],
+    autoFocusOffset: [20.9, -40.38, 7.5],
   },
 };
 
