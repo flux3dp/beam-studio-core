@@ -24,15 +24,10 @@ interface Props {
 const CurveEngraving = ({ data: initData, onRemeasure, onClose }: Props): JSX.Element => {
   const lang = useI18n();
   const [data, setData] = useState(initData);
-  const [firstRender, setFirstRender] = useState(true);
   const [image, setImage] = useState<string | undefined>();
   const [displayCanvas, setDisplayCanvas] = useState(false);
   const [displayCamera, setDisplayCamera] = useState(false);
   const [selectedIndices, setSelectedIndices] = useState<Set<number>>(new Set());
-  useEffect(() => {
-    // Wait for modal animation finish, should have better way to do this
-    setTimeout(() => setFirstRender(false), 1000);
-  }, []);
   const { bbox } = data;
 
   const canvasImagePromise = useMemo(async () => {
@@ -116,29 +111,27 @@ const CurveEngraving = ({ data: initData, onRemeasure, onClose }: Props): JSX.El
       ]}
     >
       <div className={styles.container}>
-        {!firstRender && (
-          <Canvas
-            camera={{
-              fov: 55,
-              near: 0.1,
-              far: 1000,
-              position: [0, 0, Math.max(bbox.width, bbox.height)],
-            }}
-            gl={{ antialias: true, toneMapping: THREE.NoToneMapping }}
-            linear
-          >
-            <Stage adjustCamera={1} shadows={false} environment={null}>
-              <Suspense fallback={null}>
-                <Plane
-                  data={data}
-                  textureSource={image}
-                  selectedIndices={selectedIndices}
-                  toggleSelectedIndex={toggleSelectIdx}
-                />
-              </Suspense>
-            </Stage>
-          </Canvas>
-        )}
+        <Canvas
+          camera={{
+            fov: 55,
+            near: 0.1,
+            far: 1000,
+            position: [0, 0, Math.max(bbox.width, bbox.height)],
+          }}
+          gl={{ antialias: true, toneMapping: THREE.NoToneMapping }}
+          linear
+        >
+          <Stage adjustCamera={1} shadows={false} environment={null}>
+            <Suspense fallback={null}>
+              <Plane
+                data={data}
+                textureSource={image}
+                selectedIndices={selectedIndices}
+                toggleSelectedIndex={toggleSelectIdx}
+              />
+            </Suspense>
+          </Stage>
+        </Canvas>
       </div>
       <div className={styles.buttons}>
         <Button
