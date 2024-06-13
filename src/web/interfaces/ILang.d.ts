@@ -1396,6 +1396,7 @@ export interface ILang {
     connectionTimeout: string,
   },
   message: {
+    cancelling: string,
     connecting: string,
     connectingMachine: string,
     tryingToConenctMachine: string,

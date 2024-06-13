@@ -1399,6 +1399,7 @@ const lang: ILang = {
     connectionTimeout: '連線逾時',
   },
   message: {
+    cancelling: '取消中...',
     connecting: '連線中...',
     connectingMachine: '連接 %s 中...',
     tryingToConenctMachine: '嘗試連接機器中...',

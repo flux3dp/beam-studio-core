@@ -1396,6 +1396,7 @@ const lang: ILang = {
     connectionTimeout: 'Sambungan tamat masa',
   },
   message: {
+    cancelling: 'Membatalkan...',
     connecting: 'Menyambung...',
     connectingMachine: 'Menyambung %s...',
     tryingToConenctMachine: 'Cuba sambung ke mesin...',

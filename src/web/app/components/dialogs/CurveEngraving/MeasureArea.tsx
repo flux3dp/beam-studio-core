@@ -44,6 +44,7 @@ const MeasureArea = ({
   const [columnGap, setColumnGap] = useState(Math.round(height / 10));
   const [objectHeight, setObjectHeight] = useState(10); // [mm]
   const canceledRef = useRef(false);
+  const [cancelling, setCancelling] = useState(false);
   const [isMeasuring, setIsMeasuring] = useState(false);
   const [finishedPoints, setFinishedPoints] = useState<number>(0);
   const [progressText, setProgressText] = useState('');
@@ -67,6 +68,7 @@ const MeasureArea = ({
   const handleStartMeasuring = async () => {
     if (isMeasuring) return;
     canceledRef.current = false;
+    setCancelling(false);
     setIsMeasuring(true);
     setFinishedPoints(0);
     const { device } = await getDevice();
@@ -175,7 +177,9 @@ const MeasureArea = ({
 
   const handleCancel = useCallback(() => {
     canceledRef.current = true;
-  }, []);
+    setProgressText(lang.message.cancelling);
+    setCancelling(true);
+  }, [lang]);
 
   return (
     <Modal
@@ -188,7 +192,7 @@ const MeasureArea = ({
       footer={
         isMeasuring
           ? [
-              <Button key="cancel" onClick={handleCancel}>
+              <Button key="cancel" disabled={cancelling} onClick={handleCancel}>
                 {lang.alert.cancel}
               </Button>,
             ]

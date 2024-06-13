@@ -1399,6 +1399,7 @@ const lang: ILang = {
     connectionTimeout: '연결 시간 초과',
   },
   message: {
+    cancelling: '취소 중...',
     connecting: '연결 중...',
     connectingMachine: '%s 연결 중...',
     tryingToConenctMachine: '기계에 연결을 시도 중입니다...',

@@ -1396,6 +1396,7 @@ const lang: ILang = {
     connectionTimeout: 'Λήξη χρονικού ορίου σύνδεσης',
   },
   message: {
+    cancelling: 'Ακύρωση...',
     connecting: 'Σύνδεση...',
     connectingMachine: 'Σύνδεση με %s...',
     tryingToConenctMachine: 'Προσπάθεια σύνδεσης με το μηχάνημα...',

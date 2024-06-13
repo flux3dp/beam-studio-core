@@ -1396,6 +1396,7 @@ const lang: ILang = {
     connectionTimeout: 'Yhteyden aikakatkaisu',
   },
   message: {
+    cancelling: 'Peruuttaminen...',
     connecting: 'Yhdistetään...',
     connectingMachine: 'Yhdistetään %s...',
     tryingToConenctMachine: 'Yritetään yhdistää laitteeseen...',

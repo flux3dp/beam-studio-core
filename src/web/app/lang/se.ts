@@ -1396,6 +1396,7 @@ const lang: ILang = {
     connectionTimeout: 'Anslutningstidsgräns',
   },
   message: {
+    cancelling: 'Avbryter...',
     connecting: 'Ansluter...',
     connectingMachine: 'Ansluter %s...',
     tryingToConenctMachine: 'Försöker ansluta till maskin...',

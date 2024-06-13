@@ -1399,6 +1399,7 @@ const lang: ILang = {
     connectionTimeout: 'Connection timeout',
   },
   message: {
+    cancelling: 'Cancelling...',
     connecting: 'Connecting...',
     connectingMachine: 'Connecting %s...',
     tryingToConenctMachine: 'Trying to connect to machine...',
