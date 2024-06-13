@@ -41,7 +41,6 @@ exports[`test Boxgen should rendered correctly 1`] = `
     <div
       class="canvas"
     >
-      <mock-canvas-controller />
       <mock-canvas />
     </div>
   </div>
@@ -93,7 +92,6 @@ exports[`test Boxgen should rendered correctly in mobile 1`] = `
         <div
           class="canvas"
         >
-          <mock-canvas-controller />
           <mock-canvas />
         </div>
       </div>

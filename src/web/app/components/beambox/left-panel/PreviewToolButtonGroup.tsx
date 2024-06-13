@@ -113,8 +113,7 @@ const PreviewToolButtonGroup = ({
       <LeftPanelButton
         id="curve-engrave"
         icon={<LeftPanelIcons.CurveEngrave />}
-        // TODO: add i18n
-        title={'tCurve Engrave'}
+        title={lang.label.curve_engraving.title}
         onClick={() => curveEngravingModeController.start()}
       />
     </div>

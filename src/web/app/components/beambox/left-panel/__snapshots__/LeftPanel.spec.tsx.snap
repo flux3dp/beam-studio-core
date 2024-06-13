@@ -1,5 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`test LeftPanel in curve engraving mode 1`] = `
+<div>
+  <div
+    class="left-toolbar hidden-mobile"
+  >
+    MockCurveEngravingTool
+  </div>
+</div>
+`;
+
 exports[`test LeftPanel in path previewing 1`] = `
 <div>
   <div

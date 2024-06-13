@@ -27,7 +27,6 @@ jest.mock('helpers/system-helper', () => ({
 
 jest.mock('./BoxCanvas', () => 'mock-canvas');
 jest.mock('./BoxSelector', () => 'mock-box-selector');
-jest.mock('./CanvasController', () => 'mock-canvas-controller');
 jest.mock('./Controller', () => 'mock-box-controller');
 jest.mock('./ExportButton', () => 'mock-export-button');
 

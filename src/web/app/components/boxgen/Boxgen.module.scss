@@ -1,15 +1,7 @@
+@use 'styles/mixins/full-window-panel' as fullWindowPanel;
+
 .boxgen {
-  display: flex;
-  @media screen and (min-width: 601px) {
-    position: relative;
-    z-index: 1;
-    height: 100vh;
-    width: 100vw;
-    background-color: #ffffff;
-  }
-  @media screen and (max-width: 600px) {
-    flex-direction: column;
-  }
+  @include fullWindowPanel.container();
 
   .title {
     font-size: 20px;
@@ -76,12 +68,7 @@
   }
 
   &.desktop {
-    z-index: 1000;
-
     &.windows {
-      // Windows desktop titlebar = 30px
-      max-height: calc(100vh - 30px);
-
       .sider {
         height: 100%;
       }
