@@ -3,6 +3,7 @@ import svgStringToCanvas from 'helpers/image/svgStringToCanvas';
 import symbolMaker from 'helpers/symbol-maker';
 import workareaManager from 'app/svgedit/workarea';
 
+// TODO: Add unit tests
 const getCanvasImage = async (x: number, y: number, width: number, height: number): Promise<ImageBitmap> => {
   const svgContent = document.getElementById('svgcontent') as unknown as SVGSVGElement;
   const bbox = { x, y, width, height };

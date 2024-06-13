@@ -17,6 +17,7 @@ const countRangeGenerator = (start: number, end: number, count: number): number[
   return range;
 };
 
+// TODO: Add unit tests
 export default {
   stepRangeGenerator,
   countRangeGenerator,

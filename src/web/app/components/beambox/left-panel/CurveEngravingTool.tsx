@@ -18,6 +18,7 @@ interface Props {
   className: string;
 }
 
+// TODO add unit tests
 const CurveEngravingTool = ({ className }: Props): JSX.Element => {
   const forceUpdate = useForceUpdate();
   const canvasEventEmitter = useMemo(() => eventEmitterFactory.createEventEmitter('canvas'), []);

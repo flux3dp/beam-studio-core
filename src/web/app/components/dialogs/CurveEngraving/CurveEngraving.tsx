@@ -21,6 +21,7 @@ interface Props {
   onClose: () => void;
 }
 
+// TODO: Add unit tests
 const CurveEngraving = ({ data: initData, onRemeasure, onClose }: Props): JSX.Element => {
   const lang = useI18n();
   const [data, setData] = useState(initData);

@@ -13,6 +13,7 @@ interface PlaneProps {
   toggleSelectedIndex?: (index: number) => void;
 }
 
+// TODO: Add unit tests
 const Plane = ({
   data: {
     bbox: { x: bboxX, y: bboxY, width, height },

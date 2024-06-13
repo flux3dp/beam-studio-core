@@ -19,6 +19,7 @@ getSVGAsync((globalSVG) => {
 
 const canvasEventEmitter = eventEmitterFactory.createEventEmitter('canvas');
 
+// TODO: add unit tests
 class CurveEngravingModeController {
   started: boolean;
 

@@ -31,6 +31,7 @@ interface Props {
   onClose: () => void;
 }
 
+// TODO: Add unit tests
 const MeasureArea = ({
   bbox: { x, y, width, height },
   onFinished,
