@@ -900,7 +900,7 @@ class DeviceMaster {
   async rawMeasureHeight({
     baseZ,
     relZ,
-    timeout = 30000,
+    timeout = 18000,
   }: {
     baseZ?: number;
     relZ?: number;
