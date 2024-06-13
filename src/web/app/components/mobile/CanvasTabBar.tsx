@@ -20,7 +20,7 @@ import TopBarIcons from 'app/icons/top-bar/TopBarIcons';
 import useI18n from 'helpers/useI18n';
 import workareaManager from 'app/svgedit/workarea';
 import { DmktIcon } from 'app/icons/icons';
-import { CanvasContext, CanvasContextType, CanvasMode } from 'app/contexts/CanvasContext';
+import { CanvasContext, CanvasMode } from 'app/contexts/CanvasContext';
 import { getCurrentUser } from 'helpers/api/flux-id';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { useIsMobile } from 'helpers/system-helper';

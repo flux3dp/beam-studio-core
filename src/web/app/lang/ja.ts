@@ -630,6 +630,13 @@ const lang: ILang = {
         qr_code: 'QRコード',
         boxgen: 'Boxgen',
         my_cloud: 'マイクラウド',
+        curve_engraving: {
+          title: '3D 曲線',
+          exit: '終了',
+          select_area: 'エリアを選択',
+          preview_3d_curve: '3Dカーブのプレビュー',
+          clear_area: '選択したエリアをクリア',
+        },
       },
     },
     right_panel: {

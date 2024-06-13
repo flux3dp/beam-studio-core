@@ -627,6 +627,13 @@ export interface ILang {
         qr_code: string;
         boxgen: string;
         my_cloud: string;
+        curve_engraving: {
+          title: string;
+          exit: string;
+          select_area: string;
+          preview_3d_curve: string;
+          clear_area: string;
+        }
       },
     },
     right_panel: {

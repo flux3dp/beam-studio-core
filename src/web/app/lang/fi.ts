@@ -627,6 +627,13 @@ const lang: ILang = {
         qr_code: 'QR-koodi',
         boxgen: 'Boxgen',
         my_cloud: 'Pilveni',
+        curve_engraving: {
+          title: '3D Käyrä',
+          exit: 'Poistu',
+          select_area: 'Valitse alue',
+          preview_3d_curve: 'Esikatselu 3D-käyrä',
+          clear_area: 'Tyhjennä valittu alue',
+        },
       },
     },
     right_panel: {

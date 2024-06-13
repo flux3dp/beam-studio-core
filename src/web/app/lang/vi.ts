@@ -627,6 +627,13 @@ const lang: ILang = {
         qr_code: 'Mã QR',
         boxgen: 'Boxgen',
         my_cloud: 'Đám mây của tôi',
+        curve_engraving: {
+          title: 'Đường cong 3D',
+          exit: 'Thoát',
+          select_area: 'Chọn khu vực',
+          preview_3d_curve: 'Xem trước đường cong 3D',
+          clear_area: 'Xóa khu vực đã chọn',
+        },
       },
     },
     right_panel: {

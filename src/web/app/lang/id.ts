@@ -627,6 +627,13 @@ const lang: ILang = {
         qr_code: 'Kode QR',
         boxgen: 'Boxgen',
         my_cloud: 'Awan Saya',
+        curve_engraving: {
+          title: '3D Kurva',
+          exit: 'Keluar',
+          select_area: 'Pilih area',
+          preview_3d_curve: 'Pratinjau Kurva 3D',
+          clear_area: 'Hapus Area yang Dipilih',
+        },
       },
     },
     right_panel: {

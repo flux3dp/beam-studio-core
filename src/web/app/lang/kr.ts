@@ -630,6 +630,13 @@ const lang: ILang = {
         qr_code: 'QR 코드',
         boxgen: 'Boxgen',
         my_cloud: '내 클라우드',
+        curve_engraving: {
+          title: '3D 곡선',
+          exit: '종료',
+          select_area: '영역 선택',
+          preview_3d_curve: '3D 곡선 미리보기',
+          clear_area: '선택 영역 지우기',
+        },
       },
     },
     right_panel: {

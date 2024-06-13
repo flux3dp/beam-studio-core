@@ -627,6 +627,13 @@ const lang: ILang = {
         qr_code: 'Código QR',
         boxgen: 'Boxgen',
         my_cloud: 'Minha nuvem',
+        curve_engraving: {
+          title: 'Curva 3D',
+          exit: 'Sair',
+          select_area: 'Selecionar área',
+          preview_3d_curve: 'Visualizar curva 3D',
+          clear_area: 'Limpar área selecionada',
+        },
       },
     },
     right_panel: {

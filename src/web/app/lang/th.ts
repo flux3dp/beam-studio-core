@@ -627,6 +627,13 @@ const lang: ILang = {
         qr_code: 'คิวอาร์โค้ด',
         boxgen: 'Boxgen',
         my_cloud: 'คลาวด์ของฉัน',
+        curve_engraving: {
+          title: 'เส้นโค้ง 3D',
+          exit: 'ออกจากระบบ',
+          select_area: 'เลือกพื้นที่',
+          preview_3d_curve: 'แสดงตัวอย่างเส้นโค้ง 3D',
+          clear_area: 'ล้างพื้นที่ที่เลือก',
+        },
       },
     },
     right_panel: {

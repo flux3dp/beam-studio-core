@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 
 import curveEngravingModeController from 'app/actions/canvas/curveEngravingModeController';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
@@ -28,7 +28,7 @@ const CurveEngravingTool = ({ className }: Props): JSX.Element => {
     };
   }, [canvasEventEmitter, forceUpdate]);
 
-  const lang = useI18n().beambox.left_panel;
+  const lang = useI18n().beambox.left_panel.label;
   const currentCursorMode = svgCanvas.getMode();
 
   // TODO: add i18n
@@ -37,13 +37,13 @@ const CurveEngravingTool = ({ className }: Props): JSX.Element => {
       <LeftPanelButton
         id="back"
         icon={<LeftPanelIcons.Back />}
-        title={'tExit'}
+        title={lang.curve_engraving.exit}
         onClick={() => curveEngravingModeController.backToPreview()}
       />
       <LeftPanelButton
         id="cursor"
         icon={<LeftPanelIcons.Cursor />}
-        title={lang.label.cursor}
+        title={lang.cursor}
         active={currentCursorMode === 'select'}
         onClick={() => {
           curveEngravingModeController.toCanvasSelectMode();
@@ -53,7 +53,7 @@ const CurveEngravingTool = ({ className }: Props): JSX.Element => {
       <LeftPanelButton
         id="curve-select"
         icon={<LeftPanelIcons.CurveSelect />}
-        title={'tCurve Area Select'}
+        title={lang.curve_engraving.select_area}
         active={currentCursorMode === 'curve-engraving'}
         onClick={() => {
           curveEngravingModeController.toAreaSelectMode();
@@ -63,14 +63,14 @@ const CurveEngravingTool = ({ className }: Props): JSX.Element => {
       <LeftPanelButton
         id="curve-preview"
         icon={<LeftPanelIcons.CuverPreview />}
-        title={'Preview Selected Area'}
+        title={lang.curve_engraving.preview_3d_curve}
         disabled={!curveEngravingModeController.hasArea()}
         onClick={() => curveEngravingModeController.preview()}
       />
       <LeftPanelButton
         id="delete"
         icon={<LeftPanelIcons.Delete />}
-        title={'tDelete'}
+        title={lang.curve_engraving.clear_area}
         onClick={() => curveEngravingModeController.clearArea()}
       />
     </div>

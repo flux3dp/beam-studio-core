@@ -630,6 +630,13 @@ const lang: ILang = {
         qr_code: '二维码',
         boxgen: 'Boxgen',
         my_cloud: '我的云端',
+        curve_engraving: {
+          title: '3D 曲线',
+          exit: '退出',
+          select_area: '选择区域',
+          preview_3d_curve: '预览 3D 曲面',
+          clear_area: '清除选定区域',
+        },
       },
     },
     right_panel: {

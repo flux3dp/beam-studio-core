@@ -627,6 +627,13 @@ const lang: ILang = {
         qr_code: 'QR-kod',
         boxgen: 'Boxgen',
         my_cloud: 'Mitt moln',
+        curve_engraving: {
+          title: '3D Kurva',
+          exit: 'Avsluta',
+          select_area: 'Välj område',
+          preview_3d_curve: 'Förhandsgranska 3D-kurva',
+          clear_area: 'Rensa valt område',
+        },
       },
     },
     right_panel: {

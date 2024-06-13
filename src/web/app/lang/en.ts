@@ -630,6 +630,13 @@ const lang: ILang = {
         qr_code: 'QR Code',
         boxgen: 'Boxgen',
         my_cloud: 'My Cloud',
+        curve_engraving: {
+          title: '3D Curve',
+          exit: 'Exit',
+          select_area: 'Select Area',
+          preview_3d_curve: 'Preview 3D Curve',
+          clear_area: 'Clear Selected Area',
+        },
       },
     },
     right_panel: {

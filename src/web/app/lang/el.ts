@@ -627,6 +627,13 @@ const lang: ILang = {
         qr_code: 'Κωδικός QR',
         boxgen: 'Boxgen',
         my_cloud: 'Το Cloud μου',
+        curve_engraving: {
+          title: '3D Καμπύλη',
+          exit: 'Έξοδος',
+          select_area: 'Επιλέξτε περιοχή',
+          preview_3d_curve: 'Προεπισκόπηση 3D καμπύλης',
+          clear_area: 'Εκκαθάριση επιλεγμένης περιοχής',
+        },
       },
     },
     right_panel: {

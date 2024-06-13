@@ -627,6 +627,13 @@ const lang: ILang = {
         qr_code: 'QR-kode',
         boxgen: 'Boxgen',
         my_cloud: 'Min sky',
+        curve_engraving: {
+          title: '3D Kurve',
+          exit: 'Afslut',
+          select_area: 'Vælg område',
+          preview_3d_curve: 'Forhåndsvis 3D-kurve',
+          clear_area: 'Ryd valgt område',
+        },
       },
     },
     right_panel: {

@@ -630,6 +630,13 @@ const lang: ILang = {
         qr_code: 'QR 碼',
         boxgen: 'Boxgen',
         my_cloud: '我的雲端',
+        curve_engraving: {
+          title: '3D 曲面',
+          exit: '退出',
+          select_area: '選擇區域',
+          preview_3d_curve: '預覽 3D 曲面',
+          clear_area: '清除選取區域',
+        },
       },
     },
     right_panel: {
