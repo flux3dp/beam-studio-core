@@ -2851,7 +2851,6 @@ const svgEditor = window['svgEditor'] = (function () {
             });
             break;
         }
-        console.log(file, file.name, file.path);
         switch (fileType) {
           case 'bvg':
           case 'beam':
