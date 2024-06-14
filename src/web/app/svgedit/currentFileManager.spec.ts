@@ -2,28 +2,28 @@ import { IFile } from 'interfaces/IMyCloud';
 
 import currentFileManager from './currentFileManager';
 
-const mockSetFileName = jest.fn();
+const mockUpdateTitle = jest.fn();
 
 jest.mock('app/views/beambox/TopBar/contexts/TopBarController', () => ({
-  setFileName: (name: string) => mockSetFileName(name),
+  updateTitle: () => mockUpdateTitle(),
 }));
 
 describe('test currentFileManager', () => {
   beforeEach(() => {
-    mockSetFileName.mockClear();
     currentFileManager.clear();
+    mockUpdateTitle.mockClear();
   });
 
   it('should set file name', () => {
     currentFileManager.setFileName('test');
     expect(currentFileManager.getName()).toBe('test');
-    expect(mockSetFileName).toHaveBeenCalledWith('test');
+    expect(mockUpdateTitle).toHaveBeenCalledTimes(1);
   });
 
   it('should set file name extracted from path', () => {
     currentFileManager.setFileName('/some/path/to/test.svg', true);
     expect(currentFileManager.getName()).toBe('test');
-    expect(mockSetFileName).toHaveBeenCalledWith('test');
+    expect(mockUpdateTitle).toHaveBeenCalledTimes(1);
   });
 
   it('should set local file', () => {
@@ -31,7 +31,7 @@ describe('test currentFileManager', () => {
     expect(currentFileManager.getName()).toBe('test');
     expect(currentFileManager.getPath()).toBe('/some/path/to/test.svg');
     expect(currentFileManager.isCloudFile).toBe(false);
-    expect(mockSetFileName).toHaveBeenCalledWith('test');
+    expect(mockUpdateTitle).toHaveBeenCalledTimes(1);
   });
 
   it('should set cloud file', () => {
@@ -39,22 +39,23 @@ describe('test currentFileManager', () => {
     expect(currentFileManager.getName()).toBe('test');
     expect(currentFileManager.getPath()).toBe('123');
     expect(currentFileManager.isCloudFile).toBe(true);
-    expect(mockSetFileName).toHaveBeenCalledWith('test');
+    expect(mockUpdateTitle).toHaveBeenCalledTimes(1);
   });
 
   it('should set cloud UUID', () => {
     currentFileManager.setCloudUUID('123');
     expect(currentFileManager.getPath()).toBe('123');
     expect(currentFileManager.isCloudFile).toBe(true);
-    expect(mockSetFileName).toHaveBeenCalledWith(currentFileManager.getName());
+    expect(mockUpdateTitle).toHaveBeenCalledTimes(1);
   });
 
   it('should clear', () => {
     currentFileManager.setFileName('test');
+    expect(mockUpdateTitle).toHaveBeenCalledTimes(1);
     currentFileManager.clear();
     expect(currentFileManager.getName()).toBe(null);
     expect(currentFileManager.getPath()).toBe(null);
     expect(currentFileManager.isCloudFile).toBe(false);
-    expect(mockSetFileName).toHaveBeenCalledWith('');
+    expect(mockUpdateTitle).toHaveBeenCalledTimes(2);
   });
 });
