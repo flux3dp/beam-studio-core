@@ -1,13 +1,8 @@
 import React, { useMemo, useState } from 'react';
 import { Button, Input, Modal, Space, Typography } from 'antd';
 
+import currentFileManager from 'app/svgedit/currentFileManager';
 import useI18n from 'helpers/useI18n';
-import { getSVGAsync } from 'helpers/svg-editor-helper';
-
-let svgCanvas;
-getSVGAsync((globalSVG) => {
-  svgCanvas = globalSVG.Canvas;
-});
 
 interface Props {
   onClose: (fileName: string | null, isCancelled?: boolean) => void;
@@ -19,7 +14,7 @@ const SaveFileModal = ({ onClose, uuid }: Props): JSX.Element => {
   const lang = LANG.my_cloud.save_file;
   const [isEditingName, setIsEditingName] = useState(!uuid);
   const [fileName, setFileName] = useState<string>(
-    (svgCanvas.getLatestImportFileName() || LANG.topbar.untitled).split('/').pop()
+    (currentFileManager.getName() || LANG.topbar.untitled).split('/').pop()
   );
   const slashError = useMemo(() => fileName.includes('/'), [fileName]);
   const error = slashError || !fileName;

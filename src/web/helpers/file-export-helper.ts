@@ -4,6 +4,7 @@ import AlertConstants from 'app/constants/alert-constants';
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import beamFileHelper from 'helpers/beam-file-helper';
 import communicator from 'implementations/communicator';
+import currentFileManager from 'app/svgedit/currentFileManager';
 import dialog from 'implementations/dialog';
 import dialogCaller from 'app/actions/dialog-caller';
 import fs from 'implementations/fileSystem';
@@ -29,20 +30,6 @@ getSVGAsync((globalSVG) => {
 });
 
 const LANG = i18n.lang;
-
-const setCurrentFileName = (filePath: string) => {
-  let currentFileName: string | string[];
-  if (window.os === 'Windows') {
-    currentFileName = filePath.split('\\');
-  } else {
-    currentFileName = filePath.split('/');
-  }
-  currentFileName = currentFileName[currentFileName.length - 1];
-  currentFileName = currentFileName.slice(0, currentFileName.lastIndexOf('.')).replace(':', '/');
-  svgCanvas.setLatestImportFileName(currentFileName);
-  svgCanvas.currentFilePath = filePath;
-  svgCanvas.updateRecentFiles(filePath);
-};
 
 const switchSymbolWrapper = <T = string>(fn: () => T) => {
   SymbolMaker.switchImageSymbolForAll(false);
@@ -128,7 +115,7 @@ const saveToCloud = async (uuid?: string): Promise<boolean> => {
     } else {
       const { fileName, isCancelled } = await dialogCaller.saveToCloud();
       if (isCancelled || !fileName) return false;
-      svgCanvas.setLatestImportFileName(fileName);
+      currentFileManager.setFileName(fileName);
       form.append('type', 'file');
       resp = await axiosFluxId.post(`/api/beam-studio/cloud/add/${fileName}`, form, {
         withCredentials: true,
@@ -160,9 +147,7 @@ const saveToCloud = async (uuid?: string): Promise<boolean> => {
     }
     const { status, info, new_file: newUuid } = data;
     if (status === 'ok') {
-      if (newUuid) {
-        svgCanvas.currentFilePath = `cloud:${newUuid}`;
-      }
+      if (newUuid) currentFileManager.setCloudUUID(newUuid);
       svgCanvas.setHasUnsavedChange(false, false);
       return true;
     }
@@ -182,7 +167,7 @@ const saveToCloud = async (uuid?: string): Promise<boolean> => {
 const saveAsFile = async (): Promise<boolean> => {
   svgCanvas.clearSelection();
   svgCanvas.removeUnusedDefs();
-  const defaultFileName = (svgCanvas.getLatestImportFileName() || 'untitled').replace('/', ':');
+  const defaultFileName = (currentFileManager.getName() || 'untitled').replace('/', ':');
   const langFile = LANG.topmenu.file;
   const getContent =  async () => {
     const buffer = await generateBeamBuffer();
@@ -190,7 +175,7 @@ const saveAsFile = async (): Promise<boolean> => {
     const blob = new Blob([arrayBuffer]);
     return blob;
   };
-  const filePath = await dialog.writeFileDialog(
+  const newFilePath = await dialog.writeFileDialog(
     getContent,
     langFile.save_scene,
     window.os === 'Linux' ? `${defaultFileName}.beam` : defaultFileName,
@@ -205,9 +190,9 @@ const saveAsFile = async (): Promise<boolean> => {
       },
     ],
   );
-  if (filePath) {
-    svgCanvas.currentFilePath = filePath;
-    setCurrentFileName(filePath);
+  if (newFilePath) {
+    currentFileManager.setLocalFile(newFilePath);
+    svgCanvas.updateRecentFiles(newFilePath);
     svgCanvas.setHasUnsavedChange(false, false);
     return true;
   }
@@ -219,26 +204,26 @@ const saveAsFile = async (): Promise<boolean> => {
 };
 
 const saveFile = async (): Promise<boolean> => {
-  if (!svgCanvas.currentFilePath) {
+  const path = currentFileManager.getPath();
+  if (!path) {
     const result = await saveAsFile();
     return result;
   }
   svgCanvas.clearSelection();
   svgCanvas.removeUnusedDefs();
   const output = svgCanvas.getSvgString();
-  if (svgCanvas.currentFilePath.startsWith('cloud:')) {
-    const uuid = svgCanvas.currentFilePath.split('cloud:').pop();
-    const result = await saveToCloud(uuid);
+  if (currentFileManager.isCloudFile) {
+    const result = await saveToCloud(path);
     return result;
   }
-  if (svgCanvas.currentFilePath.endsWith('.bvg')) {
-    fs.writeFile(svgCanvas.currentFilePath, output);
+  if (path.endsWith('.bvg')) {
+    fs.writeFile(path, output);
     svgCanvas.setHasUnsavedChange(false, false);
     return true;
   }
-  if (svgCanvas.currentFilePath.endsWith('.beam')) {
+  if (path.endsWith('.beam')) {
     const buffer = await generateBeamBuffer();
-    fs.writeStream(svgCanvas.currentFilePath, 'w', [buffer]);
+    fs.writeStream(path, 'w', [buffer]);
     svgCanvas.setHasUnsavedChange(false, false);
     return true;
   }
@@ -293,7 +278,7 @@ const exportAsBVG = async (): Promise<boolean> => {
     return false;
   }
   svgCanvas.clearSelection();
-  const defaultFileName = (svgCanvas.getLatestImportFileName() || 'untitled').replace('/', ':');
+  const defaultFileName = (currentFileManager.getName() || 'untitled').replace('/', ':');
   const langFile = LANG.topmenu.file;
   svgCanvas.removeUnusedDefs();
   const getContent = () => removeNPElementsWrapper(
@@ -301,7 +286,7 @@ const exportAsBVG = async (): Promise<boolean> => {
       () => svgCanvas.getSvgString(),
     ),
   );
-  const currentFilePath = await dialog.writeFileDialog(
+  const newFilePath = await dialog.writeFileDialog(
     getContent,
     langFile.save_scene,
     defaultFileName,
@@ -310,8 +295,9 @@ const exportAsBVG = async (): Promise<boolean> => {
       { name: langFile.all_files, extensions: ['*'] },
     ],
   );
-  if (currentFilePath) {
-    setCurrentFileName(currentFilePath);
+  if (newFilePath) {
+    currentFileManager.setLocalFile(newFilePath);
+    svgCanvas.updateRecentFiles(newFilePath);
     svgCanvas.setHasUnsavedChange(false, false);
     return true;
   }
@@ -334,7 +320,7 @@ const exportAsSVG = async (): Promise<void> => {
     document.querySelectorAll('g.layer').forEach((layer) => layer.setAttribute('clip-path', 'url(#scene_mask)'));
     return res;
   };
-  const defaultFileName = (svgCanvas.getLatestImportFileName() || 'untitled').replace('/', ':');
+  const defaultFileName = (currentFileManager.getName() || 'untitled').replace('/', ':');
   const langFile = LANG.topmenu.file;
 
   await dialog.writeFileDialog(getContent, langFile.save_svg, defaultFileName, [
@@ -349,7 +335,7 @@ const exportAsImage = async (type: 'png' | 'jpg'): Promise<void> => {
   const output = switchSymbolWrapper<string>(() => svgCanvas.getSvgString());
   const langFile = LANG.topmenu.file;
   Progress.openNonstopProgress({ id: 'export_image', message: langFile.converting });
-  const defaultFileName = (svgCanvas.getLatestImportFileName() || 'untitled').replace('/', ':');
+  const defaultFileName = (currentFileManager.getName() || 'untitled').replace('/', ':');
   const { width, height } = workareaManager
   const canvas = await svgStringToCanvas(output, width, height);
   let base64 = '';

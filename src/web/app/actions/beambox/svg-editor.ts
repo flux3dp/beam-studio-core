@@ -33,6 +33,7 @@ import { deleteSelectedElements } from 'app/svgedit/operations/delete';
 import { moveSelectedElements } from 'app/svgedit/operations/move';
 
 import canvasEvents from 'app/actions/canvas/canvasEvents';
+import currentFileManager from 'app/svgedit/currentFileManager';
 import ToolPanelsController from './toolPanelsController';
 import RightPanelController from 'app/views/beambox/Right-Panels/contexts/RightPanelController';
 import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
@@ -2850,25 +2851,19 @@ const svgEditor = window['svgEditor'] = (function () {
             });
             break;
         }
-        let fileName = file.name.slice(0, file.name.lastIndexOf('.')).replace(':', "/");
         switch (fileType) {
           case 'bvg':
           case 'beam':
-            svgCanvas.setLatestImportFileName(fileName);
-            svgCanvas.currentFilePath = file.path;
+            currentFileManager.setLocalFile(file.path);
             svgCanvas.updateRecentFiles(file.path);
             svgCanvas.setHasUnsavedChange(false);
             break;
           case 'dxf':
-            svgCanvas.setLatestImportFileName(fileName);
-            svgCanvas.currentFilePath = null;
-            svgCanvas.setHasUnsavedChange(true);
-            break;
           case 'svg':
           case 'bitmap':
           case 'ai':
-            if (!svgCanvas.getLatestImportFileName()) {
-              svgCanvas.setLatestImportFileName(fileName);
+            if (!currentFileManager.getName()) {
+              currentFileManager.setFileName(file.name, true);
             }
             svgCanvas.setHasUnsavedChange(true);
             break;

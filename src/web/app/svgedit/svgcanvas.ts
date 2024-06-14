@@ -3730,20 +3730,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
   this.getHasUnsaveChanged = () => canvas.changed;
 
-  // Function: getLatestImportFileName
-  // Get latest imported file name
-  this.setLatestImportFileName = (fileName) => {
-    this.latestImportFileName = fileName;
-    this.currentFileName = fileName;
-    TopBarController.setFileName(fileName);
-  };
-
-  // Function: getLatestImportFileName
-  // Get latest imported file name
-  this.getLatestImportFileName = function () {
-    return this.latestImportFileName;
-  };
-
   this.updateRecentFiles = (filePath) => {
     const recentFiles = storage.get('recent_files') || [];
     const i = recentFiles.indexOf(filePath);

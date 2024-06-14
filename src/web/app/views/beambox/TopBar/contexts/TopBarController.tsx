@@ -15,8 +15,8 @@ const setElement = (elem: Element | null): void => {
   topBarEventEmitter.emit('SET_ELEMENT', elem);
 };
 
-const setFileName = (fileName: string): void => {
-  topBarEventEmitter.emit('SET_FILE_NAME', fileName);
+const updateTitle = (): void => {
+  topBarEventEmitter.emit('UPDATE_TITLE');
 };
 
 const setHasUnsavedChange = (hasUnsavedChange: boolean): void => {
@@ -53,7 +53,7 @@ const setSelectedDevice = (device: IDeviceInfo): void => {
 
 export default {
   setElement,
-  setFileName,
+  updateTitle,
   setHasUnsavedChange,
   getTopBarPreviewMode,
   setShouldStartPreviewController,

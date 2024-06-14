@@ -8,12 +8,16 @@ jest.mock('helpers/useI18n', () => () => ({
   },
 }));
 
-const mockSvgCanvas = { currentFilePath: '/local/file' };
-jest.mock('helpers/svg-editor-helper', () => ({
-  getSVGAsync: (callback) =>
-    callback({
-      Canvas: mockSvgCanvas,
-    }),
+const mockGetName = jest.fn();
+const mockGetIsCloudFile = jest.fn();
+jest.mock('app/svgedit/currentFileManager', () => ({
+  __esModule: true,
+  default: {
+    get isCloudFile() {
+      return mockGetIsCloudFile();
+    },
+    getName: () => mockGetName(),
+  },
 }));
 
 import FileName from './FileName';
@@ -24,25 +28,32 @@ describe('test FileName', () => {
   });
 
   it('should render correctly', () => {
-    const { container, rerender } = render(<FileName fileName="abc.svg" hasUnsavedChange />);
+    mockGetIsCloudFile.mockReturnValue(false);
+    mockGetName.mockReturnValue('abc');
+    const { container, rerender } = render(<FileName hasUnsavedChange />);
     expect(container).toMatchSnapshot();
 
-    rerender(<FileName fileName="" hasUnsavedChange={false} />);
+    mockGetName.mockReturnValue(null);
+    rerender(<FileName hasUnsavedChange={false} />);
     expect(container).toMatchSnapshot();
 
-    rerender(<FileName fileName="" hasUnsavedChange={false} isTitle />);
+    mockGetName.mockReturnValue(null);
+    rerender(<FileName hasUnsavedChange={false} isTitle />);
     expect(container).toMatchSnapshot();
   });
 
   it('should render correctly with cloud file', () => {
-    mockSvgCanvas.currentFilePath = 'cloud:uuid';
-    const { container, rerender } = render(<FileName fileName="abc.svg" hasUnsavedChange />);
+    mockGetIsCloudFile.mockReturnValue(true);
+    mockGetName.mockReturnValue('abc');
+    const { container, rerender } = render(<FileName hasUnsavedChange />);
     expect(container).toMatchSnapshot();
 
-    rerender(<FileName fileName="" hasUnsavedChange={false} />);
+    mockGetName.mockReturnValue(null);
+    rerender(<FileName hasUnsavedChange={false} />);
     expect(container).toMatchSnapshot();
 
-    rerender(<FileName fileName="" hasUnsavedChange={false} isTitle />);
+    mockGetName.mockReturnValue(null);
+    rerender(<FileName hasUnsavedChange={false} isTitle />);
     expect(container).toMatchSnapshot();
   });
 });

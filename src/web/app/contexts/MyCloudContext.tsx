@@ -10,19 +10,14 @@ import React, {
 import Alert from 'app/actions/alert-caller';
 import alertConstants from 'app/constants/alert-constants';
 import BeamFileHelper from 'helpers/beam-file-helper';
+import currentFileManager from 'app/svgedit/currentFileManager';
 import dialog from 'implementations/dialog';
 import dialogCaller from 'app/actions/dialog-caller';
 import Progress from 'app/actions/progress-caller';
 import useI18n from 'helpers/useI18n';
 import { axiosFluxId, getDefaultHeader, ResponseWithError } from 'helpers/api/flux-id';
-import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IFile } from 'interfaces/IMyCloud';
 import { showFluxPlusWarning } from 'app/actions/dialog-controller';
-
-let svgCanvas;
-getSVGAsync((globalSVG) => {
-  svgCanvas = globalSVG.Canvas;
-});
 
 interface MyCloudContextType {
   sortBy: string;
@@ -183,8 +178,7 @@ export function MyCloudProvider({ children, onClose }: MyCloudProviderProps): JS
       });
       if (await checkResp(resp)) {
         await BeamFileHelper.readBeam(resp.data);
-        svgCanvas.currentFilePath = `cloud:${file.uuid}`;
-        svgCanvas.setLatestImportFileName(file.name);
+        currentFileManager.setCloudFile(file);
         onClose();
       }
     } catch (e) {
@@ -268,8 +262,8 @@ export function MyCloudProvider({ children, onClose }: MyCloudProviderProps): JS
         if (await checkResp(resp)) {
           // eslint-disable-next-line no-param-reassign
           file.name = newName;
-          if (svgCanvas.currentFilePath === `cloud:${file.uuid}`) {
-            svgCanvas.setLatestImportFileName(file.name);
+          if (currentFileManager.isCloudFile && currentFileManager.getPath() === file.uuid) {
+            currentFileManager.setFileName(file.name);
           }
           sortAndSetFiles();
         }
@@ -291,8 +285,8 @@ export function MyCloudProvider({ children, onClose }: MyCloudProviderProps): JS
         withCredentials: true,
         headers: getDefaultHeader(),
       });
-      if ((await checkResp(resp)) && svgCanvas.currentFilePath === `cloud:${file.uuid}`) {
-        svgCanvas.currentFilePath = null;
+      if ((await checkResp(resp)) && currentFileManager.isCloudFile && currentFileManager.getPath() === file.uuid) {
+        currentFileManager.setCloudUUID(null);
       }
     } catch (e) {
       console.error(e);
