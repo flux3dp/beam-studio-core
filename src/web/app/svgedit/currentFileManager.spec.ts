@@ -1,0 +1,60 @@
+import { IFile } from 'interfaces/IMyCloud';
+
+import currentFileManager from './currentFileManager';
+
+const mockSetFileName = jest.fn();
+
+jest.mock('app/views/beambox/TopBar/contexts/TopBarController', () => ({
+  setFileName: (name: string) => mockSetFileName(name),
+}));
+
+describe('test currentFileManager', () => {
+  beforeEach(() => {
+    mockSetFileName.mockClear();
+    currentFileManager.clear();
+  });
+
+  it('should set file name', () => {
+    currentFileManager.setFileName('test');
+    expect(currentFileManager.getName()).toBe('test');
+    expect(mockSetFileName).toHaveBeenCalledWith('test');
+  });
+
+  it('should set file name extracted from path', () => {
+    currentFileManager.setFileName('/some/path/to/test.svg', true);
+    expect(currentFileManager.getName()).toBe('test');
+    expect(mockSetFileName).toHaveBeenCalledWith('test');
+  });
+
+  it('should set local file', () => {
+    currentFileManager.setLocalFile('/some/path/to/test.svg');
+    expect(currentFileManager.getName()).toBe('test');
+    expect(currentFileManager.getPath()).toBe('/some/path/to/test.svg');
+    expect(currentFileManager.isCloudFile).toBe(false);
+    expect(mockSetFileName).toHaveBeenCalledWith('test');
+  });
+
+  it('should set cloud file', () => {
+    currentFileManager.setCloudFile({ name: 'test', uuid: '123' } as IFile);
+    expect(currentFileManager.getName()).toBe('test');
+    expect(currentFileManager.getPath()).toBe('123');
+    expect(currentFileManager.isCloudFile).toBe(true);
+    expect(mockSetFileName).toHaveBeenCalledWith('test');
+  });
+
+  it('should set cloud UUID', () => {
+    currentFileManager.setCloudUUID('123');
+    expect(currentFileManager.getPath()).toBe('123');
+    expect(currentFileManager.isCloudFile).toBe(true);
+    expect(mockSetFileName).toHaveBeenCalledWith(currentFileManager.getName());
+  });
+
+  it('should clear', () => {
+    currentFileManager.setFileName('test');
+    currentFileManager.clear();
+    expect(currentFileManager.getName()).toBe(null);
+    expect(currentFileManager.getPath()).toBe(null);
+    expect(currentFileManager.isCloudFile).toBe(false);
+    expect(mockSetFileName).toHaveBeenCalledWith('');
+  });
+});

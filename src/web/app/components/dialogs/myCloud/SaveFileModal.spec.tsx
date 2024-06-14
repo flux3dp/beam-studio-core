@@ -21,14 +21,12 @@ jest.mock('helpers/useI18n', () => () => ({
   },
 }));
 
-const mockGetLatestImportFileName = jest.fn().mockReturnValue(undefined);
-jest.mock('helpers/svg-editor-helper', () => ({
-  getSVGAsync: (cb) =>
-    cb({
-      Canvas: {
-        getLatestImportFileName: () => mockGetLatestImportFileName(),
-      },
-    }),
+const mockGetName = jest.fn();
+jest.mock('app/svgedit/currentFileManager', () => ({
+  __esModule: true,
+  default: {
+    getName: () => mockGetName(),
+  },
 }));
 
 const mockOnClose = jest.fn();
@@ -62,7 +60,7 @@ describe('test SaveFileModal', () => {
   });
 
   test('should save to another file correctly with uuid', () => {
-    mockGetLatestImportFileName.mockReturnValueOnce('/path/old file name');
+    mockGetName.mockReturnValueOnce('/path/old file name');
     const { baseElement, getByText } = render(
       <SaveFileModal onClose={mockOnClose} uuid="mock-uuid" />
     );
