@@ -49,17 +49,6 @@ exports[`should render correctly 1`] = `
         <svgr-url />
       </span>
     </div>
-    <div
-      class="container"
-      id="curve-engrave"
-      title="Curve Engraving"
-    >
-      <span
-        class="ant-badge badge css-dev-only-do-not-override-hash"
-      >
-        <svgr-url />
-      </span>
-    </div>
   </div>
 </div>
 `;
