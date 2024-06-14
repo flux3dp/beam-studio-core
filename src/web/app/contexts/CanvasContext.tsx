@@ -1,9 +1,7 @@
 import React, { createContext, useCallback, useEffect, useState } from 'react';
-import ReactDomServer from 'react-dom/server';
 
 import * as TutorialController from 'app/views/tutorials/tutorialController';
 import TutorialConstants from 'app/constants/tutorial-constants';
-import FileName from 'app/components/beambox/top-bar/FileName';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
@@ -28,7 +26,6 @@ interface CanvasContextType {
   changeToPreviewMode: () => void;
   currentUser: IUser;
   endPreviewMode: () => void;
-  fileName: string | null;
   hasUnsavedChange: boolean;
   isPathPreviewing: boolean;
   isPreviewing: boolean;
@@ -55,7 +52,6 @@ const CanvasContext = createContext<CanvasContextType>({
   changeToPreviewMode: () => {},
   currentUser: null,
   endPreviewMode: () => {},
-  fileName: null,
   hasUnsavedChange: false,
   isPathPreviewing: false,
   isPreviewing: false,
@@ -84,7 +80,6 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
   const [isPathPreviewing, setIsPathPreviewing] = useState<boolean>(false);
   const [isColorPreviewing, setIsColorPreviewing] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<IUser>(null);
-  const [fileName, setFileName] = useState<string>(null);
   const [hasUnsavedChange, setHasUnsavedChange] = useState<boolean>(false);
   const [startPreviewCallback, setStartPreviewCallback] = useState<() => void | null>(null);
   const [shouldStartPreviewController, setShouldStartPreviewController] = useState<boolean>(false);
@@ -127,49 +122,51 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
   };
 
   const setUser = useCallback((user) => setCurrentUser({ ...user }), []);
-
-  const setTitle = (newFileName: string) => {
-    setFileName(newFileName);
-    if (window.os === 'Windows' && window.titlebar) {
-      const title = ReactDomServer.renderToStaticMarkup(
-        <FileName fileName={newFileName} hasUnsavedChange={false} isTitle />
-      );
-      // eslint-disable-next-line no-underscore-dangle
-      window.titlebar._title.innerHTML = title;
-    }
-  };
-
   useEffect(() => {
-    // Listen to events from TopBarControllers (non-react parts)
     fluxIDEventEmitter.on('update-user', setUser);
-    topBarEventEmitter.on('SET_FILE_NAME', setTitle);
-    topBarEventEmitter.on('SET_HAS_UNSAVED_CHANGE', setHasUnsavedChange);
-    topBarEventEmitter.on('SET_SHOULD_START_PREVIEW_CONTROLLER', setShouldStartPreviewController);
-    topBarEventEmitter.on('SET_START_PREVIEW_CALLBACK', (callback) => {
-      // wrap callback with a function to prevent calling it immediately
-      setStartPreviewCallback(() => callback);
-    });
-    topBarEventEmitter.on(
-      'GET_TOP_BAR_PREVIEW_MODE',
-      (response: { isPreviewMode: boolean }): void => {
-        response.isPreviewMode = isPreviewing;
-      }
-    );
-    topBarEventEmitter.on(
-      'GET_SELECTED_DEVICE',
-      (response: { selectedDevice: IDeviceInfo | null }): void => {
-        response.selectedDevice = selectedDevice;
-      }
-    );
-    topBarEventEmitter.on('SET_SELECTED_DEVICE', setSelectedDevice);
-    window.addEventListener('update-user', (e: CustomEvent) => {
+    const handler = (e: CustomEvent) => {
       setUser(e.detail.user);
-    });
+    };
+    window.addEventListener('update-user', handler);
     return () => {
       fluxIDEventEmitter.removeListener('update-user', setUser);
-      topBarEventEmitter.removeAllListeners();
+      window.removeEventListener('update-user', handler);
     };
-  }, [setUser, isPreviewing, selectedDevice]);
+  }, [setUser]);
+  useEffect(() => {
+    topBarEventEmitter.on('SET_HAS_UNSAVED_CHANGE', setHasUnsavedChange);
+    topBarEventEmitter.on('SET_SHOULD_START_PREVIEW_CONTROLLER', setShouldStartPreviewController);
+    topBarEventEmitter.on('SET_SELECTED_DEVICE', setSelectedDevice);
+    const setStartPreviewCallbackHandler = (callback) => {
+      // wrap callback with a function to prevent calling it immediately
+      setStartPreviewCallback(() => callback);
+    };
+    topBarEventEmitter.on('SET_START_PREVIEW_CALLBACK', setStartPreviewCallbackHandler);
+    return () => {
+      topBarEventEmitter.removeListener('SET_HAS_UNSAVED_CHANGE', setHasUnsavedChange);
+      topBarEventEmitter.removeListener('SET_SHOULD_START_PREVIEW_CONTROLLER', setShouldStartPreviewController);
+      topBarEventEmitter.removeListener('SET_SELECTED_DEVICE', setSelectedDevice);
+      topBarEventEmitter.removeListener('SET_START_PREVIEW_CALLBACK', setStartPreviewCallbackHandler);
+    };
+  }, []);
+  useEffect(() => {
+    const handler = (response: { isPreviewMode: boolean }): void => {
+      response.isPreviewMode = isPreviewing;
+    };
+    topBarEventEmitter.on('GET_TOP_BAR_PREVIEW_MODE', handler);
+    return () => {
+      topBarEventEmitter.removeListener('GET_TOP_BAR_PREVIEW_MODE', handler);
+    };
+  }, [isPreviewing]);
+  useEffect(() => {
+    const handler = (response: { selectedDevice: IDeviceInfo | null }): void => {
+      response.selectedDevice = selectedDevice;
+    };
+    topBarEventEmitter.on('GET_SELECTED_DEVICE', handler);
+    return () => {
+      topBarEventEmitter.removeListener('GET_SELECTED_DEVICE', handler);
+    };
+  }, [selectedDevice]);
 
   const updateCanvasContext = useCallback(() => {
     forceUpdate();
@@ -220,7 +217,6 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
         changeToPreviewMode,
         currentUser,
         endPreviewMode,
-        fileName,
         hasUnsavedChange,
         isPathPreviewing,
         isPreviewing,

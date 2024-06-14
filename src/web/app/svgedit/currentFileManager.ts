@@ -21,7 +21,7 @@ class CurrentFileManager {
   setFileName = (fileName: string, extractFromPath = false) => {
     const name = extractFromPath ? this.extractFileName(fileName) : fileName;
     this.name = name;
-    TopBarController.setFileName(name);
+    TopBarController.updateTitle();
   };
 
   setLocalFile = (filepath: string) => {
@@ -29,28 +29,28 @@ class CurrentFileManager {
     this.name = fileName;
     this.path = filepath;
     this.isCloudFile = false;
-    TopBarController.setFileName(fileName);
+    TopBarController.updateTitle();
   };
 
   setCloudFile = (file: IFile) => {
     this.name = file.name;
     this.path = file.uuid;
     this.isCloudFile = true;
-    TopBarController.setFileName(this.name);
+    TopBarController.updateTitle();
   };
 
   setCloudUUID = (uuid: string | null) => {
     this.path = uuid;
     this.isCloudFile = !!uuid;
     // update cloud icon
-    TopBarController.setFileName(this.name);
+    TopBarController.updateTitle();
   };
 
   clear = () => {
     this.name = null;
     this.path = null;
     this.isCloudFile = false;
-    TopBarController.setFileName('');
+    TopBarController.updateTitle();
   };
 }
 

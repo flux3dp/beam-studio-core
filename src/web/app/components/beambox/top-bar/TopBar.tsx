@@ -213,14 +213,14 @@ export default class TopBar extends React.PureComponent<Record<string, never>, S
   render(): JSX.Element {
     const { isPathPreviewing, togglePathPreview } = this.context;
     const { hasDiscoverdMachine } = this.state;
-    const { isPreviewing, fileName, hasUnsavedChange, currentUser } = this.context;
+    const { isPreviewing, hasUnsavedChange, currentUser } = this.context;
     return (
       <div
         className={classNames('top-bar', styles['top-bar'], { white: isWhiteTopBar })}
         onClick={() => ObjectPanelController.updateActiveKey(null)}
       >
         {(window.os === 'Windows' && !!window.titlebar) || (
-          <FileName fileName={fileName} hasUnsavedChange={hasUnsavedChange} />
+          <FileName hasUnsavedChange={hasUnsavedChange} />
         )}
         <UserAvatar user={currentUser} />
         <PreviewButton />

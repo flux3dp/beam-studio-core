@@ -8,6 +8,7 @@ jest.mock('helpers/useI18n', () => () => ({
   },
 }));
 
+const mockGetName = jest.fn();
 const mockGetIsCloudFile = jest.fn();
 jest.mock('app/svgedit/currentFileManager', () => ({
   __esModule: true,
@@ -15,6 +16,7 @@ jest.mock('app/svgedit/currentFileManager', () => ({
     get isCloudFile() {
       return mockGetIsCloudFile();
     },
+    getName: () => mockGetName(),
   },
 }));
 
@@ -27,25 +29,31 @@ describe('test FileName', () => {
 
   it('should render correctly', () => {
     mockGetIsCloudFile.mockReturnValue(false);
-    const { container, rerender } = render(<FileName fileName="abc.svg" hasUnsavedChange />);
+    mockGetName.mockReturnValue('abc');
+    const { container, rerender } = render(<FileName hasUnsavedChange />);
     expect(container).toMatchSnapshot();
 
-    rerender(<FileName fileName="" hasUnsavedChange={false} />);
+    mockGetName.mockReturnValue(null);
+    rerender(<FileName hasUnsavedChange={false} />);
     expect(container).toMatchSnapshot();
 
-    rerender(<FileName fileName="" hasUnsavedChange={false} isTitle />);
+    mockGetName.mockReturnValue(null);
+    rerender(<FileName hasUnsavedChange={false} isTitle />);
     expect(container).toMatchSnapshot();
   });
 
   it('should render correctly with cloud file', () => {
     mockGetIsCloudFile.mockReturnValue(true);
-    const { container, rerender } = render(<FileName fileName="abc.svg" hasUnsavedChange />);
+    mockGetName.mockReturnValue('abc');
+    const { container, rerender } = render(<FileName hasUnsavedChange />);
     expect(container).toMatchSnapshot();
 
-    rerender(<FileName fileName="" hasUnsavedChange={false} />);
+    mockGetName.mockReturnValue(null);
+    rerender(<FileName hasUnsavedChange={false} />);
     expect(container).toMatchSnapshot();
 
-    rerender(<FileName fileName="" hasUnsavedChange={false} isTitle />);
+    mockGetName.mockReturnValue(null);
+    rerender(<FileName hasUnsavedChange={false} isTitle />);
     expect(container).toMatchSnapshot();
   });
 });
