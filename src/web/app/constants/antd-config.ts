@@ -55,3 +55,35 @@ export const selectTheme: ThemeConfig = {
     },
   },
 };
+
+export const underlineInputTheme: ThemeConfig = {
+  token: {
+    lineWidth: 0,
+    colorBgContainer: 'transparent',
+    colorBgContainerDisabled: 'transparent',
+    controlPaddingHorizontal: 6,
+    fontSize: 14,
+  },
+  components: {
+    InputNumber: {
+      activeShadow: 'none',
+      controlWidth: 70,
+    },
+  },
+};
+
+export const objectPanelInputTheme: ThemeConfig = {
+  token: {
+    lineWidth: 0,
+    colorBgContainer: 'transparent',
+    colorBgContainerDisabled: 'transparent',
+    controlPaddingHorizontal: 6,
+    fontSize: 12,
+  },
+  components: {
+    InputNumber: {
+      activeShadow: 'none',
+      controlWidth: 66,
+    },
+  },
+};

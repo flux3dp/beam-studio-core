@@ -1,14 +1,13 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { forwardRef, useCallback, useRef, useImperativeHandle } from 'react';
-import { ConfigProvider, InputNumber, InputNumberProps } from 'antd';
+import { ConfigProvider, InputNumber, InputNumberProps, ThemeConfig } from 'antd';
 
 import styles from './UnitInput.module.scss';
 
 interface Props extends InputNumberProps<number> {
   unit: string;
   isInch?: boolean;
-  width?: number;
-  fontSize?: number;
+  theme?: ThemeConfig
 }
 
 // TODO: add test
@@ -23,8 +22,7 @@ const UnitInput = forwardRef<HTMLInputElement, Props>(({
   isInch,
   onBlur,
   onChange,
-  width = 70,
-  fontSize = 14,
+  theme,
   precision = 4,
   ...props
 }: Props, outerRef): JSX.Element => {
@@ -63,21 +61,7 @@ const UnitInput = forwardRef<HTMLInputElement, Props>(({
   return (
     <div className={styles.input}>
       <ConfigProvider
-        theme={{
-          token: {
-            lineWidth: 0,
-            colorBgContainer: 'transparent',
-            colorBgContainerDisabled: 'transparent',
-            controlPaddingHorizontal: 6,
-            fontSize,
-          },
-          components: {
-            InputNumber: {
-              activeShadow: 'none',
-              controlWidth: width,
-            },
-          },
-        }}
+        theme={theme}
       >
         <InputNumber
           ref={inputRef}

@@ -8,6 +8,7 @@ import storage from 'implementations/storage';
 import UnitInput from 'app/widgets/UnitInput';
 import useI18n from 'helpers/useI18n';
 import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
+import { underlineInputTheme } from 'app/constants/antd-config';
 
 import styles from './PreviewHeight.module.scss';
 
@@ -168,6 +169,7 @@ const PreviewHeight = ({ initValue, onOk, onClose }: Props): JSX.Element => {
           step={isInch ? 0.254 : 0.1}
           disabled={!adjustChecked}
           onChange={(val) => setValue(val)}
+          theme={underlineInputTheme}
         />
         {hasInitValue && (
           <Checkbox checked={adjustChecked} onChange={(e) => setAdjustChecked(e.target.checked)}>

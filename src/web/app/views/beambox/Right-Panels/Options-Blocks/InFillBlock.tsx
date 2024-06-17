@@ -5,7 +5,7 @@ import { Button, ConfigProvider, Switch } from 'antd';
 import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import OptionPanelIcons from 'app/icons/option-panel/OptionPanelIcons';
-import { iconButtonTheme } from 'app/views/beambox/Right-Panels/antd-config';
+import { iconButtonTheme } from 'app/constants/antd-config';
 import useDidUpdateEffect from 'helpers/hooks/useDidUpdateEffect';
 import useI18n from 'helpers/useI18n';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
