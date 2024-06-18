@@ -6,7 +6,8 @@ export interface ILang {
   buttons: {
     next: string,
     back: string,
-    done: string,
+    done: string;
+    back_to_beam_studio: string;
   },
   topbar: {
     untitled: string,
@@ -16,6 +17,7 @@ export interface ILang {
     export: string,
     preview: string,
     preview_title: string;
+    curve_engrave: string;
     task_preview: string;
     frame_task: string;
     borderless: string,
@@ -626,6 +628,13 @@ export interface ILang {
         qr_code: string;
         boxgen: string;
         my_cloud: string;
+        curve_engraving: {
+          title: string;
+          exit: string;
+          select_area: string;
+          preview_3d_curve: string;
+          clear_area: string;
+        }
       },
     },
     right_panel: {
@@ -1395,6 +1404,7 @@ export interface ILang {
     connectionTimeout: string,
   },
   message: {
+    cancelling: string,
     connecting: string,
     connectingMachine: string,
     tryingToConenctMachine: string,
@@ -1460,6 +1470,7 @@ export interface ILang {
       adjust_height_tooltip: string;
     };
     unsupported_example_file: string;
+    time_remaining: string;
   },
   machine_status: {
     '-17': string,
@@ -1685,7 +1696,6 @@ export interface ILang {
     invert: string;
   };
   boxgen: {
-    back: string;
     title: string;
     basic_box: string;
     coming_soon: string;
@@ -1770,5 +1780,29 @@ export interface ILang {
     extension_not_deteced: string;
     extension_not_deteced_description: string;
     unsecure_url_help_center_link: string;
+  };
+  curve_engraving: {
+    measure_audofocus_area: string;
+    amount: string;
+    gap: string;
+    rows: string;
+    coloumns: string;
+    row_gap: string;
+    column_gap: string;
+    set_object_height: string;
+    set_object_height_desc: string;
+    measure_area_help: string;
+    reselect_area: string;
+    start_autofocus: string;
+    starting_measurement: string;
+    preview_3d_curve: string;
+    apply_arkwork: string;
+    apply_camera: string;
+    click_to_select_point: string;
+    remeasure: string;
+    remeasuring_points: string;
+  };
+  pass_through: {
+    title: string;
   };
 }

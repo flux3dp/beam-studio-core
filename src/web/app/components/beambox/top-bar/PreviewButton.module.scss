@@ -27,9 +27,10 @@
     font-weight: bold;
     letter-spacing: 1px;
     opacity: 0.64;
+    text-transform: uppercase;
   }
 
-  &.previewing {
+  &.active {
     min-width: 140px;
     max-width: 260px;
     background-color: #eeeeee;

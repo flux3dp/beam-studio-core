@@ -8,7 +8,7 @@ import SymbolMaker from 'helpers/symbol-maker';
 import useForceUpdate from 'helpers/use-force-update';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IBatchCommand } from 'interfaces/IHistory';
-import { iconButtonTheme } from 'app/views/beambox/Right-Panels/antd-config';
+import { iconButtonTheme } from 'app/constants/antd-config';
 import { useIsMobile } from 'helpers/system-helper';
 
 import PositionInput from './PositionInput';

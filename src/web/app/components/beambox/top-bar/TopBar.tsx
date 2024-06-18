@@ -27,7 +27,7 @@ import TopBarHints from 'app/components/beambox/top-bar/TopBarHints';
 import tutorialConstants from 'app/constants/tutorial-constants';
 import tutorialController from 'app/views/tutorials/tutorialController';
 import UserAvatar from 'app/components/beambox/top-bar/UserAvatar';
-import { CanvasContext } from 'app/contexts/CanvasContext';
+import { CanvasContext, CanvasMode } from 'app/contexts/CanvasContext';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { SelectedElementContext } from 'app/contexts/SelectedElementContext';
@@ -117,8 +117,7 @@ export default class TopBar extends React.PureComponent<Record<string, never>, S
     }
 
     const {
-      setIsPreviewing,
-      setTopBarPreviewMode,
+      setMode,
       startPreviewCallback,
       setStartPreviewCallback,
       updateCanvasContext,
@@ -141,8 +140,7 @@ export default class TopBar extends React.PureComponent<Record<string, never>, S
           message: `${LANG.alerts.fail_to_start_preview}<br/>${errMessage}`,
         });
       }
-      setTopBarPreviewMode(false);
-      setIsPreviewing(false);
+      setMode(CanvasMode.Draw);
       $(workarea).css('cursor', 'auto');
     };
 
@@ -162,7 +160,7 @@ export default class TopBar extends React.PureComponent<Record<string, never>, S
           }
         });
       }
-      setIsPreviewing(true);
+      setMode(CanvasMode.Preview);
       if (startPreviewCallback) {
         startPreviewCallback();
         setStartPreviewCallback(null);
@@ -211,9 +209,9 @@ export default class TopBar extends React.PureComponent<Record<string, never>, S
   }
 
   render(): JSX.Element {
-    const { isPathPreviewing, togglePathPreview } = this.context;
+    const { togglePathPreview } = this.context;
     const { hasDiscoverdMachine } = this.state;
-    const { isPreviewing, hasUnsavedChange, currentUser } = this.context;
+    const { mode, hasUnsavedChange, currentUser } = this.context;
     return (
       <div
         className={classNames('top-bar', styles['top-bar'], { white: isWhiteTopBar })}
@@ -228,7 +226,6 @@ export default class TopBar extends React.PureComponent<Record<string, never>, S
           <SelectMachineButton />
           <FrameButton />
           <PathPreviewButton
-            isPathPreviewing={isPathPreviewing}
             isDeviceConnected={hasDiscoverdMachine}
             togglePathPreview={togglePathPreview}
           />
@@ -241,7 +238,7 @@ export default class TopBar extends React.PureComponent<Record<string, never>, S
         {this.renderMenu()}
         <CommonTools
           isWeb={isWeb()}
-          hide={isPreviewing || isPathPreviewing}
+          hide={mode !== CanvasMode.Draw}
         />
       </div>
     );

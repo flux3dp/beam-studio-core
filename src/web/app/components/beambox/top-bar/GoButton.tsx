@@ -22,7 +22,7 @@ import TopBarIcons from 'app/icons/top-bar/TopBarIcons';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import useI18n from 'helpers/useI18n';
 import VersionChecker from 'helpers/version-checker';
-import { CanvasContext } from 'app/contexts/CanvasContext';
+import { CanvasContext, CanvasMode } from 'app/contexts/CanvasContext';
 import { executeFirmwareUpdate } from 'app/actions/beambox/menuDeviceActions';
 import { getNextStepRequirement, handleNextStep } from 'app/views/tutorials/tutorialController';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
@@ -45,7 +45,7 @@ interface Props {
 
 const GoButton = (props: Props): JSX.Element => {
   const lang = useI18n();
-  const { endPreviewMode, isPreviewing } = useContext(CanvasContext);
+  const { endPreviewMode, mode } = useContext(CanvasContext);
 
   const handleExportAlerts = async () => {
     const layers = [...document.querySelectorAll('#svgcontent > g.layer:not([display="none"])')];
@@ -286,7 +286,7 @@ const GoButton = (props: Props): JSX.Element => {
   return (
     <div
       className={classNames(styles.button, {
-        [styles.disabled]: !hasDiscoverdMachine || isPreviewing,
+        [styles.disabled]: !hasDiscoverdMachine || mode !== CanvasMode.Draw,
       })}
       onClick={handleExportClick}
       title={lang.tutorial.newInterface.start_work}

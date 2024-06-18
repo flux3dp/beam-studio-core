@@ -10,6 +10,7 @@ const lang: ILang = {
     next: '下一步',
     back: '上一步',
     done: '完成',
+    back_to_beam_studio: '返回 Beam Studio',
   },
   topbar: {
     untitled: '无标题',
@@ -19,6 +20,7 @@ const lang: ILang = {
     export: 'GO',
     preview: '相机预览',
     preview_title: '相机预览',
+    curve_engrave: '3D 曲线',
     task_preview: '工作预览',
     frame_task: '外框预览',
     borderless: '(开盖模式)',
@@ -629,6 +631,13 @@ const lang: ILang = {
         qr_code: '二维码',
         boxgen: 'Boxgen',
         my_cloud: '我的云端',
+        curve_engraving: {
+          title: '3D 曲线',
+          exit: '退出',
+          select_area: '选择区域',
+          preview_3d_curve: '预览 3D 曲面',
+          clear_area: '清除选定区域',
+        },
       },
     },
     right_panel: {
@@ -1398,6 +1407,7 @@ const lang: ILang = {
     connectionTimeout: '连接逾时',
   },
   message: {
+    cancelling: '取消中...',
     connecting: '连接中...',
     connectingMachine: '连接 %s 中...',
     tryingToConenctMachine: '连接机器中...',
@@ -1463,6 +1473,7 @@ const lang: ILang = {
       adjust_height_tooltip: '单击复选框以启用编辑。',
     },
     unsupported_example_file: '所选示例文件不受当前工作区支持。',
+    time_remaining: '剩余时间：',
   },
   machine_status: {
     '-17': '墨匣模式',
@@ -1688,7 +1699,6 @@ const lang: ILang = {
     invert: '反转背景色',
   },
   boxgen: {
-    back: '返回 Beam Studio',
     title: 'BOXGEN',
     basic_box: '基本箱体',
     coming_soon: '即将推出',
@@ -1773,6 +1783,30 @@ const lang: ILang = {
     extension_not_deteced: '无法检测到 Beam Studio Connect 扩展',
     extension_not_deteced_description: '要使用 HTTPS，请点击“确认”以安装 Beam Studio Connect 扩展。安装扩展后，请刷新页面以激活它。<br/>否则，请点击下面的链接查看如何在 Chrome 中使用 HTTP。',
     unsecure_url_help_center_link: '<a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/9935859456271">链接</a>',
+  },
+  curve_engraving: {
+    measure_audofocus_area: '测量自动对焦区域',
+    amount: '数量',
+    gap: '间距',
+    rows: '行',
+    coloumns: '列',
+    row_gap: '行间距',
+    column_gap: '列间距',
+    set_object_height: '设置物件高度',
+    set_object_height_desc: '测量物件的最大厚度。',
+    measure_area_help: '如何选择3D曲线的自动对焦区域？',
+    reselect_area: '重新选择区域',
+    start_autofocus: '开始自动对焦',
+    starting_measurement: '开始测量...',
+    preview_3d_curve: '预览 3D 曲线',
+    apply_arkwork: '将艺术作品应用于 3D 曲线',
+    apply_camera: '将相机图像应用于 3D 曲线',
+    click_to_select_point: '点击选择或取消选择要重新测量的点。',
+    remeasure: '重新测量',
+    remeasuring_points: '正在重新测量...',
+  },
+  pass_through: {
+    title: '直通模式',
   },
 };
 

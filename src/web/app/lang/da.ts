@@ -10,6 +10,7 @@ const lang: ILang = {
     next: 'NÆSTE',
     back: 'TILBAGE',
     done: 'FÆRDIG',
+    back_to_beam_studio: 'Tilbage til Beam Studio',
   },
   topbar: {
     untitled: 'Untitled',
@@ -19,6 +20,7 @@ const lang: ILang = {
     export: 'EKSPORTER',
     preview: 'FORHÅNDSVISNING',
     preview_title: 'Forhåndsvisning',
+    curve_engrave: '3D Kurve',
     task_preview: 'Opgaverammeforhåndsvisning',
     frame_task: 'Kørende ramme',
     borderless: '(ÅBEN NEDERST)',
@@ -626,6 +628,13 @@ const lang: ILang = {
         qr_code: 'QR-kode',
         boxgen: 'Boxgen',
         my_cloud: 'Min sky',
+        curve_engraving: {
+          title: '3D Kurve',
+          exit: 'Afslut',
+          select_area: 'Vælg område',
+          preview_3d_curve: 'Forhåndsvis 3D-kurve',
+          clear_area: 'Ryd valgt område',
+        },
       },
     },
     right_panel: {
@@ -1395,6 +1404,7 @@ const lang: ILang = {
     connectionTimeout: 'Forbindelsestimeout',
   },
   message: {
+    cancelling: 'Annullerer...',
     connecting: 'Forbinder...',
     connectingMachine: 'Forbinder %s...',
     tryingToConenctMachine: 'Forsøger at oprette forbindelse til maskine...',
@@ -1460,6 +1470,7 @@ const lang: ILang = {
       adjust_height_tooltip: 'Aktiver redigering ved at afkrydse.',
     },
     unsupported_example_file: 'Det valgte eksempelfil understøttes ikke af det aktuelle arbejdsområde.',
+    time_remaining: 'Tid tilbage:',
   },
   machine_status: {
     '0': 'Ledig',
@@ -1685,7 +1696,6 @@ const lang: ILang = {
     invert: 'Inverter baggrundsfarve',
   },
   boxgen: {
-    back: 'Tilbage til Beam Studio',
     title: 'BOXGEN',
     basic_box: 'Basic Box',
     coming_soon: 'Kommer snart',
@@ -1770,6 +1780,30 @@ const lang: ILang = {
     extension_not_deteced: 'Kan ikke registrere Beam Studio Connect-udvidelse',
     extension_not_deteced_description: "For at bruge HTTPS skal du klikke på 'Bekræft' for at installere Beam Studio Connect-udvidelsen. Efter installation af udvidelsen skal du opdatere siden for at aktivere den.<br/>Ellers kan du klikke på linket nedenfor for at se, hvordan du bruger HTTP i Chrome.",
     unsecure_url_help_center_link: '<a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/9935859456271">Link</a>',
+  },
+  curve_engraving: {
+    measure_audofocus_area: 'Mål Autofokusområde',
+    amount: 'Mængde',
+    gap: 'Mellemrum',
+    rows: 'Rækker',
+    coloumns: 'Kolonner',
+    row_gap: 'Rækker Mellemrum',
+    column_gap: 'Kolonner Mellemrum',
+    set_object_height: 'Indstil objektets højde',
+    set_object_height_desc: 'Mål objektets maksimale tykkelse.',
+    measure_area_help: 'Hvordan vælger man autofokusområdet til 3D-kurve?',
+    reselect_area: 'Vælg område igen',
+    start_autofocus: 'Start Autofokus',
+    starting_measurement: 'Starter måling...',
+    preview_3d_curve: 'Forhåndsvis 3D-kurve',
+    apply_arkwork: 'Anvend kunstværk på 3D-kurve',
+    apply_camera: 'Anvend kamerabillede på 3D-kurve',
+    click_to_select_point: 'Klik for at vælge eller fravælge punkter til genmåling.',
+    remeasure: 'Genmål',
+    remeasuring_points: 'Genmåler punkter...',
+  },
+  pass_through: {
+    title: 'Gennemgangstilstand',
   },
 };
 

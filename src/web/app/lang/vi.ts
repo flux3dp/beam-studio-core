@@ -10,6 +10,7 @@ const lang: ILang = {
     next: 'Tiếp theo',
     back: 'Quay lại',
     done: 'Hoàn tất',
+    back_to_beam_studio: 'Quay lại Beam Studio',
   },
   topbar: {
     untitled: 'Chưa đặt tên',
@@ -19,6 +20,7 @@ const lang: ILang = {
     export: 'XUẤT',
     preview: 'XEM TRƯỚC',
     preview_title: 'Xem trước',
+    curve_engrave: 'Đường cong 3D',
     task_preview: 'Xem trước đường đi',
     frame_task: 'Đang chạy khung',
     borderless: '(MỞ PHÍA DƯỚI)',
@@ -626,6 +628,13 @@ const lang: ILang = {
         qr_code: 'Mã QR',
         boxgen: 'Boxgen',
         my_cloud: 'Đám mây của tôi',
+        curve_engraving: {
+          title: 'Đường cong 3D',
+          exit: 'Thoát',
+          select_area: 'Chọn khu vực',
+          preview_3d_curve: 'Xem trước đường cong 3D',
+          clear_area: 'Xóa khu vực đã chọn',
+        },
       },
     },
     right_panel: {
@@ -1395,6 +1404,7 @@ const lang: ILang = {
     connectionTimeout: 'Hết thời gian kết nối',
   },
   message: {
+    cancelling: 'Hủy bỏ...',
     connecting: 'Đang kết nối...',
     connectingMachine: 'Đang kết nối %s...',
     tryingToConenctMachine: 'Đang thử kết nối với máy...',
@@ -1460,6 +1470,7 @@ const lang: ILang = {
       adjust_height_tooltip: 'Nhấp vào hộp kiểm để bật chỉnh sửa.',
     },
     unsupported_example_file: 'Tệp ví dụ đã chọn không được hỗ trợ bởi khu vực làm việc hiện tại.',
+    time_remaining: 'Thời gian còn lại:',
   },
   machine_status: {
     '0': 'Nghỉ',
@@ -1685,7 +1696,6 @@ const lang: ILang = {
     invert: 'Đảo ngược màu nền',
   },
   boxgen: {
-    back: 'Quay lại Beam Studio',
     title: 'BOXGEN',
     basic_box: 'Hộp cơ bản',
     coming_soon: 'Sắp ra mắt',
@@ -1770,6 +1780,30 @@ const lang: ILang = {
     extension_not_deteced: 'Không thể phát hiện Phần mở rộng Beam Studio Connect',
     extension_not_deteced_description: "Để sử dụng HTTPS, vui lòng nhấp vào 'Xác nhận' để cài đặt tiện ích mở rộng Beam Studio Connect. Sau khi cài đặt tiện ích mở rộng, vui lòng làm mới trang để kích hoạt nó.<br/>Nếu không, hãy nhấp vào liên kết bên dưới để xem cách sử dụng HTTP trên Chrome.",
     unsecure_url_help_center_link: '<a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/9935859456271">Liên kết</a>',
+  },
+  curve_engraving: {
+    measure_audofocus_area: 'Đo khu vực lấy nét tự động',
+    amount: 'Số lượng',
+    gap: 'Khoảng cách',
+    rows: 'Hàng',
+    coloumns: 'Cột',
+    row_gap: 'Khoảng cách hàng',
+    column_gap: 'Khoảng cách cột',
+    set_object_height: 'Đặt chiều cao đối tượng',
+    set_object_height_desc: 'Đo độ dày tối đa của đối tượng.',
+    measure_area_help: 'Làm thế nào để chọn khu vực lấy nét tự động cho 3D Curve?',
+    reselect_area: 'Chọn lại Khu vực',
+    start_autofocus: 'Bắt đầu Lấy nét tự động',
+    starting_measurement: 'Bắt đầu đo...',
+    preview_3d_curve: 'Xem trước Đường cong 3D',
+    apply_arkwork: 'Áp dụng Tác phẩm nghệ thuật lên Đường cong 3D',
+    apply_camera: 'Áp dụng Hình ảnh Camera lên Đường cong 3D',
+    click_to_select_point: 'Nhấp để chọn hoặc bỏ chọn các điểm để đo lại.',
+    remeasure: 'Đo lại',
+    remeasuring_points: 'Đang đo lại các điểm...',
+  },
+  pass_through: {
+    title: 'Chế Độ Đi Qua',
   },
 };
 

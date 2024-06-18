@@ -10,6 +10,7 @@ const lang: ILang = {
     next: 'Suivant',
     back: 'Retour',
     done: 'Terminé',
+    back_to_beam_studio: 'Retourner à Beam Studio',
   },
   topbar: {
     untitled: 'Sans titre',
@@ -19,6 +20,7 @@ const lang: ILang = {
     export: 'EXPORTER',
     preview: 'PRÉVISUALISATION',
     preview_title: 'Aperçu',
+    curve_engrave: 'Courbe 3D',
     task_preview: 'Aperçu de la tâche',
     frame_task: 'Exécution du cadre',
     borderless: '(OUVRIR EN BAS)',
@@ -626,6 +628,13 @@ const lang: ILang = {
         qr_code: 'Code QR',
         boxgen: 'Boxgen',
         my_cloud: 'Mon cloud',
+        curve_engraving: {
+          title: 'Courbe 3D',
+          exit: 'Quitter',
+          select_area: 'Sélectionner une zone',
+          preview_3d_curve: 'Aperçu de la courbe 3D',
+          clear_area: 'Effacer la zone sélectionnée',
+        },
       },
     },
     right_panel: {
@@ -1395,6 +1404,7 @@ const lang: ILang = {
     connectionTimeout: 'Délai de connexion',
   },
   message: {
+    cancelling: 'Annulation...',
     connecting: 'Connexion en cours...',
     connectingMachine: 'Connexion de %s en cours...',
     tryingToConenctMachine: 'Tentative de connexion à la machine...',
@@ -1460,6 +1470,7 @@ const lang: ILang = {
       adjust_height_tooltip: "Cliquez sur la case à cocher pour activer l'édition.",
     },
     unsupported_example_file: "Le fichier d'exemple sélectionné n'est pas pris en charge par la zone de travail actuelle.",
+    time_remaining: 'Temps restant:',
   },
   machine_status: {
     '0': 'Inactif',
@@ -1685,7 +1696,6 @@ const lang: ILang = {
     invert: 'Inverser la couleur de fond',
   },
   boxgen: {
-    back: 'Retourner à Beam Studio',
     title: 'BOXGEN',
     basic_box: 'Boîte basique',
     coming_soon: 'Bientôt disponible',
@@ -1770,6 +1780,30 @@ const lang: ILang = {
     extension_not_deteced: "Impossible de détecter l'extension Beam Studio Connect",
     extension_not_deteced_description: "Pour utiliser HTTPS, cliquez sur 'Confirmer' pour installer l'extension Beam Studio Connect. Après avoir installé l'extension, veuillez actualiser la page pour l'activer.<br/>Sinon, cliquez sur le lien ci-dessous pour voir comment utiliser HTTP sur Chrome.",
     unsecure_url_help_center_link: '<a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/9935859456271">Lien</a>',
+  },
+  curve_engraving: {
+    measure_audofocus_area: 'Mesurer la zone de mise au point automatique',
+    amount: 'Quantité',
+    gap: 'Écart',
+    rows: 'Rangées',
+    coloumns: 'Colonnes',
+    row_gap: 'Écart entre les rangées',
+    column_gap: 'Écart entre les colonnes',
+    set_object_height: "Définir la hauteur de l'objet",
+    set_object_height_desc: "Mesurez l'épaisseur maximale de l'objet.",
+    measure_area_help: 'Comment sélectionner la zone de mise au point automatique pour la courbe 3D?',
+    reselect_area: 'Re-sélectionner la zone',
+    start_autofocus: 'Démarrer la mise au point automatique',
+    starting_measurement: 'Démarrage de la mesure...',
+    preview_3d_curve: 'Aperçu de la courbe 3D',
+    apply_arkwork: "Appliquer l'œuvre d'art sur la courbe 3D",
+    apply_camera: "Appliquer l'image de la caméra sur la courbe 3D",
+    click_to_select_point: 'Cliquez pour sélectionner ou désélectionner les points à mesurer à nouveau.',
+    remeasure: 'Re-mesurer',
+    remeasuring_points: 'Remesure des points...',
+  },
+  pass_through: {
+    title: 'Mode Passage',
   },
 };
 

@@ -10,6 +10,7 @@ const lang: ILang = {
     next: 'Berikutnya',
     back: 'Kembali',
     done: 'Selesai',
+    back_to_beam_studio: 'Kembali ke Beam Studio',
   },
   topbar: {
     untitled: 'Tanpa Judul',
@@ -19,6 +20,7 @@ const lang: ILang = {
     export: 'Ekspor',
     preview: 'PRATINJAU',
     preview_title: 'Pratinjau',
+    curve_engrave: '3D Kurva',
     task_preview: 'Pratinjau Jalur',
     frame_task: 'Jalankan Bingkai',
     borderless: '(BUKA BAWAH)',
@@ -626,6 +628,13 @@ const lang: ILang = {
         qr_code: 'Kode QR',
         boxgen: 'Boxgen',
         my_cloud: 'Awan Saya',
+        curve_engraving: {
+          title: '3D Kurva',
+          exit: 'Keluar',
+          select_area: 'Pilih area',
+          preview_3d_curve: 'Pratinjau Kurva 3D',
+          clear_area: 'Hapus Area yang Dipilih',
+        },
       },
     },
     right_panel: {
@@ -1395,6 +1404,7 @@ const lang: ILang = {
     connectionTimeout: 'Koneksi timeout',
   },
   message: {
+    cancelling: 'Membatalkan...',
     connecting: 'Menghubungkan...',
     connectingMachine: 'Menghubungkan %s...',
     tryingToConenctMachine: 'Mencoba menyambungkan ke mesin...',
@@ -1460,6 +1470,7 @@ const lang: ILang = {
       adjust_height_tooltip: 'Centang kotak untuk mengaktifkan penyuntingan.',
     },
     unsupported_example_file: 'File contoh yang dipilih tidak didukung oleh area kerja saat ini.',
+    time_remaining: 'Waktu tersisa:',
   },
   machine_status: {
     '0': 'Menganggur',
@@ -1685,7 +1696,6 @@ const lang: ILang = {
     invert: 'Balik warna latar belakang',
   },
   boxgen: {
-    back: 'Kembali ke Beam Studio',
     title: 'BOXGEN',
     basic_box: 'Kotak Dasar',
     coming_soon: 'Segera Hadir',
@@ -1770,6 +1780,30 @@ const lang: ILang = {
     extension_not_deteced: 'Tidak dapat Mendeteksi Perpanjangan Beam Studio Connect',
     extension_not_deteced_description: "Untuk menggunakan HTTPS, klik 'Konfirmasi' untuk menginstal ekstensi Beam Studio Connect. Setelah menginstal ekstensi, silakan segarkan halaman untuk mengaktifkannya.<br/>Jika tidak, klik tautan di bawah ini untuk melihat cara menggunakan HTTP di Chrome.",
     unsecure_url_help_center_link: '<a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/9935859456271">Tautan</a>',
+  },
+  curve_engraving: {
+    measure_audofocus_area: 'Ukur Area Autofokus',
+    amount: 'Jumlah',
+    gap: 'Celah',
+    rows: 'Baris',
+    coloumns: 'Kolom',
+    row_gap: 'Celah Baris',
+    column_gap: 'Celah Kolom',
+    set_object_height: 'Atur Tinggi Objek',
+    set_object_height_desc: 'Ukur ketebalan maksimum objek.',
+    measure_area_help: 'Bagaimana memilih area fokus otomatis untuk Kurva 3D?',
+    reselect_area: 'Pilih Area Kembali',
+    start_autofocus: 'Mulai Autofokus',
+    starting_measurement: 'Memulai pengukuran...',
+    preview_3d_curve: 'Pratinjau Kurva 3D',
+    apply_arkwork: 'Terapkan Karya Seni pada Kurva 3D',
+    apply_camera: 'Terapkan Gambar Kamera pada Kurva 3D',
+    click_to_select_point: 'Klik untuk memilih atau membatalkan pilihan titik untuk mengukur ulang.',
+    remeasure: 'Ukur ulang',
+    remeasuring_points: 'Mengukur ulang titik...',
+  },
+  pass_through: {
+    title: 'Mode Lewat',
   },
 };
 

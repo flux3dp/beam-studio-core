@@ -10,6 +10,7 @@ const lang: ILang = {
     next: 'ถัดไป',
     back: 'ย้อนกลับ',
     done: 'เสร็จสิ้น',
+    back_to_beam_studio: 'กลับไปที่ Beam Studio',
   },
   topbar: {
     untitled: 'ไม่มีชื่อ',
@@ -19,6 +20,7 @@ const lang: ILang = {
     export: 'ส่งออก',
     preview: 'แสดงตัวอย่าง',
     preview_title: 'ดูตัวอย่าง',
+    curve_engrave: 'เส้นโค้ง 3D',
     task_preview: 'ตัวอย่างเส้นทาง',
     frame_task: 'กําลังประมวลผลเฟรม',
     borderless: '(เปิดด้านล่าง)',
@@ -626,6 +628,13 @@ const lang: ILang = {
         qr_code: 'คิวอาร์โค้ด',
         boxgen: 'Boxgen',
         my_cloud: 'คลาวด์ของฉัน',
+        curve_engraving: {
+          title: 'เส้นโค้ง 3D',
+          exit: 'ออกจากระบบ',
+          select_area: 'เลือกพื้นที่',
+          preview_3d_curve: 'แสดงตัวอย่างเส้นโค้ง 3D',
+          clear_area: 'ล้างพื้นที่ที่เลือก',
+        },
       },
     },
     right_panel: {
@@ -1395,6 +1404,7 @@ const lang: ILang = {
     connectionTimeout: 'หมดเวลาการเชื่อมต่อ',
   },
   message: {
+    cancelling: 'ยกเลิก...',
     connecting: 'กําลังเชื่อมต่อ...',
     connectingMachine: 'กําลังเชื่อมต่อ %s...',
     tryingToConenctMachine: 'กําลังพยายามเชื่อมต่อเครื่อง...',
@@ -1460,6 +1470,7 @@ const lang: ILang = {
       adjust_height_tooltip: 'คลิกที่ช่องทําเครื่องหมายเพื่อเปิดใช้การแก้ไข',
     },
     unsupported_example_file: 'ไฟล์ตัวอย่างที่เลือกไม่รองรับพื้นที่ทํางาน',
+    time_remaining: 'เวลาที่เหลือ:',
   },
   machine_status: {
     '0': 'ว่าง',
@@ -1685,7 +1696,6 @@ const lang: ILang = {
     invert: 'สีพื้นหลังกลับกัน',
   },
   boxgen: {
-    back: 'กลับไปที่ Beam Studio',
     title: 'BOXGEN',
     basic_box: 'กล่องพื้นฐาน',
     coming_soon: 'เร็วๆ นี้',
@@ -1770,6 +1780,30 @@ const lang: ILang = {
     extension_not_deteced: 'ไม่สามารถตรวจพบส่วนขยาย Beam Studio Connect',
     extension_not_deteced_description: "หากต้องการใช้ HTTPS โปรดคลิก 'ยืนยัน' เพื่อติดตั้งส่วนขยาย Beam Studio Connect หลังจากติดตั้งส่วนขยายแล้ว กรุณารีเฟรชหน้าเพื่อเปิดใช้งาน มิฉะนั้น โปรดคลิกลิงก์ด้านล่างเพื่อดูวิธีการใช้ HTTP บน Chrome",
     unsecure_url_help_center_link: '<a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/9935859456271">ลิงก์</a>',
+  },
+  curve_engraving: {
+    measure_audofocus_area: 'วัดพื้นที่โฟกัสอัตโนมัติ',
+    amount: 'จำนวน',
+    gap: 'ช่องว่าง',
+    rows: 'แถว',
+    coloumns: 'คอลัมน์',
+    row_gap: 'ช่องว่างระหว่างแถว',
+    column_gap: 'ช่องว่างระหว่างคอลัมน์',
+    set_object_height: 'ตั้งค่าความสูงของวัตถุ',
+    set_object_height_desc: 'วัดความหนาสูงสุดของวัตถุ',
+    measure_area_help: 'วิธีเลือกพื้นที่โฟกัสอัตโนมัติสำหรับ 3D Curve?',
+    reselect_area: 'เลือกพื้นที่ใหม่',
+    start_autofocus: 'เริ่มโฟกัสอัตโนมัติ',
+    starting_measurement: 'กำลังเริ่มวัด...',
+    preview_3d_curve: 'แสดงตัวอย่างเส้นโค้ง 3 มิติ',
+    apply_arkwork: 'ใช้ภาพวาดกับเส้นโค้ง 3 มิติ',
+    apply_camera: 'ใช้ภาพกล้องกับเส้นโค้ง 3 มิติ',
+    click_to_select_point: 'คลิกเพื่อเลือกหรือล้างการเลือกจุดที่จะวัดอีกครั้ง',
+    remeasure: 'วัดใหม่',
+    remeasuring_points: 'กำลังวัดจุดใหม่...',
+  },
+  pass_through: {
+    title: 'โหมดผ่าน',
   },
 };
 

@@ -6,6 +6,7 @@ import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import UnitInput from 'app/widgets/UnitInput';
 import useI18n from 'helpers/useI18n';
+import { objectPanelInputTheme } from 'app/constants/antd-config';
 import { useIsMobile } from 'helpers/system-helper';
 
 import styles from './DimensionPanel.module.scss';
@@ -56,8 +57,7 @@ const Rotation = ({ value, onChange }: Props): JSX.Element => {
         ref={inputRef}
         id="rotate"
         className={styles.input}
-        width={66}
-        fontSize={12}
+        theme={objectPanelInputTheme}
         controls={false}
         unit="deg"
         value={value || 0}

@@ -10,6 +10,7 @@ const lang: ILang = {
     next: 'Nächster',
     back: 'Zurück',
     done: 'Anwenden',
+    back_to_beam_studio: 'Zurück zu Beam Studio',
   },
   topbar: {
     untitled: 'Ohne Titel',
@@ -19,6 +20,7 @@ const lang: ILang = {
     export: 'GEHEN',
     preview: 'VORSCHAU',
     preview_title: 'Vorschau',
+    curve_engrave: '3D Kurve',
     task_preview: 'Pfadvorschau',
     frame_task: 'Frame-Vorschau',
     borderless: '(RANDLOS)',
@@ -629,6 +631,13 @@ const lang: ILang = {
         qr_code: 'QR-Code',
         boxgen: 'Boxgen',
         my_cloud: 'Meine Cloud',
+        curve_engraving: {
+          title: '3D Kurve',
+          exit: 'Beenden',
+          select_area: 'Bereich auswählen',
+          preview_3d_curve: '3D-Kurve Vorschau',
+          clear_area: 'Ausgewählten Bereich löschen',
+        },
       },
     },
     right_panel: {
@@ -1398,6 +1407,7 @@ const lang: ILang = {
     connectionTimeout: 'Verbindungs-Timeout',
   },
   message: {
+    cancelling: 'Abbrechen...',
     connecting: 'Verbinden...',
     connectingMachine: 'Verbinden von %s...',
     tryingToConenctMachine: 'Versuch, eine Verbindung zur Maschine herzustellen...',
@@ -1463,6 +1473,7 @@ const lang: ILang = {
       adjust_height_tooltip: 'Die ausgewählte Beispieldatei wird von der aktuellen Arbeitsfläche nicht unterstützt.',
     },
     unsupported_example_file: 'The selected example file is not supported by current workarea.',
+    time_remaining: 'Verbleibende Zeit:',
   },
   machine_status: {
     '-17': 'Cartridge IO Mode',
@@ -1688,7 +1699,6 @@ const lang: ILang = {
     invert: 'Hintergrundfarbe umkehren',
   },
   boxgen: {
-    back: 'Zurück zu Beam Studio',
     title: 'BOXGEN',
     basic_box: 'Basic Box',
     coming_soon: 'Bald verfügbar',
@@ -1773,6 +1783,30 @@ const lang: ILang = {
     extension_not_deteced: 'Beam Studio Connect-Erweiterung konnte nicht erkannt werden',
     extension_not_deteced_description: "Um HTTPS zu verwenden, klicken Sie bitte auf 'Bestätigen', um die Beam Studio Connect-Erweiterung zu installieren. Nach der Installation der Erweiterung aktualisieren Sie bitte die Seite, um sie zu aktivieren.<br/>Andernfalls klicken Sie auf den unten stehenden Link, um zu sehen, wie Sie HTTP in Chrome verwenden können.",
     unsecure_url_help_center_link: '<a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/9935859456271">Link</a>',
+  },
+  curve_engraving: {
+    measure_audofocus_area: 'Autofokusbereich Messen',
+    amount: 'Menge',
+    gap: 'Lücke',
+    rows: 'Reihen',
+    coloumns: 'Spalten',
+    row_gap: 'Reihenabstand',
+    column_gap: 'Spaltenabstand',
+    set_object_height: 'Objekt-Höhe einstellen',
+    set_object_height_desc: 'Messen Sie die maximale Dicke des Objekts.',
+    measure_area_help: 'Wie wählt man den Autofokusbereich für 3D-Kurve?',
+    reselect_area: 'Bereich erneut auswählen',
+    start_autofocus: 'Autofokus starten',
+    starting_measurement: 'Messung starten...',
+    preview_3d_curve: '3D-Kurve Vorschau',
+    apply_arkwork: 'Kunstwerk auf 3D-Kurve anwenden',
+    apply_camera: 'Kamerabild auf 3D-Kurve anwenden',
+    click_to_select_point: 'Klicken, um Punkte zum erneuten Messen auszuwählen oder abzuwählen.',
+    remeasure: 'Erneut messen',
+    remeasuring_points: 'Punkte erneut messen...',
+  },
+  pass_through: {
+    title: 'Durchgangsmodus',
   },
 };
 

@@ -1,102 +1,11 @@
-.boxgen {
-  display: flex;
-  @media screen and (min-width: 601px) {
-    position: relative;
-    z-index: 1;
-    height: 100vh;
-    width: 100vw;
-    background-color: #ffffff;
-  }
+.canvas {
+  position: relative;
+  border-left: 1px solid #ddd;
+  width: calc(100vw - 500px);
   @media screen and (max-width: 600px) {
-    flex-direction: column;
-  }
-
-  .title {
-    font-size: 20px;
-    font-weight: 700;
-    margin-left: 40px;
-    margin-right: 20px;
-  }
-
-  .canvas {
-    position: relative;
-    border-left: 1px solid #ddd;
-    width: calc(100vw - 500px);
-    @media screen and (max-width: 600px) {
-      border-bottom: 1px solid #ddd;
-      border-left: 0;
-      width: 100vw;
-      height: 250px;
-    }
-  }
-
-  .footer {
-    display: flex;
-    justify-content: flex-end;
-  }
-
-  .sider {
-    width: 500px;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-
-    .back {
-      display: flex;
-      align-items: center;
-      width: fit-content;
-      gap: 4px;
-      margin: 12px;
-      color: #7c7c7c;
-      font-size: 14px;
-      svg {
-        font-size: 30px;
-      }
-    }
-
-    .head {
-      display: flex;
-      align-items: center;
-      border-bottom: 1px solid #ddd;
-    }
-
-    .footer {
-      padding: 12px 24px;
-      border-top: 1px solid #ddd;
-    }
-  }
-
-  div[class*='scroll-content'] {
-    margin-bottom: 0;
-    padding-bottom: 0;
-
-    .footer {
-      padding: 0 12px 12px 12px;
-    }
-  }
-
-  &.desktop {
-    z-index: 1000;
-
-    &.windows {
-      // Windows desktop titlebar = 30px
-      max-height: calc(100vh - 30px);
-
-      .sider {
-        height: 100%;
-      }
-    }
-
-    &:not(.windows) {
-      .back {
-        margin-top: 42px;
-        margin-bottom: 0;
-      }
-      @media screen and (max-width: 600px) {
-        .title {
-          margin-top: 10px;
-        }
-      }
-    }
+    border-bottom: 1px solid #ddd;
+    border-left: 0;
+    width: 100vw;
+    height: 250px;
   }
 }

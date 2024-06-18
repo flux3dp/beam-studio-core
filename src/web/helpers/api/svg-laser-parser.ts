@@ -10,6 +10,7 @@ import AlertConfig from 'helpers/api/alert-config';
 import AlertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import constant from 'app/actions/beambox/constant';
+import curveEngravingModeController from 'app/actions/canvas/curveEngravingModeController';
 import fs from 'implementations/fileSystem';
 import i18n from 'helpers/i18n';
 import isDev from 'helpers/is-dev';
@@ -44,22 +45,22 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
   });
   let lastOrder = '';
 
-  const setParameter = (loopCompensation = 0) => {
-    if (loopCompensation > 0) {
-      return new Promise<null>((resolve, reject) => {
-        events.onMessage = (data) => {
-          if (data.status === 'ok') {
-            resolve(null);
-          }
-        };
-        events.onError = (data) => {
-          reject(data);
-        };
-        ws.send(['set_params', 'loop_compensation', loopCompensation].join(' '));
-      });
-    }
-    return null;
-  };
+  const setParameter = (key: string, value: number | string) =>
+    new Promise<null>((resolve, reject) => {
+      events.onMessage = (data) => {
+        console.log(data);
+        if (data.status === 'ok') {
+          resolve(null);
+        } else if (data.status === 'error') {
+          console.error('Failed to set parameter', key, value, data);
+          resolve(null);
+        }
+      };
+      events.onError = (data) => {
+        reject(data);
+      };
+      ws.send(['set_params', key, value].join(' '));
+    });
 
   return {
     async getTaskCode(names, opts) {
@@ -176,11 +177,11 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
         }
         storageValue = localStorage.getItem('printing_top_padding');
         if (storageValue && !Number.isNaN(Number(storageValue))) {
-          printingTopPadding = Number(storageValue)
+          printingTopPadding = Number(storageValue);
         }
         storageValue = localStorage.getItem('printing_bot_padding');
         if (storageValue && !Number.isNaN(Number(storageValue))) {
-          printingBotPadding = Number(storageValue)
+          printingBotPadding = Number(storageValue);
         }
         storageValue = localStorage.getItem('nozzle_votage');
         if (storageValue) {
@@ -223,7 +224,22 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
       }
 
       const loopCompensation = Number(storage.get('loop_compensation') || '0');
-      if (loopCompensation > 0) await setParameter(loopCompensation);
+      if (loopCompensation > 0) await setParameter('loop_compensation', loopCompensation);
+
+      if (curveEngravingModeController.hasArea()) {
+        const data = {
+          bbox: curveEngravingModeController.data.bbox,
+          points: curveEngravingModeController.data.points.flat().filter((p) => p[2] !== null),
+          gap: curveEngravingModeController.data.gap,
+        };
+        const dataStr = JSON.stringify(data, (key, val) => {
+          if (typeof val === 'number') {
+            return Math.round(val * 1e3) / 1e3;
+          }
+          return val;
+        });
+        await setParameter('curve_engraving', dataStr);
+      }
       events.onMessage = (data) => {
         if (data.status === 'computing') {
           opts.onProgressing(data);
@@ -515,7 +531,8 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
           }
         }
       }
-      const svgString = `<svg viewBox="${bbox.x} ${bbox.y} ${bbox.width} ${bbox.height}"><defs>${defs}</defs>${textString}</svg>`;
+      const { x, y, width, height } = bbox;
+      const svgString = `<svg viewBox="${x} ${y} ${width} ${height}"><defs>${defs}</defs>${textString}</svg>`;
       console.log(svgString);
       const file = new Blob([svgString], {
         type: 'text/plain',

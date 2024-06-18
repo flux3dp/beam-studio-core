@@ -43,7 +43,7 @@ import { getNextStepRequirement } from 'app/views/tutorials/tutorialController';
 import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 import { NounProjectPanelController } from 'app/views/beambox/Noun-Project-Panel';
 import BeamboxPreference from './beambox-preference';
-import Constant from './constant';
+import curveEngravingModeController from 'app/actions/canvas/curveEngravingModeController';
 import OpenBottomBoundaryDrawer from './open-bottom-boundary-drawer';
 import PreviewModeController from './preview-mode-controller';
 import Alert from '../alert-caller';
@@ -86,7 +86,6 @@ const workareaEvents = eventEmitterFactory.createEventEmitter('workarea');
 declare global {
   interface JQueryStatic {
     pref: any
-    jGraduate: any
     confirm: any
     getSvgIcon: any
     select: any
@@ -104,7 +103,6 @@ declare global {
     slider(arg0?: any, arg1?: any, arg3?: any): JQuery
     draggable(options: any): JQuery
     contextMenu: any
-    jGraduate: any
   }
 }
 
@@ -354,7 +352,6 @@ const svgEditor = window['svgEditor'] = (function () {
       imgPath: 'js/lib/svgeditor/images/',
       langPath: 'js/lib/svgeditor/locale/',
       extPath: 'js/lib/svgeditor/extensions/',
-      jGraduatePath: 'js/lib/svgeditor/jgraduate/images/',
       // DOCUMENT PROPERTIES
       // Change the following to a preference (already in the Document Properties dialog)?
       dimensions: editor.dimensions,
@@ -758,8 +755,10 @@ const svgEditor = window['svgEditor'] = (function () {
     var setSelectMode = function () {
       svgCanvas.setMode('select');
       workarea.css('cursor', 'auto');
-      if (PreviewModeController.isPreviewMode() || TopBarController.getTopBarPreviewMode()) {
-        $(workarea).css('cursor', 'url(img/camera-cursor.svg), cell');
+      if (curveEngravingModeController.started) {
+        // do nothing for now
+      } else if (PreviewModeController.isPreviewMode() || TopBarController.getTopBarPreviewMode()) {
+        workarea.css('cursor', 'url(img/camera-cursor.svg), cell');
       }
     };
 
@@ -1693,10 +1692,6 @@ const svgEditor = window['svgEditor'] = (function () {
 
               // Add to given tool.panel
               var inp = $(html).appendTo(panel).find('input');
-
-              if (tool.spindata) {
-                inp.SpinButton(tool.spindata);
-              }
 
               if (tool.events) {
                 $.each(tool.events, function (evt: string, func) {

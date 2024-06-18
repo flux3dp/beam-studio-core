@@ -10,6 +10,7 @@ const lang: ILang = {
     next: '下一步',
     back: '上一步',
     done: '完成',
+    back_to_beam_studio: '回到 Beam Studio',
   },
   topbar: {
     untitled: '無標題',
@@ -19,6 +20,7 @@ const lang: ILang = {
     export: 'GO',
     preview: '相機預覽',
     preview_title: '相機預覽',
+    curve_engrave: '3D 曲面',
     task_preview: '工作預覽',
     frame_task: '外框預覽',
     borderless: '(開蓋模式)',
@@ -629,6 +631,13 @@ const lang: ILang = {
         qr_code: 'QR 碼',
         boxgen: 'Boxgen',
         my_cloud: '我的雲端',
+        curve_engraving: {
+          title: '3D 曲面',
+          exit: '退出',
+          select_area: '選擇區域',
+          preview_3d_curve: '預覽 3D 曲面',
+          clear_area: '清除選取區域',
+        },
       },
     },
     right_panel: {
@@ -1398,6 +1407,7 @@ const lang: ILang = {
     connectionTimeout: '連線逾時',
   },
   message: {
+    cancelling: '取消中...',
     connecting: '連線中...',
     connectingMachine: '連接 %s 中...',
     tryingToConenctMachine: '嘗試連接機器中...',
@@ -1463,6 +1473,7 @@ const lang: ILang = {
       adjust_height_tooltip: '點選方塊以啟用編輯。',
     },
     unsupported_example_file: '選取範例文件不支援的目前工作範圍。',
+    time_remaining: '剩餘時間：',
   },
   machine_status: {
     '-17': '墨匣模式',
@@ -1688,7 +1699,6 @@ const lang: ILang = {
     invert: '反轉背景顏色',
   },
   boxgen: {
-    back: '回到 Beam Studio',
     title: 'BOXGEN',
     basic_box: '基本款',
     coming_soon: '即將推出',
@@ -1773,6 +1783,30 @@ const lang: ILang = {
     extension_not_deteced: '無法偵測到 Beam Studio Connect 擴充功能',
     extension_not_deteced_description: '若要使用 HTTPS，請按下「確認」以前往安裝 Beam Studio Connect 擴充功能，安裝擴充功能後，請重新頁面以啟用。<br/>否則，請點擊下面的連結查看如何在 Chrome 中使用 HTTP。',
     unsecure_url_help_center_link: '<a target="_blank" href="https://support.flux3dp.com/hc/zh-tw/articles/9935859456271">連結</a>',
+  },
+  curve_engraving: {
+    measure_audofocus_area: '測量自動對焦區域',
+    amount: '數量',
+    gap: '間距',
+    rows: '行',
+    coloumns: '列',
+    row_gap: '行間距',
+    column_gap: '列間距',
+    set_object_height: '設定物件高度',
+    set_object_height_desc: '測量物件的最大厚度。',
+    measure_area_help: '如何選擇3D曲面的自動對焦區域？',
+    reselect_area: '重新選擇區域',
+    start_autofocus: '開始自動對焦',
+    starting_measurement: '正在開始測量...',
+    preview_3d_curve: '預覽 3D 曲面',
+    apply_arkwork: '將藝術作品套用於 3D 曲面',
+    apply_camera: '將相機圖像套用於 3D 曲面',
+    click_to_select_point: '點擊選擇或取消選擇要重新測量的點。',
+    remeasure: '重新測量',
+    remeasuring_points: '正在重新測量點...',
+  },
+  pass_through: {
+    title: '直通模式',
   },
 };
 

@@ -10,6 +10,7 @@ const lang: ILang = {
     next: 'Next',
     back: 'Back',
     done: 'Done',
+    back_to_beam_studio: 'Back to Beam Studio',
   },
   topbar: {
     untitled: 'Untitled',
@@ -19,6 +20,7 @@ const lang: ILang = {
     export: 'GO',
     preview: 'PREVIEW',
     preview_title: 'Preview',
+    curve_engrave: '3D Curve',
     task_preview: 'Path preview',
     frame_task: 'Running Frame',
     borderless: '(OPEN BOTTOM)',
@@ -629,6 +631,13 @@ const lang: ILang = {
         qr_code: 'QR Code',
         boxgen: 'Boxgen',
         my_cloud: 'My Cloud',
+        curve_engraving: {
+          title: '3D Curve',
+          exit: 'Exit',
+          select_area: 'Select Area',
+          preview_3d_curve: 'Preview 3D Curve',
+          clear_area: 'Clear Selected Area',
+        },
       },
     },
     right_panel: {
@@ -1398,6 +1407,7 @@ const lang: ILang = {
     connectionTimeout: 'Connection timeout',
   },
   message: {
+    cancelling: 'Cancelling...',
     connecting: 'Connecting...',
     connectingMachine: 'Connecting %s...',
     tryingToConenctMachine: 'Trying to connect to machine...',
@@ -1463,6 +1473,7 @@ const lang: ILang = {
       adjust_height_tooltip: 'Click the checkbox to enable editing.',
     },
     unsupported_example_file: 'The selected example file is not supported by current workarea.',
+    time_remaining: 'Time remaining:',
   },
   machine_status: {
     '-17': 'Cartridge IO Mode',
@@ -1688,7 +1699,6 @@ const lang: ILang = {
     invert: 'Invert background color',
   },
   boxgen: {
-    back: 'Back to Beam Studio',
     title: 'BOXGEN',
     basic_box: 'Basic Box',
     coming_soon: 'Coming Soon',
@@ -1773,6 +1783,30 @@ const lang: ILang = {
     extension_not_deteced: 'Unable to Detect Beam Studio Connect Extension',
     extension_not_deteced_description: 'To use HTTPS, please click ‘Confirm’ to install the Beam Studio Connect extension. After installing the extension, please refresh the page to activate it.<br/>Otherwise, click the link below to see how to use HTTP on Chrome.',
     unsecure_url_help_center_link: '<a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/9935859456271">Link</a>',
+  },
+  curve_engraving: {
+    measure_audofocus_area: 'Measure Autofocus Area',
+    amount: 'Amount',
+    gap: 'Gap',
+    rows: 'Rows',
+    coloumns: 'Columns',
+    row_gap: 'Row Gap',
+    column_gap: 'Column Gap',
+    set_object_height: 'Set Object Height',
+    set_object_height_desc: 'Measure the max thickness of the object.',
+    measure_area_help: 'How to select the autofocus area for 3D Curve?',
+    reselect_area: 'Re-select Area',
+    start_autofocus: 'Start Autofocus',
+    starting_measurement: 'Starting Measurement...',
+    preview_3d_curve: 'Preview 3D Curve',
+    apply_arkwork: 'Apply Artwork on 3D Curve',
+    apply_camera: 'Apply Camera Image on 3D Curve',
+    click_to_select_point: 'Click to select or unselect points to measure again.',
+    remeasure: 'Re-measure',
+    remeasuring_points: 'Remeasuring Points...',
+  },
+  pass_through: {
+    title: 'Pass Through Mode',
   },
 };
 

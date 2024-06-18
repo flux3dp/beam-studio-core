@@ -10,6 +10,7 @@ const lang: ILang = {
     next: 'Volgende',
     back: 'Terug',
     done: 'Klaar',
+    back_to_beam_studio: 'Terug naar Beam Studio',
   },
   topbar: {
     untitled: 'Naamloos',
@@ -19,6 +20,7 @@ const lang: ILang = {
     export: 'GA',
     preview: 'Voorbeeld',
     preview_title: 'Voorbeeld',
+    curve_engrave: '3D Curve',
     task_preview: 'Padvoorbeeld',
     frame_task: 'Frame uitvoeren',
     borderless: '(OPEN ONDERKANT)',
@@ -626,6 +628,13 @@ const lang: ILang = {
         qr_code: 'QR-code',
         boxgen: 'Boxgen',
         my_cloud: 'Mijn cloud',
+        curve_engraving: {
+          title: '3D Curve',
+          exit: 'Afsluiten',
+          select_area: 'Gebied selecteren',
+          preview_3d_curve: 'Voorvertoning 3D-curve',
+          clear_area: 'Geselecteerd gebied wissen',
+        },
       },
     },
     right_panel: {
@@ -1395,6 +1404,7 @@ const lang: ILang = {
     connectionTimeout: 'Verbinding time-out',
   },
   message: {
+    cancelling: 'Annuleren...',
     connecting: 'Verbinden...',
     connectingMachine: 'Verbinden met %s...',
     tryingToConenctMachine: 'Proberen te verbinden met machine...',
@@ -1460,6 +1470,7 @@ const lang: ILang = {
       adjust_height_tooltip: 'Schakel het selectievakje in om bewerken mogelijk te maken.',
     },
     unsupported_example_file: 'Het geselecteerde voorbeeldbestand wordt niet ondersteund door het huidige werkgebied.',
+    time_remaining: 'Resterende tijd:',
   },
   machine_status: {
     '0': 'Inactief',
@@ -1685,7 +1696,6 @@ const lang: ILang = {
     invert: 'Achtergrondkleur omkeren',
   },
   boxgen: {
-    back: 'Terug naar Beam Studio',
     title: 'DOOSGEN',
     basic_box: 'Basisdoos',
     coming_soon: 'Binnenkort beschikbaar',
@@ -1770,6 +1780,30 @@ const lang: ILang = {
     extension_not_deteced: 'Kan Beam Studio Connect-extensie niet detecteren',
     extension_not_deteced_description: "Om HTTPS te gebruiken, klik op 'Bevestigen' om de Beam Studio Connect-extensie te installeren. Nadat u de extensie hebt geïnstalleerd, ververs de pagina om deze te activeren.<br/>Anders klikt u op de onderstaande link om te zien hoe u HTTP op Chrome kunt gebruiken.",
     unsecure_url_help_center_link: '<a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/9935859456271">Link</a>',
+  },
+  curve_engraving: {
+    measure_audofocus_area: 'Meet autofocusgebied',
+    amount: 'Hoeveelheid',
+    gap: 'Opening',
+    rows: 'Rijen',
+    coloumns: 'Kolommen',
+    row_gap: 'Rijafstand',
+    column_gap: 'Kolomafstand',
+    set_object_height: 'Stel objecthoogte in',
+    set_object_height_desc: 'Meet de maximale dikte van het object.',
+    measure_area_help: 'Hoe selecteer je het autofocusgebied voor 3D-curve?',
+    reselect_area: 'Selecteer gebied opnieuw',
+    start_autofocus: 'Start autofocus',
+    starting_measurement: 'Meten starten...',
+    preview_3d_curve: 'Voorbeeld van 3D-curve',
+    apply_arkwork: 'Kunstwerk op 3D-curve toepassen',
+    apply_camera: 'Camerabeeld op 3D-curve toepassen',
+    click_to_select_point: 'Klik om punten te selecteren of te deselecteren voor opnieuw meten.',
+    remeasure: 'Opnieuw meten',
+    remeasuring_points: 'Punten opnieuw meten...',
+  },
+  pass_through: {
+    title: 'Doorgangsmodus',
   },
 };
 

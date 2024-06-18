@@ -9,8 +9,8 @@ module.exports = {
   },
   moduleNameMapper: {
     '^.+\\.module\\.(css|sass|scss)$': 'identity-obj-proxy',
-    '^.+\\.(svg)$': '<rootDir>/__mocks__/svgrMock.ts',
-    '^.+\\.(svg)\\?url$': '<rootDir>/__mocks__/urlMock.ts',
+    '^.+\\.(svg)$': '<rootDir>/src/__mocks__/svgrMock.ts',
+    '^.+\\.(svg)\\?url$': '<rootDir>/src/__mocks__/urlMock.ts',
     "^.+.css$": 'identity-obj-proxy',
   },
   collectCoverageFrom: [
@@ -29,7 +29,7 @@ module.exports = {
     '!src/**/*.worker.ts',
   ],
   globalSetup: './jest.global-setup.js',
-  setupFilesAfterEnv: ['./src/web/setupTests.ts'],
+  setupFilesAfterEnv: ['./src/web/setupTests.ts', 'jest-canvas-mock'],
   moduleDirectories: ['node_modules', 'src/web', 'src'],
   coverageReporters: ['text-summary', 'html'],
   maxWorkers: '50%',

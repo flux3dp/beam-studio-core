@@ -12,7 +12,7 @@ import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import OptionsPanel from 'app/views/beambox/Right-Panels/OptionsPanel';
 import useI18n from 'helpers/useI18n';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import { iconButtonTheme } from 'app/views/beambox/Right-Panels/antd-config';
+import { iconButtonTheme } from 'app/constants/antd-config';
 import { ObjectPanelContext } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
 import { SelectedElementContext } from 'app/contexts/SelectedElementContext';
 import { useIsMobile } from 'helpers/system-helper';

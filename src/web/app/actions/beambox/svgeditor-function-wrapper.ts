@@ -72,7 +72,7 @@ const funcs = {
       ],
     });
     if (file) svgEditor.handleFile(file);
-    funcs.useSelectTool();
+    svgEditor.clickSelect();
   },
   insertImage(
     insertedImageSrc: string,

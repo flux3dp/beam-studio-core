@@ -10,6 +10,7 @@ const lang: ILang = {
     next: '다음',
     back: '뒤로',
     done: '완료',
+    back_to_beam_studio: 'Beam Studio로 돌아가기',
   },
   topbar: {
     untitled: '언타이틀',
@@ -19,6 +20,7 @@ const lang: ILang = {
     export: 'GO',
     preview: '미리보기',
     preview_title: '미리보기',
+    curve_engrave: '3D 곡선',
     task_preview: '경로 미리보기',
     frame_task: '프레임 미리보기',
     borderless: '(하단 열기)',
@@ -629,6 +631,13 @@ const lang: ILang = {
         qr_code: 'QR 코드',
         boxgen: 'Boxgen',
         my_cloud: '내 클라우드',
+        curve_engraving: {
+          title: '3D 곡선',
+          exit: '종료',
+          select_area: '영역 선택',
+          preview_3d_curve: '3D 곡선 미리보기',
+          clear_area: '선택 영역 지우기',
+        },
       },
     },
     right_panel: {
@@ -1398,6 +1407,7 @@ const lang: ILang = {
     connectionTimeout: '연결 시간 초과',
   },
   message: {
+    cancelling: '취소 중...',
     connecting: '연결 중...',
     connectingMachine: '%s 연결 중...',
     tryingToConenctMachine: '기계에 연결을 시도 중입니다...',
@@ -1463,6 +1473,7 @@ const lang: ILang = {
       adjust_height_tooltip: '편집을 활성화하려면 확인란을 클릭하세요.',
     },
     unsupported_example_file: '선택한 예제 파일은 현재 작업 영역에서 지원되지 않습니다.',
+    time_remaining: '남은 시간:',
   },
   machine_status: {
     '-17': 'Cartridge IO Mode',
@@ -1688,7 +1699,6 @@ const lang: ILang = {
     invert: '배경색 반전',
   },
   boxgen: {
-    back: 'Beam Studio로 돌아가기',
     title: 'BOXGEN',
     basic_box: '기본 상자',
     coming_soon: '곧 출시',
@@ -1773,6 +1783,30 @@ const lang: ILang = {
     extension_not_deteced: 'Beam Studio Connect 확장 프로그램을 감지할 수 없습니다',
     extension_not_deteced_description: "HTTPS를 사용하려면 '확인'을 클릭하여 Beam Studio Connect 확장 기능을 설치하세요. 확장 기능을 설치한 후 페이지를 새로 고쳐 활성화하세요.<br/>그렇지 않으면 아래 링크를 클릭하여 Chrome에서 HTTP를 사용하는 방법을 확인하세요.",
     unsecure_url_help_center_link: '<a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/9935859456271">링크</a>',
+  },
+  curve_engraving: {
+    measure_audofocus_area: '자동 초점 영역 측정',
+    amount: '수량',
+    gap: '간격',
+    rows: '행',
+    coloumns: '열',
+    row_gap: '행 간격',
+    column_gap: '열 간격',
+    set_object_height: '객체 높이 설정',
+    set_object_height_desc: '객체의 최대 두께를 측정하십시오.',
+    measure_area_help: '3D 곡선을 위한 자동 초점 영역을 선택하는 방법은?',
+    reselect_area: '영역 다시 선택',
+    start_autofocus: '자동 초점 시작',
+    starting_measurement: '측정 시작 중...',
+    preview_3d_curve: '3D 곡선 미리보기',
+    apply_arkwork: '3D 곡선에 아트워크 적용',
+    apply_camera: '3D 곡선에 카메라 이미지 적용',
+    click_to_select_point: '다시 측정할 포인트를 선택하거나 선택 해제하려면 클릭하세요.',
+    remeasure: '다시 측정',
+    remeasuring_points: '포인트를 다시 측정 중...',
+  },
+  pass_through: {
+    title: '패스 스루 모드',
   },
 };
 

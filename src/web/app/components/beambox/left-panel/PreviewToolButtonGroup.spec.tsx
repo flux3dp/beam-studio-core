@@ -7,21 +7,6 @@ jest.mock('app/stores/beambox-store', () => ({
   emitShowCropper,
 }));
 
-jest.mock('helpers/i18n', () => ({
-  lang: {
-    beambox: {
-      left_panel: {
-        label: {
-          preview: 'Camera Preview',
-          trace: 'Trace Image',
-          end_preview: 'End Preview',
-          clear_preview: 'Clear Preview',
-        },
-      },
-    },
-  },
-}));
-
 const isClean = jest.fn();
 const resetCoordinates = jest.fn();
 const clear = jest.fn();
@@ -60,15 +45,21 @@ jest.mock('helpers/useI18n', () => () => ({
   beambox: {
     left_panel: {
       label: {
-        end_preview: 'End Preview',
         preview: 'Camera Preview',
-        live_feed: 'Live Feed',
         trace: 'Trace Image',
-        adjust_height: 'Adjust Height',
+        end_preview: 'End Preview',
         clear_preview: 'Clear Preview',
+        curve_engraving: {
+          title: 'Curve Engraving',
+        },
       },
     },
   },
+}));
+
+const mockStartCurveEngraving = jest.fn();
+jest.mock('app/actions/canvas/curveEngravingModeController', () => ({
+  start: mockStartCurveEngraving,
 }));
 
 import PreviewToolButtonGroup from './PreviewToolButtonGroup';

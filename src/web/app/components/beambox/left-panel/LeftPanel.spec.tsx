@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
-import { CanvasContext } from 'app/contexts/CanvasContext';
+import { CanvasContext, CanvasMode } from 'app/contexts/CanvasContext';
 
 import LeftPanel from './LeftPanel';
 
@@ -31,30 +31,46 @@ jest.mock('app/actions/beambox/svgeditor-function-wrapper', () => ({
   insertPolygon: () => insertPolygon(),
 }));
 
-jest.mock('app/components/beambox/left-panel/DrawingToolButtonGroup', () => function DrawingToolButtonGroup() {
-  return (
-    <div>
-      This is dummy DrawingToolButtonGroup
-    </div>
-  );
-});
+jest.mock(
+  'app/components/beambox/left-panel/DrawingToolButtonGroup',
+  () =>
+    function DrawingToolButtonGroup() {
+      return <div>This is dummy DrawingToolButtonGroup</div>;
+    }
+);
 
-jest.mock('app/components/beambox/left-panel/PreviewToolButtonGroup', () => (
-  { endPreviewMode, setShouldStartPreviewController }: any
-) => (
-  <div>
-    This is dummy PreviewToolButtonGroup
-    <button onClick={endPreviewMode} type="button">
-      endPreviewMode
-    </button>
-    <button onClick={setShouldStartPreviewController} type="button">
-      setShouldStartPreviewController
-    </button>
-  </div>
-));
+jest.mock(
+  'app/components/beambox/left-panel/PreviewToolButtonGroup',
+  () =>
+    ({ endPreviewMode, setShouldStartPreviewController }: any) =>
+      (
+        <div>
+          This is dummy PreviewToolButtonGroup
+          <button onClick={endPreviewMode} type="button">
+            endPreviewMode
+          </button>
+          <button onClick={setShouldStartPreviewController} type="button">
+            setShouldStartPreviewController
+          </button>
+        </div>
+      )
+);
+
+jest.mock(
+  'app/components/beambox/left-panel/CurveEngravingTool',
+  () =>
+    ({ className }: { className: string }) =>
+      <div className={className}>MockCurveEngravingTool</div>
+);
 
 jest.mock('app/contexts/CanvasContext', () => ({
   CanvasContext: React.createContext(null),
+  CanvasMode: {
+    Draw: 1,
+    Preview: 2,
+    PathPreview: 3,
+    CurveEngraving: 4,
+  },
 }));
 
 jest.mock('helpers/i18n', () => ({
@@ -77,42 +93,45 @@ describe('test LeftPanel', () => {
     document.body.innerHTML = '<div id="svg_editor" />';
 
     const { container, unmount } = render(
-      <CanvasContext.Provider value={{
-        isPreviewing: false,
-        setShouldStartPreviewController: jest.fn(),
-        endPreviewMode: jest.fn(),
-        isPathPreviewing: false,
-        togglePathPreview: jest.fn(),
-      } as any}
+      <CanvasContext.Provider
+        value={
+          {
+            setShouldStartPreviewController: jest.fn(),
+            endPreviewMode: jest.fn(),
+            togglePathPreview: jest.fn(),
+            mode: CanvasMode.Draw,
+          } as any
+        }
       >
         <LeftPanel />
-      </CanvasContext.Provider>,
+      </CanvasContext.Provider>
     );
     expect(container).toMatchSnapshot();
-    expect(document.getElementById('svg_editor').className.split(' ').indexOf('color') !== -1).toBeTruthy();
+    expect(
+      document.getElementById('svg_editor').className.split(' ').indexOf('color') !== -1
+    ).toBeTruthy();
 
     unmount();
     expect(document.getElementById('svg_editor').className.split(' ').indexOf('color')).toBe(-1);
   });
 
   test('not in path previewing', () => {
-    Object.defineProperty(window, 'os', {
-      value: 'Windows',
-    });
-    document.body.innerHTML = '<div id="svg_editor" />';
+    Object.defineProperty(window, 'os', { value: 'Windows' });
     const setShouldStartPreviewController = jest.fn();
     const endPreviewMode = jest.fn();
     const { container, getByText } = render(
-      <CanvasContext.Provider value={{
-        isPreviewing: true,
-        setShouldStartPreviewController,
-        endPreviewMode,
-        isPathPreviewing: false,
-        togglePathPreview: jest.fn(),
-      } as any}
+      <CanvasContext.Provider
+        value={
+          {
+            setShouldStartPreviewController,
+            endPreviewMode,
+            togglePathPreview: jest.fn(),
+            mode: CanvasMode.Preview,
+          } as any
+        }
       >
         <LeftPanel />
-      </CanvasContext.Provider>,
+      </CanvasContext.Provider>
     );
     expect(container).toMatchSnapshot();
 
@@ -126,22 +145,21 @@ describe('test LeftPanel', () => {
   });
 
   test('in path previewing', () => {
-    Object.defineProperty(window, 'os', {
-      value: 'Windows',
-    });
-    document.body.innerHTML = '<div id="svg_editor" />';
+    Object.defineProperty(window, 'os', { value: 'Windows' });
     const togglePathPreview = jest.fn();
     const { container } = render(
-      <CanvasContext.Provider value={{
-        isPreviewing: false,
-        setShouldStartPreviewController: jest.fn(),
-        endPreviewMode: jest.fn(),
-        isPathPreviewing: true,
-        togglePathPreview,
-      } as any}
+      <CanvasContext.Provider
+        value={
+          {
+            setShouldStartPreviewController: jest.fn(),
+            endPreviewMode: jest.fn(),
+            togglePathPreview,
+            mode: CanvasMode.PathPreview,
+          } as any
+        }
       >
         <LeftPanel />
-      </CanvasContext.Provider>,
+      </CanvasContext.Provider>
     );
     expect(container).toMatchSnapshot();
 
@@ -149,5 +167,21 @@ describe('test LeftPanel', () => {
     const div = container.querySelector('div#Exit-Preview');
     fireEvent.click(div);
     expect(togglePathPreview).toHaveBeenCalledTimes(1);
+  });
+
+  test('in curve engraving mode', () => {
+    Object.defineProperty(window, 'os', { value: 'Windows' });
+    const { container } = render(
+      <CanvasContext.Provider
+        value={
+          {
+            mode: CanvasMode.CurveEngraving,
+          } as any
+        }
+      >
+        <LeftPanel />
+      </CanvasContext.Provider>
+    );
+    expect(container).toMatchSnapshot();
   });
 });

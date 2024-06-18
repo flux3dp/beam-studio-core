@@ -10,6 +10,7 @@ const lang: ILang = {
     next: 'Próximo',
     back: 'Voltar',
     done: 'Concluído',
+    back_to_beam_studio: 'Voltar para Beam Studio',
   },
   topbar: {
     untitled: 'Sem título',
@@ -19,6 +20,7 @@ const lang: ILang = {
     export: 'Exportar',
     preview: 'PRÉ-VISUALIZAÇÃO',
     preview_title: 'Pré-visualização',
+    curve_engrave: 'Curva 3D',
     task_preview: 'Visualização da trajetória',
     frame_task: 'Executando quadro',
     borderless: '(ABERTO EM BAIXO)',
@@ -626,6 +628,13 @@ const lang: ILang = {
         qr_code: 'Código QR',
         boxgen: 'Boxgen',
         my_cloud: 'Minha nuvem',
+        curve_engraving: {
+          title: 'Curva 3D',
+          exit: 'Sair',
+          select_area: 'Selecionar área',
+          preview_3d_curve: 'Visualizar curva 3D',
+          clear_area: 'Limpar área selecionada',
+        },
       },
     },
     right_panel: {
@@ -1395,6 +1404,7 @@ const lang: ILang = {
     connectionTimeout: 'Tempo limite de conexão',
   },
   message: {
+    cancelling: 'Cancelando...',
     connecting: 'Conectando...',
     connectingMachine: 'Conectando %s...',
     tryingToConenctMachine: 'Tentando conectar à máquina...',
@@ -1460,6 +1470,7 @@ const lang: ILang = {
       adjust_height_tooltip: 'Clique na caixa de seleção para habilitar a edição.',
     },
     unsupported_example_file: 'O arquivo de exemplo selecionado não é suportado por esta área de trabalho.',
+    time_remaining: 'Tempo restante:',
   },
   machine_status: {
     '0': 'Ocioso',
@@ -1685,7 +1696,6 @@ const lang: ILang = {
     invert: 'Inverter cor de fundo',
   },
   boxgen: {
-    back: 'Voltar para Beam Studio',
     title: 'CAIXA',
     basic_box: 'Caixa Básica',
     coming_soon: 'Em breve',
@@ -1770,6 +1780,30 @@ const lang: ILang = {
     extension_not_deteced: 'Não foi possível detectar a extensão Beam Studio Connect',
     extension_not_deteced_description: "Para usar HTTPS, clique em 'Confirmar' para instalar a extensão Beam Studio Connect. Após instalar a extensão, atualize a página para ativá-la.<br/>Caso contrário, clique no link abaixo para ver como usar HTTP no Chrome.",
     unsecure_url_help_center_link: '<a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/9935859456271">Link</a>',
+  },
+  curve_engraving: {
+    measure_audofocus_area: 'Medir área de autofoco',
+    amount: 'Quantidade',
+    gap: 'Espaço',
+    rows: 'Linhas',
+    coloumns: 'Colunas',
+    row_gap: 'Espaço entre linhas',
+    column_gap: 'Espaço entre colunas',
+    set_object_height: 'Definir altura do objeto',
+    set_object_height_desc: 'Meça a espessura máxima do objeto.',
+    measure_area_help: 'Como selecionar a área de autofoco para a Curva 3D?',
+    reselect_area: 'Re-selecionar área',
+    start_autofocus: 'Iniciar autofoco',
+    starting_measurement: 'Iniciando medição...',
+    preview_3d_curve: 'Visualizar Curva 3D',
+    apply_arkwork: 'Aplicar Arte na Curva 3D',
+    apply_camera: 'Aplicar Imagem da Câmera na Curva 3D',
+    click_to_select_point: 'Clique para selecionar ou desselecionar pontos para medir novamente.',
+    remeasure: 'Re-medir',
+    remeasuring_points: 'Re-medindo pontos...',
+  },
+  pass_through: {
+    title: 'Modo De Passar Por',
   },
 };
 

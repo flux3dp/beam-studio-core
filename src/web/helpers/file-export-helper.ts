@@ -7,6 +7,7 @@ import communicator from 'implementations/communicator';
 import currentFileManager from 'app/svgedit/currentFileManager';
 import dialog from 'implementations/dialog';
 import dialogCaller from 'app/actions/dialog-caller';
+import findDefs from 'app/svgedit/utils/findDef';
 import fs from 'implementations/fileSystem';
 import i18n from 'helpers/i18n';
 import isWeb from 'helpers/is-web';
@@ -23,10 +24,8 @@ import {
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgCanvas;
-let svgedit;
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
-  svgedit = globalSVG.Edit;
 });
 
 const LANG = i18n.lang;
@@ -56,7 +55,7 @@ const generateBeamThumbnail = async (): Promise<ArrayBuffer | null> => {
   const downRatio = 300 / Math.max(bbox.width, bbox.height);
   const imageWidth = Math.ceil(bbox.width * downRatio);
   const imageHeight = Math.ceil(bbox.height * downRatio);
-  const svgDefs = svgedit.utilities.findDefs();
+  const svgDefs = findDefs();
   const clonedSvgContent = svgContent.cloneNode(true) as SVGSVGElement;
   const useElements = clonedSvgContent.querySelectorAll('use');
   useElements.forEach((useElement) => SymbolMaker.switchImageSymbol(useElement, false));

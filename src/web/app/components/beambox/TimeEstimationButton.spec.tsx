@@ -59,7 +59,12 @@ jest.mock('helpers/file-export-helper', () => ({
 }));
 
 jest.mock('app/contexts/CanvasContext', () => ({
-  CanvasContext: React.createContext({ isPathPreviewing: false }),
+  CanvasContext: React.createContext({ mode: 1 }),
+  CanvasMode: {
+    Draw: 1,
+    Preview: 2,
+    PathPreview: 3,
+  },
 }));
 
 describe('should render correctly', () => {
@@ -86,7 +91,7 @@ describe('should render correctly', () => {
       <CanvasContext.Provider
         value={
           {
-            isPathPreviewing: true,
+            mode: 3,
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
           } as any
         }

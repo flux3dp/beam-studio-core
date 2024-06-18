@@ -10,6 +10,7 @@ const lang: ILang = {
     next: '次へ',
     back: '戻る',
     done: '完了',
+    back_to_beam_studio: 'Beam Studio に戻る',
   },
   topbar: {
     untitled: '無題',
@@ -19,6 +20,7 @@ const lang: ILang = {
     export: 'ゴー',
     preview: 'プレビュー',
     preview_title: 'プレビュー',
+    curve_engrave: '3D 曲線',
     task_preview: 'パスプレビュー',
     frame_task: 'フレームプレビュー',
     borderless: '（ボーダーレス）',
@@ -629,6 +631,13 @@ const lang: ILang = {
         qr_code: 'QRコード',
         boxgen: 'Boxgen',
         my_cloud: 'マイクラウド',
+        curve_engraving: {
+          title: '3D 曲線',
+          exit: '終了',
+          select_area: 'エリアを選択',
+          preview_3d_curve: '3Dカーブのプレビュー',
+          clear_area: '選択したエリアをクリア',
+        },
       },
     },
     right_panel: {
@@ -1398,6 +1407,7 @@ const lang: ILang = {
     connectionTimeout: '接続タイムアウト',
   },
   message: {
+    cancelling: 'キャンセル中…',
     connecting: '接続中…',
     connectingMachine: '%sを接続しています…',
     tryingToConenctMachine: 'マシンに接続しようとしています…',
@@ -1463,6 +1473,7 @@ const lang: ILang = {
       adjust_height_tooltip: '編集を有効にするにはチェックボックスをクリックしてください。',
     },
     unsupported_example_file: '選択したサンプルファイルは現在の作業領域ではサポートされていません。',
+    time_remaining: '残り時間：',
   },
   machine_status: {
     '-17': 'Cartridge IO Mode',
@@ -1688,7 +1699,6 @@ const lang: ILang = {
     invert: '背景色を反転',
   },
   boxgen: {
-    back: 'Beam Studio に戻る',
     title: 'BOXGEN',
     basic_box: '基本ボックス',
     coming_soon: '近日公開',
@@ -1773,6 +1783,30 @@ const lang: ILang = {
     extension_not_deteced: 'Beam Studio Connect 拡張機能を検出できません',
     extension_not_deteced_description: 'HTTPSを使用するには、「確認」をクリックしてBeam Studio Connect拡張機能をインストールしてください。拡張機能をインストールした後、ページをリフレッシュして有効にしてください。<br/>それ以外の場合は、下のリンクをクリックしてChromeでHTTPを使用する方法を確認してください。',
     unsecure_url_help_center_link: '<a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/9935859456271">リンク</a>',
+  },
+  curve_engraving: {
+    measure_audofocus_area: 'オートフォーカスエリアを測定',
+    amount: '数量',
+    gap: 'ギャップ',
+    rows: '行',
+    coloumns: '列',
+    row_gap: '行間',
+    column_gap: '列間',
+    set_object_height: 'オブジェクトの高さを設定',
+    set_object_height_desc: 'オブジェクトの最大厚さを測定します。',
+    measure_area_help: '3Dカーブ用のオートフォーカスエリアをどのように選択しますか？',
+    reselect_area: 'エリアを再選択',
+    start_autofocus: 'オートフォーカスを開始',
+    starting_measurement: '測定開始...',
+    preview_3d_curve: '3Dカーブのプレビュー',
+    apply_arkwork: '3Dカーブにアートワークを適用',
+    apply_camera: '3Dカーブにカメラ画像を適用',
+    click_to_select_point: '再度測定するためにポイントを選択または選択解除するにはクリックしてください。',
+    remeasure: '再測定',
+    remeasuring_points: 'ポイントを再測定しています...',
+  },
+  pass_through: {
+    title: 'パススルーモード',
   },
 };
 

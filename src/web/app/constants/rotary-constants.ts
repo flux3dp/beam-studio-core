@@ -9,7 +9,7 @@ export interface RotaryConstants {
 const rotaryConstants: { [key in WorkAreaModel]?: RotaryConstants } = {
   ado1: {
     boundary: [0, 300],
-    maxHeight: 408.2,
+    maxHeight: 140,
   },
 };
 

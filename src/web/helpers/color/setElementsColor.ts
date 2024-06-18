@@ -29,7 +29,7 @@ const setElementsColor = (elements: Element[], color: string, isFullColor = fals
           if (((isWireFrame && svgByColor === 0) || attrStroke) && attrStroke !== 'none') {
             elem.setAttribute('stroke', color);
           }
-          if (attrFill !== 'none' && !isWireFrame) {
+          if (!['none', '#fff', '#ffffff'].includes(attrFill.toLowerCase()) && !isWireFrame) {
             elem.setAttribute('fill', color);
             elem.setAttribute('fill-opacity', '1');
           }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 
-import { CanvasContext } from 'app/contexts/CanvasContext';
+import { CanvasContext, CanvasMode } from 'app/contexts/CanvasContext';
 
 import FrameButton from './FrameButton';
 
@@ -68,7 +68,12 @@ jest.mock('helpers/useI18n', () => () => ({
 }));
 
 jest.mock('app/contexts/CanvasContext', () => ({
-  CanvasContext: React.createContext({ isPreviewing: false }),
+  CanvasContext: React.createContext({ mode: 1 }),
+  CanvasMode: {
+    Draw: 1,
+    Preview: 2,
+    PathPreview: 3,
+  },
 }));
 
 const versionChecker = jest.fn().mockReturnValue({ meetRequirement: () => true });
@@ -193,7 +198,7 @@ describe('test FrameButton', () => {
   test('should render correctly with previewing mode', () => {
     const { container } = render(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      <CanvasContext.Provider value={{ isPreviewing: true } as any}>
+      <CanvasContext.Provider value={{ mode: CanvasMode.Preview } as any}>
         <FrameButton />
       </CanvasContext.Provider>
     );
