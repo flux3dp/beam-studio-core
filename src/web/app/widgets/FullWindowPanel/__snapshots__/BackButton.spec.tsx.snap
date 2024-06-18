@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`BackButton should render correctly 1`] = `
+exports[`test BackButton should render correctly 1`] = `
 <div>
   <button
     class="ant-btn css-dev-only-do-not-override-hash ant-btn-text enhancer button windows desktop"
@@ -18,7 +18,7 @@ exports[`BackButton should render correctly 1`] = `
 </div>
 `;
 
-exports[`BackButton should render correctly 2`] = `
+exports[`test BackButton should render correctly 2`] = `
 <div>
   <button
     class="ant-btn css-dev-only-do-not-override-hash ant-btn-text enhancer button"
