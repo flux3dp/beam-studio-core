@@ -2550,9 +2550,11 @@ const svgEditor = window['svgEditor'] = (function () {
             ObjectPanelController.updatePolygonSides($(selectedElement).attr('sides'));
           });
           Shortcuts.on(['l'], () => {
+            if (isFocusingOnInputs()) return;
             RightPanelController.setPanelType(PanelType.Layer);
           });
           Shortcuts.on(['o'], () => {
+            if (isFocusingOnInputs()) return;
             const isPathEdit = svgCanvas.getMode() === 'pathedit';
             RightPanelController.setPanelType(isPathEdit ? PanelType.PathEdit : PanelType.Object);
           });
