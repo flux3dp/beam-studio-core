@@ -123,7 +123,7 @@ const lang: ILang = {
       align_to_edges: 'An Scheitelpunkten ausrichten',
       document_setting: 'Dokumenteinstellungen',
       document_setting_short: 'Dokument',
-      clear_scene: 'Szene löschen',
+      clear_scene: 'Neue Dateien',
       machines: 'Maschinen',
       add_new_machine: 'Maschineneinrichtung',
       help_center: 'Hilfezentrum',

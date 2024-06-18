@@ -123,7 +123,7 @@ const lang: ILang = {
       align_to_edges: 'Ευθυγράμμιση με κορυφές',
       document_setting: 'Ρυθμίσεις εγγράφου',
       document_setting_short: 'Έγγραφο',
-      clear_scene: 'Εκκαθάριση σκηνής',
+      clear_scene: 'Νέα αρχεία',
       machines: 'Μηχανές',
       add_new_machine: 'Ρύθμιση μηχανής',
       help_center: 'Κέντρο βοήθειας',

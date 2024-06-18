@@ -123,7 +123,7 @@ const lang: ILang = {
       align_to_edges: 'Rapat ke Simpul',
       document_setting: 'Pengaturan Dokumen',
       document_setting_short: 'Dokumen',
-      clear_scene: 'Bersihkan Scene',
+      clear_scene: 'File baru',
       machines: 'Mesin',
       add_new_machine: 'Setup Mesin',
       help_center: 'Pusat Bantuan',

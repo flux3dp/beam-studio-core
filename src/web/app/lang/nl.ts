@@ -123,7 +123,7 @@ const lang: ILang = {
       align_to_edges: 'Uitlijnen op hoekpunten',
       document_setting: 'Documentinstellingen',
       document_setting_short: 'Document',
-      clear_scene: 'Werkblad wissen',
+      clear_scene: 'Nieuwe bestanden',
       machines: 'Machines',
       add_new_machine: 'Machine-instellingen',
       help_center: 'Hulppagina',

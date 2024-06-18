@@ -123,7 +123,7 @@ const lang: ILang = {
       align_to_edges: '꼭짓점에 맞추기',
       document_setting: '문서 설정',
       document_setting_short: '문서',
-      clear_scene: '장면 지우기',
+      clear_scene: '새 파일',
       machines: '기계',
       add_new_machine: '기계 설정',
       help_center: '도움말',

@@ -123,7 +123,7 @@ const lang: ILang = {
       align_to_edges: 'Fest til hjørner',
       document_setting: 'Dokumentinnstillinger',
       document_setting_short: 'Dokument',
-      clear_scene: 'Tøm scene',
+      clear_scene: 'Nye filer',
       machines: 'Maskiner',
       add_new_machine: 'Maskinoppsett',
       help_center: 'Hjelpesenter',
