@@ -51,6 +51,7 @@ import AlertConstants from 'app/constants/alert-constants';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import Progress from '../progress-caller';
 import BeamFileHelper from 'helpers/beam-file-helper';
+import fileExportHelper from 'helpers/file-export-helper';
 import ImageData from 'helpers/image-data';
 import storage from 'implementations/storage';
 import pdfHelper from 'implementations/pdfHelper';
@@ -60,7 +61,7 @@ import isWeb from 'helpers/is-web';
 import SvgLaserParser from 'helpers/api/svg-laser-parser';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import { IFont } from 'interfaces/IFont';
-import { IIcon } from 'interfaces/INoun-Project'
+import { IIcon } from 'interfaces/INoun-Project';
 import { IStorage, StorageKey } from 'interfaces/IStorage';
 import ISVGConfig from 'interfaces/ISVGConfig';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
@@ -71,6 +72,7 @@ import importDxf from 'app/svgedit/operations/import/importDxf';
 import importSvg from 'app/svgedit/operations/import/importSvg';
 import readBitmapFile from 'app/svgedit/operations/import/readBitmapFile';
 import { isMobile } from 'helpers/system-helper';
+import { PanelType } from 'app/constants/right-panel-types';
 
 if (svgCanvasClass) {
   console.log('svgCanvas loaded successfully');
@@ -145,7 +147,7 @@ interface ISVGEditor {
   dimensions: number[]
   uiStrings: any
   updateContextPanel: () => void
-  clearScene: () => void
+  clearScene: () => Promise<void>;
   cutSelected: () => void;
   copySelected: () => void;
 }
@@ -213,7 +215,7 @@ const svgEditor = window['svgEditor'] = (function () {
     dimensions: [pxWidth, pxDisplayHeight ?? pxHeight],
     uiStrings: {},
     updateContextPanel: () => {},
-    clearScene: () => {},
+    clearScene: async () => {},
     cutSelected: () => {},
     copySelected: () => {},
   };
@@ -2309,22 +2311,17 @@ const svgEditor = window['svgEditor'] = (function () {
       path.opencloseSubPath();
     };
 
-    var clearScene = function () {
-      Alert.popById('clear-scene');
-      Alert.popUp({
-        id: 'clear-scene',
-        message: i18n.lang.topbar.alerts.QcleanScene,
-        buttonType: AlertConstants.YES_NO,
-        onYes: () => {
-          setSelectMode();
-          svgCanvas.clear();
-          workareaManager.resetView();
-          LayerPanelController.updateLayerPanel();
-          updateContextPanel();
-          svgedit.transformlist.resetListMap();
-          svgCanvas.runExtensions('onNewDocument');
-        }
-      });
+    var clearScene = async function () {
+      const res = await fileExportHelper.toggleUnsavedChangedDialog();
+      if (!res) return;
+      setSelectMode();
+      svgCanvas.clear();
+      workareaManager.resetView();
+      RightPanelController.setPanelType(PanelType.None); // will be updated to PanelType.Layer automatically if is not mobile
+      LayerPanelController.updateLayerPanel();
+      updateContextPanel();
+      svgedit.transformlist.resetListMap();
+      svgCanvas.runExtensions('onNewDocument');
     };
 
     editor.clearScene = clearScene;
