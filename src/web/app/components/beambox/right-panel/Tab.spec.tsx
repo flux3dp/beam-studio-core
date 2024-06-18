@@ -2,7 +2,6 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
-import { CanvasContext } from 'app/contexts/CanvasContext';
 import { PanelType } from 'app/constants/right-panel-types';
 import { SelectedElementContext } from 'app/contexts/SelectedElementContext';
 
@@ -67,13 +66,11 @@ describe('should render correctly', () => {
     document.body.innerHTML = '<path id="svg_1"></path>';
 
     const { container } = render(
-      <CanvasContext.Provider value={{ isPreviewing: true } as any}>
-        <SelectedElementContext.Provider
-          value={{ selectedElement: document.getElementById('svg_1') }}
-        >
-          <Tab panelType={PanelType.PathEdit} switchPanel={jest.fn()} />
-        </SelectedElementContext.Provider>
-      </CanvasContext.Provider>
+      <SelectedElementContext.Provider
+        value={{ selectedElement: document.getElementById('svg_1') }}
+      >
+        <Tab panelType={PanelType.PathEdit} switchPanel={jest.fn()} />
+      </SelectedElementContext.Provider>
     );
     expect(container).toMatchSnapshot();
   });
