@@ -10,6 +10,7 @@ const lang: ILang = {
     next: 'Berikutnya',
     back: 'Kembali',
     done: 'Selesai',
+    back_to_beam_studio: 'Kembali ke Beam Studio',
   },
   topbar: {
     untitled: 'Tanpa Judul',
@@ -1695,7 +1696,6 @@ const lang: ILang = {
     invert: 'Balik warna latar belakang',
   },
   boxgen: {
-    back: 'Kembali ke Beam Studio',
     title: 'BOXGEN',
     basic_box: 'Kotak Dasar',
     coming_soon: 'Segera Hadir',
@@ -1801,6 +1801,9 @@ const lang: ILang = {
     click_to_select_point: 'Klik untuk memilih atau membatalkan pilihan titik untuk mengukur ulang.',
     remeasure: 'Ukur ulang',
     remeasuring_points: 'Mengukur ulang titik...',
+  },
+  pass_through: {
+    title: 'Mode Lewat',
   },
 };
 

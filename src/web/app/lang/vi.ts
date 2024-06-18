@@ -10,6 +10,7 @@ const lang: ILang = {
     next: 'Tiếp theo',
     back: 'Quay lại',
     done: 'Hoàn tất',
+    back_to_beam_studio: 'Quay lại Beam Studio',
   },
   topbar: {
     untitled: 'Chưa đặt tên',
@@ -1695,7 +1696,6 @@ const lang: ILang = {
     invert: 'Đảo ngược màu nền',
   },
   boxgen: {
-    back: 'Quay lại Beam Studio',
     title: 'BOXGEN',
     basic_box: 'Hộp cơ bản',
     coming_soon: 'Sắp ra mắt',
@@ -1801,6 +1801,9 @@ const lang: ILang = {
     click_to_select_point: 'Nhấp để chọn hoặc bỏ chọn các điểm để đo lại.',
     remeasure: 'Đo lại',
     remeasuring_points: 'Đang đo lại các điểm...',
+  },
+  pass_through: {
+    title: 'Chế Độ Đi Qua',
   },
 };
 

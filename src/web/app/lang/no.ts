@@ -10,6 +10,7 @@ const lang: ILang = {
     next: 'NESTE',
     back: 'TILBAKE',
     done: 'FERDIG',
+    back_to_beam_studio: 'Tilbake til Beam Studio',
   },
   topbar: {
     untitled: 'Uten tittel',
@@ -1695,7 +1696,6 @@ switch_to_layer_panel: 'Bytt til lagpanel',
     invert: 'Inverter bakgrunnsfarge',
   },
   boxgen: {
-    back: 'Tilbake til Beam Studio',
     title: 'BOXGEN',
     basic_box: 'Grunnleggende boks',
     coming_soon: 'Kommer snart',
@@ -1801,6 +1801,9 @@ switch_to_layer_panel: 'Bytt til lagpanel',
     click_to_select_point: 'Klikk for å velge eller velge bort punkter for å måle på nytt.',
     remeasure: 'Mål på nytt',
     remeasuring_points: 'Måler punkter på nytt...',
+  },
+  pass_through: {
+    title: 'Gå Gjennom-Modus',
   },
 };
 

@@ -10,6 +10,7 @@ const lang: ILang = {
     next: 'NÆSTE',
     back: 'TILBAGE',
     done: 'FÆRDIG',
+    back_to_beam_studio: 'Tilbage til Beam Studio',
   },
   topbar: {
     untitled: 'Untitled',
@@ -1695,7 +1696,6 @@ const lang: ILang = {
     invert: 'Inverter baggrundsfarve',
   },
   boxgen: {
-    back: 'Tilbage til Beam Studio',
     title: 'BOXGEN',
     basic_box: 'Basic Box',
     coming_soon: 'Kommer snart',
@@ -1801,6 +1801,9 @@ const lang: ILang = {
     click_to_select_point: 'Klik for at vælge eller fravælge punkter til genmåling.',
     remeasure: 'Genmål',
     remeasuring_points: 'Genmåler punkter...',
+  },
+  pass_through: {
+    title: 'Gennemgangstilstand',
   },
 };
 

@@ -10,6 +10,7 @@ const lang: ILang = {
     next: '下一步',
     back: '上一步',
     done: '完成',
+    back_to_beam_studio: '回到 Beam Studio',
   },
   topbar: {
     untitled: '無標題',
@@ -1698,7 +1699,6 @@ const lang: ILang = {
     invert: '反轉背景顏色',
   },
   boxgen: {
-    back: '回到 Beam Studio',
     title: 'BOXGEN',
     basic_box: '基本款',
     coming_soon: '即將推出',
@@ -1804,6 +1804,9 @@ const lang: ILang = {
     click_to_select_point: '點擊選擇或取消選擇要重新測量的點。',
     remeasure: '重新測量',
     remeasuring_points: '正在重新測量點...',
+  },
+  pass_through: {
+    title: '直通模式',
   },
 };
 

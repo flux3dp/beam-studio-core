@@ -10,6 +10,7 @@ const lang: ILang = {
     next: 'ถัดไป',
     back: 'ย้อนกลับ',
     done: 'เสร็จสิ้น',
+    back_to_beam_studio: 'กลับไปที่ Beam Studio',
   },
   topbar: {
     untitled: 'ไม่มีชื่อ',
@@ -1695,7 +1696,6 @@ const lang: ILang = {
     invert: 'สีพื้นหลังกลับกัน',
   },
   boxgen: {
-    back: 'กลับไปที่ Beam Studio',
     title: 'BOXGEN',
     basic_box: 'กล่องพื้นฐาน',
     coming_soon: 'เร็วๆ นี้',
@@ -1801,6 +1801,9 @@ const lang: ILang = {
     click_to_select_point: 'คลิกเพื่อเลือกหรือล้างการเลือกจุดที่จะวัดอีกครั้ง',
     remeasure: 'วัดใหม่',
     remeasuring_points: 'กำลังวัดจุดใหม่...',
+  },
+  pass_through: {
+    title: 'โหมดผ่าน',
   },
 };
 

@@ -10,6 +10,7 @@ const lang: ILang = {
     next: '다음',
     back: '뒤로',
     done: '완료',
+    back_to_beam_studio: 'Beam Studio로 돌아가기',
   },
   topbar: {
     untitled: '언타이틀',
@@ -1698,7 +1699,6 @@ const lang: ILang = {
     invert: '배경색 반전',
   },
   boxgen: {
-    back: 'Beam Studio로 돌아가기',
     title: 'BOXGEN',
     basic_box: '기본 상자',
     coming_soon: '곧 출시',
@@ -1804,6 +1804,9 @@ const lang: ILang = {
     click_to_select_point: '다시 측정할 포인트를 선택하거나 선택 해제하려면 클릭하세요.',
     remeasure: '다시 측정',
     remeasuring_points: '포인트를 다시 측정 중...',
+  },
+  pass_through: {
+    title: '패스 스루 모드',
   },
 };
 

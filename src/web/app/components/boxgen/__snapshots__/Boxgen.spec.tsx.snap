@@ -2,91 +2,12 @@
 
 exports[`test Boxgen should rendered correctly 1`] = `
 <div>
-  <div
-    class="boxgen desktop"
-  >
-    <div
-      class="sider"
-    >
-      <button
-        class="ant-btn css-dev-only-do-not-override-hash ant-btn-text back"
-        type="button"
-      >
-        <span
-          class="ant-btn-icon"
-        >
-          <svgr-url />
-        </span>
-        <span>
-          Back to Beam Studio
-        </span>
-      </button>
-      <div
-        class="head"
-      >
-        <div
-          class="title"
-        >
-          BOXGEN
-        </div>
-        <mock-box-selector />
-      </div>
-      <mock-box-controller />
-      <div
-        class="footer"
-      >
-        <mock-export-button />
-      </div>
+  <div>
+    <div>
+      mobileTitle: 
+      BOXGEN
     </div>
-    <div
-      class="canvas"
-    >
-      <mock-canvas />
-    </div>
-  </div>
-</div>
-`;
-
-exports[`test Boxgen should rendered correctly in mobile 1`] = `
-<div>
-  <div
-    class="adm-floating-panel boxgen desktop panel"
-    data-animating="true"
-    style="height: 0px; transform: translateY(calc(100% + (0px)));"
-  >
-    <div
-      class="adm-floating-panel-mask"
-      style="display: none;"
-    />
-    <div
-      class="adm-floating-panel-header"
-    >
-      <div
-        class="adm-floating-panel-bar"
-      />
-    </div>
-    <div
-      class="adm-floating-panel-content"
-    >
-      <span
-        class="anticon close-icon"
-        role="img"
-        tabindex="-1"
-      >
-        <svgr-url
-          aria-hidden="true"
-          classname=""
-          fill="currentColor"
-          focusable="false"
-          height="1em"
-          width="1em"
-        />
-      </span>
-      <div
-        class="title"
-      >
-        BOXGEN
-      </div>
+    <div>
       <div>
         <mock-box-selector />
         <div
@@ -95,9 +16,33 @@ exports[`test Boxgen should rendered correctly in mobile 1`] = `
           <mock-canvas />
         </div>
       </div>
+    </div>
+    <div>
+      <mock-box-controller />
       <div
-        class="scroll-content"
+        class="footer"
       >
+        <mock-export-button />
+      </div>
+    </div>
+    <div>
+      <div
+        class="sider"
+      >
+        <div
+          class="back button"
+        >
+          Back to Beam Studio
+        </div>
+        <div
+          class="header"
+        >
+          <div>
+            title: 
+            BOXGEN
+          </div>
+          <mock-box-selector />
+        </div>
         <mock-box-controller />
         <div
           class="footer"
@@ -105,7 +50,17 @@ exports[`test Boxgen should rendered correctly in mobile 1`] = `
           <mock-export-button />
         </div>
       </div>
+      <div
+        class="canvas"
+      >
+        <mock-canvas />
+      </div>
     </div>
+    <button
+      type="button"
+    >
+      back
+    </button>
   </div>
 </div>
 `;

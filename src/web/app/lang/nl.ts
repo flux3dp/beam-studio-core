@@ -10,6 +10,7 @@ const lang: ILang = {
     next: 'Volgende',
     back: 'Terug',
     done: 'Klaar',
+    back_to_beam_studio: 'Terug naar Beam Studio',
   },
   topbar: {
     untitled: 'Naamloos',
@@ -1695,7 +1696,6 @@ const lang: ILang = {
     invert: 'Achtergrondkleur omkeren',
   },
   boxgen: {
-    back: 'Terug naar Beam Studio',
     title: 'DOOSGEN',
     basic_box: 'Basisdoos',
     coming_soon: 'Binnenkort beschikbaar',
@@ -1801,6 +1801,9 @@ const lang: ILang = {
     click_to_select_point: 'Klik om punten te selecteren of te deselecteren voor opnieuw meten.',
     remeasure: 'Opnieuw meten',
     remeasuring_points: 'Punten opnieuw meten...',
+  },
+  pass_through: {
+    title: 'Doorgangsmodus',
   },
 };
 

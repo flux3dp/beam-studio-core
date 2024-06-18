@@ -7,8 +7,10 @@ import { BoxgenContext } from 'app/contexts/BoxgenContext';
 import Boxgen from './Boxgen';
 
 jest.mock('helpers/useI18n', () => () => ({
+  buttons: {
+    back_to_beam_studio: 'Back to Beam Studio',
+  },
   boxgen: {
-    back: 'Back to Beam Studio',
     title: 'BOXGEN',
   },
 }));
@@ -20,10 +22,61 @@ jest.mock('app/contexts/BoxgenContext', () => ({
   ),
 }));
 
-const mockUseIsMobile = jest.fn();
-jest.mock('helpers/system-helper', () => ({
-  useIsMobile: () => mockUseIsMobile(),
-}));
+jest.mock(
+  'app/widgets/FullWindowPanel/FullWindowPanel',
+  () =>
+    ({
+      mobileTitle,
+      renderMobileFixedContent,
+      renderMobileContents,
+      renderContents,
+      onClose,
+    }: any) =>
+      (
+        <div>
+          <div>mobileTitle: {mobileTitle}</div>
+          <div>{renderMobileFixedContent?.()}</div>
+          <div>{renderMobileContents?.()}</div>
+          <div>{renderContents?.()}</div>
+          <button type="button" onClick={onClose}>
+            back
+          </button>
+        </div>
+      )
+);
+
+jest.mock(
+  'app/widgets/FullWindowPanel/BackButton',
+  () =>
+    ({ children }: { children: React.ReactNode }) =>
+      <div className="back button">{children}</div>
+);
+
+jest.mock(
+  'app/widgets/FullWindowPanel/Footer',
+  () =>
+    ({ children }: { children: React.ReactNode }) =>
+      <div className="footer">{children}</div>
+);
+
+jest.mock(
+  'app/widgets/FullWindowPanel/Header',
+  () =>
+    ({ title, children }: { title: string; children: React.ReactNode }) =>
+      (
+        <div className="header">
+          <div>title: {title}</div>
+          {children}
+        </div>
+      )
+);
+
+jest.mock(
+  'app/widgets/FullWindowPanel/Sider',
+  () =>
+    ({ children }: { children: React.ReactNode }) =>
+      <div className="sider">{children}</div>
+);
 
 jest.mock('./BoxCanvas', () => 'mock-canvas');
 jest.mock('./BoxSelector', () => 'mock-box-selector');
@@ -40,16 +93,7 @@ describe('test Boxgen', () => {
   test('should rendered correctly', () => {
     const { container } = render(<Boxgen onClose={mockOnClose} />);
     expect(container).toMatchSnapshot();
-    const button = container.querySelector('.back');
-    fireEvent.click(button);
-    expect(mockOnClose).toBeCalledTimes(1);
-  });
-
-  test('should rendered correctly in mobile', () => {
-    mockUseIsMobile.mockReturnValue(true);
-    const { container } = render(<Boxgen onClose={mockOnClose} />);
-    expect(container).toMatchSnapshot();
-    const button = container.querySelector('.close-icon');
+    const button = container.querySelector('button');
     fireEvent.click(button);
     waitFor(() => expect(mockOnClose).toBeCalledTimes(1));
   });

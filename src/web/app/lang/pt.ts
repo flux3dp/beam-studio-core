@@ -10,6 +10,7 @@ const lang: ILang = {
     next: 'Próximo',
     back: 'Voltar',
     done: 'Concluído',
+    back_to_beam_studio: 'Voltar para Beam Studio',
   },
   topbar: {
     untitled: 'Sem título',
@@ -1695,7 +1696,6 @@ const lang: ILang = {
     invert: 'Inverter cor de fundo',
   },
   boxgen: {
-    back: 'Voltar para Beam Studio',
     title: 'CAIXA',
     basic_box: 'Caixa Básica',
     coming_soon: 'Em breve',
@@ -1801,6 +1801,9 @@ const lang: ILang = {
     click_to_select_point: 'Clique para selecionar ou desselecionar pontos para medir novamente.',
     remeasure: 'Re-medir',
     remeasuring_points: 'Re-medindo pontos...',
+  },
+  pass_through: {
+    title: 'Modo De Passar Por',
   },
 };
 

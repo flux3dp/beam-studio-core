@@ -10,6 +10,7 @@ const lang: ILang = {
     next: 'DALEJ',
     back: 'COFNIJ',
     done: 'GOTOWE',
+    back_to_beam_studio: 'Wróć do Beam Studio',
   },
   topbar: {
     untitled: 'Bez nazwy',
@@ -1698,7 +1699,6 @@ const lang: ILang = {
     invert: 'Odwróć kolory tła i pierwszego planu',
   },
   boxgen: {
-    back: 'Wróć do Beam Studio',
     title: 'BOXGEN',
     basic_box: 'Podstawowe pudełko',
     coming_soon: 'Wkrótce',
@@ -1804,6 +1804,9 @@ const lang: ILang = {
     click_to_select_point: 'Kliknij, aby wybrać lub odznaczyć punkty do ponownego pomiaru.',
     remeasure: 'Ponownie zmierz',
     remeasuring_points: 'Ponowne mierzenie punktów...',
+  },
+  pass_through: {
+    title: 'Tryb Przejścia',
   },
 };
 

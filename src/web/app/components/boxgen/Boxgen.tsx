@@ -1,14 +1,12 @@
-import classNames from 'classnames';
-import React, { useMemo } from 'react';
-import { Button } from 'antd';
+import React from 'react';
 
-import constant from 'app/actions/beambox/constant';
-import FloatingPanel from 'app/widgets/FloatingPanel';
-import isWeb from 'helpers/is-web';
-import TopBarIcons from 'app/icons/top-bar/TopBarIcons';
+import BackButton from 'app/widgets/FullWindowPanel/BackButton';
+import Footer from 'app/widgets/FullWindowPanel/Footer';
+import FullWindowPanel from 'app/widgets/FullWindowPanel/FullWindowPanel';
+import Header from 'app/widgets/FullWindowPanel/Header';
+import Sider from 'app/widgets/FullWindowPanel/Sider';
 import useI18n from 'helpers/useI18n';
 import { BoxgenProvider } from 'app/contexts/BoxgenContext';
-import { useIsMobile } from 'helpers/system-helper';
 
 import BoxCanvas from './BoxCanvas';
 import BoxSelector from './BoxSelector';
@@ -17,65 +15,48 @@ import ExportButton from './ExportButton';
 import styles from './Boxgen.module.scss';
 
 const Boxgen = ({ onClose }: { onClose?: () => void }): JSX.Element => {
-  const lang = useI18n().boxgen;
-  const isMobile = useIsMobile();
-  const web = useMemo(() => isWeb(), []);
+  const lang = useI18n();
+  const tBoxgen = lang.boxgen;
 
   return (
     <BoxgenProvider onClose={onClose}>
-      {isMobile ? (
-        <FloatingPanel
-          className={classNames(styles.boxgen, {
-            [styles.windows]: window.os === 'Windows',
-            [styles.desktop]: !web,
-          })}
-          anchors={[0, window.innerHeight - constant.titlebarHeight]}
-          title={lang.title}
-          fixedContent={
-            <div>
-              <BoxSelector />
-              <div className={styles.canvas}>
-                <BoxCanvas />
-              </div>
+      <FullWindowPanel
+        onClose={onClose}
+        mobileTitle={tBoxgen.title}
+        renderMobileFixedContent={() => (
+          <div>
+            <BoxSelector />
+            <div className={styles.canvas}>
+              <BoxCanvas />
             </div>
-          }
-          onClose={onClose}
-        >
-          <Controller />
-          <div className={styles.footer}>
-            <ExportButton />
           </div>
-        </FloatingPanel>
-      ) : (
-        <div
-          className={classNames(styles.boxgen, {
-            [styles.windows]: window.os === 'Windows',
-            [styles.desktop]: !web,
-          })}
-        >
-          <div className={styles.sider}>
-            <Button
-              className={styles.back}
-              type="text"
-              icon={<TopBarIcons.Undo />}
-              onClick={onClose}
-            >
-              {lang.back}
-            </Button>
-            <div className={styles.head}>
-              <div className={styles.title}>{lang.title}</div>
-              <BoxSelector />
-            </div>
+        )}
+        renderMobileContents={() => (
+          <>
             <Controller />
-            <div className={styles.footer}>
+            <Footer>
               <ExportButton />
+            </Footer>
+          </>
+        )}
+        renderContents={() => (
+          <>
+            <Sider>
+              <BackButton onClose={onClose}>{lang.buttons.back_to_beam_studio}</BackButton>
+              <Header title={tBoxgen.title}>
+                <BoxSelector />
+              </Header>
+              <Controller />
+              <Footer>
+                <ExportButton />
+              </Footer>
+            </Sider>
+            <div className={styles.canvas}>
+              <BoxCanvas />
             </div>
-          </div>
-          <div className={styles.canvas}>
-            <BoxCanvas />
-          </div>
-        </div>
-      )}
+          </>
+        )}
+      />
     </BoxgenProvider>
   );
 };

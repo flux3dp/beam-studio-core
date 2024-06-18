@@ -10,6 +10,7 @@ const lang: ILang = {
     next: 'Επόμενο',
     back: 'Πίσω',
     done: 'Τέλος',
+    back_to_beam_studio: 'Επιστροφή στο Beam Studio',
   },
   topbar: {
     untitled: 'Χωρίς τίτλο',
@@ -1695,7 +1696,6 @@ const lang: ILang = {
     invert: 'Αντιστροφή χρωμάτων φόντου',
   },
   boxgen: {
-    back: 'Επιστροφή στο Beam Studio',
     title: 'BOXGEN',
     basic_box: 'Βασικό Κουτί',
     coming_soon: 'Έρχεται Σύντομα',
@@ -1801,6 +1801,9 @@ const lang: ILang = {
     click_to_select_point: 'Κάντε κλικ για να επιλέξετε ή να αποεπιλέξετε σημεία για επαναμέτρηση.',
     remeasure: 'Επαναμέτρηση',
     remeasuring_points: 'Επαναμέτρηση σημείων...',
+  },
+  pass_through: {
+    title: 'Λειτουργία Διέλευσης',
   },
 };
 

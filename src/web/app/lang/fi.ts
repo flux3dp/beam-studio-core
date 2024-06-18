@@ -10,6 +10,7 @@ const lang: ILang = {
     next: 'SEURAAVA',
     back: 'TAKAISIN',
     done: 'VALMIS',
+    back_to_beam_studio: 'Takaisin Beam Studioon',
   },
   topbar: {
     untitled: 'Nimeämätön',
@@ -1695,7 +1696,6 @@ const lang: ILang = {
     invert: 'Käännä värit',
   },
   boxgen: {
-    back: 'Takaisin Beam Studioon',
     title: 'BOXGEN',
     basic_box: 'Peruslaatikko',
     coming_soon: 'Tulossa pian',
@@ -1801,6 +1801,9 @@ const lang: ILang = {
     click_to_select_point: 'Napsauta valitaksesi tai poistaaksesi valinnan mittauksesta.',
     remeasure: 'Mittaa uudelleen',
     remeasuring_points: 'Mittauspisteiden uudelleenmittaus...',
+  },
+  pass_through: {
+    title: 'Läpäisymoodi',
   },
 };
 

@@ -6,7 +6,8 @@ export interface ILang {
   buttons: {
     next: string,
     back: string,
-    done: string,
+    done: string;
+    back_to_beam_studio: string;
   },
   topbar: {
     untitled: string,
@@ -1695,7 +1696,6 @@ export interface ILang {
     invert: string;
   };
   boxgen: {
-    back: string;
     title: string;
     basic_box: string;
     coming_soon: string;
@@ -1801,5 +1801,8 @@ export interface ILang {
     click_to_select_point: string;
     remeasure: string;
     remeasuring_points: string;
+  };
+  pass_through: {
+    title: string;
   };
 }

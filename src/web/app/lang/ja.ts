@@ -10,6 +10,7 @@ const lang: ILang = {
     next: '次へ',
     back: '戻る',
     done: '完了',
+    back_to_beam_studio: 'Beam Studio に戻る',
   },
   topbar: {
     untitled: '無題',
@@ -1698,7 +1699,6 @@ const lang: ILang = {
     invert: '背景色を反転',
   },
   boxgen: {
-    back: 'Beam Studio に戻る',
     title: 'BOXGEN',
     basic_box: '基本ボックス',
     coming_soon: '近日公開',
@@ -1804,6 +1804,9 @@ const lang: ILang = {
     click_to_select_point: '再度測定するためにポイントを選択または選択解除するにはクリックしてください。',
     remeasure: '再測定',
     remeasuring_points: 'ポイントを再測定しています...',
+  },
+  pass_through: {
+    title: 'パススルーモード',
   },
 };
 
