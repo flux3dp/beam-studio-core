@@ -61,7 +61,7 @@ class LeftPanel extends React.PureComponent {
       }
     });
 
-    shortcuts.on(['l'], () => {
+    shortcuts.on(['c'], () => {
       const { mode } = this.context;
       if (mode === CanvasMode.Draw && !isFocusingOnInputs()) {
         FnWrapper.insertEllipse();

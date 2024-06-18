@@ -2549,6 +2549,13 @@ const svgEditor = window['svgEditor'] = (function () {
             window['polygonDecreaseSides']?.();
             ObjectPanelController.updatePolygonSides($(selectedElement).attr('sides'));
           });
+          Shortcuts.on(['l'], () => {
+            RightPanelController.setPanelType(PanelType.Layer);
+          });
+          Shortcuts.on(['o'], () => {
+            const isPathEdit = svgCanvas.getMode() === 'pathedit';
+            RightPanelController.setPanelType(isPathEdit ? PanelType.PathEdit : PanelType.Object);
+          });
           Shortcuts.on(['esc'], clickSelect);
 
           // Misc additional actions

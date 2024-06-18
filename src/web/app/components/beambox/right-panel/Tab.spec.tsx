@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
+import { CanvasContext } from 'app/contexts/CanvasContext';
 import { PanelType } from 'app/constants/right-panel-types';
 import { SelectedElementContext } from 'app/contexts/SelectedElementContext';
 
@@ -47,6 +49,10 @@ jest.mock('app/constants/tutorial-constants', () => ({
   TO_LAYER_PANEL: 'TO_LAYER_PANEL',
 }));
 
+jest.mock('app/contexts/CanvasContext', () => ({
+  CanvasContext: React.createContext({ isPathEditing: false }),
+}));
+
 describe('should render correctly', () => {
   test('no selected element', () => {
     const { container } = render(
@@ -61,11 +67,13 @@ describe('should render correctly', () => {
     document.body.innerHTML = '<path id="svg_1"></path>';
 
     const { container } = render(
-      <SelectedElementContext.Provider
-        value={{ selectedElement: document.getElementById('svg_1') }}
-      >
-        <Tab panelType={PanelType.PathEdit} switchPanel={jest.fn()} />
-      </SelectedElementContext.Provider>
+      <CanvasContext.Provider value={{ isPreviewing: true } as any}>
+        <SelectedElementContext.Provider
+          value={{ selectedElement: document.getElementById('svg_1') }}
+        >
+          <Tab panelType={PanelType.PathEdit} switchPanel={jest.fn()} />
+        </SelectedElementContext.Provider>
+      </CanvasContext.Provider>
     );
     expect(container).toMatchSnapshot();
   });

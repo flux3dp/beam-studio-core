@@ -3,9 +3,10 @@ import classNames from 'classnames';
 
 import * as TutorialController from 'app/views/tutorials/tutorialController';
 import TutorialConstants from 'app/constants/tutorial-constants';
-import { SelectedElementContext } from 'app/contexts/SelectedElementContext';
-import { PanelType } from 'app/constants/right-panel-types';
 import useI18n from 'helpers/useI18n';
+import { CanvasContext } from 'app/contexts/CanvasContext';
+import { PanelType } from 'app/constants/right-panel-types';
+import { SelectedElementContext } from 'app/contexts/SelectedElementContext';
 
 interface Props {
   panelType: PanelType;
@@ -13,11 +14,12 @@ interface Props {
 }
 
 function Tab({ panelType, switchPanel }: Props): JSX.Element {
-  const lang = useI18n()
+  const lang = useI18n();
   const langTopBar = lang.topbar;
   const langRightPanel = lang.beambox.right_panel;
   const { selectedElement } = useContext(SelectedElementContext);
-  const isObjectDisabled = panelType !== PanelType.PathEdit && !selectedElement;
+  const { isPathEditing } = useContext(CanvasContext);
+  const isObjectDisabled = !isPathEditing && !selectedElement;
   let objectTitle = langRightPanel.tabs.objects;
   if (panelType === PanelType.PathEdit) {
     objectTitle = langRightPanel.tabs.path_edit;
