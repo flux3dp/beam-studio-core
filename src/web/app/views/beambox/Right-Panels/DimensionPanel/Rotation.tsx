@@ -58,6 +58,7 @@ const Rotation = ({ value, onChange }: Props): JSX.Element => {
         id="rotate"
         className={styles.input}
         theme={objectPanelInputTheme}
+        underline
         controls={false}
         unit="deg"
         value={value || 0}

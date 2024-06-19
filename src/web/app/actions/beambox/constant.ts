@@ -55,12 +55,11 @@ export default {
   },
   adorModels: ['ado1', 'fad1'],
   addonsSupportList: {
-    rotary: isDev()
-      ? ['fbm1', 'fbb1b', 'fbb1p', 'fhexa1', 'fad1', 'ado1']
-      : ['fbm1', 'fbb1b', 'fbb1p', 'fhexa1'],
+    rotary: ['fbm1', 'fbb1b', 'fbb1p', 'fhexa1', 'fad1', 'ado1'],
     openBottom: ['fbm1'],
     autoFocus: ['fbm1'],
     hybridLaser: ['fbm1'],
+    passThrough: ['fbm1', 'ado1'],
   },
   leftPanelWidth: 50, // px
   rightPanelWidth: window.os !== 'MacOS' ? 258 : 242, // px
