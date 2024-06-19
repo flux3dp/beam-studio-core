@@ -10,6 +10,7 @@ import constant from 'app/actions/beambox/constant';
 import changeLayersColor from 'helpers/layer/changeLayersColor';
 import Dialog from 'app/actions/dialog-caller';
 import DragImage from 'app/components/beambox/right-panel/DragImage';
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import FloatingPanel from 'app/widgets/FloatingPanel';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import i18n from 'helpers/i18n';
@@ -37,6 +38,9 @@ getSVGAsync((globalSVG) => {
 });
 
 const LANG = i18n.lang.beambox.right_panel.layer_panel;
+const minLayerHeight = 100;
+const defaultLayerHeight = constant.layerListHeight;
+const layerPanelEventEmitter = eventEmitterFactory.createEventEmitter('layer-panel');
 
 interface Props {
   hide?: boolean;
@@ -49,8 +53,6 @@ interface State {
   disableScroll?: boolean;
   contextTargetLayers?: [string];
 }
-
-const minLayerHeight = 100;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Handle = React.forwardRef((props: any, ref: React.RefObject<any>) => {
@@ -78,11 +80,15 @@ class LayerPanel extends React.PureComponent<Props, State> {
 
   private reservedHeight: number;
 
+  private isDoningTutorial = false;
+
+  private oldHeight = defaultLayerHeight;
+
   constructor(props: Props) {
     super(props);
     // Top bar + layer/object tab 40  + laser panel title 40
     this.reservedHeight = constant.topBarHeight + 80;
-    const initHeight = storage.get('layer-panel-height') || 400;
+    const initHeight = storage.get('layer-panel-height') || defaultLayerHeight;
     this.state = {
       height: this.clampPanelHeight(initHeight),
       draggingDestIndex: null,
@@ -92,6 +98,7 @@ class LayerPanel extends React.PureComponent<Props, State> {
     window.addEventListener('beforeunload', () => {
       this.savePanelHeight();
     });
+    layerPanelEventEmitter.on('startTutorial', this.startTutorial);
   }
 
   componentDidMount(): void {
@@ -112,14 +119,28 @@ class LayerPanel extends React.PureComponent<Props, State> {
 
   componentWillUnmount(): void {
     this.savePanelHeight();
+    layerPanelEventEmitter.off('startTutorial', this.startTutorial);
   }
 
   clampPanelHeight = (newHeight: number): number =>
     Math.min(Math.max(newHeight, minLayerHeight), window.innerHeight - this.reservedHeight);
 
+  startTutorial = (): void => {
+    this.isDoningTutorial = true;
+    const { height } = this.state;
+    this.oldHeight = height;
+    this.setState({ height: defaultLayerHeight });
+    layerPanelEventEmitter.once('endTutorial', this.endTutorial);
+  };
+
+  endTutorial = (): void => {
+    this.isDoningTutorial = false;
+    this.setState({ height: this.oldHeight });
+  };
+
   savePanelHeight = (): void => {
     const { height } = this.state;
-    storage.set('layer-panel-height', height);
+    storage.set('layer-panel-height', this.isDoningTutorial ? this.oldHeight : height);
   };
 
   unLockLayers = (layerName: string): void => {
@@ -521,7 +542,9 @@ class LayerPanel extends React.PureComponent<Props, State> {
               height={height}
               minConstraints={[NaN, minLayerHeight]}
               maxConstraints={[NaN, window.innerHeight - this.reservedHeight]}
-              onResize={(_, { size }) => this.setState({ height: size.height })}
+              onResize={(_, { size }) => {
+                if (!this.isDoningTutorial) this.setState({ height: size.height });
+              }}
               handle={<Handle />}
             >
               {this.renderLayerPanel()}

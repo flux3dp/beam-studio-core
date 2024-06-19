@@ -157,22 +157,22 @@ const NEW_USER_TUTORIAL: ITutorial = {
         position: {
           right: calculateRight(4, RightRef.RIGHT_PANEL),
           get top(): number {
-            return calculateTop(60, TopRef.LAYER_PARAMS);
+            return calculateTop(56, TopRef.LAYER_PARAMS);
           },
         },
         arrowDirection: 'right',
       },
       holePosition: {
-        right: calculateRight(50, RightRef.RIGHT_SROLL_BAR),
+        right: calculateRight(45, RightRef.RIGHT_SROLL_BAR),
         get top(): number {
-          return calculateTop(45, TopRef.LAYER_PARAMS);
+          return calculateTop(44, TopRef.LAYER_PARAMS);
         },
       },
       holeSize: { width: rightPanelInnerWidth - 60, height: 30 },
       hintCircle: {
-        right: calculateRight(50, RightRef.RIGHT_SROLL_BAR),
+        right: calculateRight(45, RightRef.RIGHT_SROLL_BAR),
         get top(): number {
-          return calculateTop(40, TopRef.LAYER_PARAMS);
+          return calculateTop(36, TopRef.LAYER_PARAMS);
         },
         width: rightPanelInnerWidth - 55,
         height: 40,
@@ -185,18 +185,18 @@ const NEW_USER_TUTORIAL: ITutorial = {
       dialogBoxStyles: {
         position: {
           right: calculateRight(40, RightRef.RIGHT_SROLL_BAR),
-          top: calculateTop(22, TopRef.LAYER_LIST),
+          top: calculateTop(11, TopRef.LAYER_LIST),
         },
         arrowDirection: 'right',
       },
       holePosition: {
         right: calculateRight(0, RightRef.RIGHT_SROLL_BAR),
-        top: calculateTop(3, TopRef.LAYER_LIST),
+        top: calculateTop(-8, TopRef.LAYER_LIST),
       },
       holeSize: { width: 35, height: 35 },
       hintCircle: {
         right: calculateRight(2, RightRef.RIGHT_SROLL_BAR),
-        top: calculateTop(7, TopRef.LAYER_LIST),
+        top: calculateTop(-4, TopRef.LAYER_LIST),
         width: 30,
         height: 30,
       },
@@ -318,22 +318,22 @@ const NEW_USER_TUTORIAL: ITutorial = {
         position: {
           right: calculateRight(4, RightRef.RIGHT_PANEL),
           get top(): number {
-            return calculateTop(60, TopRef.LAYER_PARAMS);
+            return calculateTop(56, TopRef.LAYER_PARAMS);
           },
         },
         arrowDirection: 'right',
       },
       holePosition: {
-        right: calculateRight(50, RightRef.RIGHT_SROLL_BAR),
+        right: calculateRight(45, RightRef.RIGHT_SROLL_BAR),
         get top(): number {
-          return calculateTop(45, TopRef.LAYER_PARAMS);
+          return calculateTop(44, TopRef.LAYER_PARAMS);
         },
       },
       holeSize: { width: rightPanelInnerWidth - 60, height: 30 },
       hintCircle: {
-        right: calculateRight(50, RightRef.RIGHT_SROLL_BAR),
+        right: calculateRight(45, RightRef.RIGHT_SROLL_BAR),
         get top(): number {
-          return calculateTop(40, TopRef.LAYER_PARAMS);
+          return calculateTop(36, TopRef.LAYER_PARAMS);
         },
         width: rightPanelInnerWidth - 55,
         height: 40,
@@ -459,7 +459,7 @@ const INTERFACE_TUTORIAL: ITutorial = {
         width: 40,
         height: 176,
       },
-      text: `${langLeftPanel.cursor} / ${langLeftPanel.photo} / ${langLeftPanel.my_cloud} / ${langLeftPanel.text}`
+      text: `${langLeftPanel.cursor} / ${langLeftPanel.photo} / ${langLeftPanel.my_cloud} / ${langLeftPanel.text}`,
     },
     {
       dialogBoxStyles: {
@@ -490,13 +490,13 @@ const INTERFACE_TUTORIAL: ITutorial = {
       dialogBoxStyles: {
         position: {
           right: calculateRight(45, RightRef.RIGHT_SROLL_BAR),
-          top: calculateTop(22, TopRef.LAYER_LIST),
+          top: calculateTop(11, TopRef.LAYER_LIST),
         },
         arrowDirection: 'right',
       },
       hintCircle: {
         right: calculateRight(2, RightRef.RIGHT_SROLL_BAR),
-        top: calculateTop(7, TopRef.LAYER_LIST),
+        top: calculateTop(-4, TopRef.LAYER_LIST),
         width: 30,
         height: 30,
       },
@@ -643,7 +643,7 @@ const INTERFACE_TUTORIAL: ITutorial = {
         right: calculateRight(5, RightRef.RIGHT_SROLL_BAR),
         top: calculateTop(225, TopRef.TOPBAR),
         width: rightPanelInnerWidth - 10,
-        height: 220,
+        height: 260,
       },
       text: LANG.newInterface.object_actions,
     },

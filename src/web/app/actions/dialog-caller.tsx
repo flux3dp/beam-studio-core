@@ -9,6 +9,7 @@ import CropPanel from 'app/views/beambox/ImageEditPanel/CropPanel';
 import DeviceSelector from 'app/views/dialogs/DeviceSelector';
 import DialogBox from 'app/widgets/Dialog-Box';
 import DocumentSettings from 'app/components/dialogs/DocumentSettings';
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import FirmwareUpdate from 'app/components/dialogs/FirmwareUpdate';
 import FluxCredit from 'app/components/dialogs/FluxCredit';
 import FluxIdLogin from 'app/components/dialogs/FluxIdLogin';
@@ -49,6 +50,7 @@ let svgCanvas;
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
 });
+const layerPanelEventEmitter = eventEmitterFactory.createEventEmitter('layer-panel');
 
 const addDialogComponent = (id: string, component: JSX.Element): void => {
   eventEmitter.emit('ADD_DIALOG_COMPONENT', id, component);
@@ -258,6 +260,7 @@ export default {
     const { id } = tutorial;
     if (isIdExist(id)) return;
     svgCanvas.clearSelection();
+    layerPanelEventEmitter.emit('startTutorial');
     addDialogComponent(
       id,
       <Tutorial
@@ -266,6 +269,7 @@ export default {
         dialogStylesAndContents={tutorial.dialogStylesAndContents}
         onClose={() => {
           popDialogById(id);
+          layerPanelEventEmitter.emit('endTutorial');
           callback();
         }}
       />
