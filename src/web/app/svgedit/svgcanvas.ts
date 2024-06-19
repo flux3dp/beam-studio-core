@@ -86,6 +86,7 @@ import sanitizeXmlString from 'helpers/sanitize-xml-string';
 import storage from 'implementations/storage';
 import SymbolMaker from 'helpers/symbol-maker';
 import updateElementColor from 'helpers/color/updateElementColor';
+import { getSupportInfo } from 'app/constants/add-on';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 import units, { Units } from 'helpers/units';
@@ -1612,7 +1613,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     });
     const workarea: WorkAreaModel = BeamboxPreference.read('workarea');
     const engraveDpi = BeamboxPreference.read('engrave_dpi');
-    const isUsingDiode = !!(BeamboxPreference.read('enable-diode') && Constant.addonsSupportList.hybridLaser.includes(workarea));
+    const isUsingDiode = !!(BeamboxPreference.read('enable-diode') && getSupportInfo(workarea).hybridLaser);
     const isUsingAF = !!BeamboxPreference.read('enable-autofocus');
     svgcontent.setAttribute('data-engrave_dpi', engraveDpi);
     svgcontent.setAttribute('data-rotary_mode', BeamboxPreference.read('rotary_mode'));

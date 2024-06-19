@@ -18,6 +18,7 @@ import svgLaserParser from 'helpers/api/svg-laser-parser';
 import TopBarController from 'app/views/beambox/TopBar/contexts/TopBarController';
 import updateImagesResolution from 'helpers/image/updateImagesResolution';
 import VersionChecker from 'helpers/version-checker';
+import { getSupportInfo } from 'app/constants/add-on';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { Mode } from 'app/constants/monitor-constants';
@@ -42,7 +43,7 @@ const getAdorPaddingAccel = async (device: IDeviceInfo | null): Promise<number |
     const deviceDetailInfo = await deviceMaster.getDeviceDetailInfo();
     const xAcc = parseInt(deviceDetailInfo.x_acc, 10);
     // handle nan and 0
-    return (Number.isNaN(xAcc) || !xAcc) ? null : xAcc;
+    return Number.isNaN(xAcc) || !xAcc ? null : xAcc;
   } catch (error) {
     console.error(error);
     return null;
@@ -271,6 +272,7 @@ const fetchTaskCode = async (
   });
 
   const paddingAccel = await getAdorPaddingAccel(device || TopBarController.getSelectedDevice());
+  const supportInfo = getSupportInfo(BeamboxPreference.read('workarea'));
   const getTaskCode = (codeType: 'gcode' | 'fcode', getTaskCodeOpts = {}) =>
     new Promise<{
       fileTimeCost: null | number;
@@ -312,11 +314,11 @@ const fetchTaskCode = async (
         enableAutoFocus:
           doesSupportDiodeAndAF &&
           BeamboxPreference.read('enable-autofocus') &&
-          constant.addonsSupportList.autoFocus.includes(BeamboxPreference.read('workarea')),
+          supportInfo.autoFocus,
         enableDiode:
           doesSupportDiodeAndAF &&
           BeamboxPreference.read('enable-diode') &&
-          constant.addonsSupportList.hybridLaser.includes(BeamboxPreference.read('workarea')),
+          supportInfo.hybridLaser,
         shouldUseFastGradient,
         vectorSpeedConstraint: BeamboxPreference.read('vector_speed_contraint') !== false,
         ...getTaskCodeOpts,

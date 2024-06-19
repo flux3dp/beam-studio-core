@@ -3,6 +3,7 @@ import constant from 'app/actions/beambox/constant';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import rotaryConstants from 'app/constants/rotary-constants';
 import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
+import { getSupportInfo } from 'app/constants/add-on';
 import { isMobile } from 'helpers/system-helper';
 
 const canvasEvents = eventEmitterFactory.createEventEmitter('canvas');
@@ -32,7 +33,11 @@ class WorkareaManager {
   setWorkarea(model: WorkAreaModel): void {
     const rotaryExtended =
       !!beamboxPreference.read('rotary_mode') && beamboxPreference.read('extend-rotary-workarea');
-    const passThroughMode = beamboxPreference.read('pass-through');
+    const supportInfo = getSupportInfo(model);
+    const borderless = !!beamboxPreference.read('borderless');
+    const passThrough = !!beamboxPreference.read('pass-through');
+    const passThroughMode =
+      supportInfo.passThrough && passThrough && (supportInfo.openBottom ? borderless : true);
     const workarea = getWorkarea(model);
     const modelChanged = this.model !== model;
     this.model = model;

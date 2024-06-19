@@ -1,6 +1,7 @@
 import NS from 'app/constants/namespaces';
 
 import workareaManager from 'app/svgedit/workarea';
+import { getSupportInfo } from 'app/constants/add-on';
 
 import BeamboxPreference from './beambox-preference';
 import Constant from './constant';
@@ -50,9 +51,7 @@ const hide = () => {
 
 const update = (): void => {
   const isOpenBottom = BeamboxPreference.read('borderless');
-  const supportOpenBottom = Constant.addonsSupportList.openBottom.includes(
-    BeamboxPreference.read('workarea')
-  );
+  const supportOpenBottom = getSupportInfo(BeamboxPreference.read('workarea')).openBottom;
   if (isOpenBottom && supportOpenBottom) show();
   else hide();
 };

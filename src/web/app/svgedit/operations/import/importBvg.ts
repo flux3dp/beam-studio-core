@@ -13,6 +13,7 @@ import rotaryAxis from 'app/actions/canvas/rotary-axis';
 import symbolMaker from 'helpers/symbol-maker';
 import workareaManager from 'app/svgedit/workarea';
 import { changeBeamboxPreferenceValue } from 'app/svgedit/history/beamboxPreferenceCommand';
+import { getSupportInfo } from 'app/constants/add-on';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ICommand } from 'interfaces/IHistory';
 import { WorkAreaModel } from 'app/constants/workarea-constants';
@@ -61,12 +62,13 @@ export const importBvgString = async (str: string): Promise<void> => {
       }
     }
     let match = str.match(/data-rotary_mode="([^"]*)"/);
+    const supportInfo = getSupportInfo(currentWorkarea as WorkAreaModel);
     if (match) {
       let rotaryMode = match[1];
 
       if (rotaryMode === 'true') rotaryMode = '1';
       let cmd: ICommand;
-      if (constant.addonsSupportList.rotary.includes(currentWorkarea)) {
+      if (supportInfo.rotary) {
         cmd = changeBeamboxPreferenceValue('rotary_mode', parseInt(rotaryMode, 10), {
           parentCmd: batchCmd,
         });
@@ -86,7 +88,7 @@ export const importBvgString = async (str: string): Promise<void> => {
     } else {
       changeBeamboxPreferenceValue('engrave_dpi', 'medium', { parentCmd: batchCmd });
     }
-    if (constant.addonsSupportList.hybridLaser.includes(currentWorkarea)) {
+    if (supportInfo.hybridLaser) {
       match = str.match(/data-en_diode="([a-zA-Z]+)"/);
       if (match && match[1]) {
         if (match[1] === 'true') {
@@ -96,7 +98,7 @@ export const importBvgString = async (str: string): Promise<void> => {
         }
       }
     }
-    if (constant.addonsSupportList.autoFocus.includes(currentWorkarea)) {
+    if (supportInfo.autoFocus) {
       match = str.match(/data-en_af="([a-zA-Z]+)"/);
       if (match && match[1]) {
         if (match[1] === 'true') {

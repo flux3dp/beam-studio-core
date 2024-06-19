@@ -8,6 +8,7 @@ import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import i18n from 'helpers/i18n';
 import NS from 'app/constants/namespaces';
 import workareaManager from 'app/svgedit/workarea';
+import { getSupportInfo } from 'app/constants/add-on';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgCanvas;
@@ -147,7 +148,7 @@ class PreviewModeBackgroundDrawer {
       rotaryPreveiwBoundaryText.setAttribute('font-size', '400');
       const textNode = document.createTextNode(LANG.unpreviewable_area);
       rotaryPreveiwBoundaryText.appendChild(textNode);
-      this.setTextStyle(rotaryPreveiwBoundaryText)
+      this.setTextStyle(rotaryPreveiwBoundaryText);
       boundaryGroup.appendChild(rotaryPreveiwBoundaryText);
       const { width: textW, height: textH } = rotaryPreveiwBoundaryText.getBBox();
       const x = (width - textW) / 2;
@@ -207,7 +208,7 @@ class PreviewModeBackgroundDrawer {
       boundaryGroup.appendChild(borderTop);
       if (
         BeamboxPreference.read('enable-diode') &&
-        Constant.addonsSupportList.hybridLaser.includes(BeamboxPreference.read('workarea'))
+        getSupportInfo(BeamboxPreference.read('workarea')).hybridLaser
       ) {
         const { hybridBorder, hybridDescText } =
           this.getHybridModulePreviewBoundary(uncapturabledHeight);

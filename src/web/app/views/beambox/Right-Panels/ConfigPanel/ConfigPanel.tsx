@@ -48,6 +48,7 @@ import {
 } from 'helpers/layer/layer-config-helper';
 import { getLayerElementByName, moveToOtherLayer } from 'helpers/layer/layer-helper';
 import { getModulePresets } from 'app/constants/right-panel-constants';
+import { getSupportInfo } from 'app/constants/add-on';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { getWorkarea } from 'app/constants/workarea-constants';
 import { ILaserConfig } from 'interfaces/ILaserConfig';
@@ -113,10 +114,10 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
   const [state, dispatch] = useReducer(reducer, null, () => getDefaultState());
 
   const updateDiodeBoundary = useCallback(() => {
-    const allowDiode = constant.addonsSupportList.hybridLaser.includes(
-      beamboxPreference.read('workarea')
-    );
-    if (beamboxPreference.read('enable-diode') && allowDiode)
+    if (
+      beamboxPreference.read('enable-diode') &&
+      getSupportInfo(beamboxPreference.read('workarea')).hybridLaser
+    )
       diodeBoundaryDrawer.show(state.diode.value === 1);
     else diodeBoundaryDrawer.hide();
   }, [state.diode.value]);
