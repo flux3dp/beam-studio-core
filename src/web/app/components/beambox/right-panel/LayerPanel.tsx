@@ -483,7 +483,10 @@ class LayerPanel extends React.PureComponent<Props, State> {
     const { height } = this.state;
 
     return (
-      <div id="layer-and-laser-panel" className={classNames({ [styles.hide]: hide })}>
+      <div
+        id="layer-and-laser-panel"
+        className={classNames(styles.container, { [styles.hide]: hide })}
+      >
         {isMobile() ? (
           <>
             <FloatingPanel

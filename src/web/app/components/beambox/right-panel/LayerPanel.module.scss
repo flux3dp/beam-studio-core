@@ -8,6 +8,18 @@ $layer-background: white;
   display: none;
 }
 
+.container {
+  width: 100%;
+  // 40px = tab height
+  height: calc(100% - 40px);
+  background-color: #f8f8f8;
+  border: 1px variables.$panelBorderColor solid;
+  border-width: 0 0 1px 1px;
+  @media screen and (min-width: 601px) {
+    overflow-y: scroll;
+  }
+}
+
 .floating-panel [class*='scroll-content'] {
   // scrolling is handled by layerlist_container
   overflow-y: auto;
