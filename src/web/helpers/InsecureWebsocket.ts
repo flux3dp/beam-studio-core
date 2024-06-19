@@ -144,10 +144,10 @@ window.addEventListener('InsecureWebsocket', (e: any) => {
   }
 });
 
-window.onbeforeunload = () => {
+window.addEventListener('beforeunload', () => {
   Object.keys(wrappedSockets).forEach((id) => {
     wrappedSockets[id]?.close();
   });
-};
+})
 
 export default InsecureWebsocket;
