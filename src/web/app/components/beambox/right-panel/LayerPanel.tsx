@@ -1,5 +1,7 @@
 import classNames from 'classnames';
 import React from 'react';
+import { DownOutline } from 'antd-mobile-icons';
+import { ResizableBox } from 'react-resizable';
 
 import AddLayerButton from 'app/components/beambox/right-panel/AddLayerButton';
 import Alert from 'app/actions/alert-caller';
@@ -16,6 +18,7 @@ import LayerList from 'app/views/beambox/Right-Panels/LayerPanel/LayerList';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import RightPanelController from 'app/views/beambox/Right-Panels/contexts/RightPanelController';
 import SelLayerBlock from 'app/components/beambox/right-panel/SelLayerBlock';
+import storage from 'implementations/storage';
 import { ContextMenuTrigger } from 'helpers/react-contextmenu';
 import { cloneLayerConfig } from 'helpers/layer/layer-config-helper';
 import { highlightLayer, moveLayersToPosition, setLayersLock } from 'helpers/layer/layer-helper';
@@ -25,6 +28,8 @@ import { IBatchCommand } from 'interfaces/IHistory';
 import { isMobile } from 'helpers/system-helper';
 
 import styles from './LayerPanel.module.scss';
+
+import 'react-resizable/css/styles.css';
 
 let svgCanvas: ISVGCanvas;
 getSVGAsync((globalSVG) => {
@@ -38,16 +43,30 @@ interface Props {
 }
 
 interface State {
+  height: number;
   draggingDestIndex?: number;
   draggingLayer?: string;
   disableScroll?: boolean;
   contextTargetLayers?: [string];
 }
 
+const minLayerHeight = 100;
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const Handle = React.forwardRef((props: any, ref: React.RefObject<any>) => {
+  const { handleAxis, ...eventHandlers } = props;
+  return (
+    // eslint-disable-next-line react/jsx-props-no-spreading
+    <div className={styles.handle} ref={ref} {...eventHandlers}>
+      <DownOutline />
+    </div>
+  );
+});
+
 class LayerPanel extends React.PureComponent<Props, State> {
   private currentTouchID?: number | null;
 
-  private firstTouchInfo?: { pageX: number, pageY: number };
+  private firstTouchInfo?: { pageX: number; pageY: number };
 
   private startDragTimer?: NodeJS.Timeout | null;
 
@@ -57,13 +76,22 @@ class LayerPanel extends React.PureComponent<Props, State> {
 
   private layerListContainerRef: React.RefObject<HTMLDivElement>;
 
+  private reservedHeight: number;
+
   constructor(props: Props) {
     super(props);
+    // Top bar + layer/object tab 40  + laser panel title 40
+    this.reservedHeight = constant.topBarHeight + 80;
+    const initHeight = storage.get('layer-panel-height') || 400;
     this.state = {
+      height: this.clampPanelHeight(initHeight),
       draggingDestIndex: null,
     };
     this.layerListContainerRef = React.createRef();
     this.currentTouchID = null;
+    window.addEventListener('beforeunload', () => {
+      this.savePanelHeight();
+    });
   }
 
   componentDidMount(): void {
@@ -81,6 +109,18 @@ class LayerPanel extends React.PureComponent<Props, State> {
       this.initMultiSelectedLayer();
     }
   }
+
+  componentWillUnmount(): void {
+    this.savePanelHeight();
+  }
+
+  clampPanelHeight = (newHeight: number): number =>
+    Math.min(Math.max(newHeight, minLayerHeight), window.innerHeight - this.reservedHeight);
+
+  savePanelHeight = (): void => {
+    const { height } = this.state;
+    storage.set('layer-panel-height', height);
+  };
 
   unLockLayers = (layerName: string): void => {
     const { selectedLayers, setSelectedLayers } = this.context;
@@ -374,19 +414,28 @@ class LayerPanel extends React.PureComponent<Props, State> {
 
   renderLayerPanel(): JSX.Element {
     const { draggingDestIndex, draggingLayer } = this.state;
-    const { selectedLayers } = this.context;
+    const { selectedLayers, setSelectedLayers } = this.context;
     const drawing = svgCanvas.getCurrentDrawing();
     // eslint-disable-next-line no-underscore-dangle
     const layerNames = drawing.all_layers.map((layer) => layer.name_);
     const isTouchable = navigator.maxTouchPoints >= 1;
     return (
-      <div id="layerpanel" onMouseOut={() => highlightLayer()} onBlur={() => { }}>
+      <div
+        id="layerpanel"
+        className={styles['layer-panel']}
+        onMouseOut={() => highlightLayer()}
+        onBlur={() => {}}
+      >
         <ContextMenuTrigger
           id="layer-contextmenu"
           holdToDisplay={isTouchable ? 1000 : -1}
           hideOnLeaveHoldPosition
         >
-          <div id="layerlist_container" ref={this.layerListContainerRef}>
+          <div
+            id="layerlist_container"
+            className={styles['layerlist-container']}
+            ref={this.layerListContainerRef}
+          >
             <LayerList
               draggingDestIndex={draggingDestIndex}
               onLayerClick={this.handleLayerClick}
@@ -414,6 +463,7 @@ class LayerPanel extends React.PureComponent<Props, State> {
               selectOnlyLayer={this.selectOnlyLayer}
               renameLayer={this.renameLayer}
             />
+            <AddLayerButton setSelectedLayers={setSelectedLayers} />
           </>
         )}
       </div>
@@ -430,6 +480,7 @@ class LayerPanel extends React.PureComponent<Props, State> {
     const { setSelectedLayers } = this.context;
     const drawing = svgCanvas.getCurrentDrawing();
     const { hide } = this.props;
+    const { height } = this.state;
 
     return (
       <div id="layer-and-laser-panel" className={classNames({ [styles.hide]: hide })}>
@@ -448,7 +499,7 @@ class LayerPanel extends React.PureComponent<Props, State> {
               onClose={() => RightPanelController.setDisplayLayer(false)}
               forceClose={hide}
             >
-              <ObjectPanelItem.Mask/>
+              <ObjectPanelItem.Mask />
               {this.renderLayerPanel()}
             </FloatingPanel>
             <div className={styles['layer-bottom-bar']}>
@@ -462,8 +513,16 @@ class LayerPanel extends React.PureComponent<Props, State> {
           </>
         ) : (
           <>
-            <AddLayerButton setSelectedLayers={setSelectedLayers} />
-            {this.renderLayerPanel()}
+            <ResizableBox
+              axis="y"
+              height={height}
+              minConstraints={[NaN, minLayerHeight]}
+              maxConstraints={[NaN, window.innerHeight - this.reservedHeight]}
+              onResize={(_, { size }) => this.setState({ height: size.height })}
+              handle={<Handle />}
+            >
+              {this.renderLayerPanel()}
+            </ResizableBox>
             <ConfigPanel />
           </>
         )}
