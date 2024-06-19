@@ -1,0 +1,13 @@
+.container {
+  position: absolute;
+  top: 40px;
+  left: 0px;
+  height: 100%;
+  background: #f8f8f8;
+  border: 1px solid #e0e0e0;
+  border-width: 0 1px 1px 0;
+
+  @media screen and (max-width: 600px) {
+    display: none;
+  }
+}
