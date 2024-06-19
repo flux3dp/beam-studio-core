@@ -2588,19 +2588,24 @@ const svgEditor = window['svgEditor'] = (function () {
 
     Actions.setAll();
 
-    window.addEventListener('beforeunload',  (e)=> {
-      // Suppress warning if page is empty
-      if (undoMgr.getUndoStackSize() === 0) {
-        editor.showSaveWarning = false;
-      }
+    window.addEventListener(
+      'beforeunload',
+      (e) => {
+        if (!isWeb()) return null;
+        // Suppress warning if page is empty
+        if (undoMgr.getUndoStackSize() === 0) {
+          editor.showSaveWarning = false;
+        }
 
-      // showSaveWarning is set to 'false' when the page is saved.
-      if ( editor.showSaveWarning) {
-        // Browser already asks question about closing the page
-        e.returnValue = uiStrings.notification.unsavedChanges; // Firefox needs this when beforeunload set by addEventListener (even though message is not used)
-        return uiStrings.notification.unsavedChanges;
-      }
-    }, false);
+        // showSaveWarning is set to 'false' when the page is saved.
+        if (editor.showSaveWarning) {
+          // Browser already asks question about closing the page
+          e.returnValue = uiStrings.notification.unsavedChanges; // Firefox needs this when beforeunload set by addEventListener (even though message is not used)
+          return uiStrings.notification.unsavedChanges;
+        }
+      },
+      false
+    );
 
     editor.openPrep = function (func) {
       if (undoMgr.getUndoStackSize() === 0) {
