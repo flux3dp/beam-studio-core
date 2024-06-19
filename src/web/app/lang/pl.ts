@@ -123,7 +123,7 @@ const lang: ILang = {
       align_to_edges: 'Przyciągaj do wierzchołków',
       document_setting: 'Ustawienia dokumentu',
       document_setting_short: 'Dokumentu',
-      clear_scene: 'Wyczyść projekt',
+      clear_scene: 'Nowe pliki',
       machines: 'Maszyny',
       add_new_machine: 'Konfiguracja maszyny',
       help_center: 'Centrum pomocy',

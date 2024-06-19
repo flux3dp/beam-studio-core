@@ -123,7 +123,7 @@ const lang: ILang = {
       align_to_edges: '頂点にスナップ',
       document_setting: 'ドキュメント設定',
       document_setting_short: 'ドキュメント',
-      clear_scene: 'シーンをクリア',
+      clear_scene: '新しいファイル',
       machines: 'マシン',
       add_new_machine: 'マシン設定',
       help_center: 'ヘルプセンター',

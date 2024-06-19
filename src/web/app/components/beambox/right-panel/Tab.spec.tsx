@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
@@ -45,6 +46,10 @@ jest.mock('helpers/useI18n', () => () => ({
 
 jest.mock('app/constants/tutorial-constants', () => ({
   TO_LAYER_PANEL: 'TO_LAYER_PANEL',
+}));
+
+jest.mock('app/contexts/CanvasContext', () => ({
+  CanvasContext: React.createContext({ isPathEditing: false }),
 }));
 
 describe('should render correctly', () => {

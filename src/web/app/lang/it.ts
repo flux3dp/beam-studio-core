@@ -123,7 +123,7 @@ const lang: ILang = {
       align_to_edges: 'Allinea ai bordi',
       document_setting: 'Impostazioni documento',
       document_setting_short: 'Documento',
-      clear_scene: 'Pulisci scena',
+      clear_scene: 'Nuovi file',
       machines: 'Macchine',
       add_new_machine: 'Configura macchina',
       help_center: 'Centro assistenza',

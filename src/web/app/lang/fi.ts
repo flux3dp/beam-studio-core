@@ -123,7 +123,7 @@ const lang: ILang = {
       align_to_edges: 'Kohdista reunoihin',
       document_setting: 'Asiakirjan asetukset',
       document_setting_short: 'Asiakirja',
-      clear_scene: 'Tyhjennä skene',
+      clear_scene: 'Uudet tiedostot',
       machines: 'Koneet',
       add_new_machine: 'Koneen asetukset',
       help_center: 'Ohjekeskus',

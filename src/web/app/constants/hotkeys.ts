@@ -3,8 +3,8 @@ const isMacOs = window.os === 'MacOS';
 export default {
   add_new_machine: {
     action: 'ADD_NEW_MACHINE',
-    shortcut: isMacOs ? 'option+n' : 'alt+n',
-    representation: isMacOs ? '⌥N' : 'Alt+N',
+    shortcut: isMacOs ? 'option+m' : 'alt+m',
+    representation: isMacOs ? '⌥M' : 'Alt+M',
   },
   cut: {
     action: 'CUT',
@@ -33,8 +33,8 @@ export default {
   },
   clear_scene: {
     action: 'CLEAR_SCENE',
-    shortcut: isMacOs ? 'shift+command+x' : 'shift+ctrl+x',
-    representation: isMacOs ? '⇧⌘X' : 'Shift+Ctrl+X',
+    shortcut: isMacOs ? 'option+n' : 'alt+n',
+    representation: isMacOs ? '⌥N' : 'Alt+N',
   },
   zoom_in: {
     action: 'ZOOM_IN',

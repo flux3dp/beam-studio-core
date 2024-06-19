@@ -123,7 +123,7 @@ const lang: ILang = {
       align_to_edges: 'Fäst vid hörn',
       document_setting: 'Dokumentinställningar',
       document_setting_short: 'Dokument',
-      clear_scene: 'Rensa scen',
+      clear_scene: 'Nya filer',
       machines: 'Maskiner',
       add_new_machine: 'Maskininställning',
       help_center: 'Hjälpcenter',

@@ -123,7 +123,7 @@ const lang: ILang = {
       align_to_edges: '贴齐端点',
       document_setting: '文件设定',
       document_setting_short: '文件设定',
-      clear_scene: '清除场景',
+      clear_scene: '新建文件',
       machines: '机器',
       add_new_machine: '新增或设定机器',
       help_center: '说明中心',

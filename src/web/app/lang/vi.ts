@@ -123,7 +123,7 @@ const lang: ILang = {
       align_to_edges: 'Căn theo cạnh',
       document_setting: 'Thiết lập tài liệu',
       document_setting_short: 'Tài liệu',
-      clear_scene: 'Xóa màn hình',
+      clear_scene: 'Tệp mới',
       machines: 'Máy in',
       add_new_machine: 'Thiết lập máy in',
       help_center: 'Trung tâm trợ giúp',
