@@ -30,8 +30,6 @@ import { isMobile } from 'helpers/system-helper';
 
 import styles from './LayerPanel.module.scss';
 
-import 'react-resizable/css/styles.css';
-
 let svgCanvas: ISVGCanvas;
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
