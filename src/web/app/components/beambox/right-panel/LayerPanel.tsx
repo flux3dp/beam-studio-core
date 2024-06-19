@@ -80,7 +80,7 @@ class LayerPanel extends React.PureComponent<Props, State> {
 
   private reservedHeight: number;
 
-  private isDoningTutorial = false;
+  private isDoingTutorial = false;
 
   private oldHeight = defaultLayerHeight;
 
@@ -126,7 +126,7 @@ class LayerPanel extends React.PureComponent<Props, State> {
     Math.min(Math.max(newHeight, minLayerHeight), window.innerHeight - this.reservedHeight);
 
   startTutorial = (): void => {
-    this.isDoningTutorial = true;
+    this.isDoingTutorial = true;
     const { height } = this.state;
     this.oldHeight = height;
     this.setState({ height: defaultLayerHeight });
@@ -134,13 +134,13 @@ class LayerPanel extends React.PureComponent<Props, State> {
   };
 
   endTutorial = (): void => {
-    this.isDoningTutorial = false;
+    this.isDoingTutorial = false;
     this.setState({ height: this.oldHeight });
   };
 
   savePanelHeight = (): void => {
     const { height } = this.state;
-    storage.set('layer-panel-height', this.isDoningTutorial ? this.oldHeight : height);
+    storage.set('layer-panel-height', this.isDoingTutorial ? this.oldHeight : height);
   };
 
   unLockLayers = (layerName: string): void => {
@@ -543,7 +543,7 @@ class LayerPanel extends React.PureComponent<Props, State> {
               minConstraints={[NaN, minLayerHeight]}
               maxConstraints={[NaN, window.innerHeight - this.reservedHeight]}
               onResize={(_, { size }) => {
-                if (!this.isDoningTutorial) this.setState({ height: size.height });
+                if (!this.isDoingTutorial) this.setState({ height: size.height });
               }}
               handle={<Handle />}
             >
