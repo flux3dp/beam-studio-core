@@ -37,13 +37,13 @@ $layer-background: white;
   background-color: $layer-background;
   display: block;
   overflow: initial;
-  border: 1px variables.$panelBorderColor solid;
-  border-width: 0 0 1px 0;
   height: calc(100% - $handle-height);
+  width: 100%;
   position: relative;
-  > div {
-    // react-contextmenu-wrapper
+
+  :global(.react-contextmenu-wrapper) {
     height: 100%;
+    width: 100%;
 
     .layerlist-container {
       position: relative;
@@ -59,16 +59,19 @@ $layer-background: white;
 
 .handle {
   cursor: ns-resize;
+  position: absolute;
+  bottom: 0;
   background-color: $layer-background;
   border: 1px variables.$panelBorderColor solid;
-  border-width: 0 0 1px 0;
+  border-width: 1px 0;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   height: $handle-height;
   font-size: 12px;
+  box-sizing: content-box;
   &:hover {
-    background-color: transparent;
+    background-color: #f8f8f8;
   }
 }
