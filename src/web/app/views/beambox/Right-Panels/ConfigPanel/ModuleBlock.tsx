@@ -3,6 +3,7 @@ import React, { memo, useContext, useEffect } from 'react';
 import alertCaller from 'app/actions/alert-caller';
 import alertConfig from 'helpers/api/alert-config';
 import alertConstants from 'app/constants/alert-constants';
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import history from 'app/svgedit/history/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
@@ -44,7 +45,13 @@ const ModuleBlock = (): JSX.Element => {
   const workarea = useWorkarea();
 
   useEffect(() => {
-    moduleBoundaryDrawer.update(value);
+    const handler = () => moduleBoundaryDrawer.update(value);
+    handler();
+    const canvasEvents = eventEmitterFactory.createEventEmitter('canvas');
+    canvasEvents.on('canvas-change', handler);
+    return () => {
+      canvasEvents.off('canvas-change', handler);
+    };
   }, [workarea, value]);
   if (!modelsWithModules.has(workarea)) return null;
 
