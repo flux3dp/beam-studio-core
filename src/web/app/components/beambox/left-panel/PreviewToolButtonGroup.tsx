@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useContext, useMemo } from 'react';
 
 import beamboxStore from 'app/stores/beambox-store';
 import constant from 'app/actions/beambox/constant';
@@ -12,6 +12,7 @@ import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import useI18n from 'helpers/useI18n';
 import useForceUpdate from 'helpers/use-force-update';
 import useWorkarea from 'helpers/hooks/useWorkarea';
+import { CanvasContext } from 'app/contexts/CanvasContext';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgCanvas: ISVGCanvas;
@@ -21,19 +22,14 @@ getSVGAsync((globalSVG) => {
 
 interface Props {
   className: string;
-  endPreviewMode: () => void;
-  setShouldStartPreviewController: (shouldStartPreviewController: boolean) => void;
 }
 
-const PreviewToolButtonGroup = ({
-  className,
-  endPreviewMode,
-  setShouldStartPreviewController,
-}: Props): JSX.Element => {
+const PreviewToolButtonGroup = ({ className }: Props): JSX.Element => {
   const lang = useI18n().beambox.left_panel;
   const workarea = useWorkarea();
   const isAdorSeries = useMemo(() => constant.adorModels.includes(workarea), [workarea]);
   const forceUpdate = useForceUpdate();
+  const { endPreviewMode, setShouldStartPreviewController } = useContext(CanvasContext);
 
   const startImageTrace = () => {
     endPreviewMode();

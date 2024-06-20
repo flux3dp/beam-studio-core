@@ -13,7 +13,6 @@ import { sprintf } from 'sprintf-js';
 
 import alertCaller from 'app/actions/alert-caller';
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
-import constant from 'app/actions/beambox/constant';
 import ColorBlock from 'app/components/beambox/right-panel/ColorBlock';
 import dialogCaller from 'app/actions/dialog-caller';
 import diodeBoundaryDrawer from 'app/actions/canvas/diode-boundary-drawer';

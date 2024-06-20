@@ -91,8 +91,7 @@ class LeftPanel extends React.PureComponent {
   }
 
   render(): JSX.Element {
-    const { mode, setShouldStartPreviewController, endPreviewMode, togglePathPreview } =
-      this.context;
+    const { mode, togglePathPreview } = this.context;
     if (mode === CanvasMode.Draw) {
       return <DrawingToolButtonGroup className={styles.container} />;
     }
@@ -111,13 +110,7 @@ class LeftPanel extends React.PureComponent {
     if (mode === CanvasMode.CurveEngraving) {
       return <CurveEngravingTool className={styles.container} />;
     }
-    return (
-      <PreviewToolButtonGroup
-        className={styles.container}
-        endPreviewMode={endPreviewMode}
-        setShouldStartPreviewController={setShouldStartPreviewController}
-      />
-    );
+    return <PreviewToolButtonGroup className={styles.container} />;
   }
 }
 
