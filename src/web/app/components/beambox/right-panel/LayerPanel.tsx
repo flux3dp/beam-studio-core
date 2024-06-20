@@ -435,8 +435,6 @@ class LayerPanel extends React.PureComponent<Props, State> {
     const { draggingDestIndex, draggingLayer } = this.state;
     const { selectedLayers, setSelectedLayers } = this.context;
     const drawing = svgCanvas.getCurrentDrawing();
-    // eslint-disable-next-line no-underscore-dangle
-    const layerNames = drawing.all_layers.map((layer) => layer.name_);
     const isTouchable = navigator.maxTouchPoints >= 1;
     return (
       <div
@@ -475,7 +473,6 @@ class LayerPanel extends React.PureComponent<Props, State> {
         </ContextMenuTrigger>
         {!isMobile() && (
           <>
-            <SelLayerBlock layerNames={layerNames} />
             <DragImage selectedLayers={selectedLayers} draggingLayer={draggingLayer} />
             <LayerContextMenu
               drawing={drawing}
@@ -498,6 +495,8 @@ class LayerPanel extends React.PureComponent<Props, State> {
     }
     const { setSelectedLayers } = this.context;
     const drawing = svgCanvas.getCurrentDrawing();
+    // eslint-disable-next-line no-underscore-dangle
+    const layerNames = drawing.all_layers.map((layer) => layer.name_);
     const { hide } = this.props;
     const { height } = this.state;
 
@@ -547,6 +546,7 @@ class LayerPanel extends React.PureComponent<Props, State> {
             >
               {this.renderLayerPanel()}
             </ResizableBox>
+            <SelLayerBlock layerNames={layerNames} />
             <ConfigPanel />
           </>
         )}
