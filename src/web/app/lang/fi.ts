@@ -158,6 +158,7 @@ const lang: ILang = {
       download_log: 'Lataa lokit',
       download_log_canceled: 'Lokien lataus peruutettu',
       download_log_error: 'Tapahtui tuntematon virhe, yritä myöhemmin uudelleen',
+      keyboard_shortcuts: 'Pikanäppäimet',
       log: {
         network: 'Verkko',
         hardware: 'Laitteisto',
@@ -176,6 +177,7 @@ const lang: ILang = {
         downloads: 'https://flux3dp.com/downloads/',
         beam_studio_api: 'https://github.com/flux3dp/beam-studio/wiki/Beam-Studio-Easy-API',
         design_market: 'https://dmkt.io',
+        shortcuts: 'https://support.flux3dp.com/hc/en-us/articles/10003978157455',
       },
       view: 'Näytä',
       zoom_in: 'Lähennä',

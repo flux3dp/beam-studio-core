@@ -158,6 +158,7 @@ const lang: ILang = {
       download_log: 'ログをダウンロード',
       download_log_canceled: 'ログのダウンロードがキャンセルされました',
       download_log_error: '不明のエラーが発生しました、後ほど再試行してください',
+      keyboard_shortcuts: 'ショートカットキー',
       log: {
         network: 'ネットワーク',
         hardware: 'ハードウェア',
@@ -176,6 +177,7 @@ const lang: ILang = {
         downloads: 'https://flux3dp.com/downloads/',
         beam_studio_api: 'https://github.com/flux3dp/beam-studio/wiki/Beam-Studio-Easy-API',
         design_market: 'https://dmkt.io',
+        shortcuts: 'https://support.flux3dp.com/hc/en-us/articles/10003978157455',
       },
       view: '見る',
       zoom_in: 'ズームイン',

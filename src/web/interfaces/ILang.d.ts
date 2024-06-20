@@ -155,6 +155,7 @@ export interface ILang {
       download_log: string;
       download_log_canceled: string;
       download_log_error: string;
+      keyboard_shortcuts: string;
       log: {
         network: string;
         hardware: string;
@@ -173,6 +174,7 @@ export interface ILang {
         downloads: string;
         beam_studio_api: string;
         design_market: string;
+        shortcuts: string;
       },
       view: string;
       zoom_in: string;

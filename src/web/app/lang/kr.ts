@@ -158,6 +158,7 @@ const lang: ILang = {
       download_log: '로그 다운로드',
       download_log_canceled: '로그 다운로드 취소',
       download_log_error: '알 수 없는 오류 발생, 나중에 다시 시도해 주세요',
+      keyboard_shortcuts: '단축키',
       log: {
         network: '네트워크',
         hardware: '하드웨어',
@@ -176,6 +177,7 @@ const lang: ILang = {
         downloads: 'https://flux3dp.com/downloads/',
         beam_studio_api: 'https://github.com/flux3dp/beam-studio/wiki/Beam-Studio-Easy-API',
         design_market: 'https://dmkt.io',
+        shortcuts: 'https://support.flux3dp.com/hc/en-us/articles/10003978157455',
       },
       view: '보기',
       zoom_in: '확대',

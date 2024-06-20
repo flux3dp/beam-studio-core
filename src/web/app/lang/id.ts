@@ -158,6 +158,7 @@ const lang: ILang = {
       download_log: 'Unduh Log',
       download_log_canceled: 'Unduhan log dibatalkan',
       download_log_error: 'Terjadi kesalahan yang tidak diketahui, silakan coba lagi nanti',
+      keyboard_shortcuts: 'Pintasan keyboard',
       log: {
         network: 'Jaringan',
         hardware: 'Perangkat Keras',
@@ -176,6 +177,7 @@ const lang: ILang = {
         downloads: 'https://flux3dp.com/downloads/',
         beam_studio_api: 'https://github.com/flux3dp/beam-studio/wiki/Beam-Studio-Easy-API',
         design_market: 'https://dmkt.io',
+        shortcuts: 'https://support.flux3dp.com/hc/en-us/articles/10003978157455',
       },
       view: 'Tampilan',
       zoom_in: 'Perbesar',

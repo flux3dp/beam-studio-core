@@ -158,6 +158,7 @@ const lang: ILang = {
       download_log: 'Registros de descargas',
       download_log_canceled: 'Descarga del registro cancelada',
       download_log_error: 'Error desconocido,  inténtalo más tarde.',
+      keyboard_shortcuts: 'Atajos de teclado',
       log: {
         network: 'Red',
         hardware: 'Hardware',
@@ -176,6 +177,7 @@ const lang: ILang = {
         downloads: 'https://flux3dp.com/downloads/',
         beam_studio_api: 'https://github.com/flux3dp/beam-studio/wiki/Beam-Studio-Easy-API',
         design_market: 'https://dmkt.io',
+        shortcuts: 'https://support.flux3dp.com/hc/en-us/articles/10003978157455',
       },
       view: 'Vista',
       zoom_in: 'Acercar',

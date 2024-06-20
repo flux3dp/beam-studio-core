@@ -158,6 +158,7 @@ const lang: ILang = {
       download_log: 'Download logs',
       download_log_canceled: 'Logdownload annulleret',
       download_log_error: 'Der opstod en ukendt fejl, prøv igen senere',
+      keyboard_shortcuts: 'Tastaturgenveje',
       log: {
         network: 'Netværk',
         hardware: 'Hardware',
@@ -176,6 +177,7 @@ const lang: ILang = {
         downloads: 'https://flux3dp.com/downloads/',
         beam_studio_api: 'https://github.com/flux3dp/beam-studio/wiki/Beam-Studio-Easy-API',
         design_market: 'https://dmkt.io',
+        shortcuts: 'https://support.flux3dp.com/hc/en-us/articles/10003978157455',
       },
       view: 'Vis',
       zoom_in: 'Zoom ind',
