@@ -1824,7 +1824,7 @@ const registerEvents = () => {
     (ratio, center) => workareaManager.zoom(ratio, center),
     { maxZoom: 20 }
   );
-  container.addEventListener('wheel', wheelEventHandler, { passive: false });
+  container.addEventListener('wheel', wheelEventHandler);
 };
 
 const MouseInteractions = {

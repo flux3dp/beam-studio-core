@@ -1,18 +1,24 @@
 const wheelEventHandlerGenerator = (
   getCurrentRatio: () => number,
   zoomFunction: (ratio: number, center: { x: number; y: number }) => void,
-  opts?: { maxZoom?: number; minZoom?: number; zoomInterval?: number}
-): (evt: WheelEvent) => void => {
+  opts?: {
+    maxZoom?: number;
+    minZoom?: number;
+    zoomInterval?: number;
+    getCenter?: (e: WheelEvent) => { x: number; y: number };
+  }
+): ((evt: WheelEvent) => void) => {
   let targetRatio: number;
   let timer: NodeJS.Timeout | null = null;
   let trigger: number;
 
   const handler = (e: WheelEvent) => {
     // @ts-expect-error use wheelDelta if exists
-    const { deltaY, wheelDelta, detail, ctrlKey } = e;
-    const { maxZoom, minZoom, zoomInterval = 20 } = opts ?? {};
+    const { deltaX, wheelDelta, detail, ctrlKey } = e;
+    const { maxZoom, minZoom, zoomInterval = 20, getCenter } = opts ?? {};
 
-    const isMouse = Math.abs(deltaY) >= 40;
+    let isMouse = window.os !== 'MacOS';
+    if (Math.abs(deltaX) > 0) isMouse = false;
 
     const zoomProcess = () => {
       const currentRatio = getCurrentRatio();
@@ -21,16 +27,14 @@ const wheelEventHandlerGenerator = (
         timer = null;
         return;
       }
-      // let nextRatio = currentRatio + (targetRatio - currentRatio) / 5;
-      // if (Math.abs(targetRatio - currentRatio) < 0.005) nextRatio = targetRatio;
-      const center = { x: e.pageX, y: e.pageY };
+      const center = getCenter ? getCenter(e) : { x: e.clientX, y: e.clientY };
       trigger = Date.now();
       zoomFunction(targetRatio, center);
     };
 
     const zoom = () => {
       const delta = wheelDelta ?? -detail ?? 0;
-      targetRatio = getCurrentRatio()
+      targetRatio = getCurrentRatio();
       if (maxZoom && targetRatio >= maxZoom && delta > 0) return;
       if (minZoom && targetRatio <= minZoom && delta < 0) return;
       targetRatio *= 1.02 ** (delta / (isMouse ? 50 : 100));
@@ -44,12 +48,6 @@ const wheelEventHandlerGenerator = (
     };
 
     if (isMouse) {
-      // mouse
-      e.preventDefault();
-      e.stopPropagation();
-    } else if (!ctrlKey) return;
-
-    if (Math.abs(deltaY) >= 40) {
       // mouse
       e.preventDefault();
       e.stopPropagation();
