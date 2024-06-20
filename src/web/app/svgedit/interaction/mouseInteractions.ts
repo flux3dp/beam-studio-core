@@ -27,6 +27,8 @@ import * as TutorialController from 'app/views/tutorials/tutorialController';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { MouseButtons } from 'app/constants/mouse-constants';
 
+import wheelEventHandlerGenerator from './wheelEventHandler';
+
 let svgEditor;
 let svgCanvas: ISVGCanvas;
 
@@ -1762,98 +1764,6 @@ const handleLinkInCanvas = (e: MouseEvent) => {
   return false;
 };
 
-// Register wheel events
-const onMouseWheel = (() => {
-  let targetZoom;
-  let timer;
-  let trigger = Date.now();
-
-  return (e: any) => {
-    e.stopImmediatePropagation();
-    e.preventDefault();
-    const evt = e.originalEvent;
-    evt.stopImmediatePropagation();
-    evt.preventDefault();
-
-    targetZoom = workareaManager.zoomRatio;
-
-    const mouseInputDevice = BeamboxPreference.read('mouse_input_device');
-    const isTouchpad = (mouseInputDevice === 'TOUCHPAD');
-
-    function zoomProcess() {
-      // End of animation
-      const currentZoom = workareaManager.zoomRatio;
-      if ((currentZoom === targetZoom) || (Date.now() - trigger > 500)) {
-        clearInterval(timer);
-        timer = undefined;
-        return;
-      }
-
-      // Calculate next animation zoom level
-      let nextZoom = currentZoom + (targetZoom - currentZoom) / 5;
-
-      if (Math.abs(targetZoom - currentZoom) < 0.005) {
-        nextZoom = targetZoom;
-      }
-
-      const cursorPosition = {
-        x: evt.pageX,
-        y: evt.pageY,
-      };
-
-      workareaManager.zoom(nextZoom, cursorPosition);
-    }
-
-    function zoomAsIllustrator() {
-      const delta = evt.wheelDelta || (evt.detail ? -evt.detail : 0);
-      if (isTouchpad) {
-        targetZoom *= 1.1 ** (delta / 100);
-      } else {
-        targetZoom *= 1.1 ** (delta / 50);
-      }
-
-      targetZoom = Math.min(20, targetZoom);
-      if ((targetZoom > 19) && (delta > 0)) {
-        return;
-      }
-
-      if (!timer) {
-        const interval = 20;
-        timer = setInterval(zoomProcess, interval);
-      }
-
-      // due to wheel event bug (which zoom gesture will sometimes block all other processes),
-      // we trigger the zoomProcess about every few miliseconds
-      if (Date.now() - trigger > 20) {
-        zoomProcess();
-        trigger = Date.now();
-      }
-    }
-
-    function panAsIllustrator() {
-      requestAnimationFrame(() => {
-        const scrollLeft = $('#workarea').scrollLeft() + evt.deltaX / 2.0;
-        const scrollTop = $('#workarea').scrollTop() + evt.deltaY / 2.0;
-        $('#workarea').scrollLeft(scrollLeft);
-        $('#workarea').scrollTop(scrollTop);
-      });
-    }
-
-    if (isTouchpad) {
-      if (e.ctrlKey) {
-        zoomAsIllustrator();
-      } else {
-        panAsIllustrator();
-      }
-    } else {
-      zoomAsIllustrator();
-      // panning is default behavior when pressing middle button
-    }
-  };
-
-  // TODO(rafaelcastrocouto): User preference for shift key and zoom facto
-})();
-
 const registerEvents = () => {
   // Added mouseup to the container here.
   // TODO(codedread): Figure out why after the Closure compiler, the window mouseup is ignored.
@@ -1909,7 +1819,12 @@ const registerEvents = () => {
       }
     });
   }
-  $(container).bind('wheel DOMMouseScroll', onMouseWheel);
+  const wheelEventHandler = wheelEventHandlerGenerator(
+    () => workareaManager.zoomRatio,
+    (ratio, center) => workareaManager.zoom(ratio, center),
+    { maxZoom: 20 }
+  );
+  container.addEventListener('wheel', wheelEventHandler, { passive: false });
 };
 
 const MouseInteractions = {
