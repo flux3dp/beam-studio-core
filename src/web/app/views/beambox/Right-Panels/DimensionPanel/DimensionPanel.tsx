@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { ConfigProvider } from 'antd';
 
 import Constant from 'app/actions/beambox/constant';
@@ -82,13 +82,6 @@ const DimensionPanel = ({
       SymbolMaker.reRenderImageSymbolArray(allUses);
     }
   }, [elem]);
-
-  useEffect(
-    () => () => {
-      handleSizeBlur();
-    },
-    [handleSizeBlur]
-  );
 
   const handlePositionChange = useCallback(
     (type: string, val: number): void => {
