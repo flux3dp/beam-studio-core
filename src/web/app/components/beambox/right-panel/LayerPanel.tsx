@@ -76,19 +76,15 @@ class LayerPanel extends React.PureComponent<Props, State> {
 
   private layerListContainerRef: React.RefObject<HTMLDivElement>;
 
-  private reservedHeight: number;
-
   private isDoingTutorial = false;
 
   private oldHeight = defaultLayerHeight;
 
   constructor(props: Props) {
     super(props);
-    // Top bar + layer/object tab 40  + laser panel title 40
-    this.reservedHeight = constant.topBarHeight + 80;
     const initHeight = storage.get('layer-panel-height') || defaultLayerHeight;
     this.state = {
-      height: this.clampPanelHeight(initHeight),
+      height: initHeight,
       draggingDestIndex: null,
     };
     this.layerListContainerRef = React.createRef();
@@ -119,9 +115,6 @@ class LayerPanel extends React.PureComponent<Props, State> {
     this.savePanelHeight();
     layerPanelEventEmitter.off('startTutorial', this.startTutorial);
   }
-
-  clampPanelHeight = (newHeight: number): number =>
-    Math.min(Math.max(newHeight, minLayerHeight), window.innerHeight - this.reservedHeight);
 
   startTutorial = (): void => {
     this.isDoingTutorial = true;
@@ -538,7 +531,6 @@ class LayerPanel extends React.PureComponent<Props, State> {
               axis="y"
               height={height}
               minConstraints={[NaN, minLayerHeight]}
-              maxConstraints={[NaN, window.innerHeight - this.reservedHeight]}
               onResize={(_, { size }) => {
                 if (!this.isDoingTutorial) this.setState({ height: size.height });
               }}
