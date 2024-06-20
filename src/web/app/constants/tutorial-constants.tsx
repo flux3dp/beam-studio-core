@@ -249,18 +249,18 @@ const NEW_USER_TUTORIAL: ITutorial = {
     {
       dialogBoxStyles: {
         position: {
-          right: calculateRight(44, RightRef.RIGHT_SROLL_BAR),
+          right: 44,
           top: calculateTop(20, TopRef.TOPBAR),
         },
         arrowDirection: 'right',
       },
       holePosition: {
-        right: calculateRight(0, RightRef.RIGHT_SROLL_BAR),
+        right: 0,
         top: calculateTop(0, TopRef.TOPBAR),
       },
       holeSize: { width: 32, height: 40 },
       hintCircle: {
-        right: calculateRight(0, RightRef.RIGHT_SROLL_BAR),
+        right: 0,
         top: calculateTop(0, TopRef.TOPBAR),
         width: 40,
         height: 40,
@@ -559,9 +559,9 @@ const INTERFACE_TUTORIAL: ITutorial = {
         arrowDirection: 'right',
       },
       hintCircle: {
-        right: calculateRight(2, RightRef.RIGHT_SROLL_BAR),
+        right: 2,
         top: calculateTop(2, TopRef.TOPBAR),
-        width: rightPanelInnerWidth - 4,
+        width: Constant.rightPanelWidth - 4,
         height: 36,
       },
       text: LANG.newInterface.switch_between_layer_panel_and_object_panel,
