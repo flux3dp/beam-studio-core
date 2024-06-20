@@ -45,7 +45,6 @@ interface Props {
 }
 
 interface State {
-  height: number;
   draggingDestIndex?: number;
   draggingLayer?: string;
   disableScroll?: boolean;
@@ -78,17 +77,19 @@ class LayerPanel extends React.PureComponent<Props, State> {
 
   private isDoingTutorial = false;
 
+  private currentHeight = defaultLayerHeight;
+
   private oldHeight = defaultLayerHeight;
 
   constructor(props: Props) {
     super(props);
-    const initHeight = storage.get('layer-panel-height') || defaultLayerHeight;
     this.state = {
-      height: initHeight,
       draggingDestIndex: null,
     };
     this.layerListContainerRef = React.createRef();
     this.currentTouchID = null;
+    const initHeight = storage.get('layer-panel-height') || defaultLayerHeight;
+    this.currentHeight = initHeight;
     window.addEventListener('beforeunload', () => {
       this.savePanelHeight();
     });
@@ -118,20 +119,20 @@ class LayerPanel extends React.PureComponent<Props, State> {
 
   startTutorial = (): void => {
     this.isDoingTutorial = true;
-    const { height } = this.state;
-    this.oldHeight = height;
-    this.setState({ height: defaultLayerHeight });
+    this.oldHeight = this.currentHeight;
+    this.currentHeight = defaultLayerHeight;
     layerPanelEventEmitter.once('endTutorial', this.endTutorial);
+    this.forceUpdate();
   };
 
   endTutorial = (): void => {
     this.isDoingTutorial = false;
-    this.setState({ height: this.oldHeight });
+    this.currentHeight = this.oldHeight;
+    this.forceUpdate();
   };
 
   savePanelHeight = (): void => {
-    const { height } = this.state;
-    storage.set('layer-panel-height', this.isDoingTutorial ? this.oldHeight : height);
+    storage.set('layer-panel-height', this.isDoingTutorial ? this.oldHeight : this.currentHeight);
   };
 
   unLockLayers = (layerName: string): void => {
@@ -491,7 +492,6 @@ class LayerPanel extends React.PureComponent<Props, State> {
     // eslint-disable-next-line no-underscore-dangle
     const layerNames = drawing.all_layers.map((layer) => layer.name_);
     const { hide } = this.props;
-    const { height } = this.state;
 
     return (
       <div
@@ -529,10 +529,10 @@ class LayerPanel extends React.PureComponent<Props, State> {
           <>
             <ResizableBox
               axis="y"
-              height={height}
+              height={this.currentHeight}
               minConstraints={[NaN, minLayerHeight]}
               onResize={(_, { size }) => {
-                if (!this.isDoingTutorial) this.setState({ height: size.height });
+                if (!this.isDoingTutorial) this.currentHeight = size.height;
               }}
               handle={<Handle />}
             >
