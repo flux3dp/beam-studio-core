@@ -23,6 +23,7 @@ import { SelectedElementContextProvider } from 'app/contexts/SelectedElementCont
 import { TimeEstimationButtonContextProvider } from 'app/contexts/TimeEstimationButtonContext';
 
 import styles from './Beambox.module.scss';
+import 'react-resizable/css/styles.css';
 
 sentryHelper.initSentry();
 const beamboxInit = new BeamboxInit();

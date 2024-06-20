@@ -75,12 +75,14 @@ export class TutorialContextProvider extends React.Component<Props, States> {
   };
 
   scrollToParameterSelect = async (): Promise<void> => {
+    RightPanelController.setPanelType(PanelType.Layer);
     await new Promise<void>((resolve) => setTimeout(resolve, 100));
     document.querySelector('.layerparams').scrollIntoView();
   };
 
   scrollToAddLayerButton = (): void => {
-    document.querySelector('#sidepanels').scrollTop = 0;
+    RightPanelController.setPanelType(PanelType.Layer);
+    document.querySelector('#layer-and-laser-panel').scrollTop = 0;
   };
 
   clearDefaultRect = () => {

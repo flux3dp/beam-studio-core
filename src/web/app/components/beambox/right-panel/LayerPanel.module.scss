@@ -1,7 +1,23 @@
 @use 'src/web/app/views/beambox/Right-Panels/_mixins' as mixins;
+@use 'styles/variables' as variables;
+
+$handle-height: 10px;
+$layer-background: white;
 
 .hide {
   display: none;
+}
+
+.container {
+  width: 100%;
+  // 40px = tab height
+  height: calc(100% - 40px);
+  background-color: #f8f8f8;
+  border: 1px variables.$panelBorderColor solid;
+  border-width: 0 0 1px 1px;
+  @media screen and (min-width: 601px) {
+    overflow-y: scroll;
+  }
 }
 
 .floating-panel [class*='scroll-content'] {
@@ -15,4 +31,47 @@
   @include mixins.bottom-bar();
   position: relative;
   z-index: 901;
+}
+
+.layer-panel {
+  background-color: $layer-background;
+  display: block;
+  overflow: initial;
+  height: calc(100% - $handle-height);
+  width: 100%;
+  position: relative;
+
+  :global(.react-contextmenu-wrapper) {
+    height: 100%;
+    width: 100%;
+
+    .layerlist-container {
+      position: relative;
+      overflow-x: hidden;
+      overflow-y: scroll;
+      height: 100%;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+  }
+}
+
+.handle {
+  cursor: ns-resize;
+  position: absolute;
+  bottom: 0;
+  background-color: $layer-background;
+  border: 1px variables.$panelBorderColor solid;
+  border-width: 1px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: $handle-height;
+  font-size: 12px;
+  box-sizing: content-box;
+  &:hover {
+    background-color: #f8f8f8;
+  }
 }
