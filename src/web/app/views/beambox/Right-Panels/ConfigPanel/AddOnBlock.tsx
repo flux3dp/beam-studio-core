@@ -27,8 +27,6 @@ const AddOnBlock = (): JSX.Element => {
 
   const isAFEnabled = beamboxPreference.read('enable-autofocus') && supportInfo.autoFocus;
   const isDiodeEnabled = beamboxPreference.read('enable-diode') && supportInfo.hybridLaser;
-  console.log('isAFEnabled', isAFEnabled);
-  console.log('isDiodeEnabled', isDiodeEnabled);
   if (!isAFEnabled && !isDiodeEnabled) return null;
 
   return (
