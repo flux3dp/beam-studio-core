@@ -83,6 +83,9 @@ exports[`test svg-editor should render correctly in mac 1`] = `
   <div>
     MockZoomBlock
   </div>
+  <div>
+    MockDpiInfo
+  </div>
 </div>
 `;
 
@@ -168,6 +171,9 @@ exports[`test svg-editor should render correctly in win 1`] = `
   </div>
   <div>
     MockZoomBlock
+  </div>
+  <div>
+    MockDpiInfo
   </div>
 </div>
 `;
