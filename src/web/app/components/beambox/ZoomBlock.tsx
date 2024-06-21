@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import classNames from 'classnames';
 import constant from 'app/actions/beambox/constant';
@@ -14,7 +14,9 @@ import styles from './ZoomBlock.module.scss';
 
 const eventEmitter = eventEmitterFactory.createEventEmitter('zoom-block');
 
-const getDpmm = async (): Promise<number> => {
+let dpmmCache: number;
+const calculateDpmm = async (): Promise<number> => {
+  if (dpmmCache) return dpmmCache;
   try {
     if (window.os === 'MacOS') {
       const res = await os.process.exec(
@@ -92,18 +94,35 @@ const getDpmm = async (): Promise<number> => {
   return 96 / 25.4;
 };
 
+const getDpmm = async (): Promise<number> => {
+  if (dpmmCache) return dpmmCache;
+  dpmmCache = await calculateDpmm();
+  return dpmmCache;
+};
+
 interface Props {
   getZoom?: () => number;
   setZoom: (zoom: number) => void;
   resetView: () => void;
   isPathPreviewing?: boolean;
+  className?: string;
 }
 
-const ZoomBlock = ({ getZoom, setZoom, resetView, isPathPreviewing }: Props): JSX.Element => {
+const ZoomBlock = ({
+  getZoom,
+  setZoom,
+  resetView,
+  isPathPreviewing,
+  className,
+}: Props): JSX.Element => {
   const lang = useI18n().beambox.zoom_block;
   const [dpmm, setDpmm] = useState(96 / 25.4);
   const [displayRatio, setDisplayRatio] = useState(1);
   const isMobile = useIsMobile();
+  const contextMenuId = useMemo(() => {
+    const id = Math.round(Math.random() * 10000);
+    return `zoom-block-contextmenu-${id}`;
+  }, []);
 
   useEffect(() => {
     getDpmm().then((res) => setDpmm(res));
@@ -171,23 +190,27 @@ const ZoomBlock = ({ getZoom, setZoom, resetView, isPathPreviewing }: Props): JS
 
   return (
     <div
-      className={classNames(styles.container, {
-        [styles['path-preview']]: isPathPreviewing,
-        [styles.mobile]: isMobile,
-      })}
+      className={classNames(
+        styles.container,
+        {
+          [styles['path-preview']]: isPathPreviewing,
+          [styles.mobile]: isMobile,
+        },
+        className
+      )}
     >
-      <ContextMenuTrigger id="zoom-block-contextmenu" holdToDisplay={-1}>
+      <ContextMenuTrigger id={contextMenuId} holdToDisplay={-1}>
         <div className={styles.btn} onClick={() => zoomOut(displayRatio)}>
           <img src="img/icon-minus.svg" />
         </div>
-        <ContextMenuTrigger id="zoom-block-contextmenu" holdToDisplay={0}>
+        <ContextMenuTrigger id={contextMenuId} holdToDisplay={0}>
           <div className={styles.ratio}>{`${Math.round(displayRatio * 100)}%`}</div>
         </ContextMenuTrigger>
         <div className={styles.btn} onClick={() => zoomIn(displayRatio)}>
           <img src="img/icon-plus.svg" />
         </div>
       </ContextMenuTrigger>
-      <ContextMenu id="zoom-block-contextmenu">
+      <ContextMenu id={contextMenuId}>
         <MenuItem attributes={{ id: 'fit_to_window' }} onClick={resetView}>
           {lang.fit_to_window}
         </MenuItem>
