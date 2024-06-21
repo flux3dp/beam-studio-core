@@ -299,7 +299,7 @@ class ToolPanel extends React.Component<Props> {
       position: 'absolute',
       zIndex: 999,
       bottom: 10,
-      left: $('.left-toolbar').width(),
+      left: 50,
     } as React.CSSProperties;
     return positionStyle;
   }
