@@ -62,14 +62,14 @@ $layer-background: white;
   position: absolute;
   bottom: 0;
   background-color: $layer-background;
-  border: 1px variables.$panelBorderColor solid;
+  border: 1px #e5e5e5 solid;
   border-width: 1px 0;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
   height: $handle-height;
-  font-size: 12px;
+  font-size: 18px;
   box-sizing: content-box;
   &:hover {
     background-color: #f8f8f8;

@@ -1,6 +1,5 @@
 import classNames from 'classnames';
 import React from 'react';
-import { DownOutline } from 'antd-mobile-icons';
 import { ResizableBox } from 'react-resizable';
 
 import AddLayerButton from 'app/components/beambox/right-panel/AddLayerButton';
@@ -16,6 +15,7 @@ import ISVGCanvas from 'interfaces/ISVGCanvas';
 import i18n from 'helpers/i18n';
 import LayerContextMenu from 'app/views/beambox/Right-Panels/LayerPanel/LayerContextMenu';
 import LayerList from 'app/views/beambox/Right-Panels/LayerPanel/LayerList';
+import LayerPanelIcons from 'app/icons/layer-panel/LayerPanelIcons';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import RightPanelController from 'app/views/beambox/Right-Panels/contexts/RightPanelController';
 import SelLayerBlock from 'app/components/beambox/right-panel/SelLayerBlock';
@@ -57,7 +57,7 @@ const Handle = React.forwardRef((props: any, ref: React.RefObject<any>) => {
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading
     <div className={styles.handle} ref={ref} {...eventHandlers}>
-      <DownOutline />
+      <LayerPanelIcons.Handle />
     </div>
   );
 });
