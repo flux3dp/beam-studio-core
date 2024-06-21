@@ -46,6 +46,7 @@
 // svgedit libs
 import canvasBackground from 'app/svgedit/canvasBackground';
 import clipboard from 'app/svgedit/operations/clipboard';
+import findDefs from 'app/svgedit/utils/findDef';
 import history from 'app/svgedit/history/history';
 import historyRecording from 'app/svgedit/history/historyrecording';
 import importSvgString from 'app/svgedit/operations/import/importSvgString';
@@ -354,7 +355,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       return curConfig.snappingStep;
     }
   });
-  canvas.findDefs = svgedit.utilities.findDefs;
+  canvas.findDefs = findDefs;
   canvas.getUrlFromAttr = svgedit.utilities.getUrlFromAttr;
   var getHref = canvas.getHref = svgedit.utilities.getHref;
   var setHref = canvas.setHref = svgedit.utilities.setHref;
@@ -608,7 +609,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         const id = svgedit.utilities.getUrlFromAttr(attrVal).substr(1);
         const ref = getElem(id);
         if (!ref && removedElements[id]) {
-          svgedit.utilities.findDefs()?.appendChild(removedElements[id]);
+          findDefs()?.appendChild(removedElements[id]);
           delete removedElements[id];
         }
       }
@@ -2781,7 +2782,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     var grad = canvas[type + 'Grad'];
     // find out if there is a duplicate gradient already in the defs
     var duplicate_grad = findDuplicateGradient(grad);
-    var defs = svgedit.utilities.findDefs();
+    var defs = findDefs();
     // no duplicate found, so import gradient into defs
     if (!duplicate_grad) {
       var orig_grad = grad;
@@ -2803,7 +2804,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   // Returns:
   // The existing gradient if found, null if not
   var findDuplicateGradient = function (grad) {
-    var defs = svgedit.utilities.findDefs();
+    var defs = findDefs();
     var existing_grads = $(defs).find('linearGradient, radialGradient');
     var i = existing_grads.length;
     var rad_attrs = ['r', 'cx', 'cy', 'fx', 'fy'];
@@ -2896,7 +2897,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
           $(newgrad).attr(g_coords);
 
           newgrad.id = getNextId();
-          svgedit.utilities.findDefs().appendChild(newgrad);
+          findDefs().appendChild(newgrad);
           elem.setAttribute(type, 'url(#' + newgrad.id + ')');
         }
       }
@@ -3173,7 +3174,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         });
 
         filter.appendChild(newblur);
-        svgedit.utilities.findDefs().appendChild(filter);
+        findDefs().appendChild(filter);
 
         batchCmd.addSubCommand(new history.InsertElementCommand(filter));
       }
@@ -4398,7 +4399,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
           } else {
             // Clone the group's filter
             gfilter = drawing.copyElem(gfilter);
-            svgedit.utilities.findDefs().appendChild(gfilter);
+            findDefs().appendChild(gfilter);
           }
         } else {
           gfilter = svgedit.utilities.getRefElem(elem.getAttribute('filter'));

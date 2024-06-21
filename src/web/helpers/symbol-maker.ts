@@ -5,6 +5,7 @@
  */
 
 import communicator from 'implementations/communicator';
+import findDefs from 'app/svgedit/utils/findDef';
 import history from 'app/svgedit/history/history';
 import ImageSymbolWorker from 'helpers/symbol-helper/image-symbol.worker';
 import isWeb from 'helpers/is-web';
@@ -126,7 +127,7 @@ const makeSymbol = (
     symbol.setAttribute('data-color', firstChild.getAttribute('data-color'));
   }
 
-  svgedit.utilities.findDefs().appendChild(symbol);
+  findDefs().appendChild(symbol);
 
   // remove invisible nodes (such as invisible layer in Illustrator)
   Array.from(symbol.querySelectorAll('*'))
@@ -471,7 +472,7 @@ const makeImageSymbol = async (
     if (!imageSymbol) {
       const image = svgdoc.createElementNS(NS.SVG, 'image');
       imageSymbol = svgdoc.createElementNS(NS.SVG, 'symbol') as unknown as SVGSymbolElement;
-      const defs = svgedit.utilities.findDefs();
+      const defs = findDefs();
       defs.appendChild(imageSymbol);
       imageSymbol.appendChild(image);
       image.setAttribute('x', String(bb.x));
@@ -489,7 +490,7 @@ const makeImageSymbol = async (
       image.setAttribute('width', String(bb.width));
       image.setAttribute('height', String(bb.height));
       image.setAttribute('href', imageUrl);
-      const defs = svgedit.utilities.findDefs();
+      const defs = findDefs();
       if (!defs.querySelector(`image[href="${oldImageUrl}"]`)) URL.revokeObjectURL(oldImageUrl);
     }
     imageSymbol.setAttribute('data-stroke-width', stringifyStrokeWidth(strokeWidth));

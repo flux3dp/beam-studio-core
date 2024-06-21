@@ -2,7 +2,7 @@ import alertCaller from 'app/actions/alert-caller';
 import alertConstants from 'app/constants/alert-constants';
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import changeWorkarea from 'app/svgedit/operations/changeWorkarea';
-import constant from 'app/actions/beambox/constant';
+import findDefs from 'app/svgedit/utils/findDef';
 import history from 'app/svgedit/history/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import i18n from 'helpers/i18n';
@@ -158,12 +158,12 @@ export const importBvgString = async (str: string): Promise<void> => {
   console.log('Change workarea to', newWorkarea);
   const changeWorkareaCmd = changeWorkarea(newWorkarea, { toggleModule: false });
   batchCmd.addSubCommand(changeWorkareaCmd);
-  const defs = svgedit.utilities.findDefs();
+  const defs = findDefs();
   const { parentNode, nextSibling } = defs;
   defs.remove();
   batchCmd.addSubCommand(new history.RemoveElementCommand(defs, nextSibling, parentNode));
   svgedit.utilities.moveDefsOutfromSvgContent();
-  const newDefs = svgedit.utilities.findDefs();
+  const newDefs = findDefs();
   batchCmd.addSubCommand(new history.InsertElementCommand(newDefs));
   const postImportBvgString = async () => {
     const workarea = beamboxPreference.read('workarea');

@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import findDefs from 'app/svgedit/utils/findDef';
 import history from 'app/svgedit/history/history';
 import selector from 'app/svgedit/selector';
 import symbolMaker from 'helpers/symbol-maker';
@@ -167,7 +168,7 @@ const pasteRef = async (useElement: SVGUseElement) => {
   copiedRef.id = drawing.getNextId();
   copiedRef.setAttribute('data-image-symbol', `${copiedRef.id}_image`);
   updateSymbolStyle(copiedRef, refElement.id);
-  const defs = svgedit.utilities.findDefs();
+  const defs = findDefs();
   defs.appendChild(copiedRef);
   svgedit.utilities.setHref(useElement, `#${copiedRef.id}`);
   await symbolMaker.reRenderImageSymbol(useElement);
