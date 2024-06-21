@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import constant from 'app/actions/beambox/constant';
+import DpiInfo from 'app/components/beambox/DpiInfo';
 import PathPreview from 'app/components/beambox/path-preview/PathPreview';
 import storage from 'implementations/storage';
 import svgEditor from 'app/actions/beambox/svg-editor';
@@ -80,10 +81,13 @@ export default class SvgEditor extends React.Component {
         </div>
         {mode === CanvasMode.PathPreview && <PathPreview />}
         {mode !== CanvasMode.PathPreview && (
-          <ZoomBlock
-            setZoom={(zoom) => workareaManager.zoom(zoom / constant.dpmm)}
-            resetView={workareaManager.resetView}
-          />
+          <>
+            <ZoomBlock
+              setZoom={(zoom) => workareaManager.zoom(zoom / constant.dpmm)}
+              resetView={workareaManager.resetView}
+            />
+            <DpiInfo />
+          </>
         )}
       </>
     );
