@@ -569,7 +569,6 @@ const switchImageSymbol = (elem: SVGUseElement, shouldUseImage: boolean): IBatch
     const targetId = shouldUseImage
       ? currentSymbol.getAttribute('data-image-symbol')
       : currentSymbol.getAttribute('data-origin-symbol');
-    console.log(targetId);
     if (!targetId) {
       console.warn(`Switcing failed, Unable to find target origin/image symbol ${targetId}.`);
       return null;
