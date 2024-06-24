@@ -2278,22 +2278,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     return newLayer;
   };
 
-  /**
-   * Creates a new top-level layer in the drawing with the given name, copies all the current layer's contents
-   * to it, and then clears the selection. This function then calls the 'changed' handler.
-   * This is an undoable action.
-   * @param {string} name - The given name. If the layer name exists, a new name will be generated.
-   * @param hrService - History recording service
-   */
-  this.cloneLayer = function (name, hrService) {
-    // Clone the current layer and make the cloned layer the new current layer
-    var new_layer = getCurrentDrawing().cloneLayer(name, historyRecordingService(hrService));
-
-    clearSelection();
-    leaveContext();
-    call('changed', [new_layer]);
-  };
-
   // Function: deleteCurrentLayer
   // Deletes the current layer from the drawing and then clears the selection. This function
   // then calls the 'changed' handler. This is an undoable action.
