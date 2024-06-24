@@ -60,9 +60,9 @@ getSVGAsync((globalSVG) => {
 });
 
 let clipboard: Element[];
-let refClipboard: { [useId: string]: Element };
+let refClipboard: { [useId: string]: Element } = {};
 
-const addRefToClipboard = (useElement: SVGUseElement) => {
+export const addRefToClipboard = (useElement: SVGUseElement): void => {
   const symbolId = svgedit.utilities.getHref(useElement);
   let symbolElement = document.querySelector(symbolId);
   symbolElement =
@@ -160,7 +160,7 @@ const applyNativeClipboard = async () => {
   }
 };
 
-const pasteRef = async (useElement: SVGUseElement) => {
+const pasteRef = async (useElement: SVGUseElement): Promise<void> => {
   const drawing = svgCanvas.getCurrentDrawing();
   const symbolId = svgedit.utilities.getHref(useElement);
   const refElement = refClipboard[symbolId];
@@ -355,12 +355,14 @@ const generateSelectedElementArray = (
 const getCurrentClipboard = (): boolean => clipboard && clipboard.length > 0;
 
 export default {
+  addRefToClipboard,
   copyElements,
   copySelectedElements,
   cutElements,
   cutSelectedElements,
   pasteElements: pasteFromNativeClipboard,
   pasteInCenter,
+  pasteRef,
   cloneSelectedElements,
   generateSelectedElementArray,
   getCurrentClipboard,

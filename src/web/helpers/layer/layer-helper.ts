@@ -2,6 +2,7 @@ import { sprintf } from 'sprintf-js';
 
 import alertCaller from 'app/actions/alert-caller';
 import alertConstants from 'app/constants/alert-constants';
+import clipboard from 'app/svgedit/operations/clipboard';
 import HistoryCommandFactory from 'app/svgedit/history/HistoryCommandFactory';
 import history from 'app/svgedit/history/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
@@ -196,6 +197,7 @@ export const cloneLayer = (
   const newLayer = new svgedit.draw.Layer(newName, null, svgcontent, color).getGroup();
   if (!configOnly) {
     const children = layer.childNodes;
+    const promises: Promise<void>[] = [];
     for (let i = 0; i < children.length; i += 1) {
       const child = children[i] as Element;
       if (child.tagName !== 'title') {
@@ -203,6 +205,10 @@ export const cloneLayer = (
         newLayer.appendChild(copiedElem);
       }
     }
+    Array.from(newLayer.querySelectorAll('use')).forEach((use: SVGUseElement) => {
+      clipboard.addRefToClipboard(use);
+      promises.push(clipboard.pasteRef(use));
+    });
   }
   cloneLayerConfig(newName, layerName);
   const cmd = new history.InsertElementCommand(newLayer);
