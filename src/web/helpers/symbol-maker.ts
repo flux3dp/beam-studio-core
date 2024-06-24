@@ -503,10 +503,8 @@ const reRenderImageSymbol = async (
   useElement: SVGUseElement,
   opts: { force?: boolean } = {}
 ): Promise<void> => {
-  if (!useElement.parentNode) {
-    // Element has been deleted
-    return;
-  }
+  if (!useElement.parentNode) return;
+  if (useElement.getAttribute('data-pass-through')) return;
   const { force = false } = opts;
   const { width, height } = svgCanvas.getSvgRealLocation(useElement);
   const { width: origWidth, height: origHeight } = useElement.getBBox();
@@ -529,7 +527,7 @@ const reRenderImageSymbol = async (
         await makeImageSymbol(currentSymbol, { scale, imageSymbol, fullColor, force });
         useElement.setAttribute('xlink:href', `#${imageSymbolId}`);
       } else {
-        imageSymbol = await makeImageSymbol(currentSymbol, { fullColor, force });
+        imageSymbol = await makeImageSymbol(currentSymbol, { scale, fullColor, force });
         useElement.setAttribute('xlink:href', `#${imageSymbol.id}`);
       }
     }
@@ -555,6 +553,7 @@ const reRenderAllImageSymbol = async (): Promise<void> => {
 };
 
 const switchImageSymbol = (elem: SVGUseElement, shouldUseImage: boolean): IBatchCommand => {
+  if (elem.getAttribute('data-pass-through')) return null;
   const href = elem.getAttribute('xlink:href');
   if (href.endsWith('_image') && shouldUseImage) {
     console.log(`${elem.id} is already using image`);
