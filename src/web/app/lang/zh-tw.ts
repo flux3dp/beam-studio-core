@@ -158,6 +158,7 @@ const lang: ILang = {
       download_log: '匯出機器日誌',
       download_log_canceled: '取消日誌下載',
       download_log_error: '不明錯誤發生，請稍候再試一次',
+      keyboard_shortcuts: '快捷鍵',
       log: {
         network: 'Network',
         hardware: 'Hardware',
@@ -176,6 +177,7 @@ const lang: ILang = {
         downloads: 'https://flux3dp.com/downloads/',
         beam_studio_api: 'https://github.com/flux3dp/beam-studio/wiki/Beam-Studio-Easy-API',
         design_market: 'https://dmkt.io',
+        shortcuts: 'https://support.flux3dp.com/hc/zh-tw/articles/10003978157455',
       },
       view: '檢視',
       zoom_in: '放大',

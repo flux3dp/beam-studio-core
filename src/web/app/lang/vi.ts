@@ -158,6 +158,7 @@ const lang: ILang = {
       download_log: 'Tải xuống nhật ký',
       download_log_canceled: 'Đã hủy tải xuống nhật ký',
       download_log_error: 'Đã xảy ra lỗi không xác định, vui lòng thử lại sau',
+      keyboard_shortcuts: 'Phím tắt',
       log: {
         network: 'Mạng',
         hardware: 'Phần cứng',
@@ -176,6 +177,7 @@ const lang: ILang = {
         downloads: 'https://flux3dp.com/downloads/',
         beam_studio_api: 'https://github.com/flux3dp/beam-studio/wiki/Beam-Studio-Easy-API',
         design_market: 'https://dmkt.io',
+        shortcuts: 'https://support.flux3dp.com/hc/en-us/articles/10003978157455',
       },
       view: 'Xem',
       zoom_in: 'Phóng to',

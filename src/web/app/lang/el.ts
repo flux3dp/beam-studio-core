@@ -158,6 +158,7 @@ const lang: ILang = {
       download_log: 'Κατεβάστε αρχεία καταγραφής',
       download_log_canceled: 'Η λήψη αρχείου καταγραφής ακυρώθηκε',
       download_log_error: 'Παρουσιάστηκε άγνωστο σφάλμα, δοκιμάστε ξανά αργότερα',
+      keyboard_shortcuts: 'Συντομεύσεις πληκτρολογίου',
       log: {
         network: 'Δίκτυο',
         hardware: 'Υλικό',
@@ -176,6 +177,7 @@ const lang: ILang = {
         downloads: 'https://flux3dp.com/downloads/',
         beam_studio_api: 'https://github.com/flux3dp/beam-studio/wiki/Beam-Studio-Easy-API',
         design_market: 'https://dmkt.io',
+        shortcuts: 'https://support.flux3dp.com/hc/en-us/articles/10003978157455',
       },
       view: 'Προβολή',
       zoom_in: 'Μεγέθυνση',

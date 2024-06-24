@@ -3,6 +3,8 @@
 /* eslint-disable no-continue */
 import * as React from 'react';
 import classNames from 'classnames';
+import { Button, ConfigProvider } from 'antd';
+import { CaretRightOutlined, CloseOutlined, LoadingOutlined } from '@ant-design/icons';
 
 import Alert from 'app/actions/alert-caller';
 import getClipperLib from 'helpers/clipper/getClipperLib';
@@ -13,6 +15,8 @@ import Modal from 'app/widgets/Modal';
 import requirejsHelper from 'helpers/requirejs-helper';
 import workareaManager from 'app/svgedit/workarea';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+
+import styles from './SvgNestButtons.module.scss';
 
 let svgCanvas;
 let svgedit;
@@ -259,14 +263,15 @@ class SvgNestButtons extends React.Component<Props, State> {
 
   renderStartButton = (): JSX.Element => {
     const { isWorking } = this.state;
-    const imgSrc = isWorking ? 'img/beambox/spin.svg' : 'img/beambox/start.svg';
+    const icon = isWorking ? <LoadingOutlined /> : <CaretRightOutlined />;
     // eslint-disable-next-line no-underscore-dangle
     const label = isWorking ? LANG._nest.stop_nest : LANG._nest.start_nest;
     return (
-      <div className="svg-nest-button active" onClick={this.onStartOrStop}>
-        <img src={imgSrc} draggable="false" />
-        <div className="text with-img">{label}</div>
-      </div>
+      <ConfigProvider theme={{ token: { colorPrimary: '#3875F6' } }}>
+        <Button icon={icon} shape="round" type="primary" onClick={this.onStartOrStop}>
+          {label}
+        </Button>
+      </ConfigProvider>
     );
   };
 
@@ -274,15 +279,17 @@ class SvgNestButtons extends React.Component<Props, State> {
     const { isWorking } = this.state;
     // eslint-disable-next-line no-underscore-dangle
     const endText = LANG._nest.end;
-    const className = classNames('svg-nest-buttons', { win: !isWeb() && window.os === 'Windows' });
+    const className = classNames('svg-nest-buttons', styles.container, {
+      win: !isWeb() && window.os === 'Windows',
+    });
     if (isWorking) {
       return (
         <Modal className={{ 'no-background': true }}>
           <div className={className}>
             {this.renderStartButton()}
-            <div className="svg-nest-button" onClick={this.close}>
-              <div className="text">{endText}</div>
-            </div>
+            <Button icon={<CloseOutlined />} shape="round" onClick={this.close}>
+              {endText}
+            </Button>
           </div>
         </Modal>
       );
@@ -290,9 +297,9 @@ class SvgNestButtons extends React.Component<Props, State> {
     return (
       <div className={className}>
         {this.renderStartButton()}
-        <div className="svg-nest-button" onClick={this.close}>
-          <div className="text">{endText}</div>
-        </div>
+        <Button icon={<CloseOutlined />} shape="round" onClick={this.close}>
+          {endText}
+        </Button>
       </div>
     );
   }

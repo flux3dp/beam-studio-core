@@ -156,6 +156,7 @@ const appendUseElement = (
           node.setAttribute('data-wireframe', 'true');
           node.setAttribute('stroke', '#000');
           node.setAttribute('fill-opacity', '0');
+          node.setAttribute('fill', 'none');
         }
         iterationStack.push(...(Array.from(node.childNodes) as Element[]));
       }

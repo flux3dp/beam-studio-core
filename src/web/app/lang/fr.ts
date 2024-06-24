@@ -158,6 +158,7 @@ const lang: ILang = {
       download_log: 'Télécharger les journaux',
       download_log_canceled: 'Téléchargement des journaux annulé',
       download_log_error: "Une erreur inconnue s'est produite, veuillez réessayer plus tard",
+      keyboard_shortcuts: 'Raccourcis clavier',
       log: {
         network: 'Réseau',
         hardware: 'Matériel',
@@ -176,6 +177,7 @@ const lang: ILang = {
         downloads: 'https://flux3dp.com/downloads/',
         beam_studio_api: 'https://github.com/flux3dp/beam-studio/wiki/Beam-Studio-Easy-API',
         design_market: 'https://dmkt.io',
+        shortcuts: 'https://support.flux3dp.com/hc/en-us/articles/10003978157455',
       },
       view: 'Affichage',
       zoom_in: 'Zoom avant',

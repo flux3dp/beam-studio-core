@@ -443,6 +443,13 @@ exports[`should render correctly open the browser and reach the correct page 3`]
             role="menuitem"
             tabindex="-1"
           >
+            Keyboard Shortcuts
+          </li>
+          <li
+            class="rc-menu__item"
+            role="menuitem"
+            tabindex="-1"
+          >
             Contact Us
           </li>
           <li

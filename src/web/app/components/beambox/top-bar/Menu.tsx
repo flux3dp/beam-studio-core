@@ -406,6 +406,9 @@ export default function Menu({ email }: Props): JSX.Element {
         <MenuItem onClick={() => openPage(menuCms.link.help_center)}>
           {menuCms.help_center}
         </MenuItem>
+        <MenuItem onClick={() => openPage(menuCms.link.shortcuts)}>
+          {menuCms.keyboard_shortcuts}
+        </MenuItem>
         <MenuItem onClick={() => openPage(menuCms.link.contact_us)}>{menuCms.contact}</MenuItem>
         <MenuDivider />
         <MenuItem onClick={() => openPage(menuCms.link.forum)}>{menuCms.forum}</MenuItem>

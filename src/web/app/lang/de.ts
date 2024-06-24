@@ -158,6 +158,7 @@ const lang: ILang = {
       download_log: 'Protokolle herunterladen',
       download_log_canceled: 'Protokoll-Download abgebrochen',
       download_log_error: 'Ein unbekannter Fehler ist aufgetreten. Bitte versuchen Sie es später erneut',
+      keyboard_shortcuts: 'Tastenkombinationen',
       log: {
         network: 'Netzwerk',
         hardware: 'Hardware',
@@ -176,6 +177,7 @@ const lang: ILang = {
         downloads: 'https://flux3dp.com/downloads/',
         beam_studio_api: 'https://github.com/flux3dp/beam-studio/wiki/Beam-Studio-Easy-API',
         design_market: 'https://dmkt.io',
+        shortcuts: 'https://support.flux3dp.com/hc/en-us/articles/10003978157455',
       },
       view: 'Ansicht',
       zoom_in: 'Zoom In',
