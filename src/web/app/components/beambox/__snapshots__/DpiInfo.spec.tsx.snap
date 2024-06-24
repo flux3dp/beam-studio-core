@@ -9,7 +9,7 @@ exports[`test DpiInfo should render correctly 1`] = `
       Resolution
       : 
       100
-      DPI
+       DPI
     </i>
   </div>
 </div>
@@ -24,7 +24,7 @@ exports[`test DpiInfo should render correctly 2`] = `
       Resolution
       : 
       500
-      DPI
+       DPI
     </i>
   </div>
 </div>
@@ -39,7 +39,7 @@ exports[`test DpiInfo should render correctly in mobile 1`] = `
       Resolution
       : 
       1000
-      DPI
+       DPI
     </i>
   </div>
 </div>

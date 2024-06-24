@@ -29,7 +29,7 @@ const DpiInfo = (): JSX.Element => {
   return (
     <div className={classNames(styles.container, { [styles.mobile]: isMobile })}>
       <i>
-        {lang.engrave_dpi}: {constant.dpiValueMap[engraveDpi]}DPI
+        {lang.engrave_dpi}: {constant.dpiValueMap[engraveDpi]} DPI
       </i>
     </div>
   );
