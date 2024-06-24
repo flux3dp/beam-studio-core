@@ -504,7 +504,6 @@ const reRenderImageSymbol = async (
   opts: { force?: boolean } = {}
 ): Promise<void> => {
   if (!useElement.parentNode) return;
-  if (useElement.getAttribute('data-pass-through')) return;
   const { force = false } = opts;
   const { width, height } = svgCanvas.getSvgRealLocation(useElement);
   const { width: origWidth, height: origHeight } = useElement.getBBox();
@@ -553,7 +552,6 @@ const reRenderAllImageSymbol = async (): Promise<void> => {
 };
 
 const switchImageSymbol = (elem: SVGUseElement, shouldUseImage: boolean): IBatchCommand => {
-  if (elem.getAttribute('data-pass-through')) return null;
   const href = elem.getAttribute('xlink:href');
   if (href.endsWith('_image') && shouldUseImage) {
     console.log(`${elem.id} is already using image`);
