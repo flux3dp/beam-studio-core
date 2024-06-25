@@ -59,7 +59,7 @@ const PassThrough = ({ onClose }: { onClose?: () => void }): JSX.Element => {
 
 export default PassThrough;
 
-export const showPassThrough = (): Promise<void> => {
+export const showPassThrough = (onClose?: () => void): Promise<void> => {
   const dialogId = 'pass-through';
   if (isIdExist(dialogId)) popDialogById(dialogId);
   return new Promise<void>((resolve) => {
@@ -71,6 +71,7 @@ export const showPassThrough = (): Promise<void> => {
           onClose={() => {
             resolve(null);
             popDialogById(dialogId);
+            onClose?.();
           }}
         />
       </PassThroughProvider>

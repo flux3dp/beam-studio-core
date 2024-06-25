@@ -1,19 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { memo, useContext, useEffect, useState } from 'react';
 
 import browser from 'implementations/browser';
 import dialogCaller from 'app/actions/dialog-caller';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
-import i18n from 'helpers/i18n';
 import LeftPanelIcons from 'app/icons/left-panel/LeftPanelIcons';
 import LeftPanelButton from 'app/components/beambox/left-panel/LeftPanelButton';
+import useI18n from 'helpers/useI18n';
+import { CanvasContext } from 'app/contexts/CanvasContext';
 import { getCurrentUser } from 'helpers/api/flux-id';
+import { showPassThrough } from 'app/components/pass-through/PassThrough';
 
 const LANG = i18n.lang.beambox.left_panel;
 
 const eventEmitter = eventEmitterFactory.createEventEmitter('drawing-tool');
 
 const DrawingToolButtonGroup = ({ className }: { className: string }): JSX.Element => {
+  const lang = useI18n();
+  const tLeftPanel = lang.beambox.left_panel;
+  const { hasPassthroughExtension } = useContext(CanvasContext);
   const [activeButton, setActiveButton] = useState('Cursor');
   const isSubscribed = getCurrentUser()?.info?.subscription?.is_valid;
   const renderToolButton = (
@@ -48,72 +53,82 @@ const DrawingToolButtonGroup = ({ className }: { className: string }): JSX.Eleme
       {renderToolButton(
         'Cursor',
         <LeftPanelIcons.Cursor />,
-        `${LANG.label.cursor} (V)`,
+        `${tLeftPanel.label.cursor} (V)`,
         FnWrapper.useSelectTool
       )}
       {renderToolButton(
         'Photo',
         <LeftPanelIcons.Photo />,
-        `${LANG.label.photo} (I)`,
+        `${tLeftPanel.label.photo} (I)`,
         FnWrapper.importImage
       )}
       {renderToolButton(
         'MyCloud',
         <LeftPanelIcons.Cloud />,
-        LANG.label.my_cloud,
+        tLeftPanel.label.my_cloud,
         () => dialogCaller.showMyCloud(FnWrapper.useSelectTool),
         isSubscribed
       )}
       {renderToolButton(
         'Text',
         <LeftPanelIcons.Text />,
-        `${LANG.label.text} (T)`,
+        `${tLeftPanel.label.text} (T)`,
         FnWrapper.insertText
       )}
-      {renderToolButton('Element', <LeftPanelIcons.Element />, `${LANG.label.shapes} (E)`, () =>
-        dialogCaller.showShapePanel(FnWrapper.useSelectTool)
+      {renderToolButton(
+        'Element',
+        <LeftPanelIcons.Element />,
+        `${tLeftPanel.label.shapes} (E)`,
+        () => dialogCaller.showShapePanel(FnWrapper.useSelectTool)
       )}
       {renderToolButton(
         'Rectangle',
         <LeftPanelIcons.Rect />,
-        `${LANG.label.rect} (M)`,
+        `${tLeftPanel.label.rect} (M)`,
         FnWrapper.insertRectangle
       )}
       {renderToolButton(
         'Ellipse',
         <LeftPanelIcons.Oval />,
-        `${LANG.label.oval} (C)`,
+        `${tLeftPanel.label.oval} (C)`,
         FnWrapper.insertEllipse
       )}
       {renderToolButton(
         'Polygon',
         <LeftPanelIcons.Polygon />,
-        LANG.label.polygon,
+        tLeftPanel.label.polygon,
         FnWrapper.insertPolygon
       )}
       {renderToolButton(
         'Line',
         <LeftPanelIcons.Line />,
-        `${LANG.label.line} (\\)`,
+        `${tLeftPanel.label.line} (\\)`,
         FnWrapper.insertLine
       )}
       {renderToolButton(
         'Pen',
         <LeftPanelIcons.Draw />,
-        `${LANG.label.pen} (P)`,
+        `${tLeftPanel.label.pen} (P)`,
         FnWrapper.insertPath
       )}
-      {renderToolButton('QRCode', <LeftPanelIcons.QRCode />, LANG.label.qr_code, () =>
+      {renderToolButton('QRCode', <LeftPanelIcons.QRCode />, tLeftPanel.label.qr_code, () =>
         dialogCaller.showQRCodeGenerator(FnWrapper.useSelectTool)
       )}
-      {renderToolButton('Boxgen', <LeftPanelIcons.Boxgen />, LANG.label.boxgen, () =>
+      {renderToolButton('Boxgen', <LeftPanelIcons.Boxgen />, tLeftPanel.label.boxgen, () =>
         dialogCaller.showBoxGen(FnWrapper.useSelectTool)
       )}
       {renderToolButton('DM', <LeftPanelIcons.DM />, 'Design Market', () =>
-        browser.open(i18n.lang.topbar.menu.link.design_market)
+        browser.open(lang.topbar.menu.link.design_market)
       )}
+      {hasPassthroughExtension &&
+        renderToolButton(
+          'PassThrough',
+          <LeftPanelIcons.PassThrough />,
+          'tPass Through',
+          showPassThrough(FnWrapper.useSelectTool)
+        )}
     </div>
   );
 };
 
-export default DrawingToolButtonGroup;
+export default memo(DrawingToolButtonGroup);
