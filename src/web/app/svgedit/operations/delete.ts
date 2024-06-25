@@ -1,3 +1,4 @@
+import findDefs from 'app/svgedit/utils/findDef';
 import history from 'app/svgedit/history/history';
 import selector from 'app/svgedit/selector';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
@@ -6,7 +7,59 @@ import { IBatchCommand } from 'interfaces/IHistory';
 const { svgedit } = window;
 
 let svgCanvas;
-getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
+getSVGAsync((globalSVG) => {
+  svgCanvas = globalSVG.Canvas;
+});
+
+/**
+ * deleteUseRef
+ * check if the ref of the use element is not used by other use elements, if not, delete the ref
+ * called after deleting a use element
+ * @param use UseElement
+ */
+export const deleteUseRef = (
+  use: SVGUseElement,
+  opts?: { parentCmd?: IBatchCommand; addToHistory?: boolean }
+): { cmd: IBatchCommand } => {
+  const refId = svgCanvas.getHref(use);
+  console.log(refId);
+  const svgcontent = document.getElementById('svgcontent');
+  const isReferred = svgcontent.querySelector(`use[*|href="${refId}"]`);
+  const batchCmd = new history.BatchCommand(`Delete Use ${use.id} Ref`);
+  const { parentCmd, addToHistory = true } = opts || {};
+  if (!isReferred) {
+    const defs = findDefs();
+    const refElement = defs.querySelector(refId);
+    if (refElement) {
+      let { parentNode, nextSibling } = refElement;
+      parentNode.removeChild(refElement);
+      batchCmd.addSubCommand(new history.RemoveElementCommand(refElement, nextSibling, parentNode));
+
+      const relatedIds = [
+        refElement.getAttribute('data-image-symbol'),
+        refElement.getAttribute('data-origin-symbol'),
+      ];
+      relatedIds.forEach((id) => {
+        const element = id ? document.getElementById(id) : null;
+        if (element) {
+          ({ parentNode, nextSibling } = element);
+          parentNode.removeChild(element);
+          batchCmd.addSubCommand(
+            new history.RemoveElementCommand(element, nextSibling, parentNode)
+          );
+        }
+      });
+    }
+  }
+  if (!batchCmd.isEmpty()) {
+    if (parentCmd) {
+      parentCmd.addSubCommand(batchCmd);
+    } else if (addToHistory) {
+      svgCanvas.undoMgr.addCommandToHistory(batchCmd);
+    }
+  }
+  return { cmd: batchCmd };
+};
 
 export const deleteElements = (elems: Element[], isSub = false): IBatchCommand => {
   const selectorManager = selector.getSelectorManager();
@@ -33,7 +86,7 @@ export const deleteElements = (elems: Element[], isSub = false): IBatchCommand =
       parent = parent.parentNode as Element;
     }
 
-    let { nextSibling } = elemToRemove;
+    const { nextSibling } = elemToRemove;
     if (parent == null) {
       // eslint-disable-next-line no-console
       console.warn('The element has no parent', elem);
@@ -43,40 +96,7 @@ export const deleteElements = (elems: Element[], isSub = false): IBatchCommand =
       batchCmd.addSubCommand(new history.RemoveElementCommand(elemToRemove, nextSibling, parent));
     }
     if (elem.tagName === 'use') {
-      const refId = svgCanvas.getHref(elem);
-      const svgcontent = document.getElementById('svgcontent');
-      const useElems = svgcontent.getElementsByTagName('use');
-      let shouldDeleteRef = true;
-      for (let j = 0; j < useElems.length; j += 1) {
-        if (refId === svgCanvas.getHref(useElems[j])) {
-          shouldDeleteRef = false;
-          break;
-        }
-      }
-      if (shouldDeleteRef) {
-        const ref = $(svgCanvas.getHref(elem)).toArray()[0] as SVGSymbolElement;
-        if (ref) {
-          parent = ref.parentNode as Element;
-          nextSibling = ref.nextSibling;
-          parent.removeChild(ref);
-          deletedElems.push(ref); // for the copy
-          batchCmd.addSubCommand(new history.RemoveElementCommand(ref, nextSibling, parent));
-
-          const relatedSymbolIds = [ref.getAttribute('data-image-symbol'), ref.getAttribute('data-origin-symbol')];
-          relatedSymbolIds.filter((id) => id).forEach((id) => {
-            const element = document.getElementById(id);
-            if (element) {
-              parent = element.parentNode as Element;
-              nextSibling = element.nextSibling;
-              parent.removeChild(element);
-              deletedElems.push(element); // for the copy
-              batchCmd.addSubCommand(
-                new history.RemoveElementCommand(element, nextSibling, parent),
-              );
-            }
-          });
-        }
-      }
+      deleteUseRef(elem as SVGUseElement, { parentCmd: batchCmd });
     }
   }
   if (!batchCmd.isEmpty() && !isSub) {
