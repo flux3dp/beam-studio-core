@@ -7,6 +7,7 @@ exports[`should render correctly in element node in layers tab in tutorial mode 
   >
     <div
       class="tab layers"
+      title="Layers (L)"
     >
       <img
         class="tab-icon"
@@ -21,6 +22,7 @@ exports[`should render correctly in element node in layers tab in tutorial mode 
     </div>
     <div
       class="tab objects selected"
+      title="Oval (O)"
     >
       <img
         class="tab-icon object"
@@ -44,6 +46,7 @@ exports[`should render correctly in element node in objects tab dxf object 1`] =
   >
     <div
       class="tab layers"
+      title="Layers (L)"
     >
       <img
         class="tab-icon"
@@ -58,6 +61,7 @@ exports[`should render correctly in element node in objects tab dxf object 1`] =
     </div>
     <div
       class="tab objects selected"
+      title="DXF Object (O)"
     >
       <img
         class="tab-icon object"
@@ -81,6 +85,7 @@ exports[`should render correctly in element node in objects tab multiple objects
   >
     <div
       class="tab layers"
+      title="Layers (L)"
     >
       <img
         class="tab-icon"
@@ -95,6 +100,7 @@ exports[`should render correctly in element node in objects tab multiple objects
     </div>
     <div
       class="tab objects selected"
+      title="Multiple Objects (O)"
     >
       <img
         class="tab-icon object"
@@ -118,6 +124,7 @@ exports[`should render correctly in element node in objects tab not use tag 1`] 
   >
     <div
       class="tab layers"
+      title="Layers (L)"
     >
       <img
         class="tab-icon"
@@ -132,6 +139,7 @@ exports[`should render correctly in element node in objects tab not use tag 1`] 
     </div>
     <div
       class="tab objects selected"
+      title="Oval (O)"
     >
       <img
         class="tab-icon object"
@@ -155,6 +163,7 @@ exports[`should render correctly in element node in objects tab other types 1`] 
   >
     <div
       class="tab layers"
+      title="Layers (L)"
     >
       <img
         class="tab-icon"
@@ -169,6 +178,7 @@ exports[`should render correctly in element node in objects tab other types 1`] 
     </div>
     <div
       class="tab objects selected"
+      title="Imported Object (O)"
     >
       <img
         class="tab-icon object"
@@ -192,6 +202,7 @@ exports[`should render correctly in element node in objects tab svg object 1`] =
   >
     <div
       class="tab layers"
+      title="Layers (L)"
     >
       <img
         class="tab-icon"
@@ -206,6 +217,7 @@ exports[`should render correctly in element node in objects tab svg object 1`] =
     </div>
     <div
       class="tab objects selected"
+      title="SVG Object (O)"
     >
       <img
         class="tab-icon object"
@@ -229,6 +241,7 @@ exports[`should render correctly in element node in objects tab textpath object 
   >
     <div
       class="tab layers"
+      title="Layers (L)"
     >
       <img
         class="tab-icon"
@@ -243,6 +256,7 @@ exports[`should render correctly in element node in objects tab textpath object 
     </div>
     <div
       class="tab objects selected"
+      title="Text on Path (O)"
     >
       <img
         class="tab-icon object"
@@ -266,6 +280,7 @@ exports[`should render correctly in path edit mode 1`] = `
   >
     <div
       class="tab layers"
+      title="Layers (L)"
     >
       <img
         class="tab-icon"
@@ -280,6 +295,7 @@ exports[`should render correctly in path edit mode 1`] = `
     </div>
     <div
       class="tab objects selected"
+      title="Path Edit (O)"
     >
       <img
         class="tab-icon object"
@@ -303,6 +319,7 @@ exports[`should render correctly no selected element 1`] = `
   >
     <div
       class="tab layers selected"
+      title="Layers (L)"
     >
       <img
         class="tab-icon"
@@ -317,6 +334,7 @@ exports[`should render correctly no selected element 1`] = `
     </div>
     <div
       class="tab objects disabled"
+      title="no_selection (O)"
     >
       <img
         class="tab-icon object"

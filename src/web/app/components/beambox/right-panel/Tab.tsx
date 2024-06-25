@@ -56,6 +56,7 @@ function Tab({ panelType, switchPanel }: Props): JSX.Element {
                 }
               }
         }
+        title={`${langRightPanel.tabs.layers} (L)`}
       >
         <img className="tab-icon" src="img/right-panel/icon-layers.svg" draggable={false} />
         <div className="tab-title">{langRightPanel.tabs.layers}</div>
@@ -77,6 +78,7 @@ function Tab({ panelType, switchPanel }: Props): JSX.Element {
               }
             }
         }
+        title={`${objectTitle} (O)`}
       >
         <img className="tab-icon object" src="img/right-panel/icon-adjust.svg" draggable={false} />
         <div className="tab-title">{objectTitle}</div>
