@@ -114,7 +114,7 @@ export const getLayerName = (layer: Element): string => {
 export const createLayer = (
   name: string,
   opts?: { hexCode?: string; isFullColor?: boolean; isSubCmd?: boolean }
-): { layer: SVGGElement; cmd: IBatchCommand } => {
+): { layer: SVGGElement; name: string; cmd: IBatchCommand } => {
   const drawing = svgCanvas.getCurrentDrawing();
   const { hexCode, isFullColor = false, isSubCmd = false } = opts || {};
   const newLayer = drawing.createLayer(name);
@@ -130,7 +130,7 @@ export const createLayer = (
   if (!isSubCmd) svgCanvas.undoMgr.addCommandToHistory(batchCmd);
   updateLayerColorFilter(newLayer);
   svgCanvas.clearSelection();
-  return { layer: newLayer, cmd: batchCmd };
+  return { layer: newLayer, name: finalName, cmd: batchCmd };
 };
 
 export const deleteLayerByName = (layerName: string): ICommand => {
@@ -254,7 +254,9 @@ export const setLayerLock = (
   } else {
     layer.removeAttribute('data-lock');
   }
-  const cmd = new history.ChangeElementCommand(layer, { 'data-lock': origValue ? 'true' : undefined });
+  const cmd = new history.ChangeElementCommand(layer, {
+    'data-lock': origValue ? 'true' : undefined,
+  });
   if (parentCmd) parentCmd.addSubCommand(cmd);
   else {
     cmd.onAfter = () => LayerPanelController.updateLayerPanel();

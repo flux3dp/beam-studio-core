@@ -219,9 +219,9 @@ const importSvg = async (
     const isPrinting = targetModule === LayerModule.PRINTER;
     if (!isPrinting || !newElements.length) {
       const layerName = lang.beambox.right_panel.layer_panel.layer_bitmap;
-      const { layer: newLayer, cmd } = createLayer(layerName);
+      const { layer: newLayer, name: newLayerName, cmd } = createLayer(layerName);
       if (cmd && !cmd.isEmpty()) batchCmd.addSubCommand(cmd);
-      layerConfigHelper.initLayerConfig(layerName);
+      layerConfigHelper.initLayerConfig(newLayerName);
       if (isPrinting) {
         writeDataLayer(newLayer, DataType.module, LayerModule.PRINTER);
         writeDataLayer(newLayer, DataType.fullColor, '1');
