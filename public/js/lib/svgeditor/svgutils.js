@@ -475,7 +475,6 @@ svgedit.utilities.getPathBBox = function(path) {
 // Parameters:
 // selected - Container or <use> DOM element
 function groupBBFix(selected) {
-  console.log(svgedit.browser.supportsHVLineContainerBBox());
 	if(svgedit.browser.supportsHVLineContainerBBox()) {
 		try { return selected.getBBox();} catch(e){}
 	}
