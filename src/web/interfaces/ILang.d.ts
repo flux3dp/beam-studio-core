@@ -1026,6 +1026,8 @@ export interface ILang {
       enable_diode: string,
       enable_autofocus: string,
       extend_workarea: string;
+      pass_through: string;
+      pass_through_height_desc: string;
       add_on: string,
       low: string,
       medium: string,
@@ -1809,5 +1811,8 @@ export interface ILang {
   };
   pass_through: {
     title: string;
+    height_desc: string;
+    ref_layer_desc: string;
+    export: string;
   };
 }

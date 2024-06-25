@@ -561,9 +561,8 @@ const switchImageSymbol = (elem: SVGUseElement, shouldUseImage: boolean): IBatch
     console.log(`${elem.id} is already using svg symbol`);
     return null;
   }
-  const symbolFound = $(href);
-  if (symbolFound.length > 0 && symbolFound[0].tagName === 'symbol') {
-    const currentSymbol = symbolFound[0] as HTMLElement;
+  const currentSymbol = document.querySelector(href);
+  if (currentSymbol?.tagName === 'symbol') {
     const targetId = shouldUseImage
       ? currentSymbol.getAttribute('data-image-symbol')
       : currentSymbol.getAttribute('data-origin-symbol');
@@ -571,8 +570,8 @@ const switchImageSymbol = (elem: SVGUseElement, shouldUseImage: boolean): IBatch
       console.warn(`Switcing failed, Unable to find target origin/image symbol ${targetId}.`);
       return null;
     }
-    const targetSymbol = $(`#${targetId}`);
-    if (targetSymbol.length > 0 && targetSymbol[0].tagName === 'symbol') {
+    const targetSymbol = document.querySelector(`#${targetId}`);
+    if (targetSymbol?.tagName === 'symbol') {
       svgCanvas.undoMgr.beginUndoableChange('xlink:href', [elem]);
       elem.setAttribute('xlink:href', `#${targetId}`);
       const cmd = svgCanvas.undoMgr.finishUndoableChange();

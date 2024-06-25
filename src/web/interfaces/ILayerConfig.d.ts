@@ -28,4 +28,6 @@ export interface ILayerConfig {
   yRatio: IConfig<number>;
   kRatio: IConfig<number>;
   printingStrength: IConfig<number>;
+  clipRect: IConfig<string>; // x y w h
+  ref: IConfig<boolean>;
 }

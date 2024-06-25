@@ -53,6 +53,8 @@ export enum DataType {
   kRatio = 'kRatio',
   // parameters single color printing image processing
   printingStrength = 'printingStrength',
+  clipRect = 'clipRect',
+  ref = 'ref',
 }
 
 export const dataKey = {
@@ -84,6 +86,8 @@ export const dataKey = {
   [DataType.kRatio]: 'kRatio',
   // parameters single color printing image processing
   [DataType.printingStrength]: 'printingStrength',
+  [DataType.clipRect]: 'clipRect',
+  [DataType.ref]: 'ref',
 };
 
 export const CUSTOM_PRESET_CONSTANT = ' ';
@@ -116,6 +120,7 @@ export const defaultConfig = {
   [DataType.kRatio]: 100,
   // parameters single color printing image processing
   [DataType.printingStrength]: 100,
+  [DataType.clipRect]: '',
 };
 
 /**
@@ -139,7 +144,7 @@ export const getData = <T>(layer: Element, dataType: DataType, applyPrinting = f
       (layer.getAttribute(`data-${targetDataType}`) as T) || (defaultConfig[targetDataType] as T)
     );
   }
-  if (targetDataType === DataType.fullColor)
+  if (targetDataType === DataType.fullColor || targetDataType === DataType.ref)
     return (layer.getAttribute(`data-${targetDataType}`) === '1') as T;
   if (targetDataType === DataType.module)
     return Number(layer.getAttribute('data-module') || LayerModule.LASER_10W_DIODE) as T;
@@ -232,9 +237,9 @@ export const cloneLayerConfig = (targetLayerName: string, baseLayerName: string)
     const targetLayer = getLayerElementByName(targetLayerName);
     if (targetLayer) {
       for (let i = 0; i < dataTypes.length; i += 1) {
-        if (dataTypes[i] === DataType.fullColor) {
-          if (getData(baseLayer, DataType.fullColor))
-            writeDataLayer(targetLayer, DataType.fullColor, '1');
+        if (dataTypes[i] === DataType.fullColor || dataTypes[i] === DataType.ref) {
+          if (getData(baseLayer, dataTypes[i]))
+            writeDataLayer(targetLayer, dataTypes[i], '1');
         } else writeDataLayer(targetLayer, dataTypes[i], getData(baseLayer, dataTypes[i]));
       }
       updateLayerColorFilter(targetLayer as SVGGElement);
