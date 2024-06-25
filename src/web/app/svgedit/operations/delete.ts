@@ -22,7 +22,6 @@ export const deleteUseRef = (
   opts?: { parentCmd?: IBatchCommand; addToHistory?: boolean }
 ): { cmd: IBatchCommand } => {
   const refId = svgCanvas.getHref(use);
-  console.log(refId);
   const svgcontent = document.getElementById('svgcontent');
   const isReferred = svgcontent.querySelector(`use[*|href="${refId}"]`);
   const batchCmd = new history.BatchCommand(`Delete Use ${use.id} Ref`);
