@@ -598,8 +598,8 @@ const switchImageSymbolForAll = (shouldUseImage: boolean): void => {
   Progress.popById('switch-all-symbol');
 };
 
-export default {
 const symbolMaker = {
+  createImageSymbol,
   makeSymbol,
   makeImageSymbol,
   reRenderImageSymbol,
