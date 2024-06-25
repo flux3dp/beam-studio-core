@@ -1613,13 +1613,17 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       }
     });
     const workarea: WorkAreaModel = BeamboxPreference.read('workarea');
+    const supportInfo = getSupportInfo(workarea);
     const engraveDpi = BeamboxPreference.read('engrave_dpi');
-    const isUsingDiode = !!(BeamboxPreference.read('enable-diode') && getSupportInfo(workarea).hybridLaser);
+    const isUsingDiode = !!(BeamboxPreference.read('enable-diode') && supportInfo.hybridLaser);
     const isUsingAF = !!BeamboxPreference.read('enable-autofocus');
     svgcontent.setAttribute('data-engrave_dpi', engraveDpi);
     svgcontent.setAttribute('data-rotary_mode', BeamboxPreference.read('rotary_mode'));
     svgcontent.setAttribute('data-en_diode', String(isUsingDiode));
     svgcontent.setAttribute('data-en_af', String(isUsingAF));
+    if (supportInfo.passThrough && BeamboxPreference.read('pass-through')) {
+      svgcontent.setAttribute('data-pass_through', BeamboxPreference.read('pass-through-height'));
+    }
     const workareaElement = document.getElementById('workarea');
     const workareaObj = getWorkarea(workarea);
     const { pxWidth, pxHeight, pxDisplayHeight } = workareaObj

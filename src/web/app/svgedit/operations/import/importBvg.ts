@@ -108,6 +108,16 @@ export const importBvgString = async (str: string): Promise<void> => {
         }
       }
     }
+    if (supportInfo.passThrough) {
+      match = str.match(/data-pass_through="([0-9.]+)"/);
+      if (match && match[1]) {
+        const height = parseFloat(match[1]);
+        if (!Number.isNaN(height) && height > 0) {
+          changeBeamboxPreferenceValue('pass-through', true, { parentCmd: batchCmd });
+          changeBeamboxPreferenceValue('pass-through-height', height, { parentCmd: batchCmd });
+        }
+      }
+    }
     LayerPanelController.updateLayerPanel();
     match = str.match(/data-zoom="[0-9.]+"/);
     if (match) {
