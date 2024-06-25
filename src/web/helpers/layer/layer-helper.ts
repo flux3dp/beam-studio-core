@@ -11,6 +11,7 @@ import i18n from 'helpers/i18n';
 import LayerModule from 'app/constants/layer-module/layer-modules';
 import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
 import randomColor from 'helpers/randomColor';
+import updateElementColor from 'helpers/color/updateElementColor';
 import updateLayerColor from 'helpers/color/updateLayerColor';
 import updateLayerColorFilter from 'helpers/color/updateLayerColorFilter';
 import {
@@ -195,6 +196,7 @@ export const cloneLayer = (
     newName = `${baseName} ${j}`;
   }
   const newLayer = new svgedit.draw.Layer(newName, null, svgcontent, color).getGroup();
+  const batchCmd = HistoryCommandFactory.createBatchCommand('Clone Layer');
   if (!configOnly) {
     const children = layer.childNodes;
     const promises: Promise<void>[] = [];
@@ -207,17 +209,21 @@ export const cloneLayer = (
     }
     Array.from(newLayer.querySelectorAll('use')).forEach((use: SVGUseElement) => {
       clipboard.addRefToClipboard(use);
-      promises.push(clipboard.pasteRef(use));
+      const handler = async () => {
+        await clipboard.pasteRef(use, { parentCmd: batchCmd });
+        updateElementColor(use);
+      };
+      promises.push(handler());
     });
   }
   cloneLayerConfig(newName, layerName);
-  const cmd = new history.InsertElementCommand(newLayer);
+  batchCmd.addSubCommand(new history.InsertElementCommand(newLayer));
   if (!isSub) {
-    svgCanvas.undoMgr.addCommandToHistory(cmd);
+    svgCanvas.undoMgr.addCommandToHistory(batchCmd);
     drawing.identifyLayers();
     svgCanvas.clearSelection();
   }
-  return { name: newName, cmd, elem: newLayer };
+  return { name: newName, cmd: batchCmd, elem: newLayer };
 };
 
 export const cloneLayers = (layerNames: string[]): string[] => {

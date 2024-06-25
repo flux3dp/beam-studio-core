@@ -4,6 +4,7 @@ import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer
 import layerModuleHelper from 'helpers/layer-module/layer-module-helper';
 import storage from 'implementations/storage';
 import toggleFullColorLayer from 'helpers/layer/full-color/toggleFullColorLayer';
+import updateLayerColorFilter from 'helpers/color/updateLayerColorFilter';
 import { getAllLayerNames, getLayerByName } from 'helpers/layer/layer-helper';
 import { getAllPresets } from 'app/constants/right-panel-constants';
 import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
@@ -228,11 +229,15 @@ export const cloneLayerConfig = (targetLayerName: string, baseLayerName: string)
     initLayerConfig(targetLayerName);
   } else {
     const dataTypes = Object.values(DataType);
-    for (let i = 0; i < dataTypes.length; i += 1) {
-      if (dataTypes[i] === DataType.fullColor) {
-        if (getData(baseLayer, DataType.fullColor))
-          writeData(targetLayerName, DataType.fullColor, '1');
-      } else writeData(targetLayerName, dataTypes[i], getData(baseLayer, dataTypes[i]));
+    const targetLayer = getLayerElementByName(targetLayerName);
+    if (targetLayer) {
+      for (let i = 0; i < dataTypes.length; i += 1) {
+        if (dataTypes[i] === DataType.fullColor) {
+          if (getData(baseLayer, DataType.fullColor))
+            writeDataLayer(targetLayer, DataType.fullColor, '1');
+        } else writeDataLayer(targetLayer, dataTypes[i], getData(baseLayer, dataTypes[i]));
+      }
+      updateLayerColorFilter(targetLayer as SVGGElement);
     }
   }
 };

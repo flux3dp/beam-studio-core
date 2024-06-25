@@ -9,6 +9,7 @@ import findDefs from 'app/svgedit/utils/findDef';
 import history from 'app/svgedit/history/history';
 import ImageSymbolWorker from 'helpers/symbol-helper/image-symbol.worker';
 import isWeb from 'helpers/is-web';
+import NS from 'app/constants/namespaces';
 import Progress from 'app/actions/progress-caller';
 import updateElementColor from 'helpers/color/updateElementColor';
 import workareaManager from 'app/svgedit/workarea';
@@ -36,7 +37,6 @@ const makeSymbol = (
   if (!elem) {
     return null;
   }
-  const { NS } = svgedit;
   const svgdoc = document.getElementById('svgcanvas').ownerDocument;
   const symbol = svgdoc.createElementNS(NS.SVG, 'symbol') as unknown as SVGSymbolElement;
   const symbolDefs = svgdoc.createElementNS(NS.SVG, 'defs') as unknown as SVGDefsElement;
@@ -108,11 +108,11 @@ const makeSymbol = (
   }
   symbol.id = svgCanvas.getNextId();
   const firstChild = elem.firstChild as Element;
-  if (firstChild && (firstChild.id || firstChild.getAttributeNS(svgedit.NS.INKSCAPE, 'label'))) {
-    if (firstChild.getAttributeNS(svgedit.NS.INKSCAPE, 'label')) {
-      const id = firstChild.getAttributeNS(svgedit.NS.INKSCAPE, 'label');
+  if (firstChild && (firstChild.id || firstChild.getAttributeNS(NS.INKSCAPE, 'label'))) {
+    if (firstChild.getAttributeNS(NS.INKSCAPE, 'label')) {
+      const id = firstChild.getAttributeNS(NS.INKSCAPE, 'label');
       symbol.setAttribute('data-id', id);
-      firstChild.removeAttributeNS(svgedit.NS.INKSCAPE, 'label');
+      firstChild.removeAttributeNS(NS.INKSCAPE, 'label');
     } else {
       symbol.setAttribute('data-id', firstChild.id);
     }
@@ -184,7 +184,7 @@ const makeSymbol = (
     );
     for (let j = texts.length - 1; j >= 0; j -= 1) {
       const t = texts[j] as SVGTextContentElement;
-      const tspan = document.createElementNS(svgedit.NS.SVG, 'tspan');
+      const tspan = document.createElementNS(NS.SVG, 'tspan');
       textElem.prepend(tspan);
       tspan.textContent = t.textContent;
       $(t).remove();
@@ -362,6 +362,21 @@ const calculateImageRatio = (bb) => {
   return imageRatio;
 };
 
+const createImageSymbol = (symbol: SVGSymbolElement): SVGSymbolElement => {
+  const id = `${symbol.id}_image`;
+  document.querySelectorAll(`#${id}`).forEach((elem) => elem.remove());
+  const image = document.createElementNS(NS.SVG, 'image');
+  const imageSymbol = document.createElementNS(NS.SVG, 'symbol') as unknown as SVGSymbolElement;
+  imageSymbol.appendChild(image);
+  const defs = findDefs();
+  defs.appendChild(imageSymbol);
+  imageSymbol.setAttribute('overflow', 'visible');
+  imageSymbol.setAttribute('id', `${symbol.id}_image`);
+  imageSymbol.setAttribute('data-origin-symbol', `${symbol.id}`);
+  symbol.setAttribute('data-image-symbol', `${imageSymbol.id}`);
+  return imageSymbol;
+};
+
 const makeImageSymbol = async (
   symbol: SVGSymbolElement,
   opts: {
@@ -371,7 +386,6 @@ const makeImageSymbol = async (
     force?: boolean;
   } = {}
 ): Promise<SVGSymbolElement> => {
-  const { NS } = svgedit;
   const { scale = 1, fullColor = false, force = false } = opts;
   let { imageSymbol } = opts;
   const svgdoc = document.getElementById('svgcanvas').ownerDocument;
@@ -469,30 +483,16 @@ const makeImageSymbol = async (
     };
     const imageUrl = isWeb() ? await svgToImgUrl(param) : await svgToImgUrlByShadowWindow(param);
     URL.revokeObjectURL(svgUrl);
-    if (!imageSymbol) {
-      const image = svgdoc.createElementNS(NS.SVG, 'image');
-      imageSymbol = svgdoc.createElementNS(NS.SVG, 'symbol') as unknown as SVGSymbolElement;
-      const defs = findDefs();
-      defs.appendChild(imageSymbol);
-      imageSymbol.appendChild(image);
-      image.setAttribute('x', String(bb.x));
-      image.setAttribute('y', String(bb.y));
-      image.setAttribute('width', String(bb.width));
-      image.setAttribute('height', String(bb.height));
-      image.setAttribute('href', imageUrl);
-      imageSymbol.setAttribute('overflow', 'visible');
-      imageSymbol.setAttribute('id', `${symbol.id}_image`);
-      imageSymbol.setAttribute('data-origin-symbol', `${symbol.id}`);
-      symbol.setAttribute('data-image-symbol', `${imageSymbol.id}`);
-    } else {
-      const image = imageSymbol.firstChild as SVGElement;
-      const oldImageUrl = image.getAttribute('href');
-      image.setAttribute('width', String(bb.width));
-      image.setAttribute('height', String(bb.height));
-      image.setAttribute('href', imageUrl);
-      const defs = findDefs();
-      if (!defs.querySelector(`image[href="${oldImageUrl}"]`)) URL.revokeObjectURL(oldImageUrl);
-    }
+    if (!imageSymbol) imageSymbol = createImageSymbol(symbol);
+    const image = imageSymbol.firstChild as SVGElement;
+    const oldImageUrl = image.getAttribute('href');
+    image.setAttribute('x', String(bb.x));
+    image.setAttribute('y', String(bb.y));
+    image.setAttribute('width', String(bb.width));
+    image.setAttribute('height', String(bb.height));
+    image.setAttribute('href', imageUrl);
+    const defs = findDefs();
+    if (!defs.querySelector(`image[href="${oldImageUrl}"]`)) URL.revokeObjectURL(oldImageUrl);
     imageSymbol.setAttribute('data-stroke-width', stringifyStrokeWidth(strokeWidth));
     imageSymbol.setAttribute('data-fullcolor', fullColor ? '1' : '0');
     resolve(imageSymbol);
@@ -599,6 +599,7 @@ const switchImageSymbolForAll = (shouldUseImage: boolean): void => {
 };
 
 export default {
+const symbolMaker = {
   makeSymbol,
   makeImageSymbol,
   reRenderImageSymbol,
@@ -607,3 +608,5 @@ export default {
   switchImageSymbol,
   switchImageSymbolForAll,
 };
+
+export default symbolMaker;

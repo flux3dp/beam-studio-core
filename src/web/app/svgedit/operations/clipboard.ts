@@ -160,7 +160,15 @@ const applyNativeClipboard = async () => {
   }
 };
 
-const pasteRef = async (useElement: SVGUseElement): Promise<void> => {
+const pasteRef = async (
+  useElement: SVGUseElement,
+  opts?: {
+    parentCmd?: IBatchCommand;
+    addToHistory?: boolean;
+  }
+): Promise<void> => {
+  const { parentCmd, addToHistory = true } = opts || {};
+  const batchCmd = new history.BatchCommand('Paste Ref');
   const drawing = svgCanvas.getCurrentDrawing();
   const symbolId = svgedit.utilities.getHref(useElement);
   const refElement = refClipboard[symbolId];
@@ -170,7 +178,15 @@ const pasteRef = async (useElement: SVGUseElement): Promise<void> => {
   updateSymbolStyle(copiedRef, refElement.id);
   const defs = findDefs();
   defs.appendChild(copiedRef);
+  batchCmd.addSubCommand(new history.InsertElementCommand(copiedRef));
   svgedit.utilities.setHref(useElement, `#${copiedRef.id}`);
+  const imageSymbol = symbolMaker.createImageSymbol(copiedRef);
+  batchCmd.addSubCommand(new history.InsertElementCommand(imageSymbol));
+  if (parentCmd) {
+    parentCmd.addSubCommand(batchCmd);
+  } else if (addToHistory) {
+    svgCanvas.undoMgr.addCommandToHistory(batchCmd);
+  }
   await symbolMaker.reRenderImageSymbol(useElement);
 };
 
@@ -217,10 +233,10 @@ const pasteElements = (args: {
       newTextPath?.setAttribute('href', `#${newPath?.id}`);
     }
     const promises: Promise<void>[] = [];
-    if (copy.tagName === 'use') promises.push(pasteRef(copy));
+    if (copy.tagName === 'use') promises.push(pasteRef(copy, { parentCmd: batchCmd }));
     else
       Array.from(copy.querySelectorAll('use')).forEach((use: SVGUseElement) =>
-        promises.push(pasteRef(use))
+        promises.push(pasteRef(use, { parentCmd: batchCmd }))
       );
 
     batchCmd.addSubCommand(new history.InsertElementCommand(copy));
