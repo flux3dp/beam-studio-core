@@ -11,8 +11,6 @@ import { CanvasContext } from 'app/contexts/CanvasContext';
 import { getCurrentUser } from 'helpers/api/flux-id';
 import { showPassThrough } from 'app/components/pass-through/PassThrough';
 
-const LANG = i18n.lang.beambox.left_panel;
-
 const eventEmitter = eventEmitterFactory.createEventEmitter('drawing-tool');
 
 const DrawingToolButtonGroup = ({ className }: { className: string }): JSX.Element => {
