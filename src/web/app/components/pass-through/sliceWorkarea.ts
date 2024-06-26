@@ -119,6 +119,7 @@ const sliceWorkarea = async (
       if (!cmd.isEmpty()) batchCmd.addSubCommand(cmd);
       layerConfigHelper.cloneLayerConfig(newLayerName, name);
       layer.setAttribute('data-lock', 'true');
+      if (i > 0) layer.setAttribute('display', 'none');
       writeDataLayer(layer, DataType.clipRect, `${0} ${topPadding} ${width / dpmm} ${sliceHeight}`);
 
       const container = document.createElementNS(NS.SVG, 'g') as SVGGElement;
@@ -150,24 +151,26 @@ const sliceWorkarea = async (
     }
     if (anyLayer && refImageBase64s?.[i]) {
       const {
-        layer: newLayer,
-        name: newLayerName,
+        layer,
+        name,
         cmd,
       } = createLayer(`${lang.ref_layer} ${i + 1}`, {
         isSubCmd: true,
       });
+      layer.setAttribute('data-lock', 'true');
+      if (i > 0) layer.setAttribute('display', 'none');
       if (!cmd.isEmpty()) batchCmd.addSubCommand(cmd);
-      layerConfigHelper.initLayerConfig(newLayerName);
-      writeDataLayer(newLayer, DataType.fullColor, '1');
-      writeDataLayer(newLayer, DataType.ref, '1');
-      writeDataLayer(newLayer, DataType.repeat, 0);
+      layerConfigHelper.initLayerConfig(name);
+      writeDataLayer(layer, DataType.fullColor, '1');
+      writeDataLayer(layer, DataType.ref, '1');
+      writeDataLayer(layer, DataType.repeat, 0);
       const image = document.createElementNS(NS.SVG, 'image') as SVGImageElement;
       image.setAttribute('x', '0');
       image.setAttribute('y', '0');
       image.setAttribute('width', width.toString());
       image.setAttribute('height', topPaddingPx.toString());
       image.setAttribute('href', refImageBase64s[i]);
-      newLayer.appendChild(image);
+      layer.appendChild(image);
     }
   }
   allLayers.forEach((layer) => {
