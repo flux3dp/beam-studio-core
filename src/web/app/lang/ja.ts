@@ -1029,6 +1029,8 @@ const lang: ILang = {
       enable_diode: 'ダイオードレーザー',
       enable_autofocus: 'オートフォーカス',
       extend_workarea: '作業エリアを拡張する',
+      pass_through: 'パススルーモード',
+      pass_through_height_desc: '作業エリアを拡張するためにオブジェクトの長さを入力してください。',
       add_on: 'アドオン',
       low: '低',
       medium: '中',
@@ -1812,6 +1814,18 @@ const lang: ILang = {
   },
   pass_through: {
     title: 'パススルーモード',
+    help_text: 'Adorのパススルーモードの設定方法',
+    object_length: 'オブジェクトの長さ',
+    workaea_height: '作業エリア（高さ）:',
+    height_desc: '各作業エリアセクションの高さを設定します。',
+    ref_layer: '参照レイヤー:',
+    ref_layer_desc: '作業エリア内前回のアートワークの下部セクションを表示します。',
+    guide_line: 'ガイドライン',
+    guide_line_length: '長さ:',
+    guide_line_x: 'X座標:',
+    guide_line_desc: 'ガイドラインは、アートワークを合わせるための参照点として彫刻されます。',
+    export: '作業エリアにエクスポート',
+    exporting: 'エクスポート中...',
   },
 };
 

@@ -1026,6 +1026,8 @@ const lang: ILang = {
       enable_diode: 'Diode laser',
       enable_autofocus: 'Autofocus',
       extend_workarea: 'Werkgebied uitbreiden',
+      pass_through: 'Doorgang',
+      pass_through_height_desc: 'Voer de lengte van het object in om het werkgebied uit te breiden.',
       add_on: 'Add-ons',
       low: 'Laag',
       medium: 'Gemiddeld',
@@ -1809,6 +1811,18 @@ const lang: ILang = {
   },
   pass_through: {
     title: 'Doorgangsmodus',
+    help_text: 'Hoe stel je Doorgangsmodus in voor Ador?',
+    object_length: 'Objectlengte',
+    workaea_height: 'Werkgebied (Hoogte):',
+    height_desc: 'Stel de hoogte van elke werkgebiedsectie in.',
+    ref_layer: 'Referentielaag',
+    ref_layer_desc: 'Toont het vorige onderste gedeelte van het kunstwerk in het werkgebied.',
+    guide_line: 'Hulplijn',
+    guide_line_length: 'Lengte:',
+    guide_line_x: 'X-coördinaat:',
+    guide_line_desc: 'Hulplijnen worden gegraveerd als referentiepunt om het kunstwerk uit te lijnen.',
+    export: 'Exporteren naar Werkgebied',
+    exporting: 'Exporteren...',
   },
 };
 

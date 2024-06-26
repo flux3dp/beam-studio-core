@@ -1026,6 +1026,8 @@ const lang: ILang = {
       enable_diode: 'Diodilaser',
       enable_autofocus: 'Autofokus',
       extend_workarea: 'Laajenna työaluetta',
+      pass_through: 'Läpäisymoodi',
+      pass_through_height_desc: 'Syötä objektin pituus työalueen laajentamiseksi.',
       add_on: 'Lisäosat',
       low: 'Matala',
       medium: 'Keskitaso',
@@ -1809,6 +1811,18 @@ const lang: ILang = {
   },
   pass_through: {
     title: 'Läpäisymoodi',
+    help_text: 'Kuinka asettaa Läpäisymoodi Adorille?',
+    object_length: 'Objektin Pituus',
+    workaea_height: 'Työalue (Korkeus):',
+    height_desc: 'Aseta kunkin työalueen osan korkeus.',
+    ref_layer: 'Viitekerros',
+    ref_layer_desc: 'Näyttää aiemman alaosan taideteoksesta työalueella.',
+    guide_line: 'Ohjeviiva',
+    guide_line_length: 'Pituus:',
+    guide_line_x: 'X-koordinaatti:',
+    guide_line_desc: 'Ohjeviivat kaiverretaan vertailupisteeksi taideteoksen kohdistamiseksi.',
+    export: 'Vie Työalueelle',
+    exporting: 'Viedään...',
   },
 };
 

@@ -1026,6 +1026,8 @@ const lang: ILang = {
       enable_diode: 'Laser à diode',
       enable_autofocus: 'Mise au point automatique',
       extend_workarea: 'Étendre la zone de travail',
+      pass_through: 'Mode Passage',
+      pass_through_height_desc: "Entrez la longueur de l'objet pour étendre la zone de travail.",
       add_on: 'Modules complémentaires',
       low: 'Faible',
       medium: 'Moyen',
@@ -1809,6 +1811,18 @@ const lang: ILang = {
   },
   pass_through: {
     title: 'Mode Passage',
+    help_text: 'Comment configurer Mode Passage pour Ador?',
+    object_length: "Longueur de l'Objet",
+    workaea_height: 'Zone de Travail (Hauteur):',
+    height_desc: 'Réglez la hauteur de chaque section de la zone de travail.',
+    ref_layer: 'Couche de Référence',
+    ref_layer_desc: "Affiche la section inférieure précédente de l'œuvre d'art dans la zone de travail.",
+    guide_line: 'Ligne de Guide',
+    guide_line_length: 'Longueur:',
+    guide_line_x: 'Coordonnée X:',
+    guide_line_desc: "Les lignes de guide seront gravées comme point de référence pour aligner l'œuvre.",
+    export: 'Exporter vers la Zone de Travail',
+    exporting: 'Exportation...',
   },
 };
 

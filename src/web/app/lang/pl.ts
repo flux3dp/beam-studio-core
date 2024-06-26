@@ -1029,6 +1029,8 @@ const lang: ILang = {
       enable_diode: 'Laser diodowy',
       enable_autofocus: 'Autofokus',
       extend_workarea: 'Rozszerz obszar roboczy',
+      pass_through: 'Przejść Przez',
+      pass_through_height_desc: 'Wprowadź długość obiektu, aby rozszerzyć obszar roboczy.',
       add_on: 'Dodatki',
       low: 'Niska',
       medium: 'Średna',
@@ -1812,6 +1814,18 @@ const lang: ILang = {
   },
   pass_through: {
     title: 'Tryb Przejścia',
+    help_text: 'Jak skonfigurować Tryb Przejścia dla Ador?',
+    object_length: 'Długość Obiektu',
+    workaea_height: 'Obszar Roboczy (Wysokość):',
+    height_desc: 'Ustaw wysokość każdej sekcji obszaru roboczego.',
+    ref_layer: 'Warstwa Referencyjna',
+    ref_layer_desc: 'Pokazuje poprzednią dolną sekcję dzieła sztuki w obszarze roboczym.',
+    guide_line: 'Linia Przewodnia',
+    guide_line_length: 'Długość:',
+    guide_line_x: 'Współrzędna X:',
+    guide_line_desc: 'Linie przewodnie zostaną wygrawerowane jako punkt odniesienia do wyrównania dzieła sztuki.',
+    export: 'Eksportuj do Obszaru Roboczego',
+    exporting: 'Eksportowanie...',
   },
 };
 

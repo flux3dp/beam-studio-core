@@ -1026,6 +1026,8 @@ const lang: ILang = {
       enable_diode: 'Laser de diodo',
       enable_autofocus: 'Foco automático',
       extend_workarea: 'Expandir área de trabalho',
+      pass_through: 'Passar Por',
+      pass_through_height_desc: 'Insira o comprimento do objeto para estender a área de trabalho.',
       add_on: 'Complementos',
       low: 'Baixo',
       medium: 'Médio',
@@ -1809,6 +1811,18 @@ const lang: ILang = {
   },
   pass_through: {
     title: 'Modo De Passar Por',
+    help_text: 'Como configurar Modo De Passar Por para Ador?',
+    object_length: 'Comprimento do Objeto',
+    workaea_height: 'Área de Trabalho (Altura):',
+    height_desc: 'Defina a altura de cada seção da área de trabalho.',
+    ref_layer: 'Camada de Referência',
+    ref_layer_desc: 'Mostra a seção inferior anterior da obra de arte na área de trabalho.',
+    guide_line: 'Linha de Guia',
+    guide_line_length: 'Comprimento:',
+    guide_line_x: 'Coordenada X:',
+    guide_line_desc: 'As linhas de guia serão gravadas como um ponto de referência para alinhar a obra de arte.',
+    export: 'Exportar para Área de Trabalho',
+    exporting: 'Exportando...',
   },
 };
 

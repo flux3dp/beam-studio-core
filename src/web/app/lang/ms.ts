@@ -1026,6 +1026,8 @@ const lang: ILang = {
       enable_diode: 'Laser Diod',
       enable_autofocus: 'Autofokus',
       extend_workarea: 'Perluaskan kawasan kerja',
+      pass_through: 'Lalu',
+      pass_through_height_desc: 'Masukkan panjang objek untuk melanjutkan kawasan kerja.',
       add_on: 'Tambahan',
       low: 'Rendah',
       medium: 'Sederhana',
@@ -1809,6 +1811,18 @@ const lang: ILang = {
   },
   pass_through: {
     title: 'Mod Lalu',
+    help_text: 'Bagaimana untuk menyediakan Mod Lalu untuk Ador?',
+    object_length: 'Panjang Objek',
+    workaea_height: 'Kawasan Kerja (Tinggi):',
+    height_desc: 'Tetapkan ketinggian setiap bahagian kawasan kerja.',
+    ref_layer: 'Lapisan Rujukan',
+    ref_layer_desc: 'Menunjukkan bahagian bawah sebelumnya dari karya seni di kawasan kerja.',
+    guide_line: 'Garisan Panduan',
+    guide_line_length: 'Panjang:',
+    guide_line_x: 'Koordinat X:',
+    guide_line_desc: 'Garisan panduan akan diukir sebagai titik rujukan untuk menyelaraskan karya seni.',
+    export: 'Eksport ke Kawasan Kerja',
+    exporting: 'Mengeksport...',
   },
 };
 

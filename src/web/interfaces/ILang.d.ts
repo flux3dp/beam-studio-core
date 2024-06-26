@@ -1811,8 +1811,17 @@ export interface ILang {
   };
   pass_through: {
     title: string;
+    help_text: string;
+    object_length: string;
+    workaea_height: string;
     height_desc: string;
+    ref_layer: string;
     ref_layer_desc: string;
+    guide_line: string;
+    guide_line_length: string;
+    guide_line_x: string;
+    guide_line_desc: string;
     export: string;
+    exporting: string;
   };
 }

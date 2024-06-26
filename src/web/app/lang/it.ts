@@ -1026,6 +1026,8 @@ const lang: ILang = {
       enable_diode: 'Laser a diodi',
       enable_autofocus: 'Messa a fuoco automatica',
       extend_workarea: 'Espandi area di lavoro',
+      pass_through: 'Attraversare',
+      pass_through_height_desc: "Inserisci la lunghezza dell'oggetto per estendere l'area di lavoro.",
       add_on: 'Componenti aggiuntivi',
       low: 'Basso',
       medium: 'Medio',
@@ -1809,6 +1811,18 @@ const lang: ILang = {
   },
   pass_through: {
     title: 'Modalità Di Attraversamento',
+    help_text: 'Come impostare Modalità Di Attraversamento per Ador?',
+    object_length: 'Lunghezza Oggetto',
+    workaea_height: 'Area di Lavoro (Altezza):',
+    height_desc: "Imposta l'altezza di ciascuna sezione dell'area di lavoro.",
+    ref_layer: 'Livello di Riferimento',
+    ref_layer_desc: "Mostra la sezione inferiore precedente dell'opera d'arte nell'area di lavoro.",
+    guide_line: 'Linea Guida',
+    guide_line_length: 'Lunghezza:',
+    guide_line_x: 'Coordinata X:',
+    guide_line_desc: "Le linee guida saranno incise come punto di riferimento per allineare l'opera d'arte.",
+    export: "Esporta nell'Area di Lavoro",
+    exporting: 'Esportazione...',
   },
 };
 
