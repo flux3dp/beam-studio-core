@@ -44,26 +44,11 @@
 // 13) coords.js
 // 14) recalculate.js
 // svgedit libs
-import canvasBackground from 'app/svgedit/canvasBackground';
-import clipboard from 'app/svgedit/operations/clipboard';
-import findDefs from 'app/svgedit/utils/findDef';
-import history from 'app/svgedit/history/history';
-import historyRecording from 'app/svgedit/history/historyrecording';
-import importSvgString from 'app/svgedit/operations/import/importSvgString';
-import selector from 'app/svgedit/selector';
-import textActions from 'app/svgedit/text/textactions';
-import textEdit from 'app/svgedit/text/textedit';
-import undoManager from 'app/svgedit/history/undoManager';
-import ungroupElement from 'app/svgedit/group/ungroup';
-import workareaManager from 'app/svgedit/workarea';
-import { deleteSelectedElements } from 'app/svgedit/operations/delete';
-import { moveElements, moveSelectedElements } from 'app/svgedit/operations/move';
 
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import beamboxStore from 'app/stores/beambox-store';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
-import currentFileManager from 'app/svgedit/currentFileManager';
 import i18n from 'helpers/i18n';
 import ISVGConfig from 'interfaces/ISVGConfig';
 import ToolPanelsController from 'app/actions/beambox/toolPanelsController';
@@ -73,7 +58,6 @@ import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/Objec
 import TopBarController from 'app/views/beambox/TopBar/contexts/TopBarController';
 import * as TutorialController from 'app/views/tutorials/tutorialController';
 import TutorialConstants from 'app/constants/tutorial-constants';
-import Constant from 'app/actions/beambox/constant';
 import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
 import Progress from 'app/actions/progress-caller';
 import presprayArea from 'app/actions/canvas/prespray-area';
@@ -97,9 +81,26 @@ import recentMenuUpdater from 'implementations/recentMenuUpdater';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import grid from 'app/actions/canvas/grid';
 import updateLayerColorFilter from 'helpers/color/updateLayerColorFilter';
-import PathActions from './operations/pathActions';
+import { IBatchCommand } from 'interfaces/IHistory';
+
+import canvasBackground from './canvasBackground';
+import clipboard from './operations/clipboard';
+import currentFileManager from './currentFileManager';
+import findDefs from './utils/findDef';
+import history from './history/history';
+import historyRecording from './history/historyrecording';
+import importSvgString from './operations/import/importSvgString';
 import MouseInteractions from './interaction/mouseInteractions';
+import PathActions from './operations/pathActions';
+import selector from './selector';
 import setSvgContent from './operations/import/setSvgContent';
+import textActions from './text/textactions';
+import textEdit from './text/textedit';
+import undoManager from './history/undoManager';
+import ungroupElement from './group/ungroup';
+import workareaManager from './workarea';
+import { deleteSelectedElements } from './operations/delete';
+import { moveElements, moveSelectedElements } from './operations/move';
 
 let svgCanvas;
 let svgEditor;
@@ -2249,7 +2250,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
   // Function: identifyLayers
   // Updates layer system
-  var identifyLayers = canvas.identifyLayers = function () {
+  canvas.identifyLayers = function () {
     leaveContext();
     getCurrentDrawing().identifyLayers();
   };
@@ -2364,20 +2365,22 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   //
   // Returns:
   // true if the layer's visibility was set, false otherwise
-  this.setLayerVisibility = function (layername, bVisible) {
+  this.setLayerVisibility = function (
+    layername: string,
+    value: boolean,
+    opts?: { parentCmd?: IBatchCommand, addToHistory?: boolean },
+  ) {
     const drawing = getCurrentDrawing();
     const prevVisibility = drawing.getLayerVisibility(layername);
-    const layer = drawing.setLayerVisibility(layername, bVisible);
+    const layer = drawing.setLayerVisibility(layername, value);
+    if (!layer) return false;
     presprayArea.togglePresprayArea();
-    if (layer) {
-      const oldDisplay = prevVisibility ? 'inline' : 'none';
-      const cmd = new history.ChangeElementCommand(layer, { 'display': oldDisplay }, 'Layer Visibility');
-      cmd.onAfter = presprayArea.togglePresprayArea;
-      addCommandToHistory(cmd);
-    } else {
-      return false;
-    }
-
+    const oldDisplay = prevVisibility ? 'inline' : 'none';
+    const cmd = new history.ChangeElementCommand(layer, { 'display': oldDisplay }, 'Layer Visibility');
+    cmd.onAfter = presprayArea.togglePresprayArea;
+    const { parentCmd, addToHistory = true } = opts || {};
+    if (parentCmd) parentCmd.addSubCommand(cmd);
+    else if (addToHistory) addCommandToHistory(cmd);
     if (layer === drawing.getCurrentLayer()) {
       clearSelection();
       pathActions.clear();
