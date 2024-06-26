@@ -49,6 +49,9 @@ export interface ILang {
       door_opened: string;
       fail_to_get_door_status: string;
       QcleanScene: string;
+      power_too_high: string;
+      power_too_high_msg: string;
+      power_too_high_confirm: string;
     };
     hint: {
       polygon: string;

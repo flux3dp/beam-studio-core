@@ -52,6 +52,9 @@ const lang: ILang = {
       door_opened: 'Please close the door cover to enable low laser for running frame.',
       fail_to_get_door_status: 'Please make sure the door cover is closed to enable low laser for running frame.',
       QcleanScene: 'Do you want to clear the drawing?<br/>This will also erase your undo history!',
+      power_too_high: 'POWER TOO HIGH',
+      power_too_high_msg: 'Using lower laser power (under 70%) will extends laser tube\'s lifetime.\nEnter "NOTED" to proceed.',
+      power_too_high_confirm: 'NOTED',
     },
     hint: {
       polygon: 'Press + / - key to increase / decrease sides.',

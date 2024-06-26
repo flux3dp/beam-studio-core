@@ -52,6 +52,9 @@ const lang: ILang = {
       door_opened: 'Sila tutup pintu untuk membolehkan laser beroperasi.',
       fail_to_get_door_status: 'Sila pastikan pintu ditutup untuk membolehkan laser beroperasi.',
       QcleanScene: 'Adakah anda mahu padamkan lukisan?<br/>Ini juga akan memadam sejarah undo anda!',
+      power_too_high: 'KUASA TERLALU TINGGI',
+      power_too_high_msg: 'Menggunakan kuasa laser yang lebih rendah (bawah 70%) akan memanjangkan jangka hayat tiub laser.\nMasukkan "DIAMBIL PERHATIAN" untuk meneruskan.',
+      power_too_high_confirm: 'DIAMBIL PERHATIAN',
     },
     hint: {
       polygon: 'Tekan kekunci + / - untuk menambah / mengurangkan sisi.',

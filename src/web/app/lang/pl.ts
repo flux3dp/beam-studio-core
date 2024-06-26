@@ -52,6 +52,9 @@ const lang: ILang = {
       door_opened: 'Zamknij pokrywę drzwi, aby włączyć niską moc lasera do uruchomienia ramki.',
       fail_to_get_door_status: 'Upewnij się, że pokrywa drzwi jest zamknięta, aby włączyć niską moc lasera do uruchomienia ramki.',
       QcleanScene: 'Czy chcesz wyczyścić rysunek?<br/>Spowoduje to także usunięcie historii cofania!',
+      power_too_high: 'ZBYT WYSOKA MOC',
+      power_too_high_msg: 'Użycie mniejszej mocy lasera (poniżej 70%) wydłuży żywotność tuby laserowej. Wpisz „ROZUMIEM”, aby kontynuować.',
+      power_too_high_confirm: 'ROZUMIEM',
     },
     hint: {
       polygon: 'Naciśnij klawisz + / -, aby zwiększyć / zmniejszyć ilość boków.',

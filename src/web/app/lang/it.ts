@@ -52,6 +52,9 @@ const lang: ILang = {
       door_opened: "Chiudere lo sportello per abilitare il laser a bassa potenza per l'esecuzione della cornice.",
       fail_to_get_door_status: "Assicurarsi che lo sportello sia chiuso per abilitare il laser a bassa potenza per l'esecuzione della cornice.",
       QcleanScene: 'Vuoi cancellare il disegno?<br/>Questo cancellerà anche la tua cronologia di annullamento!',
+      power_too_high: 'POTENZA TROPPO ALTA',
+      power_too_high_msg: 'Utilizzare una potenza laser inferiore (sotto il 70%) estende la durata del tubo laser.\nInserire "HO CAPITO" per procedere.',
+      power_too_high_confirm: 'HO CAPITO',
     },
     hint: {
       polygon: 'Premere + / - per aumentare / diminuire i lati.',

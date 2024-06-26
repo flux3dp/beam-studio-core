@@ -52,6 +52,9 @@ const lang: ILang = {
       door_opened: 'Harap tutup pintu penutup untuk mengaktifkan laser rendah agar bingkai dapat berjalan.',
       fail_to_get_door_status: 'Harap pastikan pintu penutup tertutup untuk mengaktifkan laser rendah agar bingkai dapat berjalan.',
       QcleanScene: 'Apakah Anda ingin menghapus gambar?<br/>Ini juga akan menghapus riwayat undo Anda!',
+      power_too_high: 'DAYA TERLALU TINGGI',
+      power_too_high_msg: 'Menggunakan daya laser yang lebih rendah (di bawah 70%) akan memperpanjang masa pakai tabung laser.\nMasukkan "SAYA MENGERTI" untuk melanjutkan.',
+      power_too_high_confirm: 'SAYA MENGERTI',
     },
     hint: {
       polygon: 'Tekan tombol + / - untuk menambah / mengurangi sisi.',

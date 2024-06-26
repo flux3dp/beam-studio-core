@@ -52,6 +52,9 @@ const lang: ILang = {
       door_opened: 'Feche a tampa da porta para habilitar o laser baixo para executar o quadro.',
       fail_to_get_door_status: 'Certifique-se de que a tampa da porta esteja fechada para habilitar o laser baixo para executar o quadro.',
       QcleanScene: 'Quer apagar o desenho?<br/>Isso também apagará seu histórico de desfazer!',
+      power_too_high: 'POTÊNCIA MUITO ALTA',
+      power_too_high_msg: 'Usar potência laser mais baixa (abaixo de 70%) estenderá a vida útil do tubo laser.\nDigite "ENTENDI" para continuar.',
+      power_too_high_confirm: 'ENTENDI',
     },
     hint: {
       polygon: 'Pressione as teclas + / - para aumentar / diminuir os lados.',

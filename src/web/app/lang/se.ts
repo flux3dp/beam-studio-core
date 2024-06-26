@@ -52,6 +52,9 @@ const lang: ILang = {
       door_opened: 'Stäng luckan för att aktivera lågeffektslaser för skärning.',
       fail_to_get_door_status: 'Kontrollera att luckan är stängd för att aktivera lågeffektslaser för skärning.',
       QcleanScene: 'Vill du rensa ritningen?<br/>Detta kommer också att radera din ånghistorik!',
+      power_too_high: 'FÖR HÖG EFFEKT',
+      power_too_high_msg: 'Att använda lägre laserstyrka (under 70%) förlänger laserns livslängd.\nSkriv in "NOTERAT" för att fortsätta.',
+      power_too_high_confirm: 'NOTERAT',
     },
     hint: {
       polygon: 'Tryck på + / - tangenten för att öka / minska sidor.',
@@ -1620,7 +1623,7 @@ const lang: ILang = {
       drag_to_draw: 'Dra för att rita',
       infill: 'Aktivera utfyllnad',
       switch_to_object_panel: 'Byt till objektpanel',
-switch_to_layer_panel: 'Byt till lagerpanelen',
+      switch_to_layer_panel: 'Byt till lagerpanelen',
       set_preset_wood_engraving: 'Ställ in förval: Trä - gravering',
       set_preset_wood_cut: 'Ställ in förval: Trä - skärning',
       add_new_layer: 'Lägg till ett nytt lager',

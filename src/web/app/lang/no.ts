@@ -52,6 +52,9 @@ const lang: ILang = {
       door_opened: 'Vennligst lukk dørdekselet for å aktivere lav laser for å kjøre ramme.',
       fail_to_get_door_status: 'Vennligst sørg for at dørdekselet er lukket for å aktivere lav laser for å kjøre ramme.',
       QcleanScene: 'Vil du slette tegningen?<br/>Dette vil også slette angrehistorikken din!',
+      power_too_high: 'FOR HØY EFFEKT',
+      power_too_high_msg: 'Bruk av lavere lasereffekt (under 70%) forlenger laserens levetid.\nSkriv inn "FORSTÅTT" for å fortsette.',
+      power_too_high_confirm: 'FORSTÅTT',
     },
     hint: {
       polygon: 'Trykk + / -tasten for å øke / redusere sider.',
@@ -1620,7 +1623,7 @@ const lang: ILang = {
       drag_to_draw: 'Dra for å tegne',
       infill: 'Slå på utfylling',
       switch_to_object_panel: 'Bytt til objektpanel',
-switch_to_layer_panel: 'Bytt til lagpanel',
+      switch_to_layer_panel: 'Bytt til lagpanel',
       set_preset_wood_engraving: 'Angi forhåndsinnstilling: Tre - Gravering',
       set_preset_wood_cut: 'Angi forhåndsinnstilling: Tre - Skjæring',
       add_new_layer: 'Legg til et nytt lag',

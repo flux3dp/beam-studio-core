@@ -28,6 +28,7 @@ import { getNextStepRequirement, handleNextStep } from 'app/views/tutorials/tuto
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { showAdorCalibration } from 'app/components/dialogs/camera/AdorCalibration';
+import { WorkAreaModel } from 'app/constants/workarea-constants';
 
 import styles from './GoButton.module.scss';
 
@@ -47,8 +48,25 @@ const GoButton = (props: Props): JSX.Element => {
   const lang = useI18n();
   const { endPreviewMode, mode } = useContext(CanvasContext);
 
-  const handleExportAlerts = async () => {
+  const handleExportAlerts = async (workarea: WorkAreaModel) => {
     const layers = [...document.querySelectorAll('#svgcontent > g.layer:not([display="none"])')];
+
+    if (!['fhexa1', 'ado1'].includes(workarea)) {
+      const isPowerTooHigh = layers.some((layer) => {
+        const strength = Number(layer.getAttribute('data-strength'));
+        const diode = Number(layer.getAttribute('data-diode'));
+        return strength > 70 && diode !== 1;
+      });
+      if (!alertConfig.read('skip-high-power-confirm') && isPowerTooHigh) {
+        const confirmed = await Dialog.showConfirmPromptDialog({
+          caption: lang.topbar.alerts.power_too_high,
+          message: lang.topbar.alerts.power_too_high_msg,
+          confirmValue: lang.topbar.alerts.power_too_high_confirm,
+          alertConfigKey: 'skip-high-power-confirm',
+        });
+        if (!confirmed) return false;
+      }
+    }
 
     SymbolMaker.switchImageSymbolForAll(false);
     let isTooFastForPath = false;
@@ -254,7 +272,6 @@ const GoButton = (props: Props): JSX.Element => {
   };
 
   const handleExportClick = async () => {
-    const { hasDiscoverdMachine } = props;
     endPreviewMode();
 
     if (getNextStepRequirement() === TutorialConstants.SEND_FILE) {
@@ -262,23 +279,17 @@ const GoButton = (props: Props): JSX.Element => {
     }
 
     const handleExport = async () => {
-      if (hasDiscoverdMachine) {
-        // Only when there is usable machine
-        const confirmed = await handleExportAlerts();
-        if (!confirmed) {
-          return;
-        }
-      }
       const { device } = await getDevice();
       if (!device) return;
+      const confirmed = await handleExportAlerts(device.model as WorkAreaModel);
+      if (!confirmed) return;
       const deviceStatus = await checkDeviceStatus(device);
       if (!deviceStatus) return;
       await checkModuleCalibration(device);
       exportTask(device);
     };
 
-    if (isWeb() && navigator.language !== 'da')
-      Dialog.forceLoginWrapper(handleExport);
+    if (isWeb() && navigator.language !== 'da') Dialog.forceLoginWrapper(handleExport);
     else handleExport();
   };
 

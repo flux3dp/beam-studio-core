@@ -52,6 +52,9 @@ const lang: ILang = {
       door_opened: 'Bitte schließen Sie die Tür abdeckung, um Niedriglaser zum Ausführen des Rahmens zu aktivieren.',
       fail_to_get_door_status: 'Bitte stellen Sie sicher, dass die Tür abdeckung geschlossen ist, um Niedriglaser zum Ausführen des Rahmens zu aktivieren.',
       QcleanScene: 'Möchtest du die Zeichnung löschen?<br/>Dies löscht auch deine Rückgängig-Historie!',
+      power_too_high: 'Leistung zu hoch',
+      power_too_high_msg: 'Die Verwendung einer niedrigeren Laserleistung (unter 70%) verlängert die Lebensdauer der Laserröhre!\nGeben Sie "OK" ein, um fortzufahren.',
+      power_too_high_confirm: 'OK',
     },
     hint: {
       polygon: 'Press + / - key to increse / decrease sides.',

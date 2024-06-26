@@ -52,6 +52,9 @@ const lang: ILang = {
       door_opened: 'Veuillez fermer le couvercle de protection pour activer le laser de découpe.',
       fail_to_get_door_status: 'Veuillez vous assurer que le couvercle de protection est fermé pour activer le laser de découpe.',
       QcleanScene: 'Voulez-vous effacer le dessin?<br/>Cela effacera également votre historique des annulations !',
+      power_too_high: 'PUISSANCE TROP ÉLEVÉE',
+      power_too_high_msg: 'Utiliser une puissance laser inférieure (moins de 70 %) prolongera la durée de vie du tube laser.\nEntrez "PRIS EN COMPTE" pour continuer.',
+      power_too_high_confirm: 'PRIS EN COMPTE',
     },
     hint: {
       polygon: 'Appuyez sur les touches + / - pour augmenter / diminuer les côtés.',

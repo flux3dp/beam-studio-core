@@ -52,6 +52,9 @@ const lang: ILang = {
       door_opened: '请将门盖关闭以进入低激光模式。',
       fail_to_get_door_status: '请确保门盖关闭以进入低激光模式。',
       QcleanScene: '您要清除绘图吗？<br/>这还将擦除您的撤消历史！',
+      power_too_high: '功率过高',
+      power_too_high_msg: '激光管在高功率（70％ 以上）下耗损较快，使用低功率可以延长雷试管使用寿命。\n输入「知道了」以继续。',
+      power_too_high_confirm: '知道了',
     },
     hint: {
       polygon: '按下 + / - 键以增加 / 减少边数。',

@@ -52,6 +52,9 @@ const lang: ILang = {
       door_opened: 'Luk venligst døren for at aktivere lav laser til kørsel af ramme.',
       fail_to_get_door_status: 'Sørg venligst for at døren er lukket for at aktivere lav laser til kørsel af ramme.',
       QcleanScene: 'Vil du rydde tegningen?<br/>Dette vil også slette din angre-historik!',
+      power_too_high: 'FOR HØJ EFFEKT',
+      power_too_high_msg: 'Brug af lavere laserstyrke (under 70%) forlænger laserens levetid.\nIndtast "NOTERET" for at fortsætte.',
+      power_too_high_confirm: 'NOTERET',
     },
     hint: {
       polygon: 'Tryk på + / - tasten for at øge / mindske sider.',

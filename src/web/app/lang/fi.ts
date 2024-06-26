@@ -52,6 +52,9 @@ const lang: ILang = {
       door_opened: 'Sulje ovensuojus, jotta kehys voidaan käynnistää matalalla teholla.',
       fail_to_get_door_status: 'Varmista, että ovensuojus on kiinni, jotta kehys voidaan käynnistää matalalla teholla.',
       QcleanScene: 'Haluatko tyhjentää piirustuksen?<br/>Tämä poistaa myös kumoamishistoriasi!',
+      power_too_high: 'LIIAN SUURI TEHO',
+      power_too_high_msg: 'Matalampi laserteho (alle 70 %) pidentää laserputken käyttöikää.\nKirjoita "HUOMAUTETTU" jatkaaksesi.',
+      power_too_high_confirm: 'HUOMAUTETTU',
     },
     hint: {
       polygon: 'Paina +-näppäintä lisätäksesi/vähentääksesi sivuja.',

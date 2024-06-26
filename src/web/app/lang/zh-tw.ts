@@ -52,6 +52,9 @@ const lang: ILang = {
       door_opened: '請將門蓋關閉以進行弱出光。',
       fail_to_get_door_status: '請確保門蓋關閉以進行弱出光。',
       QcleanScene: '您確定清除場景嗎？<br/>這同時也會刪除您的操作歷史記錄。',
+      power_too_high: '功率過高',
+      power_too_high_msg: '雷射管在高功率（70％ 以上）下耗損較快，使用低功率可以延長雷試管使用壽命。\n輸入「知道了」以繼續。',
+      power_too_high_confirm: '知道了',
     },
     hint: {
       polygon: '按下 + / - 鍵以增加 / 減少邊數。',

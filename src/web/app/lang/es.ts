@@ -52,6 +52,9 @@ const lang: ILang = {
       door_opened: 'Cierre la cubierta de la puerta para habilitar el láser para ejecutar el marco.',
       fail_to_get_door_status: 'Asegúrese de que la cubierta de la puerta esté cerrada para habilitar el láser para ejecutar el marco.',
       QcleanScene: '¿Quieres borrar el dibujo?<br/>¡Esto también borrará tu historial de deshacer!',
+      power_too_high: 'POTENCIA DEMASIADO ALTA',
+      power_too_high_msg: 'Usar una potencia de láser menor (menos del 70%) alargará la vida del tubo láser.\nPulsa "ANOTADO" para proceder.',
+      power_too_high_confirm: 'ANOTADO',
     },
     hint: {
       polygon: 'Presiona la tecla + / - para aumentar / disminuir los lados.',

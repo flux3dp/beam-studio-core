@@ -311,7 +311,7 @@ export default {
           placeholder={args.confirmValue}
           confirmValue={args.confirmValue}
           onYes={(value) => {
-            if (value === args.confirmValue) resolve(true);
+            if (value?.toLowerCase() === args.confirmValue?.toLowerCase()) resolve(true);
           }}
           alertConfigKey={args.alertConfigKey}
           onCancel={() => resolve(false)}

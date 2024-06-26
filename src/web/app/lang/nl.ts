@@ -52,6 +52,9 @@ const lang: ILang = {
       door_opened: 'Sluit het deksel om laag laservermogen voor het uitvoeren van frames in te schakelen.',
       fail_to_get_door_status: 'Zorg ervoor dat het deksel gesloten is om laag laservermogen voor het uitvoeren van frames in te schakelen.',
       QcleanScene: 'Wil je de tekening wissen?<br/>Dit zal ook je undo-geschiedenis wissen!',
+      power_too_high: 'TE HOGE SPANNING',
+      power_too_high_msg: 'Gebruik een lager laservermogen (onder 70%) om de levensduur van de lasertube te verlengen.\nVoer "BEGREPEN" in om door te gaan.',
+      power_too_high_confirm: 'BEGREPEN',
     },
     hint: {
       polygon: 'Druk op + / - om het aantal zijden te verhogen / verlagen.',

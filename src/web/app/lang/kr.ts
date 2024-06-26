@@ -52,6 +52,9 @@ const lang: ILang = {
       door_opened: '문을 닫아 저전력 레이저를 활성화하고 프레임을 실행하세요.',
       fail_to_get_door_status: '문이 닫혀 있는지 확인하여 저전력 레이저를 활성화하고 프레임을 실행하세요.',
       QcleanScene: '그림을 지우시겠습니까?<br/>이것은 또한 취소 기록을 지울 것입니다!',
+      power_too_high: '파워 너무 높음',
+      power_too_high_msg: '70% 미만의 낮은 레이저 파워를 사용하면 레이저 튜브의 수명이 연장됩니다. 계속하려면 "확인"을 눌러주세요.',
+      power_too_high_confirm: '확인',
     },
     hint: {
       polygon: '늘리기 / 줄이기를 위해 + /- 키를 누르세요.',

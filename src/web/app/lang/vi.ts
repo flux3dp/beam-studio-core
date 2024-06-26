@@ -52,6 +52,9 @@ const lang: ILang = {
       door_opened: 'Vui lòng đóng nắp để bật laser thấp cho khung chạy.',
       fail_to_get_door_status: 'Vui lòng đảm bảo nắp đã đóng để bật laser thấp cho khung chạy.',
       QcleanScene: 'Bạn có muốn xóa bản vẽ không?<br/>Điều này cũng sẽ xóa lịch sử hoàn tác của bạn!',
+      power_too_high: 'CÔNG SUẤT QUÁ CAO',
+      power_too_high_msg: 'Sử dụng công suất laser thấp hơn (dưới 70%) sẽ kéo dài tuổi thọ ống laser.\nNhập "ĐÃ GHI NHẬN" để tiếp tục.',
+      power_too_high_confirm: 'ĐÃ GHI NHẬN',
     },
     hint: {
       polygon: 'Nhấn phím + / - để tăng / giảm số cạnh',
