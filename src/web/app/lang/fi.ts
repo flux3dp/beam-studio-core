@@ -633,6 +633,7 @@ const lang: ILang = {
         qr_code: 'QR-koodi',
         boxgen: 'Boxgen',
         my_cloud: 'Pilveni',
+        pass_through: 'Läpäisymoodi',
         curve_engraving: {
           title: '3D Käyrä',
           exit: 'Poistu',

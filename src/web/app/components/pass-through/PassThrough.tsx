@@ -9,6 +9,7 @@ import LeftPanelIcons from 'app/icons/left-panel/LeftPanelIcons';
 import Sider from 'app/widgets/FullWindowPanel/Sider';
 import useI18n from 'helpers/useI18n';
 import { addDialogComponent, isIdExist, popDialogById } from 'app/actions/dialog-controller';
+import { useIsMobile } from 'helpers/system-helper';
 
 import Canvas from './Canvas';
 import Controls from './Controls';
@@ -16,6 +17,7 @@ import { PassThroughContext, PassThroughProvider } from './PassThroughContext';
 
 const PassThrough = ({ onClose }: { onClose?: () => void }): JSX.Element => {
   const lang = useI18n();
+  const isMobile = useIsMobile();
   const tPassThrough = useI18n().pass_through;
   const { handleExport } = useContext(PassThroughContext);
 
@@ -50,7 +52,7 @@ const PassThrough = ({ onClose }: { onClose?: () => void }): JSX.Element => {
             <Controls />
             <Footer>{button}</Footer>
           </Sider>
-          <Canvas />
+          {!isMobile && <Canvas />}
         </>
       )}
     />

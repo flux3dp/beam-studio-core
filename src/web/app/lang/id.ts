@@ -633,6 +633,7 @@ const lang: ILang = {
         qr_code: 'Kode QR',
         boxgen: 'Boxgen',
         my_cloud: 'Awan Saya',
+        pass_through: 'Mode Lewat',
         curve_engraving: {
           title: '3D Kurva',
           exit: 'Keluar',

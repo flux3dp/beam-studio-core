@@ -636,6 +636,7 @@ const lang: ILang = {
         qr_code: 'QR-Code',
         boxgen: 'Boxgen',
         my_cloud: 'Meine Cloud',
+        pass_through: 'Durchgang',
         curve_engraving: {
           title: '3D Kurve',
           exit: 'Beenden',

@@ -633,6 +633,7 @@ const lang: ILang = {
         qr_code: 'คิวอาร์โค้ด',
         boxgen: 'Boxgen',
         my_cloud: 'คลาวด์ของฉัน',
+        pass_through: 'โหมดผ่าน',
         curve_engraving: {
           title: 'เส้นโค้ง 3D',
           exit: 'ออกจากระบบ',

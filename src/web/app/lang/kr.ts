@@ -636,6 +636,7 @@ const lang: ILang = {
         qr_code: 'QR 코드',
         boxgen: 'Boxgen',
         my_cloud: '내 클라우드',
+        pass_through: '패스 스루 모드',
         curve_engraving: {
           title: '3D 곡선',
           exit: '종료',

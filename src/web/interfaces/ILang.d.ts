@@ -633,6 +633,7 @@ export interface ILang {
         qr_code: string;
         boxgen: string;
         my_cloud: string;
+        pass_through: string;
         curve_engraving: {
           title: string;
           exit: string;

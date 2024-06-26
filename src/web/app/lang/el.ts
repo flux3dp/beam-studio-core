@@ -633,6 +633,7 @@ const lang: ILang = {
         qr_code: 'Κωδικός QR',
         boxgen: 'Boxgen',
         my_cloud: 'Το Cloud μου',
+        pass_through: 'Διέλευση',
         curve_engraving: {
           title: '3D Καμπύλη',
           exit: 'Έξοδος',

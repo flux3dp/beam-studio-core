@@ -636,6 +636,7 @@ const lang: ILang = {
         qr_code: '二维码',
         boxgen: 'Boxgen',
         my_cloud: '我的云端',
+        pass_through: '广域雕刻',
         curve_engraving: {
           title: '3D 曲线',
           exit: '退出',

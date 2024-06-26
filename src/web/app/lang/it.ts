@@ -633,6 +633,7 @@ const lang: ILang = {
         qr_code: 'Codice QR',
         boxgen: 'Boxgen',
         my_cloud: 'La mia nuvola',
+        pass_through: 'Attraversare',
         curve_engraving: {
           title: 'Curva 3D',
           exit: 'Esci',

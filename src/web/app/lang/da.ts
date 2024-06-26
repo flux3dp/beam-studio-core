@@ -633,6 +633,7 @@ const lang: ILang = {
         qr_code: 'QR-kode',
         boxgen: 'Boxgen',
         my_cloud: 'Min sky',
+        pass_through: 'Gennemgang',
         curve_engraving: {
           title: '3D Kurve',
           exit: 'Afslut',

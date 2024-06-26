@@ -633,6 +633,7 @@ const lang: ILang = {
         qr_code: 'Mã QR',
         boxgen: 'Boxgen',
         my_cloud: 'Đám mây của tôi',
+        pass_through: 'Chế Độ Đi Qua',
         curve_engraving: {
           title: 'Đường cong 3D',
           exit: 'Thoát',
