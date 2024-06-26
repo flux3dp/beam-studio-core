@@ -125,7 +125,7 @@ const DrawingToolButtonGroup = ({ className }: { className: string }): JSX.Eleme
           'PassThrough',
           <LeftPanelIcons.PassThrough />,
           'tPass Through',
-          showPassThrough(FnWrapper.useSelectTool)
+          () => showPassThrough(FnWrapper.useSelectTool)
         )}
     </div>
   );
