@@ -32,6 +32,7 @@ const lang: ILang = {
       image: 'Εικόνα',
       text: 'Κείμενο',
       text_path: 'Κείμενο σε Διαδρομή',
+      pass_through_object: 'Διέλευση Αντικειμένου',
       line: 'Γραμμή',
       g: 'Ομάδα',
       multi_select: 'Πολλαπλά Αντικείμενα',

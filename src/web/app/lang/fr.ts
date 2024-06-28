@@ -32,6 +32,7 @@ const lang: ILang = {
       image: 'Image',
       text: 'Texte',
       text_path: 'Texte sur trajet',
+      pass_through_object: 'Objet de Passage',
       line: 'Ligne',
       g: 'Groupe',
       multi_select: 'Objets multiples',

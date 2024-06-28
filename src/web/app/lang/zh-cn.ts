@@ -32,6 +32,7 @@ const lang: ILang = {
       image: '影像',
       text: '文本',
       text_path: '路径文本',
+      pass_through_object: '广域雕刻物件',
       line: '線段',
       g: '群组',
       multi_select: '多个物件',

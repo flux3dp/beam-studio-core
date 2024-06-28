@@ -32,6 +32,7 @@ const lang: ILang = {
       image: 'Gambar',
       text: 'Teks',
       text_path: 'Teks pada Jalur',
+      pass_through_object: 'Objek Melewati',
       line: 'Garis',
       g: 'Grup',
       multi_select: 'Beberapa Objek',

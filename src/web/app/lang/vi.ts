@@ -32,6 +32,7 @@ const lang: ILang = {
       image: 'Hình ảnh',
       text: 'Văn bản',
       text_path: 'Văn bản trên đường dẫn',
+      pass_through_object: 'Đối Tượng Xuyên Qua',
       line: 'Đường thẳng',
       g: 'Nhóm',
       multi_select: 'Nhiều đối tượng',

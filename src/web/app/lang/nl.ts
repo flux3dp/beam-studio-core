@@ -32,6 +32,7 @@ const lang: ILang = {
       image: 'Afbeelding',
       text: 'Tekst',
       text_path: 'Tekst op pad',
+      pass_through_object: 'Object Doorvoeren',
       line: 'Lijn',
       g: 'Groep',
       multi_select: 'Meerdere objecten',

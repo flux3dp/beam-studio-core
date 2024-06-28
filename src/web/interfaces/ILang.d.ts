@@ -29,6 +29,7 @@ export interface ILang {
       image: string,
       text: string,
       text_path: string,
+      pass_through_object: string;
       line: string,
       g: string,
       multi_select: string,

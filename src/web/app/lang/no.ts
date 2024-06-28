@@ -32,6 +32,7 @@ const lang: ILang = {
       image: 'Bilde',
       text: 'Tekst',
       text_path: 'Tekst på bane',
+      pass_through_object: 'Passer Gjennom Objekt',
       line: 'Linje',
       g: 'Gruppe',
       multi_select: 'Flere objekter',

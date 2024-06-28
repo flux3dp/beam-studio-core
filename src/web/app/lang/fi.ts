@@ -32,6 +32,7 @@ const lang: ILang = {
       image: 'Kuva',
       text: 'Teksti',
       text_path: 'Teksti polulla',
+      pass_through_object: 'Läpi Kulkeva Kohde',
       line: 'Viiva',
       g: 'Ryhmä',
       multi_select: 'Useita kohteita',

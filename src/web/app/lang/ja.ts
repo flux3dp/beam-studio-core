@@ -32,6 +32,7 @@ const lang: ILang = {
       image: 'イメージ',
       text: 'テキスト',
       text_path: 'パステキスト',
+      pass_through_object: 'オブジェクトを通過',
       line: 'ライン',
       g: 'グループ',
       multi_select: '複数オブジェクト',

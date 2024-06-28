@@ -32,6 +32,7 @@ const lang: ILang = {
       image: 'Imej',
       text: 'Teks',
       text_path: 'Teks pada Laluan',
+      pass_through_object: 'Objek Lulus Melalui',
       line: 'Garisan',
       g: 'Kumpulan',
       multi_select: 'Beberapa Objek',
