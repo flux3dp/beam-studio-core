@@ -26,8 +26,10 @@ import { IBatchCommand } from 'interfaces/IHistory';
 import canvasManager from './canvasManager';
 
 let svgCanvas: ISVGCanvas;
+let svgedit;
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
+  svgedit = globalSVG.Edit;
 });
 
 const sliceWorkarea = async (
@@ -127,7 +129,7 @@ const sliceWorkarea = async (
       container.id = svgCanvas.getNextId();
       container.setAttribute('data-pass-through', '1');
       layer.appendChild(container);
-      svgCanvas.pushGroupProperties(container, false);
+      svgedit.recalculate.recalculateDimensions(container);
       const descendants = Array.from(container.querySelectorAll('*'));
       // eslint-disable-next-line @typescript-eslint/no-loop-func
       descendants.forEach(async (el) => {
