@@ -235,7 +235,7 @@ const fetchTaskCode = async (
       });
     },
     onError: (message) => {
-      if (isCanceled) return;
+      if (isCanceled || didErrorOccur) return;
       didErrorOccur = true;
       Progress.popById('upload-scene');
       Alert.popUp({

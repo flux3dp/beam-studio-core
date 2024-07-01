@@ -28,6 +28,8 @@ function Tab({ panelType, switchPanel }: Props): JSX.Element {
       objectTitle = langTopBar.tag_names.multi_select;
     } else if (selectedElement.getAttribute('data-textpath-g')) {
       objectTitle = langTopBar.tag_names.text_path;
+    } else if (selectedElement.getAttribute('data-pass-through')) {
+      objectTitle = langTopBar.tag_names.pass_through_object;
     } else if (selectedElement.tagName.toLowerCase() !== 'use') {
       objectTitle = langTopBar.tag_names[selectedElement.tagName.toLowerCase()];
     } else if (selectedElement.getAttribute('data-svg') === 'true') {

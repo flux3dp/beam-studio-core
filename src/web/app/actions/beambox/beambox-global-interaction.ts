@@ -3,7 +3,9 @@ import menu from 'implementations/menu';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgCanvas;
-getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
+getSVGAsync((globalSVG) => {
+  svgCanvas = globalSVG.Canvas;
+});
 
 class BeamboxGlobalInteraction {
   attach() {
@@ -40,19 +42,40 @@ class BeamboxGlobalInteraction {
     } else if (selectedElements[0].tagName === 'path') {
       menu.enable(['DECOMPOSE_PATH']);
     }
-    if (selectedElements.length > 0 && selectedElements[0].getAttribute('data-tempgroup') === 'true') {
+    if (
+      selectedElements.length > 0 &&
+      selectedElements[0].getAttribute('data-tempgroup') === 'true'
+    ) {
       selectedElements = Array.from(selectedElements[0].childNodes);
     }
-    if (selectedElements?.length > 1 || (selectedElements?.length === 1 && selectedElements[0].tagName !== 'g')) {
+    if (
+      selectedElements?.length > 1 ||
+      (selectedElements?.length === 1 && selectedElements[0].tagName !== 'g')
+    ) {
       menu.enable(['GROUP']);
     }
-    if (selectedElements && selectedElements.length === 1 && ['g', 'a', 'use'].includes(selectedElements[0].tagName)) {
+    if (
+      selectedElements &&
+      selectedElements.length === 1 &&
+      ['g', 'a', 'use'].includes(selectedElements[0].tagName) &&
+      !selectedElements[0].getAttribute('data-textpath-g') &&
+      !selectedElements[0].getAttribute('data-pass-through')
+    ) {
       menu.enable(['UNGROUP']);
     }
   }
 
   onObjectBlur() {
-    menu.disable(['GROUP', 'UNGROUP', 'DUPLICATE', 'DELETE', 'PATH', 'DECOMPOSE_PATH', 'PHOTO_EDIT', 'SVG_EDIT']);
+    menu.disable([
+      'GROUP',
+      'UNGROUP',
+      'DUPLICATE',
+      'DELETE',
+      'PATH',
+      'DECOMPOSE_PATH',
+      'PHOTO_EDIT',
+      'SVG_EDIT',
+    ]);
   }
 
   detach() {

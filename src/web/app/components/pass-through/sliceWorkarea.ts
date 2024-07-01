@@ -120,12 +120,12 @@ const sliceWorkarea = async (
       layerConfigHelper.cloneLayerConfig(newLayerName, name);
       layer.setAttribute('data-lock', 'true');
       if (i > 0) layer.setAttribute('display', 'none');
-      writeDataLayer(layer, DataType.clipRect, `${0} ${topPadding} ${width / dpmm} ${sliceHeight}`);
 
       const container = document.createElementNS(NS.SVG, 'g') as SVGGElement;
       container.setAttribute('transform', `translate(0, ${topPaddingPx - start})`);
       container.innerHTML = element.innerHTML;
       container.id = svgCanvas.getNextId();
+      container.setAttribute('data-pass-through', '1');
       layer.appendChild(container);
       svgCanvas.pushGroupProperties(container, false);
       const descendants = Array.from(container.querySelectorAll('*'));
@@ -145,9 +145,17 @@ const sliceWorkarea = async (
       clipRect.setAttribute('y', topPaddingPx.toString());
       clipRect.setAttribute('width', width.toString());
       clipRect.setAttribute('height', (end - start).toString());
-      clipPath.id = `${element.id}_clip_${i}`;
-      container.appendChild(clipPath);
-      container.setAttribute('clip-path', `url(#${clipPath.id})`);
+      clipPath.id = svgCanvas.getNextId();
+
+      // wrap container with clipPath
+      const g = document.createElementNS(NS.SVG, 'g') as SVGGElement;
+      g.id = svgCanvas.getNextId();
+      g.setAttribute('clip-path', `url(#${clipPath.id})`);
+      while (container.firstChild) {
+        g.appendChild(container.firstChild)
+      }
+      container.appendChild(g);
+      container.insertBefore(clipPath, container.firstChild);
     }
     if (anyLayer && refImageBase64s?.[i]) {
       const {

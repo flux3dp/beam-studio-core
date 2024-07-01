@@ -120,7 +120,6 @@ export const defaultConfig = {
   [DataType.kRatio]: 100,
   // parameters single color printing image processing
   [DataType.printingStrength]: 100,
-  [DataType.clipRect]: '',
 };
 
 /**
