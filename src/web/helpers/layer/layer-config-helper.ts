@@ -138,7 +138,7 @@ export const getData = <T>(layer: Element, dataType: DataType, applyPrinting = f
   ) {
     targetDataType = DataType.printingSpeed;
   }
-  if ([DataType.configName, DataType.color].includes(targetDataType)) {
+  if ([DataType.configName, DataType.color, DataType.clipRect].includes(targetDataType)) {
     return (
       (layer.getAttribute(`data-${targetDataType}`) as T) || (defaultConfig[targetDataType] as T)
     );
@@ -239,7 +239,10 @@ export const cloneLayerConfig = (targetLayerName: string, baseLayerName: string)
         if (dataTypes[i] === DataType.fullColor || dataTypes[i] === DataType.ref) {
           if (getData(baseLayer, dataTypes[i]))
             writeDataLayer(targetLayer, dataTypes[i], '1');
-        } else writeDataLayer(targetLayer, dataTypes[i], getData(baseLayer, dataTypes[i]));
+        } else {
+          const value = getData(baseLayer, dataTypes[i]);
+          if (value) writeDataLayer(targetLayer, dataTypes[i], getData(baseLayer, dataTypes[i]));
+        }
       }
       updateLayerColorFilter(targetLayer as SVGGElement);
     }
