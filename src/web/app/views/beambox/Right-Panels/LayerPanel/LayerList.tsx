@@ -96,7 +96,6 @@ const LayerList = ({
       const isVis = drawing.getLayerVisibility(layerName);
       const module = getData<LayerModule>(layer, DataType.module);
       const isRef = getData<boolean>(layer, DataType.ref);
-      console.log(layerName, isRef);
       let moduleIcon = null;
       if (isRef) moduleIcon = <LayerPanelIcons.Ref />;
       else if (shouldShowModuleIcon)
