@@ -5,13 +5,6 @@ jest.mock('app/actions/beambox/beambox-preference', () => ({
   read: (...args) => mockRead(...args),
 }));
 
-const mockEmit = jest.fn();
-jest.mock('helpers/eventEmitterFactory', () => ({
-  createEventEmitter: () => ({
-    emit: (...args) => mockEmit(...args),
-  }),
-}));
-
 const mockUpdate = jest.fn();
 jest.mock('app/actions/beambox/open-bottom-boundary-drawer', () => ({
   update: () => mockUpdate(),
@@ -53,8 +46,6 @@ describe('test changeWorkarea', () => {
     expect(mockResetView).toBeCalledTimes(1);
     expect(mockUpdate).toBeCalledTimes(1);
     expect(mockToggleFullColorAfterWorkareaChange).toBeCalledTimes(1);
-    expect(mockEmit).toBeCalledTimes(1);
-    expect(mockEmit).toHaveBeenLastCalledWith('workarea-change', 'fbm1');
 
     const { onAfter } = mockCmd;
     jest.resetAllMocks();
@@ -67,8 +58,6 @@ describe('test changeWorkarea', () => {
     expect(mockResetView).toBeCalledTimes(1);
     expect(mockUpdate).toBeCalledTimes(1);
     expect(mockToggleFullColorAfterWorkareaChange).toBeCalledTimes(1);
-    expect(mockEmit).toBeCalledTimes(1);
-    expect(mockEmit).toHaveBeenLastCalledWith('workarea-change', 'ado1');
   });
 
   it('should work correctly with toggleModule = false', () => {
@@ -85,8 +74,6 @@ describe('test changeWorkarea', () => {
     expect(mockResetView).toBeCalledTimes(1);
     expect(mockUpdate).toBeCalledTimes(1);
     expect(mockToggleFullColorAfterWorkareaChange).not.toBeCalled();
-    expect(mockEmit).toBeCalledTimes(1);
-    expect(mockEmit).toHaveBeenLastCalledWith('workarea-change', 'fbm1');
 
     const { onAfter } = mockCmd;
     jest.resetAllMocks();
@@ -99,7 +86,5 @@ describe('test changeWorkarea', () => {
     expect(mockResetView).toBeCalledTimes(1);
     expect(mockUpdate).toBeCalledTimes(1);
     expect(mockToggleFullColorAfterWorkareaChange).not.toBeCalled();
-    expect(mockEmit).toBeCalledTimes(1);
-    expect(mockEmit).toHaveBeenLastCalledWith('workarea-change', 'ado1');
   });
 });

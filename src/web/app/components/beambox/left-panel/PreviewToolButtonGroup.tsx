@@ -50,7 +50,7 @@ const PreviewToolButtonGroup = ({ className }: Props): JSX.Element => {
   return (
     <div className={className}>
       <LeftPanelButton
-        id="preview back"
+        id="preview-back"
         icon={<LeftPanelIcons.Back />}
         title={lang.label.end_preview}
         onClick={endPreviewMode}
