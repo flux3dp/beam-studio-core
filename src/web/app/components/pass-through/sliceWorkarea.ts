@@ -95,7 +95,10 @@ const sliceWorkarea = async (
     defs.appendChild(clonedLayer);
     const bbox = clonedLayer.getBBox();
     if (bbox.height + bbox.y > workareaHeight) bbox.height = workareaHeight - bbox.y;
-    if (bbox.y < 0) bbox.height += bbox.y;
+    if (bbox.y < 0) {
+      bbox.height += bbox.y;
+      bbox.y = 0;
+    }
     clonedLayer.remove();
     return { name, bbox, element: clonedLayer };
   });
