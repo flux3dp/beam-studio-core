@@ -48,8 +48,32 @@ const mockContext = {
   taskImageURL: 'taskImageURL',
 };
 
+const mockIsNorthAmerica = jest.fn();
+jest.mock('helpers/locale-helper', () => ({
+  get isNorthAmerica() {
+    return mockIsNorthAmerica();
+  },
+}));
+
 describe('test Monitor', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    mockIsNorthAmerica.mockReturnValue(false);
+  });
+
   it('should render correctly', () => {
+    const { baseElement } = render(
+      <MonitorContext.Provider value={mockContext as any}>
+        <Monitor device={{ name: 'device' } as any} />
+      </MonitorContext.Provider>
+    );
+    expect(baseElement).toMatchSnapshot();
+    expect(mockGetDisplayStatus).toBeCalledTimes(1);
+    expect(mockGetDisplayStatus).toHaveBeenLastCalledWith(mockContext.report.st_label);
+  });
+
+  it('should render correctly when isNorthAmerica', () => {
+    mockIsNorthAmerica.mockReturnValue(true);
     const { baseElement } = render(
       <MonitorContext.Provider value={mockContext as any}>
         <Monitor device={{ name: 'device' } as any} />
@@ -67,8 +91,7 @@ describe('test Monitor', () => {
       </MonitorContext.Provider>
     );
     expect(baseElement).toMatchSnapshot();
-    expect(mockGetDisplayStatus).toBeCalledTimes(1);
-    expect(mockGetDisplayStatus).toHaveBeenLastCalledWith(mockContext.report.st_label);
+    expect(mockGetDisplayStatus).not.toBeCalled();
   });
 
   test('should call onClose when click close button', () => {

@@ -70,30 +70,61 @@ jest.mock('app/contexts/CanvasContext', () => ({
 
 import PreviewToolButtonGroup from './PreviewToolButtonGroup';
 
-test('should render correctly', () => {
-  const endPreviewMode = jest.fn();
-  const setShouldStartPreviewController = jest.fn();
-  const { container } = render(
-    <CanvasContext.Provider
-      value={
-        {
-          endPreviewMode,
-          setShouldStartPreviewController,
-        } as any
-      }
-    >
-      <PreviewToolButtonGroup className="left-toolbar" />
-    </CanvasContext.Provider>
-  );
-  expect(container).toMatchSnapshot();
-  expect(endPreviewMode).not.toBeCalled();
-  const back = container.querySelector('#preview-back');
-  fireEvent.click(back);
-  expect(endPreviewMode).toHaveBeenCalledTimes(1);
+const mockIsNorthAmerica = jest.fn();
+jest.mock('helpers/locale-helper', () => ({
+  get isNorthAmerica() {
+    return mockIsNorthAmerica();
+  },
+}));
 
-  expect(setShouldStartPreviewController).not.toBeCalled();
-  const shoot = container.querySelector('#preview-shoot');
-  fireEvent.click(shoot);
-  expect(setShouldStartPreviewController).toHaveBeenCalledTimes(1);
+describe('test PreviewToolButtonGroup', () => {
+  it('should render correctly', () => {
+    const endPreviewMode = jest.fn();
+    const setShouldStartPreviewController = jest.fn();
+    const { container } = render(
+      <CanvasContext.Provider
+        value={
+          {
+            endPreviewMode,
+            setShouldStartPreviewController,
+          } as any
+        }
+      >
+      <PreviewToolButtonGroup
+        className="left-toolbar"
+      />
+      </CanvasContext.Provider>
+    );
+    expect(container).toMatchSnapshot();
+    expect(endPreviewMode).not.toBeCalled();
+    const back = container.querySelector('#preview-back');
+    fireEvent.click(back);
+    expect(endPreviewMode).toHaveBeenCalledTimes(1);
 
+    expect(setShouldStartPreviewController).not.toBeCalled();
+    const shoot = container.querySelector('#preview-shoot');
+    fireEvent.click(shoot);
+    expect(setShouldStartPreviewController).toHaveBeenCalledTimes(1);
+  });
+
+  it('should render correctly when isNorthAmerica', () => {
+    mockIsNorthAmerica.mockReturnValue(true);
+    const endPreviewMode = jest.fn();
+    const setShouldStartPreviewController = jest.fn();
+    const { container } = render(
+      <CanvasContext.Provider
+        value={
+          {
+            endPreviewMode,
+            setShouldStartPreviewController,
+          } as any
+        }
+      >
+      <PreviewToolButtonGroup
+        className="left-toolbar"
+      />
+      </CanvasContext.Provider>
+    );
+    expect(container).toMatchSnapshot();
+  });
 });
