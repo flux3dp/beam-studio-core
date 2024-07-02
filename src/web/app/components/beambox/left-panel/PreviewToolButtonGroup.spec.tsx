@@ -64,15 +64,38 @@ jest.mock('app/actions/canvas/curveEngravingModeController', () => ({
 
 import PreviewToolButtonGroup from './PreviewToolButtonGroup';
 
-test('should render correctly', () => {
-  const endPreviewMode = jest.fn();
-  const setShouldStartPreviewController = jest.fn();
-  const { container } = render(
-    <PreviewToolButtonGroup
-      className="left-toolbar"
-      endPreviewMode={endPreviewMode}
-      setShouldStartPreviewController={setShouldStartPreviewController}
-    />
-  );
-  expect(container).toMatchSnapshot();
+const mockIsNorthAmerica = jest.fn();
+jest.mock('helpers/locale-helper', () => ({
+  get isNorthAmerica() {
+    return mockIsNorthAmerica();
+  },
+}));
+
+describe('test PreviewToolButtonGroup', () => {
+  it('should render correctly', () => {
+    const endPreviewMode = jest.fn();
+    const setShouldStartPreviewController = jest.fn();
+    const { container } = render(
+      <PreviewToolButtonGroup
+        className="left-toolbar"
+        endPreviewMode={endPreviewMode}
+        setShouldStartPreviewController={setShouldStartPreviewController}
+      />
+    );
+    expect(container).toMatchSnapshot();
+  });
+
+  it('should render correctly when isNorthAmerica', () => {
+    mockIsNorthAmerica.mockReturnValue(true);
+    const endPreviewMode = jest.fn();
+    const setShouldStartPreviewController = jest.fn();
+    const { container } = render(
+      <PreviewToolButtonGroup
+        className="left-toolbar"
+        endPreviewMode={endPreviewMode}
+        setShouldStartPreviewController={setShouldStartPreviewController}
+      />
+    );
+    expect(container).toMatchSnapshot();
+  });
 });
