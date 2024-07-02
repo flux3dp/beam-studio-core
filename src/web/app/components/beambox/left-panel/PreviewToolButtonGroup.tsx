@@ -7,6 +7,7 @@ import ISVGCanvas from 'interfaces/ISVGCanvas';
 import isDev from 'helpers/is-dev';
 import LeftPanelButton from 'app/components/beambox/left-panel/LeftPanelButton';
 import LeftPanelIcons from 'app/icons/left-panel/LeftPanelIcons';
+import localeHelper from 'helpers/locale-helper';
 import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import useI18n from 'helpers/useI18n';
@@ -66,7 +67,7 @@ const PreviewToolButtonGroup = ({ className }: Props): JSX.Element => {
           }
         }}
       />
-      {isAdorSeries && (
+      {isAdorSeries && !localeHelper.isNorthAmerica && (
         <LeftPanelButton
           id="preview-live"
           icon={<LeftPanelIcons.Live />}
