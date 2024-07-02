@@ -32,6 +32,7 @@ const lang: ILang = {
       image: 'รูปภาพ',
       text: 'ข้อความ',
       text_path: 'ข้อความบนเส้นทาง',
+      pass_through_object: 'วัตถุผ่านทะลุ',
       line: 'เส้น',
       g: 'กลุ่ม',
       multi_select: 'วัตถุหลายอย่าง',
@@ -633,6 +634,7 @@ const lang: ILang = {
         qr_code: 'คิวอาร์โค้ด',
         boxgen: 'Boxgen',
         my_cloud: 'คลาวด์ของฉัน',
+        pass_through: 'โหมดผ่าน',
         curve_engraving: {
           title: 'เส้นโค้ง 3D',
           exit: 'ออกจากระบบ',
@@ -1026,6 +1028,8 @@ const lang: ILang = {
       enable_diode: 'เลเซอร์ไดโอด',
       enable_autofocus: 'โฟกัสอัตโนมัติ',
       extend_workarea: 'ขยายพื้นที่ทำงาน',
+      pass_through: 'ผ่าน',
+      pass_through_height_desc: 'ป้อนความยาวของวัตถุเพื่อขยายพื้นที่การทำงาน',
       add_on: 'เพิ่มเติม',
       low: 'ต่ํา',
       medium: 'ปานกลาง',
@@ -1809,6 +1813,18 @@ const lang: ILang = {
   },
   pass_through: {
     title: 'โหมดผ่าน',
+    help_text: 'วิธีตั้งค่า โหมดผ่าน สำหรับ Ador',
+    object_length: 'ความยาวของวัตถุ',
+    workaea_height: 'พื้นที่ทำงาน (ความสูง):',
+    height_desc: 'ตั้งค่าความสูงของแต่ละส่วนของพื้นที่ทำงาน',
+    ref_layer: 'ชั้นอ้างอิง',
+    ref_layer_desc: 'แสดงส่วนล่างก่อนหน้าของงานศิลปะในพื้นที่ทำงาน',
+    guide_line: 'เส้นแนะนำ',
+    guide_line_length: 'ความยาว:',
+    guide_line_x: 'พิกัด X:',
+    guide_line_desc: 'เส้นแนะนำจะถูกแกะสลักเป็นจุดอ้างอิงเพื่อจัดตำแหน่งงานศิลปะ',
+    export: 'ส่งออกไปยังพื้นที่ทำงาน',
+    exporting: 'กำลังส่งออก...',
   },
 };
 

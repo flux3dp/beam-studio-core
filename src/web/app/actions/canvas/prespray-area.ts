@@ -72,10 +72,10 @@ const startDrag = (): void => {
   const { x, y } = getPosition();
   startX = x;
   startY = y;
-  const { width, height, rotaryExpansion } = workareaManager;
+  const { width, height, expansion } = workareaManager;
   workareaSize = {
     w: width,
-    h: height - rotaryExpansion[1],
+    h: height - expansion[1],
   };
 };
 

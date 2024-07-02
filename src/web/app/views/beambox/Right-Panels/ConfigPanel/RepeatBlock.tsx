@@ -55,7 +55,7 @@ const RepeatBlock = ({
       id="repeat"
       label={t.repeat}
       value={repeat.value}
-      min={1}
+      min={0}
       max={100}
       updateValue={handleChange}
       unit={t.times}
@@ -67,7 +67,7 @@ const RepeatBlock = ({
       <UnitInput
         id="repeat"
         className={{ [styles.input]: true }}
-        min={1}
+        min={0}
         max={100}
         unit={t.times}
         defaultValue={repeat.value}

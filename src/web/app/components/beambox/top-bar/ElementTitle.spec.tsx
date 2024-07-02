@@ -19,6 +19,7 @@ jest.mock('helpers/i18n', () => ({
         svg: 'SVG Object',
         dxf: 'DXF Object',
         text_path: 'Text on Path',
+        pass_through_object: 'pass_through_object',
       },
     },
   },

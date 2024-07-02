@@ -546,54 +546,6 @@
     };
 
     /**
-     * Creates a copy of the current layer with the given name and makes it the current layer.
-     * @param {string} name - The given name. If the layer name exists, a new name will be generated.
-     * @param {svgedit.history.HistoryRecordingService} hrService - History recording service
-     * @returns {SVGGElement} The SVGGElement of the new layer, which is
-     * 		also the current layer of this drawing.
-    */
-    svgedit.draw.Drawing.prototype.cloneLayer = function (name, hrService) {
-        if (!this.current_layer) { return null; }
-        this.current_layer.deactivate();
-        // Check for duplicate name.
-        if (name === undefined || name === null || name === '' || this.layer_map[name]) {
-            name = getNewLayerName(Object.keys(this.layer_map));
-        }
-
-        // Create new group and add to DOM just after current_layer
-        var currentGroup = this.current_layer.getGroup();
-        const currentColor = this.current_layer.getColor();
-        var layer = new svgedit.draw.Layer(name, currentGroup, this.svgElem_, currentColor);
-        var group = layer.getGroup();
-
-        // Clone children
-        var children = currentGroup.childNodes;
-        var index;
-        for (index = 0; index < children.length; index++) {
-            var ch = children[index];
-            if (ch.localName == 'title') { continue; }
-            group.appendChild(this.copyElem(ch));
-        }
-
-        if (hrService) {
-            hrService.startBatchCommand('Duplicate Layer');
-            hrService.insertElement(group);
-            hrService.endBatchCommand();
-        }
-
-        // Update layer containers and current_layer.
-        index = this.all_layers.indexOf(this.current_layer);
-        if (index >= 0) {
-            this.all_layers.splice(index + 1, 0, layer);
-        } else {
-            this.all_layers.push(layer);
-        }
-        this.layer_map[name] = layer;
-        this.current_layer = layer;
-        return group;
-    };
-
-    /**
      * Returns whether the layer color.  If the layer name is not valid,
      * then this function returns false.
      * @param {string} layername - The name of the layer which you want to query.

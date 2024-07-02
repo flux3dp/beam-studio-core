@@ -32,6 +32,7 @@ const lang: ILang = {
       image: 'Hình ảnh',
       text: 'Văn bản',
       text_path: 'Văn bản trên đường dẫn',
+      pass_through_object: 'Đối Tượng Xuyên Qua',
       line: 'Đường thẳng',
       g: 'Nhóm',
       multi_select: 'Nhiều đối tượng',
@@ -633,6 +634,7 @@ const lang: ILang = {
         qr_code: 'Mã QR',
         boxgen: 'Boxgen',
         my_cloud: 'Đám mây của tôi',
+        pass_through: 'Chế Độ Đi Qua',
         curve_engraving: {
           title: 'Đường cong 3D',
           exit: 'Thoát',
@@ -1026,6 +1028,8 @@ const lang: ILang = {
       enable_diode: 'Laser điốt',
       enable_autofocus: 'Tự động lấy nét',
       extend_workarea: 'Mở rộng khu vực làm việc',
+      pass_through: 'Đi Qua',
+      pass_through_height_desc: 'Nhập chiều dài của đối tượng để mở rộng khu vực làm việc.',
       add_on: 'Phụ kiện',
       low: 'Thấp',
       medium: 'Trung bình',
@@ -1809,6 +1813,18 @@ const lang: ILang = {
   },
   pass_through: {
     title: 'Chế Độ Đi Qua',
+    help_text: 'Cách thiết lập Chế Độ Đi Qua cho Ador?',
+    object_length: 'Chiều Dài Đối Tượng',
+    workaea_height: 'Khu Vực Làm Việc (Chiều Cao):',
+    height_desc: 'Cài đặt chiều cao của mỗi phần khu vực làm việc.',
+    ref_layer: 'Lớp Tham Chiếu',
+    ref_layer_desc: 'Hiển thị phần dưới trước của tác phẩm nghệ thuật trong khu vực làm việc.',
+    guide_line: 'Đường Hướng Dẫn',
+    guide_line_length: 'Chiều Dài:',
+    guide_line_x: 'Tọa Độ X:',
+    guide_line_desc: 'Các đường hướng dẫn sẽ được khắc làm điểm tham chiếu để căn chỉnh tác phẩm nghệ thuật.',
+    export: 'Xuất sang Khu Vực Làm Việc',
+    exporting: 'Đang xuất',
   },
 };
 

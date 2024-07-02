@@ -28,6 +28,7 @@ import {
 } from 'interfaces/FisheyePreview';
 import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 import { IDeviceInfo } from 'interfaces/IDevice';
+import { getSupportInfo } from 'app/constants/add-on';
 
 const LANG = i18n.lang;
 const canvasEventEmitter = eventEmitterFactory.createEventEmitter('canvas');
@@ -174,7 +175,9 @@ class PreviewModeController {
       } else if (params.v === 2) {
         this.fisheyePreviewManager = new FisheyePreviewManagerV2(device, params);
       }
-      const res = await this.fisheyePreviewManager.setupFisheyePreview({ progressId: 'preview-mode-controller'});
+      const res = await this.fisheyePreviewManager.setupFisheyePreview({
+        progressId: 'preview-mode-controller',
+      });
       return res;
     } finally {
       if (deviceMaster.currentControlMode === 'raw') {
@@ -532,9 +535,7 @@ class PreviewModeController {
       }
     }
     const borderless = BeamboxPreference.read('borderless') || false;
-    const supportOpenBottom = Constant.addonsSupportList.openBottom.includes(
-      BeamboxPreference.read('workarea')
-    );
+    const supportOpenBottom = getSupportInfo(BeamboxPreference.read('workarea')).openBottom;
     const configName =
       supportOpenBottom && borderless ? 'camera_offset_borderless' : 'camera_offset';
 
@@ -579,8 +580,7 @@ class PreviewModeController {
     const { pxWidth: width, pxHeight, pxDisplayHeight } = getWorkarea(workarea);
     const height = pxDisplayHeight ?? pxHeight;
     const isDiodeEnabled =
-      BeamboxPreference.read('enable-diode') &&
-      Constant.addonsSupportList.hybridLaser.includes(workarea);
+      BeamboxPreference.read('enable-diode') && getSupportInfo(workarea).hybridLaser;
     const isBorderlessEnabled = BeamboxPreference.read('borderless');
     let maxWidth = width;
     let maxHeight = height;
@@ -616,7 +616,7 @@ class PreviewModeController {
     };
     if (
       BeamboxPreference.read('enable-diode') &&
-      Constant.addonsSupportList.hybridLaser.includes(BeamboxPreference.read('workarea'))
+      getSupportInfo(BeamboxPreference.read('workarea')).hybridLaser
     ) {
       if (BeamboxPreference.read('preview_movement_speed_hl')) {
         feedrate = BeamboxPreference.read('preview_movement_speed_hl');
@@ -648,7 +648,7 @@ class PreviewModeController {
 
     if (
       BeamboxPreference.read('enable-diode') &&
-      Constant.addonsSupportList.hybridLaser.includes(BeamboxPreference.read('workarea'))
+      getSupportInfo(BeamboxPreference.read('workarea')).hybridLaser
     ) {
       if (BeamboxPreference.read('preview_movement_speed_hl')) {
         feedrate = BeamboxPreference.read('preview_movement_speed_hl');

@@ -40,10 +40,8 @@ jest.mock('helpers/svg-editor-helper', () => ({
   },
 }));
 
-const mockRead = jest.fn();
-jest.mock('app/actions/beambox/beambox-preference', () => ({
-  read: (...args: any) => mockRead(...args),
-}));
+const mockUseWorkarea = jest.fn();
+jest.mock('helpers/hooks/useWorkarea', () => () => mockUseWorkarea());
 
 const mockUpdate = jest.fn();
 jest.mock('app/actions/canvas/module-boundary-drawer', () => ({
@@ -150,7 +148,7 @@ import ModuleBlock from './ModuleBlock';
 describe('test ModuleBlock', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    mockRead.mockReturnValue('ado1');
+    mockUseWorkarea.mockReturnValue('ado1');
     mockAlertConfigRead.mockReturnValue(false);
   });
 
@@ -168,20 +166,19 @@ describe('test ModuleBlock', () => {
       </ConfigPanelContext.Provider>
     );
     expect(container).toMatchSnapshot();
-    expect(mockRead).toBeCalledTimes(1);
-    expect(mockRead).toHaveBeenLastCalledWith('workarea');
+    expect(mockUseWorkarea).toBeCalledTimes(1);
     expect(mockUpdate).toBeCalledTimes(1);
     expect(mockUpdate).toHaveBeenLastCalledWith(LayerModule.LASER_10W_DIODE);
     expect(mockOn).toBeCalledTimes(1);
-    expect(mockOn).toHaveBeenLastCalledWith('workarea-change', expect.any(Function));
+    expect(mockOn).toHaveBeenLastCalledWith('canvas-change', expect.any(Function));
     expect(mockOff).not.toBeCalled();
     unmount();
     expect(mockOff).toBeCalledTimes(1);
-    expect(mockOff).toHaveBeenLastCalledWith('workarea-change', expect.any(Function));
+    expect(mockOff).toHaveBeenLastCalledWith('canvas-change', expect.any(Function));
   });
 
   it('should not render when workarea does not support module', () => {
-    mockRead.mockReturnValue('ado2');
+    mockUseWorkarea.mockReturnValue('ado2');
 
     const { container } = render(
       <ConfigPanelContext.Provider

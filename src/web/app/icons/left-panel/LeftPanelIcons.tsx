@@ -14,6 +14,7 @@ import Element from './element.svg';
 import Line from './line.svg';
 import Live from './live.svg';
 import Oval from './oval.svg';
+import PassThrough from './pass-through.svg';
 import Photo from './photo.svg';
 import Polygon from './polygon.svg';
 import QRCode from './qr-code.svg';
@@ -39,6 +40,7 @@ export default {
   Line,
   Live,
   Oval,
+  PassThrough,
   Photo,
   Polygon,
   QRCode,

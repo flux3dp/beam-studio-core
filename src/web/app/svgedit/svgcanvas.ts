@@ -44,25 +44,11 @@
 // 13) coords.js
 // 14) recalculate.js
 // svgedit libs
-import canvasBackground from 'app/svgedit/canvasBackground';
-import clipboard from 'app/svgedit/operations/clipboard';
-import history from 'app/svgedit/history/history';
-import historyRecording from 'app/svgedit/history/historyrecording';
-import importSvgString from 'app/svgedit/operations/import/importSvgString';
-import selector from 'app/svgedit/selector';
-import textActions from 'app/svgedit/text/textactions';
-import textEdit from 'app/svgedit/text/textedit';
-import undoManager from 'app/svgedit/history/undoManager';
-import ungroupElement from 'app/svgedit/group/ungroup';
-import workareaManager from 'app/svgedit/workarea';
-import { deleteSelectedElements } from 'app/svgedit/operations/delete';
-import { moveElements, moveSelectedElements } from 'app/svgedit/operations/move';
 
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import beamboxStore from 'app/stores/beambox-store';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
-import currentFileManager from 'app/svgedit/currentFileManager';
 import i18n from 'helpers/i18n';
 import ISVGConfig from 'interfaces/ISVGConfig';
 import ToolPanelsController from 'app/actions/beambox/toolPanelsController';
@@ -72,7 +58,6 @@ import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/Objec
 import TopBarController from 'app/views/beambox/TopBar/contexts/TopBarController';
 import * as TutorialController from 'app/views/tutorials/tutorialController';
 import TutorialConstants from 'app/constants/tutorial-constants';
-import Constant from 'app/actions/beambox/constant';
 import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
 import Progress from 'app/actions/progress-caller';
 import presprayArea from 'app/actions/canvas/prespray-area';
@@ -86,6 +71,7 @@ import sanitizeXmlString from 'helpers/sanitize-xml-string';
 import storage from 'implementations/storage';
 import SymbolMaker from 'helpers/symbol-maker';
 import updateElementColor from 'helpers/color/updateElementColor';
+import { getSupportInfo } from 'app/constants/add-on';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 import units, { Units } from 'helpers/units';
@@ -95,9 +81,26 @@ import recentMenuUpdater from 'implementations/recentMenuUpdater';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import grid from 'app/actions/canvas/grid';
 import updateLayerColorFilter from 'helpers/color/updateLayerColorFilter';
-import PathActions from './operations/pathActions';
+import { IBatchCommand } from 'interfaces/IHistory';
+
+import canvasBackground from './canvasBackground';
+import clipboard from './operations/clipboard';
+import currentFileManager from './currentFileManager';
+import findDefs from './utils/findDef';
+import history from './history/history';
+import historyRecording from './history/historyrecording';
+import importSvgString from './operations/import/importSvgString';
 import MouseInteractions from './interaction/mouseInteractions';
+import PathActions from './operations/pathActions';
+import selector from './selector';
 import setSvgContent from './operations/import/setSvgContent';
+import textActions from './text/textactions';
+import textEdit from './text/textedit';
+import undoManager from './history/undoManager';
+import ungroupElement from './group/ungroup';
+import workareaManager from './workarea';
+import { deleteSelectedElements } from './operations/delete';
+import { moveElements, moveSelectedElements } from './operations/move';
 
 let svgCanvas;
 let svgEditor;
@@ -353,7 +356,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       return curConfig.snappingStep;
     }
   });
-  canvas.findDefs = svgedit.utilities.findDefs;
+  canvas.findDefs = findDefs;
   canvas.getUrlFromAttr = svgedit.utilities.getUrlFromAttr;
   var getHref = canvas.getHref = svgedit.utilities.getHref;
   var setHref = canvas.setHref = svgedit.utilities.setHref;
@@ -607,7 +610,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         const id = svgedit.utilities.getUrlFromAttr(attrVal).substr(1);
         const ref = getElem(id);
         if (!ref && removedElements[id]) {
-          svgedit.utilities.findDefs()?.appendChild(removedElements[id]);
+          findDefs()?.appendChild(removedElements[id]);
           delete removedElements[id];
         }
       }
@@ -1611,13 +1614,17 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       }
     });
     const workarea: WorkAreaModel = BeamboxPreference.read('workarea');
+    const supportInfo = getSupportInfo(workarea);
     const engraveDpi = BeamboxPreference.read('engrave_dpi');
-    const isUsingDiode = !!(BeamboxPreference.read('enable-diode') && Constant.addonsSupportList.hybridLaser.includes(workarea));
+    const isUsingDiode = !!(BeamboxPreference.read('enable-diode') && supportInfo.hybridLaser);
     const isUsingAF = !!BeamboxPreference.read('enable-autofocus');
     svgcontent.setAttribute('data-engrave_dpi', engraveDpi);
     svgcontent.setAttribute('data-rotary_mode', BeamboxPreference.read('rotary_mode'));
     svgcontent.setAttribute('data-en_diode', String(isUsingDiode));
     svgcontent.setAttribute('data-en_af', String(isUsingAF));
+    if (supportInfo.passThrough && BeamboxPreference.read('pass-through')) {
+      svgcontent.setAttribute('data-pass_through', BeamboxPreference.read('pass-through-height'));
+    }
     const workareaElement = document.getElementById('workarea');
     const workareaObj = getWorkarea(workarea);
     const { pxWidth, pxHeight, pxDisplayHeight } = workareaObj
@@ -2243,7 +2250,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
   // Function: identifyLayers
   // Updates layer system
-  var identifyLayers = canvas.identifyLayers = function () {
+  canvas.identifyLayers = function () {
     leaveContext();
     getCurrentDrawing().identifyLayers();
   };
@@ -2274,22 +2281,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     clearSelection();
     call('changed', [newLayer]);
     return newLayer;
-  };
-
-  /**
-   * Creates a new top-level layer in the drawing with the given name, copies all the current layer's contents
-   * to it, and then clears the selection. This function then calls the 'changed' handler.
-   * This is an undoable action.
-   * @param {string} name - The given name. If the layer name exists, a new name will be generated.
-   * @param hrService - History recording service
-   */
-  this.cloneLayer = function (name, hrService) {
-    // Clone the current layer and make the cloned layer the new current layer
-    var new_layer = getCurrentDrawing().cloneLayer(name, historyRecordingService(hrService));
-
-    clearSelection();
-    leaveContext();
-    call('changed', [new_layer]);
   };
 
   // Function: deleteCurrentLayer
@@ -2374,20 +2365,22 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   //
   // Returns:
   // true if the layer's visibility was set, false otherwise
-  this.setLayerVisibility = function (layername, bVisible) {
+  this.setLayerVisibility = function (
+    layername: string,
+    value: boolean,
+    opts?: { parentCmd?: IBatchCommand, addToHistory?: boolean },
+  ) {
     const drawing = getCurrentDrawing();
     const prevVisibility = drawing.getLayerVisibility(layername);
-    const layer = drawing.setLayerVisibility(layername, bVisible);
+    const layer = drawing.setLayerVisibility(layername, value);
+    if (!layer) return false;
     presprayArea.togglePresprayArea();
-    if (layer) {
-      const oldDisplay = prevVisibility ? 'inline' : 'none';
-      const cmd = new history.ChangeElementCommand(layer, { 'display': oldDisplay }, 'Layer Visibility');
-      cmd.onAfter = presprayArea.togglePresprayArea;
-      addCommandToHistory(cmd);
-    } else {
-      return false;
-    }
-
+    const oldDisplay = prevVisibility ? 'inline' : 'none';
+    const cmd = new history.ChangeElementCommand(layer, { 'display': oldDisplay }, 'Layer Visibility');
+    cmd.onAfter = presprayArea.togglePresprayArea;
+    const { parentCmd, addToHistory = true } = opts || {};
+    if (parentCmd) parentCmd.addSubCommand(cmd);
+    else if (addToHistory) addCommandToHistory(cmd);
     if (layer === drawing.getCurrentLayer()) {
       clearSelection();
       pathActions.clear();
@@ -2780,7 +2773,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     var grad = canvas[type + 'Grad'];
     // find out if there is a duplicate gradient already in the defs
     var duplicate_grad = findDuplicateGradient(grad);
-    var defs = svgedit.utilities.findDefs();
+    var defs = findDefs();
     // no duplicate found, so import gradient into defs
     if (!duplicate_grad) {
       var orig_grad = grad;
@@ -2802,7 +2795,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   // Returns:
   // The existing gradient if found, null if not
   var findDuplicateGradient = function (grad) {
-    var defs = svgedit.utilities.findDefs();
+    var defs = findDefs();
     var existing_grads = $(defs).find('linearGradient, radialGradient');
     var i = existing_grads.length;
     var rad_attrs = ['r', 'cx', 'cy', 'fx', 'fy'];
@@ -2895,7 +2888,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
           $(newgrad).attr(g_coords);
 
           newgrad.id = getNextId();
-          svgedit.utilities.findDefs().appendChild(newgrad);
+          findDefs().appendChild(newgrad);
           elem.setAttribute(type, 'url(#' + newgrad.id + ')');
         }
       }
@@ -3172,7 +3165,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         });
 
         filter.appendChild(newblur);
-        svgedit.utilities.findDefs().appendChild(filter);
+        findDefs().appendChild(filter);
 
         batchCmd.addSubCommand(new history.InsertElementCommand(filter));
       }
@@ -4397,7 +4390,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
           } else {
             // Clone the group's filter
             gfilter = drawing.copyElem(gfilter);
-            svgedit.utilities.findDefs().appendChild(gfilter);
+            findDefs().appendChild(gfilter);
           }
         } else {
           gfilter = svgedit.utilities.getRefElem(elem.getAttribute('filter'));

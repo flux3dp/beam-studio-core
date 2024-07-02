@@ -170,6 +170,7 @@ const PreviewHeight = ({ initValue, onOk, onClose }: Props): JSX.Element => {
           disabled={!adjustChecked}
           onChange={(val) => setValue(val)}
           theme={underlineInputTheme}
+          underline
         />
         {hasInitValue && (
           <Checkbox checked={adjustChecked} onChange={(e) => setAdjustChecked(e.target.checked)}>

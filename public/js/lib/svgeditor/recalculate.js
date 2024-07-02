@@ -255,12 +255,14 @@ svgedit.recalculate.recalculateDimensions = function(selected) {
 
   // if it's a regular group, we have special processing to flatten transforms
   if ((selected.tagName == 'g' && !gsvg) || selected.tagName == 'a') {
-    var box = svgedit.utilities.getBBox(selected),
-      oldcenter = {x: box.x+box.width/2, y: box.y+box.height/2},
-      newcenter = svgedit.math.transformPoint(box.x+box.width/2,
-        box.y+box.height/2,
-        svgedit.math.transformListToTransform(tlist).matrix),
-      m = svgroot.createSVGMatrix();
+    const box = svgedit.utilities.getBBox(selected);
+    const oldcenter = {x: box.x+box.width/2, y: box.y+box.height/2};
+    let newcenter = svgedit.math.transformPoint(
+      box.x+box.width/2,
+      box.y+box.height/2,
+      svgedit.math.transformListToTransform(tlist).matrix
+    );
+    let m = svgroot.createSVGMatrix();
 
     // temporarily strip off the rotate and save the old center
     var gangle = svgedit.utilities.getRotationAngle(selected);
@@ -326,7 +328,7 @@ svgedit.recalculate.recalculateDimensions = function(selected) {
             }
           }
 
-          var m = svgedit.math.transformListToTransform(childTlist).matrix;
+          m = svgedit.math.transformListToTransform(childTlist).matrix;
 
           // Convert a matrix to a scale if applicable
 //          if (svgedit.math.hasMatrixTransform(childTlist) && childTlist.numberOfItems == 1) {
@@ -461,17 +463,17 @@ svgedit.recalculate.recalculateDimensions = function(selected) {
           if (child.nodeType == 1) {
 
             // Check if child has clip-path
-            if (child.getAttribute('clip-path')) {
-              // tx, ty
-              var attr = child.getAttribute('clip-path');
-              const refElem = svgedit.utilities.getRefElem(attr);
-              if (!refElem) {
-                child.removeAttribute('clip-path')
-              } else if (clipPaths_done.indexOf(attr) === -1) {
-                svgedit.recalculate.updateClipPath(attr, tx, ty);
-                clipPaths_done.push(attr);
-              }
-            }
+            // if (child.getAttribute('clip-path')) {
+            //   // tx, ty
+            //   var attr = child.getAttribute('clip-path');
+            //   const refElem = svgedit.utilities.getRefElem(attr);
+            //   if (!refElem) {
+            //     child.removeAttribute('clip-path')
+            //   } else if (clipPaths_done.indexOf(attr) === -1) {
+            //     svgedit.recalculate.updateClipPath(attr, tx, ty);
+            //     clipPaths_done.push(attr);
+            //   }
+            // }
 
             var oldStartTransform = context_.getStartTransform();
             context_.setStartTransform(child.getAttribute('transform'));
@@ -515,7 +517,7 @@ svgedit.recalculate.recalculateDimensions = function(selected) {
     // keep pushing it down to the children
     else if (N == 1 && tlist.getItem(0).type == 1 && !gangle) {
       operation = 1;
-      var m = tlist.getItem(0).matrix,
+      m = tlist.getItem(0).matrix,
         children = selected.childNodes,
         c = children.length;
       while (c--) {
@@ -614,7 +616,7 @@ svgedit.recalculate.recalculateDimensions = function(selected) {
     }
     // if it was a resize
     else if (operation == 3) {
-      var m = svgedit.math.transformListToTransform(tlist).matrix;
+      m = svgedit.math.transformListToTransform(tlist).matrix;
       var roldt = svgroot.createSVGTransform();
       roldt.setRotate(gangle, oldcenter.x, oldcenter.y);
       var rold = roldt.matrix;
@@ -635,19 +637,19 @@ svgedit.recalculate.recalculateDimensions = function(selected) {
         while (c--) {
           var child = children.item(c);
           if (child.nodeType == 1) {
-            var oldStartTransform = context_.getStartTransform();
+            let oldStartTransform = context_.getStartTransform();
             context_.setStartTransform(child.getAttribute('transform'));
-            var childTlist = svgedit.transformlist.getTransformList(child);
-            var newxlate = svgroot.createSVGTransform();
+            const childTlist = svgedit.transformlist.getTransformList(child);
+            const newxlate = svgroot.createSVGTransform();
             newxlate.setTranslate(tx, ty);
             if (childTlist.numberOfItems) {
               childTlist.insertItemBefore(newxlate, 0);
             } else {
               childTlist.appendItem(newxlate);
             }
-            let cmd = svgedit.recalculate.recalculateDimensions(child);
+            const cmd = svgedit.recalculate.recalculateDimensions(child);
             if (cmd && !cmd.isEmpty()) {
-              batchCmd.addSubCommand( svgedit.recalculate.recalculateDimensions(child) );
+              batchCmd.addSubCommand(cmd);
             }
             context_.setStartTransform(oldStartTransform);
           }
@@ -662,9 +664,16 @@ svgedit.recalculate.recalculateDimensions = function(selected) {
         }
       }
     }
-  }
-  // else, it's a non-group
-  else {
+  } else if (selected.tagName?.toLowerCase?.() === 'clippath') {
+    // combine all transform to a m
+    const transformList = svgedit.transformlist.getTransformList(selected);
+    const matrix = svgedit.math.transformListToTransform(transformList).matrix;
+    transformList.clear();
+    const newTransform = svgroot.createSVGTransform();
+    newTransform.setMatrix(matrix);
+    transformList.appendItem(newTransform);
+  } else {
+    // else, it's a non-group
 
     // FIXME: box might be null for some elements (<metadata> etc), need to handle this
     var box = svgedit.utilities.getBBox(selected);

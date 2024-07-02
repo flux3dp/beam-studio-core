@@ -29,6 +29,7 @@ export interface ILang {
       image: string,
       text: string,
       text_path: string,
+      pass_through_object: string;
       line: string,
       g: string,
       multi_select: string,
@@ -633,6 +634,7 @@ export interface ILang {
         qr_code: string;
         boxgen: string;
         my_cloud: string;
+        pass_through: string;
         curve_engraving: {
           title: string;
           exit: string;
@@ -1026,6 +1028,8 @@ export interface ILang {
       enable_diode: string,
       enable_autofocus: string,
       extend_workarea: string;
+      pass_through: string;
+      pass_through_height_desc: string;
       add_on: string,
       low: string,
       medium: string,
@@ -1809,5 +1813,17 @@ export interface ILang {
   };
   pass_through: {
     title: string;
+    help_text: string;
+    object_length: string;
+    workaea_height: string;
+    height_desc: string;
+    ref_layer: string;
+    ref_layer_desc: string;
+    guide_line: string;
+    guide_line_length: string;
+    guide_line_x: string;
+    guide_line_desc: string;
+    export: string;
+    exporting: string;
   };
 }

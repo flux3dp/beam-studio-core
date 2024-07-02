@@ -81,6 +81,7 @@ const SizeInput = ({ type, value, onChange, onBlur }: Props): JSX.Element => {
           id={`${type}_size`}
           className={styles.input}
           theme={objectPanelInputTheme}
+          underline
           unit={unit}
           isInch={isInch}
           precision={precision}

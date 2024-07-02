@@ -3,6 +3,7 @@ import constant from 'app/actions/beambox/constant';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import rotaryConstants from 'app/constants/rotary-constants';
 import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
+import { getSupportInfo } from 'app/constants/add-on';
 import { isMobile } from 'helpers/system-helper';
 
 const canvasEvents = eventEmitterFactory.createEventEmitter('canvas');
@@ -21,7 +22,7 @@ class WorkareaManager {
 
   canvasExpansion = 3; // extra space
 
-  rotaryExpansion: number[] = [0, 0]; // [top, bottom] in pixel
+  expansion: number[] = [0, 0]; // [top, bottom] in pixel
 
   lastZoomIn = 0;
 
@@ -32,31 +33,42 @@ class WorkareaManager {
   setWorkarea(model: WorkAreaModel): void {
     const rotaryExtended =
       !!beamboxPreference.read('rotary_mode') && beamboxPreference.read('extend-rotary-workarea');
-    if (model !== this.model || this.rotaryExtended !== rotaryExtended) {
-      const workarea = getWorkarea(model);
-      this.model = model;
-      this.rotaryExtended = rotaryExtended;
-      this.width = workarea.pxWidth;
-      this.height = workarea.pxDisplayHeight ?? workarea.pxHeight;
-      if (rotaryExtended && rotaryConstants[model]) {
-        const { dpmm } = constant;
-        const { boundary, maxHeight } = rotaryConstants[model];
-        const [lowerBound, upperBound] = boundary
-          ? [boundary[0] * dpmm, boundary[1] * dpmm]
-          : [0, this.height];
-        const pxMaxHeight = maxHeight * dpmm;
-        this.rotaryExpansion = [pxMaxHeight - lowerBound, pxMaxHeight - (this.height - upperBound)];
-        this.height += this.rotaryExpansion[1];
-      } else {
-        this.rotaryExpansion = [0, 0];
+    const supportInfo = getSupportInfo(model);
+    const borderless = !!beamboxPreference.read('borderless');
+    const passThrough = !!beamboxPreference.read('pass-through');
+    const passThroughMode =
+      supportInfo.passThrough && passThrough && (supportInfo.openBottom ? borderless : true);
+    const workarea = getWorkarea(model);
+    const modelChanged = this.model !== model;
+    this.model = model;
+    this.rotaryExtended = rotaryExtended;
+    this.width = workarea.pxWidth;
+    this.height = workarea.pxDisplayHeight ?? workarea.pxHeight;
+    this.expansion = [0, 0];
+    const { dpmm } = constant;
+    if (rotaryExtended && rotaryConstants[model]) {
+      const { boundary, maxHeight } = rotaryConstants[model];
+      const [lowerBound, upperBound] = boundary
+        ? [boundary[0] * dpmm, boundary[1] * dpmm]
+        : [0, this.height];
+      const pxMaxHeight = maxHeight * dpmm;
+      this.expansion = [pxMaxHeight - lowerBound, pxMaxHeight - (this.height - upperBound)];
+      this.height += this.expansion[1];
+    } else if (passThroughMode) {
+      const passThroughHeight = beamboxPreference.read('pass-through-height');
+      if (passThroughHeight && passThroughHeight * dpmm > this.height) {
+        const expansion = passThroughHeight * dpmm - this.height;
+        this.expansion = [0, expansion];
+        this.height += expansion;
       }
-      const svgcontent = document.getElementById('svgcontent');
-      svgcontent?.setAttribute('viewBox', `0 0 ${this.width} ${this.height}`);
-      const fixedSizeSvg = document.getElementById('fixedSizeSvg');
-      fixedSizeSvg?.setAttribute('viewBox', `0 0 ${this.width} ${this.height}`);
-      this.zoom(this.zoomRatio);
-      canvasEvents.emit('canvas-change');
     }
+    const svgcontent = document.getElementById('svgcontent');
+    svgcontent?.setAttribute('viewBox', `0 0 ${this.width} ${this.height}`);
+    const fixedSizeSvg = document.getElementById('fixedSizeSvg');
+    fixedSizeSvg?.setAttribute('viewBox', `0 0 ${this.width} ${this.height}`);
+    this.zoom(this.zoomRatio);
+    canvasEvents.emit('canvas-change');
+    if (modelChanged) canvasEvents.emit('model-changed', model);
   }
 
   zoom(zoomRatio: number, staticPoint?: { x: number; y: number }): void {

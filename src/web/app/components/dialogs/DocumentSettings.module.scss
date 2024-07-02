@@ -1,13 +1,76 @@
-.disabled {
-  opacity: 0.5;
+.modules {
+  display: flex;
+  flex-wrap: wrap;
+  flex: 4;
 }
 
-.subCheckbox {
+.row {
   display: flex;
-  justify-content: center;
-  height: 32px;
+  flex-wrap: wrap;
+  width: 50%;
+  min-height: 64px;
+  line-height: 32px;
 
-  > label {
-    height: 22px;
+  &.full {
+    width: 100%;
+
+    .title {
+      width: 25%;
+      height: 32px;
+    }
+
+    .control {
+      display: flex;
+      width: 75%;
+      height: 32px;
+      align-items: center;
+
+      .subCheckbox {
+        width: unset;
+        justify-content: start;
+        margin-left: 20px;
+      }
+    }
+  }
+
+  .title {
+    width: 50%;
+    text-align: end;
+    padding-right: 8px;
+
+    label {
+      &::after {
+        content: ":";
+        margin-left: 4px;
+      }
+    }
+  }
+
+  .control {
+    width: 50%;
+
+    .input {
+      width: 120px;
+      margin-left: 20px;
+    }
+
+    .hint {
+      width: 16px;
+      height: 16px;
+      margin: 8px;
+      color: #7c7c7c;
+    }
+  }
+
+  .subCheckbox {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    height: 32px;
+
+    > label {
+      height: 22px;
+    }
   }
 }

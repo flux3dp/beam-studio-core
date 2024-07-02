@@ -139,7 +139,7 @@ jest.mock(
 
 const mockGetWidth = jest.fn();
 const mockGetHeight = jest.fn();
-const mockGetRotaryExpansion = jest.fn();
+const mockGetExpansion = jest.fn();
 jest.mock('app/svgedit/workarea', () => ({
   get width() {
     return mockGetWidth();
@@ -147,8 +147,8 @@ jest.mock('app/svgedit/workarea', () => ({
   get height() {
     return mockGetHeight();
   },
-  get rotaryExpansion() {
-    return mockGetRotaryExpansion();
+  get expansion() {
+    return mockGetExpansion();
   },
 }));
 
@@ -167,7 +167,7 @@ describe('test FrameButton', () => {
     expect(container).toMatchSnapshot();
     mockGetWidth.mockReturnValue(3000);
     mockGetHeight.mockReturnValue(2100);
-    mockGetRotaryExpansion.mockReturnValue([0, 0]);
+    mockGetExpansion.mockReturnValue([0, 0]);
     mockGetDevice.mockResolvedValueOnce({ device: { model: 'fbm1', version: '4.1.7' } });
     fireEvent.click(container.querySelector('div[class*="button"]'));
     await waitFor(() => expect(mockPopById).toBeCalledTimes(1));
@@ -222,7 +222,7 @@ describe('test FrameButton', () => {
     const { container } = render(<FrameButton />);
     mockGetWidth.mockReturnValue(4300);
     mockGetHeight.mockReturnValue(3000);
-    mockGetRotaryExpansion.mockReturnValue([0, 0]);
+    mockGetExpansion.mockReturnValue([0, 0]);
     mockGetDevice.mockResolvedValue({ device: { model: 'ado1', version: '4.1.7' } });
     mockGetDeviceDetailInfo.mockResolvedValue({ head_type: 1 });
     mockRead.mockReturnValue(3);

@@ -62,7 +62,7 @@ const update = (module: LayerModule): void => {
     return;
   }
   if (!boundaryPath) createBoundary();
-  const { width: w, height: h } = workareaManager;
+  const { width: w, height: h, expansion } = workareaManager;
   const viewBox = `0 0 ${w} ${h}`;
   boundarySvg?.setAttribute('viewBox', viewBox);
   const d1 = `M0,0H${w}V${h}H0V0`;
@@ -74,13 +74,17 @@ const update = (module: LayerModule): void => {
   if (offsetX >= 0) left = Math.max(left, offsetX);
   else right = Math.max(right, -offsetX);
   const rotaryMode = BeamboxPreference.read('rotary_mode');
-  if (rotaryMode) {
-    top = 0;
-    bottom = 0;
-  } else if (offsetY >= 0) {
+  const passThrough = BeamboxPreference.read('pass-through');
+  if (offsetY >= 0) {
     top = Math.max(top, offsetY);
     bottom = Math.max(bottom - offsetY, 0);
   } else bottom = Math.max(bottom, -offsetY);
+  if (rotaryMode) {
+    top = 0;
+    bottom = 0;
+  } else if (passThrough && expansion[1] > 0) {
+    bottom = 0;
+  }
   if (!top && !bottom && !left && !right) {
     boundaryPath?.setAttribute('d', '');
     boundaryDescText?.setAttribute('display', 'none');

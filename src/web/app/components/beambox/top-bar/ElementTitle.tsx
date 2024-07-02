@@ -29,6 +29,8 @@ function ElementTitle({ selectedElem }: Props): JSX.Element {
 
       if (selectedElem.getAttribute('data-textpath-g')) {
         content = `${layerName} > ${LANG.tag_names.text_path}`;
+      } else if (selectedElem.getAttribute('data-pass-through')) {
+        content = `${layerName} > ${LANG.tag_names.pass_through_object}`;
       } else if (selectedElem.tagName.toLowerCase() !== 'use') {
         content = `${layerName} > ${LANG.tag_names[selectedElem.tagName.toLowerCase()]}`;
       } else if (selectedElem.getAttribute('data-svg') === 'true') {

@@ -1,38 +1,18 @@
 import NS from 'app/constants/namespaces';
 
 import workareaManager from 'app/svgedit/workarea';
-import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { getSupportInfo } from 'app/constants/add-on';
 
 import BeamboxPreference from './beambox-preference';
 import Constant from './constant';
 
-let svgedit;
-getSVGAsync((globalSVG) => {
-  svgedit = globalSVG.Edit;
-});
-
 let openBottomBoundaryRect: SVGRectElement;
 let openBottomBoundarySVG: SVGSVGElement;
 
-const checkSvgEdit = () =>
-  new Promise((resolve) => {
-    if (svgedit) {
-      resolve(null);
-      return;
-    }
-    const interval = setInterval(() => {
-      if (svgedit) {
-        resolve(null);
-        clearInterval(interval);
-      }
-    }, 500);
-  });
-
 const createBoundary = async () => {
-  await checkSvgEdit();
   openBottomBoundarySVG = document.createElementNS(NS.SVG, 'svg') as unknown as SVGSVGElement;
   openBottomBoundaryRect = document.createElementNS(NS.SVG, 'rect') as unknown as SVGRectElement;
-  const canvasBackground = svgedit.utilities.getElem('canvasBackground');
+  const canvasBackground = document.getElementById('canvasBackground');
   canvasBackground.appendChild(openBottomBoundarySVG);
   openBottomBoundarySVG.appendChild(openBottomBoundaryRect);
   openBottomBoundarySVG.id = 'open-bottom-boundary';
@@ -71,9 +51,7 @@ const hide = () => {
 
 const update = (): void => {
   const isOpenBottom = BeamboxPreference.read('borderless');
-  const supportOpenBottom = Constant.addonsSupportList.openBottom.includes(
-    BeamboxPreference.read('workarea')
-  );
+  const supportOpenBottom = getSupportInfo(BeamboxPreference.read('workarea')).openBottom;
   if (isOpenBottom && supportOpenBottom) show();
   else hide();
 };

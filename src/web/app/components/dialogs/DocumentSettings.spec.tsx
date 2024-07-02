@@ -1,6 +1,19 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
+
+const mockEventEmitter = {
+  emit: jest.fn(),
+}
+const mockCreateEventEmitter = jest.fn();
+jest.mock('helpers/eventEmitterFactory', () => ({
+  createEventEmitter: (...args) =>  {
+    mockCreateEventEmitter(...args);
+    return mockEventEmitter;
+  },
+}));
+
+// eslint-disable-next-line import/first
 import DocumentSettings from './DocumentSettings';
 
 jest.mock('antd', () => ({
@@ -76,6 +89,7 @@ jest.mock('helpers/useI18n', () => () => ({
       enable_diode: 'Diode Laser',
       enable_autofocus: 'Autofocus',
       extend_workarea: 'extend_workarea',
+      pass_through: 'Pass Through',
       add_on: 'Add-ons',
       low: 'Low',
       medium: 'Medium',
@@ -100,6 +114,13 @@ jest.mock(
       mockChangeWorkarea(...args)
 );
 
+const mockDiodeBoundaryDrawerShow = jest.fn();
+const mockDiodeBoundaryDrawerHide = jest.fn();
+jest.mock('app/actions/canvas/diode-boundary-drawer', () => ({
+  show: () => mockDiodeBoundaryDrawerShow(),
+  hide: () => mockDiodeBoundaryDrawerHide(),
+}));
+
 const mockUnmount = jest.fn();
 const mockQuerySelectorAll = jest.fn();
 
@@ -121,6 +142,8 @@ describe('test DocumentSettings', () => {
     fireEvent.click(baseElement.querySelector('button#borderless_mode'));
     fireEvent.click(baseElement.querySelector('button#autofocus-module'));
     fireEvent.click(baseElement.querySelector('button#diode_module'));
+    fireEvent.click(baseElement.querySelector('button#pass_through'));
+    fireEvent.change(baseElement.querySelector('#pass_through_height'), { target: { value: 500 } });
     expect(baseElement).toMatchSnapshot();
 
     expect(mockBeamboxPreferenceWrite).not.toBeCalled();
@@ -141,18 +164,28 @@ describe('test DocumentSettings', () => {
     const { onConfirm } = mockPopUp.mock.calls[0][0];
     onConfirm();
     await new Promise((resolve) => setTimeout(resolve, 0));
-    expect(mockBeamboxPreferenceWrite).toBeCalledTimes(6);
+    expect(mockBeamboxPreferenceWrite).toBeCalledTimes(8);
     expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(1, 'engrave_dpi', 'high');
     expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(2, 'borderless', true);
     expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(3, 'enable-diode', true);
     expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(4, 'enable-autofocus', true);
-    expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(5, 'rotary_mode', 1);
+    expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(5, 'rotary_mode', 0);
     expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(6, 'extend-rotary-workarea', false);
+    expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(7, 'pass-through', true);
+    expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(8, 'pass-through-height', 500);
     expect(mockChangeWorkarea).toBeCalledTimes(1);
     expect(mockChangeWorkarea).toHaveBeenLastCalledWith('fbm1', { toggleModule: true });
     expect(mockToggleDisplay).toBeCalledTimes(1);
     expect(mockTogglePresprayArea).toBeCalledTimes(1);
     expect(update).not.toBeCalled();
+    expect(mockDiodeBoundaryDrawerShow).toBeCalledTimes(0);
+    expect(mockDiodeBoundaryDrawerHide).toBeCalledTimes(0);
+    expect(mockCreateEventEmitter).toBeCalledTimes(2);
+    expect(mockCreateEventEmitter).toHaveBeenNthCalledWith(1, 'dpi-info');
+    expect(mockCreateEventEmitter).toHaveBeenNthCalledWith(2, 'canvas');
+    expect(mockEventEmitter.emit).toBeCalledTimes(2);
+    expect(mockEventEmitter.emit).toHaveBeenNthCalledWith(1, 'UPDATE_DPI', 'high');
+    expect(mockEventEmitter.emit).toHaveBeenNthCalledWith(2, 'document-settings-saved');
     expect(mockUnmount).toBeCalledTimes(1);
   });
 });

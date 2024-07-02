@@ -11,7 +11,7 @@ exports[`test Rotation should render correctly on desktop 1`] = `
       <svgr-url />
     </div>
     <div
-      class="input"
+      class="input underline"
     >
       <div
         class="ant-input-number css-dev-only-do-not-override-hash input"

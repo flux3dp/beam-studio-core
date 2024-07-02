@@ -20,6 +20,7 @@ import presprayArea from 'app/actions/canvas/prespray-area';
 import storage from 'implementations/storage';
 import Websocket from 'helpers/websocket';
 import rotaryAxis from 'app/actions/canvas/rotary-axis';
+import { getSupportInfo } from 'app/constants/add-on';
 import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -107,8 +108,9 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
         const { x, y, w, h } = presprayArea.getPosition(true);
         const workareaWidth = getWorkarea(model).width;
         args.push('-prespray');
-        args.push(rotaryMode ? `${workareaWidth - w},27,${w},${h}` :`${x},${y},${w},${h}`);
-        if (!isDevMode || BeamboxPreference.read('multipass-compensation') !== false) args.push('-mpc');
+        args.push(rotaryMode ? `${workareaWidth - w},27,${w},${h}` : `${x},${y},${w},${h}`);
+        if (!isDevMode || BeamboxPreference.read('multipass-compensation') !== false)
+          args.push('-mpc');
         if (!isDevMode || BeamboxPreference.read('one-way-printing') !== false) args.push('-owp');
       }
 
@@ -142,9 +144,7 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
           args.push('-diode-owe');
         }
       }
-      const isBorderLess =
-        BeamboxPreference.read('borderless') &&
-        constant.addonsSupportList.openBottom.includes(model);
+      const isBorderLess = BeamboxPreference.read('borderless') && getSupportInfo(model).openBottom;
       if (BeamboxPreference.read('enable_mask') || isBorderLess) {
         args.push('-mask');
         const clipRect = [0, 0, 0, 0]; // top right bottom left

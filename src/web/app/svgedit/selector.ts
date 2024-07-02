@@ -14,6 +14,8 @@ import units from 'helpers/units';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { isMobile } from 'helpers/system-helper';
 
+import workareaManager from './workarea';
+
 const { svgedit } = window;
 
 if (!svgedit.select) {
@@ -250,7 +252,7 @@ class Selector {
   calculateDimesion(bbox?: BBox) {
     const { elem } = this;
     const strokeWidth = Number(elem.getAttribute('stroke-width'));
-    const currentZoom = svgFactory.currentZoom();
+    const currentZoom = workareaManager.zoomRatio;
     const { tagName } = elem;
     // Offset between element and select rect
     let offset = tagName === 'text' ? 3 : 1;

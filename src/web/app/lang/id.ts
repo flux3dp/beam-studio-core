@@ -32,6 +32,7 @@ const lang: ILang = {
       image: 'Gambar',
       text: 'Teks',
       text_path: 'Teks pada Jalur',
+      pass_through_object: 'Objek Melewati',
       line: 'Garis',
       g: 'Grup',
       multi_select: 'Beberapa Objek',
@@ -633,6 +634,7 @@ const lang: ILang = {
         qr_code: 'Kode QR',
         boxgen: 'Boxgen',
         my_cloud: 'Awan Saya',
+        pass_through: 'Mode Lewat',
         curve_engraving: {
           title: '3D Kurva',
           exit: 'Keluar',
@@ -1026,6 +1028,8 @@ const lang: ILang = {
       enable_diode: 'Laser Diode',
       enable_autofocus: 'Autofokus',
       extend_workarea: 'Perluas area kerja',
+      pass_through: 'Mode Lewat',
+      pass_through_height_desc: 'Masukkan panjang objek untuk memperluas area kerja.',
       add_on: 'Add-on',
       low: 'Rendah',
       medium: 'Sedang',
@@ -1809,6 +1813,18 @@ const lang: ILang = {
   },
   pass_through: {
     title: 'Mode Lewat',
+    help_text: 'Bagaimana mengatur Mode Lewat untuk Ador?',
+    object_length: 'Panjang Objek',
+    workaea_height: 'Area Kerja (Tinggi):',
+    height_desc: 'Atur ketinggian setiap bagian area kerja.',
+    ref_layer: 'Lapisan Referensi',
+    ref_layer_desc: 'Menampilkan bagian bawah sebelumnya dari karya seni di area kerja.',
+    guide_line: 'Garis Panduan',
+    guide_line_length: 'Panjang:',
+    guide_line_x: 'Koordinat X:',
+    guide_line_desc: 'Garis panduan akan diukir sebagai titik referensi untuk menyelaraskan karya seni.',
+    export: 'Ekspor ke Area Kerja',
+    exporting: 'Mengekspor...',
   },
 };
 

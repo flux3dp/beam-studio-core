@@ -32,6 +32,7 @@ const lang: ILang = {
       image: 'Bilde',
       text: 'Tekst',
       text_path: 'Tekst på bane',
+      pass_through_object: 'Passer Gjennom Objekt',
       line: 'Linje',
       g: 'Gruppe',
       multi_select: 'Flere objekter',
@@ -633,6 +634,7 @@ const lang: ILang = {
         qr_code: 'QR-kode',
         boxgen: 'Boxgen',
         my_cloud: 'Min sky',
+        pass_through: 'Gå Gjennom',
         curve_engraving: {
           title: '3D Kurve',
           exit: 'Avslutt',
@@ -1026,6 +1028,8 @@ const lang: ILang = {
       enable_diode: 'Diode-laser',
       enable_autofocus: 'Autofokus',
       extend_workarea: 'Utvid arbeidsområdet',
+      pass_through: 'Gå Gjennom',
+      pass_through_height_desc: 'Skriv inn lengden på objektet for å utvide arbeidsområdet.',
       add_on: 'Tillegg',
       low: 'Lav',
       medium: 'Medium',
@@ -1809,6 +1813,18 @@ const lang: ILang = {
   },
   pass_through: {
     title: 'Gå Gjennom-Modus',
+    help_text: 'Hvordan sette opp Gå Gjennom-Modus for Ador?',
+    object_length: 'Objekt Lengde',
+    workaea_height: 'Arbeidsområde (Høyde):',
+    height_desc: 'Sett høyden på hver arbeidsområdeseksjon.',
+    ref_layer: 'Referanselag',
+    ref_layer_desc: 'Viser den forrige nederste delen av kunstverket i arbeidsområdet.',
+    guide_line: 'Veiledningslinje',
+    guide_line_length: 'Lengde:',
+    guide_line_x: 'X-koordinat:',
+    guide_line_desc: 'Veiledningslinjer vil bli gravert som et referansepunkt for å justere kunstverket.',
+    export: 'Eksporter til Arbeidsområde',
+    exporting: 'Eksporterer...',
   },
 };
 

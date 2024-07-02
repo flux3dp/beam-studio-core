@@ -54,14 +54,6 @@ export default {
     fad1: ['ado1', 'fad1'],
   },
   adorModels: ['ado1', 'fad1'],
-  addonsSupportList: {
-    rotary: isDev()
-      ? ['fbm1', 'fbb1b', 'fbb1p', 'fhexa1', 'fad1', 'ado1']
-      : ['fbm1', 'fbb1b', 'fbb1p', 'fhexa1'],
-    openBottom: ['fbm1'],
-    autoFocus: ['fbm1'],
-    hybridLaser: ['fbm1'],
-  },
   leftPanelWidth: 50, // px
   rightPanelWidth: window.os !== 'MacOS' ? 258 : 242, // px
   rightPanelScrollBarWidth: window.os !== 'MacOS' ? 16 : 0, // px

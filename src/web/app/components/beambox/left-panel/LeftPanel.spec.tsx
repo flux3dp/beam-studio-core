@@ -39,22 +39,9 @@ jest.mock(
     }
 );
 
-jest.mock(
-  'app/components/beambox/left-panel/PreviewToolButtonGroup',
-  () =>
-    ({ endPreviewMode, setShouldStartPreviewController }: any) =>
-      (
-        <div>
-          This is dummy PreviewToolButtonGroup
-          <button onClick={endPreviewMode} type="button">
-            endPreviewMode
-          </button>
-          <button onClick={setShouldStartPreviewController} type="button">
-            setShouldStartPreviewController
-          </button>
-        </div>
-      )
-);
+jest.mock('app/components/beambox/left-panel/PreviewToolButtonGroup', () => () => (
+  <div>This is dummy PreviewToolButtonGroup</div>
+));
 
 jest.mock(
   'app/components/beambox/left-panel/CurveEngravingTool',
@@ -97,7 +84,6 @@ describe('test LeftPanel', () => {
         value={
           {
             setShouldStartPreviewController: jest.fn(),
-            endPreviewMode: jest.fn(),
             togglePathPreview: jest.fn(),
             mode: CanvasMode.Draw,
           } as any
@@ -117,14 +103,10 @@ describe('test LeftPanel', () => {
 
   test('not in path previewing', () => {
     Object.defineProperty(window, 'os', { value: 'Windows' });
-    const setShouldStartPreviewController = jest.fn();
-    const endPreviewMode = jest.fn();
-    const { container, getByText } = render(
+    const { container } = render(
       <CanvasContext.Provider
         value={
           {
-            setShouldStartPreviewController,
-            endPreviewMode,
             togglePathPreview: jest.fn(),
             mode: CanvasMode.Preview,
           } as any
@@ -134,14 +116,6 @@ describe('test LeftPanel', () => {
       </CanvasContext.Provider>
     );
     expect(container).toMatchSnapshot();
-
-    expect(endPreviewMode).not.toBeCalled();
-    fireEvent.click(getByText('endPreviewMode'));
-    expect(endPreviewMode).toHaveBeenCalledTimes(1);
-
-    expect(setShouldStartPreviewController).not.toBeCalled();
-    fireEvent.click(getByText('setShouldStartPreviewController'));
-    expect(setShouldStartPreviewController).toHaveBeenCalledTimes(1);
   });
 
   test('in path previewing', () => {
@@ -151,8 +125,6 @@ describe('test LeftPanel', () => {
       <CanvasContext.Provider
         value={
           {
-            setShouldStartPreviewController: jest.fn(),
-            endPreviewMode: jest.fn(),
             togglePathPreview,
             mode: CanvasMode.PathPreview,
           } as any

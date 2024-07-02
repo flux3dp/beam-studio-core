@@ -71,6 +71,8 @@ const defaultLaserConfigs = {
   yRatio: { value: 100 },
   kRatio: { value: 100 },
   printingStrength: { value: 100 },
+  ref: { value: false },
+  clipRect: { value: undefined },
 };
 
 const defaultMultiValueLaserConfigs = {
@@ -99,6 +101,8 @@ const defaultMultiValueLaserConfigs = {
   yRatio: { value: 100, hasMultiValue: false },
   kRatio: { value: 100, hasMultiValue: false },
   printingStrength: { value: 100, hasMultiValue: false },
+  ref: { value: false, hasMultiValue: false },
+  clipRect: { value: undefined, hasMultiValue: false },
 };
 
 describe('test layer-config-helper', () => {

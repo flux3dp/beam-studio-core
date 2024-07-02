@@ -7,7 +7,7 @@ jest.mock('app/actions/beambox/beambox-preference', () => ({
 
 const mockGetWidth = jest.fn();
 const mockGetHeight = jest.fn();
-const mockGetRotaryExpansion = jest.fn();
+const mockGetExpansion = jest.fn();
 jest.mock('app/svgedit/workarea', () => ({
   get width() {
     return mockGetWidth();
@@ -15,8 +15,8 @@ jest.mock('app/svgedit/workarea', () => ({
   get height() {
     return mockGetHeight();
   },
-  get rotaryExpansion() {
-    return mockGetRotaryExpansion();
+  get expansion() {
+    return mockGetExpansion();
   },
 }));
 
@@ -35,7 +35,7 @@ describe('test canvas/prespray-area', () => {
     jest.resetAllMocks();
     mockGetWidth.mockReturnValue(4300);
     mockGetHeight.mockReturnValue(4000);
-    mockGetRotaryExpansion.mockReturnValue([0, 0]);
+    mockGetExpansion.mockReturnValue([0, 0]);
     mockRequestAnimationFrame.mockImplementation((cb) => cb());
     mockRead.mockReturnValue(0);
     window.requestAnimationFrame = mockRequestAnimationFrame;

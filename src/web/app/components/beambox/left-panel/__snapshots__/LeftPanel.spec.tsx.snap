@@ -3,7 +3,7 @@
 exports[`test LeftPanel in curve engraving mode 1`] = `
 <div>
   <div
-    class="left-toolbar hidden-mobile"
+    class="container"
   >
     MockCurveEngravingTool
   </div>
@@ -13,17 +13,18 @@ exports[`test LeftPanel in curve engraving mode 1`] = `
 exports[`test LeftPanel in path previewing 1`] = `
 <div>
   <div
-    class="left-toolbar hidden-mobile"
+    class="container"
   >
     <div
-      class="tool-btn"
+      class="container"
       id="Exit-Preview"
       title="End Preview"
     >
-      <img
-        draggable="false"
-        src="img/left-bar/icon-back.svg"
-      />
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
     </div>
   </div>
 </div>
@@ -41,16 +42,6 @@ exports[`test LeftPanel not in path previewing 1`] = `
 <div>
   <div>
     This is dummy PreviewToolButtonGroup
-    <button
-      type="button"
-    >
-      endPreviewMode
-    </button>
-    <button
-      type="button"
-    >
-      setShouldStartPreviewController
-    </button>
   </div>
 </div>
 `;

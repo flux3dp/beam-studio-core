@@ -23,7 +23,7 @@ exports[`should render correctly type is gridArray 1`] = `
   <div
     class="tool-panels en"
     id="beamboxToolPanel"
-    style="position: absolute; z-index: 999; bottom: 10px;"
+    style="position: absolute; z-index: 999; bottom: 10px; left: 50px;"
   >
     <div
       class="tool-panel"
@@ -84,7 +84,7 @@ exports[`should render correctly type is nest 1`] = `
   <div
     class="tool-panels en"
     id="beamboxToolPanel"
-    style="position: absolute; z-index: 999; bottom: 10px;"
+    style="position: absolute; z-index: 999; bottom: 10px; left: 50px;"
   >
     <div
       class="tool-panel"
@@ -145,7 +145,7 @@ exports[`should render correctly type is offset 1`] = `
   <div
     class="tool-panels en"
     id="beamboxToolPanel"
-    style="position: absolute; z-index: 999; bottom: 10px;"
+    style="position: absolute; z-index: 999; bottom: 10px; left: 50px;"
   >
     <div
       class="tool-panel"

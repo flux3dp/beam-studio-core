@@ -32,6 +32,7 @@ const lang: ILang = {
       image: 'Image',
       text: 'Text',
       text_path: 'Text on Path',
+      pass_through_object: 'Pass Through Object',
       line: 'Line',
       g: 'Group',
       multi_select: 'Multiple Objects',
@@ -636,6 +637,7 @@ const lang: ILang = {
         qr_code: 'QR Code',
         boxgen: 'Boxgen',
         my_cloud: 'My Cloud',
+        pass_through: 'Pass Through',
         curve_engraving: {
           title: '3D Curve',
           exit: 'Exit',
@@ -1029,6 +1031,8 @@ const lang: ILang = {
       enable_diode: 'Diode Laser',
       enable_autofocus: 'Autofocus',
       extend_workarea: 'Extend Workarea',
+      pass_through: 'Pass Through',
+      pass_through_height_desc: 'Enter the length of the object to extend work area.',
       add_on: 'Add-ons',
       low: 'Low',
       medium: 'Medium',
@@ -1812,6 +1816,18 @@ const lang: ILang = {
   },
   pass_through: {
     title: 'Pass Through Mode',
+    help_text: 'How to setup Pass Through for Ador?',
+    object_length: 'Object Length',
+    workaea_height: 'Work Area (Height):',
+    height_desc: "Set each work area section's height.",
+    ref_layer: 'Reference Layer',
+    ref_layer_desc: 'Shows the previous bottom section of the artwork in the work area.',
+    guide_line: 'Guide Line',
+    guide_line_length: 'Length:',
+    guide_line_x: 'X Coordinate:',
+    guide_line_desc: 'Guide lines will be engraved as a reference point to align the artwork.',
+    export: 'Export to Work Area',
+    exporting: 'Exporting...',
   },
 };
 

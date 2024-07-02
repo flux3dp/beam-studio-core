@@ -53,7 +53,7 @@ function ObjectPanel({ hide }: Props): JSX.Element {
     const isSingleGroup = elems?.length === 1 && elems[0].tagName.toLowerCase() === 'g';
     return {
       group: !isSingleGroup || elems?.length > 1,
-      ungroup: isSingleGroup && !elem.getAttribute('data-textpath-g'),
+      ungroup: isSingleGroup && !elem.getAttribute('data-textpath-g') && !elem.getAttribute('data-pass-through'),
       dist: elems?.length > 2,
       boolean: elems?.length > 1 && elems?.every(allowBooleanOperations),
       union: elems?.length > 1 && elems?.every(allowBooleanOperations),

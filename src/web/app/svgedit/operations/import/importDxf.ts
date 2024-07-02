@@ -2,6 +2,7 @@ import alertCaller from 'app/actions/alert-caller';
 import alertConfig from 'helpers/api/alert-config';
 import alertConstants from 'app/constants/alert-constants';
 import dialogCaller from 'app/actions/dialog-caller';
+import findDefs from 'app/svgedit/utils/findDef';
 import HistoryCommandFactory from 'app/svgedit/history/HistoryCommandFactory';
 import history from 'app/svgedit/history/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
@@ -115,7 +116,7 @@ const importDxf = async (file: Blob): Promise<void> => {
     const symbol = svgdoc.createElementNS(NS.SVG, 'symbol') as unknown as SVGSymbolElement;
     symbol.setAttribute('overflow', 'visible');
     symbol.id = id;
-    svgedit.utilities.findDefs().appendChild(symbol);
+    findDefs().appendChild(symbol);
     symbol.innerHTML = layer.paths.join('');
     for (let j = symbol.childNodes.length - 1; j >= 0; j -= 1) {
       const child = symbol.childNodes[j] as unknown as SVGElement;

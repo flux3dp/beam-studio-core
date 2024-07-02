@@ -61,9 +61,8 @@ const appendUseElement = (
 
     const targetLayer = getLayerByName(targetLayerName);
     if (!checkLayerModule(targetLayer, targetModule)) {
-      const { layer: newLayer, cmd } = createLayer(targetLayerName, { isSubCmd: true });
+      const { layer: newLayer, name: newLayerName, cmd } = createLayer(targetLayerName, { isSubCmd: true });
       if (cmd && !cmd.isEmpty()) batchCmd.addSubCommand(cmd);
-      const newLayerName = getLayerName(newLayer);
       layerConfigHelper.initLayerConfig(newLayerName);
 
       if (type === 'layer' && targetLayerName) {
@@ -122,7 +121,7 @@ const appendUseElement = (
   } else {
     let targetLayer = currentDrawing.getCurrentLayer();
     if (!checkLayerModule(targetLayer, targetModule)) {
-      const { layer, cmd } = createLayer(
+      const { layer, name: newLayerName, cmd } = createLayer(
         targetModule === LayerModule.PRINTER
           ? i18n.lang.layer_module.printing
           : i18n.lang.layer_module.general_laser,
@@ -130,8 +129,6 @@ const appendUseElement = (
       );
       targetLayer = layer;
       if (cmd && !cmd.isEmpty()) batchCmd.addSubCommand(cmd);
-
-      const newLayerName = getLayerName(targetLayer);
       layerConfigHelper.initLayerConfig(newLayerName);
       svgCanvas.setCurrentLayer(newLayerName);
     }

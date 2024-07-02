@@ -33,6 +33,7 @@ jest.mock('helpers/useI18n', () => () => ({
       image: 'Image',
       text: 'Text',
       text_path: 'Text on Path',
+      pass_through_object: 'pass_through_object',
       line: 'Line',
       g: 'Group',
       multi_select: 'Multiple Objects',

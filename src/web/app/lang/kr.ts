@@ -32,6 +32,7 @@ const lang: ILang = {
       image: '이미지',
       text: '텍스트',
       text_path: '텍스트 경로',
+      pass_through_object: '객체 통과',
       line: '라인',
       g: '그룹',
       multi_select: '여러 개체',
@@ -636,6 +637,7 @@ const lang: ILang = {
         qr_code: 'QR 코드',
         boxgen: 'Boxgen',
         my_cloud: '내 클라우드',
+        pass_through: '패스 스루 모드',
         curve_engraving: {
           title: '3D 곡선',
           exit: '종료',
@@ -1029,6 +1031,8 @@ const lang: ILang = {
       enable_diode: '다이오드 레이저',
       enable_autofocus: '오토포커스',
       extend_workarea: '작업 영역 확장',
+      pass_through: '통과',
+      pass_through_height_desc: '작업 영역을 확장하기 위해 객체의 길이를 입력하십시오.',
       add_on: '애드온',
       low: '낮음',
       medium: '보통',
@@ -1812,6 +1816,18 @@ const lang: ILang = {
   },
   pass_through: {
     title: '패스 스루 모드',
+    help_text: 'Ador의 패스 스루 설정 방법',
+    object_length: '객체 길이',
+    workaea_height: '작업 영역 (높이):',
+    height_desc: '각 작업 영역 섹션의 높이를 설정합니다.',
+    ref_layer: '참조 레이어',
+    ref_layer_desc: '작업 영역에서 이전의 하단 섹션을 표시합니다.',
+    guide_line: '가이드 라인',
+    guide_line_length: '길이:',
+    guide_line_x: 'X 좌표:',
+    guide_line_desc: '가이드 라인은 작품을 정렬하기 위한 기준점으로 새겨집니다.',
+    export: '작업 영역으로 내보내기',
+    exporting: '내보내는 중...',
   },
 };
 

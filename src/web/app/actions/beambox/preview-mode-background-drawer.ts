@@ -8,6 +8,7 @@ import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import i18n from 'helpers/i18n';
 import NS from 'app/constants/namespaces';
 import workareaManager from 'app/svgedit/workarea';
+import { getSupportInfo } from 'app/constants/add-on';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgCanvas;
@@ -47,7 +48,7 @@ class PreviewModeBackgroundDrawer {
     };
     this.backgroundDrawerSubject = new Subject();
     this.cameraOffset = null;
-    canvasEventEmitter.on('canvas-change', this.updateCanvasSize);
+    canvasEventEmitter.on('model-changed', this.updateCanvasSize);
   }
 
   private updateRatio(width: number, height: number) {
@@ -60,8 +61,8 @@ class PreviewModeBackgroundDrawer {
   }
 
   start(cameraOffset) {
-    const { width, height, rotaryExpansion } = workareaManager;
-    const canvasHeight = height - rotaryExpansion[1];
+    const { width, height, expansion } = workareaManager;
+    const canvasHeight = height - expansion[1];
     this.updateRatio(width, height);
     this.canvas.width = Math.round(width * this.canvasRatio);
     this.canvas.height = Math.round(canvasHeight * this.canvasRatio);
@@ -95,13 +96,12 @@ class PreviewModeBackgroundDrawer {
   }
 
   updateCanvasSize = () => {
-    if (this.isClean()) return;
     this.clear();
-    const { width, height, rotaryExpansion } = workareaManager;
-    const canvasHeight = height - rotaryExpansion[1];
+    const { width, height, expansion } = workareaManager;
+    const canvasHeight = height - expansion[1];
     this.updateRatio(width, canvasHeight);
-    this.canvas.width = Math.round(width);
-    this.canvas.height = Math.round(canvasHeight);
+    this.canvas.width = Math.round(width * this.canvasRatio);
+    this.canvas.height = Math.round(canvasHeight * this.canvasRatio);
     this.resetBoundary();
     if (BeamboxPreference.read('show_guides')) {
       beamboxStore.emitDrawGuideLines();
@@ -132,14 +132,14 @@ class PreviewModeBackgroundDrawer {
     boundaryGroup.setAttribute('style', 'pointer-events:none');
     const fixedSizeSvg = document.getElementById('fixedSizeSvg');
     fixedSizeSvg.insertBefore(boundaryGroup, fixedSizeSvg.firstChild);
-    const { width, height, rotaryExpansion } = workareaManager;
+    const { width, height, expansion } = workareaManager;
 
-    if (rotaryExpansion[1] > 0) {
+    if (expansion[1] > 0) {
       const rotaryPreveiwBoundary = document.createElementNS(NS.SVG, 'rect');
       rotaryPreveiwBoundary.setAttribute('x', '0');
-      rotaryPreveiwBoundary.setAttribute('y', (height - rotaryExpansion[1]).toString());
+      rotaryPreveiwBoundary.setAttribute('y', (height - expansion[1]).toString());
       rotaryPreveiwBoundary.setAttribute('width', width.toString());
-      rotaryPreveiwBoundary.setAttribute('height', rotaryExpansion[1].toString());
+      rotaryPreveiwBoundary.setAttribute('height', expansion[1].toString());
       rotaryPreveiwBoundary.setAttribute('fill', '#CCC');
       rotaryPreveiwBoundary.setAttribute('fill-opacity', '0.4');
       boundaryGroup.appendChild(rotaryPreveiwBoundary);
@@ -148,11 +148,11 @@ class PreviewModeBackgroundDrawer {
       rotaryPreveiwBoundaryText.setAttribute('font-size', '400');
       const textNode = document.createTextNode(LANG.unpreviewable_area);
       rotaryPreveiwBoundaryText.appendChild(textNode);
-      this.setTextStyle(rotaryPreveiwBoundaryText)
+      this.setTextStyle(rotaryPreveiwBoundaryText);
       boundaryGroup.appendChild(rotaryPreveiwBoundaryText);
       const { width: textW, height: textH } = rotaryPreveiwBoundaryText.getBBox();
       const x = (width - textW) / 2;
-      const y = height - (rotaryExpansion[1] - textH) / 2;
+      const y = height - (expansion[1] - textH) / 2;
       rotaryPreveiwBoundaryText.setAttribute('x', x.toString());
       rotaryPreveiwBoundaryText.setAttribute('y', y.toString());
     }
@@ -208,7 +208,7 @@ class PreviewModeBackgroundDrawer {
       boundaryGroup.appendChild(borderTop);
       if (
         BeamboxPreference.read('enable-diode') &&
-        Constant.addonsSupportList.hybridLaser.includes(BeamboxPreference.read('workarea'))
+        getSupportInfo(BeamboxPreference.read('workarea')).hybridLaser
       ) {
         const { hybridBorder, hybridDescText } =
           this.getHybridModulePreviewBoundary(uncapturabledHeight);

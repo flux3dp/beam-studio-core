@@ -44,7 +44,7 @@ const SIM_TIME_MINUTE = units.convertTimeUnit(SIM_TIME, 'm');
 const SIM_TIME_MS = units.convertTimeUnit(SIM_TIME, 'ms');
 const speedRatio = [0.5, 1, 2, 4, 8];
 
-const documentPanelEventEmitter = eventEmitterFactory.createEventEmitter('document-panel');
+const canvasEventEmitter = eventEmitterFactory.createEventEmitter('canvas');
 const zoomBlockEventEmitter = eventEmitterFactory.createEventEmitter('zoom-block');
 
 //
@@ -548,7 +548,7 @@ class PathPreview extends React.Component<Props, State> {
     this.resetView();
     this.updateGcode();
 
-    documentPanelEventEmitter.on('workarea-change', this.onDeviceChange);
+    canvasEventEmitter.on('canvas-change', this.onDeviceChange);
   }
 
   shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
@@ -571,7 +571,7 @@ class PathPreview extends React.Component<Props, State> {
     window.removeEventListener('keyup', this.windowKeyUp);
     window.removeEventListener('resize', this.updateWorkspace);
 
-    documentPanelEventEmitter.off('workarea-change', this.onDeviceChange);
+    canvasEventEmitter.off('canvas-change', this.onDeviceChange);
   }
 
   setCameraAttrs = (attrs) => {

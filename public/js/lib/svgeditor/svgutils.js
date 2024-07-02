@@ -351,6 +351,9 @@ svgedit.utilities.findTempUse = function() {
 //
 // Returns:
 // The document's <defs> element, create it first if necessary
+/**
+ * @deprecated Please use import findDefs from 'app/svgedit/utils/findDef'; if you want to use this function
+ */
 svgedit.utilities.findDefs = function() {
 	let svgElement = document.getElementById('svg_defs');
 	if (!svgElement) {

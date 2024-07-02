@@ -1,6 +1,7 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
+import { DataType } from 'helpers/layer/layer-config-helper';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
 
 import LayerList from './LayerList';
@@ -35,6 +36,7 @@ jest.mock('helpers/layer/layer-config-helper', () => ({
   getData: (...args) => mockGetData(...args),
   DataType: {
     module: 'module',
+    ref: 'ref',
   },
 }));
 
@@ -94,7 +96,10 @@ describe('test LayerList', () => {
 
   it('should render correctly', () => {
     mockUseWorkarea.mockReturnValue('fbm1');
-    mockGetData.mockReturnValue(2);
+    mockGetData.mockImplementation((layer, type) => {
+      if (type === DataType.module) return 2;
+      return false;
+    });
     mockGetAllLayerNames.mockReturnValue(['layer1', 'layer2']);
     const mockLayer = {
       getAttribute: jest.fn(),
@@ -132,9 +137,11 @@ describe('test LayerList', () => {
     );
     expect(container).toMatchSnapshot();
     expect(mockUseWorkarea).toBeCalledTimes(1);
-    expect(mockGetData).toBeCalledTimes(2);
+    expect(mockGetData).toBeCalledTimes(4);
     expect(mockGetData).toHaveBeenNthCalledWith(1, mockLayer, 'module');
-    expect(mockGetData).toHaveBeenNthCalledWith(2, mockLayer, 'module');
+    expect(mockGetData).toHaveBeenNthCalledWith(2, mockLayer, 'ref');
+    expect(mockGetData).toHaveBeenNthCalledWith(3, mockLayer, 'module');
+    expect(mockGetData).toHaveBeenNthCalledWith(4, mockLayer, 'ref');
     expect(mockLayer.getAttribute).toBeCalledTimes(4);
     expect(mockLayer.getAttribute).toHaveBeenNthCalledWith(1, 'data-lock');
     expect(mockLayer.getAttribute).toHaveBeenNthCalledWith(2, 'data-fullcolor');

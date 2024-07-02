@@ -23,6 +23,7 @@ import { DmktIcon } from 'app/icons/icons';
 import { CanvasContext, CanvasMode } from 'app/contexts/CanvasContext';
 import { getCurrentUser } from 'helpers/api/flux-id';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { showPassThrough } from 'app/components/pass-through/PassThrough';
 import { useIsMobile } from 'helpers/system-helper';
 
 import styles from './CanvasTabBar.module.scss';
@@ -136,6 +137,10 @@ const CanvasTabBar = (): JSX.Element => {
       key: 'dmkt',
       title: 'DMKT',
       icon: <DmktIcon style={{ fontSize: 40 }} />,
+    },{
+      key: 'passthrough',
+      title: lang.beambox.left_panel.label.pass_through,
+      icon: <LeftPanelIcons.PassThrough />,
     },
     {
       key: '',
@@ -198,6 +203,8 @@ const CanvasTabBar = (): JSX.Element => {
       dialogCaller.showBoxGen(resetActiveKey);
     } else if (key === 'cloud') {
       dialogCaller.showMyCloud(resetActiveKey);
+    } else if (key === 'passthrough') {
+      showPassThrough(resetActiveKey);
     }
   };
 

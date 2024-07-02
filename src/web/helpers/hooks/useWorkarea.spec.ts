@@ -45,7 +45,14 @@ describe('test useWorkarea', () => {
     expect(mockOn).not.toBeCalled();
     const cleanup = effect();
     expect(mockOn).toBeCalledTimes(1);
-    expect(mockOn).toBeCalledWith('workarea-change', mockSetState);
+    expect(mockOn).toBeCalledWith('model-changed', expect.any(Function));
+    const handler = mockOn.mock.calls[0][1];
+    expect(mockSetState).not.toBeCalled();
+    mockRead.mockReturnValue('fbm2');
+    handler();
+    expect(mockRead).toBeCalledTimes(2);
+    expect(mockSetState).toBeCalledTimes(1);
+    expect(mockSetState).toBeCalledWith('fbm2');
     expect(mockOff).not.toBeCalled();
     cleanup();
     expect(mockOff).toBeCalledTimes(1);

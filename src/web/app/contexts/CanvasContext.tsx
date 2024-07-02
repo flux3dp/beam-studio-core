@@ -1,11 +1,13 @@
 import React, { createContext, useCallback, useEffect, useState } from 'react';
 
+import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import curveEngravingModeController from 'app/actions/canvas/curveEngravingModeController';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import useForceUpdate from 'helpers/use-force-update';
+import workareaManager from 'app/svgedit/workarea';
 import * as TutorialController from 'app/views/tutorials/tutorialController';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
@@ -51,6 +53,7 @@ interface CanvasContextType {
   setIsColorPreviewing: (isColorPreviewing: boolean) => void;
   isPathEditing: boolean;
   setIsPathEditing: (isPathEditing: boolean) => void;
+  hasPassthroughExtension: boolean;
 }
 
 const CanvasContext = createContext<CanvasContextType>({
@@ -74,6 +77,7 @@ const CanvasContext = createContext<CanvasContextType>({
   setIsColorPreviewing: () => {},
   isPathEditing: false,
   setIsPathEditing: () => {},
+  hasPassthroughExtension: false,
 });
 
 const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>): JSX.Element => {
@@ -87,6 +91,7 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
   const [setupPreviewMode, setSetupPreviewMode] = useState<() => void | null>(null);
   const [selectedDevice, setSelectedDevice] = useState<IDeviceInfo | null>(null);
   const [isPathEditing, setIsPathEditing] = useState<boolean>(false);
+  const [hasPassthroughExtension, setHasPassthroughExtension] = useState<boolean>(false);
 
   const endPreviewMode = (): void => {
     try {
@@ -131,9 +136,15 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
     topBarEventEmitter.on('SET_START_PREVIEW_CALLBACK', setStartPreviewCallbackHandler);
     return () => {
       topBarEventEmitter.removeListener('SET_HAS_UNSAVED_CHANGE', setHasUnsavedChange);
-      topBarEventEmitter.removeListener('SET_SHOULD_START_PREVIEW_CONTROLLER', setShouldStartPreviewController);
+      topBarEventEmitter.removeListener(
+        'SET_SHOULD_START_PREVIEW_CONTROLLER',
+        setShouldStartPreviewController
+      );
       topBarEventEmitter.removeListener('SET_SELECTED_DEVICE', setSelectedDevice);
-      topBarEventEmitter.removeListener('SET_START_PREVIEW_CALLBACK', setStartPreviewCallbackHandler);
+      topBarEventEmitter.removeListener(
+        'SET_START_PREVIEW_CALLBACK',
+        setStartPreviewCallbackHandler
+      );
     };
   }, []);
   useEffect(() => {
@@ -170,10 +181,17 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
     canvasEventEmitter.on('SET_COLOR_PREVIEWING', setIsColorPreviewing);
     canvasEventEmitter.on('SET_PATH_EDITING', setIsPathEditing);
     canvasEventEmitter.on('SET_MODE', setMode);
+    const canvasChangeHandler = () =>
+      setHasPassthroughExtension(
+        beamboxPreference.read('pass-through') && workareaManager.expansion[1] > 0
+      );
+    canvasChangeHandler();
+    canvasEventEmitter.on('canvas-change', canvasChangeHandler);
     return () => {
       canvasEventEmitter.removeListener('SET_COLOR_PREVIEWING', setIsColorPreviewing);
       canvasEventEmitter.removeListener('SET_PATH_EDITING', setIsPathEditing);
       canvasEventEmitter.removeListener('SET_MODE', setMode);
+      canvasEventEmitter.removeListener('canvas-change', canvasChangeHandler);
     };
   }, []);
 
@@ -237,6 +255,7 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
         setIsColorPreviewing,
         isPathEditing,
         setIsPathEditing,
+        hasPassthroughExtension,
       }}
     >
       {children}
