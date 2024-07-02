@@ -118,7 +118,7 @@ const sliceWorkarea = async (
         layer,
         name: newLayerName,
         cmd,
-      } = createLayer(`${name}_slice_${i + 1}`, {
+      } = createLayer(`${name} - ${i + 1}`, {
         isSubCmd: true,
       });
       if (!cmd.isEmpty()) batchCmd.addSubCommand(cmd);
