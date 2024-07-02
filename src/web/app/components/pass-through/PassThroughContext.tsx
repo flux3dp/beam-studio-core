@@ -41,7 +41,7 @@ export function PassThroughProvider({ children }: Props): JSX.Element {
   const [passThroughHeight, setPassThroughHeight] = useState(
     workareaObj.passThroughMaxHeight ?? workareaObj.height
   );
-  const [referenceLayer, setReferenceLayer] = useState(true);
+  const [referenceLayer, setReferenceLayer] = useState(false);
   const handleExport = async () => sliceWorkarea(passThroughHeight, { refLayers: referenceLayer, guideLine });
 
   return (
