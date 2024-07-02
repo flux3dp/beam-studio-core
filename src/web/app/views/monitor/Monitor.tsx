@@ -3,6 +3,7 @@ import { Modal, Tabs } from 'antd';
 import { CameraOutlined, FolderOutlined, PictureOutlined } from '@ant-design/icons';
 
 import deviceConstants from 'app/constants/device-constants';
+import localeHelper from 'helpers/locale-helper';
 import MonitorStatus from 'helpers/monitor-status';
 import useI18n from 'helpers/useI18n';
 import { Mode } from 'app/constants/monitor-constants';
@@ -29,15 +30,17 @@ const Monitor = (props: Props): JSX.Element => {
     ? taskMode
     : mode;
 
-  // const renderRelocate = (): JSX.Element => {
-  //   return (
-  //     <MonitorRelocate
-  //       device={device}
-  //     />
-  //   );
-  // };
-
   const tabItems = [
+    taskImageURL ? {
+      label: (
+        <div>
+          <PictureOutlined />
+          {LANG.monitor.taskTab}
+        </div>
+      ),
+      key: taskMode,
+      children: <MonitorTask />,
+    } : null,
     {
       label: (
         <div>
@@ -48,7 +51,7 @@ const Monitor = (props: Props): JSX.Element => {
       key: Mode.FILE,
       children: <MonitorFilelist path={currentPath.join('/')} />,
     },
-    {
+    (localeHelper.isNorthAmerica ? null : {
       label: (
         <div>
           <CameraOutlined />
@@ -57,24 +60,9 @@ const Monitor = (props: Props): JSX.Element => {
       ),
       key: Mode.CAMERA,
       children: <MonitorCamera device={device} />,
-    },
-  ];
-  if (taskImageURL) {
-    tabItems.unshift({
-      label: (
-        <div>
-          <PictureOutlined />
-          {LANG.monitor.taskTab}
-        </div>
-      ),
-      key: taskMode,
-      children: (
-        <div>
-          <MonitorTask />
-        </div>
-      ),
-    });
-  }
+    }),
+  ].filter((item) => item) as { label: JSX.Element; key: Mode; children: JSX.Element }[]
+
   const statusText = useMemo(() => {
     if (uploadProgress) return LANG.beambox.popup.progress.uploading;
     if (report) return MonitorStatus.getDisplayStatus(report.st_label);
