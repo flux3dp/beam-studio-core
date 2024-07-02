@@ -76,4 +76,10 @@ export default {
     1: 1,
     2: 1,
   },
+  dpiValueMap: {
+    low: 100,
+    medium: 250,
+    high: 500,
+    ultra: 1000,
+  },
 };

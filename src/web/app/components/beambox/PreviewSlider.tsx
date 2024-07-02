@@ -6,7 +6,7 @@ import deviceMaster from 'helpers/device-master';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import useI18n from 'helpers/useI18n';
 import WorkareaIcons from 'app/icons/workarea/WorkareaIcons';
-import { CanvasContext } from 'app/contexts/CanvasContext';
+import { CanvasContext, CanvasMode } from 'app/contexts/CanvasContext';
 import { IConfigSetting } from 'interfaces/IDevice';
 
 import styles from './PreviewSlider.module.scss';
@@ -15,7 +15,8 @@ const PreviewSlider = (): JSX.Element => {
   const [opacity, setOpacity] = useState(1);
   const [showOpacity, setShowOpacity] = useState(false);
   const [exposureSetting, setExposureSetting] = useState<IConfigSetting | null>(null);
-  const { isPreviewing, isPathPreviewing } = useContext(CanvasContext);
+  const { mode } = useContext(CanvasContext);
+  const isPreviewing = mode === CanvasMode.Preview;
   const lang = useI18n();
 
   const getSetting = async () => {
@@ -50,7 +51,7 @@ const PreviewSlider = (): JSX.Element => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isPreviewing, PreviewModeController.isPreviewModeOn]);
 
-  if (isPathPreviewing) return null;
+  if (mode === CanvasMode.PathPreview) return null;
 
   return (
     <Space className={styles.space} direction="vertical">

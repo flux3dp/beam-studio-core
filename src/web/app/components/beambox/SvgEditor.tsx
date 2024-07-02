@@ -2,13 +2,14 @@ import React from 'react';
 import classNames from 'classnames';
 
 import constant from 'app/actions/beambox/constant';
+import DpiInfo from 'app/components/beambox/DpiInfo';
 import PathPreview from 'app/components/beambox/path-preview/PathPreview';
 import storage from 'implementations/storage';
 import svgEditor from 'app/actions/beambox/svg-editor';
 import Workarea from 'app/components/beambox/Workarea';
 import workareaManager from 'app/svgedit/workarea';
 import ZoomBlock from 'app/components/beambox/ZoomBlock';
-import { CanvasContext } from 'app/contexts/CanvasContext';
+import { CanvasContext, CanvasMode } from 'app/contexts/CanvasContext';
 
 import styles from './SvgEditor.module.scss';
 
@@ -25,7 +26,7 @@ export default class SvgEditor extends React.Component {
   }
 
   private renderSvgEditor = () => {
-    const { isPathPreviewing } = this.context;
+    const { mode } = this.context;
     const platformClassNames = classNames({
       mac: window.os === 'MacOS',
       [styles.mac]: window.os === 'MacOS',
@@ -34,7 +35,7 @@ export default class SvgEditor extends React.Component {
       <div
         id="svg_editor"
         className={platformClassNames}
-        style={isPathPreviewing ? { display: 'none' } : {}}
+        style={mode === CanvasMode.PathPreview ? { display: 'none' } : {}}
       >
         <div>
           <div id="rulers" className={classNames(styles.rulers, platformClassNames)}>
@@ -64,7 +65,7 @@ export default class SvgEditor extends React.Component {
   };
 
   render(): JSX.Element {
-    const { isPathPreviewing } = this.context;
+    const { mode } = this.context;
     // HIDE ALMOST ALL TOOLS USING CSS
     return (
       <>
@@ -78,12 +79,15 @@ export default class SvgEditor extends React.Component {
             </div>
           </div>
         </div>
-        {isPathPreviewing && <PathPreview />}
-        {!isPathPreviewing && (
-          <ZoomBlock
-            setZoom={(zoom) => workareaManager.zoom(zoom / constant.dpmm)}
-            resetView={workareaManager.resetView}
-          />
+        {mode === CanvasMode.PathPreview && <PathPreview />}
+        {mode !== CanvasMode.PathPreview && (
+          <>
+            <ZoomBlock
+              setZoom={(zoom) => workareaManager.zoom(zoom / constant.dpmm)}
+              resetView={workareaManager.resetView}
+            />
+            <DpiInfo />
+          </>
         )}
       </>
     );

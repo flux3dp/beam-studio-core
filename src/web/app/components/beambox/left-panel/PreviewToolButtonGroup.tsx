@@ -2,10 +2,11 @@ import React, { useMemo } from 'react';
 
 import beamboxStore from 'app/stores/beambox-store';
 import constant from 'app/actions/beambox/constant';
+import curveEngravingModeController from 'app/actions/canvas/curveEngravingModeController';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
+import isDev from 'helpers/is-dev';
 import LeftPanelButton from 'app/components/beambox/left-panel/LeftPanelButton';
 import LeftPanelIcons from 'app/icons/left-panel/LeftPanelIcons';
-import isDev from 'helpers/is-dev';
 import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import useI18n from 'helpers/useI18n';
@@ -103,18 +104,6 @@ const PreviewToolButtonGroup = ({
           }}
         />
       )}
-      {isAdorSeries && isDev() && (
-        <LeftPanelButton
-          id="3d-rotation"
-          icon={<LeftPanelIcons.Shoot />}
-          title="Adjust 3D Rotation"
-          onClick={() => {
-            if (PreviewModeController.isPreviewMode())
-              PreviewModeController.editCamera3dRotation();
-          }}
-          disabled={!isPreviewMode}
-        />
-      )}
       <LeftPanelButton
         id="clear-preview"
         icon={<LeftPanelIcons.Delete />}
@@ -122,6 +111,14 @@ const PreviewToolButtonGroup = ({
         disabled={isCanvasEmpty}
         onClick={clearPreview}
       />
+      {isDev() && (
+        <LeftPanelButton
+          id="curve-engrave"
+          icon={<LeftPanelIcons.CurveEngrave />}
+          title={lang.label.curve_engraving.title}
+          onClick={() => curveEngravingModeController.start()}
+        />
+      )}
     </div>
   );
 };

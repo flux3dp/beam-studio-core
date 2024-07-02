@@ -5,7 +5,7 @@ exports[`test FileName should render correctly 1`] = `
   <div
     class="file-name"
   >
-    abc.svg*
+    abc*
   </div>
 </div>
 `;
@@ -36,7 +36,7 @@ exports[`test FileName should render correctly with cloud file 1`] = `
     class="file-name"
   >
     <svgr-url />
-    abc.svg*
+    abc*
   </div>
 </div>
 `;

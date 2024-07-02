@@ -15,7 +15,7 @@ import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IBatchCommand } from 'interfaces/IHistory';
 import { IImageDataResult } from 'interfaces/IImage';
 import { isMobile } from 'helpers/system-helper';
-import { sliderTheme } from 'app/views/beambox/Right-Panels/antd-config';
+import { sliderTheme } from 'app/constants/antd-config';
 
 import styles from './Image-Options.module.scss';
 

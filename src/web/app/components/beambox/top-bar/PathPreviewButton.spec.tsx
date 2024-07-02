@@ -1,6 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable import/first */
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
+
+import { CanvasContext } from 'app/contexts/CanvasContext';
 
 jest.mock('helpers/useI18n', () => () => ({
   topbar: {
@@ -25,10 +28,20 @@ getSVGAsync.mockImplementation((callback) => {
   });
 });
 
+const CanvasMode = {
+  Draw: 1,
+  Preview: 2,
+  PathPreview: 3,
+};
 jest.mock('app/contexts/CanvasContext', () => ({
   CanvasContext: React.createContext({
-    isPreviewing: false,
+    mode: 1,
   }),
+  CanvasMode: {
+    Draw: 1,
+    Preview: 2,
+    PathPreview: 3,
+  },
 }));
 
 import PathPreviewButton from './PathPreviewButton';
@@ -40,7 +53,9 @@ describe('test PathPreviewButton', () => {
   test('no WebGL', () => {
     checkWebGL.mockReturnValue(false);
     const { container } = render(
-      <PathPreviewButton isPathPreviewing isDeviceConnected togglePathPreview={jest.fn()} />
+      <CanvasContext.Provider value={{ mode: CanvasMode.PathPreview } as any}>
+        <PathPreviewButton isDeviceConnected togglePathPreview={jest.fn()} />
+      </CanvasContext.Provider>
     );
     expect(container).toMatchSnapshot();
   });
@@ -49,7 +64,9 @@ describe('test PathPreviewButton', () => {
     it('should not render', () => {
       mockUseWorkarea.mockReturnValue('ado1');
       const { container } = render(
-        <PathPreviewButton isPathPreviewing isDeviceConnected togglePathPreview={jest.fn()} />
+        <CanvasContext.Provider value={{ mode: CanvasMode.PathPreview } as any}>
+          <PathPreviewButton isDeviceConnected togglePathPreview={jest.fn()} />
+        </CanvasContext.Provider>
       );
       expect(container).toMatchSnapshot();
     });
@@ -65,11 +82,9 @@ describe('test PathPreviewButton', () => {
       window.FLUX.version = 'web';
       checkWebGL.mockReturnValue(true);
       const { container } = render(
-        <PathPreviewButton
-          isPathPreviewing
-          isDeviceConnected={false}
-          togglePathPreview={jest.fn()}
-        />
+        <CanvasContext.Provider value={{ mode: CanvasMode.PathPreview } as any}>
+          <PathPreviewButton isDeviceConnected={false} togglePathPreview={jest.fn()} />
+        </CanvasContext.Provider>
       );
       expect(container).toMatchSnapshot();
     });
@@ -77,11 +92,9 @@ describe('test PathPreviewButton', () => {
     test('no devices connected in desktop version', () => {
       window.FLUX.version = '1.2.3';
       const { container } = render(
-        <PathPreviewButton
-          isPathPreviewing
-          isDeviceConnected={false}
-          togglePathPreview={jest.fn()}
-        />
+        <CanvasContext.Provider value={{ mode: CanvasMode.PathPreview } as any}>
+          <PathPreviewButton isDeviceConnected={false} togglePathPreview={jest.fn()} />
+        </CanvasContext.Provider>
       );
       expect(container).toMatchSnapshot();
     });
@@ -95,11 +108,9 @@ describe('test PathPreviewButton', () => {
         checkWebGL.mockReturnValue(true);
         const togglePathPreview = jest.fn();
         const { container } = render(
-          <PathPreviewButton
-            isPathPreviewing
-            isDeviceConnected
-            togglePathPreview={togglePathPreview}
-          />
+          <CanvasContext.Provider value={{ mode: CanvasMode.PathPreview } as any}>
+            <PathPreviewButton isDeviceConnected togglePathPreview={togglePathPreview} />
+          </CanvasContext.Provider>
         );
 
         fireEvent.click(container.querySelector('div[class*="button"]'));
@@ -111,11 +122,9 @@ describe('test PathPreviewButton', () => {
         checkWebGL.mockReturnValue(true);
         const togglePathPreview = jest.fn();
         const { container } = render(
-          <PathPreviewButton
-            isPathPreviewing={false}
-            isDeviceConnected
-            togglePathPreview={togglePathPreview}
-          />
+          <CanvasContext.Provider value={{ mode: CanvasMode.Draw } as any}>
+            <PathPreviewButton isDeviceConnected togglePathPreview={togglePathPreview} />
+          </CanvasContext.Provider>
         );
         fireEvent.click(container.querySelector('div[class*="button"]'));
         expect(clearSelection).toHaveBeenCalledTimes(1);

@@ -10,7 +10,7 @@ import PathEditIcons from 'app/icons/path-edit-panel/PathEditIcons';
 import useForceUpdate from 'helpers/use-force-update';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ISVGPath } from 'interfaces/ISVGPath';
-import { textButtonTheme } from 'app/views/beambox/Right-Panels/antd-config';
+import { textButtonTheme } from 'app/constants/antd-config';
 import { TrashIcon } from 'app/icons/icons';
 import { useIsMobile } from 'helpers/system-helper';
 

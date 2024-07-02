@@ -28,15 +28,15 @@ const FloatingPanel = ({
 }: Props): JSX.Element => {
   const panelRef = React.useRef(null);
   const [panelHeight, setPanelHeight] = React.useState(anchors[0]);
-  const [hasClosed, setHasClosed] = React.useState(false);
   const [isAnimating, setIsAnimating] = React.useState(true);
+  const hasClosedRef = React.useRef(false);
 
   React.useEffect(() => {
     if (forceClose) {
       panelRef.current.setHeight(0);
     } else if (panelHeight === 0 || !anchors.includes(panelHeight)) {
       panelRef.current.setHeight(anchors.find((anchor) => anchor > 0));
-      setHasClosed(false);
+      hasClosedRef.current = false;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [anchors, panelRef, forceClose]);
@@ -44,8 +44,8 @@ const FloatingPanel = ({
   const onHeightChange = (height: number, animating: boolean) => {
     setPanelHeight(height);
     setIsAnimating(animating);
-    if (height <= 0 && !hasClosed) {
-      setHasClosed(true);
+    if (height <= 0 && !hasClosedRef.current) {
+      hasClosedRef.current = true;
       onClose?.();
     }
   };

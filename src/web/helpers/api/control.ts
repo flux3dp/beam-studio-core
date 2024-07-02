@@ -303,7 +303,7 @@ class Control extends EventEmitter {
   }
 
   useRawLineCheckCommand(command: string, timeout = 30000) {
-    return new Promise<any>((resolve, reject) => {
+    return new Promise<string>((resolve, reject) => {
       let timeoutTimer = this.setTimeoutTimer(reject, timeout);
       let responseString = '';
       this.on(EVENT_COMMAND_MESSAGE, (response) => {
@@ -327,12 +327,11 @@ class Control extends EventEmitter {
             return false;
           });
           const hasError = responseStrings.some((s) => s.startsWith('ER'));
-          console.log(responseStrings);
-          responseString = responseStrings[responseStrings.length - 1];
+          // responseString = responseStrings[responseStrings.length - 1];
           if (isCommandCompleted) {
             this._lineNumber += 1;
             this.removeCommandListeners();
-            resolve(null);
+            resolve(responseString);
           } else if (hasERL) {
             const cmd = this.buildLineCheckCommand(command);
             console.log(cmd);
@@ -384,26 +383,27 @@ class Control extends EventEmitter {
     return [fileName, ...data];
   };
 
-  report = () => new Promise<any>((resolve, reject) => {
-    let retryTime = 0;
-    const timeoutTimer = this.setTimeoutTimer(reject, 3000);
-    this.on(EVENT_COMMAND_MESSAGE, (response) => {
-      if (response.status === 'ok') {
-        clearTimeout(timeoutTimer);
-        this.removeCommandListeners();
-        resolve(response);
-      } else if (retryTime < 3) {
-        retryTime += 1;
-        console.log('retry report');
-        this.ws.send('play report');
-      } else {
-        reject(response);
-      }
+  report = () =>
+    new Promise<any>((resolve, reject) => {
+      let retryTime = 0;
+      const timeoutTimer = this.setTimeoutTimer(reject, 3000);
+      this.on(EVENT_COMMAND_MESSAGE, (response) => {
+        if (response.status === 'ok') {
+          clearTimeout(timeoutTimer);
+          this.removeCommandListeners();
+          resolve(response);
+        } else if (retryTime < 3) {
+          retryTime += 1;
+          console.log('retry report');
+          this.ws.send('play report');
+        } else {
+          reject(response);
+        }
+      });
+      this.setDefaultErrorResponse(reject, timeoutTimer);
+      this.setDefaultFatalResponse(reject, timeoutTimer);
+      this.ws.send('play report');
     });
-    this.setDefaultErrorResponse(reject, timeoutTimer);
-    this.setDefaultFatalResponse(reject, timeoutTimer);
-    this.ws.send('play report');
-  });
 
   prepareUpload = (data, resolve: Function, reject: Function) => {
     const CHUNK_PKG_SIZE = 4096;
@@ -426,164 +426,167 @@ class Control extends EventEmitter {
     });
     this.setDefaultErrorResponse(reject);
     this.setDefaultFatalResponse(reject);
-};
+  };
 
-  upload = (data, path?: string, fileName?: string) => new Promise((resolve, reject) => {
-    this.prepareUpload(data, resolve, reject);
-    const mimeTypes = {
-      fc: 'application/fcode',
-      jpg: 'image/jpeg',
-      png: 'image/png',
-      json: 'application/json',
-    };
-    if (data.size === 0) {
-      throw new Error('File is empty');
-    }
-    if (path && fileName) {
-      // eslint-disable-next-line no-param-reassign
-      fileName = fileName.replace(/ /g, '_');
-      const ext = fileName.split('.').at(-1);
-      if (mimeTypes[ext]) {
-        this.ws.send(`upload ${mimeTypes[ext]} ${data.size} ${path}/${fileName}`);
-      } else if (ext === 'gcode') {
-        const newFileName = fileName.split('.');
-        newFileName.pop();
-        newFileName.push('fc');
+  upload = (data, path?: string, fileName?: string) =>
+    new Promise((resolve, reject) => {
+      this.prepareUpload(data, resolve, reject);
+      const mimeTypes = {
+        fc: 'application/fcode',
+        jpg: 'image/jpeg',
+        png: 'image/png',
+        json: 'application/json',
+      };
+      if (data.size === 0) {
+        throw new Error('File is empty');
+      }
+      if (path && fileName) {
         // eslint-disable-next-line no-param-reassign
-        fileName = newFileName.join('.');
-        this.ws.send(`upload text/gcode ${data.size} ${path}/${fileName}`);
+        fileName = fileName.replace(/ /g, '_');
+        const ext = fileName.split('.').at(-1);
+        if (mimeTypes[ext]) {
+          this.ws.send(`upload ${mimeTypes[ext]} ${data.size} ${path}/${fileName}`);
+        } else if (ext === 'gcode') {
+          const newFileName = fileName.split('.');
+          newFileName.pop();
+          newFileName.push('fc');
+          // eslint-disable-next-line no-param-reassign
+          fileName = newFileName.join('.');
+          this.ws.send(`upload text/gcode ${data.size} ${path}/${fileName}`);
+        } else {
+          throw new Error(`Unsupported file type ${ext}`);
+        }
       } else {
-        throw new Error(`Unsupported file type ${ext}`);
+        this.ws.send(`file upload application/fcode ${data.size}`);
       }
-    } else {
-      this.ws.send(`file upload application/fcode ${data.size}`);
-    }
-  });
+    });
 
-  abort = () => new Promise<any>((resolve, reject) => {
-    let retryTime = 0;
-    const retryTimeInterval = 2000;
-    let timeoutTimer: null | NodeJS.Timeout;
+  abort = () =>
+    new Promise<any>((resolve, reject) => {
+      let retryTime = 0;
+      const retryTimeInterval = 2000;
+      let timeoutTimer: null | NodeJS.Timeout;
 
-    const retry = (needsQuit = false) => {
-      retryTime += 1;
-      setTimeout(() => {
-        timeoutTimer = this.setTimeoutTimer(reject, 10000);
-        if (needsQuit) this.ws.send('play abort');
-        else this.ws.send('play report');
-      }, retryTimeInterval);
-    };
+      const retry = (needsQuit = false) => {
+        retryTime += 1;
+        setTimeout(() => {
+          timeoutTimer = this.setTimeoutTimer(reject, 10000);
+          if (needsQuit) this.ws.send('play abort');
+          else this.ws.send('play report');
+        }, retryTimeInterval);
+      };
 
-    this.on(EVENT_COMMAND_MESSAGE, (response) => {
-      if (timeoutTimer) clearTimeout(timeoutTimer);
-      if (retryTime >= 3) {
-        console.log('Control Abort Tried 3 times');
-        if (response.cmd === 'play report') {
-          if (response.device_status.st_id === 0) {
+      this.on(EVENT_COMMAND_MESSAGE, (response) => {
+        if (timeoutTimer) clearTimeout(timeoutTimer);
+        if (retryTime >= 3) {
+          console.log('Control Abort Tried 3 times');
+          if (response.cmd === 'play report') {
+            if (response.device_status.st_id === 0) {
+              this.removeCommandListeners();
+              resolve(null);
+              return;
+            }
+            if (response.device_status.st_id === 64) this.ws.send('play quit');
+          }
+          this.removeCommandListeners();
+          reject(response);
+        } else {
+          const deviceStatus = response.device_status || {};
+          if (deviceStatus.st_id === 0 || deviceStatus.st_id === 128) {
             this.removeCommandListeners();
             resolve(null);
-            return;
+          } else {
+            retry(response.status !== 'ok');
           }
-          if (response.device_status.st_id === 64) this.ws.send('play quit');
         }
-        this.removeCommandListeners();
-        reject(response);
-      } else {
-        const deviceStatus = response.device_status || {};
-        if (deviceStatus.st_id === 0 || deviceStatus.st_id === 128) {
+      });
+
+      this.on(EVENT_COMMAND_ERROR, (response) => {
+        if (timeoutTimer) clearTimeout(timeoutTimer);
+        if (retryTime >= 3) {
           this.removeCommandListeners();
-          resolve(null);
+          reject(response);
         } else {
-          retry(response.status !== 'ok');
+          retry();
         }
-      }
+      });
+
+      this.on(EVENT_COMMAND_FATAL, (response) => {
+        if (timeoutTimer) clearTimeout(timeoutTimer);
+        if (retryTime >= 3) {
+          this.removeCommandListeners();
+          reject(response);
+        } else {
+          retry();
+        }
+      });
+
+      timeoutTimer = this.setTimeoutTimer(reject, 10000);
+      this.ws.send('play abort');
     });
 
-    this.on(EVENT_COMMAND_ERROR, (response) => {
-      if (timeoutTimer) clearTimeout(timeoutTimer);
-      if (retryTime >= 3) {
-        this.removeCommandListeners();
-        reject(response);
-      } else {
-        retry();
-      }
-    });
+  quit = () =>
+    new Promise((resolve, reject) => {
+      let retryTime = 0;
+      const retryTimeInterval = 2000;
+      let timeoutTimer: null | NodeJS.Timeout;
 
-    this.on(EVENT_COMMAND_FATAL, (response) => {
-      if (timeoutTimer) clearTimeout(timeoutTimer);
-      if (retryTime >= 3) {
-        this.removeCommandListeners();
-        reject(response);
-      } else {
-        retry();
-      }
-    });
+      const retry = (needsQuit = false) => {
+        retryTime += 1;
+        setTimeout(() => {
+          timeoutTimer = this.setTimeoutTimer(reject, 10000);
+          if (needsQuit) this.ws.send('play quit');
+          else this.ws.send('play report');
+        }, retryTimeInterval);
+      };
 
-    timeoutTimer = this.setTimeoutTimer(reject, 10000);
-    this.ws.send('play abort');
-  });
-
-  quit = () => new Promise((resolve, reject) => {
-    let retryTime = 0;
-    const retryTimeInterval = 2000;
-    let timeoutTimer: null | NodeJS.Timeout;
-
-    const retry = (needsQuit = false) => {
-      retryTime += 1;
-      setTimeout(() => {
-        timeoutTimer = this.setTimeoutTimer(reject, 10000);
-        if (needsQuit) this.ws.send('play quit');
-        else this.ws.send('play report');
-      }, retryTimeInterval);
-    };
-
-    this.on(EVENT_COMMAND_MESSAGE, (response) => {
-      if (timeoutTimer) clearTimeout(timeoutTimer);
-      if (retryTime >= 3) {
-        console.log('Control Quit Tried 3 times');
-        if (response.cmd === 'play report') {
-          if (response.device_status.st_id === 0) {
+      this.on(EVENT_COMMAND_MESSAGE, (response) => {
+        if (timeoutTimer) clearTimeout(timeoutTimer);
+        if (retryTime >= 3) {
+          console.log('Control Quit Tried 3 times');
+          if (response.cmd === 'play report') {
+            if (response.device_status.st_id === 0) {
+              this.removeCommandListeners();
+              resolve(null);
+              return;
+            }
+          }
+          this.removeCommandListeners();
+          reject(response);
+        } else {
+          const deviceStatus = response.device_status || {};
+          if (deviceStatus.st_id === 0) {
             this.removeCommandListeners();
             resolve(null);
-            return;
+          } else {
+            retry(response.status !== 'ok');
           }
         }
-        this.removeCommandListeners();
-        reject(response);
-      } else {
-        const deviceStatus = response.device_status || {};
-        if (deviceStatus.st_id === 0) {
+      });
+
+      this.on(EVENT_COMMAND_ERROR, (response) => {
+        if (timeoutTimer) clearTimeout(timeoutTimer);
+        if (retryTime >= 3) {
           this.removeCommandListeners();
-          resolve(null);
+          reject(response);
         } else {
-          retry(response.status !== 'ok');
+          retry();
         }
-      }
-    });
+      });
 
-    this.on(EVENT_COMMAND_ERROR, (response) => {
-      if (timeoutTimer) clearTimeout(timeoutTimer);
-      if (retryTime >= 3) {
-        this.removeCommandListeners();
-        reject(response);
-      } else {
-        retry();
-      }
-    });
+      this.on(EVENT_COMMAND_FATAL, (response) => {
+        if (timeoutTimer) clearTimeout(timeoutTimer);
+        if (retryTime >= 3) {
+          this.removeCommandListeners();
+          reject(response);
+        } else {
+          retry();
+        }
+      });
 
-    this.on(EVENT_COMMAND_FATAL, (response) => {
-      if (timeoutTimer) clearTimeout(timeoutTimer);
-      if (retryTime >= 3) {
-        this.removeCommandListeners();
-        reject(response);
-      } else {
-        retry();
-      }
+      timeoutTimer = this.setTimeoutTimer(reject, 10000);
+      this.ws.send('play quit');
     });
-
-    timeoutTimer = this.setTimeoutTimer(reject, 10000);
-    this.ws.send('play quit');
-  });
 
   start = () => this.useWaitAnyResponse('play start');
 
@@ -607,131 +610,138 @@ class Control extends EventEmitter {
     return data;
   };
 
-  select = (path, fileName: string) => this.useWaitAnyResponse(
-    fileName === '' ? `play select ${path.join('/')}` : `play select ${path}/${fileName}`
-  );
+  select = (path, fileName: string) =>
+    this.useWaitAnyResponse(
+      fileName === '' ? `play select ${path.join('/')}` : `play select ${path}/${fileName}`
+    );
 
-  deleteFile = (fileNameWithPath: string) => this.useWaitAnyResponse(`file rmfile ${fileNameWithPath}`);
+  deleteFile = (fileNameWithPath: string) =>
+    this.useWaitAnyResponse(`file rmfile ${fileNameWithPath}`);
 
-  downloadFile = (fileNameWithPath: string) => new Promise((resolve, reject) => {
-    const file = [];
-    this.on(EVENT_COMMAND_MESSAGE, (response) => {
-      if (response.status === 'continue') {
-        this.emit(EVENT_COMMAND_PROGRESS, response);
-      } else {
-        file.push(response);
-      }
+  downloadFile = (fileNameWithPath: string) =>
+    new Promise((resolve, reject) => {
+      const file = [];
+      this.on(EVENT_COMMAND_MESSAGE, (response) => {
+        if (response.status === 'continue') {
+          this.emit(EVENT_COMMAND_PROGRESS, response);
+        } else {
+          file.push(response);
+        }
 
-      if (response instanceof Blob) {
-        this.removeCommandListeners();
-        resolve(file);
-      }
+        if (response instanceof Blob) {
+          this.removeCommandListeners();
+          resolve(file);
+        }
+      });
+      this.setDefaultErrorResponse(reject);
+      this.setDefaultFatalResponse(reject);
+
+      this.ws.send(`file download ${fileNameWithPath}`);
     });
-    this.setDefaultErrorResponse(reject);
-    this.setDefaultFatalResponse(reject);
 
-    this.ws.send(`file download ${fileNameWithPath}`);
-  });
+  downloadLog = (logName: string) =>
+    new Promise((resolve, reject) => {
+      const file = [];
+      this.on(EVENT_COMMAND_MESSAGE, (response) => {
+        if (response.status === 'transfer') {
+          this.emit(EVENT_COMMAND_PROGRESS, response);
+        } else if (!Object.keys(response).includes('completed')) {
+          file.push(response);
+        }
 
-  downloadLog = (logName: string) => new Promise((resolve, reject) => {
-    const file = [];
-    this.on(EVENT_COMMAND_MESSAGE, (response) => {
-      if (response.status === 'transfer') {
-        this.emit(EVENT_COMMAND_PROGRESS, response);
-      } else if (!Object.keys(response).includes('completed')) {
-        file.push(response);
-      }
+        if (response instanceof Blob) {
+          this.removeCommandListeners();
+          resolve(file);
+        }
+      });
+      this.setDefaultErrorResponse(reject);
+      this.setDefaultFatalResponse(reject);
 
-      if (response instanceof Blob) {
-        this.removeCommandListeners();
-        resolve(file);
-      }
+      this.ws.send(`fetch_log ${logName}`);
     });
-    this.setDefaultErrorResponse(reject);
-    this.setDefaultFatalResponse(reject);
 
-    this.ws.send(`fetch_log ${logName}`);
-  });
+  fetchCameraCalibImage = (fileName: string) =>
+    new Promise((resolve, reject) => {
+      const file = [];
+      this.on(EVENT_COMMAND_MESSAGE, (response) => {
+        if (response.status === 'transfer') {
+          this.emit(EVENT_COMMAND_PROGRESS, response);
+        } else if (!Object.keys(response).includes('completed')) {
+          file.push(response);
+        }
 
-  fetchCameraCalibImage = (fileName: string) => new Promise((resolve, reject) => {
-    const file = [];
-    this.on(EVENT_COMMAND_MESSAGE, (response) => {
-      if (response.status === 'transfer') {
-        this.emit(EVENT_COMMAND_PROGRESS, response);
-      } else if (!Object.keys(response).includes('completed')) {
-        file.push(response);
-      }
+        if (response instanceof Blob) {
+          this.removeCommandListeners();
+          resolve(response);
+        }
+      });
+      this.setDefaultErrorResponse(reject);
+      this.setDefaultFatalResponse(reject);
 
-      if (response instanceof Blob) {
-        this.removeCommandListeners();
-        resolve(response);
-      }
+      this.ws.send(`fetch_camera_calib_pictures ${fileName}`);
     });
-    this.setDefaultErrorResponse(reject);
-    this.setDefaultFatalResponse(reject);
 
-    this.ws.send(`fetch_camera_calib_pictures ${fileName}`);
-  });
+  fetchFisheyeParams = () =>
+    new Promise((resolve, reject) => {
+      const file = [];
+      this.on(EVENT_COMMAND_MESSAGE, async (response) => {
+        console.log(response);
+        if (response.status === 'transfer') {
+          this.emit(EVENT_COMMAND_PROGRESS, response);
+        } else if (!Object.keys(response).includes('completed')) {
+          file.push(response);
+        }
+        if (response instanceof Blob) {
+          this.removeCommandListeners();
+          const fileReader = new FileReader();
+          fileReader.onload = (e) => {
+            try {
+              const jsonString = e.target.result as string;
+              const data = JSON.parse(jsonString);
+              console.log(data);
+              resolve(data);
+            } catch (err) {
+              reject(err);
+            }
+          };
+          fileReader.readAsText(response);
+        }
+      });
+      this.setDefaultErrorResponse(reject);
+      this.setDefaultFatalResponse(reject);
 
-  fetchFisheyeParams = () => new Promise((resolve, reject) => {
-    const file = [];
-    this.on(EVENT_COMMAND_MESSAGE, async (response) => {
-      console.log(response);
-      if (response.status === 'transfer') {
-        this.emit(EVENT_COMMAND_PROGRESS, response);
-      } else if (!Object.keys(response).includes('completed')) {
-        file.push(response);
-      }
-      if (response instanceof Blob) {
-        this.removeCommandListeners();
-        const fileReader = new FileReader();
-        fileReader.onload = (e) => {
-          try {
-            const jsonString = e.target.result as string;
-            const data = JSON.parse(jsonString);
-            console.log(data);
-            resolve(data);
-          } catch (err) {
-            reject(err);
-          }
-        };
-        fileReader.readAsText(response);
-      }
+      this.ws.send('fetch_fisheye_params');
     });
-    this.setDefaultErrorResponse(reject);
-    this.setDefaultFatalResponse(reject);
 
-    this.ws.send('fetch_fisheye_params');
-  });
+  fetchFisheye3DRotation = () =>
+    new Promise<RotationParameters3D>((resolve, reject) => {
+      const file = [];
+      this.on(EVENT_COMMAND_MESSAGE, async (response) => {
+        if (response.status === 'transfer') {
+          this.emit(EVENT_COMMAND_PROGRESS, response);
+        } else if (!Object.keys(response).includes('completed')) {
+          file.push(response);
+        }
+        if (response instanceof Blob) {
+          this.removeCommandListeners();
+          const fileReader = new FileReader();
+          fileReader.onload = (e) => {
+            try {
+              const jsonString = e.target.result as string;
+              const data = JSON.parse(jsonString);
+              resolve(data);
+            } catch (err) {
+              reject(err);
+            }
+          };
+          fileReader.readAsText(response);
+        }
+      });
+      this.setDefaultErrorResponse(reject);
+      this.setDefaultFatalResponse(reject);
 
-  fetchFisheye3DRotation = () => new Promise<RotationParameters3D>((resolve, reject) => {
-    const file = [];
-    this.on(EVENT_COMMAND_MESSAGE, async (response) => {
-      if (response.status === 'transfer') {
-        this.emit(EVENT_COMMAND_PROGRESS, response);
-      } else if (!Object.keys(response).includes('completed')) {
-        file.push(response);
-      }
-      if (response instanceof Blob) {
-        this.removeCommandListeners();
-        const fileReader = new FileReader();
-        fileReader.onload = (e) => {
-          try {
-            const jsonString = e.target.result as string;
-            const data = JSON.parse(jsonString);
-            resolve(data);
-          } catch (err) {
-            reject(err);
-          }
-        };
-        fileReader.readAsText(response);
-      }
+      this.ws.send('fetch_fisheye_3d_rotation');
     });
-    this.setDefaultErrorResponse(reject);
-    this.setDefaultFatalResponse(reject);
-
-    this.ws.send('fetch_fisheye_3d_rotation');
-  });
 
   fetchAutoLevelingData = (dataType: 'hexa_platform' | 'bottom_cover' | 'offset') =>
     new Promise<{ [key: string]: number }>((resolve, reject) => {
@@ -825,7 +835,8 @@ class Control extends EventEmitter {
 
   getDeviceSetting = (name: string) => this.useWaitAnyResponse(`config get ${name}`);
 
-  setDeviceSetting = (name: string, value: string) => this.useWaitAnyResponse(`config set ${name} ${value}`);
+  setDeviceSetting = (name: string, value: string) =>
+    this.useWaitAnyResponse(`config set ${name} ${value}`);
 
   deleteDeviceSetting = (name: string) => this.useWaitAnyResponse(`config del ${name}`);
 
@@ -865,13 +876,13 @@ class Control extends EventEmitter {
     const res = await this.useWaitAnyResponse('task cartridge_io');
     await new Promise((resolve) => setTimeout(resolve, 1000));
     this.mode = 'cartridge_io';
-    this._cartridgeTaskId = Math.floor(Math.random() * 2e9)
+    this._cartridgeTaskId = Math.floor(Math.random() * 2e9);
     return res;
   };
 
   endCartridgeIOMode = () => {
     this.mode = '';
-    this._cartridgeTaskId = 0
+    this._cartridgeTaskId = 0;
     return this.useWaitAnyResponse('task quit');
   };
 
@@ -879,7 +890,10 @@ class Control extends EventEmitter {
     if (this.mode !== 'cartridge_io') {
       throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
     }
-    const command = JSON.stringify({ id: this._cartridgeTaskId, method: 'cartridge.get_info' }).replace(/"/g, '\\"');
+    const command = JSON.stringify({
+      id: this._cartridgeTaskId,
+      method: 'cartridge.get_info',
+    }).replace(/"/g, '\\"');
     const resp = await this.useWaitAnyResponse(`jsonrpc_req ${command}`);
     return resp;
   };
@@ -888,7 +902,10 @@ class Control extends EventEmitter {
     if (this.mode !== 'cartridge_io') {
       throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
     }
-    const command = JSON.stringify({ id: this._cartridgeTaskId, method, params }).replace(/"/g, '\\"');
+    const command = JSON.stringify({ id: this._cartridgeTaskId, method, params }).replace(
+      /"/g,
+      '\\"'
+    );
     const resp = await this.useWaitAnyResponse(`jsonrpc_req "${command}"`);
     return resp;
   };
@@ -928,12 +945,12 @@ class Control extends EventEmitter {
           return;
         }
         if (
-          response.text?.indexOf('ER:RESET') >= 0
-          || response.text?.indexOf('DEBUG: RESET') >= 0
-          || response.text?.indexOf('error:') >= 0
-          || resps.some((resp) => resp.includes('ER:RESET'))
-          || resps.some((resp) => resp.includes('DEBUG: RESET'))
-          || resps.some((resp) => resp.includes('error:'))
+          response.text?.indexOf('ER:RESET') >= 0 ||
+          response.text?.indexOf('DEBUG: RESET') >= 0 ||
+          response.text?.indexOf('error:') >= 0 ||
+          resps.some((resp) => resp.includes('ER:RESET')) ||
+          resps.some((resp) => resp.includes('DEBUG: RESET')) ||
+          resps.some((resp) => resp.includes('error:'))
         ) {
           didErrorOccur = true;
           if (retryTimes > 5) {
@@ -993,9 +1010,9 @@ class Control extends EventEmitter {
           return;
         }
         if (
-          response.text.indexOf('ER:RESET') >= 0
-          || resps.some((resp) => resp.includes('ER:RESET'))
-          || response.text.indexOf('error:') >= 0
+          response.text.indexOf('ER:RESET') >= 0 ||
+          resps.some((resp) => resp.includes('ER:RESET')) ||
+          response.text.indexOf('error:') >= 0
         ) {
           if (retryTimes >= 5) {
             this.removeCommandListeners();
@@ -1050,9 +1067,9 @@ class Control extends EventEmitter {
           return;
         }
         if (
-          response.text.indexOf('ER:RESET') >= 0
-          || resps.some((resp) => resp.includes('ER:RESET'))
-          || response.text.indexOf('error:') >= 0
+          response.text.indexOf('ER:RESET') >= 0 ||
+          resps.some((resp) => resp.includes('ER:RESET')) ||
+          response.text.indexOf('error:') >= 0
         ) {
           if (retryTimes >= 5) {
             this.removeCommandListeners();
@@ -1080,18 +1097,21 @@ class Control extends EventEmitter {
     });
   };
 
-  rawMove = (args: any) => {
+  rawMove = (args: { x?: number; y?: number; z?: number; f?: number }) => {
     if (this.mode !== 'raw') {
       throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
     }
     let command = 'G1';
-    args.f = args.f || '6000';
-    command += `F${args.f}`;
+    const f = args.f || 6000;
+    command += `F${f}`;
     if (typeof args.x !== 'undefined') {
       command += `X${Math.round(args.x * 1000) / 1000}`;
     }
     if (typeof args.y !== 'undefined') {
       command += `Y${Math.round(args.y * 1000) / 1000}`;
+    }
+    if (typeof args.z !== 'undefined') {
+      command += `Z${Math.round(args.z * 1000) / 1000}`;
     }
     if (!this._isLineCheckMode) {
       console.log('raw move command:', command);
@@ -1125,7 +1145,7 @@ class Control extends EventEmitter {
     const command = on ? 'M136P3' : 'M136P4';
     if (!this._isLineCheckMode) return this.useWaitAnyResponse(command);
     return this.useRawLineCheckCommand(command);
-  }
+  };
 
   rawSetFan = (on: boolean) => {
     if (this.mode !== 'raw') {
@@ -1143,7 +1163,7 @@ class Control extends EventEmitter {
     const command = on ? 'M136P5' : 'M136P6';
     if (!this._isLineCheckMode) return this.useWaitAnyResponse(command);
     return this.useRawLineCheckCommand(command);
-  }
+  };
 
   rawSetRotary = (on: boolean) => {
     if (this.mode !== 'raw') {
@@ -1209,7 +1229,7 @@ class Control extends EventEmitter {
     return this.useRawLineCheckCommand(command);
   };
 
-  rawAutoFocus = (): Promise<void> => {
+  rawAutoFocus = (timeout = 20000): Promise<void> => {
     if (this.mode !== 'raw') {
       throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
     }
@@ -1231,17 +1251,17 @@ class Control extends EventEmitter {
           return;
         }
         if (
-          response.text.indexOf('ER:RESET') >= 0
-          || resps.some((resp) => resp.includes('ER:RESET'))
-          || response.text.indexOf('error:') >= 0
+          response.text.indexOf('ER:RESET') >= 0 ||
+          resps.some((resp) => resp.includes('ER:RESET')) ||
+          response.text.indexOf('error:') >= 0
         ) {
           this.removeCommandListeners();
           reject(response);
-        } else timeoutTimer = this.setTimeoutTimer(reject, 10000);
+        } else timeoutTimer = this.setTimeoutTimer(reject, timeout);
       });
       this.setDefaultErrorResponse(reject, timeoutTimer);
       this.setDefaultFatalResponse(reject, timeoutTimer);
-      timeoutTimer = this.setTimeoutTimer(reject, 16000);
+      timeoutTimer = this.setTimeoutTimer(reject, timeout);
       this.ws.send(command);
     });
   };
@@ -1264,15 +1284,22 @@ class Control extends EventEmitter {
         }
         const resps = responseString.split('\r\n');
         const i = resps.findIndex((r) => r === 'ok');
-        if (i < 0) responseString = resps[resps.length - 1] || '';
         if (i >= 0) {
-          const resIdx = resps.findIndex((r) => r.match(/\[PRB:([-\d.]+),([-\d.]+),([-\d.]+),([-\d.]+):(\d)\]/));
+          const resIdx = resps.findIndex((r) =>
+            r.match(/\[PRB:([-\d.]+),([-\d.]+),([-\d.]+),([-\d.]+):(\d)\]/)
+          );
           if (resIdx >= 0) {
             const resStr = resps[resIdx];
             const match = resStr.match(/\[PRB:([-\d.]+),([-\d.]+),([-\d.]+),([-\d.]+):(\d)\]/);
             const [, x, y, z, a, didAf] = match;
             this.removeCommandListeners();
-            resolve({ x: Number(x), y: Number(y), z: Number(z), a: Number(a), didAf: didAf === '1' });
+            resolve({
+              x: Number(x),
+              y: Number(y),
+              z: Number(z),
+              a: Number(a),
+              didAf: didAf === '1',
+            });
           } else {
             this.removeCommandListeners();
             reject(response);
@@ -1280,9 +1307,9 @@ class Control extends EventEmitter {
           return;
         }
         if (
-          response.text.indexOf('ER:RESET') >= 0
-          || resps.some((resp) => resp.includes('ER:RESET'))
-          || response.text.indexOf('error:') >= 0
+          response.text.indexOf('ER:RESET') >= 0 ||
+          resps.some((resp) => resp.includes('ER:RESET')) ||
+          response.text.indexOf('error:') >= 0
         ) {
           if (retryTimes >= 5) {
             this.removeCommandListeners();
@@ -1315,10 +1342,10 @@ class Control extends EventEmitter {
       throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
     }
     return new Promise((resolve, reject) => {
-      let isCmdResent = false;
       let responseString = '';
       const command = 'M136P255';
       let retryTimes = 0;
+      let isCmdResent = false;
       let timeoutTimer: null | NodeJS.Timeout;
       this.on(EVENT_COMMAND_MESSAGE, (response) => {
         clearTimeout(timeoutTimer);
@@ -1330,7 +1357,9 @@ class Control extends EventEmitter {
         const i = resps.findIndex((r) => r === 'ok');
         if (i < 0) responseString = resps[resps.length - 1] || '';
         if (i >= 0) {
-          const resIdx = resps.findIndex((r) => r.match(/\[LAST_POS:([-\d.]+),([-\d.]+),([-\d.]+),([-\d.]+)/));
+          const resIdx = resps.findIndex((r) =>
+            r.match(/\[LAST_POS:([-\d.]+),([-\d.]+),([-\d.]+),([-\d.]+)/)
+          );
           if (resIdx >= 0) {
             const resStr = resps[resIdx];
             const match = resStr.match(/\[LAST_POS:([-\d.]+),([-\d.]+),([-\d.]+),([-\d.]+)/);
@@ -1344,9 +1373,9 @@ class Control extends EventEmitter {
           return;
         }
         if (
-          response.text.indexOf('ER:RESET') >= 0
-          || resps.some((resp) => resp.includes('ER:RESET'))
-          || response.text.indexOf('error:') >= 0
+          response.text.indexOf('ER:RESET') >= 0 ||
+          resps.some((resp) => resp.includes('ER:RESET')) ||
+          response.text.indexOf('error:') >= 0
         ) {
           if (retryTimes >= 5) {
             this.removeCommandListeners();
@@ -1374,108 +1403,190 @@ class Control extends EventEmitter {
     });
   };
 
-  fwUpdate = (file: File) => new Promise((resolve, reject) => {
-    const blob = new Blob([file], { type: 'binary/flux-firmware' });
-    this.on(EVENT_COMMAND_MESSAGE, (response) => {
-      if (response.status === 'ok') {
-        this.removeCommandListeners();
-        resolve(response);
-      } else if (response.status === 'continue') {
-        this.emit(EVENT_COMMAND_PROGRESS, response);
-        this.ws.send(blob);
-      } else if (response.status === 'uploading') {
-        response.percentage = ((response.sent || 0) / blob.size) * 100;
-        this.emit(EVENT_COMMAND_PROGRESS, response);
-      } else {
-        this.removeCommandListeners();
-        reject(response);
-      }
+  // Hexa
+  rawMeasureHeight = (baseZ: number | undefined, timeout = 120000): Promise<number> => {
+    if (this.mode !== 'raw') {
+      throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
+    }
+    return new Promise<number>((resolve, reject) => {
+      let responseString = '';
+      const command = typeof baseZ === 'number' ? `B45Z${baseZ}` : 'B45';
+      let timeoutTimer: null | NodeJS.Timeout;
+      let retryTimes = 0;
+      let isCmdResent = false;
+
+      const sendCommand = async (firstTime = false) => {
+        const handleMessage = (response: string, fromLineCheckMode = false) => {
+          clearTimeout(timeoutTimer);
+          responseString += response;
+          const resps = responseString.split(/\r?\n/);
+          console.log(resps);
+          const finished = resps.some((r) => r === 'ok');
+          if (finished || fromLineCheckMode) {
+            const resIdx = resps.findIndex((r) => r.match(/z_pos/));
+            if (resIdx >= 0) {
+              this.removeCommandListeners();
+              const resStr = resps[resIdx];
+              const data = JSON.parse(resStr);
+              const { z_pos: zPos } = data;
+              resolve(Number(zPos));
+            } else {
+              this.removeCommandListeners();
+              reject(response);
+            }
+            return;
+          }
+          if (responseString.indexOf('error:') >= 0) {
+            const match = responseString.match(/error:(d+)/);
+            const errorCode = match ? Number(match[1]) : 0;
+            console.log('Error Code', errorCode);
+            // TODO: handle error code
+            if (retryTimes >= 5) {
+              this.removeCommandListeners();
+              reject(response);
+              return;
+            }
+            if (!isCmdResent) {
+              isCmdResent = true;
+              setTimeout(() => {
+                isCmdResent = false;
+                responseString = '';
+                retryTimes += 1;
+                sendCommand();
+              }, 1000);
+            }
+          } else {
+            timeoutTimer = this.setTimeoutTimer(reject, timeout);
+          }
+        };
+
+        if (!this._isLineCheckMode) {
+          if (firstTime) {
+            this.on(EVENT_COMMAND_MESSAGE, (response) => {
+              if (response && response.status === 'raw') responseString += response.text;
+              handleMessage(responseString);
+            });
+          }
+          this.ws.send(command);
+        } else {
+          const resp = await this.useRawLineCheckCommand(command);
+          handleMessage(resp, true);
+        }
+      };
+      this.setDefaultErrorResponse(reject, timeoutTimer);
+      this.setDefaultFatalResponse(reject, timeoutTimer);
+      timeoutTimer = this.setTimeoutTimer(reject, timeout);
+
+      sendCommand(true);
+    });
+  };
+
+  fwUpdate = (file: File) =>
+    new Promise((resolve, reject) => {
+      const blob = new Blob([file], { type: 'binary/flux-firmware' });
+      this.on(EVENT_COMMAND_MESSAGE, (response) => {
+        if (response.status === 'ok') {
+          this.removeCommandListeners();
+          resolve(response);
+        } else if (response.status === 'continue') {
+          this.emit(EVENT_COMMAND_PROGRESS, response);
+          this.ws.send(blob);
+        } else if (response.status === 'uploading') {
+          response.percentage = ((response.sent || 0) / blob.size) * 100;
+          this.emit(EVENT_COMMAND_PROGRESS, response);
+        } else {
+          this.removeCommandListeners();
+          reject(response);
+        }
+      });
+
+      this.setDefaultErrorResponse(reject);
+      this.setDefaultFatalResponse(reject);
+
+      this.ws.send(`update_fw binary/flux-firmware ${blob.size}`);
     });
 
-    this.setDefaultErrorResponse(reject);
-    this.setDefaultFatalResponse(reject);
+  toolheadUpdate = (file: File) =>
+    new Promise((resolve, reject) => {
+      const blob = new Blob([file], { type: 'binary/flux-firmware' });
+      const args = ['maintain', 'update_hbfw', 'binary/fireware', blob.size];
+      this.on(EVENT_COMMAND_MESSAGE, (response) => {
+        if (response.status === 'ok') {
+          this.removeCommandListeners();
+          resolve(response);
+        } else if (response.status === 'continue') {
+          this.emit(EVENT_COMMAND_PROGRESS, response);
+          this.ws.send(blob);
+        } else if (['operating', 'uploading', 'update_hbfw'].includes(response.status)) {
+          response.percentage = ((response.sent || 0) / blob.size) * 100;
+          this.emit(EVENT_COMMAND_PROGRESS, response);
+        } else {
+          this.removeCommandListeners();
+          reject(response);
+        }
+      });
 
-    this.ws.send(`update_fw binary/flux-firmware ${blob.size}`);
-  });
+      this.setDefaultErrorResponse(reject);
+      this.setDefaultFatalResponse(reject);
 
-  toolheadUpdate = (file: File) => new Promise((resolve, reject) => {
-    const blob = new Blob([file], { type: 'binary/flux-firmware' });
-    const args = ['maintain', 'update_hbfw', 'binary/fireware', blob.size];
-    this.on(EVENT_COMMAND_MESSAGE, (response) => {
-      if (response.status === 'ok') {
-        this.removeCommandListeners();
-        resolve(response);
-      } else if (response.status === 'continue') {
-        this.emit(EVENT_COMMAND_PROGRESS, response);
-        this.ws.send(blob);
-      } else if (['operating', 'uploading', 'update_hbfw'].includes(response.status)) {
-        response.percentage = ((response.sent || 0) / blob.size) * 100;
-        this.emit(EVENT_COMMAND_PROGRESS, response);
-      } else {
-        this.removeCommandListeners();
-        reject(response);
-      }
+      this.ws.send(args.join(' '));
     });
 
-    this.setDefaultErrorResponse(reject);
-    this.setDefaultFatalResponse(reject);
+  uploadFisheyeParams = (data: string) =>
+    new Promise((resolve, reject) => {
+      const blob = new Blob([data], { type: 'application/json' });
+      this.on(EVENT_COMMAND_MESSAGE, (response) => {
+        if (response.status === 'ok') {
+          this.removeCommandListeners();
+          resolve(response);
+        } else if (response.status === 'continue') {
+          this.emit(EVENT_COMMAND_PROGRESS, response);
+          this.ws.send(blob);
+        } else if (response.status === 'uploading') {
+          response.percentage = ((response.sent || 0) / blob.size) * 100;
+          this.emit(EVENT_COMMAND_PROGRESS, response);
+        } else {
+          this.removeCommandListeners();
+          reject(response);
+        }
+      });
 
-    this.ws.send(args.join(' '));
-  });
+      this.setDefaultErrorResponse(reject);
+      this.setDefaultFatalResponse(reject);
 
-  uploadFisheyeParams = (data: string) => new Promise((resolve, reject) => {
-    const blob = new Blob([data], { type: 'application/json' });
-    this.on(EVENT_COMMAND_MESSAGE, (response) => {
-      if (response.status === 'ok') {
-        this.removeCommandListeners();
-        resolve(response);
-      } else if (response.status === 'continue') {
-        this.emit(EVENT_COMMAND_PROGRESS, response);
-        this.ws.send(blob);
-      } else if (response.status === 'uploading') {
-        response.percentage = ((response.sent || 0) / blob.size) * 100;
-        this.emit(EVENT_COMMAND_PROGRESS, response);
-      } else {
-        this.removeCommandListeners();
-        reject(response);
-      }
+      this.ws.send(`update_fisheye_params application/json ${blob.size}`);
     });
 
-    this.setDefaultErrorResponse(reject);
-    this.setDefaultFatalResponse(reject);
+  updateFisheye3DRotation = (data: RotationParameters3D) =>
+    new Promise((resolve, reject) => {
+      const strData = JSON.stringify(data, (key, val) => {
+        if (typeof val === 'number') {
+          return Math.round(val * 1e2) / 1e2;
+        }
+        return val;
+      });
+      const blob = new Blob([strData], { type: 'application/json' });
+      this.on(EVENT_COMMAND_MESSAGE, (response) => {
+        if (response.status === 'ok') {
+          this.removeCommandListeners();
+          resolve(response);
+        } else if (response.status === 'continue') {
+          this.emit(EVENT_COMMAND_PROGRESS, response);
+          this.ws.send(blob);
+        } else if (response.status === 'uploading') {
+          response.percentage = ((response.sent || 0) / blob.size) * 100;
+          this.emit(EVENT_COMMAND_PROGRESS, response);
+        } else {
+          this.removeCommandListeners();
+          reject(response);
+        }
+      });
 
-    this.ws.send(`update_fisheye_params application/json ${blob.size}`);
-  });
+      this.setDefaultErrorResponse(reject);
+      this.setDefaultFatalResponse(reject);
 
-  updateFisheye3DRotation = (data: RotationParameters3D) => new Promise((resolve, reject) => {
-    const strData = JSON.stringify(data, (key, val) => {
-      if (typeof val === 'number') {
-        return Math.round(val * 1e2) / 1e2;
-      }
-      return val;
+      this.ws.send(`update_fisheye_3d_rotation application/json ${blob.size}`);
     });
-    const blob = new Blob([strData], { type: 'application/json' });
-    this.on(EVENT_COMMAND_MESSAGE, (response) => {
-      if (response.status === 'ok') {
-        this.removeCommandListeners();
-        resolve(response);
-      } else if (response.status === 'continue') {
-        this.emit(EVENT_COMMAND_PROGRESS, response);
-        this.ws.send(blob);
-      } else if (response.status === 'uploading') {
-        response.percentage = ((response.sent || 0) / blob.size) * 100;
-        this.emit(EVENT_COMMAND_PROGRESS, response);
-      } else {
-        this.removeCommandListeners();
-        reject(response);
-      }
-    });
-
-    this.setDefaultErrorResponse(reject);
-    this.setDefaultFatalResponse(reject);
-
-    this.ws.send(`update_fisheye_3d_rotation application/json ${blob.size}`);
-  });
 }
 
 export default Control;

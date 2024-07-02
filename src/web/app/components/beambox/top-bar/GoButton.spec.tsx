@@ -114,6 +114,9 @@ jest.mock('helpers/svg-editor-helper', () => ({
 
 jest.mock('app/contexts/CanvasContext', () => ({
   CanvasContext: React.createContext(null),
+  CanvasMode: {
+    Draw: 1
+  }
 }));
 
 const mockCheckOldFirmware = jest.fn();

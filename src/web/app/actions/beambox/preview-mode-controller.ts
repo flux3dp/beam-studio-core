@@ -632,10 +632,9 @@ class PreviewModeController {
     if (!selectRes.success) {
       return null;
     }
-    const moveRes = await deviceMaster.rawMove(movement);
-    if (moveRes) {
-      console.log('Preview raw move respond: ', moveRes.text);
-    }
+    const control = await deviceMaster.getControl();
+    if (control.getMode() !== 'raw') await deviceMaster.enterRawMode();
+    await deviceMaster.rawMove(movement);
     await this.waitUntilEstimatedMovementTime(movementX, movementY);
 
     const imgUrl = await this.getPhotoFromMachine();

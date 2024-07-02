@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { ConfigProvider } from 'antd';
 
 import Constant from 'app/actions/beambox/constant';
@@ -8,7 +8,7 @@ import SymbolMaker from 'helpers/symbol-maker';
 import useForceUpdate from 'helpers/use-force-update';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IBatchCommand } from 'interfaces/IHistory';
-import { iconButtonTheme } from 'app/views/beambox/Right-Panels/antd-config';
+import { iconButtonTheme } from 'app/constants/antd-config';
 import { useIsMobile } from 'helpers/system-helper';
 
 import PositionInput from './PositionInput';
@@ -82,13 +82,6 @@ const DimensionPanel = ({
       SymbolMaker.reRenderImageSymbolArray(allUses);
     }
   }, [elem]);
-
-  useEffect(
-    () => () => {
-      handleSizeBlur();
-    },
-    [handleSizeBlur]
-  );
 
   const handlePositionChange = useCallback(
     (type: string, val: number): void => {

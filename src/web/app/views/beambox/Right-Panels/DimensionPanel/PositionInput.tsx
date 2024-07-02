@@ -4,6 +4,7 @@ import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import storage from 'implementations/storage';
 import UnitInput from 'app/widgets/UnitInput';
+import { objectPanelInputTheme } from 'app/constants/antd-config';
 import { useIsMobile } from 'helpers/system-helper';
 
 import styles from './DimensionPanel.module.scss';
@@ -91,8 +92,7 @@ const PositionInput = ({ type, value, onChange }: Props): JSX.Element => {
           ref={inputRef}
           id={inputId}
           className={styles.input}
-          width={66}
-          fontSize={12}
+          theme={objectPanelInputTheme}
           unit={unit}
           isInch={isInch}
           precision={isInch ? 4 : 2}

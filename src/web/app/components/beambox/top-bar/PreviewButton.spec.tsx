@@ -23,6 +23,7 @@ jest.mock('helpers/useI18n', () => () => ({
     preview: 'PREVIEW',
     borderless: '(OPEN BOTTOM)',
     preview_title: 'preview_title',
+    curve_engrave: 'curve_engrave',
   },
 }));
 
@@ -43,10 +44,15 @@ const mockSetupPreviewMode = jest.fn();
 const mockChangeToPreviewMode = jest.fn();
 jest.mock('app/contexts/CanvasContext', () => ({
   CanvasContext: React.createContext({
-    isPreviewing: false,
-    isPathPreviewing: false,
+    mode: 1,
     changeToPreviewMode: (...args) => mockChangeToPreviewMode(...args),
   }),
+  CanvasMode: {
+    Draw: 1,
+    Preview: 2,
+    PathPreview: 3,
+    CurveEngraving: 4,
+  },
 }));
 
 describe('test PreviewButton', () => {
@@ -59,8 +65,24 @@ describe('test PreviewButton', () => {
       <CanvasContext.Provider
         value={
           {
-            isPreviewing: false,
-            isPathPreviewing: true,
+            mode: 3,
+            changeToPreviewMode: mockChangeToPreviewMode,
+            setupPreviewMode: mockSetupPreviewMode,
+          } as any
+        }
+      >
+        <PreviewButton />
+      </CanvasContext.Provider>
+    );
+    expect(container).toMatchSnapshot();
+  });
+
+  test('when in curve engraving mode', () => {
+    const { container } = render(
+      <CanvasContext.Provider
+        value={
+          {
+            mode: 4,
             changeToPreviewMode: mockChangeToPreviewMode,
             setupPreviewMode: mockSetupPreviewMode,
           } as any
@@ -78,8 +100,7 @@ describe('test PreviewButton', () => {
       <CanvasContext.Provider
         value={
           {
-            isPreviewing: true,
-            isPathPreviewing: false,
+            mode: 2,
             changeToPreviewMode: mockChangeToPreviewMode,
             setupPreviewMode: mockSetupPreviewMode,
           } as any
@@ -97,8 +118,7 @@ describe('test PreviewButton', () => {
       <CanvasContext.Provider
         value={
           {
-            isPreviewing: true,
-            isPathPreviewing: false,
+            mode: 2,
             changeToPreviewMode: mockChangeToPreviewMode,
             setupPreviewMode: mockSetupPreviewMode,
           } as any
@@ -115,8 +135,7 @@ describe('test PreviewButton', () => {
       <CanvasContext.Provider
         value={
           {
-            isPreviewing: false,
-            isPathPreviewing: false,
+            mode: 1,
             changeToPreviewMode: mockChangeToPreviewMode,
             setupPreviewMode: mockSetupPreviewMode,
           } as any

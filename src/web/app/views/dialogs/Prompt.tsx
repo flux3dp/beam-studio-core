@@ -49,7 +49,7 @@ function Prompt({
     const inputElem = inputRef.current;
     const value = inputElem?.input?.value;
     onYes(value);
-    if (!confirmValue || value === confirmValue) {
+    if (!confirmValue || value?.toLowerCase() === confirmValue?.toLowerCase()) {
       if (alertConfigKey && checkboxChecked)
         alertConfig.write(alertConfigKey, true);
       onClose();

@@ -40,7 +40,8 @@ export type StorageKey =
   | 'last-record-activity'
   | 'selected-device'
   | 'announcement-record'
-  | 'ador-backup-path';
+  | 'ador-backup-path'
+  | 'layer-panel-height';
 
 export interface IStorage {
   get(name: StorageKey): any;

@@ -33,6 +33,7 @@ import { deleteSelectedElements } from 'app/svgedit/operations/delete';
 import { moveSelectedElements } from 'app/svgedit/operations/move';
 
 import canvasEvents from 'app/actions/canvas/canvasEvents';
+import currentFileManager from 'app/svgedit/currentFileManager';
 import ToolPanelsController from './toolPanelsController';
 import RightPanelController from 'app/views/beambox/Right-Panels/contexts/RightPanelController';
 import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
@@ -42,7 +43,7 @@ import { getNextStepRequirement } from 'app/views/tutorials/tutorialController';
 import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 import { NounProjectPanelController } from 'app/views/beambox/Noun-Project-Panel';
 import BeamboxPreference from './beambox-preference';
-import Constant from './constant';
+import curveEngravingModeController from 'app/actions/canvas/curveEngravingModeController';
 import OpenBottomBoundaryDrawer from './open-bottom-boundary-drawer';
 import PreviewModeController from './preview-mode-controller';
 import Alert from '../alert-caller';
@@ -50,6 +51,7 @@ import AlertConstants from 'app/constants/alert-constants';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import Progress from '../progress-caller';
 import BeamFileHelper from 'helpers/beam-file-helper';
+import fileExportHelper from 'helpers/file-export-helper';
 import ImageData from 'helpers/image-data';
 import storage from 'implementations/storage';
 import pdfHelper from 'implementations/pdfHelper';
@@ -59,7 +61,7 @@ import isWeb from 'helpers/is-web';
 import SvgLaserParser from 'helpers/api/svg-laser-parser';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import { IFont } from 'interfaces/IFont';
-import { IIcon } from 'interfaces/INoun-Project'
+import { IIcon } from 'interfaces/INoun-Project';
 import { IStorage, StorageKey } from 'interfaces/IStorage';
 import ISVGConfig from 'interfaces/ISVGConfig';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
@@ -70,6 +72,7 @@ import importDxf from 'app/svgedit/operations/import/importDxf';
 import importSvg from 'app/svgedit/operations/import/importSvg';
 import readBitmapFile from 'app/svgedit/operations/import/readBitmapFile';
 import { isMobile } from 'helpers/system-helper';
+import { PanelType } from 'app/constants/right-panel-types';
 
 if (svgCanvasClass) {
   console.log('svgCanvas loaded successfully');
@@ -85,7 +88,6 @@ const workareaEvents = eventEmitterFactory.createEventEmitter('workarea');
 declare global {
   interface JQueryStatic {
     pref: any
-    jGraduate: any
     confirm: any
     getSvgIcon: any
     select: any
@@ -103,7 +105,6 @@ declare global {
     slider(arg0?: any, arg1?: any, arg3?: any): JQuery
     draggable(options: any): JQuery
     contextMenu: any
-    jGraduate: any
   }
 }
 
@@ -146,7 +147,7 @@ interface ISVGEditor {
   dimensions: number[]
   uiStrings: any
   updateContextPanel: () => void
-  clearScene: () => void
+  clearScene: () => Promise<void>;
   cutSelected: () => void;
   copySelected: () => void;
 }
@@ -214,7 +215,7 @@ const svgEditor = window['svgEditor'] = (function () {
     dimensions: [pxWidth, pxDisplayHeight ?? pxHeight],
     uiStrings: {},
     updateContextPanel: () => {},
-    clearScene: () => {},
+    clearScene: async () => {},
     cutSelected: () => {},
     copySelected: () => {},
   };
@@ -353,7 +354,6 @@ const svgEditor = window['svgEditor'] = (function () {
       imgPath: 'js/lib/svgeditor/images/',
       langPath: 'js/lib/svgeditor/locale/',
       extPath: 'js/lib/svgeditor/extensions/',
-      jGraduatePath: 'js/lib/svgeditor/jgraduate/images/',
       // DOCUMENT PROPERTIES
       // Change the following to a preference (already in the Document Properties dialog)?
       dimensions: editor.dimensions,
@@ -757,8 +757,10 @@ const svgEditor = window['svgEditor'] = (function () {
     var setSelectMode = function () {
       svgCanvas.setMode('select');
       workarea.css('cursor', 'auto');
-      if (PreviewModeController.isPreviewMode() || TopBarController.getTopBarPreviewMode()) {
-        $(workarea).css('cursor', 'url(img/camera-cursor.svg), cell');
+      if (curveEngravingModeController.started) {
+        // do nothing for now
+      } else if (PreviewModeController.isPreviewMode() || TopBarController.getTopBarPreviewMode()) {
+        workarea.css('cursor', 'url(img/camera-cursor.svg), cell');
       }
     };
 
@@ -1693,10 +1695,6 @@ const svgEditor = window['svgEditor'] = (function () {
               // Add to given tool.panel
               var inp = $(html).appendTo(panel).find('input');
 
-              if (tool.spindata) {
-                inp.SpinButton(tool.spindata);
-              }
-
               if (tool.events) {
                 $.each(tool.events, function (evt: string, func) {
                   inp.bind(evt, func);
@@ -2313,22 +2311,17 @@ const svgEditor = window['svgEditor'] = (function () {
       path.opencloseSubPath();
     };
 
-    var clearScene = function () {
-      Alert.popById('clear-scene');
-      Alert.popUp({
-        id: 'clear-scene',
-        message: i18n.lang.topbar.alerts.QcleanScene,
-        buttonType: AlertConstants.YES_NO,
-        onYes: () => {
-          setSelectMode();
-          svgCanvas.clear();
-          workareaManager.resetView();
-          LayerPanelController.updateLayerPanel();
-          updateContextPanel();
-          svgedit.transformlist.resetListMap();
-          svgCanvas.runExtensions('onNewDocument');
-        }
-      });
+    var clearScene = async function () {
+      const res = await fileExportHelper.toggleUnsavedChangedDialog();
+      if (!res) return;
+      setSelectMode();
+      svgCanvas.clear();
+      workareaManager.resetView();
+      RightPanelController.setPanelType(PanelType.None); // will be updated to PanelType.Layer automatically if is not mobile
+      LayerPanelController.updateLayerPanel();
+      updateContextPanel();
+      svgedit.transformlist.resetListMap();
+      svgCanvas.runExtensions('onNewDocument');
     };
 
     editor.clearScene = clearScene;
@@ -2556,6 +2549,15 @@ const svgEditor = window['svgEditor'] = (function () {
             window['polygonDecreaseSides']?.();
             ObjectPanelController.updatePolygonSides($(selectedElement).attr('sides'));
           });
+          Shortcuts.on(['l'], () => {
+            if (isFocusingOnInputs()) return;
+            RightPanelController.setPanelType(PanelType.Layer);
+          });
+          Shortcuts.on(['o'], () => {
+            if (isFocusingOnInputs()) return;
+            const isPathEdit = svgCanvas.getMode() === 'pathedit';
+            RightPanelController.setPanelType(isPathEdit ? PanelType.PathEdit : PanelType.Object);
+          });
           Shortcuts.on(['esc'], clickSelect);
 
           // Misc additional actions
@@ -2586,19 +2588,24 @@ const svgEditor = window['svgEditor'] = (function () {
 
     Actions.setAll();
 
-    window.addEventListener('beforeunload', function (e) {
-      // Suppress warning if page is empty
-      if (undoMgr.getUndoStackSize() === 0) {
-        editor.showSaveWarning = false;
-      }
+    window.addEventListener(
+      'beforeunload',
+      (e) => {
+        if (!isWeb()) return null;
+        // Suppress warning if page is empty
+        if (undoMgr.getUndoStackSize() === 0) {
+          editor.showSaveWarning = false;
+        }
 
-      // showSaveWarning is set to 'false' when the page is saved.
-      if (!curConfig.no_save_warning && editor.showSaveWarning) {
-        // Browser already asks question about closing the page
-        e.returnValue = uiStrings.notification.unsavedChanges; // Firefox needs this when beforeunload set by addEventListener (even though message is not used)
-        return uiStrings.notification.unsavedChanges;
-      }
-    }, false);
+        // showSaveWarning is set to 'false' when the page is saved.
+        if (editor.showSaveWarning) {
+          // Browser already asks question about closing the page
+          e.returnValue = uiStrings.notification.unsavedChanges; // Firefox needs this when beforeunload set by addEventListener (even though message is not used)
+          return uiStrings.notification.unsavedChanges;
+        }
+      },
+      false
+    );
 
     editor.openPrep = function (func) {
       if (undoMgr.getUndoStackSize() === 0) {
@@ -2850,25 +2857,19 @@ const svgEditor = window['svgEditor'] = (function () {
             });
             break;
         }
-        let fileName = file.name.slice(0, file.name.lastIndexOf('.')).replace(':', "/");
         switch (fileType) {
           case 'bvg':
           case 'beam':
-            svgCanvas.setLatestImportFileName(fileName);
-            svgCanvas.currentFilePath = file.path;
+            currentFileManager.setLocalFile(file.path);
             svgCanvas.updateRecentFiles(file.path);
             svgCanvas.setHasUnsavedChange(false);
             break;
           case 'dxf':
-            svgCanvas.setLatestImportFileName(fileName);
-            svgCanvas.currentFilePath = null;
-            svgCanvas.setHasUnsavedChange(true);
-            break;
           case 'svg':
           case 'bitmap':
           case 'ai':
-            if (!svgCanvas.getLatestImportFileName()) {
-              svgCanvas.setLatestImportFileName(fileName);
+            if (!currentFileManager.getName()) {
+              currentFileManager.setFileName(file.name, true);
             }
             svgCanvas.setHasUnsavedChange(true);
             break;

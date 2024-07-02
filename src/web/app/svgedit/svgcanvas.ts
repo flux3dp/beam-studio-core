@@ -62,6 +62,7 @@ import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import beamboxStore from 'app/stores/beambox-store';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import currentFileManager from 'app/svgedit/currentFileManager';
 import i18n from 'helpers/i18n';
 import ISVGConfig from 'interfaces/ISVGConfig';
 import ToolPanelsController from 'app/actions/beambox/toolPanelsController';
@@ -2465,11 +2466,21 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     randomColor.reset();
 
     // create empty first layer
-    canvas.createLayer(LANG.right_panel.layer_panel.layer1);
-    laserConfigHelper.initLayerConfig(LANG.right_panel.layer_panel.layer1);
+    const defaultLayerName = LANG.right_panel.layer_panel.layer1;
+    canvas.createLayer(defaultLayerName);
+    laserConfigHelper.initLayerConfig(defaultLayerName);
+
+    // force update selected layers
+    LayerPanelController.setSelectedLayers([]);
+    LayerPanelController.setSelectedLayers([defaultLayerName]);
+    presprayArea.togglePresprayArea();
 
     // clear the undo stack
     canvas.undoMgr.resetUndoStack();
+
+    // clear current file
+    this.setHasUnsavedChange(false);
+    currentFileManager.clear();
 
     // reset the selector manager
     selectorManager.initGroup();
@@ -2889,40 +2900,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         }
       }
     }
-  };
-
-  // Function: setPaint
-  // Set a color/gradient to a fill/stroke
-  //
-  // Parameters:
-  // type - String with "fill" or "stroke"
-  // paint - The jGraduate paint object to apply
-  this.setPaint = function (type, paint) {
-    // make a copy
-    var p = new $.jGraduate.Paint(paint);
-    this.setPaintOpacity(type, p.alpha / 100, true);
-
-    // now set the current paint object
-    cur_properties[type + '_paint'] = p;
-    switch (p.type) {
-      case 'solidColor':
-        this.setColor(type, p.solidColor !== 'none' ? '#' + p.solidColor : 'none');
-        break;
-      case 'linearGradient':
-      case 'radialGradient':
-        canvas[type + 'Grad'] = p[p.type];
-        setGradient(type);
-        break;
-    }
-  };
-
-  // alias
-  this.setStrokePaint = function (paint) {
-    this.setPaint('stroke', paint);
-  };
-
-  this.setFillPaint = function (paint) {
-    this.setPaint('fill', paint);
   };
 
   // Function: getStrokeWidth
@@ -3729,20 +3706,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   };
 
   this.getHasUnsaveChanged = () => canvas.changed;
-
-  // Function: getLatestImportFileName
-  // Get latest imported file name
-  this.setLatestImportFileName = (fileName) => {
-    this.latestImportFileName = fileName;
-    this.currentFileName = fileName;
-    TopBarController.setFileName(fileName);
-  };
-
-  // Function: getLatestImportFileName
-  // Get latest imported file name
-  this.getLatestImportFileName = function () {
-    return this.latestImportFileName;
-  };
 
   this.updateRecentFiles = (filePath) => {
     const recentFiles = storage.get('recent_files') || [];

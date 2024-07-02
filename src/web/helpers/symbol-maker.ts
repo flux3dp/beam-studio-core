@@ -236,17 +236,6 @@ const makeSymbol = (
             filter: none !important;
         }
 
-        #svg_editor:not(.color) g:not(.data-fullcolor) #${symbol.id} * {
-            fill-opacity: 0;
-            stroke: #000 !important;
-            filter: none;
-            stroke-width: 1px !important;
-            vector-effect: non-scaling-stroke !important;
-            stroke-opacity: 1.0;
-            stroke-dasharray: 0;
-            opacity: 1;
-            filter: none;
-        }
         #${symbol.id} {
             overflow: visible;
         }

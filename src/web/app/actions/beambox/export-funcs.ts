@@ -5,6 +5,7 @@ import AwsHelper from 'helpers/aws-helper';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import constant from 'app/actions/beambox/constant';
 import convertShapeToBitmap from 'helpers/layer/convertShapeToBitmap';
+import currentFileManager from 'app/svgedit/currentFileManager';
 import deviceMaster from 'helpers/device-master';
 import dialog from 'implementations/dialog';
 import FontFuncs from 'app/actions/beambox/font-funcs';
@@ -434,7 +435,7 @@ const openTaskInDeviceMonitor = (
   taskImageURL: string,
   taskTime: number
 ): void => {
-  const fileName = svgCanvas.getLatestImportFileName() || i18n.lang.topbar.untitled;
+  const fileName = currentFileManager.getName() || i18n.lang.topbar.untitled;
   MonitorController.showMonitor(device, Mode.PREVIEW, {
     fcodeBlob,
     taskImageURL,
@@ -470,7 +471,7 @@ export default {
     if (!fcodeBlob) {
       return;
     }
-    const defaultFCodeName = svgCanvas.getLatestImportFileName() || 'untitled';
+    const defaultFCodeName = currentFileManager.getName() || 'untitled';
     const langFile = i18n.lang.topmenu.file;
     const fileReader = new FileReader();
 

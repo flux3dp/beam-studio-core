@@ -36,10 +36,10 @@ describe('test TopBarController', () => {
     expect(mockEmit).toHaveBeenNthCalledWith(1, 'SET_ELEMENT', testElem);
   });
 
-  test('test setFileName', () => {
-    TopBarController.setFileName('abc.txt');
+  test('test updateTitle', () => {
+    TopBarController.updateTitle();
     expect(mockEmit).toHaveBeenCalledTimes(1);
-    expect(mockEmit).toHaveBeenNthCalledWith(1, 'SET_FILE_NAME', 'abc.txt');
+    expect(mockEmit).toHaveBeenNthCalledWith(1, 'UPDATE_TITLE');
   });
 
   test('test setHasUnsavedChange', () => {

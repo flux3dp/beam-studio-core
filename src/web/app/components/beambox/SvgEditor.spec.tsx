@@ -18,6 +18,7 @@ jest.mock('app/components/beambox/Workarea', () => function DummyWorkarea() {
 
 jest.mock('app/components/beambox/path-preview/PathPreview', () => () => <div>MockPathPreview</div>);
 jest.mock('app/components/beambox/ZoomBlock', () => () => <div>MockZoomBlock</div>);
+jest.mock('app/components/beambox/DpiInfo', () => () => <div>MockDpiInfo</div>);
 
 const mockInit = jest.fn();
 jest.mock('app/actions/beambox/svg-editor', () => ({
@@ -29,7 +30,12 @@ Object.defineProperty(window, '$', {
 });
 
 jest.mock('app/contexts/CanvasContext', () => ({
-  CanvasContext: React.createContext({ isPathPreviewing: false }),
+  CanvasContext: React.createContext({ mode: 1 }),
+  CanvasMode: {
+    Draw: 1,
+    Preview: 2,
+    PathPreview: 3,
+  },
 }));
 
 const mockZoom = jest.fn();

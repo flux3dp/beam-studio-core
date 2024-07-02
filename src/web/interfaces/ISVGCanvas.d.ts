@@ -46,7 +46,6 @@ export default interface ISVGCanvas {
   clearBoundingBox: () => void;
   clearSelection: (noCall?: boolean) => void;
   convertToNum(attr: string, val: number): number;
-  currentFilePath: string;
   deleteSelectedElements: () => void;
   drawAlignLine: (x: number, y: number, xMatchPoint: IPoint, yMatchPoint: IPoint) => void;
   drawing: ISVGDrawing;
@@ -71,7 +70,6 @@ export default interface ISVGCanvas {
   getHref: (elem: SVGElement) => string;
   getId: () => string;
   getIntersectionList: () => SVGElement[];
-  getLatestImportFileName(): string;
   getMode: () => string;
   getMouseTarget: (evt: MouseEvent, allowTempGroup?: boolean) => SVGElement;
   getNextId: () => string;
@@ -141,11 +139,9 @@ export default interface ISVGCanvas {
   setHref: (elem: SVGImageElement | SVGElement, href: string) => void;
   setImageURL: (url: string) => void;
   setLastClickPoint: (point: { x: number; y: number }) => void;
-  setLatestImportFileName(fileName: string): void;
   setLayerVisibility(layerName: string, visible: boolean): void;
   setMode: (mode: string) => void;
   setOpacity: (opacity: number) => void;
-  setPaint(picker: string, paint: any): void;
   setPaintOpacity: (pickerType: string, opacity: number, preventUndo?: boolean) => void;
   setRootScreenMatrix: (matrix: SVGMatrix) => void;
   setRotationAngle: (val: number, preventUndo: boolean, elem?: SVGElement) => void;

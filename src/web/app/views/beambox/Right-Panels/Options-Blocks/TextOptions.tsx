@@ -23,7 +23,7 @@ import UnitInput from 'app/widgets/Unit-Input-v2';
 import { FontDescriptor } from 'interfaces/IFont';
 import { getCurrentUser } from 'helpers/api/flux-id';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import { iconButtonTheme, selectTheme } from 'app/views/beambox/Right-Panels/antd-config';
+import { iconButtonTheme, selectTheme } from 'app/constants/antd-config';
 import { isMobile } from 'helpers/system-helper';
 
 import styles from './TextOptions.module.scss';

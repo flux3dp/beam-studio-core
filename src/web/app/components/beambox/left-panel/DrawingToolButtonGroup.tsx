@@ -82,7 +82,7 @@ const DrawingToolButtonGroup = ({ className }: { className: string }): JSX.Eleme
       {renderToolButton(
         'Ellipse',
         <LeftPanelIcons.Oval />,
-        `${LANG.label.oval} (L)`,
+        `${LANG.label.oval} (C)`,
         FnWrapper.insertEllipse
       )}
       {renderToolButton(

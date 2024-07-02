@@ -17,7 +17,7 @@ import updateElementColor from 'helpers/color/updateElementColor';
 import webNeedConnectionWrapper from 'helpers/web-need-connection-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { isMobile } from 'helpers/system-helper';
-import { textButtonTheme } from 'app/views/beambox/Right-Panels/antd-config';
+import { textButtonTheme } from 'app/constants/antd-config';
 
 import styles from './ActionsPanel.module.scss';
 

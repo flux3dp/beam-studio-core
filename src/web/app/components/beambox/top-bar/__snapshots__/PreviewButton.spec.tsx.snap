@@ -1,5 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`test PreviewButton when in curve engraving mode 1`] = `
+<div>
+  <div
+    class="container active"
+    title="curve_engrave"
+  >
+    <div
+      class="button"
+    >
+      <svgr-url />
+      <div
+        class="title"
+      >
+        curve_engrave
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`test PreviewButton when not previewing 1`] = `
 <div>
   <div
@@ -20,7 +40,7 @@ exports[`test PreviewButton when path previewing 1`] = `<div />`;
 exports[`test PreviewButton when previewing and not support borderless 1`] = `
 <div>
   <div
-    class="container previewing"
+    class="container active"
     title="preview_title"
   >
     <div
@@ -40,7 +60,7 @@ exports[`test PreviewButton when previewing and not support borderless 1`] = `
 exports[`test PreviewButton when previewing and support borderless 1`] = `
 <div>
   <div
-    class="container previewing"
+    class="container active"
     title="preview_title"
   >
     <div

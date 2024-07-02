@@ -189,6 +189,7 @@ export default function Menu({ email }: Props): JSX.Element {
       }
     >
       <SubMenu label={menuCms.file}>
+        <MenuItem onClick={() => callback('CLEAR_SCENE')}>{hotkey('clear_scene')}</MenuItem>
         <MenuItem onClick={() => callback('OPEN')}>{menuCms.open}</MenuItem>
         <MenuDivider />
         <MenuItem onClick={() => callback('SAVE_SCENE')}>{hotkey('save_scene')}</MenuItem>
@@ -289,7 +290,6 @@ export default function Menu({ email }: Props): JSX.Element {
         </SubMenu>
         <MenuDivider />
         <MenuItem onClick={() => callback('DOCUMENT_SETTING')}>{menuCms.document_setting}</MenuItem>
-        <MenuItem onClick={() => callback('CLEAR_SCENE')}>{hotkey('clear_scene')}</MenuItem>
       </SubMenu>
       <SubMenu label={menuCms.view}>
         <MenuItem className="rc-menu__item--type-checkbox" onClick={() => callback('ZOOM_IN')}>
@@ -405,6 +405,9 @@ export default function Menu({ email }: Props): JSX.Element {
         <MenuItem onClick={() => callback('CHANGE_LOGS')}>{menuCms.change_logs}</MenuItem>
         <MenuItem onClick={() => openPage(menuCms.link.help_center)}>
           {menuCms.help_center}
+        </MenuItem>
+        <MenuItem onClick={() => openPage(menuCms.link.shortcuts)}>
+          {menuCms.keyboard_shortcuts}
         </MenuItem>
         <MenuItem onClick={() => openPage(menuCms.link.contact_us)}>{menuCms.contact}</MenuItem>
         <MenuDivider />

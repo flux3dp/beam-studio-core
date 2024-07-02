@@ -15,7 +15,7 @@ import TopBarIcons from 'app/icons/top-bar/TopBarIcons';
 import useI18n from 'helpers/useI18n';
 import versionChecker from 'helpers/version-checker';
 import workareaManager from 'app/svgedit/workarea';
-import { CanvasContext } from 'app/contexts/CanvasContext';
+import { CanvasContext, CanvasMode } from 'app/contexts/CanvasContext';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 import styles from './FrameButton.module.scss';
@@ -29,7 +29,7 @@ const PROGRESS_ID = 'frame-task';
 const FrameButton = (): JSX.Element => {
   const lang = useI18n();
   const tAlerts = lang.topbar.alerts;
-  const { isPreviewing } = useContext(CanvasContext);
+  const { mode } = useContext(CanvasContext);
 
   const getCoords = useCallback(() => {
     const allBBox = svgCanvas.getVisibleElementsAndBBoxes();
@@ -181,7 +181,7 @@ const FrameButton = (): JSX.Element => {
 
   return (
     <div
-      className={classNames(styles.button, { [styles.disabled]: isPreviewing })}
+      className={classNames(styles.button, { [styles.disabled]: mode !== CanvasMode.Draw })}
       onClick={handleClick}
       title={lang.topbar.frame_task}
     >

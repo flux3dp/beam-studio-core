@@ -1,4 +1,4 @@
-﻿html, body, div{
+html, body, div{
 	/* -webkit-user-select: text;
 	-khtml-user-select: text;
 	-moz-user-select: text;
@@ -97,22 +97,6 @@ select {
 	text-align: center;
 }
 
-#layerpanel {
-	display: inline-block;
-	position:relative;
-	top: 0px;
-	bottom: 0;
-	overflow: hidden;
-	margin: 0;
-	-moz-user-select: none;
-	-webkit-user-select: none;
-}
-
-/*
-	border-style: solid;
-	border-color: #666;
-	border-width: 0px 0px 0px 1px;
-*/
 #sidepanel_handle {
 	display: inline-block;
 	position: absolute;
@@ -141,13 +125,8 @@ select {
 	-webkit-user-select: none;
 }
 
-#layerlist_container {
-	overflow-x: hidden;
-	overflow-y: scroll;
-	background: white;
-	height: 340px;
-}
 #layerlist_container::-webkit-scrollbar {
+	display: unset;
 	-webkit-appearance: none;
 	background-color: #EEE;
 	width: 7px;

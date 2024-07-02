@@ -11,7 +11,6 @@
     "noImplicitAny": false,
     "downlevelIteration": true,
     "jsx": "react",
-    "suppressImplicitAnyIndexErrors": true,
     "baseUrl": ".",
     "paths": {
       "app/*": [

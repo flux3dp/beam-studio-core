@@ -1,0 +1,22 @@
+.enhancer {
+  &.button {
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    gap: 4px;
+    margin: 12px;
+    color: #7c7c7c;
+    font-size: 14px;
+
+    svg {
+      font-size: 30px;
+    }
+
+    &.desktop {
+      &:not(.windows) {
+        margin-top: 42px;
+        margin-bottom: 0;
+      }
+    }
+  }
+}

@@ -9,6 +9,7 @@ import changeWorkarea from 'app/svgedit/operations/changeWorkarea';
 import constant from 'app/actions/beambox/constant';
 import diodeBoundaryDrawer from 'app/actions/canvas/diode-boundary-drawer';
 import EngraveDpiSlider from 'app/widgets/EngraveDpiSlider';
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
 import presprayArea from 'app/actions/canvas/prespray-area';
@@ -18,6 +19,8 @@ import useI18n from 'helpers/useI18n';
 import { WorkAreaModel, getWorkarea } from 'app/constants/workarea-constants';
 
 import styles from './DocumentSettings.module.scss';
+
+const eventEmitter = eventEmitterFactory.createEventEmitter('dpi-info');
 
 const workareaOptions = [
   { label: 'beamo', value: 'fbm1' },
@@ -81,6 +84,7 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
 
   const handleSave = () => {
     BeamboxPreference.write('engrave_dpi', engraveDpi);
+    eventEmitter.emit('UPDATE_DPI', engraveDpi);
     // state for engrave dpi v2
     // BeamboxPreference.write('engrave-dpi-value', engraveDpiValue);
     BeamboxPreference.write('borderless', borderlessMode);
