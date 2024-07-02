@@ -212,8 +212,7 @@ class PassThroughCanvas {
    * generateRefImage
    * @param refHeight height of the reference image (px)
    */
-  generateRefImage = async (refHeight: number): Promise<(string | null)[]> => {
-    const scale = constant.dpmm;
+  generateRefImage = async (refHeight: number, downScale = 5): Promise<(string | null)[]> => {
     const clonedDefs = findDefs()?.cloneNode(true) as SVGDefsElement;
     if (clonedDefs) {
       const uses = this.svgcontent.querySelectorAll('use');
@@ -257,15 +256,15 @@ class PassThroughCanvas {
     </svg>`;
     const canvas = await svgStringToCanvas(
       svgString,
-      Math.round(this.width / scale),
-      Math.round(this.height / scale)
+      Math.round(this.width / downScale),
+      Math.round(this.height / downScale)
     );
     const refImages: (string | null)[] = [];
     for (let i = 0; i < Math.ceil(this.height / this.passThroughHeight); i += 1) {
       if (i === 0) refImages.push(null);
       else {
-        const y = Math.round((i * this.passThroughHeight - refHeight) / scale);
-        const height = Math.round(refHeight / scale);
+        const y = Math.round((i * this.passThroughHeight - refHeight) / downScale);
+        const height = Math.round(refHeight / downScale);
         const refCanvas = document.createElement('canvas');
         refCanvas.width = canvas.width;
         refCanvas.height = height;
