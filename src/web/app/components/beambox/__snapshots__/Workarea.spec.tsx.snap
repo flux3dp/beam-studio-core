@@ -5,6 +5,7 @@ exports[`test workarea should render correctly 1`] = `
   <dummy-context-menu-trigger
     disable="false"
     holdtodisplay="-1"
+    holdtodisplaymouse="-1"
     id="canvas-contextmenu"
   >
     <div
@@ -114,6 +115,7 @@ exports[`test workarea should render correctly 2`] = `
   <dummy-context-menu-trigger
     disable="true"
     holdtodisplay="-1"
+    holdtodisplaymouse="-1"
     id="canvas-contextmenu"
   >
     <div

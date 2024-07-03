@@ -11,6 +11,7 @@ import Dialog from 'app/actions/dialog-caller';
 import DragImage from 'app/components/beambox/right-panel/DragImage';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import FloatingPanel from 'app/widgets/FloatingPanel';
+import HistoryCommandFactory from 'app/svgedit/history/HistoryCommandFactory';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import i18n from 'helpers/i18n';
 import LayerContextMenu from 'app/views/beambox/Right-Panels/LayerPanel/LayerContextMenu';
@@ -264,13 +265,15 @@ class LayerPanel extends React.PureComponent<Props, State> {
     const drawing = svgCanvas.getCurrentDrawing();
     const isVis = drawing.getLayerVisibility(layerName);
     const { selectedLayers } = this.context;
+    const batchCmd = HistoryCommandFactory.createBatchCommand('Set Layers Visibility');
     if (selectedLayers.includes(layerName)) {
       for (let i = 0; i < selectedLayers.length; i += 1) {
-        svgCanvas.setLayerVisibility(selectedLayers[i], !isVis);
+        svgCanvas.setLayerVisibility(selectedLayers[i], !isVis, { parentCmd: batchCmd });
       }
     } else {
-      svgCanvas.setLayerVisibility(layerName, !isVis);
+      svgCanvas.setLayerVisibility(layerName, !isVis, { parentCmd: batchCmd });
     }
+    if (!batchCmd.isEmpty()) svgCanvas.addCommandToHistory(batchCmd);
     this.forceUpdate();
   };
 

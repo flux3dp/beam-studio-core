@@ -11,14 +11,15 @@ interface Props {
   id: string,
   attributes?: any,
   collect?: Function,
-  disable: boolean,
-  holdToDisplay: number,
-  holdThreshold: number,
+  disable?: boolean,
+  holdToDisplay?: number,
+  holdToDisplayMouse?: number,
+  holdThreshold?: number,
   posX: number,
   posY: number,
-  renderTag: string,
-  mouseButton: number,
-  disableIfShiftIsPressed: boolean,
+  renderTag?: string,
+  mouseButton?: number,
+  disableIfShiftIsPressed?: boolean,
   hideOnLeaveHoldPosition?: boolean,
 }
 
@@ -29,6 +30,7 @@ export default class ContextMenuTrigger extends Component<Props> {
     collect() { return null; },
     disable: false,
     holdToDisplay: 1000,
+    holdToDisplayMouse: -1,
     holdThreshold: 10,
     renderTag: 'div',
     posX: 0,
@@ -48,8 +50,9 @@ export default class ContextMenuTrigger extends Component<Props> {
   touchHandled = false;
 
   handleMouseDown = (event) => {
-    const { attributes, holdToDisplay } = this.props;
-    if (holdToDisplay >= 0 && event.button === 0) {
+    hideMenu();
+    const { attributes, holdToDisplayMouse } = this.props;
+    if (holdToDisplayMouse >= 0 && event.button === 0) {
       event.persist();
       event.stopPropagation();
       this.holdStartPosition = {
@@ -61,7 +64,7 @@ export default class ContextMenuTrigger extends Component<Props> {
         () => {
           this.handleContextClick(event);
         },
-        holdToDisplay,
+        holdToDisplayMouse,
       );
     }
     callIfExists(attributes.onMouseDown, event);

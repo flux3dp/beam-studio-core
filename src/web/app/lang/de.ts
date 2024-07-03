@@ -32,6 +32,7 @@ const lang: ILang = {
       image: 'Bild',
       text: 'Text',
       text_path: 'Pfadtext',
+      pass_through_object: 'Objekt Durchlaufen',
       line: 'Linie',
       g: 'Gruppe',
       multi_select: 'Mehrfachauswahl',
@@ -636,6 +637,7 @@ const lang: ILang = {
         qr_code: 'QR-Code',
         boxgen: 'Boxgen',
         my_cloud: 'Meine Cloud',
+        pass_through: 'Durchgang',
         curve_engraving: {
           title: '3D Kurve',
           exit: 'Beenden',
@@ -1029,6 +1031,8 @@ const lang: ILang = {
       enable_diode: 'Diodenlaser',
       enable_autofocus: 'Autofokus',
       extend_workarea: 'Arbeitsbereich erweitern',
+      pass_through: 'Durchgang',
+      pass_through_height_desc: 'Geben Sie die Länge des Objekts ein, um den Arbeitsbereich zu erweitern.',
       add_on: 'Zusatz-Module',
       low: 'Niedrig',
       medium: 'Mittel',
@@ -1812,6 +1816,18 @@ const lang: ILang = {
   },
   pass_through: {
     title: 'Durchgangsmodus',
+    help_text: 'Wie richtet man Durchgangsmodus für Ador ein?',
+    object_length: 'Objektlänge',
+    workaea_height: 'Arbeitsbereich (Höhe):',
+    height_desc: 'Stellen Sie die Höhe jeder Arbeitsbereichssektion ein.',
+    ref_layer: 'Referenzschicht',
+    ref_layer_desc: 'Zeigt den vorherigen unteren Abschnitt des Kunstwerks im Arbeitsbereich an.',
+    guide_line: 'Führungslinie',
+    guide_line_length: 'Länge:',
+    guide_line_x: 'X-Koordinate:',
+    guide_line_desc: 'Führungslinien werden als Referenzpunkt graviert, um das Kunstwerk auszurichten.',
+    export: 'In Arbeitsbereich exportieren',
+    exporting: 'Exportieren...',
   },
 };
 

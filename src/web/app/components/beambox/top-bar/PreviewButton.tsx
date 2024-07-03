@@ -2,11 +2,11 @@ import classNames from 'classnames';
 import React, { useContext } from 'react';
 
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
-import Constant from 'app/actions/beambox/constant';
 import LeftPanelIcons from 'app/icons/left-panel/LeftPanelIcons';
 import TopBarIcons from 'app/icons/top-bar/TopBarIcons';
 import useI18n from 'helpers/useI18n';
 import { CanvasContext, CanvasMode } from 'app/contexts/CanvasContext';
+import { getSupportInfo } from 'app/constants/add-on';
 import { useIsMobile } from 'helpers/system-helper';
 
 import styles from './PreviewButton.module.scss';
@@ -30,11 +30,10 @@ function PreviewButton(): JSX.Element {
   const isPreviewing = mode === CanvasMode.Preview;
 
   const borderless = BeamboxPreference.read('borderless') || false;
-  const supportOpenBottom = Constant.addonsSupportList.openBottom.includes(
-    BeamboxPreference.read('workarea')
-  );
   const previewText =
-    borderless && supportOpenBottom ? `${lang.preview} ${lang.borderless}` : lang.preview;
+    borderless && getSupportInfo(BeamboxPreference.read('workarea')).openBottom
+      ? `${lang.preview} ${lang.borderless}`
+      : lang.preview;
   const startPreview = () => {
     if (!isPreviewing) {
       changeToPreviewMode();

@@ -32,6 +32,7 @@ const lang: ILang = {
       image: 'Εικόνα',
       text: 'Κείμενο',
       text_path: 'Κείμενο σε Διαδρομή',
+      pass_through_object: 'Διέλευση Αντικειμένου',
       line: 'Γραμμή',
       g: 'Ομάδα',
       multi_select: 'Πολλαπλά Αντικείμενα',
@@ -633,6 +634,7 @@ const lang: ILang = {
         qr_code: 'Κωδικός QR',
         boxgen: 'Boxgen',
         my_cloud: 'Το Cloud μου',
+        pass_through: 'Διέλευση',
         curve_engraving: {
           title: '3D Καμπύλη',
           exit: 'Έξοδος',
@@ -1026,6 +1028,8 @@ const lang: ILang = {
       enable_diode: 'Λέιζερ διόδου',
       enable_autofocus: 'Αυτόματη εστίαση',
       extend_workarea: 'Επέκταση περιοχής εργασίας',
+      pass_through: 'Διέλευση',
+      pass_through_height_desc: 'Εισαγάγετε το μήκος του αντικειμένου για να επεκτείνετε την περιοχή εργασίας.',
       add_on: 'Πρόσθετες λειτουργίες',
       low: 'Χαμηλή',
       medium: 'Μέτρια',
@@ -1809,6 +1813,18 @@ const lang: ILang = {
   },
   pass_through: {
     title: 'Λειτουργία Διέλευσης',
+    help_text: 'Πώς να ρυθμίσετε το Λειτουργία Διέλευσης για το Ador;',
+    object_length: 'Μήκος Αντικειμένου',
+    workaea_height: 'Περιοχή Εργασίας (Ύψος):',
+    height_desc: 'Ρυθμίστε το ύψος κάθε τμήματος της περιοχής εργασίας.',
+    ref_layer: 'Επίπεδο Αναφοράς',
+    ref_layer_desc: 'Εμφανίζει το προηγούμενο κάτω τμήμα του έργου τέχνης στην περιοχή εργασίας.',
+    guide_line: 'Γραμμή Οδηγού',
+    guide_line_length: 'Μήκος:',
+    guide_line_x: 'Συντεταγμένη Χ:',
+    guide_line_desc: 'Οι γραμμές οδηγού θα χαραχθούν ως σημείο αναφοράς για την ευθυγράμμιση του έργου τέχνης.',
+    export: 'Εξαγωγή στην Περιοχή Εργασίας',
+    exporting: 'Εξαγωγή...',
   },
 };
 

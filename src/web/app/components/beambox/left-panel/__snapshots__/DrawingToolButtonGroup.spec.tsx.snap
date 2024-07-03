@@ -2100,6 +2100,170 @@ exports[`test DrawingToolButtonGroup should render correctly 14`] = `
 </div>
 `;
 
+exports[`test DrawingToolButtonGroup should render correctly when in pass through mode 1`] = `
+<div>
+  <div
+    class="flux"
+  >
+    <div
+      class="container active"
+      id="left-Cursor"
+      title="Select (V)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Photo"
+      title="Image (I)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-MyCloud"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+        <svgr-url
+          classname="ant-scroll-number-custom-component flux-plus"
+          style="margin-top: 6px; right: 4px;"
+        />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Text"
+      title="Text (T)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Element"
+      title="Elements (E)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Rectangle"
+      title="Rectangle (M)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Ellipse"
+      title="Oval (C)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Polygon"
+      title="Polygon"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Line"
+      title="Line (\\)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Pen"
+      title="Pen (P)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-QRCode"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Boxgen"
+      title="Boxgen"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-DM"
+      title="Design Market"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-PassThrough"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
 exports[`test DrawingToolButtonGroup should render flux plus icon correctly 1`] = `
 <div
   class="container"

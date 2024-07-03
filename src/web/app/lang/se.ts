@@ -32,6 +32,7 @@ const lang: ILang = {
       image: 'Bild',
       text: 'Text',
       text_path: 'Text på bana',
+      pass_through_object: 'Passera Objekt',
       line: 'Linje',
       g: 'Grupp',
       multi_select: 'Flera objekt',
@@ -633,6 +634,7 @@ const lang: ILang = {
         qr_code: 'QR-kod',
         boxgen: 'Boxgen',
         my_cloud: 'Mitt moln',
+        pass_through: 'Passera Igenom',
         curve_engraving: {
           title: '3D Kurva',
           exit: 'Avsluta',
@@ -1026,6 +1028,8 @@ const lang: ILang = {
       enable_diode: 'Diodlaser',
       enable_autofocus: 'Autofokus',
       extend_workarea: 'Utvidga arbetsområdet',
+      pass_through: 'Passera Igenom',
+      pass_through_height_desc: 'Ange längden på objektet för att utöka arbetsområdet.',
       add_on: 'Tillägg',
       low: 'Låg',
       medium: 'Medium',
@@ -1809,6 +1813,18 @@ const lang: ILang = {
   },
   pass_through: {
     title: 'Passera Igenom-Läge',
+    help_text: 'Hur ställer man in Passera Igenom-Läge för Ador?',
+    object_length: 'Objektlängd',
+    workaea_height: 'Arbetsområde (Höjd):',
+    height_desc: 'Ställ in höjden på varje arbetsområdessektion.',
+    ref_layer: 'Referenslager',
+    ref_layer_desc: 'Visar den tidigare nedre sektionen av konstverket i arbetsområdet.',
+    guide_line: 'Riktlinje',
+    guide_line_length: 'Längd:',
+    guide_line_x: 'X-koordinat:',
+    guide_line_desc: 'Riktlinjer kommer att graveras som en referenspunkt för att justera konstverket.',
+    export: 'Exportera till Arbetsområde',
+    exporting: 'Exporterar...',
   },
 };
 

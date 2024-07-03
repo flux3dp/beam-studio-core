@@ -3,6 +3,7 @@ import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
+import { CanvasContext } from 'app/contexts/CanvasContext';
 
 const mockUseSelectTool = jest.fn();
 const mockImportImage = jest.fn();
@@ -39,29 +40,27 @@ jest.mock('app/actions/dialog-caller', () => ({
   showMyCloud: (...args) => showMyCloud(...args),
 }));
 
-jest.mock('helpers/i18n', () => ({
-  lang: {
-    beambox: {
-      left_panel: {
-        label: {
-          cursor: 'Select',
-          photo: 'Image',
-          text: 'Text',
-          line: 'Line',
-          rect: 'Rectangle',
-          oval: 'Oval',
-          polygon: 'Polygon',
-          pen: 'Pen',
-          shapes: 'Elements',
-          boxgen: 'Boxgen',
-        },
+jest.mock('helpers/useI18n', () => () => ({
+  beambox: {
+    left_panel: {
+      label: {
+        cursor: 'Select',
+        photo: 'Image',
+        text: 'Text',
+        line: 'Line',
+        rect: 'Rectangle',
+        oval: 'Oval',
+        polygon: 'Polygon',
+        pen: 'Pen',
+        shapes: 'Elements',
+        boxgen: 'Boxgen',
       },
     },
-    topbar: {
-      menu: {
-        link: {
-          design_market: 'https://dmkt.io',
-        },
+  },
+  topbar: {
+    menu: {
+      link: {
+        design_market: 'https://dmkt.io',
       },
     },
   },
@@ -70,6 +69,15 @@ jest.mock('helpers/i18n', () => ({
 const getCurrentUser = jest.fn();
 jest.mock('helpers/api/flux-id', () => ({
   getCurrentUser: () => getCurrentUser(),
+}));
+
+jest.mock('app/contexts/CanvasContext', () => ({
+  CanvasContext: React.createContext({}),
+}));
+
+const mockShowPassThrough = jest.fn();
+jest.mock('app/components/pass-through/PassThrough', () => ({
+  showPassThrough: mockShowPassThrough,
 }));
 
 import DrawingToolButtonGroup from './DrawingToolButtonGroup';
@@ -151,6 +159,21 @@ describe('test DrawingToolButtonGroup', () => {
     expect(myCloudButton).toMatchSnapshot();
     expect(showMyCloud).toHaveBeenCalledTimes(1);
     expect(showMyCloud).toHaveBeenCalledWith(mockUseSelectTool);
+  });
+
+  test('should render correctly when in pass through mode', () => {
+    const contextValue = { hasPassthroughExtension: true };
+    const { container } = render(
+      <CanvasContext.Provider value={contextValue as any}>
+        <DrawingToolButtonGroup className="flux" />
+      </CanvasContext.Provider>
+    );
+
+    expect(container).toMatchSnapshot();
+    expect(mockShowPassThrough).not.toBeCalled();
+    fireEvent.click(container.querySelector('#left-PassThrough'));
+    expect(mockShowPassThrough).toBeCalledTimes(1);
+    expect(mockShowPassThrough).toHaveBeenCalledWith(mockUseSelectTool);
   });
 
   test('event emitter', async () => {

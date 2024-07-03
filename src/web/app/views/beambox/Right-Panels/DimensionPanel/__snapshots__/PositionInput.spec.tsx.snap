@@ -11,7 +11,7 @@ exports[`test PositionInput should render correctly on desktop 1`] = `
       X
     </div>
     <div
-      class="input"
+      class="input underline"
     >
       <div
         class="ant-input-number css-dev-only-do-not-override-hash input"
@@ -51,7 +51,7 @@ exports[`test PositionInput should render correctly on desktop 2`] = `
       Y
     </div>
     <div
-      class="input"
+      class="input underline"
     >
       <div
         class="ant-input-number css-dev-only-do-not-override-hash input"
@@ -94,7 +94,7 @@ exports[`test PositionInput should render correctly on desktop 3`] = `
       </sub>
     </div>
     <div
-      class="input"
+      class="input underline"
     >
       <div
         class="ant-input-number css-dev-only-do-not-override-hash input"
@@ -137,7 +137,7 @@ exports[`test PositionInput should render correctly on desktop 4`] = `
       </sub>
     </div>
     <div
-      class="input"
+      class="input underline"
     >
       <div
         class="ant-input-number css-dev-only-do-not-override-hash input"
@@ -180,7 +180,7 @@ exports[`test PositionInput should render correctly on desktop 5`] = `
       </sub>
     </div>
     <div
-      class="input"
+      class="input underline"
     >
       <div
         class="ant-input-number css-dev-only-do-not-override-hash input"
@@ -223,7 +223,7 @@ exports[`test PositionInput should render correctly on desktop 6`] = `
       </sub>
     </div>
     <div
-      class="input"
+      class="input underline"
     >
       <div
         class="ant-input-number css-dev-only-do-not-override-hash input"
@@ -266,7 +266,7 @@ exports[`test PositionInput should render correctly on desktop 7`] = `
       </sub>
     </div>
     <div
-      class="input"
+      class="input underline"
     >
       <div
         class="ant-input-number css-dev-only-do-not-override-hash input"
@@ -309,7 +309,7 @@ exports[`test PositionInput should render correctly on desktop 8`] = `
       </sub>
     </div>
     <div
-      class="input"
+      class="input underline"
     >
       <div
         class="ant-input-number css-dev-only-do-not-override-hash input"

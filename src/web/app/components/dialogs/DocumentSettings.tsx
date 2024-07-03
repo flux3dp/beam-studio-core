@@ -1,12 +1,12 @@
 import classNames from 'classnames';
 import React, { useEffect, useMemo, useState } from 'react';
-import { Checkbox, Col, ConfigProvider, Form, Modal, Row, Switch } from 'antd';
+import { Checkbox, Form, Modal, Switch, Tooltip } from 'antd';
+import { QuestionCircleOutlined } from '@ant-design/icons';
 
 import alertCaller from 'app/actions/alert-caller';
 import alertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import changeWorkarea from 'app/svgedit/operations/changeWorkarea';
-import constant from 'app/actions/beambox/constant';
 import diodeBoundaryDrawer from 'app/actions/canvas/diode-boundary-drawer';
 import EngraveDpiSlider from 'app/widgets/EngraveDpiSlider';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
@@ -15,7 +15,10 @@ import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-d
 import presprayArea from 'app/actions/canvas/prespray-area';
 import rotaryAxis from 'app/actions/canvas/rotary-axis';
 import Select from 'app/widgets/AntdSelect';
+import storage from 'implementations/storage';
+import UnitInput from 'app/widgets/UnitInput';
 import useI18n from 'helpers/useI18n';
+import { getSupportInfo } from 'app/constants/add-on';
 import { WorkAreaModel, getWorkarea } from 'app/constants/workarea-constants';
 
 import styles from './DocumentSettings.module.scss';
@@ -51,66 +54,88 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
   // const [engraveDpiValue, setEngraveDpiValue] = useState(
   //   BeamboxPreference.read('engrave-dpi-value') || dpiMap[engraveDpi] || 250
   // );
+
   const origWorkarea = useMemo(() => BeamboxPreference.read('workarea'), []);
   const [workarea, setWorkarea] = useState<WorkAreaModel>(origWorkarea || 'fbb1b');
+  const supportInfo = useMemo(() => getSupportInfo(workarea), [workarea]);
   const [rotaryMode, setRotaryMode] = useState<number>(BeamboxPreference.read('rotary_mode'));
   const [extendRotaryWorkarea, setExtendRotaryWorkarea] = useState<boolean>(
     !!BeamboxPreference.read('extend-rotary-workarea')
   );
-  const [borderlessMode, setBorderlessMode] = useState(
-    BeamboxPreference.read('borderless') === true
-  );
-  const [enableDiode, setEnableDiode] = useState(BeamboxPreference.read('enable-diode') === true);
+  const [borderless, setBorderless] = useState(!!BeamboxPreference.read('borderless'));
+  const [enableDiode, setEnableDiode] = useState(!!BeamboxPreference.read('enable-diode'));
   const [enableAutofocus, setEnableAutofocus] = useState(
-    BeamboxPreference.read('enable-autofocus') === true
+    !!BeamboxPreference.read('enable-autofocus')
   );
+  const [passThrough, setPassThrough] = useState(!!BeamboxPreference.read('pass-through'));
+
+  const isInch = useMemo(() => storage.get('default-units') === 'inches', []);
+  const workareaObj = useMemo(() => getWorkarea(workarea), [workarea]);
+  const [passThroughHeight, setPassThroughHeight] = useState<number>(
+    BeamboxPreference.read('pass-through-height') || workareaObj.height
+  );
+  useEffect(() => {
+    if (rotaryMode > 0) {
+      setBorderless(false);
+      setPassThrough(false);
+    }
+  }, [rotaryMode]);
+  useEffect(() => {
+    if (borderless) setRotaryMode(0);
+    else if (supportInfo.openBottom) setPassThrough(false);
+  }, [supportInfo, borderless]);
+  useEffect(() => {
+    if (passThrough) setRotaryMode(0);
+  }, [passThrough]);
+  useEffect(() => {
+    if (borderless) setPassThroughHeight((cur) => Math.max(cur, workareaObj.height));
+  }, [borderless, workareaObj]);
 
   const handleEngraveDpiChange = (value: string) => setEngraveDpi(value);
   const handleWorkareaChange = (value: WorkAreaModel) => setWorkarea(value);
   const handleRotaryModeChange = (on: boolean) => setRotaryMode(on ? 1 : 0);
-  const handleBorderlessModeChange = (value: boolean) => setBorderlessMode(value);
+  const handleBorderlessModeChange = (value: boolean) => setBorderless(value);
   const handleDiodeModuleChange = (value: boolean) => setEnableDiode(value);
   const handleAutofocusModuleChange = (value: boolean) => setEnableAutofocus(value);
+  const handlePassThrough = (value: boolean) => setPassThrough(value);
 
-  const rotaryModels = useMemo(() => getWorkarea(workarea).rotary, [workarea]);
-
-  useEffect(() => {
-    if (!rotaryModels.includes(rotaryMode)) {
-      form.setFieldValue('rotary_mode', 0);
-      handleRotaryModeChange(false);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [rotaryModels]);
+  const shouldPassThrough = supportInfo.passThrough && (supportInfo.openBottom ? borderless : true);
 
   const handleSave = () => {
     BeamboxPreference.write('engrave_dpi', engraveDpi);
     eventEmitter.emit('UPDATE_DPI', engraveDpi);
     // state for engrave dpi v2
     // BeamboxPreference.write('engrave-dpi-value', engraveDpiValue);
-    BeamboxPreference.write('borderless', borderlessMode);
-    BeamboxPreference.write('enable-diode', enableDiode);
-    BeamboxPreference.write('enable-autofocus', enableAutofocus);
-    const workareaChanged = workarea !== BeamboxPreference.read('workarea');
+    BeamboxPreference.write('borderless', supportInfo.openBottom && borderless);
+    BeamboxPreference.write('enable-diode', supportInfo.hybridLaser && enableDiode);
+    BeamboxPreference.write('enable-autofocus', supportInfo.autoFocus && enableAutofocus);
+    const workareaChanged = workarea !== origWorkarea;
     const rotaryChanged =
       rotaryMode !== BeamboxPreference.read('rotary_mode') ||
-      extendRotaryWorkarea !== (!!BeamboxPreference.read('extend-rotary-workarea'));
+      extendRotaryWorkarea !== !!BeamboxPreference.read('extend-rotary-workarea');
     BeamboxPreference.write('rotary_mode', rotaryMode);
     BeamboxPreference.write('extend-rotary-workarea', extendRotaryWorkarea);
-    if (workareaChanged || rotaryChanged) {
+
+    const newPassThrough = shouldPassThrough && passThrough;
+    const passThroughChanged = newPassThrough !== !!BeamboxPreference.read('pass-through');
+    BeamboxPreference.write('pass-through', newPassThrough);
+    const passThroughHeightChanged =
+      passThroughHeight !== BeamboxPreference.read('pass-through-height');
+    BeamboxPreference.write('pass-through-height', passThroughHeight);
+    if (workareaChanged || rotaryChanged || passThroughChanged || passThroughHeightChanged) {
       changeWorkarea(workarea, { toggleModule: workareaChanged });
       rotaryAxis.toggleDisplay();
       presprayArea.togglePresprayArea();
     } else {
       // this is called in changeWorkarea
       OpenBottomBoundaryDrawer.update();
-      if (enableDiode) diodeBoundaryDrawer.show();
+      if (supportInfo.hybridLaser && enableDiode) diodeBoundaryDrawer.show();
       else diodeBoundaryDrawer.hide();
     }
+    const canvasEvents = eventEmitterFactory.createEventEmitter('canvas');
+    canvasEvents.emit('document-settings-saved');
   };
 
-  const doesSupportOpenBottom = constant.addonsSupportList.openBottom.includes(workarea);
-  const doesSupportHybrid = constant.addonsSupportList.hybridLaser.includes(workarea);
-  const doesSupportAutofocus = constant.addonsSupportList.autoFocus.includes(workarea);
   return (
     <Modal
       open
@@ -154,86 +179,110 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
           </Select>
         </Form.Item>
         <strong>{langDocumentSettings.add_on}</strong>
-        <ConfigProvider
-          theme={{
-            components: {
-              Form: {
-                itemMarginBottom: 0,
-              },
-            },
-          }}
-        >
-          <Row>
-            <Col span={12}>
-              <Form.Item
-                name="rotary_mode"
-                className={classNames({ [styles.disabled]: rotaryModels.length === 1 })}
-                label={langDocumentSettings.rotary_mode}
-                labelCol={{ span: 12, offset: 0 }}
-              >
+        <div className={styles.modules}>
+          {workareaObj.rotary.length > 1 && (
+            <div className={classNames(styles.row, { [styles.full]: workarea === 'ado1' })}>
+              <div className={styles.title}>
+                <label htmlFor="rotary_mode">{langDocumentSettings.rotary_mode}</label>
+              </div>
+              <div className={styles.control}>
                 <Switch
+                  id="rotary_mode"
                   checked={rotaryMode !== 0}
-                  disabled={rotaryModels.length === 1}
+                  disabled={workareaObj.rotary.length === 1}
                   onChange={handleRotaryModeChange}
                 />
-              </Form.Item>
-              <div className={styles.subCheckbox}>
                 {workarea === 'ado1' && rotaryMode !== 0 && (
-                  <Checkbox
-                    checked={extendRotaryWorkarea}
-                    onChange={(e) => setExtendRotaryWorkarea(e.target.checked)}
-                  >
-                    {langDocumentSettings.extend_workarea}
-                  </Checkbox>
+                  <div className={styles.subCheckbox}>
+                    <Checkbox
+                      checked={extendRotaryWorkarea}
+                      onChange={(e) => setExtendRotaryWorkarea(e.target.checked)}
+                    >
+                      {langDocumentSettings.extend_workarea}
+                    </Checkbox>
+                  </div>
                 )}
               </div>
-            </Col>
-            <Col span={12}>
-              <Form.Item
-                name="borderless_mode"
-                className={classNames({ [styles.disabled]: !doesSupportOpenBottom })}
-                label={langDocumentSettings.borderless_mode}
-                labelCol={{ span: 12, offset: 0 }}
-              >
+            </div>
+          )}
+          {supportInfo.autoFocus && (
+            <div className={styles.row}>
+              <div className={styles.title}>
+                <label htmlFor="autofocus-module">{langDocumentSettings.enable_autofocus}</label>
+              </div>
+              <div className={styles.control}>
                 <Switch
-                  checked={doesSupportOpenBottom && borderlessMode}
-                  disabled={!doesSupportOpenBottom}
-                  onChange={handleBorderlessModeChange}
-                />
-              </Form.Item>
-            </Col>
-          </Row>
-          <Row>
-            <Col span={12}>
-              <Form.Item
-                name="autofocus-module"
-                className={classNames({ [styles.disabled]: !doesSupportAutofocus })}
-                label={langDocumentSettings.enable_autofocus}
-                labelCol={{ span: 12, offset: 0 }}
-              >
-                <Switch
-                  checked={doesSupportAutofocus && enableAutofocus}
-                  disabled={!doesSupportAutofocus}
+                  id="autofocus-module"
+                  checked={supportInfo.autoFocus && enableAutofocus}
+                  disabled={!supportInfo.autoFocus}
                   onChange={handleAutofocusModuleChange}
                 />
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item
-                name="diode_module"
-                className={classNames({ [styles.disabled]: !doesSupportHybrid })}
-                label={langDocumentSettings.enable_diode}
-                labelCol={{ span: 12, offset: 0 }}
-              >
+              </div>
+            </div>
+          )}
+          {supportInfo.openBottom && (
+            <div className={styles.row}>
+              <div className={styles.title}>
+                <label htmlFor="borderless_mode">{langDocumentSettings.borderless_mode}</label>
+              </div>
+              <div className={styles.control}>
                 <Switch
-                  checked={doesSupportHybrid && enableDiode}
-                  disabled={!doesSupportHybrid}
+                  id="borderless_mode"
+                  checked={supportInfo.openBottom && borderless}
+                  disabled={!supportInfo.openBottom}
+                  onChange={handleBorderlessModeChange}
+                />
+              </div>
+            </div>
+          )}
+          {supportInfo.hybridLaser && (
+            <div className={styles.row}>
+              <div className={styles.title}>
+                <label htmlFor="diode_module">{langDocumentSettings.enable_diode}</label>
+              </div>
+              <div className={styles.control}>
+                <Switch
+                  id="diode_module"
+                  checked={supportInfo.hybridLaser && enableDiode}
+                  disabled={!supportInfo.hybridLaser}
                   onChange={handleDiodeModuleChange}
                 />
-              </Form.Item>
-            </Col>
-          </Row>
-        </ConfigProvider>
+              </div>
+            </div>
+          )}
+          {shouldPassThrough && (
+            <div className={classNames(styles.row, styles.full)}>
+              <div className={styles.title}>
+                <label htmlFor="pass_through">{langDocumentSettings.pass_through}</label>
+              </div>
+              <div className={styles.control}>
+                <Switch
+                  id="pass_through"
+                  checked={supportInfo.passThrough && passThrough}
+                  disabled={!supportInfo.passThrough}
+                  onChange={handlePassThrough}
+                />
+                {passThrough && (
+                  <>
+                    <UnitInput
+                      id="pass_through_height"
+                      className={styles.input}
+                      value={passThroughHeight}
+                      min={workareaObj.height}
+                      addonAfter={isInch ? 'in' : 'mm'}
+                      isInch={isInch}
+                      precision={isInch ? 0 : 2}
+                      onChange={(val) => setPassThroughHeight(val)}
+                    />
+                    <Tooltip title={langDocumentSettings.pass_through_height_desc}>
+                      <QuestionCircleOutlined className={styles.hint} />
+                    </Tooltip>
+                  </>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
       </Form>
     </Modal>
   );

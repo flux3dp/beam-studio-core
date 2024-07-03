@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
+import findDefs from 'app/svgedit/utils/findDef';
 import fontHelper from 'helpers/fonts/fontHelper';
 import history from 'app/svgedit/history/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
@@ -70,7 +71,7 @@ const postContentChange = () => {
   });
 
   if (svgedit.browser.isGecko()) {
-    const defs = svgedit.utilities.findDefs();
+    const defs = findDefs();
     svgContent.querySelectorAll('linearGradient, radialGradient, pattern').forEach((elem) => {
       defs.appendChild(elem);
     });

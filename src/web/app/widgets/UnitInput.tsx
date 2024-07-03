@@ -1,13 +1,15 @@
 /* eslint-disable react/jsx-props-no-spreading */
+import classNames from 'classnames';
 import React, { forwardRef, useCallback, useRef, useImperativeHandle } from 'react';
 import { ConfigProvider, InputNumber, InputNumberProps, ThemeConfig } from 'antd';
 
 import styles from './UnitInput.module.scss';
 
 interface Props extends InputNumberProps<number> {
-  unit: string;
+  unit?: string;
   isInch?: boolean;
-  theme?: ThemeConfig
+  theme?: ThemeConfig;
+  underline?: boolean;
 }
 
 // TODO: add test
@@ -23,6 +25,7 @@ const UnitInput = forwardRef<HTMLInputElement, Props>(({
   onBlur,
   onChange,
   theme,
+  underline,
   precision = 4,
   ...props
 }: Props, outerRef): JSX.Element => {
@@ -59,7 +62,7 @@ const UnitInput = forwardRef<HTMLInputElement, Props>(({
   }, [parser, onBlur, onChange]);
 
   return (
-    <div className={styles.input}>
+    <div className={classNames(styles.input, { [styles.underline]: underline })}>
       <ConfigProvider
         theme={theme}
       >
@@ -72,7 +75,7 @@ const UnitInput = forwardRef<HTMLInputElement, Props>(({
           formatter={formatter}
           parser={parser}
         />
-        <span className={styles.unit}>{unit}</span>
+        {unit && <span className={styles.unit}>{unit}</span>}
       </ConfigProvider>
     </div>
   );

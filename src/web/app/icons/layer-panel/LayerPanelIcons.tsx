@@ -8,6 +8,7 @@ import Lock from './lock.svg';
 import Merge from './merge.svg';
 import Move from './move.svg';
 import Print from './print.svg';
+import Ref from './ref.svg';
 import Rename from './rename.svg';
 import Unlock from './unlock.svg';
 import Visible from './visible.svg';
@@ -23,6 +24,7 @@ export default {
   Merge,
   Move,
   Print,
+  Ref,
   Rename,
   Unlock,
   Visible,

@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import findDefs from 'app/svgedit/utils/findDef';
 import history from 'app/svgedit/history/history';
 import selector from 'app/svgedit/selector';
 import symbolMaker from 'helpers/symbol-maker';
@@ -59,9 +60,9 @@ getSVGAsync((globalSVG) => {
 });
 
 let clipboard: Element[];
-let refClipboard: { [useId: string]: Element };
+let refClipboard: { [useId: string]: Element } = {};
 
-const addRefToClipboard = (useElement: SVGUseElement) => {
+export const addRefToClipboard = (useElement: SVGUseElement): void => {
   const symbolId = svgedit.utilities.getHref(useElement);
   let symbolElement = document.querySelector(symbolId);
   symbolElement =
@@ -159,7 +160,15 @@ const applyNativeClipboard = async () => {
   }
 };
 
-const pasteRef = async (useElement: SVGUseElement) => {
+const pasteRef = async (
+  useElement: SVGUseElement,
+  opts?: {
+    parentCmd?: IBatchCommand;
+    addToHistory?: boolean;
+  }
+): Promise<void> => {
+  const { parentCmd, addToHistory = true } = opts || {};
+  const batchCmd = new history.BatchCommand('Paste Ref');
   const drawing = svgCanvas.getCurrentDrawing();
   const symbolId = svgedit.utilities.getHref(useElement);
   const refElement = refClipboard[symbolId];
@@ -167,9 +176,17 @@ const pasteRef = async (useElement: SVGUseElement) => {
   copiedRef.id = drawing.getNextId();
   copiedRef.setAttribute('data-image-symbol', `${copiedRef.id}_image`);
   updateSymbolStyle(copiedRef, refElement.id);
-  const defs = svgedit.utilities.findDefs();
+  const defs = findDefs();
   defs.appendChild(copiedRef);
+  batchCmd.addSubCommand(new history.InsertElementCommand(copiedRef));
   svgedit.utilities.setHref(useElement, `#${copiedRef.id}`);
+  const imageSymbol = symbolMaker.createImageSymbol(copiedRef);
+  batchCmd.addSubCommand(new history.InsertElementCommand(imageSymbol));
+  if (parentCmd) {
+    parentCmd.addSubCommand(batchCmd);
+  } else if (addToHistory) {
+    svgCanvas.undoMgr.addCommandToHistory(batchCmd);
+  }
   await symbolMaker.reRenderImageSymbol(useElement);
 };
 
@@ -216,10 +233,10 @@ const pasteElements = (args: {
       newTextPath?.setAttribute('href', `#${newPath?.id}`);
     }
     const promises: Promise<void>[] = [];
-    if (copy.tagName === 'use') promises.push(pasteRef(copy));
+    if (copy.tagName === 'use') promises.push(pasteRef(copy, { parentCmd: batchCmd }));
     else
       Array.from(copy.querySelectorAll('use')).forEach((use: SVGUseElement) =>
-        promises.push(pasteRef(use))
+        promises.push(pasteRef(use, { parentCmd: batchCmd }))
       );
 
     batchCmd.addSubCommand(new history.InsertElementCommand(copy));
@@ -354,12 +371,14 @@ const generateSelectedElementArray = (
 const getCurrentClipboard = (): boolean => clipboard && clipboard.length > 0;
 
 export default {
+  addRefToClipboard,
   copyElements,
   copySelectedElements,
   cutElements,
   cutSelectedElements,
   pasteElements: pasteFromNativeClipboard,
   pasteInCenter,
+  pasteRef,
   cloneSelectedElements,
   generateSelectedElementArray,
   getCurrentClipboard,

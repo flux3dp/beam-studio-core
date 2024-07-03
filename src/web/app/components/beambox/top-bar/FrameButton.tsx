@@ -44,8 +44,8 @@ const FrameButton = (): JSX.Element => {
       maxX: undefined,
       maxY: undefined,
     };
-    const { width: workareaWidth, height: fullHeight, rotaryExpansion } = workareaManager;
-    const workareaHeight = fullHeight - rotaryExpansion[0] - rotaryExpansion[1];
+    const { width: workareaWidth, height: fullHeight, expansion } = workareaManager;
+    const workareaHeight = fullHeight - expansion[0] - expansion[1];
     // TODO: consider module offset
     allBBox.forEach(({ bbox }) => {
       const { x, y, width, height } = bbox;

@@ -1,4 +1,5 @@
 import constant from 'app/actions/beambox/constant';
+import findDefs from 'app/svgedit/utils/findDef';
 import getUtilWS from 'helpers/api/utils-ws';
 import svgStringToCanvas from 'helpers/image/svgStringToCanvas';
 import workareaManager from 'app/svgedit/workarea';
@@ -37,7 +38,7 @@ const layerToImage = async (
   const { width, height } = workareaManager;
   const canvasWidth = Math.round(width * ratio);
   const canvasHeight = Math.round(height * ratio);
-  const svgDefs = svgedit.utilities.findDefs();
+  const svgDefs = findDefs();
   const getCanvas = async (element: SVGElement) => {
     const svgString = `
       <svg

@@ -93,6 +93,7 @@ const PositionInput = ({ type, value, onChange }: Props): JSX.Element => {
           id={inputId}
           className={styles.input}
           theme={objectPanelInputTheme}
+          underline
           unit={unit}
           isInch={isInch}
           precision={isInch ? 4 : 2}

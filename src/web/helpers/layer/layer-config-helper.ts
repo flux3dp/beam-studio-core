@@ -4,6 +4,7 @@ import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer
 import layerModuleHelper from 'helpers/layer-module/layer-module-helper';
 import storage from 'implementations/storage';
 import toggleFullColorLayer from 'helpers/layer/full-color/toggleFullColorLayer';
+import updateLayerColorFilter from 'helpers/color/updateLayerColorFilter';
 import { getAllLayerNames, getLayerByName } from 'helpers/layer/layer-helper';
 import { getAllPresets } from 'app/constants/right-panel-constants';
 import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
@@ -52,6 +53,8 @@ export enum DataType {
   kRatio = 'kRatio',
   // parameters single color printing image processing
   printingStrength = 'printingStrength',
+  clipRect = 'clipRect',
+  ref = 'ref',
 }
 
 export const dataKey = {
@@ -83,6 +86,8 @@ export const dataKey = {
   [DataType.kRatio]: 'kRatio',
   // parameters single color printing image processing
   [DataType.printingStrength]: 'printingStrength',
+  [DataType.clipRect]: 'clipRect',
+  [DataType.ref]: 'ref',
 };
 
 export const CUSTOM_PRESET_CONSTANT = ' ';
@@ -133,12 +138,12 @@ export const getData = <T>(layer: Element, dataType: DataType, applyPrinting = f
   ) {
     targetDataType = DataType.printingSpeed;
   }
-  if ([DataType.configName, DataType.color].includes(targetDataType)) {
+  if ([DataType.configName, DataType.color, DataType.clipRect].includes(targetDataType)) {
     return (
       (layer.getAttribute(`data-${targetDataType}`) as T) || (defaultConfig[targetDataType] as T)
     );
   }
-  if (targetDataType === DataType.fullColor)
+  if (targetDataType === DataType.fullColor || targetDataType === DataType.ref)
     return (layer.getAttribute(`data-${targetDataType}`) === '1') as T;
   if (targetDataType === DataType.module)
     return Number(layer.getAttribute('data-module') || LayerModule.LASER_10W_DIODE) as T;
@@ -228,11 +233,18 @@ export const cloneLayerConfig = (targetLayerName: string, baseLayerName: string)
     initLayerConfig(targetLayerName);
   } else {
     const dataTypes = Object.values(DataType);
-    for (let i = 0; i < dataTypes.length; i += 1) {
-      if (dataTypes[i] === DataType.fullColor) {
-        if (getData(baseLayer, DataType.fullColor))
-          writeData(targetLayerName, DataType.fullColor, '1');
-      } else writeData(targetLayerName, dataTypes[i], getData(baseLayer, dataTypes[i]));
+    const targetLayer = getLayerElementByName(targetLayerName);
+    if (targetLayer) {
+      for (let i = 0; i < dataTypes.length; i += 1) {
+        if (dataTypes[i] === DataType.fullColor || dataTypes[i] === DataType.ref) {
+          if (getData(baseLayer, dataTypes[i]))
+            writeDataLayer(targetLayer, dataTypes[i], '1');
+        } else {
+          const value = getData(baseLayer, dataTypes[i]);
+          if (value) writeDataLayer(targetLayer, dataTypes[i], getData(baseLayer, dataTypes[i]));
+        }
+      }
+      updateLayerColorFilter(targetLayer as SVGGElement);
     }
   }
 };

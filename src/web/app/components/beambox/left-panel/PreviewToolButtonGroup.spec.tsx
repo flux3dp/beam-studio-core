@@ -1,6 +1,8 @@
 /* eslint-disable import/first */
 import React from 'react';
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
+
+import { CanvasContext } from 'app/contexts/CanvasContext';
 
 const emitShowCropper = jest.fn();
 jest.mock('app/stores/beambox-store', () => ({
@@ -62,17 +64,36 @@ jest.mock('app/actions/canvas/curveEngravingModeController', () => ({
   start: mockStartCurveEngraving,
 }));
 
+jest.mock('app/contexts/CanvasContext', () => ({
+  CanvasContext: React.createContext(null),
+}));
+
 import PreviewToolButtonGroup from './PreviewToolButtonGroup';
 
 test('should render correctly', () => {
   const endPreviewMode = jest.fn();
   const setShouldStartPreviewController = jest.fn();
   const { container } = render(
-    <PreviewToolButtonGroup
-      className="left-toolbar"
-      endPreviewMode={endPreviewMode}
-      setShouldStartPreviewController={setShouldStartPreviewController}
-    />
+    <CanvasContext.Provider
+      value={
+        {
+          endPreviewMode,
+          setShouldStartPreviewController,
+        } as any
+      }
+    >
+      <PreviewToolButtonGroup className="left-toolbar" />
+    </CanvasContext.Provider>
   );
   expect(container).toMatchSnapshot();
+  expect(endPreviewMode).not.toBeCalled();
+  const back = container.querySelector('#preview-back');
+  fireEvent.click(back);
+  expect(endPreviewMode).toHaveBeenCalledTimes(1);
+
+  expect(setShouldStartPreviewController).not.toBeCalled();
+  const shoot = container.querySelector('#preview-shoot');
+  fireEvent.click(shoot);
+  expect(setShouldStartPreviewController).toHaveBeenCalledTimes(1);
+
 });

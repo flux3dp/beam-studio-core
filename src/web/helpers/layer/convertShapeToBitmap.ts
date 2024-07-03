@@ -3,18 +3,27 @@
  * using for single-color printing layer only
  */
 import LayerModule from 'app/constants/layer-module/layer-modules';
-import NS from 'app/constants/namespaces'
+import NS from 'app/constants/namespaces';
 
 import layerToImage from './layerToImage';
 import { DataType, getData } from './layer-config-helper';
 import { getAllLayerNames, getLayerElementByName } from './layer-helper';
 
+/**
+ * convertShapeToBitmap
+ * drawing shapes into bitmap and then remove them
+ * only keep image related elements inside svg
+ * @returns
+ */
 const convertShapeToBitmap = async (): Promise<() => void> => {
   const allLayerNames = getAllLayerNames();
   const promises = [];
   const newImages = [];
-  const removedElements = [];
-  const excludeSelecter = ['g', 'image', 'title', 'filter'].map((tagName) => `:not(${tagName})`).join('');
+  const elementsToKeep = [];
+  // clean element unrelated to image
+  const selector = ['g', 'image', 'title', 'filter', 'clipPath']
+    .map((tagName) => `:not(${tagName})`)
+    .join('');
   for (let i = 0; i < allLayerNames.length; i += 1) {
     const layerName = allLayerNames[i];
     const layer = getLayerElementByName(layerName);
@@ -24,13 +33,15 @@ const convertShapeToBitmap = async (): Promise<() => void> => {
     ) {
       // eslint-disable-next-line no-async-promise-executor
       const promise = new Promise<void>(async (resolve) => {
-        const { rgbBlob: blob, bbox } = await layerToImage(layer as SVGGElement, { shapesOnly: true });
-        const elemsToRemove = Array.from(layer.querySelectorAll(`*${excludeSelecter}`)).reverse();
-        elemsToRemove.forEach((elem) => {
-          const { parentNode, nextSibling } = elem;
-          removedElements.push({ elem, parentNode, nextSibling });
-          elem.remove();
+        const { rgbBlob: blob, bbox } = await layerToImage(layer as SVGGElement, {
+          shapesOnly: true,
         });
+        Array.from(layer.querySelectorAll(`*${selector}`))
+          .reverse()
+          .forEach((elem) => {
+            const { parentNode, nextSibling } = elem;
+            elementsToKeep.push({ elem, parentNode, nextSibling });
+          });
         if (!blob || bbox.width === 0 || bbox.height === 0) {
           resolve();
           return;
@@ -57,7 +68,7 @@ const convertShapeToBitmap = async (): Promise<() => void> => {
   await Promise.allSettled(promises);
   const revert = () => {
     newImages.forEach((image) => image.remove());
-    removedElements.forEach(({ elem, parentNode, nextSibling }) => {
+    elementsToKeep.forEach(({ elem, parentNode, nextSibling }) => {
       if (nextSibling) parentNode.insertBefore(elem, nextSibling);
       else parentNode.appendChild(elem);
     });

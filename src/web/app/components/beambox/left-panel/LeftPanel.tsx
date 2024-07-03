@@ -1,24 +1,20 @@
-import * as React from 'react';
-import classNames from 'classnames';
+import React from 'react';
 
 import CurveEngravingTool from 'app/components/beambox/left-panel/CurveEngravingTool';
 import DrawingToolButtonGroup from 'app/components/beambox/left-panel/DrawingToolButtonGroup';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import i18n from 'helpers/i18n';
+import LeftPanelButton from 'app/components/beambox/left-panel/LeftPanelButton';
+import LeftPanelIcons from 'app/icons/left-panel/LeftPanelIcons';
 import PreviewToolButtonGroup from 'app/components/beambox/left-panel/PreviewToolButtonGroup';
 import shortcuts from 'helpers/shortcuts';
 import { CanvasContext, CanvasMode } from 'app/contexts/CanvasContext';
 
+import styles from './LeftPanel.module.scss';
+
 const LANG = i18n.lang.beambox.left_panel;
 
 class LeftPanel extends React.PureComponent {
-  private leftPanelClass: string;
-
-  constructor(props: Record<string, unknown>) {
-    super(props);
-    this.leftPanelClass = classNames('left-toolbar', 'hidden-mobile');
-  }
-
   componentDidMount(): void {
     // Selection Management
     // TODO: move to layer panel
@@ -95,29 +91,26 @@ class LeftPanel extends React.PureComponent {
   }
 
   render(): JSX.Element {
-    const { mode, setShouldStartPreviewController, endPreviewMode, togglePathPreview } = this.context;
+    const { mode, togglePathPreview } = this.context;
     if (mode === CanvasMode.Draw) {
-      return (<DrawingToolButtonGroup className={this.leftPanelClass} />);
+      return <DrawingToolButtonGroup className={styles.container} />;
     }
     if (mode === CanvasMode.PathPreview) {
       return (
-        <div className={this.leftPanelClass}>
-          <div id="Exit-Preview" className="tool-btn" title={LANG.label.end_preview} onClick={togglePathPreview}>
-            <img src="img/left-bar/icon-back.svg" draggable="false" />
-          </div>
+        <div className={styles.container}>
+          <LeftPanelButton
+            id="Exit-Preview"
+            title={LANG.label.end_preview}
+            icon={<LeftPanelIcons.Back />}
+            onClick={togglePathPreview}
+          />
         </div>
       );
     }
     if (mode === CanvasMode.CurveEngraving) {
-      return (<CurveEngravingTool className={this.leftPanelClass} />);
+      return <CurveEngravingTool className={styles.container} />;
     }
-    return (
-      <PreviewToolButtonGroup
-        className={this.leftPanelClass}
-        endPreviewMode={endPreviewMode}
-        setShouldStartPreviewController={setShouldStartPreviewController}
-      />
-    );
+    return <PreviewToolButtonGroup className={styles.container} />;
   }
 }
 

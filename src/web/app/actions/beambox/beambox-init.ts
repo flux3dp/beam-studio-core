@@ -31,6 +31,7 @@ import updateFontConvert from 'app/components/dialogs/updateFontConvert';
 import workareaManager from 'app/svgedit/workarea';
 import { checkConnection } from 'helpers/api/discover';
 import { gestureIntroduction } from 'app/constants/media-tutorials';
+import { getSupportInfo } from 'app/constants/add-on';
 import { IFont } from 'interfaces/IFont';
 import { isMobile } from 'helpers/system-helper';
 import { showAdorCalibrationV2 } from 'app/components/dialogs/camera/AdorCalibrationV2';
@@ -40,13 +41,14 @@ class BeamboxInit {
   constructor() {
     migrate();
     const workarea = BeamboxPreference.read('workarea');
-    if (Constant.addonsSupportList.autoFocus.includes(workarea)) {
+    const supportInfo = getSupportInfo(workarea);
+    if (supportInfo.autoFocus) {
       const defaultAutoFocus = BeamboxPreference.read('default-autofocus');
       BeamboxPreference.write('enable-autofocus', defaultAutoFocus);
     } else {
       BeamboxPreference.write('enable-autofocus', false);
     }
-    if (Constant.addonsSupportList.hybridLaser.includes(workarea)) {
+    if (supportInfo.hybridLaser) {
       const defaultDiode = BeamboxPreference.read('default-diode');
       BeamboxPreference.write('enable-diode', defaultDiode);
     } else {
@@ -58,12 +60,12 @@ class BeamboxInit {
       BeamboxPreference.write('default-borderless', BeamboxPreference.read('borderless'));
       defaultBorderless = BeamboxPreference.read('default-borderless');
     }
-    if (Constant.addonsSupportList.openBottom.includes(workarea)) {
+    if (supportInfo.openBottom) {
       BeamboxPreference.write('borderless', defaultBorderless);
     } else {
       BeamboxPreference.write('borderless', false);
     }
-    if (!Constant.addonsSupportList.rotary.includes(workarea)) {
+    if (!supportInfo.rotary) {
       BeamboxPreference.write('rotary_mode', 0);
     }
 

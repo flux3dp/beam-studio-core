@@ -3,7 +3,7 @@ export type WorkAreaModel = 'fbm1' | 'fbb1b' | 'fbb1p' | 'fhexa1' | 'ado1';
 export const allWorkareas = new Set(['fbm1', 'fbb1b', 'fbb1p', 'fhexa1', 'ado1']);
 
 const dpmm = 10;
-interface WorkArea {
+export interface WorkArea {
   label: WorkAreaLabel;
   width: number; // mm
   pxWidth: number; // px
@@ -18,6 +18,7 @@ interface WorkArea {
   rotary: number[];
   cameraCenter?: number[]; // [mm, mm]
   autoFocusOffset?: number[]; // [mm, mm]
+  passThroughMaxHeight?: number; // mm
 }
 
 const workareaConstants: { [key in WorkAreaModel]: WorkArea } = {
@@ -76,6 +77,7 @@ const workareaConstants: { [key in WorkAreaModel]: WorkArea } = {
     rotary: [0, 1],
     cameraCenter: [215, 150],
     autoFocusOffset: [20.9, -40.38, 7.5],
+    passThroughMaxHeight: 240,
   },
 };
 

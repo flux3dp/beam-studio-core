@@ -95,6 +95,12 @@ const LayerList = ({
       const isSelected = selectedLayers.includes(layerName);
       const isVis = drawing.getLayerVisibility(layerName);
       const module = getData<LayerModule>(layer, DataType.module);
+      const isRef = getData<boolean>(layer, DataType.ref);
+      let moduleIcon = null;
+      if (isRef) moduleIcon = <LayerPanelIcons.Ref />;
+      else if (shouldShowModuleIcon)
+        moduleIcon =
+          module === LayerModule.PRINTER ? <LayerPanelIcons.Print /> : <LayerPanelIcons.Laser />;
       const layerItem = (
         <div
           key={layerName}
@@ -141,13 +147,9 @@ const LayerList = ({
                 />
               )}
             </div>
-            {shouldShowModuleIcon && (
+            {moduleIcon && (
               <div className={styles.module}>
-                {module === LayerModule.PRINTER ? (
-                  <LayerPanelIcons.Print />
-                ) : (
-                  <LayerPanelIcons.Laser />
-                )}
+                {moduleIcon}
               </div>
             )}
             <div
