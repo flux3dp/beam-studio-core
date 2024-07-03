@@ -1,4 +1,3 @@
-import constant from 'app/actions/beambox/constant';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import findDefs from 'app/svgedit/utils/findDef';
 import NS from 'app/constants/namespaces';
