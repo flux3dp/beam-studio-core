@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { ContextMenu, ContextMenuTrigger, MenuItem, SubMenu } from 'helpers/react-contextmenu';
 import clipboard from 'app/svgedit/operations/clipboard';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import i18n from 'helpers/i18n';
 import svgEditor from 'app/actions/beambox/svg-editor';
+import { ContextMenu, ContextMenuTrigger, MenuItem, SubMenu } from 'helpers/react-contextmenu';
 import { getObjectLayer, moveToOtherLayer } from 'helpers/layer/layer-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
@@ -109,6 +109,7 @@ export default class Workarea extends React.PureComponent<{ className: string },
         <ContextMenuTrigger
           id="canvas-contextmenu"
           holdToDisplay={isTouchable ? 1000 : -1}
+          holdToDisplayMouse={-1}
           disable={menuDisabled}
         >
           <div id="workarea" className={className}>
