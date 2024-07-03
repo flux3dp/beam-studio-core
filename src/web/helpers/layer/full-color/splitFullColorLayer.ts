@@ -34,9 +34,9 @@ const splitFullColorLayer = async (
 ): Promise<{ cmd: IBatchCommand; newLayers: Element[] } | null> => {
   const { addToHistory = true } = opts;
   const layer = getLayerElementByName(layerName);
-  if (!layer.getAttribute('data-fullcolor')) {
-    return null;
-  }
+  const fullColor = getData<boolean>(layer, DataType.fullColor);
+  const ref = getData<boolean>(layer, DataType.ref);
+  if (!fullColor || ref) return null;
   progressCaller.openNonstopProgress({
     id: PROGRESS_ID,
     message: 'Splitting Full Color Layer',
@@ -154,7 +154,9 @@ export const tempSplitFullColorLayers = async (): Promise<() => void> => {
   for (let i = 0; i < allLayerNames.length; i += 1) {
     const layerName = allLayerNames[i];
     const layer = getLayerElementByName(layerName);
-    if (layer.getAttribute('data-fullcolor') && layer.getAttribute('display') !== 'none') {
+    const fullColor = getData<boolean>(layer, DataType.fullColor);
+    const ref = getData<boolean>(layer, DataType.ref);
+    if (fullColor && layer.getAttribute('display') !== 'none' && !ref) {
       const { parentNode, nextSibling } = layer;
       const children = [...layer.childNodes] as Element[];
       // eslint-disable-next-line no-continue
