@@ -59,7 +59,7 @@ const sliceWorkarea = async (
         layer: newLayer,
         name,
         cmd,
-      } = createLayer(lang.guide_line, {
+      } = createLayer(lang.guide_mark, {
         isSubCmd: true,
         hexCode: '#9745ff',
       });
@@ -134,6 +134,16 @@ const sliceWorkarea = async (
       container.id = svgCanvas.getNextId();
       container.setAttribute('data-pass-through', '1');
       layer.appendChild(container);
+      const children = Array.from(container.childNodes);
+      for (let k = children.length - 1; k >= 0; k -= 1) {
+        const child = children[k] as SVGGraphicsElement;
+        if (child.tagName !== 'use' && child.tagName !== 'text' && child.getBBox) {
+          const { y: childY, height: childH } = child.getBBox();
+          if (childY + childH < start || childY > end) {
+            child.remove();
+          }
+        }
+      }
       svgedit.recalculate.recalculateDimensions(container);
       const descendants = Array.from(container.querySelectorAll('*'));
       const refMap = {}; // id changes
@@ -175,7 +185,7 @@ const sliceWorkarea = async (
       container.insertBefore(clipPath, container.firstChild);
     }
     if (anyLayer && refImageBase64s?.[i]) {
-      const { layer, name, cmd } = createLayer(`${lang.ref_layer} ${i + 1}`, {
+      const { layer, name, cmd } = createLayer(`${lang.ref_layer_name}-${i + 1}`, {
         isSubCmd: true,
       });
       layer.setAttribute('data-lock', 'true');

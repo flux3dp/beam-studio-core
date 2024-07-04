@@ -101,7 +101,7 @@ const Controls = (): JSX.Element => {
           </div>
         </div>
         <div className={styles.row}>
-          <div className={classNames(styles.cell, styles.title)}>{lang.guide_line}</div>
+          <div className={classNames(styles.cell, styles.title)}>{lang.guide_mark}</div>
           <div className={styles.cell}>
             <Switch
               checked={show}
@@ -112,7 +112,7 @@ const Controls = (): JSX.Element => {
         {show && (
           <>
             <div className={styles.row}>
-              <div className={classNames(styles.cell, styles.title)}>{lang.guide_line_length}</div>
+              <div className={classNames(styles.cell, styles.title)}>{lang.guide_mark_length}</div>
               <div className={styles.cell}>
                 <UnitInput
                   className={styles.input}
@@ -127,7 +127,7 @@ const Controls = (): JSX.Element => {
               </div>
             </div>
             <div className={styles.row}>
-              <div className={classNames(styles.cell, styles.title)}>{lang.guide_line_x}</div>
+              <div className={classNames(styles.cell, styles.title)}>{lang.guide_mark_x}</div>
               <div className={styles.cell}>
                 <UnitInput
                   className={styles.input}
@@ -145,7 +145,7 @@ const Controls = (): JSX.Element => {
         )}
       </div>
       <div className={styles.hint}>
-        {lang.guide_line_desc}
+        {lang.guide_mark_desc}
       </div>
     </div>
   );
