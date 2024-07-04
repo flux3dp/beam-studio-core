@@ -1,7 +1,7 @@
 import React, { createContext, Dispatch, SetStateAction, useMemo, useState } from 'react';
 
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
-import { GuideLine } from 'interfaces/IPassThrough';
+import { GuideMark } from 'interfaces/IPassThrough';
 import { getWorkarea, WorkArea, WorkAreaModel } from 'app/constants/workarea-constants';
 
 import sliceWorkarea from './sliceWorkarea';
@@ -13,8 +13,8 @@ interface Context {
   setPassThroughHeight: Dispatch<SetStateAction<number>>;
   referenceLayer: boolean;
   setReferenceLayer: Dispatch<SetStateAction<boolean>>;
-  guideLine: GuideLine;
-  setGuideLine: Dispatch<SetStateAction<GuideLine>>;
+  guideMark: GuideMark;
+  setGuideMark: Dispatch<SetStateAction<GuideMark>>;
   handleExport: () => Promise<void>;
 }
 
@@ -25,8 +25,8 @@ export const PassThroughContext = createContext<Context>({
   setPassThroughHeight: () => {},
   referenceLayer: false,
   setReferenceLayer: () => {},
-  guideLine: { show: false, x: 0, width: 40 },
-  setGuideLine: () => {},
+  guideMark: { show: false, x: 0, width: 40 },
+  setGuideMark: () => {},
   handleExport: async () => {},
 });
 
@@ -37,12 +37,13 @@ interface Props {
 export function PassThroughProvider({ children }: Props): JSX.Element {
   const workarea: WorkAreaModel = useMemo(() => beamboxPreference.read('workarea'), []);
   const workareaObj = useMemo(() => getWorkarea(workarea), [workarea]);
-  const [guideLine, setGuideLine] = useState<GuideLine>({ show: false, x: 0, width: 40 });
+  const [guideMark, setGuideMark] = useState<GuideMark>({ show: false, x: 0, width: 40 });
   const [passThroughHeight, setPassThroughHeight] = useState(
     workareaObj.passThroughMaxHeight ?? workareaObj.height
   );
   const [referenceLayer, setReferenceLayer] = useState(false);
-  const handleExport = async () => sliceWorkarea(passThroughHeight, { refLayers: referenceLayer, guideLine });
+  const handleExport = async () =>
+    sliceWorkarea(passThroughHeight, { refLayers: referenceLayer, guideMark });
 
   return (
     <PassThroughContext.Provider
@@ -53,8 +54,8 @@ export function PassThroughProvider({ children }: Props): JSX.Element {
         setPassThroughHeight,
         referenceLayer,
         setReferenceLayer,
-        guideLine,
-        setGuideLine,
+        guideMark,
+        setGuideMark,
         handleExport,
       }}
     >

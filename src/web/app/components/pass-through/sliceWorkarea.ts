@@ -18,7 +18,7 @@ import workareaManager from 'app/svgedit/workarea';
 import { changeBeamboxPreferenceValue } from 'app/svgedit/history/beamboxPreferenceCommand';
 import { createLayer, getLayerName } from 'helpers/layer/layer-helper';
 import { deleteUseRef } from 'app/svgedit/operations/delete';
-import { GuideLine } from 'interfaces/IPassThrough';
+import { GuideMark } from 'interfaces/IPassThrough';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { getWorkarea } from 'app/constants/workarea-constants';
 import { IBatchCommand } from 'interfaces/IHistory';
@@ -34,12 +34,12 @@ getSVGAsync((globalSVG) => {
 
 const sliceWorkarea = async (
   sliceHeight: number,
-  opt: { refLayers?: boolean; guideLine?: GuideLine; parentCmd?: IBatchCommand } = {}
+  opt: { refLayers?: boolean; guideMark?: GuideMark; parentCmd?: IBatchCommand } = {}
 ): Promise<void> => {
   const progressId = 'slice-workarea';
   const lang = i18n.lang.pass_through;
   progressCaller.openNonstopProgress({ id: progressId, message: lang.exporting });
-  const { refLayers, parentCmd, guideLine = { show: false, x: 0, width: 40 } } = opt;
+  const { refLayers, parentCmd, guideMark = { show: false, x: 0, width: 40 } } = opt;
   const { dpmm } = constant;
   const workarea = beamboxPreference.read('workarea');
   const workareaObj = getWorkarea(workarea);
@@ -52,9 +52,9 @@ const sliceWorkarea = async (
   const topPaddingPx = topPadding * dpmm;
   const refImageBase64s = refLayers ? await canvasManager.generateRefImage(topPaddingPx) : null;
 
-  const generateGuideLine = () => {
-    if (guideLine.show) {
-      const { x, width: lineWidth } = guideLine;
+  const generateGuideMark = () => {
+    if (guideMark.show) {
+      const { x, width: lineWidth } = guideMark;
       const {
         layer: newLayer,
         name,
@@ -64,23 +64,22 @@ const sliceWorkarea = async (
         hexCode: '#9745ff',
       });
       initLayerConfig(name);
-      const lineStart = document.createElementNS(NS.SVG, 'line') as SVGLineElement;
-      lineStart.setAttribute('x1', (x * dpmm).toString());
-      lineStart.setAttribute('y1', topPaddingPx.toString());
-      lineStart.setAttribute('x2', ((x + lineWidth) * dpmm).toString());
-      lineStart.setAttribute('y2', topPaddingPx.toString());
-      lineStart.setAttribute('stroke', '#9745ff');
-      lineStart.setAttribute('fill', 'none');
-      lineStart.setAttribute('vector-effect', 'non-scaling-stroke');
-      lineStart.id = svgCanvas.getNextId();
-      newLayer.appendChild(lineStart);
-      const lineEnd = lineStart.cloneNode(true) as SVGLineElement;
-      lineEnd.setAttribute('y1', (topPaddingPx + sliceHeightPx).toString());
-      lineEnd.setAttribute('y2', (topPaddingPx + sliceHeightPx).toString());
-      lineEnd.id = svgCanvas.getNextId();
-      newLayer.appendChild(lineEnd);
-      updateElementColor(lineStart);
-      updateElementColor(lineEnd);
+      const start = document.createElementNS(NS.SVG, 'ellipse') as SVGEllipseElement;
+      start.setAttribute('cx', ((x + lineWidth / 2) * dpmm).toString());
+      start.setAttribute('cy', topPaddingPx.toString());
+      start.setAttribute('rx', (lineWidth * dpmm / 2).toFixed(0));
+      start.setAttribute('ry', (lineWidth * dpmm / 2).toFixed(0));
+      start.setAttribute('stroke', '#9745ff');
+      start.setAttribute('fill', 'none');
+      start.setAttribute('vector-effect', 'non-scaling-stroke');
+      start.id = svgCanvas.getNextId();
+      newLayer.appendChild(start);
+      const end = start.cloneNode(true) as SVGEllipseElement;
+      end.setAttribute('cy', (topPaddingPx + sliceHeightPx).toString());
+      end.id = svgCanvas.getNextId();
+      newLayer.appendChild(end);
+      updateElementColor(start);
+      updateElementColor(end);
       if (cmd && !cmd.isEmpty()) batchCmd.addSubCommand(cmd);
     }
   };
@@ -214,7 +213,7 @@ const sliceWorkarea = async (
       batchCmd.addSubCommand(new history.RemoveElementCommand(origLayer, nextSibling, parent));
     }
   });
-  generateGuideLine();
+  generateGuideMark();
   changeBeamboxPreferenceValue('pass-through', false, { parentCmd: batchCmd });
   const onAfter = () => {
     currentDrawing.identifyLayers();
