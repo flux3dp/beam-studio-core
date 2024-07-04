@@ -1,5 +1,6 @@
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import constant from 'app/actions/beambox/constant';
+import CustomCommand from 'app/svgedit/history/customCommand';
 import cursorIconUrl from 'app/icons/left-panel/curve-select.svg?url';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
@@ -9,6 +10,7 @@ import { CanvasMode } from 'app/contexts/CanvasContext';
 import { CurveEngraving, MeasureData } from 'interfaces/ICurveEngraving';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { getWorkarea } from 'app/constants/workarea-constants';
+import { IBatchCommand, ICommand } from 'interfaces/IHistory';
 import { showCurveEngraving } from 'app/components/dialogs/CurveEngraving/CurveEngraving';
 import { showMeasureArea } from 'app/components/dialogs/CurveEngraving/MeasureArea';
 
@@ -197,6 +199,25 @@ class CurveEngravingModeController {
     const d2 = `M${x},${y}H${x + w}V${y + h}H${x}V${y}Z`;
     this.areaPath.setAttribute('d', `${d1} ${d2}`);
   };
+
+  loadData = (data: CurveEngraving, opts: { parentCmd?: IBatchCommand } = {}): ICommand => {
+    const origData = this.data;
+    const cmd = new CustomCommand('Load Curve Engraving Data', () => {
+      this.data = data;
+    }, () => {
+      this.data = origData;
+    });
+    const postLoadData = () => {
+      this.updateContainer();
+      this.updateAreaPath();
+    };
+    cmd.onAfter = postLoadData;
+    cmd.apply();
+    postLoadData();
+    const { parentCmd } = opts;
+    if (parentCmd) parentCmd.addSubCommand(cmd);
+    return cmd;
+  }
 }
 
 const curveEngravingModeController = new CurveEngravingModeController();

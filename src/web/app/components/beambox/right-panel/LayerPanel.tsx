@@ -443,6 +443,7 @@ class LayerPanel extends React.PureComponent<Props, State> {
         <ContextMenuTrigger
           id="layer-contextmenu"
           holdToDisplay={isTouchable ? 1000 : -1}
+          holdToDisplayMouse={-1}
           hideOnLeaveHoldPosition
         >
           <div
