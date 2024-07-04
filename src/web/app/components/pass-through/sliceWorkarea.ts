@@ -136,9 +136,21 @@ const sliceWorkarea = async (
       layer.appendChild(container);
       svgedit.recalculate.recalculateDimensions(container);
       const descendants = Array.from(container.querySelectorAll('*'));
+      const refMap = {}; // id changes
       // eslint-disable-next-line @typescript-eslint/no-loop-func
       descendants.forEach(async (el) => {
-        if (el.id) el.setAttribute('id', svgCanvas.getNextId());
+        if (el.id) {
+          const oldId = el.id;
+          el.setAttribute('id', svgCanvas.getNextId());
+          if (el.tagName.toLowerCase() === 'clippath') {
+            refMap[oldId] = el.id;
+          }
+        }
+        if (el.getAttribute('clip-path')) {
+          // please find id using regex
+          const clipPathId = el.getAttribute('clip-path').match(/url\(#(.*)\)/)?.[1];
+          if (clipPathId && refMap[clipPathId]) el.setAttribute('clip-path', `url(#${refMap[clipPathId]})`);
+        };
         if (el.tagName === 'use') {
           clipboard.addRefToClipboard(el as SVGUseElement);
           await clipboard.pasteRef(el as SVGUseElement, { parentCmd: batchCmd });
