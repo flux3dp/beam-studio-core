@@ -47,7 +47,6 @@ const sliceWorkarea = async (
   const currentDrawing = svgCanvas.getCurrentDrawing();
   const sliceHeightPx = sliceHeight * dpmm;
   const defs = findDefs();
-  const allLayers = Array.from(document.querySelectorAll('#svgcontent > .layer'));
   const { width, height: workareaHeight } = workareaManager;
   const topPadding = (workareaObj.height - sliceHeight) / 2;
   const topPaddingPx = topPadding * dpmm;
@@ -86,22 +85,24 @@ const sliceWorkarea = async (
     }
   };
 
-  const clonedLayers = allLayers.map((layer) => {
-    const name = getLayerName(layer);
-    const clonedLayer = layer.cloneNode(true) as SVGGElement;
-    clonedLayer.querySelectorAll('title').forEach((el) => el.remove());
-    clonedLayer.querySelector('filter')?.remove();
-    clonedLayer.id = `passThroughRef_${Date.now()}`;
-    defs.appendChild(clonedLayer);
-    const bbox = clonedLayer.getBBox();
-    if (bbox.height + bbox.y > workareaHeight) bbox.height = workareaHeight - bbox.y;
-    if (bbox.y < 0) {
-      bbox.height += bbox.y;
-      bbox.y = 0;
+  const clonedLayers = Array.from(document.querySelectorAll('#svgcontent > .layer')).map(
+    (layer) => {
+      const name = getLayerName(layer);
+      const clonedLayer = layer.cloneNode(true) as SVGGElement;
+      clonedLayer.querySelectorAll('title').forEach((el) => el.remove());
+      clonedLayer.querySelector('filter')?.remove();
+      clonedLayer.id = `passThroughRef_${Date.now()}`;
+      defs.appendChild(clonedLayer);
+      const bbox = clonedLayer.getBBox();
+      if (bbox.height + bbox.y > workareaHeight) bbox.height = workareaHeight - bbox.y;
+      if (bbox.y < 0) {
+        bbox.height += bbox.y;
+        bbox.y = 0;
+      }
+      clonedLayer.remove();
+      return { name, bbox, element: clonedLayer, origLayer: layer, hasNewLayer: false };
     }
-    clonedLayer.remove();
-    return { name, bbox, element: clonedLayer };
-  });
+  );
 
   for (let i = Math.ceil(workareaHeight / sliceHeightPx) - 1; i >= 0; i -= 1) {
     const start = i * sliceHeightPx;
@@ -113,6 +114,7 @@ const sliceWorkarea = async (
       // eslint-disable-next-line no-continue
       if (bboxW === 0 || height === 0 || y + height < start || y > end) continue;
       anyLayer = true;
+      clonedLayers[j].hasNewLayer = true;
 
       const {
         layer,
@@ -134,9 +136,21 @@ const sliceWorkarea = async (
       layer.appendChild(container);
       svgedit.recalculate.recalculateDimensions(container);
       const descendants = Array.from(container.querySelectorAll('*'));
+      const refMap = {}; // id changes
       // eslint-disable-next-line @typescript-eslint/no-loop-func
       descendants.forEach(async (el) => {
-        if (el.id) el.setAttribute('id', svgCanvas.getNextId());
+        if (el.id) {
+          const oldId = el.id;
+          el.setAttribute('id', svgCanvas.getNextId());
+          if (el.tagName.toLowerCase() === 'clippath') {
+            refMap[oldId] = el.id;
+          }
+        }
+        if (el.getAttribute('clip-path')) {
+          // please find id using regex
+          const clipPathId = el.getAttribute('clip-path').match(/url\(#(.*)\)/)?.[1];
+          if (clipPathId && refMap[clipPathId]) el.setAttribute('clip-path', `url(#${refMap[clipPathId]})`);
+        };
         if (el.tagName === 'use') {
           clipboard.addRefToClipboard(el as SVGUseElement);
           await clipboard.pasteRef(el as SVGUseElement, { parentCmd: batchCmd });
@@ -156,18 +170,12 @@ const sliceWorkarea = async (
       const g = document.createElementNS(NS.SVG, 'g') as SVGGElement;
       g.id = svgCanvas.getNextId();
       g.setAttribute('clip-path', `url(#${clipPath.id})`);
-      while (container.firstChild) {
-        g.appendChild(container.firstChild)
-      }
+      while (container.firstChild) g.appendChild(container.firstChild);
       container.appendChild(g);
       container.insertBefore(clipPath, container.firstChild);
     }
     if (anyLayer && refImageBase64s?.[i]) {
-      const {
-        layer,
-        name,
-        cmd,
-      } = createLayer(`${lang.ref_layer} ${i + 1}`, {
+      const { layer, name, cmd } = createLayer(`${lang.ref_layer} ${i + 1}`, {
         isSubCmd: true,
       });
       layer.setAttribute('data-lock', 'true');
@@ -186,13 +194,15 @@ const sliceWorkarea = async (
       layer.appendChild(image);
     }
   }
-  allLayers.forEach((layer) => {
-    const { nextSibling } = layer;
-    const parent = layer.parentNode;
-    layer.remove();
-    const uses = layer.querySelectorAll('use');
-    uses.forEach((use) => deleteUseRef(use, { parentCmd: batchCmd }));
-    batchCmd.addSubCommand(new history.RemoveElementCommand(layer, nextSibling, parent));
+  clonedLayers.forEach(({ hasNewLayer, origLayer }) => {
+    if (hasNewLayer) {
+      const { nextSibling } = origLayer;
+      const parent = origLayer.parentNode;
+      origLayer.remove();
+      const uses = origLayer.querySelectorAll('use');
+      uses.forEach((use) => deleteUseRef(use, { parentCmd: batchCmd }));
+      batchCmd.addSubCommand(new history.RemoveElementCommand(origLayer, nextSibling, parent));
+    }
   });
   generateGuideLine();
   changeBeamboxPreferenceValue('pass-through', false, { parentCmd: batchCmd });
