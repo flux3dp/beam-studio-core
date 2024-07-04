@@ -15,7 +15,7 @@ import workareaManager from 'app/svgedit/workarea';
 import { changeBeamboxPreferenceValue } from 'app/svgedit/history/beamboxPreferenceCommand';
 import { getSupportInfo } from 'app/constants/add-on';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import { ICommand } from 'interfaces/IHistory';
+import { IBatchCommand, ICommand } from 'interfaces/IHistory';
 import { WorkAreaModel } from 'app/constants/workarea-constants';
 import { toggleFullColorAfterWorkareaChange } from 'helpers/layer/layer-config-helper';
 
@@ -28,7 +28,10 @@ getSVGAsync((globalSVG) => {
   svgedit = globalSVG.Edit;
 });
 
-export const importBvgString = async (str: string): Promise<void> => {
+export const importBvgString = async (
+  str: string,
+  opts: { parentCmd?: IBatchCommand; addToHistory?: boolean } = {}
+): Promise<void> => {
   const batchCmd = new history.BatchCommand('Import Bvg');
   svgCanvas.clearSelection();
   const setContentCmd = setSvgContent(
@@ -186,7 +189,9 @@ export const importBvgString = async (str: string): Promise<void> => {
   };
   await postImportBvgString();
   batchCmd.onAfter = postImportBvgString;
-  svgCanvas.addCommandToHistory(batchCmd);
+  const { parentCmd, addToHistory = true } = opts;
+  if (parentCmd) parentCmd.addSubCommand(batchCmd);
+  else if (addToHistory) svgCanvas.addCommandToHistory(batchCmd);
 };
 
 const importBvg = async (file: Blob): Promise<void> => {

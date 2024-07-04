@@ -199,11 +199,11 @@ const ZoomBlock = ({
         className
       )}
     >
-      <ContextMenuTrigger id={contextMenuId} holdToDisplay={-1}>
+      <ContextMenuTrigger id={contextMenuId} holdToDisplay={-1} holdToDisplayMouse={-1}>
         <div className={styles.btn} onClick={() => zoomOut(displayRatio)}>
           <img src="img/icon-minus.svg" />
         </div>
-        <ContextMenuTrigger id={contextMenuId} holdToDisplay={0}>
+        <ContextMenuTrigger id={contextMenuId} holdToDisplay={0} holdToDisplayMouse={0}>
           <div className={styles.ratio}>{`${Math.round(displayRatio * 100)}%`}</div>
         </ContextMenuTrigger>
         <div className={styles.btn} onClick={() => zoomIn(displayRatio)}>

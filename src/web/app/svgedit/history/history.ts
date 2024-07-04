@@ -70,9 +70,9 @@ export class BaseHistoryCommand implements ICommand {
     handler?.handleHistoryEvent(HistoryEventTypes.AFTER_UNAPPLY, this);
   }
 
-  onBefore = null;
+  onBefore: () => void = null;
 
-  onAfter = null;
+  onAfter: () => void = null;
 }
 
 class MoveElementCommand extends BaseHistoryCommand implements ICommand {

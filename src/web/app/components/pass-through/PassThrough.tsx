@@ -67,7 +67,6 @@ export const showPassThrough = (onClose?: () => void): Promise<void> => {
   return new Promise<void>((resolve) => {
     addDialogComponent(
       dialogId,
-
       <PassThroughProvider>
         <PassThrough
           onClose={() => {
