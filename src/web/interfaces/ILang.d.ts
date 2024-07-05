@@ -1819,10 +1819,11 @@ export interface ILang {
     height_desc: string;
     ref_layer: string;
     ref_layer_desc: string;
-    guide_line: string;
-    guide_line_length: string;
-    guide_line_x: string;
-    guide_line_desc: string;
+    ref_layer_name: string;
+    guide_mark: string;
+    guide_mark_length: string;
+    guide_mark_x: string;
+    guide_mark_desc: string;
     export: string;
     exporting: string;
   };

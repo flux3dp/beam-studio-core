@@ -21,8 +21,8 @@ const Controls = (): JSX.Element => {
     setPassThroughHeight,
     referenceLayer,
     setReferenceLayer,
-    guideLine,
-    setGuideLine,
+    guideMark,
+    setGuideMark,
   } = useContext(PassThroughContext);
 
   const { max, min } = useMemo(
@@ -33,24 +33,24 @@ const Controls = (): JSX.Element => {
     [workareaObj]
   );
 
-  const { show, x: guideLineX, width: guideLineWidth } = guideLine;
+  const { show, x: guideMarkX, width: guideMarkWidth } = guideMark;
   const setX = useCallback(
     (val) => {
-      setGuideLine((cur) => ({
+      setGuideMark((cur) => ({
         ...cur,
         x: Math.max(0, Math.min(val, workareaObj.width - cur.width)),
       }));
     },
-    [workareaObj, setGuideLine]
+    [workareaObj, setGuideMark]
   );
   const setWidth = useCallback(
     (val) => {
-      setGuideLine((cur) => ({
+      setGuideMark((cur) => ({
         ...cur,
         width: Math.max(0, Math.min(val, workareaObj.width - cur.x)),
       }));
     },
-    [workareaObj, setGuideLine]
+    [workareaObj, setGuideMark]
   );
 
   const isInch = useMemo(() => storage.get('default-units') === 'inches', []);
@@ -101,24 +101,24 @@ const Controls = (): JSX.Element => {
           </div>
         </div>
         <div className={styles.row}>
-          <div className={classNames(styles.cell, styles.title)}>{lang.guide_line}</div>
+          <div className={classNames(styles.cell, styles.title)}>{lang.guide_mark}</div>
           <div className={styles.cell}>
             <Switch
               checked={show}
-              onChange={(val) => setGuideLine((cur) => ({ ...cur, show: val }))}
+              onChange={(val) => setGuideMark((cur) => ({ ...cur, show: val }))}
             />
           </div>
         </div>
         {show && (
           <>
             <div className={styles.row}>
-              <div className={classNames(styles.cell, styles.title)}>{lang.guide_line_length}</div>
+              <div className={classNames(styles.cell, styles.title)}>{lang.guide_mark_length}</div>
               <div className={styles.cell}>
                 <UnitInput
                   className={styles.input}
-                  value={guideLineWidth}
+                  value={guideMarkWidth}
                   onChange={setWidth}
-                  max={workareaObj.width - guideLineX}
+                  max={workareaObj.width - guideMarkX}
                   min={0}
                   addonAfter={isInch ? 'in' : 'mm'}
                   isInch={isInch}
@@ -127,13 +127,13 @@ const Controls = (): JSX.Element => {
               </div>
             </div>
             <div className={styles.row}>
-              <div className={classNames(styles.cell, styles.title)}>{lang.guide_line_x}</div>
+              <div className={classNames(styles.cell, styles.title)}>{lang.guide_mark_x}</div>
               <div className={styles.cell}>
                 <UnitInput
                   className={styles.input}
-                  value={guideLineX}
+                  value={guideMarkX}
                   onChange={setX}
-                  max={workareaObj.width - guideLineWidth}
+                  max={workareaObj.width - guideMarkWidth}
                   min={0}
                   addonAfter={isInch ? 'in' : 'mm'}
                   isInch={isInch}
@@ -145,7 +145,7 @@ const Controls = (): JSX.Element => {
         )}
       </div>
       <div className={styles.hint}>
-        {lang.guide_line_desc}
+        {lang.guide_mark_desc}
       </div>
     </div>
   );

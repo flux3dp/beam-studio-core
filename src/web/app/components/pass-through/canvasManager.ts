@@ -28,9 +28,9 @@ class PassThroughCanvas {
 
   private passThroughSeparator: SVGGElement;
 
-  private passThroughGuideStart: SVGLineElement;
+  private passThroughGuideStart: SVGEllipseElement;
 
-  private passThroughGuideEnd: SVGLineElement;
+  private passThroughGuideEnd: SVGEllipseElement;
 
   zoomRatio = 1;
 
@@ -91,10 +91,10 @@ class PassThroughCanvas {
     this.passThroughSeparator = document.createElementNS(NS.SVG, 'g') as SVGGElement;
     this.passThroughSeparator.classList.add(styles.separator);
     this.passThroughContainer.appendChild(this.passThroughSeparator);
-    this.passThroughGuideStart = document.createElementNS(NS.SVG, 'line') as SVGLineElement;
+    this.passThroughGuideStart = document.createElementNS(NS.SVG, 'ellipse') as SVGEllipseElement;
     this.passThroughGuideStart.classList.add(styles.guide);
     this.passThroughContainer.appendChild(this.passThroughGuideStart);
-    this.passThroughGuideEnd = document.createElementNS(NS.SVG, 'line') as SVGLineElement;
+    this.passThroughGuideEnd = document.createElementNS(NS.SVG, 'ellipse') as SVGEllipseElement;
     this.passThroughGuideEnd.classList.add(styles.guide);
     this.passThroughContainer.appendChild(this.passThroughGuideEnd);
   };
@@ -189,21 +189,21 @@ class PassThroughCanvas {
     this.passThroughGuideEnd?.setAttribute('y2', this.passThroughHeight.toString());
   };
 
-  setGuideLine = (show: boolean, x: number, width: number) => {
+  setGuideMark = (show: boolean, x: number, width: number) => {
     if (!show) {
       this.passThroughGuideStart.style.display = 'none';
       this.passThroughGuideEnd.style.display = 'none';
     } else {
       this.passThroughGuideStart.style.display = 'block';
       this.passThroughGuideEnd.style.display = 'block';
-      this.passThroughGuideStart.setAttribute('x1', x.toString());
-      this.passThroughGuideStart.setAttribute('x2', (x + width).toString());
-      this.passThroughGuideStart.setAttribute('y1', '0');
-      this.passThroughGuideStart.setAttribute('y2', '0');
-      this.passThroughGuideEnd.setAttribute('x1', x.toString());
-      this.passThroughGuideEnd.setAttribute('x2', (x + width).toString());
-      this.passThroughGuideEnd.setAttribute('y1', this.passThroughHeight.toString());
-      this.passThroughGuideEnd.setAttribute('y2', this.passThroughHeight.toString());
+      this.passThroughGuideStart.setAttribute('cx', (x + width / 2).toString());
+      this.passThroughGuideStart.setAttribute('cy', '0');
+      this.passThroughGuideStart.setAttribute('rx', (width / 2).toString());
+      this.passThroughGuideStart.setAttribute('ry', (width / 2).toString());
+      this.passThroughGuideEnd.setAttribute('cx', (x + width / 2).toString());
+      this.passThroughGuideEnd.setAttribute('cy', this.passThroughHeight.toString());
+      this.passThroughGuideEnd.setAttribute('rx', (width / 2).toString());
+      this.passThroughGuideEnd.setAttribute('ry', (width / 2).toString());
     }
   };
 

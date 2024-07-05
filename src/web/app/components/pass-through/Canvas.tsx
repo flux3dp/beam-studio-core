@@ -9,7 +9,7 @@ import { PassThroughContext } from './PassThroughContext';
 
 const Canvas = (): JSX.Element => {
   const canvasRef = useRef<HTMLDivElement>(null);
-  const { passThroughHeight, guideLine } = useContext(PassThroughContext);
+  const { passThroughHeight, guideMark } = useContext(PassThroughContext);
 
   useEffect(() => {
     if (canvasRef.current) {
@@ -24,12 +24,12 @@ const Canvas = (): JSX.Element => {
     canvasManager.setPassThroughHeight(passThroughHeight * constant.dpmm);
   }, [passThroughHeight]);
   useEffect(() => {
-    canvasManager.setGuideLine(
-      guideLine.show,
-      guideLine.x * constant.dpmm,
-      guideLine.width * constant.dpmm
+    canvasManager.setGuideMark(
+      guideMark.show,
+      guideMark.x * constant.dpmm,
+      guideMark.width * constant.dpmm
     );
-  }, [guideLine]);
+  }, [guideMark]);
 
   return (
     <div className={styles.container}>
