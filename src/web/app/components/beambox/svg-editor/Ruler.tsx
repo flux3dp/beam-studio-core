@@ -96,7 +96,7 @@ const Ruler = (): JSX.Element => {
             const decimalPlace = String(step / 10).split('.')[1].length;
             label = realPos.toFixed(decimalPlace);
           }
-          if (label.endsWith('000')) label = `${label.slice(0, -3)}K`;
+          if (label.endsWith('000') && !label.includes('.')) label = `${label.slice(0, -3)}K`;
           if (isX) {
             ctx.fillText(label, canvasPos + 2, 10);
           } else {
