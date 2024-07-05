@@ -188,6 +188,39 @@ const pasteRef = async (
     svgCanvas.undoMgr.addCommandToHistory(batchCmd);
   }
   await symbolMaker.reRenderImageSymbol(useElement);
+  updateElementColor(useElement);
+};
+
+export const handlePastedRef = async (copy: Element, opts: { parentCmd?: IBatchCommand } = {}): Promise<void> => {
+  const promises: Promise<void>[] = [];
+  const uses = Array.from(copy.querySelectorAll('use'));
+  if (copy.tagName === 'use') uses.push(copy as SVGUseElement);
+  uses.forEach((use: SVGUseElement) => {
+    addRefToClipboard(use);
+    promises.push(pasteRef(use, { parentCmd: opts?.parentCmd }))
+  });
+
+  const passThroughObjects = Array.from(copy.querySelectorAll('[data-pass-through]'));
+  if (copy.getAttribute('data-pass-through')) passThroughObjects.push(copy);
+  passThroughObjects.forEach((element: SVGGElement) => {
+    const clipPath = element.querySelector(':scope > clipPath');
+    if (clipPath) {
+      element.childNodes.forEach((child: SVGGraphicsElement) => {
+        if (child.getAttribute('clip-path')?.startsWith('url')) {
+          child.setAttribute('clip-path', `url(#${clipPath.id})`);
+        }
+      });
+    }
+  });
+  const textPathGroups = Array.from(copy.querySelectorAll('[data-textpath-g="1"]'));
+  if (copy.getAttribute('data-textpath-g') === '1') textPathGroups.push(copy);
+  textPathGroups.forEach((element: SVGGElement) => {
+    const newTextPath = element.querySelector('textPath');
+    const newPath = element.querySelector('path');
+    newTextPath?.setAttribute('href', `#${newPath?.id}`);
+  });
+
+  await Promise.allSettled(promises);
 };
 
 const pasteElements = (args: {
@@ -227,21 +260,11 @@ const pasteElements = (args: {
       drawing.getCurrentLayer().appendChild(copy);
     }
 
-    if (copy.getAttribute('data-textpath-g') === '1') {
-      const newTextPath = copy.querySelector('textPath');
-      const newPath = copy.querySelector('path');
-      newTextPath?.setAttribute('href', `#${newPath?.id}`);
-    }
-    const promises: Promise<void>[] = [];
-    if (copy.tagName === 'use') promises.push(pasteRef(copy, { parentCmd: batchCmd }));
-    else
-      Array.from(copy.querySelectorAll('use')).forEach((use: SVGUseElement) =>
-        promises.push(pasteRef(use, { parentCmd: batchCmd }))
-      );
+    const promise = handlePastedRef(copy);
 
     batchCmd.addSubCommand(new history.InsertElementCommand(copy));
     svgCanvas.restoreRefElems(copy);
-    Promise.allSettled(promises).then(() => {
+    promise.then(() => {
       updateElementColor(copy);
     });
   }
@@ -382,4 +405,5 @@ export default {
   cloneSelectedElements,
   generateSelectedElementArray,
   getCurrentClipboard,
+  handlePastedRef,
 };

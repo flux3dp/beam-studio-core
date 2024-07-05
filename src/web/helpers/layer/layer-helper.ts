@@ -199,7 +199,6 @@ export const cloneLayer = (
   const batchCmd = HistoryCommandFactory.createBatchCommand('Clone Layer');
   if (!configOnly) {
     const children = layer.childNodes;
-    const promises: Promise<void>[] = [];
     for (let i = 0; i < children.length; i += 1) {
       const child = children[i] as Element;
       if (child.tagName !== 'title') {
@@ -207,14 +206,7 @@ export const cloneLayer = (
         newLayer.appendChild(copiedElem);
       }
     }
-    Array.from(newLayer.querySelectorAll('use')).forEach((use: SVGUseElement) => {
-      clipboard.addRefToClipboard(use);
-      const handler = async () => {
-        await clipboard.pasteRef(use, { parentCmd: batchCmd });
-        updateElementColor(use);
-      };
-      promises.push(handler());
-    });
+    clipboard.handlePastedRef(newLayer, { parentCmd: batchCmd });
   }
   cloneLayerConfig(newName, layerName);
   batchCmd.addSubCommand(new history.InsertElementCommand(newLayer));

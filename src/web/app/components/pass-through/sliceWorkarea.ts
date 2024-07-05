@@ -67,8 +67,8 @@ const sliceWorkarea = async (
       const start = document.createElementNS(NS.SVG, 'ellipse') as SVGEllipseElement;
       start.setAttribute('cx', ((x + lineWidth / 2) * dpmm).toString());
       start.setAttribute('cy', topPaddingPx.toString());
-      start.setAttribute('rx', (lineWidth * dpmm / 2).toFixed(0));
-      start.setAttribute('ry', (lineWidth * dpmm / 2).toFixed(0));
+      start.setAttribute('rx', ((lineWidth * dpmm) / 2).toFixed(0));
+      start.setAttribute('ry', ((lineWidth * dpmm) / 2).toFixed(0));
       start.setAttribute('stroke', '#9745ff');
       start.setAttribute('fill', 'none');
       start.setAttribute('vector-effect', 'non-scaling-stroke');
@@ -103,6 +103,7 @@ const sliceWorkarea = async (
     }
   );
 
+  const updateUseElementPromises = [];
   for (let i = Math.ceil(workareaHeight / sliceHeightPx) - 1; i >= 0; i -= 1) {
     const start = i * sliceHeightPx;
     const end = Math.min((i + 1) * sliceHeightPx, workareaHeight);
@@ -155,17 +156,8 @@ const sliceWorkarea = async (
             refMap[oldId] = el.id;
           }
         }
-        if (el.getAttribute('clip-path')) {
-          // please find id using regex
-          const clipPathId = el.getAttribute('clip-path').match(/url\(#(.*)\)/)?.[1];
-          if (clipPathId && refMap[clipPathId]) el.setAttribute('clip-path', `url(#${refMap[clipPathId]})`);
-        };
-        if (el.tagName === 'use') {
-          clipboard.addRefToClipboard(el as SVGUseElement);
-          await clipboard.pasteRef(el as SVGUseElement, { parentCmd: batchCmd });
-          updateElementColor(el as SVGUseElement);
-        }
       });
+      updateUseElementPromises.push(clipboard.handlePastedRef(container));
       const clipPath = document.createElementNS(NS.SVG, 'clipPath') as SVGClipPathElement;
       const clipRect = document.createElementNS(NS.SVG, 'rect') as SVGRectElement;
       clipPath.appendChild(clipRect);
@@ -203,6 +195,7 @@ const sliceWorkarea = async (
       layer.appendChild(image);
     }
   }
+  await Promise.allSettled(updateUseElementPromises);
   clonedLayers.forEach(({ hasNewLayer, origLayer }) => {
     if (hasNewLayer) {
       const { nextSibling } = origLayer;
