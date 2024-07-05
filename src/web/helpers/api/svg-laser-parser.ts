@@ -44,7 +44,11 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
       else events.onError(data);
     },
   });
-  let lastOrder = '';
+  const resetWebsocket = () => {
+    ws.close(true);
+    events.onMessage = () => {};
+    events.onError = () => {};
+  };
 
   const setParameter = (key: string, value: number | string) =>
     new Promise<null>((resolve, reject) => {
@@ -68,7 +72,6 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
       opts = opts || {};
       opts.onProgressing = opts.onProgressing || (() => {});
       opts.onFinished = opts.onFinished || (() => {});
-      lastOrder = 'getTaskCode';
 
       const args = ['go', names.join(' '), opts.fileMode || '-f'];
       const blobs = [];
@@ -318,7 +321,6 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
       opts = opts || {};
       opts.onProgressing = opts.onProgressing || (() => {});
       opts.onFinished = opts.onFinished || (() => {});
-      lastOrder = 'divideSVG';
 
       const args = ['divide_svg'];
       const finalBlobs: { [key: string]: Blob | number } = {};
@@ -368,7 +370,6 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
       opts = opts || {};
       opts.onProgressing = opts.onProgressing || (() => {});
       opts.onFinished = opts.onFinished || (() => {});
-      lastOrder = 'divideSVGbyLayer';
 
       const args = ['divide_svg_by_layer'];
       const finalBlobs: { [key: string]: Blob | number } = {};
@@ -676,6 +677,7 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
         switch (data.status) {
           case 'ok':
             console.log('calculation interrupted');
+            resetWebsocket();
             break;
           default:
             console.warn('Unknown Status:', data.status);
@@ -683,5 +685,6 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
         }
       };
     },
+    resetWebsocket,
   };
 };
