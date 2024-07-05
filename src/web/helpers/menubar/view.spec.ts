@@ -13,7 +13,6 @@ jest.mock('app/svgedit/workarea', () => ({
   resetView: (...args) => resetView(...args),
 }));
 
-const updateRulers = jest.fn();
 jest.mock('helpers/svg-editor-helper', () => ({
   getSVGAsync: (callback) => {
     callback({
@@ -24,7 +23,6 @@ jest.mock('helpers/svg-editor-helper', () => ({
         curConfig: {
           showGrid: true,
         },
-        updateRulers: (...args) => updateRulers(...args),
       },
     });
   },
@@ -37,6 +35,14 @@ const mockToggleGrids = jest.fn();
 jest.mock('app/actions/canvas/grid', () => ({
   toggleGrids: () => mockToggleGrids(),
 }));
+
+const mockCreateEventEmitter = jest.fn();
+jest.mock('helpers/eventEmitterFactory', () => ({
+  createEventEmitter: (...args) => mockCreateEventEmitter(...args),
+}));
+const mockEventEmitter = {
+  emit: jest.fn(),
+};
 
 describe('test view', () => {
   afterEach(() => {
@@ -83,16 +89,21 @@ describe('test view', () => {
   });
 
   describe('test toggleRulers', () => {
+    beforeEach(() => {
+      mockCreateEventEmitter.mockReturnValue(mockEventEmitter);
+    });
+
     afterEach(() => {
       jest.resetAllMocks();
     });
 
     test('default is false', () => {
       mockRead.mockReturnValue(false);
-      document.body.innerHTML = '<div id="rulers" />';
       const result = viewMenu.toggleRulers();
-      expect(document.body.innerHTML).toBe('<div id="rulers"></div>');
-      expect(updateRulers).toHaveBeenCalledTimes(1);
+      expect(mockCreateEventEmitter).toBeCalledTimes(1);
+      expect(mockCreateEventEmitter).toHaveBeenLastCalledWith('canvas');
+      expect(mockEventEmitter.emit).toBeCalledTimes(1);
+      expect(mockEventEmitter.emit).toHaveBeenLastCalledWith('update-ruler');
       expect(mockWrite).toHaveBeenCalledTimes(1);
       expect(mockWrite).toHaveBeenNthCalledWith(1, 'show_rulers', true);
       expect(result).toBeTruthy();
@@ -100,10 +111,11 @@ describe('test view', () => {
 
     test('default is true', () => {
       mockRead.mockReturnValue(true);
-      document.body.innerHTML = '<div id="rulers" />';
       const result = viewMenu.toggleRulers();
-      expect(document.body.innerHTML).toBe('<div id="rulers" style="display: none;"></div>');
-      expect(updateRulers).not.toHaveBeenCalled();
+      expect(mockCreateEventEmitter).toBeCalledTimes(1);
+      expect(mockCreateEventEmitter).toHaveBeenLastCalledWith('canvas');
+      expect(mockEventEmitter.emit).toBeCalledTimes(1);
+      expect(mockEventEmitter.emit).toHaveBeenLastCalledWith('update-ruler');
       expect(mockWrite).toHaveBeenCalledTimes(1);
       expect(mockWrite).toHaveBeenNthCalledWith(1, 'show_rulers', false);
       expect(result).toBeFalsy();

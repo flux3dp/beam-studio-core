@@ -15,6 +15,13 @@ jest.mock('app/components/beambox/svg-editor/Workarea', () => function DummyWork
     </div>
   );
 });
+jest.mock('app/components/beambox/svg-editor/Ruler', () => function DummyRuler() {
+  return (
+    <div>
+      This is dummy Ruler
+    </div>
+  );
+});
 
 jest.mock('app/components/beambox/path-preview/PathPreview', () => () => <div>MockPathPreview</div>);
 jest.mock('app/components/beambox/ZoomBlock', () => () => <div>MockZoomBlock</div>);

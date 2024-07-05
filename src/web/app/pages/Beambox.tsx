@@ -13,7 +13,7 @@ import openFileHelper from 'helpers/open-file-helper';
 import PreviewSlider from 'app/components/beambox/PreviewSlider';
 import RightPanel from 'app/components/beambox/right-panel/RightPanel';
 import sentryHelper from 'helpers/sentry-helper';
-import SvgEditor from 'app/components/beambox/SvgEditor';
+import SvgEditor from 'app/components/beambox/svg-editor/SvgEditor';
 import TimeEstimationButton from 'app/components/beambox/TimeEstimationButton';
 import TopBar from 'app/components/beambox/top-bar/TopBar';
 import workareaManager from 'app/svgedit/workarea';
