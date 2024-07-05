@@ -1814,6 +1814,7 @@ const lang: ILang = {
   pass_through: {
     title: 'Gennemgangstilstand',
     help_text: 'Hvordan opsætter man Gennemgangstilstand for Ador?',
+    help_link: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
     object_length: 'Objekt Længde',
     workaea_height: 'Arbejdsområde (Højde):',
     height_desc: 'Indstil højden på hver sektion i arbejdsområdet.',

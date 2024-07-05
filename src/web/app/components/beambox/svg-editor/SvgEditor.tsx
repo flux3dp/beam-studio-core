@@ -4,9 +4,9 @@ import classNames from 'classnames';
 import constant from 'app/actions/beambox/constant';
 import DpiInfo from 'app/components/beambox/DpiInfo';
 import PathPreview from 'app/components/beambox/path-preview/PathPreview';
-import storage from 'implementations/storage';
+import Ruler from 'app/components/beambox/svg-editor/Ruler';
 import svgEditor from 'app/actions/beambox/svg-editor';
-import Workarea from 'app/components/beambox/Workarea';
+import Workarea from 'app/components/beambox/svg-editor/Workarea';
 import workareaManager from 'app/svgedit/workarea';
 import ZoomBlock from 'app/components/beambox/ZoomBlock';
 import { CanvasContext, CanvasMode } from 'app/contexts/CanvasContext';
@@ -38,22 +38,7 @@ export default class SvgEditor extends React.Component {
         style={mode === CanvasMode.PathPreview ? { display: 'none' } : {}}
       >
         <div>
-          <div id="rulers" className={classNames(styles.rulers, platformClassNames)}>
-            <div className={styles.corner} />
-            <div id="ruler_x" className={styles.x}>
-              <div>
-                <canvas height={15} />
-              </div>
-            </div>
-            <div id="ruler_y" className={styles.y}>
-              <div>
-                <canvas width={15} />
-              </div>
-            </div>
-            <div className={styles.unit}>
-              {storage.get('default-units') === 'inches' ? 'inch' : 'mm'}
-            </div>
-          </div>
+          <Ruler />
           <Workarea className={platformClassNames} />
           <div id="tool_import" style={{ display: 'none' }} />
           <input id="text" type="text" size={35} />

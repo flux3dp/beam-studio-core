@@ -91,7 +91,7 @@ class WorkareaManager {
     const svgCanvas = document.getElementById('svgcanvas');
     const workareaElem = document.getElementById('workarea');
     svgCanvas.style.width = `${Math.max(workareaElem.clientWidth, rootW)}px`;
-    svgCanvas.style.height = `${Math.max(workareaElem.clientHeight, rootW)}px`;
+    svgCanvas.style.height = `${Math.max(workareaElem.clientHeight, rootH)}px`;
 
     const canvasBackground = document.getElementById('canvasBackground');
     canvasBackground?.setAttribute('x', x.toString());

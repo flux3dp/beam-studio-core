@@ -1814,6 +1814,7 @@ const lang: ILang = {
   pass_through: {
     title: 'Gå Gjennom-Modus',
     help_text: 'Hvordan sette opp Gå Gjennom-Modus for Ador?',
+    help_link: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
     object_length: 'Objekt Lengde',
     workaea_height: 'Arbeidsområde (Høyde):',
     height_desc: 'Sett høyden på hver arbeidsområdeseksjon.',

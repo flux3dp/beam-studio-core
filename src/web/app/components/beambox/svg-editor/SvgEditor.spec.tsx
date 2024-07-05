@@ -8,10 +8,17 @@ jest.mock('implementations/storage', () => ({
   get: (...args) => mockGet(...args),
 }));
 
-jest.mock('app/components/beambox/Workarea', () => function DummyWorkarea() {
+jest.mock('app/components/beambox/svg-editor/Workarea', () => function DummyWorkarea() {
   return (
     <div>
       This is dummy Workarea
+    </div>
+  );
+});
+jest.mock('app/components/beambox/svg-editor/Ruler', () => function DummyRuler() {
+  return (
+    <div>
+      This is dummy Ruler
     </div>
   );
 });

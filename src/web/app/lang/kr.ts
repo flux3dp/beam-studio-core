@@ -1817,6 +1817,7 @@ const lang: ILang = {
   pass_through: {
     title: '패스 스루 모드',
     help_text: 'Ador의 패스 스루 설정 방법',
+    help_link: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
     object_length: '객체 길이',
     workaea_height: '작업 영역 (높이):',
     height_desc: '각 작업 영역 섹션의 높이를 설정합니다.',

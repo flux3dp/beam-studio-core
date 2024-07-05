@@ -1814,6 +1814,7 @@ const lang: ILang = {
   pass_through: {
     title: 'Doorgangsmodus',
     help_text: 'Hoe stel je Doorgangsmodus in voor Ador?',
+    help_link: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
     object_length: 'Objectlengte',
     workaea_height: 'Werkgebied (Hoogte):',
     height_desc: 'Stel de hoogte van elke werkgebiedsectie in.',

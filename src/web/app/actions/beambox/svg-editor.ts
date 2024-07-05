@@ -126,7 +126,6 @@ interface ISVGEditor {
   setPanning: (active: any) => void
   storage: IStorage
   toolButtonClick: (button: any, noHiding: any) => boolean
-  updateRulers: () => void
   triggerGridTool: () => void
   triggerOffsetTool: () => void
   handleFile: (file: any) => Promise<void>
@@ -194,7 +193,6 @@ const svgEditor = window['svgEditor'] = (function () {
     setPanning: (active: any) => { },
     storage: storage,
     toolButtonClick: (button: any, noHiding: any) => { return false },
-    updateRulers: () => { },
     triggerGridTool: () => { },
     triggerOffsetTool: () => { },
     handleFile: async (file) => { },
@@ -363,7 +361,6 @@ const svgEditor = window['svgEditor'] = (function () {
       baseUnit: 'px',
       defaultUnit: storage.get('default-units') || 'mm',
       snappingStep: 10,
-      showRulers: true,
       // URL BEHAVIOR CONFIGURATION
       preventAllURLConfig: true,
       preventURLContentLoading: true,
@@ -576,10 +573,6 @@ const svgEditor = window['svgEditor'] = (function () {
     }
     setupCurConfig();
     setupCurPrefs();
-
-    const shouldShowRulers = !!BeamboxPreference.read('show_rulers');
-    curConfig.showRulers = shouldShowRulers;
-    document.getElementById('rulers').style.display = shouldShowRulers ? '' : 'none';
 
     var setIcon = editor.setIcon = function (elem, icon_id) {
       var icon = (typeof icon_id === 'string') ? $.getSvgIcon(icon_id, true) : icon_id.clone();
@@ -892,213 +885,6 @@ const svgEditor = window['svgEditor'] = (function () {
         }
       });
     }
-
-    function updateRulers() {
-      // draw x ruler then y ruler
-      /* 這裡code很亂 值得注意的點有：
-          1. ruler的位置由css下 如top和margin
-          2. 當超過limit時 會畫很多個canvas 因瀏覽器canvas不能畫太長 (大約30000px) 第一個canvas畫不下時就比第二個canvas拿出來繼續畫
-          3. 上述這些canvas根據css margin排列 因某種神秘原因ruler_y的canvas要加上margin-top:-3px
-      */
-      const unit = storage.get('default-units');
-
-      function updateRuler(axis: string) {
-        // axis = x or y
-        const isX = (axis === 'x');
-        const side = isX ? 'width' : 'height';
-        const otherSide = isX ? 'height' : 'width';
-
-        const $rulersWrapper = $('#ruler_' + axis + ' > div');
-        const svgcanvas = document.getElementById('svgcanvas');
-        if (!svgcanvas) return;
-        const total_len = isX ? svgcanvas.clientWidth : svgcanvas.clientHeight;
-        const limit = 3000;
-        const rulersCount = parseInt(String(total_len / limit), 10) + 1;
-
-
-        $rulersWrapper.empty();
-        $rulersWrapper[side](total_len + 'px');
-
-        const rulers = (new Array(rulersCount))
-          .fill(null)
-          .map(x => document.createElement('canvas'));
-        (function generateEmptyCanvas() {
-          const devicePixelRatio = window.devicePixelRatio; // Retina support
-          rulers.map((ruler, index) => {
-            if (index > 0) {
-              if (isX) {
-                $(ruler).css('margin-left', 0);
-              } else {
-                $(ruler).css('margin-top', -3); //magic number
-              }
-            }
-            return ruler;
-          }).map((ruler, index) => {
-            const lastIndex = rulersCount - 1;
-            if (index < lastIndex) {
-              ruler[side] = limit;
-            } else {
-              ruler[side] = total_len % limit;
-            }
-            return ruler;
-          }).map((ruler) => {
-            //support retina
-            const isRetina = (devicePixelRatio > 1);
-            if (isRetina) {
-              const ruler_len = ruler[side];
-
-              ruler.style[side] = ruler_len + 'px';
-              ruler[side] = ruler_len * devicePixelRatio;
-
-              ruler.style[otherSide] = 15 + 'px';
-              ruler[otherSide] = 15 * devicePixelRatio;
-
-              ruler.getContext('2d').scale(devicePixelRatio, devicePixelRatio);
-            }
-            return ruler;
-          }).map((ruler) => {
-            $rulersWrapper.append(ruler);
-            return ruler;
-          });
-        })();
-
-        (function drawRulers() {
-          const contentPosition = Number($('#svgcontent').attr(axis));
-          const zoom = workareaManager.zoomRatio;
-
-          const ctxs = rulers
-            .map(ruler => ruler.getContext('2d'))
-            .map(ctx => {
-              ctx.fillStyle = '#333';
-              ctx.strokeStyle = '#000';
-              ctx.font = '12px sans-serif';
-              return ctx;
-            });
-
-          // Calculate the main number calibration in pixel
-          const calibration = (function () {
-            const size = 100 / (zoom * (unit === 'inches' ? 25.4 : 1));
-            const digit = Math.ceil(Math.log10(size));
-            const intervals = [2, 5, 10].map(x => x * 10 ** (digit - 1));
-            const interval = intervals.find(x => x >= size);
-            return interval;
-          })() * (unit === 'inches' ? 25.4 : 1);
-
-          const big_interval = calibration * zoom;
-          const small_interval = big_interval / 10;
-
-          let currentCtxIndex = 0;
-          let ctx = ctxs[currentCtxIndex];
-
-          // position correspond to root
-          let label_pos = ((contentPosition / zoom) % calibration) * zoom;
-          // position correspond to ruler
-          let ruler_pos = label_pos;
-
-          drawAll:
-          while (label_pos < total_len) {
-
-            //draw the big intervals
-            //draw line
-            const cur_d = Math.round(ruler_pos) + 0.5;
-            if (isX) {
-              ctx.moveTo(cur_d, 15);
-              ctx.lineTo(cur_d, 0);
-            } else {
-              ctx.moveTo(15, cur_d);
-              ctx.lineTo(0, cur_d);
-            }
-            //draw big label
-            let label;
-            const labelNum = (label_pos - contentPosition) / (zoom * 10 * (unit === 'inches' ? 25.4 : 1));
-            if ((calibration / (unit === 'inches' ? 25.4 : 1)) >= 10) {
-              label = Math.round(labelNum);
-            } else {
-              var decimalPlace = String(calibration / 10).split('.')[1].length;
-              label = labelNum.toFixed(decimalPlace);
-            }
-
-            // Change 1000s to Ks
-            if (label !== 0 && label !== 1000 && label % 1000 === 0) {
-              label = (label / 1000) + 'K';
-            }
-
-            if (isX) {
-              ctx.fillText(label, ruler_pos + 2, 10);
-            } else {
-              // draw label vertically
-              const str = String(label).split('');
-              let i;
-              for (i = 0; i < str.length; i++) {
-                if (str[i] === '.') {
-                  break;
-                }
-                ctx.textAlign = 'center';
-                ctx.fillText(str[i], 5, (ruler_pos + 12) + i * 12);
-              }
-              if (i < str.length) {
-                ctx.textAlign = 'left';
-                ctx.fillText('.', 5, ruler_pos + 12 + i * 12 - 8);
-                i++;
-                for (; i < str.length; i++) {
-                  ctx.textAlign = 'center';
-                  ctx.fillText(str[i], 5, ruler_pos + 12 + i * 12 - 8);
-                }
-              }
-            }
-
-            // draw the small intervals
-            for (let i = 1; i < 10; i++) {
-              let sub_d = Math.round(ruler_pos + small_interval * i) + 0.5;
-
-              // maybe switch to next canvas to continue drawing
-              if (sub_d > limit) {
-                if (currentCtxIndex === rulersCount - 1) {
-                  // end of all drawing
-                  break drawAll;
-                }
-                currentCtxIndex++;
-                ctx = ctxs[currentCtxIndex];
-                ruler_pos -= limit;
-                sub_d -= limit;
-              }
-
-              // odd lines are slighly longer
-              const line_size = (i % 2) ? 12 : 10;
-              if (isX) {
-                ctx.moveTo(sub_d, 15);
-                ctx.lineTo(sub_d, line_size);
-              } else {
-                ctx.moveTo(15, sub_d);
-                ctx.lineTo(line_size, sub_d);
-              }
-            }
-            label_pos += big_interval;
-            ruler_pos += big_interval;
-          }
-          ctxs.map(ctx => ctx.stroke());
-
-        })();
-      }
-      updateRuler('x');
-      updateRuler('y');
-      const workArea = document.getElementById('workarea');
-      if (workArea) {
-        const rulerX = document.getElementById('ruler_x');
-        const rulerY = document.getElementById('ruler_y');
-        if (rulerX) {
-          rulerX.scrollLeft = workArea.scrollLeft;
-        }
-        if (rulerY) {
-          rulerY.scrollTop = workArea.scrollTop - workArea.offsetTop;
-        }
-      }
-    }
-    editor.updateRulers = updateRulers;
-    canvasEventEmitter.on('zoom-changed', () => {
-      const shouldShowRulers = !!BeamboxPreference.read('show_rulers');
-      if (shouldShowRulers) requestAnimationFrame(() => updateRulers());
-    });
 
     // updates the context panel tools based on the selected element
     var updateContextPanel = function () {

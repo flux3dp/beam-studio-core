@@ -43,7 +43,6 @@ export default interface ISVGConfig {
   baseUnit?: string,
   defaultUnit?: string,
   snappingStep?: number,
-  showRulers?: boolean,
   // URL BEHAVIOR CONFIGURATION
   preventAllURLConfig?: boolean,
   preventURLContentLoading?: boolean,

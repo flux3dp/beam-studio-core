@@ -1814,6 +1814,7 @@ export interface ILang {
   pass_through: {
     title: string;
     help_text: string;
+    help_link: string;
     object_length: string;
     workaea_height: string;
     height_desc: string;

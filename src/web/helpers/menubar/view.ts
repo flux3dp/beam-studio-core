@@ -1,14 +1,13 @@
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import grid from 'app/actions/canvas/grid';
 import updateLayerColor from 'helpers/color/updateLayerColor';
 import workareaManager from 'app/svgedit/workarea';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgCanvas;
-let svgEditor;
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
-  svgEditor = globalSVG.Editor;
 });
 
 const updateAntiAliasing = (on: boolean): void => {
@@ -37,12 +36,10 @@ const toggleGrid = (): boolean => {
 };
 
 const toggleRulers = (): boolean => {
+  const canvasEventEmitter = eventEmitterFactory.createEventEmitter('canvas');
   const shouldShowRulers = !BeamboxPreference.read('show_rulers');
-  document.getElementById('rulers').style.display = shouldShowRulers ? '' : 'none';
-  if (shouldShowRulers) {
-    svgEditor.updateRulers();
-  }
   BeamboxPreference.write('show_rulers', shouldShowRulers);
+  canvasEventEmitter.emit('update-ruler');
   return shouldShowRulers;
 };
 
