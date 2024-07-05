@@ -1814,6 +1814,7 @@ const lang: ILang = {
   pass_through: {
     title: 'Mode Passage',
     help_text: 'Comment configurer Mode Passage pour Ador?',
+    help_link: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
     object_length: "Longueur de l'Objet",
     workaea_height: 'Zone de Travail (Hauteur):',
     height_desc: 'Réglez la hauteur de chaque section de la zone de travail.',

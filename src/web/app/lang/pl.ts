@@ -1817,6 +1817,7 @@ const lang: ILang = {
   pass_through: {
     title: 'Tryb Przejścia',
     help_text: 'Jak skonfigurować Tryb Przejścia dla Ador?',
+    help_link: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
     object_length: 'Długość Obiektu',
     workaea_height: 'Obszar Roboczy (Wysokość):',
     height_desc: 'Ustaw wysokość każdej sekcji obszaru roboczego.',

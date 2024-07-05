@@ -1814,6 +1814,7 @@ const lang: ILang = {
   pass_through: {
     title: 'Passera Igenom-Läge',
     help_text: 'Hur ställer man in Passera Igenom-Läge för Ador?',
+    help_link: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
     object_length: 'Objektlängd',
     workaea_height: 'Arbetsområde (Höjd):',
     height_desc: 'Ställ in höjden på varje arbetsområdessektion.',

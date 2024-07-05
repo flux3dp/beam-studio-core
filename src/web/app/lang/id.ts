@@ -1814,6 +1814,7 @@ const lang: ILang = {
   pass_through: {
     title: 'Mode Lewat',
     help_text: 'Bagaimana mengatur Mode Lewat untuk Ador?',
+    help_link: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
     object_length: 'Panjang Objek',
     workaea_height: 'Area Kerja (Tinggi):',
     height_desc: 'Atur ketinggian setiap bagian area kerja.',

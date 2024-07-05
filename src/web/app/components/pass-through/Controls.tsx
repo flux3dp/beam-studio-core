@@ -3,6 +3,7 @@ import React, { useCallback, useContext, useMemo } from 'react';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { Switch, Tooltip } from 'antd';
 
+import browser from 'implementations/browser';
 import constant from 'app/actions/beambox/constant';
 import storage from 'implementations/storage';
 import UnitInput from 'app/widgets/UnitInput';
@@ -65,7 +66,7 @@ const Controls = (): JSX.Element => {
   }, [isInch]);
   return (
     <div className={styles.controls}>
-      <div className={styles.link}>{lang.help_text}</div>
+      <div className={styles.link} onClick={() => browser.open(lang.help_link)}>{lang.help_text}</div>
       <div className={styles.size}>
         <div>
           {lang.object_length}

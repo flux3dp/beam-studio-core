@@ -1817,6 +1817,7 @@ const lang: ILang = {
   pass_through: {
     title: 'Pass Through Mode',
     help_text: 'How to setup Pass Through for Ador?',
+    help_link: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
     object_length: 'Object Length',
     workaea_height: 'Work Area (Height):',
     height_desc: "Set each work area section's height.",

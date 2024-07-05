@@ -1817,6 +1817,7 @@ const lang: ILang = {
   pass_through: {
     title: '广域雕刻',
     help_text: '如何为Ador设置广域雕刻？',
+    help_link: 'https://support.flux3dp.com/hc/zh-tw/articles/10140002160399',
     object_length: '物体长度',
     workaea_height: '工作区域（高度）：',
     height_desc: '设置每次工作区域部分的高度。',

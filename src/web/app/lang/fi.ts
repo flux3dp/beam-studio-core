@@ -1814,6 +1814,7 @@ const lang: ILang = {
   pass_through: {
     title: 'Läpäisymoodi',
     help_text: 'Kuinka asettaa Läpäisymoodi Adorille?',
+    help_link: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
     object_length: 'Objektin Pituus',
     workaea_height: 'Työalue (Korkeus):',
     height_desc: 'Aseta kunkin työalueen osan korkeus.',

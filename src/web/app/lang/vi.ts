@@ -1814,6 +1814,7 @@ const lang: ILang = {
   pass_through: {
     title: 'Chế Độ Đi Qua',
     help_text: 'Cách thiết lập Chế Độ Đi Qua cho Ador?',
+    help_link: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
     object_length: 'Chiều Dài Đối Tượng',
     workaea_height: 'Khu Vực Làm Việc (Chiều Cao):',
     height_desc: 'Cài đặt chiều cao của mỗi phần khu vực làm việc.',

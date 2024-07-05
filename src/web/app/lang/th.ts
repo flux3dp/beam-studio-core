@@ -1814,6 +1814,7 @@ const lang: ILang = {
   pass_through: {
     title: 'โหมดผ่าน',
     help_text: 'วิธีตั้งค่า โหมดผ่าน สำหรับ Ador',
+    help_link: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
     object_length: 'ความยาวของวัตถุ',
     workaea_height: 'พื้นที่ทำงาน (ความสูง):',
     height_desc: 'ตั้งค่าความสูงของแต่ละส่วนของพื้นที่ทำงาน',

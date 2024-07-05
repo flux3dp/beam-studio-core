@@ -1817,6 +1817,7 @@ const lang: ILang = {
   pass_through: {
     title: 'パススルーモード',
     help_text: 'Adorのパススルーモードの設定方法',
+    help_link: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
     object_length: 'オブジェクトの長さ',
     workaea_height: '作業エリア（高さ）:',
     height_desc: '各作業エリアセクションの高さを設定します。',

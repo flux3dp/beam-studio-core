@@ -1817,6 +1817,7 @@ const lang: ILang = {
   pass_through: {
     title: 'Modo De Pasar A Través',
     help_text: '¿Cómo configurar Modo De Pasar A Través para Ador?',
+    help_link: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
     object_length: 'Longitud del Objeto',
     workaea_height: 'Área de Trabajo (Altura):',
     height_desc: 'Configure la altura de cada sección del área de trabajo.',
