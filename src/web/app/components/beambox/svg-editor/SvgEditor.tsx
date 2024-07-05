@@ -6,7 +6,7 @@ import DpiInfo from 'app/components/beambox/DpiInfo';
 import PathPreview from 'app/components/beambox/path-preview/PathPreview';
 import storage from 'implementations/storage';
 import svgEditor from 'app/actions/beambox/svg-editor';
-import Workarea from 'app/components/beambox/Workarea';
+import Workarea from 'app/components/beambox/svg-editor/Workarea';
 import workareaManager from 'app/svgedit/workarea';
 import ZoomBlock from 'app/components/beambox/ZoomBlock';
 import { CanvasContext, CanvasMode } from 'app/contexts/CanvasContext';
