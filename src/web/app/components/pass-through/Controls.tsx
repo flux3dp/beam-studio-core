@@ -96,9 +96,6 @@ const Controls = (): JSX.Element => {
           <div className={classNames(styles.cell, styles.title)}>{lang.ref_layer}</div>
           <div className={styles.cell}>
             <Switch checked={referenceLayer} onChange={() => setReferenceLayer((val) => !val)} />
-            <Tooltip title={lang.ref_layer_desc}>
-              <QuestionCircleOutlined className={styles.hint} />
-            </Tooltip>
           </div>
         </div>
         <div className={styles.row}>
@@ -146,7 +143,9 @@ const Controls = (): JSX.Element => {
         )}
       </div>
       <div className={styles.hint}>
-        {lang.guide_mark_desc}
+        <div>1. {lang.ref_layer_desc}</div>
+        <br/>
+        <div>2. {lang.guide_mark_desc}</div>
       </div>
     </div>
   );
