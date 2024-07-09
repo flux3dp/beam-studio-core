@@ -983,6 +983,18 @@ class Control extends EventEmitter {
     });
   };
 
+  rawMoveZRelToLastHome = (z: number) => {
+    if (this.mode !== 'raw') {
+      throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
+    }
+    const cmd = `M137P185Q${z}`;
+    if (!this._isLineCheckMode) {
+      console.log('raw move z rel to last home:', cmd);
+      return this.useWaitAnyResponse(cmd);
+    }
+    return this.useRawLineCheckCommand(cmd);
+  };
+
   rawStartLineCheckMode = () => {
     if (this.mode !== 'raw') {
       throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
