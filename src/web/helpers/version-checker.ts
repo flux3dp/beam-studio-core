@@ -1,4 +1,5 @@
 const requirement = {
+  ADOR_ROTARY: '5.3.2',
   ADOR_FCODE_V3: '5.1.18',
   ADOR_STATIC_FILE_ENTRY: '5.1.17',
   ADOR_RELEASE: '5.1.12',

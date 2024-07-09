@@ -231,9 +231,10 @@ const GoButton = (props: Props): JSX.Element => {
       showForceUpdateAlert('4.1.1-version-alert');
       return;
     }
+    const rotaryMode = BeamboxPreference.read('rotary_mode');
     // Check 4.1.5 / 4.1.6 rotary
     if (
-      BeamboxPreference.read('rotary_mode') &&
+      rotaryMode &&
       ['4.1.5', '4.1.6'].includes(version) &&
       model !== 'fhex1'
     ) {
@@ -241,9 +242,15 @@ const GoButton = (props: Props): JSX.Element => {
       return;
     }
     const vc = VersionChecker(version);
-    if (!isDev() && constant.adorModels.includes(model) && !vc.meetRequirement('ADOR_FCODE_V3')) {
-      showForceUpdateAlert('ador-fcode-v3');
-      return;
+    if (!isDev() && constant.adorModels.includes(model)) {
+      if (!vc.meetRequirement('ADOR_FCODE_V3')) {
+        showForceUpdateAlert('ador-fcode-v3');
+        return;
+      }
+      if (rotaryMode && !vc.meetRequirement('ADOR_ROTARY')) {
+        showForceUpdateAlert('ador-rotary');
+        return;
+      }
     }
 
     if (!vc.meetRequirement('USABLE_VERSION')) {
