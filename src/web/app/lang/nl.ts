@@ -1822,7 +1822,7 @@ const lang: ILang = {
     ref_layer_desc: 'Let op dat de uitvoering van de referentielaag standaard is ingesteld op 0. Het wordt niet uitgevoerd, maar dient alleen als uitlijningsreferentie.',
     ref_layer_name: 'Referentie',
     guide_mark: 'Gidsmarkering',
-    guide_mark_length: 'Lengte:',
+    guide_mark_length: 'Diameter:',
     guide_mark_x: 'X-coördinaat:',
     guide_mark_desc: 'Gidsmarkeringen worden gegraveerd als referentiepunt om het kunstwerk uit te lijnen.',
     export: 'Exporteren naar Werkgebied',

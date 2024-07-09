@@ -1822,7 +1822,7 @@ const lang: ILang = {
     ref_layer_desc: 'Harap dicatat bahwa eksekusi lapisan referensi secara default diatur ke 0. Itu tidak akan dieksekusi tetapi hanya untuk referensi penyelarasan.',
     ref_layer_name: 'Referensi',
     guide_mark: 'Tanda Panduan',
-    guide_mark_length: 'Panjang:',
+    guide_mark_length: 'Diameter:',
     guide_mark_x: 'Koordinat X:',
     guide_mark_desc: 'Tanda panduan akan diukir sebagai titik referensi untuk menyelaraskan karya seni.',
     export: 'Ekspor ke Area Kerja',

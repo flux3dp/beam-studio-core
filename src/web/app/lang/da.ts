@@ -1822,7 +1822,7 @@ const lang: ILang = {
     ref_layer_desc: 'Bemærk, at udførelsen af reference-laget er indstillet til 0 som standard. Det vil ikke blive udført, men er kun til justeringsreference.',
     ref_layer_name: 'Reference',
     guide_mark: 'Vejledningsmærker vil blive indgraveret som et referencepunkt til justering af kunstværket.',
-    guide_mark_length: 'Længde:',
+    guide_mark_length: 'Diameter:',
     guide_mark_x: 'X Koordinat:',
     guide_mark_desc: 'Vejledning linjer vil blive graveret som et referencepunkt for at justere kunstværket.',
     export: 'Eksportér til Arbejdsområde',

@@ -1822,7 +1822,7 @@ const lang: ILang = {
     ref_layer_desc: 'Observe que a execução da camada de referência está configurada como 0 por padrão. Ela não será executada, mas é apenas para referência de alinhamento.',
     ref_layer_name: 'Referência',
     guide_mark: 'Marca de Guia',
-    guide_mark_length: 'Comprimento:',
+    guide_mark_length: 'Diâmetro:',
     guide_mark_x: 'Coordenada X:',
     guide_mark_desc: 'As marcas de guia serão gravadas como um ponto de referência para alinhar a obra de arte.',
     export: 'Exportar para Área de Trabalho',

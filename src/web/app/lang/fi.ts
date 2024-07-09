@@ -1822,7 +1822,7 @@ const lang: ILang = {
     ref_layer_desc: 'Huomaa, että referenssikerroksen suoritus on oletuksena asetettu arvoon 0. Sitä ei suoriteta, vaan se on vain kohdistusviite.',
     ref_layer_name: 'Viite',
     guide_mark: 'Opasmerkki',
-    guide_mark_length: 'Pituus:',
+    guide_mark_length: 'Halkaisija:',
     guide_mark_x: 'X-koordinaatti:',
     guide_mark_desc: 'Opasmerkit kaiverretaan viitepisteenä taideteoksen kohdistamiseksi.',
     export: 'Vie Työalueelle',

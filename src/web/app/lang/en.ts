@@ -1825,7 +1825,7 @@ const lang: ILang = {
     ref_layer_desc: 'Please note that the execution of the reference layer is set to 0 by default. It will not be executed but is only for alignment reference.',
     ref_layer_name: 'Reference',
     guide_mark: 'Guide Mark',
-    guide_mark_length: 'Length:',
+    guide_mark_length: 'Diameter:',
     guide_mark_x: 'X Coordinate:',
     guide_mark_desc: 'Guide marks will be engraved as a reference point to align the artwork.',
     export: 'Export to Work Area',

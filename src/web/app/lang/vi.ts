@@ -1822,7 +1822,7 @@ const lang: ILang = {
     ref_layer_desc: 'Lưu ý rằng việc thực hiện lớp tham chiếu được đặt mặc định là 0. Nó sẽ không được thực hiện mà chỉ để tham chiếu căn chỉnh.',
     ref_layer_name: 'Tham Chiếu',
     guide_mark: 'Dấu Hướng Dẫn',
-    guide_mark_length: 'Chiều Dài:',
+    guide_mark_length: 'Đường kính:',
     guide_mark_x: 'Tọa Độ X:',
     guide_mark_desc: 'Dấu hướng dẫn sẽ được khắc làm điểm tham chiếu để căn chỉnh tác phẩm nghệ thuật.',
     export: 'Xuất sang Khu Vực Làm Việc',

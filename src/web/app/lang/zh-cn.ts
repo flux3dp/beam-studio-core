@@ -1825,7 +1825,7 @@ const lang: ILang = {
     ref_layer_desc: '请注意，参考层的执行默认设置为0。它不会被执行，仅用于对齐参考。',
     ref_layer_name: '参考层',
     guide_mark: '引导标记',
-    guide_mark_length: '长度：',
+    guide_mark_length: '直径：',
     guide_mark_x: 'X坐标：',
     guide_mark_desc: '引导标记将被刻为对齐艺术作品的参考点。',
     export: '导出到工作区域',

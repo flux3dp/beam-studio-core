@@ -1822,7 +1822,7 @@ const lang: ILang = {
     ref_layer_desc: "Si noti che l'esecuzione del livello di riferimento è impostata su 0 per impostazione predefinita. Non verrà eseguita, ma è solo per riferimento di allineamento.",
     ref_layer_name: 'Riferimento',
     guide_mark: 'Segno di Guida',
-    guide_mark_length: 'Lunghezza:',
+    guide_mark_length: 'Diametro:',
     guide_mark_x: 'Coordinata X:',
     guide_mark_desc: "I segni di guida saranno incisi come punto di riferimento per allineare l'opera d'arte.",
     export: "Esporta nell'Area di Lavoro",

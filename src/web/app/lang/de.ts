@@ -1825,7 +1825,7 @@ const lang: ILang = {
     ref_layer_desc: 'Bitte beachten Sie, dass die Ausführung der Referenzschicht standardmäßig auf 0 gesetzt ist. Sie wird nicht ausgeführt, sondern dient nur als Ausrichtungsreferenz.',
     ref_layer_name: 'Referenz',
     guide_mark: 'Führungsmarkierung',
-    guide_mark_length: 'Länge:',
+    guide_mark_length: 'Durchmesser:',
     guide_mark_x: 'X-Koordinate:',
     guide_mark_desc: 'Führungsmarkierungen werden als Referenzpunkt zur Ausrichtung des Kunstwerks eingraviert.',
     export: 'In Arbeitsbereich exportieren',

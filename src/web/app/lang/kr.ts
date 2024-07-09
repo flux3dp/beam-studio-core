@@ -1825,7 +1825,7 @@ const lang: ILang = {
     ref_layer_desc: '참조 레이어의 실행이 기본값으로 0으로 설정되어 있음을 유의하십시오. 실행되지 않으며 정렬 참조 용도입니다.',
     ref_layer_name: '참조 레이어',
     guide_mark: '가이드 마크',
-    guide_mark_length: '길이:',
+    guide_mark_length: '직경:',
     guide_mark_x: 'X 좌표:',
     guide_mark_desc: '가이드 마크는 작품 정렬을 위한 기준점으로 새겨집니다.',
     export: '작업 영역으로 내보내기',

@@ -1825,7 +1825,7 @@ const lang: ILang = {
     ref_layer_desc: '参照レイヤーの実行はデフォルトで0に設定されています。 実行されることはなく、整列参照用です。',
     ref_layer_name: '参照レイヤー',
     guide_mark: 'ガイドマーク',
-    guide_mark_length: '長さ:',
+    guide_mark_length: '直径:',
     guide_mark_x: 'X座標:',
     guide_mark_desc: 'ガイドマークはアートワークを整列させるための基準点として刻まれます。',
     export: '作業エリアにエクスポート',

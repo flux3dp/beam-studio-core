@@ -1822,7 +1822,7 @@ const lang: ILang = {
     ref_layer_desc: "Veuillez noter que l'exécution de la couche de référence est par défaut définie sur 0. Elle ne sera pas exécutée mais est uniquement destinée à la référence d'alignement.",
     ref_layer_name: 'Référence',
     guide_mark: 'Marque de Guidage',
-    guide_mark_length: 'Longueur:',
+    guide_mark_length: 'Diamètre:',
     guide_mark_x: 'Coordonnée X:',
     guide_mark_desc: "Les marques de guidage seront gravées comme point de référence pour aligner l'œuvre d'art.",
     export: 'Exporter vers la Zone de Travail',
