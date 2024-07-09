@@ -819,6 +819,11 @@ class DeviceMaster {
     return controlSocket.addTask(controlSocket.rawHome, true);
   }
 
+  async rawMoveZRelToLastHome(z = 0) {
+    const controlSocket = await this.getControl();
+    return controlSocket.addTask(controlSocket.rawMoveZRelToLastHome, z);
+  }
+
   async rawStartLineCheckMode() {
     const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.rawStartLineCheckMode);

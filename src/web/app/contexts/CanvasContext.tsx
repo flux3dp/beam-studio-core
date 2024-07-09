@@ -9,6 +9,7 @@ import TutorialConstants from 'app/constants/tutorial-constants';
 import useForceUpdate from 'helpers/use-force-update';
 import workareaManager from 'app/svgedit/workarea';
 import * as TutorialController from 'app/views/tutorials/tutorialController';
+import { getSupportInfo } from 'app/constants/add-on';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { IUser } from 'interfaces/IUser';
@@ -183,7 +184,7 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
     canvasEventEmitter.on('SET_MODE', setMode);
     const canvasChangeHandler = () =>
       setHasPassthroughExtension(
-        beamboxPreference.read('pass-through') && workareaManager.expansion[1] > 0
+        beamboxPreference.read('pass-through') && getSupportInfo(workareaManager.model).passThrough
       );
     canvasChangeHandler();
     canvasEventEmitter.on('canvas-change', canvasChangeHandler);

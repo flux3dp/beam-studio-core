@@ -6,6 +6,7 @@ import i18n from 'helpers/i18n';
 import moduleBoundary from 'app/constants/layer-module/module-boundary';
 import moduleOffsets from 'app/constants/layer-module/module-offsets';
 import workareaManager from 'app/svgedit/workarea';
+import { getSupportInfo } from 'app/constants/add-on';
 import { WorkAreaModel } from 'app/constants/workarea-constants';
 
 const { svgedit } = window;
@@ -62,7 +63,7 @@ const update = (module: LayerModule): void => {
     return;
   }
   if (!boundaryPath) createBoundary();
-  const { width: w, height: h, expansion } = workareaManager;
+  const { width: w, height: h, model } = workareaManager;
   const viewBox = `0 0 ${w} ${h}`;
   boundarySvg?.setAttribute('viewBox', viewBox);
   const d1 = `M0,0H${w}V${h}H0V0`;
@@ -74,7 +75,6 @@ const update = (module: LayerModule): void => {
   if (offsetX >= 0) left = Math.max(left, offsetX);
   else right = Math.max(right, -offsetX);
   const rotaryMode = BeamboxPreference.read('rotary_mode');
-  const passThrough = BeamboxPreference.read('pass-through');
   if (offsetY >= 0) {
     top = Math.max(top, offsetY);
     bottom = Math.max(bottom - offsetY, 0);
@@ -82,7 +82,7 @@ const update = (module: LayerModule): void => {
   if (rotaryMode) {
     top = 0;
     bottom = 0;
-  } else if (passThrough && expansion[1] > 0) {
+  } else if (BeamboxPreference.read('pass-through') && getSupportInfo(model).passThrough) {
     bottom = 0;
   }
   if (!top && !bottom && !left && !right) {

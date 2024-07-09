@@ -72,7 +72,7 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
   const isInch = useMemo(() => storage.get('default-units') === 'inches', []);
   const workareaObj = useMemo(() => getWorkarea(workarea), [workarea]);
   const [passThroughHeight, setPassThroughHeight] = useState<number>(
-    BeamboxPreference.read('pass-through-height') || workareaObj.height
+    BeamboxPreference.read('pass-through-height') || workareaObj.displayHeight || workareaObj.height
   );
   useEffect(() => {
     if (rotaryMode > 0) {
@@ -268,7 +268,7 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
                       id="pass_through_height"
                       className={styles.input}
                       value={passThroughHeight}
-                      min={workareaObj.height}
+                      min={workareaObj.displayHeight ?? workareaObj.height}
                       addonAfter={isInch ? 'in' : 'mm'}
                       isInch={isInch}
                       precision={isInch ? 0 : 2}

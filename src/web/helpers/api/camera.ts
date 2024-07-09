@@ -4,7 +4,7 @@
  * Ref: https://github.com/flux3dp/fluxghost/wiki/websocket-camera(monitoring)
  */
 import { concatMap, filter, map, take, timeout } from 'rxjs/operators';
-import { from, lastValueFrom, Observable, partition, Subject } from 'rxjs';
+import { EmptyError, from, lastValueFrom, Observable, partition, Subject } from 'rxjs';
 
 import constant from 'app/actions/beambox/constant';
 import i18n from 'helpers/i18n';
@@ -281,15 +281,19 @@ class Camera {
   };
 
   async oneShot(): Promise<{ imgBlob: Blob; needCameraCableAlert: boolean }> {
-    if (this.wsSubject.isStopped) {
-      if (this.wsSubject.hasError) {
-        console.error(this.wsSubject.thrownError);
+    try {
+      this.ws.send('require_frame');
+      const data = await lastValueFrom(this.source.pipe(take(1)).pipe(timeout(TIMEOUT)));
+      return data;
+    } catch (error) {
+      console.error('Fail to oneshot', error);
+      if (error instanceof EmptyError) {
+        error.message = `${LANG.message.camera.fail_to_transmit_image} ${error.message}`;
+        throw error;
+      } else {
+        throw new Error(`${LANG.message.camera.ws_closed_unexpectly} ${error.message}`);
       }
-      throw new Error(LANG.message.camera.ws_closed_unexpectly);
     }
-    this.ws.send('require_frame');
-    const data = await lastValueFrom(this.source.pipe(take(1)).pipe(timeout(TIMEOUT)));
-    return data;
   }
 
   getLiveStreamSource() {
