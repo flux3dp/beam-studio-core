@@ -1,6 +1,6 @@
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import constant from 'app/actions/beambox/constant';
-import CustomCommand from 'app/svgedit/history/customCommand';
+import CustomCommand from 'app/svgedit/history/CustomCommand';
 import cursorIconUrl from 'app/icons/left-panel/curve-select.svg?url';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
