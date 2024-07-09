@@ -12,6 +12,7 @@ getSVGAsync((globalSVG) => {
 
 // TODO add unit tests
 export const ungroupElement = (elem: Element): { batchCmd: IBatchCommand, children: Element[] } => {
+  if (elem?.getAttribute('data-pass-through') || elem?.getAttribute('data-textpath-g')) return null;
   if (elem.tagName === 'g' || elem.tagName === 'a') {
 
     const batchCmd = new history.BatchCommand('Ungroup Elements');

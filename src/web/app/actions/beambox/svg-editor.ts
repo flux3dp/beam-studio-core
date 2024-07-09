@@ -1082,7 +1082,7 @@ const svgEditor = window['svgEditor'] = (function () {
         } else {
           workareaEvents.emit('update-context-menu', {
             group: multiselected && el_name !== 'g',
-            ungroup: el_name === 'g',
+            ungroup: el_name === 'g' && !elem?.getAttribute('data-pass-through'),
           });
         }
         const isRatioFixed = elem.getAttribute('data-ratiofixed') === 'true';
