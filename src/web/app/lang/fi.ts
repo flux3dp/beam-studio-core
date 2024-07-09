@@ -1816,7 +1816,7 @@ const lang: ILang = {
     help_text: 'Kuinka asettaa Läpäisymoodi Adorille?',
     help_link: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
     object_length: 'Objektin Pituus',
-    workaea_height: 'Työalue (Korkeus):',
+    workarea_height: 'Työalue (Korkeus):',
     height_desc: 'Aseta kunkin työalueen osan korkeus.',
     ref_layer: 'Viitekerros',
     ref_layer_desc: 'Huomaa, että referenssikerroksen suoritus on oletuksena asetettu arvoon 0. Sitä ei suoriteta, vaan se on vain kohdistusviite.',

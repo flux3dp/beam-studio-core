@@ -1816,7 +1816,7 @@ const lang: ILang = {
     help_text: 'Bagaimana mengatur Mode Lewat untuk Ador?',
     help_link: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
     object_length: 'Panjang Objek',
-    workaea_height: 'Area Kerja (Tinggi):',
+    workarea_height: 'Area Kerja (Tinggi):',
     height_desc: 'Atur ketinggian setiap bagian area kerja.',
     ref_layer: 'Lapisan Referensi',
     ref_layer_desc: 'Harap dicatat bahwa eksekusi lapisan referensi secara default diatur ke 0. Itu tidak akan dieksekusi tetapi hanya untuk referensi penyelarasan.',

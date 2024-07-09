@@ -1819,7 +1819,7 @@ const lang: ILang = {
     help_text: '如何為 Ador 設置廣域雕刻？',
     help_link: 'https://support.flux3dp.com/hc/zh-tw/articles/10140002160399',
     object_length: '物體長度',
-    workaea_height: '工作區域（幅高）',
+    workarea_height: '工作區域（幅高）',
     height_desc: '設定每個區域的幅寬。',
     ref_layer: '參考圖層',
     ref_layer_desc: '參考圖層的執行次數預設為 0。它不會被執行，只用於對齊。',

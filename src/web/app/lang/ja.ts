@@ -1819,7 +1819,7 @@ const lang: ILang = {
     help_text: 'Adorのパススルーモードの設定方法',
     help_link: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
     object_length: 'オブジェクトの長さ',
-    workaea_height: '作業エリア（高さ）:',
+    workarea_height: '作業エリア（高さ）:',
     height_desc: '各作業エリアセクションの高さを設定します。',
     ref_layer: '参照レイヤー:',
     ref_layer_desc: '参照レイヤーの実行はデフォルトで0に設定されています。 実行されることはなく、整列参照用です。',

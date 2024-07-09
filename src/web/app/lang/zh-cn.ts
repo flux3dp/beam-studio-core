@@ -1819,7 +1819,7 @@ const lang: ILang = {
     help_text: '如何为Ador设置广域雕刻？',
     help_link: 'https://support.flux3dp.com/hc/zh-tw/articles/10140002160399',
     object_length: '物体长度',
-    workaea_height: '工作区域（高度）：',
+    workarea_height: '工作区域（高度）：',
     height_desc: '设置每次工作区域部分的高度。',
     ref_layer: '参考层',
     ref_layer_desc: '请注意，参考层的执行默认设置为0。它不会被执行，仅用于对齐参考。',

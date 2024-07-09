@@ -1819,7 +1819,7 @@ const lang: ILang = {
     help_text: 'Jak skonfigurować Tryb Przejścia dla Ador?',
     help_link: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
     object_length: 'Długość Obiektu',
-    workaea_height: 'Obszar Roboczy (Wysokość):',
+    workarea_height: 'Obszar Roboczy (Wysokość):',
     height_desc: 'Ustaw wysokość każdej sekcji obszaru roboczego.',
     ref_layer: 'Warstwa Referencyjna',
     ref_layer_desc: 'Należy pamiętać, że wykonanie warstwy odniesienia jest domyślnie ustawione na 0. Nie zostanie ono wykonane, jest tylko punktem odniesienia do wyrównania.',

@@ -33,6 +33,9 @@ const Controls = (): JSX.Element => {
     }),
     [workareaObj]
   );
+  const handleWorkareaHeightChange = useCallback((val) => {
+    setPassThroughHeight(Math.max(min, Math.min(val, max)));
+  }, [max, min, setPassThroughHeight]);
 
   const { show, x: guideMarkX, width: guideMarkWidth } = guideMark;
   const setX = useCallback(
@@ -55,53 +58,72 @@ const Controls = (): JSX.Element => {
   );
 
   const isInch = useMemo(() => storage.get('default-units') === 'inches', []);
-  const objectHeight = useMemo(() => {
+  const objectSize = useMemo(() => {
     const svgcontent = document.getElementById('svgcontent') as unknown as SVGSVGElement;
-    if (!svgcontent) return 0;
+    if (!svgcontent) return { width: 0, height: 0 };
     const bbox = svgcontent.getBBox();
     let { height } = bbox;
     if (bbox.y + height > workareaManager.height) height = workareaManager.height - bbox.y;
     if (bbox.y < 0) height += bbox.y;
-    return Math.round((height / constant.dpmm / (isInch ? 25.4 : 1)) * 100) / 100;
+    return {
+      width: Math.round((bbox.width / constant.dpmm / (isInch ? 25.4 : 1)) * 100) / 100,
+      height: Math.round((height / constant.dpmm / (isInch ? 25.4 : 1)) * 100) / 100,
+    };
   }, [isInch]);
   return (
     <div className={styles.controls}>
-      <div className={styles.link} onClick={() => browser.open(lang.help_link)}>{lang.help_text}</div>
+      <div className={styles.link} onClick={() => browser.open(lang.help_link)}>
+        {lang.help_text}
+      </div>
       <div className={styles.size}>
         <div>
           {lang.object_length}
           <span className={styles.bold}>
-            {objectHeight} {isInch ? 'in' : 'mm'}
+            {objectSize.height} {isInch ? 'in' : 'mm'}
           </span>
         </div>
         <div>
-          {lang.workaea_height}
-          <UnitInput
-            className={styles.input}
-            value={passThroughHeight}
-            onChange={(val) => setPassThroughHeight(val)}
-            max={max}
-            min={min}
-            addonAfter={isInch ? 'in' : 'mm'}
-            isInch={isInch}
-            controls={false}
-          />
-          <Tooltip title={lang.height_desc}>
-            <QuestionCircleOutlined className={styles.hint} />
-          </Tooltip>
+          {lang.workarea_height}
+          <div>
+            <div className={styles['input-container']}>
+              <UnitInput
+                className={styles.input}
+                value={passThroughHeight}
+                onChange={handleWorkareaHeightChange}
+                max={max}
+                min={min}
+                addonAfter={isInch ? 'in' : 'mm'}
+                isInch={isInch}
+                controls={false}
+              />
+              <Tooltip title={lang.height_desc}>
+                <QuestionCircleOutlined className={styles.hint} />
+              </Tooltip>
+            </div>
+            <div className={styles.hint}>
+              {isInch
+                ? `${(min / 25.4).toFixed(2)}' ~ ${(max / 25.4).toFixed(2)}'`
+                : `${min}mm ~ ${max}mm`}
+            </div>
+          </div>
         </div>
       </div>
       <div className={styles.options}>
         <div className={styles.row}>
           <div className={classNames(styles.cell, styles.title)}>{lang.ref_layer}</div>
           <div className={styles.cell}>
-            <Switch checked={referenceLayer} onChange={() => setReferenceLayer((val) => !val)} />
+            <Switch
+              disabled={objectSize.width === 0 || objectSize.height === 0}
+              checked={referenceLayer}
+              onChange={() => setReferenceLayer((val) => !val)}
+            />
           </div>
         </div>
         <div className={styles.row}>
           <div className={classNames(styles.cell, styles.title)}>{lang.guide_mark}</div>
           <div className={styles.cell}>
             <Switch
+              disabled={objectSize.width === 0 || objectSize.height === 0}
               checked={show}
               onChange={(val) => setGuideMark((cur) => ({ ...cur, show: val }))}
             />
@@ -144,7 +166,7 @@ const Controls = (): JSX.Element => {
       </div>
       <div className={styles.hint}>
         <div>1. {lang.ref_layer_desc}</div>
-        <br/>
+        <br />
         <div>2. {lang.guide_mark_desc}</div>
       </div>
     </div>

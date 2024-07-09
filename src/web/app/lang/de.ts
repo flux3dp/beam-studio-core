@@ -1819,7 +1819,7 @@ const lang: ILang = {
     help_text: 'Wie richtet man Durchgangsmodus für Ador ein?',
     help_link: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
     object_length: 'Objektlänge',
-    workaea_height: 'Arbeitsbereich (Höhe):',
+    workarea_height: 'Arbeitsbereich (Höhe):',
     height_desc: 'Stellen Sie die Höhe jeder Arbeitsbereichssektion ein.',
     ref_layer: 'Referenzschicht',
     ref_layer_desc: 'Bitte beachten Sie, dass die Ausführung der Referenzschicht standardmäßig auf 0 gesetzt ist. Sie wird nicht ausgeführt, sondern dient nur als Ausrichtungsreferenz.',

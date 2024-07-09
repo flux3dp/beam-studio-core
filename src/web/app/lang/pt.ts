@@ -1816,7 +1816,7 @@ const lang: ILang = {
     help_text: 'Como configurar Modo De Passar Por para Ador?',
     help_link: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
     object_length: 'Comprimento do Objeto',
-    workaea_height: 'Área de Trabalho (Altura):',
+    workarea_height: 'Área de Trabalho (Altura):',
     height_desc: 'Defina a altura de cada seção da área de trabalho.',
     ref_layer: 'Camada de Referência',
     ref_layer_desc: 'Observe que a execução da camada de referência está configurada como 0 por padrão. Ela não será executada, mas é apenas para referência de alinhamento.',

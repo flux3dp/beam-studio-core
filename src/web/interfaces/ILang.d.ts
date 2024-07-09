@@ -1816,7 +1816,7 @@ export interface ILang {
     help_text: string;
     help_link: string;
     object_length: string;
-    workaea_height: string;
+    workarea_height: string;
     height_desc: string;
     ref_layer: string;
     ref_layer_desc: string;

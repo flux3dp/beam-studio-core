@@ -1819,7 +1819,7 @@ const lang: ILang = {
     help_text: 'How to setup Pass Through for Ador?',
     help_link: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
     object_length: 'Object Length',
-    workaea_height: 'Work Area (Height):',
+    workarea_height: 'Work Area (Height):',
     height_desc: "Set each work area section's height.",
     ref_layer: 'Reference Layer',
     ref_layer_desc: 'Please note that the execution of the reference layer is set to 0 by default. It will not be executed but is only for alignment reference.',

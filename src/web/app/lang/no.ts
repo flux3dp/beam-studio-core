@@ -1816,7 +1816,7 @@ const lang: ILang = {
     help_text: 'Hvordan sette opp Gå Gjennom-Modus for Ador?',
     help_link: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
     object_length: 'Objekt Lengde',
-    workaea_height: 'Arbeidsområde (Høyde):',
+    workarea_height: 'Arbeidsområde (Høyde):',
     height_desc: 'Sett høyden på hver arbeidsområdeseksjon.',
     ref_layer: 'Referanselag',
     ref_layer_desc: 'Vær oppmerksom på at utførelsen av referanselaget er satt til 0 som standard. Det vil ikke bli utført, men er kun for justeringsreferanse.',

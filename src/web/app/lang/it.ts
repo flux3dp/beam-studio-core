@@ -1816,7 +1816,7 @@ const lang: ILang = {
     help_text: 'Come impostare Modalità Di Attraversamento per Ador?',
     help_link: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
     object_length: 'Lunghezza Oggetto',
-    workaea_height: 'Area di Lavoro (Altezza):',
+    workarea_height: 'Area di Lavoro (Altezza):',
     height_desc: "Imposta l'altezza di ciascuna sezione dell'area di lavoro.",
     ref_layer: 'Livello di Riferimento',
     ref_layer_desc: "Si noti che l'esecuzione del livello di riferimento è impostata su 0 per impostazione predefinita. Non verrà eseguita, ma è solo per riferimento di allineamento.",

@@ -1816,7 +1816,7 @@ const lang: ILang = {
     help_text: 'Cách thiết lập Chế Độ Đi Qua cho Ador?',
     help_link: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
     object_length: 'Chiều Dài Đối Tượng',
-    workaea_height: 'Khu Vực Làm Việc (Chiều Cao):',
+    workarea_height: 'Khu Vực Làm Việc (Chiều Cao):',
     height_desc: 'Cài đặt chiều cao của mỗi phần khu vực làm việc.',
     ref_layer: 'Lớp Tham Chiếu',
     ref_layer_desc: 'Lưu ý rằng việc thực hiện lớp tham chiếu được đặt mặc định là 0. Nó sẽ không được thực hiện mà chỉ để tham chiếu căn chỉnh.',

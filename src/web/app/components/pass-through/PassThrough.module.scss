@@ -29,9 +29,14 @@
 
     > div {
       display: flex;
-      height: 32px;
+      min-height: 32px;
       line-height: 32px;
       gap: 12px;
+
+      .input-container {
+        display: inline-flex;
+        gap: 12px;
+      }
     }
 
     .bold {

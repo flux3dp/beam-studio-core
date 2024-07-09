@@ -1819,7 +1819,7 @@ const lang: ILang = {
     help_text: '¿Cómo configurar Modo De Pasar A Través para Ador?',
     help_link: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
     object_length: 'Longitud del Objeto',
-    workaea_height: 'Área de Trabajo (Altura):',
+    workarea_height: 'Área de Trabajo (Altura):',
     height_desc: 'Configure la altura de cada sección del área de trabajo.',
     ref_layer: 'Capa de Referencia',
     ref_layer_desc: 'Tenga en cuenta que la ejecución de la capa de referencia está configurada en 0 por defecto. No se ejecutará, solo es para referencia de alineación.',

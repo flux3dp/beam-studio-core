@@ -1816,7 +1816,7 @@ const lang: ILang = {
     help_text: 'Bagaimana untuk menyediakan Mod Lalu untuk Ador?',
     help_link: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
     object_length: 'Panjang Objek',
-    workaea_height: 'Kawasan Kerja (Tinggi):',
+    workarea_height: 'Kawasan Kerja (Tinggi):',
     height_desc: 'Tetapkan ketinggian setiap bahagian kawasan kerja.',
     ref_layer: 'Lapisan Rujukan',
     ref_layer_desc: 'Sila ambil perhatian bahawa pelaksanaan lapisan rujukan ditetapkan kepada 0 secara lalai. Ia tidak akan dilaksanakan tetapi hanya untuk rujukan penjajaran.',

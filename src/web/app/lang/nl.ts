@@ -1816,7 +1816,7 @@ const lang: ILang = {
     help_text: 'Hoe stel je Doorgangsmodus in voor Ador?',
     help_link: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
     object_length: 'Objectlengte',
-    workaea_height: 'Werkgebied (Hoogte):',
+    workarea_height: 'Werkgebied (Hoogte):',
     height_desc: 'Stel de hoogte van elke werkgebiedsectie in.',
     ref_layer: 'Referentielaag',
     ref_layer_desc: 'Let op dat de uitvoering van de referentielaag standaard is ingesteld op 0. Het wordt niet uitgevoerd, maar dient alleen als uitlijningsreferentie.',
