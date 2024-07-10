@@ -98,11 +98,13 @@ const Controls = (): JSX.Element => {
             controls={false}
           />
           <Tooltip
-            title={`${lang.height_desc} ${
+            open
+            overlayClassName={styles.tooltip}
+            title={`${lang.height_desc}\n(${
               isInch
                 ? `${(min / 25.4).toFixed(2)}' ~ ${(max / 25.4).toFixed(2)}'`
                 : `${min}mm ~ ${max}mm`
-            }`}
+            })`}
           >
             <QuestionCircleOutlined className={styles.hint} />
           </Tooltip>
