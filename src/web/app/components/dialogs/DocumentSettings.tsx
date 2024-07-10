@@ -58,7 +58,7 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
   const origWorkarea = useMemo(() => BeamboxPreference.read('workarea'), []);
   const [workarea, setWorkarea] = useState<WorkAreaModel>(origWorkarea || 'fbb1b');
   const supportInfo = useMemo(() => getSupportInfo(workarea), [workarea]);
-  const [rotaryMode, setRotaryMode] = useState<number>(BeamboxPreference.read('rotary_mode'));
+  const [rotaryMode, setRotaryMode] = useState<number>(BeamboxPreference.read('rotary_mode') ?? 0);
   const [extendRotaryWorkarea, setExtendRotaryWorkarea] = useState<boolean>(
     !!BeamboxPreference.read('extend-rotary-workarea')
   );
@@ -188,11 +188,11 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
               <div className={styles.control}>
                 <Switch
                   id="rotary_mode"
-                  checked={rotaryMode !== 0}
+                  checked={rotaryMode > 0}
                   disabled={workareaObj.rotary.length === 1}
                   onChange={handleRotaryModeChange}
                 />
-                {workarea === 'ado1' && rotaryMode !== 0 && (
+                {workarea === 'ado1' && rotaryMode > 0 && (
                   <div className={styles.subCheckbox}>
                     <Checkbox
                       checked={extendRotaryWorkarea}
