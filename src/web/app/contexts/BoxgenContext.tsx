@@ -37,12 +37,7 @@ export function BoxgenProvider({ onClose, children }: BoxgenProviderProps): JSX.
     const { width, height, displayHeight } = currentWorkarea;
     if (workareaValue === 'ado1') {
       const laserModule = layerModuleHelper.getDefaultLaserModule();
-      const boundary = moduleBoundary[laserModule] as {
-        top: number;
-        left: number;
-        right: number;
-        bottom: number;
-      };
+      const boundary = moduleBoundary[laserModule];
       return {
         value: workareaValue,
         label: `${currentWorkarea.label} ${
