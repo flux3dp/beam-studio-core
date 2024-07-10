@@ -30,4 +30,6 @@ export interface ILayerConfig {
   printingStrength: IConfig<number>;
   clipRect: IConfig<string>; // x y w h
   ref: IConfig<boolean>;
+  focus: IConfig<number>;
+  focusStep: IConfig<number>;
 }

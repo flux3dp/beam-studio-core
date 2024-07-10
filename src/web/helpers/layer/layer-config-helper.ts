@@ -55,6 +55,8 @@ export enum DataType {
   printingStrength = 'printingStrength',
   clipRect = 'clipRect',
   ref = 'ref',
+  focus = 'focus',
+  focusStep = 'focusStep',
 }
 
 export const dataKey = {
@@ -88,6 +90,8 @@ export const dataKey = {
   [DataType.printingStrength]: 'printingStrength',
   [DataType.clipRect]: 'clipRect',
   [DataType.ref]: 'ref',
+  [DataType.focus]: 'focus',
+  [DataType.focusStep]: 'focusStep',
 };
 
 export const CUSTOM_PRESET_CONSTANT = ' ';
@@ -120,6 +124,8 @@ export const defaultConfig = {
   [DataType.kRatio]: 100,
   // parameters single color printing image processing
   [DataType.printingStrength]: 100,
+  [DataType.focus]: -2,
+  [DataType.focusStep]: -2,
 };
 
 /**

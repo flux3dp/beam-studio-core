@@ -58,6 +58,7 @@ import AddOnBlock from './AddOnBlock';
 import Backlash from './Backlash';
 import ConfigOperations from './ConfigOperations';
 import ConfigPanelContext, { getDefaultState, reducer } from './ConfigPanelContext';
+import FocusBlock from './FocusBlock';
 import HalftoneBlock from './HalftoneBlock';
 import InkBlock from './InkBlock';
 import ModuleBlock from './ModuleBlock';
@@ -296,6 +297,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
         UIType === 'default' && <WhiteInkCheckbox />}
       {isDevMode && isCustomBacklashEnabled && <Backlash type={UIType} />}
       <RepeatBlock type={UIType} />
+      <FocusBlock type={UIType} />
       {isDevMode &&
         module.value === LayerModule.PRINTER &&
         fullcolor.value &&
