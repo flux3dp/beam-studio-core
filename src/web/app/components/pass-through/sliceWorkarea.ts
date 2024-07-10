@@ -191,7 +191,7 @@ const sliceWorkarea = async (
       image.setAttribute('y', '0');
       image.setAttribute('width', width.toString());
       image.setAttribute('height', topPaddingPx.toString());
-      image.setAttribute('xlink:href', refImageBase64s[i]);
+      image.setAttributeNS(NS.XLINK, 'xlink:href', refImageBase64s[i]);
       layer.appendChild(image);
     }
   }
