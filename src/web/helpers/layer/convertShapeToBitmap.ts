@@ -41,6 +41,7 @@ const convertShapeToBitmap = async (): Promise<() => void> => {
           .forEach((elem) => {
             const { parentNode, nextSibling } = elem;
             elementsToKeep.push({ elem, parentNode, nextSibling });
+            elem.remove();
           });
         if (!blob || bbox.width === 0 || bbox.height === 0) {
           resolve();
