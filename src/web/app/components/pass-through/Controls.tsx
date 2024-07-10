@@ -33,9 +33,12 @@ const Controls = (): JSX.Element => {
     }),
     [workareaObj]
   );
-  const handleWorkareaHeightChange = useCallback((val) => {
-    setPassThroughHeight(Math.max(min, Math.min(val, max)));
-  }, [max, min, setPassThroughHeight]);
+  const handleWorkareaHeightChange = useCallback(
+    (val) => {
+      setPassThroughHeight(Math.max(min, Math.min(val, max)));
+    },
+    [max, min, setPassThroughHeight]
+  );
 
   const { show, x: guideMarkX, width: guideMarkWidth } = guideMark;
   const setX = useCallback(
@@ -84,28 +87,25 @@ const Controls = (): JSX.Element => {
         </div>
         <div>
           {lang.workarea_height}
-          <div>
-            <div className={styles['input-container']}>
-              <UnitInput
-                className={styles.input}
-                value={passThroughHeight}
-                onChange={handleWorkareaHeightChange}
-                max={max}
-                min={min}
-                addonAfter={isInch ? 'in' : 'mm'}
-                isInch={isInch}
-                controls={false}
-              />
-              <Tooltip title={lang.height_desc}>
-                <QuestionCircleOutlined className={styles.hint} />
-              </Tooltip>
-            </div>
-            <div className={styles.hint}>
-              {isInch
+          <UnitInput
+            className={styles.input}
+            value={passThroughHeight}
+            onChange={handleWorkareaHeightChange}
+            max={max}
+            min={min}
+            addonAfter={isInch ? 'in' : 'mm'}
+            isInch={isInch}
+            controls={false}
+          />
+          <Tooltip
+            title={`${lang.height_desc} ${
+              isInch
                 ? `${(min / 25.4).toFixed(2)}' ~ ${(max / 25.4).toFixed(2)}'`
-                : `${min}mm ~ ${max}mm`}
-            </div>
-          </div>
+                : `${min}mm ~ ${max}mm`
+            }`}
+          >
+            <QuestionCircleOutlined className={styles.hint} />
+          </Tooltip>
         </div>
       </div>
       <div className={styles.options}>
