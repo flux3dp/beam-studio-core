@@ -3,14 +3,8 @@ import findDefs from 'app/svgedit/utils/findDef';
 import getUtilWS from 'helpers/api/utils-ws';
 import svgStringToCanvas from 'helpers/image/svgStringToCanvas';
 import workareaManager from 'app/svgedit/workarea';
-import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 import updateImageForSpliting from './full-color/updateImageForSpliting';
-
-let svgedit;
-getSVGAsync((globalSVG) => {
-  svgedit = globalSVG.Edit;
-});
 
 const layerToImage = async (
   layer: SVGGElement,

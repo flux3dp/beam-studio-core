@@ -130,7 +130,10 @@ const sliceWorkarea = async (
 
       const container = document.createElementNS(NS.SVG, 'g') as SVGGElement;
       container.setAttribute('transform', `translate(0, ${topPaddingPx - start})`);
-      container.innerHTML = element.innerHTML;
+      for (let k = 0; k < element.children.length; k += 1) {
+        const child = element.children[j] as SVGGraphicsElement;
+        container.appendChild(child.cloneNode(true));
+      }
       container.id = svgCanvas.getNextId();
       container.setAttribute('data-pass-through', '1');
       layer.appendChild(container);
@@ -191,7 +194,7 @@ const sliceWorkarea = async (
       image.setAttribute('y', '0');
       image.setAttribute('width', width.toString());
       image.setAttribute('height', topPaddingPx.toString());
-      image.setAttribute('href', refImageBase64s[i]);
+      image.setAttributeNS(NS.XLINK, 'xlink:href', refImageBase64s[i]);
       layer.appendChild(image);
     }
   }
