@@ -22,7 +22,7 @@ const convertShapeToBitmap = async (): Promise<() => void> => {
   const newImages = [];
   const elementsToKeep = [];
   // clean element unrelated to image
-  const selector = ['g', 'image', 'title', 'filter', 'clipPath']
+  const selector = ['g', 'image', 'title', 'filter', 'clipPath', 'clipPath > *']
     .map((tagName) => `:not(${tagName})`)
     .join('');
   for (let i = 0; i < allLayerNames.length; i += 1) {
