@@ -98,7 +98,6 @@ const Controls = (): JSX.Element => {
             controls={false}
           />
           <Tooltip
-            open
             overlayClassName={styles.tooltip}
             title={`${lang.height_desc}\n(${
               isInch
