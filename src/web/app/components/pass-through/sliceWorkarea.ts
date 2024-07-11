@@ -131,7 +131,7 @@ const sliceWorkarea = async (
       const container = document.createElementNS(NS.SVG, 'g') as SVGGElement;
       container.setAttribute('transform', `translate(0, ${topPaddingPx - start})`);
       for (let k = 0; k < element.children.length; k += 1) {
-        const child = element.children[j] as SVGGraphicsElement;
+        const child = element.children[k] as SVGGraphicsElement;
         container.appendChild(child.cloneNode(true));
       }
       container.id = svgCanvas.getNextId();
