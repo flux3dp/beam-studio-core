@@ -4,6 +4,7 @@
  */
 import LayerModule from 'app/constants/layer-module/layer-modules';
 import NS from 'app/constants/namespaces';
+import updateImageDisplay from 'helpers/image/updateImageDisplay';
 
 import layerToImage from './layerToImage';
 import { DataType, getData } from './layer-config-helper';
@@ -60,6 +61,7 @@ const convertShapeToBitmap = async (): Promise<() => void> => {
         newImage.setAttribute('data-threshold', '128');
         newImage.setAttribute('data-shading', 'false');
         layer.insertBefore(newImage, layer.firstChild);
+        await updateImageDisplay(newImage);
         newImages.push(newImage);
         resolve();
       });
