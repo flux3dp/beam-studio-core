@@ -2,6 +2,7 @@ import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import findDefs from 'app/svgedit/utils/findDef';
 import NS from 'app/constants/namespaces';
 import svgStringToCanvas from 'helpers/image/svgStringToCanvas';
+import touchEvents from 'app/svgedit/touchEvents';
 import wheelEventHandlerGenerator from 'app/svgedit/interaction/wheelEventHandler';
 import workareaManager from 'app/svgedit/workarea';
 
@@ -81,6 +82,17 @@ class PassThroughCanvas {
       getCenter: (e) => ({ x: e.layerX ?? e.clientX, y: e.layerY ?? e.clientY }),
     });
     this.container.addEventListener('wheel', wheelHandler);
+    if (navigator.maxTouchPoints > 1) {
+      touchEvents.setupCanvasTouchEvents(
+        this.container,
+        this.container,
+        () => {},
+        () => {},
+        () => {},
+        () => {},
+        this.zoom
+      );
+    }
   };
 
   initPassThroughContainer = () => {
