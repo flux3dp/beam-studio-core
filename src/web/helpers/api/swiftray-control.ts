@@ -5,11 +5,9 @@
 import EventEmitter from 'eventemitter3';
 
 import ErrorConstants from 'app/constants/error-constants';
-import rsaKey from 'helpers/rsa-key';
-import Websocket from 'helpers/websocket';
 import { IDeviceDetailInfo } from 'interfaces/IDevice';
-import { RotationParameters3D } from 'interfaces/FisheyePreview';
 import IControlSocket from 'interfaces/IControlSocket';
+import { getDeviceClient, SwiftrayClient } from './swiftray-client';
 
 const EVENT_COMMAND_MESSAGE = 'command-message';
 const EVENT_COMMAND_ERROR = 'command-error';
@@ -17,14 +15,8 @@ const EVENT_COMMAND_FATAL = 'command-fatal';
 const EVENT_COMMAND_PROGRESS = 'command-progress';
 
 const MAX_TASK_QUEUE = 30;
-const CONNECTION_TIMEOUT = 30 * 1000;
-const CONNECITON_TIMEOUT_ERROR = {
-  status: 'error',
-  error: 'TIMEOUT',
-  info: 'connection timeoout',
-};
 
-class Control extends EventEmitter implements IControlSocket {
+class SwiftrayControl extends EventEmitter implements IControlSocket {
   public isConnected = false;
 
   private taskQueue: {
@@ -43,11 +35,7 @@ class Control extends EventEmitter implements IControlSocket {
 
   private isProcessingTask = false;
 
-  private ws: any | null;
-
-  private dedicatedWs: any[] = [];
-
-  private fileInfoWsId = 0;
+  private sc: SwiftrayClient;
 
   private mode = ''; // null, maintain or raw
 
@@ -55,20 +43,18 @@ class Control extends EventEmitter implements IControlSocket {
 
   private _isLineCheckMode = false;
 
-  private _cartridgeTaskId = 0;
+  protected port: string;
 
-  protected uuid: string;
-
-  constructor(uuid: string) {
+  constructor(port: string) {
     super();
-    this.uuid = uuid;
+    this.port = port;
     this.on('error', (error) => {
-      console.log(`Control ${this.uuid} Socket Error:`, error);
+      console.log(`SwiftrayControl ${this.port} Socket Error:`, error);
     });
   }
 
   get connection() {
-    return this.ws;
+    return this.sc;
   }
 
   getMode() {
@@ -91,17 +77,17 @@ class Control extends EventEmitter implements IControlSocket {
     this._lineNumber = lineNumber;
   }
 
-  addTask(taskFunction: Function, ...args: any[]): Promise<any> {
+  addTask<T>(taskFunction: (...args) => T, ...args: any[]) {
     if (this.taskQueue.length > MAX_TASK_QUEUE) {
       console.error(
-        `Control ${this.uuid} task queue exceeds max queue length. Clear queue and then send task`
+        `SwiftrayControl ${this.port} task queue exceeds max queue length. Clear queue and then sendGCode task`
       );
       this.taskQueue = [];
       this.currentTask = null;
       this.isProcessingTask = false;
     }
 
-    const promise = new Promise<any>((resolve, reject) => {
+    const promise = new Promise<T>((resolve, reject) => {
       this.taskQueue.push({ taskFunction, args, resolve, reject });
       if (!this.isProcessingTask && !this.currentTask) {
         this.doTask();
@@ -119,7 +105,7 @@ class Control extends EventEmitter implements IControlSocket {
       resolve(res);
     } catch (error) {
       reject(error);
-      console.error(`Control ${this.uuid} task error:`, error, taskFunction?.name, args);
+      console.error(`SwiftrayControl ${this.port} task error:`, error, taskFunction?.name, args);
     }
     if (this.taskQueue.length > 0) {
       this.doTask();
@@ -130,81 +116,13 @@ class Control extends EventEmitter implements IControlSocket {
   }
 
   async connect() {
-    this.ws = await this.createWs();
-  }
-
-  async createWs() {
-    const { uuid } = this;
-    let timeoutTimer = null;
-
-    const ws = await new Promise((resolve, reject) => {
-      const newSocket = Websocket({
-        method: `control/${uuid}`,
-        onMessage: (data) => {
-          switch (data.status) {
-            case 'connecting':
-              clearTimeout(timeoutTimer);
-              timeoutTimer = setTimeout(() => {
-                reject(CONNECITON_TIMEOUT_ERROR);
-              }, CONNECTION_TIMEOUT);
-              break;
-            case 'connected':
-              clearTimeout(timeoutTimer);
-              // if (!dedicated) {
-              //     this.createDedicatedWs(this.fileInfoWsId);
-              //     this.isConnected = true;
-              // }
-              this.isConnected = true;
-              console.log('Control WS Connected', data);
-              this.emit('connected', data);
-              resolve(newSocket);
-              break;
-            default:
-              this.emit('message', data);
-              this.emit(EVENT_COMMAND_MESSAGE, data);
-              break;
-          }
-        },
-        onDebug: (response: any) => {
-          this.emit('debug', response);
-        },
-        onError: (response: any) => {
-          clearTimeout(timeoutTimer);
-          this.emit('error', response);
-          this.emit(EVENT_COMMAND_ERROR, response);
-        },
-        onFatal: (response: any) => {
-          clearTimeout(timeoutTimer);
-          reject(response);
-          this.emit('fatal', response);
-          this.emit(EVENT_COMMAND_FATAL, response);
-        },
-        onClose: (response: CloseEvent) => {
-          clearTimeout(timeoutTimer);
-          reject(response);
-          console.log(`Control of ${uuid} closed:`, response);
-          this.isConnected = false;
-          this.emit('close', response);
-        },
-        onOpen() {
-          newSocket.send(rsaKey());
-        },
-        autoReconnect: false,
-      });
-    });
-    return ws;
+    console.log(`SwiftrayControl ${this.port} connecting to Swiftray server`);
+    this.sc = await getDeviceClient(this.port);
   }
 
   killSelf = async () => {
-    for (let i = 0; i < this.dedicatedWs.length; i += 1) {
-      const ws = this.dedicatedWs[i];
-      if (ws) {
-        ws.send('kick');
-        ws.close();
-      }
-    }
-    this.ws?.send('kick');
-    this.ws?.close();
+    console.warn('SwiftrayControl.killSelf is not implemented in swiftray, or should not be implemented');
+    // this.sc.close();
     await new Promise((r) => setTimeout(r, 500));
     return null;
   };
@@ -250,7 +168,7 @@ class Control extends EventEmitter implements IControlSocket {
   }
 
   useWaitAnyResponse(command: string, timeout = 30000) {
-    // Resolve after any response, equals to useDefaultResponse in old Control
+    // Resolve after any response, equals to useDefaultResponse in old SwiftrayControl
     return new Promise<any>((resolve, reject) => {
       const timeoutTimer = this.setTimeoutTimer(reject, timeout);
       this.on(EVENT_COMMAND_MESSAGE, (response) => {
@@ -260,7 +178,7 @@ class Control extends EventEmitter implements IControlSocket {
       });
       this.setDefaultErrorResponse(reject, timeoutTimer);
       this.setDefaultFatalResponse(reject, timeoutTimer);
-      this.ws.send(command);
+      this.sc.sendGCode(command);
     });
   }
 
@@ -271,8 +189,8 @@ class Control extends EventEmitter implements IControlSocket {
       let responseString = '';
       this.on(EVENT_COMMAND_MESSAGE, (response) => {
         if (response && response.status === 'raw') responseString += response.text;
-        const resps = responseString.split('\r\n');
-        if (resps.some((r) => r === 'ok')) {
+        const responses = responseString.split('\r\n');
+        if (responses.some((r) => r === 'ok')) {
           clearTimeout(timeoutTimer);
           this.removeCommandListeners();
           resolve(responseString);
@@ -280,26 +198,7 @@ class Control extends EventEmitter implements IControlSocket {
       });
       this.setDefaultErrorResponse(reject, timeoutTimer);
       this.setDefaultFatalResponse(reject, timeoutTimer);
-      this.ws.send(command);
-    });
-  }
-
-  useWaitOKResponse(command: string, timeout = 30000) {
-    // Resolve after get response whose status is ok
-    return new Promise<{ data: any[]; response: any }>((resolve, reject) => {
-      const data = [];
-      const timeoutTimer = this.setTimeoutTimer(reject, timeout);
-      this.on(EVENT_COMMAND_MESSAGE, (response) => {
-        data.push(response);
-        if (response.status === 'ok') {
-          clearTimeout(timeoutTimer);
-          this.removeCommandListeners();
-          resolve({ data, response });
-        }
-      });
-      this.setDefaultErrorResponse(reject, timeoutTimer);
-      this.setDefaultFatalResponse(reject, timeoutTimer);
-      this.ws.send(command);
+      this.sc.sendGCode(command);
     });
   }
 
@@ -337,11 +236,11 @@ class Control extends EventEmitter implements IControlSocket {
             const cmd = this.buildLineCheckCommand(command);
             console.log(cmd);
             timeoutTimer = this.setTimeoutTimer(reject, timeout);
-            this.ws.send(cmd);
+            this.sc.sendGCode(cmd);
           } else if (hasError) {
             const cmd = this.buildLineCheckCommand(command);
             timeoutTimer = this.setTimeoutTimer(reject, timeout);
-            this.ws.send(cmd);
+            this.sc.sendGCode(cmd);
           }
         }
         if (response.text.indexOf('ER:RESET') >= 0) {
@@ -357,7 +256,7 @@ class Control extends EventEmitter implements IControlSocket {
 
       const cmd = this.buildLineCheckCommand(command);
       console.log(cmd);
-      this.ws.send(cmd);
+      this.sc.sendGCode(cmd);
     });
   }
 
@@ -367,6 +266,7 @@ class Control extends EventEmitter implements IControlSocket {
     for (let i = 0; i < newCommand.length; i += 1) {
       if (newCommand[i] !== ' ') {
         const charCode = newCommand.charCodeAt(i);
+        // eslint-disable-next-line no-bitwise
         crc ^= charCode;
         crc += charCode;
       }
@@ -375,63 +275,32 @@ class Control extends EventEmitter implements IControlSocket {
     return `${newCommand}*${crc}`;
   }
 
-  ls = async (path: string) => (await this.useWaitOKResponse(`file ls ${path}`)).response;
+  ls = async (path: string) => {
+    console.warn('SwiftrayControl.ls is not implemented in swiftray', path);
+    return {
+      files: [],
+      directories: []
+    };
+  };
 
-  lsusb = () => this.useWaitAnyResponse('file lsusb');
+  lsusb = async () => {
+    console.warn('SwiftrayControl.lsusb is not implemented in swiftray');
+    return { usbs: [] };
+  }
 
   fileInfo = async (path: string, fileName: string) => {
-    const { data } = await this.useWaitOKResponse(`file fileinfo ${path}/${fileName}`);
+    console.warn('SwiftrayControl.fileInfo is not implemented in swiftray', path, fileName);
+    const data = [fileName];
     return [fileName, ...data];
   };
 
-  report = () =>
-    new Promise<any>((resolve, reject) => {
-      let retryTime = 0;
-      const timeoutTimer = this.setTimeoutTimer(reject, 3000);
-      this.on(EVENT_COMMAND_MESSAGE, (response) => {
-        if (response.status === 'ok') {
-          clearTimeout(timeoutTimer);
-          this.removeCommandListeners();
-          resolve(response);
-        } else if (retryTime < 3) {
-          retryTime += 1;
-          console.log('retry report');
-          this.ws.send('play report');
-        } else {
-          reject(response);
-        }
-      });
-      this.setDefaultErrorResponse(reject, timeoutTimer);
-      this.setDefaultFatalResponse(reject, timeoutTimer);
-      this.ws.send('play report');
-    });
-
-  prepareUpload = (data, resolve: Function, reject: Function) => {
-    const CHUNK_PKG_SIZE = 4096;
-    const length = data.length || data.size;
-    this.on(EVENT_COMMAND_MESSAGE, (response) => {
-      if (response.status === 'continue') {
-        for (let i = 0; i < length; i += CHUNK_PKG_SIZE) {
-          const chunk = data.slice(i, i + CHUNK_PKG_SIZE);
-          this.ws.send(chunk);
-        }
-      } else if (response.status === 'uploading') {
-        this.emit(EVENT_COMMAND_PROGRESS, { step: response.sent, total: data.size });
-      } else if (response.status === 'ok') {
-        this.removeCommandListeners();
-        resolve();
-      } else if (response.status === 'error') {
-        this.removeCommandListeners();
-        reject(response);
-      }
-    });
-    this.setDefaultErrorResponse(reject);
-    this.setDefaultFatalResponse(reject);
+  report = async () => {
+    console.warn('SwiftrayControl.report is not implemented well in swiftray');
+    return { device_status: { st_id: await this.sc.getDeviceStatus() } };
   };
 
   upload = (data, path?: string, fileName?: string) =>
     new Promise<void>((resolve, reject) => {
-      this.prepareUpload(data, resolve, reject);
       const mimeTypes = {
         fc: 'application/fcode',
         jpg: 'image/jpeg',
@@ -441,308 +310,65 @@ class Control extends EventEmitter implements IControlSocket {
       if (data.size === 0) {
         throw new Error('File is empty');
       }
+
       if (path && fileName) {
         // eslint-disable-next-line no-param-reassign
         fileName = fileName.replace(/ /g, '_');
         const ext = fileName.split('.').at(-1);
-        if (mimeTypes[ext]) {
-          this.ws.send(`upload ${mimeTypes[ext]} ${data.size} ${path}/${fileName}`);
-        } else if (ext === 'gcode') {
-          const newFileName = fileName.split('.');
-          newFileName.pop();
-          newFileName.push('fc');
-          // eslint-disable-next-line no-param-reassign
-          fileName = newFileName.join('.');
-          this.ws.send(`upload text/gcode ${data.size} ${path}/${fileName}`);
-        } else {
-          throw new Error(`Unsupported file type ${ext}`);
-        }
-      } else {
-        this.ws.send(`file upload application/fcode ${data.size}`);
+        return this.sc.upload(data, `${path}/${fileName}`);
       }
+      return this.sc.upload(data);
     });
 
-  abort = () =>
-    new Promise<any>((resolve, reject) => {
-      let retryTime = 0;
-      const retryTimeInterval = 2000;
-      let timeoutTimer: null | NodeJS.Timeout;
+  abort = () => this.sc.stopTask();
 
-      const retry = (needsQuit = false) => {
-        retryTime += 1;
-        setTimeout(() => {
-          timeoutTimer = this.setTimeoutTimer(reject, 10000);
-          if (needsQuit) this.ws.send('play abort');
-          else this.ws.send('play report');
-        }, retryTimeInterval);
-      };
+  quit = async () => {
+    console.warn('SwiftrayControl.quit is not implemented in swiftray');
+    return this.sc.quitTask();
+  }
 
-      this.on(EVENT_COMMAND_MESSAGE, (response) => {
-        if (timeoutTimer) clearTimeout(timeoutTimer);
-        if (retryTime >= 3) {
-          console.log('Control Abort Tried 3 times');
-          if (response.cmd === 'play report') {
-            if (response.device_status.st_id === 0) {
-              this.removeCommandListeners();
-              resolve(null);
-              return;
-            }
-            if (response.device_status.st_id === 64) this.ws.send('play quit');
-          }
-          this.removeCommandListeners();
-          reject(response);
-        } else {
-          const deviceStatus = response.device_status || {};
-          if (deviceStatus.st_id === 0 || deviceStatus.st_id === 128) {
-            this.removeCommandListeners();
-            resolve(null);
-          } else {
-            retry(response.status !== 'ok');
-          }
-        }
-      });
+  start = async () => this.sc.startTask();
 
-      this.on(EVENT_COMMAND_ERROR, (response) => {
-        if (timeoutTimer) clearTimeout(timeoutTimer);
-        if (retryTime >= 3) {
-          this.removeCommandListeners();
-          reject(response);
-        } else {
-          retry();
-        }
-      });
+  pause = async () => this.sc.pauseTask();
 
-      this.on(EVENT_COMMAND_FATAL, (response) => {
-        if (timeoutTimer) clearTimeout(timeoutTimer);
-        if (retryTime >= 3) {
-          this.removeCommandListeners();
-          reject(response);
-        } else {
-          retry();
-        }
-      });
+  resume =async () => this.sc.resumeTask();
 
-      timeoutTimer = this.setTimeoutTimer(reject, 10000);
-      this.ws.send('play abort');
-    });
+  restart = async () => this.sc.startTask();
 
-  quit = () =>
-    new Promise((resolve, reject) => {
-      let retryTime = 0;
-      const retryTimeInterval = 2000;
-      let timeoutTimer: null | NodeJS.Timeout;
+  kick = async () => this.sc.kick();
 
-      const retry = (needsQuit = false) => {
-        retryTime += 1;
-        setTimeout(() => {
-          timeoutTimer = this.setTimeoutTimer(reject, 10000);
-          if (needsQuit) this.ws.send('play quit');
-          else this.ws.send('play report');
-        }, retryTimeInterval);
-      };
-
-      this.on(EVENT_COMMAND_MESSAGE, (response) => {
-        if (timeoutTimer) clearTimeout(timeoutTimer);
-        if (retryTime >= 3) {
-          console.log('Control Quit Tried 3 times');
-          if (response.cmd === 'play report') {
-            if (response.device_status.st_id === 0) {
-              this.removeCommandListeners();
-              resolve(null);
-              return;
-            }
-          }
-          this.removeCommandListeners();
-          reject(response);
-        } else {
-          const deviceStatus = response.device_status || {};
-          if (deviceStatus.st_id === 0) {
-            this.removeCommandListeners();
-            resolve(null);
-          } else {
-            retry(response.status !== 'ok');
-          }
-        }
-      });
-
-      this.on(EVENT_COMMAND_ERROR, (response) => {
-        if (timeoutTimer) clearTimeout(timeoutTimer);
-        if (retryTime >= 3) {
-          this.removeCommandListeners();
-          reject(response);
-        } else {
-          retry();
-        }
-      });
-
-      this.on(EVENT_COMMAND_FATAL, (response) => {
-        if (timeoutTimer) clearTimeout(timeoutTimer);
-        if (retryTime >= 3) {
-          this.removeCommandListeners();
-          reject(response);
-        } else {
-          retry();
-        }
-      });
-
-      timeoutTimer = this.setTimeoutTimer(reject, 10000);
-      this.ws.send('play quit');
-    });
-
-  start = () => this.useWaitAnyResponse('play start');
-
-  pause = () => this.useWaitAnyResponse('play pause');
-
-  resume = () => this.useWaitAnyResponse('play resume');
-
-  restart = () => this.useWaitAnyResponse('play restart');
-
-  kick = () => this.useWaitAnyResponse('kick');
-
-  quitTask = () => {
+  quitTask = async () => {
     this.mode = '';
-    return this.useWaitAnyResponse('task quit');
+    return this.sc.endMode();
   };
 
-  deviceDetailInfo = (): Promise<IDeviceDetailInfo> => this.useWaitAnyResponse('deviceinfo');
+  deviceDetailInfo = async (): Promise<IDeviceDetailInfo> => {
+    console.warn('SwiftrayControl.deviceDetailInfo is not implemented well in swiftray');
+    return this.sc.deviceInfo();
+  }
 
   getPreview = async () => {
-    const { data } = await this.useWaitOKResponse('play info');
-    return data;
+    console.warn('SwiftrayControl.getPreview is not implemented well in swiftray');
+    return [null, await this.sc.getPreview()];
   };
 
-  select = (path, fileName: string) =>
-    this.useWaitAnyResponse(
-      fileName === '' ? `play select ${path.join('/')}` : `play select ${path}/${fileName}`
-    );
+  select = async (path, fileName: string) => {
+    console.error('SwiftrayControl.select is not implemented in swiftray');
+    return { status: 'OK' };
+  };
 
   deleteFile = (fileNameWithPath: string) =>
     this.useWaitAnyResponse(`file rmfile ${fileNameWithPath}`);
 
-  downloadFile = (fileNameWithPath: string) =>
-    new Promise<[string, Blob]>((resolve, reject) => {
-      let metadata = null;
-      this.on(EVENT_COMMAND_MESSAGE, (response) => {
-        if (response.status === 'continue') {
-          this.emit(EVENT_COMMAND_PROGRESS, response);
-        } else if (!(response instanceof Blob)) {
-          metadata = response;
-        }
+  downloadFile = async (fileNameWithPath: string) => {
+    const file  = await this.sc.downloadFile(fileNameWithPath);
+    return [fileNameWithPath, file];
+  };
 
-        if (response instanceof Blob) {
-          this.removeCommandListeners();
-          resolve([metadata, response]);
-        }
-      });
-      this.setDefaultErrorResponse(reject);
-      this.setDefaultFatalResponse(reject);
-
-      this.ws.send(`file download ${fileNameWithPath}`);
-    });
-
-  downloadLog = (logName: string) =>
-    new Promise<[string, Blob]>((resolve, reject) => {
-      let metadata = null;
-      this.on(EVENT_COMMAND_MESSAGE, (response) => {
-        if (response.status === 'transfer') {
-          this.emit(EVENT_COMMAND_PROGRESS, response);
-        } else if (!Object.keys(response).includes('completed')) {
-          metadata = response;
-        }
-
-        if (response instanceof Blob) {
-          this.removeCommandListeners();
-          resolve([metadata, response]);
-        }
-      });
-      this.setDefaultErrorResponse(reject);
-      this.setDefaultFatalResponse(reject);
-
-      this.ws.send(`fetch_log ${logName}`);
-    });
-
-  fetchCameraCalibImage = (fileName: string) =>
-    new Promise<Blob>((resolve, reject) => {
-      const file = [];
-      this.on(EVENT_COMMAND_MESSAGE, (response) => {
-        if (response.status === 'transfer') {
-          this.emit(EVENT_COMMAND_PROGRESS, response);
-        } else if (!Object.keys(response).includes('completed')) {
-          file.push(response);
-        }
-
-        if (response instanceof Blob) {
-          this.removeCommandListeners();
-          resolve(response);
-        }
-      });
-      this.setDefaultErrorResponse(reject);
-      this.setDefaultFatalResponse(reject);
-
-      this.ws.send(`fetch_camera_calib_pictures ${fileName}`);
-    });
-
-  fetchFisheyeParams = () =>
-    new Promise((resolve, reject) => {
-      const file = [];
-      this.on(EVENT_COMMAND_MESSAGE, async (response) => {
-        console.log(response);
-        if (response.status === 'transfer') {
-          this.emit(EVENT_COMMAND_PROGRESS, response);
-        } else if (!Object.keys(response).includes('completed')) {
-          file.push(response);
-        }
-        if (response instanceof Blob) {
-          this.removeCommandListeners();
-          const fileReader = new FileReader();
-          fileReader.onload = (e) => {
-            try {
-              const jsonString = e.target.result as string;
-              const data = JSON.parse(jsonString);
-              console.log(data);
-              resolve(data);
-            } catch (err) {
-              reject(err);
-            }
-          };
-          fileReader.readAsText(response);
-        }
-      });
-      this.setDefaultErrorResponse(reject);
-      this.setDefaultFatalResponse(reject);
-
-      this.ws.send('fetch_fisheye_params');
-    });
-
-  fetchFisheye3DRotation = () =>
-    new Promise<RotationParameters3D>((resolve, reject) => {
-      const file = [];
-      this.on(EVENT_COMMAND_MESSAGE, async (response) => {
-        if (response.status === 'transfer') {
-          this.emit(EVENT_COMMAND_PROGRESS, response);
-        } else if (!Object.keys(response).includes('completed')) {
-          file.push(response);
-        }
-        if (response instanceof Blob) {
-          this.removeCommandListeners();
-          const fileReader = new FileReader();
-          fileReader.onload = (e) => {
-            try {
-              const jsonString = e.target.result as string;
-              const data = JSON.parse(jsonString);
-              resolve(data);
-            } catch (err) {
-              reject(err);
-            }
-          };
-          fileReader.readAsText(response);
-        }
-      });
-      this.setDefaultErrorResponse(reject);
-      this.setDefaultFatalResponse(reject);
-
-      this.ws.send('fetch_fisheye_3d_rotation');
-    });
+  downloadLog = async (logName: string) => {
+    const file  = await this.sc.downloadLog(logName);
+    return [logName, file];
+  };
 
   fetchAutoLevelingData = (dataType: 'hexa_platform' | 'bottom_cover' | 'offset') =>
     new Promise<{ [key: string]: number }>((resolve, reject) => {
@@ -771,155 +397,80 @@ class Control extends EventEmitter implements IControlSocket {
       this.setDefaultErrorResponse(reject);
       this.setDefaultFatalResponse(reject);
 
-      this.ws.send(`fetch_auto_leveling_data ${dataType}`);
+      this.sc.sendGCode(`fetch_auto_leveling_data ${dataType}`);
     });
 
-  getLaserPower = async () => {
-    const res = (await this.useWaitOKResponse('play get_laser_power')).response;
-    return res;
-  };
+  getLaserPower = async () => this.sc.getDeviceParam('laser_power');
 
-  setLaserPower = async (power: number) => {
-    const res = (await this.useWaitOKResponse(`play set_laser_power ${power}`)).response;
-    return res;
-  };
+  setLaserPower = async (power: number) => this.sc.setDeviceParam('laser_power', power);
 
-  setLaserPowerTemp = async (power: number) => {
-    const res = (await this.useWaitOKResponse(`play set_laser_power_temp ${power}`)).response;
-    return res;
-  };
+  setLaserPowerTemp = async (power: number) => this.sc.setDeviceParam('laser_power_temp', power);
 
-  getLaserSpeed = async () => {
-    const res = (await this.useWaitOKResponse('play get_laser_speed')).response;
-    return res;
-  };
+  getLaserSpeed = async () => this.sc.getDeviceParam('laser_speed');
 
-  setLaserSpeed = async (speed: number) => {
-    const res = (await this.useWaitOKResponse(`play set_laser_speed ${speed}`)).response;
-    return res;
-  };
+  setLaserSpeed = async (speed: number) => this.sc.setDeviceParam('laser_speed', speed);
 
-  setLaserSpeedTemp = async (speed: number) => {
-    const res = (await this.useWaitOKResponse(`play set_laser_speed_temp ${speed}`)).response;
-    return res;
-  };
+  setLaserSpeedTemp = async (speed: number) => this.sc.setDeviceParam('laser_speed_temp', speed);
 
-  getFan = async () => {
-    const res = (await this.useWaitOKResponse('play get_fan')).response;
-    return res;
-  };
+  getFan = async () => this.sc.getDeviceParam('fan');
 
-  setFan = async (fanSpeed: number) => {
-    const res = (await this.useWaitOKResponse(`play set_fan ${fanSpeed}`)).response;
-    return res;
-  };
+  setFan = async (fanSpeed: number) => this.sc.setDeviceParam('fan', fanSpeed);
 
-  setFanTemp = async (fanSpeed: number) => {
-    const res = (await this.useWaitOKResponse(`play set_fan_temp ${fanSpeed}`)).response;
-    return res;
-  };
+  setFanTemp = async (fanSpeed: number) => this.sc.setDeviceParam('fan_temp', fanSpeed);
 
-  setOriginX = async (x: number) => {
-    const res = (await this.useWaitOKResponse(`play set_origin_x ${x}`)).response;
-    return res;
-  };
+  setOriginX = async (x: number) => this.sc.setDeviceParam('origin_x', x);
 
-  setOriginY = async (y: number) => {
-    const res = (await this.useWaitOKResponse(`play set_origin_y ${y}`)).response;
-    return res;
-  };
+  setOriginY = async (y: number) => this.sc.setDeviceParam('origin_y', y);
 
-  getDoorOpen = async () => {
-    const res = (await this.useWaitOKResponse('play get_door_open')).response;
-    return res;
-  };
+  getDoorOpen = async () => this.sc.getDeviceParam('door_open');
 
-  getDeviceSetting = (name: string) => this.useWaitAnyResponse(`config get ${name}`);
+  getDeviceSetting = async (name: string) => this.sc.getDeviceParam(name)
 
-  setDeviceSetting = (name: string, value: string) =>
-    this.useWaitAnyResponse(`config set ${name} ${value}`);
+  setDeviceSetting = async (name: string, value: string) => this.sc.setDeviceParam(name, value)
 
-  deleteDeviceSetting = (name: string) => this.useWaitAnyResponse(`config del ${name}`);
+  deleteDeviceSetting = async (name: string) => this.sc.deleteDeviceSettings(name);
 
   enterMaintainMode = async () => {
-    const res = await this.useWaitAnyResponse('task maintain');
+    const res = await this.sc.switchMode('maintain');
     await new Promise((resolve) => setTimeout(resolve, 3000));
     this.mode = 'maintain';
     return res;
   };
 
-  endMaintainMode = () => {
+  endMaintainMode = async () => {
     this.mode = '';
-    return this.useWaitAnyResponse('task quit');
+    await this.sc.endMode();
   };
 
-  maintainMove = (args: any) => {
+  maintainMove = (args: { x?: number, y?: number, z?: number, f?: number}) => {
     let command = '';
-    command += ` f:${args.f || 6000}`;
+    command += `F${args.f || 6000}`;
     if (typeof args.x !== 'undefined') {
-      command += ` x:${args.x}`;
+      command += `X${args.x}`;
     }
     if (typeof args.y !== 'undefined') {
-      command += ` y:${args.y}`;
+      command += `Y${args.y}`;
     }
     if (typeof args.z !== 'undefined') {
-      command += ` z:${args.z}`;
+      command += `Z${args.z}`;
     }
-    return this.useWaitAnyResponse(`maintain move${command}`);
+    return this.sc.sendGCode(`G1${command}`);
   };
 
-  maintainCloseFan = () => this.useWaitAnyResponse('maintain close_fan');
+  maintainCloseFan = () => this.sc.setDeviceParam('fan', 0);
 
-  maintainHome = () => this.useWaitAnyResponse('maintain home');
-
-  enterCartridgeIOMode = async () => {
-    const res = await this.useWaitAnyResponse('task cartridge_io');
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    this.mode = 'cartridge_io';
-    this._cartridgeTaskId = Math.floor(Math.random() * 2e9);
-    return res;
-  };
-
-  endCartridgeIOMode = () => {
-    this.mode = '';
-    this._cartridgeTaskId = 0;
-    return this.useWaitAnyResponse('task quit');
-  };
-
-  getCartridgeChipData = async () => {
-    if (this.mode !== 'cartridge_io') {
-      throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
-    }
-    const command = JSON.stringify({
-      id: this._cartridgeTaskId,
-      method: 'cartridge.get_info',
-    }).replace(/"/g, '\\"');
-    const resp = await this.useWaitAnyResponse(`jsonrpc_req ${command}`);
-    return resp;
-  };
-
-  cartridgeIOJsonRpcReq = async (method: string, params: any[]) => {
-    if (this.mode !== 'cartridge_io') {
-      throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
-    }
-    const command = JSON.stringify({ id: this._cartridgeTaskId, method, params }).replace(
-      /"/g,
-      '\\"'
-    );
-    const resp = await this.useWaitAnyResponse(`jsonrpc_req "${command}"`);
-    return resp;
-  };
+  maintainHome = () => this.sc.home();
 
   enterRawMode = async () => {
-    const res = await this.useWaitAnyResponse('task raw');
+    const res = await this.sc.switchMode('raw');
     await new Promise((resolve) => setTimeout(resolve, 3000));
     this.mode = 'raw';
     return res;
   };
 
-  endRawMode = () => {
+  endRawMode = async (): Promise<void> => {
     this.mode = '';
-    return this.useWaitAnyResponse('task quit');
+    await this.sc.endMode();
   };
 
   rawHome = (zAxis = false) => {
@@ -938,8 +489,8 @@ class Control extends EventEmitter implements IControlSocket {
           responseString += response.text;
           console.log('raw homing:\t', responseString);
         }
-        const resps = responseString.replace(/\r/g, '').split('\n');
-        if (resps.some((resp) => resp.includes('ok')) && !didErrorOccur) {
+        const responses = responseString.replace(/\r/g, '').split('\n');
+        if (responses.some((r) => r.includes('ok')) && !didErrorOccur) {
           this.removeCommandListeners();
           resolve();
           return;
@@ -948,9 +499,9 @@ class Control extends EventEmitter implements IControlSocket {
           response.text?.indexOf('ER:RESET') >= 0 ||
           response.text?.indexOf('DEBUG: RESET') >= 0 ||
           response.text?.indexOf('error:') >= 0 ||
-          resps.some((resp) => resp.includes('ER:RESET')) ||
-          resps.some((resp) => resp.includes('DEBUG: RESET')) ||
-          resps.some((resp) => resp.includes('error:'))
+          responses.some((r) => r.includes('ER:RESET')) ||
+          responses.some((r) => r.includes('DEBUG: RESET')) ||
+          responses.some((r) => r.includes('error:'))
         ) {
           didErrorOccur = true;
           if (retryTimes > 5) {
@@ -966,20 +517,20 @@ class Control extends EventEmitter implements IControlSocket {
               responseString = '';
               retryTimes += 1;
               timeoutTimer = this.setTimeoutTimer(reject, 10000);
-              this.ws.send('raw home');
+              this.sc.sendGCode('raw home');
             }, 1000);
           }
         } else {
           timeoutTimer = this.setTimeoutTimer(reject, 10000);
         }
-        responseString = resps[resps.length - 1] || '';
+        responseString = responses[responses.length - 1] || '';
       });
       this.setDefaultErrorResponse(reject, timeoutTimer);
       this.setDefaultFatalResponse(reject, timeoutTimer);
 
       timeoutTimer = this.setTimeoutTimer(reject, 10000);
-      if (!zAxis) this.ws.send('raw home');
-      else this.ws.send('$HZ');
+      if (!zAxis) this.sc.sendGCode('raw home');
+      else this.sc.sendGCode('$HZ');
     });
   };
 
@@ -995,11 +546,11 @@ class Control extends EventEmitter implements IControlSocket {
     return this.useRawLineCheckCommand(cmd);
   };
 
-  rawStartLineCheckMode = () => {
+  rawStartLineCheckMode = (): Promise<void> => {
     if (this.mode !== 'raw') {
       throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
     }
-    return new Promise<void>((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       let isCmdResent = false;
       let responseString = '';
       const command = '$@';
@@ -1011,9 +562,9 @@ class Control extends EventEmitter implements IControlSocket {
           console.log('raw line check:\t', response.text);
           responseString += response.text;
         }
-        const resps = responseString.replace(/\r/g, '').split('\n');
-        const i = resps.findIndex((r) => r === 'CTRL LINECHECK_ENABLED' || r === 'ok');
-        if (i < 0) responseString = resps[resps.length - 1] || '';
+        const responses = responseString.replace(/\r/g, '').split('\n');
+        const i = responses.findIndex((r) => r === 'CTRL LINECHECK_ENABLED' || r === 'ok');
+        if (i < 0) responseString = responses[responses.length - 1] || '';
         if (i >= 0) {
           this._isLineCheckMode = true;
           this._lineNumber = 1;
@@ -1023,7 +574,7 @@ class Control extends EventEmitter implements IControlSocket {
         }
         if (
           response.text.indexOf('ER:RESET') >= 0 ||
-          resps.some((resp) => resp.includes('ER:RESET')) ||
+          responses.some((resp) => resp.includes('ER:RESET')) ||
           response.text.indexOf('error:') >= 0
         ) {
           if (retryTimes >= 5) {
@@ -1037,7 +588,7 @@ class Control extends EventEmitter implements IControlSocket {
               isCmdResent = false;
               responseString = '';
               timeoutTimer = this.setTimeoutTimer(reject, 10000);
-              this.ws.send(command);
+              this.sc.sendGCode(command);
               retryTimes += 1;
             }, 200);
           }
@@ -1049,15 +600,15 @@ class Control extends EventEmitter implements IControlSocket {
       this.setDefaultFatalResponse(reject, timeoutTimer);
 
       timeoutTimer = this.setTimeoutTimer(reject, 10000);
-      this.ws.send(command);
+      this.sc.sendGCode(command);
     });
   };
 
-  rawEndLineCheckMode = () => {
+  rawEndLineCheckMode = (): Promise<void> => {
     if (this.mode !== 'raw') {
       throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
     }
-    return new Promise<void>((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       let isCmdResent = false;
       let responseString = '';
       const command = 'M172';
@@ -1069,9 +620,9 @@ class Control extends EventEmitter implements IControlSocket {
           console.log('raw end line check:\t', response.text);
           responseString += response.text;
         }
-        const resps = responseString.replace(/\r/g, '').split('\n');
-        const i = resps.findIndex((r) => r === 'CTRL LINECHECK_DISABLED' || r === 'ok');
-        if (i < 0) responseString = resps[resps.length - 1] || '';
+        const responses = responseString.replace(/\r/g, '').split('\n');
+        const i = responses.findIndex((r) => r === 'CTRL LINECHECK_DISABLED' || r === 'ok');
+        if (i < 0) responseString = responses[responses.length - 1] || '';
         if (i >= 0) {
           this._isLineCheckMode = false;
           this.removeCommandListeners();
@@ -1080,7 +631,7 @@ class Control extends EventEmitter implements IControlSocket {
         }
         if (
           response.text.indexOf('ER:RESET') >= 0 ||
-          resps.some((resp) => resp.includes('ER:RESET')) ||
+          responses.some((resp) => resp.includes('ER:RESET')) ||
           response.text.indexOf('error:') >= 0
         ) {
           if (retryTimes >= 5) {
@@ -1093,7 +644,7 @@ class Control extends EventEmitter implements IControlSocket {
             setTimeout(() => {
               isCmdResent = false;
               responseString = '';
-              this.ws.send(command);
+              this.sc.sendGCode(command);
               retryTimes += 1;
             }, 200);
           }
@@ -1105,7 +656,7 @@ class Control extends EventEmitter implements IControlSocket {
       this.setDefaultFatalResponse(reject, timeoutTimer);
       timeoutTimer = this.setTimeoutTimer(reject, 10000);
 
-      this.ws.send(command);
+      this.sc.sendGCode(command);
     });
   };
 
@@ -1150,29 +701,11 @@ class Control extends EventEmitter implements IControlSocket {
     return this.useRawLineCheckCommand(command);
   };
 
-  adorRawSetAirPump = (on: boolean) => {
-    if (this.mode !== 'raw') {
-      throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
-    }
-    const command = on ? 'M136P3' : 'M136P4';
-    if (!this._isLineCheckMode) return this.useWaitAnyResponse(command);
-    return this.useRawLineCheckCommand(command);
-  };
-
   rawSetFan = (on: boolean) => {
     if (this.mode !== 'raw') {
       throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
     }
     const command = on ? 'B5' : 'B6';
-    if (!this._isLineCheckMode) return this.useWaitAnyResponse(command);
-    return this.useRawLineCheckCommand(command);
-  };
-
-  adorRawSetFan = (on: boolean) => {
-    if (this.mode !== 'raw') {
-      throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
-    }
-    const command = on ? 'M136P5' : 'M136P6';
     if (!this._isLineCheckMode) return this.useWaitAnyResponse(command);
     return this.useRawLineCheckCommand(command);
   };
@@ -1211,15 +744,6 @@ class Control extends EventEmitter implements IControlSocket {
     return this.useRawLineCheckCommand(command);
   };
 
-  adorRawLooseMotor = () => {
-    if (this.mode !== 'raw') {
-      throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
-    }
-    const command = 'M137P34';
-    if (!this._isLineCheckMode) return this.useRawWaitOKResponse(command);
-    return this.useRawLineCheckCommand(command);
-  };
-
   rawSetLaser = (args: { on: boolean; s?: number }) => {
     if (this.mode !== 'raw') {
       throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
@@ -1255,16 +779,16 @@ class Control extends EventEmitter implements IControlSocket {
           console.log('raw auto focus:\t', response.text);
           responseString += response.text;
         }
-        const resps = responseString.split('\r\n');
-        const i = resps.findIndex((r) => r === 'ok');
-        if (i < 0) responseString = resps[resps.length - 1] || '';
+        const responses = responseString.split('\r\n');
+        const i = responses.findIndex((r) => r === 'ok');
+        if (i < 0) responseString = responses[responses.length - 1] || '';
         if (i >= 0) {
           resolve();
           return;
         }
         if (
           response.text.indexOf('ER:RESET') >= 0 ||
-          resps.some((resp) => resp.includes('ER:RESET')) ||
+          responses.some((resp) => resp.includes('ER:RESET')) ||
           response.text.indexOf('error:') >= 0
         ) {
           this.removeCommandListeners();
@@ -1274,7 +798,7 @@ class Control extends EventEmitter implements IControlSocket {
       this.setDefaultErrorResponse(reject, timeoutTimer);
       this.setDefaultFatalResponse(reject, timeoutTimer);
       timeoutTimer = this.setTimeoutTimer(reject, timeout);
-      this.ws.send(command);
+      this.sc.sendGCode(command);
     });
   };
 
@@ -1294,14 +818,14 @@ class Control extends EventEmitter implements IControlSocket {
           console.log('raw get probe position:\t', response.text);
           responseString += response.text;
         }
-        const resps = responseString.split('\r\n');
-        const i = resps.findIndex((r) => r === 'ok');
+        const responses = responseString.split('\r\n');
+        const i = responses.findIndex((r) => r === 'ok');
         if (i >= 0) {
-          const resIdx = resps.findIndex((r) =>
+          const resIdx = responses.findIndex((r) =>
             r.match(/\[PRB:([-\d.]+),([-\d.]+),([-\d.]+),([-\d.]+):(\d)\]/)
           );
           if (resIdx >= 0) {
-            const resStr = resps[resIdx];
+            const resStr = responses[resIdx];
             const match = resStr.match(/\[PRB:([-\d.]+),([-\d.]+),([-\d.]+),([-\d.]+):(\d)\]/);
             const [, x, y, z, a, didAf] = match;
             this.removeCommandListeners();
@@ -1320,7 +844,7 @@ class Control extends EventEmitter implements IControlSocket {
         }
         if (
           response.text.indexOf('ER:RESET') >= 0 ||
-          resps.some((resp) => resp.includes('ER:RESET')) ||
+          responses.some((resp) => resp.includes('ER:RESET')) ||
           response.text.indexOf('error:') >= 0
         ) {
           if (retryTimes >= 5) {
@@ -1333,7 +857,7 @@ class Control extends EventEmitter implements IControlSocket {
             setTimeout(() => {
               isCmdResent = false;
               responseString = '';
-              this.ws.send(command);
+              this.sc.sendGCode(command);
               retryTimes += 1;
             }, 200);
           }
@@ -1345,7 +869,7 @@ class Control extends EventEmitter implements IControlSocket {
       this.setDefaultFatalResponse(reject, timeoutTimer);
       timeoutTimer = this.setTimeoutTimer(reject, 10000);
 
-      this.ws.send(command);
+      this.sc.sendGCode(command);
     });
   };
 
@@ -1365,15 +889,15 @@ class Control extends EventEmitter implements IControlSocket {
           console.log('raw get last position:\t', response.text);
           responseString += response.text;
         }
-        const resps = responseString.split('\r\n');
-        const i = resps.findIndex((r) => r === 'ok');
-        if (i < 0) responseString = resps[resps.length - 1] || '';
+        const responses = responseString.split('\r\n');
+        const i = responses.findIndex((r) => r === 'ok');
+        if (i < 0) responseString = responses[responses.length - 1] || '';
         if (i >= 0) {
-          const resIdx = resps.findIndex((r) =>
+          const resIdx = responses.findIndex((r) =>
             r.match(/\[LAST_POS:([-\d.]+),([-\d.]+),([-\d.]+),([-\d.]+)/)
           );
           if (resIdx >= 0) {
-            const resStr = resps[resIdx];
+            const resStr = responses[resIdx];
             const match = resStr.match(/\[LAST_POS:([-\d.]+),([-\d.]+),([-\d.]+),([-\d.]+)/);
             const [, x, y, z, a] = match;
             this.removeCommandListeners();
@@ -1386,7 +910,7 @@ class Control extends EventEmitter implements IControlSocket {
         }
         if (
           response.text.indexOf('ER:RESET') >= 0 ||
-          resps.some((resp) => resp.includes('ER:RESET')) ||
+          responses.some((resp) => resp.includes('ER:RESET')) ||
           response.text.indexOf('error:') >= 0
         ) {
           if (retryTimes >= 5) {
@@ -1399,7 +923,7 @@ class Control extends EventEmitter implements IControlSocket {
             setTimeout(() => {
               isCmdResent = false;
               responseString = '';
-              this.ws.send(command);
+              this.sc.sendGCode(command);
               retryTimes += 1;
             }, 200);
           }
@@ -1411,7 +935,7 @@ class Control extends EventEmitter implements IControlSocket {
       this.setDefaultFatalResponse(reject, timeoutTimer);
       timeoutTimer = this.setTimeoutTimer(reject, 10000);
 
-      this.ws.send(command);
+      this.sc.sendGCode(command);
     });
   };
 
@@ -1431,14 +955,14 @@ class Control extends EventEmitter implements IControlSocket {
         const handleMessage = (response: string, fromLineCheckMode = false) => {
           clearTimeout(timeoutTimer);
           responseString += response;
-          const resps = responseString.split(/\r?\n/);
-          console.log(resps);
-          const finished = resps.some((r) => r === 'ok');
+          const responses = responseString.split(/\r?\n/);
+          console.log(responses);
+          const finished = responses.some((r) => r === 'ok');
           if (finished || fromLineCheckMode) {
-            const resIdx = resps.findIndex((r) => r.match(/z_pos/));
+            const resIdx = responses.findIndex((r) => r.match(/z_pos/));
             if (resIdx >= 0) {
               this.removeCommandListeners();
-              const resStr = resps[resIdx];
+              const resStr = responses[resIdx];
               const data = JSON.parse(resStr);
               const { z_pos: zPos } = data;
               resolve(Number(zPos));
@@ -1479,7 +1003,7 @@ class Control extends EventEmitter implements IControlSocket {
               handleMessage(responseString);
             });
           }
-          this.ws.send(command);
+          this.sc.sendGCode(command);
         } else {
           const resp = await this.useRawLineCheckCommand(command);
           handleMessage(resp, true);
@@ -1496,13 +1020,10 @@ class Control extends EventEmitter implements IControlSocket {
   fwUpdate = (file: File) =>
     new Promise((resolve, reject) => {
       const blob = new Blob([file], { type: 'binary/flux-firmware' });
-      this.on(EVENT_COMMAND_MESSAGE, (response) => {
+      this.sc.on(EVENT_COMMAND_MESSAGE, (response) => {
         if (response.status === 'ok') {
           this.removeCommandListeners();
           resolve(response);
-        } else if (response.status === 'continue') {
-          this.emit(EVENT_COMMAND_PROGRESS, response);
-          this.ws.send(blob);
         } else if (response.status === 'uploading') {
           response.percentage = ((response.sent || 0) / blob.size) * 100;
           this.emit(EVENT_COMMAND_PROGRESS, response);
@@ -1511,94 +1032,11 @@ class Control extends EventEmitter implements IControlSocket {
           reject(response);
         }
       });
+      this.sc.updateFirmware(blob);
 
       this.setDefaultErrorResponse(reject);
       this.setDefaultFatalResponse(reject);
-
-      this.ws.send(`update_fw binary/flux-firmware ${blob.size}`);
-    });
-
-  toolheadUpdate = (file: File) =>
-    new Promise((resolve, reject) => {
-      const blob = new Blob([file], { type: 'binary/flux-firmware' });
-      const args = ['maintain', 'update_hbfw', 'binary/fireware', blob.size];
-      this.on(EVENT_COMMAND_MESSAGE, (response) => {
-        if (response.status === 'ok') {
-          this.removeCommandListeners();
-          resolve(response);
-        } else if (response.status === 'continue') {
-          this.emit(EVENT_COMMAND_PROGRESS, response);
-          this.ws.send(blob);
-        } else if (['operating', 'uploading', 'update_hbfw'].includes(response.status)) {
-          response.percentage = ((response.sent || 0) / blob.size) * 100;
-          this.emit(EVENT_COMMAND_PROGRESS, response);
-        } else {
-          this.removeCommandListeners();
-          reject(response);
-        }
-      });
-
-      this.setDefaultErrorResponse(reject);
-      this.setDefaultFatalResponse(reject);
-
-      this.ws.send(args.join(' '));
-    });
-
-  uploadFisheyeParams = (data: string) =>
-    new Promise((resolve, reject) => {
-      const blob = new Blob([data], { type: 'application/json' });
-      this.on(EVENT_COMMAND_MESSAGE, (response) => {
-        if (response.status === 'ok') {
-          this.removeCommandListeners();
-          resolve(response);
-        } else if (response.status === 'continue') {
-          this.emit(EVENT_COMMAND_PROGRESS, response);
-          this.ws.send(blob);
-        } else if (response.status === 'uploading') {
-          response.percentage = ((response.sent || 0) / blob.size) * 100;
-          this.emit(EVENT_COMMAND_PROGRESS, response);
-        } else {
-          this.removeCommandListeners();
-          reject(response);
-        }
-      });
-
-      this.setDefaultErrorResponse(reject);
-      this.setDefaultFatalResponse(reject);
-
-      this.ws.send(`update_fisheye_params application/json ${blob.size}`);
-    });
-
-  updateFisheye3DRotation = (data: RotationParameters3D) =>
-    new Promise((resolve, reject) => {
-      const strData = JSON.stringify(data, (key, val) => {
-        if (typeof val === 'number') {
-          return Math.round(val * 1e2) / 1e2;
-        }
-        return val;
-      });
-      const blob = new Blob([strData], { type: 'application/json' });
-      this.on(EVENT_COMMAND_MESSAGE, (response) => {
-        if (response.status === 'ok') {
-          this.removeCommandListeners();
-          resolve(response);
-        } else if (response.status === 'continue') {
-          this.emit(EVENT_COMMAND_PROGRESS, response);
-          this.ws.send(blob);
-        } else if (response.status === 'uploading') {
-          response.percentage = ((response.sent || 0) / blob.size) * 100;
-          this.emit(EVENT_COMMAND_PROGRESS, response);
-        } else {
-          this.removeCommandListeners();
-          reject(response);
-        }
-      });
-
-      this.setDefaultErrorResponse(reject);
-      this.setDefaultFatalResponse(reject);
-
-      this.ws.send(`update_fisheye_3d_rotation application/json ${blob.size}`);
     });
 }
 
-export default Control;
+export default SwiftrayControl;

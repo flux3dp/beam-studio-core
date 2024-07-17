@@ -40,6 +40,7 @@ const getDevice = async (
         statusRes = await DeviceMaster.getReport();
       }
     } catch (error) {
+      console.error("getDeviceError", error);
       await DeviceMaster.currentDevice?.control?.killSelf();
     }
     if (!statusRes || !selectRes.success) {

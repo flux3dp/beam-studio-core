@@ -1,5 +1,5 @@
-import Control from '../helpers/api/control';
 import Camera from '../helpers/api/camera';
+import IControlSocket from './IControlSocket';
 
 export interface IDeviceInfo {
   ipaddr: string;
@@ -19,7 +19,7 @@ export interface IDeviceInfo {
 
 export interface IDeviceConnection {
   info: IDeviceInfo;
-  control: Control;
+  control: IControlSocket;
   errors: string[];
   camera: Camera;
   cameraNeedsFlip: boolean;

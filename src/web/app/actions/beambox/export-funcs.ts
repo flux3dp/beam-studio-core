@@ -23,6 +23,7 @@ import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { Mode } from 'app/constants/monitor-constants';
 import { tempSplitFullColorLayers } from 'helpers/layer/full-color/splitFullColorLayer';
+import { fetchTaskCodeSwiftray } from 'app/actions/beambox/export-funcs-swiftray';
 
 let svgCanvas: ISVGCanvas;
 let svgedit;
@@ -448,7 +449,8 @@ const openTaskInDeviceMonitor = (
 
 export default {
   uploadFcode: async (device: IDeviceInfo): Promise<void> => {
-    const { fcodeBlob, thumbnailBlobURL, fileTimeCost } = await fetchTaskCode(device);
+    const convertEngine = (device.source === 'swiftray') ? fetchTaskCodeSwiftray : fetchTaskCode;
+    const { fcodeBlob, thumbnailBlobURL, fileTimeCost } = await convertEngine(device);
     if (!fcodeBlob) {
       return;
     }

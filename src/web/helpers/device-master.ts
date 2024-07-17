@@ -28,6 +28,8 @@ import Discover from './api/discover';
 import Touch from './api/touch';
 import i18n from './i18n';
 import VersionChecker from './version-checker';
+import SwiftrayControl from './api/swiftray-control';
+import IControlSocket from 'interfaces/IControlSocket';
 
 let { lang } = i18n;
 const updateLang = () => {
@@ -145,6 +147,12 @@ class DeviceMaster {
     return controlSocket;
   }
 
+  private async createDeviceControlSocketSwiftray(uuid: string) {
+    const controlSocket = new SwiftrayControl(uuid);
+    await controlSocket.connect();
+    return controlSocket;
+  }
+
   setDeviceControlDefaultCloseListener(deviceInfo: IDeviceInfo) {
     const { uuid } = deviceInfo;
     const device = this.deviceConnections.get(uuid);
@@ -172,7 +180,7 @@ class DeviceMaster {
       console.log(`Reconnecting ${uuid}`);
       const mode = controlSocket.getMode();
       const { isLineCheckMode, lineNumber } = controlSocket;
-      const res = await this.selectDevice(deviceInfo);
+      const res = await this.select(deviceInfo);
       if (res && res.success) {
         if (mode === 'maintain') {
           await this.enterMaintainMode();
@@ -259,11 +267,14 @@ class DeviceMaster {
   }
 
   async select(deviceInfo: IDeviceInfo): Promise<SelectionResult> {
-    // Alias for selectDevice
-    return this.selectDevice(deviceInfo);
+    console.warn('selecting ', deviceInfo);
+    if (deviceInfo.source === 'swiftray') {
+      return this.selectDeviceWithSwiftray(deviceInfo);
+    }
+    return this.selectDeviceWithGhost(deviceInfo);
   }
 
-  async selectDevice(deviceInfo: IDeviceInfo): Promise<SelectionResult> {
+  async selectDeviceWithGhost(deviceInfo: IDeviceInfo): Promise<SelectionResult> {
     // Match the device from the newest received device list
     if (!deviceInfo || !checkSoftwareForAdor(deviceInfo)) {
       return { success: false };
@@ -324,63 +335,11 @@ class DeviceMaster {
           errorCode as ConnectionError
         )
       ) {
-        if (device.info.password) {
-          const authed = await this.showAuthDialog(uuid);
-          if (authed) {
-            return await this.selectDevice(deviceInfo);
-          }
-          return { success: false };
-        }
-        Progress.openNonstopProgress({
-          id: 'select-device',
-          message: sprintf(lang.message.connectingMachine, device.info.name),
-          timeout: 30000,
-        });
-        const authResult = await this.auth(uuid);
-        if (!authResult.success) {
-          Progress.popById('select-device');
-          Alert.popUp({
-            id: 'auth-error-with-diff-computer', // ADD new error code?
-            message: lang.message.auth_error,
-            type: AlertConstants.SHOW_POPUP_ERROR,
-          });
-          return { success: false };
-        }
-        return await this.selectDevice(deviceInfo);
+        return await this.runAuthProcess(uuid, device, deviceInfo);
       }
 
-      let errCaption = '';
-      let errMessage = lang.message.unknown_error;
-      switch (errorCode) {
-        case ConnectionError.TIMEOUT:
-          errMessage = lang.message.connectionTimeout;
-          break;
-        case ConnectionError.FLUXMONITOR_VERSION_IS_TOO_OLD:
-          errMessage = lang.message.monitor_too_old.content;
-          errCaption = lang.message.monitor_too_old.caption;
-          break;
-        case ConnectionError.NOT_FOUND:
-          errMessage = lang.message.unable_to_find_machine;
-          break;
-        case ConnectionError.DISCONNECTED:
-          errMessage = `#891 ${lang.message.disconnected}`;
-          if (this.discoveredDevices.some((d) => d.uuid === uuid)) {
-            errMessage = `#892 ${lang.message.disconnected}`;
-          }
-          break;
-        case ConnectionError.UNKNOWN_DEVICE:
-          errMessage = lang.message.unknown_device;
-          break;
-        default:
-          errMessage = `${lang.message.unknown_error} ${errorCode}`;
-      }
-      Alert.popById('connection-error');
-      Alert.popUp({
-        id: 'connection-error',
-        caption: errCaption,
-        message: errMessage,
-        type: AlertConstants.SHOW_POPUP_ERROR,
-      });
+      this.popConnectionError(uuid, errorCode as ConnectionError);
+
       return {
         success: false,
         error: errorCode as ConnectionError,
@@ -390,7 +349,143 @@ class DeviceMaster {
     }
   }
 
-  async getControl(): Promise<Control> {
+  async selectDeviceWithSwiftray(deviceInfo: IDeviceInfo): Promise<SelectionResult> {
+    // Match the device from the newest received device list
+    if (!deviceInfo) return { success: false };
+    const { uuid } = deviceInfo;
+
+    // kill existing camera connection
+    if (this.currentDevice?.info?.uuid !== uuid) {
+      this.disconnectCamera();
+    }
+
+    const device: IDeviceConnection = this.getDeviceByUUID(uuid);
+    console.log('Selecting', deviceInfo, device);
+    Progress.openNonstopProgress({
+      id: 'select-device',
+      message: sprintf(lang.message.connectingMachine, device.info.name || deviceInfo.name),
+      timeout: 30000,
+    });
+
+    if (device.control && device.control.isConnected) {
+      try {
+        // Update device status
+        if (device.control.getMode() !== 'raw') {
+          const controlSocket = device.control;
+          const info = await controlSocket.addTask(controlSocket.report);
+          Object.assign(device.info, info.device_status);
+        }
+        this.currentDevice = device;
+        Progress.popById('select-device');
+        return { success: true };
+      } catch (e) {
+        await device.control.killSelf();
+      }
+    }
+
+    try {
+      const controlSocket = await this.createDeviceControlSocketSwiftray(uuid);
+      device.control = controlSocket;
+      this.setDeviceControlDefaultCloseListener(deviceInfo);
+      this.currentDevice = device;
+      console.log(`Connected to ${uuid}`);
+      Progress.popById('select-device');
+      return {
+        success: true,
+      };
+    } catch (e) {
+      let error = e;
+      Progress.popById('select-device');
+      console.error(error);
+      if (e.error) error = e.error;
+      let errorCode = '';
+      if (typeof error === 'string') {
+        errorCode = error.replace(/^.*:\s+(\w+)$/g, '$1').toUpperCase();
+      }
+      // AUTH_FAILED seems to not be used by firmware and fluxghost anymore. Keep it just in case.
+      if (
+        [ConnectionError.AUTH_ERROR, ConnectionError.AUTH_FAILED].includes(
+          errorCode as ConnectionError
+        )
+      ) {
+        return await this.runAuthProcess(uuid, device, deviceInfo);
+      }
+
+      this.popConnectionError(uuid, errorCode as ConnectionError);
+
+      return {
+        success: false,
+        error: errorCode as ConnectionError,
+      };
+    } finally {
+      Progress.popById('select-device');
+    }
+  }
+
+  async runAuthProcess(uuid: string, device: IDeviceConnection, deviceInfo: IDeviceInfo): Promise<SelectionResult> {
+    if (device.info.password) {
+      const authed = await this.showAuthDialog(uuid);
+      if (authed) {
+        const selectionResultAfterAuthed = await this.select(deviceInfo);
+        return selectionResultAfterAuthed;
+      }
+      return { success: false };
+    }
+    Progress.openNonstopProgress({
+      id: 'select-device',
+      message: sprintf(lang.message.connectingMachine, device.info.name),
+      timeout: 30000,
+    });
+    const authResult = await this.auth(uuid);
+    if (!authResult.success) {
+      Progress.popById('select-device');
+      Alert.popUp({
+        id: 'auth-error-with-diff-computer', // ADD new error code?
+        message: lang.message.auth_error,
+        type: AlertConstants.SHOW_POPUP_ERROR,
+      });
+      return { success: false };
+    }
+    const selectionResultAfterAuthed = await this.select(deviceInfo);
+    return selectionResultAfterAuthed;
+  }
+
+  popConnectionError(uuid: string, errorCode: ConnectionError): void {
+    let errCaption = '';
+    let errMessage = lang.message.unknown_error;
+    switch (errorCode) {
+      case ConnectionError.TIMEOUT:
+        errMessage = lang.message.connectionTimeout;
+        break;
+      case ConnectionError.FLUXMONITOR_VERSION_IS_TOO_OLD:
+        errMessage = lang.message.monitor_too_old.content;
+        errCaption = lang.message.monitor_too_old.caption;
+        break;
+      case ConnectionError.NOT_FOUND:
+        errMessage = lang.message.unable_to_find_machine;
+        break;
+      case ConnectionError.DISCONNECTED:
+        errMessage = `#891 ${lang.message.disconnected}`;
+        if (this.discoveredDevices.some((d) => d.uuid === uuid)) {
+          errMessage = `#892 ${lang.message.disconnected}`;
+        }
+        break;
+      case ConnectionError.UNKNOWN_DEVICE:
+        errMessage = lang.message.unknown_device;
+        break;
+      default:
+        errMessage = `${lang.message.unknown_error} ${errorCode}`;
+    }
+    Alert.popById('connection-error');
+    Alert.popUp({
+      id: 'connection-error',
+      caption: errCaption,
+      message: errMessage,
+      type: AlertConstants.SHOW_POPUP_ERROR,
+    });
+  }
+
+  async getControl(): Promise<IControlSocket> {
     if (!this.currentDevice) {
       return null;
     }
@@ -410,7 +505,7 @@ class DeviceMaster {
     } catch (e) {
       console.error(`currentDevice.control.killSelf error ${e}`);
     }
-    const res = await this.selectDevice(this.currentDevice.info);
+    const res = await this.select(this.currentDevice.info);
     return res;
   }
 
@@ -418,6 +513,7 @@ class DeviceMaster {
     const device: IDeviceConnection = this.getDeviceByUUID(uuid);
     if (device.control) {
       try {
+        // Warning: access to private property
         device.control.connection.close();
       } catch (e) {
         console.error('Error when close control connection', e);
