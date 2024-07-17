@@ -1,6 +1,7 @@
 // Swiftray Client Typescript API Client
 import EventEmitter from 'eventemitter3';
 import { IWrappedSwiftrayTaskFile } from 'interfaces/IWrappedFile';
+import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 import { IDeviceDetailInfo, IDeviceInfo } from '../../interfaces/IDevice';
 
 interface ErrorObject {
@@ -53,8 +54,12 @@ class SwiftrayClient extends EventEmitter{
 
   private port = "";
 
+  private instanceId = "";
+
   constructor(private url: string) {
     super();
+    this.instanceId = Math.random().toString(36).substr(2, 9);
+    console.log(`Swiftray Client instance ${this.instanceId} created`);
     this.connect();
   }
 
@@ -77,8 +82,7 @@ class SwiftrayClient extends EventEmitter{
   }
 
   private handleError(error: Error) {
-    console.error('Error connecting to Swiftray server:', error);
-    this.retry();
+    console.error('Error connecting to Swiftray server:', error, this.retryCount);
   }
 
   private retry() {
@@ -149,7 +153,7 @@ class SwiftrayClient extends EventEmitter{
     onError: (message: string) => void,
   },
   convertOptions: {
-    model: boolean,
+    model: WorkAreaModel,
     enableAutoFocus: boolean,
     enableDiode: boolean,
     shouldUseFastGradient: boolean
@@ -159,8 +163,13 @@ class SwiftrayClient extends EventEmitter{
   }): Promise<{
      success: boolean, estimatedTime?: number, error?: ErrorObject
   }> {
+    const workarea = getWorkarea(convertOptions.model);
     const convertTask = this.action('/parser', 'convert', {
       type,
+      workarea: {
+        width: workarea.width,
+        height: workarea.height,
+      },
       ...convertOptions,
     });;
     const convertResult = (await convertTask) as any;

@@ -110,6 +110,8 @@ const startIntervals = () => {
         acc[device.uuid] = device;
         return acc;
       }, {});
+      printers = DeviceList({ ...devices, ...swiftrayDevices });
+      sendFoundPrinter();
     });
   }, 15000);
   setTimeout(() => {
@@ -118,6 +120,8 @@ const startIntervals = () => {
         acc[device.uuid] = device;
         return acc;
       }, {});
+      printers = DeviceList({ ...devices, ...swiftrayDevices });
+      sendFoundPrinter();
     });
   }, 5000);
 };

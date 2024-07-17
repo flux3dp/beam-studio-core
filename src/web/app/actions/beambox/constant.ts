@@ -52,8 +52,11 @@ export default {
     fbm1: ['fbm1'],
     ado1: ['ado1', 'fad1'],
     fad1: ['ado1', 'fad1'],
+    fpm1: ['fpm1'],
+    flv1: ['flv1'],
   },
   adorModels: ['ado1', 'fad1'],
+  highPowerModels: ['fhx1', 'ado1', 'flv1', 'fpm1'],
   leftPanelWidth: 50, // px
   rightPanelWidth: window.os !== 'MacOS' ? 258 : 242, // px
   rightPanelScrollBarWidth: window.os !== 'MacOS' ? 16 : 0, // px
@@ -74,4 +77,14 @@ export default {
     high: 500,
     ultra: 1000,
   },
+  modelMap: {
+    fbm1: 'BEAMO',
+    fbb1b: 'BEAMBOX',
+    fbb1p: 'BEAMBOX_PRO',
+    fhexa1: 'HEXA',
+    fad1: 'ADOR',
+    ado1: 'ADOR',
+    fpm1: 'PROMARK',
+    flv1: 'LAZERVIDA'
+  }
 };

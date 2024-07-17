@@ -185,14 +185,7 @@ const ConnectMachineIp = (): JSX.Element => {
 
   const onFinish = () => {
     const { device } = state;
-    const modelMap = {
-      fbm1: 'fbm1',
-      fbb1b: 'fbb1b',
-      fbb1p: 'fbb1p',
-      fhexa1: 'fhexa1',
-      ado1: 'ado1',
-    };
-    const deviceModel = modelMap[device.model] || 'fbb1b';
+    const deviceModel = device.model || 'fbb1b';
     BeamboxPreference.write('model', deviceModel);
     BeamboxPreference.write('workarea', deviceModel);
     let pokeIPs = storage.get('poke-ip-addr');

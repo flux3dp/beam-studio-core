@@ -129,6 +129,16 @@ function Editor({
       label: 'Ador',
       selected: selectedModel === 'ado1',
     },
+    {
+      value: 'fpm1',
+      label: 'Promark',
+      selected: selectedModel === 'fpm1',
+    },
+    {
+      value: 'flv1',
+      label: 'Lazervida',
+      selected: selectedModel === 'flv1',
+    },
   ];
   const workarea = getWorkarea(selectedModel);
 

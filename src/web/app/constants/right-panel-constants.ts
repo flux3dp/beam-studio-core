@@ -1,4 +1,5 @@
 import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
+import constant from 'app/actions/beambox/constant';
 
 const constants = {
   BEAMO: {
@@ -716,15 +717,35 @@ const constants = {
       name: 'glass_printing',
     },
   },
-};
-
-const modelMap = {
-  fbm1: 'BEAMO',
-  fbb1b: 'BEAMBOX',
-  fbb1p: 'BEAMBOX_PRO',
-  fhexa1: 'HEXA',
-  fad1: 'ADOR',
-  ado1: 'ADOR',
+  PROMARK: {
+    metal_engraving: {
+      power: 100,
+      speed: 1200,
+      name: 'metal_engraving',
+    },
+  },
+  LAZERVIDA: {
+    wood_3mm_cutting: {
+      power: 100,
+      speed: 6,
+      name: 'wood_3mm_cutting',
+    },
+    wood_5mm_cutting: {
+      power: 100,
+      speed: 3,
+      name: 'wood_5mm_cutting',
+    },
+    wood_engraving: {
+      power: 100,
+      speed: 150,
+      name: 'wood_engraving',
+    },
+    black_acrylic_3mm_cutting: {
+      power: 100,
+      speed: 2,
+      name: 'black_acrylic_3mm_cutting',
+    },
+  },
 };
 
 export const getAllPresets = (
@@ -740,7 +761,7 @@ export const getAllPresets = (
     module?: LayerModule;
   };
 } => {
-  const modelName = modelMap[model] || 'BEAMO';
+  const modelName = constant.modelMap[model] || 'BEAMO';
   return constants[modelName];
 };
 
@@ -757,7 +778,7 @@ export const getModulePresets = (
     repeat?: number;
   };
 } => {
-  const modelName = modelMap[model] || 'BEAMO';
+  const modelName = constant.modelMap[model] || 'BEAMO';
   if (modelsWithModules.has(model)) {
     const data = Object.keys(constants[modelName]).reduce((acc, key) => {
       const { module: m, ...rest } = constants.ADOR[key];

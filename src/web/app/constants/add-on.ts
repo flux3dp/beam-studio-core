@@ -44,6 +44,20 @@ const supportList: Record<WorkAreaModel, SupportInfo> = {
     passThrough: true,
     rotary: false,
   },
+  fpm1: {
+    autoFocus: false,
+    hybridLaser: false,
+    openBottom: false,
+    passThrough: false,
+    rotary: true,
+  },
+  flv1: {
+    autoFocus: false,
+    hybridLaser: false,
+    openBottom: false,
+    passThrough: false,
+    rotary: true,
+  },
 };
 
 export const getSupportInfo = (workarea: WorkAreaModel): SupportInfo => supportList[workarea] || {

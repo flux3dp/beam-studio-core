@@ -217,11 +217,14 @@ const fetchTaskCodeSwiftray = async (
     },
   });
 
-  const supportInfo = getSupportInfo(BeamboxPreference.read('workarea'));const { output = 'fcode' } = opts;
+  const supportInfo = getSupportInfo(BeamboxPreference.read('workarea'));
+  const { output = 'fcode' } = opts;
   const { fgGcode = false } = opts;
   const isNonFGCode = (output === 'gcode' && !fgGcode);
+  const model = BeamboxPreference.read('workarea') || BeamboxPreference.read('model');
   const taskConfig = {
-    model: BeamboxPreference.read('workarea') || BeamboxPreference.read('model'),
+    model,
+    travelSpeed: model === 'promark' ? 1200 : 100,
     enableAutoFocus:
       doesSupportDiodeAndAF &&
       BeamboxPreference.read('enable-autofocus') &&
