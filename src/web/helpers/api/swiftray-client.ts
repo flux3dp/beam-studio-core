@@ -173,7 +173,8 @@ class SwiftrayClient extends EventEmitter{
       ...convertOptions,
     });;
     const convertResult = (await convertTask) as any;
-    eventListeners.onFinished(convertResult.taskBlob, convertResult.fileName, convertResult.timeCost);
+    const taskBlob = new Blob([convertResult.gcode], { type: 'text/plain' });
+    eventListeners.onFinished(taskBlob, convertResult.fileName, convertResult.timeCost);
     return {
       success: convertResult.success,
       error: convertResult.error,

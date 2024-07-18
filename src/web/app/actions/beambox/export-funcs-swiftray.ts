@@ -78,10 +78,16 @@ const uploadToParser = async (uploadFile: IWrappedSwiftrayTaskFile): Promise<boo
       isCanceled = true;
     },
   });
+  const dpiTextMap = {
+    low: 127,
+    medium: 254,
+    high: 508,
+    ultra: 1016,
+  };
   const uploadConfig = {
     model: BeamboxPreference.read('workarea') || BeamboxPreference.read('model'),
     rotaryMode: BeamboxPreference.read('rotary_mode'),
-    engraveDpi: BeamboxPreference.read('engrave_dpi')
+    engraveDpi: dpiTextMap[BeamboxPreference.read('engrave_dpi')]
   };
   await swiftrayClient.loadSVG(uploadFile, {
     onProgressing: onUploadProgressing,
@@ -151,7 +157,8 @@ const fetchTaskCodeSwiftray = async (
   device: IDeviceInfo = null,
   opts: { output?: 'fcode' | 'gcode'; fgGcode?: boolean } = {}
 ): Promise<{
-  fcodeBlob: Blob,
+  gcodeBlob?: Blob,
+  fcodeBlob?: Blob,
   thumbnailBlobURL: string,
   fileTimeCost: number,
 } | Record<string, never> > => {
@@ -259,7 +266,13 @@ const fetchTaskCodeSwiftray = async (
   if (isCanceled || taskCodeBlob == null) {
     return {};
   }
-
+  if (output === 'gcode') {
+    return {
+      gcodeBlob: taskCodeBlob,
+      thumbnailBlobURL,
+      fileTimeCost,
+    };
+  }
   return {
     fcodeBlob: taskCodeBlob,
     thumbnailBlobURL,
