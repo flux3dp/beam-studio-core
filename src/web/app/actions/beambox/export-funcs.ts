@@ -496,17 +496,20 @@ export default {
     gcodeBlob?: Blob;
     fileTimeCost: number;
   }> => {
-    const { gcodeBlob, fileTimeCost } = await fetchTaskCode(null, { output: 'gcode' });
+    const convertEngine = BeamboxPreference.read('path-engine') === 'swiftray' ? fetchTaskCodeSwiftray : fetchTaskCode;
+    const { gcodeBlob, fileTimeCost } = await convertEngine(null, { output: 'gcode' });
     if (!gcodeBlob) {
       return { gcodeBlob, fileTimeCost: 0 };
     }
     return { gcodeBlob, fileTimeCost: fileTimeCost || 0 };
   },
   getFastGradientGcode: async (): Promise<Blob> => {
-    const { gcodeBlob } = await fetchTaskCode(null, { output: 'gcode', fgGcode: true });
+    const convertEngine = BeamboxPreference.read('path-engine') === 'swiftray' ? fetchTaskCodeSwiftray : fetchTaskCode;
+    const { gcodeBlob } = await convertEngine(null, { output: 'gcode', fgGcode: true });
     return gcodeBlob;
   },
   estimateTime: async (): Promise<number> => {
+    const convertEngine = BeamboxPreference.read('path-engine') === 'swiftray' ? fetchTaskCodeSwiftray : fetchTaskCode;
     const { fcodeBlob, fileTimeCost } = await fetchTaskCode();
     if (!fcodeBlob) {
       return null;
