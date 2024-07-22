@@ -495,13 +495,12 @@ export default {
   getGcode: async (): Promise<{
     gcodeBlob?: Blob;
     fileTimeCost: number;
+    useSwiftray: boolean;
   }> => {
-    const convertEngine = BeamboxPreference.read('path-engine') === 'swiftray' ? fetchTaskCodeSwiftray : fetchTaskCode;
+    const useSwiftray = BeamboxPreference.read('path-engine') === 'swiftray';
+    const convertEngine = useSwiftray ? fetchTaskCodeSwiftray : fetchTaskCode;
     const { gcodeBlob, fileTimeCost } = await convertEngine(null, { output: 'gcode' });
-    if (!gcodeBlob) {
-      return { gcodeBlob, fileTimeCost: 0 };
-    }
-    return { gcodeBlob, fileTimeCost: fileTimeCost || 0 };
+    return { gcodeBlob, fileTimeCost: fileTimeCost || 0, useSwiftray };
   },
   getFastGradientGcode: async (): Promise<Blob> => {
     const convertEngine = BeamboxPreference.read('path-engine') === 'swiftray' ? fetchTaskCodeSwiftray : fetchTaskCode;

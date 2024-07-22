@@ -56,12 +56,13 @@ export function parseGcode(gcode) {
 
   }*/
 
-  let flag = true;
+  let laserEnabled = false;
+  let useRelative = false;
 
   while (i < gcode.length) {
     function parse() {
       ++i;
-      while (i < gcode.length && (gcode[i] == ' ' || gcode[i] == '\t'))
+      while (i < gcode.length && (gcode[i] === ' ' || gcode[i] === '\t'))
         ++i;
       let begin = i;
       while (i < gcode.length && "+-.0123456789".indexOf(gcode[i]) != -1)
@@ -69,44 +70,36 @@ export function parseGcode(gcode) {
       return Number(gcode.substr(begin, i - begin));
     }
     let g = NaN, x = NaN, y = NaN, z = NaN, a = NaN, f = NaN;
-    while (i < gcode.length && gcode[i] != ';' && gcode[i] != '\r' && gcode[i] != '\n') {
-      if (gcode[i] == 'G' || gcode[i] == 'g') {
+    while (i < gcode.length && gcode[i] !== ';' && gcode[i] !== '\r' && gcode[i] !== '\n') {
+      if (gcode[i] === 'G' || gcode[i] === 'g') {
         if (gcode[i+2] === 'S') {
-          flag = true;
-          i += 2;
-        } else if (gcode[i+2] === 'V') {
-          flag = false;
-          i += 2;
-        }
-
-        g = flag ? 0 : 1;
-        i ++;
-      }
-      else if (gcode[i] == 'X' || gcode[i] == 'x') {
-        x = parse();
-        /*
-        if (gcode[i + 2] !== 'O') {
-          x = parse();
-        } else {
-          if (gcode[i + 3] === '0' || gcode[i + 3] === '-') {
-            flag = true;
-          } else {
-            flag = false;
-          }
+          laserEnabled = false; // Specialized for FLUXGhost/Client GCode G1S0
           i += 3;
-        }*/
-      }
-      else if (gcode[i] == 'Y' || gcode[i] == 'y')
-        y = -1 * parse();
-      else if (gcode[i] == 'Z' || gcode[i] == 'z')
+        } else if (gcode[i+2] === 'V') {
+          laserEnabled = true; // Specialized for FLUXGhost/Client GCode G1V0
+          i += 3;
+        } else {
+          let gCmd = parse();
+          if (gCmd == 90) {
+            useRelative = false;
+          } else if (gCmd == 91) {
+            useRelative = true;
+          }
+        }
+        g = laserEnabled ? 1 : 0;
+      } else if (gcode[i] === 'X' || gcode[i] === 'x') {
+        x = useRelative ? lastX + parse() : parse();
+      } else if (gcode[i] === 'Y' || gcode[i] === 'y') {
+        y = useRelative ? lastY - parse() : -1 * parse();
+      } else if (gcode[i] === 'Z' || gcode[i] === 'z')
         z = parse();
-      else if (gcode[i] == 'A' || gcode[i] == 'a')
+      else if (gcode[i] === 'A' || gcode[i] === 'a')
         a = parse();
-      else if (gcode[i] == 'F' || gcode[i] == 'f')
+      else if (gcode[i] === 'F' || gcode[i] === 'f')
         f = parse();
-      else if (gcode[i] == 'S' || gcode[i] == 's')
+      else if (gcode[i] === 'S' || gcode[i] === 's')
         lastS = parse();
-      else if (gcode[i] == 'T' || gcode[i] == 't')
+      else if (gcode[i] === 'T' || gcode[i] === 't')
         lastT = parse();
       else
         ++i;
@@ -155,7 +148,7 @@ export function parseGcode(gcode) {
         lastF = f;
       }
       if (!isNaN(lastG)) {
-        parsedGcode.push(lastG);
+        parsedGcode.push((lastG || lastS > 0) ? 1 : 0);
         parsedGcode.push(lastX);
         parsedGcode.push(lastY);
         parsedGcode.push(lastZ);
@@ -166,9 +159,9 @@ export function parseGcode(gcode) {
         parsedGcode.push(lastT);
       }
     }
-    while (i < gcode.length && gcode[i] != '\r' && gcode[i] != '\n')
+    while (i < gcode.length && gcode[i] !== '\r' && gcode[i] !== '\n')
       ++i;
-    while (i < gcode.length && (gcode[i] == '\r' || gcode[i] == '\n'))
+    while (i < gcode.length && (gcode[i] === '\r' || gcode[i] === '\n'))
       ++i;
   }
 
@@ -197,6 +190,7 @@ export function parseGcode(gcode) {
       parsedGcode.setItem(j, 0);
     }
   }
+  console.log("Parsed GCode", parsedGcode);
   return parsedGcode;
 }
 
