@@ -1,6 +1,6 @@
 import Array from './array.svg';
 import ArrayMobile from './array-mobile.svg';
-import AutoArrange from './auto-arrange.svg';
+import AutoFit from './auto-fit.svg';
 import BackgroungRemoval from './background-removal.svg';
 import BackgroungRemovalMobile from './background-removal-mobile.svg';
 import Bevel from './bevel.svg';
@@ -28,13 +28,14 @@ import Sharpen from './sharpen.svg';
 import SharpenMobile from './sharpen-mobile.svg';
 import Simplify from './simplify.svg';
 import SimplifyMobile from './simplify-mobile.svg';
+import SmartNest from './smart-nest.svg';
 import Trace from './trace.svg';
 import WeldText from './weld-text.svg';
 
 export default {
   Array,
   ArrayMobile,
-  AutoArrange,
+  AutoFit,
   BackgroungRemoval,
   BackgroungRemovalMobile,
   Bevel,
@@ -62,6 +63,7 @@ export default {
   SharpenMobile,
   Simplify,
   SimplifyMobile,
+  SmartNest,
   Trace,
   WeldText,
 };

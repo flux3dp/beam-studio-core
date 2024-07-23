@@ -953,7 +953,8 @@ export interface ILang {
           wait_for_parsing_font: string,
           offset: string,
           array: string,
-          auto_arrange: string;
+          auto_fit: string;
+          smart_nest: string;
           decompose_path: string,
           disassemble_use: string,
           disassembling: string,
