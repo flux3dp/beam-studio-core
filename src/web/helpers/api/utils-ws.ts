@@ -3,6 +3,7 @@ import EventEmitter from 'eventemitter3';
 
 import arrayBuffer from 'helpers/arrayBuffer';
 import Websocket from 'helpers/websocket';
+import { AutoFit } from 'interfaces/IAutoFit';
 
 class UtilsWebSocket extends EventEmitter {
   private ws: any;
@@ -227,13 +228,20 @@ class UtilsWebSocket extends EventEmitter {
     const data = await arrayBuffer(blob);
     const { colorType = 'rgb' } = opts;
 
-    return new Promise<{ c: string; m: string; y: string; k: string; }>((resolve, reject) => {
+    return new Promise<{ c: string; m: string; y: string; k: string }>((resolve, reject) => {
       this.removeCommandListeners();
       this.setDefaultErrorResponse(reject);
       this.setDefaultFatalResponse(reject);
       this.on(
         'message',
-        (response: { data?: string; status: string; c?: string; m?: string; y?: string; k?: string }) => {
+        (response: {
+          data?: string;
+          status: string;
+          c?: string;
+          m?: string;
+          y?: string;
+          k?: string;
+        }) => {
           if (response instanceof Blob) {
             console.log('strange message from /ws/utils', response);
             reject(Error('strange message from /ws/utils'));
@@ -261,6 +269,50 @@ class UtilsWebSocket extends EventEmitter {
         }
       );
       const args = ['split_color', data.byteLength, colorType];
+      this.ws.send(args.join(' '));
+    });
+  };
+
+  getSimilarContours = async (
+    imgBlob: Blob,
+    opts?: {
+      onProgress?: (progress: number) => void;
+    }
+  ) => {
+    const data = await arrayBuffer(imgBlob);
+    return new Promise<AutoFit[]>((resolve, reject) => {
+      this.removeCommandListeners();
+      this.setDefaultErrorResponse(reject);
+      this.setDefaultFatalResponse(reject);
+      this.on('message', (response: { data?: AutoFit[], info?: string }) => {
+        if (response instanceof Blob) {
+          console.log('strange message from /ws/utils', response);
+          reject(Error('strange message from /ws/utils'));
+        } else {
+          const { status } = response as {
+            status: string;
+          };
+          if (status === 'continue') {
+            let sentLength = 0;
+            while (sentLength < data.byteLength) {
+              const end = Math.min(sentLength + 1000000, data.byteLength);
+              this.ws.send(data.slice(sentLength, end));
+              sentLength = end;
+            }
+          } else if (status === 'uploaded') {
+            console.log('Upload finished');
+          } else if (status === 'ok') {
+            console.log(response.data);
+            resolve(response.data);
+          } else if (status === 'error') {
+            reject(Error(response.info));
+          } else {
+            console.log('strange message from /ws/utils', response);
+            reject(Error('strange message from /ws/utils'));
+          }
+        }
+      });
+      const args = ['get_similar_contours', data.byteLength];
       this.ws.send(args.join(' '));
     });
   };

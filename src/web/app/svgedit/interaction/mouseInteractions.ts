@@ -354,11 +354,9 @@ const mouseDown = (evt: MouseEvent) => {
 
           if (!rightClick) {
             if (evt.altKey) {
-              const cmd = clipboard.cloneSelectedElements(0, 0, true);
+              const cmd = clipboard.cloneSelectedElements(0, 0, { addToHistory: false })?.cmd;
               selectedElements = svgCanvas.getSelectedElems();
-              if (cmd && !cmd.isEmpty()) {
-                mouseSelectModeCmds.push(cmd);
-              }
+              if (cmd && !cmd.isEmpty()) mouseSelectModeCmds.push(cmd);
             }
             for (let i = 0; i < selectedElements.length; i += 1) {
               // insert a dummy transform so if the element(s) are moved it will have

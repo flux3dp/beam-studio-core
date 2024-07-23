@@ -137,7 +137,7 @@ const ActionsPanel = ({ elem }: Props): JSX.Element => {
     renderButtons(
       'auto-fit',
       lang.auto_fit,
-      () => autoFit(elem),
+      () => autoFit(elem as SVGElement),
       <ActionPanelIcons.AutoFit />,
       <ActionPanelIcons.AutoFit />,
       { isFullLine: true, autoClose: false, ...opts }
@@ -518,6 +518,7 @@ const ActionsPanel = ({ elem }: Props): JSX.Element => {
     let content: JSX.Element[] = [];
     appendOptionalButtons(content);
     content = [
+      renderAutoFitButon(),
       ...content,
       renderSmartNestButton(),
       renderOffsetButton({ isDisabled: !supportOffset }),
