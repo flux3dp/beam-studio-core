@@ -284,7 +284,7 @@ class UtilsWebSocket extends EventEmitter {
       this.removeCommandListeners();
       this.setDefaultErrorResponse(reject);
       this.setDefaultFatalResponse(reject);
-      this.on('message', (response: { data?: AutoFit[], info?: string }) => {
+      this.on('message', (response: { data?: AutoFit[], info?: string, progress?: number }) => {
         if (response instanceof Blob) {
           console.log('strange message from /ws/utils', response);
           reject(Error('strange message from /ws/utils'));
@@ -304,6 +304,8 @@ class UtilsWebSocket extends EventEmitter {
           } else if (status === 'ok') {
             console.log(response.data);
             resolve(response.data);
+          } else if (status === 'progress') {
+            opts?.onProgress?.(response.progress);
           } else if (status === 'error') {
             reject(Error(response.info));
           } else {
