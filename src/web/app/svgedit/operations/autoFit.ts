@@ -1,8 +1,11 @@
 /* eslint-disable @typescript-eslint/no-loop-func */
 import alertCaller from 'app/actions/alert-caller';
+import alertConfig from 'helpers/api/alert-config';
+import alertConstants from 'app/constants/alert-constants';
 import getUtilWS from 'helpers/api/utils-ws';
 import history from 'app/svgedit/history/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
+import i18n from 'helpers/i18n';
 import previewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
 import progressCaller from 'app/actions/progress-caller';
 import undoManager from 'app/svgedit/history/undoManager';
@@ -17,13 +20,55 @@ getSVGAsync((globalSVG) => {
   svgedit = globalSVG.Edit;
 });
 
+// TODO: add unit test
 const autoFit = async (elem: SVGElement): Promise<void> => {
   const previewBackgroundUrl = previewModeBackgroundDrawer.getCameraCanvasUrl();
+  const lang = i18n.lang.auto_fit;
   if (!previewBackgroundUrl) {
-    alertCaller.popUp({ message: 'Please perform camera preview first.' });
+    alertCaller.popUp({ message: lang.preview_first });
     return;
   }
-  progressCaller.openNonstopProgress({ id: 'smart-fill', message: 'Processing...' });
+  if (!alertConfig.read('skip-auto-fit-warning')) {
+    const res = await new Promise((resolve) => {
+      alertCaller.popUp({
+        caption: lang.title,
+        message: `${lang.step1}<br/>${lang.step2}`,
+        buttonType: alertConstants.CONFIRM_CANCEL,
+        onConfirm: () => resolve(true),
+        onCancel: () => resolve(false),
+        links: [
+          {
+            text: lang.learn_more,
+            url: lang.learn_more_url,
+          },
+        ],
+        checkbox: {
+          text: i18n.lang.beambox.popup.dont_show_again,
+          callbacks: [
+            () => {
+              alertConfig.write('skip-auto-fit-warning', true);
+              resolve(true);
+            },
+            () => resolve(false),
+          ],
+        },
+      });
+    });
+    if (!res) return;
+  }
+  const showFailAlert = () => {
+    alertCaller.popUp({
+      caption: lang.title,
+      message: [lang.error_tip1, lang.error_tip2, lang.error_tip3].join('<br/>'),
+      links: [
+        {
+          text: lang.learn_more,
+          url: 'https://flux3dp.zendesk.com/hc/en-us/articles/360001111135',
+        },
+      ],
+    });
+  };
+  progressCaller.openNonstopProgress({ id: 'auto-fit', message: 'Processing...' });
   try {
     const utilWS = getUtilWS();
     const resp = await fetch(previewBackgroundUrl);
@@ -51,7 +96,7 @@ const autoFit = async (elem: SVGElement): Promise<void> => {
       return false;
     });
     if (elementContourId === -1) {
-      alertCaller.popUp({ message: 'No Intersect contour found.' });
+      showFailAlert();
       return;
     }
     const elemsToClone = elem.getAttribute('data-tempgroup')
@@ -91,8 +136,11 @@ const autoFit = async (elem: SVGElement): Promise<void> => {
       });
     }
     if (!batchCmd.isEmpty()) undoManager.addCommandToHistory(batchCmd);
+  } catch (error) {
+    console.error(error);
+    alertCaller.popUpError({ message: `Fail to auto fit.<br/>${error}` });
   } finally {
-    progressCaller.popById('smart-fill');
+    progressCaller.popById('auto-fit');
   }
 };
 

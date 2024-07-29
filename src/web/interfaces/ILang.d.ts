@@ -1838,5 +1838,6 @@ export interface ILang {
     error_tip2: string;
     error_tip3: string;
     learn_more: string;
+    learn_more_url: string;
   };
 }
