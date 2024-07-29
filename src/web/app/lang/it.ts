@@ -1838,6 +1838,7 @@ const lang: ILang = {
     error_tip2: 'Ogni pezzo di materiale deve essere simile per dimensioni, forma e colore.',
     error_tip3: 'Evita aree riflettenti o sfocate nella vista anteprima della fotocamera.',
     learn_more: "Scopri come funziona l'adattamento automatico.",
+    learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
   },
 };
 

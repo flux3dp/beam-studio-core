@@ -1841,6 +1841,7 @@ const lang: ILang = {
     error_tip2: 'Każdy kawałek materiału musi być podobny pod względem wielkości, kształtu i koloru.',
     error_tip3: 'Unikaj refleksyjnych lub zamazanych obszarów podglądu kamery.',
     learn_more: 'Dowiedz się, jak działa automatyczne dopasowanie.',
+    learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
   },
 };
 

@@ -1838,6 +1838,7 @@ const lang: ILang = {
     error_tip2: 'Hvert stykke materiale skal være ens i størrelse, form og farve.',
     error_tip3: 'Undgå reflekterende eller uklare kamera-forhåndsvisningsområder.',
     learn_more: 'Lær, hvordan Auto Fit fungerer.',
+    learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
   },
 };
 

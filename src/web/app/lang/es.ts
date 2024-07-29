@@ -1841,6 +1841,7 @@ const lang: ILang = {
     error_tip2: 'Cada pieza de material debe ser similar en tamaño, forma y color.',
     error_tip3: 'Evite áreas reflectantes o borrosas en la vista previa de la cámara.',
     learn_more: 'Aprenda cómo funciona el Ajuste Automático.',
+    learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
   },
 };
 

@@ -1838,6 +1838,7 @@ const lang: ILang = {
     error_tip2: 'Setiap kepingan bahan perlu serupa dalam saiz, bentuk dan warna.',
     error_tip3: 'Elakkan kawasan pratonton kamera yang memantul atau kabur.',
     learn_more: 'Ketahui cara kerja Muat Auto.',
+    learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
   },
 };
 

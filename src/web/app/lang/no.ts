@@ -1838,6 +1838,7 @@ const lang: ILang = {
     error_tip2: 'Hver bit materiale må være lik i størrelse, form og farge.',
     error_tip3: 'Unngå reflekterende eller uskarpe kamera-forhåndsvisningsområder.',
     learn_more: 'Lær hvordan Automatisk Tilpasning fungerer.',
+    learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
   },
 };
 

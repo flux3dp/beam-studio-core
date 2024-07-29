@@ -1841,6 +1841,7 @@ const lang: ILang = {
     error_tip2: '每塊材料必須在尺寸、形狀和顏色上相似。',
     error_tip3: '避免反射或模糊的相機預覽區域。',
     learn_more: '瞭解自動對位如何運作。',
+    learn_more_url: 'https://support.flux3dp.com/hc/zh-tw/articles/10273384373775',
   },
 };
 

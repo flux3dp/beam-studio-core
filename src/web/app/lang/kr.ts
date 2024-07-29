@@ -1841,6 +1841,7 @@ const lang: ILang = {
     error_tip2: '각 재료 조각은 크기, 모양, 색상이 유사해야 합니다.',
     error_tip3: '반사되거나 흐릿한 카메라 미리보기 영역을 피하십시오.',
     learn_more: '자동 맞춤 기능이 어떻게 작동하는지 알아보십시오.',
+    learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
   },
 };
 

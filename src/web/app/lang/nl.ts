@@ -1838,6 +1838,7 @@ const lang: ILang = {
     error_tip2: 'Elk stuk materiaal moet vergelijkbaar zijn in grootte, vorm en kleur.',
     error_tip3: 'Vermijd reflecterende of wazige gebieden in de cameravoorvertoning.',
     learn_more: 'Leer hoe Auto Aanpassen werkt.',
+    learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
   },
 };
 

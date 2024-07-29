@@ -1838,6 +1838,7 @@ const lang: ILang = {
     error_tip2: 'Setiap potongan bahan harus serupa dalam ukuran, bentuk, dan warna.',
     error_tip3: 'Hindari area pratinjau kamera yang reflektif atau buram.',
     learn_more: 'Pelajari cara kerja Pas Otomatis.',
+    learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
   },
 };
 

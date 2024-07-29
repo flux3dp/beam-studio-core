@@ -1838,6 +1838,7 @@ const lang: ILang = {
     error_tip2: 'Jokaisen materiaalin kappaleen tulee olla kooltaan, muodoltaan ja väriltään samanlainen.',
     error_tip3: 'Vältä heijastavia tai sumeita kameran esikatselualueita.',
     learn_more: 'Opi, miten Automaattinen Sovitus toimii.',
+    learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
   },
 };
 

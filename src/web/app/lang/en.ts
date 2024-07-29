@@ -1841,6 +1841,7 @@ const lang: ILang = {
     error_tip2: 'Each piece of material has to be similar in size, shape and color.',
     error_tip3: 'Avoid reflective or blurry camera preview areas.',
     learn_more: 'Learn how auto fit works.',
+    learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
   },
 };
 

@@ -1838,6 +1838,7 @@ const lang: ILang = {
     error_tip2: 'Varje stycke material måste vara liknande i storlek, form och färg.',
     error_tip3: 'Undvik reflekterande eller suddiga områden i kameraförhandsgranskningen.',
     learn_more: 'Lär dig hur auto fit fungerar.',
+    learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
   },
 };
 

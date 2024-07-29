@@ -1838,6 +1838,7 @@ const lang: ILang = {
     error_tip2: 'Mỗi miếng vật liệu phải tương tự về kích thước, hình dạng và màu sắc.',
     error_tip3: 'Tránh các khu vực xem trước của máy ảnh bị phản chiếu hoặc mờ.',
     learn_more: 'Tìm hiểu cách thức hoạt động của tự động điều chỉnh.',
+    learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
   },
 };
 

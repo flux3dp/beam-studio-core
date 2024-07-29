@@ -1841,6 +1841,7 @@ const lang: ILang = {
     error_tip2: '各素材のサイズ、形、色が似ていることが必要です。',
     error_tip3: '反射やぼやけたカメラプレビュー領域を避けてください。',
     learn_more: '自動フィットを学びましょう。',
+    learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
   },
 };
 
