@@ -276,6 +276,7 @@ class UtilsWebSocket extends EventEmitter {
   getSimilarContours = async (
     imgBlob: Blob,
     opts?: {
+      isSplcingImg?: boolean;
       onProgress?: (progress: number) => void;
     }
   ) => {
@@ -284,6 +285,7 @@ class UtilsWebSocket extends EventEmitter {
       this.removeCommandListeners();
       this.setDefaultErrorResponse(reject);
       this.setDefaultFatalResponse(reject);
+      const { isSplcingImg, onProgress } = opts || {};
       this.on('message', (response: { data?: AutoFit[], info?: string, progress?: number }) => {
         if (response instanceof Blob) {
           console.log('strange message from /ws/utils', response);
@@ -305,7 +307,7 @@ class UtilsWebSocket extends EventEmitter {
             console.log(response.data);
             resolve(response.data);
           } else if (status === 'progress') {
-            opts?.onProgress?.(response.progress);
+            onProgress?.(response.progress);
           } else if (status === 'error') {
             reject(Error(response.info));
           } else {
@@ -314,7 +316,7 @@ class UtilsWebSocket extends EventEmitter {
           }
         }
       });
-      const args = ['get_similar_contours', data.byteLength];
+      const args = ['get_similar_contours', data.byteLength, isSplcingImg ? 1 : 0];
       this.ws.send(args.join(' '));
     });
   };

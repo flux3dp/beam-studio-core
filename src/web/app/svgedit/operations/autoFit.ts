@@ -2,6 +2,8 @@
 import alertCaller from 'app/actions/alert-caller';
 import alertConfig from 'helpers/api/alert-config';
 import alertConstants from 'app/constants/alert-constants';
+import beamboxPreference from 'app/actions/beambox/beambox-preference';
+import constant from 'app/actions/beambox/constant';
 import getUtilWS from 'helpers/api/utils-ws';
 import history from 'app/svgedit/history/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
@@ -63,7 +65,7 @@ const autoFit = async (elem: SVGElement): Promise<void> => {
       links: [
         {
           text: lang.learn_more,
-          url: 'https://flux3dp.zendesk.com/hc/en-us/articles/360001111135',
+          url: lang.learn_more_url,
         },
       ],
     });
@@ -73,7 +75,8 @@ const autoFit = async (elem: SVGElement): Promise<void> => {
     const utilWS = getUtilWS();
     const resp = await fetch(previewBackgroundUrl);
     const blob = await resp.blob();
-    const data = await utilWS.getSimilarContours(blob);
+    const workarea = beamboxPreference.read('workarea');
+    const data = await utilWS.getSimilarContours(blob, { isSplcingImg: !constant.adorModels.includes(workarea) });
     const parentBbox =
       elem.tagName === 'use'
         ? svgCanvas.getSvgRealLocation(elem)
