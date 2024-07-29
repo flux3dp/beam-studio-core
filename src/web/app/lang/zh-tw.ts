@@ -956,7 +956,7 @@ const lang: ILang = {
           wait_for_parsing_font: '解析字體中...',
           offset: '位移複製',
           array: '陣列',
-          auto_fit: '自動適配',
+          auto_fit: '自動對位',
           smart_nest: '智慧排版',
           decompose_path: '解散非連續路徑',
           disassemble_use: '解散圖檔',
