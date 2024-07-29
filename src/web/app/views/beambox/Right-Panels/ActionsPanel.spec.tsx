@@ -16,11 +16,6 @@ jest.mock('implementations/dialog', () => ({
   getFileFromDialog,
 }));
 
-const toggleUnsavedChangedDialog = jest.fn();
-jest.mock('helpers/file-export-helper', () => ({
-  toggleUnsavedChangedDialog,
-}));
-
 const convertTextToPath = jest.fn();
 jest.mock('app/actions/beambox/font-funcs', () => ({
   convertTextToPath,
@@ -95,13 +90,7 @@ jest.mock('helpers/useI18n', () => () => ({
   },
 }));
 
-// jest.mock('helpers/i18n', () => ({
-//   lang: {
-//     alert: {
-//       oops: 'oops',
-//     },
-//   },
-// }));
+jest.mock('helpers/web-need-connection-helper', () => (callback) => callback());
 
 const mockCheckConnection = jest.fn();
 jest.mock('helpers/api/discover', () => ({
