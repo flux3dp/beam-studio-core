@@ -42,7 +42,7 @@ const supportList: Record<WorkAreaModel, SupportInfo> = {
     hybridLaser: false,
     openBottom: false,
     passThrough: true,
-    rotary: false,
+    rotary: true,
   },
 };
 

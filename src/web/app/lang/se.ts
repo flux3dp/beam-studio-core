@@ -1829,6 +1829,16 @@ const lang: ILang = {
     export: 'Exportera till Arbetsområde',
     exporting: 'Exporterar...',
   },
+  auto_fit: {
+    title: 'Auto Fit',
+    step1: '1. Placer objektet i önskad position på en bit material.',
+    step2: '2. Tryck på "Bekräfta" för att duplicera objektet på alla liknande materialbitar i kameraförhandsgranskningen.',
+    preview_first: 'Utför kameraförhandsgranskningen först.',
+    error_tip1: 'Kontrollera att det finns tillräcklig kontrast mellan materialet och arbetsområdet.',
+    error_tip2: 'Varje stycke material måste vara liknande i storlek, form och färg.',
+    error_tip3: 'Undvik reflekterande eller suddiga områden i kameraförhandsgranskningen.',
+    learn_more: 'Lär dig hur auto fit fungerar.',
+  },
 };
 
 export default lang;

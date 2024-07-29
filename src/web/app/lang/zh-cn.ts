@@ -1832,6 +1832,16 @@ const lang: ILang = {
     export: '导出到工作区域',
     exporting: '导出中...',
   },
+  auto_fit: {
+    title: '自动适配',
+    step1: '1. 将物体放置在一块材料的理想位置。',
+    step2: '2. 按“确认”以在相机预览中将物体复制到所有相似的材料上。',
+    preview_first: '请先进行相机预览。',
+    error_tip1: '检查材料与工作区域之间是否有足够的对比度。',
+    error_tip2: '每块材料必须在尺寸、形状和颜色上相似。',
+    error_tip3: '避免反射或模糊的相机预览区域。',
+    learn_more: '了解自动适应如何工作。',
+  },
 };
 
 export default lang;

@@ -1832,6 +1832,16 @@ const lang: ILang = {
     export: '輸出到工作區域',
     exporting: '輸出中...',
   },
+  auto_fit: {
+    title: '自動對位',
+    step1: '1. 將物體放置在一塊材料上想要的位置。',
+    step2: '2. 按“確認”以將物體複製到相機預覽中所有相似的材料上。',
+    preview_first: '請先進行相機預覽。',
+    error_tip1: '檢查材料與工作區域之間是否有足夠的對比度。',
+    error_tip2: '每塊材料必須在尺寸、形狀和顏色上相似。',
+    error_tip3: '避免反射或模糊的相機預覽區域。',
+    learn_more: '瞭解自動對位如何運作。',
+  },
 };
 
 export default lang;

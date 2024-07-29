@@ -1829,6 +1829,16 @@ const lang: ILang = {
     export: 'Eksporter til Arbeidsområde',
     exporting: 'Eksporterer...',
   },
+  auto_fit: {
+    title: 'Automatisk Tilpasning',
+    step1: '1. Plasser objektet i ønsket posisjon på ett stykke materiale.',
+    step2: '2. Trykk "Bekreft" for å duplisere objektet til alle lignende materialstykker i kameraforhåndsvisningen.',
+    preview_first: 'Utfør kameraforhåndsvisningen først.',
+    error_tip1: 'Sjekk at det er nok kontrast mellom materialet og arbeidsområdet.',
+    error_tip2: 'Hver bit materiale må være lik i størrelse, form og farge.',
+    error_tip3: 'Unngå reflekterende eller uskarpe kamera-forhåndsvisningsområder.',
+    learn_more: 'Lær hvordan Automatisk Tilpasning fungerer.',
+  },
 };
 
 export default lang;

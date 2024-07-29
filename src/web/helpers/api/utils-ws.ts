@@ -38,7 +38,7 @@ class UtilsWebSocket extends EventEmitter {
     this.on('error', (response) => {
       if (timeoutTimer) clearTimeout(timeoutTimer);
       this.removeCommandListeners();
-      reject(response.error.join(''));
+      reject(response.info);
     });
   }
 

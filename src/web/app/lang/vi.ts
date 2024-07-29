@@ -1829,6 +1829,16 @@ const lang: ILang = {
     export: 'Xuất sang Khu Vực Làm Việc',
     exporting: 'Đang xuất',
   },
+  auto_fit: {
+    title: 'Tự Động Vừa Khít',
+    step1: '1. Đặt đối tượng vào vị trí mong muốn trên một miếng vật liệu.',
+    step2: '2. Nhấn "Xác nhận" để sao chép đối tượng lên tất cả các miếng vật liệu tương tự trong chế độ xem trước của máy ảnh.',
+    preview_first: 'Vui lòng thực hiện xem trước máy ảnh trước.',
+    error_tip1: 'Kiểm tra xem có đủ độ tương phản giữa vật liệu và khu vực làm việc không.',
+    error_tip2: 'Mỗi miếng vật liệu phải tương tự về kích thước, hình dạng và màu sắc.',
+    error_tip3: 'Tránh các khu vực xem trước của máy ảnh bị phản chiếu hoặc mờ.',
+    learn_more: 'Tìm hiểu cách thức hoạt động của tự động điều chỉnh.',
+  },
 };
 
 export default lang;

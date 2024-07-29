@@ -1829,6 +1829,16 @@ const lang: ILang = {
     export: "Esporta nell'Area di Lavoro",
     exporting: 'Esportazione...',
   },
+  auto_fit: {
+    title: 'Adattamento Automatico',
+    step1: "1. Posizionare l'oggetto nella posizione desiderata su un pezzo di materiale.",
+    step2: "2. Premere 'Conferma' per duplicare l'oggetto su tutti i pezzi di materiale simili nella vista anteprima della fotocamera.",
+    preview_first: "Eseguire prima l'anteprima della fotocamera.",
+    error_tip1: "Controlla che ci sia abbastanza contrasto tra il materiale e l'area di lavoro.",
+    error_tip2: 'Ogni pezzo di materiale deve essere simile per dimensioni, forma e colore.',
+    error_tip3: 'Evita aree riflettenti o sfocate nella vista anteprima della fotocamera.',
+    learn_more: "Scopri come funziona l'adattamento automatico.",
+  },
 };
 
 export default lang;

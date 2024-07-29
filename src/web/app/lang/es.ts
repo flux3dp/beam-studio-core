@@ -1832,6 +1832,16 @@ const lang: ILang = {
     export: 'Exportar a Área de Trabajo...',
     exporting: 'Exportando',
   },
+  auto_fit: {
+    title: 'Ajuste Automático',
+    step1: '1. Coloque el objeto en la posición deseada sobre una pieza de material.',
+    step2: '2. Presione "Confirmar" para duplicar el objeto en todas las piezas similares de material en la vista previa de la cámara.',
+    preview_first: 'Por favor, realice primero la vista previa de la cámara.',
+    error_tip1: 'Verifique que haya suficiente contraste entre el material y el área de trabajo.',
+    error_tip2: 'Cada pieza de material debe ser similar en tamaño, forma y color.',
+    error_tip3: 'Evite áreas reflectantes o borrosas en la vista previa de la cámara.',
+    learn_more: 'Aprenda cómo funciona el Ajuste Automático.',
+  },
 };
 
 export default lang;

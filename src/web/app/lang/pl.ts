@@ -1832,6 +1832,16 @@ const lang: ILang = {
     export: 'Eksportuj do Obszaru Roboczego',
     exporting: 'Eksportowanie...',
   },
+  auto_fit: {
+    title: 'Dopasowanie Automatyczne',
+    step1: '1. Umieść obiekt w żądanej pozycji na jednym kawałku materiału.',
+    step2: '2. Naciśnij "Potwierdź", aby skopiować obiekt na wszystkie podobne kawałki materiału w podglądzie kamery.',
+    preview_first: 'Najpierw wykonaj podgląd kamery.',
+    error_tip1: 'Sprawdź, czy jest wystarczający kontrast między materiałem a obszarem roboczym.',
+    error_tip2: 'Każdy kawałek materiału musi być podobny pod względem wielkości, kształtu i koloru.',
+    error_tip3: 'Unikaj refleksyjnych lub zamazanych obszarów podglądu kamery.',
+    learn_more: 'Dowiedz się, jak działa automatyczne dopasowanie.',
+  },
 };
 
 export default lang;

@@ -1829,6 +1829,16 @@ const lang: ILang = {
     export: 'Vie Työalueelle',
     exporting: 'Viedään...',
   },
+  auto_fit: {
+    title: 'Automaattinen Sovitus',
+    step1: '1. Aseta kohde haluttuun kohtaan yhdelle materiaalikappaleelle.',
+    step2: '2. Paina "Vahvista" kopioidaksesi kohteen kaikille samanlaisille materiaalikappaleille kameran esikatselussa.',
+    preview_first: 'Suorita ensin kameran esikatselu.',
+    error_tip1: 'Tarkista, että materiaalin ja työalueen välillä on riittävä kontrasti.',
+    error_tip2: 'Jokaisen materiaalin kappaleen tulee olla kooltaan, muodoltaan ja väriltään samanlainen.',
+    error_tip3: 'Vältä heijastavia tai sumeita kameran esikatselualueita.',
+    learn_more: 'Opi, miten Automaattinen Sovitus toimii.',
+  },
 };
 
 export default lang;

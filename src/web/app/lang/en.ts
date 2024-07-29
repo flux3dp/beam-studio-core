@@ -1832,6 +1832,16 @@ const lang: ILang = {
     export: 'Export to Work Area',
     exporting: 'Exporting...',
   },
+  auto_fit: {
+    title: 'Auto Fit',
+    step1: '1. Place the object in the desired position on one piece of material.',
+    step2: '2. Press "Confirm" to duplicate the object onto all similar pieces of material in camera preview.',
+    preview_first: 'Please perform camera preview first.',
+    error_tip1: 'Check there is enough contrast between the material and the work area.',
+    error_tip2: 'Each piece of material has to be similar in size, shape and color.',
+    error_tip3: 'Avoid reflective or blurry camera preview areas.',
+    learn_more: 'Learn how auto fit works.',
+  },
 };
 
 export default lang;

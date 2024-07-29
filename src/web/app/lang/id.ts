@@ -1829,6 +1829,16 @@ const lang: ILang = {
     export: 'Ekspor ke Area Kerja',
     exporting: 'Mengekspor...',
   },
+  auto_fit: {
+    title: 'Pas Otomatis',
+    step1: '1. Letakkan objek di posisi yang diinginkan pada satu potong bahan.',
+    step2: '2. Tekan "Konfirmasi" untuk menduplikasi objek ke semua potongan bahan serupa dalam pratinjau kamera.',
+    preview_first: 'Silakan lakukan pratinjau kamera terlebih dahulu.',
+    error_tip1: 'Periksa apakah ada kontras yang cukup antara bahan dan area kerja.',
+    error_tip2: 'Setiap potongan bahan harus serupa dalam ukuran, bentuk, dan warna.',
+    error_tip3: 'Hindari area pratinjau kamera yang reflektif atau buram.',
+    learn_more: 'Pelajari cara kerja Pas Otomatis.',
+  },
 };
 
 export default lang;

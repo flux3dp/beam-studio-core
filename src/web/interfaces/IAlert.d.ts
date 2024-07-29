@@ -20,6 +20,10 @@ export interface IAlert {
   onConfirm?: Function;
   onRetry?: Function;
   onCancel?: Function;
+  links?: {
+    text: string;
+    url: string;
+  }[];
   checkbox?: {
     text: string;
     callbacks: Function | Function[];

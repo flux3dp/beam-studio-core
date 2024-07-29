@@ -1829,6 +1829,16 @@ const lang: ILang = {
     export: 'Eksportér til Arbejdsområde',
     exporting: 'Eksporterer...',
   },
+  auto_fit: {
+    title: 'Auto Fit',
+    step1: '1. Placer objektet i den ønskede position på ét stykke materiale.',
+    step2: '2. Tryk på "Bekræft" for at duplikere objektet på alle lignende stykker materiale i kameraforhåndsvisningen.',
+    preview_first: 'Udfør venligst kameraforhåndsvisning først.',
+    error_tip1: 'Kontroller, at der er tilstrækkelig kontrast mellem materialet og arbejdsområdet.',
+    error_tip2: 'Hvert stykke materiale skal være ens i størrelse, form og farve.',
+    error_tip3: 'Undgå reflekterende eller uklare kamera-forhåndsvisningsområder.',
+    learn_more: 'Lær, hvordan Auto Fit fungerer.',
+  },
 };
 
 export default lang;

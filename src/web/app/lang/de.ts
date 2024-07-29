@@ -1832,6 +1832,16 @@ const lang: ILang = {
     export: 'In Arbeitsbereich exportieren',
     exporting: 'Exportieren...',
   },
+  auto_fit: {
+    title: 'Automatische Anpassung',
+    step1: '1. Platzieren Sie das Objekt in der gewünschten Position auf einem Stück Material.',
+    step2: '2. Drücken Sie "Bestätigen", um das Objekt auf alle ähnlichen Stücke Material in der Kamera-Vorschau zu duplizieren.',
+    preview_first: 'Bitte führen Sie zuerst die Kamera-Vorschau durch.',
+    error_tip1: 'Überprüfen Sie, ob genügend Kontrast zwischen dem Material und dem Arbeitsbereich besteht.',
+    error_tip2: 'Jedes Stück Material muss in Größe, Form und Farbe ähnlich sein.',
+    error_tip3: 'Vermeiden Sie reflektierende oder verschwommene Bereiche in der Kamera-Vorschau.',
+    learn_more: 'Erfahren Sie, wie Automatische Anpassung funktioniert.',
+  },
 };
 
 export default lang;

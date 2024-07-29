@@ -1829,6 +1829,16 @@ const lang: ILang = {
     export: 'Exporter vers la Zone de Travail',
     exporting: 'Exportation...',
   },
+  auto_fit: {
+    title: 'Ajustement Automatique',
+    step1: "1. Placez l'objet à l'emplacement souhaité sur une pièce de matériau.",
+    step2: "2. Appuyez sur 'Confirmer' pour dupliquer l'objet sur toutes les pièces similaires de matériau dans l'aperçu de la caméra.",
+    preview_first: "Veuillez d'abord effectuer l'aperçu de la caméra.",
+    error_tip1: "Vérifiez qu'il y a suffisamment de contraste entre le matériau et la zone de travail.",
+    error_tip2: 'Chaque pièce de matériau doit être similaire en taille, forme et couleur.',
+    error_tip3: "Évitez les zones réfléchissantes ou floues dans l'aperçu de la caméra.",
+    learn_more: "Découvrez comment fonctionne l'ajustement automatique.",
+  },
 };
 
 export default lang;

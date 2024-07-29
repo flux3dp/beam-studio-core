@@ -1829,6 +1829,16 @@ const lang: ILang = {
     export: 'Eksport ke Kawasan Kerja',
     exporting: 'Mengeksport...',
   },
+  auto_fit: {
+    title: 'Muat Auto',
+    step1: '1. Letakkan objek di posisi yang dikehendaki pada satu keping bahan.',
+    step2: '2. Tekan "Sahkan" untuk menggandakan objek pada semua keping bahan yang serupa dalam pratonton kamera.',
+    preview_first: 'Sila lakukan pratonton kamera terlebih dahulu.',
+    error_tip1: 'Periksa ada kontras yang mencukupi antara bahan dan kawasan kerja.',
+    error_tip2: 'Setiap kepingan bahan perlu serupa dalam saiz, bentuk dan warna.',
+    error_tip3: 'Elakkan kawasan pratonton kamera yang memantul atau kabur.',
+    learn_more: 'Ketahui cara kerja Muat Auto.',
+  },
 };
 
 export default lang;

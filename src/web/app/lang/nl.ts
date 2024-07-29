@@ -1829,6 +1829,16 @@ const lang: ILang = {
     export: 'Exporteren naar Werkgebied',
     exporting: 'Exporteren...',
   },
+  auto_fit: {
+    title: 'Auto Aanpassen',
+    step1: '1. Plaats het object op de gewenste positie op een stuk materiaal.',
+    step2: '2. Druk op "Bevestigen" om het object op alle vergelijkbare stukken materiaal in de cameravoorvertoning te dupliceren.',
+    preview_first: 'Voer eerst een cameravoorvertoning uit.',
+    error_tip1: 'Controleer of er voldoende contrast is tussen het materiaal en het werkgebied.',
+    error_tip2: 'Elk stuk materiaal moet vergelijkbaar zijn in grootte, vorm en kleur.',
+    error_tip3: 'Vermijd reflecterende of wazige gebieden in de cameravoorvertoning.',
+    learn_more: 'Leer hoe Auto Aanpassen werkt.',
+  },
 };
 
 export default lang;

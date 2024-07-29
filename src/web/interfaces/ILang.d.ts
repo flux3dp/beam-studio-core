@@ -1829,4 +1829,14 @@ export interface ILang {
     export: string;
     exporting: string;
   };
+  auto_fit: {
+    title: string;
+    step1: string;
+    step2: string;
+    preview_first: string;
+    error_tip1: string;
+    error_tip2: string;
+    error_tip3: string;
+    learn_more: string;
+  };
 }
