@@ -102,7 +102,7 @@ const copyElements = async (
     serializedData.refs[key] = serializeElement(refClipboard[key]);
   }
   clipboard = [...elems];
-  const { nativeClipBoard } = opts;
+  const { nativeClipBoard = true } = opts;
   try {
     const clipBoardText = JSON.stringify(serializedData);
     if (nativeClipBoard) await navigator.clipboard.writeText(`BX clip:${clipBoardText}`);
