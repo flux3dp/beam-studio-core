@@ -1032,6 +1032,7 @@ const lang: ILang = {
       enable_diode: '二极管激光',
       enable_autofocus: '自动对焦',
       extend_workarea: '扩展工作区域',
+      mirror: '镜像',
       pass_through: '广域雕刻',
       pass_through_height_desc: '输入物体长度以扩展工作区域。',
       add_on: '扩充模组',

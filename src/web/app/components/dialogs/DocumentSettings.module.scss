@@ -23,10 +23,14 @@
       display: flex;
       width: 75%;
       height: 32px;
-      align-items: center;
+      align-items: flex-start;
 
       .subCheckbox {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
         width: unset;
+        height: 64px;
         justify-content: start;
         margin-left: 20px;
       }
@@ -54,6 +58,10 @@
       margin-left: 20px;
     }
 
+    .switch {
+      margin: 5px 0;
+    }
+
     .hint {
       width: 16px;
       height: 16px;
@@ -71,6 +79,7 @@
 
     > label {
       height: 22px;
+      margin: 5px 0;
     }
   }
 }

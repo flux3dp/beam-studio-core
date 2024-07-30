@@ -1032,6 +1032,7 @@ const lang: ILang = {
       enable_diode: '二極體雷射',
       enable_autofocus: '自動對焦',
       extend_workarea: '擴展工作區域',
+      mirror: '鏡像',
       pass_through: '廣域雕刻',
       pass_through_height_desc: '輸入物體長度以擴展工作區域。',
       add_on: '擴充模組',

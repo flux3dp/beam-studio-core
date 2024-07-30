@@ -1029,6 +1029,7 @@ const lang: ILang = {
       enable_diode: 'Laser Diod',
       enable_autofocus: 'Autofokus',
       extend_workarea: 'Perluaskan kawasan kerja',
+      mirror: 'Cermin',
       pass_through: 'Lalu',
       pass_through_height_desc: 'Masukkan panjang objek untuk melanjutkan kawasan kerja.',
       add_on: 'Tambahan',

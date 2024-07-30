@@ -1029,6 +1029,7 @@ const lang: ILang = {
       enable_diode: 'Diode-laser',
       enable_autofocus: 'Autofokus',
       extend_workarea: 'Utvid arbeidsområdet',
+      mirror: 'Speiling',
       pass_through: 'Gå Gjennom',
       pass_through_height_desc: 'Skriv inn lengden på objektet for å utvide arbeidsområdet.',
       add_on: 'Tillegg',

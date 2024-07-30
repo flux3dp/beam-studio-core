@@ -1029,6 +1029,7 @@ const lang: ILang = {
       enable_diode: 'Diodilaser',
       enable_autofocus: 'Autofokus',
       extend_workarea: 'Laajenna työaluetta',
+      mirror: 'Peilaus',
       pass_through: 'Läpäisymoodi',
       pass_through_height_desc: 'Syötä objektin pituus työalueen laajentamiseksi.',
       add_on: 'Lisäosat',

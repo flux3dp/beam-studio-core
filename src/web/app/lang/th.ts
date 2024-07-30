@@ -1029,6 +1029,7 @@ const lang: ILang = {
       enable_diode: 'เลเซอร์ไดโอด',
       enable_autofocus: 'โฟกัสอัตโนมัติ',
       extend_workarea: 'ขยายพื้นที่ทำงาน',
+      mirror: 'กระจก',
       pass_through: 'ผ่าน',
       pass_through_height_desc: 'ป้อนความยาวของวัตถุเพื่อขยายพื้นที่การทำงาน',
       add_on: 'เพิ่มเติม',

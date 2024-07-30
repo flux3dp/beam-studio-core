@@ -64,10 +64,6 @@ export default {
   menuberHeight: window.os === 'Windows' && !isWeb() ? 30 : 40, // px
   layerListHeight: 400, // px
   rulerWidth: 15, // px
-  rotaryYRatio: {
-    1: 1,
-    2: 1,
-  },
   dpiValueMap: {
     low: 100,
     medium: 250,

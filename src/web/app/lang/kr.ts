@@ -1032,6 +1032,7 @@ const lang: ILang = {
       enable_diode: '다이오드 레이저',
       enable_autofocus: '오토포커스',
       extend_workarea: '작업 영역 확장',
+      mirror: '미러',
       pass_through: '통과',
       pass_through_height_desc: '작업 영역을 확장하기 위해 객체의 길이를 입력하십시오.',
       add_on: '애드온',

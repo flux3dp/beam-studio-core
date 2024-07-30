@@ -1029,6 +1029,7 @@ export interface ILang {
       enable_diode: string,
       enable_autofocus: string,
       extend_workarea: string;
+      mirror: string;
       pass_through: string;
       pass_through_height_desc: string;
       add_on: string,

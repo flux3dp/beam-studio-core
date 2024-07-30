@@ -83,7 +83,7 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
       const paddingAccel = BeamboxPreference.read('padding_accel');
       // Not real acceleration, just for calculating padding distance
       const { model }: { model: WorkAreaModel } = opts;
-      const { minSpeed: modelMinSpeed, rotary } = getWorkarea(model);
+      const { minSpeed: modelMinSpeed } = getWorkarea(model);
       if (model === 'fhexa1') {
         args.push('-hexa');
         if (!isDevMode || !paddingAccel) args.push('-acc', '7500');
@@ -101,9 +101,9 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
         args.push('-spin');
         const rotaryPos = rotaryAxis.getPosition();
         args.push(rotaryPos);
-        if (rotaryMode !== 1 && rotary.includes(rotaryMode)) {
+        if (!BeamboxPreference.read('rotary-mirror') && model === 'ado1') {
           args.push('-rotary-y-ratio');
-          args.push(Math.round(constant.rotaryYRatio[rotaryMode] * 10 ** 6) / 10 ** 6);
+          args.push(-1);
         }
       }
 

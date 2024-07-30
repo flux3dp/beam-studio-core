@@ -1032,6 +1032,7 @@ const lang: ILang = {
       enable_diode: 'Laser diodowy',
       enable_autofocus: 'Autofokus',
       extend_workarea: 'Rozszerz obszar roboczy',
+      mirror: 'Lustro',
       pass_through: 'Przejść Przez',
       pass_through_height_desc: 'Wprowadź długość obiektu, aby rozszerzyć obszar roboczy.',
       add_on: 'Dodatki',

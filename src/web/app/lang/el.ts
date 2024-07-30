@@ -1029,6 +1029,7 @@ const lang: ILang = {
       enable_diode: 'Λέιζερ διόδου',
       enable_autofocus: 'Αυτόματη εστίαση',
       extend_workarea: 'Επέκταση περιοχής εργασίας',
+      mirror: 'Κατοπτρισμός',
       pass_through: 'Διέλευση',
       pass_through_height_desc: 'Εισαγάγετε το μήκος του αντικειμένου για να επεκτείνετε την περιοχή εργασίας.',
       add_on: 'Πρόσθετες λειτουργίες',

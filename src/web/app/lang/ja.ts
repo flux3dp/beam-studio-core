@@ -1032,6 +1032,7 @@ const lang: ILang = {
       enable_diode: 'ダイオードレーザー',
       enable_autofocus: 'オートフォーカス',
       extend_workarea: '作業エリアを拡張する',
+      mirror: 'ミラー',
       pass_through: 'パススルーモード',
       pass_through_height_desc: '作業エリアを拡張するためにオブジェクトの長さを入力してください。',
       add_on: 'アドオン',

@@ -1029,6 +1029,7 @@ const lang: ILang = {
       enable_diode: 'Laser điốt',
       enable_autofocus: 'Tự động lấy nét',
       extend_workarea: 'Mở rộng khu vực làm việc',
+      mirror: 'Gương',
       pass_through: 'Đi Qua',
       pass_through_height_desc: 'Nhập chiều dài của đối tượng để mở rộng khu vực làm việc.',
       add_on: 'Phụ kiện',
