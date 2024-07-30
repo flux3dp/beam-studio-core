@@ -83,7 +83,9 @@ const autoFit = async (elem: SVGElement): Promise<void> => {
         : svgCanvas.calculateTransformedBBox(elem);
     const elemRotationAngle = svgedit.utilities.getRotationAngle(elem);
     let elementContourId = -1;
-    const elementContour = data.find((d, i) => {
+    let currentMinDist = Number.MAX_VALUE;
+    const parentCenter = [parentBbox.x + parentBbox.width / 2, parentBbox.y + parentBbox.height / 2];
+    data.forEach((d, i) => {
       const boxX = d.bbox[0];
       const boxY = d.bbox[1];
       const boxWidth = d.bbox[2];
@@ -93,7 +95,11 @@ const autoFit = async (elem: SVGElement): Promise<void> => {
       const intersectY =
         Math.max(parentBbox.y, boxY) < Math.min(parentBbox.y + parentBbox.height, boxY + boxHeight);
       if (intersectX && intersectY) {
-        elementContourId = i;
+        const distance = Math.hypot(parentCenter[0] - d.center[0], parentCenter[1] - d.center[1]);
+        if (distance < currentMinDist) {
+          currentMinDist = distance;
+          elementContourId = i;
+        }
         return true;
       }
       return false;
@@ -102,6 +108,7 @@ const autoFit = async (elem: SVGElement): Promise<void> => {
       showFailAlert();
       return;
     }
+    const elementContour = data[elementContourId];
     const elemsToClone = elem.getAttribute('data-tempgroup')
       ? svgCanvas.ungroupTempGroup()
       : [elem];
