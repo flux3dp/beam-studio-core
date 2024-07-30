@@ -3,7 +3,7 @@ import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
   general: {
-    wait: '処理中です、お待ちください',
+    processing: '処理中...',
     choose_folder: 'フォルダーの選択',
   },
   buttons: {

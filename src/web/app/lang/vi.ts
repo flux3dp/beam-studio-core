@@ -3,7 +3,7 @@ import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
   general: {
-    wait: 'Đang xử lý, vui lòng chờ',
+    processing: 'Đang xử lý...',
     choose_folder: 'Chọn Thư mục',
   },
   buttons: {

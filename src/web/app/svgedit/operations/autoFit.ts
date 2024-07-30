@@ -70,7 +70,7 @@ const autoFit = async (elem: SVGElement): Promise<void> => {
       ],
     });
   };
-  progressCaller.openNonstopProgress({ id: 'auto-fit', message: 'Processing...' });
+  progressCaller.openNonstopProgress({ id: 'auto-fit', message: i18n.lang.general.processing });
   try {
     const utilWS = getUtilWS();
     const resp = await fetch(previewBackgroundUrl);

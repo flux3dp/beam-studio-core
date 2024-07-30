@@ -1,6 +1,6 @@
 export interface ILang {
   general: {
-    wait: string,
+    processing: string,
     choose_folder: string,
   },
   buttons: {

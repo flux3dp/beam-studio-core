@@ -3,7 +3,7 @@ import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
   general: {
-    wait: 'Επεξεργασία, παρακαλώ περιμένετε',
+    processing: 'Επεξεργασία...',
     choose_folder: 'Επιλέξτε φάκελο',
   },
   buttons: {

@@ -3,7 +3,7 @@ import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
   general: {
-    wait: '處理中，請稍待',
+    processing: '處理中...',
     choose_folder: '選擇檔案夾',
   },
   buttons: {

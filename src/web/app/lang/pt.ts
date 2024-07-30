@@ -3,7 +3,7 @@ import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
   general: {
-    wait: 'Aguarde',
+    processing: 'Processando...',
     choose_folder: 'Escolher pasta',
   },
   buttons: {

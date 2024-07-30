@@ -3,7 +3,7 @@ import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
   general: {
-    wait: 'Käsitellään, odota',
+    processing: 'Käsitellään...',
     choose_folder: 'Valitse kansio',
   },
   buttons: {

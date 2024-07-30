@@ -3,7 +3,7 @@ import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
   general: {
-    wait: 'Behandler, vent venligst',
+    processing: 'Behandler...',
     choose_folder: 'Vælg mappe',
   },
   buttons: {
