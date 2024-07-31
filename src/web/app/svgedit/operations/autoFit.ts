@@ -81,7 +81,6 @@ const autoFit = async (elem: SVGElement): Promise<void> => {
       elem.tagName === 'use'
         ? svgCanvas.getSvgRealLocation(elem)
         : svgCanvas.calculateTransformedBBox(elem);
-    const elemRotationAngle = svgedit.utilities.getRotationAngle(elem);
     let elementContourId = -1;
     let currentMinDist = Number.MAX_VALUE;
     const parentCenter = [parentBbox.x + parentBbox.width / 2, parentBbox.y + parentBbox.height / 2];
@@ -113,6 +112,7 @@ const autoFit = async (elem: SVGElement): Promise<void> => {
       ? svgCanvas.ungroupTempGroup()
       : [elem];
     const batchCmd = new history.BatchCommand('Auto Fit');
+    const elemRotationAngle = svgedit.utilities.getRotationAngle(elem);
     for (let i = 0; i < elemsToClone.length; i += 1) {
       const elemToClone = elemsToClone[i];
       const bbox =
@@ -133,6 +133,7 @@ const autoFit = async (elem: SVGElement): Promise<void> => {
         const res = clipboard.cloneElements([elemToClone], [dx], [dy], {
           parentCmd: batchCmd,
           selectElement: false,
+          callChangOnMove: false,
         });
         if (res) {
           const { elems } = res;

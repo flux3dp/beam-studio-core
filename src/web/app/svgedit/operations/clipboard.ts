@@ -328,12 +328,18 @@ const cloneElements = (
   elements: Element[],
   dx: number | number[],
   dy: number | number[],
-  opts: { parentCmd?: IBatchCommand; addToHistory?: boolean; selectElement?: boolean } = {
+  opts: {
+    parentCmd?: IBatchCommand;
+    addToHistory?: boolean;
+    selectElement?: boolean;
+    callChangOnMove?: boolean;
+  } = {
     addToHistory: true,
     selectElement: true,
+    callChangOnMove: true,
   }
 ): { cmd: IBatchCommand; elems: Element[] } | null => {
-  const { parentCmd, addToHistory, selectElement } = opts;
+  const { parentCmd, addToHistory = true, selectElement = true, callChangOnMove = true } = opts;
   const originalClipboard = clipboard ? [...clipboard] : null;
   const batchCmd = new history.BatchCommand('Clone elements');
   copyElements(elements, { nativeClipBoard: false });
@@ -350,7 +356,7 @@ const cloneElements = (
   if (cmd && !cmd.isEmpty()) {
     batchCmd.addSubCommand(cmd);
   }
-  cmd = moveElements(dx, dy, elems, false);
+  cmd = moveElements(dx, dy, elems, false, !callChangOnMove);
   if (cmd && !cmd.isEmpty()) {
     batchCmd.addSubCommand(cmd);
   }
@@ -370,9 +376,15 @@ const cloneElements = (
 const cloneSelectedElements = (
   dx: number | number[],
   dy: number | number[],
-  opts: { parentCmd?: IBatchCommand; addToHistory?: boolean; selectElement?: boolean } = {
+  opts: {
+    parentCmd?: IBatchCommand;
+    addToHistory?: boolean;
+    selectElement?: boolean;
+    callChangOnMove?: boolean;
+  } = {
     addToHistory: true,
     selectElement: true,
+    callChangOnMove: true,
   }
 ): { cmd: IBatchCommand; elems: Element[] } | null => {
   const selectedElems = svgCanvas.getSelectedWithoutTempGroup();
