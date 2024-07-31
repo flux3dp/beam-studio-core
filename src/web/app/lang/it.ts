@@ -3,7 +3,7 @@ import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
   general: {
-    wait: 'Elaborazione in corso, attendere prego',
+    processing: 'Elaborazione...',
     choose_folder: 'Scegli cartella',
   },
   buttons: {
@@ -953,7 +953,8 @@ const lang: ILang = {
           wait_for_parsing_font: 'Analisi carattere... Attendere un secondo',
           offset: 'Offset',
           array: 'Array',
-          auto_arrange: 'Disposizione Automatica',
+          auto_fit: 'Adattamento Automatico',
+          smart_nest: 'Nidificazione Intelligente',
           decompose_path: 'Scomponi',
           disassemble_use: 'Disassembla',
           create_textpath: 'Crea testo su percorso',
@@ -1028,6 +1029,7 @@ const lang: ILang = {
       enable_diode: 'Laser a diodi',
       enable_autofocus: 'Messa a fuoco automatica',
       extend_workarea: 'Espandi area di lavoro',
+      mirror: 'Specchio',
       pass_through: 'Attraversare',
       pass_through_height_desc: "Inserisci la lunghezza dell'oggetto per estendere l'area di lavoro.",
       add_on: 'Componenti aggiuntivi',
@@ -1827,6 +1829,17 @@ const lang: ILang = {
     guide_mark_desc: "I segni di guida saranno incisi come punto di riferimento per allineare l'opera d'arte.",
     export: "Esporta nell'Area di Lavoro",
     exporting: 'Esportazione...',
+  },
+  auto_fit: {
+    title: 'Adattamento Automatico',
+    step1: "1. Posizionare l'oggetto nella posizione desiderata su un pezzo di materiale.",
+    step2: "2. Premere 'Conferma' per duplicare l'oggetto su tutti i pezzi di materiale simili nella vista anteprima della fotocamera.",
+    preview_first: "Eseguire prima l'anteprima della fotocamera.",
+    error_tip1: "Controlla che ci sia abbastanza contrasto tra il materiale e l'area di lavoro.",
+    error_tip2: 'Ogni pezzo di materiale deve essere simile per dimensioni, forma e colore.',
+    error_tip3: 'Evita aree riflettenti o sfocate nella vista anteprima della fotocamera.',
+    learn_more: "Scopri come funziona l'adattamento automatico.",
+    learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
   },
 };
 

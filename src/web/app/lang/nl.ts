@@ -3,7 +3,7 @@ import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
   general: {
-    wait: 'Verwerken, even geduld',
+    processing: 'Verwerken...',
     choose_folder: 'Map kiezen',
   },
   buttons: {
@@ -953,7 +953,8 @@ const lang: ILang = {
           wait_for_parsing_font: 'Lettertype aan het parseren... Een moment geduld',
           offset: 'Verschuiven',
           array: 'Array',
-          auto_arrange: 'Automatisch Rangschikken',
+          auto_fit: 'Auto Aanpassen',
+          smart_nest: 'Slim Nestelen',
           decompose_path: 'Ontleden',
           disassemble_use: 'Demonteren',
           create_textpath: 'Tekst op pad maken',
@@ -1028,6 +1029,7 @@ const lang: ILang = {
       enable_diode: 'Diode laser',
       enable_autofocus: 'Autofocus',
       extend_workarea: 'Werkgebied uitbreiden',
+      mirror: 'Spiegel',
       pass_through: 'Doorgang',
       pass_through_height_desc: 'Voer de lengte van het object in om het werkgebied uit te breiden.',
       add_on: 'Add-ons',
@@ -1827,6 +1829,17 @@ const lang: ILang = {
     guide_mark_desc: 'Gidsmarkeringen worden gegraveerd als referentiepunt om het kunstwerk uit te lijnen.',
     export: 'Exporteren naar Werkgebied',
     exporting: 'Exporteren...',
+  },
+  auto_fit: {
+    title: 'Auto Aanpassen',
+    step1: '1. Plaats het object op de gewenste positie op een stuk materiaal.',
+    step2: '2. Druk op "Bevestigen" om het object op alle vergelijkbare stukken materiaal in de cameravoorvertoning te dupliceren.',
+    preview_first: 'Voer eerst een cameravoorvertoning uit.',
+    error_tip1: 'Controleer of er voldoende contrast is tussen het materiaal en het werkgebied.',
+    error_tip2: 'Elk stuk materiaal moet vergelijkbaar zijn in grootte, vorm en kleur.',
+    error_tip3: 'Vermijd reflecterende of wazige gebieden in de cameravoorvertoning.',
+    learn_more: 'Leer hoe Auto Aanpassen werkt.',
+    learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
   },
 };
 

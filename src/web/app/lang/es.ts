@@ -3,7 +3,7 @@ import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
   general: {
-    wait: 'Procesando, por favor espera',
+    processing: 'Procesando...',
     choose_folder: 'Elegir Carpeta',
   },
   buttons: {
@@ -956,7 +956,8 @@ const lang: ILang = {
           wait_for_parsing_font: 'Fuente de análisis... Por favor, espera un segundo.',
           offset: 'Offset',
           array: 'Gama',
-          auto_arrange: 'Organización Automática',
+          auto_fit: 'Ajuste Automático',
+          smart_nest: 'Anidamiento Inteligente',
           decompose_path: 'Descomponer',
           disassemble_use: 'Desmontar',
           create_textpath: 'Crear Tecto de Trayectoria',
@@ -1031,6 +1032,7 @@ const lang: ILang = {
       enable_diode: 'Láser diodo',
       enable_autofocus: 'Autoenfoque',
       extend_workarea: 'Ampliar área de trabajo',
+      mirror: 'Espejo',
       pass_through: 'Pasar A Través',
       pass_through_height_desc: 'Ingrese la longitud del objeto para extender el área de trabajo.',
       add_on: 'Complementos',
@@ -1830,6 +1832,17 @@ const lang: ILang = {
     guide_mark_desc: 'Las marcas de guía se grabarán como un punto de referencia para alinear la obra de arte.',
     export: 'Exportar a Área de Trabajo...',
     exporting: 'Exportando',
+  },
+  auto_fit: {
+    title: 'Ajuste Automático',
+    step1: '1. Coloque el objeto en la posición deseada sobre una pieza de material.',
+    step2: '2. Presione "Confirmar" para duplicar el objeto en todas las piezas similares de material en la vista previa de la cámara.',
+    preview_first: 'Por favor, realice primero la vista previa de la cámara.',
+    error_tip1: 'Verifique que haya suficiente contraste entre el material y el área de trabajo.',
+    error_tip2: 'Cada pieza de material debe ser similar en tamaño, forma y color.',
+    error_tip3: 'Evite áreas reflectantes o borrosas en la vista previa de la cámara.',
+    learn_more: 'Aprenda cómo funciona el Ajuste Automático.',
+    learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
   },
 };
 

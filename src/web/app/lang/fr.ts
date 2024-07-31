@@ -3,7 +3,7 @@ import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
   general: {
-    wait: "Traitement en cours, patientez s'il vous plaît",
+    processing: "Traitement...",
     choose_folder: 'Choisir un dossier',
   },
   buttons: {
@@ -953,7 +953,8 @@ const lang: ILang = {
           wait_for_parsing_font: 'Analyse de la police... Veuillez patienter une seconde',
           offset: 'Décalage',
           array: 'Tableau',
-          auto_arrange: 'Arrangement Automatique',
+          auto_fit: 'Ajustement Automatique',
+          smart_nest: 'Nidification Intelligente',
           decompose_path: 'Décomposer',
           disassemble_use: 'Désassembler',
           create_textpath: 'Créer un texte sur un tracé',
@@ -1028,6 +1029,7 @@ const lang: ILang = {
       enable_diode: 'Laser à diode',
       enable_autofocus: 'Mise au point automatique',
       extend_workarea: 'Étendre la zone de travail',
+      mirror: 'Miroir',
       pass_through: 'Mode Passage',
       pass_through_height_desc: "Entrez la longueur de l'objet pour étendre la zone de travail.",
       add_on: 'Modules complémentaires',
@@ -1827,6 +1829,17 @@ const lang: ILang = {
     guide_mark_desc: "Les marques de guidage seront gravées comme point de référence pour aligner l'œuvre d'art.",
     export: 'Exporter vers la Zone de Travail',
     exporting: 'Exportation...',
+  },
+  auto_fit: {
+    title: 'Ajustement Automatique',
+    step1: "1. Placez l'objet à l'emplacement souhaité sur une pièce de matériau.",
+    step2: "2. Appuyez sur 'Confirmer' pour dupliquer l'objet sur toutes les pièces similaires de matériau dans l'aperçu de la caméra.",
+    preview_first: "Veuillez d'abord effectuer l'aperçu de la caméra.",
+    error_tip1: "Vérifiez qu'il y a suffisamment de contraste entre le matériau et la zone de travail.",
+    error_tip2: 'Chaque pièce de matériau doit être similaire en taille, forme et couleur.',
+    error_tip3: "Évitez les zones réfléchissantes ou floues dans l'aperçu de la caméra.",
+    learn_more: "Découvrez comment fonctionne l'ajustement automatique.",
+    learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
   },
 };
 

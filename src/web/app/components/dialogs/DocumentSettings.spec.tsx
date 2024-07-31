@@ -89,6 +89,7 @@ jest.mock('helpers/useI18n', () => () => ({
       enable_diode: 'Diode Laser',
       enable_autofocus: 'Autofocus',
       extend_workarea: 'extend_workarea',
+      mirror: 'mirror',
       pass_through: 'Pass Through',
       add_on: 'Add-ons',
       low: 'Low',
@@ -125,7 +126,18 @@ const mockUnmount = jest.fn();
 const mockQuerySelectorAll = jest.fn();
 
 describe('test DocumentSettings', () => {
-  test('should render correctly', async () => {
+  it('should render correctly for ador', async () => {
+    document.querySelectorAll = mockQuerySelectorAll;
+    const { baseElement } = render(<DocumentSettings unmount={mockUnmount} />);
+    const workareaToggle = baseElement.querySelector('input#workarea');
+    fireEvent.mouseDown(workareaToggle);
+    fireEvent.click(baseElement.querySelectorAll('.ant-slide-up-appear .ant-select-item-option-content')[4]);
+    expect(baseElement).toMatchSnapshot();
+    fireEvent.click(baseElement.querySelector('button#rotary_mode'));
+    expect(baseElement).toMatchSnapshot();
+  });
+
+  it('should render correctly', async () => {
     document.querySelectorAll = mockQuerySelectorAll;
     const { baseElement, getByText } = render(<DocumentSettings unmount={mockUnmount} />);
     expect(baseElement).toMatchSnapshot();
@@ -164,15 +176,14 @@ describe('test DocumentSettings', () => {
     const { onConfirm } = mockPopUp.mock.calls[0][0];
     onConfirm();
     await new Promise((resolve) => setTimeout(resolve, 0));
-    expect(mockBeamboxPreferenceWrite).toBeCalledTimes(8);
+    expect(mockBeamboxPreferenceWrite).toBeCalledTimes(7);
     expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(1, 'engrave_dpi', 'high');
     expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(2, 'borderless', true);
     expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(3, 'enable-diode', true);
     expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(4, 'enable-autofocus', true);
     expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(5, 'rotary_mode', 0);
-    expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(6, 'extend-rotary-workarea', false);
-    expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(7, 'pass-through', true);
-    expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(8, 'pass-through-height', 500);
+    expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(6, 'pass-through', true);
+    expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(7, 'pass-through-height', 500);
     expect(mockChangeWorkarea).toBeCalledTimes(1);
     expect(mockChangeWorkarea).toHaveBeenLastCalledWith('fbm1', { toggleModule: true });
     expect(mockToggleDisplay).toBeCalledTimes(1);

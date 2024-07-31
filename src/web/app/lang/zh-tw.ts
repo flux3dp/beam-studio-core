@@ -3,7 +3,7 @@ import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
   general: {
-    wait: '處理中，請稍待',
+    processing: '處理中...',
     choose_folder: '選擇檔案夾',
   },
   buttons: {
@@ -956,7 +956,8 @@ const lang: ILang = {
           wait_for_parsing_font: '解析字體中...',
           offset: '位移複製',
           array: '陣列',
-          auto_arrange: '自動排列',
+          auto_fit: '自動對位',
+          smart_nest: '智慧排版',
           decompose_path: '解散非連續路徑',
           disassemble_use: '解散圖檔',
           create_textpath: '建立路徑文字',
@@ -1031,6 +1032,7 @@ const lang: ILang = {
       enable_diode: '二極體雷射',
       enable_autofocus: '自動對焦',
       extend_workarea: '擴展工作區域',
+      mirror: '鏡像',
       pass_through: '廣域雕刻',
       pass_through_height_desc: '輸入物體長度以擴展工作區域。',
       add_on: '擴充模組',
@@ -1830,6 +1832,17 @@ const lang: ILang = {
     guide_mark_desc: '雕刻輔助標記以作為參考點來對齊物件。',
     export: '輸出到工作區域',
     exporting: '輸出中...',
+  },
+  auto_fit: {
+    title: '自動對位',
+    step1: '1. 將物體放置在一塊材料上想要的位置。',
+    step2: '2. 按“確認”以將物體複製到相機預覽中所有相似的材料上。',
+    preview_first: '請先進行相機預覽。',
+    error_tip1: '檢查材料與工作區域之間是否有足夠的對比度。',
+    error_tip2: '每塊材料必須在尺寸、形狀和顏色上相似。',
+    error_tip3: '避免反射或模糊的相機預覽區域。',
+    learn_more: '瞭解自動對位如何運作。',
+    learn_more_url: 'https://support.flux3dp.com/hc/zh-tw/articles/10273384373775',
   },
 };
 

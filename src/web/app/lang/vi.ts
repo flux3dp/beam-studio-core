@@ -3,7 +3,7 @@ import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
   general: {
-    wait: 'Đang xử lý, vui lòng chờ',
+    processing: 'Đang xử lý...',
     choose_folder: 'Chọn Thư mục',
   },
   buttons: {
@@ -953,7 +953,8 @@ const lang: ILang = {
           wait_for_parsing_font: 'Đang phân tích phông chữ... Vui lòng đợi',
           offset: 'Offset',
           array: 'Mảng',
-          auto_arrange: 'Sắp xếp tự động',
+          auto_fit: 'Tự Động Vừa Khít',
+          smart_nest: 'Tổ Thông Minh',
           decompose_path: 'Tách',
           disassemble_use: 'Tháo rời',
           create_textpath: 'Tạo chữ trên đường viền',
@@ -1028,6 +1029,7 @@ const lang: ILang = {
       enable_diode: 'Laser điốt',
       enable_autofocus: 'Tự động lấy nét',
       extend_workarea: 'Mở rộng khu vực làm việc',
+      mirror: 'Gương',
       pass_through: 'Đi Qua',
       pass_through_height_desc: 'Nhập chiều dài của đối tượng để mở rộng khu vực làm việc.',
       add_on: 'Phụ kiện',
@@ -1827,6 +1829,17 @@ const lang: ILang = {
     guide_mark_desc: 'Dấu hướng dẫn sẽ được khắc làm điểm tham chiếu để căn chỉnh tác phẩm nghệ thuật.',
     export: 'Xuất sang Khu Vực Làm Việc',
     exporting: 'Đang xuất',
+  },
+  auto_fit: {
+    title: 'Tự Động Vừa Khít',
+    step1: '1. Đặt đối tượng vào vị trí mong muốn trên một miếng vật liệu.',
+    step2: '2. Nhấn "Xác nhận" để sao chép đối tượng lên tất cả các miếng vật liệu tương tự trong chế độ xem trước của máy ảnh.',
+    preview_first: 'Vui lòng thực hiện xem trước máy ảnh trước.',
+    error_tip1: 'Kiểm tra xem có đủ độ tương phản giữa vật liệu và khu vực làm việc không.',
+    error_tip2: 'Mỗi miếng vật liệu phải tương tự về kích thước, hình dạng và màu sắc.',
+    error_tip3: 'Tránh các khu vực xem trước của máy ảnh bị phản chiếu hoặc mờ.',
+    learn_more: 'Tìm hiểu cách thức hoạt động của tự động điều chỉnh.',
+    learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
   },
 };
 

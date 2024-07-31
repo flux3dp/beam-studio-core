@@ -3,7 +3,7 @@ import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
   general: {
-    wait: '処理中です、お待ちください',
+    processing: '処理中...',
     choose_folder: 'フォルダーの選択',
   },
   buttons: {
@@ -956,7 +956,8 @@ const lang: ILang = {
           wait_for_parsing_font: 'フォントの解析中です… 少々お待ちください',
           offset: 'オフセット',
           array: '配列',
-          auto_arrange: '自動配置',
+          auto_fit: '自動フィット',
+          smart_nest: 'スマートネスト',
           decompose_path: '離散パスを分解する',
           disassemble_use: '逆アセンブル',
           create_textpath: 'パステキスト作成',
@@ -1031,6 +1032,7 @@ const lang: ILang = {
       enable_diode: 'ダイオードレーザー',
       enable_autofocus: 'オートフォーカス',
       extend_workarea: '作業エリアを拡張する',
+      mirror: 'ミラー',
       pass_through: 'パススルーモード',
       pass_through_height_desc: '作業エリアを拡張するためにオブジェクトの長さを入力してください。',
       add_on: 'アドオン',
@@ -1830,6 +1832,17 @@ const lang: ILang = {
     guide_mark_desc: 'ガイドマークはアートワークを整列させるための基準点として刻まれます。',
     export: '作業エリアにエクスポート',
     exporting: 'エクスポート中...',
+  },
+  auto_fit: {
+    title: '自動フィット',
+    step1: '1. 1つの材料上で、オブジェクトを所望の位置に配置してください。',
+    step2: '2. "確認"を押して、カメラプレビューの中にいる同様のすべての材料にオブジェクトを複製してください。',
+    preview_first: '自動フィットの前にカメラプレビューを行ってください。',
+    error_tip1: '素材と作業エリアの間に十分なコントラストがあることを確認してください。',
+    error_tip2: '各素材のサイズ、形、色が似ていることが必要です。',
+    error_tip3: '反射やぼやけたカメラプレビュー領域を避けてください。',
+    learn_more: '自動フィットを学びましょう。',
+    learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
   },
 };
 

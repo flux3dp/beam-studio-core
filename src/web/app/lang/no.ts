@@ -3,7 +3,7 @@ import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
   general: {
-    wait: 'Behandler, vennligst vent',
+    processing: 'Behandler...',
     choose_folder: 'Velg mappe',
   },
   buttons: {
@@ -953,7 +953,8 @@ const lang: ILang = {
           wait_for_parsing_font: 'Tolker font... Vennligst vent et øyeblikk',
           offset: 'Forskyvning',
           array: 'Matrise',
-          auto_arrange: 'Automatisk Ordne',
+          auto_fit: 'Automatisk Tilpasning',
+          smart_nest: 'Smart Nest',
           decompose_path: 'Dekomponer',
           disassemble_use: 'Demonter',
           create_textpath: 'Lag tekstbane',
@@ -1028,6 +1029,7 @@ const lang: ILang = {
       enable_diode: 'Diode-laser',
       enable_autofocus: 'Autofokus',
       extend_workarea: 'Utvid arbeidsområdet',
+      mirror: 'Speiling',
       pass_through: 'Gå Gjennom',
       pass_through_height_desc: 'Skriv inn lengden på objektet for å utvide arbeidsområdet.',
       add_on: 'Tillegg',
@@ -1827,6 +1829,17 @@ const lang: ILang = {
     guide_mark_desc: 'Veiledningsmerker vil bli gravert som et referansepunkt for å justere kunstverket.',
     export: 'Eksporter til Arbeidsområde',
     exporting: 'Eksporterer...',
+  },
+  auto_fit: {
+    title: 'Automatisk Tilpasning',
+    step1: '1. Plasser objektet i ønsket posisjon på ett stykke materiale.',
+    step2: '2. Trykk "Bekreft" for å duplisere objektet til alle lignende materialstykker i kameraforhåndsvisningen.',
+    preview_first: 'Utfør kameraforhåndsvisningen først.',
+    error_tip1: 'Sjekk at det er nok kontrast mellom materialet og arbeidsområdet.',
+    error_tip2: 'Hver bit materiale må være lik i størrelse, form og farge.',
+    error_tip3: 'Unngå reflekterende eller uskarpe kamera-forhåndsvisningsområder.',
+    learn_more: 'Lær hvordan Automatisk Tilpasning fungerer.',
+    learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
   },
 };
 

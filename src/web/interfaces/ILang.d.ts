@@ -1,6 +1,6 @@
 export interface ILang {
   general: {
-    wait: string,
+    processing: string,
     choose_folder: string,
   },
   buttons: {
@@ -953,7 +953,8 @@ export interface ILang {
           wait_for_parsing_font: string,
           offset: string,
           array: string,
-          auto_arrange: string;
+          auto_fit: string;
+          smart_nest: string;
           decompose_path: string,
           disassemble_use: string,
           disassembling: string,
@@ -1028,6 +1029,7 @@ export interface ILang {
       enable_diode: string,
       enable_autofocus: string,
       extend_workarea: string;
+      mirror: string;
       pass_through: string;
       pass_through_height_desc: string;
       add_on: string,
@@ -1827,5 +1829,16 @@ export interface ILang {
     guide_mark_desc: string;
     export: string;
     exporting: string;
+  };
+  auto_fit: {
+    title: string;
+    step1: string;
+    step2: string;
+    preview_first: string;
+    error_tip1: string;
+    error_tip2: string;
+    error_tip3: string;
+    learn_more: string;
+    learn_more_url: string;
   };
 }

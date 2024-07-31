@@ -62,6 +62,7 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
   const [extendRotaryWorkarea, setExtendRotaryWorkarea] = useState<boolean>(
     !!BeamboxPreference.read('extend-rotary-workarea')
   );
+  const [mirrorRotary, setMirrorRotary] = useState<boolean>(!!BeamboxPreference.read('rotary-mirror'));
   const [borderless, setBorderless] = useState(!!BeamboxPreference.read('borderless'));
   const [enableDiode, setEnableDiode] = useState(!!BeamboxPreference.read('enable-diode'));
   const [enableAutofocus, setEnableAutofocus] = useState(
@@ -114,7 +115,10 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
       rotaryMode !== BeamboxPreference.read('rotary_mode') ||
       extendRotaryWorkarea !== !!BeamboxPreference.read('extend-rotary-workarea');
     BeamboxPreference.write('rotary_mode', rotaryMode);
-    BeamboxPreference.write('extend-rotary-workarea', extendRotaryWorkarea);
+    if (workarea === 'ado1' && rotaryMode > 0) {
+      BeamboxPreference.write('extend-rotary-workarea', extendRotaryWorkarea);
+      BeamboxPreference.write('rotary-mirror', mirrorRotary);
+    }
 
     const newPassThrough = shouldPassThrough && passThrough;
     const passThroughChanged = newPassThrough !== !!BeamboxPreference.read('pass-through');
@@ -188,11 +192,13 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
               <div className={styles.control}>
                 <Switch
                   id="rotary_mode"
+                  className={styles.switch}
                   checked={rotaryMode > 0}
                   disabled={workareaObj.rotary.length === 1}
                   onChange={handleRotaryModeChange}
                 />
                 {workarea === 'ado1' && rotaryMode > 0 && (
+                  <>
                   <div className={styles.subCheckbox}>
                     <Checkbox
                       checked={extendRotaryWorkarea}
@@ -200,7 +206,14 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
                     >
                       {langDocumentSettings.extend_workarea}
                     </Checkbox>
+                    <Checkbox
+                      checked={mirrorRotary}
+                      onChange={(e) => setMirrorRotary(e.target.checked)}
+                    >
+                      {langDocumentSettings.mirror}
+                    </Checkbox>
                   </div>
+                  </>
                 )}
               </div>
             </div>
@@ -213,6 +226,7 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
               <div className={styles.control}>
                 <Switch
                   id="autofocus-module"
+                  className={styles.switch}
                   checked={supportInfo.autoFocus && enableAutofocus}
                   disabled={!supportInfo.autoFocus}
                   onChange={handleAutofocusModuleChange}
@@ -228,6 +242,7 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
               <div className={styles.control}>
                 <Switch
                   id="borderless_mode"
+                  className={styles.switch}
                   checked={supportInfo.openBottom && borderless}
                   disabled={!supportInfo.openBottom}
                   onChange={handleBorderlessModeChange}
@@ -243,6 +258,7 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
               <div className={styles.control}>
                 <Switch
                   id="diode_module"
+                  className={styles.switch}
                   checked={supportInfo.hybridLaser && enableDiode}
                   disabled={!supportInfo.hybridLaser}
                   onChange={handleDiodeModuleChange}
@@ -258,6 +274,7 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
               <div className={styles.control}>
                 <Switch
                   id="pass_through"
+                  className={styles.switch}
                   checked={supportInfo.passThrough && passThrough}
                   disabled={!supportInfo.passThrough}
                   onChange={handlePassThrough}

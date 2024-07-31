@@ -3,7 +3,7 @@ import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
   general: {
-    wait: 'Behandler, vent venligst',
+    processing: 'Behandler...',
     choose_folder: 'Vælg mappe',
   },
   buttons: {
@@ -953,7 +953,8 @@ const lang: ILang = {
           wait_for_parsing_font: 'Fortolker tekst... Vent venligst',
           offset: 'Forskyd',
           array: 'Array',
-          auto_arrange: 'Autoarrangér',
+          auto_fit: 'Auto Fit',
+          smart_nest: 'Smart Nest',
           decompose_path: 'Dekomponer',
           disassemble_use: 'Skil ad',
           create_textpath: 'Opret tekst på sti',
@@ -1028,6 +1029,7 @@ const lang: ILang = {
       enable_diode: 'Diodelaser',
       enable_autofocus: 'Autofokus',
       extend_workarea: 'Udvid arbejdsområdet',
+      mirror: 'Spejling',
       pass_through: 'Gennemgang',
       pass_through_height_desc: 'Indtast længden på objektet for at udvide arbejdsområdet.',
       add_on: 'Tilføjelser',
@@ -1827,6 +1829,17 @@ const lang: ILang = {
     guide_mark_desc: 'Vejledning linjer vil blive graveret som et referencepunkt for at justere kunstværket.',
     export: 'Eksportér til Arbejdsområde',
     exporting: 'Eksporterer...',
+  },
+  auto_fit: {
+    title: 'Auto Fit',
+    step1: '1. Placer objektet i den ønskede position på ét stykke materiale.',
+    step2: '2. Tryk på "Bekræft" for at duplikere objektet på alle lignende stykker materiale i kameraforhåndsvisningen.',
+    preview_first: 'Udfør venligst kameraforhåndsvisning først.',
+    error_tip1: 'Kontroller, at der er tilstrækkelig kontrast mellem materialet og arbejdsområdet.',
+    error_tip2: 'Hvert stykke materiale skal være ens i størrelse, form og farve.',
+    error_tip3: 'Undgå reflekterende eller uklare kamera-forhåndsvisningsområder.',
+    learn_more: 'Lær, hvordan Auto Fit fungerer.',
+    learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
   },
 };
 

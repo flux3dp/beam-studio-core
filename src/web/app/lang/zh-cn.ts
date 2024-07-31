@@ -3,7 +3,7 @@ import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
   general: {
-    wait: '处理中，请稍待',
+    processing: '处理中...',
     choose_folder: '选择档案夹',
   },
   buttons: {
@@ -956,7 +956,8 @@ const lang: ILang = {
           wait_for_parsing_font: '解析字体中...',
           offset: '位移複製',
           array: '阵列',
-          auto_arrange: '自动排列',
+          auto_fit: '自动适配',
+          smart_nest: '智能排版',
           decompose_path: '解散非连续路径',
           disassemble_use: '解散图档',
           create_textpath: '建立路径文本',
@@ -1031,6 +1032,7 @@ const lang: ILang = {
       enable_diode: '二极管激光',
       enable_autofocus: '自动对焦',
       extend_workarea: '扩展工作区域',
+      mirror: '镜像',
       pass_through: '广域雕刻',
       pass_through_height_desc: '输入物体长度以扩展工作区域。',
       add_on: '扩充模组',
@@ -1830,6 +1832,17 @@ const lang: ILang = {
     guide_mark_desc: '引导标记将被刻为对齐艺术作品的参考点。',
     export: '导出到工作区域',
     exporting: '导出中...',
+  },
+  auto_fit: {
+    title: '自动适配',
+    step1: '1. 将物体放置在一块材料的理想位置。',
+    step2: '2. 按“确认”以在相机预览中将物体复制到所有相似的材料上。',
+    preview_first: '请先进行相机预览。',
+    error_tip1: '检查材料与工作区域之间是否有足够的对比度。',
+    error_tip2: '每块材料必须在尺寸、形状和颜色上相似。',
+    error_tip3: '避免反射或模糊的相机预览区域。',
+    learn_more: '了解自动适应如何工作。',
+    learn_more_url: 'https://support.flux3dp.com/hc/zh-tw/articles/10273384373775',
   },
 };
 

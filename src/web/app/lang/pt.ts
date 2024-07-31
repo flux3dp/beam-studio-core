@@ -3,7 +3,7 @@ import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
   general: {
-    wait: 'Aguarde',
+    processing: 'Processando...',
     choose_folder: 'Escolher pasta',
   },
   buttons: {
@@ -953,7 +953,8 @@ const lang: ILang = {
           wait_for_parsing_font: 'Analisando fonte... Por favor, aguarde um segundo',
           offset: 'Deslocamento',
           array: 'Matriz',
-          auto_arrange: 'Arranjo Automático',
+          auto_fit: 'Ajuste Automático',
+          smart_nest: 'Aninhamento Inteligente',
           decompose_path: 'Descompor',
           disassemble_use: 'Desmontar',
           create_textpath: 'Criar texto no contorno',
@@ -1028,6 +1029,7 @@ const lang: ILang = {
       enable_diode: 'Laser de diodo',
       enable_autofocus: 'Foco automático',
       extend_workarea: 'Expandir área de trabalho',
+      mirror: 'Espelho',
       pass_through: 'Passar Por',
       pass_through_height_desc: 'Insira o comprimento do objeto para estender a área de trabalho.',
       add_on: 'Complementos',
@@ -1827,6 +1829,17 @@ const lang: ILang = {
     guide_mark_desc: 'As marcas de guia serão gravadas como um ponto de referência para alinhar a obra de arte.',
     export: 'Exportar para Área de Trabalho',
     exporting: 'Exportando...',
+  },
+  auto_fit: {
+    title: 'Ajuste Automático',
+    step1: '1. Coloque o objeto na posição desejada em uma peça de material.',
+    step2: '2. Pressione "Confirmar" para duplicar o objeto em todas as peças de material semelhantes na pré-visualização da câmera.',
+    preview_first: 'Por favor, realize a pré-visualização da câmera primeiro.',
+    error_tip1: 'Verifique se há contraste suficiente entre o material e a área de trabalho.',
+    error_tip2: 'Cada peça de material deve ser semelhante em tamanho, forma e cor.',
+    error_tip3: 'Evite áreas reflexivas ou desfocadas na pré-visualização da câmera.',
+    learn_more: 'Aprenda como funciona o ajuste automático.',
+    learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
   },
 };
 

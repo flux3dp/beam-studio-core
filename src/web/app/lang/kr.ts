@@ -3,7 +3,7 @@ import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
   general: {
-    wait: '진행중, 잠시 기다려 주세요.',
+    processing: '처리 중...',
     choose_folder: '폴더를 선택해 주세요.',
   },
   buttons: {
@@ -956,7 +956,8 @@ const lang: ILang = {
           wait_for_parsing_font: '글꼴 구문 분석 중... 잠시만 기다려주세요.',
           offset: '오프셋',
           array: '어레이',
-          auto_arrange: '자동 정렬',
+          auto_fit: '자동 맞춤',
+          smart_nest: '스마트 네스트',
           decompose_path: '분해',
           disassemble_use: '해체',
           create_textpath: '경로상 텍스트 만들기',
@@ -1031,6 +1032,7 @@ const lang: ILang = {
       enable_diode: '다이오드 레이저',
       enable_autofocus: '오토포커스',
       extend_workarea: '작업 영역 확장',
+      mirror: '미러',
       pass_through: '통과',
       pass_through_height_desc: '작업 영역을 확장하기 위해 객체의 길이를 입력하십시오.',
       add_on: '애드온',
@@ -1830,6 +1832,17 @@ const lang: ILang = {
     guide_mark_desc: '가이드 마크는 작품 정렬을 위한 기준점으로 새겨집니다.',
     export: '작업 영역으로 내보내기',
     exporting: '내보내는 중...',
+  },
+  auto_fit: {
+    title: '자동 맞춤',
+    step1: '1. 물체를 하나의 재료 위에 원하는 위치에 놓으세요.',
+    step2: '2. "확인"을 눌러 카메라 미리보기에서 유사한 모든 재료에 물체를 복제하세요.',
+    preview_first: '먼저 카메라 미리보기를 수행하세요.',
+    error_tip1: '재료와 작업 영역 사이에 충분한 대비가 있는지 확인하십시오.',
+    error_tip2: '각 재료 조각은 크기, 모양, 색상이 유사해야 합니다.',
+    error_tip3: '반사되거나 흐릿한 카메라 미리보기 영역을 피하십시오.',
+    learn_more: '자동 맞춤 기능이 어떻게 작동하는지 알아보십시오.',
+    learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
   },
 };
 

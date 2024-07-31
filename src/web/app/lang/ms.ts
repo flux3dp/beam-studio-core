@@ -3,7 +3,7 @@ import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
   general: {
-    wait: 'Sedang memproses, sila tunggu',
+    processing: 'Memproses...',
     choose_folder: 'Pilih Folder',
   },
   buttons: {
@@ -953,7 +953,8 @@ const lang: ILang = {
           wait_for_parsing_font: 'Mohon tunggu sebentar',
           offset: 'Ofset',
           array: 'Susunan',
-          auto_arrange: 'Penataan Auto',
+          auto_fit: 'Muat Auto',
+          smart_nest: 'Sarang Pintar',
           decompose_path: 'Hurai',
           disassemble_use: 'Hurai',
           create_textpath: 'Cipta Teks pada Laluan',
@@ -1028,6 +1029,7 @@ const lang: ILang = {
       enable_diode: 'Laser Diod',
       enable_autofocus: 'Autofokus',
       extend_workarea: 'Perluaskan kawasan kerja',
+      mirror: 'Cermin',
       pass_through: 'Lalu',
       pass_through_height_desc: 'Masukkan panjang objek untuk melanjutkan kawasan kerja.',
       add_on: 'Tambahan',
@@ -1827,6 +1829,17 @@ const lang: ILang = {
     guide_mark_desc: 'Tanda panduan akan diukir sebagai titik rujukan untuk menyelaraskan karya seni.',
     export: 'Eksport ke Kawasan Kerja',
     exporting: 'Mengeksport...',
+  },
+  auto_fit: {
+    title: 'Muat Auto',
+    step1: '1. Letakkan objek di posisi yang dikehendaki pada satu keping bahan.',
+    step2: '2. Tekan "Sahkan" untuk menggandakan objek pada semua keping bahan yang serupa dalam pratonton kamera.',
+    preview_first: 'Sila lakukan pratonton kamera terlebih dahulu.',
+    error_tip1: 'Periksa ada kontras yang mencukupi antara bahan dan kawasan kerja.',
+    error_tip2: 'Setiap kepingan bahan perlu serupa dalam saiz, bentuk dan warna.',
+    error_tip3: 'Elakkan kawasan pratonton kamera yang memantul atau kabur.',
+    learn_more: 'Ketahui cara kerja Muat Auto.',
+    learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
   },
 };
 

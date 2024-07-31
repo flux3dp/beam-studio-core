@@ -3,7 +3,7 @@ import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
   general: {
-    wait: 'Bearbetar, vänta',
+    processing: 'Bearbetar...',
     choose_folder: 'Välj mapp',
   },
   buttons: {
@@ -953,7 +953,8 @@ const lang: ILang = {
           wait_for_parsing_font: 'Tolkar font... Vänta en sekund',
           offset: 'Förskjutning',
           array: 'Fält',
-          auto_arrange: 'Automatisk Arrangemang',
+          auto_fit: 'Auto Fit',
+          smart_nest: 'Smart Nest',
           decompose_path: 'Dela upp',
           disassemble_use: 'Demontera',
           create_textpath: 'Skapa text på bana',
@@ -1028,6 +1029,7 @@ const lang: ILang = {
       enable_diode: 'Diodlaser',
       enable_autofocus: 'Autofokus',
       extend_workarea: 'Utvidga arbetsområdet',
+      mirror: 'Spegel',
       pass_through: 'Passera Igenom',
       pass_through_height_desc: 'Ange längden på objektet för att utöka arbetsområdet.',
       add_on: 'Tillägg',
@@ -1827,6 +1829,17 @@ const lang: ILang = {
     guide_mark_desc: 'Guidemärken kommer att graveras som en referenspunkt för att justera konstverket.',
     export: 'Exportera till Arbetsområde',
     exporting: 'Exporterar...',
+  },
+  auto_fit: {
+    title: 'Auto Fit',
+    step1: '1. Placer objektet i önskad position på en bit material.',
+    step2: '2. Tryck på "Bekräfta" för att duplicera objektet på alla liknande materialbitar i kameraförhandsgranskningen.',
+    preview_first: 'Utför kameraförhandsgranskningen först.',
+    error_tip1: 'Kontrollera att det finns tillräcklig kontrast mellan materialet och arbetsområdet.',
+    error_tip2: 'Varje stycke material måste vara liknande i storlek, form och färg.',
+    error_tip3: 'Undvik reflekterande eller suddiga områden i kameraförhandsgranskningen.',
+    learn_more: 'Lär dig hur auto fit fungerar.',
+    learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
   },
 };
 

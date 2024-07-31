@@ -3,7 +3,7 @@ import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
   general: {
-    wait: 'Memproses, harap tunggu',
+    processing: 'Memproses...',
     choose_folder: 'Pilih Folder',
   },
   buttons: {
@@ -953,7 +953,8 @@ const lang: ILang = {
           wait_for_parsing_font: 'Mengurai font... Mohon tunggu sebentar',
           offset: 'Offset',
           array: 'Array',
-          auto_arrange: 'Penataan Otomatis',
+          auto_fit: 'Pas Otomatis',
+          smart_nest: 'Sarang Cerdas',
           decompose_path: 'Dekomposisi',
           disassemble_use: 'Lepaskan',
           create_textpath: 'Buat Teks pada Jalur',
@@ -1028,6 +1029,7 @@ const lang: ILang = {
       enable_diode: 'Laser Diode',
       enable_autofocus: 'Autofokus',
       extend_workarea: 'Perluas area kerja',
+      mirror: 'Cermin',
       pass_through: 'Mode Lewat',
       pass_through_height_desc: 'Masukkan panjang objek untuk memperluas area kerja.',
       add_on: 'Add-on',
@@ -1827,6 +1829,17 @@ const lang: ILang = {
     guide_mark_desc: 'Tanda panduan akan diukir sebagai titik referensi untuk menyelaraskan karya seni.',
     export: 'Ekspor ke Area Kerja',
     exporting: 'Mengekspor...',
+  },
+  auto_fit: {
+    title: 'Pas Otomatis',
+    step1: '1. Letakkan objek di posisi yang diinginkan pada satu potong bahan.',
+    step2: '2. Tekan "Konfirmasi" untuk menduplikasi objek ke semua potongan bahan serupa dalam pratinjau kamera.',
+    preview_first: 'Silakan lakukan pratinjau kamera terlebih dahulu.',
+    error_tip1: 'Periksa apakah ada kontras yang cukup antara bahan dan area kerja.',
+    error_tip2: 'Setiap potongan bahan harus serupa dalam ukuran, bentuk, dan warna.',
+    error_tip3: 'Hindari area pratinjau kamera yang reflektif atau buram.',
+    learn_more: 'Pelajari cara kerja Pas Otomatis.',
+    learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
   },
 };
 

@@ -16,11 +16,6 @@ jest.mock('implementations/dialog', () => ({
   getFileFromDialog,
 }));
 
-const toggleUnsavedChangedDialog = jest.fn();
-jest.mock('helpers/file-export-helper', () => ({
-  toggleUnsavedChangedDialog,
-}));
-
 const convertTextToPath = jest.fn();
 jest.mock('app/actions/beambox/font-funcs', () => ({
   convertTextToPath,
@@ -72,7 +67,8 @@ const tActionPanel = {
   wait_for_parsing_font: 'Parsing font... Please wait a second',
   offset: 'offset',
   array: 'array',
-  auto_arrange: 'auto_arrange',
+  auto_fit: 'auto_fit',
+  smart_nest: 'smart_nest',
   decompose_path: 'decompose_path',
   disassemble_use: 'disassemble_use',
   disassembling: 'Disassembling...',
@@ -84,20 +80,17 @@ const tActionPanel = {
   weld_text: 'weld_text',
 };
 
-jest.mock('helpers/i18n', () => ({
-  lang: {
-    alert: {
-      oops: 'oops',
-    },
-    beambox: {
-      right_panel: {
-        object_panel: {
-          actions_panel: tActionPanel,
-        },
+jest.mock('helpers/useI18n', () => () => ({
+  beambox: {
+    right_panel: {
+      object_panel: {
+        actions_panel: tActionPanel,
       },
     },
   },
 }));
+
+jest.mock('helpers/web-need-connection-helper', () => (callback) => callback());
 
 const mockCheckConnection = jest.fn();
 jest.mock('helpers/api/discover', () => ({
@@ -241,7 +234,7 @@ describe('should render correctly', () => {
     fireEvent.click(getByText(tActionPanel.array));
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
 
-    fireEvent.click(getByText(tActionPanel.auto_arrange));
+    fireEvent.click(getByText(tActionPanel.smart_nest));
     expect(mockSvgNestButtons).toHaveBeenCalledTimes(1);
   });
 
@@ -252,7 +245,9 @@ describe('should render correctly', () => {
       },
     });
     document.body.innerHTML = '<text id="svg_1" />';
-    const { container, getByText } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+    const { container, getByText } = render(
+      <ActionsPanel elem={document.getElementById('svg_1')} />
+    );
     expect(container).toMatchSnapshot();
 
     convertTextToPath.mockResolvedValueOnce({});
@@ -274,13 +269,15 @@ describe('should render correctly', () => {
 
     fireEvent.click(getByText(tActionPanel.array));
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
-    fireEvent.click(getByText(tActionPanel.auto_arrange));
+    fireEvent.click(getByText(tActionPanel.smart_nest));
     expect(mockSvgNestButtons).toHaveBeenCalledTimes(1);
   });
 
   test('path', () => {
     document.body.innerHTML = '<path id="svg_1" />';
-    const { container, getByText } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+    const { container, getByText } = render(
+      <ActionsPanel elem={document.getElementById('svg_1')} />
+    );
     expect(container).toMatchSnapshot();
 
     fireEvent.click(getByText(tActionPanel.edit_path));
@@ -291,13 +288,15 @@ describe('should render correctly', () => {
     expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
     fireEvent.click(getByText(tActionPanel.array));
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
-    fireEvent.click(getByText(tActionPanel.auto_arrange));
+    fireEvent.click(getByText(tActionPanel.smart_nest));
     expect(mockSvgNestButtons).toHaveBeenCalledTimes(1);
   });
 
   test('rect', () => {
     document.body.innerHTML = '<rect id="svg_1" />';
-    const { container, getByText } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+    const { container, getByText } = render(
+      <ActionsPanel elem={document.getElementById('svg_1')} />
+    );
     expect(container).toMatchSnapshot();
 
     fireEvent.click(getByText(tActionPanel.convert_to_path));
@@ -306,13 +305,15 @@ describe('should render correctly', () => {
     expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
     fireEvent.click(getByText(tActionPanel.array));
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
-    fireEvent.click(getByText(tActionPanel.auto_arrange));
+    fireEvent.click(getByText(tActionPanel.smart_nest));
     expect(mockSvgNestButtons).toHaveBeenCalledTimes(1);
   });
 
   test('ellipse', () => {
     document.body.innerHTML = '<ellipse id="svg_1" />';
-    const { container, getByText } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+    const { container, getByText } = render(
+      <ActionsPanel elem={document.getElementById('svg_1')} />
+    );
     expect(container).toMatchSnapshot();
 
     fireEvent.click(getByText(tActionPanel.convert_to_path));
@@ -321,13 +322,15 @@ describe('should render correctly', () => {
     expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
     fireEvent.click(getByText(tActionPanel.array));
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
-    fireEvent.click(getByText(tActionPanel.auto_arrange));
+    fireEvent.click(getByText(tActionPanel.smart_nest));
     expect(mockSvgNestButtons).toHaveBeenCalledTimes(1);
   });
 
   test('polygon', () => {
     document.body.innerHTML = '<polygon id="svg_1" />';
-    const { container, getByText } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+    const { container, getByText } = render(
+      <ActionsPanel elem={document.getElementById('svg_1')} />
+    );
     expect(container).toMatchSnapshot();
 
     fireEvent.click(getByText(tActionPanel.convert_to_path));
@@ -336,13 +339,15 @@ describe('should render correctly', () => {
     expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
     fireEvent.click(getByText(tActionPanel.array));
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
-    fireEvent.click(getByText(tActionPanel.auto_arrange));
+    fireEvent.click(getByText(tActionPanel.smart_nest));
     expect(mockSvgNestButtons).toHaveBeenCalledTimes(1);
   });
 
   test('line', () => {
     document.body.innerHTML = '<line id="svg_1" />';
-    const { container, getByText } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+    const { container, getByText } = render(
+      <ActionsPanel elem={document.getElementById('svg_1')} />
+    );
     expect(container).toMatchSnapshot();
 
     fireEvent.click(getByText(tActionPanel.convert_to_path));
@@ -351,20 +356,22 @@ describe('should render correctly', () => {
     expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
     fireEvent.click(getByText(tActionPanel.array));
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
-    fireEvent.click(getByText(tActionPanel.auto_arrange));
+    fireEvent.click(getByText(tActionPanel.smart_nest));
     expect(mockSvgNestButtons).toHaveBeenCalledTimes(1);
   });
 
   test('use', () => {
     document.body.innerHTML = '<use id="svg_1" />';
-    const { container, getByText } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+    const { container, getByText } = render(
+      <ActionsPanel elem={document.getElementById('svg_1')} />
+    );
     expect(container).toMatchSnapshot();
 
     fireEvent.click(getByText(tActionPanel.disassemble_use));
     expect(disassembleUse2Group).toHaveBeenCalledTimes(1);
     fireEvent.click(getByText(tActionPanel.array));
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
-    fireEvent.click(getByText(tActionPanel.auto_arrange));
+    fireEvent.click(getByText(tActionPanel.smart_nest));
     expect(mockSvgNestButtons).toHaveBeenCalledTimes(1);
   });
 
@@ -376,25 +383,29 @@ describe('should render correctly', () => {
           <ellipse id="svg_2" />
         </g>
       `;
-      const { container, getByText } = render(<ActionsPanel elem={document.getElementById('svg_3')} />);
+      const { container, getByText } = render(
+        <ActionsPanel elem={document.getElementById('svg_3')} />
+      );
       expect(container).toMatchSnapshot();
 
       fireEvent.click(getByText(tActionPanel.offset));
       expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
       fireEvent.click(getByText(tActionPanel.array));
       expect(triggerGridTool).toHaveBeenCalledTimes(1);
-      fireEvent.click(getByText(tActionPanel.auto_arrange));
+      fireEvent.click(getByText(tActionPanel.smart_nest));
       expect(mockSvgNestButtons).toHaveBeenCalledTimes(1);
     });
 
     test('single selection', () => {
       document.body.innerHTML = '<g id="svg_1" />';
-      const { container, getByText } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+      const { container, getByText } = render(
+        <ActionsPanel elem={document.getElementById('svg_1')} />
+      );
       expect(container).toMatchSnapshot();
 
       fireEvent.click(getByText(tActionPanel.array));
       expect(triggerGridTool).toHaveBeenCalledTimes(1);
-      fireEvent.click(getByText(tActionPanel.auto_arrange));
+      fireEvent.click(getByText(tActionPanel.smart_nest));
       expect(mockSvgNestButtons).toHaveBeenCalledTimes(1);
     });
   });
@@ -413,7 +424,9 @@ describe('should render correctly in mobile', () => {
 
   test('image', async () => {
     document.body.innerHTML = '<image id="svg_1" />';
-    const { container, getByText } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+    const { container, getByText } = render(
+      <ActionsPanel elem={document.getElementById('svg_1')} />
+    );
     expect(container).toMatchSnapshot();
 
     const blob = new Blob();
@@ -495,7 +508,9 @@ describe('should render correctly in mobile', () => {
       },
     });
     document.body.innerHTML = '<text id="svg_1" />';
-    const { container, getByText } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+    const { container, getByText } = render(
+      <ActionsPanel elem={document.getElementById('svg_1')} />
+    );
     expect(container).toMatchSnapshot();
 
     convertTextToPath.mockResolvedValueOnce({});
@@ -517,13 +532,15 @@ describe('should render correctly in mobile', () => {
 
     fireEvent.click(getByText(tActionPanel.array));
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
-    fireEvent.click(getByText(tActionPanel.auto_arrange));
+    fireEvent.click(getByText(tActionPanel.smart_nest));
     expect(mockSvgNestButtons).toHaveBeenCalledTimes(1);
   });
 
   test('path', () => {
     document.body.innerHTML = '<path id="svg_1" />';
-    const { container, getByText } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+    const { container, getByText } = render(
+      <ActionsPanel elem={document.getElementById('svg_1')} />
+    );
     expect(container).toMatchSnapshot();
 
     fireEvent.click(getByText(tActionPanel.edit_path));
@@ -534,13 +551,15 @@ describe('should render correctly in mobile', () => {
     expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
     fireEvent.click(getByText(tActionPanel.array));
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
-    fireEvent.click(getByText(tActionPanel.auto_arrange));
+    fireEvent.click(getByText(tActionPanel.smart_nest));
     expect(mockSvgNestButtons).toHaveBeenCalledTimes(1);
   });
 
   test('rect', () => {
     document.body.innerHTML = '<rect id="svg_1" />';
-    const { container, getByText } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+    const { container, getByText } = render(
+      <ActionsPanel elem={document.getElementById('svg_1')} />
+    );
     expect(container).toMatchSnapshot();
 
     fireEvent.click(getByText(tActionPanel.outline));
@@ -549,13 +568,15 @@ describe('should render correctly in mobile', () => {
     expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
     fireEvent.click(getByText(tActionPanel.array));
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
-    fireEvent.click(getByText(tActionPanel.auto_arrange));
+    fireEvent.click(getByText(tActionPanel.smart_nest));
     expect(mockSvgNestButtons).toHaveBeenCalledTimes(1);
   });
 
   test('ellipse', () => {
     document.body.innerHTML = '<ellipse id="svg_1" />';
-    const { container, getByText } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+    const { container, getByText } = render(
+      <ActionsPanel elem={document.getElementById('svg_1')} />
+    );
     expect(container).toMatchSnapshot();
 
     fireEvent.click(getByText(tActionPanel.outline));
@@ -564,13 +585,15 @@ describe('should render correctly in mobile', () => {
     expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
     fireEvent.click(getByText(tActionPanel.array));
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
-    fireEvent.click(getByText(tActionPanel.auto_arrange));
+    fireEvent.click(getByText(tActionPanel.smart_nest));
     expect(mockSvgNestButtons).toHaveBeenCalledTimes(1);
   });
 
   test('polygon', () => {
     document.body.innerHTML = '<polygon id="svg_1" />';
-    const { container, getByText } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+    const { container, getByText } = render(
+      <ActionsPanel elem={document.getElementById('svg_1')} />
+    );
     expect(container).toMatchSnapshot();
 
     fireEvent.click(getByText(tActionPanel.outline));
@@ -579,7 +602,7 @@ describe('should render correctly in mobile', () => {
     expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
     fireEvent.click(getByText(tActionPanel.array));
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
-    fireEvent.click(getByText(tActionPanel.auto_arrange));
+    fireEvent.click(getByText(tActionPanel.smart_nest));
     expect(mockSvgNestButtons).toHaveBeenCalledTimes(1);
   });
 
@@ -596,20 +619,22 @@ describe('should render correctly in mobile', () => {
     expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
     fireEvent.click(getByText(tActionPanel.array));
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
-    fireEvent.click(getByText(tActionPanel.auto_arrange));
+    fireEvent.click(getByText(tActionPanel.smart_nest));
     expect(mockSvgNestButtons).toHaveBeenCalledTimes(1);
   });
 
   test('use', () => {
     document.body.innerHTML = '<use id="svg_1" />';
-    const { container, getByText } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+    const { container, getByText } = render(
+      <ActionsPanel elem={document.getElementById('svg_1')} />
+    );
     expect(container).toMatchSnapshot();
 
     fireEvent.click(getByText(tActionPanel.disassemble_use));
     expect(disassembleUse2Group).toHaveBeenCalledTimes(1);
     fireEvent.click(getByText(tActionPanel.array));
     expect(triggerGridTool).toHaveBeenCalledTimes(1);
-    fireEvent.click(getByText(tActionPanel.auto_arrange));
+    fireEvent.click(getByText(tActionPanel.smart_nest));
     expect(mockSvgNestButtons).toHaveBeenCalledTimes(1);
   });
 
@@ -621,23 +646,27 @@ describe('should render correctly in mobile', () => {
           <ellipse id="svg_2" />
         </g>
       `;
-      const { container, getByText } = render(<ActionsPanel elem={document.getElementById('svg_3')} />);
+      const { container, getByText } = render(
+        <ActionsPanel elem={document.getElementById('svg_3')} />
+      );
       expect(container).toMatchSnapshot();
       fireEvent.click(getByText(tActionPanel.offset));
       expect(triggerOffsetTool).toHaveBeenCalledTimes(1);
       fireEvent.click(getByText(tActionPanel.array));
       expect(triggerGridTool).toHaveBeenCalledTimes(1);
-      fireEvent.click(getByText(tActionPanel.auto_arrange));
+      fireEvent.click(getByText(tActionPanel.smart_nest));
       expect(mockSvgNestButtons).toHaveBeenCalledTimes(1);
     });
 
     test('single selection', () => {
       document.body.innerHTML = '<g id="svg_1" />';
-      const { container, getByText } = render(<ActionsPanel elem={document.getElementById('svg_1')} />);
+      const { container, getByText } = render(
+        <ActionsPanel elem={document.getElementById('svg_1')} />
+      );
       expect(container).toMatchSnapshot();
       fireEvent.click(getByText(tActionPanel.array));
       expect(triggerGridTool).toHaveBeenCalledTimes(1);
-      fireEvent.click(getByText(tActionPanel.auto_arrange));
+      fireEvent.click(getByText(tActionPanel.smart_nest));
       expect(mockSvgNestButtons).toHaveBeenCalledTimes(1);
     });
   });

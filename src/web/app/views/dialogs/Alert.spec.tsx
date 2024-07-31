@@ -55,6 +55,10 @@ const mockData: IAlert = {
     text: 'checkbox',
     callbacks: [mockOnCheckedYes, mockOnCheckedNo],
   },
+  links: [
+    { text: 'link1', url: 'https://link1.com' },
+    { text: 'link2', url: 'https://link2.com' },
+  ],
 };
 
 describe('test Alert', () => {
@@ -69,7 +73,7 @@ describe('test Alert', () => {
 
   it('should render correctly with help center link', () => {
     const { baseElement, getByText, rerender } = render(
-      <Alert data={{ ...mockData, message: '#801 error' }} />
+      <Alert data={{ ...mockData, message: '#801 error', links: null }} />
     );
     expect(baseElement).toMatchSnapshot();
     fireEvent.click(getByText('Learn more'));
@@ -80,7 +84,7 @@ describe('test Alert', () => {
     );
 
     mockGetActiveLang.mockReturnValue('zh-tw');
-    rerender(<Alert data={{ ...mockData, message: '#801 error' }} />);
+    rerender(<Alert data={{ ...mockData, message: '#801 error', links: null }} />);
     fireEvent.click(getByText('Learn more'));
     expect(mockOpen).toBeCalledTimes(2);
     expect(mockOpen).toHaveBeenNthCalledWith(

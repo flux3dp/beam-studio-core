@@ -3,7 +3,7 @@ import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
   general: {
-    wait: 'Processing, please wait',
+    processing: 'Processing...',
     choose_folder: 'Choose Folder',
   },
   buttons: {
@@ -956,7 +956,8 @@ const lang: ILang = {
           wait_for_parsing_font: 'Parsing font... Please wait a second',
           offset: 'Offset',
           array: 'Array',
-          auto_arrange: 'Auto Arrange',
+          auto_fit: 'Auto Fit',
+          smart_nest: 'Smart Nest',
           decompose_path: 'Decompose',
           disassemble_use: 'Disassemble',
           create_textpath: 'Create Text on Path',
@@ -1031,6 +1032,7 @@ const lang: ILang = {
       enable_diode: 'Diode Laser',
       enable_autofocus: 'Autofocus',
       extend_workarea: 'Extend Workarea',
+      mirror: 'Mirror',
       pass_through: 'Pass Through',
       pass_through_height_desc: 'Enter the length of the object to extend work area.',
       add_on: 'Add-ons',
@@ -1830,6 +1832,17 @@ const lang: ILang = {
     guide_mark_desc: 'Guide marks will be engraved as a reference point to align the artwork.',
     export: 'Export to Work Area',
     exporting: 'Exporting...',
+  },
+  auto_fit: {
+    title: 'Auto Fit',
+    step1: '1. Place the object in the desired position on one piece of material.',
+    step2: '2. Press "Confirm" to duplicate the object onto all similar pieces of material in camera preview.',
+    preview_first: 'Please perform camera preview first.',
+    error_tip1: 'Check there is enough contrast between the material and the work area.',
+    error_tip2: 'Each piece of material has to be similar in size, shape and color.',
+    error_tip3: 'Avoid reflective or blurry camera preview areas.',
+    learn_more: 'Learn how auto fit works.',
+    learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
   },
 };
 

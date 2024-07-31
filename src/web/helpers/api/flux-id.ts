@@ -95,6 +95,7 @@ export const getCurrentUser = (): IUser => currentUser;
 
 const handleOAuthLoginSuccess = (data) => {
   updateUser(data, true);
+  storage.set('keep-flux-id-login', true);
   fluxIDEvents.emit('oauth-logged-in');
   if (window.location.hash === '#/initialize/connect/flux-id-login') {
     window.location.hash = '#initialize/connect/select-machine-model';

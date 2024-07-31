@@ -3,7 +3,7 @@ import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
   general: {
-    wait: 'Przetwarzanie... Proszę czekać',
+    processing: 'Przetwarzanie...',
     choose_folder: 'Wybierz folder',
   },
   buttons: {
@@ -956,7 +956,8 @@ const lang: ILang = {
           wait_for_parsing_font: 'Parsowanie czcionki... Proszę chwilę poczekać',
           offset: 'Przesunięcie ścieżki',
           array: 'Szyk',
-          auto_arrange: 'Automatyczne Układanie',
+          auto_fit: 'Dopasowanie Automatyczne',
+          smart_nest: 'Inteligentne Gniazdowanie',
           decompose_path: 'Rozwiń',
           disassemble_use: 'Rozłóż',
           create_textpath: 'Utwórz tekst na ścieżce',
@@ -1031,6 +1032,7 @@ const lang: ILang = {
       enable_diode: 'Laser diodowy',
       enable_autofocus: 'Autofokus',
       extend_workarea: 'Rozszerz obszar roboczy',
+      mirror: 'Lustro',
       pass_through: 'Przejść Przez',
       pass_through_height_desc: 'Wprowadź długość obiektu, aby rozszerzyć obszar roboczy.',
       add_on: 'Dodatki',
@@ -1830,6 +1832,17 @@ const lang: ILang = {
     guide_mark_desc: 'Znaczniki przewodnika będą grawerowane jako punkt odniesienia do wyrównania dzieła sztuki.',
     export: 'Eksportuj do Obszaru Roboczego',
     exporting: 'Eksportowanie...',
+  },
+  auto_fit: {
+    title: 'Dopasowanie Automatyczne',
+    step1: '1. Umieść obiekt w żądanej pozycji na jednym kawałku materiału.',
+    step2: '2. Naciśnij "Potwierdź", aby skopiować obiekt na wszystkie podobne kawałki materiału w podglądzie kamery.',
+    preview_first: 'Najpierw wykonaj podgląd kamery.',
+    error_tip1: 'Sprawdź, czy jest wystarczający kontrast między materiałem a obszarem roboczym.',
+    error_tip2: 'Każdy kawałek materiału musi być podobny pod względem wielkości, kształtu i koloru.',
+    error_tip3: 'Unikaj refleksyjnych lub zamazanych obszarów podglądu kamery.',
+    learn_more: 'Dowiedz się, jak działa automatyczne dopasowanie.',
+    learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
   },
 };
 

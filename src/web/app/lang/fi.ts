@@ -3,7 +3,7 @@ import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
   general: {
-    wait: 'Käsitellään, odota',
+    processing: 'Käsitellään...',
     choose_folder: 'Valitse kansio',
   },
   buttons: {
@@ -953,7 +953,8 @@ const lang: ILang = {
           wait_for_parsing_font: 'Jäsennetään fonttia... Odota hetki',
           offset: 'Siirtymä',
           array: 'Taulukko',
-          auto_arrange: 'Automaattinen Järjestely',
+          auto_fit: 'Automaattinen Sovitus',
+          smart_nest: 'Älykäs Pesä',
           decompose_path: 'Hajota',
           disassemble_use: 'Purkaa',
           create_textpath: 'Luo teksti polulle',
@@ -1028,6 +1029,7 @@ const lang: ILang = {
       enable_diode: 'Diodilaser',
       enable_autofocus: 'Autofokus',
       extend_workarea: 'Laajenna työaluetta',
+      mirror: 'Peilaus',
       pass_through: 'Läpäisymoodi',
       pass_through_height_desc: 'Syötä objektin pituus työalueen laajentamiseksi.',
       add_on: 'Lisäosat',
@@ -1827,6 +1829,17 @@ const lang: ILang = {
     guide_mark_desc: 'Opasmerkit kaiverretaan viitepisteenä taideteoksen kohdistamiseksi.',
     export: 'Vie Työalueelle',
     exporting: 'Viedään...',
+  },
+  auto_fit: {
+    title: 'Automaattinen Sovitus',
+    step1: '1. Aseta kohde haluttuun kohtaan yhdelle materiaalikappaleelle.',
+    step2: '2. Paina "Vahvista" kopioidaksesi kohteen kaikille samanlaisille materiaalikappaleille kameran esikatselussa.',
+    preview_first: 'Suorita ensin kameran esikatselu.',
+    error_tip1: 'Tarkista, että materiaalin ja työalueen välillä on riittävä kontrasti.',
+    error_tip2: 'Jokaisen materiaalin kappaleen tulee olla kooltaan, muodoltaan ja väriltään samanlainen.',
+    error_tip3: 'Vältä heijastavia tai sumeita kameran esikatselualueita.',
+    learn_more: 'Opi, miten Automaattinen Sovitus toimii.',
+    learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
   },
 };
 
