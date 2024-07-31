@@ -58,32 +58,25 @@ const autoFit = async (elem: SVGElement): Promise<void> => {
     });
     if (!res) return;
   }
-  const showFailAlert = () => {
-    alertCaller.popUp({
-      caption: lang.title,
-      message: [lang.error_tip1, lang.error_tip2, lang.error_tip3].join('<br/>'),
-      links: [
-        {
-          text: lang.learn_more,
-          url: lang.learn_more_url,
-        },
-      ],
-    });
-  };
   progressCaller.openNonstopProgress({ id: 'auto-fit', message: i18n.lang.general.processing });
   try {
     const utilWS = getUtilWS();
     const resp = await fetch(previewBackgroundUrl);
     const blob = await resp.blob();
     const workarea = beamboxPreference.read('workarea');
-    const data = await utilWS.getSimilarContours(blob, { isSplcingImg: !constant.adorModels.includes(workarea) });
+    const data = await utilWS.getSimilarContours(blob, {
+      isSplcingImg: !constant.adorModels.includes(workarea),
+    });
     const parentBbox =
       elem.tagName === 'use'
         ? svgCanvas.getSvgRealLocation(elem)
         : svgCanvas.calculateTransformedBBox(elem);
     let elementContourId = -1;
     let currentMinDist = Number.MAX_VALUE;
-    const parentCenter = [parentBbox.x + parentBbox.width / 2, parentBbox.y + parentBbox.height / 2];
+    const parentCenter = [
+      parentBbox.x + parentBbox.width / 2,
+      parentBbox.y + parentBbox.height / 2,
+    ];
     data.forEach((d, i) => {
       const boxX = d.bbox[0];
       const boxY = d.bbox[1];
@@ -104,7 +97,10 @@ const autoFit = async (elem: SVGElement): Promise<void> => {
       return false;
     });
     if (elementContourId === -1) {
-      showFailAlert();
+      alertCaller.popUpError({
+        message: [lang.failed_to_auto_fit, lang.error_tip1, lang.error_tip2].join('<br/>'),
+        links: [{ text: lang.learn_more, url: lang.learn_more_url }],
+      });
       return;
     }
     const elementContour = data[elementContourId];
@@ -139,8 +135,8 @@ const autoFit = async (elem: SVGElement): Promise<void> => {
           const { elems } = res;
           const [newElem] = elems;
           let newAngle = elemRotationAngle + dAngle * (180 / Math.PI);
+          newAngle %= 360;
           if (newAngle > 180) newAngle -= 360;
-          if (newAngle < -180) newAngle += 360;
           svgCanvas.setRotationAngle(newAngle, true, newElem as SVGElement);
           svgedit.recalculate.recalculateDimensions(newElem);
         }
@@ -149,7 +145,7 @@ const autoFit = async (elem: SVGElement): Promise<void> => {
     if (!batchCmd.isEmpty()) undoManager.addCommandToHistory(batchCmd);
   } catch (error) {
     console.error(error);
-    alertCaller.popUpError({ message: `Fail to auto fit.<br/>${error}` });
+    alertCaller.popUpError({ message: `Failed to auto fit.<br/>${error}` });
   } finally {
     progressCaller.popById('auto-fit');
   }
