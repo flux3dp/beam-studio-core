@@ -133,15 +133,17 @@ const ActionsPanel = ({ elem }: Props): JSX.Element => {
     []
   );
 
-  const renderAutoFitButon = (opts: ButtonOpts = {}): JSX.Element =>
-    renderButtons(
-      'auto-fit',
-      lang.auto_fit,
-      () => autoFit(elem as SVGElement),
-      <ActionPanelIcons.AutoFit />,
-      <ActionPanelIcons.AutoFit />,
-      { isFullLine: true, autoClose: false, ...opts }
-    );
+  const renderAutoFitButon = (opts: ButtonOpts = {}): JSX.Element => {
+    // renderButtons(
+    //   'auto-fit',
+    //   lang.auto_fit,
+    //   () => autoFit(elem as SVGElement),
+    //   <ActionPanelIcons.AutoFit />,
+    //   <ActionPanelIcons.AutoFit />,
+    //   { isFullLine: true, autoClose: false, ...opts }
+    // );
+    return null;
+  }
 
   const renderArrayButton = (opts: ButtonOpts = {}): JSX.Element =>
     renderButtons(
