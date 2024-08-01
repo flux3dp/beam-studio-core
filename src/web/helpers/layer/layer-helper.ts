@@ -11,7 +11,6 @@ import i18n from 'helpers/i18n';
 import LayerModule from 'app/constants/layer-module/layer-modules';
 import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
 import randomColor from 'helpers/randomColor';
-import updateElementColor from 'helpers/color/updateElementColor';
 import updateLayerColor from 'helpers/color/updateLayerColor';
 import updateLayerColorFilter from 'helpers/color/updateLayerColorFilter';
 import {
@@ -479,8 +478,8 @@ export const getCurrentLayerName = (): string => {
 };
 
 export const getLayerByName = (layerName: string): SVGGElement => {
-  const drawing = svgCanvas.getCurrentDrawing();
-  return drawing.getLayerByName(layerName);
+  const drawing = svgCanvas?.getCurrentDrawing();
+  return drawing?.getLayerByName(layerName);
 };
 
 export const moveToOtherLayer = (
