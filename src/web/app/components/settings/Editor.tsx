@@ -129,6 +129,11 @@ function Editor({
       label: 'Ador',
       selected: selectedModel === 'ado1',
     },
+    {
+      value: 'fbb2',
+      label: 'Beambox II',
+      selected: selectedModel === 'fbb2',
+    },
   ];
   const workarea = getWorkarea(selectedModel);
 

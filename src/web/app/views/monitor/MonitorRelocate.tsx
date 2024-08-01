@@ -9,7 +9,7 @@ import { IDeviceInfo } from 'interfaces/IDevice';
 const hdChecked = {};
 
 const getImageSize = (url: string, onSize: (size: number[]) => void) => {
-  var img = new Image();
+  const img = new Image();
   img.onload = () => {
     onSize([img.naturalWidth, img.naturalHeight]);
   };
@@ -17,12 +17,11 @@ const getImageSize = (url: string, onSize: (size: number[]) => void) => {
 };
 
 interface Props {
-  device: IDeviceInfo,
+  device: IDeviceInfo;
 }
 
 interface State {
-  isHd: boolean,
-  currentPosition: { x: number, y: number },
+  isHd: boolean;
 }
 
 export default class MonitorRelocate extends React.PureComponent<Props, State> {
@@ -30,19 +29,22 @@ export default class MonitorRelocate extends React.PureComponent<Props, State> {
 
   private cameraStream: any;
 
-  private previewBlob: Blob;
+  private imgRef: React.RefObject<HTMLImageElement>;
 
-  private imgRef: React.RefObject<HTMLImageElement>
-
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
-    this.isBeamboxCamera = ['mozu1', 'fbm1', 'fbb1b', 'fbb1p', 'fhexa1', 'laser-b1', 'laser-b2', 'darwin-dev'].includes(this.props.device.model);
+    this.isBeamboxCamera = [
+      'mozu1',
+      'fbm1',
+      'fbb1b',
+      'fbb1p',
+      'fhexa1',
+      'laser-b1',
+      'laser-b2',
+      'darwin-dev',
+    ].includes(props.device.model);
     this.state = {
       isHd: false,
-      currentPosition: {
-        x: 0,
-        y: 0,
-      },
     };
     this.imgRef = React.createRef();
   }
@@ -62,7 +64,7 @@ export default class MonitorRelocate extends React.PureComponent<Props, State> {
     const cameraImage = this.imgRef.current;
     if (!cameraImage) return;
 
-    let url = URL.createObjectURL(imgBlob);
+    const url = URL.createObjectURL(imgBlob);
     if (device) {
       if (!hdChecked[device.serial]) {
         getImageSize(url, (size: number[]) => {
@@ -83,76 +85,71 @@ export default class MonitorRelocate extends React.PureComponent<Props, State> {
       URL.revokeObjectURL(originalUrl);
     }
     cameraImage.setAttribute('src', url);
-  }
+  };
 
   renderOriginMark = () => {
     const { cameraOffset, currentPosition } = this.context;
     const cameraStreamImg = this.imgRef.current;
-    if (!cameraStreamImg || !cameraOffset) {
-      return;
-    }
+    if (!cameraStreamImg || !cameraOffset) return null;
     const x = currentPosition.x + cameraOffset.x;
     const y = currentPosition.y + cameraOffset.y;
     const imageScale = cameraStreamImg.width / cameraStreamImg.naturalWidth;
-    let dx = x * 10 * imageScale / cameraOffset.scaleRatioX;
-    let dy = y * 10 * imageScale / cameraOffset.scaleRatioY;
+    let dx = (x * 10 * imageScale) / cameraOffset.scaleRatioX;
+    const dy = (y * 10 * imageScale) / cameraOffset.scaleRatioY;
     if (dx > 100) {
       // compensation when x is too large, calculated by regression
-      let compensationX = ((dx - 100) / 100) ^ 2 + 3.9 * ((dx - 100) / 100) + 0.95;
+      const compensationX = ((dx - 100) / 100) ^ (2 + 3.9 * ((dx - 100) / 100) + 0.95);
       dx -= compensationX;
     }
     const centerX = cameraStreamImg.width / 2 - dx;
     const centerY = cameraStreamImg.height / 2 - dy;
-    if (centerX < 0 || centerY < 0) {
-      return null;
-    }
+    if (centerX < 0 || centerY < 0) return null;
     return (
       <div className="origin-mark-wrapper" style={{ left: centerX, top: centerY }}>
-        <div className="bars bar1 shadow"></div>
-        <div className="bars bar2 shadow"></div>
-        <div className="bars bar1"></div>
+        <div className="bars bar1 shadow" />
+        <div className="bars bar2 shadow" />
+        <div className="bars bar1" />
       </div>
     );
-  }
+  };
 
   renderRelocateOrigin = () => {
     const { cameraOffset, currentPosition } = this.context;
     const cameraStreamImg = this.imgRef.current;
-    if (!cameraStreamImg || !cameraOffset) {
-      return;
-    }
+    if (!cameraStreamImg || !cameraOffset) return null;
     const imageScale = cameraStreamImg.width / cameraStreamImg.naturalWidth;
-    const dx = cameraOffset.x * 10 * imageScale / cameraOffset.scaleRatioX;
-    const dy = cameraOffset.y * 10 * imageScale / cameraOffset.scaleRatioY;
+    const dx = (cameraOffset.x * 10 * imageScale) / cameraOffset.scaleRatioX;
+    const dy = (cameraOffset.y * 10 * imageScale) / cameraOffset.scaleRatioY;
     const centerX = cameraStreamImg.width / 2 - dx;
     const centerY = cameraStreamImg.height / 2 - dy;
     return (
       <div className="relocate-origin-mark-wrapper" style={{ left: centerX, top: centerY }}>
-        <div className="bars bar1 shadow"></div>
-        <div className="bars bar2 shadow"></div>
-        <div className="bars bar1"></div>
-        <div className="relocate-origin">
-          {`${currentPosition.x}, ${currentPosition.y}`}
-        </div>
+        <div className="bars bar1 shadow" />
+        <div className="bars bar2 shadow" />
+        <div className="bars bar1" />
+        <div className="relocate-origin">{`${currentPosition.x}, ${currentPosition.y}`}</div>
       </div>
     );
-  }
+  };
 
   handleMoveStart = () => {
     const { onMaintainMoveStart } = this.context;
     onMaintainMoveStart();
-  }
+  };
 
   handleMoveEnd = (x, y) => {
     const { onMaintainMoveEnd } = this.context;
     x = Math.round(x * 10) / 10;
     y = Math.round(y * 10) / 10;
     onMaintainMoveEnd(x, y);
-  }
+  };
 
   render() {
     const { isHd } = this.state;
-    const className = classNames('camera-image', { 'beambox-camera': this.isBeamboxCamera, hd: isHd });
+    const className = classNames('camera-image', {
+      'beambox-camera': this.isBeamboxCamera,
+      hd: isHd,
+    });
 
     return (
       <div className="camera-relocate-container">
@@ -161,10 +158,7 @@ export default class MonitorRelocate extends React.PureComponent<Props, State> {
         </div>
         {this.renderOriginMark()}
         {this.renderRelocateOrigin()}
-        <RawMovePanel
-          onMoveStart={this.handleMoveStart}
-          onMoveEnd={this.handleMoveEnd}
-        />
+        <RawMovePanel onMoveStart={this.handleMoveStart} onMoveEnd={this.handleMoveEnd} />
       </div>
     );
   }

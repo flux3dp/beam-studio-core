@@ -31,6 +31,7 @@ const workareaOptions = [
   { label: 'Beambox Pro', value: 'fbb1p' },
   { label: 'HEXA', value: 'fhexa1' },
   { label: 'Ador', value: 'ado1' },
+  { label: 'Beambox II', value: 'fbb2' },
 ];
 
 // map for engrave dpi v2

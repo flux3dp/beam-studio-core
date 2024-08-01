@@ -44,6 +44,7 @@ export default {
     },
   },
   allowedWorkarea: {
+    fbb2: ['fbb2'],
     'laser-b2': ['fhexa1', 'fbb1p', 'fbb1b', 'fbm1'],
     'laser-b1': ['fhexa1', 'fbb1p', 'fbb1b', 'fbm1'],
     fhexa1: ['fhexa1', 'fbb1p', 'fbb1b', 'fbm1'],

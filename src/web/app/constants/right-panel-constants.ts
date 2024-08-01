@@ -1,7 +1,9 @@
 import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 
+import { WorkAreaModel } from './workarea-constants';
+
 const constants = {
-  BEAMO: {
+  fbm1: {
     wood_3mm_cutting: {
       power: 45,
       speed: 5,
@@ -86,7 +88,7 @@ const constants = {
       name: 'stainless_steel_bw_engraving_diode',
     },
   },
-  BEAMBOX: {
+  fbb1b: {
     wood_3mm_cutting: {
       power: 60,
       speed: 6,
@@ -168,7 +170,7 @@ const constants = {
       name: 'stainless_steel_bw_engraving_diode',
     },
   },
-  BEAMBOX_PRO: {
+  fbb1p: {
     wood_3mm_cutting: {
       power: 55,
       speed: 7,
@@ -250,7 +252,7 @@ const constants = {
       name: 'stainless_steel_bw_engraving_diode',
     },
   },
-  HEXA: {
+  fhexa1: {
     wood_3mm_cutting: {
       power: 40,
       speed: 6,
@@ -351,7 +353,7 @@ const constants = {
       name: 'steel_engraving_spray_engraving',
     },
   },
-  ADOR: {
+  ado1: {
     wood_3mm_cutting: {
       power: 100,
       speed: 6,
@@ -716,19 +718,11 @@ const constants = {
       name: 'glass_printing',
     },
   },
-};
-
-const modelMap = {
-  fbm1: 'BEAMO',
-  fbb1b: 'BEAMBOX',
-  fbb1p: 'BEAMBOX_PRO',
-  fhexa1: 'HEXA',
-  fad1: 'ADOR',
-  ado1: 'ADOR',
+  fbb2: {},
 };
 
 export const getAllPresets = (
-  model: string
+  model: WorkAreaModel
 ): {
   [key: string]: {
     name: string;
@@ -739,10 +733,7 @@ export const getAllPresets = (
     repeat?: number;
     module?: LayerModule;
   };
-} => {
-  const modelName = modelMap[model] || 'BEAMO';
-  return constants[modelName];
-};
+} => constants[model] || constants.fbm1;
 
 export const getModulePresets = (
   model: string,
@@ -757,10 +748,9 @@ export const getModulePresets = (
     repeat?: number;
   };
 } => {
-  const modelName = modelMap[model] || 'BEAMO';
   if (modelsWithModules.has(model)) {
-    const data = Object.keys(constants[modelName]).reduce((acc, key) => {
-      const { module: m, ...rest } = constants.ADOR[key];
+    const data = Object.keys(constants[model]).reduce((acc, key) => {
+      const { module: m, ...rest } = constants[model][key];
       if (m === module) {
         acc[key] = rest;
       }
@@ -768,7 +758,7 @@ export const getModulePresets = (
     }, {});
     return data;
   }
-  return constants[modelName];
+  return constants[model];
 };
 
 const allKeys = new Set<string>();

@@ -1,6 +1,6 @@
-export type WorkAreaLabel = 'beamo' | 'Beambox' | 'Beambox Pro' | 'HEXA' | 'Ador';
-export type WorkAreaModel = 'fbm1' | 'fbb1b' | 'fbb1p' | 'fhexa1' | 'ado1';
-export const allWorkareas = new Set(['fbm1', 'fbb1b', 'fbb1p', 'fhexa1', 'ado1']);
+export type WorkAreaLabel = 'beamo' | 'Beambox' | 'Beambox Pro' | 'HEXA' | 'Ador' | 'Beambox II';
+export type WorkAreaModel = 'fbm1' | 'fbb1b' | 'fbb1p' | 'fhexa1' | 'ado1' | 'fbb2';
+export const allWorkareas = new Set(['fbm1', 'fbb1b', 'fbb1p', 'fhexa1', 'ado1', 'fbb2']);
 
 const dpmm = 10;
 export interface WorkArea {
@@ -78,6 +78,17 @@ const workareaConstants: { [key in WorkAreaModel]: WorkArea } = {
     cameraCenter: [215, 150],
     autoFocusOffset: [20.9, -40.38, 7.5],
     passThroughMaxHeight: 240,
+  },
+  fbb2: {
+    label: 'Beambox II',
+    width: 600,
+    pxWidth: 600 * dpmm,
+    height: 375,
+    pxHeight: 375 * dpmm,
+    maxSpeed: 900,
+    minSpeed: 0.5,
+    rotary: [0, 1],
+    passThroughMaxHeight: 360,
   },
 };
 
