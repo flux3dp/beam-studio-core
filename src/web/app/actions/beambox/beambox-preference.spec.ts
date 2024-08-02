@@ -35,6 +35,7 @@ test('test beambox-preference', () => {
     use_layer_color: true,
     'anti-aliasing': true,
     low_power: 10,
+    rotary_mode: 0,
     abc: '123',
   });
 
