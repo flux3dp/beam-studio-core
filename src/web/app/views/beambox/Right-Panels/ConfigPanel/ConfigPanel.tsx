@@ -297,7 +297,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
         UIType === 'default' && <WhiteInkCheckbox />}
       {isDevMode && isCustomBacklashEnabled && <Backlash type={UIType} />}
       <RepeatBlock type={UIType} />
-      <FocusBlock type={UIType} />
+      {isDevMode && <FocusBlock type={UIType} />}
       {isDevMode &&
         module.value === LayerModule.PRINTER &&
         fullcolor.value &&
