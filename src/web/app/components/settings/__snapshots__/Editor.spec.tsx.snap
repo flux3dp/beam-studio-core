@@ -50,7 +50,7 @@ exports[`should render correctly initially no warning 1`] = `
     Default Document Setting
     url:
     options:
-    [{"value":"fbm1","label":"beamo","selected":false},{"value":"fbb1b","label":"Beambox","selected":true},{"value":"fbb1p","label":"Beambox Pro","selected":false},{"value":"fhexa1","label":"HEXA","selected":false},{"value":"ado1","label":"Ador","selected":false}]
+    [{"value":"fbm1","label":"beamo","selected":false},{"value":"fbb1b","label":"Beambox","selected":true},{"value":"fbb1p","label":"Beambox Pro","selected":false},{"value":"fhexa1","label":"HEXA","selected":false},{"value":"ado1","label":"Ador","selected":false},{"value":"fbb2","label":"Beambox II","selected":false}]
     <input
       class="select-control"
     />
@@ -262,7 +262,7 @@ exports[`should render correctly initially no warning 2`] = `
     Default Document Setting
     url:
     options:
-    [{"value":"fbm1","label":"beamo","selected":false},{"value":"fbb1b","label":"Beambox","selected":true},{"value":"fbb1p","label":"Beambox Pro","selected":false},{"value":"fhexa1","label":"HEXA","selected":false},{"value":"ado1","label":"Ador","selected":false}]
+    [{"value":"fbm1","label":"beamo","selected":false},{"value":"fbb1b","label":"Beambox","selected":true},{"value":"fbb1p","label":"Beambox Pro","selected":false},{"value":"fhexa1","label":"HEXA","selected":false},{"value":"ado1","label":"Ador","selected":false},{"value":"fbb2","label":"Beambox II","selected":false}]
     <input
       class="select-control"
     />
@@ -474,7 +474,7 @@ exports[`should render correctly initially no warning 3`] = `
     Default Document Setting
     url:
     options:
-    [{"value":"fbm1","label":"beamo","selected":false},{"value":"fbb1b","label":"Beambox","selected":true},{"value":"fbb1p","label":"Beambox Pro","selected":false},{"value":"fhexa1","label":"HEXA","selected":false},{"value":"ado1","label":"Ador","selected":false}]
+    [{"value":"fbm1","label":"beamo","selected":false},{"value":"fbb1b","label":"Beambox","selected":true},{"value":"fbb1p","label":"Beambox Pro","selected":false},{"value":"fhexa1","label":"HEXA","selected":false},{"value":"ado1","label":"Ador","selected":false},{"value":"fbb2","label":"Beambox II","selected":false}]
     <input
       class="select-control"
     />
@@ -686,7 +686,7 @@ exports[`should render correctly initially no warning 4`] = `
     Default Document Setting
     url:
     options:
-    [{"value":"fbm1","label":"beamo","selected":false},{"value":"fbb1b","label":"Beambox","selected":true},{"value":"fbb1p","label":"Beambox Pro","selected":false},{"value":"fhexa1","label":"HEXA","selected":false},{"value":"ado1","label":"Ador","selected":false}]
+    [{"value":"fbm1","label":"beamo","selected":false},{"value":"fbb1b","label":"Beambox","selected":true},{"value":"fbb1p","label":"Beambox Pro","selected":false},{"value":"fhexa1","label":"HEXA","selected":false},{"value":"ado1","label":"Ador","selected":false},{"value":"fbb2","label":"Beambox II","selected":false}]
     <input
       class="select-control"
     />

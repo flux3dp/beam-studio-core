@@ -73,6 +73,8 @@ const defaultLaserConfigs = {
   printingStrength: { value: 100 },
   ref: { value: false },
   clipRect: { value: undefined },
+  focus: { value: -2 },
+  focusStep: { value: -2 },
 };
 
 const defaultMultiValueLaserConfigs = {
@@ -103,6 +105,8 @@ const defaultMultiValueLaserConfigs = {
   printingStrength: { value: 100, hasMultiValue: false },
   ref: { value: false, hasMultiValue: false },
   clipRect: { value: undefined, hasMultiValue: false },
+  focus: { value: -2, hasMultiValue: false },
+  focusStep: { value: -2, hasMultiValue: false },
 };
 
 describe('test layer-config-helper', () => {

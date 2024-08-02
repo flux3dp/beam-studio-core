@@ -15,6 +15,7 @@ const DEFAULT_PREFERENCE = {
   diode_offset_x: constant.diode.defaultOffsetX,
   diode_offset_y: constant.diode.defaultOffsetY,
   low_power: 10,
+  rotary_mode: 0,
 };
 
 class BeamboxPreference {
