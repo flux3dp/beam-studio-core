@@ -1215,9 +1215,9 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
       const workarea = BeamboxPreference.read('workarea');
       if (!constant.adorModels.includes(workarea)) {
         if (startX === realX && startY === realY) {
-          PreviewModeController.preview(realX, realY, true, callback);
+          PreviewModeController.preview(realX, realY, { last: true, callback });
         } else {
-          PreviewModeController.previewRegion(startX, startY, realX, realY, callback);
+          PreviewModeController.previewRegion(startX, startY, realX, realY, { callback });
         }
       } else {
         PreviewModeController.previewFullWorkarea(callback);
