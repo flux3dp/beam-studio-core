@@ -85,6 +85,7 @@ const Alert = ({ data }: Props): JSX.Element => {
               onClick={() => browser.open(link.url)}
             >
               {link.text}
+              <AlertIcons.ExtLink className={styles.icon} />
             </Button>
           ))}
         </div>
