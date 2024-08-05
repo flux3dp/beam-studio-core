@@ -221,7 +221,7 @@ class DiodeCalibration extends React.Component<Props, State> {
       const { centerX, centerY } = Constant.diode.calibrationPicture;
       const movementX = centerX - this.cameraOffset.x + cameraMovedX;
       const movementY = centerY - this.cameraOffset.y + cameraMovedY;
-      const blobUrl = await PreviewModeController.takePictureAfterMoveTo(movementX, movementY);
+      const blobUrl = await PreviewModeController.getPhotoAfterMoveTo(movementX, movementY);
       console.log(movementX, movementY);
       this.imageUrl = blobUrl;
       await this.cropAndRotateImg();
