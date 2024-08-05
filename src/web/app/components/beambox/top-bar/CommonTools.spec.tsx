@@ -24,18 +24,21 @@ jest.mock('helpers/svg-editor-helper', () => ({
   getSVGAsync,
 }));
 
-const clickUndo = jest.fn();
-const clickRedo = jest.fn();
 const deleteSelected = jest.fn();
 getSVGAsync.mockImplementation((callback) => {
   callback({
     Editor: {
-      clickUndo,
-      clickRedo,
       deleteSelected,
     },
   });
 });
+
+const undo = jest.fn();
+const redo = jest.fn();
+jest.mock('app/svgedit/history/utils', () => ({
+  undo,
+  redo,
+}));
 
 import CommonTools from './CommonTools';
 
@@ -63,10 +66,10 @@ describe('should render correctly', () => {
 
     const buttons = container.querySelectorAll('div.common-tools-container > div');
     fireEvent.click(buttons[0]);
-    expect(clickUndo).toHaveBeenCalledTimes(1);
+    expect(undo).toHaveBeenCalledTimes(1);
 
     fireEvent.click(buttons[1]);
-    expect(clickRedo).toHaveBeenCalledTimes(1);
+    expect(redo).toHaveBeenCalledTimes(1);
 
     fireEvent.click(buttons[2]);
     expect(deleteSelected).toHaveBeenCalledTimes(1);

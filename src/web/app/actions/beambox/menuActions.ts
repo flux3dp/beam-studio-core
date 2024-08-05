@@ -10,6 +10,7 @@ import Dialog from 'app/actions/dialog-caller';
 import ExportFuncs from 'app/actions/beambox/export-funcs';
 import FileExportHelper from 'helpers/file-export-helper';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
+import historyUtils from 'app/svgedit/history/utils';
 import i18n from 'helpers/i18n';
 import isWeb from 'helpers/is-web';
 import imageEdit from 'helpers/image-edit';
@@ -126,8 +127,8 @@ export default {
     if (isWeb()) Dialog.forceLoginWrapper(() => ExportFuncs.exportFcode());
     else ExportFuncs.exportFcode();
   },
-  UNDO: () => svgEditor.clickUndo(),
-  REDO: () => svgEditor.clickRedo(),
+  UNDO: historyUtils.undo,
+  REDO: historyUtils.redo,
   GROUP: () => svgCanvas.groupSelectedElements(),
   UNGROUP: () => svgCanvas.ungroupSelectedElement(),
   DELETE: () => svgEditor.deleteSelected(),

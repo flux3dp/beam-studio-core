@@ -33,8 +33,8 @@ export interface IUndoManager {
   getRedoStackSize: () => number;
   getNextUndoCommandText: () => string;
   getNextRedoCommandText: () => string;
-  undo: () => void;
-  redo: () => void;
+  undo: () => boolean;
+  redo: () => boolean;
   addCommandToHistory: (cmd: ICommand) => void;
   beginUndoableChange: (attrName: string, elems: Element[]) => void;
   finishUndoableChange: () => IBatchCommand;
