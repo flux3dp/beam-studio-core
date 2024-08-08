@@ -24,6 +24,7 @@ TODOS
 */
 import clipboard from 'app/svgedit/operations/clipboard';
 import history from 'app/svgedit/history/history';
+import historyUtils from 'app/svgedit/history/utils';
 import svgCanvasClass from 'app/svgedit/svgcanvas';
 import textActions from 'app/svgedit/text/textactions';
 import textEdit from 'app/svgedit/text/textedit';
@@ -132,8 +133,6 @@ interface ISVGEditor {
   importLaserConfig: (file: any) => Promise<void>
   openPrep(arg0: (ok: any) => void)
   ready(arg0: () => void)
-  clickUndo: () => void
-  clickRedo: () => void
   clipboardData: any
   isClipboardDataReady: any
   triggerNestTool: () => void
@@ -199,8 +198,6 @@ const svgEditor = window['svgEditor'] = (function () {
     importLaserConfig: async (file) => { },
     openPrep: () => { },
     ready: () => { },
-    clickUndo: () => { },
-    clickRedo: () => { },
     clipboardData: null,
     isClipboardDataReady: false,
     triggerNestTool: () => { },
@@ -1716,9 +1713,9 @@ const svgEditor = window['svgEditor'] = (function () {
         evt.preventDefault();
         const originalEvent = evt.originalEvent as InputEvent;
         if (originalEvent.inputType === 'historyUndo') {
-          clickUndo();
+          historyUtils.undo();
         } else if (originalEvent.inputType === 'historyRedo') {
-          clickRedo();
+          historyUtils.redo();
         }
         return;
       }
@@ -2111,23 +2108,6 @@ const svgEditor = window['svgEditor'] = (function () {
     };
 
     editor.clearScene = clearScene;
-
-    var clickUndo = function () {
-      if (undoMgr.getUndoStackSize() > 0) {
-        undoMgr.undo();
-        LayerPanelController.updateLayerPanel();
-      }
-    };
-    editor.clickUndo = clickUndo;
-    //hack QQ. to let svgeditor-function-wrapper get this function
-
-    var clickRedo = function () {
-      if (undoMgr.getRedoStackSize() > 0) {
-        undoMgr.redo();
-        LayerPanelController.updateLayerPanel();
-      }
-    };
-    editor.clickRedo = clickRedo;
 
     (function () {
       workarea.scroll(function () {

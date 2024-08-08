@@ -62,7 +62,7 @@ const StepRefocus = (): JSX.Element => {
       });
       const movementX = Constant.camera.calibrationPicture.centerX - Constant.camera.offsetX_ideal;
       const movementY = Constant.camera.calibrationPicture.centerY - Constant.camera.offsetY_ideal;
-      blobUrl = await PreviewModeController.takePictureAfterMoveTo(movementX, movementY);
+      blobUrl = await PreviewModeController.getPhotoAfterMoveTo(movementX, movementY);
       setCameraPosition({ x: movementX, y: movementY });
     } finally {
       Progress.popById('taking-picture');

@@ -88,7 +88,7 @@ const StepBeforeAnalyzePicture = (): JSX.Element => {
         default:
           break;
       }
-      const blobUrl = await PreviewModeController.takePictureAfterMoveTo(x, y);
+      const blobUrl = await PreviewModeController.getPhotoAfterMoveTo(x, y);
       console.log(x, y);
       setCameraPosition({ x, y });
       setImgBlobUrl(blobUrl);

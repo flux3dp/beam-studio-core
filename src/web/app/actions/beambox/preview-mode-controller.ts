@@ -367,9 +367,18 @@ class PreviewModeController {
     }
   }
 
-  async preview(x, y, last = false, callback = () => {}): Promise<boolean> {
+  async preview(
+    x: number,
+    y: number,
+    opts: {
+      last?: boolean;
+      callback?: () => void;
+      overlapRatio?: number;
+    } = {}
+  ): Promise<boolean> {
     const { isPreviewBlocked, isPreviewModeOn, currentDevice } = this;
     if (isPreviewBlocked || !isPreviewModeOn) return false;
+    const { callback = () => {}, last = false } = opts;
     if (Constant.adorModels.includes(currentDevice?.model)) {
       const res = await this.previewFullWorkarea(callback);
       return res;
@@ -382,7 +391,7 @@ class PreviewModeController {
       const constrainedXY = this.constrainPreviewXY(x, y);
       const { x: newX, y: newY } = constrainedXY;
       const imgUrl = await this.getPhotoAfterMove(newX, newY);
-      PreviewModeBackgroundDrawer.draw(imgUrl, newX, newY, last, callback);
+      PreviewModeBackgroundDrawer.draw(imgUrl, newX, newY, opts);
       workarea.style.cursor = 'url(img/camera-cursor.svg), cell';
       this.isPreviewBlocked = false;
       if (last) this.isDrawing = false;
@@ -405,7 +414,8 @@ class PreviewModeController {
     }
   }
 
-  async previewRegion(x1, y1, x2, y2, callback = () => {}) {
+  async previewRegion(x1, y1, x2, y2, opts: { callback?: () => void; overlapRatio?: number } = {}) {
+    const { callback = () => {}, overlapRatio = 0.05 } = opts;
     const points = (() => {
       const size = (() => {
         const h = Constant.camera.imgHeight;
@@ -434,7 +444,7 @@ class PreviewModeController {
 
       let pointsArray = [];
       let shouldRowReverse = false; // let camera 走Ｓ字型
-      const step = 0.95 * size;
+      const step = (1 - overlapRatio) * size;
       for (let curY = top; curY < bottom + size; curY += step) {
         const row = [];
         for (let curX = left; curX < right + size; curX += step) {
@@ -458,7 +468,10 @@ class PreviewModeController {
         duration: 20,
       });
       // eslint-disable-next-line no-await-in-loop
-      const result = await this.preview(points[i][0], points[i][1], i === points.length - 1);
+      const result = await this.preview(points[i][0], points[i][1], {
+        last: i === points.length - 1,
+        overlapRatio,
+      });
 
       if (!result) {
         this.isDrawing = false;
@@ -472,11 +485,6 @@ class PreviewModeController {
       duration: 3,
     });
     callback();
-  }
-
-  // x, y in mm
-  takePictureAfterMoveTo(movementX, movementY) {
-    return this.getPhotoAfterMoveTo(movementX, movementY);
   }
 
   isPreviewMode() {
