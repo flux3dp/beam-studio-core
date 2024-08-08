@@ -1109,7 +1109,7 @@ class Control extends EventEmitter {
     });
   };
 
-  rawMove = (args: { x?: number; y?: number; z?: number; f?: number }) => {
+  rawMove = (args: { x?: number; y?: number; z?: number; a?: number; f?: number }) => {
     if (this.mode !== 'raw') {
       throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
     }
@@ -1124,6 +1124,9 @@ class Control extends EventEmitter {
     }
     if (typeof args.z !== 'undefined') {
       command += `Z${Math.round(args.z * 1000) / 1000}`;
+    }
+    if (typeof args.a !== 'undefined') {
+      command += `A${Math.round(args.a * 1000) / 1000}`;
     }
     if (!this._isLineCheckMode) {
       console.log('raw move command:', command);
@@ -1182,6 +1185,15 @@ class Control extends EventEmitter {
       throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
     }
     const command = on ? 'R1' : 'R0';
+    if (!this._isLineCheckMode) return this.useWaitAnyResponse(command);
+    return this.useRawLineCheckCommand(command);
+  };
+
+  adorRawSetRotary = (on: boolean) => {
+    if (this.mode !== 'raw') {
+      throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
+    }
+    const command = on ? 'M137P35' : 'M137P36';
     if (!this._isLineCheckMode) return this.useWaitAnyResponse(command);
     return this.useRawLineCheckCommand(command);
   };

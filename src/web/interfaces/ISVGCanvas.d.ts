@@ -52,7 +52,7 @@ export default interface ISVGCanvas {
   embedImage(url: string, callback?: (dataURI: string) => void): void;
   events: EventEmitter;
   findMatchPoint: (x: number, y: number) => { xMatchPoint: IPoint; yMatchPoint: IPoint };
-  getVisibleElementsAndBBoxes: () => { elem: Element; bbox: IRect }[];
+  getVisibleElementsAndBBoxes: (elems?: SVGElement[]) => { elem: Element; bbox: IRect }[];
   getColor: (key: string) => string;
   getContentElem: () => SVGGElement;
   setContentElem: (content: Element) => void;

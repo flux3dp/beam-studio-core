@@ -92,7 +92,7 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
       else if (model === 'ado1') {
         args.push('-ado1');
         if (!isDevMode || !paddingAccel) args.push('-acc', opts.paddingAccel?.toString() || '3200');
-      } else if (model === 'fbb2') args.push('-fbb2');
+      } else args.push(`-${model}`);
       if (isDevMode && paddingAccel) args.push('-acc', paddingAccel);
       if (opts.codeType === 'gcode') args.push('-gc');
 
@@ -617,8 +617,7 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
           if (opts.model === 'fhexa1') args.push('-hexa');
           else if (opts.model === 'fbb1p') args.push('-pro');
           else if (opts.model === 'fbm1') args.push('-beamo');
-          else if (opts.model === 'ado1') args.push('-ado1');
-          else if (opts.model === 'fbb2') args.push('-fbb2');
+          else args.push(`-${opts.model}`);
 
           if (typeof opts.engraveDpi === 'number') {
             args.push(`-dpi ${opts.engraveDpi}`);
