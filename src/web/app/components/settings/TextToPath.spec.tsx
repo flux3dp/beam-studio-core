@@ -32,23 +32,18 @@ jest.mock('app/components/settings/SelectControl', () =>
 import TextToPath from './TextToPath';
 
 test('should render correctly', () => {
+  const getBeamboxPreferenceEditingValue = jest.fn();
+  getBeamboxPreferenceEditingValue.mockImplementation((key: string) => {
+    if (key === 'font-substitute') {
+      return true;
+    }
+    return '1.0';
+  });
   const updateBeamboxPreferenceChange = jest.fn();
   const { container } = render(
     <TextToPath
-      fontSubstituteOptions={[
-        {
-          value: 'TRUE',
-          label: 'On',
-          selected: true,
-        },
-        {
-          value: 'FALSE',
-          label: 'Off',
-          selected: false,
-        },
-      ]}
+      getBeamboxPreferenceEditingValue={getBeamboxPreferenceEditingValue}
       updateBeamboxPreferenceChange={updateBeamboxPreferenceChange}
-      defaultFontConvert="1.0"
     />
   );
   expect(container).toMatchSnapshot();

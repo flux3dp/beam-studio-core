@@ -26,7 +26,7 @@ exports[`should render correctly 1`] = `
     label:
     url:
     options:
-    [{"value":"TRUE","label":"On","selected":true},{"value":"FALSE","label":"Off","selected":false}]
+    [{"value":"TRUE","label":"bottom_up","selected":true},{"value":"FALSE","label":"top_down","selected":false}]
     <input
       class="select-control"
     />

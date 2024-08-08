@@ -1,33 +1,37 @@
-import * as React from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React from 'react';
 
 import Controls from 'app/components/settings/Control';
-import i18n from 'helpers/i18n';
 import isDev from 'helpers/is-dev';
+import onOffOptionFactory from 'app/components/settings/onOffOptionFactory';
 import SelectControl from 'app/components/settings/SelectControl';
 import UnitInput from 'app/widgets/Unit-Input-v2';
+import useI18n from 'helpers/useI18n';
 
 interface Props {
-  fastGradientOptions: { value: any, label: string, selected: boolean }[];
-  reverseEngravingOptions: { value: any, label: string, selected: boolean }[];
-  updateBeamboxPreferenceChange: (item_key: string, newVal: any) => void;
-  paddingAccel: {
-    defaultValue: number;
-    getValue: (val) => void;
-  };
-  paddingAccelDiode: {
-    defaultValue: number;
-    getValue: (val) => void;
-  };
+  getBeamboxPreferenceEditingValue: (key: string) => any;
+  updateBeamboxPreferenceChange: (key: string, newVal: any) => void;
 }
 
 function Engraving({
-  fastGradientOptions,
-  reverseEngravingOptions,
+  getBeamboxPreferenceEditingValue,
   updateBeamboxPreferenceChange,
-  paddingAccel,
-  paddingAccelDiode,
 }: Props): JSX.Element {
-  const { lang } = i18n;
+  const lang = useI18n();
+  const fastGradientOptions = onOffOptionFactory(
+    getBeamboxPreferenceEditingValue('fast_gradient') !== false,
+    { lang }
+  );
+
+  const reverseEngravingOptions = onOffOptionFactory(
+    getBeamboxPreferenceEditingValue('reverse-engraving'),
+    {
+      onLabel: lang.settings.bottom_up,
+      offLabel: lang.settings.top_down,
+      lang,
+    }
+  );
+
   return (
     <>
       <div className="subtitle">{lang.settings.groups.engraving}</div>
@@ -53,8 +57,8 @@ function Engraving({
               min={1}
               max={12000}
               decimal={0}
-              defaultValue={paddingAccel.defaultValue}
-              getValue={paddingAccel.getValue}
+              defaultValue={getBeamboxPreferenceEditingValue('padding_accel') || 5000}
+              getValue={(val) => updateBeamboxPreferenceChange('padding_accel', val)}
               className={{ half: true }}
             />
           </Controls>
@@ -65,8 +69,8 @@ function Engraving({
               min={1}
               max={12000}
               decimal={0}
-              defaultValue={paddingAccelDiode.defaultValue}
-              getValue={paddingAccelDiode.getValue}
+              defaultValue={getBeamboxPreferenceEditingValue('padding_accel_diode') || 4500}
+              getValue={(val) => updateBeamboxPreferenceChange('padding_accel_diode', val)}
               className={{ half: true }}
             />
           </Controls>

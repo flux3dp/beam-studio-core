@@ -1,15 +1,17 @@
-import * as React from 'react';
+import React from 'react';
 
-import i18n from 'helpers/i18n';
+import onOffOptionFactory from 'app/components/settings/onOffOptionFactory';
 import SelectControl from 'app/components/settings/SelectControl';
+import useI18n from 'helpers/useI18n';
 
 interface Props {
-  maskOptions: { value: any, label: string, selected: boolean }[];
-  updateBeamboxPreferenceChange: (item_key: string, newVal: any) => void;
+  getBeamboxPreferenceEditingValue: (key: string) => boolean;
+  updateBeamboxPreferenceChange: (key: string, newVal: boolean) => void;
 }
 
-function Mask({ maskOptions, updateBeamboxPreferenceChange }: Props): JSX.Element {
-  const lang = i18n.lang;
+function Mask({ getBeamboxPreferenceEditingValue, updateBeamboxPreferenceChange }: Props): JSX.Element {
+  const lang = useI18n();
+  const maskOptions = onOffOptionFactory(getBeamboxPreferenceEditingValue('enable_mask'), { lang });
   return (
     <>
       <div className="subtitle">{lang.settings.groups.mask}</div>
