@@ -87,7 +87,6 @@ const FrameButton = (): JSX.Element => {
 
     const isAdor = constant.adorModels.includes(device.model);
     const coords = getCoords(isAdor);
-    console.log('frame coords:', coords);
     // Only check minX because it's enough to know if there is any element
     if (coords.minX === undefined) {
       MessageCaller.openMessage({
@@ -113,7 +112,6 @@ const FrameButton = (): JSX.Element => {
       const headType = parseInt(deviceDetailInfo.head_type, 10);
       if ([LayerModule.LASER_10W_DIODE, LayerModule.LASER_20W_DIODE].includes(headType)) {
         lowLaserPower = beamboxPreference.read('low_power') * 10;
-        console.log('lowLaserPower:', lowLaserPower);
       } else if (headType === 0) {
         warningMessage = tAlerts.headtype_none + tAlerts.install_correct_headtype;
       } else if ([LayerModule.LASER_1064, LayerModule.PRINTER].includes(headType)) {
