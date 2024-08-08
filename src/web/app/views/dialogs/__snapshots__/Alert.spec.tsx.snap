@@ -65,6 +65,9 @@ exports[`test Alert should render correctly 1`] = `
                   <span>
                     link1
                   </span>
+                  <svgr-url
+                    classname="icon"
+                  />
                 </button>
                 <button
                   class="ant-btn css-dev-only-do-not-override-hash ant-btn-link link"
@@ -73,6 +76,9 @@ exports[`test Alert should render correctly 1`] = `
                   <span>
                     link2
                   </span>
+                  <svgr-url
+                    classname="icon"
+                  />
                 </button>
               </div>
               <div
