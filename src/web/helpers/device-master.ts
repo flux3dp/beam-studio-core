@@ -834,13 +834,16 @@ class DeviceMaster {
     return controlSocket.addTask(controlSocket.rawEndLineCheckMode);
   }
 
-  async rawMove(args: { x?: number; y?: number; z?: number; f?: number }) {
+  async rawMove(args: { x?: number; y?: number; z?: number; a?:number; f?: number }) {
     const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.rawMove, args);
   }
 
   async rawSetRotary(on: boolean) {
     const controlSocket = await this.getControl();
+    if (constant.adorModels.includes(this.currentDevice.info.model)) {
+      return controlSocket.addTask(controlSocket.adorRawSetRotary, on);
+    }
     return controlSocket.addTask(controlSocket.rawSetRotary, on);
   }
 
