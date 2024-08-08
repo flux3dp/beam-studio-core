@@ -433,6 +433,7 @@ const lang: ILang = {
     simplify_clipper_path: 'Ottimizza il percorso calcolato',
     enable_low_speed: 'Abilita movimento a bassa velocità',
     enable_custom_backlash: 'Abilita compensazione personalizzata del gioco',
+    auto_switch_tab: 'Commutazione automatica tra pannello livelli e oggetti',
     custom_preview_height: 'Altezza anteprima personalizzata',
     mask: 'Maschera area di lavoro',
     text_path_calc_optimization: 'Ottimizzazione calcolo percorso',
@@ -594,6 +595,10 @@ const lang: ILang = {
       text_to_path: {
         caption: 'Convertitore di testo in percorso 2.0',
         message: "Beam Studio introduce ora un nuovo convertitore di testo in percorso (Convertitore 2.0), che produce risultati più affidabili! Vuoi passare ad esso ora?\\nPuoi anche regolare questa impostazione più tardi nella sezione 'Convertitore di testo in percorso' all'interno delle preferenze.",
+      },
+      auto_switch_tab: {
+        title: 'Commutazione automatica tra pannello livelli e oggetti',
+        message: 'Una nuova opzione per passare automaticamente tra il pannello Livelli e il pannello Oggetti è stata aggiunta alle Preferenze. Questa opzione è disabilitata per impostazione predefinita. Vuoi abilitare il cambio automatico ora? <br/>Puoi cambiare questa impostazione in qualsiasi momento nelle Preferenze.',
       },
     },
     zoom_block: {

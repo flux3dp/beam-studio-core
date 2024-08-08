@@ -433,6 +433,7 @@ const lang: ILang = {
     simplify_clipper_path: 'Optimumkan Laluan Dikira',
     enable_low_speed: 'Dayakan pergerakan perlahan',
     enable_custom_backlash: 'Dayakan Pampasan Undur Tersuai',
+    auto_switch_tab: 'Tukar Automatik Panel Lapisan dan Objek',
     custom_preview_height: 'Ketinggian Pratonton Tersuai',
     mask: 'Penyepadan Kawasan Kerja',
     text_path_calc_optimization: 'Pengoptimuman Pengiraan Laluan',
@@ -594,6 +595,10 @@ const lang: ILang = {
       text_to_path: {
         caption: 'Penukar Teks ke Laluan 2.0',
         message: "Beam Studio kini memperkenalkan penukar teks ke laluan yang baru (Penukar 2.0), yang menghasilkan keputusan yang lebih boleh dipercayai! Adakah anda mahu beralih kepadanya sekarang? \nAnda juga boleh menyesuaikan tetapan ini kemudian dalam bahagian 'Penukar Teks ke Laluan' dalam keutamaan.",
+      },
+      auto_switch_tab: {
+        title: 'Tukar Automatik Panel Lapisan dan Objek',
+        message: 'Pilihan baru untuk menukar secara automatik antara panel Lapisan dan panel Objek telah ditambah dalam Keutamaan. Pilihan ini dilumpuhkan secara lalai. Adakah anda ingin mengaktifkan penukaran automatik sekarang? <br/>Anda boleh menukar tetapan ini pada bila-bila masa dalam Keutamaan.',
       },
     },
     zoom_block: {

@@ -436,6 +436,7 @@ const lang: ILang = {
     simplify_clipper_path: '계산된 경로 최적화',
     enable_low_speed: '저속 이동 활성화',
     enable_custom_backlash: '사용자 정의 백래시 활성화',
+    auto_switch_tab: '레이어 및 객체 패널 자동 전환',
     custom_preview_height: '사용자 정의 미리보기 높이',
     mask: '작업 영역 클리핑',
     text_path_calc_optimization: '경로 계산 최적화',
@@ -597,6 +598,10 @@ const lang: ILang = {
       text_to_path: {
         caption: '텍스트-경로 변환기 2.0',
         message: "Beam Studio에 새로운 텍스트-경로 변환기(Converter 2.0)가 추가되었습니다. 이는 더 신뢰할 수 있는 결과를 제공합니다! 지금 전환하시겠습니까?\\n환경 설정의 '텍스트-경로 변환기' 섹션에서 나중에 이 설정을 조정할 수도 있습니다.",
+      },
+      auto_switch_tab: {
+        title: '레이어 및 객체 패널 자동 전환',
+        message: '레이어 패널과 객체 패널 간 자동 전환 옵션이 기본 설정에 추가되었습니다. 이 옵션은 기본적으로 비활성화되어 있습니다. 지금 자동 전환을 활성화하시겠습니까? <br/>이 설정은 언제든지 기본 설정에서 변경할 수 있습니다.',
       },
     },
     zoom_block: {

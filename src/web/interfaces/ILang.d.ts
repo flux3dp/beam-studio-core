@@ -596,6 +596,10 @@ export interface ILang {
         caption: string;
         message: string;
       };
+      auto_switch_tab: {
+        title: string;
+        message: string;
+      };
     };
     zoom_block: {
       fit_to_window: string,

@@ -436,6 +436,7 @@ const lang: ILang = {
     simplify_clipper_path: 'Optimieren Sie den berechneten Pfad',
     enable_low_speed: 'Langsame Bewegung aktivieren',
     enable_custom_backlash: 'Benutzerdefinierte Backlash-Kompensation aktivieren',
+    auto_switch_tab: 'Automatisches Umschalten von Ebenen- und Objektpanel',
     custom_preview_height: 'Benutzerdefinierte Vorschauhöhe',
     mask: 'Arbeitsbereich-Ausschnitt',
     text_path_calc_optimization: 'Optimierung der Pfadberechnung',
@@ -597,6 +598,10 @@ const lang: ILang = {
       text_to_path: {
         caption: 'Text-zu-Pfad-Konverter 2.0',
         message: 'Beam Studio führt nun einen neuen Text-zu-Pfad-Konverter (Konverter 2.0) ein, der zuverlässigere Ergebnisse liefert! Möchten Sie jetzt umsteigen? \nSie können diese Einstellung auch später im Abschnitt "Text-zu-Pfad-Konverter" in den Einstellungen anpassen.',
+      },
+      auto_switch_tab: {
+        title: 'Automatisches Umschalten zwischen Ebenen- und Objektpanel',
+        message: 'Eine neue Option zum automatischen Umschalten zwischen dem Ebenen- und dem Objekt-Panel wurde zu den Voreinstellungen hinzugefügt. Diese Option ist standardmäßig deaktiviert. Möchten Sie das automatische Umschalten jetzt aktivieren? <br/>Sie können diese Einstellung jederzeit in den Voreinstellungen ändern.',
       },
     },
     zoom_block: {

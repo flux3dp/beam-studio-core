@@ -436,6 +436,7 @@ const lang: ILang = {
     simplify_clipper_path: '路徑計算優化',
     enable_low_speed: '啟用慢速移動',
     enable_custom_backlash: '啟用自訂背隙補償',
+    auto_switch_tab: '自動切換圖層與物件面板',
     custom_preview_height: '自訂預覽高度',
     mask: '工作範圍剪裁',
     text_path_calc_optimization: '路徑計算優化',
@@ -597,6 +598,10 @@ const lang: ILang = {
       text_to_path: {
         caption: '文字轉路徑 2.0',
         message: 'Beam Studio 現在推出全新的文字轉路徑 2.0，為您帶來更穩定的使用體驗！您是否要立即切換？\n您也可以稍後於偏好設定中的「文字轉路徑」修改此設定。',
+      },
+      auto_switch_tab: {
+        title: '自動切換圖層和物件面板',
+        message: '已在偏好設定中新增在圖層面板和物件面板之間自動切換的新選項。此選項預設為關閉。是否要啟用自動切換？ <br/>您可以隨時在偏好設定中更改此設定。',
       },
     },
     zoom_block: {
