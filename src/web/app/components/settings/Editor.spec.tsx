@@ -34,6 +34,7 @@ jest.mock('helpers/useI18n', () => () => ({
     groups: {
       editor: 'Editor',
     },
+    auto_switch_tab: 'auto_switch_tab',
   },
 }));
 

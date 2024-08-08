@@ -432,6 +432,7 @@ export interface ILang {
     grouped_objects: string,
     simplify_clipper_path: string,
     enable_low_speed: string;
+    auto_switch_tab: string;
     enable_custom_backlash: string;
     custom_preview_height: string;
     mask: string;

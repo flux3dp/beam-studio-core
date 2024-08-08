@@ -202,7 +202,7 @@ exports[`settings/Editor initially no warning 1`] = `
     mock-select-control id:
     auto-switch-tab
     label:
-    tAuto Switch Tab
+    auto_switch_tab
     url:
     options:
     [{"value":"TRUE","label":"On","selected":false},{"value":"FALSE","label":"Off","selected":true}]
@@ -426,7 +426,7 @@ exports[`settings/Editor initially no warning 2`] = `
     mock-select-control id:
     auto-switch-tab
     label:
-    tAuto Switch Tab
+    auto_switch_tab
     url:
     options:
     [{"value":"TRUE","label":"On","selected":false},{"value":"FALSE","label":"Off","selected":true}]
@@ -650,7 +650,7 @@ exports[`settings/Editor initially no warning 3`] = `
     mock-select-control id:
     auto-switch-tab
     label:
-    tAuto Switch Tab
+    auto_switch_tab
     url:
     options:
     [{"value":"TRUE","label":"On","selected":false},{"value":"FALSE","label":"Off","selected":true}]
@@ -874,7 +874,7 @@ exports[`settings/Editor initially no warning 4`] = `
     mock-select-control id:
     auto-switch-tab
     label:
-    tAuto Switch Tab
+    auto_switch_tab
     url:
     options:
     [{"value":"TRUE","label":"On","selected":false},{"value":"FALSE","label":"Off","selected":true}]

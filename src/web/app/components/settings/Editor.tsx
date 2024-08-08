@@ -267,7 +267,7 @@ function Editor({
       />
       <SelectControl
         id="auto-switch-tab"
-        label={'tAuto Switch Tab'}
+        label={lang.settings.auto_switch_tab}
         options={autoSwitchTab}
         onChange={(e) => updateBeamboxPreferenceChange('auto-switch-tab', e.target.value)}
       />
