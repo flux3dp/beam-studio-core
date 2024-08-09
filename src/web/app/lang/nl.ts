@@ -433,6 +433,7 @@ const lang: ILang = {
     simplify_clipper_path: 'Optimaliseer het berekende pad',
     enable_low_speed: 'Schakel lage snelheidsbeweging in',
     enable_custom_backlash: 'Schakel aangepaste backlash compensatie in',
+    auto_switch_tab: 'Automatisch schakelen tussen laag- en objectpaneel',
     custom_preview_height: 'Aangepaste voorbeeldhoogte',
     mask: 'Werkgebied bijsnijden',
     text_path_calc_optimization: 'Padberekeningsoptimalisatie',
@@ -594,6 +595,10 @@ const lang: ILang = {
       text_to_path: {
         caption: 'Tekst naar pad Converter 2.0',
         message: "Beam Studio introduceert nu een nieuwe tekst naar pad converter (Converter 2.0), die betrouwbaardere resultaten oplevert! Wilt u nu overschakelen? \nU kunt deze instelling later ook aanpassen in het gedeelte 'Tekst naar pad Converter' binnen de voorkeuren.",
+      },
+      auto_switch_tab: {
+        title: 'Automatisch schakelen tussen laag- en objectpaneel',
+        message: 'Een nieuwe optie om automatisch te schakelen tussen het lagenpaneel en het objectenpaneel is toegevoegd aan de Voorkeuren. Deze optie is standaard uitgeschakeld. Wilt u automatische schakeling nu inschakelen? <br/>U kunt deze instelling op elk moment wijzigen in Voorkeuren.',
       },
     },
     zoom_block: {

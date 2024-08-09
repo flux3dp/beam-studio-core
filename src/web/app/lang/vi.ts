@@ -433,6 +433,7 @@ const lang: ILang = {
     simplify_clipper_path: 'Tối ưu hóa đường dẫn tính toán',
     enable_low_speed: 'Bật chế độ chuyển động tốc độ thấp',
     enable_custom_backlash: 'Bật bù lùi tùy chỉnh',
+    auto_switch_tab: 'Chuyển đổi tự động giữa bảng Lớp và Đối tượng',
     custom_preview_height: 'Chiều cao xem trước tùy chỉnh',
     mask: 'Cắt vùng làm việc',
     text_path_calc_optimization: 'Tối ưu hóa tính toán đường dẫn văn bản',
@@ -594,6 +595,10 @@ const lang: ILang = {
       text_to_path: {
         caption: 'Bộ chuyển đổi Văn bản thành Đường dẫn 2.0',
         message: "Beam Studio giới thiệu một bộ chuyển đổi văn bản thành đường dẫn mới (Bộ chuyển đổi 2.0), tạo ra kết quả đáng tin cậy hơn! Bạn có muốn chuyển sang nó bây giờ không? \nBạn cũng có thể điều chỉnh cài đặt này sau trong phần 'Cài đặt bộ chuyển đổi văn bản thành đường dẫn' trong tùy chọn.",
+      },
+      auto_switch_tab: {
+        title: 'Chuyển đổi tự động giữa bảng Lớp và Đối tượng',
+        message: 'Một tùy chọn mới để tự động chuyển đổi giữa bảng Lớp và bảng Đối tượng đã được thêm vào Tùy chọn. Tùy chọn này bị tắt theo mặc định. Bạn có muốn bật chuyển đổi tự động ngay bây giờ không? <br/>Bạn có thể thay đổi cài đặt này bất kỳ lúc nào trong Tùy chọn.',
       },
     },
     zoom_block: {

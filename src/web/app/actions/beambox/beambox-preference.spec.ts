@@ -19,6 +19,13 @@ jest.mock('app/actions/beambox/constant', () => ({
   },
 }));
 
+const mockEmit = jest.fn();
+jest.mock('helpers/eventEmitterFactory', () => ({
+  createEventEmitter: () => ({
+    emit: (...args) => mockEmit(...args),
+  }),
+}));
+
 test('test beambox-preference', () => {
   expect(mockGet).toHaveBeenNthCalledWith(1, 'beambox-preference');
   expect(mockSet).toHaveBeenNthCalledWith(1, 'beambox-preference', {
@@ -46,9 +53,11 @@ test('test beambox-preference', () => {
   expect(mockGet).toHaveBeenNthCalledWith(2, 'beambox-preference');
 
   mockGet.mockReturnValue({});
+  expect(mockEmit).not.toHaveBeenCalled();
   beamboxPreference.write('mouse_input_device', 'MOUSE');
   expect(mockGet).toHaveBeenNthCalledWith(3, 'beambox-preference');
   expect(mockSet).toHaveBeenNthCalledWith(2, 'beambox-preference', {
     mouse_input_device: 'MOUSE',
   });
+  expect(mockEmit).toHaveBeenNthCalledWith(1, 'mouse_input_device', 'MOUSE');
 });

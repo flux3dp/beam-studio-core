@@ -433,6 +433,7 @@ const lang: ILang = {
     simplify_clipper_path: 'Otimizar caminho calculado',
     enable_low_speed: 'Ativar movimento de baixa velocidade',
     enable_custom_backlash: 'Ativar compensação de folga personalizada',
+    auto_switch_tab: 'Troca automática entre painel de camadas e objetos',
     custom_preview_height: 'Altura de visualização personalizada',
     mask: 'Máscara da área de trabalho',
     text_path_calc_optimization: 'Otimização de cálculo de caminho de texto',
@@ -594,6 +595,10 @@ const lang: ILang = {
       text_to_path: {
         caption: 'Conversor de Texto para Trajetória 2.0',
         message: 'O Beam Studio agora apresenta um novo conversor de texto para trajetória (Conversor 2.0), que produz resultados mais confiáveis! Gostaria de mudar para ele agora? \nVocê também pode ajustar essa configuração posteriormente na seção "Conversor de Texto para Trajetória" nas preferências.',
+      },
+      auto_switch_tab: {
+        title: 'Troca automática entre painel de camadas e objetos',
+        message: 'Uma nova opção para alternar automaticamente entre o painel de Camadas e o painel de Objetos foi adicionada às Preferências. Esta opção está desativada por padrão. Gostaria de ativar a troca automática agora? <br/>Você pode alterar esta configuração a qualquer momento nas Preferências.',
       },
     },
     zoom_block: {

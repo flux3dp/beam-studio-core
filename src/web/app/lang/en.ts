@@ -436,6 +436,7 @@ const lang: ILang = {
     simplify_clipper_path: 'Optimize the Calculated Path',
     enable_low_speed: 'Enable slow speed movement',
     enable_custom_backlash: 'Enable Custom Backlash Compensation',
+    auto_switch_tab: 'Auto Switch Layer and Object Panel',
     custom_preview_height: 'Custom Preview Height',
     mask: 'Workarea Clipping',
     text_path_calc_optimization: 'Path Calculation Optimization',
@@ -597,6 +598,10 @@ const lang: ILang = {
       text_to_path: {
         caption: 'Text-to-Path Converter 2.0',
         message: "Beam Studio now introduces a new text-to-path converter (Converter 2.0), which produces more dependable results! Would you like to switch to it now? \nYou can also adjust this setting later in the 'Text-to-Path Converter' section within the preferences.",
+      },
+      auto_switch_tab: {
+        title: 'Auto Switch Layer and Object Panel',
+        message: 'A new option to automatically switch between the Layers panel and the Objects panel has been added to Preferences. This option is disabled by default. Would you like to enable automatic switching now?<br/>You can change this setting anytime in Preferences.',
       },
     },
     zoom_block: {

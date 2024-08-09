@@ -131,6 +131,23 @@ class BeamboxInit {
         BeamboxPreference.write('font-convert', version);
       }
     }
+    const autoSwitchTab = BeamboxPreference.read('auto-switch-tab');
+    if (autoSwitchTab === undefined) {
+      if (isNewUser) BeamboxPreference.write('auto-switch-tab', false);
+      else {
+        const res = await new Promise<boolean>((resolve) => {
+          Alert.popUp({
+            caption: i18n.lang.beambox.popup.auto_switch_tab.title,
+            message: i18n.lang.beambox.popup.auto_switch_tab.message,
+            buttonType: AlertConstants.YES_NO,
+            onYes: () => resolve(true),
+            onNo: () => resolve(false),
+          });
+        });
+        BeamboxPreference.write('auto-switch-tab', res);
+      }
+    }
+
 
     ratingHelper.init();
     announcementHelper.init(isNewUser);

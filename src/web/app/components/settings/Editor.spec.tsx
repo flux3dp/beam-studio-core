@@ -1,38 +1,40 @@
 import * as React from 'react';
-import { act } from 'react-dom/test-utils';
 import { fireEvent, render } from '@testing-library/react';
 
 import { OptionValues } from 'app/constants/enums';
 
 jest.mock('helpers/is-dev', () => () => true);
 
-jest.mock('helpers/i18n', () => ({
-  lang: {
-    menu: {
-      mm: 'mm',
-      inches: 'Inches',
+jest.mock('helpers/useI18n', () => () => ({
+  menu: {
+    mm: 'mm',
+    inches: 'Inches',
+  },
+  settings: {
+    on: 'On',
+    off: 'Off',
+    low: 'Low',
+    high: 'Normal',
+    default_units: 'Default Units',
+    default_font_family: 'Default Font',
+    default_font_style: 'Default Font Style',
+    default_beambox_model: 'Default Document Setting',
+    guides_origin: 'Guides Origin',
+    guides: 'Guides',
+    image_downsampling: 'Bitmap Previewing Quality',
+    anti_aliasing: 'Anti-Aliasing',
+    continuous_drawing: 'Continuous Drawing',
+    simplify_clipper_path: 'Optimize the Calculated Path',
+    help_center_urls: {
+      image_downsampling: 'https://support.flux3dp.com/hc/en-us/articles/360004494995',
+      anti_aliasing: 'https://support.flux3dp.com/hc/en-us/articles/360004408956',
+      continuous_drawing: 'https://support.flux3dp.com/hc/en-us/articles/360004406496',
+      simplify_clipper_path: 'https://support.flux3dp.com/hc/en-us/articles/360004407276',
     },
-    settings: {
-      default_units: 'Default Units',
-      default_font_family: 'Default Font',
-      default_font_style: 'Default Font Style',
-      default_beambox_model: 'Default Document Setting',
-      guides_origin: 'Guides Origin',
-      guides: 'Guides',
-      image_downsampling: 'Bitmap Previewing Quality',
-      anti_aliasing: 'Anti-Aliasing',
-      continuous_drawing: 'Continuous Drawing',
-      simplify_clipper_path: 'Optimize the Calculated Path',
-      help_center_urls: {
-        image_downsampling: 'https://support.flux3dp.com/hc/en-us/articles/360004494995',
-        anti_aliasing: 'https://support.flux3dp.com/hc/en-us/articles/360004408956',
-        continuous_drawing: 'https://support.flux3dp.com/hc/en-us/articles/360004406496',
-        simplify_clipper_path: 'https://support.flux3dp.com/hc/en-us/articles/360004407276',
-      },
-      groups: {
-        editor: 'Editor',
-      },
+    groups: {
+      editor: 'Editor',
     },
+    auto_switch_tab: 'auto_switch_tab',
   },
 }));
 
@@ -151,7 +153,7 @@ jest.mock(
 // eslint-disable-next-line import/first
 import Editor from './Editor';
 
-describe('should render correctly', () => {
+describe('settings/Editor', () => {
   afterEach(() => {
     jest.resetAllMocks();
   });
@@ -160,100 +162,39 @@ describe('should render correctly', () => {
     const updateConfigChange = jest.fn();
     const updateBeamboxPreferenceChange = jest.fn();
     const updateModel = jest.fn();
+    const mockGetBeamboxPreferenceEditingValue = jest.fn();
+    mockGetBeamboxPreferenceEditingValue.mockImplementation((key) => {
+      if (key === 'guide_x0' || key === 'guide_y0') {
+        return 0;
+      }
+      return false;
+    });
     const { container } = render(
       <Editor
         defaultUnit="mm"
-        x0={0}
-        y0={0}
         selectedModel="fbb1b"
-        guideSelectionOptions={[
-          {
-            value: 'TRUE',
-            label: 'On',
-            selected: false,
-          },
-          {
-            value: 'FALSE',
-            label: 'Off',
-            selected: true,
-          },
-        ]}
-        imageDownsamplingOptions={[
-          {
-            value: 'TRUE',
-            label: 'Low',
-            selected: false,
-          },
-          {
-            value: 'FALSE',
-            label: 'Normal',
-            selected: true,
-          },
-        ]}
-        antiAliasingOptions={[
-          {
-            value: 'TRUE',
-            label: 'On',
-            selected: false,
-          },
-          {
-            value: 'FALSE',
-            label: 'Off',
-            selected: true,
-          },
-        ]}
-        continuousDrawingOptions={[
-          {
-            value: 'TRUE',
-            label: 'On',
-            selected: false,
-          },
-          {
-            value: 'FALSE',
-            label: 'Off',
-            selected: true,
-          },
-        ]}
-        simplifyClipperPath={[
-          {
-            value: 'TRUE',
-            label: 'On',
-            selected: false,
-          },
-          {
-            value: 'FALSE',
-            label: 'Off',
-            selected: true,
-          },
-        ]}
-        enableLowSpeedOptions={[
-          {
-            value: 'TRUE',
-            label: 'On',
-            selected: false,
-          },
-          {
-            value: 'FALSE',
-            label: 'Off',
-            selected: true,
-          },
-        ]}
-        enableCustomBacklashOptions={[
-          {
-            value: OptionValues.TRUE,
-            label: 'On',
-            selected: false,
-          },
-          {
-            value: OptionValues.FALSE,
-            label: 'Off',
-            selected: true,
-          },
-        ]}
+        getBeamboxPreferenceEditingValue={mockGetBeamboxPreferenceEditingValue}
         updateConfigChange={updateConfigChange}
         updateBeamboxPreferenceChange={updateBeamboxPreferenceChange}
         updateModel={updateModel}
       />
+    );
+    expect(mockGetBeamboxPreferenceEditingValue).toBeCalledTimes(10);
+    expect(mockGetBeamboxPreferenceEditingValue).toHaveBeenNthCalledWith(1, 'guide_x0');
+    expect(mockGetBeamboxPreferenceEditingValue).toHaveBeenNthCalledWith(2, 'guide_y0');
+    expect(mockGetBeamboxPreferenceEditingValue).toHaveBeenNthCalledWith(3, 'show_guides');
+    expect(mockGetBeamboxPreferenceEditingValue).toHaveBeenNthCalledWith(4, 'image_downsampling');
+    expect(mockGetBeamboxPreferenceEditingValue).toHaveBeenNthCalledWith(5, 'anti-aliasing');
+    expect(mockGetBeamboxPreferenceEditingValue).toHaveBeenNthCalledWith(6, 'continuous_drawing');
+    expect(mockGetBeamboxPreferenceEditingValue).toHaveBeenNthCalledWith(
+      7,
+      'simplify_clipper_path'
+    );
+    expect(mockGetBeamboxPreferenceEditingValue).toHaveBeenNthCalledWith(8, 'enable-low-speed');
+    expect(mockGetBeamboxPreferenceEditingValue).toHaveBeenNthCalledWith(9, 'auto-switch-tab');
+    expect(mockGetBeamboxPreferenceEditingValue).toHaveBeenNthCalledWith(
+      10,
+      'enable-custom-backlash'
     );
     expect(container).toMatchSnapshot();
 
@@ -284,40 +225,52 @@ describe('should render correctly', () => {
     expect(updateModel).toHaveBeenCalledTimes(1);
     expect(updateModel).toHaveBeenNthCalledWith(1, 'fbm1');
 
-    fireEvent.change(SelectControls[4], { target: { value: 'TRUE' } });
+    fireEvent.change(SelectControls[4], { target: { value: OptionValues.TRUE } });
     expect(updateBeamboxPreferenceChange).toHaveBeenCalledTimes(2);
     expect(updateBeamboxPreferenceChange).toHaveBeenNthCalledWith(2, 'show_guides', 'TRUE');
 
-    fireEvent.change(SelectControls[5], { target: { value: 'TRUE' } });
+    fireEvent.change(SelectControls[5], { target: { value: OptionValues.TRUE } });
     expect(updateBeamboxPreferenceChange).toHaveBeenCalledTimes(3);
     expect(updateBeamboxPreferenceChange).toHaveBeenNthCalledWith(3, 'image_downsampling', 'TRUE');
 
-    fireEvent.change(SelectControls[6], { target: { value: 'TRUE' } });
+    fireEvent.change(SelectControls[6], { target: { value: OptionValues.TRUE } });
     expect(updateBeamboxPreferenceChange).toHaveBeenCalledTimes(4);
     expect(updateBeamboxPreferenceChange).toHaveBeenNthCalledWith(4, 'anti-aliasing', 'TRUE');
 
-    fireEvent.change(SelectControls[7], { target: { value: 'TRUE' } });
+    fireEvent.change(SelectControls[7], { target: { value: OptionValues.TRUE } });
     expect(updateBeamboxPreferenceChange).toHaveBeenCalledTimes(5);
     expect(updateBeamboxPreferenceChange).toHaveBeenNthCalledWith(5, 'continuous_drawing', 'TRUE');
 
-    fireEvent.change(SelectControls[8], { target: { value: 'TRUE' } });
+    fireEvent.change(SelectControls[8], { target: { value: OptionValues.TRUE } });
     expect(updateBeamboxPreferenceChange).toHaveBeenCalledTimes(6);
-    expect(updateBeamboxPreferenceChange).toHaveBeenNthCalledWith(6, 'simplify_clipper_path', 'TRUE');
+    expect(updateBeamboxPreferenceChange).toHaveBeenNthCalledWith(
+      6,
+      'simplify_clipper_path',
+      'TRUE'
+    );
 
-    fireEvent.change(SelectControls[9], { target: { value: 'TRUE' } });
+    fireEvent.change(SelectControls[9], { target: { value: OptionValues.TRUE } });
     expect(updateBeamboxPreferenceChange).toHaveBeenCalledTimes(7);
     expect(updateBeamboxPreferenceChange).toHaveBeenNthCalledWith(7, 'enable-low-speed', 'TRUE');
 
-    fireEvent.change(UnitInputs[0], { target: { value: 1 } });
+    fireEvent.change(SelectControls[10], { target: { value: OptionValues.TRUE } });
     expect(updateBeamboxPreferenceChange).toHaveBeenCalledTimes(8);
-    expect(updateBeamboxPreferenceChange).toHaveBeenNthCalledWith(8, 'guide_x0', 1);
+    expect(updateBeamboxPreferenceChange).toHaveBeenNthCalledWith(8, 'auto-switch-tab', 'TRUE');
+
+    fireEvent.change(UnitInputs[0], { target: { value: 1 } });
+    expect(updateBeamboxPreferenceChange).toHaveBeenCalledTimes(9);
+    expect(updateBeamboxPreferenceChange).toHaveBeenNthCalledWith(9, 'guide_x0', 1);
 
     fireEvent.change(UnitInputs[1], { target: { value: 2 } });
-    expect(updateBeamboxPreferenceChange).toHaveBeenCalledTimes(9);
-    expect(updateBeamboxPreferenceChange).toHaveBeenNthCalledWith(9, 'guide_y0', 2);
-
-    fireEvent.change(SelectControls[10], { target: { value: OptionValues.TRUE } });
     expect(updateBeamboxPreferenceChange).toHaveBeenCalledTimes(10);
-    expect(updateBeamboxPreferenceChange).toHaveBeenNthCalledWith(10, 'enable-custom-backlash', 'TRUE');
+    expect(updateBeamboxPreferenceChange).toHaveBeenNthCalledWith(10, 'guide_y0', 2);
+
+    fireEvent.change(SelectControls[11], { target: { value: OptionValues.TRUE } });
+    expect(updateBeamboxPreferenceChange).toHaveBeenCalledTimes(11);
+    expect(updateBeamboxPreferenceChange).toHaveBeenNthCalledWith(
+      11,
+      'enable-custom-backlash',
+      'TRUE'
+    );
   });
 });

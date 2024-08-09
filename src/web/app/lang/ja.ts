@@ -436,6 +436,7 @@ const lang: ILang = {
     simplify_clipper_path: '計算されたパスを最適化',
     enable_low_speed: '低速モードを有効にする',
     enable_custom_backlash: 'カスタムバックラッシュを有効にする',
+    auto_switch_tab: 'レイヤーとオブジェクトパネルの自動切り替え',
     custom_preview_height: 'カスタムプレビュー高さ',
     mask: 'ワークエリアのクリッピング',
     text_path_calc_optimization: 'パス計算の最適化',
@@ -597,6 +598,10 @@ const lang: ILang = {
       text_to_path: {
         caption: 'テキストからパスへの変換 2.0',
         message: 'Beam Studioに新しいテキストからパスへの変換機能(変換 2.0)が追加されました。これにより、より信頼できる結果が得られます。今すぐ変換を切り替えますか?\n「テキストからパスへの変換」の設定セクションから、後でこの設定を調整することもできます。',
+      },
+      auto_switch_tab: {
+        title: 'レイヤーとオブジェクトパネルの自動切り替え',
+        message: 'レイヤーパネルとオブジェクトパネルの間を自動的に切り替える新しいオプションが環境設定に追加されました。このオプションはデフォルトではオフになっています。自動切り替えを今すぐオンにしますか？ <br/>この設定はいつでも環境設定で変更できます。',
       },
     },
     zoom_block: {

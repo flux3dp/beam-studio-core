@@ -433,6 +433,7 @@ const lang: ILang = {
     simplify_clipper_path: 'Optimer den Beregnede Sti',
     enable_low_speed: 'Aktivér langsom hastighed bevægelse',
     enable_custom_backlash: 'Aktivér Brugerdefineret Backlash Kompensation',
+    auto_switch_tab: 'Automatisk skift mellem lag- og objektpanel',
     custom_preview_height: 'Brugerdefineret Forhåndsvisningshøjde',
     mask: 'Arbejdsområde Beskæring',
     text_path_calc_optimization: 'Stiberegning Optimering',
@@ -594,6 +595,10 @@ const lang: ILang = {
       text_to_path: {
         caption: 'Tekst til sti konverter 2.0',
         message: "Beam Studio introducerer nu en ny tekst til sti konverter (Konverter 2.0), som producerer mere pålidelige resultater! Vil du skifte til den nu? \nDu kan også justere denne indstilling senere i 'Tekst til sti konverter' afsnittet i indstillingerne.",
+      },
+      auto_switch_tab: {
+        title: 'Automatisk skift mellem lag- og objektpanel',
+        message: 'En ny mulighed for automatisk at skifte mellem lagpanelet og objektpanelet er blevet tilføjet i Præferencer. Denne mulighed er deaktiveret som standard. Vil du aktivere automatisk skift nu? <br/>Du kan ændre denne indstilling når som helst i Præferencer.',
       },
     },
     zoom_block: {

@@ -436,6 +436,7 @@ const lang: ILang = {
     simplify_clipper_path: 'Optymalizuj obliczoną ścieżkę',
     enable_low_speed: 'Włącz ruch z małą prędkością',
     enable_custom_backlash: 'Włącz niestandardową kompensację luzu',
+    auto_switch_tab: 'Automatyczne przełączanie między panelem warstw a panelem obiektów',
     custom_preview_height: 'Niestandardowa wysokość podglądu',
     mask: 'Przycinanie obszaru roboczego',
     text_path_calc_optimization: 'Optymalizacja obliczania ścieżki',
@@ -597,6 +598,10 @@ const lang: ILang = {
       text_to_path: {
         caption: 'Konwerter tekstu na ścieżkę 2.0',
         message: 'Beam Studio wprowadza nowy konwerter tekstu na ścieżkę (Konwerter 2.0), który daje bardziej niezawodne wyniki! Czy chcesz teraz przełączyć się na niego? \nMożesz również dostosować to ustawienie później w sekcji "Konwerter tekstu na ścieżkę" w preferencjach.',
+      },
+      auto_switch_tab: {
+        title: 'Automatyczne przełączanie między panelem warstw a panelem obiektów',
+        message: 'Nowa opcja automatycznego przełączania między panelem warstw a panelem obiektów została dodana do Preferencji. Ta opcja jest domyślnie wyłączona. Czy chcesz teraz włączyć automatyczne przełączanie? <br/>Możesz zmienić to ustawienie w dowolnym momencie w Preferencjach.',
       },
     },
     zoom_block: {

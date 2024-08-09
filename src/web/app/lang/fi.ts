@@ -433,6 +433,7 @@ const lang: ILang = {
     simplify_clipper_path: 'Optimoi laskettu polku',
     enable_low_speed: 'Ota hitaan nopeuden liike käyttöön',
     enable_custom_backlash: 'Ota mukautettu välys kompensointi käyttöön',
+    auto_switch_tab: 'Automaattinen vaihto kerros- ja objektipaneelin välillä',
     custom_preview_height: 'Mukautettu esikatselukorkeus',
     mask: 'Työalueen rajaus',
     text_path_calc_optimization: 'Polun laskennan optimointi',
@@ -594,6 +595,10 @@ const lang: ILang = {
       text_to_path: {
         caption: 'Teksti-polku muunnin 2.0',
         message: 'Beam Studio esittelee nyt uuden teksti-polku muuntimen (Muunnin 2.0), joka tuottaa luotettavampia tuloksia! Haluaisitko vaihtaa siihen nyt? \nVoit myös säätää tätä asetusta myöhemmin Teksti-polku muunnin -osiossa asetuksissa.',
+      },
+      auto_switch_tab: {
+        title: 'Automaattinen vaihto kerros- ja objektipaneelin välillä',
+        message: 'Uusi vaihtoehto automaattiselle vaihtamiselle Tasojen ja Objektien paneelien välillä on lisätty Asetuksiin. Tämä vaihtoehto on oletusarvoisesti pois käytöstä. Haluatko ottaa automaattisen vaihtamisen käyttöön nyt? <br/>Voit muuttaa tätä asetusta milloin tahansa Asetuksissa.',
       },
     },
     zoom_block: {

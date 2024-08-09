@@ -433,6 +433,7 @@ const lang: ILang = {
     simplify_clipper_path: 'Optimera den beräknade banan',
     enable_low_speed: 'Aktivera långsam hastighetsrörelse',
     enable_custom_backlash: 'Aktivera anpassad backlashkompensation',
+    auto_switch_tab: 'Automatisk växling mellan lager- och objektpanelen',
     custom_preview_height: 'Anpassad förhandsgranskningshöjd',
     mask: 'Arbetsområdesklippning',
     text_path_calc_optimization: 'Bana beräkningsoptimering',
@@ -594,6 +595,10 @@ const lang: ILang = {
       text_to_path: {
         caption: 'Text till bana konverterare 2.0',
         message: 'Beam Studio introducerar nu en ny text till bana konverterare (Konverterare 2.0), som producerar mer tillförlitliga resultat! Vill du byta till den nu?\\nDu kan också justera den här inställningen senare i avsnittet "Text till bana konverterare" under inställningarna.',
+      },
+      auto_switch_tab: {
+        title: 'Automatisk växling mellan lager- och objektpanelen',
+        message: 'Ett nytt alternativ för att automatiskt växla mellan lagpanelen och objektpanelen har lagts till i Inställningar. Detta alternativ är inaktiverat som standard. Vill du aktivera automatisk växling nu? <br/>Du kan ändra denna inställning när som helst i Inställningar.',
       },
     },
     zoom_block: {

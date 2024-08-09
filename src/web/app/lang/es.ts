@@ -436,6 +436,7 @@ const lang: ILang = {
     simplify_clipper_path: 'Optimizar la trayectoria calculada',
     enable_low_speed: 'Activar movimiento lento',
     enable_custom_backlash: 'Activar la compensación de retroceso',
+    auto_switch_tab: 'Cambio automático entre panel de capas y objetos',
     custom_preview_height: 'Altura de la previsualización',
     mask: 'Recorte del área de trabajo',
     text_path_calc_optimization: 'Optimización del cálculo de la trayectoria',
@@ -597,6 +598,10 @@ const lang: ILang = {
       text_to_path: {
         caption: 'Convertidor de texto a trayectoria 2.0',
         message: '¡Beam Studio ahora presenta un nuevo convertidor de texto a trayectoria (Convertidor 2.0), que produce resultados más confiables! ¿Le gustaría cambiar a él ahora? \nTambién puede ajustar esta configuración más tarde en la sección "Convertidor de texto a trayectoria" dentro de las preferencias.',
+      },
+      auto_switch_tab: {
+        title: 'Cambio automático entre panel de capas y objetos',
+        message: 'Se ha añadido una nueva opción en Preferencias para cambiar automáticamente entre el panel de Capas y el panel de Objetos. Esta opción está desactivada por defecto. ¿Desea habilitar el cambio automático ahora? <br/>Puede cambiar esta configuración en cualquier momento en Preferencias.',
       },
     },
     zoom_block: {

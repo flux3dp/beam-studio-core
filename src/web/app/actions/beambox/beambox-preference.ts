@@ -1,4 +1,5 @@
 import constant from 'app/actions/beambox/constant';
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import storage from 'implementations/storage';
 
 const DEFAULT_PREFERENCE = {
@@ -17,6 +18,8 @@ const DEFAULT_PREFERENCE = {
   low_power: 10,
   rotary_mode: 0,
 };
+
+const eventEmitter = eventEmitterFactory.createEventEmitter('beambox-preference');
 
 class BeamboxPreference {
   constructor() {
@@ -38,6 +41,7 @@ class BeamboxPreference {
     const pref = storage.get('beambox-preference');
     pref[key] = value;
     storage.set('beambox-preference', pref);
+    eventEmitter.emit(key, value);
   }
 }
 

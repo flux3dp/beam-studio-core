@@ -1,22 +1,25 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import * as React from 'react';
+import React, { useMemo } from 'react';
 
+import onOffOptionFactory from 'app/components/settings/onOffOptionFactory';
 import SelectControl from 'app/components/settings/SelectControl';
 import useI18n from 'helpers/useI18n';
 
 interface Props {
-  fontSubstituteOptions: { value: any; label: string; selected: boolean }[];
+  getBeamboxPreferenceEditingValue: (key: string) => any;
   updateBeamboxPreferenceChange: (item_key: string, newVal: any) => void;
-  defaultFontConvert: string;
 }
 
 function TextToPath({
-  fontSubstituteOptions,
+  getBeamboxPreferenceEditingValue,
   updateBeamboxPreferenceChange,
-  defaultFontConvert,
 }: Props): JSX.Element {
   const lang = useI18n();
-  const defaultLaserModuleOptions = React.useMemo(
+
+  const isFontSubstitutionOn = getBeamboxPreferenceEditingValue('font-substitute') !== false;
+  const fontSubstituteOptions = onOffOptionFactory(isFontSubstitutionOn, { lang });
+  const defaultFontConvert = getBeamboxPreferenceEditingValue('font-convert') || '2.0';
+  const defaultLaserModuleOptions = useMemo(
     () => [
       { value: '1.0', label: '1.0', selected: defaultFontConvert === '1.0' },
       { value: '2.0', label: '2.0', selected: defaultFontConvert === '2.0' },

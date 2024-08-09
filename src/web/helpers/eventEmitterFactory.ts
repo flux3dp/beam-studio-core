@@ -11,6 +11,7 @@ const eventEmitters = {
   'object-panel': null,
   'alert-progress': null,
   'zoom-block': null,
+  'beambox-preference': null,
   workarea: null,
   monitor: null,
   canvas: null,

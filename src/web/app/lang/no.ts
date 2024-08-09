@@ -433,6 +433,7 @@ const lang: ILang = {
     simplify_clipper_path: 'Forenklet bane',
     enable_low_speed: 'Aktiver lav hastighetsbevegelse',
     enable_custom_backlash: 'Aktiver egen slakkkompensasjon',
+    auto_switch_tab: 'Automatisk bytte mellom lag- og objektpanel',
     custom_preview_height: 'Egen forhåndsvisningshøyde',
     mask: 'Arbeidsområdeklipping',
     text_path_calc_optimization: 'Baneberegningoptimalisering',
@@ -594,6 +595,10 @@ const lang: ILang = {
       text_to_path: {
         caption: 'Tekst til bane konverterer 2.0',
         message: "Beam Studio introduserer nå en ny tekst til bane konverterer (Konverterer 2.0), som produserer mer pålitelige resultater! Vil du bytte til den nå? \nDu kan også justere denne innstillingen senere i 'Tekst til bane konverterer' delen i innstillingene.",
+      },
+      auto_switch_tab: {
+        title: 'Automatisk bytte mellom lag- og objektpanel',
+        message: 'Et nytt alternativ for automatisk å bytte mellom lagpanelet og objektpanelet er lagt til i Innstillinger. Dette alternativet er deaktivert som standard. Vil du aktivere automatisk bytting nå? <br/>Du kan endre denne innstillingen når som helst i Innstillinger.',
       },
     },
     zoom_block: {
