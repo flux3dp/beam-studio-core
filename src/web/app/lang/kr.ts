@@ -939,6 +939,7 @@ const lang: ILang = {
           path_infill: '경로 내부 채우기',
           shading: '그라데이션',
           pwm_engraving: '깊이 모드',
+          pwm_engraving_link: 'https://support.flux3dp.com/hc/en-us/articles/10419884701327',
           threshold: '임계 밝기',
           threshold_short: '임계값',
           stroke: '액자',

@@ -939,6 +939,7 @@ const lang: ILang = {
           path_infill: 'パスインフィル',
           shading: 'シェーディング',
           pwm_engraving: '深度モード',
+          pwm_engraving_link: 'https://support.flux3dp.com/hc/en-us/articles/10419884701327',
           threshold: 'しきい値',
           threshold_short: 'しきい値',
           stroke: 'フレーム',

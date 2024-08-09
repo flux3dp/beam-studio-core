@@ -939,6 +939,7 @@ const lang: ILang = {
           path_infill: '路径填充',
           shading: '渐层',
           pwm_engraving: '深度模式',
+          pwm_engraving_link: 'https://support.flux3dp.com/hc/zh-tw/articles/10419884701327',
           threshold: '曝光阈值',
           threshold_short: '临界值',
           stroke: '边框',

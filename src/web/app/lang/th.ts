@@ -936,6 +936,7 @@ const lang: ILang = {
           path_infill: 'เติมสีในเส้นทาง',
           shading: 'ไล่ระดับสี',
           pwm_engraving: 'โหมดความลึก',
+          pwm_engraving_link: 'https://support.flux3dp.com/hc/en-us/articles/10419884701327',
           threshold: 'เกณฑ์ความสว่าง',
           threshold_short: 'เกณฑ์',
           stroke: 'เส้นขอบ',

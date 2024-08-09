@@ -939,6 +939,7 @@ const lang: ILang = {
           path_infill: 'Wypełnienie ścieżki',
           shading: 'Gradient',
           pwm_engraving: 'Tryb Głębokości',
+          pwm_engraving_link: 'https://support.flux3dp.com/hc/en-us/articles/10419884701327',
           threshold: 'Próg jasności',
           threshold_short: 'Próg',
           stroke: 'Skoku',

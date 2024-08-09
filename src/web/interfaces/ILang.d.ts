@@ -936,6 +936,7 @@ export interface ILang {
           path_infill: string,
           shading: string,
           pwm_engraving: string;
+          pwm_engraving_link: string;
           threshold: string,
           threshold_short: string,
           stroke: string,

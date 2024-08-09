@@ -936,6 +936,7 @@ const lang: ILang = {
           path_infill: 'Độ đặc đường',
           shading: 'Màu sắc',
           pwm_engraving: 'Chế Độ Độ Sâu',
+          pwm_engraving_link: 'https://support.flux3dp.com/hc/en-us/articles/10419884701327',
           threshold: 'Ngưỡng',
           threshold_short: 'Ngưỡng',
           stroke: 'Đường viền',

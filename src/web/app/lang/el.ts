@@ -936,6 +936,7 @@ const lang: ILang = {
           path_infill: 'Πλήρωση διαδρομής',
           shading: 'Διαβάθμιση',
           pwm_engraving: 'Λειτουργία Βάθους',
+          pwm_engraving_link: 'https://support.flux3dp.com/hc/en-us/articles/10419884701327',
           threshold: 'Φωτεινότητα ορίου',
           threshold_short: 'Κατώφλι',
           stroke: 'Περίγραμμα',

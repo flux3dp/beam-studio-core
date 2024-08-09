@@ -2,7 +2,9 @@ import classNames from 'classnames';
 import React, { Fragment } from 'react';
 import { ConfigProvider, InputNumber, Slider, Switch } from 'antd';
 import { Popover } from 'antd-mobile';
+import { QuestionCircleOutlined } from '@ant-design/icons';
 
+import browser from 'implementations/browser';
 import history from 'app/svgedit/history/history';
 import ImageData from 'helpers/image-data';
 import i18n from 'helpers/i18n';
@@ -153,7 +155,13 @@ class ImageOptions extends React.Component<Props> {
         </div>
         {isGradient && isDev() && (
           <div className={styles['option-block']} key="pwm">
-            <div className={styles.label}>{LANG.pwm_engraving}</div>
+            <div className={styles.label}>
+              {LANG.pwm_engraving}
+              <QuestionCircleOutlined
+                className={styles.icon}
+                onClick={() => browser.open(LANG.pwm_engraving_link)}
+              />
+            </div>
             <Switch size="small" checked={isPwm} onChange={this.handlePwmClick} />
           </div>
         )}

@@ -936,6 +936,7 @@ const lang: ILang = {
           path_infill: 'Polun täyttö',
           shading: 'Liukuväri',
           pwm_engraving: 'Syvyystila',
+          pwm_engraving_link: 'https://support.flux3dp.com/hc/en-us/articles/10419884701327',
           threshold: 'Kynnysarvo',
           threshold_short: 'Kynnys',
           stroke: 'Ääriviiva',

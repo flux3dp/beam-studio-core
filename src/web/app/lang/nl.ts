@@ -936,6 +936,7 @@ const lang: ILang = {
           path_infill: 'Padvulling',
           shading: 'Verloop',
           pwm_engraving: 'Dieptemodus',
+          pwm_engraving_link: 'https://support.flux3dp.com/hc/en-us/articles/10419884701327',
           threshold: 'Drempelhelderheid',
           threshold_short: 'Drempel',
           stroke: 'Lijn',

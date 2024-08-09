@@ -939,6 +939,7 @@ const lang: ILang = {
           path_infill: 'Relleno de trayectoria',
           shading: 'Gradiente',
           pwm_engraving: 'Modo Profundidad',
+          pwm_engraving_link: 'https://support.flux3dp.com/hc/en-us/articles/10419884701327',
           threshold: 'Brillo de umbral',
           threshold_short: 'Umbral',
           stroke: 'Borde',

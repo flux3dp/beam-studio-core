@@ -939,6 +939,7 @@ const lang: ILang = {
           path_infill: 'Path Infill',
           shading: 'Gradient',
           pwm_engraving: 'Depth Mode',
+          pwm_engraving_link: 'https://support.flux3dp.com/hc/en-us/articles/10419884701327',
           threshold: 'Threshold brightness',
           threshold_short: 'Threshold',
           stroke: 'Stroke',

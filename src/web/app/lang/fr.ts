@@ -936,6 +936,7 @@ const lang: ILang = {
           path_infill: 'Remplissage du tracé',
           shading: 'Ombrage',
           pwm_engraving: 'Mode Profondeur',
+          pwm_engraving_link: 'https://support.flux3dp.com/hc/en-us/articles/10419884701327',
           threshold: 'Seuil de luminosité',
           threshold_short: 'Seuil',
           stroke: 'Contour',

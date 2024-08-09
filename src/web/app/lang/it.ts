@@ -936,6 +936,7 @@ const lang: ILang = {
           path_infill: 'Riempimento percorso',
           shading: 'Sfumatura',
           pwm_engraving: 'Modalità Profondità',
+          pwm_engraving_link: 'https://support.flux3dp.com/hc/en-us/articles/10419884701327',
           threshold: 'Soglia luminosità',
           threshold_short: 'Soglia',
           stroke: 'Contorno',

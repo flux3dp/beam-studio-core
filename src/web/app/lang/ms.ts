@@ -936,6 +936,7 @@ const lang: ILang = {
           path_infill: 'Isi laluan',
           shading: 'Cerun',
           pwm_engraving: 'Mod Kedalaman',
+          pwm_engraving_link: 'https://support.flux3dp.com/hc/en-us/articles/10419884701327',
           threshold: 'Ambang kecerahan',
           threshold_short: 'Ambang',
           stroke: 'Lukisan',

@@ -939,6 +939,7 @@ const lang: ILang = {
           path_infill: 'Pfadfüllung',
           shading: 'Schattierung',
           pwm_engraving: 'Tiefenmodus',
+          pwm_engraving_link: 'https://support.flux3dp.com/hc/en-us/articles/10419884701327',
           threshold: 'Schwellenhelligkeit',
           threshold_short: 'Schwellenwert',
           stroke: 'Rahmen',

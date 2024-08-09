@@ -936,6 +936,7 @@ const lang: ILang = {
           path_infill: 'Baneutfylling',
           shading: 'Gradient',
           pwm_engraving: 'Dybde-modus',
+          pwm_engraving_link: 'https://support.flux3dp.com/hc/en-us/articles/10419884701327',
           threshold: 'Terskel lysstyrke',
           threshold_short: 'Terskel',
           stroke: 'Strek',
