@@ -1850,9 +1850,11 @@ const svgEditor = window['svgEditor'] = (function () {
 
       $(document).bind('keydown', 'space', function (evt) {
         svgCanvas.spaceKey = keypan = true;
+        workarea.css('cursor', 'grab');
         evt.preventDefault();
       }).bind('keyup', 'space', function (evt) {
         evt.preventDefault();
+        workarea.css('cursor', 'auto');
         svgCanvas.spaceKey = keypan = false;
       }).bind('keydown', 'shift', function (evt) {
         if (svgCanvas.getMode() === 'zoom') {
