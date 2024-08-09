@@ -256,10 +256,13 @@ const fetchTaskCode = async (
 
   let doesSupportDiodeAndAF = true;
   let shouldUseFastGradient = BeamboxPreference.read('fast_gradient') !== false;
+  let disablePwm = false;
   if (device) {
     const vc = VersionChecker(device.version);
+    const isAdor = constant.adorModels.includes(device.model);
     doesSupportDiodeAndAF = vc.meetRequirement('DIODE_AND_AUTOFOCUS');
     shouldUseFastGradient = shouldUseFastGradient && vc.meetRequirement('FAST_GRADIENT');
+    disablePwm = !vc.meetRequirement(isAdor ? 'ADOR_PWM' : 'PWM')
   }
   Progress.popById('upload-scene');
   Progress.openSteppingProgress({
@@ -323,6 +326,7 @@ const fetchTaskCode = async (
         vectorSpeedConstraint: BeamboxPreference.read('vector_speed_contraint') !== false,
         ...getTaskCodeOpts,
         paddingAccel,
+        disablePwm,
       });
     });
   const { output = 'fcode' } = opts;

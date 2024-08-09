@@ -10,7 +10,7 @@ jest.mock('helpers/system-helper', () => ({
 }));
 
 jest.mock(
-  'app/views/beambox/Right-Panels/Options-Blocks/Image-Options',
+  'app/views/beambox/Right-Panels/Options-Blocks/ImageOptions',
   () =>
     function ImageOptions({ updateObjectPanel }: any) {
       return <div>This is dummy ImageOptions

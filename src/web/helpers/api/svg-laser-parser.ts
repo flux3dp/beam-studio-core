@@ -157,6 +157,7 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
       if (opts.shouldUseFastGradient) args.push('-fg');
       if (opts.shouldMockFastGradient) args.push('-mfg');
       if (opts.vectorSpeedConstraint) args.push('-vsc');
+      if (opts.disablePwm) args.push('-no-pwm');
       if (modelMinSpeed < 3) args.push(`-min-speed ${modelMinSpeed}`);
       else if (BeamboxPreference.read('enable-low-speed')) args.push('-min-speed 1');
       if (BeamboxPreference.read('reverse-engraving')) args.push('-rev');

@@ -294,7 +294,7 @@ export const toggleFullColorAfterWorkareaChange = (): void => {
     // eslint-disable-next-line no-continue
     if (!layer) continue;
     if (!modelsWithModules.has(workarea)) {
-      layer.setAttribute(`data-${DataType.module}`, String(LayerModule.LASER_10W_DIODE));
+      layer.setAttribute(`data-${DataType.module}`, String(LayerModule.LASER_UNIVERSAL));
       toggleFullColorLayer(layer, { val: false });
     } else {
       layer.setAttribute(`data-${DataType.module}`, String(defaultLaserModule));

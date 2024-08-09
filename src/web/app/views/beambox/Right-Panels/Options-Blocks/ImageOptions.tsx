@@ -17,7 +17,7 @@ import { IImageDataResult } from 'interfaces/IImage';
 import { isMobile } from 'helpers/system-helper';
 import { sliderTheme } from 'app/constants/antd-config';
 
-import styles from './Image-Options.module.scss';
+import styles from './ImageOptions.module.scss';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => {

@@ -91,7 +91,6 @@ svgEditor.setConfig({
 	// gridSnapping: false,
 	// baseUnit: 'px',
 	// snappingStep: 10,
-	// showRulers: true,
 	// EXTENSION-RELATED (GRID)
 	// showGrid: false, // Set by ext-grid.js
 	// EXTENSION-RELATED (STORAGE)

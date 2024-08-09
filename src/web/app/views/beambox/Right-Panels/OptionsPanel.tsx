@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 
 import ColorPanel from 'app/views/beambox/Right-Panels/ColorPanel';
-import ImageOptions from 'app/views/beambox/Right-Panels/Options-Blocks/Image-Options';
+import ImageOptions from 'app/views/beambox/Right-Panels/Options-Blocks/ImageOptions';
 import InFillBlock from 'app/views/beambox/Right-Panels/Options-Blocks/InFillBlock';
 import MultiColorOptions from 'app/views/beambox/Right-Panels/Options-Blocks/MultiColorOptions';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
