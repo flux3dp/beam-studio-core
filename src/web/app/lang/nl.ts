@@ -56,6 +56,7 @@ const lang: ILang = {
       power_too_high: 'TE HOGE SPANNING',
       power_too_high_msg: 'Gebruik een lager laservermogen (onder 70%) om de levensduur van de lasertube te verlengen.\nVoer "BEGREPEN" in om door te gaan.',
       power_too_high_confirm: 'BEGREPEN',
+      pwm_unavailable: 'Dieptemodus vereist firmwareversie 4.3.4 / 5.3.4 of hoger. Wilt u de firmware nu bijwerken?',
     },
     hint: {
       polygon: 'Druk op + / - om het aantal zijden te verhogen / verlagen.',
@@ -934,6 +935,7 @@ const lang: ILang = {
           text_infill: 'Tekstvulling',
           path_infill: 'Padvulling',
           shading: 'Verloop',
+          pwm_engraving: 'Dieptemodus',
           threshold: 'Drempelhelderheid',
           threshold_short: 'Drempel',
           stroke: 'Lijn',

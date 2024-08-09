@@ -53,6 +53,7 @@ export interface ILang {
       power_too_high: string;
       power_too_high_msg: string;
       power_too_high_confirm: string;
+      pwm_unavailable: string;
     };
     hint: {
       polygon: string;
@@ -934,6 +935,7 @@ export interface ILang {
           text_infill: string,
           path_infill: string,
           shading: string,
+          pwm_engraving: string;
           threshold: string,
           threshold_short: string,
           stroke: string,

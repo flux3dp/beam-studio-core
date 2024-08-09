@@ -56,6 +56,7 @@ const lang: ILang = {
       power_too_high: '功率過高',
       power_too_high_msg: '雷射管在高功率（70％ 以上）下耗損較快，使用低功率可以延長雷試管使用壽命。\n輸入「知道了」以繼續。',
       power_too_high_confirm: '知道了',
+      pwm_unavailable: '深度模式需要韌體版本 4.3.4 / 5.3.4 或更高版本。您現在要更新韌體嗎？',
     },
     hint: {
       polygon: '按下 + / - 鍵以增加 / 減少邊數。',
@@ -937,6 +938,7 @@ const lang: ILang = {
           text_infill: '文字填充',
           path_infill: '路徑填充',
           shading: '漸層',
+          pwm_engraving: '深度模式',
           threshold: '臨界值',
           threshold_short: '臨界值',
           stroke: '邊框',

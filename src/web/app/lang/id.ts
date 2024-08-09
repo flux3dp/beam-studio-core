@@ -56,6 +56,7 @@ const lang: ILang = {
       power_too_high: 'DAYA TERLALU TINGGI',
       power_too_high_msg: 'Menggunakan daya laser yang lebih rendah (di bawah 70%) akan memperpanjang masa pakai tabung laser.\nMasukkan "SAYA MENGERTI" untuk melanjutkan.',
       power_too_high_confirm: 'SAYA MENGERTI',
+      pwm_unavailable: 'Mode Kedalaman memerlukan versi firmware 4.3.4 / 5.3.4 atau lebih tinggi. Apakah Anda ingin memperbarui firmware sekarang?',
     },
     hint: {
       polygon: 'Tekan tombol + / - untuk menambah / mengurangi sisi.',
@@ -934,6 +935,7 @@ const lang: ILang = {
           text_infill: 'Isi Teks',
           path_infill: 'Isi Lintasan',
           shading: 'Gradasi',
+          pwm_engraving: 'Mode Kedalaman',
           threshold: 'Ambang Kecerahan',
           threshold_short: 'Ambang',
           stroke: 'Garis',

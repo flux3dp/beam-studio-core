@@ -56,6 +56,7 @@ const lang: ILang = {
       power_too_high: 'パワーが高すぎる',
       power_too_high_msg: 'より低いレーザー出力（70％未満）を使用すると、レーザー管の寿命が延びます。\n「了解」と入力して続行します。',
       power_too_high_confirm: '了解',
+      pwm_unavailable: '深度モードは、ファームウェアバージョン 4.3.4 / 5.3.4 以上が必要です。今すぐファームウェアを更新しますか？',
     },
     hint: {
       polygon: '+ / - キーを押して、辺を増減します。',
@@ -937,6 +938,7 @@ const lang: ILang = {
           text_infill: 'テキストインフィル',
           path_infill: 'パスインフィル',
           shading: 'シェーディング',
+          pwm_engraving: '深度モード',
           threshold: 'しきい値',
           threshold_short: 'しきい値',
           stroke: 'フレーム',

@@ -48,7 +48,8 @@ const GoButton = (props: Props): JSX.Element => {
   const lang = useI18n();
   const { endPreviewMode, mode } = useContext(CanvasContext);
 
-  const handleExportAlerts = async (workarea: WorkAreaModel) => {
+  const handleExportAlerts = async (device: IDeviceInfo) => {
+    const workarea = device.model as WorkAreaModel;
     const layers = [...document.querySelectorAll('#svgcontent > g.layer:not([display="none"])')];
 
     if (!['fhexa1', 'ado1'].includes(workarea)) {
@@ -65,6 +66,24 @@ const GoButton = (props: Props): JSX.Element => {
           alertConfigKey: 'skip-high-power-confirm',
         });
         if (!confirmed) return false;
+      }
+    }
+
+    const vc = VersionChecker(device.version);
+    const isAdor = constant.adorModels.includes(device.model);
+    if (!vc.meetRequirement(isAdor ? 'ADOR_PWM' : 'PWM')) {
+      if (layers.some((layer) => layer.querySelector('image[data-pwm="1"]'))) {
+        const res = await new Promise((resolve) => {
+          alertCaller.popUp({
+            type: alertConstants.SHOW_POPUP_ERROR,
+            message: lang.topbar.alerts.pwm_unavailable,
+            buttonType: alertConstants.CONFIRM_CANCEL,
+            onConfirm: () => resolve(true),
+            onCancel: () => resolve(false),
+          });
+        });
+        if (res) executeFirmwareUpdate(device, 'firmware');
+        return false;
       }
     }
 
@@ -288,7 +307,7 @@ const GoButton = (props: Props): JSX.Element => {
     const handleExport = async () => {
       const { device } = await getDevice();
       if (!device) return;
-      const confirmed = await handleExportAlerts(device.model as WorkAreaModel);
+      const confirmed = await handleExportAlerts(device);
       if (!confirmed) return;
       const deviceStatus = await checkDeviceStatus(device);
       if (!deviceStatus) return;

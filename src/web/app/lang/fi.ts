@@ -56,6 +56,7 @@ const lang: ILang = {
       power_too_high: 'LIIAN SUURI TEHO',
       power_too_high_msg: 'Matalampi laserteho (alle 70 %) pidentää laserputken käyttöikää.\nKirjoita "HUOMAUTETTU" jatkaaksesi.',
       power_too_high_confirm: 'HUOMAUTETTU',
+      pwm_unavailable: 'Syvyystila vaatii laiteohjelmistoversion 4.3.4 / 5.3.4 tai uudemman. Haluatko päivittää laiteohjelmiston nyt?',
     },
     hint: {
       polygon: 'Paina +-näppäintä lisätäksesi/vähentääksesi sivuja.',
@@ -934,6 +935,7 @@ const lang: ILang = {
           text_infill: 'Tekstin täyttö',
           path_infill: 'Polun täyttö',
           shading: 'Liukuväri',
+          pwm_engraving: 'Syvyystila',
           threshold: 'Kynnysarvo',
           threshold_short: 'Kynnys',
           stroke: 'Ääriviiva',

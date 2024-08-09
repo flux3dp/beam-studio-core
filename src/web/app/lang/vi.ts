@@ -56,6 +56,7 @@ const lang: ILang = {
       power_too_high: 'CÔNG SUẤT QUÁ CAO',
       power_too_high_msg: 'Sử dụng công suất laser thấp hơn (dưới 70%) sẽ kéo dài tuổi thọ ống laser.\nNhập "ĐÃ GHI NHẬN" để tiếp tục.',
       power_too_high_confirm: 'ĐÃ GHI NHẬN',
+      pwm_unavailable: 'Chế Độ Độ Sâu yêu cầu phiên bản firmware 4.3.4 / 5.3.4 hoặc cao hơn. Bạn có muốn cập nhật firmware bây giờ không?',
     },
     hint: {
       polygon: 'Nhấn phím + / - để tăng / giảm số cạnh',
@@ -934,6 +935,7 @@ const lang: ILang = {
           text_infill: 'Độ đặc chữ',
           path_infill: 'Độ đặc đường',
           shading: 'Màu sắc',
+          pwm_engraving: 'Chế Độ Độ Sâu',
           threshold: 'Ngưỡng',
           threshold_short: 'Ngưỡng',
           stroke: 'Đường viền',

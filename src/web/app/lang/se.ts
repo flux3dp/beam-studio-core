@@ -56,6 +56,7 @@ const lang: ILang = {
       power_too_high: 'FÖR HÖG EFFEKT',
       power_too_high_msg: 'Att använda lägre laserstyrka (under 70%) förlänger laserns livslängd.\nSkriv in "NOTERAT" för att fortsätta.',
       power_too_high_confirm: 'NOTERAT',
+      pwm_unavailable: 'Djup-läge kräver firmware version 4.3.4 / 5.3.4 eller högre. Vill du uppdatera firmware nu?',
     },
     hint: {
       polygon: 'Tryck på + / - tangenten för att öka / minska sidor.',
@@ -934,6 +935,7 @@ const lang: ILang = {
           text_infill: 'Textifyllnad',
           path_infill: 'Banaifyllnad',
           shading: 'Gradient',
+          pwm_engraving: 'Djup-läge',
           threshold: 'Ljusstyrketröskel',
           threshold_short: 'Tröskel',
           stroke: 'Kontur',

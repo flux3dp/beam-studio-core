@@ -56,6 +56,7 @@ const lang: ILang = {
       power_too_high: 'FOR HØY EFFEKT',
       power_too_high_msg: 'Bruk av lavere lasereffekt (under 70%) forlenger laserens levetid.\nSkriv inn "FORSTÅTT" for å fortsette.',
       power_too_high_confirm: 'FORSTÅTT',
+      pwm_unavailable: 'Dybde-modus krever firmware-versjon 4.3.4 / 5.3.4 eller nyere. Vil du oppdatere fastvaren nå?',
     },
     hint: {
       polygon: 'Trykk + / -tasten for å øke / redusere sider.',
@@ -934,6 +935,7 @@ const lang: ILang = {
           text_infill: 'Tekstutfylling',
           path_infill: 'Baneutfylling',
           shading: 'Gradient',
+          pwm_engraving: 'Dybde-modus',
           threshold: 'Terskel lysstyrke',
           threshold_short: 'Terskel',
           stroke: 'Strek',

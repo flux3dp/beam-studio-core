@@ -136,11 +136,11 @@ class ImageOptions extends React.Component<Props> {
           label={LANG.shading}
           onClick={this.handleGradientClick}
         />
-        {isGradient && isDev() && (
+        {isGradient && (
           <ObjectPanelItem.Item
             id="pwm"
             content={<Switch checked={isPwm} />}
-            label="tPWM"
+            label={LANG.pwm_engraving}
             onClick={this.handlePwmClick}
           />
         )}
@@ -153,7 +153,7 @@ class ImageOptions extends React.Component<Props> {
         </div>
         {isGradient && isDev() && (
           <div className={styles['option-block']} key="pwm">
-            <div className={styles.label}>tPWM</div>
+            <div className={styles.label}>{LANG.pwm_engraving}</div>
             <Switch size="small" checked={isPwm} onChange={this.handlePwmClick} />
           </div>
         )}

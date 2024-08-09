@@ -56,6 +56,7 @@ const lang: ILang = {
       power_too_high: '功率过高',
       power_too_high_msg: '激光管在高功率（70％ 以上）下耗损较快，使用低功率可以延长雷试管使用寿命。\n输入「知道了」以继续。',
       power_too_high_confirm: '知道了',
+      pwm_unavailable: '深度模式需要固件版本 4.3.4 / 5.3.4 或更高版本。您要立即更新固件吗？',
     },
     hint: {
       polygon: '按下 + / - 键以增加 / 减少边数。',
@@ -937,6 +938,7 @@ const lang: ILang = {
           text_infill: '文本填充',
           path_infill: '路径填充',
           shading: '渐层',
+          pwm_engraving: '深度模式',
           threshold: '曝光阈值',
           threshold_short: '临界值',
           stroke: '边框',

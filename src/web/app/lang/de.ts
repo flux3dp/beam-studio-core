@@ -56,6 +56,7 @@ const lang: ILang = {
       power_too_high: 'Leistung zu hoch',
       power_too_high_msg: 'Die Verwendung einer niedrigeren Laserleistung (unter 70%) verlängert die Lebensdauer der Laserröhre!\nGeben Sie "OK" ein, um fortzufahren.',
       power_too_high_confirm: 'OK',
+      pwm_unavailable: 'Der Tiefenmodus erfordert Firmware-Version 4.3.4 / 5.3.4 oder höher. Möchten Sie die Firmware jetzt aktualisieren?',
     },
     hint: {
       polygon: 'Press + / - key to increse / decrease sides.',
@@ -937,6 +938,7 @@ const lang: ILang = {
           text_infill: 'Textfüllung',
           path_infill: 'Pfadfüllung',
           shading: 'Schattierung',
+          pwm_engraving: 'Tiefenmodus',
           threshold: 'Schwellenhelligkeit',
           threshold_short: 'Schwellenwert',
           stroke: 'Rahmen',

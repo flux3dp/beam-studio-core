@@ -56,6 +56,7 @@ const lang: ILang = {
       power_too_high: 'ZBYT WYSOKA MOC',
       power_too_high_msg: 'Użycie mniejszej mocy lasera (poniżej 70%) wydłuży żywotność tuby laserowej. Wpisz „ROZUMIEM”, aby kontynuować.',
       power_too_high_confirm: 'ROZUMIEM',
+      pwm_unavailable: 'Tryb Głębokości wymaga wersji firmware 4.3.4 / 5.3.4 lub nowszej. Czy chcesz zaktualizować firmware teraz?',
     },
     hint: {
       polygon: 'Naciśnij klawisz + / -, aby zwiększyć / zmniejszyć ilość boków.',
@@ -937,6 +938,7 @@ const lang: ILang = {
           text_infill: 'Wypełnienie tekstu',
           path_infill: 'Wypełnienie ścieżki',
           shading: 'Gradient',
+          pwm_engraving: 'Tryb Głębokości',
           threshold: 'Próg jasności',
           threshold_short: 'Próg',
           stroke: 'Skoku',

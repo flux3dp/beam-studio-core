@@ -56,6 +56,7 @@ const lang: ILang = {
       power_too_high: '파워 너무 높음',
       power_too_high_msg: '70% 미만의 낮은 레이저 파워를 사용하면 레이저 튜브의 수명이 연장됩니다. 계속하려면 "확인"을 눌러주세요.',
       power_too_high_confirm: '확인',
+      pwm_unavailable: '깊이 모드는 펌웨어 버전 4.3.4 / 5.3.4 이상이 필요합니다. 지금 펌웨어를 업데이트하시겠습니까?',
     },
     hint: {
       polygon: '늘리기 / 줄이기를 위해 + /- 키를 누르세요.',
@@ -937,6 +938,7 @@ const lang: ILang = {
           text_infill: '텍스트 내부 채우기',
           path_infill: '경로 내부 채우기',
           shading: '그라데이션',
+          pwm_engraving: '깊이 모드',
           threshold: '임계 밝기',
           threshold_short: '임계값',
           stroke: '액자',

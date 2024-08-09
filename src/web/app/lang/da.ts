@@ -56,6 +56,7 @@ const lang: ILang = {
       power_too_high: 'FOR HØJ EFFEKT',
       power_too_high_msg: 'Brug af lavere laserstyrke (under 70%) forlænger laserens levetid.\nIndtast "NOTERET" for at fortsætte.',
       power_too_high_confirm: 'NOTERET',
+      pwm_unavailable: 'Dybde-tilstand kræver firmware version 4.3.4 / 5.3.4 eller nyere. Vil du opdatere firmwaren nu?',
     },
     hint: {
       polygon: 'Tryk på + / - tasten for at øge / mindske sider.',
@@ -934,6 +935,7 @@ const lang: ILang = {
           text_infill: 'Tekstudfyldning',
           path_infill: 'Stiforfyldning',
           shading: 'Gradient',
+          pwm_engraving: 'Dybde-tilstand',
           threshold: 'Tærskel lysstyrke',
           threshold_short: 'Tærskel',
           stroke: 'Streg',

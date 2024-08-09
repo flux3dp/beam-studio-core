@@ -56,6 +56,7 @@ const lang: ILang = {
       power_too_high: 'PUISSANCE TROP ÉLEVÉE',
       power_too_high_msg: 'Utiliser une puissance laser inférieure (moins de 70 %) prolongera la durée de vie du tube laser.\nEntrez "PRIS EN COMPTE" pour continuer.',
       power_too_high_confirm: 'PRIS EN COMPTE',
+      pwm_unavailable: 'Le Mode Profondeur nécessite une version de firmware 4.3.4 / 5.3.4 ou supérieure. Voulez-vous mettre à jour le firmware maintenant ?',
     },
     hint: {
       polygon: 'Appuyez sur les touches + / - pour augmenter / diminuer les côtés.',
@@ -934,6 +935,7 @@ const lang: ILang = {
           text_infill: 'Remplissage du texte',
           path_infill: 'Remplissage du tracé',
           shading: 'Ombrage',
+          pwm_engraving: 'Mode Profondeur',
           threshold: 'Seuil de luminosité',
           threshold_short: 'Seuil',
           stroke: 'Contour',

@@ -56,6 +56,7 @@ const lang: ILang = {
       power_too_high: 'POTENZA TROPPO ALTA',
       power_too_high_msg: 'Utilizzare una potenza laser inferiore (sotto il 70%) estende la durata del tubo laser.\nInserire "HO CAPITO" per procedere.',
       power_too_high_confirm: 'HO CAPITO',
+      pwm_unavailable: 'La Modalità Profondità richiede una versione del firmware 4.3.4 / 5.3.4 o successiva. Vuoi aggiornare il firmware adesso?',
     },
     hint: {
       polygon: 'Premere + / - per aumentare / diminuire i lati.',
@@ -934,6 +935,7 @@ const lang: ILang = {
           text_infill: 'Riempimento testo',
           path_infill: 'Riempimento percorso',
           shading: 'Sfumatura',
+          pwm_engraving: 'Modalità Profondità',
           threshold: 'Soglia luminosità',
           threshold_short: 'Soglia',
           stroke: 'Contorno',

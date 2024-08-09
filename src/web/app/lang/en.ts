@@ -56,6 +56,7 @@ const lang: ILang = {
       power_too_high: 'POWER TOO HIGH',
       power_too_high_msg: 'Using lower laser power (under 70%) will extends laser tube\'s lifetime.\nEnter "NOTED" to proceed.',
       power_too_high_confirm: 'NOTED',
+      pwm_unavailable: 'Depth mode requires firmware version 4.3.4 / 5.3.4 or above. Would you like to update the firmware now?',
     },
     hint: {
       polygon: 'Press + / - key to increase / decrease sides.',
@@ -937,6 +938,7 @@ const lang: ILang = {
           text_infill: 'Text Infill',
           path_infill: 'Path Infill',
           shading: 'Gradient',
+          pwm_engraving: 'Depth Mode',
           threshold: 'Threshold brightness',
           threshold_short: 'Threshold',
           stroke: 'Stroke',
