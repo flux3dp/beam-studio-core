@@ -10,6 +10,7 @@ interface Props extends InputNumberProps<number> {
   isInch?: boolean;
   theme?: ThemeConfig;
   underline?: boolean;
+  fireOnChange?: boolean;
 }
 
 // TODO: add test
@@ -27,6 +28,7 @@ const UnitInput = forwardRef<HTMLInputElement, Props>(({
   theme,
   underline,
   precision = 4,
+  fireOnChange = false,
   ...props
 }: Props, outerRef): JSX.Element => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -43,7 +45,7 @@ const UnitInput = forwardRef<HTMLInputElement, Props>(({
 
   const parser = useCallback(
     (value: string) => {
-      const newVal = value.trim();
+      const newVal = value.trim().replaceAll(',', '.');
       if (isInch) return parseFloat(newVal) * 25.4;
       return parseFloat(newVal);
     },
@@ -61,6 +63,10 @@ const UnitInput = forwardRef<HTMLInputElement, Props>(({
     onBlur?.(e);
   }, [parser, onBlur, onChange]);
 
+  const handleStep = useCallback((value: number) => {
+    onChange?.(value);
+  }, [onChange]);
+
   return (
     <div className={classNames(styles.input, { [styles.underline]: underline })}>
       <ConfigProvider
@@ -71,7 +77,8 @@ const UnitInput = forwardRef<HTMLInputElement, Props>(({
           onPressEnter={handlePressEnter}
           {...props}
           onBlur={handleBlur}
-          onChange={onChange}
+          onChange={fireOnChange ? onChange : undefined}
+          onStep={handleStep}
           formatter={formatter}
           parser={parser}
         />
