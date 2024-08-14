@@ -7,7 +7,6 @@ import moduleBoundary from 'app/constants/layer-module/module-boundary';
 import moduleOffsets from 'app/constants/layer-module/module-offsets';
 import workareaManager from 'app/svgedit/workarea';
 import { getSupportInfo } from 'app/constants/add-on';
-import { WorkAreaModel } from 'app/constants/workarea-constants';
 
 const { svgedit } = window;
 const canvasEventEmitter = eventEmitterFactory.createEventEmitter('canvas');
@@ -56,19 +55,18 @@ const updateCanvasSize = (): void => {
 canvasEventEmitter.on('canvas-change', updateCanvasSize);
 
 const update = (module: LayerModule): void => {
-  const workarea = BeamboxPreference.read('workarea') as WorkAreaModel;
-  if (!modelsWithModules.has(workarea)) {
+  const { width: w, height: h, expansion, model } = workareaManager;
+  if (!modelsWithModules.has(model)) {
     boundaryPath?.setAttribute('d', '');
     boundaryDescText?.setAttribute('display', 'none');
     return;
   }
   if (!boundaryPath) createBoundary();
-  const { width: w, height: h, model } = workareaManager;
   const viewBox = `0 0 ${w} ${h}`;
   boundarySvg?.setAttribute('viewBox', viewBox);
   const d1 = `M0,0H${w}V${h}H0V0`;
   const { dpmm } = constant;
-  let { top, left, bottom, right } = moduleBoundary[module];
+  let { top, left, bottom, right } = moduleBoundary[module] || { top: 0, left: 0, bottom: 0, right: 0 };
   const offsets = { ...moduleOffsets, ...BeamboxPreference.read('module-offsets') };
   const [offsetX, offsetY] = offsets[module];
   if (module === LayerModule.PRINTER && offsetY < 0) top = Math.max(top + offsetY, 0);
@@ -77,7 +75,7 @@ const update = (module: LayerModule): void => {
   const rotaryMode = BeamboxPreference.read('rotary_mode');
   if (offsetY >= 0) {
     top = Math.max(top, offsetY);
-    bottom = Math.max(bottom - offsetY, 0);
+    bottom -= offsetY;
   } else bottom = Math.max(bottom, -offsetY);
   if (rotaryMode) {
     top = 0;
@@ -85,6 +83,7 @@ const update = (module: LayerModule): void => {
   } else if (BeamboxPreference.read('pass-through') && getSupportInfo(model).passThrough) {
     bottom = 0;
   }
+  bottom = Math.max(bottom, 0);
   if (!top && !bottom && !left && !right) {
     boundaryPath?.setAttribute('d', '');
     boundaryDescText?.setAttribute('display', 'none');
