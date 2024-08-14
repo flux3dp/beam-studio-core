@@ -1672,7 +1672,7 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
     element.setAttribute('style', 'pointer-events:inherit');
     svgCanvas.cleanupElement(element);
     svgCanvas.addCommandToHistory(new history.InsertElementCommand(element));
-    if (svgCanvas.getCurrentConfig().selectNew && !isContinuousDrawing) {
+    if (!isContinuousDrawing) {
       if (currentMode === 'textedit') {
         svgCanvas.selectorManager.requestSelector(element).show(true);
       } else if (element.parentNode) {

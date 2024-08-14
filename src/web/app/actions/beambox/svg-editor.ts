@@ -317,7 +317,6 @@ const svgEditor = window['svgEditor'] = (function () {
       'ext-closepath.js',
     ],
     defaultConfig: ISVGConfig = {
-      // Todo: svgcanvas.js also sets and checks: selectNew; add here?
       // Change the following to preferences and add pref controls to the UI (e.g., initTool, wireframe, showlayers)?
       canvasName: 'default',
       initFill: {
