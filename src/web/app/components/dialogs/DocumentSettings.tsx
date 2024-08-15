@@ -10,6 +10,7 @@ import changeWorkarea from 'app/svgedit/operations/changeWorkarea';
 import diodeBoundaryDrawer from 'app/actions/canvas/diode-boundary-drawer';
 import EngraveDpiSlider from 'app/widgets/EngraveDpiSlider';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
+import isDev from 'helpers/is-dev';
 import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
 import presprayArea from 'app/actions/canvas/prespray-area';
@@ -31,8 +32,8 @@ const workareaOptions = [
   { label: 'Beambox Pro', value: 'fbb1p' },
   { label: 'HEXA', value: 'fhexa1' },
   { label: 'Ador', value: 'ado1' },
-  { label: 'Beambox II', value: 'fbb2' },
 ];
+if (isDev()) workareaOptions.push({ label: 'Beambox II', value: 'fbb2' });
 
 // map for engrave dpi v2
 // const dpiMap = {
