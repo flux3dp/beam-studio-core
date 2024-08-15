@@ -195,7 +195,7 @@ const generateBeamBuffer = (
   const miscData: MiscData = {};
   if (curveEngravingModeController.data) miscData.ce = curveEngravingModeController.data;
   const miscDataBuffer = generateMiscDataBlockBuffer(miscData);
-  const metaData = { contents: [1, 2, 3, 4] };
+  const metaData = { version: window.FLUX?.version, contents: [1, 2, 3, 4] };
 
   const metaDataBuf = Buffer.from(JSON.stringify(metaData));
   const headerBuffer = Buffer.concat([
