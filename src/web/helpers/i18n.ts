@@ -24,7 +24,7 @@ import storage from 'implementations/storage';
 import { ILang } from 'interfaces/ILang';
 
 const ACTIVE_LANG = 'active-lang';
-const langCache = {
+const langCache: { [key: string]: ILang } = {
   de: LangDe,
   en: LangEn,
   es: LangEs,

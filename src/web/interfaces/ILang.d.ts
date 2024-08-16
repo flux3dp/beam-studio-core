@@ -192,6 +192,16 @@ export interface ILang {
       show_layer_color: string;
       anti_aliasing: string;
       disassemble_use: string;
+      about: string;
+      switch_to_beta: string;
+      switch_to_latest: string;
+      reload_app: string;
+      recent: string;
+      update: string;
+      dev_tool: string;
+      camera_calibration_data: string;
+      upload_data: string;
+      download_data: string;
     },
     select_machine: string,
   },
