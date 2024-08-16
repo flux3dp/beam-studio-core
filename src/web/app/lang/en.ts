@@ -128,6 +128,7 @@ const lang: ILang = {
       align_to_edges: 'Snap To Vertices',
       document_setting: 'Document Settings',
       document_setting_short: 'Document',
+      rotary_setup: 'Rotary Setup',
       clear_scene: 'New',
       machines: 'Machines',
       add_new_machine: 'Machine Setup',
@@ -1864,6 +1865,11 @@ const lang: ILang = {
     error_tip2: '2. Are the material contours clear enough for recognition?',
     learn_more: 'Learn how auto fit works.',
     learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
+  },
+  rotary_settings: {
+    type: 'Type',
+    object_diameter: 'Object Diameter',
+    circumference: 'Circumference',
   },
 };
 

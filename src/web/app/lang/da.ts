@@ -128,6 +128,7 @@ const lang: ILang = {
       align_to_edges: 'Fastgør til hjørner',
       document_setting: 'Dokumentindstillinger',
       document_setting_short: 'Dokument',
+      rotary_setup: 'Roterende Opsætning',
       clear_scene: 'Nye filer',
       machines: 'Maskiner',
       add_new_machine: 'Maskinopsætning',
@@ -1861,6 +1862,11 @@ const lang: ILang = {
     error_tip2: '2. Er materialets konturer klare nok til at blive genkendt?',
     learn_more: 'Lær, hvordan Auto Fit fungerer.',
     learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
+  },
+  rotary_settings: {
+    type: 'Type',
+    object_diameter: 'Objekt Diameter',
+    circumference: 'Omkreds',
   },
 };
 

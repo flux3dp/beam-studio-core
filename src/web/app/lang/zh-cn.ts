@@ -128,6 +128,7 @@ const lang: ILang = {
       align_to_edges: '贴齐端点',
       document_setting: '文件设定',
       document_setting_short: '文件设定',
+      rotary_setup: '旋转轴设置',
       clear_scene: '新建文件',
       machines: '机器',
       add_new_machine: '新增或设定机器',
@@ -1864,6 +1865,11 @@ const lang: ILang = {
     error_tip2: '2. 材料的轮廓是否足够清晰以便识别？',
     learn_more: '了解自动适应如何工作。',
     learn_more_url: 'https://support.flux3dp.com/hc/zh-tw/articles/10273384373775',
+  },
+  rotary_settings: {
+    type: '类型',
+    object_diameter: '对象直径',
+    circumference: '周长',
   },
 };
 

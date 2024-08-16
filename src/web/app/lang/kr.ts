@@ -128,6 +128,7 @@ const lang: ILang = {
       align_to_edges: '꼭짓점에 맞추기',
       document_setting: '문서 설정',
       document_setting_short: '문서',
+      rotary_setup: '회전 설정',
       clear_scene: '새 파일',
       machines: '기계',
       add_new_machine: '기계 설정',
@@ -1864,6 +1865,11 @@ const lang: ILang = {
     error_tip2: '2. 재료의 윤곽이 인식할 수 있을 만큼 명확합니까?',
     learn_more: '자동 맞춤 기능이 어떻게 작동하는지 알아보십시오.',
     learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
+  },
+  rotary_settings: {
+    type: '유형',
+    object_diameter: '물체 직경',
+    circumference: '원주',
   },
 };
 

@@ -128,6 +128,7 @@ const lang: ILang = {
       align_to_edges: 'Căn theo cạnh',
       document_setting: 'Thiết lập tài liệu',
       document_setting_short: 'Tài liệu',
+      rotary_setup: 'Cài Đặt Xoay',
       clear_scene: 'Tệp mới',
       machines: 'Máy in',
       add_new_machine: 'Thiết lập máy in',
@@ -1861,6 +1862,11 @@ const lang: ILang = {
     error_tip2: '2. Các đường viền của vật liệu có đủ rõ để nhận diện không?',
     learn_more: 'Tìm hiểu cách thức hoạt động của tự động điều chỉnh.',
     learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
+  },
+  rotary_settings: {
+    type: 'loại',
+    object_diameter: 'Đường Kính Vật Thể',
+    circumference: 'Chu Vi',
   },
 };
 

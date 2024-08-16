@@ -83,6 +83,7 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
       const paddingAccel = BeamboxPreference.read('padding_accel');
       // Not real acceleration, just for calculating padding distance
       const { model }: { model: WorkAreaModel } = opts;
+      const supportInfo = getSupportInfo(model);
       const { minSpeed: modelMinSpeed } = getWorkarea(model);
       if (model === 'fhexa1') {
         args.push('-hexa');
@@ -97,7 +98,7 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
       if (opts.codeType === 'gcode') args.push('-gc');
 
       const rotaryMode = BeamboxPreference.read('rotary_mode');
-      if (rotaryMode) {
+      if (rotaryMode && supportInfo.rotary) {
         args.push('-spin');
         const rotaryPos = rotaryAxis.getPosition();
         args.push(rotaryPos);
@@ -147,7 +148,7 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
           args.push('-diode-owe');
         }
       }
-      const isBorderLess = BeamboxPreference.read('borderless') && getSupportInfo(model).openBottom;
+      const isBorderLess = BeamboxPreference.read('borderless') && supportInfo.openBottom;
       if (BeamboxPreference.read('enable_mask') || isBorderLess) {
         args.push('-mask');
         const clipRect = [0, 0, 0, 0]; // top right bottom left

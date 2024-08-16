@@ -128,6 +128,7 @@ const lang: ILang = {
       align_to_edges: 'Aligner aux bords',
       document_setting: 'Paramètres du document',
       document_setting_short: 'Document',
+      rotary_setup: 'Configuration du Rotary',
       clear_scene: 'Nouveaux fichiers',
       machines: 'Machines',
       add_new_machine: 'Configuration de la machine',
@@ -1861,6 +1862,11 @@ const lang: ILang = {
     error_tip2: '2. Les contours du matériau sont-ils suffisamment clairs pour être reconnus ?',
     learn_more: "Découvrez comment fonctionne l'ajustement automatique.",
     learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
+  },
+  rotary_settings: {
+    type: 'Type',
+    object_diameter: "Diamètre de l'Objet",
+    circumference: 'Circonférence',
   },
 };
 

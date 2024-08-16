@@ -1,11 +1,21 @@
 import { WorkAreaModel } from './workarea-constants';
 
+export enum RotaryType {
+  Roller = 1,
+  Chuck = 2,
+}
+
 interface SupportInfo {
   autoFocus: boolean;
   hybridLaser: boolean;
   openBottom: boolean;
   passThrough: boolean;
-  rotary: boolean;
+  rotary?: {
+    roller: boolean;
+    chuck: boolean;
+    extendWorkarea: boolean;
+    mirror: boolean;
+  };
 }
 
 const supportList: Record<WorkAreaModel, SupportInfo> = {
@@ -14,42 +24,72 @@ const supportList: Record<WorkAreaModel, SupportInfo> = {
     hybridLaser: true,
     openBottom: true,
     passThrough: true,
-    rotary: true,
+    rotary: {
+      roller: true,
+      chuck: true,
+      extendWorkarea: false,
+      mirror: false,
+    },
   },
   fbb1b: {
     autoFocus: false,
     hybridLaser: false,
     openBottom: false,
     passThrough: false,
-    rotary: true,
+    rotary: {
+      roller: true,
+      chuck: false,
+      extendWorkarea: false,
+      mirror: false,
+    },
   },
   fbb1p: {
     autoFocus: false,
     hybridLaser: false,
     openBottom: false,
     passThrough: false,
-    rotary: true,
+    rotary: {
+      roller: true,
+      chuck: false,
+      extendWorkarea: false,
+      mirror: false,
+    },
   },
   fhexa1: {
     autoFocus: false,
     hybridLaser: false,
     openBottom: false,
     passThrough: false,
-    rotary: true,
+    rotary: {
+      roller: true,
+      chuck: true,
+      extendWorkarea: false,
+      mirror: false,
+    },
   },
   ado1: {
     autoFocus: false,
     hybridLaser: false,
     openBottom: false,
     passThrough: true,
-    rotary: true,
+    rotary: {
+      roller: true,
+      chuck: true,
+      extendWorkarea: true,
+      mirror: true,
+    },
   },
   fbb2: {
     autoFocus: false,
     hybridLaser: false,
     openBottom: false,
     passThrough: true,
-    rotary: true,
+    rotary: {
+      roller: true,
+      chuck: true,
+      extendWorkarea: true,
+      mirror: true,
+    },
   },
 };
 
@@ -58,7 +98,6 @@ export const getSupportInfo = (workarea: WorkAreaModel): SupportInfo => supportL
   hybridLaser: false,
   openBottom: false,
   passThrough: false,
-  rotary: false,
 };
 
 export default {

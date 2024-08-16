@@ -125,6 +125,7 @@ export interface ILang {
       align_to_edges: string;
       document_setting: string;
       document_setting_short: string;
+      rotary_setup: string;
       clear_scene: string;
       machines: string;
       add_new_machine: string;
@@ -1861,5 +1862,12 @@ export interface ILang {
     error_tip2: string;
     learn_more: string;
     learn_more_url: string;
+  };
+  rotary_settings: {
+    type: string;
+    // roller: string;
+    // chuck: string;
+    object_diameter: string;
+    circumference: string;
   };
 }

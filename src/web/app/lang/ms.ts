@@ -128,6 +128,7 @@ const lang: ILang = {
       align_to_edges: 'Jajarkan ke Tepi',
       document_setting: 'Tetapan Dokumen',
       document_setting_short: 'Dokumen',
+      rotary_setup: 'Persediaan Putaran',
       clear_scene: 'Fail baru',
       machines: 'Mesin',
       add_new_machine: 'Tambah Mesin Baru',
@@ -1861,6 +1862,11 @@ const lang: ILang = {
     error_tip2: '2. Adakah kontur bahan cukup jelas untuk pengiktirafan?',
     learn_more: 'Ketahui cara kerja Muat Auto.',
     learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
+  },
+  rotary_settings: {
+    type: 'Jenis',
+    object_diameter: 'Diameter Objek',
+    circumference: 'Lilitan',
   },
 };
 

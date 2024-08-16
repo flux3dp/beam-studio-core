@@ -128,6 +128,7 @@ const lang: ILang = {
       align_to_edges: 'Ευθυγράμμιση με κορυφές',
       document_setting: 'Ρυθμίσεις εγγράφου',
       document_setting_short: 'Έγγραφο',
+      rotary_setup: 'Ρυθμίσεις Περιστροφής',
       clear_scene: 'Νέα αρχεία',
       machines: 'Μηχανές',
       add_new_machine: 'Ρύθμιση μηχανής',
@@ -1861,6 +1862,11 @@ const lang: ILang = {
     error_tip2: '2. Είναι τα περιγράμματα του υλικού αρκετά καθαρά για αναγνώριση;',
     learn_more: 'Μάθετε πώς λειτουργεί το Έξυπνη Τοποθέτηση.',
     learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
+  },
+  rotary_settings: {
+    type: 'τύπος',
+    object_diameter: 'Διάμετρος Αντικειμένου',
+    circumference: 'Περιφέρεια',
   },
 };
 

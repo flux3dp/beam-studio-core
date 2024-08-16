@@ -128,6 +128,7 @@ const lang: ILang = {
       align_to_edges: '頂点にスナップ',
       document_setting: 'ドキュメント設定',
       document_setting_short: 'ドキュメント',
+      rotary_setup: 'ロータリー',
       clear_scene: '新しいファイル',
       machines: 'マシン',
       add_new_machine: 'マシン設定',
@@ -1864,6 +1865,11 @@ const lang: ILang = {
     error_tip2: '2. 素材の輪郭は認識できるほど明確ですか？',
     learn_more: '自動フィットについて。',
     learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
+  },
+  rotary_settings: {
+    type: '種類',
+    object_diameter: 'オブジェクトの直径',
+    circumference: '円周',
   },
 };
 

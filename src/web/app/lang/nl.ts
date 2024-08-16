@@ -128,6 +128,7 @@ const lang: ILang = {
       align_to_edges: 'Uitlijnen op hoekpunten',
       document_setting: 'Documentinstellingen',
       document_setting_short: 'Document',
+      rotary_setup: 'Draaibare Instelling',
       clear_scene: 'Nieuwe bestanden',
       machines: 'Machines',
       add_new_machine: 'Machine-instellingen',
@@ -1861,6 +1862,11 @@ const lang: ILang = {
     error_tip2: '2. Zijn de materiaalcontouren duidelijk genoeg voor herkenning?',
     learn_more: 'Leer hoe Auto Aanpassen werkt.',
     learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
+  },
+  rotary_settings: {
+    type: 'Type',
+    object_diameter: 'Objectdiameter',
+    circumference: 'Omtrek',
   },
 };
 
