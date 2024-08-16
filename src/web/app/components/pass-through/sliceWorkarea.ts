@@ -64,31 +64,18 @@ const sliceWorkarea = async (
         hexCode: '#9745ff',
       });
       initLayerConfig(name);
-
-      const start = document.createElementNS(NS.SVG, 'path') as SVGPathElement;
-      const left = ((x - lineWidth / 2) * dpmm).toFixed(2);
-      const right = ((x + lineWidth / 2) * dpmm).toFixed(2);
-      const halfHeight = (lineWidth / Math.sqrt(3)) * dpmm;
-      const startMid = topPaddingPx;
-      const startTop = (startMid - halfHeight).toFixed(2);
-      const startBottom = (startMid + halfHeight).toFixed(2);
-      const endMid = topPaddingPx + sliceHeightPx;
-      const endTop = (endMid - halfHeight).toFixed(2);
-      const endBottom = (endMid + halfHeight).toFixed(2);
-      start.setAttribute(
-        'd',
-        `M ${left} ${startMid} L ${right} ${startTop} L ${right} ${startBottom} L ${left} ${startMid} Z`
-      );
+      const start = document.createElementNS(NS.SVG, 'ellipse') as SVGEllipseElement;
+      start.setAttribute('cx', ((x + lineWidth / 2) * dpmm).toString());
+      start.setAttribute('cy', topPaddingPx.toString());
+      start.setAttribute('rx', ((lineWidth * dpmm) / 2).toFixed(0));
+      start.setAttribute('ry', ((lineWidth * dpmm) / 2).toFixed(0));
       start.setAttribute('stroke', '#9745ff');
       start.setAttribute('fill', 'none');
       start.setAttribute('vector-effect', 'non-scaling-stroke');
       start.id = svgCanvas.getNextId();
       newLayer.appendChild(start);
-      const end = start.cloneNode(true) as SVGPathElement;
-      end.setAttribute(
-        'd',
-        `M ${left} ${endMid} L ${right} ${endTop} L ${right} ${endBottom} L ${left} ${endMid} Z`
-      );
+      const end = start.cloneNode(true) as SVGEllipseElement;
+      end.setAttribute('cy', (topPaddingPx + sliceHeightPx).toString());
       end.id = svgCanvas.getNextId();
       newLayer.appendChild(end);
       updateElementColor(start);

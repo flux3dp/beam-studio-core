@@ -29,9 +29,9 @@ class PassThroughCanvas {
 
   private passThroughSeparator: SVGGElement;
 
-  private passThroughGuideStart: SVGPathElement;
+  private passThroughGuideStart: SVGEllipseElement;
 
-  private passThroughGuideEnd: SVGPathElement;
+  private passThroughGuideEnd: SVGEllipseElement;
 
   zoomRatio = 1;
 
@@ -103,10 +103,10 @@ class PassThroughCanvas {
     this.passThroughSeparator = document.createElementNS(NS.SVG, 'g') as SVGGElement;
     this.passThroughSeparator.classList.add(styles.separator);
     this.passThroughContainer.appendChild(this.passThroughSeparator);
-    this.passThroughGuideStart = document.createElementNS(NS.SVG, 'path') as SVGPathElement;
+    this.passThroughGuideStart = document.createElementNS(NS.SVG, 'ellipse') as SVGEllipseElement;
     this.passThroughGuideStart.classList.add(styles.guide);
     this.passThroughContainer.appendChild(this.passThroughGuideStart);
-    this.passThroughGuideEnd = document.createElementNS(NS.SVG, 'path') as SVGPathElement;
+    this.passThroughGuideEnd = document.createElementNS(NS.SVG, 'ellipse') as SVGEllipseElement;
     this.passThroughGuideEnd.classList.add(styles.guide);
     this.passThroughContainer.appendChild(this.passThroughGuideEnd);
   };
@@ -208,23 +208,14 @@ class PassThroughCanvas {
     } else {
       this.passThroughGuideStart.style.display = 'block';
       this.passThroughGuideEnd.style.display = 'block';
-      const left = (x - width / 2).toFixed(2);
-      const right = (x + width / 2).toFixed(2);
-      const halfHeight = width / Math.sqrt(3);
-      const startMid = 0;
-      const startTop = (startMid - halfHeight).toFixed(2);
-      const startBottom = (startMid + halfHeight).toFixed(2);
-      const endMid = this.passThroughHeight;
-      const endTop = (endMid - halfHeight).toFixed(2);
-      const endBottom = (endMid + halfHeight).toFixed(2);
-      this.passThroughGuideStart.setAttribute(
-        'd',
-        `M ${left} ${startMid} L ${right} ${startTop} L ${right} ${startBottom} L ${left} ${startMid} Z`
-      );
-      this.passThroughGuideEnd.setAttribute(
-        'd',
-        `M ${left} ${endMid} L ${right} ${endTop} L ${right} ${endBottom} L ${left} ${endMid} Z`
-      );
+      this.passThroughGuideStart.setAttribute('cx', (x + width / 2).toString());
+      this.passThroughGuideStart.setAttribute('cy', '0');
+      this.passThroughGuideStart.setAttribute('rx', (width / 2).toString());
+      this.passThroughGuideStart.setAttribute('ry', (width / 2).toString());
+      this.passThroughGuideEnd.setAttribute('cx', (x + width / 2).toString());
+      this.passThroughGuideEnd.setAttribute('cy', this.passThroughHeight.toString());
+      this.passThroughGuideEnd.setAttribute('rx', (width / 2).toString());
+      this.passThroughGuideEnd.setAttribute('ry', (width / 2).toString());
     }
   };
 
