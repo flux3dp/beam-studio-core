@@ -146,9 +146,11 @@ class PhotoEditPanel extends React.Component<Props, State> {
   }
 
   handleCancel = (): void => {
-    const { displaySrc } = this.state;
+    const { src } = this.props;
+    const { displaySrc, previewSrc } = this.state;
     const { unmount } = this.props;
-    URL.revokeObjectURL(displaySrc);
+    if (displaySrc !== src) URL.revokeObjectURL(displaySrc);
+    if (previewSrc !== src) URL.revokeObjectURL(previewSrc);
     ObjectPanelController.updateActiveKey(null);
     unmount();
   }
