@@ -1,10 +1,10 @@
-import classNames from 'classnames';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Checkbox, Modal, Segmented, Switch } from 'antd';
 
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import changeWorkarea from 'app/svgedit/operations/changeWorkarea';
 import RotaryIcons from 'app/icons/rotary/RotaryIcons';
+import rotaryAxis from 'app/actions/canvas/rotary-axis';
 import storage from 'implementations/storage';
 import UnitInput from 'app/widgets/UnitInput';
 import useI18n from 'helpers/useI18n';
@@ -37,6 +37,7 @@ const RotarySettings = ({ onClose }: Props): JSX.Element => {
 
   const handleSave = async () => {
     const rotaryChanged = rotaryMode !== beamboxPreference.read('rotary_mode');
+    const extendChanged = extend !== !!beamboxPreference.read('extend-rotary-workarea');
     beamboxPreference.write('rotary_mode', rotaryMode);
     beamboxPreference.write('rotaryType', rotaryType);
     if (rotaryType === RotaryType.Chuck) {
@@ -45,7 +46,8 @@ const RotarySettings = ({ onClose }: Props): JSX.Element => {
     if (supportInfo.rotary.mirror) beamboxPreference.write('rotary-mirror', mirror);
     if (supportInfo.rotary.extendWorkarea)
       beamboxPreference.write('extend-rotary-workarea', extend);
-    if (rotaryChanged) changeWorkarea(workarea, { toggleModule: false });
+    if (rotaryChanged || extendChanged) changeWorkarea(workarea, { toggleModule: false });
+    if (rotaryChanged) rotaryAxis.toggleDisplay();
   };
   const rotaryDisabled = rotaryMode === 0;
 
@@ -55,7 +57,7 @@ const RotarySettings = ({ onClose }: Props): JSX.Element => {
       centered
       title={lang.topbar.menu.rotary_setup}
       onCancel={onClose}
-      onOk={async () => {
+      onOk={() => {
         handleSave();
         onClose();
       }}
@@ -141,6 +143,7 @@ const RotarySettings = ({ onClose }: Props): JSX.Element => {
             <div className={styles.row}>
               {supportInfo.rotary.mirror && (
                 <Checkbox
+                  id="mirror"
                   disabled={rotaryDisabled}
                   checked={mirror}
                   onChange={(e) => setMirror(e.target.checked)}
@@ -150,6 +153,7 @@ const RotarySettings = ({ onClose }: Props): JSX.Element => {
               )}
               {supportInfo.rotary.extendWorkarea && (
                 <Checkbox
+                  id="extend"
                   disabled={rotaryDisabled}
                   checked={extend}
                   onChange={(e) => setExtend(e.target.checked)}
