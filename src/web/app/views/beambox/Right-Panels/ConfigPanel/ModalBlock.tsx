@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react';
-import { ConfigProvider, InputNumber, Slider } from 'antd';
+import { InputNumber, Slider } from 'antd';
 
 import styles from './ModalBlock.module.scss';
 
