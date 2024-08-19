@@ -48,6 +48,7 @@ jest.mock('app/constants/right-panel-constants', () => ({
 const defaultLaserConfigs = {
   speed: { value: 20 },
   printingSpeed: { value: 60 },
+  minPower: { value: 0 },
   power: { value: 15 },
   ink: { value: 3 },
   repeat: { value: 1 },
@@ -81,6 +82,7 @@ const defaultMultiValueLaserConfigs = {
   speed: { value: 20, hasMultiValue: false },
   printingSpeed: { value: 60, hasMultiValue: false },
   power: { value: 15, hasMultiValue: false },
+  minPower: { value: 0, hasMultiValue: false },
   ink: { value: 3, hasMultiValue: false },
   repeat: { value: 1, hasMultiValue: false },
   height: { value: -3, hasMultiValue: false },
@@ -208,8 +210,8 @@ describe('test layer-config-helper', () => {
     toggleFullColorAfterWorkareaChange();
     expect(mockToggleFullColorLayer).toBeCalledTimes(3);
     expect(mockLayer.setAttribute).toBeCalledTimes(3);
-    expect(mockLayer.setAttribute).toHaveBeenNthCalledWith(1, 'data-module', '1');
-    expect(mockLayer.setAttribute).toHaveBeenNthCalledWith(2, 'data-module', '1');
-    expect(mockLayer.setAttribute).toHaveBeenNthCalledWith(3, 'data-module', '1');
+    expect(mockLayer.setAttribute).toHaveBeenNthCalledWith(1, 'data-module', '15');
+    expect(mockLayer.setAttribute).toHaveBeenNthCalledWith(2, 'data-module', '15');
+    expect(mockLayer.setAttribute).toHaveBeenNthCalledWith(3, 'data-module', '15');
   });
 });

@@ -156,6 +156,7 @@ describe('test DocumentSettings', () => {
     fireEvent.click(baseElement.querySelector('button#diode_module'));
     fireEvent.click(baseElement.querySelector('button#pass_through'));
     fireEvent.change(baseElement.querySelector('#pass_through_height'), { target: { value: 500 } });
+    fireEvent.blur(baseElement.querySelector('#pass_through_height'));
     expect(baseElement).toMatchSnapshot();
 
     expect(mockBeamboxPreferenceWrite).not.toBeCalled();
