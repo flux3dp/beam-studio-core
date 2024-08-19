@@ -1054,6 +1054,11 @@ export interface ILang {
       mirror: string;
       pass_through: string;
       pass_through_height_desc: string;
+      start_position: string;
+      start_from: string;
+      origin: string;
+      current_position: string;
+      job_origin: string;
       add_on: string,
       low: string,
       medium: string,

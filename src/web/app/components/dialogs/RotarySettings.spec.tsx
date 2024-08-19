@@ -25,46 +25,6 @@ jest.mock('implementations/storage', () => ({
   get: (...args) => mockStorageGet(...args),
 }));
 
-jest.mock(
-  'app/widgets/UnitInput',
-  () =>
-    ({
-      id,
-      disabled,
-      className,
-      value,
-      min,
-      addonAfter,
-      isInch,
-      precision,
-      onChange,
-    }: {
-      id: string;
-      disabled?: boolean;
-      className?: string;
-      value?: number;
-      min?: number;
-      addonAfter?: string;
-      isInch?: boolean;
-      precision?: number;
-      onChange?: (value: number) => void;
-    }) =>
-      (
-        <div className={className}>
-          UnitInput: {id}
-          <p>addonAfter: {addonAfter}</p>
-          <p>isInch: {Boolean(isInch)}</p>
-          <p>precision: {precision}</p>
-          <input
-            id={id}
-            disabled={disabled}
-            min={min}
-            value={value}
-            onChange={(e) => onChange(Number(e.target.value))}
-          />
-        </div>
-      )
-);
 
 jest.mock('helpers/useI18n', () => () => ({
   topbar: {

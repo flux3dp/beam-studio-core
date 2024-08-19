@@ -199,9 +199,6 @@ exports[`test RotarySettings should render correctly 1`] = `
                         mm
                       </p>
                       <p>
-                        isInch: 
-                      </p>
-                      <p>
                         precision: 
                         2
                       </p>
@@ -233,9 +230,6 @@ exports[`test RotarySettings should render correctly 1`] = `
                       <p>
                         addonAfter: 
                         mm
-                      </p>
-                      <p>
-                        isInch: 
                       </p>
                       <p>
                         precision: 

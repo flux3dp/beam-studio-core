@@ -13,7 +13,6 @@ interface Props extends InputNumberProps<number> {
   fireOnChange?: boolean;
 }
 
-// TODO: add test
 /**
  * Unit Input by Antd InputNumber
  * using formatter and parser to display unit

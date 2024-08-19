@@ -19,7 +19,7 @@ exports[`test DocumentSettings should render correctly 1`] = `
           aria-modal="true"
           class="ant-modal css-dev-only-do-not-override-hash ant-zoom-appear ant-zoom-appear-prepare ant-zoom"
           role="dialog"
-          style="width: 520px; transform-origin: NaNpx NaNpx;"
+          style="width: 440px; transform-origin: NaNpx NaNpx;"
         >
           <div
             aria-hidden="true"
@@ -72,116 +72,255 @@ exports[`test DocumentSettings should render correctly 1`] = `
             <div
               class="ant-modal-body"
             >
-              <form
-                class="ant-form ant-form-horizontal css-dev-only-do-not-override-hash"
+              <div
+                class="container"
               >
-                <div>
-                  DummyEngraveDpiSlider
-                  <p>
-                    value: 
-                    medium
-                  </p>
-                  <button
-                    type="button"
-                  >
-                    change dpi
-                  </button>
-                </div>
                 <div
-                  class="ant-form-item css-dev-only-do-not-override-hash"
+                  class="block"
                 >
                   <div
-                    class="ant-row ant-form-item-row css-dev-only-do-not-override-hash"
+                    class="row"
                   >
-                    <div
-                      class="ant-col ant-col-6 ant-form-item-label css-dev-only-do-not-override-hash"
+                    <label
+                      class="title"
+                      for="workareaSelect"
                     >
-                      <label
-                        class=""
-                        for="workarea"
-                        title="Working Area"
-                      >
-                        Working Area
-                      </label>
-                    </div>
+                      Working Area
+                      :
+                    </label>
                     <div
-                      class="ant-col ant-col-18 ant-form-item-control css-dev-only-do-not-override-hash"
+                      class="ant-select control css-dev-only-do-not-override-hash ant-select-single ant-select-show-arrow"
                     >
                       <div
-                        class="ant-form-item-control-input"
+                        class="ant-select-selector"
                       >
-                        <div
-                          class="ant-form-item-control-input-content"
+                        <span
+                          class="ant-select-selection-search"
                         >
-                          <div
-                            class="ant-select ant-select-in-form-item css-dev-only-do-not-override-hash ant-select-single ant-select-show-arrow"
-                          >
-                            <div
-                              class="ant-select-selector"
-                            >
-                              <span
-                                class="ant-select-selection-search"
-                              >
-                                <input
-                                  aria-autocomplete="list"
-                                  aria-controls="workarea_list"
-                                  aria-expanded="false"
-                                  aria-haspopup="listbox"
-                                  aria-label="Search"
-                                  aria-owns="workarea_list"
-                                  autocomplete="off"
-                                  class="ant-select-selection-search-input"
-                                  id="workarea"
-                                  readonly=""
-                                  role="combobox"
-                                  style="opacity: 0;"
-                                  type="search"
-                                  unselectable="on"
-                                  value=""
-                                />
-                              </span>
-                              <span
-                                class="ant-select-selection-item"
-                                title="Ador"
-                              >
-                                Ador
-                              </span>
-                            </div>
-                            <span
-                              aria-hidden="true"
-                              class="ant-select-arrow"
-                              style="user-select: none;"
-                              unselectable="on"
-                            >
-                              <span
-                                aria-label="down"
-                                class="anticon anticon-down ant-select-suffix"
-                                role="img"
-                              >
-                                <svg
-                                  aria-hidden="true"
-                                  data-icon="down"
-                                  fill="currentColor"
-                                  focusable="false"
-                                  height="1em"
-                                  viewBox="64 64 896 896"
-                                  width="1em"
-                                >
-                                  <path
-                                    d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"
-                                  />
-                                </svg>
-                              </span>
-                            </span>
-                          </div>
-                        </div>
+                          <input
+                            aria-autocomplete="list"
+                            aria-controls="workareaSelect_list"
+                            aria-expanded="false"
+                            aria-haspopup="listbox"
+                            aria-label="Search"
+                            aria-owns="workareaSelect_list"
+                            autocomplete="off"
+                            class="ant-select-selection-search-input"
+                            id="workareaSelect"
+                            readonly=""
+                            role="combobox"
+                            style="opacity: 0;"
+                            type="search"
+                            unselectable="on"
+                            value=""
+                          />
+                        </span>
+                        <span
+                          class="ant-select-selection-item"
+                          title="Ador"
+                        >
+                          Ador
+                        </span>
                       </div>
+                      <span
+                        aria-hidden="true"
+                        class="ant-select-arrow"
+                        style="user-select: none;"
+                        unselectable="on"
+                      >
+                        <span
+                          aria-label="down"
+                          class="anticon anticon-down ant-select-suffix"
+                          role="img"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            data-icon="down"
+                            fill="currentColor"
+                            focusable="false"
+                            height="1em"
+                            viewBox="64 64 896 896"
+                            width="1em"
+                          >
+                            <path
+                              d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"
+                            />
+                          </svg>
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    class="row"
+                  >
+                    <label
+                      class="title"
+                      for="dpi"
+                    >
+                      Resolution
+                      :
+                    </label>
+                    <div
+                      class="ant-select control css-dev-only-do-not-override-hash ant-select-single ant-select-show-arrow"
+                    >
+                      <div
+                        class="ant-select-selector"
+                      >
+                        <span
+                          class="ant-select-selection-search"
+                        >
+                          <input
+                            aria-autocomplete="list"
+                            aria-controls="dpi_list"
+                            aria-expanded="false"
+                            aria-haspopup="listbox"
+                            aria-label="Search"
+                            aria-owns="dpi_list"
+                            autocomplete="off"
+                            class="ant-select-selection-search-input"
+                            id="dpi"
+                            readonly=""
+                            role="combobox"
+                            style="opacity: 0;"
+                            type="search"
+                            unselectable="on"
+                            value=""
+                          />
+                        </span>
+                        <span
+                          class="ant-select-selection-item"
+                        >
+                          Medium
+                           (
+                          250
+                           DPI)
+                        </span>
+                      </div>
+                      <span
+                        aria-hidden="true"
+                        class="ant-select-arrow"
+                        style="user-select: none;"
+                        unselectable="on"
+                      >
+                        <span
+                          aria-label="down"
+                          class="anticon anticon-down ant-select-suffix"
+                          role="img"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            data-icon="down"
+                            fill="currentColor"
+                            focusable="false"
+                            height="1em"
+                            viewBox="64 64 896 896"
+                            width="1em"
+                          >
+                            <path
+                              d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"
+                            />
+                          </svg>
+                        </span>
+                      </span>
                     </div>
                   </div>
                 </div>
-                <strong>
-                  Add-ons
-                </strong>
+                <div
+                  class="separator"
+                >
+                  <div>
+                    start_position
+                  </div>
+                  <div
+                    class="bar"
+                  />
+                </div>
+                <div
+                  class="block"
+                >
+                  <div
+                    class="row"
+                  >
+                    <label
+                      class="title"
+                      for="startFrom"
+                    >
+                      start_from
+                      :
+                    </label>
+                    <div
+                      class="ant-select control css-dev-only-do-not-override-hash ant-select-single ant-select-show-arrow"
+                    >
+                      <div
+                        class="ant-select-selector"
+                      >
+                        <span
+                          class="ant-select-selection-search"
+                        >
+                          <input
+                            aria-autocomplete="list"
+                            aria-controls="startFrom_list"
+                            aria-expanded="false"
+                            aria-haspopup="listbox"
+                            aria-label="Search"
+                            aria-owns="startFrom_list"
+                            autocomplete="off"
+                            class="ant-select-selection-search-input"
+                            id="startFrom"
+                            readonly=""
+                            role="combobox"
+                            style="opacity: 0;"
+                            type="search"
+                            unselectable="on"
+                            value=""
+                          />
+                        </span>
+                        <span
+                          class="ant-select-selection-item"
+                          title="origin"
+                        >
+                          origin
+                        </span>
+                      </div>
+                      <span
+                        aria-hidden="true"
+                        class="ant-select-arrow"
+                        style="user-select: none;"
+                        unselectable="on"
+                      >
+                        <span
+                          aria-label="down"
+                          class="anticon anticon-down ant-select-suffix"
+                          role="img"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            data-icon="down"
+                            fill="currentColor"
+                            focusable="false"
+                            height="1em"
+                            viewBox="64 64 896 896"
+                            width="1em"
+                          >
+                            <path
+                              d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"
+                            />
+                          </svg>
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="separator"
+                >
+                  <div>
+                    Add-ons
+                  </div>
+                  <div
+                    class="bar"
+                  />
+                </div>
                 <div
                   class="modules"
                 >
@@ -262,7 +401,7 @@ exports[`test DocumentSettings should render correctly 1`] = `
                     </div>
                   </div>
                 </div>
-              </form>
+              </div>
             </div>
             <div
               class="ant-modal-footer"
@@ -316,7 +455,7 @@ exports[`test DocumentSettings should render correctly 2`] = `
           aria-modal="true"
           class="ant-modal css-dev-only-do-not-override-hash ant-zoom-appear ant-zoom-appear-prepare ant-zoom"
           role="dialog"
-          style="width: 520px; transform-origin: NaNpx NaNpx;"
+          style="width: 440px; transform-origin: NaNpx NaNpx;"
         >
           <div
             aria-hidden="true"
@@ -369,116 +508,255 @@ exports[`test DocumentSettings should render correctly 2`] = `
             <div
               class="ant-modal-body"
             >
-              <form
-                class="ant-form ant-form-horizontal css-dev-only-do-not-override-hash"
+              <div
+                class="container"
               >
-                <div>
-                  DummyEngraveDpiSlider
-                  <p>
-                    value: 
-                    high
-                  </p>
-                  <button
-                    type="button"
-                  >
-                    change dpi
-                  </button>
-                </div>
                 <div
-                  class="ant-form-item css-dev-only-do-not-override-hash"
+                  class="block"
                 >
                   <div
-                    class="ant-row ant-form-item-row css-dev-only-do-not-override-hash"
+                    class="row"
                   >
-                    <div
-                      class="ant-col ant-col-6 ant-form-item-label css-dev-only-do-not-override-hash"
+                    <label
+                      class="title"
+                      for="workareaSelect"
                     >
-                      <label
-                        class=""
-                        for="workarea"
-                        title="Working Area"
-                      >
-                        Working Area
-                      </label>
-                    </div>
+                      Working Area
+                      :
+                    </label>
                     <div
-                      class="ant-col ant-col-18 ant-form-item-control css-dev-only-do-not-override-hash"
+                      class="ant-select control css-dev-only-do-not-override-hash ant-select-single ant-select-show-arrow"
                     >
                       <div
-                        class="ant-form-item-control-input"
+                        class="ant-select-selector"
                       >
-                        <div
-                          class="ant-form-item-control-input-content"
+                        <span
+                          class="ant-select-selection-search"
                         >
-                          <div
-                            class="ant-select ant-select-in-form-item css-dev-only-do-not-override-hash ant-select-single ant-select-show-arrow"
-                          >
-                            <div
-                              class="ant-select-selector"
-                            >
-                              <span
-                                class="ant-select-selection-search"
-                              >
-                                <input
-                                  aria-autocomplete="list"
-                                  aria-controls="workarea_list"
-                                  aria-expanded="false"
-                                  aria-haspopup="listbox"
-                                  aria-label="Search"
-                                  aria-owns="workarea_list"
-                                  autocomplete="off"
-                                  class="ant-select-selection-search-input"
-                                  id="workarea"
-                                  readonly=""
-                                  role="combobox"
-                                  style="opacity: 0;"
-                                  type="search"
-                                  unselectable="on"
-                                  value=""
-                                />
-                              </span>
-                              <span
-                                class="ant-select-selection-item"
-                                title="Ador"
-                              >
-                                Ador
-                              </span>
-                            </div>
-                            <span
-                              aria-hidden="true"
-                              class="ant-select-arrow"
-                              style="user-select: none;"
-                              unselectable="on"
-                            >
-                              <span
-                                aria-label="down"
-                                class="anticon anticon-down ant-select-suffix"
-                                role="img"
-                              >
-                                <svg
-                                  aria-hidden="true"
-                                  data-icon="down"
-                                  fill="currentColor"
-                                  focusable="false"
-                                  height="1em"
-                                  viewBox="64 64 896 896"
-                                  width="1em"
-                                >
-                                  <path
-                                    d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"
-                                  />
-                                </svg>
-                              </span>
-                            </span>
-                          </div>
-                        </div>
+                          <input
+                            aria-autocomplete="list"
+                            aria-controls="workareaSelect_list"
+                            aria-expanded="false"
+                            aria-haspopup="listbox"
+                            aria-label="Search"
+                            aria-owns="workareaSelect_list"
+                            autocomplete="off"
+                            class="ant-select-selection-search-input"
+                            id="workareaSelect"
+                            readonly=""
+                            role="combobox"
+                            style="opacity: 0;"
+                            type="search"
+                            unselectable="on"
+                            value=""
+                          />
+                        </span>
+                        <span
+                          class="ant-select-selection-item"
+                          title="Ador"
+                        >
+                          Ador
+                        </span>
                       </div>
+                      <span
+                        aria-hidden="true"
+                        class="ant-select-arrow"
+                        style="user-select: none;"
+                        unselectable="on"
+                      >
+                        <span
+                          aria-label="down"
+                          class="anticon anticon-down ant-select-suffix"
+                          role="img"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            data-icon="down"
+                            fill="currentColor"
+                            focusable="false"
+                            height="1em"
+                            viewBox="64 64 896 896"
+                            width="1em"
+                          >
+                            <path
+                              d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"
+                            />
+                          </svg>
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    class="row"
+                  >
+                    <label
+                      class="title"
+                      for="dpi"
+                    >
+                      Resolution
+                      :
+                    </label>
+                    <div
+                      class="ant-select control css-dev-only-do-not-override-hash ant-select-single ant-select-show-arrow"
+                    >
+                      <div
+                        class="ant-select-selector"
+                      >
+                        <span
+                          class="ant-select-selection-search"
+                        >
+                          <input
+                            aria-autocomplete="list"
+                            aria-controls="dpi_list"
+                            aria-expanded="false"
+                            aria-haspopup="listbox"
+                            aria-label="Search"
+                            aria-owns="dpi_list"
+                            autocomplete="off"
+                            class="ant-select-selection-search-input"
+                            id="dpi"
+                            readonly=""
+                            role="combobox"
+                            style="opacity: 0;"
+                            type="search"
+                            unselectable="on"
+                            value=""
+                          />
+                        </span>
+                        <span
+                          class="ant-select-selection-item"
+                        >
+                          High
+                           (
+                          500
+                           DPI)
+                        </span>
+                      </div>
+                      <span
+                        aria-hidden="true"
+                        class="ant-select-arrow"
+                        style="user-select: none;"
+                        unselectable="on"
+                      >
+                        <span
+                          aria-label="down"
+                          class="anticon anticon-down ant-select-suffix"
+                          role="img"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            data-icon="down"
+                            fill="currentColor"
+                            focusable="false"
+                            height="1em"
+                            viewBox="64 64 896 896"
+                            width="1em"
+                          >
+                            <path
+                              d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"
+                            />
+                          </svg>
+                        </span>
+                      </span>
                     </div>
                   </div>
                 </div>
-                <strong>
-                  Add-ons
-                </strong>
+                <div
+                  class="separator"
+                >
+                  <div>
+                    start_position
+                  </div>
+                  <div
+                    class="bar"
+                  />
+                </div>
+                <div
+                  class="block"
+                >
+                  <div
+                    class="row"
+                  >
+                    <label
+                      class="title"
+                      for="startFrom"
+                    >
+                      start_from
+                      :
+                    </label>
+                    <div
+                      class="ant-select control css-dev-only-do-not-override-hash ant-select-single ant-select-show-arrow"
+                    >
+                      <div
+                        class="ant-select-selector"
+                      >
+                        <span
+                          class="ant-select-selection-search"
+                        >
+                          <input
+                            aria-autocomplete="list"
+                            aria-controls="startFrom_list"
+                            aria-expanded="false"
+                            aria-haspopup="listbox"
+                            aria-label="Search"
+                            aria-owns="startFrom_list"
+                            autocomplete="off"
+                            class="ant-select-selection-search-input"
+                            id="startFrom"
+                            readonly=""
+                            role="combobox"
+                            style="opacity: 0;"
+                            type="search"
+                            unselectable="on"
+                            value=""
+                          />
+                        </span>
+                        <span
+                          class="ant-select-selection-item"
+                          title="origin"
+                        >
+                          origin
+                        </span>
+                      </div>
+                      <span
+                        aria-hidden="true"
+                        class="ant-select-arrow"
+                        style="user-select: none;"
+                        unselectable="on"
+                      >
+                        <span
+                          aria-label="down"
+                          class="anticon anticon-down ant-select-suffix"
+                          role="img"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            data-icon="down"
+                            fill="currentColor"
+                            focusable="false"
+                            height="1em"
+                            viewBox="64 64 896 896"
+                            width="1em"
+                          >
+                            <path
+                              d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"
+                            />
+                          </svg>
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="separator"
+                >
+                  <div>
+                    Add-ons
+                  </div>
+                  <div
+                    class="bar"
+                  />
+                </div>
                 <div
                   class="modules"
                 >
@@ -559,7 +837,7 @@ exports[`test DocumentSettings should render correctly 2`] = `
                     </div>
                   </div>
                 </div>
-              </form>
+              </div>
             </div>
             <div
               class="ant-modal-footer"
@@ -591,6 +869,128 @@ exports[`test DocumentSettings should render correctly 2`] = `
       </div>
     </div>
   </div>
+  <div>
+    <div
+      class="ant-select-dropdown ant-select-dropdown-hidden css-dev-only-do-not-override-hash ant-select-dropdown-placement-bottomLeft"
+      style="left: 0px; top: 0px; box-sizing: border-box; pointer-events: none;"
+    >
+      <div>
+        <div
+          id="dpi_list"
+          role="listbox"
+          style="height: 0px; width: 0px; overflow: hidden;"
+        >
+          <div
+            aria-selected="false"
+            id="dpi_list_0"
+            role="option"
+          >
+            low
+          </div>
+          <div
+            aria-selected="false"
+            id="dpi_list_1"
+            role="option"
+          >
+            medium
+          </div>
+        </div>
+        <div
+          class="rc-virtual-list"
+          style="position: relative;"
+        >
+          <div
+            class="rc-virtual-list-holder"
+            style="max-height: 256px; overflow-y: hidden;"
+          >
+            <div>
+              <div
+                class="rc-virtual-list-holder-inner"
+                style="display: flex; flex-direction: column;"
+              >
+                <div
+                  aria-selected="false"
+                  class="ant-select-item ant-select-item-option ant-select-item-option-active"
+                >
+                  <div
+                    class="ant-select-item-option-content"
+                  >
+                    Low
+                     (
+                    125
+                     DPI)
+                  </div>
+                  <span
+                    aria-hidden="true"
+                    class="ant-select-item-option-state"
+                    style="user-select: none;"
+                    unselectable="on"
+                  />
+                </div>
+                <div
+                  aria-selected="false"
+                  class="ant-select-item ant-select-item-option"
+                >
+                  <div
+                    class="ant-select-item-option-content"
+                  >
+                    Medium
+                     (
+                    250
+                     DPI)
+                  </div>
+                  <span
+                    aria-hidden="true"
+                    class="ant-select-item-option-state"
+                    style="user-select: none;"
+                    unselectable="on"
+                  />
+                </div>
+                <div
+                  aria-selected="true"
+                  class="ant-select-item ant-select-item-option ant-select-item-option-selected"
+                >
+                  <div
+                    class="ant-select-item-option-content"
+                  >
+                    High
+                     (
+                    500
+                     DPI)
+                  </div>
+                  <span
+                    aria-hidden="true"
+                    class="ant-select-item-option-state"
+                    style="user-select: none;"
+                    unselectable="on"
+                  />
+                </div>
+                <div
+                  aria-selected="false"
+                  class="ant-select-item ant-select-item-option"
+                >
+                  <div
+                    class="ant-select-item-option-content"
+                  >
+                    Ultra High
+                     (
+                    1000
+                     DPI)
+                  </div>
+                  <span
+                    aria-hidden="true"
+                    class="ant-select-item-option-state"
+                    style="user-select: none;"
+                    unselectable="on"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 `;
 
@@ -613,7 +1013,7 @@ exports[`test DocumentSettings should render correctly 3`] = `
           aria-modal="true"
           class="ant-modal css-dev-only-do-not-override-hash ant-zoom-appear ant-zoom-appear-prepare ant-zoom"
           role="dialog"
-          style="width: 520px; transform-origin: NaNpx NaNpx;"
+          style="width: 440px; transform-origin: NaNpx NaNpx;"
         >
           <div
             aria-hidden="true"
@@ -666,116 +1066,255 @@ exports[`test DocumentSettings should render correctly 3`] = `
             <div
               class="ant-modal-body"
             >
-              <form
-                class="ant-form ant-form-horizontal css-dev-only-do-not-override-hash"
+              <div
+                class="container"
               >
-                <div>
-                  DummyEngraveDpiSlider
-                  <p>
-                    value: 
-                    high
-                  </p>
-                  <button
-                    type="button"
-                  >
-                    change dpi
-                  </button>
-                </div>
                 <div
-                  class="ant-form-item css-dev-only-do-not-override-hash ant-form-item-has-success"
+                  class="block"
                 >
                   <div
-                    class="ant-row ant-form-item-row css-dev-only-do-not-override-hash"
+                    class="row"
                   >
-                    <div
-                      class="ant-col ant-col-6 ant-form-item-label css-dev-only-do-not-override-hash"
+                    <label
+                      class="title"
+                      for="workareaSelect"
                     >
-                      <label
-                        class=""
-                        for="workarea"
-                        title="Working Area"
-                      >
-                        Working Area
-                      </label>
-                    </div>
+                      Working Area
+                      :
+                    </label>
                     <div
-                      class="ant-col ant-col-18 ant-form-item-control css-dev-only-do-not-override-hash"
+                      class="ant-select control css-dev-only-do-not-override-hash ant-select-single ant-select-show-arrow"
                     >
                       <div
-                        class="ant-form-item-control-input"
+                        class="ant-select-selector"
                       >
-                        <div
-                          class="ant-form-item-control-input-content"
+                        <span
+                          class="ant-select-selection-search"
                         >
-                          <div
-                            class="ant-select ant-select-in-form-item ant-select-status-success css-dev-only-do-not-override-hash ant-select-single ant-select-show-arrow"
-                          >
-                            <div
-                              class="ant-select-selector"
-                            >
-                              <span
-                                class="ant-select-selection-search"
-                              >
-                                <input
-                                  aria-autocomplete="list"
-                                  aria-controls="workarea_list"
-                                  aria-expanded="false"
-                                  aria-haspopup="listbox"
-                                  aria-label="Search"
-                                  aria-owns="workarea_list"
-                                  autocomplete="off"
-                                  class="ant-select-selection-search-input"
-                                  id="workarea"
-                                  readonly=""
-                                  role="combobox"
-                                  style="opacity: 0;"
-                                  type="search"
-                                  unselectable="on"
-                                  value=""
-                                />
-                              </span>
-                              <span
-                                class="ant-select-selection-item"
-                                title="beamo"
-                              >
-                                beamo
-                              </span>
-                            </div>
-                            <span
-                              aria-hidden="true"
-                              class="ant-select-arrow"
-                              style="user-select: none;"
-                              unselectable="on"
-                            >
-                              <span
-                                aria-label="down"
-                                class="anticon anticon-down ant-select-suffix"
-                                role="img"
-                              >
-                                <svg
-                                  aria-hidden="true"
-                                  data-icon="down"
-                                  fill="currentColor"
-                                  focusable="false"
-                                  height="1em"
-                                  viewBox="64 64 896 896"
-                                  width="1em"
-                                >
-                                  <path
-                                    d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"
-                                  />
-                                </svg>
-                              </span>
-                            </span>
-                          </div>
-                        </div>
+                          <input
+                            aria-autocomplete="list"
+                            aria-controls="workareaSelect_list"
+                            aria-expanded="false"
+                            aria-haspopup="listbox"
+                            aria-label="Search"
+                            aria-owns="workareaSelect_list"
+                            autocomplete="off"
+                            class="ant-select-selection-search-input"
+                            id="workareaSelect"
+                            readonly=""
+                            role="combobox"
+                            style="opacity: 0;"
+                            type="search"
+                            unselectable="on"
+                            value=""
+                          />
+                        </span>
+                        <span
+                          class="ant-select-selection-item"
+                          title="beamo"
+                        >
+                          beamo
+                        </span>
                       </div>
+                      <span
+                        aria-hidden="true"
+                        class="ant-select-arrow"
+                        style="user-select: none;"
+                        unselectable="on"
+                      >
+                        <span
+                          aria-label="down"
+                          class="anticon anticon-down ant-select-suffix"
+                          role="img"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            data-icon="down"
+                            fill="currentColor"
+                            focusable="false"
+                            height="1em"
+                            viewBox="64 64 896 896"
+                            width="1em"
+                          >
+                            <path
+                              d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"
+                            />
+                          </svg>
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    class="row"
+                  >
+                    <label
+                      class="title"
+                      for="dpi"
+                    >
+                      Resolution
+                      :
+                    </label>
+                    <div
+                      class="ant-select control css-dev-only-do-not-override-hash ant-select-single ant-select-show-arrow"
+                    >
+                      <div
+                        class="ant-select-selector"
+                      >
+                        <span
+                          class="ant-select-selection-search"
+                        >
+                          <input
+                            aria-autocomplete="list"
+                            aria-controls="dpi_list"
+                            aria-expanded="false"
+                            aria-haspopup="listbox"
+                            aria-label="Search"
+                            aria-owns="dpi_list"
+                            autocomplete="off"
+                            class="ant-select-selection-search-input"
+                            id="dpi"
+                            readonly=""
+                            role="combobox"
+                            style="opacity: 0;"
+                            type="search"
+                            unselectable="on"
+                            value=""
+                          />
+                        </span>
+                        <span
+                          class="ant-select-selection-item"
+                        >
+                          High
+                           (
+                          500
+                           DPI)
+                        </span>
+                      </div>
+                      <span
+                        aria-hidden="true"
+                        class="ant-select-arrow"
+                        style="user-select: none;"
+                        unselectable="on"
+                      >
+                        <span
+                          aria-label="down"
+                          class="anticon anticon-down ant-select-suffix"
+                          role="img"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            data-icon="down"
+                            fill="currentColor"
+                            focusable="false"
+                            height="1em"
+                            viewBox="64 64 896 896"
+                            width="1em"
+                          >
+                            <path
+                              d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"
+                            />
+                          </svg>
+                        </span>
+                      </span>
                     </div>
                   </div>
                 </div>
-                <strong>
-                  Add-ons
-                </strong>
+                <div
+                  class="separator"
+                >
+                  <div>
+                    start_position
+                  </div>
+                  <div
+                    class="bar"
+                  />
+                </div>
+                <div
+                  class="block"
+                >
+                  <div
+                    class="row"
+                  >
+                    <label
+                      class="title"
+                      for="startFrom"
+                    >
+                      start_from
+                      :
+                    </label>
+                    <div
+                      class="ant-select control css-dev-only-do-not-override-hash ant-select-single ant-select-show-arrow"
+                    >
+                      <div
+                        class="ant-select-selector"
+                      >
+                        <span
+                          class="ant-select-selection-search"
+                        >
+                          <input
+                            aria-autocomplete="list"
+                            aria-controls="startFrom_list"
+                            aria-expanded="false"
+                            aria-haspopup="listbox"
+                            aria-label="Search"
+                            aria-owns="startFrom_list"
+                            autocomplete="off"
+                            class="ant-select-selection-search-input"
+                            id="startFrom"
+                            readonly=""
+                            role="combobox"
+                            style="opacity: 0;"
+                            type="search"
+                            unselectable="on"
+                            value=""
+                          />
+                        </span>
+                        <span
+                          class="ant-select-selection-item"
+                          title="origin"
+                        >
+                          origin
+                        </span>
+                      </div>
+                      <span
+                        aria-hidden="true"
+                        class="ant-select-arrow"
+                        style="user-select: none;"
+                        unselectable="on"
+                      >
+                        <span
+                          aria-label="down"
+                          class="anticon anticon-down ant-select-suffix"
+                          role="img"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            data-icon="down"
+                            fill="currentColor"
+                            focusable="false"
+                            height="1em"
+                            viewBox="64 64 896 896"
+                            width="1em"
+                          >
+                            <path
+                              d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"
+                            />
+                          </svg>
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="separator"
+                >
+                  <div>
+                    Add-ons
+                  </div>
+                  <div
+                    class="bar"
+                  />
+                </div>
                 <div
                   class="modules"
                 >
@@ -970,95 +1509,18 @@ exports[`test DocumentSettings should render correctly 3`] = `
                       <div
                         class="input"
                       >
-                        <div
-                          class="ant-input-number-group-wrapper input css-dev-only-do-not-override-hash"
-                        >
-                          <div
-                            class="ant-input-number-wrapper ant-input-number-group css-dev-only-do-not-override-hash"
-                          >
-                            <div
-                              class="ant-input-number css-dev-only-do-not-override-hash"
-                            >
-                              <div
-                                class="ant-input-number-handler-wrap"
-                              >
-                                <span
-                                  aria-disabled="false"
-                                  aria-label="Increase Value"
-                                  class="ant-input-number-handler ant-input-number-handler-up"
-                                  role="button"
-                                  unselectable="on"
-                                >
-                                  <span
-                                    aria-label="up"
-                                    class="anticon anticon-up ant-input-number-handler-up-inner"
-                                    role="img"
-                                  >
-                                    <svg
-                                      aria-hidden="true"
-                                      data-icon="up"
-                                      fill="currentColor"
-                                      focusable="false"
-                                      height="1em"
-                                      viewBox="64 64 896 896"
-                                      width="1em"
-                                    >
-                                      <path
-                                        d="M890.5 755.3L537.9 269.2c-12.8-17.6-39-17.6-51.7 0L133.5 755.3A8 8 0 00140 768h75c5.1 0 9.9-2.5 12.9-6.6L512 369.8l284.1 391.6c3 4.1 7.8 6.6 12.9 6.6h75c6.5 0 10.3-7.4 6.5-12.7z"
-                                      />
-                                    </svg>
-                                  </span>
-                                </span>
-                                <span
-                                  aria-disabled="false"
-                                  aria-label="Decrease Value"
-                                  class="ant-input-number-handler ant-input-number-handler-down"
-                                  role="button"
-                                  unselectable="on"
-                                >
-                                  <span
-                                    aria-label="down"
-                                    class="anticon anticon-down ant-input-number-handler-down-inner"
-                                    role="img"
-                                  >
-                                    <svg
-                                      aria-hidden="true"
-                                      data-icon="down"
-                                      fill="currentColor"
-                                      focusable="false"
-                                      height="1em"
-                                      viewBox="64 64 896 896"
-                                      width="1em"
-                                    >
-                                      <path
-                                        d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"
-                                      />
-                                    </svg>
-                                  </span>
-                                </span>
-                              </div>
-                              <div
-                                class="ant-input-number-input-wrap"
-                              >
-                                <input
-                                  aria-valuemin="210"
-                                  aria-valuenow="500"
-                                  autocomplete="off"
-                                  class="ant-input-number-input"
-                                  id="pass_through_height"
-                                  role="spinbutton"
-                                  step="1"
-                                  value="500"
-                                />
-                              </div>
-                            </div>
-                            <div
-                              class="ant-input-number-group-addon"
-                            >
-                              mm
-                            </div>
-                          </div>
-                        </div>
+                        UnitInput: 
+                        pass_through_height
+                        <p>
+                          addonAfter: 
+                          mm
+                        </p>
+                        0
+                        <input
+                          id="pass_through_height"
+                          min="210"
+                          value="500"
+                        />
                       </div>
                       <span
                         aria-label="question-circle"
@@ -1085,7 +1547,7 @@ exports[`test DocumentSettings should render correctly 3`] = `
                     </div>
                   </div>
                 </div>
-              </form>
+              </div>
             </div>
             <div
               class="ant-modal-footer"
@@ -1124,14 +1586,136 @@ exports[`test DocumentSettings should render correctly 3`] = `
     >
       <div>
         <div
-          id="workarea_list"
+          id="dpi_list"
+          role="listbox"
+          style="height: 0px; width: 0px; overflow: hidden;"
+        >
+          <div
+            aria-selected="false"
+            id="dpi_list_0"
+            role="option"
+          >
+            low
+          </div>
+          <div
+            aria-selected="false"
+            id="dpi_list_1"
+            role="option"
+          >
+            medium
+          </div>
+        </div>
+        <div
+          class="rc-virtual-list"
+          style="position: relative;"
+        >
+          <div
+            class="rc-virtual-list-holder"
+            style="max-height: 256px; overflow-y: hidden;"
+          >
+            <div>
+              <div
+                class="rc-virtual-list-holder-inner"
+                style="display: flex; flex-direction: column;"
+              >
+                <div
+                  aria-selected="false"
+                  class="ant-select-item ant-select-item-option ant-select-item-option-active"
+                >
+                  <div
+                    class="ant-select-item-option-content"
+                  >
+                    Low
+                     (
+                    125
+                     DPI)
+                  </div>
+                  <span
+                    aria-hidden="true"
+                    class="ant-select-item-option-state"
+                    style="user-select: none;"
+                    unselectable="on"
+                  />
+                </div>
+                <div
+                  aria-selected="false"
+                  class="ant-select-item ant-select-item-option"
+                >
+                  <div
+                    class="ant-select-item-option-content"
+                  >
+                    Medium
+                     (
+                    250
+                     DPI)
+                  </div>
+                  <span
+                    aria-hidden="true"
+                    class="ant-select-item-option-state"
+                    style="user-select: none;"
+                    unselectable="on"
+                  />
+                </div>
+                <div
+                  aria-selected="true"
+                  class="ant-select-item ant-select-item-option ant-select-item-option-selected"
+                >
+                  <div
+                    class="ant-select-item-option-content"
+                  >
+                    High
+                     (
+                    500
+                     DPI)
+                  </div>
+                  <span
+                    aria-hidden="true"
+                    class="ant-select-item-option-state"
+                    style="user-select: none;"
+                    unselectable="on"
+                  />
+                </div>
+                <div
+                  aria-selected="false"
+                  class="ant-select-item ant-select-item-option"
+                >
+                  <div
+                    class="ant-select-item-option-content"
+                  >
+                    Ultra High
+                     (
+                    1000
+                     DPI)
+                  </div>
+                  <span
+                    aria-hidden="true"
+                    class="ant-select-item-option-state"
+                    style="user-select: none;"
+                    unselectable="on"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div
+      class="ant-select-dropdown ant-select-dropdown-hidden css-dev-only-do-not-override-hash ant-select-dropdown-placement-bottomLeft"
+      style="left: 0px; top: 0px; box-sizing: border-box; pointer-events: none;"
+    >
+      <div>
+        <div
+          id="workareaSelect_list"
           role="listbox"
           style="height: 0px; width: 0px; overflow: hidden;"
         >
           <div
             aria-label="beamo"
             aria-selected="true"
-            id="workarea_list_0"
+            id="workareaSelect_list_0"
             role="option"
           >
             fbm1
@@ -1139,7 +1723,7 @@ exports[`test DocumentSettings should render correctly 3`] = `
           <div
             aria-label="Beambox"
             aria-selected="false"
-            id="workarea_list_1"
+            id="workareaSelect_list_1"
             role="option"
           >
             fbb1b
@@ -1272,7 +1856,7 @@ exports[`test DocumentSettings should render correctly for ador 1`] = `
           aria-modal="true"
           class="ant-modal css-dev-only-do-not-override-hash ant-zoom-appear ant-zoom-appear-prepare ant-zoom"
           role="dialog"
-          style="width: 520px;"
+          style="width: 440px;"
         >
           <div
             aria-hidden="true"
@@ -1325,116 +1909,255 @@ exports[`test DocumentSettings should render correctly for ador 1`] = `
             <div
               class="ant-modal-body"
             >
-              <form
-                class="ant-form ant-form-horizontal css-dev-only-do-not-override-hash"
+              <div
+                class="container"
               >
-                <div>
-                  DummyEngraveDpiSlider
-                  <p>
-                    value: 
-                    medium
-                  </p>
-                  <button
-                    type="button"
-                  >
-                    change dpi
-                  </button>
-                </div>
                 <div
-                  class="ant-form-item css-dev-only-do-not-override-hash"
+                  class="block"
                 >
                   <div
-                    class="ant-row ant-form-item-row css-dev-only-do-not-override-hash"
+                    class="row"
                   >
-                    <div
-                      class="ant-col ant-col-6 ant-form-item-label css-dev-only-do-not-override-hash"
+                    <label
+                      class="title"
+                      for="workareaSelect"
                     >
-                      <label
-                        class=""
-                        for="workarea"
-                        title="Working Area"
-                      >
-                        Working Area
-                      </label>
-                    </div>
+                      Working Area
+                      :
+                    </label>
                     <div
-                      class="ant-col ant-col-18 ant-form-item-control css-dev-only-do-not-override-hash"
+                      class="ant-select control css-dev-only-do-not-override-hash ant-select-single ant-select-show-arrow"
                     >
                       <div
-                        class="ant-form-item-control-input"
+                        class="ant-select-selector"
                       >
-                        <div
-                          class="ant-form-item-control-input-content"
+                        <span
+                          class="ant-select-selection-search"
                         >
-                          <div
-                            class="ant-select ant-select-in-form-item css-dev-only-do-not-override-hash ant-select-single ant-select-show-arrow"
-                          >
-                            <div
-                              class="ant-select-selector"
-                            >
-                              <span
-                                class="ant-select-selection-search"
-                              >
-                                <input
-                                  aria-autocomplete="list"
-                                  aria-controls="workarea_list"
-                                  aria-expanded="false"
-                                  aria-haspopup="listbox"
-                                  aria-label="Search"
-                                  aria-owns="workarea_list"
-                                  autocomplete="off"
-                                  class="ant-select-selection-search-input"
-                                  id="workarea"
-                                  readonly=""
-                                  role="combobox"
-                                  style="opacity: 0;"
-                                  type="search"
-                                  unselectable="on"
-                                  value=""
-                                />
-                              </span>
-                              <span
-                                class="ant-select-selection-item"
-                                title="Ador"
-                              >
-                                Ador
-                              </span>
-                            </div>
-                            <span
-                              aria-hidden="true"
-                              class="ant-select-arrow"
-                              style="user-select: none;"
-                              unselectable="on"
-                            >
-                              <span
-                                aria-label="down"
-                                class="anticon anticon-down ant-select-suffix"
-                                role="img"
-                              >
-                                <svg
-                                  aria-hidden="true"
-                                  data-icon="down"
-                                  fill="currentColor"
-                                  focusable="false"
-                                  height="1em"
-                                  viewBox="64 64 896 896"
-                                  width="1em"
-                                >
-                                  <path
-                                    d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"
-                                  />
-                                </svg>
-                              </span>
-                            </span>
-                          </div>
-                        </div>
+                          <input
+                            aria-autocomplete="list"
+                            aria-controls="workareaSelect_list"
+                            aria-expanded="false"
+                            aria-haspopup="listbox"
+                            aria-label="Search"
+                            aria-owns="workareaSelect_list"
+                            autocomplete="off"
+                            class="ant-select-selection-search-input"
+                            id="workareaSelect"
+                            readonly=""
+                            role="combobox"
+                            style="opacity: 0;"
+                            type="search"
+                            unselectable="on"
+                            value=""
+                          />
+                        </span>
+                        <span
+                          class="ant-select-selection-item"
+                          title="Ador"
+                        >
+                          Ador
+                        </span>
                       </div>
+                      <span
+                        aria-hidden="true"
+                        class="ant-select-arrow"
+                        style="user-select: none;"
+                        unselectable="on"
+                      >
+                        <span
+                          aria-label="down"
+                          class="anticon anticon-down ant-select-suffix"
+                          role="img"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            data-icon="down"
+                            fill="currentColor"
+                            focusable="false"
+                            height="1em"
+                            viewBox="64 64 896 896"
+                            width="1em"
+                          >
+                            <path
+                              d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"
+                            />
+                          </svg>
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    class="row"
+                  >
+                    <label
+                      class="title"
+                      for="dpi"
+                    >
+                      Resolution
+                      :
+                    </label>
+                    <div
+                      class="ant-select control css-dev-only-do-not-override-hash ant-select-single ant-select-show-arrow"
+                    >
+                      <div
+                        class="ant-select-selector"
+                      >
+                        <span
+                          class="ant-select-selection-search"
+                        >
+                          <input
+                            aria-autocomplete="list"
+                            aria-controls="dpi_list"
+                            aria-expanded="false"
+                            aria-haspopup="listbox"
+                            aria-label="Search"
+                            aria-owns="dpi_list"
+                            autocomplete="off"
+                            class="ant-select-selection-search-input"
+                            id="dpi"
+                            readonly=""
+                            role="combobox"
+                            style="opacity: 0;"
+                            type="search"
+                            unselectable="on"
+                            value=""
+                          />
+                        </span>
+                        <span
+                          class="ant-select-selection-item"
+                        >
+                          Medium
+                           (
+                          250
+                           DPI)
+                        </span>
+                      </div>
+                      <span
+                        aria-hidden="true"
+                        class="ant-select-arrow"
+                        style="user-select: none;"
+                        unselectable="on"
+                      >
+                        <span
+                          aria-label="down"
+                          class="anticon anticon-down ant-select-suffix"
+                          role="img"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            data-icon="down"
+                            fill="currentColor"
+                            focusable="false"
+                            height="1em"
+                            viewBox="64 64 896 896"
+                            width="1em"
+                          >
+                            <path
+                              d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"
+                            />
+                          </svg>
+                        </span>
+                      </span>
                     </div>
                   </div>
                 </div>
-                <strong>
-                  Add-ons
-                </strong>
+                <div
+                  class="separator"
+                >
+                  <div>
+                    start_position
+                  </div>
+                  <div
+                    class="bar"
+                  />
+                </div>
+                <div
+                  class="block"
+                >
+                  <div
+                    class="row"
+                  >
+                    <label
+                      class="title"
+                      for="startFrom"
+                    >
+                      start_from
+                      :
+                    </label>
+                    <div
+                      class="ant-select control css-dev-only-do-not-override-hash ant-select-single ant-select-show-arrow"
+                    >
+                      <div
+                        class="ant-select-selector"
+                      >
+                        <span
+                          class="ant-select-selection-search"
+                        >
+                          <input
+                            aria-autocomplete="list"
+                            aria-controls="startFrom_list"
+                            aria-expanded="false"
+                            aria-haspopup="listbox"
+                            aria-label="Search"
+                            aria-owns="startFrom_list"
+                            autocomplete="off"
+                            class="ant-select-selection-search-input"
+                            id="startFrom"
+                            readonly=""
+                            role="combobox"
+                            style="opacity: 0;"
+                            type="search"
+                            unselectable="on"
+                            value=""
+                          />
+                        </span>
+                        <span
+                          class="ant-select-selection-item"
+                          title="origin"
+                        >
+                          origin
+                        </span>
+                      </div>
+                      <span
+                        aria-hidden="true"
+                        class="ant-select-arrow"
+                        style="user-select: none;"
+                        unselectable="on"
+                      >
+                        <span
+                          aria-label="down"
+                          class="anticon anticon-down ant-select-suffix"
+                          role="img"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            data-icon="down"
+                            fill="currentColor"
+                            focusable="false"
+                            height="1em"
+                            viewBox="64 64 896 896"
+                            width="1em"
+                          >
+                            <path
+                              d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"
+                            />
+                          </svg>
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="separator"
+                >
+                  <div>
+                    Add-ons
+                  </div>
+                  <div
+                    class="bar"
+                  />
+                </div>
                 <div
                   class="modules"
                 >
@@ -1515,7 +2238,7 @@ exports[`test DocumentSettings should render correctly for ador 1`] = `
                     </div>
                   </div>
                 </div>
-              </form>
+              </div>
             </div>
             <div
               class="ant-modal-footer"
@@ -1554,14 +2277,14 @@ exports[`test DocumentSettings should render correctly for ador 1`] = `
     >
       <div>
         <div
-          id="workarea_list"
+          id="workareaSelect_list"
           role="listbox"
           style="height: 0px; width: 0px; overflow: hidden;"
         >
           <div
             aria-label="beamo"
             aria-selected="false"
-            id="workarea_list_0"
+            id="workareaSelect_list_0"
             role="option"
           >
             fbm1
@@ -1569,7 +2292,7 @@ exports[`test DocumentSettings should render correctly for ador 1`] = `
           <div
             aria-label="Beambox"
             aria-selected="false"
-            id="workarea_list_1"
+            id="workareaSelect_list_1"
             role="option"
           >
             fbb1b
@@ -1702,7 +2425,7 @@ exports[`test DocumentSettings should render correctly for ador 2`] = `
           aria-modal="true"
           class="ant-modal css-dev-only-do-not-override-hash ant-zoom-appear ant-zoom-appear-prepare ant-zoom"
           role="dialog"
-          style="width: 520px;"
+          style="width: 440px;"
         >
           <div
             aria-hidden="true"
@@ -1755,116 +2478,255 @@ exports[`test DocumentSettings should render correctly for ador 2`] = `
             <div
               class="ant-modal-body"
             >
-              <form
-                class="ant-form ant-form-horizontal css-dev-only-do-not-override-hash"
+              <div
+                class="container"
               >
-                <div>
-                  DummyEngraveDpiSlider
-                  <p>
-                    value: 
-                    medium
-                  </p>
-                  <button
-                    type="button"
-                  >
-                    change dpi
-                  </button>
-                </div>
                 <div
-                  class="ant-form-item css-dev-only-do-not-override-hash"
+                  class="block"
                 >
                   <div
-                    class="ant-row ant-form-item-row css-dev-only-do-not-override-hash"
+                    class="row"
                   >
-                    <div
-                      class="ant-col ant-col-6 ant-form-item-label css-dev-only-do-not-override-hash"
+                    <label
+                      class="title"
+                      for="workareaSelect"
                     >
-                      <label
-                        class=""
-                        for="workarea"
-                        title="Working Area"
-                      >
-                        Working Area
-                      </label>
-                    </div>
+                      Working Area
+                      :
+                    </label>
                     <div
-                      class="ant-col ant-col-18 ant-form-item-control css-dev-only-do-not-override-hash"
+                      class="ant-select control css-dev-only-do-not-override-hash ant-select-single ant-select-show-arrow"
                     >
                       <div
-                        class="ant-form-item-control-input"
+                        class="ant-select-selector"
                       >
-                        <div
-                          class="ant-form-item-control-input-content"
+                        <span
+                          class="ant-select-selection-search"
                         >
-                          <div
-                            class="ant-select ant-select-in-form-item css-dev-only-do-not-override-hash ant-select-single ant-select-show-arrow"
-                          >
-                            <div
-                              class="ant-select-selector"
-                            >
-                              <span
-                                class="ant-select-selection-search"
-                              >
-                                <input
-                                  aria-autocomplete="list"
-                                  aria-controls="workarea_list"
-                                  aria-expanded="false"
-                                  aria-haspopup="listbox"
-                                  aria-label="Search"
-                                  aria-owns="workarea_list"
-                                  autocomplete="off"
-                                  class="ant-select-selection-search-input"
-                                  id="workarea"
-                                  readonly=""
-                                  role="combobox"
-                                  style="opacity: 0;"
-                                  type="search"
-                                  unselectable="on"
-                                  value=""
-                                />
-                              </span>
-                              <span
-                                class="ant-select-selection-item"
-                                title="Ador"
-                              >
-                                Ador
-                              </span>
-                            </div>
-                            <span
-                              aria-hidden="true"
-                              class="ant-select-arrow"
-                              style="user-select: none;"
-                              unselectable="on"
-                            >
-                              <span
-                                aria-label="down"
-                                class="anticon anticon-down ant-select-suffix"
-                                role="img"
-                              >
-                                <svg
-                                  aria-hidden="true"
-                                  data-icon="down"
-                                  fill="currentColor"
-                                  focusable="false"
-                                  height="1em"
-                                  viewBox="64 64 896 896"
-                                  width="1em"
-                                >
-                                  <path
-                                    d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"
-                                  />
-                                </svg>
-                              </span>
-                            </span>
-                          </div>
-                        </div>
+                          <input
+                            aria-autocomplete="list"
+                            aria-controls="workareaSelect_list"
+                            aria-expanded="false"
+                            aria-haspopup="listbox"
+                            aria-label="Search"
+                            aria-owns="workareaSelect_list"
+                            autocomplete="off"
+                            class="ant-select-selection-search-input"
+                            id="workareaSelect"
+                            readonly=""
+                            role="combobox"
+                            style="opacity: 0;"
+                            type="search"
+                            unselectable="on"
+                            value=""
+                          />
+                        </span>
+                        <span
+                          class="ant-select-selection-item"
+                          title="Ador"
+                        >
+                          Ador
+                        </span>
                       </div>
+                      <span
+                        aria-hidden="true"
+                        class="ant-select-arrow"
+                        style="user-select: none;"
+                        unselectable="on"
+                      >
+                        <span
+                          aria-label="down"
+                          class="anticon anticon-down ant-select-suffix"
+                          role="img"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            data-icon="down"
+                            fill="currentColor"
+                            focusable="false"
+                            height="1em"
+                            viewBox="64 64 896 896"
+                            width="1em"
+                          >
+                            <path
+                              d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"
+                            />
+                          </svg>
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                  <div
+                    class="row"
+                  >
+                    <label
+                      class="title"
+                      for="dpi"
+                    >
+                      Resolution
+                      :
+                    </label>
+                    <div
+                      class="ant-select control css-dev-only-do-not-override-hash ant-select-single ant-select-show-arrow"
+                    >
+                      <div
+                        class="ant-select-selector"
+                      >
+                        <span
+                          class="ant-select-selection-search"
+                        >
+                          <input
+                            aria-autocomplete="list"
+                            aria-controls="dpi_list"
+                            aria-expanded="false"
+                            aria-haspopup="listbox"
+                            aria-label="Search"
+                            aria-owns="dpi_list"
+                            autocomplete="off"
+                            class="ant-select-selection-search-input"
+                            id="dpi"
+                            readonly=""
+                            role="combobox"
+                            style="opacity: 0;"
+                            type="search"
+                            unselectable="on"
+                            value=""
+                          />
+                        </span>
+                        <span
+                          class="ant-select-selection-item"
+                        >
+                          Medium
+                           (
+                          250
+                           DPI)
+                        </span>
+                      </div>
+                      <span
+                        aria-hidden="true"
+                        class="ant-select-arrow"
+                        style="user-select: none;"
+                        unselectable="on"
+                      >
+                        <span
+                          aria-label="down"
+                          class="anticon anticon-down ant-select-suffix"
+                          role="img"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            data-icon="down"
+                            fill="currentColor"
+                            focusable="false"
+                            height="1em"
+                            viewBox="64 64 896 896"
+                            width="1em"
+                          >
+                            <path
+                              d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"
+                            />
+                          </svg>
+                        </span>
+                      </span>
                     </div>
                   </div>
                 </div>
-                <strong>
-                  Add-ons
-                </strong>
+                <div
+                  class="separator"
+                >
+                  <div>
+                    start_position
+                  </div>
+                  <div
+                    class="bar"
+                  />
+                </div>
+                <div
+                  class="block"
+                >
+                  <div
+                    class="row"
+                  >
+                    <label
+                      class="title"
+                      for="startFrom"
+                    >
+                      start_from
+                      :
+                    </label>
+                    <div
+                      class="ant-select control css-dev-only-do-not-override-hash ant-select-single ant-select-show-arrow"
+                    >
+                      <div
+                        class="ant-select-selector"
+                      >
+                        <span
+                          class="ant-select-selection-search"
+                        >
+                          <input
+                            aria-autocomplete="list"
+                            aria-controls="startFrom_list"
+                            aria-expanded="false"
+                            aria-haspopup="listbox"
+                            aria-label="Search"
+                            aria-owns="startFrom_list"
+                            autocomplete="off"
+                            class="ant-select-selection-search-input"
+                            id="startFrom"
+                            readonly=""
+                            role="combobox"
+                            style="opacity: 0;"
+                            type="search"
+                            unselectable="on"
+                            value=""
+                          />
+                        </span>
+                        <span
+                          class="ant-select-selection-item"
+                          title="origin"
+                        >
+                          origin
+                        </span>
+                      </div>
+                      <span
+                        aria-hidden="true"
+                        class="ant-select-arrow"
+                        style="user-select: none;"
+                        unselectable="on"
+                      >
+                        <span
+                          aria-label="down"
+                          class="anticon anticon-down ant-select-suffix"
+                          role="img"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            data-icon="down"
+                            fill="currentColor"
+                            focusable="false"
+                            height="1em"
+                            viewBox="64 64 896 896"
+                            width="1em"
+                          >
+                            <path
+                              d="M884 256h-75c-5.1 0-9.9 2.5-12.9 6.6L512 654.2 227.9 262.6c-3-4.1-7.8-6.6-12.9-6.6h-75c-6.5 0-10.3 7.4-6.5 12.7l352.6 486.1c12.8 17.6 39 17.6 51.7 0l352.6-486.1c3.9-5.3.1-12.7-6.4-12.7z"
+                            />
+                          </svg>
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="separator"
+                >
+                  <div>
+                    Add-ons
+                  </div>
+                  <div
+                    class="bar"
+                  />
+                </div>
                 <div
                   class="modules"
                 >
@@ -1985,7 +2847,7 @@ exports[`test DocumentSettings should render correctly for ador 2`] = `
                     </div>
                   </div>
                 </div>
-              </form>
+              </div>
             </div>
             <div
               class="ant-modal-footer"
@@ -2024,14 +2886,14 @@ exports[`test DocumentSettings should render correctly for ador 2`] = `
     >
       <div>
         <div
-          id="workarea_list"
+          id="workareaSelect_list"
           role="listbox"
           style="height: 0px; width: 0px; overflow: hidden;"
         >
           <div
             aria-label="beamo"
             aria-selected="false"
-            id="workarea_list_0"
+            id="workareaSelect_list_0"
             role="option"
           >
             fbm1
@@ -2039,7 +2901,7 @@ exports[`test DocumentSettings should render correctly for ador 2`] = `
           <div
             aria-label="Beambox"
             aria-selected="false"
-            id="workarea_list_1"
+            id="workareaSelect_list_1"
             role="option"
           >
             fbb1b
