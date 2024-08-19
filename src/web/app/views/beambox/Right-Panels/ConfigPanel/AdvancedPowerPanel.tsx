@@ -36,7 +36,7 @@ const AdvancedPowerPanel = ({ onClose }: Props): JSX.Element => {
         state.minPower.value !== draftValue.minPower.value ||
         state.minPower.hasMultiValue !== draftValue.minPower.hasMultiValue
       ) {
-        writeDataLayer(layer, DataType.strength, draftValue.minPower.value, { batchCmd });
+        writeDataLayer(layer, DataType.minPower, draftValue.minPower.value, { batchCmd });
       }
     });
     batchCmd.onAfter = initState;
@@ -71,6 +71,7 @@ const AdvancedPowerPanel = ({ onClose }: Props): JSX.Element => {
                 controls={false}
                 min={0}
                 max={power}
+                precision={0}
                 onChange={(val) => handleValueChange('minPower', val)}
               />
               <span className={styles.unit}>%</span>
@@ -83,6 +84,7 @@ const AdvancedPowerPanel = ({ onClose }: Props): JSX.Element => {
                 controls={false}
                 min={0}
                 max={power}
+                precision={0}
               />
               <span className={styles.unit}>%</span>
             </span>
