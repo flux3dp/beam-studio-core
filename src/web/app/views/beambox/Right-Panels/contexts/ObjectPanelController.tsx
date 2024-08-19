@@ -46,4 +46,5 @@ export default {
   updatePolygonSides,
   updateActiveKey,
   getActiveKey,
+  events: objectPanelEventEmitter,
 };

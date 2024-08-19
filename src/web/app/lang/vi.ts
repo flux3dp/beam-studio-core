@@ -718,6 +718,8 @@ const lang: ILang = {
         multi_layer: 'Nhiều lớp',
         parameters: 'Thông số',
         strength: 'Công suất',
+        pwm_advanced_setting: 'Cài Đặt Công Suất Chế Độ Độ Sâu',
+        pwm_advanced_desc: 'Đặt công suất tối thiểu cho chế độ độ sâu.\n(Nếu bạn là người dùng Hexa, vui lòng đặt công suất tối thiểu ít nhất là 20%.)',
         low_power_warning: 'Công suất laser thấp (dưới 10%) có thể không phát ra ánh sáng laser.',
         speed: 'Tốc độ',
         speed_contrain_warning: 'Tốc độ cắt của các đối tượng đường vector sẽ bị giới hạn ở 20 mm/s (0,79 inch/s). Bạn có thể loại bỏ giới hạn này tại Cài đặt Tùy chọn.',

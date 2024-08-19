@@ -718,6 +718,8 @@ const lang: ILang = {
         multi_layer: 'Várias Camadas',
         parameters: 'Parâmetros',
         strength: 'Potência',
+        pwm_advanced_setting: 'Configurações de Potência do Modo de Profundidade',
+        pwm_advanced_desc: 'Defina uma potência mínima para o modo de profundidade.\n(Se for um usuário Hexa, defina a potência mínima para pelo menos 20%.)',
         low_power_warning: 'Potência laser mais baixa (abaixo de 10%) pode não emitir a luz do laser.',
         speed: 'Velocidade',
         speed_contrain_warning: 'A velocidade de corte dos objetos de caminho vetorial será limitada a 20 mm/s (0,79 pol/s). Você pode remover este limite nas Configurações de Preferências.',

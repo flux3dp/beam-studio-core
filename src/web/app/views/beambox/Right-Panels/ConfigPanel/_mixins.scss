@@ -7,6 +7,23 @@
   .title {
     line-height: 32px;
     font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+
+    &.panel-item {
+      margin-top: 0;
+      width: 80vw;
+      .title {
+        font-weight: bold;
+      }
+    }
+
+    .icon {
+      cursor: pointer;
+      line-height: 16px;
+      height: 16px;
+      margin: 0 6px;
+    }
   }
 
   .input {
@@ -85,6 +102,30 @@
       width: calc(100% - 20px);
       padding-left: 8px;
       font-size: 12px;
+    }
+  }
+}
+
+@mixin modal-block {
+  margin-top: 18px;
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .input {
+      border: 1px solid #e6e6e6;
+      border-width: 0 0 1px;
+
+      .unit {
+        font-size: 10px;
+        color: #bbbbbb;
+      }
+
+      &.disabled {
+        background: none;
+      }
     }
   }
 }

@@ -718,6 +718,8 @@ const lang: ILang = {
         multi_layer: 'Livelli multipli',
         parameters: 'Parametri',
         strength: 'Potenza',
+        pwm_advanced_setting: 'Impostazioni di Potenza del Modo Profondità',
+        pwm_advanced_desc: 'Impostare una potenza minima per il modo profondità.\n(Se sei un utente Hexa, imposta la potenza minima ad almeno 20%.)',
         low_power_warning: 'Una potenza laser inferiore (sotto il 10%) potrebbe non emettere il raggio laser.',
         speed: 'Velocità',
         speed_contrain_warning: 'La velocità di taglio degli oggetti vettoriali sarà limitata a 20 mm/s. È possibile rimuovere questo limite nelle impostazioni delle preferenze.',

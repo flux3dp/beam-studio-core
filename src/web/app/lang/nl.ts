@@ -718,6 +718,8 @@ const lang: ILang = {
         multi_layer: 'Meerdere lagen',
         parameters: 'Parameters',
         strength: 'Vermogen',
+        pwm_advanced_setting: 'Stroominstellingen voor Dieptemodus',
+        pwm_advanced_desc: 'Stel een minimaal vermogen in voor dieptemodus.\n(Als u een Hexa-gebruiker bent, stel het minimale vermogen dan in op minstens 20%.)',
         low_power_warning: 'Lager laservermogen (onder 10%) zou geen laserlicht kunnen uitstralen.',
         speed: 'Snelheid',
         speed_contrain_warning: 'De snijsnelheid van vectorpadobjecten wordt beperkt tot 20 mm/s (0,79 inch/s). U kunt deze beperking opheffen bij de voorkeursinstellingen.',

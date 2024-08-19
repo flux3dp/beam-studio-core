@@ -721,6 +721,8 @@ const lang: ILang = {
         multi_layer: '複数のレイヤ',
         parameters: 'パラメーター',
         strength: '出力',
+        pwm_advanced_setting: '深度モードの電力設定',
+        pwm_advanced_desc: '深度モードの最小電力を設定してください。\n(Hexaユーザーの場合、最小電力を20%以上に設定してください。)',
         low_power_warning: 'レーザー出力が低い (10% 未満) と、レーザー光が放出されない場合があります。',
         speed: '速度',
         speed_contrain_warning: 'ベクトルパスオブジェクトの切断速度は 20mm/s (0.79in/s) に制限されます。この制限は[好み]で削除できます。',

@@ -1,21 +1,7 @@
+@use './mixins' as mixins;
+
 .block {
-  margin-top: 18px;
-
-  .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    .input {
-      border: 1px solid #e6e6e6;
-      border-width: 0 0 1px;
-
-      .unit {
-        font-size: 10px;
-        color: #bbbbbb;
-      }
-    }
-  }
+  @include mixins.modal-block;
 
   :global(.ant-slider), :global(.ant-slider:hover) {
     :global(.ant-slider-rail) {

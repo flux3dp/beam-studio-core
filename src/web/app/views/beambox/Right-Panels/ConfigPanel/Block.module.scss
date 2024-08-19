@@ -1,15 +1,7 @@
-@use "./block" as block;
+@use "./mixins" as mixins;
 
 .panel {
-  @include block.panel;
-
-  &.panel-item {
-    margin-top: 0;
-    width: 80vw;
-    .title {
-      font-weight: bold;
-    }
-  }
+  @include mixins.panel;
 }
 
 button.display-btn[class*='number-item'] {

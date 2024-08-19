@@ -718,6 +718,8 @@ const lang: ILang = {
         multi_layer: 'Useita tasoja',
         parameters: 'Parametrit',
         strength: 'Teho',
+        pwm_advanced_setting: 'Syvyystilan Tehoasetukset',
+        pwm_advanced_desc: 'Aseta vähimmäisteho syvyystilaan.\n(Jos olet Hexa-käyttäjä, aseta vähimmäistehoksi vähintään 20%.)',
         low_power_warning: 'Alhainen laserteho (alle 10 %) ei välttämättä emittoi lasersädettä.',
         speed: 'Nopeus',
         speed_contrain_warning: 'Vektoripolkuobjektien leikkausnopeus rajoitetaan 20 mm/s. Voit poistaa tämän rajoituksen asetuksista.',

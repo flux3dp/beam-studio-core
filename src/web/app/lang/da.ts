@@ -718,6 +718,8 @@ const lang: ILang = {
         multi_layer: 'Flere lag',
         parameters: 'Parametre',
         strength: 'Effekt',
+        pwm_advanced_setting: 'Dybdetilstands Strømindstillinger',
+        pwm_advanced_desc: 'Indstil en minimumseffekt for dybdetilstand.\n(Hvis du er Hexa-bruger, skal du indstille minimumseffekten til mindst 20%.)',
         low_power_warning: 'Lavere laserstyrke (under 10%) kan muligvis ikke udsende laserlys.',
         speed: 'Hastighed',
         speed_contrain_warning: 'Skærehastigheden for vektorstibaner vil være begrænset til 20 mm/s. Du kan fjerne denne begrænsning under Indstillinger.',

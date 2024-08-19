@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
-import { fireEvent, render } from '@testing-library/react';
+import { act, fireEvent, render } from '@testing-library/react';
 
 import ConfigPanelContext from './ConfigPanelContext';
 
@@ -14,6 +14,15 @@ jest.mock('helpers/useI18n', () => () => ({
     },
   },
 }));
+
+jest.mock('./AdvancedPowerPanel', () => ({ onClose }: any) => (
+  <div id="AdvancedPowerPanel">
+    MockAdvancedPowerPanel
+    <button type="button" onClick={onClose}>
+      AdvancedPowerPanelClose
+    </button>
+  </div>
+));
 
 jest.mock('./ConfigSlider', () => ({ id, max, min, value, onChange }: any) => (
   <input
@@ -73,13 +82,8 @@ jest.mock('helpers/layer/layer-config-helper', () => ({
 }));
 
 const mockAddCommandToHistory = jest.fn();
-jest.mock('helpers/svg-editor-helper', () => ({
-  getSVGAsync: (callback) =>
-    callback({
-      Canvas: {
-        addCommandToHistory: mockAddCommandToHistory,
-      },
-    }),
+jest.mock('app/svgedit/history/undoManager', () => ({
+  addCommandToHistory: (...args) => mockAddCommandToHistory(...args),
 }));
 
 let batchCmd = { onAfter: undefined, count: 0 };
@@ -98,16 +102,29 @@ const mockContextState = {
 const mockDispatch = jest.fn();
 const mockInitState = jest.fn();
 
+const mockCheckPwmImages = jest.fn();
+jest.mock('helpers/layer/check-pwm-images', () => (...args) => mockCheckPwmImages(...args));
+
+const mockEventsOn = jest.fn();
+const mockEventsOff = jest.fn();
+jest.mock('app/views/beambox/Right-Panels/contexts/ObjectPanelController', () => ({
+  events: {
+    on: mockEventsOn,
+    off: mockEventsOff,
+  },
+}));
+
 // eslint-disable-next-line import/first
 import PowerBlock from './PowerBlock';
 
 describe('test PowerBlock', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    mockCheckPwmImages.mockReturnValue(false);
   });
 
   it('should render correctly', () => {
-    const { container } = render(
+    const { container, unmount } = render(
       <ConfigPanelContext.Provider
         value={{
           state: mockContextState as any,
@@ -120,6 +137,11 @@ describe('test PowerBlock', () => {
       </ConfigPanelContext.Provider>
     );
     expect(container).toMatchSnapshot();
+    expect(mockEventsOn).toBeCalledTimes(1);
+    expect(mockEventsOn).lastCalledWith('pwm-changed', expect.any(Function));
+    unmount();
+    expect(mockEventsOff).toBeCalledTimes(1);
+    expect(mockEventsOff).lastCalledWith('pwm-changed', expect.any(Function));
   });
 
   it('should render correctly when type is panel-item', () => {
@@ -156,6 +178,26 @@ describe('test PowerBlock', () => {
       </ConfigPanelContext.Provider>
     );
     expect(container).toMatchSnapshot();
+  });
+
+  it('should render correctly when hasPwmImages is true', () => {
+    mockCheckPwmImages.mockReturnValue(true);
+    const { container, getByText } = render(
+      <ConfigPanelContext.Provider
+        value={{
+          state: mockContextState as any,
+          dispatch: mockDispatch,
+          selectedLayers: mockSelectedLayers,
+          initState: mockInitState,
+        }}
+      >
+        <PowerBlock />
+      </ConfigPanelContext.Provider>
+    );
+    const icon = container.querySelector('.icon');
+    expect(icon).not.toBeNull();
+    fireEvent.click(icon);
+    expect(getByText('MockAdvancedPowerPanel')).toBeInTheDocument();
   });
 
   test('onChange should work', () => {

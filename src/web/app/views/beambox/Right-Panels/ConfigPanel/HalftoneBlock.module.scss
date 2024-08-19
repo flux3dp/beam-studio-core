@@ -1,7 +1,7 @@
-@use "./block" as block;
+@use "./mixins" as mixins;
 
 .panel {
-  @include block.panel;
+  @include mixins.panel;
 
   .title {
     display: inline-flex;

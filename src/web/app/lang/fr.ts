@@ -718,6 +718,8 @@ const lang: ILang = {
         multi_layer: 'Couches multiples',
         parameters: 'Paramètres',
         strength: 'Puissance',
+        pwm_advanced_setting: 'Paramètres de Puissance du Mode Profondeur',
+        pwm_advanced_desc: 'Réglez une puissance minimale pour le mode profondeur.\n(Si vous êtes un utilisateur de Hexa, veuillez régler la puissance minimale à au moins 20%.)',
         low_power_warning: 'Une puissance laser inférieure (moins de 10 %) pourrait ne pas émettre la lumière laser.',
         speed: 'Vitesse',
         speed_contrain_warning: 'La vitesse de découpe des objets de trajet vectoriel sera limitée à 20 mm/s. Vous pouvez supprimer cette limite dans les paramètres de préférences.',

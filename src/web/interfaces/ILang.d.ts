@@ -718,6 +718,8 @@ export interface ILang {
         multi_layer: string,
         parameters: string,
         strength: string,
+        pwm_advanced_setting: string;
+        pwm_advanced_desc: string;
         low_power_warning: string;
         speed: string,
         speed_contrain_warning: string,

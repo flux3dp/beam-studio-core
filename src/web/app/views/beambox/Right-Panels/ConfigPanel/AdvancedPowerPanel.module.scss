@@ -1,0 +1,9 @@
+@use "./mixins" as mixins;
+
+.desc {
+  white-space: pre-line;
+}
+
+.block {
+  @include mixins.modal-block;
+}
