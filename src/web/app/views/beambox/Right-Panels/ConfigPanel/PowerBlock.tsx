@@ -101,7 +101,6 @@ function PowerBlock({
       )}
     </div>
   );
-  console.log(showModal, hasPwmImages)
 
   return (
     <>
