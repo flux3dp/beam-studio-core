@@ -64,7 +64,6 @@ describe('test SizeInput', () => {
     const { container } = render(<SizeInput type="w" value={0} onChange={mockOnChange} />);
     const input = container.querySelector('input');
     fireEvent.change(input, { target: { value: 1 } });
-    fireEvent.blur(input);
     expect(mockOnChange).toBeCalledTimes(1);
     expect(mockOnChange).toHaveBeenLastCalledWith('width', 1);
   });

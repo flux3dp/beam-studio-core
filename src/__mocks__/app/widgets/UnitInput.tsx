@@ -1,21 +1,6 @@
-import React from 'react'
+import React, { forwardRef } from 'react';
 
-const mockComponent = ({
-  id,
-  disabled,
-  className,
-  value,
-  max,
-  min,
-  addonAfter,
-  isInch,
-  precision,
-  underline,
-  unit,
-  fireOnChange,
-  onBlur,
-  onChange,
-}: {
+interface Props {
   id: string;
   disabled?: boolean;
   className?: string;
@@ -30,8 +15,28 @@ const mockComponent = ({
   fireOnChange?: boolean;
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   onChange?: (value: number) => void;
-}): JSX.Element =>
+}
+
+const mockComponent = forwardRef<HTMLInputElement, Props>(
   (
+    {
+      id,
+      disabled,
+      className,
+      value,
+      max,
+      min,
+      addonAfter,
+      isInch,
+      precision,
+      underline,
+      unit,
+      fireOnChange,
+      onBlur,
+      onChange,
+    }: Props,
+    outerRef
+  ): JSX.Element => (
     <div className={className}>
       UnitInput: {id}
       {addonAfter && <p>addonAfter: {addonAfter}</p>}
@@ -41,6 +46,7 @@ const mockComponent = ({
       {unit && <p>unit: {unit}</p>}
       {fireOnChange && <p>fireOnChange</p>}
       <input
+        ref={outerRef}
         id={id}
         disabled={disabled}
         max={max}
@@ -51,5 +57,6 @@ const mockComponent = ({
       />
     </div>
   )
+);
 
 export default mockComponent;
