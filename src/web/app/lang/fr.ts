@@ -3,7 +3,7 @@ import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
   general: {
-    processing: "Traitement...",
+    processing: 'Traitement...',
     choose_folder: 'Choisir un dossier',
   },
   buttons: {
@@ -198,7 +198,7 @@ const lang: ILang = {
       about: 'À propos de Beam Studio',
       switch_to_beta: 'Passer à la version bêta',
       switch_to_latest: 'Passer à la version stable',
-      reload_app: 'Recharger l\'application',
+      reload_app: "Recharger l'application",
       recent: 'Ouverte récente',
       update: 'Vérifier la mise à jour',
       dev_tool: 'Outil de débogage',
@@ -719,8 +719,8 @@ const lang: ILang = {
         parameters: 'Paramètres',
         strength: 'Puissance',
         pwm_advanced_setting: 'Paramètres de Puissance du Mode Profondeur',
-        pwm_advanced_desc: "Réglez une puissance minimale pour le mode profondeur.\nCe réglage s'applique spécifiquement aux images en dégradé lors de l'utilisation du mode profondeur.",
-        pwm_advanced_hint_hexa: 'Si vous êtes un utilisateur de Hexa, veuillez régler la puissance minimale à au moins 20%.',
+        pwm_advanced_desc: 'Réglez une puissance minimale pour le mode profondeur.',
+        pwm_advanced_hint: "Ce réglage s'applique spécifiquement aux images en dégradé lors de l'utilisation du mode profondeur.",
         low_power_warning: 'Une puissance laser inférieure (moins de 10 %) pourrait ne pas émettre la lumière laser.',
         speed: 'Vitesse',
         speed_contrain_warning: 'La vitesse de découpe des objets de trajet vectoriel sera limitée à 20 mm/s. Vous pouvez supprimer cette limite dans les paramètres de préférences.',

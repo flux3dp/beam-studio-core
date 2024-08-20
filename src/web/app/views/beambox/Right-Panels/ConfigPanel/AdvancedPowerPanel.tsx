@@ -64,7 +64,7 @@ const AdvancedPowerPanel = ({ onClose }: Props): JSX.Element => {
       <ConfigProvider theme={ConfigModalBlock}>
         <div className={styles.desc}>
           {t.pwm_advanced_desc}
-          <div className={styles.gray}>{t.pwm_advanced_hint_hexa}</div>
+          <div className={styles.gray}>{t.pwm_advanced_hint}</div>
         </div>
         <div className={styles.block}>
           <div className={styles.header}>

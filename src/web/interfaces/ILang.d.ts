@@ -720,7 +720,7 @@ export interface ILang {
         strength: string,
         pwm_advanced_setting: string;
         pwm_advanced_desc: string;
-        pwm_advanced_hint_hexa: string;
+        pwm_advanced_hint: string;
         low_power_warning: string;
         speed: string,
         speed_contrain_warning: string,
