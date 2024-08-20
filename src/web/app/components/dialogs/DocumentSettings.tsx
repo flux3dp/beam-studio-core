@@ -48,6 +48,7 @@ interface Props {
 
 const DocumentSettings = ({ unmount }: Props): JSX.Element => {
   const lang = useI18n();
+  const isDevMode = useMemo(() => isDev(), []);
   const tDocu = lang.beambox.document_panel;
   const [engraveDpi, setEngraveDpi] = useState(BeamboxPreference.read('engrave_dpi'));
   // state for engrave dpi v2
@@ -212,43 +213,47 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
             </Select>
           </div>
         </div>
-        <div className={styles.separator}>
-          <div>{tDocu.start_position}</div>
-          <div className={styles.bar} />
-        </div>
-        <div className={styles.block}>
-          <div className={styles.row}>
-            <label className={styles.title} htmlFor="startFrom">
-              {tDocu.start_from}:
-            </label>
-            <Select
-              id="startFrom"
-              value={startPosition}
-              className={styles.control}
-              bordered
-              onChange={setStartPosition}
-            >
-              <Select.Option value={0}>{tDocu.origin}</Select.Option>
-              <Select.Option value={1}>{tDocu.current_position}</Select.Option>
-            </Select>
-          </div>
-          {startPosition === 1 && (
-            <div className={styles.row}>
-              <label className={styles.title}>{tDocu.job_origin}:</label>
-              <div className={classNames(styles.control, styles.radioGroup)}>
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((val) => (
-                  <input
-                    key={val}
-                    name="jobOrigin"
-                    type="radio"
-                    checked={jobOrigin === val}
-                    onClick={() => setJobOrigin(val)}
-                  />
-                ))}
-              </div>
+        {isDevMode &&
+          <>
+            <div className={styles.separator}>
+              <div>{tDocu.start_position}</div>
+              <div className={styles.bar} />
             </div>
-          )}
-        </div>
+            <div className={styles.block}>
+              <div className={styles.row}>
+                <label className={styles.title} htmlFor="startFrom">
+                  {tDocu.start_from}:
+                </label>
+                <Select
+                  id="startFrom"
+                  value={startPosition}
+                  className={styles.control}
+                  bordered
+                  onChange={setStartPosition}
+                >
+                  <Select.Option value={0}>{tDocu.origin}</Select.Option>
+                  <Select.Option value={1}>{tDocu.current_position}</Select.Option>
+                </Select>
+              </div>
+              {startPosition === 1 && (
+                <div className={styles.row}>
+                  <label className={styles.title}>{tDocu.job_origin}:</label>
+                  <div className={classNames(styles.control, styles.radioGroup)}>
+                    {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((val) => (
+                      <input
+                        key={val}
+                        name="jobOrigin"
+                        type="radio"
+                        checked={jobOrigin === val}
+                        onChange={() => setJobOrigin(val)}
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </>
+        }
         <div className={styles.separator}>
           <div>{tDocu.add_on}</div>
           <div className={styles.bar} />
