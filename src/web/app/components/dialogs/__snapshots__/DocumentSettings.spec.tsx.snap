@@ -102,7 +102,6 @@ exports[`test DocumentSettings should render correctly 1`] = `
                             aria-controls="workareaSelect_list"
                             aria-expanded="false"
                             aria-haspopup="listbox"
-                            aria-label="Search"
                             aria-owns="workareaSelect_list"
                             autocomplete="off"
                             class="ant-select-selection-search-input"
@@ -174,7 +173,6 @@ exports[`test DocumentSettings should render correctly 1`] = `
                             aria-controls="dpi_list"
                             aria-expanded="false"
                             aria-haspopup="listbox"
-                            aria-label="Search"
                             aria-owns="dpi_list"
                             autocomplete="off"
                             class="ant-select-selection-search-input"
@@ -452,7 +450,6 @@ exports[`test DocumentSettings should render correctly 2`] = `
                             aria-controls="workareaSelect_list"
                             aria-expanded="false"
                             aria-haspopup="listbox"
-                            aria-label="Search"
                             aria-owns="workareaSelect_list"
                             autocomplete="off"
                             class="ant-select-selection-search-input"
@@ -524,7 +521,6 @@ exports[`test DocumentSettings should render correctly 2`] = `
                             aria-controls="dpi_list"
                             aria-expanded="false"
                             aria-haspopup="listbox"
-                            aria-label="Search"
                             aria-owns="dpi_list"
                             autocomplete="off"
                             class="ant-select-selection-search-input"
@@ -700,7 +696,7 @@ exports[`test DocumentSettings should render correctly 2`] = `
   <div>
     <div
       class="ant-select-dropdown ant-select-dropdown-hidden css-dev-only-do-not-override-hash ant-select-dropdown-placement-bottomLeft"
-      style="left: 0px; top: 0px; box-sizing: border-box; pointer-events: none;"
+      style="--arrow-x: 0px; --arrow-y: 0px; left: 0px; top: 0px; box-sizing: border-box; pointer-events: none;"
     >
       <div>
         <div
@@ -924,7 +920,6 @@ exports[`test DocumentSettings should render correctly 3`] = `
                             aria-controls="workareaSelect_list"
                             aria-expanded="false"
                             aria-haspopup="listbox"
-                            aria-label="Search"
                             aria-owns="workareaSelect_list"
                             autocomplete="off"
                             class="ant-select-selection-search-input"
@@ -996,7 +991,6 @@ exports[`test DocumentSettings should render correctly 3`] = `
                             aria-controls="dpi_list"
                             aria-expanded="false"
                             aria-haspopup="listbox"
-                            aria-label="Search"
                             aria-owns="dpi_list"
                             autocomplete="off"
                             class="ant-select-selection-search-input"
@@ -1324,7 +1318,7 @@ exports[`test DocumentSettings should render correctly 3`] = `
   <div>
     <div
       class="ant-select-dropdown ant-select-dropdown-hidden css-dev-only-do-not-override-hash ant-select-dropdown-placement-bottomLeft"
-      style="left: 0px; top: 0px; box-sizing: border-box; pointer-events: none;"
+      style="--arrow-x: 0px; --arrow-y: 0px; left: 0px; top: 0px; box-sizing: border-box; pointer-events: none;"
     >
       <div>
         <div
@@ -1446,7 +1440,7 @@ exports[`test DocumentSettings should render correctly 3`] = `
   <div>
     <div
       class="ant-select-dropdown ant-select-dropdown-hidden css-dev-only-do-not-override-hash ant-select-dropdown-placement-bottomLeft"
-      style="left: 0px; top: 0px; box-sizing: border-box; pointer-events: none;"
+      style="--arrow-x: 0px; --arrow-y: 0px; left: 0px; top: 0px; box-sizing: border-box; pointer-events: none;"
     >
       <div>
         <div
@@ -1681,7 +1675,6 @@ exports[`test DocumentSettings should render correctly for ador 1`] = `
                             aria-controls="workareaSelect_list"
                             aria-expanded="false"
                             aria-haspopup="listbox"
-                            aria-label="Search"
                             aria-owns="workareaSelect_list"
                             autocomplete="off"
                             class="ant-select-selection-search-input"
@@ -1753,7 +1746,6 @@ exports[`test DocumentSettings should render correctly for ador 1`] = `
                             aria-controls="dpi_list"
                             aria-expanded="false"
                             aria-haspopup="listbox"
-                            aria-label="Search"
                             aria-owns="dpi_list"
                             autocomplete="off"
                             class="ant-select-selection-search-input"
@@ -1929,7 +1921,7 @@ exports[`test DocumentSettings should render correctly for ador 1`] = `
   <div>
     <div
       class="ant-select-dropdown ant-select-dropdown-hidden css-dev-only-do-not-override-hash ant-select-dropdown-placement-bottomLeft"
-      style="left: 0px; top: 0px; box-sizing: border-box; pointer-events: none;"
+      style="--arrow-x: 0px; --arrow-y: 0px; left: 0px; top: 0px; box-sizing: border-box; pointer-events: none;"
     >
       <div>
         <div
@@ -2164,7 +2156,6 @@ exports[`test DocumentSettings should render correctly for ador 2`] = `
                             aria-controls="workareaSelect_list"
                             aria-expanded="false"
                             aria-haspopup="listbox"
-                            aria-label="Search"
                             aria-owns="workareaSelect_list"
                             autocomplete="off"
                             class="ant-select-selection-search-input"
@@ -2236,7 +2227,6 @@ exports[`test DocumentSettings should render correctly for ador 2`] = `
                             aria-controls="dpi_list"
                             aria-expanded="false"
                             aria-haspopup="listbox"
-                            aria-label="Search"
                             aria-owns="dpi_list"
                             autocomplete="off"
                             class="ant-select-selection-search-input"
@@ -2452,7 +2442,7 @@ exports[`test DocumentSettings should render correctly for ador 2`] = `
   <div>
     <div
       class="ant-select-dropdown ant-select-dropdown-hidden css-dev-only-do-not-override-hash ant-select-dropdown-placement-bottomLeft"
-      style="left: 0px; top: 0px; box-sizing: border-box; pointer-events: none;"
+      style="--arrow-x: 0px; --arrow-y: 0px; left: 0px; top: 0px; box-sizing: border-box; pointer-events: none;"
     >
       <div>
         <div

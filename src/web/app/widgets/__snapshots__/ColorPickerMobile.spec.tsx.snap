@@ -11,7 +11,7 @@ exports[`test ColorPickerMobile should render correctly 1`] = `
     />
     <div
       class="ant-popover ant-zoom-big-appear ant-zoom-big-appear-prepare ant-zoom-big ant-color-picker css-dev-only-do-not-override-hash mobile-container css-dev-only-do-not-override-hash ant-popover-placement-bottomLeft"
-      style="left: -1000vw; top: -1000vh; box-sizing: border-box;"
+      style="--arrow-x: 0px; --arrow-y: 0px; left: -1000vw; top: -1000vh; box-sizing: border-box;"
     >
       <div
         class="ant-popover-content"
@@ -109,7 +109,6 @@ exports[`test ColorPickerMobile should render correctly 1`] = `
                             aria-controls="rc_select_TEST_OR_SSR_list"
                             aria-expanded="false"
                             aria-haspopup="listbox"
-                            aria-label="Search"
                             aria-owns="rc_select_TEST_OR_SSR_list"
                             autocomplete="off"
                             class="ant-select-selection-search-input"
@@ -232,7 +231,7 @@ exports[`test ColorPickerMobile should render correctly 1`] = `
   <div>
     <div
       class="ant-popover ant-zoom-big-appear ant-zoom-big-appear-prepare ant-zoom-big css-dev-only-do-not-override-hash mask-container css-dev-only-do-not-override-hash ant-popover-placement-top"
-      style="left: -1000vw; top: -1000vh; box-sizing: border-box;"
+      style="--arrow-x: 0px; --arrow-y: 0px; left: -1000vw; top: -1000vh; box-sizing: border-box;"
     >
       <div
         class="ant-popover-content"
