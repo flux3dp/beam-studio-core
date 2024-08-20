@@ -19,13 +19,17 @@ export const getDefaultState = (): State => {
 
 export type Action = {
   type: 'update';
-  payload: State;
+  payload: {
+    selectedItem?: string;
+  } & {
+    [key in keyof ILayerConfig]?: ILayerConfig[key];
+  };
 } | {
   type: 'change';
   payload: {
     selectedItem?: string;
   } & {
-    [key in keyof ILayerConfig]?: number | string;
+    [key in keyof ILayerConfig]?: ILayerConfig[key]['value'];
   };
 } | {
   type: 'rename';

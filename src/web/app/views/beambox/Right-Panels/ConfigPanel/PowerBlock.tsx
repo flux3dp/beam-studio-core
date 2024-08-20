@@ -10,7 +10,14 @@ import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/Objec
 import objectPanelItemStyles from 'app/views/beambox/Right-Panels/ObjectPanelItem.module.scss';
 import undoManager from 'app/svgedit/history/undoManager';
 import useI18n from 'helpers/useI18n';
-import { CUSTOM_PRESET_CONSTANT, DataType, writeData } from 'helpers/layer/layer-config-helper';
+import {
+  CUSTOM_PRESET_CONSTANT,
+  DataType,
+  getData,
+  getMultiSelectData,
+  writeDataLayer,
+} from 'helpers/layer/layer-config-helper';
+import { getLayerByName } from 'helpers/layer/layer-helper';
 import { ObjectPanelContext } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
 
 import AdvancedPowerPanel from './AdvancedPowerPanel';
@@ -47,7 +54,7 @@ function PowerBlock({
     setHasPwmImages(checkPwmImages(selectedLayers));
   }, [selectedLayers]);
 
-  const { power } = state;
+  const { power, selectedItem } = state;
   const handleChange = (value: number) => {
     dispatch({
       type: 'change',
@@ -55,10 +62,22 @@ function PowerBlock({
     });
     if (type !== 'modal') {
       const batchCmd = new history.BatchCommand('Change power');
-      selectedLayers.forEach((layerName) => {
-        writeData(layerName, DataType.strength, value, { batchCmd });
-        writeData(layerName, DataType.configName, CUSTOM_PRESET_CONSTANT, { batchCmd });
+      const layers = selectedLayers.map((layerName) => getLayerByName(layerName));
+      let minPowerChanged = false;
+      layers.forEach((layer) => {
+        writeDataLayer(layer, DataType.strength, value, { batchCmd });
+        writeDataLayer(layer, DataType.configName, CUSTOM_PRESET_CONSTANT, { batchCmd });
+        const minPower = getData<number>(layer, DataType.minPower);
+        if (value <= minPower) {
+          writeDataLayer(layer, DataType.minPower, 0, { batchCmd });
+          minPowerChanged = true;
+        }
       });
+      if (minPowerChanged) {
+        const selectedIdx = selectedLayers.findIndex((layerName) => layerName === selectedItem);
+        const config = getMultiSelectData(layers, selectedIdx, DataType.minPower);
+        dispatch({ type: 'update', payload: { minPower: config } });
+      }
       batchCmd.onAfter = initState;
       undoManager.addCommandToHistory(batchCmd);
     }

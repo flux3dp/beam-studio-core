@@ -37,6 +37,7 @@ const AdvancedPowerPanel = ({ onClose }: Props): JSX.Element => {
         state.minPower.hasMultiValue !== draftValue.minPower.hasMultiValue
       ) {
         writeDataLayer(layer, DataType.minPower, draftValue.minPower.value, { batchCmd });
+        newState.minPower = draftValue.minPower;
       }
     });
     batchCmd.onAfter = initState;

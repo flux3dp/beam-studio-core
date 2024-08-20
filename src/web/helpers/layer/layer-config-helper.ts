@@ -194,7 +194,7 @@ export const writeData = (
   writeDataLayer(layer, dataType, value, opts);
 };
 
-const getMultiSelectData = <T = number>(
+export const getMultiSelectData = <T = number>(
   layers: Element[],
   currentLayerIdx: number,
   dataType: DataType
