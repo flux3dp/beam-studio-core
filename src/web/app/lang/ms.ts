@@ -718,6 +718,8 @@ const lang: ILang = {
         multi_layer: 'Lapisan Pelbagai',
         parameters: 'Parameter',
         strength: 'Kuasa',
+        pwm_advanced_setting: 'Tetapan Kuasa Mod Kedalaman',
+        pwm_advanced_desc: 'Tetapkan kuasa minimum untuk mod kedalaman.\n(Jika anda pengguna Hexa, sila tetapkan kuasa minimum kepada sekurang-kurangnya 20%.)',
         low_power_warning: 'Kuasa laser yang rendah (bawah 10%) mungkin tidak memancarkan cahaya laser.',
         speed: 'Kelajuan',
         speed_contrain_warning: 'Kelajuan pemotongan objek laluan vektor akan dihadkan kepada 20 mm/s. Anda boleh mengalih had ini di Tetapan Keutamaan.',

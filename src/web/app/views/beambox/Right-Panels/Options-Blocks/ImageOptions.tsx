@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { Fragment } from 'react';
+import React, { Fragment, useCallback, useMemo, useRef } from 'react';
 import { ConfigProvider, InputNumber, Slider, Switch } from 'antd';
 import { Popover } from 'antd-mobile';
 import { QuestionCircleOutlined } from '@ant-design/icons';
@@ -33,154 +33,153 @@ interface Props {
   updateObjectPanel: () => void;
 }
 
-class ImageOptions extends React.Component<Props> {
-  private thresholdCache: string[] = new Array(256).fill(null);
+const ImageOptions = ({ elem, updateObjectPanel }: Props): JSX.Element => {
+  const thresholdCache = useRef(new Array(256).fill(null));
+  const curCallID = useRef(0);
+  const nextCallID = useRef(1);
 
-  private currentCallId = 0;
-
-  private nextCallId = 1;
-
-  changeAttribute = (changes: { [key: string]: string | number | boolean }): void => {
-    const { elem } = this.props as Props;
-    const batchCommand: IBatchCommand = new history.BatchCommand('Image Option Panel');
-    const setAttribute = (key: string, value: string | number | boolean) => {
-      svgCanvas.undoMgr.beginUndoableChange(key, [elem]);
-      elem.setAttribute(key, value as string);
-      const cmd = svgCanvas.undoMgr.finishUndoableChange();
-      if (!cmd.isEmpty()) {
-        batchCommand.addSubCommand(cmd);
+  const changeAttribute = useCallback(
+    (changes: { [key: string]: string | number | boolean }): void => {
+      const batchCommand: IBatchCommand = new history.BatchCommand('Image Option Panel');
+      const setAttribute = (key: string, value: string | number | boolean) => {
+        svgCanvas.undoMgr.beginUndoableChange(key, [elem]);
+        elem.setAttribute(key, value as string);
+        const cmd = svgCanvas.undoMgr.finishUndoableChange();
+        if (!cmd.isEmpty()) {
+          batchCommand.addSubCommand(cmd);
+        }
+      };
+      const keys = Object.keys(changes);
+      for (let i = 0; i < keys.length; i += 1) {
+        const key = keys[i];
+        setAttribute(key, changes[key]);
       }
-    };
-    const keys = Object.keys(changes);
-    for (let i = 0; i < keys.length; i += 1) {
-      const key = keys[i];
-      setAttribute(key, changes[key]);
-    }
-    if (!batchCommand.isEmpty()) {
-      svgCanvas.undoMgr.addCommandToHistory(batchCommand);
-    }
-  };
+      if (changes['data-pwm']) {
+        ObjectPanelController.events.emit('pwm-changed');
+        batchCommand.onAfter = () => {
+          ObjectPanelController.events.emit('pwm-changed');
+        };
+      }
+      if (!batchCommand.isEmpty()) {
+        svgCanvas.undoMgr.addCommandToHistory(batchCommand);
+      }
+    },
+    [elem]
+  );
 
-  generateImageData = (isShading: boolean, threshold: number): Promise<IImageDataResult> => {
-    const { elem } = this.props as Props;
-    return new Promise<IImageDataResult>((resolve) => {
-      ImageData(elem.getAttribute('origImage'), {
-        width: parseFloat(elem.getAttribute('width')),
-        height: parseFloat(elem.getAttribute('height')),
-        grayscale: {
-          is_rgba: true,
-          is_shading: isShading,
-          threshold,
-          is_svg: false,
-        },
-        onComplete: (result: IImageDataResult) => {
-          resolve(result);
-        },
-      });
-    });
-  };
+  const generateImageData = useCallback(
+    (isShading: boolean, threshold: number): Promise<IImageDataResult> =>
+      new Promise<IImageDataResult>((resolve) => {
+        ImageData(elem.getAttribute('origImage'), {
+          width: parseFloat(elem.getAttribute('width')),
+          height: parseFloat(elem.getAttribute('height')),
+          grayscale: {
+            is_rgba: true,
+            is_shading: isShading,
+            threshold,
+            is_svg: false,
+          },
+          onComplete: (result: IImageDataResult) => {
+            resolve(result);
+          },
+        });
+      }),
+    [elem]
+  );
 
-  handleGradientClick = async (): Promise<void> => {
-    const { elem, updateObjectPanel } = this.props;
+  const handleGradientClick = useCallback(async () => {
     let isShading = elem.getAttribute('data-shading') === 'true';
     isShading = !isShading;
     const threshold = isShading ? 254 : 128;
-    const imageData = await this.generateImageData(isShading, threshold);
+    const imageData = await generateImageData(isShading, threshold);
     const { pngBase64 } = imageData;
-    this.changeAttribute({
+    changeAttribute({
       'data-shading': isShading,
       'data-threshold': isShading ? 254 : 128,
       'xlink:href': pngBase64,
     });
-    this.forceUpdate();
     updateObjectPanel();
-  };
+  }, [elem, changeAttribute, generateImageData, updateObjectPanel]);
 
-  handlePwmClick = async (): Promise<void> => {
-    const { elem } = this.props;
+  const handlePwmClick = useCallback(() => {
     const cur = elem.getAttribute('data-pwm') === '1';
-    this.changeAttribute({
+    changeAttribute({
       'data-pwm': cur ? '0' : '1',
     });
-    this.forceUpdate();
-  };
+    updateObjectPanel();
+  }, [elem, changeAttribute, updateObjectPanel]);
 
-  handleThresholdChange = async (val: number): Promise<void> => {
-    const callId = this.nextCallId;
-    this.nextCallId += 1;
-    let result = this.thresholdCache[val];
-    if (!result) {
-      const { elem } = this.props;
-      const isShading = elem.getAttribute('data-shading') === 'true';
-      const imageData = await this.generateImageData(isShading, val);
-      result = imageData.pngBase64;
-      this.thresholdCache[val] = result;
-    }
-    if (callId >= this.currentCallId) {
-      this.currentCallId = callId;
-      this.changeAttribute({
-        'data-threshold': val,
-        'xlink:href': result,
-      });
-      this.forceUpdate();
-    }
-  };
+  const handleThresholdChange = useCallback(
+    async (val: number) => {
+      const callID = nextCallID.current;
+      nextCallID.current += 1;
+      let result = thresholdCache.current[val];
+      if (!result) {
+        const isShading = elem.getAttribute('data-shading') === 'true';
+        const imageData = await generateImageData(isShading, val);
+        result = imageData.pngBase64;
+        thresholdCache.current[val] = result;
+      }
+      if (callID >= curCallID.current) {
+        curCallID.current = callID;
+        changeAttribute({
+          'data-threshold': val,
+          'xlink:href': result,
+        });
+        updateObjectPanel();
+      }
+    },
+    [elem, changeAttribute, generateImageData, updateObjectPanel]
+  );
 
-  renderGradientBlock(): JSX.Element {
-    const { elem } = this.props;
-    const isGradient = elem.getAttribute('data-shading') === 'true';
-    const isPwm = elem.getAttribute('data-pwm') === '1';
-    return isMobile() ? (
-      <>
+  const isGradient = elem.getAttribute('data-shading') === 'true';
+  const isPwm = elem.getAttribute('data-pwm') === '1';
+  const activeKey = ObjectPanelController.getActiveKey();
+  const thresholdVisible = useMemo(() => activeKey === 'threshold', [activeKey]);
+  const gradientBlock = isMobile() ? (
+    <>
+      <ObjectPanelItem.Item
+        id="gradient"
+        content={<Switch checked={isGradient} />}
+        label={LANG.shading}
+        onClick={handleGradientClick}
+      />
+      {isGradient && (
         <ObjectPanelItem.Item
-          id="gradient"
-          content={<Switch checked={isGradient} />}
-          label={LANG.shading}
-          onClick={this.handleGradientClick}
+          id="pwm"
+          content={<Switch checked={isPwm} />}
+          label={LANG.pwm_engraving}
+          onClick={handlePwmClick}
         />
-        {isGradient && (
-          <ObjectPanelItem.Item
-            id="pwm"
-            content={<Switch checked={isPwm} />}
-            label={LANG.pwm_engraving}
-            onClick={this.handlePwmClick}
-          />
-        )}
-      </>
-    ) : (
-      <>
-        <div className={styles['option-block']} key="gradient">
-          <div className={styles.label}>{LANG.shading}</div>
-          <Switch size="small" checked={isGradient} onChange={this.handleGradientClick} />
-        </div>
-        {isGradient && isDev() && (
-          <div className={styles['option-block']} key="pwm">
-            <div className={styles.label}>
-              {LANG.pwm_engraving}
-              <QuestionCircleOutlined
-                className={styles.icon}
-                onClick={() => browser.open(LANG.pwm_engraving_link)}
-              />
-            </div>
-            <Switch size="small" checked={isPwm} onChange={this.handlePwmClick} />
+      )}
+    </>
+  ) : (
+    <>
+      <div className={styles['option-block']} key="gradient">
+        <div className={styles.label}>{LANG.shading}</div>
+        <Switch size="small" checked={isGradient} onChange={handleGradientClick} />
+      </div>
+      {isGradient && isDev() && (
+        <div className={styles['option-block']} key="pwm">
+          <div className={styles.label}>
+            {LANG.pwm_engraving}
+            <QuestionCircleOutlined
+              className={styles.icon}
+              onClick={() => browser.open(LANG.pwm_engraving_link)}
+            />
           </div>
-        )}
-      </>
-    );
-  }
+          <Switch size="small" checked={isPwm} onChange={handlePwmClick} />
+        </div>
+      )}
+    </>
+  );
 
-  renderThresholdBlock(): JSX.Element {
-    const { elem } = this.props;
-    const isGradient = elem.getAttribute('data-shading') === 'true';
-    const activeKey = ObjectPanelController.getActiveKey();
-    const visible = activeKey === 'threshold';
-    if (isGradient) {
-      return null;
-    }
+  let thresholdBlock = null;
+  if (!isGradient) {
     const threshold = parseInt(elem.getAttribute('data-threshold'), 10) || 128;
-    return isMobile() ? (
+    thresholdBlock = isMobile() ? (
       <Popover
-        visible={visible}
+        visible={thresholdVisible}
         content={
           <div className={styles.field}>
             <span className={styles.label}>{LANG.threshold_short}</span>
@@ -192,7 +191,7 @@ class ImageOptions extends React.Component<Props> {
                 max={255}
                 value={threshold}
                 precision={0}
-                onChange={this.handleThresholdChange}
+                onChange={handleThresholdChange}
                 controls={false}
               />
             </ConfigProvider>
@@ -203,7 +202,7 @@ class ImageOptions extends React.Component<Props> {
               step={1}
               marks={{ 128: '128' }}
               value={threshold}
-              onChange={this.handleThresholdChange}
+              onChange={handleThresholdChange}
             />
           </div>
         }
@@ -226,35 +225,27 @@ class ImageOptions extends React.Component<Props> {
             unit=""
             className={{ [styles['option-input']]: true }}
             defaultValue={threshold}
-            getValue={this.handleThresholdChange}
+            getValue={handleThresholdChange}
           />
         </div>
         <ConfigProvider theme={sliderTheme}>
-          <Slider
-            min={1}
-            max={255}
-            step={1}
-            value={threshold}
-            onChange={this.handleThresholdChange}
-          />
+          <Slider min={1} max={255} step={1} value={threshold} onChange={handleThresholdChange} />
         </ConfigProvider>
       </Fragment>
     );
   }
 
-  render(): JSX.Element {
-    return isMobile() ? (
-      <>
-        {this.renderGradientBlock()}
-        {this.renderThresholdBlock()}
-      </>
-    ) : (
-      <div className={styles.options}>
-        {this.renderGradientBlock()}
-        {this.renderThresholdBlock()}
-      </div>
-    );
-  }
-}
+  return isMobile() ? (
+    <>
+      {gradientBlock}
+      {thresholdBlock}
+    </>
+  ) : (
+    <div className={styles.options}>
+      {gradientBlock}
+      {thresholdBlock}
+    </div>
+  );
+};
 
 export default ImageOptions;

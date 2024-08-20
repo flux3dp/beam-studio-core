@@ -28,6 +28,7 @@ export enum DataType {
   speed = 'speed',
   printingSpeed = 'printingSpeed',
   strength = 'strength',
+  minPower = 'minPower',
   ink = 'ink',
   repeat = 'repeat',
   height = 'height',
@@ -64,6 +65,7 @@ export const dataKey = {
   [DataType.speed]: 'speed',
   [DataType.printingSpeed]: 'printingSpeed',
   [DataType.strength]: 'power',
+  [DataType.minPower]: 'minPower',
   [DataType.ink]: 'ink',
   [DataType.repeat]: 'repeat',
   [DataType.height]: 'height',
@@ -100,6 +102,7 @@ export const defaultConfig = {
   [DataType.speed]: 20,
   [DataType.printingSpeed]: 60,
   [DataType.strength]: 15,
+  [DataType.minPower]: 0,
   [DataType.ink]: BeamboxPreference.read('multipass-compensation') !== false ? 3 : 1,
   [DataType.repeat]: 1,
   [DataType.height]: -3,
@@ -191,7 +194,7 @@ export const writeData = (
   writeDataLayer(layer, dataType, value, opts);
 };
 
-const getMultiSelectData = <T = number>(
+export const getMultiSelectData = <T = number>(
   layers: Element[],
   currentLayerIdx: number,
   dataType: DataType

@@ -721,6 +721,8 @@ const lang: ILang = {
         multi_layer: '多个图层',
         parameters: '選擇參數',
         strength: '功率',
+        pwm_advanced_setting: '深度模式功率设置',
+        pwm_advanced_desc: '设置深度模式的最小功率。\n(如果您是Hexa用户，请将最小功率设置为至少20%。)',
         low_power_warning: '功率较低时（低于 10 %），有可能不出光。',
         speed: '速度',
         speed_contrain_warning: '矢量路径速度将被限制在 20mm/s (0.79in/s)，您可以在偏好设定解除此限制。',

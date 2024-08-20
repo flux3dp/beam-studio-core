@@ -721,6 +721,8 @@ const lang: ILang = {
         multi_layer: 'Wiele warstw',
         parameters: 'Parametry',
         strength: 'Moc',
+        pwm_advanced_setting: 'Ustawienia Mocy w Trybie Głębi',
+        pwm_advanced_desc: 'Ustaw minimalną moc dla trybu głębokości.\n(Jeśli jesteś użytkownikiem Hexa, ustaw minimalną moc na co najmniej 20%.)',
         low_power_warning: 'Niższa moc lasera (poniżej 10%) może nie emitować światła lasera.',
         speed: 'Prędkość',
         speed_contrain_warning: 'Szybkość cięcia obiektów wektorowych zostanie ograniczona do 20 mm/s. Możesz usunąć to ograniczenie w Ustawieniach preferencji.',

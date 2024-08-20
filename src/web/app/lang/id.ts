@@ -718,6 +718,8 @@ const lang: ILang = {
         multi_layer: 'Beberapa Lapisan',
         parameters: 'Parameter',
         strength: 'Daya',
+        pwm_advanced_setting: 'Pengaturan Daya Mode Kedalaman',
+        pwm_advanced_desc: 'Tetapkan daya minimum untuk mode kedalaman.\n(Jika Anda pengguna Hexa, harap atur daya minimum setidaknya 20%.)',
         low_power_warning: 'Daya laser yang lebih rendah (di bawah 10%) mungkin tidak memancarkan cahaya laser.',
         speed: 'Kecepatan',
         speed_contrain_warning: 'Kecepatan pemotongan path vector akan dibatasi hingga 20 mm/detik (0,79 in/detik). Anda dapat menghapus batasan ini di Pengaturan Preferensi.',

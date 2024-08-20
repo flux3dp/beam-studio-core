@@ -721,6 +721,8 @@ const lang: ILang = {
         multi_layer: '다중 레이어',
         parameters: '파라미터',
         strength: '파워',
+        pwm_advanced_setting: '깊이 모드 전력 설정',
+        pwm_advanced_desc: '깊이 모드를 위한 최소 전력을 설정하세요.\n(Hexa 사용자라면 최소 전력을 20% 이상으로 설정하세요.)',
         low_power_warning: '10% 이하의 레이저 파워는 레이저 빛을 내지 못할 수 있습니다.',
         speed: '스피드',
         speed_contrain_warning: '벡터 경로 객체의 절단 속도는 20 mm/s (0.79in/s) 로 제한됩니다. 환경설정에서 이 제한을 삭제할 수 있습니다.',

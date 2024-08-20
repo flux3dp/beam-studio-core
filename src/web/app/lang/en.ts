@@ -721,6 +721,8 @@ const lang: ILang = {
         multi_layer: 'Multiple Layers',
         parameters: 'Parameters',
         strength: 'Power',
+        pwm_advanced_setting: 'Depth Mode Power Settings',
+        pwm_advanced_desc: 'Set a minimum power for depth mode.\n(If you are Hexa user, please set the minimum power to at least 20%.)',
         low_power_warning: 'Lower laser power (under 10%) might not emit the laser light.',
         speed: 'Speed',
         speed_contrain_warning: 'The cutting speed of vector path objects will be constrained to 20 mm/s (0.79in/s).You can remove this limit at Preferences Settings.',

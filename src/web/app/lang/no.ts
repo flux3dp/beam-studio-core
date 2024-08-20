@@ -718,6 +718,8 @@ const lang: ILang = {
         multi_layer: 'Flere lag',
         parameters: 'Parametere',
         strength: 'Styrke',
+        pwm_advanced_setting: 'Strøminnstillinger for Dybdemodus',
+        pwm_advanced_desc: 'Sett en minimumseffekt for dybdemodus.\n(Hvis du er Hexa-bruker, vennligst sett minimumseffekten til minst 20%.)',
         low_power_warning: 'Lavere laserkraft (under 10%) kan hende ikke sender ut laserlys.',
         speed: 'Hastighet',
         speed_contrain_warning: 'Kuttehastigheten for vektorbaner vil være begrenset til 20 mm/s. Du kan fjerne denne grensen under Innstillinger.',

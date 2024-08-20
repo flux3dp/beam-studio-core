@@ -77,6 +77,7 @@
       "data-speed",
       "data-lock",
       "data-strength",
+      "data-minPower",
       'data-ink',
       "data-repeat",
       "data-diode",

@@ -718,6 +718,8 @@ const lang: ILang = {
         multi_layer: 'Flera lager',
         parameters: 'Parametrar',
         strength: 'Effekt',
+        pwm_advanced_setting: 'Djupinställningar för Strömläge',
+        pwm_advanced_desc: 'Ställ in en minimieffekt för djupinställningar.\n(Om du är Hexa-användare, ställ in minimieffekten till minst 20%.)',
         low_power_warning: 'Lägre laserstyrka (under 10%) kanske inte avger laserljuset.',
         speed: 'Hastighet',
         speed_contrain_warning: 'Skärhastigheten för vektorbanor kommer att begränsas till 20 mm/s. Du kan ta bort denna gräns i inställningarna.',
