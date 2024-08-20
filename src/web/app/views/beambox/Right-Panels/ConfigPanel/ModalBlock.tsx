@@ -21,7 +21,7 @@ const ModalBlock = ({
   setValue,
   color,
   max = 200,
-  min = 100,
+  min = 0,
 }: Props): JSX.Element => {
   const [display, setDisplay] = useState(value);
   useEffect(() => setDisplay(value), [value]);

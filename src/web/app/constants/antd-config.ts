@@ -102,6 +102,10 @@ export const ConfigModalBlock: ThemeConfig = {
     },
     Slider: {
       railSize: 6,
+      handleLineWidth: 2,
+      handleLineWidthHover: 2,
+      handleSize: 10,
+      handleSizeHover: 10,
     },
   },
 };

@@ -62,7 +62,10 @@ const AdvancedPowerPanel = ({ onClose }: Props): JSX.Element => {
       title={t.pwm_advanced_setting}
     >
       <ConfigProvider theme={ConfigModalBlock}>
-        <div className={styles.desc}>{t.pwm_advanced_desc}</div>
+        <div className={styles.desc}>
+          {t.pwm_advanced_desc}
+          <div className={styles.gray}>{t.pwm_advanced_hint_hexa}</div>
+        </div>
         <div className={styles.block}>
           <div className={styles.header}>
             <span className={styles.input}>
@@ -91,6 +94,7 @@ const AdvancedPowerPanel = ({ onClose }: Props): JSX.Element => {
             </span>
           </div>
           <Slider
+            className={styles['one-side-slider']}
             min={0}
             max={power}
             step={1}
@@ -102,6 +106,10 @@ const AdvancedPowerPanel = ({ onClose }: Props): JSX.Element => {
               formatter: (v: number) => `${v}%`,
             }}
           />
+          <div className={styles.footer}>
+            <span>Min</span>
+            <span>Max</span>
+          </div>
         </div>
       </ConfigProvider>
     </Modal>
