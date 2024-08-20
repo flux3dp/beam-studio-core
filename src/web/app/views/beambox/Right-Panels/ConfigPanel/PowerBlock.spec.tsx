@@ -139,6 +139,7 @@ describe('test PowerBlock', () => {
     mockCheckPwmImages.mockReturnValue(false);
     mockGetLayerByName.mockImplementation((name) => name);
     mockGetData.mockReturnValue(0);
+    batchCmd = { onAfter: undefined, count: 0 }
   });
 
   it('should render correctly', () => {
