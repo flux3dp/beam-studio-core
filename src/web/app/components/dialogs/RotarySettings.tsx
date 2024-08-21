@@ -9,7 +9,7 @@ import storage from 'implementations/storage';
 import UnitInput from 'app/widgets/UnitInput';
 import useI18n from 'helpers/useI18n';
 import { addDialogComponent, isIdExist, popDialogById } from 'app/actions/dialog-controller';
-import { getSupportInfo, RotaryType } from 'app/constants/add-on';
+import { CHUCK_ROTARY_DIAMETER, getSupportInfo, RotaryType } from 'app/constants/add-on';
 
 import styles from './RotarySettings.module.scss';
 
@@ -26,10 +26,10 @@ const RotarySettings = ({ onClose }: Props): JSX.Element => {
   const supportInfo = useMemo(() => getSupportInfo(workarea), [workarea]);
   const [rotaryMode, setRotaryMode] = useState<number>(beamboxPreference.read('rotary_mode') ?? 0);
   const [rotaryType, setRotaryType] = useState<number>(
-    beamboxPreference.read('rotaryType') || RotaryType.Roller
+    beamboxPreference.read('rotary-type') || RotaryType.Roller
   );
   const [diameter, setDiaMeter] = useState<number>(
-    beamboxPreference.read('chuckObjectDiameter') ?? 0
+    beamboxPreference.read('rotary-chuck-obj-dia') ?? CHUCK_ROTARY_DIAMETER
   );
   const [extend, setExtend] = useState<boolean>(!!beamboxPreference.read('extend-rotary-workarea'));
   const [mirror, setMirror] = useState<boolean>(!!beamboxPreference.read('rotary-mirror'));
@@ -39,10 +39,8 @@ const RotarySettings = ({ onClose }: Props): JSX.Element => {
     const rotaryChanged = rotaryMode !== beamboxPreference.read('rotary_mode');
     const extendChanged = extend !== !!beamboxPreference.read('extend-rotary-workarea');
     beamboxPreference.write('rotary_mode', rotaryMode);
-    beamboxPreference.write('rotaryType', rotaryType);
-    if (rotaryType === RotaryType.Chuck) {
-      beamboxPreference.write('chuckObjectDiameter', diameter);
-    }
+    beamboxPreference.write('rotary-type', rotaryType);
+    if (rotaryType === RotaryType.Chuck) beamboxPreference.write('rotary-chuck-obj-dia', diameter);
     if (supportInfo.rotary.mirror) beamboxPreference.write('rotary-mirror', mirror);
     if (supportInfo.rotary.extendWorkarea)
       beamboxPreference.write('extend-rotary-workarea', extend);
@@ -50,6 +48,8 @@ const RotarySettings = ({ onClose }: Props): JSX.Element => {
     if (rotaryChanged) rotaryAxis.toggleDisplay();
   };
   const rotaryDisabled = rotaryMode === 0;
+  const chuckOptionDisabled = rotaryDisabled || !supportInfo.rotary.chuck || rotaryType !== RotaryType.Chuck;
+
 
   return (
     <Modal
@@ -83,7 +83,8 @@ const RotarySettings = ({ onClose }: Props): JSX.Element => {
           <div className={styles.control}>
             <Segmented
               id="rotary_type"
-              disabled={rotaryDisabled}
+              disabled={rotaryDisabled || !supportInfo.rotary.chuck}
+              value={supportInfo.rotary.chuck ? rotaryType : RotaryType.Roller}
               onChange={(val: RotaryType) => setRotaryType(val)}
               options={[
                 {
@@ -113,7 +114,7 @@ const RotarySettings = ({ onClose }: Props): JSX.Element => {
           <div className={styles.control}>
             <UnitInput
               id="object_diameter"
-              disabled={rotaryDisabled || rotaryType !== RotaryType.Chuck}
+              disabled={chuckOptionDisabled}
               className={styles.input}
               value={diameter}
               min={0}
@@ -129,7 +130,7 @@ const RotarySettings = ({ onClose }: Props): JSX.Element => {
           <div className={styles.control}>
             <UnitInput
               id="circumference"
-              disabled={rotaryDisabled || rotaryType !== RotaryType.Chuck}
+              disabled={chuckOptionDisabled}
               className={styles.input}
               value={diameter * Math.PI}
               min={0}
