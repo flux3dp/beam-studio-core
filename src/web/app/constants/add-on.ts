@@ -5,6 +5,8 @@ export enum RotaryType {
   Chuck = 2,
 }
 
+export const CHUCK_ROTARY_DIAMETER = 16;
+
 interface SupportInfo {
   autoFocus: boolean;
   hybridLaser: boolean;
@@ -15,6 +17,7 @@ interface SupportInfo {
     chuck: boolean;
     extendWorkarea: boolean;
     mirror: boolean;
+    defaultMirror?: boolean;
   };
 }
 
@@ -77,6 +80,7 @@ const supportList: Record<WorkAreaModel, SupportInfo> = {
       chuck: true,
       extendWorkarea: true,
       mirror: true,
+      defaultMirror: true,
     },
   },
   fbb2: {
