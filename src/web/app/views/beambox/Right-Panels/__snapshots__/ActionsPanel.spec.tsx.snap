@@ -29,7 +29,7 @@ exports[`should render correctly ellipse 1`] = `
           <span
             class="label"
           >
-            auto_fit
+            auto_fit (Beta)
           </span>
         </button>
       </div>
@@ -147,7 +147,7 @@ exports[`should render correctly g multiple selection 1`] = `
           <span
             class="label"
           >
-            auto_fit
+            auto_fit (Beta)
           </span>
         </button>
       </div>
@@ -245,7 +245,7 @@ exports[`should render correctly g single selection 1`] = `
           <span
             class="label"
           >
-            auto_fit
+            auto_fit (Beta)
           </span>
         </button>
       </div>
@@ -323,7 +323,7 @@ exports[`should render correctly image 1`] = `
           <span
             class="label"
           >
-            auto_fit
+            auto_fit (Beta)
           </span>
         </button>
       </div>
@@ -572,7 +572,7 @@ exports[`should render correctly in mobile ellipse 1`] = `
       <div
         class="label"
       >
-        auto_fit
+        auto_fit (Beta)
       </div>
     </div>
     <div
@@ -659,7 +659,7 @@ exports[`should render correctly in mobile g multiple selection 1`] = `
       <div
         class="label"
       >
-        auto_fit
+        auto_fit (Beta)
       </div>
     </div>
     <div
@@ -731,7 +731,7 @@ exports[`should render correctly in mobile g single selection 1`] = `
       <div
         class="label"
       >
-        auto_fit
+        auto_fit (Beta)
       </div>
     </div>
     <div
@@ -788,7 +788,7 @@ exports[`should render correctly in mobile image 1`] = `
       <div
         class="label"
       >
-        auto_fit
+        auto_fit (Beta)
       </div>
     </div>
     <div
@@ -980,7 +980,7 @@ exports[`should render correctly in mobile line 1`] = `
       <div
         class="label"
       >
-        auto_fit
+        auto_fit (Beta)
       </div>
     </div>
     <div
@@ -1079,7 +1079,7 @@ exports[`should render correctly in mobile path 1`] = `
       <div
         class="label"
       >
-        auto_fit
+        auto_fit (Beta)
       </div>
     </div>
     <div
@@ -1196,7 +1196,7 @@ exports[`should render correctly in mobile polygon 1`] = `
       <div
         class="label"
       >
-        auto_fit
+        auto_fit (Beta)
       </div>
     </div>
     <div
@@ -1283,7 +1283,7 @@ exports[`should render correctly in mobile rect 1`] = `
       <div
         class="label"
       >
-        auto_fit
+        auto_fit (Beta)
       </div>
     </div>
     <div
@@ -1370,7 +1370,7 @@ exports[`should render correctly in mobile text 1`] = `
       <div
         class="label"
       >
-        auto_fit
+        auto_fit (Beta)
       </div>
     </div>
     <div
@@ -1457,7 +1457,7 @@ exports[`should render correctly in mobile use 1`] = `
       <div
         class="label"
       >
-        auto_fit
+        auto_fit (Beta)
       </div>
     </div>
     <div
@@ -1538,7 +1538,7 @@ exports[`should render correctly line 1`] = `
           <span
             class="label"
           >
-            auto_fit
+            auto_fit (Beta)
           </span>
         </button>
       </div>
@@ -1673,7 +1673,7 @@ exports[`should render correctly path 1`] = `
           <span
             class="label"
           >
-            auto_fit
+            auto_fit (Beta)
           </span>
         </button>
       </div>
@@ -1831,7 +1831,7 @@ exports[`should render correctly polygon 1`] = `
           <span
             class="label"
           >
-            auto_fit
+            auto_fit (Beta)
           </span>
         </button>
       </div>
@@ -1949,7 +1949,7 @@ exports[`should render correctly rect 1`] = `
           <span
             class="label"
           >
-            auto_fit
+            auto_fit (Beta)
           </span>
         </button>
       </div>
@@ -2067,7 +2067,7 @@ exports[`should render correctly text 1`] = `
           <span
             class="label"
           >
-            auto_fit
+            auto_fit (Beta)
           </span>
         </button>
       </div>
@@ -2185,7 +2185,7 @@ exports[`should render correctly use 1`] = `
           <span
             class="label"
           >
-            auto_fit
+            auto_fit (Beta)
           </span>
         </button>
       </div>

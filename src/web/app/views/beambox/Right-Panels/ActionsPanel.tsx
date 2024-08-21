@@ -136,7 +136,7 @@ const ActionsPanel = ({ elem }: Props): JSX.Element => {
   const renderAutoFitButon = (opts: ButtonOpts = {}): JSX.Element =>
     renderButtons(
       'auto-fit',
-      lang.auto_fit,
+      `${lang.auto_fit} (Beta)`,
       () => autoFit(elem as SVGElement),
       <ActionPanelIcons.AutoFit />,
       <ActionPanelIcons.AutoFit />,
