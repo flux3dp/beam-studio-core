@@ -5,6 +5,7 @@ import { Button, Popover } from 'antd-mobile';
 import ConfigPanelIcons from 'app/icons/config-panel/ConfigPanelIcons';
 import checkPwmImages from 'helpers/layer/check-pwm-images';
 import history from 'app/svgedit/history/history';
+import isDev from 'helpers/is-dev';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import objectPanelItemStyles from 'app/views/beambox/Right-Panels/ObjectPanelItem.module.scss';
@@ -87,7 +88,7 @@ function PowerBlock({
     <div className={classNames(styles.panel, styles[type])}>
       <span className={styles.title}>
         {t.strength}
-        {type !== 'panel-item' && hasPwmImages && (
+        {type !== 'panel-item' && isDev() && hasPwmImages && (
           <span className={styles.icon} title={t.pwm_advanced_setting} onClick={openModal}>
             <ConfigPanelIcons.ColorAdjustment />
           </span>

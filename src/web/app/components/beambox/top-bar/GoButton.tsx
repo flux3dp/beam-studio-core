@@ -71,7 +71,7 @@ const GoButton = (props: Props): JSX.Element => {
 
     const vc = VersionChecker(device.version);
     const isAdor = constant.adorModels.includes(device.model);
-    if (!vc.meetRequirement(isAdor ? 'ADOR_PWM' : 'PWM')) {
+    if (!vc.meetRequirement(isAdor ? 'ADOR_PWM' : 'PWM') && isDev()) {
       if (layers.some((layer) => layer.querySelector('image[data-pwm="1"]'))) {
         const res = await new Promise((resolve) => {
           alertCaller.popUp({
