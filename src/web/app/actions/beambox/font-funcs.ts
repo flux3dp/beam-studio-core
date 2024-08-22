@@ -539,7 +539,7 @@ const convertTextToPath = async (
     console.log(textElement.getAttribute('font-family'), postscriptName);
     textElement.removeAttribute('stroke-width');
     const isFilled = calculateFilled(textElement);
-    let color = textElement.getAttribute('stroke');
+    let color = textElement.getAttribute('stroke') || 'none';
     color = color !== 'none' ? color : textElement.getAttribute('fill');
 
     let res: IConvertInfo = null;
