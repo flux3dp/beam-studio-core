@@ -69,13 +69,13 @@
         width: 100%;
 
         .title {
-          width: 25%;
+          width: 33%;
           height: $row-height;
         }
 
         .control {
           display: flex;
-          width: 75%;
+          width: 67%;
           height: $row-height;
           align-items: flex-start;
 
@@ -92,7 +92,7 @@
       }
 
       .title {
-        width: 50%;
+        width: 66%;
         text-align: end;
         padding-right: 8px;
 
@@ -105,7 +105,7 @@
       }
 
       .control {
-        width: 50%;
+        width: 34%;
 
         .input {
           width: 120px;
