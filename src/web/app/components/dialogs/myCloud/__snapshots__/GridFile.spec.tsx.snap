@@ -105,7 +105,7 @@ exports[`test GridFile should behave correctly 2`] = `
         <span />
         <div
           class="ant-dropdown ant-slide-up-appear ant-slide-up-appear-prepare ant-slide-up overlay css-dev-only-do-not-override-hash ant-dropdown-placement-bottomRight"
-          style="left: -1000vw; top: -1000vh; box-sizing: border-box;"
+          style="--arrow-x: 0px; --arrow-y: 0px; left: -1000vw; top: -1000vh; box-sizing: border-box;"
         >
           <ul
             class="ant-dropdown-menu ant-dropdown-menu-root ant-dropdown-menu-vertical ant-dropdown-menu-light css-dev-only-do-not-override-hash"
@@ -340,7 +340,7 @@ exports[`test GridFile should behave correctly 3`] = `
         <span />
         <div
           class="ant-dropdown ant-dropdown-hidden overlay css-dev-only-do-not-override-hash ant-dropdown-placement-bottomRight"
-          style="left: 0px; top: 0px; box-sizing: border-box; pointer-events: none;"
+          style="--arrow-x: 0px; --arrow-y: 0px; left: -1000vw; top: 0px; box-sizing: border-box; right: 0px; pointer-events: none;"
         >
           <ul
             class="ant-dropdown-menu ant-dropdown-menu-root ant-dropdown-menu-vertical ant-dropdown-menu-light css-dev-only-do-not-override-hash"
@@ -578,7 +578,7 @@ exports[`test GridFile should behave correctly 4`] = `
         />
         <div
           class="ant-dropdown ant-dropdown-hidden overlay css-dev-only-do-not-override-hash ant-dropdown-placement-bottomRight"
-          style="left: 0px; top: 0px; box-sizing: border-box; pointer-events: none;"
+          style="--arrow-x: 0px; --arrow-y: 0px; left: -1000vw; top: 0px; box-sizing: border-box; right: 0px; pointer-events: none;"
         >
           <ul
             class="ant-dropdown-menu ant-dropdown-menu-root ant-dropdown-menu-vertical ant-dropdown-menu-light css-dev-only-do-not-override-hash"
@@ -749,7 +749,7 @@ exports[`test GridFile should behave correctly 4`] = `
         </div>
         <div
           class="ant-popover ant-zoom-big-appear ant-zoom-big-appear-prepare ant-zoom-big ant-popconfirm overlay css-dev-only-do-not-override-hash css-dev-only-do-not-override-hash ant-popover-placement-top"
-          style="left: -1000vw; top: -1000vh; box-sizing: border-box;"
+          style="--arrow-x: 0px; --arrow-y: 0px; left: -1000vw; top: -1000vh; box-sizing: border-box;"
         >
           <div
             class="ant-popover-content"

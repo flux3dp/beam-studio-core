@@ -128,6 +128,7 @@ const lang: ILang = {
       align_to_edges: 'Kohdista reunoihin',
       document_setting: 'Asiakirjan asetukset',
       document_setting_short: 'Asiakirja',
+      rotary_setup: 'Kierron Asetukset',
       clear_scene: 'Uudet tiedostot',
       machines: 'Koneet',
       add_new_machine: 'Koneen asetukset',
@@ -1053,6 +1054,11 @@ const lang: ILang = {
       mirror: 'Peilaus',
       pass_through: 'Läpäisymoodi',
       pass_through_height_desc: 'Syötä objektin pituus työalueen laajentamiseksi.',
+      start_position: 'Aloituspaikka',
+      start_from: 'Aloita Mistä',
+      origin: 'Alkuperä',
+      current_position: 'Nykyinen Sijainti',
+      job_origin: 'Työn Alkuperä',
       add_on: 'Lisäosat',
       low: 'Matala',
       medium: 'Keskitaso',
@@ -1861,6 +1867,11 @@ const lang: ILang = {
     error_tip2: '2. Ovatko materiaalin ääriviivat riittävän selkeät tunnistamista varten?',
     learn_more: 'Opi, miten Automaattinen Sovitus toimii.',
     learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
+  },
+  rotary_settings: {
+    type: 'Tyyppi',
+    object_diameter: 'Kohteen Halkaisija',
+    circumference: 'Ympärysmitta',
   },
 };
 

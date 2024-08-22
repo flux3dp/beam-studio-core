@@ -7,6 +7,7 @@ import checkSoftwareForAdor from 'helpers/check-software';
 import CommonTools from 'app/components/beambox/top-bar/CommonTools';
 import constant from 'app/actions/beambox/constant';
 import Discover from 'helpers/api/discover';
+import DocumentButton from 'app/components/beambox/top-bar/DocumentButton';
 import ElementTitle from 'app/components/beambox/top-bar/ElementTitle';
 import FileName from 'app/components/beambox/top-bar/FileName';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
@@ -224,6 +225,7 @@ export default class TopBar extends React.PureComponent<Record<string, never>, S
         <PreviewButton />
         <div className={styles.right}>
           <SelectMachineButton />
+          <DocumentButton />
           <FrameButton />
           <PathPreviewButton
             isDeviceConnected={hasDiscoverdMachine}

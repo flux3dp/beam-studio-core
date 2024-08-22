@@ -128,6 +128,7 @@ const lang: ILang = {
       align_to_edges: 'Allinea ai bordi',
       document_setting: 'Impostazioni documento',
       document_setting_short: 'Documento',
+      rotary_setup: 'Configurazione Rotativa',
       clear_scene: 'Nuovi file',
       machines: 'Macchine',
       add_new_machine: 'Configura macchina',
@@ -1053,6 +1054,11 @@ const lang: ILang = {
       mirror: 'Specchio',
       pass_through: 'Attraversare',
       pass_through_height_desc: "Inserisci la lunghezza dell'oggetto per estendere l'area di lavoro.",
+      start_position: 'Posizione di Partenza',
+      start_from: 'Inizia Da',
+      origin: 'Origine',
+      current_position: 'Posizione Attuale',
+      job_origin: 'Origine del Lavoro',
       add_on: 'Componenti aggiuntivi',
       low: 'Basso',
       medium: 'Medio',
@@ -1861,6 +1867,11 @@ const lang: ILang = {
     error_tip2: '2. I contorni del materiale sono abbastanza chiari per essere riconosciuti?',
     learn_more: "Scopri come funziona l'adattamento automatico.",
     learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
+  },
+  rotary_settings: {
+    type: 'Tipo',
+    object_diameter: "Diametro dell'Oggetto",
+    circumference: 'Circonferenza',
   },
 };
 

@@ -128,6 +128,7 @@ const lang: ILang = {
       align_to_edges: 'An Scheitelpunkten ausrichten',
       document_setting: 'Dokumenteinstellungen',
       document_setting_short: 'Dokument',
+      rotary_setup: 'Drehvorrichtung Einrichten',
       clear_scene: 'Neue Dateien',
       machines: 'Maschinen',
       add_new_machine: 'Maschineneinrichtung',
@@ -1056,6 +1057,11 @@ const lang: ILang = {
       mirror: 'Spiegeln',
       pass_through: 'Durchgang',
       pass_through_height_desc: 'Geben Sie die Länge des Objekts ein, um den Arbeitsbereich zu erweitern.',
+      start_position: 'Startposition',
+      start_from: 'Start Von',
+      origin: 'Ursprung',
+      current_position: 'Aktuelle Position',
+      job_origin: 'Job-Ursprung',
       add_on: 'Zusatz-Module',
       low: 'Niedrig',
       medium: 'Mittel',
@@ -1864,6 +1870,11 @@ const lang: ILang = {
     error_tip2: '2. Sind die Materialkonturen klar genug zur Erkennung?',
     learn_more: 'Erfahren Sie, wie Automatische Anpassung funktioniert.',
     learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
+  },
+  rotary_settings: {
+    type: 'Typ',
+    object_diameter: 'Objektdurchmesser',
+    circumference: 'Umfang',
   },
 };
 

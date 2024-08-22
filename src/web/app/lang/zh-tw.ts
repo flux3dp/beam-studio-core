@@ -128,6 +128,7 @@ const lang: ILang = {
       align_to_edges: '貼齊端點',
       document_setting: '文件設定',
       document_setting_short: '文件設定',
+      rotary_setup: '旋轉軸設定',
       clear_scene: '新增檔案',
       machines: '機器',
       add_new_machine: '新增或設定機器',
@@ -1056,6 +1057,11 @@ const lang: ILang = {
       mirror: '鏡像',
       pass_through: '廣域雕刻',
       pass_through_height_desc: '輸入物體長度以擴展工作區域。',
+      start_position: '開始位置',
+      start_from: '開始於',
+      origin: '原點',
+      current_position: '當前位置',
+      job_origin: '工作原點',
       add_on: '擴充模組',
       low: '低',
       medium: '中',
@@ -1864,6 +1870,11 @@ const lang: ILang = {
     error_tip2: '2. 材料的輪廓是否足夠清晰以便識別？',
     learn_more: '瞭解自動對位如何運作。',
     learn_more_url: 'https://support.flux3dp.com/hc/zh-tw/articles/10273384373775',
+  },
+  rotary_settings: {
+    type: '類型',
+    object_diameter: '物件直徑',
+    circumference: '圓周',
   },
 };
 

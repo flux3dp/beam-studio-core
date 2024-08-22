@@ -128,6 +128,7 @@ const lang: ILang = {
       align_to_edges: 'Jajarkan ke Tepi',
       document_setting: 'Tetapan Dokumen',
       document_setting_short: 'Dokumen',
+      rotary_setup: 'Persediaan Putaran',
       clear_scene: 'Fail baru',
       machines: 'Mesin',
       add_new_machine: 'Tambah Mesin Baru',
@@ -1053,6 +1054,11 @@ const lang: ILang = {
       mirror: 'Cermin',
       pass_through: 'Lalu',
       pass_through_height_desc: 'Masukkan panjang objek untuk melanjutkan kawasan kerja.',
+      start_position: 'Kedudukan Mula',
+      start_from: 'Mula Dari',
+      origin: 'Asal',
+      current_position: 'Kedudukan Semasa',
+      job_origin: 'Asal Tugas',
       add_on: 'Tambahan',
       low: 'Rendah',
       medium: 'Sederhana',
@@ -1861,6 +1867,11 @@ const lang: ILang = {
     error_tip2: '2. Adakah kontur bahan cukup jelas untuk pengiktirafan?',
     learn_more: 'Ketahui cara kerja Muat Auto.',
     learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
+  },
+  rotary_settings: {
+    type: 'Jenis',
+    object_diameter: 'Diameter Objek',
+    circumference: 'Lilitan',
   },
 };
 

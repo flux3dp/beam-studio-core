@@ -128,6 +128,7 @@ const lang: ILang = {
       align_to_edges: 'Fäst vid hörn',
       document_setting: 'Dokumentinställningar',
       document_setting_short: 'Dokument',
+      rotary_setup: 'Roterande Inställningar',
       clear_scene: 'Nya filer',
       machines: 'Maskiner',
       add_new_machine: 'Maskininställning',
@@ -1053,6 +1054,11 @@ const lang: ILang = {
       mirror: 'Spegel',
       pass_through: 'Passera Igenom',
       pass_through_height_desc: 'Ange längden på objektet för att utöka arbetsområdet.',
+      start_position: 'Startposition',
+      start_from: 'Starta Från',
+      origin: 'Ursprung',
+      current_position: 'Nuvarande Position',
+      job_origin: 'Jobb Ursprung',
       add_on: 'Tillägg',
       low: 'Låg',
       medium: 'Medium',
@@ -1861,6 +1867,11 @@ const lang: ILang = {
     error_tip2: '2. Är materialkonturerna tillräckligt klara för igenkänning?',
     learn_more: 'Lär dig hur auto fit fungerar.',
     learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
+  },
+  rotary_settings: {
+    type: 'Typ',
+    object_diameter: 'Objekt Diameter',
+    circumference: 'Omkrets',
   },
 };
 

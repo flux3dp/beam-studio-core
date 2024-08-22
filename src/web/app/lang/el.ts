@@ -128,6 +128,7 @@ const lang: ILang = {
       align_to_edges: 'Ευθυγράμμιση με κορυφές',
       document_setting: 'Ρυθμίσεις εγγράφου',
       document_setting_short: 'Έγγραφο',
+      rotary_setup: 'Ρυθμίσεις Περιστροφής',
       clear_scene: 'Νέα αρχεία',
       machines: 'Μηχανές',
       add_new_machine: 'Ρύθμιση μηχανής',
@@ -1053,6 +1054,11 @@ const lang: ILang = {
       mirror: 'Κατοπτρισμός',
       pass_through: 'Διέλευση',
       pass_through_height_desc: 'Εισαγάγετε το μήκος του αντικειμένου για να επεκτείνετε την περιοχή εργασίας.',
+      start_position: 'Θέση Έναρξης',
+      start_from: 'Ξεκινάει Από',
+      origin: 'Αρχή',
+      current_position: 'Τρέχουσα Θέση',
+      job_origin: 'Αφετηρία Εργασίας',
       add_on: 'Πρόσθετες λειτουργίες',
       low: 'Χαμηλή',
       medium: 'Μέτρια',
@@ -1861,6 +1867,11 @@ const lang: ILang = {
     error_tip2: '2. Είναι τα περιγράμματα του υλικού αρκετά καθαρά για αναγνώριση;',
     learn_more: 'Μάθετε πώς λειτουργεί το Έξυπνη Τοποθέτηση.',
     learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
+  },
+  rotary_settings: {
+    type: 'τύπος',
+    object_diameter: 'Διάμετρος Αντικειμένου',
+    circumference: 'Περιφέρεια',
   },
 };
 

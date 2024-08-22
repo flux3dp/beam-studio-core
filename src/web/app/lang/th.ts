@@ -128,6 +128,7 @@ const lang: ILang = {
       align_to_edges: 'จัดวางตําแหน่ง',
       document_setting: 'ตั้งค่าเอกสาร',
       document_setting_short: 'เอกสาร',
+      rotary_setup: 'การตั้งค่าการหมุน',
       clear_scene: 'ไฟล์ใหม่',
       machines: 'เครื่อง',
       add_new_machine: 'ตั้งค่าเครื่อง',
@@ -1053,6 +1054,11 @@ const lang: ILang = {
       mirror: 'กระจก',
       pass_through: 'ผ่าน',
       pass_through_height_desc: 'ป้อนความยาวของวัตถุเพื่อขยายพื้นที่การทำงาน',
+      start_position: 'ตำแหน่งเริ่มต้น',
+      start_from: 'เริ่มจาก',
+      origin: 'ต้นกำเนิด',
+      current_position: 'ตำแหน่งปัจจุบัน',
+      job_origin: 'ต้นกำเนิดงาน',
       add_on: 'เพิ่มเติม',
       low: 'ต่ํา',
       medium: 'ปานกลาง',
@@ -1861,6 +1867,11 @@ const lang: ILang = {
     error_tip2: '2. ขอบเขตของวัสดุชัดเจนพอสำหรับการจดจำหรือไม่?',
     learn_more: 'เรียนรู้วิธีการทำงานของการปรับพอดีอัตโนมัติ',
     learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
+  },
+  rotary_settings: {
+    type: 'ประเภท',
+    object_diameter: 'เส้นผ่านศูนย์กลางของวัตถุ',
+    circumference: 'เส้นรอบวง',
   },
 };
 

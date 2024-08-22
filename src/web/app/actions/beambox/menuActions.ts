@@ -23,6 +23,7 @@ import { externalLinkMemberDashboard, signOut } from 'helpers/api/flux-id';
 import { gestureIntroduction } from 'app/constants/media-tutorials';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { importBvgString } from 'app/svgedit/operations/import/importBvg';
+import { showRotarySettings } from 'app/components/dialogs/RotarySettings';
 
 let svgCanvas;
 let svgEditor;
@@ -146,6 +147,7 @@ export default {
   SVG_NEST: () => Dialog.showSvgNestButtons(),
   LAYER_COLOR_CONFIG: () => Dialog.showLayerColorConfig(),
   DOCUMENT_SETTING: () => Dialog.showDocumentSettings(),
+  ROTARY_SETUP: showRotarySettings,
   CLEAR_SCENE: () => svgEditor.clearScene(),
   START_TUTORIAL: () => {
     const continuousDrawing = BeamboxPreference.read('continuous_drawing');

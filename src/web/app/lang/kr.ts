@@ -128,6 +128,7 @@ const lang: ILang = {
       align_to_edges: '꼭짓점에 맞추기',
       document_setting: '문서 설정',
       document_setting_short: '문서',
+      rotary_setup: '회전 설정',
       clear_scene: '새 파일',
       machines: '기계',
       add_new_machine: '기계 설정',
@@ -1056,6 +1057,11 @@ const lang: ILang = {
       mirror: '미러',
       pass_through: '통과',
       pass_through_height_desc: '작업 영역을 확장하기 위해 객체의 길이를 입력하십시오.',
+      start_position: '시작 위치',
+      start_from: '에서 시작',
+      origin: '원점',
+      current_position: '현재 위치',
+      job_origin: '작업 원점',
       add_on: '애드온',
       low: '낮음',
       medium: '보통',
@@ -1864,6 +1870,11 @@ const lang: ILang = {
     error_tip2: '2. 재료의 윤곽이 인식할 수 있을 만큼 명확합니까?',
     learn_more: '자동 맞춤 기능이 어떻게 작동하는지 알아보십시오.',
     learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
+  },
+  rotary_settings: {
+    type: '유형',
+    object_diameter: '물체 직경',
+    circumference: '원주',
   },
 };
 

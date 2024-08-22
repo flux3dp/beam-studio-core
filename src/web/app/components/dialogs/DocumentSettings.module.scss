@@ -1,85 +1,140 @@
-.modules {
-  display: flex;
-  flex-wrap: wrap;
-  flex: 4;
-}
+.container {
+  margin-top: 28px;
 
-.row {
-  display: flex;
-  flex-wrap: wrap;
-  width: 50%;
-  min-height: 64px;
-  line-height: 32px;
+  .block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
 
-  &.full {
-    width: 100%;
-
-    .title {
-      width: 25%;
-      height: 32px;
-    }
-
-    .control {
+    .row {
       display: flex;
-      width: 75%;
-      height: 32px;
-      align-items: flex-start;
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+      gap: 12px;
+
+      .title {
+        width: 30%;
+        text-align: end;
+      }
+
+      .control {
+        width: 50%;
+      }
+
+      .radioGroup {
+        display: grid;
+        grid-column-gap: 12px;
+        grid-row-gap: 12px;
+        grid-template-columns: repeat(3, 16px);
+
+        input[type="radio"] {
+          width: 16px;
+          height: 16px;
+        }
+      }
+    }
+  }
+
+  .separator {
+    margin: 12px 0;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+
+    .bar {
+      background: #e0e0e0;
+      width: 100%;
+      height: 1px;
+    }
+  }
+
+  .modules {
+    display: flex;
+    flex-wrap: wrap;
+
+    $row-height: 24px;
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      width: 50%;
+      min-height: calc($row-height * 2);
+      line-height: $row-height;
+
+      &.full {
+        width: 100%;
+
+        .title {
+          width: 33%;
+          height: $row-height;
+        }
+
+        .control {
+          display: flex;
+          width: 67%;
+          height: $row-height;
+          align-items: flex-start;
+
+          .subCheckbox {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: unset;
+            height: calc($row-height * 2);
+            justify-content: start;
+            margin-left: 20px;
+          }
+        }
+      }
+
+      .title {
+        width: 66%;
+        text-align: end;
+        padding-right: 8px;
+
+        label {
+          &::after {
+            content: ":";
+            margin-left: 4px;
+          }
+        }
+      }
+
+      .control {
+        width: 34%;
+
+        .input {
+          width: 120px;
+          margin-left: 20px;
+        }
+        .switch {
+          margin: calc(($row-height - 22px) / 2) 0;
+        }
+
+        .hint {
+          width: 16px;
+          height: 16px;
+          margin: calc(($row-height - 16px) / 2) 8px;
+          color: #7c7c7c;
+        }
+      }
 
       .subCheckbox {
         display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-        width: unset;
-        height: 64px;
-        justify-content: start;
-        margin-left: 20px;
+        width: 100%;
+        justify-content: center;
+        align-items: center;
+        height: $row-height;
+
+        > label {
+          height: 22px;
+          margin: calc(($row-height - 22px) / 2) 0;
+        }
       }
-    }
-  }
-
-  .title {
-    width: 50%;
-    text-align: end;
-    padding-right: 8px;
-
-    label {
-      &::after {
-        content: ":";
-        margin-left: 4px;
-      }
-    }
-  }
-
-  .control {
-    width: 50%;
-
-    .input {
-      width: 120px;
-      margin-left: 20px;
-    }
-
-    .switch {
-      margin: 5px 0;
-    }
-
-    .hint {
-      width: 16px;
-      height: 16px;
-      margin: 8px;
-      color: #7c7c7c;
-    }
-  }
-
-  .subCheckbox {
-    display: flex;
-    width: 100%;
-    justify-content: center;
-    align-items: center;
-    height: 32px;
-
-    > label {
-      height: 22px;
-      margin: 5px 0;
     }
   }
 }

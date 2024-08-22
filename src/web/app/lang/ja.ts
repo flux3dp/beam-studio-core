@@ -128,6 +128,7 @@ const lang: ILang = {
       align_to_edges: '頂点にスナップ',
       document_setting: 'ドキュメント設定',
       document_setting_short: 'ドキュメント',
+      rotary_setup: 'ロータリー',
       clear_scene: '新しいファイル',
       machines: 'マシン',
       add_new_machine: 'マシン設定',
@@ -1056,6 +1057,11 @@ const lang: ILang = {
       mirror: 'ミラー',
       pass_through: 'パススルーモード',
       pass_through_height_desc: '作業エリアを拡張するためにオブジェクトの長さを入力してください。',
+      start_position: '開始位置',
+      start_from: '開始位置',
+      origin: '原点',
+      current_position: '現在の位置',
+      job_origin: 'ジョブの原点',
       add_on: 'アドオン',
       low: '低',
       medium: '中',
@@ -1864,6 +1870,11 @@ const lang: ILang = {
     error_tip2: '2. 素材の輪郭は認識できるほど明確ですか？',
     learn_more: '自動フィットについて。',
     learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
+  },
+  rotary_settings: {
+    type: '種類',
+    object_diameter: 'オブジェクトの直径',
+    circumference: '円周',
   },
 };
 

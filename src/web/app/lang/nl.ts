@@ -128,6 +128,7 @@ const lang: ILang = {
       align_to_edges: 'Uitlijnen op hoekpunten',
       document_setting: 'Documentinstellingen',
       document_setting_short: 'Document',
+      rotary_setup: 'Draaibare Instelling',
       clear_scene: 'Nieuwe bestanden',
       machines: 'Machines',
       add_new_machine: 'Machine-instellingen',
@@ -1053,6 +1054,11 @@ const lang: ILang = {
       mirror: 'Spiegel',
       pass_through: 'Doorgang',
       pass_through_height_desc: 'Voer de lengte van het object in om het werkgebied uit te breiden.',
+      start_position: 'Startpositie',
+      start_from: 'Start Vanaf',
+      origin: 'Oorsprong',
+      current_position: 'Huidige Positie',
+      job_origin: 'Werk Oorsprong',
       add_on: 'Add-ons',
       low: 'Laag',
       medium: 'Gemiddeld',
@@ -1861,6 +1867,11 @@ const lang: ILang = {
     error_tip2: '2. Zijn de materiaalcontouren duidelijk genoeg voor herkenning?',
     learn_more: 'Leer hoe Auto Aanpassen werkt.',
     learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
+  },
+  rotary_settings: {
+    type: 'Type',
+    object_diameter: 'Objectdiameter',
+    circumference: 'Omtrek',
   },
 };
 

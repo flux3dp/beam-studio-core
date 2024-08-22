@@ -128,6 +128,7 @@ const lang: ILang = {
       align_to_edges: 'Rapat ke Simpul',
       document_setting: 'Pengaturan Dokumen',
       document_setting_short: 'Dokumen',
+      rotary_setup: 'Pengaturan Rotary',
       clear_scene: 'File baru',
       machines: 'Mesin',
       add_new_machine: 'Setup Mesin',
@@ -1053,6 +1054,11 @@ const lang: ILang = {
       mirror: 'Cermin',
       pass_through: 'Mode Lewat',
       pass_through_height_desc: 'Masukkan panjang objek untuk memperluas area kerja.',
+      start_position: 'Posisi Awal',
+      start_from: 'Mulai Dari',
+      origin: 'Asal',
+      current_position: 'Posisi Saat Ini',
+      job_origin: 'Asal Tugas',
       add_on: 'Add-on',
       low: 'Rendah',
       medium: 'Sedang',
@@ -1861,6 +1867,11 @@ const lang: ILang = {
     error_tip2: '2. Apakah kontur material cukup jelas untuk dikenali?',
     learn_more: 'Pelajari cara kerja Pas Otomatis.',
     learn_more_url: 'https://support.flux3dp.com/hc/en-us/articles/10273384373775',
+  },
+  rotary_settings: {
+    type: 'Jenis',
+    object_diameter: 'Diameter Objek',
+    circumference: 'Keliling',
   },
 };
 

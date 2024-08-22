@@ -48,16 +48,6 @@ jest.mock('app/actions/beambox/beambox-preference', () => ({
   },
 }));
 
-jest.mock('app/widgets/EngraveDpiSlider', () => ({ value, onChange }: any) => (
-  <div>
-    DummyEngraveDpiSlider
-    <p>value: {value}</p>
-    <button type="button" onClick={() => onChange('high')}>
-      change dpi
-    </button>
-  </div>
-));
-
 const update = jest.fn();
 jest.mock('app/actions/beambox/open-bottom-boundary-drawer', () => ({
   update: () => update(),
@@ -91,6 +81,12 @@ jest.mock('helpers/useI18n', () => () => ({
       extend_workarea: 'extend_workarea',
       mirror: 'mirror',
       pass_through: 'Pass Through',
+      pass_through_height_desc: 'pass_through_height_desc',
+      start_position: 'start_position',
+      start_from: 'start_from',
+      origin: 'origin',
+      current_position: 'current_position',
+      job_origin: 'job_origin',
       add_on: 'Add-ons',
       low: 'Low',
       medium: 'Medium',
@@ -129,7 +125,7 @@ describe('test DocumentSettings', () => {
   it('should render correctly for ador', async () => {
     document.querySelectorAll = mockQuerySelectorAll;
     const { baseElement } = render(<DocumentSettings unmount={mockUnmount} />);
-    const workareaToggle = baseElement.querySelector('input#workarea');
+    const workareaToggle = baseElement.querySelector('input#workareaSelect');
     fireEvent.mouseDown(workareaToggle);
     fireEvent.click(baseElement.querySelectorAll('.ant-slide-up-appear .ant-select-item-option-content')[4]);
     expect(baseElement).toMatchSnapshot();
@@ -142,10 +138,14 @@ describe('test DocumentSettings', () => {
     const { baseElement, getByText } = render(<DocumentSettings unmount={mockUnmount} />);
     expect(baseElement).toMatchSnapshot();
 
-    fireEvent.click(getByText('change dpi'));
+    const dpiToggle = baseElement.querySelector('input#dpi');
+    fireEvent.mouseDown(dpiToggle);
+    fireEvent.click(
+      baseElement.querySelectorAll('.ant-slide-up-appear .ant-select-item-option-content')[2]
+    );
     expect(baseElement).toMatchSnapshot();
 
-    const workareaToggle = baseElement.querySelector('input#workarea');
+    const workareaToggle = baseElement.querySelector('input#workareaSelect');
     fireEvent.mouseDown(workareaToggle);
     fireEvent.click(
       baseElement.querySelectorAll('.ant-slide-up-appear .ant-select-item-option-content')[0]
