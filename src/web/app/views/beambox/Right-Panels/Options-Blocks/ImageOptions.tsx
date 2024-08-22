@@ -8,6 +8,7 @@ import browser from 'implementations/browser';
 import history from 'app/svgedit/history/history';
 import ImageData from 'helpers/image-data';
 import i18n from 'helpers/i18n';
+import isDev from 'helpers/is-dev';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import OptionPanelIcons from 'app/icons/option-panel/OptionPanelIcons';
