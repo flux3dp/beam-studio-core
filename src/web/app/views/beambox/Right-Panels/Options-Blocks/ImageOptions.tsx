@@ -159,7 +159,7 @@ const ImageOptions = ({ elem, updateObjectPanel }: Props): JSX.Element => {
         <div className={styles.label}>{LANG.shading}</div>
         <Switch size="small" checked={isGradient} onChange={handleGradientClick} />
       </div>
-      {isGradient && isDev() && (
+      {isGradient && (
         <div className={styles['option-block']} key="pwm">
           <div className={styles.label}>
             {LANG.pwm_engraving}
