@@ -177,6 +177,7 @@ const traceImage = async (img?: SVGImageElement): Promise<void> => {
     imageData(imgUrl, {
       width: Number(element.getAttribute('width')),
       height: Number(element.getAttribute('height')),
+      isFullResolution: true,
       grayscale: {
         is_rgba: true,
         is_shading: false,
