@@ -471,7 +471,9 @@ export default {
     }
   },
   exportFcode: async (): Promise<void> => {
-    const { fcodeBlob } = await fetchTaskCode();
+    const useSwiftray = BeamboxPreference.read('path-engine') === 'swiftray';
+    const convertEngine = useSwiftray ? fetchTaskCodeSwiftray : fetchTaskCode;
+    const { fcodeBlob } = await convertEngine();
     if (!fcodeBlob) {
       return;
     }

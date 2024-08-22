@@ -168,12 +168,15 @@ class SwiftrayClient extends EventEmitter{
       type,
       workarea: {
         width: workarea.width,
-        height: workarea.height,
+        height: workarea.displayHeight || workarea.height,
       },
       ...convertOptions,
     });;
     const convertResult = (await convertTask) as any;
-    const taskBlob = new Blob([convertResult.gcode], { type: 'text/plain' });
+    const taskBlob = new Blob(
+      [type === 'fcode' ? Buffer.from(convertResult.fcode, 'base64') : convertResult.gcode],
+      { type: 'text/plain' }
+    );
     eventListeners.onFinished(taskBlob, convertResult.fileName, convertResult.timeCost);
     return {
       success: convertResult.success,
