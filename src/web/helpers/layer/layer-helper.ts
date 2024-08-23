@@ -15,7 +15,6 @@ import updateLayerColor from 'helpers/color/updateLayerColor';
 import updateLayerColorFilter from 'helpers/color/updateLayerColorFilter';
 import {
   cloneLayerConfig,
-  DataType,
   getData,
   initLayerConfig,
 } from 'helpers/layer/layer-config-helper';
@@ -56,7 +55,7 @@ export function getObjectLayer(elem: SVGElement): { elem: SVGGElement; title: st
 export const getAllLayers = (): SVGGElement[] => {
   const allLayers = document.querySelectorAll('g.layer');
   return Array.from(allLayers) as SVGGElement[];
-}
+};
 
 export const getAllLayerNames = (): string[] => {
   const allLayers = document.querySelectorAll('#svgcontent g.layer');
@@ -283,11 +282,9 @@ export const showMergeAlert = async (
   baseLayerName: string,
   layerNames: string[]
 ): Promise<boolean> => {
-  const targetModule = getData<LayerModule>(getLayerElementByName(baseLayerName), DataType.module);
-  const modules = new Set(
-    layerNames.map((layerName) =>
-      getData<LayerModule>(getLayerElementByName(layerName), DataType.module)
-    )
+  const targetModule: LayerModule = getData(getLayerElementByName(baseLayerName), 'module');
+  const modules = new Set<LayerModule>(
+    layerNames.map((layerName) => getData(getLayerElementByName(layerName), 'module'))
   );
   modules.add(targetModule);
   if (modules.has(LayerModule.PRINTER) && modules.size > 1) {
@@ -502,9 +499,9 @@ export const moveToOtherLayer = (
   const selectedElements = svgCanvas.getSelectedElems();
   const origLayer = getObjectLayer(selectedElements[0])?.elem;
   const isPrintingLayer =
-    origLayer && getData<LayerModule>(origLayer, DataType.module) === LayerModule.PRINTER;
+    origLayer && getData(origLayer, 'module') === LayerModule.PRINTER;
   const isDestPrintingLayer =
-    getData<LayerModule>(getLayerByName(destLayer), DataType.module) === LayerModule.PRINTER;
+    getData(getLayerByName(destLayer), 'module') === LayerModule.PRINTER;
   const moveOutFromFullColorLayer = isPrintingLayer && !isDestPrintingLayer;
   const moveInToFullColorLayer = !isPrintingLayer && isDestPrintingLayer;
   if (origLayer && (moveOutFromFullColorLayer || moveInToFullColorLayer)) {

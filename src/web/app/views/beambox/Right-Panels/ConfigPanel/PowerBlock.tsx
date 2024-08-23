@@ -12,7 +12,6 @@ import undoManager from 'app/svgedit/history/undoManager';
 import useI18n from 'helpers/useI18n';
 import {
   CUSTOM_PRESET_CONSTANT,
-  DataType,
   getData,
   getMultiSelectData,
   writeDataLayer,
@@ -54,7 +53,7 @@ function PowerBlock({
     setHasPwmImages(checkPwmImages(selectedLayers));
   }, [selectedLayers]);
 
-  const { power, selectedItem } = state;
+  const { power, selectedLayer } = state;
   const handleChange = (value: number) => {
     dispatch({
       type: 'change',
@@ -65,17 +64,17 @@ function PowerBlock({
       const layers = selectedLayers.map((layerName) => getLayerByName(layerName));
       let minPowerChanged = false;
       layers.forEach((layer) => {
-        writeDataLayer(layer, DataType.strength, value, { batchCmd });
-        writeDataLayer(layer, DataType.configName, CUSTOM_PRESET_CONSTANT, { batchCmd });
-        const minPower = getData<number>(layer, DataType.minPower);
+        writeDataLayer(layer, 'power', value, { batchCmd });
+        writeDataLayer(layer, 'configName', CUSTOM_PRESET_CONSTANT, { batchCmd });
+        const minPower = getData(layer, 'minPower');
         if (value <= minPower) {
-          writeDataLayer(layer, DataType.minPower, 0, { batchCmd });
+          writeDataLayer(layer, 'minPower', 0, { batchCmd });
           minPowerChanged = true;
         }
       });
       if (minPowerChanged) {
-        const selectedIdx = selectedLayers.findIndex((layerName) => layerName === selectedItem);
-        const config = getMultiSelectData(layers, selectedIdx, DataType.minPower);
+        const selectedIdx = selectedLayers.findIndex((layerName) => layerName === selectedLayer);
+        const config = getMultiSelectData(layers, selectedIdx, 'minPower');
         dispatch({ type: 'update', payload: { minPower: config } });
       }
       batchCmd.onAfter = initState;

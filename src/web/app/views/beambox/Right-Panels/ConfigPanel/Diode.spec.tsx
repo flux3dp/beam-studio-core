@@ -17,9 +17,6 @@ jest.mock('helpers/useI18n', () => () => ({
 const mockWriteData = jest.fn();
 jest.mock('helpers/layer/layer-config-helper', () => ({
   CUSTOM_PRESET_CONSTANT: 'CUSTOM_PRESET_CONSTANT',
-  DataType: {
-    diode: 'diode',
-  },
   writeData: (...args) => mockWriteData(...args),
 }));
 

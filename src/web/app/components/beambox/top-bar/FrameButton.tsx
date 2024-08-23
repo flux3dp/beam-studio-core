@@ -18,8 +18,8 @@ import useI18n from 'helpers/useI18n';
 import versionChecker from 'helpers/version-checker';
 import workareaManager from 'app/svgedit/workarea';
 import { CanvasContext, CanvasMode } from 'app/contexts/CanvasContext';
-import { DataType, getData } from 'helpers/layer/layer-config-helper';
 import { getAllLayers } from 'helpers/layer/layer-helper';
+import { getData } from 'helpers/layer/layer-config-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 import styles from './FrameButton.module.scss';
@@ -53,7 +53,7 @@ const FrameButton = (): JSX.Element => {
     const offsets = { ...defaultModuleOffset, ...beamboxPreference.read('module-offsets') };
     const { dpmm } = constant;
     allLayers.forEach((layer) => {
-      const module = getData<LayerModule>(layer, DataType.module);
+      const module = getData(layer, 'module') as LayerModule;
       const offset: number[] = offsets[module] || [0, 0];
       const bboxs = svgCanvas.getVisibleElementsAndBBoxes([layer]);
       bboxs.forEach(({ bbox }) => {

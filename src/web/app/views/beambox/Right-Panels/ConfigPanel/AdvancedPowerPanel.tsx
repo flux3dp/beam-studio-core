@@ -5,9 +5,9 @@ import history from 'app/svgedit/history/history';
 import undoManager from 'app/svgedit/history/undoManager';
 import useI18n from 'helpers/useI18n';
 import { ConfigModalBlock } from 'app/constants/antd-config';
-import { DataType, writeDataLayer } from 'helpers/layer/layer-config-helper';
+import { ConfigItem } from 'interfaces/ILayerConfig';
 import { getLayerByName } from 'helpers/layer/layer-helper';
-import { IConfig } from 'interfaces/ILayerConfig';
+import { writeDataLayer } from 'helpers/layer/layer-config-helper';
 
 import ConfigPanelContext from './ConfigPanelContext';
 import styles from './AdvancedPowerPanel.module.scss';
@@ -20,7 +20,7 @@ interface Props {
 const AdvancedPowerPanel = ({ onClose }: Props): JSX.Element => {
   const t = useI18n().beambox.right_panel.laser_panel;
   const { dispatch, initState, selectedLayers, state } = useContext(ConfigPanelContext);
-  const [draftValue, setDraftValue] = useState<{ minPower: IConfig<number> }>({
+  const [draftValue, setDraftValue] = useState<{ minPower: ConfigItem<number> }>({
     minPower: state.minPower,
   });
   const [displayValue, setDisplayValue] = useState(draftValue);
@@ -36,7 +36,7 @@ const AdvancedPowerPanel = ({ onClose }: Props): JSX.Element => {
         state.minPower.value !== draftValue.minPower.value ||
         state.minPower.hasMultiValue !== draftValue.minPower.hasMultiValue
       ) {
-        writeDataLayer(layer, DataType.minPower, draftValue.minPower.value, { batchCmd });
+        writeDataLayer(layer, 'minPower', draftValue.minPower.value, { batchCmd });
         newState.minPower = draftValue.minPower;
       }
     });

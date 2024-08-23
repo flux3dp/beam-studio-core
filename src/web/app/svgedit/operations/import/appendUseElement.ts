@@ -1,16 +1,12 @@
 import history from 'app/svgedit/history/history';
 import i18n from 'helpers/i18n';
 import LayerModule from 'app/constants/layer-module/layer-modules';
-import layerConfigHelper, {
-  DataType,
-  getData,
-  writeDataLayer,
-} from 'helpers/layer/layer-config-helper';
+import layerConfigHelper, { getData, writeDataLayer } from 'helpers/layer/layer-config-helper';
 import layerModuleHelper from 'helpers/layer-module/layer-module-helper';
 import NS from 'app/constants/namespaces';
 import rgbToHex from 'helpers/color/rgbToHex';
 import storage from 'implementations/storage';
-import { createLayer, getLayerByName, getLayerName } from 'helpers/layer/layer-helper';
+import { createLayer, getLayerByName } from 'helpers/layer/layer-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ICommand } from 'interfaces/IHistory';
 import { ImportType } from 'interfaces/ImportSvg';
@@ -22,7 +18,7 @@ getSVGAsync((globalSVG) => {
 
 const checkLayerModule = (layer: Element, targetModule: LayerModule): boolean => {
   if (!layer) return false;
-  const currentModule = getData<LayerModule>(layer, DataType.module);
+  const currentModule = getData(layer, 'module') as LayerModule;
   if (currentModule === LayerModule.PRINTER && targetModule !== LayerModule.PRINTER) return false;
   if (currentModule !== LayerModule.PRINTER && targetModule === LayerModule.PRINTER) return false;
   return true;
@@ -61,7 +57,11 @@ const appendUseElement = (
 
     const targetLayer = getLayerByName(targetLayerName);
     if (!checkLayerModule(targetLayer, targetModule)) {
-      const { layer: newLayer, name: newLayerName, cmd } = createLayer(targetLayerName, { isSubCmd: true });
+      const {
+        layer: newLayer,
+        name: newLayerName,
+        cmd,
+      } = createLayer(targetLayerName, { isSubCmd: true });
       if (cmd && !cmd.isEmpty()) batchCmd.addSubCommand(cmd);
       layerConfigHelper.initLayerConfig(newLayerName);
 
@@ -76,7 +76,7 @@ const appendUseElement = (
           if (!Number.isNaN(parsePower)) {
             parsePower = Math.round(parsePower * 10) / 10;
             parsePower = Math.max(Math.min(parsePower, laserConst.power.max), laserConst.power.min);
-            writeDataLayer(newLayer, DataType.strength, parsePower);
+            writeDataLayer(newLayer, 'power', parsePower);
           }
           if (!Number.isNaN(parseSpeed)) {
             parseSpeed = Math.round(parseSpeed * 10) / 10;
@@ -84,7 +84,7 @@ const appendUseElement = (
               Math.min(parseSpeed, laserConst.laser_speed.max),
               laserConst.laser_speed.min
             );
-            writeDataLayer(newLayer, DataType.speed, parseSpeed);
+            writeDataLayer(newLayer, 'speed', parseSpeed);
           }
         }
       } else if (type === 'color') {
@@ -94,7 +94,7 @@ const appendUseElement = (
         if (index !== undefined) {
           writeDataLayer(
             newLayer,
-            DataType.strength,
+            'power',
             Math.max(
               Math.min(layerColorConfig.array[index].power, laserConst.power.max),
               laserConst.power.min
@@ -102,18 +102,18 @@ const appendUseElement = (
           );
           writeDataLayer(
             newLayer,
-            DataType.speed,
+            'speed',
             Math.max(
               Math.min(layerColorConfig.array[index].speed, laserConst.laser_speed.max),
               laserConst.laser_speed.min
             )
           );
-          writeDataLayer(newLayer, DataType.repeat, layerColorConfig.array[index].repeat);
+          writeDataLayer(newLayer, 'repeat', layerColorConfig.array[index].repeat);
         }
       }
       if (targetModule === LayerModule.PRINTER) {
-        writeDataLayer(newLayer, DataType.module, LayerModule.PRINTER);
-        writeDataLayer(newLayer, DataType.fullColor, '1');
+        writeDataLayer(newLayer, 'module', LayerModule.PRINTER);
+        writeDataLayer(newLayer, 'fullcolor', true);
       }
     } else if (currentDrawing.getCurrentLayer() !== targetLayer) {
       svgCanvas.setCurrentLayer(targetLayerName);
@@ -121,7 +121,11 @@ const appendUseElement = (
   } else {
     let targetLayer = currentDrawing.getCurrentLayer();
     if (!checkLayerModule(targetLayer, targetModule)) {
-      const { layer, name: newLayerName, cmd } = createLayer(
+      const {
+        layer,
+        name: newLayerName,
+        cmd,
+      } = createLayer(
         targetModule === LayerModule.PRINTER
           ? i18n.lang.layer_module.printing
           : i18n.lang.layer_module.general_laser,
@@ -133,8 +137,8 @@ const appendUseElement = (
       svgCanvas.setCurrentLayer(newLayerName);
     }
     if (targetModule === LayerModule.PRINTER) {
-      writeDataLayer(targetLayer, DataType.module, LayerModule.PRINTER);
-      writeDataLayer(targetLayer, DataType.fullColor, '1');
+      writeDataLayer(targetLayer, 'module', LayerModule.PRINTER);
+      writeDataLayer(targetLayer, 'fullcolor', true);
     }
   }
 

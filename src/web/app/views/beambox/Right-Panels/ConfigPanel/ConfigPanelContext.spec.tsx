@@ -1,26 +1,12 @@
 import { Action, getDefaultState, reducer } from './ConfigPanelContext';
 
 jest.mock('helpers/layer/layer-config-helper', () => ({
-  DataType: {
-    speed: 'speed',
-    strength: 'strength',
-    repeat: 'repeat',
-    zstep: 'zstep',
-    configName: 'configName',
-  },
   defaultConfig: {
     speed: 20,
-    strength: 15,
+    power: 15,
     repeat: 1,
-    zstep: 0,
+    zStep: 0,
     configName: '',
-  },
-  dataKey: {
-    speed: 'speed',
-    strength: 'power',
-    repeat: 'repeat',
-    zstep: 'zStep',
-    configName: 'configName',
   },
 }));
 
@@ -83,7 +69,6 @@ describe('test ConfigPanelContext', () => {
       repeat: { value: 1 },
       zStep: { value: 0 },
       configName: { value: 'test' },
-      selectedItem: 'test',
     });
   });
 });

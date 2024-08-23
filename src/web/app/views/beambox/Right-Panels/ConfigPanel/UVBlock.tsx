@@ -5,9 +5,9 @@ import history from 'app/svgedit/history/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import useI18n from 'helpers/useI18n';
-import { DataType, writeData } from 'helpers/layer/layer-config-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { useIsMobile } from 'helpers/system-helper';
+import { writeData } from 'helpers/layer/layer-config-helper';
 
 import ConfigPanelContext from './ConfigPanelContext';
 import styles from './Block.module.scss';
@@ -29,7 +29,7 @@ const UVBlock = (): JSX.Element => {
     dispatch({ type: 'change', payload: { uv: newValue } });
     const batchCmd = new history.BatchCommand('Change UV toggle');
     selectedLayers.forEach((layerName) =>
-      writeData(layerName, DataType.UV, newValue, { batchCmd })
+      writeData(layerName, 'uv', newValue, { batchCmd })
     );
     batchCmd.onAfter = initState;
     svgCanvas.addCommandToHistory(batchCmd);

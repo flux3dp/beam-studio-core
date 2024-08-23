@@ -65,9 +65,6 @@ jest.mock('helpers/useI18n', () => () => ({
 
 const mockGetData = jest.fn();
 jest.mock('helpers/layer/layer-config-helper', () => ({
-  DataType: {
-    module: 'module',
-  },
   getData: (...args) => mockGetData(...args),
 }));
 

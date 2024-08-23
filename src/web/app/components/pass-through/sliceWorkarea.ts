@@ -7,7 +7,6 @@ import ISVGCanvas from 'interfaces/ISVGCanvas';
 import i18n from 'helpers/i18n';
 import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
 import layerConfigHelper, {
-  DataType,
   initLayerConfig,
   writeDataLayer,
 } from 'helpers/layer/layer-config-helper';
@@ -199,9 +198,9 @@ const sliceWorkarea = async (
       if (i > 0) layer.setAttribute('display', 'none');
       if (!cmd.isEmpty()) batchCmd.addSubCommand(cmd);
       layerConfigHelper.initLayerConfig(name);
-      writeDataLayer(layer, DataType.fullColor, '1');
-      writeDataLayer(layer, DataType.ref, '1');
-      writeDataLayer(layer, DataType.repeat, 0);
+      writeDataLayer(layer, 'fullcolor', true);
+      writeDataLayer(layer, 'ref', true);
+      writeDataLayer(layer, 'repeat', 0);
       const image = document.createElementNS(NS.SVG, 'image') as SVGImageElement;
       image.setAttribute('x', '0');
       image.setAttribute('y', '0');

@@ -6,7 +6,7 @@ import progressCaller from 'app/actions/progress-caller';
 import symbolMaker from 'helpers/symbol-maker';
 import updateImageDisplay from 'helpers/image/updateImageDisplay';
 import updateLayerColor from 'helpers/color/updateLayerColor';
-import { DataType, getData, writeDataLayer } from 'helpers/layer/layer-config-helper';
+import { getData, writeDataLayer } from 'helpers/layer/layer-config-helper';
 import { PrintingColors } from 'app/constants/color-constants';
 import {
   cloneLayer,
@@ -34,8 +34,8 @@ const splitFullColorLayer = async (
 ): Promise<{ cmd: IBatchCommand; newLayers: Element[] } | null> => {
   const { addToHistory = true } = opts;
   const layer = getLayerElementByName(layerName);
-  const fullColor = getData<boolean>(layer, DataType.fullColor);
-  const ref = getData<boolean>(layer, DataType.ref);
+  const fullColor = getData(layer, 'fullcolor');
+  const ref = getData(layer, 'ref');
   if (!fullColor || ref) return null;
   progressCaller.openNonstopProgress({
     id: PROGRESS_ID,
@@ -44,17 +44,19 @@ const splitFullColorLayer = async (
   });
   const uses = [...layer.querySelectorAll('use')];
   uses.forEach((use) => symbolMaker.switchImageSymbol(use as SVGUseElement, false));
-  const { rgbBlob, cmykBlob, bbox } = await layerToImage(layer as SVGGElement, { isFullColor: true });
+  const { rgbBlob, cmykBlob, bbox } = await layerToImage(layer as SVGGElement, {
+    isFullColor: true,
+  });
   uses.forEach((use) => symbolMaker.switchImageSymbol(use as SVGUseElement, true));
   if (!rgbBlob || bbox.width === 0 || bbox.height === 0) {
     progressCaller.popById(PROGRESS_ID);
     return null;
   }
-  const whiteInkStaturation = getData<number>(layer, DataType.wInk);
-  const cRatio = getData<number>(layer, DataType.cRatio);
-  const mRatio = getData<number>(layer, DataType.mRatio);
-  const yRatio = getData<number>(layer, DataType.yRatio);
-  const kRatio = getData<number>(layer, DataType.kRatio);
+  const whiteInkStaturation = getData(layer, 'wInk');
+  const cRatio = getData(layer, 'cRatio');
+  const mRatio = getData(layer, 'mRatio');
+  const yRatio = getData(layer, 'yRatio');
+  const kRatio = getData(layer, 'kRatio');
 
   const includeWhite = isDev() && whiteInkStaturation > 0;
   const channelBlobs = await splitColor(rgbBlob, cmykBlob, { includeWhite });
@@ -68,7 +70,7 @@ const splitFullColorLayer = async (
     { strength: cRatio },
     { strength: mRatio },
     { strength: yRatio },
-  ]
+  ];
   for (let i = 0; i < nameSuffix.length; i += 1) {
     // eslint-disable-next-line no-continue
     if (i === 0 && !includeWhite) {
@@ -94,16 +96,16 @@ const splitFullColorLayer = async (
       elem.setAttribute('data-color', color);
       elem.removeAttribute('data-fullcolor');
       if (i === 0) {
-        const whiteSpeed = getData<number>(layer, DataType.wSpeed);
-        const whiteMultipass = getData<number>(layer, DataType.wMultipass);
-        const whiteRepeat = getData<number>(layer, DataType.wRepeat);
-        writeDataLayer(elem, DataType.ink, whiteInkStaturation);
-        writeDataLayer(elem, DataType.printingSpeed, whiteSpeed);
-        writeDataLayer(elem, DataType.multipass, whiteMultipass);
-        writeDataLayer(elem, DataType.repeat, whiteRepeat);
+        const whiteSpeed = getData(layer, 'wSpeed');
+        const whiteMultipass = getData(layer, 'wMultipass');
+        const whiteRepeat = getData(layer, 'wRepeat');
+        writeDataLayer(elem, 'ink', whiteInkStaturation);
+        writeDataLayer(elem, 'printingSpeed', whiteSpeed);
+        writeDataLayer(elem, 'multipass', whiteMultipass);
+        writeDataLayer(elem, 'repeat', whiteRepeat);
       } else {
         const { strength } = params[i];
-        writeDataLayer(elem, DataType.printingStrength, strength);
+        writeDataLayer(elem, 'printingStrength', strength);
       }
       layer.parentNode.insertBefore(elem, layer.nextSibling);
       newLayers.push(elem);
@@ -154,8 +156,8 @@ export const tempSplitFullColorLayers = async (): Promise<() => void> => {
   for (let i = 0; i < allLayerNames.length; i += 1) {
     const layerName = allLayerNames[i];
     const layer = getLayerElementByName(layerName);
-    const fullColor = getData<boolean>(layer, DataType.fullColor);
-    const ref = getData<boolean>(layer, DataType.ref);
+    const fullColor = getData(layer, 'fullcolor');
+    const ref = getData(layer, 'ref');
     if (fullColor && layer.getAttribute('display') !== 'none' && !ref) {
       const { parentNode, nextSibling } = layer;
       const children = [...layer.childNodes] as Element[];

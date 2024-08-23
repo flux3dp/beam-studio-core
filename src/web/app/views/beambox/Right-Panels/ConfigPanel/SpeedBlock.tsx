@@ -14,7 +14,7 @@ import objectPanelItemStyles from 'app/views/beambox/Right-Panels/ObjectPanelIte
 import storage from 'implementations/storage';
 import units from 'helpers/units';
 import useI18n from 'helpers/useI18n';
-import { CUSTOM_PRESET_CONSTANT, DataType, writeData } from 'helpers/layer/layer-config-helper';
+import { CUSTOM_PRESET_CONSTANT, writeData } from 'helpers/layer/layer-config-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
@@ -91,8 +91,8 @@ const SpeedBlock = ({
     if (type !== 'modal') {
       const batchCmd = new history.BatchCommand('Change speed');
       selectedLayers.forEach((layerName) => {
-        writeData(layerName, DataType.speed, val, { applyPrinting: true, batchCmd });
-        writeData(layerName, DataType.configName, CUSTOM_PRESET_CONSTANT, { batchCmd });
+        writeData(layerName, 'speed', val, { applyPrinting: true, batchCmd });
+        writeData(layerName, 'configName', CUSTOM_PRESET_CONSTANT, { batchCmd });
       });
       batchCmd.onAfter = initState;
       svgCanvas.addCommandToHistory(batchCmd);

@@ -47,10 +47,6 @@ jest.mock('app/views/beambox/Right-Panels/ObjectPanelItem', () => ({
 const mockWriteData = jest.fn();
 jest.mock('helpers/layer/layer-config-helper', () => ({
   CUSTOM_PRESET_CONSTANT: 'CUSTOM_PRESET_CONSTANT',
-  DataType: {
-    repeat: 'repeat',
-    configName: 'configName',
-  },
   writeData: (...args) => mockWriteData(...args),
 }));
 

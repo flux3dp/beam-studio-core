@@ -2,8 +2,8 @@ import React, { useContext, useState } from 'react';
 import { Modal } from 'antd';
 
 import useI18n from 'helpers/useI18n';
-import { DataType, writeDataLayer } from 'helpers/layer/layer-config-helper';
 import { getLayerByName } from 'helpers/layer/layer-helper';
+import { writeDataLayer } from 'helpers/layer/layer-config-helper';
 
 import ConfigPanelContext from './ConfigPanelContext';
 import styles from './WhiteInkSettingsModal.module.scss';
@@ -31,22 +31,22 @@ const WhiteInkSettingsModal = ({ onClose }: Props): JSX.Element => {
     selectedLayers.forEach((layerName) => {
       const layer = getLayerByName(layerName);
       if (wInk.value !== ink.value || wInk.hasMultiValue !== ink.hasMultiValue) {
-        writeDataLayer(layer, DataType.wInk, ink.value);
+        writeDataLayer(layer, 'wInk', ink.value);
         newState.wInk = ink;
       }
       if (wSpeed.value !== speed.value || wSpeed.hasMultiValue !== speed.hasMultiValue) {
-        writeDataLayer(layer, DataType.wSpeed, speed.value);
+        writeDataLayer(layer, 'wSpeed', speed.value);
         newState.wSpeed = speed;
       }
       if (
         wMultipass.value !== multipass.value ||
         wMultipass.hasMultiValue !== multipass.hasMultiValue
       ) {
-        writeDataLayer(layer, DataType.wMultipass, multipass.value);
+        writeDataLayer(layer, 'wMultipass', multipass.value);
         newState.wMultipass = multipass;
       }
       if (wRepeat.value !== repeat.value || wRepeat.hasMultiValue !== repeat.hasMultiValue) {
-        writeDataLayer(layer, DataType.wRepeat, repeat.value);
+        writeDataLayer(layer, 'wRepeat', repeat.value);
         newState.wRepeat = repeat;
       }
     });

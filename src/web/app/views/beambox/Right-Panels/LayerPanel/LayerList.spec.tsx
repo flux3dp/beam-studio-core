@@ -1,7 +1,6 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
-import { DataType } from 'helpers/layer/layer-config-helper';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
 
 import LayerList from './LayerList';
@@ -34,10 +33,6 @@ jest.mock(
 const mockGetData = jest.fn();
 jest.mock('helpers/layer/layer-config-helper', () => ({
   getData: (...args) => mockGetData(...args),
-  DataType: {
-    module: 'module',
-    ref: 'ref',
-  },
 }));
 
 const mockGetAllLayerNames = jest.fn();
@@ -96,8 +91,8 @@ describe('test LayerList', () => {
 
   it('should render correctly', () => {
     mockUseWorkarea.mockReturnValue('fbm1');
-    mockGetData.mockImplementation((layer, type) => {
-      if (type === DataType.module) return 2;
+    mockGetData.mockImplementation((layer, key) => {
+      if (key === 'module') return 2;
       return false;
     });
     mockGetAllLayerNames.mockReturnValue(['layer1', 'layer2']);

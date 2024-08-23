@@ -28,7 +28,7 @@ import {
   mergeLayers,
   setLayersLock,
 } from 'helpers/layer/layer-helper';
-import { DataType, getData } from 'helpers/layer/layer-config-helper';
+import { getData } from 'helpers/layer/layer-config-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
 import { ObjectPanelContext } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
@@ -120,8 +120,8 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
     selectedLayers.length === 1 &&
     layerElem &&
     modelsWithModules.has(workarea) &&
-    getData<LayerModule>(layerElem, DataType.module) === LayerModule.PRINTER;
-  const isFullColor = layerElem?.getAttribute('data-fullcolor') === '1';
+    getData(layerElem, 'module') === LayerModule.PRINTER;
+  const isFullColor = layerElem && getData(layerElem, 'fullcolor');
 
   const handleSplitColor = async () => {
     svgCanvas.clearSelection();

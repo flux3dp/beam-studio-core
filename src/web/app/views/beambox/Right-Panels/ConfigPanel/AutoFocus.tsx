@@ -5,7 +5,7 @@ import history from 'app/svgedit/history/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import useI18n from 'helpers/useI18n';
-import { CUSTOM_PRESET_CONSTANT, DataType, writeData } from 'helpers/layer/layer-config-helper';
+import { CUSTOM_PRESET_CONSTANT, writeData } from 'helpers/layer/layer-config-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 import ConfigPanelContext from './ConfigPanelContext';
@@ -27,7 +27,7 @@ const AutoFocus = (): JSX.Element => {
     dispatch({ type: 'change', payload: { height: value } });
     const batchCmd = new history.BatchCommand('Change auto focus toggle');
     selectedLayers.forEach((layerName) =>
-      writeData(layerName, DataType.height, value, { batchCmd })
+      writeData(layerName, 'height', value, { batchCmd })
     );
     batchCmd.onAfter = initState;
     svgCanvas.addCommandToHistory(batchCmd);
@@ -37,7 +37,7 @@ const AutoFocus = (): JSX.Element => {
     dispatch({ type: 'change', payload: { height: value } });
     const batchCmd = new history.BatchCommand('Change auto focus height');
     selectedLayers.forEach((layerName) =>
-      writeData(layerName, DataType.height, value, { batchCmd })
+      writeData(layerName, 'height', value, { batchCmd })
     );
     batchCmd.onAfter = initState;
     svgCanvas.addCommandToHistory(batchCmd);
@@ -47,8 +47,8 @@ const AutoFocus = (): JSX.Element => {
     dispatch({ type: 'change', payload: { zStep: value, configName: CUSTOM_PRESET_CONSTANT } });
     const batchCmd = new history.BatchCommand('Change auto focus z step');
     selectedLayers.forEach((layerName) => {
-      writeData(layerName, DataType.zstep, value, { batchCmd });
-      writeData(layerName, DataType.configName, CUSTOM_PRESET_CONSTANT, { batchCmd });
+      writeData(layerName, 'zStep', value, { batchCmd });
+      writeData(layerName, 'configName', CUSTOM_PRESET_CONSTANT, { batchCmd });
     });
     batchCmd.onAfter = initState;
     svgCanvas.addCommandToHistory(batchCmd);

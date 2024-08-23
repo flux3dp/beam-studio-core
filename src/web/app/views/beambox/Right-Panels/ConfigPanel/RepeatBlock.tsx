@@ -7,7 +7,7 @@ import ISVGCanvas from 'interfaces/ISVGCanvas';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import useI18n from 'helpers/useI18n';
-import { CUSTOM_PRESET_CONSTANT, DataType, writeData } from 'helpers/layer/layer-config-helper';
+import { CUSTOM_PRESET_CONSTANT, writeData } from 'helpers/layer/layer-config-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 import ConfigPanelContext from './ConfigPanelContext';
@@ -42,8 +42,8 @@ const RepeatBlock = ({
     if (type !== 'modal') {
       const batchCmd = new history.BatchCommand('Change repeat');
       selectedLayers.forEach((layerName) => {
-        writeData(layerName, DataType.repeat, value, { batchCmd });
-        writeData(layerName, DataType.configName, CUSTOM_PRESET_CONSTANT, { batchCmd });
+        writeData(layerName, 'repeat', value, { batchCmd });
+        writeData(layerName, 'configName', CUSTOM_PRESET_CONSTANT, { batchCmd });
       });
       batchCmd.onAfter = initState;
       svgCanvas.addCommandToHistory(batchCmd);

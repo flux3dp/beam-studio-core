@@ -3,10 +3,10 @@ import { Col, ConfigProvider, Modal, Row } from 'antd';
 
 import useI18n from 'helpers/useI18n';
 import { ColorRatioModalBlock } from 'app/constants/antd-config';
-import { DataType, writeDataLayer } from 'helpers/layer/layer-config-helper';
+import { ConfigItem } from 'interfaces/ILayerConfig';
 import { getLayerByName } from 'helpers/layer/layer-helper';
-import { IConfig } from 'interfaces/ILayerConfig';
 import { PrintingColors } from 'app/constants/color-constants';
+import { writeDataLayer } from 'helpers/layer/layer-config-helper';
 
 import ConfigPanelContext from './ConfigPanelContext';
 import ModalBlock from './ModalBlock';
@@ -20,7 +20,7 @@ interface Props {
 const ColorRationModal = ({ fullColor, onClose }: Props): JSX.Element => {
   const t = useI18n().beambox.right_panel.laser_panel;
   const { dispatch, selectedLayers, state } = useContext(ConfigPanelContext);
-  const [draftValue, setDraftValue] = useState<{ [key: string]: IConfig<number> }>({
+  const [draftValue, setDraftValue] = useState<{ [key: string]: ConfigItem<number> }>({
     cRatio: state.cRatio,
     mRatio: state.mRatio,
     yRatio: state.yRatio,
@@ -32,12 +32,12 @@ const ColorRationModal = ({ fullColor, onClose }: Props): JSX.Element => {
     const keys = fullColor ? ['cRatio', 'mRatio', 'yRatio', 'kRatio'] : ['printingStrength'];
     selectedLayers.forEach((layerName) => {
       const layer = getLayerByName(layerName);
-      keys.forEach((key) => {
+      keys.forEach((key: 'cRatio' | 'mRatio' | 'yRatio' | 'kRatio' | 'printingStrength') => {
         if (
           state[key].value !== draftValue[key].value ||
           state[key].hasMultiValue !== draftValue[key].hasMultiValue
         ) {
-          writeDataLayer(layer, DataType[key], draftValue[key].value);
+          writeDataLayer(layer, key, draftValue[key].value);
           newState[key] = draftValue[key];
         }
       });

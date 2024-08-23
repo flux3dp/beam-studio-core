@@ -1,36 +1,51 @@
-export interface IConfig<T> {
+export type ConfigKeyTypeMap = {
+  speed: number;
+  printingSpeed: number;
+  power: number;
+  minPower: number;
+  ink: number;
+  repeat: number;
+  height: number;
+  zStep: number;
+  diode: number;
+  configName: string;
+  module: number;
+  backlash: number;
+  multipass: number;
+  uv: number;
+  halftone: number;
+  wInk: number;
+  wSpeed: number;
+  wMultipass: number;
+  wRepeat: number;
+  color: string;
+  fullcolor: boolean;
+  cRatio: number;
+  mRatio: number;
+  yRatio: number;
+  kRatio: number;
+  printingStrength: number;
+  clipRect: string; // x y w h
+  ref: boolean;
+  focus: number;
+  focusStep: number;
+};
+
+type ConfigKey = keyof ConfigKeyTypeMap;
+
+export interface ConfigItem<T> {
   value: T;
   hasMultiValue?: boolean;
 }
 
-export interface ILayerConfig {
-  speed: IConfig<number>;
-  power: IConfig<number>;
-  minPower: IConfig<number>;
-  ink: IConfig<number>;
-  repeat: IConfig<number>;
-  height: IConfig<number>;
-  zStep: IConfig<number>;
-  diode: IConfig<number>;
-  configName: IConfig<string>;
-  module: IConfig<number>;
-  backlash: IConfig<number>;
-  multipass: IConfig<number>;
-  uv: IConfig<number>;
-  halftone: IConfig<number>;
-  wInk: IConfig<number>;
-  wSpeed: IConfig<number>;
-  wMultipass: IConfig<number>;
-  wRepeat: IConfig<number>;
-  color: IConfig<string>;
-  fullcolor: IConfig<boolean>;
-  cRatio: IConfig<number>;
-  mRatio: IConfig<number>;
-  yRatio: IConfig<number>;
-  kRatio: IConfig<number>;
-  printingStrength: IConfig<number>;
-  clipRect: IConfig<string>; // x y w h
-  ref: IConfig<boolean>;
-  focus: IConfig<number>;
-  focusStep: IConfig<number>;
+export type ILayerConfig = {
+  [key in keyof ConfigKeyTypeMap]: ConfigItem<ConfigKeyTypeMap[key]>;
 }
+
+export type IParameter = {
+  isDefault?: boolean;
+  name?: string;
+  key?: string;
+  hide?: boolean;
+  module?: number;
+} & { [key in keyof ILayerConfig]?: ConfigKeyTypeMap[key] };

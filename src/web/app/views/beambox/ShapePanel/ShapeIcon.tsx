@@ -9,7 +9,7 @@ import LayerModule from 'app/constants/layer-module/layer-modules';
 import updateElementColor from 'helpers/color/updateElementColor';
 import useForceUpdate from 'helpers/use-force-update';
 import { builtInElements } from 'app/constants/shape-panel-constants';
-import { DataType, getData } from 'helpers/layer/layer-config-helper';
+import { getData } from 'helpers/layer/layer-config-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { getLayerByName } from 'helpers/layer/layer-helper';
 
@@ -40,7 +40,7 @@ const importShape = async (IconComponent, jsonMap) => {
     );
     const drawing = svgCanvas.getCurrentDrawing();
     const layerName = drawing.getCurrentLayerName();
-    const layerModule = getData<LayerModule>(getLayerByName(layerName), DataType.module);
+    const layerModule: LayerModule = getData(getLayerByName(layerName), 'module');
     const batchCmd = HistoryCommandFactory.createBatchCommand('Shape Panel Import SVG');
     const newElementnewElement = await importSvgString(iconString, {
       type: 'layer',

@@ -29,9 +29,6 @@ jest.mock('helpers/svg-editor-helper', () => ({
 const mockWriteData = jest.fn();
 jest.mock('helpers/layer/layer-config-helper', () => ({
   CUSTOM_PRESET_CONSTANT: 'CUSTOM_PRESET_CONSTANT',
-  DataType: {
-    halftone: 'halftone',
-  },
   writeData: (...args) => mockWriteData(...args),
 }));
 

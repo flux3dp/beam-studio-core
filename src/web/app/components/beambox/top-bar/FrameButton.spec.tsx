@@ -157,9 +157,6 @@ jest.mock('app/svgedit/workarea', () => ({
 const mockGetData = jest.fn();
 jest.mock('helpers/layer/layer-config-helper', () => ({
   getData: (...args) => mockGetData(...args),
-  DataType: {
-    module: 'module',
-  },
 }));
 
 const mockGetAllLayers = jest.fn();
