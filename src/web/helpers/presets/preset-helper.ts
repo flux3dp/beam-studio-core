@@ -85,7 +85,6 @@ const initPresets = (migrate = false) => {
         preset.name = translated || key;
       }
     });
-    console.log('presets', allPresets);
   }
 };
 
