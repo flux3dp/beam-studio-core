@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`test ModuleBlock change to 20w should work when selecting 1 layer 1`] = `
+exports[`test ModuleBlock change to 20w should work with preset change 1`] = `
 <body>
   <div
     class="adm-px-tester"
