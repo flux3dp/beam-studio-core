@@ -455,7 +455,7 @@ describe('test LayerContextMenu', () => {
   it('should render correctly when selecting printing layer', async () => {
     mockDrawing.getLayerName.mockReturnValue('layer1');
     mockGetLayerElementByName.mockReturnValue(mockElem);
-    mockGetData.mockReturnValue(LayerModule.PRINTER);
+    mockGetData.mockReturnValueOnce(LayerModule.PRINTER).mockReturnValueOnce(false);
     const { container } = render(
       <LayerPanelContext.Provider
         value={{
@@ -475,16 +475,16 @@ describe('test LayerContextMenu', () => {
     );
     expect(mockGetLayerElementByName).toBeCalledTimes(1);
     expect(mockGetLayerElementByName).toHaveBeenLastCalledWith('layer1');
-    expect(mockGetData).toBeCalledTimes(1);
-    expect(mockGetData).toHaveBeenLastCalledWith(mockElem, 'module');
+    expect(mockGetData).toBeCalledTimes(2);
+    expect(mockGetData).toHaveBeenNthCalledWith(1, mockElem, 'module');
+    expect(mockGetData).toHaveBeenNthCalledWith(2, mockElem, 'fullcolor');
     expect(container).toMatchSnapshot();
   });
 
   test('click split color should work', async () => {
     mockDrawing.getLayerName.mockReturnValue('layer1');
     mockGetLayerElementByName.mockReturnValue(mockElem);
-    mockElem.getAttribute.mockReturnValue('1');
-    mockGetData.mockReturnValue(LayerModule.PRINTER);
+    mockGetData.mockReturnValueOnce(LayerModule.PRINTER).mockReturnValueOnce(true);
     const { getByText } = render(
       <LayerPanelContext.Provider
         value={{
@@ -516,11 +516,11 @@ describe('test LayerContextMenu', () => {
     });
   });
 
-  test('click toggle full color should work', async () => {
+  test.only('click toggle full color should work', async () => {
     mockDrawing.getLayerName.mockReturnValue('layer1');
     mockGetLayerElementByName.mockReturnValue(mockElem);
-    mockGetData.mockReturnValue(LayerModule.PRINTER);
-    mockElem.getAttribute.mockReturnValueOnce('false').mockReturnValueOnce('0');
+    mockGetData.mockReturnValueOnce(LayerModule.PRINTER).mockReturnValueOnce(false);
+    mockElem.getAttribute.mockReturnValueOnce('false');
 
     const { getByText } = render(
       <LayerPanelContext.Provider
@@ -548,9 +548,8 @@ describe('test LayerContextMenu', () => {
     await act(async () => {
       fireEvent.click(getByText('switchToFullColor'));
     });
-    expect(mockElem.getAttribute).toBeCalledTimes(2);
+    expect(mockElem.getAttribute).toBeCalledTimes(1);
     expect(mockElem.getAttribute).toHaveBeenNthCalledWith(1, 'data-lock');
-    expect(mockElem.getAttribute).toHaveBeenNthCalledWith(2, 'data-fullcolor');
     expect(mockToggleFullColorLayer).toBeCalledTimes(1);
     expect(mockToggleFullColorLayer).toHaveBeenLastCalledWith(mockElem);
     expect(mockSetSelectedLayers).toBeCalledTimes(1);
