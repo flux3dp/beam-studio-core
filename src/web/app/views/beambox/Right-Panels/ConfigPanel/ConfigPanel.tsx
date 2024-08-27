@@ -163,9 +163,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
       return lang.various_preset;
     }
     if (name.value === CUSTOM_PRESET_CONSTANT) return lang.custom_preset;
-    const preset = presetList?.find(
-      (p) => !p.hide && (name.value === p.key || name.value === p.name)
-    );
+    const preset = presetList?.find((p) => name.value === p.key || name.value === p.name);
     if (!preset) return lang.custom_preset;
     if (name.value) return preset.key ?? preset.name;
     return PARAMETERS_CONSTANT;
@@ -177,7 +175,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
       forceUpdate();
       return;
     }
-    const preset = presetList.find((p) => !p.hide && (value === p.key || value === p.name));
+    const preset = presetList.find((p) => value === p.key || value === p.name);
     if (!preset) {
       console.error('No such value', value);
       return;
