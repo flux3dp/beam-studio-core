@@ -125,20 +125,6 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
   }, [updateDiodeBoundary]);
 
   const workarea = useWorkarea();
-  useEffect(() => {
-    postPresetChange();
-    presprayArea.togglePresprayArea();
-    const drawing = svgCanvas.getCurrentDrawing();
-    const currentLayerName = drawing.getCurrentLayerName();
-    const layerData = getLayerConfig(currentLayerName);
-    const { speed, repeat } = state;
-    if (speed.value !== layerData.speed.value || repeat.value !== layerData.repeat.value) {
-      timeEstimationButtonEventEmitter.emit('SET_ESTIMATED_TIME', null);
-    }
-    dispatch({ type: 'update', payload: layerData });
-    updateDiodeBoundary();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [workarea]);
 
   const initState = useCallback((layers: string[] = LayerPanelController.getSelectedLayers()) => {
     if (layers.length > 1) {
@@ -152,12 +138,17 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
     }
   }, []);
 
+  useEffect(() => {
+    postPresetChange();
+    presprayArea.togglePresprayArea();
+    initState();
+    updateDiodeBoundary();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [workarea, initState]);
+
   useEffect(() => initState(selectedLayers), [initState, selectedLayers]);
 
-  const presetList = useMemo(
-    () => presetHelper.getPresetsList(workarea, state.module.value),
-    [workarea, state.module.value]
-  );
+  const presetList = presetHelper.getPresetsList(workarea, state.module.value);
   const dropdownValue = useMemo(() => {
     const { configName: name, speed, power, ink, repeat, zStep, diode, multipass } = state;
     // multi select
@@ -239,7 +230,11 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
   const displayName = selectedLayers.length === 1 ? selectedLayers[0] : lang.multi_layer;
 
   const handleOpenManageModal = () => {
-    showPresetsManagementPanel(module.value, configName.value);
+    showPresetsManagementPanel({
+      currentModule: module.value,
+      initPreset: configName.value,
+      onClose: initState,
+    });
   };
   const isDevMode = isDev();
   const commonContent = (

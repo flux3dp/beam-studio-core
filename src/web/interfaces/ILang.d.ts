@@ -746,20 +746,9 @@ export interface ILang {
         cut: string,
         engrave: string,
         more: string,
-        delete: string,
-        reset: string,
-        sure_to_reset: string,
         apply: string,
         cancel: string,
         save: string,
-        save_and_exit: string,
-        name: string,
-        default: string,
-        customized: string,
-        inuse: string,
-        export_config: string,
-        new_config_name: string,
-        sure_to_load_config: string,
         custom_preset: string,
         various_preset: string,
         module: string;
@@ -777,8 +766,6 @@ export interface ILang {
         dropdown: {
           parameters: string,
           save: string,
-          export: string,
-          import: string,
           more: string,
           mm: {
             wood_3mm_cutting: string;
@@ -908,7 +895,25 @@ export interface ILang {
         para_in_use: string,
         do_not_adjust_default_para: string,
         existing_name: string,
-        presets: string,
+        presets: string;
+        preset_management: {
+          preset: string;
+          title: string;
+          add_new: string;
+          lower_focus_by: string;
+          save_and_exit: string;
+          delete: string;
+          reset: string;
+          sure_to_reset: string;
+          show_all: string;
+          laser: string;
+          print: string;
+          export: string;
+          export_preset_title: string,
+          import: string;
+          sure_to_import_presets: string,
+          new_preset_name: string;
+        };
       },
       object_panel: {
         zoom: string,

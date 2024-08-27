@@ -75,6 +75,7 @@ const PresetList = forwardRef<HTMLDivElement, Props>(
                       })}
                       title={preset.name}
                       onClick={() => setSelectedPreset(preset)}
+                      data-key={preset.isDefault ? preset.key : preset.name}
                     >
                       <div className={styles.left}>
                         {preset.isDefault && <div className={styles.mark}>{t.preset}</div>}
@@ -83,7 +84,13 @@ const PresetList = forwardRef<HTMLDivElement, Props>(
                           {preset.name}
                         </div>
                       </div>
-                      <div className={styles.eye} onClick={() => toggleHidePreset(preset)}>
+                      <div
+                        className={styles.eye}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleHidePreset(preset);
+                        }}
+                      >
                         {preset.hide ? <LayerPanelIcons.Invisible /> : <LayerPanelIcons.Visible />}
                       </div>
                     </div>
