@@ -766,7 +766,6 @@ const lang: ILang = {
         dropdown: {
           parameters: 'Voorinstellingen',
           save: 'Voeg huidige parameters toe',
-          more: 'Beheren',
           mm: {
             wood_3mm_cutting: 'Hout - 3mm Snijden',
             wood_5mm_cutting: 'Hout - 5mm Snijden',

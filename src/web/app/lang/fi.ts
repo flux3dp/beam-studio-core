@@ -766,7 +766,6 @@ const lang: ILang = {
         dropdown: {
           parameters: 'Esiasetukset',
           save: 'Lisää nykyiset parametrit',
-          more: 'Hallitse',
           mm: {
             wood_3mm_cutting: 'Puu - 3 mm leikkaus',
             wood_5mm_cutting: 'Puu - 5 mm leikkaus',

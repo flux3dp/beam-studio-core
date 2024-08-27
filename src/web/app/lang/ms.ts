@@ -766,7 +766,6 @@ const lang: ILang = {
         dropdown: {
           parameters: 'Praset',
           save: 'Tambah parameter semasa',
-          more: 'Urus',
           mm: {
             wood_3mm_cutting: 'Kayu - Pemotongan 3mm',
             wood_5mm_cutting: 'Kayu - Pemotongan 5mm',

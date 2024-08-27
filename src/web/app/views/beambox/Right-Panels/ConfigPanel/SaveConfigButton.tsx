@@ -3,6 +3,7 @@ import React, { memo, useContext } from 'react';
 
 import alertCaller from 'app/actions/alert-caller';
 import alertConstants from 'app/constants/alert-constants';
+import ConfigPanelIcons from 'app/icons/config-panel/ConfigPanelIcons';
 import dialogCaller from 'app/actions/dialog-caller';
 import LayerModule from 'app/constants/layer-module/layer-modules';
 import presetHelper from 'helpers/presets/preset-helper';
@@ -41,8 +42,9 @@ const SaveConfigButton = (): JSX.Element => {
   };
 
   return (
-    <div
-      className={classNames(styles.btn, { [styles.disabled]: disabled })}
+    <button
+      type="button"
+      className={classNames(styles.container, { [styles.disabled]: disabled })}
       onClick={() => {
         if (disabled) return;
         dialogCaller.promptDialog({
@@ -51,8 +53,8 @@ const SaveConfigButton = (): JSX.Element => {
         });
       }}
     >
-      <img src="img/icon-plus.svg" />
-    </div>
+      <ConfigPanelIcons.Plus />
+    </button>
   );
 };
 

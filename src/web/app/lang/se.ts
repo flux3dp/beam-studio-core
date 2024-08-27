@@ -766,7 +766,6 @@ const lang: ILang = {
         dropdown: {
           parameters: 'Förinställningar',
           save: 'Lägg till aktuella inställningar',
-          more: 'Hantera',
           mm: {
             wood_3mm_cutting: 'Trä - 3 mm skärning',
             wood_5mm_cutting: 'Trä - 5 mm skärning',

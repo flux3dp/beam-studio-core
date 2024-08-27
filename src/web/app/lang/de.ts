@@ -769,7 +769,6 @@ const lang: ILang = {
         dropdown: {
           parameters: 'Voreinstellungen',
           save: 'Aktuelle Parameter hinzufügen',
-          more: 'Verwalten',
           mm: {
             wood_3mm_cutting: 'Holz - 3mm Schneiden',
             wood_5mm_cutting: 'Holz - 5mm Schneiden',

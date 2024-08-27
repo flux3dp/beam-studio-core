@@ -1,0 +1,36 @@
+.container {
+  margin: 6px 15px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .title {
+    font-weight: 700;
+    color: #aaaaaa;
+    font-size: 13px;
+  }
+
+  > div {
+    height: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  button {
+    height: 100%;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    color: #7c7c7c;
+    font-size: 20px;
+
+    &:hover {
+      color: #000000;
+    }
+  }
+}

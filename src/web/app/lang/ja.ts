@@ -769,7 +769,6 @@ const lang: ILang = {
         dropdown: {
           parameters: 'パラメーター…',
           save: '現在のパラメーターを追加',
-          more: '管理する',
           mm: {
             wood_3mm_cutting: '木材 - 3mm 切断',
             wood_5mm_cutting: '木材 - 5mm 切断',

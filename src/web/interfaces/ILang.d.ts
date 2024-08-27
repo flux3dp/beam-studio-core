@@ -766,7 +766,6 @@ export interface ILang {
         dropdown: {
           parameters: string,
           save: string,
-          more: string,
           mm: {
             wood_3mm_cutting: string;
             wood_5mm_cutting: string;

@@ -51,20 +51,18 @@ import { getSupportInfo } from 'app/constants/add-on';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { getWorkarea } from 'app/constants/workarea-constants';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
-import { showPresetsManagementPanel } from 'app/components/dialogs/PresetsManagementPanel/PresetsManagementPanel';
 
 import AddOnBlock from './AddOnBlock';
 import Backlash from './Backlash';
-import ConfigOperations from './ConfigOperations';
 import ConfigPanelContext, { getDefaultState, reducer } from './ConfigPanelContext';
 import FocusBlock from './FocusBlock';
 import HalftoneBlock from './HalftoneBlock';
 import InkBlock from './InkBlock';
 import ModuleBlock from './ModuleBlock';
 import MultipassBlock from './MultipassBlock';
+import ParameterTitle from './ParameterTitle';
 import PowerBlock from './PowerBlock';
 import RepeatBlock from './RepeatBlock';
-import SaveConfigButton from './SaveConfigButton';
 import SpeedBlock from './SpeedBlock';
 import styles from './ConfigPanel.module.scss';
 import UVBlock from './UVBlock';
@@ -173,7 +171,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
     return PARAMETERS_CONSTANT;
   }, [state, lang, presetList]);
 
-  const { module, configName, fullcolor } = state;
+  const { module, fullcolor } = state;
   const handleSelectPresets = (value: string) => {
     if (value === PARAMETERS_CONSTANT) {
       forceUpdate();
@@ -229,13 +227,6 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
 
   const displayName = selectedLayers.length === 1 ? selectedLayers[0] : lang.multi_layer;
 
-  const handleOpenManageModal = () => {
-    showPresetsManagementPanel({
-      currentModule: module.value,
-      initPreset: configName.value,
-      onClose: initState,
-    });
-  };
   const isDevMode = isDev();
   const commonContent = (
     <>
@@ -268,7 +259,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
           </div>
           <ModuleBlock />
           <div className="layerparams">
-            <ConfigOperations onMoreClick={handleOpenManageModal} />
+            <ParameterTitle />
             <div className={styles['preset-dropdown-container']}>
               <Select
                 id="laser-config-dropdown"
@@ -282,7 +273,6 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
                 popupMatchSelectWidth={false}
                 placement="bottomRight"
               />
-              <SaveConfigButton />
             </div>
             {commonContent}
           </div>

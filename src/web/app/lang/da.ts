@@ -766,7 +766,6 @@ const lang: ILang = {
         dropdown: {
           parameters: 'Forudindstillinger',
           save: 'Tilføj aktuelle parametre',
-          more: 'Administrér',
           mm: {
             wood_3mm_cutting: 'Træ - 3 mm skæring',
             wood_5mm_cutting: 'Træ - 5 mm skæring',

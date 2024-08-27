@@ -769,7 +769,6 @@ const lang: ILang = {
         dropdown: {
           parameters: '选择参数',
           save: '新增目前参数',
-          more: '管理',
           mm: {
             wood_3mm_cutting: '木板 - 3mm 切割',
             wood_5mm_cutting: '木板 - 5mm 切割',

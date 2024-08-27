@@ -766,7 +766,6 @@ const lang: ILang = {
         dropdown: {
           parameters: 'Προεπιλογές',
           save: 'Προσθήκη τρέχοντος παραμέτρων',
-          more: 'Διαχείριση',
           mm: {
             wood_3mm_cutting: 'Ξύλο - 3mm κοπή',
             wood_5mm_cutting: 'Ξύλο - 5mm κοπή',

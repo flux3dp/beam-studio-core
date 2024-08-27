@@ -766,7 +766,6 @@ const lang: ILang = {
         dropdown: {
           parameters: 'Cài đặt mặc định',
           save: 'Thêm thông số hiện tại',
-          more: 'Quản lý',
           mm: {
             wood_3mm_cutting: 'Gỗ - Cắt 3mm',
             wood_5mm_cutting: 'Gỗ - Cắt 5mm',

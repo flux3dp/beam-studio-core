@@ -766,7 +766,6 @@ const lang: ILang = {
         dropdown: {
           parameters: 'การตั้งค่าล่วงหน้า',
           save: 'เพิ่มพารามิเตอร์ปัจจุบัน',
-          more: 'จัดการ',
           mm: {
             wood_3mm_cutting: 'ไม้ - ตัด 3 มม.',
             wood_5mm_cutting: 'ไม้ - ตัด 5 มม.',

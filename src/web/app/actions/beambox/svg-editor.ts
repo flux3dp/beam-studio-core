@@ -59,7 +59,6 @@ import pdfHelper from 'implementations/pdfHelper';
 import Shortcuts from 'helpers/shortcuts';
 import i18n from 'helpers/i18n';
 import isWeb from 'helpers/is-web';
-import SvgLaserParser from 'helpers/api/svg-laser-parser';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import { IFont } from 'interfaces/IFont';
 import { IIcon } from 'interfaces/INoun-Project';
@@ -74,7 +73,7 @@ import importSvg from 'app/svgedit/operations/import/importSvg';
 import readBitmapFile from 'app/svgedit/operations/import/readBitmapFile';
 import { isMobile } from 'helpers/system-helper';
 import { PanelType } from 'app/constants/right-panel-types';
-import { importPresets } from 'app/views/beambox/Right-Panels/ConfigPanel/ConfigOperations';
+import { importPresets } from 'helpers/presets/preset-helper';
 
 if (svgCanvasClass) {
   console.log('svgCanvas loaded successfully');
@@ -2578,7 +2577,8 @@ const svgEditor = window['svgEditor'] = (function () {
             break;
           case 'json':
             Progress.popById('loading_image');
-            importPresets(file);
+            await importPresets(file);
+            LayerPanelController.updateLayerPanel();
             break;
           case 'unknown':
             Progress.popById('loading_image');

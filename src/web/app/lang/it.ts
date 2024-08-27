@@ -766,7 +766,6 @@ const lang: ILang = {
         dropdown: {
           parameters: 'Preset',
           save: 'Aggiungi parametri correnti',
-          more: 'Gestisci',
           mm: {
             wood_3mm_cutting: 'Legno - Taglio 3mm',
             wood_5mm_cutting: 'Legno - Taglio 5mm',
