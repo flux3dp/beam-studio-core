@@ -4,10 +4,11 @@ import React, { memo, useContext } from 'react';
 import alertCaller from 'app/actions/alert-caller';
 import alertConstants from 'app/constants/alert-constants';
 import dialogCaller from 'app/actions/dialog-caller';
-import storage from 'implementations/storage';
+import LayerModule from 'app/constants/layer-module/layer-modules';
+import presetHelper from 'helpers/presets/preset-helper';
 import useI18n from 'helpers/useI18n';
-import { DataType, writeData } from 'helpers/layer/layer-config-helper';
-import { ILaserConfig } from 'interfaces/ILaserConfig';
+import { ConfigKey, Preset } from 'interfaces/ILayerConfig';
+import { printerConfigKeys, laserConfigKeys, writeData } from 'helpers/layer/layer-config-helper';
 
 import ConfigPanelContext from './ConfigPanelContext';
 import styles from './SaveConfigButton.module.scss';
@@ -17,31 +18,26 @@ const SaveConfigButton = (): JSX.Element => {
   const { selectedLayers, state, dispatch } = useContext(ConfigPanelContext);
   const disabled = selectedLayers.length !== 1;
 
-  const handleSaveConfig = (name: string) => {
+  const handleSave = (name: string) => {
     if (!name) return;
-    const { speed, power, repeat, zStep } = state;
-    const customizedConfigs = storage.get('customizedLaserConfigs') as ILaserConfig[];
-    if (!customizedConfigs || customizedConfigs.length < 1) {
-      storage.set('customizedLaserConfigs', [{
-        name, speed: speed.value, power: power.value, repeat: repeat.value, zStep: zStep.value,
-      }]);
-      selectedLayers.forEach((layerName) => writeData(layerName, DataType.configName, name));
-      dispatch({ type: 'rename', payload: name });
+    const allConfigs = presetHelper.getAllPresets();
+    if (allConfigs.find((config) => config.key === name || config.name === name)) {
+      alertCaller.popUp({
+        type: alertConstants.SHOW_POPUP_ERROR,
+        message: lang.existing_name,
+      });
       return;
     }
-    const index = customizedConfigs.findIndex((e) => e.name === name);
-    if (index < 0) {
-      storage.set('customizedLaserConfigs', customizedConfigs.concat([{
-        name, speed: speed.value, power: power.value, repeat: repeat.value, zStep: zStep.value,
-      }]));
-      selectedLayers.forEach((layerName) => writeData(layerName, DataType.configName, name));
-      dispatch({ type: 'rename', payload: name });
-      return;
-    }
-    alertCaller.popUp({
-      type: alertConstants.SHOW_POPUP_ERROR,
-      message: lang.existing_name,
+    const { module } = state;
+    const keys = module.value === LayerModule.PRINTER ? printerConfigKeys : laserConfigKeys;
+    const newConfig: Preset = { name };
+    if (module.value === LayerModule.PRINTER) newConfig.module = LayerModule.PRINTER;
+    keys.forEach((key: ConfigKey) => {
+      newConfig[key] = state[key].value as never;
     });
+    presetHelper.savePreset(newConfig);
+    selectedLayers.forEach((layerName) => writeData(layerName, 'configName', name));
+    dispatch({ type: 'rename', payload: name });
   };
 
   return (
@@ -51,7 +47,7 @@ const SaveConfigButton = (): JSX.Element => {
         if (disabled) return;
         dialogCaller.promptDialog({
           caption: lang.dropdown.save,
-          onYes: (name) => handleSaveConfig(name.trim())
+          onYes: (name) => handleSave(name.trim()),
         });
       }}
     >

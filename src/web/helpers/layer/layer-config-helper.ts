@@ -2,14 +2,13 @@ import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import history from 'app/svgedit/history/history';
 import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import layerModuleHelper from 'helpers/layer-module/layer-module-helper';
-import storage from 'implementations/storage';
+import presetHelper from 'helpers/presets/preset-helper';
 import toggleFullColorLayer from 'helpers/layer/full-color/toggleFullColorLayer';
 import updateLayerColorFilter from 'helpers/color/updateLayerColorFilter';
 import { getAllLayerNames, getLayerByName } from 'helpers/layer/layer-helper';
-import { getAllPresets } from 'app/constants/right-panel-constants';
 import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 import { IBatchCommand } from 'interfaces/IHistory';
-import { ConfigKey, ConfigKeyTypeMap, ILayerConfig } from 'interfaces/ILayerConfig';
+import { ConfigKey, ConfigKeyTypeMap, ILayerConfig, Preset } from 'interfaces/ILayerConfig';
 
 const getLayerElementByName = (layerName: string) => {
   const allLayers = Array.from(document.querySelectorAll('g.layer'));
@@ -105,6 +104,7 @@ export const getData = <T extends ConfigKey>(
   applyPrinting = false
 ): ConfigKeyTypeMap[T] => {
   let attr = attributeMap[key];
+  if (!attr || !layer) return undefined;
   if (
     key === 'speed' &&
     applyPrinting &&
@@ -115,8 +115,10 @@ export const getData = <T extends ConfigKey>(
   if (['configName', 'color', 'clipRect'].includes(key)) {
     return (layer.getAttribute(attr) || defaultConfig[key]) as ConfigKeyTypeMap[T];
   }
-  if (key === 'fullcolor' || key === 'ref') return (layer.getAttribute(attr) === '1') as ConfigKeyTypeMap[T];
-  if (key === 'module') return Number(layer.getAttribute(attr) || LayerModule.LASER_UNIVERSAL) as ConfigKeyTypeMap[T];
+  if (key === 'fullcolor' || key === 'ref')
+    return (layer.getAttribute(attr) === '1') as ConfigKeyTypeMap[T];
+  if (key === 'module')
+    return Number(layer.getAttribute(attr) || LayerModule.LASER_UNIVERSAL) as ConfigKeyTypeMap[T];
   return Number(layer.getAttribute(attr) || defaultConfig[key]) as ConfigKeyTypeMap[T];
 };
 
@@ -128,16 +130,17 @@ export const writeDataLayer = <T extends ConfigKey>(
 ): void => {
   if (!layer) return;
   let attr = attributeMap[key];
+  if (!attr) return;
   if (
     key === 'speed' &&
     opts?.applyPrinting &&
     layer.getAttribute(attributeMap.module) === String(LayerModule.PRINTER)
-  ) {
+  )
     attr = attributeMap.printingSpeed;
-  }
   const originalValue = layer.getAttribute(attr);
-  // eslint-disable-next-line no-param-reassign
-  if (key === 'fullcolor' || key === 'ref') value = (value ? '1' : undefined) as ConfigKeyTypeMap[T];
+  if (key === 'fullcolor' || key === 'ref')
+    // eslint-disable-next-line no-param-reassign
+    value = (value ? '1' : undefined) as ConfigKeyTypeMap[T];
   if (value === undefined) layer.removeAttribute(attr);
   else layer.setAttribute(attr, String(value));
   if (opts?.batchCmd) {
@@ -191,11 +194,16 @@ export const getMultiSelectData = <T extends ConfigKey>(
 };
 
 export const initLayerConfig = (layerName: string): void => {
+  const workarea = BeamboxPreference.read('workarea');
   const keys = Object.keys(defaultConfig) as ConfigKey[];
   const layer = getLayerElementByName(layerName);
   for (let i = 0; i < keys.length; i += 1) {
-    if (defaultConfig[keys[i]] !== undefined)
-      writeDataLayer(layer, keys[i], defaultConfig[keys[i]] as number | string);
+    const key = keys[i];
+    if (defaultConfig[key] !== undefined) {
+      if (key === 'module' && !modelsWithModules.has(workarea)) {
+        writeDataLayer(layer, key, LayerModule.LASER_UNIVERSAL);
+      } else writeDataLayer(layer, key, defaultConfig[keys[i]] as number | string);
+    }
   }
 };
 
@@ -212,7 +220,8 @@ export const cloneLayerConfig = (targetLayerName: string, baseLayerName: string)
           if (getData(baseLayer, keys[i])) writeDataLayer(targetLayer, keys[i], true);
         } else {
           const value = getData(baseLayer, keys[i]);
-          if (value) writeDataLayer(targetLayer, keys[i], getData(baseLayer, keys[i]) as number | string);
+          if (value)
+            writeDataLayer(targetLayer, keys[i], getData(baseLayer, keys[i]) as number | string);
         }
       }
       updateLayerColorFilter(targetLayer as SVGGElement);
@@ -267,16 +276,73 @@ export const toggleFullColorAfterWorkareaChange = (): void => {
   }
 };
 
+export const laserConfigKeys: ConfigKey[] = [
+  'speed',
+  'power',
+  'minPower',
+  'repeat',
+  'height',
+  'zStep',
+  'focus',
+  'focusStep',
+];
+
+export const printerConfigKeys: ConfigKey[] = [
+  'speed',
+  'printingSpeed',
+  'ink',
+  'multipass',
+  'cRatio',
+  'mRatio',
+  'yRatio',
+  'kRatio',
+  'printingStrength',
+  'halftone',
+  'wInk',
+  'wSpeed',
+  'wMultipass',
+  'wRepeat',
+  'uv',
+  'repeat',
+];
+
+export const applyPreset = (
+  layer: Element,
+  preset: Preset,
+  opts: { applyName?: boolean; batchCmd?: IBatchCommand } = {}
+): void => {
+  const workarea: WorkAreaModel = BeamboxPreference.read('workarea');
+  const { maxSpeed, minSpeed } = getWorkarea(workarea);
+  const { applyName = true, batchCmd } = opts;
+  const { module } = preset;
+  const keys = module === LayerModule.PRINTER ? printerConfigKeys : laserConfigKeys;
+  for (let i = 0; i < keys.length; i += 1) {
+    const key = keys[i];
+    let value = preset[key] ?? defaultConfig[key];
+    if (key === 'speed' || key === 'printingSpeed')
+      value = Math.max(minSpeed, Math.min(value as number, maxSpeed));
+    writeDataLayer(layer, key, value, {
+      applyPrinting: module === LayerModule.PRINTER,
+      batchCmd,
+    });
+  }
+  if (applyName)
+    writeDataLayer(
+      layer,
+      'configName',
+      (preset.isDefault ? preset.key : preset.name) || CUSTOM_PRESET_CONSTANT
+    );
+};
+
 /**
  * Update all layer configs values due to preset and custom config value change
  */
 export const postPresetChange = (): void => {
   // TODO: add test
-  const customizedLaserConfigs = (storage.get('customizedLaserConfigs') as ILaserConfig[]) || [];
-  const workarea: WorkAreaModel =
-    BeamboxPreference.read('workarea') || BeamboxPreference.read('model');
-  const parametersSet = getAllPresets(workarea);
+  const workarea: WorkAreaModel = BeamboxPreference.read('workarea');
+  const { maxSpeed, minSpeed } = getWorkarea(workarea);
   const layerNames = getAllLayerNames();
+  const allPresets = presetHelper.getAllPresets();
 
   for (let i = 0; i < layerNames.length; i += 1) {
     const layerName = layerNames[i];
@@ -284,60 +350,35 @@ export const postPresetChange = (): void => {
     // eslint-disable-next-line no-continue
     if (!layer) continue;
 
-    const configName = getData<string>(layer, DataType.configName);
-    const layerModule = getData<LayerModule>(layer, DataType.module);
-    const speedAttributeName =
-      layerModule === LayerModule.PRINTER ? 'data-printingSpeed' : 'data-speed';
-    // Looking for preset with same name and correct module
-    const configIndex = customizedLaserConfigs.findIndex((config) =>
-      modelsWithModules.has(workarea)
-        ? config.name === configName && config.module === layerModule
-        : config.name === configName
+    const configName = getData(layer, 'configName');
+    const preset = allPresets.find(
+      (c) => !c.hide && (configName === c.key || configName === c.name)
     );
-    if (configIndex >= 0) {
-      const config = customizedLaserConfigs[configIndex];
-      if (config.isDefault) {
-        if (parametersSet[config.key]) {
-          const {
-            speed,
-            power = defaultConfig.strength,
-            repeat = defaultConfig.repeat,
-            ink = defaultConfig.ink,
-            multipass = defaultConfig.multipass,
-          } = parametersSet[config.key];
-          layer.setAttribute(speedAttributeName, String(speed));
-          layer.setAttribute('data-strength', String(power));
-          layer.setAttribute('data-repeat', String(repeat));
-          layer.setAttribute('data-ink', String(ink));
-          layer.setAttribute('data-multipass', String(multipass));
-        } else {
-          layer.removeAttribute('data-configName');
-        }
+    if (preset?.isDefault) {
+      const layerModule = getData(layer, 'module') as LayerModule;
+      const defaultPreset = presetHelper.getDefaultPreset(preset.key, workarea, layerModule);
+      if (!defaultPreset) {
+        // Config exists but preset not found: no preset for module
+        writeDataLayer(layer, 'configName', undefined);
       } else {
-        const {
-          speed,
-          power = defaultConfig.strength,
-          repeat = defaultConfig.repeat,
-          zStep,
-          ink = defaultConfig.ink,
-          multipass = defaultConfig.multipass,
-        } = config;
-        layer.setAttribute(speedAttributeName, String(speed));
-        layer.setAttribute('data-strength', String(power));
-        layer.setAttribute('data-repeat', String(repeat));
-        layer.setAttribute('data-ink', String(ink));
-        layer.setAttribute('data-multipass', String(multipass));
-        if (zStep !== undefined) layer.setAttribute('data-zstep', String(zStep || 0));
+        applyPreset(layer, defaultPreset, { applyName: false });
       }
+    } else if (preset) {
+      applyPreset(layer, preset, { applyName: false });
+    } else {
+      writeDataLayer(layer, 'configName', undefined);
     }
-    const { maxSpeed } = getWorkarea(workarea);
-    if (Number(layer.getAttribute(speedAttributeName)) > maxSpeed) {
-      layer.setAttribute(speedAttributeName, String(maxSpeed));
-    }
+    const speed = getData(layer, 'speed');
+    if (speed > maxSpeed) writeDataLayer(layer, 'speed', maxSpeed);
+    if (speed < minSpeed) writeDataLayer(layer, 'speed', minSpeed);
+    const printingSpeed = getData(layer, 'printingSpeed');
+    if (printingSpeed > maxSpeed) writeDataLayer(layer, 'printingSpeed', maxSpeed);
+    if (printingSpeed < minSpeed) writeDataLayer(layer, 'printingSpeed', minSpeed);
   }
 };
 
 export default {
+  applyPreset,
   CUSTOM_PRESET_CONSTANT,
   initLayerConfig,
   cloneLayerConfig,

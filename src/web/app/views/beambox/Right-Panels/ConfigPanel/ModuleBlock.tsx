@@ -10,21 +10,20 @@ import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer
 import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
 import moduleBoundaryDrawer from 'app/actions/canvas/module-boundary-drawer';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
+import presetHelper from 'helpers/presets/preset-helper';
 import presprayArea from 'app/actions/canvas/prespray-area';
 import Select from 'app/widgets/AntdSelect';
-import storage from 'implementations/storage';
 import toggleFullColorLayer from 'helpers/layer/full-color/toggleFullColorLayer';
 import useI18n from 'helpers/useI18n';
 import useWorkarea from 'helpers/hooks/useWorkarea';
 import {
-  DataType,
+  applyPreset,
   defaultConfig,
   getData,
   writeDataLayer,
 } from 'helpers/layer/layer-config-helper';
 import { getLayerElementByName } from 'helpers/layer/layer-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import { ILaserConfig } from 'interfaces/ILaserConfig';
 import { useIsMobile } from 'helpers/system-helper';
 
 import ConfigPanelContext from './ConfigPanelContext';
@@ -55,10 +54,10 @@ const ModuleBlock = (): JSX.Element => {
   }, [workarea, value]);
   if (!modelsWithModules.has(workarea)) return null;
 
-  const handleChange = async (val: number) => {
+  const handleChange = async (newVal: number) => {
     if (
       value === LayerModule.PRINTER &&
-      val !== LayerModule.PRINTER &&
+      newVal !== LayerModule.PRINTER &&
       !alertConfig.read('skip-switch-to-printer-module')
     ) {
       const res = await new Promise((resolve) => {
@@ -85,7 +84,7 @@ const ModuleBlock = (): JSX.Element => {
       if (!res) return;
     } else if (
       value !== LayerModule.PRINTER &&
-      val === LayerModule.PRINTER &&
+      newVal === LayerModule.PRINTER &&
       !alertConfig.read('skip-switch-to-laser-module')
     ) {
       const res = await new Promise((resolve) => {
@@ -111,34 +110,33 @@ const ModuleBlock = (): JSX.Element => {
       });
       if (!res) return;
     }
-    const customizedLaserConfigs = (storage.get('customizedLaserConfigs') as ILaserConfig[]) || [];
+    const presetsList = presetHelper.getPresetsList(workarea, value);
+    const newPresetsList = presetHelper.getPresetsList(workarea, newVal);
     const batchCmd = new history.BatchCommand('Change layer module');
     selectedLayers.forEach((layerName) => {
       const layer = getLayerElementByName(layerName);
-      writeDataLayer(layer, DataType.module, val, { batchCmd });
-      const currentConfig = getData<string>(layer, DataType.configName);
-      const newConfig = customizedLaserConfigs.find(
-        (config) => config.name === currentConfig && (config.module === val || !config.isDefault)
-      );
-      if (newConfig) {
-        const { speed, power, repeat } = newConfig;
-        writeDataLayer(layer, DataType.speed, speed, { batchCmd });
-        writeDataLayer(layer, DataType.strength, power, { batchCmd });
-        writeDataLayer(layer, DataType.repeat, repeat || 1, { batchCmd });
-      } else {
-        layer.removeAttribute('data-configName');
-        const cmd = new history.ChangeElementCommand(layer, { 'data-configName': currentConfig });
-        batchCmd.addSubCommand(cmd);
-        if (value === LayerModule.PRINTER && val !== LayerModule.PRINTER) {
-          writeDataLayer(layer, DataType.speed, defaultConfig.speed, { batchCmd });
-          writeDataLayer(layer, DataType.strength, defaultConfig.strength, { batchCmd });
-        } else if (value !== LayerModule.PRINTER && val === LayerModule.PRINTER) {
-          writeDataLayer(layer, DataType.printingSpeed, defaultConfig.printingSpeed, { batchCmd });
-          writeDataLayer(layer, DataType.ink, defaultConfig.ink, { batchCmd });
-          writeDataLayer(layer, DataType.multipass, defaultConfig.multipass, { batchCmd });
+      writeDataLayer(layer, 'module', newVal, { batchCmd });
+      const configName = getData(layer, 'configName');
+      const oldPreset = configName
+        ? presetsList.find((p) => configName === p.key || configName === p.name)
+        : null;
+      const newPreset = oldPreset
+        ? newPresetsList.find((p) => configName === p.key || configName === p.name)
+        : null;
+      if (!newPreset) {
+        writeDataLayer(layer, 'configName', undefined, { batchCmd });
+        if (value === LayerModule.PRINTER && newVal !== LayerModule.PRINTER) {
+          writeDataLayer(layer, 'speed', defaultConfig.speed, { batchCmd });
+          writeDataLayer(layer, 'power', defaultConfig.power, { batchCmd });
+        } else if (value !== LayerModule.PRINTER && newVal === LayerModule.PRINTER) {
+          writeDataLayer(layer, 'printingSpeed', defaultConfig.printingSpeed, { batchCmd });
+          writeDataLayer(layer, 'ink', defaultConfig.ink, { batchCmd });
+          writeDataLayer(layer, 'multipass', defaultConfig.multipass, { batchCmd });
         }
+      } else if (newPreset !== oldPreset) {
+        applyPreset(layer, newPreset, { batchCmd });
       }
-      batchCmd.addSubCommand(toggleFullColorLayer(layer, { val: val === LayerModule.PRINTER }));
+      batchCmd.addSubCommand(toggleFullColorLayer(layer, { val: newVal === LayerModule.PRINTER }));
     });
     initState(selectedLayers);
     LayerPanelController.updateLayerPanel();

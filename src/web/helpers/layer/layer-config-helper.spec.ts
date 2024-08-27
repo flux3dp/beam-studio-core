@@ -12,7 +12,6 @@ jest.mock('app/actions/beambox/beambox-preference', () => ({
 // eslint-disable-next-line import/first
 import {
   cloneLayerConfig,
-  DataType,
   getLayerConfig,
   getLayersConfig,
   initLayerConfig,
@@ -20,9 +19,11 @@ import {
   toggleFullColorAfterWorkareaChange,
 } from './layer-config-helper';
 
-const mockGet = jest.fn();
-jest.mock('implementations/storage', () => ({
-  get: (key) => mockGet(key),
+const mockGetAllPresets = jest.fn();
+const mockGetDefaultPreset = jest.fn();
+jest.mock('helpers/presets/preset-helper', () => ({
+  getAllPresets: () => mockGetAllPresets(),
+  getDefaultPreset: (name) => mockGetDefaultPreset(name),
 }));
 
 const mockGetAllLayerNames = jest.fn();
@@ -39,11 +40,6 @@ jest.mock(
     (...args) =>
       mockToggleFullColorLayer(...args)
 );
-
-const mockGetAllPresets = jest.fn();
-jest.mock('app/constants/right-panel-constants', () => ({
-  getAllPresets: () => mockGetAllPresets(),
-}));
 
 const defaultLaserConfigs = {
   speed: { value: 20 },
@@ -131,7 +127,7 @@ describe('test layer-config-helper', () => {
   });
 
   test('write zstep data', () => {
-    writeData('layer 1', DataType.zstep, 1);
+    writeData('layer 1', 'zStep', 1);
     expect(getLayerConfig('layer 1')).toEqual({
       ...defaultLaserConfigs,
       zStep: { value: 1 },
@@ -139,7 +135,7 @@ describe('test layer-config-helper', () => {
   });
 
   test('cloneLayerConfig', () => {
-    writeData('layer 1', DataType.speed, 30);
+    writeData('layer 1', 'speed', 30);
     cloneLayerConfig('layer 3', 'layer 1');
     expect(getLayerConfig('layer 3')).toEqual({
       ...defaultLaserConfigs,
@@ -151,7 +147,7 @@ describe('test layer-config-helper', () => {
     expect(getLayersConfig(['layer 0', 'layer 1', 'layer 2', 'layer 3'])).toEqual(
       defaultMultiValueLaserConfigs
     );
-    writeData('layer 1', DataType.speed, 30);
+    writeData('layer 1', 'speed', 30);
     expect(getLayersConfig(['layer 0', 'layer 1', 'layer 2', 'layer 3'])).toEqual({
       ...defaultMultiValueLaserConfigs,
       speed: { value: 30, hasMultiValue: true },
@@ -159,9 +155,9 @@ describe('test layer-config-helper', () => {
   });
 
   test('getLayersConfig with diode and height', () => {
-    writeData('layer 1', DataType.diode, 1);
-    writeData('layer 1', DataType.height, -1);
-    writeData('layer 1', DataType.strength, 20);
+    writeData('layer 1', 'diode', 1);
+    writeData('layer 1', 'height', -1);
+    writeData('layer 1', 'power', 20);
 
     expect(getLayersConfig(['layer 0', 'layer 1', 'layer 2', 'layer 3'])).toEqual({
       ...defaultMultiValueLaserConfigs,
@@ -169,7 +165,7 @@ describe('test layer-config-helper', () => {
       height: { value: -1, hasMultiValue: true },
       diode: { value: 1, hasMultiValue: true },
     });
-    writeData('layer 1', DataType.height, 1);
+    writeData('layer 1', 'height', 1);
     expect(getLayersConfig(['layer 0', 'layer 1', 'layer 2', 'layer 3'])).toEqual({
       ...defaultMultiValueLaserConfigs,
       power: { value: 20, hasMultiValue: true },
@@ -185,13 +181,13 @@ describe('test layer-config-helper', () => {
   });
 
   test('getLayerConfig of printing layer', () => {
-    writeData('layer 1', DataType.module, 5);
+    writeData('layer 1', 'module', 5);
     expect(getLayerConfig('layer 1')).toEqual({
       ...defaultLaserConfigs,
       speed: { value: 60 },
       module: { value: 5 },
     });
-    writeData('layer 1', DataType.speed, 30, { applyPrinting: true });
+    writeData('layer 1', 'speed', 30, { applyPrinting: true });
     expect(getLayerConfig('layer 1')).toEqual({
       ...defaultLaserConfigs,
       speed: { value: 30 },

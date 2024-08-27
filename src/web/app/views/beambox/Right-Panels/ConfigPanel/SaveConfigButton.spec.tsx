@@ -15,13 +15,6 @@ jest.mock('app/actions/dialog-caller', () => ({
   promptDialog: (...args) => mockPromptDialog(...args),
 }));
 
-const mockGet = jest.fn();
-const mockSet = jest.fn();
-jest.mock('implementations/storage', () => ({
-  get: (...args) => mockGet(...args),
-  set: (...args) => mockSet(...args),
-}));
-
 jest.mock('helpers/useI18n', () => () => ({
   beambox: {
     right_panel: {
@@ -37,10 +30,14 @@ jest.mock('helpers/useI18n', () => () => ({
 
 const mockWriteData = jest.fn();
 jest.mock('helpers/layer/layer-config-helper', () => ({
-  DataType: {
-    configName: 'configName',
-  },
   writeData: (...args) => mockWriteData(...args),
+}));
+
+const mockGetAllPresets = jest.fn();
+const mockSaveConfig = jest.fn();
+jest.mock('helpers/presets/preset-helper', () => ({
+  getAllPresets: (...args) => mockGetAllPresets(...args),
+  saveConfig: (...args) => mockSaveConfig(...args),
 }));
 
 const mockSelectedLayers = ['layer1'];
@@ -89,20 +86,20 @@ describe('test SaveConfigButton', () => {
     expect(mockPromptDialog).toBeCalledTimes(1);
 
     const handleSaveConfig = mockPromptDialog.mock.calls[0][0].onYes;
-    expect(mockGet).not.toBeCalled();
-    expect(mockSet).not.toBeCalled();
+    expect(mockGetAllPresets).not.toBeCalled();
+    expect(mockSaveConfig).not.toBeCalled();
     expect(mockWriteData).not.toBeCalled();
     expect(mockDispatch).not.toBeCalled();
-    mockGet.mockReturnValueOnce([]);
+    mockGetAllPresets.mockReturnValueOnce([]);
     handleSaveConfig('new_config_name');
-    expect(mockSet).toBeCalledTimes(1);
-    expect(mockSet).toHaveBeenLastCalledWith('customizedLaserConfigs', [{
+    expect(mockSaveConfig).toBeCalledTimes(1);
+    expect(mockSaveConfig).toHaveBeenLastCalledWith({
       name: 'new_config_name',
       speed: 87,
       power: 77,
       repeat: 1,
       zStep: 0.1,
-    }]);
+    });
     expect(mockWriteData).toBeCalledTimes(1);
     expect(mockWriteData).toHaveBeenLastCalledWith('layer1', 'configName', 'new_config_name');
     expect(mockDispatch).toBeCalledTimes(1);

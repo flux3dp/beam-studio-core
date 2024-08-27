@@ -1,6 +1,6 @@
 import LayerModule from 'app/constants/layer-module/layer-modules';
 
-import { getDefaultPresetData, updateDefaultPresetData } from './preset-helper';
+import { updateDefaultPresetData } from './preset-helper';
 
 const mockPrefRead = jest.fn();
 jest.mock('app/actions/beambox/beambox-preference', () => ({
@@ -41,45 +41,6 @@ jest.mock('app/constants/right-panel-constants', () => ({
 describe('test preset-helper', () => {
   beforeEach(() => {
     jest.resetAllMocks();
-  });
-
-  test('getDefaultPresetData should work when key exist', () => {
-    mockPrefRead.mockReturnValue('model');
-    mockGetAllPresets.mockReturnValue({
-      pre1: { power: 1, speed: 2, repeat: 3, name: 'pre1' },
-      pre2: { power: 6, speed: 5, repeat: 4, name: 'pre2', module: LayerModule.LASER_20W_DIODE },
-    });
-    const res = getDefaultPresetData('pre2');
-    expect(mockPrefRead).toBeCalledTimes(1);
-    expect(mockPrefRead).toHaveBeenLastCalledWith('workarea');
-    expect(mockGetAllPresets).toBeCalledTimes(1);
-    expect(mockGetAllPresets).toHaveBeenLastCalledWith('model');
-    expect(res).toStrictEqual({
-      power: 6,
-      speed: 5,
-      repeat: 4,
-      name: 'pre2',
-      module: LayerModule.LASER_20W_DIODE,
-    });
-  });
-
-  test('getDefaultPresetData should work when key does not exist', () => {
-    const mockError = jest.fn();
-    const origError = global.console.error;
-    global.console.error = mockError;
-    mockPrefRead.mockReturnValue('model');
-    mockGetAllPresets.mockReturnValue({
-      pre1: { power: 1, speed: 2, repeat: 3, name: 'pre1' },
-      pre2: { power: 6, speed: 5, repeat: 4, name: 'pre2', module: LayerModule.LASER_20W_DIODE },
-    });
-    const res = getDefaultPresetData('pre3');
-    expect(mockError).toBeCalledTimes(1);
-    expect(mockPrefRead).toBeCalledTimes(1);
-    expect(mockPrefRead).toHaveBeenLastCalledWith('workarea');
-    expect(mockGetAllPresets).toBeCalledTimes(1);
-    expect(mockGetAllPresets).toHaveBeenLastCalledWith('model');
-    expect(res).toStrictEqual({ power: 15, speed: 20, repeat: 1 });
-    global.console.error = origError;
   });
 
   test('updateDefaultPresetData when storage is empty', () => {

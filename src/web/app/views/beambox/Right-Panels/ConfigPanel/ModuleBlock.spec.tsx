@@ -72,16 +72,6 @@ jest.mock('app/actions/canvas/prespray-area', () => ({
 const mockWriteDataLayer = jest.fn();
 const mockGetData = jest.fn().mockReturnValue('configName');
 jest.mock('helpers/layer/layer-config-helper', () => ({
-  DataType: {
-    speed: 'speed',
-    printingSpeed: 'printingSpeed',
-    strength: 'strength',
-    ink: 'ink',
-    repeat: 'repeat',
-    configName: 'configName',
-    module: 'module',
-    multipass: 'multipass',
-  },
   defaultConfig: {
     speed: 20,
     printingSpeed: 60,
