@@ -20,6 +20,9 @@ jest.mock('helpers/useI18n', () => () => ({
   },
 }));
 
+const mockIsDev = jest.fn();
+jest.mock('helpers/is-dev', () => () => mockIsDev());
+
 describe('LaserInputs', () => {
   const handleChange = jest.fn();
   const preset = {
@@ -29,6 +32,11 @@ describe('LaserInputs', () => {
   };
   const maxSpeed = 100;
   const minSpeed = 0;
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+    mockIsDev.mockReturnValue(true);
+  });
 
   it('should render correctly', () => {
     const { container } = render(
