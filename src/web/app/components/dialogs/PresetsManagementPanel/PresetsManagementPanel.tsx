@@ -108,6 +108,7 @@ const PresetsManagementPanel = ({ currentModule, initPreset, onClose }: Props): 
     }
   }, [availableModules, selectedPreset]);
   const displayPreset = useMemo(() => {
+    if (!selectedPreset) return { name: '', isDefault: true };
     if (!selectedPreset.isDefault)
       return { ...selectedPreset, ...editingValues[selectedPreset.name] };
     const keyPresets = presets[selectedPreset.key]?.[workarea];
@@ -292,7 +293,7 @@ const PresetsManagementPanel = ({ currentModule, initPreset, onClose }: Props): 
           <div className={styles.header}>
             <div className={styles.title}>{selectedPreset.name}</div>
             {!displayPreset.isDefault && (
-              <Button danger onClick={handleDelete}>
+              <Button danger onClick={handleDelete} data-testid="delete">
                 {t.delete}
               </Button>
             )}
