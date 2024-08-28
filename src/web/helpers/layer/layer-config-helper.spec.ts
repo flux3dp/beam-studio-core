@@ -2,7 +2,6 @@ const mockGetDefaultLaserModule = jest.fn();
 jest.mock('helpers/layer-module/layer-module-helper', () => ({
   getDefaultLaserModule: () => mockGetDefaultLaserModule(),
 }));
-mockGetDefaultLaserModule.mockReturnValue(1);
 
 const mockRead = jest.fn();
 jest.mock('app/actions/beambox/beambox-preference', () => ({
@@ -52,7 +51,7 @@ const defaultLaserConfigs = {
   zStep: { value: 0 },
   diode: { value: 0 },
   configName: { value: '' },
-  module: { value: 1 },
+  module: { value: 15 },
   backlash: { value: 0 },
   multipass: { value: 3 },
   uv: { value: 0 },
@@ -85,7 +84,7 @@ const defaultMultiValueLaserConfigs = {
   zStep: { value: 0, hasMultiValue: false },
   diode: { value: 0, hasMultiValue: false },
   configName: { value: '', hasMultiValue: false },
-  module: { value: 1, hasMultiValue: false },
+  module: { value: 15, hasMultiValue: false },
   backlash: { value: 0, hasMultiValue: false },
   multipass: { value: 3, hasMultiValue: false },
   uv: { value: 0, hasMultiValue: false },
@@ -115,6 +114,7 @@ describe('test layer-config-helper', () => {
       <g class="layer" data-color="#333333"><title>layer 2</title></g>
       <g class="layer" data-color="#333333"><title>layer 3</title></g>
     `;
+    mockGetDefaultLaserModule.mockReturnValue(1);
   });
 
   it('should return null layer when layer does not exist', () => {
@@ -124,6 +124,15 @@ describe('test layer-config-helper', () => {
   test('initLayerConfig', () => {
     initLayerConfig('layer 1');
     expect(getLayerConfig('layer 1')).toEqual(defaultLaserConfigs);
+  });
+
+  test('initLayerConfig with module', () => {
+    mockRead.mockImplementation((key) => {
+      if (key === 'workarea') return 'ado1';
+      return undefined;
+    });
+    initLayerConfig('layer 1');
+    expect(getLayerConfig('layer 1')).toEqual({...defaultLaserConfigs, module: { value: 1 }});
   });
 
   test('write zstep data', () => {
@@ -196,18 +205,37 @@ describe('test layer-config-helper', () => {
     });
   });
 
-  test('toggleFullColorAfterWorkareaChange', () => {
+  test('toggleFullColorAfterWorkareaChange to workarea without module', () => {
     mockRead.mockReturnValue('fbm1');
     mockGetAllLayerNames.mockReturnValue(['layer 1', 'layer 2', 'layer 3']);
     const mockLayer = {
+      getAttribute: jest.fn(),
       setAttribute: jest.fn(),
     };
     mockGetLayerByName.mockReturnValue(mockLayer);
+    mockLayer.getAttribute.mockReturnValue('1');
     toggleFullColorAfterWorkareaChange();
     expect(mockToggleFullColorLayer).toBeCalledTimes(3);
     expect(mockLayer.setAttribute).toBeCalledTimes(3);
     expect(mockLayer.setAttribute).toHaveBeenNthCalledWith(1, 'data-module', '15');
     expect(mockLayer.setAttribute).toHaveBeenNthCalledWith(2, 'data-module', '15');
     expect(mockLayer.setAttribute).toHaveBeenNthCalledWith(3, 'data-module', '15');
+  });
+
+  test('toggleFullColorAfterWorkareaChange to workarea with module', () => {
+    mockRead.mockReturnValue('ado1');
+    mockGetAllLayerNames.mockReturnValue(['layer 1', 'layer 2', 'layer 3']);
+    const mockLayer = {
+      getAttribute: jest.fn(),
+      setAttribute: jest.fn(),
+    };
+    mockGetLayerByName.mockReturnValue(mockLayer);
+    mockLayer.getAttribute.mockReturnValue('15');
+    toggleFullColorAfterWorkareaChange();
+    expect(mockToggleFullColorLayer).toBeCalledTimes(3);
+    expect(mockLayer.setAttribute).toBeCalledTimes(3);
+    expect(mockLayer.setAttribute).toHaveBeenNthCalledWith(1, 'data-module', '1');
+    expect(mockLayer.setAttribute).toHaveBeenNthCalledWith(2, 'data-module', '1');
+    expect(mockLayer.setAttribute).toHaveBeenNthCalledWith(3, 'data-module', '1');
   });
 });

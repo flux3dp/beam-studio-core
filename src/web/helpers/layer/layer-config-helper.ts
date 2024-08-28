@@ -68,7 +68,7 @@ export const defaultConfig: { [key in ConfigKey]?: ConfigKeyTypeMap[key] } = {
   zStep: 0,
   diode: 0,
   configName: '',
-  module: layerModuleHelper.getDefaultLaserModule(),
+  module: LayerModule.LASER_UNIVERSAL,
   backlash: 0,
   multipass: 3,
   uv: 0,
@@ -110,6 +110,8 @@ export const getData = <T extends ConfigKey>(
     applyPrinting &&
     layer.getAttribute(attributeMap.module) === String(LayerModule.PRINTER)
   ) {
+    // eslint-disable-next-line no-param-reassign
+    key = 'printingSpeed' as T;
     attr = attributeMap.printingSpeed;
   }
   if (['configName', 'color', 'clipRect'].includes(key)) {
@@ -197,11 +199,12 @@ export const initLayerConfig = (layerName: string): void => {
   const workarea = BeamboxPreference.read('workarea');
   const keys = Object.keys(defaultConfig) as ConfigKey[];
   const layer = getLayerElementByName(layerName);
+  const defaultLaserModule = layerModuleHelper.getDefaultLaserModule();
   for (let i = 0; i < keys.length; i += 1) {
     const key = keys[i];
     if (defaultConfig[key] !== undefined) {
-      if (key === 'module' && !modelsWithModules.has(workarea)) {
-        writeDataLayer(layer, key, LayerModule.LASER_UNIVERSAL);
+      if (key === 'module' && modelsWithModules.has(workarea)) {
+        writeDataLayer(layer, key, defaultLaserModule);
       } else writeDataLayer(layer, key, defaultConfig[keys[i]] as number | string);
     }
   }
