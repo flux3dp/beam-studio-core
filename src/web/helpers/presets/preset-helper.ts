@@ -103,12 +103,12 @@ const getDefaultPreset = (
   model: WorkAreaModel,
   layerModule: LayerModule = LayerModule.LASER_UNIVERSAL
 ): Preset | null =>
-  defaultPresets[model]?.[key]?.[layerModule] ||
-  defaultPresets[model]?.[key]?.[LayerModule.LASER_UNIVERSAL] ||
+  defaultPresets[key]?.[model]?.[layerModule] ||
+  defaultPresets[key]?.[model]?.[LayerModule.LASER_UNIVERSAL] ||
   null;
 
 const modelHasPreset = (model: WorkAreaModel, key: string): boolean =>
-  !!defaultPresets[model]?.[key];
+  !!defaultPresets[key]?.[model];
 
 const getPresetsList = (
   model: WorkAreaModel,
@@ -117,6 +117,7 @@ const getPresetsList = (
   if (presetsCache[model]?.[layerModule]) {
     return presetsCache[model][layerModule];
   }
+  console.log(allPresets);
   const res =
     allPresets
       ?.map((preset) => {
@@ -137,6 +138,7 @@ const getPresetsList = (
     presetsCache[model] = {};
   }
   presetsCache[model][layerModule] = res;
+  console.log(res);
   return res;
 };
 

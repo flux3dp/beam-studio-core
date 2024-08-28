@@ -47,42 +47,6 @@ jest.mock('implementations/storage', () => ({
   removeAt: (...args) => mockRemoveAt(...args),
 }));
 
-const mockGetAllKeys = jest.fn();
-jest.mock('app/constants/presets', () => ({
-  getAllKeys: (...args) => mockGetAllKeys(...args),
-  presets: {
-    fbm1: {
-      pre1: {
-        [LayerModule.LASER_UNIVERSAL]: {
-          power: 30,
-          speed: 30,
-        },
-      },
-      pre2: {
-        [LayerModule.LASER_UNIVERSAL]: {
-          power: 40,
-          speed: 40,
-        },
-      },
-    },
-    ado1: {
-      pre1: {
-        [LayerModule.LASER_10W_DIODE]: {
-          power: 50,
-          speed: 50,
-        },
-      },
-      pre2: {
-        [LayerModule.LASER_20W_DIODE]: {
-          power: 60,
-          speed: 60,
-        },
-      },
-    },
-  },
-}));
-mockGetAllKeys.mockReturnValue(new Set(['pre1', 'pre2']));
-
 // eslint-disable-next-line import/first
 import presetHelper, { importPresets } from './preset-helper';
 
@@ -92,7 +56,6 @@ describe('test preset-helper', () => {
   beforeEach(() => {
     presetHelper.resetPresetList();
     jest.resetAllMocks();
-    mockGetAllKeys.mockReturnValue(new Set(['pre1', 'pre2']));
     mockStorage = {};
     mockGet.mockImplementation((key) => mockStorage[key]);
     mockSet.mockImplementation((key, value) => {
@@ -104,6 +67,7 @@ describe('test preset-helper', () => {
   });
 
   test('getAllPresets', () => {
+    // check __mocks__/app/constants/preset.ts for mock data
     expect(presetHelper.getAllPresets()).toEqual([
       { key: 'pre1', name: 'pre1_name', isDefault: true, hide: false },
       { key: 'pre2', name: 'pre2_name', isDefault: true, hide: false },

@@ -62,13 +62,14 @@ const PresetsManagementPanel = ({ currentModule, initPreset, onClose }: Props): 
             : filter === Filter.LASER;
         }
         const hasPreset = presetHelper.modelHasPreset(workarea, c.key);
-        if (filter === Filter.ALL) return hasPreset;
+        if (!hasPreset) return false;
+        if (filter === Filter.ALL || !hasModule) return true;
         const isPrintingPreset = Boolean(
           presetHelper.getDefaultPreset(c.key, workarea, LayerModule.PRINTER)
         );
         return isPrintingPreset ? filter === Filter.PRINT : filter === Filter.LASER;
       }),
-    [workarea, editingPresets, filter]
+    [workarea, hasModule, editingPresets, filter]
   );
   const [selectedPreset, setSelectedPreset] = useState<Preset | null>(
     initPreset
@@ -91,7 +92,7 @@ const PresetsManagementPanel = ({ currentModule, initPreset, onClose }: Props): 
   }, [selectedPreset]);
   const availableModules = useMemo(() => {
     if (selectedPreset?.isDefault && hasModule) {
-      return Object.keys(presets[workarea]?.[selectedPreset.key] || {}).map((m) => parseInt(m, 10));
+      return Object.keys(presets[selectedPreset.key]?.[workarea] || {}).map((m) => parseInt(m, 10));
     }
     return [];
   }, [workarea, hasModule, selectedPreset]);
@@ -109,7 +110,7 @@ const PresetsManagementPanel = ({ currentModule, initPreset, onClose }: Props): 
   const displayPreset = useMemo(() => {
     if (!selectedPreset.isDefault)
       return { ...selectedPreset, ...editingValues[selectedPreset.name] };
-    const keyPresets = presets[workarea]?.[selectedPreset.key];
+    const keyPresets = presets[selectedPreset.key]?.[workarea];
     if (!keyPresets) return selectedPreset;
     if (keyPresets[selectedModule]) return { ...selectedPreset, ...keyPresets[selectedModule] };
     return { ...selectedPreset, ...Object.values(keyPresets)[0] };
@@ -214,8 +215,7 @@ const PresetsManagementPanel = ({ currentModule, initPreset, onClose }: Props): 
     });
     if (!name) return;
     if (editingPresets.find((p) => p.name === name || p.key === name)) {
-      alertCaller.popUp({
-        type: alertConstants.SHOW_POPUP_ERROR,
+      alertCaller.popUpError({
         message: tLaserPanel.existing_name,
       });
       return;
@@ -296,7 +296,7 @@ const PresetsManagementPanel = ({ currentModule, initPreset, onClose }: Props): 
                 {t.delete}
               </Button>
             )}
-            {displayPreset.isDefault && (
+            {hasModule && displayPreset.isDefault && (
               <Select value={selectedModule} onChange={setSelectedModule}>
                 {availableModules.map((m) => (
                   <Select.Option key={m} value={m}>

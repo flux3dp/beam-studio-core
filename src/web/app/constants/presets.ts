@@ -4,957 +4,901 @@ import { Preset } from 'interfaces/ILayerConfig';
 import { WorkAreaModel } from './workarea-constants';
 
 export const presets: {
-  [model in WorkAreaModel]?: {
-    [key: string]: {
+  [key: string]: {
+    [model in WorkAreaModel]?: {
       [module in LayerModule]?: Preset;
     };
   };
 } = {
-  fbm1: {
-    wood_3mm_cutting: {
+  wood_3mm_cutting: {
+    fbm1: {
       [LayerModule.LASER_UNIVERSAL]: {
         power: 45,
         speed: 5,
-        name: 'wood_3mm_cutting',
       },
     },
-    wood_5mm_cutting: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 55,
-        speed: 4,
-        repeat: 2,
-        name: 'wood_5mm_cutting',
-      },
-    },
-    wood_engraving: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 25,
-        speed: 150,
-        name: 'wood_engraving',
-      },
-    },
-    acrylic_3mm_cutting: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 55,
-        speed: 4,
-        name: 'acrylic_3mm_cutting',
-      },
-    },
-    acrylic_5mm_cutting: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 55,
-        speed: 5,
-        repeat: 2,
-        name: 'acrylic_5mm_cutting',
-      },
-    },
-    acrylic_engraving: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 25,
-        speed: 150,
-        name: 'acrylic_engraving',
-      },
-    },
-    leather_3mm_cutting: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 60,
-        speed: 3,
-        name: 'leather_3mm_cutting',
-      },
-    },
-    leather_5mm_cutting: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 60,
-        speed: 3,
-        repeat: 2,
-        name: 'leather_5mm_cutting',
-      },
-    },
-    leather_engraving: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 30,
-        speed: 150,
-        name: 'leather_engraving',
-      },
-    },
-    fabric_3mm_cutting: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 50,
-        speed: 20,
-        name: 'fabric_3mm_cutting',
-      },
-    },
-    fabric_5mm_cutting: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 50,
-        speed: 20,
-        name: 'fabric_5mm_cutting',
-      },
-    },
-    fabric_engraving: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 20,
-        speed: 150,
-        name: 'fabric_engraving',
-      },
-    },
-    rubber_bw_engraving: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 50,
-        speed: 100,
-        name: 'rubber_bw_engraving',
-      },
-    },
-    glass_bw_engraving: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 35,
-        speed: 150,
-        name: 'glass_bw_engraving',
-      },
-    },
-    metal_bw_engraving: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 50,
-        speed: 80,
-        name: 'steel_engraving_spray_engraving',
-      },
-    },
-    stainless_steel_bw_engraving_diode: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 100,
-        speed: 10,
-        name: 'stainless_steel_bw_engraving_diode',
-      },
-    },
-  },
-  fbb1b: {
-    wood_3mm_cutting: {
+    fbb1b: {
       [LayerModule.LASER_UNIVERSAL]: {
         power: 60,
         speed: 6,
-        name: 'wood_3mm_cutting',
       },
     },
-    wood_5mm_cutting: {
+    fbb1p: {
       [LayerModule.LASER_UNIVERSAL]: {
-        power: 60,
-        speed: 3,
-        name: 'wood_5mm_cutting',
+        power: 55,
+        speed: 7,
       },
     },
-    wood_engraving: {
+    fhexa1: {
       [LayerModule.LASER_UNIVERSAL]: {
-        power: 25,
-        speed: 150,
-        name: 'wood_engraving',
+        power: 40,
+        speed: 6,
       },
     },
-    acrylic_3mm_cutting: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 60,
+    ado1: {
+      [LayerModule.LASER_10W_DIODE]: {
+        power: 100,
+        speed: 6,
+        module: LayerModule.LASER_10W_DIODE,
+      },
+      [LayerModule.LASER_20W_DIODE]: {
+        power: 100,
         speed: 8,
-        name: 'acrylic_3mm_cutting',
-      },
-    },
-    acrylic_5mm_cutting: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 60,
-        speed: 4,
-        name: 'acrylic_5mm_cutting',
-      },
-    },
-    acrylic_engraving: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 25,
-        speed: 150,
-        name: 'acrylic_engraving',
-      },
-    },
-    leather_3mm_cutting: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 65,
-        speed: 3,
-        name: 'leather_3mm_cutting',
-      },
-    },
-    leather_5mm_cutting: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 65,
-        speed: 1,
-        name: 'leather_5mm_cutting',
-      },
-    },
-    leather_engraving: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 30,
-        speed: 150,
-        name: 'leather_engraving',
-      },
-    },
-    fabric_3mm_cutting: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 60,
-        speed: 20,
-        name: 'fabric_3mm_cutting',
-      },
-    },
-    fabric_5mm_cutting: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 60,
-        speed: 20,
-        name: 'fabric_5mm_cutting',
-      },
-    },
-    fabric_engraving: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 20,
-        speed: 150,
-        name: 'fabric_engraving',
-      },
-    },
-    rubber_bw_engraving: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 45,
-        speed: 130,
-        name: 'rubber_bw_engraving',
-      },
-    },
-    glass_bw_engraving: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 30,
-        speed: 150,
-        name: 'glass_bw_engraving',
-      },
-    },
-    metal_bw_engraving: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 50,
-        speed: 120,
-        name: 'steel_engraving_spray_engraving',
-      },
-    },
-    stainless_steel_bw_engraving_diode: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 100,
-        speed: 10,
-        name: 'stainless_steel_bw_engraving_diode',
+        module: LayerModule.LASER_20W_DIODE,
       },
     },
   },
-  fbb1p: {
-    wood_3mm_cutting: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 55,
-        speed: 7,
-        name: 'wood_3mm_cutting',
-      },
-    },
-    wood_5mm_cutting: {
+  wood_5mm_cutting: {
+    fbm1: {
       [LayerModule.LASER_UNIVERSAL]: {
         power: 55,
         speed: 4,
-        name: 'wood_5mm_cutting',
+        repeat: 2,
       },
     },
-    wood_engraving: {
+    fbb1b: {
       [LayerModule.LASER_UNIVERSAL]: {
-        power: 20,
-        speed: 150,
-        name: 'wood_engraving',
+        power: 60,
+        speed: 3,
       },
     },
-    acrylic_3mm_cutting: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 55,
-        speed: 7,
-        name: 'acrylic_3mm_cutting',
-      },
-    },
-    acrylic_5mm_cutting: {
+    fbb1p: {
       [LayerModule.LASER_UNIVERSAL]: {
         power: 55,
         speed: 4,
-        name: 'acrylic_5mm_cutting',
       },
     },
-    acrylic_engraving: {
+    fhexa1: {
       [LayerModule.LASER_UNIVERSAL]: {
-        power: 15,
-        speed: 150,
-        name: 'acrylic_engraving',
+        power: 65,
+        speed: 3,
       },
     },
-    leather_3mm_cutting: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 55,
+    ado1: {
+      [LayerModule.LASER_10W_DIODE]: {
+        power: 100,
+        speed: 3,
+        module: LayerModule.LASER_10W_DIODE,
+      },
+      [LayerModule.LASER_20W_DIODE]: {
+        power: 100,
         speed: 4,
-        name: 'leather_3mm_cutting',
+        module: LayerModule.LASER_20W_DIODE,
       },
     },
-    leather_5mm_cutting: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 55,
+  },
+  wood_7mm_cutting: {
+    ado1: {
+      [LayerModule.LASER_20W_DIODE]: {
+        power: 100,
         speed: 2,
-        name: 'leather_5mm_cutting',
-      },
-    },
-    leather_engraving: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 20,
-        speed: 150,
-        name: 'leather_engraving',
-      },
-    },
-    fabric_3mm_cutting: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 35,
-        speed: 20,
-        name: 'fabric_3mm_cutting',
-      },
-    },
-    fabric_5mm_cutting: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 35,
-        speed: 20,
-        name: 'fabric_5mm_cutting',
-      },
-    },
-    fabric_engraving: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 15,
-        speed: 150,
-        name: 'fabric_engraving',
-      },
-    },
-    rubber_bw_engraving: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 40,
-        speed: 150,
-        name: 'rubber_bw_engraving',
-      },
-    },
-    glass_bw_engraving: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 25,
-        speed: 150,
-        name: 'glass_bw_engraving',
-      },
-    },
-    metal_bw_engraving: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 50,
-        speed: 140,
-        name: 'steel_engraving_spray_engraving',
-      },
-    },
-    stainless_steel_bw_engraving_diode: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 100,
-        speed: 10,
-        name: 'stainless_steel_bw_engraving_diode',
+        module: LayerModule.LASER_20W_DIODE,
       },
     },
   },
-  fhexa1: {
-    wood_3mm_cutting: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 40,
-        speed: 6,
-        name: 'wood_3mm_cutting',
-      },
-    },
-    wood_5mm_cutting: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 65,
-        speed: 3,
-        name: 'wood_5mm_cutting',
-      },
-    },
-    wood_8mm_cutting: {
+  wood_8mm_cutting: {
+    fhexa1: {
       [LayerModule.LASER_UNIVERSAL]: {
         power: 65,
         speed: 3,
         repeat: 2,
-        name: 'wood_8mm_cutting',
       },
     },
-    wood_10mm_cutting: {
+  },
+  wood_10mm_cutting: {
+    fhexa1: {
       [LayerModule.LASER_UNIVERSAL]: {
         power: 65,
         speed: 3,
         repeat: 3,
-        name: 'wood_10mm_cutting',
-      },
-    },
-    wood_engraving: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 20,
-        speed: 300,
-        name: 'wood_engraving',
-      },
-    },
-    acrylic_3mm_cutting: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 40,
-        speed: 6,
-        name: 'acrylic_3mm_cutting',
-      },
-    },
-    acrylic_5mm_cutting: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 55,
-        speed: 3,
-        name: 'acrylic_5mm_cutting',
-      },
-    },
-    acrylic_8mm_cutting: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 50,
-        speed: 3,
-        repeat: 2,
-        name: 'acrylic_8mm_cutting',
-      },
-    },
-    acrylic_10mm_cutting: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 55,
-        speed: 3,
-        repeat: 2,
-        name: 'acrylic_10mm_cutting',
-      },
-    },
-    acrylic_engraving: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 15,
-        speed: 300,
-        name: 'acrylic_engraving',
-      },
-    },
-    leather_3mm_cutting: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 40,
-        speed: 6,
-        name: 'leather_3mm_cutting',
-      },
-    },
-    leather_5mm_cutting: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 55,
-        speed: 3,
-        name: 'leather_5mm_cutting',
-      },
-    },
-    leather_engraving: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 20,
-        speed: 300,
-        name: 'leather_engraving',
-      },
-    },
-    fabric_3mm_cutting: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 15,
-        speed: 25,
-        name: 'fabric_3mm_cutting',
-      },
-    },
-    fabric_5mm_cutting: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 20,
-        speed: 20,
-        name: 'fabric_5mm_cutting',
-      },
-    },
-    fabric_engraving: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 15,
-        speed: 250,
-        name: 'fabric_engraving',
-      },
-    },
-    rubber_bw_engraving: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 45,
-        speed: 300,
-        name: 'rubber_bw_engraving',
-      },
-    },
-    glass_bw_engraving: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 35,
-        speed: 150,
-        name: 'glass_bw_engraving',
-      },
-    },
-    metal_bw_engraving: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 20,
-        speed: 150,
-        name: 'steel_engraving_spray_engraving',
       },
     },
   },
-  ado1: {
-    wood_3mm_cutting: {
-      [LayerModule.LASER_10W_DIODE]: {
-        power: 100,
-        speed: 6,
-        module: LayerModule.LASER_10W_DIODE,
-        name: 'wood_3mm_cutting',
-      },
-      [LayerModule.LASER_20W_DIODE]: {
-        power: 100,
-        speed: 8,
-        module: LayerModule.LASER_20W_DIODE,
-        name: 'wood_3mm_cutting',
+  wood_engraving: {
+    fbm1: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 25,
+        speed: 150,
       },
     },
-    wood_5mm_cutting: {
-      [LayerModule.LASER_10W_DIODE]: {
-        power: 100,
-        speed: 3,
-        module: LayerModule.LASER_10W_DIODE,
-        name: 'wood_5mm_cutting',
-      },
-      [LayerModule.LASER_20W_DIODE]: {
-        power: 100,
-        speed: 4,
-        module: LayerModule.LASER_20W_DIODE,
-        name: 'wood_5mm_cutting',
+    fbb1b: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 25,
+        speed: 150,
       },
     },
-    wood_7mm_cutting: {
-      [LayerModule.LASER_20W_DIODE]: {
-        power: 100,
-        speed: 2,
-        module: LayerModule.LASER_20W_DIODE,
-        name: 'wood_7mm_cutting',
+    fbb1p: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 20,
+        speed: 150,
       },
     },
-    wood_engraving: {
+    fhexa1: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 20,
+        speed: 300,
+      },
+    },
+    ado1: {
       [LayerModule.LASER_10W_DIODE]: {
         power: 100,
         speed: 150,
         module: LayerModule.LASER_10W_DIODE,
-        name: 'wood_engraving',
       },
       [LayerModule.LASER_20W_DIODE]: {
         power: 70,
         speed: 150,
         module: LayerModule.LASER_20W_DIODE,
-        name: 'wood_engraving',
       },
     },
-    black_acrylic_3mm_cutting: {
+  },
+  acrylic_3mm_cutting: {
+    fbm1: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 55,
+        speed: 4,
+      },
+    },
+    fbb1b: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 60,
+        speed: 8,
+      },
+    },
+    fbb1p: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 55,
+        speed: 7,
+      },
+    },
+    fhexa1: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 40,
+        speed: 6,
+      },
+    },
+  },
+  acrylic_5mm_cutting: {
+    fbm1: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 55,
+        speed: 5,
+        repeat: 2,
+      },
+    },
+    fbb1b: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 60,
+        speed: 4,
+      },
+    },
+    fbb1p: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 55,
+        speed: 4,
+      },
+    },
+    fhexa1: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 55,
+        speed: 3,
+      },
+    },
+  },
+  acrylic_8mm_cutting: {
+    fhexa1: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 50,
+        speed: 3,
+        repeat: 2,
+      },
+    },
+  },
+  acrylic_10mm_cutting: {
+    fhexa1: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 55,
+        speed: 3,
+        repeat: 2,
+      },
+    },
+  },
+  acrylic_engraving: {
+    fbm1: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 25,
+        speed: 150,
+      },
+    },
+    fbb1b: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 25,
+        speed: 150,
+      },
+    },
+    fbb1p: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 15,
+        speed: 150,
+      },
+    },
+    fhexa1: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 15,
+        speed: 300,
+      },
+    },
+  },
+  black_acrylic_3mm_cutting: {
+    ado1: {
       [LayerModule.LASER_10W_DIODE]: {
         power: 100,
         speed: 2,
         module: LayerModule.LASER_10W_DIODE,
-        name: 'black_acrylic_3mm_cutting',
       },
       [LayerModule.LASER_20W_DIODE]: {
         power: 100,
         speed: 4,
         module: LayerModule.LASER_20W_DIODE,
-        name: 'black_acrylic_3mm_cutting',
       },
     },
-    black_acrylic_5mm_cutting: {
+  },
+  black_acrylic_5mm_cutting: {
+    ado1: {
       [LayerModule.LASER_10W_DIODE]: {
         power: 100,
         speed: 2,
         repeat: 2,
         module: LayerModule.LASER_10W_DIODE,
-        name: 'black_acrylic_5mm_cutting',
       },
       [LayerModule.LASER_20W_DIODE]: {
         power: 100,
         speed: 2,
         repeat: 1,
         module: LayerModule.LASER_20W_DIODE,
-        name: 'black_acrylic_5mm_cutting',
       },
     },
-    black_acrylic_engraving: {
+  },
+  black_acrylic_engraving: {
+    ado1: {
       [LayerModule.LASER_10W_DIODE]: {
         power: 90,
         speed: 175,
         module: LayerModule.LASER_10W_DIODE,
-        name: 'black_acrylic_engraving',
       },
       [LayerModule.LASER_20W_DIODE]: {
         power: 65,
         speed: 175,
         module: LayerModule.LASER_20W_DIODE,
-        name: 'black_acrylic_engraving',
       },
       [LayerModule.LASER_1064]: {
         power: 50,
         speed: 40,
         module: LayerModule.LASER_1064,
-        name: 'black_acrylic_engraving',
       },
     },
-    mdf_3mm_cutting: {
+  },
+  mdf_3mm_cutting: {
+    ado1: {
       [LayerModule.LASER_10W_DIODE]: {
         power: 100,
         speed: 4,
         module: LayerModule.LASER_10W_DIODE,
-        name: 'mdf_3mm_cutting',
       },
       [LayerModule.LASER_20W_DIODE]: {
         power: 100,
         speed: 8,
         module: LayerModule.LASER_20W_DIODE,
-        name: 'mdf_3mm_cutting',
       },
     },
-    mdf_5mm_cutting: {
+  },
+  mdf_5mm_cutting: {
+    ado1: {
       [LayerModule.LASER_10W_DIODE]: {
         power: 100,
         speed: 2,
         module: LayerModule.LASER_10W_DIODE,
-        name: 'mdf_5mm_cutting',
       },
       [LayerModule.LASER_20W_DIODE]: {
         power: 100,
         speed: 4,
         module: LayerModule.LASER_20W_DIODE,
-        name: 'mdf_5mm_cutting',
       },
     },
-    mdf_engraving: {
+  },
+  mdf_engraving: {
+    ado1: {
       [LayerModule.LASER_10W_DIODE]: {
         power: 30,
         speed: 100,
         module: LayerModule.LASER_10W_DIODE,
-        name: 'mdf_engraving',
       },
       [LayerModule.LASER_20W_DIODE]: {
         power: 70,
         speed: 100,
         module: LayerModule.LASER_20W_DIODE,
-        name: 'mdf_engraving',
       },
     },
-    leather_3mm_cutting: {
+  },
+  leather_3mm_cutting: {
+    fbm1: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 60,
+        speed: 3,
+      },
+    },
+    fbb1b: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 65,
+        speed: 3,
+      },
+    },
+    fbb1p: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 55,
+        speed: 4,
+      },
+    },
+    fhexa1: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 40,
+        speed: 6,
+      },
+    },
+    ado1: {
       [LayerModule.LASER_10W_DIODE]: {
         power: 100,
         speed: 4,
         module: LayerModule.LASER_10W_DIODE,
-        name: 'leather_3mm_cutting',
       },
       [LayerModule.LASER_20W_DIODE]: {
         power: 100,
         speed: 8,
         module: LayerModule.LASER_20W_DIODE,
-        name: 'leather_3mm_cutting',
       },
     },
-    leather_5mm_cutting: {
+  },
+  leather_5mm_cutting: {
+    fbm1: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 60,
+        speed: 3,
+        repeat: 2,
+      },
+    },
+    fbb1b: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 65,
+        speed: 1,
+      },
+    },
+    fbb1p: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 55,
+        speed: 2,
+      },
+    },
+    fhexa1: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 55,
+        speed: 3,
+      },
+    },
+    ado1: {
       [LayerModule.LASER_10W_DIODE]: {
         power: 100,
         speed: 3,
         repeat: 2,
         module: LayerModule.LASER_10W_DIODE,
-        name: 'leather_5mm_cutting',
       },
       [LayerModule.LASER_20W_DIODE]: {
         power: 100,
         speed: 6,
         repeat: 2,
         module: LayerModule.LASER_20W_DIODE,
-        name: 'leather_5mm_cutting',
       },
     },
-    leather_engraving: {
+  },
+  leather_engraving: {
+    fbm1: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 30,
+        speed: 150,
+      },
+    },
+    fbb1b: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 30,
+        speed: 150,
+      },
+    },
+    fbb1p: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 20,
+        speed: 150,
+      },
+    },
+    fhexa1: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 20,
+        speed: 300,
+      },
+    },
+    ado1: {
       [LayerModule.LASER_10W_DIODE]: {
         power: 30,
         speed: 100,
         module: LayerModule.LASER_10W_DIODE,
-        name: 'leather_engraving',
       },
       [LayerModule.LASER_20W_DIODE]: {
         power: 30,
         speed: 125,
         module: LayerModule.LASER_20W_DIODE,
-        name: 'leather_engraving',
       },
     },
-    denim_1mm_cutting: {
+  },
+  denim_1mm_cutting: {
+    ado1: {
       [LayerModule.LASER_10W_DIODE]: {
         power: 100,
         speed: 14,
         module: LayerModule.LASER_10W_DIODE,
-        name: 'denim_1mm_cutting',
       },
       [LayerModule.LASER_20W_DIODE]: {
         power: 50,
         speed: 10,
         module: LayerModule.LASER_20W_DIODE,
-        name: 'denim_1mm_cutting',
       },
     },
-    fabric_3mm_cutting: {
+  },
+  fabric_3mm_cutting: {
+    fbm1: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 50,
+        speed: 20,
+      },
+    },
+    fbb1b: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 60,
+        speed: 20,
+      },
+    },
+    fbb1p: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 35,
+        speed: 20,
+      },
+    },
+    fhexa1: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 15,
+        speed: 25,
+      },
+    },
+    ado1: {
       [LayerModule.LASER_10W_DIODE]: {
         power: 100,
         speed: 6,
         module: LayerModule.LASER_10W_DIODE,
-        name: 'fabric_3mm_cutting',
       },
       [LayerModule.LASER_20W_DIODE]: {
         power: 100,
         speed: 10,
         module: LayerModule.LASER_20W_DIODE,
-        name: 'fabric_3mm_cutting',
       },
     },
-    fabric_5mm_cutting: {
+  },
+  fabric_5mm_cutting: {
+    fbm1: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 50,
+        speed: 20,
+      },
+    },
+    fbb1b: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 60,
+        speed: 20,
+      },
+    },
+    fbb1p: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 35,
+        speed: 20,
+      },
+    },
+    fhexa1: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 20,
+        speed: 20,
+      },
+    },
+    ado1: {
       [LayerModule.LASER_10W_DIODE]: {
         power: 100,
         speed: 2,
         module: LayerModule.LASER_10W_DIODE,
-        name: 'fabric_5mm_cutting',
       },
       [LayerModule.LASER_20W_DIODE]: {
         power: 100,
         speed: 4,
         module: LayerModule.LASER_20W_DIODE,
-        name: 'fabric_5mm_cutting',
       },
     },
-    fabric_engraving: {
+  },
+  fabric_engraving: {
+    fbm1: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 20,
+        speed: 150,
+      },
+    },
+    fbb1b: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 20,
+        speed: 150,
+      },
+    },
+    fbb1p: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 15,
+        speed: 150,
+      },
+    },
+    fhexa1: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 15,
+        speed: 250,
+      },
+    },
+    ado1: {
       [LayerModule.LASER_10W_DIODE]: {
         power: 30,
         speed: 125,
         module: LayerModule.LASER_10W_DIODE,
-        name: 'fabric_engraving',
       },
       [LayerModule.LASER_20W_DIODE]: {
         power: 40,
         speed: 150,
         module: LayerModule.LASER_20W_DIODE,
-        name: 'fabric_engraving',
       },
     },
-    rubber_bw_engraving: {
+  },
+  rubber_bw_engraving: {
+    fbm1: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 50,
+        speed: 100,
+      },
+    },
+    fbb1b: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 45,
+        speed: 130,
+      },
+    },
+    fbb1p: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 40,
+        speed: 150,
+      },
+    },
+    fhexa1: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 45,
+        speed: 300,
+      },
+    },
+    ado1: {
       [LayerModule.LASER_10W_DIODE]: {
         power: 100,
         speed: 15,
         module: LayerModule.LASER_10W_DIODE,
-        name: 'rubber_bw_engraving',
       },
       [LayerModule.LASER_20W_DIODE]: {
         power: 100,
         speed: 25,
         module: LayerModule.LASER_20W_DIODE,
-        name: 'rubber_bw_engraving',
       },
     },
-    glass_bw_engraving: {
+  },
+  glass_bw_engraving: {
+    fbm1: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 35,
+        speed: 150,
+      },
+    },
+    fbb1b: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 30,
+        speed: 150,
+      },
+    },
+    fbb1p: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 25,
+        speed: 150,
+      },
+    },
+    fhexa1: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 35,
+        speed: 150,
+      },
+    },
+    ado1: {
       [LayerModule.LASER_10W_DIODE]: {
         power: 40,
         speed: 20,
         module: LayerModule.LASER_10W_DIODE,
-        name: 'glass_bw_engraving',
       },
       [LayerModule.LASER_20W_DIODE]: {
         power: 40,
         speed: 30,
         module: LayerModule.LASER_20W_DIODE,
-        name: 'glass_bw_engraving',
       },
     },
-    metal_bw_engraving: {
+  },
+  steel_engraving_spray_engraving: {
+    fbm1: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 50,
+        speed: 80,
+      },
+    },
+    fbb1b: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 50,
+        speed: 120,
+      },
+    },
+    fbb1p: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 50,
+        speed: 140,
+      },
+    },
+    fhexa1: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 20,
+        speed: 150,
+      },
+    },
+  },
+  metal_bw_engraving: {
+    ado1: {
       [LayerModule.LASER_10W_DIODE]: {
         power: 100,
         speed: 20,
         module: LayerModule.LASER_10W_DIODE,
-        name: 'metal_bw_engraving',
       },
       [LayerModule.LASER_20W_DIODE]: {
         power: 90,
         speed: 20,
         module: LayerModule.LASER_20W_DIODE,
-        name: 'metal_bw_engraving',
       },
     },
-
-    gold_engraving: {
+  },
+  stainless_steel_bw_engraving_diode: {
+    fbm1: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 100,
+        speed: 10,
+      },
+    },
+  },
+  gold_engraving: {
+    ado1: {
       [LayerModule.LASER_1064]: {
         power: 95,
         speed: 10,
         module: LayerModule.LASER_1064,
-        name: 'gold_engraving',
       },
     },
-    brass_engraving: {
+  },
+  brass_engraving: {
+    ado1: {
       [LayerModule.LASER_1064]: {
         power: 85,
         speed: 30,
         module: LayerModule.LASER_1064,
-        name: 'brass_engraving',
       },
     },
-    ti_engraving: {
+  },
+  ti_engraving: {
+    ado1: {
       [LayerModule.LASER_1064]: {
         power: 75,
         speed: 30,
         module: LayerModule.LASER_1064,
-        name: 'ti_engraving',
       },
     },
-    stainless_steel_engraving: {
+  },
+  stainless_steel_engraving: {
+    ado1: {
       [LayerModule.LASER_1064]: {
         power: 90,
         speed: 20,
         module: LayerModule.LASER_1064,
-        name: 'stainless_steel_engraving',
       },
     },
-    aluminum_engraving: {
+  },
+  aluminum_engraving: {
+    ado1: {
       [LayerModule.LASER_1064]: {
         power: 80,
         speed: 20,
         module: LayerModule.LASER_1064,
-        name: 'aluminum_engraving',
       },
     },
-    silver_engraving: {
+  },
+  silver_engraving: {
+    ado1: {
       [LayerModule.LASER_1064]: {
         power: 95,
         speed: 20,
         module: LayerModule.LASER_1064,
-        name: 'silver_engraving',
       },
     },
-    iron_engraving: {
+  },
+  iron_engraving: {
+    ado1: {
       [LayerModule.LASER_1064]: {
         power: 90,
         speed: 20,
         module: LayerModule.LASER_1064,
-        name: 'iron_engraving',
-      },
-    },
-
-    fabric_printing: {
-      [LayerModule.PRINTER]: {
-        ink: 3,
-        speed: 60,
-        multipass: 3,
-        module: LayerModule.PRINTER,
-        name: 'fabric_printing',
-      },
-    },
-    canvas_printing: {
-      [LayerModule.PRINTER]: {
-        ink: 3,
-        speed: 60,
-        multipass: 4,
-        module: LayerModule.PRINTER,
-        name: 'canvas_printing',
-      },
-    },
-    cardstock_printing: {
-      [LayerModule.PRINTER]: {
-        ink: 2,
-        speed: 60,
-        multipass: 3,
-        module: LayerModule.PRINTER,
-        name: 'cardstock_printing',
-      },
-    },
-    wood_printing: {
-      [LayerModule.PRINTER]: {
-        ink: 2,
-        speed: 60,
-        multipass: 3,
-        module: LayerModule.PRINTER,
-        name: 'wood_printing',
-      },
-    },
-    bamboo_printing: {
-      [LayerModule.PRINTER]: {
-        ink: 2,
-        speed: 60,
-        multipass: 3,
-        module: LayerModule.PRINTER,
-        name: 'bamboo_printing',
-      },
-    },
-    cork_printing: {
-      [LayerModule.PRINTER]: {
-        ink: 2,
-        speed: 60,
-        multipass: 3,
-        module: LayerModule.PRINTER,
-        name: 'cork_printing',
-      },
-    },
-    flat_stone_printing: {
-      [LayerModule.PRINTER]: {
-        ink: 3,
-        speed: 60,
-        multipass: 3,
-        module: LayerModule.PRINTER,
-        name: 'flat_stone_printing',
-      },
-    },
-    acrylic_printing: {
-      [LayerModule.PRINTER]: {
-        ink: 2,
-        speed: 30,
-        multipass: 4,
-        module: LayerModule.PRINTER,
-        name: 'acrylic_printing',
-      },
-    },
-    pc_printing: {
-      [LayerModule.PRINTER]: {
-        ink: 2,
-        speed: 30,
-        multipass: 4,
-        module: LayerModule.PRINTER,
-        name: 'pc_printing',
-      },
-    },
-    stainless_steel_printing: {
-      [LayerModule.PRINTER]: {
-        ink: 3,
-        speed: 30,
-        multipass: 4,
-        module: LayerModule.PRINTER,
-        name: 'stainless_steel_printing',
-      },
-    },
-    gloss_leather_printing: {
-      [LayerModule.PRINTER]: {
-        ink: 3,
-        speed: 60,
-        multipass: 3,
-        module: LayerModule.PRINTER,
-        name: 'gloss_leather_printing',
-      },
-    },
-    glass_printing: {
-      [LayerModule.PRINTER]: {
-        ink: 3,
-        speed: 30,
-        multipass: 4,
-        module: LayerModule.PRINTER,
-        name: 'glass_printing',
       },
     },
   },
-  fbb2: {},
+  fabric_printing: {
+    ado1: {
+      [LayerModule.PRINTER]: {
+        ink: 3,
+        speed: 60,
+        multipass: 3,
+        module: LayerModule.PRINTER,
+      },
+    },
+  },
+  canvas_printing: {
+    ado1: {
+      [LayerModule.PRINTER]: {
+        ink: 3,
+        speed: 60,
+        multipass: 4,
+        module: LayerModule.PRINTER,
+      },
+    },
+  },
+  cardstock_printing: {
+    ado1: {
+      [LayerModule.PRINTER]: {
+        ink: 2,
+        speed: 60,
+        multipass: 3,
+        module: LayerModule.PRINTER,
+      },
+    },
+  },
+  wood_printing: {
+    ado1: {
+      [LayerModule.PRINTER]: {
+        ink: 2,
+        speed: 60,
+        multipass: 3,
+        module: LayerModule.PRINTER,
+      },
+    },
+  },
+  bamboo_printing: {
+    ado1: {
+      [LayerModule.PRINTER]: {
+        ink: 2,
+        speed: 60,
+        multipass: 3,
+        module: LayerModule.PRINTER,
+      },
+    },
+  },
+  cork_printing: {
+    ado1: {
+      [LayerModule.PRINTER]: {
+        ink: 2,
+        speed: 60,
+        multipass: 3,
+        module: LayerModule.PRINTER,
+      },
+    },
+  },
+  flat_stone_printing: {
+    ado1: {
+      [LayerModule.PRINTER]: {
+        ink: 3,
+        speed: 60,
+        multipass: 3,
+        module: LayerModule.PRINTER,
+      },
+    },
+  },
+  acrylic_printing: {
+    ado1: {
+      [LayerModule.PRINTER]: {
+        ink: 2,
+        speed: 30,
+        multipass: 4,
+        module: LayerModule.PRINTER,
+      },
+    },
+  },
+  pc_printing: {
+    ado1: {
+      [LayerModule.PRINTER]: {
+        ink: 2,
+        speed: 30,
+        multipass: 4,
+        module: LayerModule.PRINTER,
+      },
+    },
+  },
+  stainless_steel_printing: {
+    ado1: {
+      [LayerModule.PRINTER]: {
+        ink: 3,
+        speed: 30,
+        multipass: 4,
+        module: LayerModule.PRINTER,
+      },
+    },
+  },
+  gloss_leather_printing: {
+    ado1: {
+      [LayerModule.PRINTER]: {
+        ink: 3,
+        speed: 60,
+        multipass: 3,
+        module: LayerModule.PRINTER,
+      },
+    },
+  },
+  glass_printing: {
+    ado1: {
+      [LayerModule.PRINTER]: {
+        ink: 3,
+        speed: 30,
+        multipass: 4,
+        module: LayerModule.PRINTER,
+      },
+    },
+  },
 };
 
 const allKeys = new Set<string>();
-Object.keys(presets).forEach((model) => {
-  Object.keys(presets[model]).forEach((key) => {
-    allKeys.add(key);
-  });
+Object.keys(presets).forEach((key) => {
+  allKeys.add(key);
 });
+console.log(allKeys);
 export const getAllKeys = (): Set<string> => allKeys;
 
 export default presets;
