@@ -117,7 +117,6 @@ const getPresetsList = (
   if (presetsCache[model]?.[layerModule]) {
     return presetsCache[model][layerModule];
   }
-  console.log(allPresets);
   const res =
     allPresets
       ?.map((preset) => {
@@ -138,7 +137,6 @@ const getPresetsList = (
     presetsCache[model] = {};
   }
   presetsCache[model][layerModule] = res;
-  console.log(res);
   return res;
 };
 
