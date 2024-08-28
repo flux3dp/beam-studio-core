@@ -40,9 +40,11 @@ jest.mock('helpers/i18n', () => ({
 
 const mockGet = jest.fn();
 const mockSet = jest.fn();
+const mockRemoveAt = jest.fn();
 jest.mock('implementations/storage', () => ({
   get: (...args) => mockGet(...args),
   set: (...args) => mockSet(...args),
+  removeAt: (...args) => mockRemoveAt(...args),
 }));
 
 const mockGetAllKeys = jest.fn();
@@ -95,6 +97,9 @@ describe('test preset-helper', () => {
     mockGet.mockImplementation((key) => mockStorage[key]);
     mockSet.mockImplementation((key, value) => {
       mockStorage[key] = JSON.parse(JSON.stringify(value));
+    });
+    mockRemoveAt.mockImplementation((key) => {
+      delete mockStorage[key];
     });
   });
 
@@ -187,15 +192,61 @@ describe('test preset-helper', () => {
       { key: 'pre3', name: 'pre3_name', power: 70, speed: 70 },
       { key: 'pre1', isDefault: true, hide: false },
     ]);
-    expect(mockSet).toHaveBeenNthCalledWith(2, 'presets', [
+    expect(mockGet('presets')).toEqual([
       { key: 'pre3', name: 'pre3_name', power: 70, speed: 70 },
-      { key: 'pre1', name: 'pre1_name', isDefault: true, hide: false },
-      { key: 'pre2', name: 'pre2_name', isDefault: true, hide: false },
+      { key: 'pre1', isDefault: true, hide: false },
+      { key: 'pre2', isDefault: true, hide: false },
     ]);
     expect(presetHelper.getAllPresets()).toEqual([
       { key: 'pre3', name: 'pre3_name', power: 70, speed: 70 },
       { key: 'pre1', name: 'pre1_name', isDefault: true, hide: false },
       { key: 'pre2', name: 'pre2_name', isDefault: true, hide: false },
+    ]);
+  });
+
+  test('import from old version config', async () => {
+    const mockData = {
+      customizedLaserConfigs: [
+        { name: 'pre3', power: 77, speed: 77 },
+        { key: 'pre4', power: 88, speed: 88, isDefault: true },
+      ],
+      defaultLaserConfigsInUse: {
+        pre4: false,
+      },
+    };
+    const mockFile = new File([JSON.stringify(mockData)], 'file_name');
+    mockGetFileFromDialog.mockResolvedValue(mockFile);
+    mockPopUp.mockImplementation(({ onConfirm }) => onConfirm());
+    await importPresets();
+    expect(mockGetFileFromDialog).toBeCalledTimes(1);
+    expect(mockGetFileFromDialog).toHaveBeenLastCalledWith({
+      filters: [{ name: 'JSON', extensions: ['json', 'JSON'] }],
+    });
+    expect(mockPopUp).toBeCalledTimes(1);
+    expect(mockPopUp).toHaveBeenLastCalledWith({
+      buttonType: 'CONFIRM_CANCEL',
+      message: 'sure_to_import_presets',
+      onConfirm: expect.any(Function),
+    });
+    expect(mockSet).toBeCalledTimes(3);
+    expect(mockSet).toHaveBeenNthCalledWith(1, 'customizedLaserConfigs', [
+      { name: 'pre3', power: 77, speed: 77 },
+      { key: 'pre4', power: 88, speed: 88, isDefault: true },
+    ]);
+    expect(mockSet).toHaveBeenNthCalledWith(2, 'defaultLaserConfigsInUse', {
+      pre4: false,
+    });
+    expect(mockRemoveAt).toBeCalledTimes(1);
+    expect(mockRemoveAt).toHaveBeenLastCalledWith('presets');
+    expect(mockGet('presets')).toEqual([
+      { key: 'pre1', isDefault: true, hide: false },
+      { key: 'pre2', isDefault: true, hide: false },
+      { name: 'pre3', power: 77, speed: 77 },
+    ]);
+    expect(presetHelper.getAllPresets()).toEqual([
+      { key: 'pre1', name: 'pre1_name', isDefault: true, hide: false },
+      { key: 'pre2', name: 'pre2_name', isDefault: true, hide: false },
+      { name: 'pre3', power: 77, speed: 77 },
     ]);
   });
 
@@ -244,6 +295,30 @@ describe('test preset-helper', () => {
     expect(presetHelper.getAllPresets()).toEqual([
       { key: 'pre1', name: 'pre1_name', isDefault: true, hide: false },
       { key: 'pre2', name: 'pre2_name', isDefault: true, hide: false },
+    ]);
+  });
+
+  test('migrate from old version config', () => {
+    mockStorage = {
+      customizedLaserConfigs: [
+        { name: 'pre3', power: 77, speed: 77 },
+        { key: 'pre4', power: 88, speed: 88, isDefault: true },
+      ],
+      defaultLaserConfigsInUse: {
+        pre4: false,
+      },
+    };
+    presetHelper.reloadPresets(true);
+    expect(mockSet).toBeCalledTimes(1);
+    expect(mockGet('presets')).toEqual([
+      { key: 'pre1', isDefault: true, hide: false },
+      { key: 'pre2', isDefault: true, hide: false },
+      { name: 'pre3', power: 77, speed: 77 },
+    ]);
+    expect(presetHelper.getAllPresets()).toEqual([
+      { key: 'pre1', name: 'pre1_name', isDefault: true, hide: false },
+      { key: 'pre2', name: 'pre2_name', isDefault: true, hide: false },
+      { name: 'pre3', power: 77, speed: 77 },
     ]);
   });
 });

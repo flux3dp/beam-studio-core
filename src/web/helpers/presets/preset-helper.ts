@@ -186,7 +186,7 @@ export const importPresets = async (file?: Blob): Promise<boolean> => {
                   .filter((config) => !config.isDefault)
                   .map((config) => config.name)
               );
-              let currentConfig = storage.get('customizedLaserConfigs');
+              let currentConfig = storage.get('customizedLaserConfigs') || [];
               if (typeof currentConfig === 'string') {
                 currentConfig = JSON.parse(currentConfig);
               }
@@ -246,6 +246,7 @@ export default {
   getPresetsList,
   importPresets,
   modelHasPreset,
+  reloadPresets,
   resetPresetList,
   savePreset,
   savePresetList,
