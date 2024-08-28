@@ -54,7 +54,7 @@ const migrateStorage = () => {
         if (isDefault) presets[idx] = { key, isDefault, hide: !!hide };
       });
     } else {
-      presets = allKeysList.map((key) => ({ key, isDefault: true }));
+      presets = allKeysList.map((key) => ({ key, isDefault: true, hide: false }));
     }
   }
   storage.set('presets', presets);
@@ -200,7 +200,7 @@ export const importPresets = async (file?: Blob): Promise<boolean> => {
               storage.set('defaultLaserConfigsInUse', defaultLaserConfigsInUse);
               storage.removeAt('presets');
             }
-            reloadPresets();
+            reloadPresets(true);
             resolve(true);
           };
           reader.readAsText(fileBlob);
@@ -246,7 +246,6 @@ export default {
   getPresetsList,
   importPresets,
   modelHasPreset,
-  reloadPresets,
   resetPresetList,
   savePreset,
   savePresetList,

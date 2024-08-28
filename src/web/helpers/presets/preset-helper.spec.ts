@@ -1,10 +1,15 @@
 import LayerModule from 'app/constants/layer-module/layer-modules';
 
-import { updateDefaultPresetData } from './preset-helper';
+const mockPopUp = jest.fn();
+jest.mock('app/actions/alert-caller', () => ({
+  popUp: (...args) => mockPopUp(...args),
+}));
 
-const mockPrefRead = jest.fn();
-jest.mock('app/actions/beambox/beambox-preference', () => ({
-  read: (...args) => mockPrefRead(...args),
+const mockGetFileFromDialog = jest.fn();
+const mockWriteFileDialog = jest.fn();
+jest.mock('implementations/dialog', () => ({
+  getFileFromDialog: (...args) => mockGetFileFromDialog(...args),
+  writeFileDialog: (...args) => mockWriteFileDialog(...args),
 }));
 
 jest.mock('helpers/i18n', () => ({
@@ -14,11 +19,20 @@ jest.mock('helpers/i18n', () => ({
         laser_panel: {
           dropdown: {
             mm: {
-              pre1: 'pre1',
-              pre2: 'pre2',
+              pre1: 'pre1_name',
+              pre2: 'pre2_name',
             },
           },
+          preset_management: {
+            sure_to_import_presets: 'sure_to_import_presets',
+            export_preset_title: 'export_preset_title',
+          },
         },
+      },
+    },
+    topmenu: {
+      file: {
+        all_files: 'all_files',
       },
     },
   },
@@ -32,100 +46,204 @@ jest.mock('implementations/storage', () => ({
 }));
 
 const mockGetAllKeys = jest.fn();
-const mockGetAllPresets = jest.fn();
-jest.mock('app/constants/right-panel-constants', () => ({
+jest.mock('app/constants/presets', () => ({
   getAllKeys: (...args) => mockGetAllKeys(...args),
-  getAllPresets: (...args) => mockGetAllPresets(...args),
+  presets: {
+    fbm1: {
+      pre1: {
+        [LayerModule.LASER_UNIVERSAL]: {
+          power: 30,
+          speed: 30,
+        },
+      },
+      pre2: {
+        [LayerModule.LASER_UNIVERSAL]: {
+          power: 40,
+          speed: 40,
+        },
+      },
+    },
+    ado1: {
+      pre1: {
+        [LayerModule.LASER_10W_DIODE]: {
+          power: 50,
+          speed: 50,
+        },
+      },
+      pre2: {
+        [LayerModule.LASER_20W_DIODE]: {
+          power: 60,
+          speed: 60,
+        },
+      },
+    },
+  },
 }));
+mockGetAllKeys.mockReturnValue(new Set(['pre1', 'pre2']));
+
+// eslint-disable-next-line import/first
+import presetHelper, { importPresets } from './preset-helper';
+
+let mockStorage = {};
 
 describe('test preset-helper', () => {
   beforeEach(() => {
+    presetHelper.resetPresetList();
     jest.resetAllMocks();
-  });
-
-  test('updateDefaultPresetData when storage is empty', () => {
-    mockGetAllPresets.mockReturnValue({
-      pre1: { power: 1, speed: 2, repeat: 3, name: 'pre1' },
-      pre2: { power: 6, speed: 5, repeat: 4, name: 'pre2', module: LayerModule.LASER_20W_DIODE },
-    });
-    mockGet.mockReturnValue(null);
-    const keys = updateDefaultPresetData();
-    expect(mockGet).toBeCalledTimes(3);
-    expect(mockSet).toBeCalledTimes(2);
-    expect(mockSet).toHaveBeenNthCalledWith(1, 'customizedLaserConfigs', [
-      {
-        name: 'pre1',
-        power: 1,
-        speed: 2,
-        repeat: 3,
-        isDefault: true,
-        key: 'pre1',
-        module: LayerModule.LASER_10W_DIODE,
-      },
-      {
-        name: 'pre2',
-        power: 6,
-        speed: 5,
-        repeat: 4,
-        isDefault: true,
-        key: 'pre2',
-        module: LayerModule.LASER_20W_DIODE,
-      },
-    ]);
-    expect(mockSet).toHaveBeenNthCalledWith(2, 'defaultLaserConfigsInUse', {
-      pre1: true,
-      pre2: true,
-    });
-    expect(keys).toEqual(['pre1', 'pre2']);
-  });
-
-  test('updateDefaultPresetData when storage has some value', () => {
-    mockGetAllPresets.mockReturnValue({
-      pre1: { power: 1, speed: 2, repeat: 3, name: 'pre1' },
-      pre2: { power: 6, speed: 5, repeat: 4, name: 'pre2', module: LayerModule.LASER_20W_DIODE },
-    });
-    const mockCustomizedConfigs = [
-      { name: 'pre4', power: 7, speed: 8, repeat: 9, isDefault: false, key: 'pre4' },
-      { name: 'pre1', power: 1, speed: 2, repeat: 3, isDefault: true, key: 'pre1' },
-      { name: 'pre3', power: 6, speed: 5, repeat: 4, isDefault: true, key: 'pre3' },
-    ];
-    const mockDefaultInUse = { pre1: true, pre3: true };
-    mockGet
-      .mockReturnValueOnce('mm')
-      .mockReturnValueOnce(mockCustomizedConfigs)
-      .mockReturnValueOnce(mockDefaultInUse)
-      .mockReturnValueOnce(mockCustomizedConfigs)
-      .mockReturnValueOnce(mockDefaultInUse);
     mockGetAllKeys.mockReturnValue(new Set(['pre1', 'pre2']));
-    const keys = updateDefaultPresetData();
-    expect(mockGet).toBeCalledTimes(5);
-    expect(mockSet).toBeCalledTimes(2);
-    expect(mockGetAllKeys).toBeCalledTimes(1);
-    expect(mockSet).toHaveBeenNthCalledWith(1, 'customizedLaserConfigs', [
-      { name: 'pre4', power: 7, speed: 8, repeat: 9, isDefault: false, key: 'pre4' },
-      {
-        name: 'pre1',
-        power: 1,
-        speed: 2,
-        repeat: 3,
-        isDefault: true,
-        key: 'pre1',
-        module: LayerModule.LASER_10W_DIODE,
-      },
-      {
-        name: 'pre2',
-        power: 6,
-        speed: 5,
-        repeat: 4,
-        isDefault: true,
-        key: 'pre2',
-        module: LayerModule.LASER_20W_DIODE,
-      },
-    ]);
-    expect(mockSet).toHaveBeenNthCalledWith(2, 'defaultLaserConfigsInUse', {
-      pre1: true,
-      pre2: true,
+    mockStorage = {};
+    mockGet.mockImplementation((key) => mockStorage[key]);
+    mockSet.mockImplementation((key, value) => {
+      mockStorage[key] = JSON.parse(JSON.stringify(value));
     });
-    expect(keys).toEqual(['pre1', 'pre2']);
+  });
+
+  test('getAllPresets', () => {
+    expect(presetHelper.getAllPresets()).toEqual([
+      { key: 'pre1', name: 'pre1_name', isDefault: true, hide: false },
+      { key: 'pre2', name: 'pre2_name', isDefault: true, hide: false },
+    ]);
+  });
+
+  test('getDefaultPreset', () => {
+    expect(presetHelper.getDefaultPreset('pre1', 'fbm1')).toEqual({
+      power: 30,
+      speed: 30,
+    });
+    expect(presetHelper.getDefaultPreset('pre2', 'fbm1')).toEqual({
+      power: 40,
+      speed: 40,
+    });
+    expect(presetHelper.getDefaultPreset('pre1', 'ado1', LayerModule.LASER_10W_DIODE)).toEqual({
+      power: 50,
+      speed: 50,
+    });
+    expect(presetHelper.getDefaultPreset('pre2', 'ado1', LayerModule.LASER_10W_DIODE)).toEqual(
+      null
+    );
+  });
+
+  test('getPresetsList', () => {
+    expect(presetHelper.getPresetsList('fbm1')).toEqual([
+      { key: 'pre1', name: 'pre1_name', isDefault: true, power: 30, speed: 30, hide: false },
+      { key: 'pre2', name: 'pre2_name', isDefault: true, power: 40, speed: 40, hide: false },
+    ]);
+    expect(presetHelper.getPresetsList('fbm1', LayerModule.LASER_10W_DIODE)).toEqual([
+      { key: 'pre1', name: 'pre1_name', isDefault: true, power: 30, speed: 30, hide: false },
+      { key: 'pre2', name: 'pre2_name', isDefault: true, power: 40, speed: 40, hide: false },
+    ]);
+    expect(presetHelper.getPresetsList('ado1', LayerModule.LASER_10W_DIODE)).toEqual([
+      { key: 'pre1', name: 'pre1_name', isDefault: true, power: 50, speed: 50, hide: false },
+    ]);
+    expect(presetHelper.getPresetsList('ado1', LayerModule.LASER_20W_DIODE)).toEqual([
+      { key: 'pre2', name: 'pre2_name', isDefault: true, power: 60, speed: 60, hide: false },
+    ]);
+  });
+
+  test('modelHasPreset', () => {
+    expect(presetHelper.modelHasPreset('fbm1', 'pre1')).toBeTruthy();
+    expect(presetHelper.modelHasPreset('fbm1', 'pre3')).toBeFalsy();
+    expect(presetHelper.modelHasPreset('ado1', 'pre1')).toBeTruthy();
+    expect(presetHelper.modelHasPreset('ado1', 'pre3')).toBeFalsy();
+  });
+
+  test('exportPresets', async () => {
+    mockWriteFileDialog.mockResolvedValue('file_name');
+    const mockPresets = [
+      { key: 'pre3', name: 'pre3_name', power: 77, speed: 77 },
+      { key: 'pre1', name: 'pre1_name', isDefault: true, hide: false },
+      { key: 'pre2', name: 'pre2_name', isDefault: true, hide: false },
+      { key: 'pre4', name: 'pre4_name', power: 88, speed: 88 },
+    ];
+    await presetHelper.exportPresets(mockPresets);
+    expect(mockWriteFileDialog).toBeCalledTimes(1);
+    const getContet = mockWriteFileDialog.mock.calls[0][0];
+    expect(getContet()).toEqual(JSON.stringify({ presets: mockPresets }));
+  });
+
+  test('importPresets', async () => {
+    const mockData = {
+      presets: [
+        { key: 'pre3', name: 'pre3_name', power: 70, speed: 70 },
+        { key: 'pre1', isDefault: true, hide: false },
+      ],
+    };
+    const mockFile = new File([JSON.stringify(mockData)], 'file_name');
+    mockGetFileFromDialog.mockResolvedValue(mockFile);
+    mockPopUp.mockImplementation(({ onConfirm }) => onConfirm());
+    await importPresets();
+    expect(mockGetFileFromDialog).toBeCalledTimes(1);
+    expect(mockGetFileFromDialog).toHaveBeenLastCalledWith({
+      filters: [{ name: 'JSON', extensions: ['json', 'JSON'] }],
+    });
+    expect(mockPopUp).toBeCalledTimes(1);
+    expect(mockPopUp).toHaveBeenLastCalledWith({
+      buttonType: 'CONFIRM_CANCEL',
+      message: 'sure_to_import_presets',
+      onConfirm: expect.any(Function),
+    });
+    expect(mockSet).toBeCalledTimes(2);
+    expect(mockSet).toHaveBeenNthCalledWith(1, 'presets', [
+      { key: 'pre3', name: 'pre3_name', power: 70, speed: 70 },
+      { key: 'pre1', isDefault: true, hide: false },
+    ]);
+    expect(mockSet).toHaveBeenNthCalledWith(2, 'presets', [
+      { key: 'pre3', name: 'pre3_name', power: 70, speed: 70 },
+      { key: 'pre1', name: 'pre1_name', isDefault: true, hide: false },
+      { key: 'pre2', name: 'pre2_name', isDefault: true, hide: false },
+    ]);
+    expect(presetHelper.getAllPresets()).toEqual([
+      { key: 'pre3', name: 'pre3_name', power: 70, speed: 70 },
+      { key: 'pre1', name: 'pre1_name', isDefault: true, hide: false },
+      { key: 'pre2', name: 'pre2_name', isDefault: true, hide: false },
+    ]);
+  });
+
+  test('savePreset', () => {
+    presetHelper.savePreset({
+      key: 'pre3',
+      name: 'pre3_name',
+      power: 70,
+      speed: 70,
+    });
+    expect(mockSet).toBeCalledTimes(1);
+    expect(mockSet).toHaveBeenLastCalledWith('presets', [
+      { key: 'pre1', name: 'pre1_name', isDefault: true, hide: false },
+      { key: 'pre2', name: 'pre2_name', isDefault: true, hide: false },
+      { key: 'pre3', name: 'pre3_name', power: 70, speed: 70 },
+    ]);
+  });
+
+  test('savePresetList', () => {
+    const mockPresets = [
+      { key: 'pre3', name: 'pre3_name', power: 77, speed: 77 },
+      { key: 'pre1', name: 'pre1_name', isDefault: true, hide: false },
+      { key: 'pre2', name: 'pre2_name', isDefault: true, hide: false },
+      { key: 'pre4', name: 'pre4_name', power: 88, speed: 88, hide: true },
+    ];
+    presetHelper.savePresetList(mockPresets);
+    expect(mockSet).toBeCalledTimes(1);
+    expect(mockSet).toHaveBeenLastCalledWith('presets', mockPresets);
+    expect(presetHelper.getAllPresets()).toEqual(mockPresets);
+  });
+
+  test('resetPresetList', () => {
+    presetHelper.savePreset({
+      key: 'pre3',
+      name: 'pre3_name',
+      power: 70,
+      speed: 70,
+    });
+    expect(mockSet).toBeCalledTimes(1);
+    presetHelper.resetPresetList();
+    expect(mockSet).toBeCalledTimes(2);
+    expect(mockSet).toHaveBeenLastCalledWith('presets', [
+      { key: 'pre1', isDefault: true, hide: false },
+      { key: 'pre2', isDefault: true, hide: false },
+    ]);
+    expect(presetHelper.getAllPresets()).toEqual([
+      { key: 'pre1', name: 'pre1_name', isDefault: true, hide: false },
+      { key: 'pre2', name: 'pre2_name', isDefault: true, hide: false },
+    ]);
   });
 });

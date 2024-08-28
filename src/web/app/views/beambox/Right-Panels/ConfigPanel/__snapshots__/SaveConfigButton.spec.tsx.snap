@@ -2,12 +2,11 @@
 
 exports[`test SaveConfigButton should render correctly 1`] = `
 <div>
-  <div
-    class="btn"
+  <button
+    class="container"
+    type="button"
   >
-    <img
-      src="img/icon-plus.svg"
-    />
-  </div>
+    <svgr-url />
+  </button>
 </div>
 `;
