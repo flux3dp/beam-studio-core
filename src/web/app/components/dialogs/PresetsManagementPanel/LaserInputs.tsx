@@ -33,6 +33,7 @@ const LaserInputs = ({
         <div className={styles.field}>
           <div className={styles.label}>{tLaserPanel.strength}</div>
           <UnitInput
+            data-testid="power"
             className={styles.input}
             disabled={preset.isDefault}
             value={preset.power ?? defaultConfig.power}
@@ -46,6 +47,7 @@ const LaserInputs = ({
         <div className={styles.field}>
           <div className={styles.label}>{tLaserPanel.speed}</div>
           <UnitInput
+            data-testid="speed"
             className={styles.input}
             disabled={preset.isDefault}
             value={preset.speed ?? defaultConfig.speed}
@@ -60,6 +62,7 @@ const LaserInputs = ({
         <div className={styles.field}>
           <div className={styles.label}>{tLaserPanel.repeat}</div>
           <UnitInput
+            data-testid="repeat"
             className={styles.input}
             disabled={preset.isDefault}
             value={preset.repeat ?? defaultConfig.repeat}
@@ -75,6 +78,7 @@ const LaserInputs = ({
         <div className={styles.field}>
           <div className={styles.label}>{t.lower_focus_by}</div>
           <UnitInput
+            data-testid="focus"
             className={styles.input}
             disabled={preset.isDefault}
             value={Math.max(preset.focus ?? defaultConfig.focus, 0)}
@@ -89,6 +93,7 @@ const LaserInputs = ({
         <div className={styles.field}>
           <div className={styles.label}>{tLaserPanel.z_step}</div>
           <UnitInput
+            data-testid="zStep"
             className={styles.input}
             disabled={preset.isDefault}
             value={preset.zStep ?? defaultConfig.zStep}

@@ -47,6 +47,7 @@ const PrintingInputs = ({
           <div className={styles.label}>{tLaserPanel.ink_saturation}</div>
           {simpleMode ? (
             <Select
+              id="inkSelect"
               disabled={preset.isDefault}
               className={styles.select}
               onChange={(val) => handleChange('ink', val)}
@@ -60,6 +61,7 @@ const PrintingInputs = ({
             </Select>
           ) : (
             <UnitInput
+              data-testid="ink"
               className={styles.input}
               disabled={preset.isDefault}
               value={preset.ink ?? defaultConfig.ink}
@@ -73,6 +75,7 @@ const PrintingInputs = ({
         <div className={classNames(styles.field, styles.small)}>
           <div className={styles.label}>Cyan</div>
           <UnitInput
+            data-testid="cRatio"
             className={styles.input}
             size="small"
             disabled={preset.isDefault}
@@ -87,6 +90,7 @@ const PrintingInputs = ({
         <div className={classNames(styles.field, styles.small)}>
           <div className={styles.label}>Magenta</div>
           <UnitInput
+            data-testid="mRatio"
             className={styles.input}
             size="small"
             disabled={preset.isDefault}
@@ -101,6 +105,7 @@ const PrintingInputs = ({
         <div className={classNames(styles.field, styles.small)}>
           <div className={styles.label}>Yellow</div>
           <UnitInput
+            data-testid="yRatio"
             className={styles.input}
             size="small"
             disabled={preset.isDefault}
@@ -115,6 +120,7 @@ const PrintingInputs = ({
         <div className={classNames(styles.field, styles.small)}>
           <div className={styles.label}>Black</div>
           <UnitInput
+            data-testid="kRatio"
             className={styles.input}
             size="small"
             disabled={preset.isDefault}
@@ -131,6 +137,7 @@ const PrintingInputs = ({
         <div className={styles.field}>
           <div className={styles.label}>{tLaserPanel.halftone}</div>
           <Select
+            id="halftoneSelect"
             disabled={preset.isDefault}
             className={styles.select}
             onChange={(val) => handleChange('halftone', val)}
@@ -144,6 +151,7 @@ const PrintingInputs = ({
           <div className={styles.label}>{tLaserPanel.speed}</div>
           {simpleMode ? (
             <Select
+              id="speedSelect"
               disabled={preset.isDefault}
               className={styles.select}
               onChange={(val) => handleChange('speed', val)}
@@ -157,6 +165,7 @@ const PrintingInputs = ({
             </Select>
           ) : (
             <UnitInput
+              data-testid="speed"
               className={styles.input}
               disabled={preset.isDefault}
               value={preset.speed ?? defaultConfig.speed}
@@ -173,6 +182,7 @@ const PrintingInputs = ({
           <div className={styles.label}>{tLaserPanel.print_multipass}</div>
           {simpleMode ? (
             <Select
+              id="multipassSelect"
               disabled={preset.isDefault}
               className={styles.select}
               onChange={(val) => handleChange('multipass', val)}
@@ -186,6 +196,7 @@ const PrintingInputs = ({
             </Select>
           ) : (
             <UnitInput
+              data-testid="multipass"
               className={styles.input}
               disabled={preset.isDefault}
               value={preset.multipass ?? defaultConfig.multipass}
@@ -200,6 +211,7 @@ const PrintingInputs = ({
         <div className={styles.field}>
           <div className={styles.label}>{tLaserPanel.repeat}</div>
           <UnitInput
+            data-testid="repeat"
             className={styles.input}
             disabled={preset.isDefault}
             value={preset.repeat ?? defaultConfig.repeat}
