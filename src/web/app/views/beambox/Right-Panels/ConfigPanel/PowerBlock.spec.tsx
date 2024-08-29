@@ -81,11 +81,6 @@ const mockGetMultiSelectData = jest.fn();
 const mockWriteDataLayer = jest.fn();
 jest.mock('helpers/layer/layer-config-helper', () => ({
   CUSTOM_PRESET_CONSTANT: 'CUSTOM_PRESET_CONSTANT',
-  DataType: {
-    strength: 'power',
-    configName: 'configName',
-    minPower: 'minPower',
-  },
   getData: (...args) => mockGetData(...args),
   getMultiSelectData: (...args) => mockGetMultiSelectData(...args),
   writeDataLayer: (...args) => mockWriteDataLayer(...args),
@@ -107,7 +102,7 @@ jest.mock('app/svgedit/history/history', () => ({
 
 const mockSelectedLayers = ['layer1', 'layer2'];
 const mockContextState = {
-  selectedItem: 'layer1',
+  selectedLayer: 'layer1',
   power: { value: 87, hasMultiValue: false },
 };
 const mockDispatch = jest.fn();

@@ -26,8 +26,9 @@ export type StorageKey =
   | 'setting-printer'
   | 'printers'
   | 'setting-wifi'
-  | 'customizedLaserConfigs'
-  | 'defaultLaserConfigsInUse'
+  | 'customizedLaserConfigs' // For version <= 2.3.9, maybe we can remove this in the future
+  | 'defaultLaserConfigsInUse' // For version <= 2.3.9, maybe we can remove this in the future
+  | 'presets'
   | 'keep-flux-id-login'
   | 'noun-project-history'
   | 'auto-save-config'

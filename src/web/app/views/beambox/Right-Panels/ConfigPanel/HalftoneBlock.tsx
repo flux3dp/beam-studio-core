@@ -8,8 +8,8 @@ import ISVGCanvas from 'interfaces/ISVGCanvas';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import Select from 'app/widgets/AntdSelect';
 import useI18n from 'helpers/useI18n';
-import { DataType, writeData } from 'helpers/layer/layer-config-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { writeData } from 'helpers/layer/layer-config-helper';
 
 import ConfigPanelContext from './ConfigPanelContext';
 import styles from './HalftoneBlock.module.scss';
@@ -34,7 +34,7 @@ const HalftoneBlock = ({
     if (type !== 'modal') {
       const batchCmd = new history.BatchCommand('Change Halftone');
       selectedLayers.forEach((layerName) =>
-        writeData(layerName, DataType.halftone, value, { batchCmd })
+        writeData(layerName, 'halftone', value, { batchCmd })
       );
       batchCmd.onAfter = initState;
       svgCanvas.addCommandToHistory(batchCmd);

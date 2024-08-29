@@ -83,10 +83,6 @@ jest.mock('./ColorRatioModal', () => ({ onClose }: any) => (
 const mockWriteData = jest.fn();
 jest.mock('helpers/layer/layer-config-helper', () => ({
   CUSTOM_PRESET_CONSTANT: 'CUSTOM_PRESET_CONSTANT',
-  DataType: {
-    ink: 'ink',
-    configName: 'configName',
-  },
   writeData: (...args) => mockWriteData(...args),
 }));
 

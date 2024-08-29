@@ -59,7 +59,6 @@ import pdfHelper from 'implementations/pdfHelper';
 import Shortcuts from 'helpers/shortcuts';
 import i18n from 'helpers/i18n';
 import isWeb from 'helpers/is-web';
-import SvgLaserParser from 'helpers/api/svg-laser-parser';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import { IFont } from 'interfaces/IFont';
 import { IIcon } from 'interfaces/INoun-Project';
@@ -74,6 +73,7 @@ import importSvg from 'app/svgedit/operations/import/importSvg';
 import readBitmapFile from 'app/svgedit/operations/import/readBitmapFile';
 import { isMobile } from 'helpers/system-helper';
 import { PanelType } from 'app/constants/right-panel-types';
+import { importPresets } from 'helpers/presets/preset-helper';
 
 if (svgCanvasClass) {
   console.log('svgCanvas loaded successfully');
@@ -130,7 +130,6 @@ interface ISVGEditor {
   triggerGridTool: () => void
   triggerOffsetTool: () => void
   handleFile: (file: any) => Promise<void>
-  importLaserConfig: (file: any) => Promise<void>
   openPrep(arg0: (ok: any) => void)
   ready(arg0: () => void)
   clipboardData: any
@@ -195,7 +194,6 @@ const svgEditor = window['svgEditor'] = (function () {
     triggerGridTool: () => { },
     triggerOffsetTool: () => { },
     handleFile: async (file) => { },
-    importLaserConfig: async (file) => { },
     openPrep: () => { },
     ready: () => { },
     clipboardData: null,
@@ -2469,41 +2467,6 @@ const svgEditor = window['svgEditor'] = (function () {
         reader.readAsText(file);
       };
 
-      const importLaserConfig = async (file) => {
-        Progress.popById('loading_image');
-        Alert.popUp({
-          buttonType: AlertConstants.CONFIRM_CANCEL,
-          message: LANG.right_panel.laser_panel.sure_to_load_config,
-          onConfirm: async () => {
-            await new Promise<void>(resolve => {
-              const reader = new FileReader();
-              reader.onloadend = (evt) => {
-                const configString = evt.target.result as string;
-                const newConfigs = JSON.parse(configString);
-                const { customizedLaserConfigs, defaultLaserConfigsInUse } = newConfigs;
-                const configNames = new Set(customizedLaserConfigs.filter((config) => !config.isDefault).map((config) => config.name));
-                let currentConfig = storage.get('customizedLaserConfigs');
-                if (typeof (currentConfig) === 'string') {
-                  currentConfig = JSON.parse(currentConfig);
-                }
-                for (let i = 0; i < currentConfig.length; i++) {
-                  const config = currentConfig[i];
-                  if (!config.isDefault && !configNames.has(config.name)) {
-                    customizedLaserConfigs.push(config);
-                  }
-                }
-                storage.set('customizedLaserConfigs', customizedLaserConfigs);
-                storage.set('defaultLaserConfigsInUse', defaultLaserConfigsInUse);
-                LayerPanelController.updateLayerPanel();
-                resolve(null);
-              };
-              reader.readAsText(file);
-            });
-          }
-        });
-      };
-      editor.importLaserConfig = importLaserConfig;
-
       var importImage = function (e) {
         e.stopPropagation();
         e.preventDefault();
@@ -2613,7 +2576,9 @@ const svgEditor = window['svgEditor'] = (function () {
             importJsScript(file);
             break;
           case 'json':
-            importLaserConfig(file);
+            Progress.popById('loading_image');
+            await importPresets(file);
+            LayerPanelController.updateLayerPanel();
             break;
           case 'unknown':
             Progress.popById('loading_image');

@@ -4,7 +4,7 @@
  */
 import importSvg from 'app/svgedit/operations/import/importSvg';
 import Websocket from 'helpers/websocket';
-import { DataType, writeData } from 'helpers/layer/layer-config-helper';
+import { writeData } from 'helpers/layer/layer-config-helper';
 
 const init = (): { connection: any } => {
   const events = {
@@ -18,8 +18,8 @@ const init = (): { connection: any } => {
           for (let i = 0; i < layerNames.length; i += 1) {
             const layerName = layerNames[i];
             const { name, speed, power } = layerDataJSON[layerName];
-            writeData(name, DataType.speed, parseInt(speed, 10));
-            writeData(name, DataType.strength, parseInt(power, 10));
+            writeData(name, 'speed', parseInt(speed, 10));
+            writeData(name, 'power', parseInt(power, 10));
           }
         }
       }

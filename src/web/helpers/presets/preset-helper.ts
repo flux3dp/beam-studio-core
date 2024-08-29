@@ -1,147 +1,251 @@
-import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import alertCaller from 'app/actions/alert-caller';
+import alertConstants from 'app/constants/alert-constants';
+import defaultPresets from 'app/constants/presets';
+import dialog from 'implementations/dialog';
 import i18n from 'helpers/i18n';
 import LayerModule from 'app/constants/layer-module/layer-modules';
 import storage from 'implementations/storage';
-import { getAllKeys, getAllPresets } from 'app/constants/right-panel-constants';
-import { ILaserConfig } from 'interfaces/ILaserConfig';
+import { Preset } from 'interfaces/ILayerConfig';
+import { WorkAreaModel } from 'app/constants/workarea-constants';
 
-export const getDefaultPresetData = (
-  presetKey: string
-): {
-  speed: number;
-  power?: number;
-  ink?: number;
-  multipass?: number;
-  repeat: number;
-  module?: LayerModule;
-  name?: string;
-} => {
-  const presets = getAllPresets(BeamboxPreference.read('workarea') || BeamboxPreference.read('model'));
-  if (!presets[presetKey]) {
-    // eslint-disable-next-line no-console
-    console.error(`Unable to get default preset key: ${presetKey}`);
-    return { speed: 20, power: 15, repeat: 1 };
-  }
-  const { speed, power, name, module, ink, multipass } = presets[presetKey];
-  const repeat = presets[presetKey].repeat || 1;
-  const presetModule = module || LayerModule.LASER_10W_DIODE;
-  if (presetModule === LayerModule.PRINTER) {
-    return {
-      speed,
-      ink: ink || 3,
-      multipass: multipass || 3,
-      repeat: 1,
-      module: presetModule,
-      name: name || presetKey,
-    };
-  }
-  return {
-    speed,
-    power,
-    repeat,
-    module: presetModule,
-    name: name || presetKey,
-  };
-};
-
-const initStorage = (defaultPresetKeys: string[], unit: string) => {
-  const LANG = i18n.lang.beambox.right_panel.laser_panel;
-  const defaultPresets = defaultPresetKeys.map((key) => {
-    const { speed, power, repeat, name, module, ink, multipass } = getDefaultPresetData(key);
-    return {
-      name: LANG.dropdown[unit][name],
-      speed,
-      power,
-      repeat,
-      module,
-      isDefault: true,
-      key,
-      ink,
-      multipass,
-    };
-  });
-  let customizedLaserConfigs = storage.get('customizedLaserConfigs') || [];
-  customizedLaserConfigs = customizedLaserConfigs.filter((config) => !config.isDefault);
-  customizedLaserConfigs = defaultPresets.concat(customizedLaserConfigs);
-  const defaultLaserConfigsInUse = {};
-  defaultPresetKeys.forEach((e) => {
-    defaultLaserConfigsInUse[e] = true;
-  });
-  storage.set('customizedLaserConfigs', customizedLaserConfigs);
-  storage.set('defaultLaserConfigsInUse', defaultLaserConfigsInUse);
-};
-
-const updateStorageValue = (defaultPresetKeys: string[], unit: string) => {
-  const LANG = i18n.lang.beambox.right_panel.laser_panel;
-  const customized = storage.get('customizedLaserConfigs') as ILaserConfig[] || [];
-  const defaultLaserConfigsInUse = storage.get('defaultLaserConfigsInUse') || {};
-  // Containing keys for other models not in defaultPresetKeys
-  const allKeys = getAllKeys();
-  for (let i = 0; i < customized.length; i += 1) {
-    if (customized[i].isDefault) {
-      if (defaultPresetKeys.includes(customized[i].key)) {
-        const { speed, power, repeat, name, module, ink, multipass } = getDefaultPresetData(
-          customized[i].key
-        );
-        customized[i].name = LANG.dropdown[unit][name];
-        customized[i].speed = speed;
-        customized[i].power = power;
-        customized[i].repeat = repeat || 1;
-        customized[i].module = module || LayerModule.LASER_10W_DIODE;
-        customized[i].ink = ink;
-        customized[i].multipass = multipass;
-      } else if (!allKeys.has(customized[i].key)) {
-        // deleting old presets remove due to software update
-        delete defaultLaserConfigsInUse[customized[i].key];
-        customized.splice(i, 1);
-        i -= 1;
+const migrateStorage = () => {
+  const defaultKeys = Object.keys(defaultPresets);
+  let presets: Preset[] = storage.get('presets');
+  if (presets) {
+    const existingKeys = new Set<string>();
+    presets = presets.filter((c) => {
+      if (!c.isDefault) return true;
+      existingKeys.add(c.key);
+      return !!defaultPresets[c.key];
+    });
+    defaultKeys.forEach((key, idx) => {
+      if (!existingKeys.has(key)) {
+        let inserIdx = -1;
+        if (idx > 0) {
+          const prevKey = defaultKeys[idx - 1];
+          inserIdx = presets.findIndex((p) => p.key === prevKey && p.isDefault);
+        }
+        const newPreset = { key, isDefault: true, hide: false };
+        presets.splice(inserIdx + 1, 0, newPreset);
       }
-    }
-  }
-  // migrating new added presets due to software update
-  const newPreset = defaultPresetKeys.filter((option) => defaultLaserConfigsInUse[option] === undefined);
-  newPreset.forEach((presetKey) => {
-    if (defaultPresetKeys.includes(presetKey)) {
-      const { speed, power, repeat, name, module, ink, multipass } =
-        getDefaultPresetData(presetKey);
-      customized.push({
-        name: LANG.dropdown[unit][name],
-        speed,
-        power,
-        repeat,
-        module: module || LayerModule.LASER_10W_DIODE,
-        isDefault: true,
-        key: presetKey,
-        ink,
-        multipass,
-      });
-      defaultLaserConfigsInUse[presetKey] = true;
-    } else {
-      delete defaultLaserConfigsInUse[presetKey];
-    }
-  });
-  storage.set('customizedLaserConfigs', customized);
-  storage.set('defaultLaserConfigsInUse', defaultLaserConfigsInUse);
-};
-
-/**
- * updateDefaultPresetData
- * update preset data in storage due to model change, preset change due to update, etc.
- */
-export const updateDefaultPresetData = (): string[] => {
-  const unit = storage.get('default-units') || 'mm';
-  const parametersSet = getAllPresets(BeamboxPreference.read('workarea') || BeamboxPreference.read('model'));
-  const defaultPresetKeys = Object.keys(parametersSet);
-
-  if (!storage.get('defaultLaserConfigsInUse') || !storage.get('customizedLaserConfigs')) {
-    initStorage(defaultPresetKeys, unit);
+    });
   } else {
-    updateStorageValue(defaultPresetKeys, unit);
+    const customizedLaserConfigs = storage.get('customizedLaserConfigs');
+    // For version <= 2.3.9, maybe we can remove this in the future
+    if (customizedLaserConfigs) {
+      presets = [...customizedLaserConfigs];
+      const defaultLaserConfigsInUse = storage.get('defaultLaserConfigsInUse') || {};
+      defaultKeys.forEach((key, idx) => {
+        if (!defaultLaserConfigsInUse[key]) {
+          const hide = defaultLaserConfigsInUse[key] === false;
+          let inserIdx = -1;
+          if (idx > 0) {
+            const prevKey = defaultKeys[idx - 1];
+            inserIdx = presets.findIndex((p) => p.key === prevKey && p.isDefault);
+          }
+          const newPreset = { key, isDefault: true, hide };
+          presets.splice(inserIdx + 1, 0, newPreset);
+        }
+      });
+      presets = presets.filter((c) => !(c.isDefault && !defaultPresets[c.key]));
+      presets.forEach((p, idx) => {
+        const { isDefault, key, hide } = p;
+        if (isDefault) presets[idx] = { key, isDefault, hide: !!hide };
+      });
+    } else {
+      presets = defaultKeys.map((key) => ({ key, isDefault: true, hide: false }));
+    }
   }
-  return defaultPresetKeys;
+  storage.set('presets', presets);
+  return presets;
 };
+
+// default + customized
+let allPresets: Preset[];
+const getAllPresets = (): Preset[] => allPresets;
+
+let presetsCache: {
+  [model in WorkAreaModel]?: {
+    [module in LayerModule]?: Preset[];
+  };
+} = {};
+const initPresets = (migrate = false) => {
+  if (!allPresets) {
+    if (migrate) allPresets = migrateStorage();
+    else allPresets = storage.get('presets') || migrateStorage();
+    // translate name
+    const unit = storage.get('default-units') || 'mm';
+    const LANG = i18n.lang.beambox.right_panel.laser_panel;
+    allPresets.forEach((preset) => {
+      if (preset.isDefault && preset.key) {
+        const { key } = preset;
+        const translated = LANG.dropdown[unit][key];
+        // eslint-disable-next-line no-param-reassign
+        preset.name = translated || key;
+      }
+    });
+  }
+};
+
+const clearPresetsCache = () => {
+  presetsCache = {};
+};
+
+const reloadPresets = (migrate = false): void => {
+  allPresets = null;
+  clearPresetsCache();
+  initPresets(migrate);
+};
+
+const getDefaultPreset = (
+  key: string,
+  model: WorkAreaModel,
+  layerModule: LayerModule = LayerModule.LASER_UNIVERSAL
+): Preset | null =>
+  defaultPresets[key]?.[model]?.[layerModule] ||
+  defaultPresets[key]?.[model]?.[LayerModule.LASER_UNIVERSAL] ||
+  null;
+
+const modelHasPreset = (model: WorkAreaModel, key: string): boolean =>
+  !!defaultPresets[key]?.[model];
+
+const getPresetsList = (
+  model: WorkAreaModel,
+  layerModule: LayerModule = LayerModule.LASER_UNIVERSAL
+): Preset[] => {
+  if (presetsCache[model]?.[layerModule]) {
+    return presetsCache[model][layerModule];
+  }
+  const res =
+    allPresets
+      ?.map((preset) => {
+        const { key, isDefault, hide, module } = preset;
+        if (hide) return null;
+        if (isDefault) {
+          const defaultPreset = getDefaultPreset(key, model, layerModule);
+          if (defaultPreset) return { ...defaultPreset, ...preset };
+          return null;
+        }
+        if ((module === LayerModule.PRINTER) !== (layerModule === LayerModule.PRINTER)) {
+          return null;
+        }
+        return preset;
+      })
+      .filter((e) => e) || [];
+  if (!presetsCache[model]) {
+    presetsCache[model] = {};
+  }
+  presetsCache[model][layerModule] = res;
+  return res;
+};
+
+const savePreset = (preset: Preset): void => {
+  allPresets.push(preset);
+  storage.set('presets', allPresets);
+  clearPresetsCache();
+};
+
+const savePresetList = (presets: Preset[]): void => {
+  allPresets = presets;
+  storage.set('presets', allPresets);
+  clearPresetsCache();
+};
+
+const resetPresetList = (): void => {
+  const defaultKeys = Object.keys(defaultPresets);
+  const newPresets = [...defaultKeys.map((key) => ({ key, isDefault: true, hide: false }))];
+  storage.set('presets', newPresets);
+  reloadPresets();
+};
+
+export const importPresets = async (file?: Blob): Promise<boolean> => {
+  const fileBlob =
+    file ??
+    (await dialog.getFileFromDialog({
+      filters: [{ name: 'JSON', extensions: ['json', 'JSON'] }],
+    }));
+  if (fileBlob) {
+    const res = await new Promise<boolean>((resolve) => {
+      alertCaller.popUp({
+        buttonType: alertConstants.CONFIRM_CANCEL,
+        message: i18n.lang.beambox.right_panel.laser_panel.preset_management.sure_to_import_presets,
+        onConfirm: () => {
+          const reader = new FileReader();
+          reader.onloadend = (evt) => {
+            const configString = evt.target.result as string;
+            const newConfigs = JSON.parse(configString);
+            const { customizedLaserConfigs, defaultLaserConfigsInUse, presets } = newConfigs;
+            if (presets) {
+              storage.set('presets', presets);
+            } else if (customizedLaserConfigs && defaultLaserConfigsInUse) {
+              // For version <= 2.3.9
+              const configNames = new Set(
+                customizedLaserConfigs
+                  .filter((config) => !config.isDefault)
+                  .map((config) => config.name)
+              );
+              let currentConfig = storage.get('customizedLaserConfigs') || [];
+              if (typeof currentConfig === 'string') {
+                currentConfig = JSON.parse(currentConfig);
+              }
+              for (let i = 0; i < currentConfig.length; i += 1) {
+                const config = currentConfig[i];
+                if (!config.isDefault && !configNames.has(config.name)) {
+                  customizedLaserConfigs.push(config);
+                }
+              }
+              storage.set('customizedLaserConfigs', customizedLaserConfigs);
+              storage.set('defaultLaserConfigsInUse', defaultLaserConfigsInUse);
+              storage.removeAt('presets');
+            }
+            reloadPresets(true);
+            resolve(true);
+          };
+          reader.readAsText(fileBlob);
+        },
+      });
+    });
+    return res;
+  }
+  return false;
+};
+
+const exportPresets = async (presets?: Preset[]): Promise<void> => {
+  const isLinux = window.os === 'Linux';
+  const getContent = () => {
+    const laserConfig = {
+      presets: presets ?? (storage.get('presets') as Preset[]),
+    };
+    return JSON.stringify(laserConfig);
+  };
+  await dialog.writeFileDialog(
+    getContent,
+    i18n.lang.beambox.right_panel.laser_panel.preset_management.export_preset_title,
+    isLinux ? '.json' : '',
+    [
+      {
+        name: window.os === 'MacOS' ? 'JSON (*.json)' : 'JSON',
+        extensions: ['json'],
+      },
+      {
+        name: i18n.lang.topmenu.file.all_files,
+        extensions: ['*'],
+      },
+    ]
+  );
+};
+
+initPresets(true);
 
 export default {
-  getDefaultPresetData,
-  updateDefaultPresetData,
+  exportPresets,
+  getAllPresets,
+  getDefaultPreset,
+  getPresetsList,
+  importPresets,
+  modelHasPreset,
+  reloadPresets,
+  resetPresetList,
+  savePreset,
+  savePresetList,
 };

@@ -6,8 +6,8 @@ import history from 'app/svgedit/history/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import useI18n from 'helpers/useI18n';
-import { DataType, writeData } from 'helpers/layer/layer-config-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { writeData } from 'helpers/layer/layer-config-helper';
 
 import ConfigPanelContext from './ConfigPanelContext';
 import styles from './WhiteInkCheckbox.module.scss';
@@ -41,7 +41,7 @@ const WhiteInkCheckbox = ({ type = 'default' }: Props): JSX.Element => {
     });
     const batchCmd = new history.BatchCommand('Change white ink toggle');
     selectedLayers.forEach((layerName) =>
-      writeData(layerName, DataType.wInk, newVal, { batchCmd })
+      writeData(layerName, 'wInk', newVal, { batchCmd })
     );
     batchCmd.onAfter = initState;
     svgCanvas.addCommandToHistory(batchCmd);

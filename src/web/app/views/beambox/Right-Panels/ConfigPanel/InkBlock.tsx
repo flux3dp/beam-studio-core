@@ -10,7 +10,7 @@ import ObjectPanelIcons from 'app/icons/object-panel/ObjectPanelIcons';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import objectPanelItemStyles from 'app/views/beambox/Right-Panels/ObjectPanelItem.module.scss';
 import useI18n from 'helpers/useI18n';
-import { CUSTOM_PRESET_CONSTANT, DataType, writeData } from 'helpers/layer/layer-config-helper';
+import { CUSTOM_PRESET_CONSTANT, writeData } from 'helpers/layer/layer-config-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ObjectPanelContext } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
 import { PrintingColors } from 'app/constants/color-constants';
@@ -55,8 +55,8 @@ function InkBlock({
     if (type !== 'modal') {
       const batchCmd = new history.BatchCommand('Change ink');
       selectedLayers.forEach((layerName) => {
-        writeData(layerName, DataType.ink, value, { batchCmd });
-        writeData(layerName, DataType.configName, CUSTOM_PRESET_CONSTANT, { batchCmd });
+        writeData(layerName, 'ink', value, { batchCmd });
+        writeData(layerName, 'configName', CUSTOM_PRESET_CONSTANT, { batchCmd });
       });
       batchCmd.onAfter = initState;
       svgCanvas.addCommandToHistory(batchCmd);

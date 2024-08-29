@@ -2,7 +2,6 @@ const mockGetDefaultLaserModule = jest.fn();
 jest.mock('helpers/layer-module/layer-module-helper', () => ({
   getDefaultLaserModule: () => mockGetDefaultLaserModule(),
 }));
-mockGetDefaultLaserModule.mockReturnValue(1);
 
 const mockRead = jest.fn();
 jest.mock('app/actions/beambox/beambox-preference', () => ({
@@ -12,7 +11,6 @@ jest.mock('app/actions/beambox/beambox-preference', () => ({
 // eslint-disable-next-line import/first
 import {
   cloneLayerConfig,
-  DataType,
   getLayerConfig,
   getLayersConfig,
   initLayerConfig,
@@ -20,9 +18,11 @@ import {
   toggleFullColorAfterWorkareaChange,
 } from './layer-config-helper';
 
-const mockGet = jest.fn();
-jest.mock('implementations/storage', () => ({
-  get: (key) => mockGet(key),
+const mockGetAllPresets = jest.fn();
+const mockGetDefaultPreset = jest.fn();
+jest.mock('helpers/presets/preset-helper', () => ({
+  getAllPresets: () => mockGetAllPresets(),
+  getDefaultPreset: (name) => mockGetDefaultPreset(name),
 }));
 
 const mockGetAllLayerNames = jest.fn();
@@ -40,11 +40,6 @@ jest.mock(
       mockToggleFullColorLayer(...args)
 );
 
-const mockGetAllPresets = jest.fn();
-jest.mock('app/constants/right-panel-constants', () => ({
-  getAllPresets: () => mockGetAllPresets(),
-}));
-
 const defaultLaserConfigs = {
   speed: { value: 20 },
   printingSpeed: { value: 60 },
@@ -56,7 +51,7 @@ const defaultLaserConfigs = {
   zStep: { value: 0 },
   diode: { value: 0 },
   configName: { value: '' },
-  module: { value: 1 },
+  module: { value: 15 },
   backlash: { value: 0 },
   multipass: { value: 3 },
   uv: { value: 0 },
@@ -89,7 +84,7 @@ const defaultMultiValueLaserConfigs = {
   zStep: { value: 0, hasMultiValue: false },
   diode: { value: 0, hasMultiValue: false },
   configName: { value: '', hasMultiValue: false },
-  module: { value: 1, hasMultiValue: false },
+  module: { value: 15, hasMultiValue: false },
   backlash: { value: 0, hasMultiValue: false },
   multipass: { value: 3, hasMultiValue: false },
   uv: { value: 0, hasMultiValue: false },
@@ -119,6 +114,7 @@ describe('test layer-config-helper', () => {
       <g class="layer" data-color="#333333"><title>layer 2</title></g>
       <g class="layer" data-color="#333333"><title>layer 3</title></g>
     `;
+    mockGetDefaultLaserModule.mockReturnValue(1);
   });
 
   it('should return null layer when layer does not exist', () => {
@@ -130,8 +126,17 @@ describe('test layer-config-helper', () => {
     expect(getLayerConfig('layer 1')).toEqual(defaultLaserConfigs);
   });
 
+  test('initLayerConfig with module', () => {
+    mockRead.mockImplementation((key) => {
+      if (key === 'workarea') return 'ado1';
+      return undefined;
+    });
+    initLayerConfig('layer 1');
+    expect(getLayerConfig('layer 1')).toEqual({...defaultLaserConfigs, module: { value: 1 }});
+  });
+
   test('write zstep data', () => {
-    writeData('layer 1', DataType.zstep, 1);
+    writeData('layer 1', 'zStep', 1);
     expect(getLayerConfig('layer 1')).toEqual({
       ...defaultLaserConfigs,
       zStep: { value: 1 },
@@ -139,7 +144,7 @@ describe('test layer-config-helper', () => {
   });
 
   test('cloneLayerConfig', () => {
-    writeData('layer 1', DataType.speed, 30);
+    writeData('layer 1', 'speed', 30);
     cloneLayerConfig('layer 3', 'layer 1');
     expect(getLayerConfig('layer 3')).toEqual({
       ...defaultLaserConfigs,
@@ -151,7 +156,7 @@ describe('test layer-config-helper', () => {
     expect(getLayersConfig(['layer 0', 'layer 1', 'layer 2', 'layer 3'])).toEqual(
       defaultMultiValueLaserConfigs
     );
-    writeData('layer 1', DataType.speed, 30);
+    writeData('layer 1', 'speed', 30);
     expect(getLayersConfig(['layer 0', 'layer 1', 'layer 2', 'layer 3'])).toEqual({
       ...defaultMultiValueLaserConfigs,
       speed: { value: 30, hasMultiValue: true },
@@ -159,9 +164,9 @@ describe('test layer-config-helper', () => {
   });
 
   test('getLayersConfig with diode and height', () => {
-    writeData('layer 1', DataType.diode, 1);
-    writeData('layer 1', DataType.height, -1);
-    writeData('layer 1', DataType.strength, 20);
+    writeData('layer 1', 'diode', 1);
+    writeData('layer 1', 'height', -1);
+    writeData('layer 1', 'power', 20);
 
     expect(getLayersConfig(['layer 0', 'layer 1', 'layer 2', 'layer 3'])).toEqual({
       ...defaultMultiValueLaserConfigs,
@@ -169,7 +174,7 @@ describe('test layer-config-helper', () => {
       height: { value: -1, hasMultiValue: true },
       diode: { value: 1, hasMultiValue: true },
     });
-    writeData('layer 1', DataType.height, 1);
+    writeData('layer 1', 'height', 1);
     expect(getLayersConfig(['layer 0', 'layer 1', 'layer 2', 'layer 3'])).toEqual({
       ...defaultMultiValueLaserConfigs,
       power: { value: 20, hasMultiValue: true },
@@ -185,13 +190,13 @@ describe('test layer-config-helper', () => {
   });
 
   test('getLayerConfig of printing layer', () => {
-    writeData('layer 1', DataType.module, 5);
+    writeData('layer 1', 'module', 5);
     expect(getLayerConfig('layer 1')).toEqual({
       ...defaultLaserConfigs,
       speed: { value: 60 },
       module: { value: 5 },
     });
-    writeData('layer 1', DataType.speed, 30, { applyPrinting: true });
+    writeData('layer 1', 'speed', 30, { applyPrinting: true });
     expect(getLayerConfig('layer 1')).toEqual({
       ...defaultLaserConfigs,
       speed: { value: 30 },
@@ -200,18 +205,37 @@ describe('test layer-config-helper', () => {
     });
   });
 
-  test('toggleFullColorAfterWorkareaChange', () => {
+  test('toggleFullColorAfterWorkareaChange to workarea without module', () => {
     mockRead.mockReturnValue('fbm1');
     mockGetAllLayerNames.mockReturnValue(['layer 1', 'layer 2', 'layer 3']);
     const mockLayer = {
+      getAttribute: jest.fn(),
       setAttribute: jest.fn(),
     };
     mockGetLayerByName.mockReturnValue(mockLayer);
+    mockLayer.getAttribute.mockReturnValue('1');
     toggleFullColorAfterWorkareaChange();
     expect(mockToggleFullColorLayer).toBeCalledTimes(3);
     expect(mockLayer.setAttribute).toBeCalledTimes(3);
     expect(mockLayer.setAttribute).toHaveBeenNthCalledWith(1, 'data-module', '15');
     expect(mockLayer.setAttribute).toHaveBeenNthCalledWith(2, 'data-module', '15');
     expect(mockLayer.setAttribute).toHaveBeenNthCalledWith(3, 'data-module', '15');
+  });
+
+  test('toggleFullColorAfterWorkareaChange to workarea with module', () => {
+    mockRead.mockReturnValue('ado1');
+    mockGetAllLayerNames.mockReturnValue(['layer 1', 'layer 2', 'layer 3']);
+    const mockLayer = {
+      getAttribute: jest.fn(),
+      setAttribute: jest.fn(),
+    };
+    mockGetLayerByName.mockReturnValue(mockLayer);
+    mockLayer.getAttribute.mockReturnValue('15');
+    toggleFullColorAfterWorkareaChange();
+    expect(mockToggleFullColorLayer).toBeCalledTimes(3);
+    expect(mockLayer.setAttribute).toBeCalledTimes(3);
+    expect(mockLayer.setAttribute).toHaveBeenNthCalledWith(1, 'data-module', '1');
+    expect(mockLayer.setAttribute).toHaveBeenNthCalledWith(2, 'data-module', '1');
+    expect(mockLayer.setAttribute).toHaveBeenNthCalledWith(3, 'data-module', '1');
   });
 });

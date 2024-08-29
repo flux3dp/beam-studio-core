@@ -6,7 +6,7 @@ import dialogCaller from 'app/actions/dialog-caller';
 import history from 'app/svgedit/history/history';
 import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
-import layerConfigHelper, { DataType, writeDataLayer } from 'helpers/layer/layer-config-helper';
+import layerConfigHelper, { writeDataLayer } from 'helpers/layer/layer-config-helper';
 import layerModuleHelper from 'helpers/layer-module/layer-module-helper';
 import presprayArea from 'app/actions/canvas/prespray-area';
 import progressCaller from 'app/actions/progress-caller';
@@ -223,8 +223,8 @@ const importSvg = async (
       if (cmd && !cmd.isEmpty()) batchCmd.addSubCommand(cmd);
       layerConfigHelper.initLayerConfig(newLayerName);
       if (isPrinting) {
-        writeDataLayer(newLayer, DataType.module, LayerModule.PRINTER);
-        writeDataLayer(newLayer, DataType.fullColor, '1');
+        writeDataLayer(newLayer, 'module', LayerModule.PRINTER);
+        writeDataLayer(newLayer, 'fullcolor', true);
       }
     }
     const img = await readBitmapFile(outputs.bitmap, {

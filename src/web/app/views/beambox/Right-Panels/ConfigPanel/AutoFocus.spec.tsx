@@ -40,11 +40,6 @@ jest.mock(
 const mockWriteData = jest.fn();
 jest.mock('helpers/layer/layer-config-helper', () => ({
   CUSTOM_PRESET_CONSTANT: 'CUSTOM_PRESET_CONSTANT',
-  DataType: {
-    height: 'height',
-    zstep: 'zstep',
-    configName: 'configName',
-  },
   writeData: (...args: any) => mockWriteData(...args),
 }));
 
@@ -202,7 +197,7 @@ describe('test AutoFocus', () => {
     expect(mockBatchCommand).lastCalledWith('Change auto focus z step');
     expect(batchCmd.count).toBe(3);
     expect(mockWriteData).toBeCalledTimes(8);
-    expect(mockWriteData).toHaveBeenNthCalledWith(5, 'layer1', 'zstep', 7, { batchCmd });
+    expect(mockWriteData).toHaveBeenNthCalledWith(5, 'layer1', 'zStep', 7, { batchCmd });
     expect(mockWriteData).toHaveBeenNthCalledWith(
       6,
       'layer1',
@@ -210,7 +205,7 @@ describe('test AutoFocus', () => {
       'CUSTOM_PRESET_CONSTANT',
       { batchCmd }
     );
-    expect(mockWriteData).toHaveBeenNthCalledWith(7, 'layer2', 'zstep', 7, { batchCmd });
+    expect(mockWriteData).toHaveBeenNthCalledWith(7, 'layer2', 'zStep', 7, { batchCmd });
     expect(mockWriteData).toHaveBeenNthCalledWith(
       8,
       'layer2',

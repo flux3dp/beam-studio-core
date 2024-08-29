@@ -13,6 +13,7 @@ interface Props {
   underline?: boolean;
   unit?: string;
   fireOnChange?: boolean;
+  'data-testid'?: string;
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   onChange?: (value: number) => void;
 }
@@ -34,6 +35,7 @@ const mockComponent = forwardRef<HTMLInputElement, Props>(
       fireOnChange,
       onBlur,
       onChange,
+      'data-testid': testId,
     }: Props,
     outerRef
   ): JSX.Element => (
@@ -48,6 +50,7 @@ const mockComponent = forwardRef<HTMLInputElement, Props>(
       <input
         ref={outerRef}
         id={id}
+        data-testid={testId}
         disabled={disabled}
         max={max}
         min={min}

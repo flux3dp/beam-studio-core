@@ -6,7 +6,7 @@ import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import undoManager from 'app/svgedit/history/undoManager';
 import useI18n from 'helpers/useI18n';
-import { DataType, writeData } from 'helpers/layer/layer-config-helper';
+import { writeData } from 'helpers/layer/layer-config-helper';
 
 import ConfigPanelContext from './ConfigPanelContext';
 import styles from './Block.module.scss';
@@ -31,7 +31,7 @@ const FocusBlock = ({
     dispatch({ type: 'change', payload: { focus: value } });
     const batchCmd = new history.BatchCommand('Toggle focus adjustment');
     selectedLayers.forEach((layerName) =>
-      writeData(layerName, DataType.focus, value, { batchCmd })
+      writeData(layerName, 'focus', value, { batchCmd })
     );
     batchCmd.onAfter = initState;
     undoManager.addCommandToHistory(batchCmd);
@@ -42,7 +42,7 @@ const FocusBlock = ({
     dispatch({ type: 'change', payload: { focus: value } });
     const batchCmd = new history.BatchCommand('Change focus adjustment height');
     selectedLayers.forEach((layerName) =>
-      writeData(layerName, DataType.focus, value, { batchCmd })
+      writeData(layerName, 'focus', value, { batchCmd })
     );
     batchCmd.onAfter = initState;
     undoManager.addCommandToHistory(batchCmd);
@@ -53,7 +53,7 @@ const FocusBlock = ({
     dispatch({ type: 'change', payload: { focusStep: value } });
     const batchCmd = new history.BatchCommand('Toggle focus step');
     selectedLayers.forEach((layerName) =>
-      writeData(layerName, DataType.focusStep, value, { batchCmd })
+      writeData(layerName, 'focusStep', value, { batchCmd })
     );
     batchCmd.onAfter = initState;
     undoManager.addCommandToHistory(batchCmd);
@@ -64,7 +64,7 @@ const FocusBlock = ({
     dispatch({ type: 'change', payload: { focusStep: value } });
     const batchCmd = new history.BatchCommand('Change auto focus z step');
     selectedLayers.forEach((layerName) => {
-      writeData(layerName, DataType.focusStep, value, { batchCmd });
+      writeData(layerName, 'focusStep', value, { batchCmd });
     });
     batchCmd.onAfter = initState;
     undoManager.addCommandToHistory(batchCmd);

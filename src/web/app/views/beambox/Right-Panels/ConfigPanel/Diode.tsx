@@ -4,8 +4,8 @@ import React, { memo, useContext } from 'react';
 import history from 'app/svgedit/history/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import useI18n from 'helpers/useI18n';
-import { DataType, writeData } from 'helpers/layer/layer-config-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { writeData } from 'helpers/layer/layer-config-helper';
 
 import ConfigPanelContext from './ConfigPanelContext';
 import styles from './Block.module.scss';
@@ -26,7 +26,7 @@ const Diode = (): JSX.Element => {
     dispatch({ type: 'change', payload: { diode: newValue } });
     const batchCmd = new history.BatchCommand('Change diode toggle');
     selectedLayers.forEach((layerName) =>
-      writeData(layerName, DataType.diode, newValue, { batchCmd })
+      writeData(layerName, 'diode', newValue, { batchCmd })
     );
     batchCmd.onAfter = initState;
     svgCanvas.addCommandToHistory(batchCmd);

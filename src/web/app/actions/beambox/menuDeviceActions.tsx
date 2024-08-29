@@ -12,6 +12,7 @@ import dialog from 'implementations/dialog';
 import firmwareUpdater from 'helpers/firmware-updater';
 import i18n from 'helpers/i18n';
 import LayerModule from 'app/constants/layer-module/layer-modules';
+import layerModuleHelper from 'helpers/layer-module/layer-module-helper';
 import MonitorController from 'app/actions/monitor-controller';
 import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
 import ProgressCaller from 'app/actions/progress-caller';
@@ -202,7 +203,7 @@ const BackupCalibrationData = async (device: IDeviceInfo, type: 'download' | 'up
   } catch (e) {
     console.error(e);
   }
-}
+};
 
 export default {
   DASHBOARD: async (device: IDeviceInfo): Promise<void> => {
@@ -223,14 +224,7 @@ export default {
         const headSubmoduleInfo = JSON.parse(deviceDetailInfo.head_submodule_info);
         console.log(headSubmoduleInfo);
         const moduleName =
-          {
-            0: lang.layer_module.none,
-            [LayerModule.LASER_10W_DIODE]: lang.layer_module.laser_10w_diode,
-            [LayerModule.LASER_20W_DIODE]: lang.layer_module.laser_20w_diode,
-            [LayerModule.LASER_1064]: lang.layer_module.laser_2w_infrared,
-            [LayerModule.PRINTER]: lang.layer_module.printing,
-            [LayerModule.UNKNOWN]: lang.layer_module.unknown,
-          }[headType] || lang.layer_module.unknown;
+          layerModuleHelper.getModulesTranslations()[headType] || lang.layer_module.unknown;
         const {
           state,
           serial_number: serialNumber,

@@ -1,19 +1,19 @@
-.btn {
+.container {
+  height: 100%;
+  padding: 0;
+  background: none;
+  border: none;
   cursor: pointer;
-  width: 24px;
-  height: 24px;
-  opacity: 0.5;
+  display: inline-flex;
+  align-items: center;
+  color: #7c7c7c;
 
-  &:hover:not(.disabled) {
-    opacity: 1;
+  &:hover {
+    color: #000000;
   }
 
   &.disabled {
     opacity: 0.3;
     cursor: default;
-  }
-
-  img {
-    filter: brightness(0);
   }
 }
