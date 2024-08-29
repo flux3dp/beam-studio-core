@@ -309,6 +309,8 @@ export const printerConfigKeys: ConfigKey[] = [
   'repeat',
 ];
 
+export const forceKeys = ['speed', 'power', 'ink', 'multipass', 'repeat'];
+
 export const applyPreset = (
   layer: Element,
   preset: Preset,
@@ -321,7 +323,12 @@ export const applyPreset = (
   const keys = module === LayerModule.PRINTER ? printerConfigKeys : laserConfigKeys;
   for (let i = 0; i < keys.length; i += 1) {
     const key = keys[i];
-    let value = preset[key] ?? defaultConfig[key];
+    let value = preset[key];
+    if (value === undefined) {
+      if (forceKeys.includes(key)) value = defaultConfig[key];
+      // eslint-disable-next-line no-continue
+      else continue;
+    }
     if (key === 'speed' || key === 'printingSpeed')
       value = Math.max(minSpeed, Math.min(value as number, maxSpeed));
     writeDataLayer(layer, key, value, {

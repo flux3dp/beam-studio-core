@@ -38,6 +38,7 @@ import {
   applyPreset,
   CUSTOM_PRESET_CONSTANT,
   defaultConfig,
+  forceKeys,
   getData,
   getLayerConfig,
   getLayersConfig,
@@ -185,7 +186,12 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
     const { maxSpeed, minSpeed } = getWorkarea(beamboxPreference.read('workarea'));
     for (let i = 0; i < changedKeys.length; i += 1) {
       const key = changedKeys[i];
-      let val = preset[key] ?? defaultConfig[key];
+      let val = preset[key];
+      if (val === undefined) {
+        if (forceKeys.includes(key)) val = defaultConfig[key];
+        // eslint-disable-next-line no-continue
+        else continue;
+      }
       if (key === 'speed') val = Math.max(minSpeed, Math.min(val as number, maxSpeed));
       payload[key] = val;
     }
