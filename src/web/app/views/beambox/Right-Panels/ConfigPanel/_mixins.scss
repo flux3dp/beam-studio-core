@@ -1,7 +1,5 @@
 @mixin panel {
-  margin-top: 20px;
-  padding-left: 20px;
-  padding-right: 20px;
+  padding: 0 20px;
   clear: both;
 
   .title {
@@ -16,6 +14,10 @@
       .title {
         font-weight: bold;
       }
+    }
+
+    &.light {
+      font-weight: 400;
     }
 
     .icon {
@@ -67,18 +69,21 @@
     }
   }
 
-  &.checkbox {
+  &.switch {
     height: 16px;
+    line-height: 16px;
 
     .title {
       line-height: 16px;
     }
 
-    input[type="checkbox"] {
+    > .switch {
       float: right;
-      margin-top: 2px;
-      margin-right: 10%;
     }
+  }
+
+  &.small-margin {
+    margin: 0 0 10px;
   }
 
   .inline-select {

@@ -730,7 +730,10 @@ const lang: ILang = {
         speed_contrain_warning: '벡터 경로 객체의 절단 속도는 20 mm/s (0.79in/s) 로 제한됩니다. 환경설정에서 이 제한을 삭제할 수 있습니다.',
         low_speed_warning: '속도가 낮으면 재료가 타버릴 수 있습니다.',
         repeat: '실행',
-        add_on: '애드온',
+        advanced: '고급',
+        lower_focus: '초점 낮추기',
+        by: '', // keep empty on purpose
+        stepwise_focusing: '단계별 초점 맞추기',
         focus_adjustment: '초점 조절',
         height: '오브젝트 높이',
         z_step: 'Z 스텝',

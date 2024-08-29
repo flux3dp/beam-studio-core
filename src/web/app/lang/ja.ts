@@ -730,7 +730,10 @@ const lang: ILang = {
         speed_contrain_warning: 'ベクトルパスオブジェクトの切断速度は 20mm/s (0.79in/s) に制限されます。この制限は[好み]で削除できます。',
         low_speed_warning: '低速では、材料が焼き付く可能性があります。',
         repeat: '実行',
-        add_on: '拡張機能',
+        advanced: '詳細設定',
+        lower_focus: 'フォーカスを下げる',
+        by: '', // keep empty on purpose
+        stepwise_focusing: 'ステップフォーカシング',
         focus_adjustment: 'フォーカスを調整する',
         height: '高さ',
         z_step: 'Z Step',

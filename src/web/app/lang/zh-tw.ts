@@ -730,7 +730,10 @@ const lang: ILang = {
         speed_contrain_warning: '向量路徑速度將被限制在 20mm/s (0.79in/s)，您可以在偏好設定解除此限制。',
         low_speed_warning: '低速下可能會導致材料燃燒。',
         repeat: '執行次數',
-        add_on: '擴充模組',
+        advanced: '進階設定',
+        lower_focus: '降低焦距',
+        by: '', // keep empty on purpose
+        stepwise_focusing: '逐步對焦',
         focus_adjustment: '對焦調整',
         height: '物件高度',
         z_step: '每次遞降',

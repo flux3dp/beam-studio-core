@@ -727,7 +727,10 @@ export interface ILang {
         speed_contrain_warning: string,
         low_speed_warning: string;
         repeat: string,
-        add_on: string,
+        advanced: string;
+        lower_focus: string;
+        by: string;
+        stepwise_focusing: string;
         focus_adjustment: string,
         height: string,
         z_step: string,

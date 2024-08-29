@@ -19,6 +19,7 @@ interface SupportInfo {
     mirror: boolean;
     defaultMirror?: boolean;
   };
+  lowerFocus: boolean;
 }
 
 const supportList: Record<WorkAreaModel, SupportInfo> = {
@@ -33,6 +34,7 @@ const supportList: Record<WorkAreaModel, SupportInfo> = {
       extendWorkarea: false,
       mirror: false,
     },
+    lowerFocus: false,
   },
   fbb1b: {
     autoFocus: false,
@@ -45,6 +47,7 @@ const supportList: Record<WorkAreaModel, SupportInfo> = {
       extendWorkarea: false,
       mirror: false,
     },
+    lowerFocus: false,
   },
   fbb1p: {
     autoFocus: false,
@@ -57,6 +60,7 @@ const supportList: Record<WorkAreaModel, SupportInfo> = {
       extendWorkarea: false,
       mirror: false,
     },
+    lowerFocus: false,
   },
   fhexa1: {
     autoFocus: false,
@@ -69,6 +73,7 @@ const supportList: Record<WorkAreaModel, SupportInfo> = {
       extendWorkarea: false,
       mirror: false,
     },
+    lowerFocus: true,
   },
   ado1: {
     autoFocus: false,
@@ -82,6 +87,7 @@ const supportList: Record<WorkAreaModel, SupportInfo> = {
       mirror: true,
       defaultMirror: true,
     },
+    lowerFocus: true,
   },
   fbb2: {
     autoFocus: false,
@@ -94,6 +100,7 @@ const supportList: Record<WorkAreaModel, SupportInfo> = {
       extendWorkarea: true,
       mirror: true,
     },
+    lowerFocus: true,
   },
 };
 
@@ -102,6 +109,7 @@ export const getSupportInfo = (workarea: WorkAreaModel): SupportInfo => supportL
   hybridLaser: false,
   openBottom: false,
   passThrough: false,
+  lowerFocus: false,
 };
 
 export default {

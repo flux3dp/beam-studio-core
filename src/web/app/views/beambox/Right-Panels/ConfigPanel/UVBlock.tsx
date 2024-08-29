@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { memo, useContext } from 'react';
+import { Switch } from 'antd';
 
 import history from 'app/svgedit/history/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
@@ -28,9 +29,7 @@ const UVBlock = (): JSX.Element => {
     const newValue = uv.value === 1 ? 0 : 1;
     dispatch({ type: 'change', payload: { uv: newValue } });
     const batchCmd = new history.BatchCommand('Change UV toggle');
-    selectedLayers.forEach((layerName) =>
-      writeData(layerName, 'uv', newValue, { batchCmd })
-    );
+    selectedLayers.forEach((layerName) => writeData(layerName, 'uv', newValue, { batchCmd }));
     batchCmd.onAfter = initState;
     svgCanvas.addCommandToHistory(batchCmd);
   };
@@ -49,9 +48,15 @@ const UVBlock = (): JSX.Element => {
       label={t.text}
     />
   ) : (
-    <div className={classNames(styles.panel, styles.checkbox)} onClick={handleToggle}>
-      <span className={styles.title}>UV</span>
-      <input type="checkbox" checked={uv.value === 1} readOnly />
+    <div className={classNames(styles.panel, styles.switch)} onClick={handleToggle}>
+      <label className={styles.title} htmlFor="uv-ink">UV</label>
+      <Switch
+        className={styles.switch}
+        id="uv-ink"
+        size="small"
+        checked={uv.value === 1}
+        onChange={handleToggle}
+      />
     </div>
   );
 };
