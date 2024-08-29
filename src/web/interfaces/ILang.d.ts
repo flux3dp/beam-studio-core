@@ -731,6 +731,10 @@ export interface ILang {
         lower_focus: string;
         by: string;
         stepwise_focusing: string;
+        single_color: string;
+        lower_focus_desc: string;
+        stepwise_focusing_desc: string;
+        single_color_desc: string;
         focus_adjustment: string,
         height: string,
         z_step: string,

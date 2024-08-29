@@ -734,6 +734,10 @@ const lang: ILang = {
         lower_focus: '降低焦距',
         by: '', // keep empty on purpose
         stepwise_focusing: '逐步對焦',
+        single_color: '單色圖層',
+        lower_focus_desc: '在對焦後將對焦高度降低特定距離，用於提升切割效果。',
+        stepwise_focusing_desc: '根據物件的高度，在每次執行次數中逐漸降低對焦距離。',
+        single_color_desc: '僅適用於彩色圖層，不適用於已展開的單色圖層。',
         focus_adjustment: '對焦調整',
         height: '物件高度',
         z_step: '每次遞降',

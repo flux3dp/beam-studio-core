@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import React, { memo, useCallback, useContext, useEffect, useMemo } from 'react';
-import { Switch } from 'antd';
+import { Switch, Tooltip } from 'antd';
+import { QuestionCircleOutlined } from '@ant-design/icons';
 
 import history from 'app/svgedit/history/history';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
@@ -109,6 +110,9 @@ const FocusBlock = ({
           <label className={styles.title} htmlFor="lower-focus">
             {t.lower_focus}
           </label>
+          <Tooltip title={t.lower_focus_desc}>
+            <QuestionCircleOutlined className={styles.hint} />
+          </Tooltip>
           <Switch
             className={styles.switch}
             id="lower-focus"
@@ -139,6 +143,9 @@ const FocusBlock = ({
             <label className={styles.title} htmlFor="focus-step-toggle">
               {t.stepwise_focusing}
             </label>
+            <Tooltip title={t.stepwise_focusing_desc}>
+              <QuestionCircleOutlined className={styles.hint} />
+            </Tooltip>
             <Switch
               className={styles.switch}
               id="focus-step-toggle"
