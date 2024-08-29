@@ -894,11 +894,4 @@ export const presets: {
   },
 };
 
-const allKeys = new Set<string>();
-Object.keys(presets).forEach((key) => {
-  allKeys.add(key);
-});
-console.log(allKeys);
-export const getAllKeys = (): Set<string> => allKeys;
-
 export default presets;

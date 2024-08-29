@@ -1,29 +1,28 @@
 import alertCaller from 'app/actions/alert-caller';
 import alertConstants from 'app/constants/alert-constants';
+import defaultPresets from 'app/constants/presets';
 import dialog from 'implementations/dialog';
 import i18n from 'helpers/i18n';
 import LayerModule from 'app/constants/layer-module/layer-modules';
 import storage from 'implementations/storage';
-import { getAllKeys, presets as defaultPresets } from 'app/constants/presets';
 import { Preset } from 'interfaces/ILayerConfig';
 import { WorkAreaModel } from 'app/constants/workarea-constants';
 
 const migrateStorage = () => {
-  const allKeys = getAllKeys();
-  const allKeysList = Array.from(allKeys);
+  const defaultKeys = Object.keys(defaultPresets);
   let presets: Preset[] = storage.get('presets');
   if (presets) {
     const existingKeys = new Set<string>();
     presets = presets.filter((c) => {
       if (!c.isDefault) return true;
       existingKeys.add(c.key);
-      return allKeys.has(c.key);
+      return !!defaultPresets[c.key];
     });
-    allKeysList.forEach((key, idx) => {
+    defaultKeys.forEach((key, idx) => {
       if (!existingKeys.has(key)) {
         let inserIdx = -1;
         if (idx > 0) {
-          const prevKey = allKeysList[idx - 1];
+          const prevKey = defaultKeys[idx - 1];
           inserIdx = presets.findIndex((p) => p.key === prevKey && p.isDefault);
         }
         const newPreset = { key, isDefault: true, hide: false };
@@ -36,25 +35,25 @@ const migrateStorage = () => {
     if (customizedLaserConfigs) {
       presets = [...customizedLaserConfigs];
       const defaultLaserConfigsInUse = storage.get('defaultLaserConfigsInUse') || {};
-      allKeysList.forEach((key, idx) => {
+      defaultKeys.forEach((key, idx) => {
         if (!defaultLaserConfigsInUse[key]) {
           const hide = defaultLaserConfigsInUse[key] === false;
           let inserIdx = -1;
           if (idx > 0) {
-            const prevKey = allKeysList[idx - 1];
+            const prevKey = defaultKeys[idx - 1];
             inserIdx = presets.findIndex((p) => p.key === prevKey && p.isDefault);
           }
           const newPreset = { key, isDefault: true, hide };
           presets.splice(inserIdx + 1, 0, newPreset);
         }
       });
-      presets = presets.filter((c) => !(c.isDefault && !allKeys.has(c.key)));
+      presets = presets.filter((c) => !(c.isDefault && !defaultPresets[c.key]));
       presets.forEach((p, idx) => {
         const { isDefault, key, hide } = p;
         if (isDefault) presets[idx] = { key, isDefault, hide: !!hide };
       });
     } else {
-      presets = allKeysList.map((key) => ({ key, isDefault: true, hide: false }));
+      presets = defaultKeys.map((key) => ({ key, isDefault: true, hide: false }));
     }
   }
   storage.set('presets', presets);
@@ -153,9 +152,8 @@ const savePresetList = (presets: Preset[]): void => {
 };
 
 const resetPresetList = (): void => {
-  const allKeys = getAllKeys();
-  const allKeysList = Array.from(allKeys);
-  const newPresets = [...allKeysList.map((key) => ({ key, isDefault: true, hide: false }))];
+  const defaultKeys = Object.keys(defaultPresets);
+  const newPresets = [...defaultKeys.map((key) => ({ key, isDefault: true, hide: false }))];
   storage.set('presets', newPresets);
   reloadPresets();
 };

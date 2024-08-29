@@ -36,9 +36,4 @@ export const presets = {
   },
 };
 
-export const getAllKeys = (): Set<string> => new Set(['pre1', 'pre2']);
-
-export default {
-  presets,
-  getAllKeys,
-};
+export default presets;
