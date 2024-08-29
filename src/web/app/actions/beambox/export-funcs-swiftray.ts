@@ -4,6 +4,7 @@ import AlertConstants from 'app/constants/alert-constants';
 import AwsHelper from 'helpers/aws-helper';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import constant from 'app/actions/beambox/constant';
+import convertClipPath from 'helpers/layer/convertClipPath';
 import convertShapeToBitmap from 'helpers/layer/convertShapeToBitmap';
 import curveEngravingModeController from 'app/actions/canvas/curveEngravingModeController';
 import FontFuncs from 'app/actions/beambox/font-funcs';
@@ -352,7 +353,9 @@ const fetchTaskCodeSwiftray = async (
   // Prepare for Ador cleanup
   const revertShapesToImage = await convertShapeToBitmap();
   const revertTempSplitFullColorLayers = await tempSplitFullColorLayers();
+  const revertClipPath = convertClipPath();
   const cleanUpTempModification = async () => {
+    revertClipPath();
     revertTempSplitFullColorLayers();
     revertShapesToImage();
     await FontFuncs.revertTempConvert();
