@@ -225,9 +225,9 @@ exports[`test PresetsManagementPanel should render correctly 1`] = `
                         </span>
                         <span
                           class="ant-select-selection-item"
-                          title="2"
+                          title="10W Diode Laser"
                         >
-                          2
+                          10W Diode Laser
                         </span>
                       </div>
                       <span
@@ -262,7 +262,7 @@ exports[`test PresetsManagementPanel should render correctly 1`] = `
                     MockLaserInputs
                     <p>
                       preset: 
-                      {"key":"pre1","isDefault":true,"hide":false,"name":"pre1"}
+                      {"key":"pre1","isDefault":true,"hide":false,"name":"pre1","power":50,"speed":50}
                     </p>
                     <p>
                       maxSpeed: 
@@ -278,11 +278,11 @@ exports[`test PresetsManagementPanel should render correctly 1`] = `
                     </p>
                     <input
                       data-testid="power"
-                      value="15"
+                      value="50"
                     />
                     <input
                       data-testid="speed"
-                      value="30"
+                      value="50"
                     />
                   </div>
                 </div>
