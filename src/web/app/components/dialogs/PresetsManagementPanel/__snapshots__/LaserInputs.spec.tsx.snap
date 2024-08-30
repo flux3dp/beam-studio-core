@@ -92,34 +92,6 @@ exports[`LaserInputs should render correctly 1`] = `
         <div
           class="label"
         >
-          lower_focus_by
-        </div>
-        <div
-          class="input"
-        >
-          UnitInput: 
-          <p>
-            addonAfter: 
-            mm
-          </p>
-          <p>
-            precision: 
-            1
-          </p>
-          <input
-            data-testid="focus"
-            max="10"
-            min="0"
-            value="0"
-          />
-        </div>
-      </div>
-      <div
-        class="field"
-      >
-        <div
-          class="label"
-        >
           z_step
         </div>
         <div

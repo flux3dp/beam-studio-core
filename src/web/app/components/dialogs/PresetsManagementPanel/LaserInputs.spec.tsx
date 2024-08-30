@@ -20,9 +20,6 @@ jest.mock('helpers/useI18n', () => () => ({
   },
 }));
 
-const mockIsDev = jest.fn();
-jest.mock('helpers/is-dev', () => () => mockIsDev());
-
 describe('LaserInputs', () => {
   const handleChange = jest.fn();
   const preset = {
@@ -35,7 +32,6 @@ describe('LaserInputs', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    mockIsDev.mockReturnValue(true);
   });
 
   it('should render correctly', () => {
@@ -71,13 +67,9 @@ describe('LaserInputs', () => {
     fireEvent.change(repeatInput, { target: { value: '50' } });
     expect(handleChange).toBeCalledTimes(3);
     expect(handleChange).toHaveBeenLastCalledWith('repeat', 50);
-    const focusInput = getByTestId('focus');
-    fireEvent.change(focusInput, { target: { value: '50' } });
-    expect(handleChange).toBeCalledTimes(4);
-    expect(handleChange).toHaveBeenLastCalledWith('focus', 50);
     const zStepInput = getByTestId('zStep');
     fireEvent.change(zStepInput, { target: { value: '50' } });
-    expect(handleChange).toBeCalledTimes(5);
+    expect(handleChange).toBeCalledTimes(4);
     expect(handleChange).toHaveBeenLastCalledWith('zStep', 50);
   });
 });
