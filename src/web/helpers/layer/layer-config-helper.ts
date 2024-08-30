@@ -77,7 +77,7 @@ export const defaultConfig: { [key in ConfigKey]?: ConfigKeyTypeMap[key] } = {
   halftone: 1,
   // parameters for white ink
   wSpeed: 100,
-  wInk: BeamboxPreference.read('multipass-compensation') !== false ? -9 : -3,
+  wInk: BeamboxPreference.read('multipass-compensation') !== false ? -12 : -4,
   wMultipass: 3,
   wRepeat: 1,
   // parameters for split color

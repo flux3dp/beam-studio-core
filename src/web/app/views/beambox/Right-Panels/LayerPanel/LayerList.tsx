@@ -141,7 +141,7 @@ const LayerList = ({
               ) : (
                 <ColorPicker
                   initColor={drawing.getLayerColor(layerName)}
-                  printerColor={module === LayerModule.PRINTER}
+                  forPrinter={module === LayerModule.PRINTER}
                   triggerSize="small"
                   onChange={(color) => onLayerColorChange(layerName, color)}
                 />

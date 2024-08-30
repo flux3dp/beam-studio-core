@@ -121,11 +121,12 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
     layerElem &&
     modelsWithModules.has(workarea) &&
     getData(layerElem, 'module') === LayerModule.PRINTER;
-  const isFullColor = layerElem && getData(layerElem, 'fullcolor');
+  const isFullColor = getData(layerElem, 'fullcolor');
+  const isSplitLayer = getData(layerElem, 'split');
 
   const handleSplitColor = async () => {
     svgCanvas.clearSelection();
-    if (!isSelectingPrinterLayer) return;
+    if (!isSelectingPrinterLayer || isSplitLayer) return;
     const res = await new Promise<boolean>((resolve) => {
       alertCaller.popUp({
         id: 'split-color',
@@ -228,12 +229,12 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
             content={<Switch checked={isFullColor} />}
             label={LANG.layers.fullColor}
             onClick={() => {
-              if (!isFullColor) {
+              if (!isFullColor && !isSplitLayer) {
                 handleLayerFullColor();
                 updateActiveKey(null);
               }
             }}
-            disabled={isMultiSelecting}
+            disabled={isMultiSelecting || isSplitLayer}
             autoClose={false}
           />
         </Popover>
@@ -314,7 +315,7 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
         <>
           <MenuItem
             attributes={{ id: 'toggle_fullcolor_layer' }}
-            disabled={isMultiSelecting}
+            disabled={isMultiSelecting || isSplitLayer}
             onClick={() => handleLayerFullColor()}
           >
             {isFullColor ? LANG.layers.switchToSingleColor : LANG.layers.switchToFullColor}

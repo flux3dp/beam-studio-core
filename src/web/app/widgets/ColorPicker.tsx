@@ -3,8 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Color } from 'antd/es/color-picker';
 import { ColorPicker as AntdColorPicker, Button } from 'antd';
 
-import colorConstants, { CMYK, objectsColorPresets } from 'app/constants/color-constants';
-import isDev from 'helpers/is-dev';
+import colorConstants, { objectsColorPresets } from 'app/constants/color-constants';
 import useI18n from 'helpers/useI18n';
 
 import styles from './ColorPicker.module.scss';
@@ -16,7 +15,7 @@ interface Props {
   triggerSize?: 'small' | 'middle';
   onChange: (color: string) => void;
   disabled?: boolean;
-  printerColor?: boolean;
+  forPrinter?: boolean;
 }
 
 const ColorPicker = ({
@@ -26,7 +25,7 @@ const ColorPicker = ({
   triggerSize = 'middle',
   onChange,
   disabled = false,
-  printerColor = false,
+  forPrinter = false,
 }: Props): JSX.Element => {
   const [color, setColor] = useState<string>(initColor);
   const [open, setOpen] = useState<boolean>(false);
@@ -37,10 +36,7 @@ const ColorPicker = ({
   }, [initColor]);
 
   const panelRender = (panel: React.ReactNode) => {
-    let colorPresets = objectsColorPresets;
-    if (printerColor) {
-      colorPresets = isDev() ? colorConstants.printingLayerColor : CMYK;
-    }
+    const colorPresets = forPrinter ? colorConstants.printingLayerColor : objectsColorPresets;
     return (
       <div onClick={(e) => e.stopPropagation()}>
         <div className={styles.preset}>
@@ -59,7 +55,7 @@ const ColorPicker = ({
               key={preset}
               className={classNames(styles['preset-block'], styles.color, {
                 [styles.checked]: preset === color,
-                [styles.printing]: printerColor,
+                [styles.printing]: forPrinter,
               })}
               onClick={() => setColor(preset)}
             >
@@ -67,7 +63,7 @@ const ColorPicker = ({
             </div>
           ))}
         </div>
-        {!printerColor && (
+        {!forPrinter && (
           <div className={classNames(styles.panel, { [styles.clear]: color === 'none' })}>
             {panel}
           </div>
@@ -101,7 +97,7 @@ const ColorPicker = ({
   return (
     <div>
       <AntdColorPicker
-        rootClassName={classNames({ [styles['no-panel']]: printerColor })}
+        rootClassName={classNames({ [styles['no-panel']]: forPrinter })}
         placement="bottomLeft"
         disabledAlpha
         disabled={disabled}
