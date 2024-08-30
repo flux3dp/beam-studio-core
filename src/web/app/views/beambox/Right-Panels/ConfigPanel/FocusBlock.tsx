@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React, { memo, useCallback, useContext, useEffect, useMemo } from 'react';
-import { Switch, Tooltip } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
+import { Switch, Tooltip } from 'antd';
 
 import history from 'app/svgedit/history/history';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';

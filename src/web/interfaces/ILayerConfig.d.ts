@@ -19,6 +19,7 @@ export type ConfigKeyTypeMap = {
   focusStep: number;
   // printing configs
   fullcolor: boolean;
+  split: boolean;
   printingSpeed: number;
   ink: number;
   multipass: number;

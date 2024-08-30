@@ -3,7 +3,6 @@ import { Collapse, ConfigProvider } from 'antd';
 
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
-import isDev from 'helpers/is-dev';
 import LayerModule from 'app/constants/layer-module/layer-modules';
 import useForceUpdate from 'helpers/use-force-update';
 import useI18n from 'helpers/useI18n';
@@ -14,6 +13,7 @@ import AutoFocus from './AutoFocus';
 import ConfigPanelContext from './ConfigPanelContext';
 import Diode from './Diode';
 import FocusBlock from './FocusBlock';
+import SingleColorBlock from './SingleColorBlock';
 import styles from './AdvancedBlock.module.scss';
 
 // TODO: add tests
@@ -27,7 +27,6 @@ const AdvancedBlock = ({
   const lang = useI18n().beambox.right_panel.laser_panel;
   const workarea = useWorkarea();
   const supportInfo = useMemo(() => getSupportInfo(workarea), [workarea]);
-  const isDevMode = useMemo(isDev, []);
 
   useEffect(() => {
     const canvasEvents = eventEmitterFactory.createEventEmitter('canvas');
@@ -40,7 +39,7 @@ const AdvancedBlock = ({
   const contents = [];
   if (state.module.value !== LayerModule.PRINTER) {
     if (supportInfo.lowerFocus) {
-      if (isDevMode) contents.push(<FocusBlock type={type} key="focus-block" />);
+      contents.push(<FocusBlock type={type} key="focus-block" />);
     } else if (supportInfo.autoFocus && beamboxPreference.read('enable-autofocus')) {
       contents.push(<AutoFocus key="auto-focus" />);
     }
@@ -48,6 +47,8 @@ const AdvancedBlock = ({
     if (supportInfo.hybridLaser && beamboxPreference.read('enable-diode')) {
       contents.push(<Diode key="diode" />);
     }
+  } else {
+    contents.push(<SingleColorBlock key="single-color-block" />);
   }
 
   if (contents.length === 0) return null;
@@ -66,11 +67,18 @@ const AdvancedBlock = ({
         },
       }}
     >
-      <Collapse className={styles.container} ghost defaultActiveKey={[]}>
-        <Collapse.Panel key="1" header={lang.advanced}>
-          <div className={styles.panel}>{contents}</div>
-        </Collapse.Panel>
-      </Collapse>
+      <Collapse
+        className={styles.container}
+        ghost
+        defaultActiveKey={[]}
+        items={[
+          {
+            key: '1',
+            label: lang.advanced,
+            children: <div className={styles.panel}>{contents}</div>,
+          },
+        ]}
+      />
     </ConfigProvider>
   );
 };
