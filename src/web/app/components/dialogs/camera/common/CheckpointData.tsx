@@ -11,18 +11,25 @@ import { updateData } from 'helpers/camera-calibration-helper';
 
 import styles from './CheckpointData.module.scss';
 
-interface Props {
+interface Props<T = FisheyeCameraParametersV2Cali> {
+  allowCheckPoint?: boolean;
   factoryMode?: boolean;
-  updateParam: (param: FisheyeCameraParametersV2Cali) => void;
+  updateParam: (param: T) => void;
   onClose: (complete: boolean) => void;
   onNext: (res: boolean) => void;
 }
 
-const CheckpointData = ({ factoryMode, updateParam, onClose, onNext }: Props): JSX.Element => {
+const CheckpointData = <T extends FisheyeCameraParametersV2Cali>({
+  allowCheckPoint = true,
+  factoryMode,
+  updateParam,
+  onClose,
+  onNext,
+}: Props<T>): JSX.Element => {
   const progressId = useMemo(() => 'camera-check-point', []);
   const [checkpointData, setCheckpointData] = useState<{
     file: string;
-    data: FisheyeCameraParametersV2Cali;
+    data: T;
   }>(null);
   const lang = useI18n();
   const checkData = useCallback(async () => {
@@ -46,7 +53,7 @@ const CheckpointData = ({ factoryMode, updateParam, onClose, onNext }: Props): J
             tvec: res.tvec,
             refHeight: res.refHeight,
             source: res.source,
-          },
+          } as T,
         });
         progressCaller.popById(progressId);
         return;
@@ -54,25 +61,27 @@ const CheckpointData = ({ factoryMode, updateParam, onClose, onNext }: Props): J
     } catch {
       /* do nothing */
     }
-    try {
-      const data = await deviceMaster.downloadFile('fisheye', 'checkpoint.json');
-      const [, blob] = data;
-      const dataString = await (blob as Blob).text();
-      res = JSON.parse(dataString);
-      if (res) {
-        setCheckpointData({
-          file: 'checkpoint.json',
-          data: res,
-        });
-        progressCaller.popById(progressId);
-        return;
+    if (allowCheckPoint) {
+      try {
+        const data = await deviceMaster.downloadFile('fisheye', 'checkpoint.json');
+        const [, blob] = data;
+        const dataString = await (blob as Blob).text();
+        res = JSON.parse(dataString);
+        if (res) {
+          setCheckpointData({
+            file: 'checkpoint.json',
+            data: res,
+          });
+          progressCaller.popById(progressId);
+          return;
+        }
+      } catch {
+        /* do nothing */
       }
-    } catch {
-      /* do nothing */
     }
     progressCaller.popById(progressId);
     onNext(false);
-  }, [lang, progressId, onNext]);
+  }, [lang, allowCheckPoint, progressId, onNext]);
 
   const handleOk = useCallback(async () => {
     progressCaller.openNonstopProgress({

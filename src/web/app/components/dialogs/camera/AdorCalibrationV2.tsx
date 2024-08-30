@@ -18,7 +18,7 @@ import {
 } from 'helpers/camera-calibration-helper';
 
 import CalibrateChessBoard from './AdorCalibrationV2/CalibrateChessBoard';
-import CheckpointData from './AdorCalibrationV2/CheckpointData';
+import CheckpointData from './common/CheckpointData';
 import CheckPictures from './AdorCalibrationV2/CheckPictures';
 import FindCorner from './AdorCalibrationV2/FindCorner';
 import Instruction from './common/Instruction';
