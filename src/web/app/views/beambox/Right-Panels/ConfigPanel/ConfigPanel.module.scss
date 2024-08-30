@@ -37,6 +37,13 @@
       }
     }
   }
+
+  .params {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
   .select {
     width: 100%;
   }
@@ -44,6 +51,14 @@
     padding-left: 0;
     padding-right: 0;
   }
+
+}
+
+.container {
+  padding: 10px 3px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .preset-dropdown-container {

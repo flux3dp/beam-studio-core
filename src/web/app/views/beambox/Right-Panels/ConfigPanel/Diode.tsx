@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { memo, useContext } from 'react';
+import { Switch } from 'antd';
 
 import history from 'app/svgedit/history/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
@@ -25,17 +26,23 @@ const Diode = (): JSX.Element => {
     const newValue = diode.value === 1 ? 0 : 1;
     dispatch({ type: 'change', payload: { diode: newValue } });
     const batchCmd = new history.BatchCommand('Change diode toggle');
-    selectedLayers.forEach((layerName) =>
-      writeData(layerName, 'diode', newValue, { batchCmd })
-    );
+    selectedLayers.forEach((layerName) => writeData(layerName, 'diode', newValue, { batchCmd }));
     batchCmd.onAfter = initState;
     svgCanvas.addCommandToHistory(batchCmd);
   };
 
   return (
-    <div className={classNames(styles.panel, styles.checkbox)} onClick={handleToggle}>
-      <span className={styles.title}>{t.diode}</span>
-      <input type="checkbox" checked={diode.value === 1} readOnly />
+    <div className={classNames(styles.panel, styles.switch)}>
+      <label className={styles.title} htmlFor="diode">
+        {t.diode}
+      </label>
+      <Switch
+        className={styles.switch}
+        id="diode"
+        size="small"
+        checked={diode.value === 1}
+        onChange={handleToggle}
+      />
     </div>
   );
 };

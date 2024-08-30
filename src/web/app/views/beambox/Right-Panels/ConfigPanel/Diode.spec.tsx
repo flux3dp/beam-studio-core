@@ -79,12 +79,12 @@ describe('test Diode', () => {
         <Diode />
       </ConfigPanelContext.Provider>
     );
-    const div = container.querySelector('.checkbox');
+    const btn = container.querySelector('button#diode');
     expect(mockDispatch).not.toBeCalled();
     expect(mockWriteData).not.toBeCalled();
     expect(mockBatchCommand).not.toBeCalled();
     expect(batchCmd.count).toBe(0);
-    fireEvent.click(div);
+    fireEvent.click(btn);
     expect(mockDispatch).toBeCalledTimes(1);
     expect(mockDispatch).toHaveBeenLastCalledWith({
       type: 'change',

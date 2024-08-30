@@ -161,7 +161,7 @@ describe('test AutoFocus', () => {
     expect(mockWriteData).not.toBeCalled();
     expect(mockBatchCommand).not.toBeCalled();
     expect(batchCmd.count).toBe(0);
-    fireEvent.click(container.querySelector('.checkbox'));
+    fireEvent.click(container.querySelector('button#auto-focus'));
     expect(mockDispatch).toBeCalledTimes(1);
     expect(mockDispatch).lastCalledWith({ type: 'change', payload: { height: -3 } });
     expect(mockBatchCommand).toBeCalledTimes(1);

@@ -1,3 +1,5 @@
+import isDev from 'helpers/is-dev';
+
 import { WorkAreaModel } from './workarea-constants';
 
 export enum RotaryType {
@@ -19,6 +21,7 @@ interface SupportInfo {
     mirror: boolean;
     defaultMirror?: boolean;
   };
+  lowerFocus: boolean;
 }
 
 const supportList: Record<WorkAreaModel, SupportInfo> = {
@@ -33,6 +36,7 @@ const supportList: Record<WorkAreaModel, SupportInfo> = {
       extendWorkarea: false,
       mirror: false,
     },
+    lowerFocus: false,
   },
   fbb1b: {
     autoFocus: false,
@@ -45,6 +49,7 @@ const supportList: Record<WorkAreaModel, SupportInfo> = {
       extendWorkarea: false,
       mirror: false,
     },
+    lowerFocus: false,
   },
   fbb1p: {
     autoFocus: false,
@@ -57,6 +62,7 @@ const supportList: Record<WorkAreaModel, SupportInfo> = {
       extendWorkarea: false,
       mirror: false,
     },
+    lowerFocus: false,
   },
   fhexa1: {
     autoFocus: false,
@@ -69,6 +75,7 @@ const supportList: Record<WorkAreaModel, SupportInfo> = {
       extendWorkarea: false,
       mirror: false,
     },
+    lowerFocus: isDev(),
   },
   ado1: {
     autoFocus: false,
@@ -82,6 +89,7 @@ const supportList: Record<WorkAreaModel, SupportInfo> = {
       mirror: true,
       defaultMirror: true,
     },
+    lowerFocus: isDev(),
   },
   fbb2: {
     autoFocus: false,
@@ -94,6 +102,7 @@ const supportList: Record<WorkAreaModel, SupportInfo> = {
       extendWorkarea: true,
       mirror: true,
     },
+    lowerFocus: isDev(),
   },
 };
 
@@ -102,6 +111,7 @@ export const getSupportInfo = (workarea: WorkAreaModel): SupportInfo => supportL
   hybridLaser: false,
   openBottom: false,
   passThrough: false,
+  lowerFocus: false,
 };
 
 export default {

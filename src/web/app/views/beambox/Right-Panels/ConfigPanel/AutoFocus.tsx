@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React, { memo, useContext } from 'react';
+import { Switch } from 'antd';
 
 import history from 'app/svgedit/history/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
@@ -26,9 +27,7 @@ const AutoFocus = (): JSX.Element => {
     const value = -height.value;
     dispatch({ type: 'change', payload: { height: value } });
     const batchCmd = new history.BatchCommand('Change auto focus toggle');
-    selectedLayers.forEach((layerName) =>
-      writeData(layerName, 'height', value, { batchCmd })
-    );
+    selectedLayers.forEach((layerName) => writeData(layerName, 'height', value, { batchCmd }));
     batchCmd.onAfter = initState;
     svgCanvas.addCommandToHistory(batchCmd);
   };
@@ -36,9 +35,7 @@ const AutoFocus = (): JSX.Element => {
   const handleHeightChange = (value: number) => {
     dispatch({ type: 'change', payload: { height: value } });
     const batchCmd = new history.BatchCommand('Change auto focus height');
-    selectedLayers.forEach((layerName) =>
-      writeData(layerName, 'height', value, { batchCmd })
-    );
+    selectedLayers.forEach((layerName) => writeData(layerName, 'height', value, { batchCmd }));
     batchCmd.onAfter = initState;
     svgCanvas.addCommandToHistory(batchCmd);
   };
@@ -56,9 +53,17 @@ const AutoFocus = (): JSX.Element => {
 
   return (
     <>
-      <div className={classNames(styles.panel, styles.checkbox)} onClick={handleToggle}>
-        <span className={styles.title}>{t.focus_adjustment}</span>
-        <input type="checkbox" checked={height.value > 0} readOnly />
+      <div className={classNames(styles.panel, styles.switch)}>
+        <label className={styles.title} htmlFor="auto-focus">
+          {t.focus_adjustment}
+        </label>
+        <Switch
+          className={styles.switch}
+          id="auto-focus"
+          size="small"
+          checked={height.value > 0}
+          onChange={handleToggle}
+        />
       </div>
       {height.value > 0 ? (
         <div className={classNames(styles.panel, styles['without-drag'])}>

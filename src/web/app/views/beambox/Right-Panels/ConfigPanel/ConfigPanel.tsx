@@ -38,6 +38,7 @@ import {
   applyPreset,
   CUSTOM_PRESET_CONSTANT,
   defaultConfig,
+  forceKeys,
   getData,
   getLayerConfig,
   getLayersConfig,
@@ -52,10 +53,9 @@ import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { getWorkarea } from 'app/constants/workarea-constants';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
 
-import AddOnBlock from './AddOnBlock';
+import AdvancedBlock from './AdvancedBlock';
 import Backlash from './Backlash';
 import ConfigPanelContext, { getDefaultState, reducer } from './ConfigPanelContext';
-import FocusBlock from './FocusBlock';
 import HalftoneBlock from './HalftoneBlock';
 import InkBlock from './InkBlock';
 import ModuleBlock from './ModuleBlock';
@@ -186,7 +186,12 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
     const { maxSpeed, minSpeed } = getWorkarea(beamboxPreference.read('workarea'));
     for (let i = 0; i < changedKeys.length; i += 1) {
       const key = changedKeys[i];
-      let val = preset[key] ?? defaultConfig[key];
+      let val = preset[key];
+      if (val === undefined) {
+        if (forceKeys.includes(key)) val = defaultConfig[key];
+        // eslint-disable-next-line no-continue
+        else continue;
+      }
       if (key === 'speed') val = Math.max(minSpeed, Math.min(val as number, maxSpeed));
       payload[key] = val;
     }
@@ -240,7 +245,6 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
         UIType === 'default' && <WhiteInkCheckbox />}
       {isDevMode && isCustomBacklashEnabled && <Backlash type={UIType} />}
       <RepeatBlock type={UIType} />
-      {isDevMode && <FocusBlock type={UIType} />}
       {isDevMode &&
         module.value === LayerModule.PRINTER &&
         fullcolor.value &&
@@ -256,25 +260,27 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
             {sprintf(lang.preset_setting, displayName)}
           </div>
           <ModuleBlock />
-          <div className="layerparams">
-            <ParameterTitle />
-            <div className={styles['preset-dropdown-container']}>
-              <Select
-                id="laser-config-dropdown"
-                className={styles['preset-dropdown']}
-                value={dropdownValue}
-                onChange={handleSelectPresets}
-                options={[
-                  ...hiddenOptions.filter((option) => option.value === dropdownValue),
-                  ...dropdownOptions,
-                ]}
-                popupMatchSelectWidth={false}
-                placement="bottomRight"
-              />
+          <div className={styles.container}>
+            <div>
+              <ParameterTitle />
+              <div className={styles['preset-dropdown-container']}>
+                <Select
+                  id="laser-config-dropdown"
+                  className={styles['preset-dropdown']}
+                  value={dropdownValue}
+                  onChange={handleSelectPresets}
+                  options={[
+                    ...hiddenOptions.filter((option) => option.value === dropdownValue),
+                    ...dropdownOptions,
+                  ]}
+                  popupMatchSelectWidth={false}
+                  placement="bottomRight"
+                />
+              </div>
             </div>
             {commonContent}
           </div>
-          <AddOnBlock />
+          <AdvancedBlock type={UIType} />
         </div>
       );
     }
@@ -406,21 +412,24 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
               </Select>
             </div>
           )}
-          <ConfigProvider
-            theme={{ components: { Select: { borderRadius: 100, controlHeight: 30 } } }}
-          >
-            <Select
-              id="laser-config-dropdown"
-              className={styles.select}
-              value={dropdownValue}
-              onChange={handleSelectPresets}
-              options={[
-                ...dropdownOptions,
-                ...hiddenOptions.filter((option) => option.value === dropdownValue),
-              ]}
-            />
-          </ConfigProvider>
-          {commonContent}
+          <div className={styles.params}>
+            <ConfigProvider
+              theme={{ components: { Select: { borderRadius: 100, controlHeight: 30 } } }}
+            >
+              <Select
+                id="laser-config-dropdown"
+                className={styles.select}
+                value={dropdownValue}
+                onChange={handleSelectPresets}
+                options={[
+                  ...dropdownOptions,
+                  ...hiddenOptions.filter((option) => option.value === dropdownValue),
+                ]}
+              />
+            </ConfigProvider>
+            {commonContent}
+          </div>
+          <AdvancedBlock type={UIType} />
         </Modal>
       </ConfigProvider>
     );

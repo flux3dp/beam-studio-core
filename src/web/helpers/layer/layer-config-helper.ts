@@ -44,6 +44,7 @@ const attributeMap: { [key in ConfigKey]: string } = {
   wRepeat: 'data-wRepeat',
   color: 'data-color',
   fullcolor: 'data-fullcolor',
+  split: 'data-split',
   cRatio: 'data-cRatio',
   mRatio: 'data-mRatio',
   yRatio: 'data-yRatio',
@@ -117,7 +118,7 @@ export const getData = <T extends ConfigKey>(
   if (['configName', 'color', 'clipRect'].includes(key)) {
     return (layer.getAttribute(attr) || defaultConfig[key]) as ConfigKeyTypeMap[T];
   }
-  if (key === 'fullcolor' || key === 'ref')
+  if (key === 'fullcolor' || key === 'ref' || key === 'split')
     return (layer.getAttribute(attr) === '1') as ConfigKeyTypeMap[T];
   if (key === 'module')
     return Number(layer.getAttribute(attr) || LayerModule.LASER_UNIVERSAL) as ConfigKeyTypeMap[T];
@@ -140,7 +141,7 @@ export const writeDataLayer = <T extends ConfigKey>(
   )
     attr = attributeMap.printingSpeed;
   const originalValue = layer.getAttribute(attr);
-  if (key === 'fullcolor' || key === 'ref')
+  if (key === 'fullcolor' || key === 'ref' || key === 'split')
     // eslint-disable-next-line no-param-reassign
     value = (value ? '1' : undefined) as ConfigKeyTypeMap[T];
   if (value === undefined) layer.removeAttribute(attr);
@@ -187,6 +188,10 @@ export const getMultiSelectData = <T extends ConfigKey>(
         } else if (key === 'diode') {
           // Always use on if there is any on
           value = 1 as ConfigKeyTypeMap[T];
+          break;
+        } else if (key === 'fullcolor' || key === 'ref' || key === 'split') {
+          // Always use true if there is any true
+          value = true as ConfigKeyTypeMap[T];
           break;
         } else break;
       }
@@ -309,6 +314,8 @@ export const printerConfigKeys: ConfigKey[] = [
   'repeat',
 ];
 
+export const forceKeys = ['speed', 'power', 'ink', 'multipass', 'repeat'];
+
 export const applyPreset = (
   layer: Element,
   preset: Preset,
@@ -321,7 +328,12 @@ export const applyPreset = (
   const keys = module === LayerModule.PRINTER ? printerConfigKeys : laserConfigKeys;
   for (let i = 0; i < keys.length; i += 1) {
     const key = keys[i];
-    let value = preset[key] ?? defaultConfig[key];
+    let value = preset[key];
+    if (value === undefined) {
+      if (forceKeys.includes(key)) value = defaultConfig[key];
+      // eslint-disable-next-line no-continue
+      else continue;
+    }
     if (key === 'speed' || key === 'printingSpeed')
       value = Math.max(minSpeed, Math.min(value as number, maxSpeed));
     writeDataLayer(layer, key, value, {

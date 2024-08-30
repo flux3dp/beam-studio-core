@@ -165,9 +165,9 @@ exports[`PrintingInputs should render correctly in advanced mode 1`] = `
             </span>
             <span
               class="ant-select-selection-item"
-              title="FM"
+              title="-"
             >
-              FM
+              -
             </span>
           </div>
           <span
@@ -494,9 +494,9 @@ exports[`PrintingInputs should render correctly in simple mode 1`] = `
             </span>
             <span
               class="ant-select-selection-item"
-              title="FM"
+              title="-"
             >
-              FM
+              -
             </span>
           </div>
           <span
