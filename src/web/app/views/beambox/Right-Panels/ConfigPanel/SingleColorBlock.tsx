@@ -16,8 +16,7 @@ import ConfigPanelContext from './ConfigPanelContext';
 import styles from './Block.module.scss';
 
 const SingleColorBlock = (): JSX.Element => {
-  const lang = useI18n();
-  const t = lang.beambox.right_panel.laser_panel;
+  const t = useI18n().beambox.right_panel.laser_panel;
   const { selectedLayers, state, initState, dispatch } = useContext(ConfigPanelContext);
   const { fullcolor, split, selectedLayer } = state;
 
