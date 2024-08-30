@@ -255,8 +255,8 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
   const getContent = () => {
     if (UIType === 'default') {
       return (
-        <div id="laser-panel">
-          <div className={classNames('layername', 'hidden-mobile')}>
+        <div id="laser-panel" className={styles['config-panel']}>
+          <div className={classNames(styles.layername, 'hidden-mobile')}>
             {sprintf(lang.preset_setting, displayName)}
           </div>
           <ModuleBlock />
