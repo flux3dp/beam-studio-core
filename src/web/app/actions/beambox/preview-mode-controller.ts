@@ -108,51 +108,6 @@ class PreviewModeController {
     this.fisheyePreviewManager.reloadLevelingOffset();
   };
 
-  editCamera3dRotation = async () => {
-    if (!this.fisheyePreviewManager.support3dRotation) return;
-    const handleApply = async (newParams: RotationParameters3DCalibration) => {
-      if (this.fisheyePreviewManager.support3dRotation) {
-        await this.fisheyePreviewManager?.update3DRotation(newParams);
-        await this.previewFullWorkarea();
-      }
-    };
-
-    const handleSave = async (newParams: RotationParameters3DCalibration) => {
-      await handleApply(newParams);
-      Progress.openNonstopProgress({
-        id: 'saving-fisheye-3d',
-        message: 'Saving fisheye 3d rotation',
-      });
-      try {
-        await deviceMaster.updateFisheye3DRotation(newParams);
-        if (newParams.tx !== 0 || newParams.ty !== 0) {
-          const fisheyeParams = this.fisheyePreviewManager.params as FisheyeCameraParametersV1;
-          const oldCenter = fisheyeParams.center || [0, 0];
-          const newCenter = [oldCenter[0] + newParams.tx, oldCenter[1] + newParams.ty];
-          const strData = JSON.stringify({ ...fisheyeParams, center: newCenter }, (key, val) => {
-            if (typeof val === 'number') {
-              return Math.round(val * 1e6) / 1e6;
-            }
-            return val;
-          });
-          await new Promise<void>((resolve) => setTimeout(() => resolve(), 3000));
-          await deviceMaster.uploadFisheyeParams(strData, () => {});
-        }
-        Alert.popUp({ message: 'Saved Successfully!' });
-      } catch (e) {
-        console.error('Fail to save fisheye 3d rotation', e);
-        Alert.popUpError({ message: 'Unable to save fisheye 3d rotation' });
-      } finally {
-        Progress.popById('saving-fisheye-3d');
-      }
-    };
-    dialogCaller.showRotationParameters3DPanel({
-      initParams: this.fisheyePreviewManager.rotationData,
-      onApply: handleApply,
-      onSave: handleSave,
-    });
-  };
-
   resetFishEyeObjectHeight = async () => {
     const res = await this.fisheyePreviewManager.resetObjectHeight();
     if (res && !PreviewModeBackgroundDrawer.isClean()) await this.previewFullWorkarea();

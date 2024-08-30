@@ -21,8 +21,8 @@ import CalibrateChessBoard from './AdorCalibrationV2/CalibrateChessBoard';
 import CheckpointData from './AdorCalibrationV2/CheckpointData';
 import CheckPictures from './AdorCalibrationV2/CheckPictures';
 import FindCorner from './AdorCalibrationV2/FindCorner';
-import Instruction from './AdorCalibration/Instruction';
-import SolvePnP from './AdorCalibrationV2/SolvePnP';
+import Instruction from './common/Instruction';
+import SolvePnP from './common/SolvePnP';
 import StepElevate from './AdorCalibrationV2/StepElevate';
 import { getMaterialHeight, prepareToTakePicture, saveCheckPoint } from './AdorCalibrationV2/utils';
 

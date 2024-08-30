@@ -18,7 +18,7 @@ import { FisheyeCameraParameters } from 'interfaces/FisheyePreview';
 import Align from './AdorCalibration/Align';
 import Calibrate from './AdorCalibration/Calibrate';
 import CalibrationType from './AdorCalibration/calibrationTypes';
-import Instruction from './AdorCalibration/Instruction';
+import Instruction from './common/Instruction';
 
 const PROGRESS_ID = 'fish-eye-calibration';
 const DIALOG_ID = 'fish-eye-calibration';
