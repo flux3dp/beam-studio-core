@@ -16,7 +16,6 @@ import FocusBlock from './FocusBlock';
 import SingleColorBlock from './SingleColorBlock';
 import styles from './AdvancedBlock.module.scss';
 
-// TODO: add tests
 const AdvancedBlock = ({
   type = 'default',
 }: {
