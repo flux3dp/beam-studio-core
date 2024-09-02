@@ -36,7 +36,7 @@ const UnitInput = forwardRef<HTMLInputElement, Props>(({
     (value: string | number) => {
       let newVal = typeof value === 'string' ? parseFloat(value) : value;
       if (isInch) newVal /= 25.4;
-      const res = String(Math.floor(newVal * 10 ** precision) / 10 ** precision);
+      const res = String(Math.round(newVal * 10 ** precision) / 10 ** precision);
       return res;
     },
     [isInch, precision]
