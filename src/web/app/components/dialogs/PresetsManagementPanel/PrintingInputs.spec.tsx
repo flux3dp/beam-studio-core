@@ -92,7 +92,7 @@ describe('PrintingInputs', () => {
     expect(handleChange).toHaveBeenLastCalledWith('ink', 1);
     const halftoneToggle = baseElement.querySelector('#halftoneSelect');
     fireEvent.mouseDown(halftoneToggle);
-    fireEvent.click(baseElement.querySelectorAll('.ant-slide-up-appear .ant-select-item-option-content')[2]);
+    fireEvent.click(baseElement.querySelectorAll('.ant-slide-up-appear .ant-select-item-option-content')[1]);
     expect(handleChange).toBeCalledTimes(2);
     expect(handleChange).toHaveBeenLastCalledWith('halftone', 2);
   });
