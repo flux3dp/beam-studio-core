@@ -314,8 +314,8 @@ export const printerConfigKeys: ConfigKey[] = [
   'repeat',
 ];
 
-// Force Keys: If not set, use default value
-export const forceKeys = ['speed', 'power', 'ink', 'multipass', 'halftone', 'repeat'];
+// Forced Keys: If not set, use default value
+export const forcedKey = ['speed', 'power', 'ink', 'multipass', 'halftone', 'repeat'];
 
 export const applyPreset = (
   layer: Element,
@@ -331,7 +331,7 @@ export const applyPreset = (
     const key = keys[i];
     let value = preset[key];
     if (value === undefined) {
-      if (forceKeys.includes(key)) value = defaultConfig[key];
+      if (forcedKey.includes(key)) value = defaultConfig[key];
       // eslint-disable-next-line no-continue
       else continue;
     }
