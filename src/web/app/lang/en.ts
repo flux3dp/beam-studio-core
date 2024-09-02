@@ -1875,7 +1875,7 @@ const lang: ILang = {
     title: 'Auto Fit',
     step1: '1. Place the object in the desired position on one piece of material.',
     step2: '2. Press "Confirm" to duplicate the object onto all similar pieces of material in camera preview.',
-    preview_first: 'Please perform camera preview first.',
+    preview_first: 'Please perform the camera preview first.',
     failed_to_auto_fit: 'Failed to auto fit, please check:',
     error_tip1: '1. Is the artwork placed on the material correctly?',
     error_tip2: '2. Are the material contours clear enough for recognition?',
