@@ -612,7 +612,7 @@ const lang: ILang = {
         message: "Beam Studio now introduces a new text-to-path converter (Converter 2.0), which produces more dependable results! Would you like to switch to it now? \nYou can also adjust this setting later in the 'Text-to-Path Converter' section within the preferences.",
       },
       auto_switch_tab: {
-        title: 'Auto Switch Layer and Object Panel',
+        title: 'Auto Switching Layer and Object Panel',
         message: 'A new option to automatically switch between the Layers panel and the Objects panel has been added to Preferences. This option is disabled by default. Would you like to enable automatic switching now?<br/>You can change this setting anytime in Preferences.',
       },
     },

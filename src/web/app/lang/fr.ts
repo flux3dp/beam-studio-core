@@ -609,7 +609,7 @@ const lang: ILang = {
         message: "Beam Studio introduit maintenant un nouveau convertisseur de texte en tracé (Convertisseur 2.0), qui produit des résultats plus fiables ! Voulez-vous passer à celui-ci maintenant ?\nVous pouvez également ajuster ce paramètre plus tard dans la section 'Convertisseur de texte en tracé' dans les préférences.",
       },
       auto_switch_tab: {
-        title: "Changement automatique entre le panneau de calques et d'objets",
+        title: 'Commutation Automatique entre le Panneau des Calques et des Objets',
         message: 'Une nouvelle option permettant de basculer automatiquement entre le panneau des calques et le panneau des objets a été ajoutée aux Préférences. Cette option est désactivée par défaut. Souhaitez-vous activer la commutation automatique maintenant ? <br/>Vous pouvez modifier ce paramètre à tout moment dans les Préférences.',
       },
     },

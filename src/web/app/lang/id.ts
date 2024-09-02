@@ -609,7 +609,7 @@ const lang: ILang = {
         message: "Beam Studio sekarang memperkenalkan konverter teks ke jalur yang baru (Konverter 2.0), yang menghasilkan hasil yang lebih andal! Apakah Anda ingin beralih ke sana sekarang? \nAnda juga dapat menyesuaikan pengaturan ini nanti di bagian 'Konverter Teks ke Jalur' dalam preferensi.",
       },
       auto_switch_tab: {
-        title: 'Sakelar Otomatis Panel Lapisan dan Objek',
+        title: 'Pengalihan Otomatis Panel Lapisan dan Objek',
         message: 'Opsi baru untuk beralih secara otomatis antara panel Lapisan dan panel Objek telah ditambahkan ke Preferensi. Opsi ini dinonaktifkan secara default. Apakah Anda ingin mengaktifkan pengalihan otomatis sekarang? <br/>Anda dapat mengubah pengaturan ini kapan saja di Preferensi.',
       },
     },

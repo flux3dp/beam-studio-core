@@ -609,7 +609,7 @@ const lang: ILang = {
         message: 'O Beam Studio agora apresenta um novo conversor de texto para trajetória (Conversor 2.0), que produz resultados mais confiáveis! Gostaria de mudar para ele agora? \nVocê também pode ajustar essa configuração posteriormente na seção "Conversor de Texto para Trajetória" nas preferências.',
       },
       auto_switch_tab: {
-        title: 'Troca automática entre painel de camadas e objetos',
+        title: 'Alternância Automática Entre o Painel de Camadas e Objetos',
         message: 'Uma nova opção para alternar automaticamente entre o painel de Camadas e o painel de Objetos foi adicionada às Preferências. Esta opção está desativada por padrão. Gostaria de ativar a troca automática agora? <br/>Você pode alterar esta configuração a qualquer momento nas Preferências.',
       },
     },

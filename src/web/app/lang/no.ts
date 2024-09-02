@@ -609,7 +609,7 @@ const lang: ILang = {
         message: "Beam Studio introduserer nå en ny tekst til bane konverterer (Konverterer 2.0), som produserer mer pålitelige resultater! Vil du bytte til den nå? \nDu kan også justere denne innstillingen senere i 'Tekst til bane konverterer' delen i innstillingene.",
       },
       auto_switch_tab: {
-        title: 'Automatisk bytte mellom lag- og objektpanel',
+        title: 'Automatisk Bytte Mellom Lag- og Objektpanel',
         message: 'Et nytt alternativ for automatisk å bytte mellom lagpanelet og objektpanelet er lagt til i Innstillinger. Dette alternativet er deaktivert som standard. Vil du aktivere automatisk bytting nå? <br/>Du kan endre denne innstillingen når som helst i Innstillinger.',
       },
     },

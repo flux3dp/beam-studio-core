@@ -609,7 +609,7 @@ const lang: ILang = {
         message: "Beam Studio giới thiệu một bộ chuyển đổi văn bản thành đường dẫn mới (Bộ chuyển đổi 2.0), tạo ra kết quả đáng tin cậy hơn! Bạn có muốn chuyển sang nó bây giờ không? \nBạn cũng có thể điều chỉnh cài đặt này sau trong phần 'Cài đặt bộ chuyển đổi văn bản thành đường dẫn' trong tùy chọn.",
       },
       auto_switch_tab: {
-        title: 'Chuyển đổi tự động giữa bảng Lớp và Đối tượng',
+        title: 'Chuyển Đổi Tự Động Giữa Bảng Lớp và Đối Tượng',
         message: 'Một tùy chọn mới để tự động chuyển đổi giữa bảng Lớp và bảng Đối tượng đã được thêm vào Tùy chọn. Tùy chọn này bị tắt theo mặc định. Bạn có muốn bật chuyển đổi tự động ngay bây giờ không? <br/>Bạn có thể thay đổi cài đặt này bất kỳ lúc nào trong Tùy chọn.',
       },
     },

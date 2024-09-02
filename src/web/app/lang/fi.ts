@@ -609,7 +609,7 @@ const lang: ILang = {
         message: 'Beam Studio esittelee nyt uuden teksti-polku muuntimen (Muunnin 2.0), joka tuottaa luotettavampia tuloksia! Haluaisitko vaihtaa siihen nyt? \nVoit myös säätää tätä asetusta myöhemmin Teksti-polku muunnin -osiossa asetuksissa.',
       },
       auto_switch_tab: {
-        title: 'Automaattinen vaihto kerros- ja objektipaneelin välillä',
+        title: 'Automaattinen Vaihto Tason ja Kohteen Paneelien Välillä',
         message: 'Uusi vaihtoehto automaattiselle vaihtamiselle Tasojen ja Objektien paneelien välillä on lisätty Asetuksiin. Tämä vaihtoehto on oletusarvoisesti pois käytöstä. Haluatko ottaa automaattisen vaihtamisen käyttöön nyt? <br/>Voit muuttaa tätä asetusta milloin tahansa Asetuksissa.',
       },
     },

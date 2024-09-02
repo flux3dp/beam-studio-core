@@ -612,7 +612,7 @@ const lang: ILang = {
         message: '¡Beam Studio ahora presenta un nuevo convertidor de texto a trayectoria (Convertidor 2.0), que produce resultados más confiables! ¿Le gustaría cambiar a él ahora? \nTambién puede ajustar esta configuración más tarde en la sección "Convertidor de texto a trayectoria" dentro de las preferencias.',
       },
       auto_switch_tab: {
-        title: 'Cambio automático entre panel de capas y objetos',
+        title: 'Cambio Automático de Panel de Capas y Objetos',
         message: 'Se ha añadido una nueva opción en Preferencias para cambiar automáticamente entre el panel de Capas y el panel de Objetos. Esta opción está desactivada por defecto. ¿Desea habilitar el cambio automático ahora? <br/>Puede cambiar esta configuración en cualquier momento en Preferencias.',
       },
     },

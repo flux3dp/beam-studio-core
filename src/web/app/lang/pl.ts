@@ -612,7 +612,7 @@ const lang: ILang = {
         message: 'Beam Studio wprowadza nowy konwerter tekstu na ścieżkę (Konwerter 2.0), który daje bardziej niezawodne wyniki! Czy chcesz teraz przełączyć się na niego? \nMożesz również dostosować to ustawienie później w sekcji "Konwerter tekstu na ścieżkę" w preferencjach.',
       },
       auto_switch_tab: {
-        title: 'Automatyczne przełączanie między panelem warstw a panelem obiektów',
+        title: 'Automatyczne Przełączanie Między Panelem Warstw i Obiektów',
         message: 'Nowa opcja automatycznego przełączania między panelem warstw a panelem obiektów została dodana do Preferencji. Ta opcja jest domyślnie wyłączona. Czy chcesz teraz włączyć automatyczne przełączanie? <br/>Możesz zmienić to ustawienie w dowolnym momencie w Preferencjach.',
       },
     },

@@ -612,7 +612,7 @@ const lang: ILang = {
         message: 'Beam Studio führt nun einen neuen Text-zu-Pfad-Konverter (Konverter 2.0) ein, der zuverlässigere Ergebnisse liefert! Möchten Sie jetzt umsteigen? \nSie können diese Einstellung auch später im Abschnitt "Text-zu-Pfad-Konverter" in den Einstellungen anpassen.',
       },
       auto_switch_tab: {
-        title: 'Automatisches Umschalten zwischen Ebenen- und Objektpanel',
+        title: 'Automatisches Umschalten zwischen Ebenen- und Objektfenster',
         message: 'Eine neue Option zum automatischen Umschalten zwischen dem Ebenen- und dem Objekt-Panel wurde zu den Voreinstellungen hinzugefügt. Diese Option ist standardmäßig deaktiviert. Möchten Sie das automatische Umschalten jetzt aktivieren? <br/>Sie können diese Einstellung jederzeit in den Voreinstellungen ändern.',
       },
     },

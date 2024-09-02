@@ -609,7 +609,7 @@ const lang: ILang = {
         message: 'Beam Studio introducerar nu en ny text till bana konverterare (Konverterare 2.0), som producerar mer tillförlitliga resultat! Vill du byta till den nu?\\nDu kan också justera den här inställningen senare i avsnittet "Text till bana konverterare" under inställningarna.',
       },
       auto_switch_tab: {
-        title: 'Automatisk växling mellan lager- och objektpanelen',
+        title: 'Automatisk Växling mellan Lager- och Objektpanel',
         message: 'Ett nytt alternativ för att automatiskt växla mellan lagpanelen och objektpanelen har lagts till i Inställningar. Detta alternativ är inaktiverat som standard. Vill du aktivera automatisk växling nu? <br/>Du kan ändra denna inställning när som helst i Inställningar.',
       },
     },

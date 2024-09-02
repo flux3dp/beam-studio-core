@@ -609,7 +609,7 @@ const lang: ILang = {
         message: "Beam Studio introduceert nu een nieuwe tekst naar pad converter (Converter 2.0), die betrouwbaardere resultaten oplevert! Wilt u nu overschakelen? \nU kunt deze instelling later ook aanpassen in het gedeelte 'Tekst naar pad Converter' binnen de voorkeuren.",
       },
       auto_switch_tab: {
-        title: 'Automatisch schakelen tussen laag- en objectpaneel',
+        title: 'Automatisch Wisselen Tussen Lagen- en Objectenpaneel',
         message: 'Een nieuwe optie om automatisch te schakelen tussen het lagenpaneel en het objectenpaneel is toegevoegd aan de Voorkeuren. Deze optie is standaard uitgeschakeld. Wilt u automatische schakeling nu inschakelen? <br/>U kunt deze instelling op elk moment wijzigen in Voorkeuren.',
       },
     },

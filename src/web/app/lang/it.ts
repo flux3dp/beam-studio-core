@@ -609,7 +609,7 @@ const lang: ILang = {
         message: "Beam Studio introduce ora un nuovo convertitore di testo in percorso (Convertitore 2.0), che produce risultati più affidabili! Vuoi passare ad esso ora?\\nPuoi anche regolare questa impostazione più tardi nella sezione 'Convertitore di testo in percorso' all'interno delle preferenze.",
       },
       auto_switch_tab: {
-        title: 'Commutazione automatica tra pannello livelli e oggetti',
+        title: 'Commutazione Automatica tra il Pannello dei Livelli e degli Oggetti',
         message: 'Una nuova opzione per passare automaticamente tra il pannello Livelli e il pannello Oggetti è stata aggiunta alle Preferenze. Questa opzione è disabilitata per impostazione predefinita. Vuoi abilitare il cambio automatico ora? <br/>Puoi cambiare questa impostazione in qualsiasi momento nelle Preferenze.',
       },
     },
