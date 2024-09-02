@@ -103,7 +103,7 @@ const PresetsManagementPanel = ({ currentModule, initPreset, onClose }: Props): 
         if (availableModules.includes(cur)) return cur;
         return availableModules[0];
       });
-    } else if (selectedPreset.module) {
+    } else if (selectedPreset?.module) {
       setSelectedModule(selectedPreset.module);
     }
   }, [availableModules, selectedPreset]);
@@ -295,7 +295,7 @@ const PresetsManagementPanel = ({ currentModule, initPreset, onClose }: Props): 
         </div>
         <div className={styles.detail}>
           <div className={styles.header}>
-            <div className={styles.title}>{selectedPreset.name}</div>
+            <div className={styles.title}>{selectedPreset?.name}</div>
             {!displayPreset.isDefault && (
               <Button danger onClick={handleDelete} data-testid="delete">
                 {t.delete}
