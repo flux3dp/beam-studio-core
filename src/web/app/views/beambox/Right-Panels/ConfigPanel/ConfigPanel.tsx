@@ -38,7 +38,7 @@ import {
   applyPreset,
   CUSTOM_PRESET_CONSTANT,
   defaultConfig,
-  forcedKey,
+  forcedKeys,
   getData,
   getLayerConfig,
   getLayersConfig,
@@ -188,7 +188,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
       const key = changedKeys[i];
       let val = preset[key];
       if (val === undefined) {
-        if (forcedKey.includes(key)) val = defaultConfig[key];
+        if (forcedKeys.includes(key)) val = defaultConfig[key];
         // eslint-disable-next-line no-continue
         else continue;
       }
