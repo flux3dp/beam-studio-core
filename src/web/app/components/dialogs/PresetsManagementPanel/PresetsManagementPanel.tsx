@@ -18,7 +18,7 @@ import useWorkarea from 'helpers/hooks/useWorkarea';
 import { addDialogComponent, isIdExist, popDialogById } from 'app/actions/dialog-controller';
 import { getWorkarea } from 'app/constants/workarea-constants';
 import { Preset } from 'interfaces/ILayerConfig';
-import { postPresetChange } from 'helpers/layer/layer-config-helper';
+import { defaultConfig, postPresetChange } from 'helpers/layer/layer-config-helper';
 
 import Footer from './Footer';
 import LaserInputs from './LaserInputs';
@@ -221,7 +221,11 @@ const PresetsManagementPanel = ({ currentModule, initPreset, onClose }: Props): 
       });
       return;
     }
-    const newPreset = { name: name.trim(), isDefault: false, module: presetModule };
+    const newPreset: Preset = { name: name.trim(), isDefault: false, module: presetModule };
+    if (presetModule === LayerModule.PRINTER) {
+      newPreset.halftone = 1;
+      newPreset.speed = defaultConfig.printingSpeed;
+    }
     setEditingPresets([...editingPresets, newPreset]);
     setSelectedPreset(newPreset);
   };
