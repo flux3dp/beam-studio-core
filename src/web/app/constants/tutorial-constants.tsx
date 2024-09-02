@@ -247,6 +247,7 @@ const NEW_USER_TUTORIAL: ITutorial = {
       nextStepRequirement: nextStepRequirements.DRAW_A_CIRCLE,
     },
     {
+      id: 'switch-tab',
       dialogBoxStyles: {
         position: {
           right: 44,
