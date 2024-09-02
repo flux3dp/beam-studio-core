@@ -27,7 +27,7 @@ export const calculateTop = (top: number, ref: TopRef = TopRef.WINDOW): number =
     case TopRef.LAYER_LIST:
       return top + Constant.topBarHeight + Constant.layerListHeight;
     case TopRef.LAYER_PARAMS: {
-      const offset = document.querySelector('.layerparams').getBoundingClientRect().top;
+      const offset = document.querySelector('#layer-parameters')?.getBoundingClientRect().top || 0;
       return top + offset;
     }
     default:

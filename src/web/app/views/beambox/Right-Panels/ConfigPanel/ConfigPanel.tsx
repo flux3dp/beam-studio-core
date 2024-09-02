@@ -260,7 +260,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
             {sprintf(lang.preset_setting, displayName)}
           </div>
           <ModuleBlock />
-          <div className={styles.container}>
+          <div id='layer-parameters' className={styles.container}>
             <div>
               <ParameterTitle />
               <div className={styles['preset-dropdown-container']}>
