@@ -18,7 +18,7 @@ interface IControlSocket {
   lsusb(): Promise<unknown>;
   fileInfo(path: string, fileName: string): Promise<unknown[]>;
   report(): Promise<{ device_status: { st_id: number, st_label?: string } }>;
-  upload(data: unknown, path?: string, fileName?: string): Promise<void>;
+  upload(data: any, path?: string, fileName?: string): Promise<void>;
   abort(): Promise<unknown>;
   quit(): Promise<unknown>;
   start(): Promise<unknown>;

@@ -280,6 +280,7 @@ export class MonitorContextProvider extends React.Component<Props, State> {
   async processReport(report: IReport): Promise<void> {
     const { report: currentReport, mode } = this.state;
     const keys = Object.keys(report);
+    console.log('report', report, 'keys', keys);
     for (let i = 0; i < keys.length; i += 1) {
       const key = keys[i];
       if (
@@ -446,15 +447,17 @@ export class MonitorContextProvider extends React.Component<Props, State> {
   // eslint-disable-next-line class-methods-use-this
   async getWorkingTaskInfo(): Promise<any> {
     const res = await DeviceMaster.getPreviewInfo();
+    if (res == null) console.error('Error when getting working task info');
     return res;
   }
 
   // eslint-disable-next-line class-methods-use-this
   getTaskInfo(info: any[]): { imageBlob: Blob; taskTime: number } {
+    console.log("Loading task info", info);
     const imageBlob = getFirstBlobInArray(info);
     const taskTime =
       findKeyInObjectArray(info, 'TIME_COST') || findKeyInObjectArray(info, 'time_cost');
-
+    console.log("imageBlob", imageBlob, "taskTime", taskTime);
     return { imageBlob, taskTime };
   }
 
@@ -462,16 +465,18 @@ export class MonitorContextProvider extends React.Component<Props, State> {
     if (!task) {
       const taskInfo = await this.getWorkingTaskInfo();
       const { imageBlob, taskTime } = this.getTaskInfo(taskInfo);
-      let taskImageURL = null;
+      let {taskImageURL} = this.state;
       if (imageBlob) {
         taskImageURL = URL.createObjectURL(imageBlob);
       }
+      console.log("Entering working mode with task info", taskInfo);
       this.setState({
         mode: Mode.WORKING,
         taskImageURL,
         taskTime,
       });
     } else {
+      console.log("Entering working mode with existing task info");
       this.setState({
         mode: Mode.WORKING,
         taskImageURL: task.taskImageURL,

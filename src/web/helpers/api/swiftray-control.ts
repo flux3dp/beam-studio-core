@@ -296,29 +296,25 @@ class SwiftrayControl extends EventEmitter implements IControlSocket {
 
   report = async () => {
     console.warn('SwiftrayControl.report is not implemented well in swiftray');
-    return { device_status: { st_id: await this.sc.getDeviceStatus() } };
+    return { device_status: await this.sc.getDeviceStatus() };
   };
 
-  upload = (data, path?: string, fileName?: string) =>
-    new Promise<void>((resolve, reject) => {
-      const mimeTypes = {
-        fc: 'application/fcode',
-        jpg: 'image/jpeg',
-        png: 'image/png',
-        json: 'application/json',
-      };
-      if (data.size === 0) {
-        throw new Error('File is empty');
-      }
+  upload = async (data: any, path?: string, fileName?: string) : Promise<void> => {
+    console.log("SwiftrayControl.upload");
+    if (data.size === 0) {
+      throw new Error('File is empty');
+    }
 
-      if (path && fileName) {
-        // eslint-disable-next-line no-param-reassign
-        fileName = fileName.replace(/ /g, '_');
-        const ext = fileName.split('.').at(-1);
-        return this.sc.upload(data, `${path}/${fileName}`);
-      }
-      return this.sc.upload(data);
-    });
+    if (path && fileName) {
+      // eslint-disable-next-line no-param-reassign
+      fileName = fileName.replace(/ /g, '_');
+      const ext = fileName.split('.').at(-1);
+      await this.sc.upload(data, `${path}/${fileName}`);
+    } else {
+      await this.sc.upload(data);
+    }
+    console.log("SwiftrayControl.upload done");
+  };
 
   abort = () => this.sc.stopTask();
 
@@ -327,7 +323,10 @@ class SwiftrayControl extends EventEmitter implements IControlSocket {
     return this.sc.quitTask();
   }
 
-  start = async () => this.sc.startTask();
+  start = async () => {
+    console.log('SwiftrayControl.start');
+    return this.sc.startTask();
+  }
 
   pause = async () => this.sc.pauseTask();
 
@@ -349,7 +348,7 @@ class SwiftrayControl extends EventEmitter implements IControlSocket {
 
   getPreview = async () => {
     console.warn('SwiftrayControl.getPreview is not implemented well in swiftray');
-    return [null, await this.sc.getPreview()];
+    return [{}, await this.sc.getPreview()];
   };
 
   select = async (path, fileName: string) => {

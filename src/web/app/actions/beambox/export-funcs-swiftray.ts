@@ -231,7 +231,7 @@ const fetchTaskCodeSwiftray = async (
   const model = BeamboxPreference.read('workarea') || BeamboxPreference.read('model');
   const taskConfig = {
     model,
-    travelSpeed: model === 'promark' ? 1200 : 100,
+    travelSpeed: model === 'fpm1' ? 4000 : 100,
     enableAutoFocus:
       doesSupportDiodeAndAF &&
       BeamboxPreference.read('enable-autofocus') &&

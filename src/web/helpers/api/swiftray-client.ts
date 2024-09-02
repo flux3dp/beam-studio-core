@@ -295,8 +295,8 @@ class SwiftrayClient extends EventEmitter{
     return this.action(`/devices/${this.port}`, 'sendGCode', command);
   }
 
-  public async getDeviceStatus(): Promise<number> {
-    return ((await this.action(`/devices/${this.port}`, 'getStatus')) as any).st_id;
+  public async getDeviceStatus(): Promise<{ st_id: number, st_prog: number }> {
+    return await this.action(`/devices/${this.port}`, 'getStatus') as any;
   }
 
   public async home(): Promise<void> {
