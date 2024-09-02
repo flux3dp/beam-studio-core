@@ -141,9 +141,8 @@ const PrintingInputs = ({
             disabled={preset.isDefault}
             className={styles.select}
             onChange={(val) => handleChange('halftone', val)}
-            value={preset.halftone ?? 0}
+            value={preset.halftone ?? defaultConfig.halftone}
           >
-            {!preset.halftone && <Select.Option value={0}>-</Select.Option>}
             <Select.Option value={1}>FM</Select.Option>
             <Select.Option value={2}>AM</Select.Option>
           </Select>

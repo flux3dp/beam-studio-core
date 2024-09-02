@@ -314,7 +314,8 @@ export const printerConfigKeys: ConfigKey[] = [
   'repeat',
 ];
 
-export const forceKeys = ['speed', 'power', 'ink', 'multipass', 'repeat'];
+// Force Keys: If not set, use default value
+export const forceKeys = ['speed', 'power', 'ink', 'multipass', 'halftone', 'repeat'];
 
 export const applyPreset = (
   layer: Element,
