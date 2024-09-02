@@ -234,7 +234,7 @@ class LayerPanel extends React.PureComponent<Props, State> {
     const newSelectedLayers = [...selectedLayers];
     const isLayerSelected = newSelectedLayers.includes(layerName);
 
-    for (let i = startIndex; i !== endIndex; endIndex > startIndex ? i += 1 : i -= 1) {
+    for (let i = startIndex; i !== endIndex; endIndex > startIndex ? (i += 1) : (i -= 1)) {
       const index = newSelectedLayers.findIndex((name) => name === allLayers[i]);
       if (isLayerSelected && index >= 0) {
         newSelectedLayers.splice(index, 1);
@@ -251,12 +251,8 @@ class LayerPanel extends React.PureComponent<Props, State> {
 
   setLayerColor = (layerName: string, newColor: string): void => {
     const { selectedLayers, forceUpdateSelectedLayers } = this.context;
-    let cmd: IBatchCommand;
-    if (selectedLayers.includes(layerName)) {
-      cmd = changeLayersColor(selectedLayers, newColor);
-    } else {
-      cmd = changeLayersColor([layerName], newColor);
-    }
+    const targets = selectedLayers.includes(layerName) ? selectedLayers : [layerName];
+    const cmd = changeLayersColor(targets, newColor);
     if (cmd && !cmd.isEmpty()) svgCanvas.addCommandToHistory(cmd);
     forceUpdateSelectedLayers();
   };
@@ -349,8 +345,7 @@ class LayerPanel extends React.PureComponent<Props, State> {
   };
 
   onLayerTouchMove = (e: React.TouchEvent): void => {
-    const touch = Array.from(e.changedTouches)
-      .find((t) => t.identifier === this.currentTouchID);
+    const touch = Array.from(e.changedTouches).find((t) => t.identifier === this.currentTouchID);
     if (touch) {
       const { draggingLayer } = this.state;
       if (draggingLayer) {
@@ -386,8 +381,7 @@ class LayerPanel extends React.PureComponent<Props, State> {
   };
 
   onLayerTouchEnd = (e: React.TouchEvent): void => {
-    const touch = Array.from(e.changedTouches)
-      .find((t) => t.identifier === this.currentTouchID);
+    const touch = Array.from(e.changedTouches).find((t) => t.identifier === this.currentTouchID);
     if (touch) {
       if (this.startDragTimer) {
         clearTimeout(this.startDragTimer);
@@ -411,7 +405,8 @@ class LayerPanel extends React.PureComponent<Props, State> {
   };
 
   handleLayerClick = (e: React.MouseEvent, layerName: string): void => {
-    const isCtrlOrCmd = (window.os === 'MacOS' && e.metaKey) || (window.os !== 'MacOS' && e.ctrlKey);
+    const isCtrlOrCmd =
+      (window.os === 'MacOS' && e.metaKey) || (window.os !== 'MacOS' && e.ctrlKey);
     if (e.button === 0) {
       if (isCtrlOrCmd) {
         this.toggleLayerSelected(layerName);

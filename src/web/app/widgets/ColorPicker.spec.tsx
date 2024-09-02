@@ -39,7 +39,7 @@ describe('test ColorPicker', () => {
 
   it('should render correctly when is for printing colors', () => {
     const { baseElement } = render(
-      <ColorPicker allowClear initColor="#ff0000" triggerType="fill" printerColor onChange={mockOnChange} />
+      <ColorPicker allowClear initColor="#ff0000" triggerType="fill" forPrinter onChange={mockOnChange} />
     );
     expect(baseElement).toMatchSnapshot();
     fireEvent.click(baseElement.querySelector('.trigger'));

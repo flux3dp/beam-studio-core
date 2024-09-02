@@ -720,6 +720,14 @@ exports[`test ColorPicker should render correctly when is for printing colors 2`
                       style="background-color: rgb(29, 29, 27);"
                     />
                   </div>
+                  <div
+                    class="preset-block color printing"
+                  >
+                    <div
+                      class="inner"
+                      style="background-color: rgb(226, 226, 226);"
+                    />
+                  </div>
                 </div>
                 <div
                   class="footer"
