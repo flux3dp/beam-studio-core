@@ -20,7 +20,7 @@ import presprayArea from 'app/actions/canvas/prespray-area';
 import storage from 'implementations/storage';
 import Websocket from 'helpers/websocket';
 import rotaryAxis from 'app/actions/canvas/rotary-axis';
-import { getSupportInfo } from 'app/constants/add-on';
+import { CHUCK_ROTARY_DIAMETER, getSupportInfo, RotaryType } from 'app/constants/add-on';
 import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -99,12 +99,22 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
 
       const rotaryMode = BeamboxPreference.read('rotary_mode');
       if (rotaryMode && supportInfo.rotary) {
-        args.push('-spin');
         const rotaryPos = rotaryAxis.getPosition();
+        args.push('-spin');
         args.push(rotaryPos);
-        if (!BeamboxPreference.read('rotary-mirror') && model === 'ado1') {
+        let rotaryRatio = 1;
+        if (BeamboxPreference.read('rotary-type') === RotaryType.Chuck && supportInfo.rotary?.chuck) {
+          const objectDiameter = BeamboxPreference.read('rotary-chuck-obj-dia') || CHUCK_ROTARY_DIAMETER;
+          rotaryRatio = CHUCK_ROTARY_DIAMETER / objectDiameter;
+        }
+        if (supportInfo.rotary?.mirror) {
+          const mirror = !!BeamboxPreference.read('rotary-mirror');
+          const { defaultMirror } = supportInfo.rotary;
+          if (mirror !== defaultMirror) rotaryRatio *= -1;
+        }
+        if (rotaryRatio !== 1) {
           args.push('-rotary-y-ratio');
-          args.push(-1);
+          args.push(rotaryRatio);
         }
       }
 

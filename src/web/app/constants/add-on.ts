@@ -7,7 +7,7 @@ export enum RotaryType {
   Chuck = 2,
 }
 
-export const CHUCK_ROTARY_DIAMETER = 16;
+export const CHUCK_ROTARY_DIAMETER = 133;
 
 interface SupportInfo {
   autoFocus: boolean;
