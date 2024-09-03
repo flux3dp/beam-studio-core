@@ -3,52 +3,56 @@ import { WorkAreaModel } from 'app/constants/workarea-constants';
 
 export interface IBaseConfig {
   model: WorkAreaModel;
-  travelSpeed: number;
-  enableAutoFocus: boolean;
-  enableDiode: boolean;
-  shouldUseFastGradient: boolean;
-  shouldMockFastGradient: boolean;
-  vectorSpeedConstraint: boolean;
-  paddingAccel: number | null;
+  travelSpeed?: number;
+  enableAutoFocus?: boolean;
+  enableDiode?: boolean;
+  shouldUseFastGradient?: boolean;
+  shouldMockFastGradient?: boolean;
+  vectorSpeedConstraint?: boolean;
+  paddingAccel?: number | null;
+  codeType?: 'fcode' | 'gcode';
 }
 
-export interface IFcodeConfig {
-  model: WorkAreaModel;
-  hardware_name: string;
+export type TFcodeOptionalConfig = Partial<{
   acc: number;
-  spinning_axis_coord?: number;
-  rotary_y_ratio?: number;
-  prespray?: [number, number, number, number];
-  multipass_compensation?: boolean;
-  one_way_printing?: boolean;
-  blade_radius?: number;
-  precut_at?: [number, number];
-  enable_autofocus?: boolean;
-  z_offset?: number;
-  support_diode?: boolean;
-  diode_offset?: [number, number];
-  diode_one_way_engraving?: boolean;
-  clip?: [number, number, number, number]; // top right bottom left
-  support_fast_gradient?: boolean;
-  mock_fast_gradient?: boolean;
-  has_vector_speed_constraint?: boolean;
-  min_speed?: number;
-  is_reverse_engraving?: boolean;
-  custom_backlash?: boolean;
-  min_engraving_padding?: number;
-  min_printing_padding?: number;
-  nozzle_votage?: number;
-  nozzle_pulse_width?: number;
-  travel_speed: number;
-  path_travel_speed: number;
-  a_travel_speed?: number;
-  printing_top_padding?: number;
-  printing_bot_padding?: number;
-  module_offsets?: { [key: number]: [number, number] };
-  loop_compensation?: number;
-  curve_engraving?: {
+  gc: boolean; // output gcode
+  spin: number; // rotary position
+  rotary_y_ratio: number;
+  prespray: [number, number, number, number];
+  mpc: boolean; // multipass compensation
+  owp: boolean; // one way printing
+  blade: number; // blade radius
+  precut: [number, number]; // precut position
+  af: boolean;
+  z_offset: number;
+  diode: [number, number]; // diode offset
+  diode_owe: boolean; // diode one way engraving
+  mask: [number, number, number, number]; // top right bottom left
+  fg: boolean;
+  mfg: boolean; // mock fg
+  vsc: boolean; // with vector speed constraint
+  min_speed: number;
+  rev: boolean; // reverse engraving
+  cbl: boolean; // custom backlash
+  mep: number; // min engraving padding
+  mpp: number; // min printing padding
+  nv: number; // nozzle votage
+  npw: number; // nozzle pulse width
+  ts: number; // travel speed
+  pts: number; // path travel speed
+  ats: number; // a travel speed
+  ptp: number; // printing top padding
+  pbp: number; // printing bottom padding
+  mof: { [key: number]: [number, number] }; // manual offset
+  loop_compensation: number;
+  curve_engraving: {
     bbox: BBox;
     points: [number, number, number][];
     gap: [number, number];
   };
+}>;
+
+export interface IFcodeConfig extends TFcodeOptionalConfig {
+  model: WorkAreaModel;
+  hardware_name: 'hexa' | 'beambox' | 'pro' | 'beamo' | 'ado1' | 'fbb2';
 }

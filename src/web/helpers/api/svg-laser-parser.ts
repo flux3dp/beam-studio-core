@@ -21,7 +21,199 @@ import storage from 'implementations/storage';
 import Websocket from 'helpers/websocket';
 import rotaryAxis from 'app/actions/canvas/rotary-axis';
 import { getSupportInfo } from 'app/constants/add-on';
-import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
+import { getWorkarea } from 'app/constants/workarea-constants';
+import { IBaseConfig, IFcodeConfig } from 'interfaces/ITaskConfig';
+
+export const getExportOpt = (
+  opt: IBaseConfig,
+  args?: string[]
+): {
+  // without args, return config
+  config?: IFcodeConfig;
+  // with args, push data to original args array and return other data
+  loopCompensation?: number;
+  curveEngravingData?: string;
+} => {
+  const { model } = opt;
+  const config: IFcodeConfig = {
+    model,
+    hardware_name: 'beambox',
+  };
+
+  const isDevMode = isDev();
+  const paddingAccel = BeamboxPreference.read('padding_accel');
+  const useDevPaddingAcc = isDevMode && paddingAccel;
+  const { minSpeed: modelMinSpeed, rotary } = getWorkarea(model);
+  if (model === 'fhexa1') {
+    config.hardware_name = 'hexa';
+    if (!useDevPaddingAcc) config.acc = 7500;
+  } else if (model === 'fbb1p') config.hardware_name = 'pro';
+  else if (model === 'fbm1') config.hardware_name = 'beamo';
+  else if (model === 'ado1') {
+    config.hardware_name = 'ado1';
+    if (!useDevPaddingAcc) config.acc = opt.paddingAccel || 3200;
+  }
+  if (useDevPaddingAcc) config.acc = paddingAccel;
+
+  if (opt.codeType === 'gcode') config.gc = true;
+
+  const rotaryMode = BeamboxPreference.read('rotary_mode');
+  if (rotaryMode) {
+    config.spin = rotaryAxis.getPosition();
+    if (rotaryMode !== 1 && rotary.includes(rotaryMode)) {
+      config.rotary_y_ratio = Math.round(constant.rotaryYRatio[rotaryMode] * 10 ** 6) / 10 ** 6;
+    }
+  }
+
+  if (constant.adorModels.includes(model)) {
+    const { x, y, w, h } = presprayArea.getPosition(true);
+    const workareaWidth = getWorkarea(model).width;
+    config.prespray = rotaryMode ? [workareaWidth - 12, 45, 12, h] : [x, y, w, h];
+    if (!isDevMode || BeamboxPreference.read('multipass-compensation') !== false) config.mpc = true;
+    if (!isDevMode || BeamboxPreference.read('one-way-printing') !== false) config.owp = true;
+  }
+
+  if (
+    i18n.getActiveLang() === 'zh-cn' &&
+    BeamboxPreference.read('blade_radius') &&
+    BeamboxPreference.read('blade_radius') > 0
+  ) {
+    config.blade = BeamboxPreference.read('blade_radius');
+    if (BeamboxPreference.read('blade_precut')) {
+      config.precut = [
+        BeamboxPreference.read('precut_x') || 0,
+        BeamboxPreference.read('precut_y') || 0,
+      ];
+    }
+  }
+
+  if (opt.enableAutoFocus) {
+    config.af = true;
+    if (BeamboxPreference.read('af-offset')) config.z_offset = BeamboxPreference.read('af-offset');
+  }
+  if (opt.enableDiode) {
+    config.diode = [
+      BeamboxPreference.read('diode_offset_x') || 0,
+      BeamboxPreference.read('diode_offset_y') || 0,
+    ];
+    if (BeamboxPreference.read('diode-one-way-engraving') !== false) {
+      config.diode_owe = true;
+    }
+  }
+  const isBorderLess = BeamboxPreference.read('borderless') && getSupportInfo(model).openBottom;
+  if (BeamboxPreference.read('enable_mask') || isBorderLess) {
+    const clipRect: [number, number, number, number] = [0, 0, 0, 0]; // top right bottom left
+    if (isBorderLess) clipRect[1] = constant.borderless.safeDistance.X;
+    config.mask = clipRect;
+  }
+  if (opt.shouldUseFastGradient) config.fg = true;
+  if (opt.shouldMockFastGradient) config.mfg = true;
+  if (opt.vectorSpeedConstraint) config.vsc = true;
+  if (modelMinSpeed < 3) config.min_speed = modelMinSpeed;
+  else if (BeamboxPreference.read('enable-low-speed')) config.min_speed = 1;
+  if (BeamboxPreference.read('reverse-engraving')) config.rev = true;
+  if (BeamboxPreference.read('enable-custom-backlash')) config.cbl = true;
+  let printingTopPadding: number;
+  let printingBotPadding: number;
+  if (rotaryMode && constant.adorModels.includes(model)) {
+    printingTopPadding = 43;
+    printingBotPadding = 43;
+  }
+  if (isDevMode) {
+    let storageValue = localStorage.getItem('min_engraving_padding');
+    if (storageValue) {
+      config.mep = Number(storageValue);
+    }
+    storageValue = localStorage.getItem('min_printing_padding');
+    if (storageValue) {
+      config.mpp = Number(storageValue);
+    }
+    storageValue = localStorage.getItem('printing_top_padding');
+    if (storageValue && !Number.isNaN(Number(storageValue))) {
+      printingTopPadding = Number(storageValue);
+    }
+    storageValue = localStorage.getItem('printing_bot_padding');
+    if (storageValue && !Number.isNaN(Number(storageValue))) {
+      printingBotPadding = Number(storageValue);
+    }
+    storageValue = localStorage.getItem('nozzle_votage');
+    if (storageValue) {
+      config.nv = Number(storageValue);
+    }
+    storageValue = localStorage.getItem('nozzle_pulse_width');
+    if (storageValue) {
+      config.npw = Number(storageValue);
+    }
+    storageValue = localStorage.getItem('travel_speed');
+    if (storageValue && !Number.isNaN(Number(storageValue))) {
+      config.ts = Number(storageValue);
+    }
+    storageValue = localStorage.getItem('path_travel_speed');
+    if (storageValue && !Number.isNaN(Number(storageValue))) {
+      config.pts = Number(storageValue);
+    }
+    storageValue = localStorage.getItem('a_travel_speed');
+    if (storageValue && !Number.isNaN(Number(storageValue))) {
+      config.ats = Number(storageValue);
+    }
+  }
+  if (printingTopPadding !== undefined) {
+    config.ptp = printingTopPadding;
+  }
+  if (printingBotPadding !== undefined) {
+    config.pbp = printingBotPadding;
+  }
+  if (model === 'ado1') {
+    const offsets = { ...moduleOffsets, ...BeamboxPreference.read('module-offsets') };
+    config.mof = offsets;
+  }
+
+  const loopCompensation = Number(storage.get('loop_compensation') || '0');
+  if (loopCompensation > 0) config.loop_compensation = loopCompensation;
+
+  if (curveEngravingModeController.hasArea()) {
+    const data = {
+      bbox: curveEngravingModeController.data.bbox,
+      points: curveEngravingModeController.data.points.flat().filter((p) => p[2] !== null),
+      gap: curveEngravingModeController.data.gap,
+    };
+    config.curve_engraving = data;
+  }
+  if (args) {
+    Object.keys(config).forEach((key) => {
+      if (['model', 'loop_compensation', 'curve_engraving', 'z_offset'].includes(key)) {
+        // Skip special keys
+      } else if (key === 'hardware_name') {
+        args.push(`-${config[key]}`);
+      } else if (key === 'af' && 'z_offset' in config) {
+        // Handle optional -af value
+        args.push('-af', config.z_offset.toString());
+      } else {
+        const keyArg = `-${key.replaceAll('_', '-')}`;
+        if (config[key] === true) {
+          args.push(keyArg);
+        } else if (typeof config[key] === 'number') {
+          args.push(keyArg, config[key].toString());
+        } else if (Array.isArray(config[key])) {
+          args.push(keyArg, config[key].join());
+        } else if (typeof config[key] === 'object') {
+          args.push(keyArg, JSON.stringify(config[key]));
+        } else if (typeof config[key] === 'string') {
+          args.push(keyArg, config[key]);
+        }
+      }
+    });
+    let curveEngravingData: string | undefined;
+    if (config.curve_engraving) {
+      curveEngravingData = JSON.stringify(config.curve_engraving, (key, val) => {
+        if (typeof val === 'number') return Math.round(val * 1e3) / 1e3;
+        return val;
+      });
+    }
+    return { loopCompensation: config.loop_compensation, curveEngravingData };
+  }
+  return { config };
+};
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
@@ -79,170 +271,9 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
       let totalLength = 0;
       let blob;
 
-      const isDevMode = isDev();
-      const paddingAccel = BeamboxPreference.read('padding_accel');
-      // Not real acceleration, just for calculating padding distance
-      const { model }: { model: WorkAreaModel } = opts;
-      const { minSpeed: modelMinSpeed, rotary } = getWorkarea(model);
-      if (model === 'fhexa1') {
-        args.push('-hexa');
-        if (!isDevMode || !paddingAccel) args.push('-acc', '7500');
-      } else if (model === 'fbb1p') args.push('-pro');
-      else if (model === 'fbm1') args.push('-beamo');
-      else if (model === 'ado1') {
-        args.push('-ado1');
-        if (!isDevMode || !paddingAccel) args.push('-acc', opts.paddingAccel?.toString() || '3200');
-      }
-      if (isDevMode && paddingAccel) args.push('-acc', paddingAccel);
-      if (opts.codeType === 'gcode') args.push('-gc');
-
-      const rotaryMode = BeamboxPreference.read('rotary_mode');
-      if (rotaryMode) {
-        args.push('-spin');
-        const rotaryPos = rotaryAxis.getPosition();
-        args.push(rotaryPos);
-        if (rotaryMode !== 1 && rotary.includes(rotaryMode)) {
-          args.push('-rotary-y-ratio');
-          args.push(Math.round(constant.rotaryYRatio[rotaryMode] * 10 ** 6) / 10 ** 6);
-        }
-      }
-
-      if (constant.adorModels.includes(model)) {
-        const { x, y, w, h } = presprayArea.getPosition(true);
-        const workareaWidth = getWorkarea(model).width;
-        args.push('-prespray');
-        args.push(rotaryMode ? `${workareaWidth - 12},45,12,${h}` : `${x},${y},${w},${h}`);
-        if (!isDevMode || BeamboxPreference.read('multipass-compensation') !== false)
-          args.push('-mpc');
-        if (!isDevMode || BeamboxPreference.read('one-way-printing') !== false) args.push('-owp');
-      }
-
-      if (
-        i18n.getActiveLang() === 'zh-cn' &&
-        BeamboxPreference.read('blade_radius') &&
-        BeamboxPreference.read('blade_radius') > 0
-      ) {
-        args.push('-blade');
-        args.push(BeamboxPreference.read('blade_radius'));
-        if (BeamboxPreference.read('blade_precut')) {
-          args.push('-precut');
-          args.push(
-            `${BeamboxPreference.read('precut_x') || 0},${BeamboxPreference.read('precut_y') || 0}`
-          );
-        }
-      }
-
-      if (opts.enableAutoFocus) {
-        args.push('-af');
-        if (BeamboxPreference.read('af-offset')) args.push(BeamboxPreference.read('af-offset'));
-      }
-      if (opts.enableDiode) {
-        args.push('-diode');
-        args.push(
-          `${BeamboxPreference.read('diode_offset_x') || 0},${
-            BeamboxPreference.read('diode_offset_y') || 0
-          }`
-        );
-        if (BeamboxPreference.read('diode-one-way-engraving') !== false) {
-          args.push('-diode-owe');
-        }
-      }
-      const isBorderLess = BeamboxPreference.read('borderless') && getSupportInfo(model).openBottom;
-      if (BeamboxPreference.read('enable_mask') || isBorderLess) {
-        args.push('-mask');
-        const clipRect = [0, 0, 0, 0]; // top right bottom left
-        if (isBorderLess) clipRect[1] = constant.borderless.safeDistance.X;
-        args.push(clipRect.join(','));
-      }
-      if (opts.shouldUseFastGradient) args.push('-fg');
-      if (opts.shouldMockFastGradient) args.push('-mfg');
-      if (opts.vectorSpeedConstraint) args.push('-vsc');
-      if (modelMinSpeed < 3) args.push(`-min-speed ${modelMinSpeed}`);
-      else if (BeamboxPreference.read('enable-low-speed')) args.push('-min-speed 1');
-      if (BeamboxPreference.read('reverse-engraving')) args.push('-rev');
-      if (BeamboxPreference.read('enable-custom-backlash')) args.push('-cbl');
-      let printingTopPadding: number;
-      let printingBotPadding: number;
-      if (rotaryMode && constant.adorModels.includes(model)) {
-        printingTopPadding = 43;
-        printingBotPadding = 43;
-      }
-      if (isDevMode) {
-        let storageValue = localStorage.getItem('min_engraving_padding');
-        if (storageValue) {
-          args.push('-mep');
-          args.push(storageValue);
-        }
-        storageValue = localStorage.getItem('min_printing_padding');
-        if (storageValue) {
-          args.push('-mpp');
-          args.push(storageValue);
-        }
-        storageValue = localStorage.getItem('printing_top_padding');
-        if (storageValue && !Number.isNaN(Number(storageValue))) {
-          printingTopPadding = Number(storageValue);
-        }
-        storageValue = localStorage.getItem('printing_bot_padding');
-        if (storageValue && !Number.isNaN(Number(storageValue))) {
-          printingBotPadding = Number(storageValue);
-        }
-        storageValue = localStorage.getItem('nozzle_votage');
-        if (storageValue) {
-          args.push('-nv');
-          args.push(storageValue);
-        }
-        storageValue = localStorage.getItem('nozzle_pulse_width');
-        if (storageValue) {
-          args.push('-npw');
-          args.push(storageValue);
-        }
-        storageValue = localStorage.getItem('travel_speed');
-        if (storageValue && !Number.isNaN(Number(storageValue))) {
-          args.push('-ts');
-          args.push(Number(storageValue));
-        }
-        storageValue = localStorage.getItem('path_travel_speed');
-        if (storageValue && !Number.isNaN(Number(storageValue))) {
-          args.push('-pts');
-          args.push(Number(storageValue));
-        }
-        storageValue = localStorage.getItem('a_travel_speed');
-        if (storageValue && !Number.isNaN(Number(storageValue))) {
-          args.push('-ats');
-          args.push(Number(storageValue));
-        }
-      }
-      if (printingTopPadding !== undefined) {
-        args.push('-ptp');
-        args.push(printingTopPadding);
-      }
-      if (printingBotPadding !== undefined) {
-        args.push('-pbp');
-        args.push(printingBotPadding);
-      }
-      if (model === 'ado1') {
-        const offsets = { ...moduleOffsets, ...BeamboxPreference.read('module-offsets') };
-        args.push('-mof');
-        args.push(JSON.stringify(offsets));
-      }
-
-      const loopCompensation = Number(storage.get('loop_compensation') || '0');
-      if (loopCompensation > 0) await setParameter('loop_compensation', loopCompensation);
-
-      if (curveEngravingModeController.hasArea()) {
-        const data = {
-          bbox: curveEngravingModeController.data.bbox,
-          points: curveEngravingModeController.data.points.flat().filter((p) => p[2] !== null),
-          gap: curveEngravingModeController.data.gap,
-        };
-        const dataStr = JSON.stringify(data, (key, val) => {
-          if (typeof val === 'number') {
-            return Math.round(val * 1e3) / 1e3;
-          }
-          return val;
-        });
-        await setParameter('curve_engraving', dataStr);
-      }
+      const { loopCompensation, curveEngravingData } = getExportOpt(opts, args);
+      if (loopCompensation) await setParameter('loop_compensation', loopCompensation);
+      if (curveEngravingData) await setParameter('curve_engraving', curveEngravingData);
       events.onMessage = (data) => {
         if (data.status === 'computing') {
           opts.onProgressing(data);
