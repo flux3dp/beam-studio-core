@@ -841,8 +841,8 @@ class DeviceMaster {
 
   async rawSetRotary(on: boolean) {
     const controlSocket = await this.getControl();
-    if (constant.adorModels.includes(this.currentDevice.info.model)) {
-      return controlSocket.addTask(controlSocket.adorRawSetRotary, on);
+    if (constant.fcodeV2Models.has(this.currentDevice.info.model)) {
+      return controlSocket.addTask(controlSocket.rawSetRotaryV2, on);
     }
     return controlSocket.addTask(controlSocket.rawSetRotary, on);
   }
@@ -854,24 +854,24 @@ class DeviceMaster {
 
   async rawSetFan(on: boolean) {
     const controlSocket = await this.getControl();
-    if (constant.adorModels.includes(this.currentDevice.info.model)) {
-      return controlSocket.addTask(controlSocket.adorRawSetFan, on);
+    if (constant.fcodeV2Models.has(this.currentDevice.info.model)) {
+      return controlSocket.addTask(controlSocket.rawSetFanV2, on);
     }
     return controlSocket.addTask(controlSocket.rawSetFan, on);
   }
 
   async rawSetAirPump(on: boolean) {
     const controlSocket = await this.getControl();
-    if (constant.adorModels.includes(this.currentDevice.info.model)) {
-      return controlSocket.addTask(controlSocket.adorRawSetAirPump, on);
+    if (constant.fcodeV2Models.has(this.currentDevice.info.model)) {
+      return controlSocket.addTask(controlSocket.rawSetAirPumpV2, on);
     }
     return controlSocket.addTask(controlSocket.rawSetAirPump, on);
   }
 
   async rawLooseMotor() {
     const controlSocket = await this.getControl();
-    if (constant.adorModels.includes(this.currentDevice.info.model)) {
-      return controlSocket.addTask(controlSocket.adorRawLooseMotor);
+    if (constant.fcodeV2Models.has(this.currentDevice.info.model)) {
+      return controlSocket.addTask(controlSocket.rawLooseMotorV2);
     }
     const vc = VersionChecker(this.currentDevice.info.version);
     if (vc.meetRequirement('B34_LOOSE_MOTOR')) {
@@ -1090,7 +1090,7 @@ class DeviceMaster {
   async connectCamera(shouldCrop = true) {
     const { currentDevice } = this;
     if (currentDevice.cameraNeedsFlip === null) {
-      if (constant.adorModels.includes(currentDevice.info.model)) {
+      if (constant.fcodeV2Models.has(currentDevice.info.model)) {
         currentDevice.cameraNeedsFlip = false;
       } else if (currentDevice.control && currentDevice.control.getMode() === '') {
         await this.getDeviceSetting('camera_offset');

@@ -1153,7 +1153,7 @@ class Control extends EventEmitter {
     return this.useRawLineCheckCommand(command);
   };
 
-  adorRawSetAirPump = (on: boolean) => {
+  rawSetAirPumpV2 = (on: boolean) => {
     if (this.mode !== 'raw') {
       throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
     }
@@ -1171,7 +1171,7 @@ class Control extends EventEmitter {
     return this.useRawLineCheckCommand(command);
   };
 
-  adorRawSetFan = (on: boolean) => {
+  rawSetFanV2 = (on: boolean) => {
     if (this.mode !== 'raw') {
       throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
     }
@@ -1189,7 +1189,7 @@ class Control extends EventEmitter {
     return this.useRawLineCheckCommand(command);
   };
 
-  adorRawSetRotary = (on: boolean) => {
+  rawSetRotaryV2 = (on: boolean) => {
     if (this.mode !== 'raw') {
       throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
     }
@@ -1223,7 +1223,7 @@ class Control extends EventEmitter {
     return this.useRawLineCheckCommand(command);
   };
 
-  adorRawLooseMotor = () => {
+  rawLooseMotorV2 = () => {
     if (this.mode !== 'raw') {
       throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
     }
