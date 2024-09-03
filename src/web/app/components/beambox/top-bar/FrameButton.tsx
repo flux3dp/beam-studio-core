@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import { sprintf } from 'sprintf-js';
 
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
@@ -17,6 +17,7 @@ import versionChecker from 'helpers/version-checker';
 import workareaManager from 'app/svgedit/workarea';
 import { CanvasContext, CanvasMode } from 'app/contexts/CanvasContext';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { fetchFraming } from 'app/actions/beambox/export-funcs-swiftray';
 
 import styles from './FrameButton.module.scss';
 
@@ -30,6 +31,7 @@ const FrameButton = (): JSX.Element => {
   const lang = useI18n();
   const tAlerts = lang.topbar.alerts;
   const { mode } = useContext(CanvasContext);
+  const [isPromarkFraming, setIsPromarkFraming] = useState(false);
 
   const getCoords = useCallback(() => {
     const allBBox = svgCanvas.getVisibleElementsAndBBoxes();
@@ -67,6 +69,23 @@ const FrameButton = (): JSX.Element => {
     return coords;
   }, []);
 
+
+  const handlePromarkFraming = async () => {
+    if (isPromarkFraming) {
+      await deviceMaster.stopFraming();
+      setIsPromarkFraming(false);
+    } else {
+      const { device } = await getDevice();
+      const deviceStatus = await checkDeviceStatus(device);
+      if (!deviceStatus) return;
+      setIsPromarkFraming(true);
+      console.log('start framing upload');
+      await fetchFraming();
+      console.log('start framing');
+      await deviceMaster.startFraming();
+    }
+  };
+
   const handleClick = async () => {
     const coords = getCoords();
     // Only check minX because it's enough to know if there is any element
@@ -82,6 +101,13 @@ const FrameButton = (): JSX.Element => {
 
     const { device } = await getDevice();
     if (!device) return;
+    // Go to Promark logic
+    if (constant.promarkModels.includes(device.model)) {
+      await handlePromarkFraming();
+      return;
+    }
+
+    // Retain the original behavior
     const deviceStatus = await checkDeviceStatus(device);
     if (!deviceStatus) return;
 
@@ -183,6 +209,7 @@ const FrameButton = (): JSX.Element => {
     <div
       className={classNames(styles.button, { [styles.disabled]: mode !== CanvasMode.Draw })}
       onClick={handleClick}
+      style={{ opacity: isPromarkFraming ? 0.5 : 1 }}
       title={lang.topbar.frame_task}
     >
       <TopBarIcons.Frame />

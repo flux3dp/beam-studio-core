@@ -351,6 +351,16 @@ class SwiftrayControl extends EventEmitter implements IControlSocket {
     return [{}, await this.sc.getPreview()];
   };
 
+  startFraming = async () => {
+    console.log('SwiftrayControl.startFraming');
+    return this.sc.startFraming();
+  };
+
+  stopFraming = async () => {
+    console.log('SwiftrayControl.stopFraming');
+    return this.sc.stopFraming();
+  };
+
   select = async (path, fileName: string) => {
     console.error('SwiftrayControl.select is not implemented in swiftray');
     return { status: 'OK' };

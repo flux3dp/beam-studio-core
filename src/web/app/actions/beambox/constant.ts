@@ -56,6 +56,7 @@ export default {
     flv1: ['flv1'],
   },
   adorModels: ['ado1', 'fad1'],
+  promarkModels: ['fpm1'],
   highPowerModels: ['fhx1', 'ado1', 'flv1', 'fpm1'],
   leftPanelWidth: 50, // px
   rightPanelWidth: window.os !== 'MacOS' ? 258 : 242, // px

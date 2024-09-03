@@ -582,6 +582,16 @@ class DeviceMaster {
     return controlSocket.addTask(controlSocket.kick);
   }
 
+  async startFraming() {
+    const controlSocket = await this.getControl() as SwiftrayControl;
+    return controlSocket.addTask(controlSocket.startFraming);
+  }
+
+  async stopFraming() {
+    const controlSocket = await this.getControl() as SwiftrayControl;
+    return controlSocket.addTask(controlSocket.stopFraming);
+  }
+
   // Calibration and Machine test functions
   async waitTillCompleted(onProgress?: (number) => void) {
     return new Promise((resolve, reject) => {

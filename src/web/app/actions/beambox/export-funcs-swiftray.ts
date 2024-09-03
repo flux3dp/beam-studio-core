@@ -28,6 +28,12 @@ getSVGAsync((globalSVG) => {
 });
 
 const { lang } = i18n;
+const dpiTextMap = {
+  low: 127,
+  medium: 254,
+  high: 508,
+  ultra: 1016,
+};
 
 const generateUploadFile = async (thumbnail: Blob, thumbnailUrl: string): Promise<IWrappedSwiftrayTaskFile> => {
   Progress.openNonstopProgress({
@@ -78,12 +84,6 @@ const uploadToParser = async (uploadFile: IWrappedSwiftrayTaskFile): Promise<boo
       isCanceled = true;
     },
   });
-  const dpiTextMap = {
-    low: 127,
-    medium: 254,
-    high: 508,
-    ultra: 1016,
-  };
   const uploadConfig = {
     model: BeamboxPreference.read('workarea') || BeamboxPreference.read('model'),
     rotaryMode: BeamboxPreference.read('rotary_mode'),
@@ -280,12 +280,64 @@ const fetchTaskCodeSwiftray = async (
   };
 };
 
+// Send svg string and calculate the frame
+const fetchFraming = async (): Promise<boolean> => {
+  svgCanvas.removeUnusedDefs();
+  SymbolMaker.switchImageSymbolForAll(false);
+  Progress.openNonstopProgress({
+    id: 'upload-scene',
+    caption: i18n.lang.beambox.popup.progress.calculating,
+    message: lang.beambox.bottom_right_panel.convert_text_to_path_before_export,
+  });
+  // Convert text to path
+  const res = await FontFuncs.tempConvertTextToPathAmoungSvgcontent();
+  if (!res) {
+    Progress.popById('upload-scene');
+    SymbolMaker.switchImageSymbolForAll(true);
+    return false;
+  };
+
+  const svgString = svgCanvas.getSvgString();
+  const uploadConfig = {
+    model: BeamboxPreference.read('workarea') || BeamboxPreference.read('model'),
+    rotaryMode: BeamboxPreference.read('rotary_mode'),
+    engraveDpi: dpiTextMap[BeamboxPreference.read('engrave_dpi')]
+  };
+  await FontFuncs.revertTempConvert();
+
+  const loadResult = await swiftrayClient.loadSVG({
+    data: svgString,
+    name: 'svgeditor.svg',
+    uploadName: 'framing.svg',
+    extension: 'svg',
+    thumbnail: '',
+  }, {
+    onProgressing: onUploadProgressing,
+    onFinished: onUploadFinished,
+    onError: (message: string) => {
+      Progress.popById('upload-scene');
+      Alert.popUp({
+        id: 'get-taskcode-error',
+        message: `#806 ${message}\n${lang.beambox.bottom_right_panel.export_file_error_ask_for_upload}`,
+        type: AlertConstants.SHOW_POPUP_ERROR,
+        buttonType: AlertConstants.YES_NO,
+        onYes: () => {
+          AwsHelper.uploadToS3('output.bvg', svgString);
+        },
+      });
+    },
+  }, uploadConfig);
+  Progress.popById('upload-scene');
+  return loadResult.success;
+};
+
 // Send svg string calculate taskcode, output Fcode in default
 const fetchTransferredFcodeSwiftray = async (gcodeString: string, thumbnail: string) => {
   console.warn('fetchTransferredFcode is not yet implement4ed, use fetchTaskCodeSwiftray instead');
 };
 
 export {
+  fetchFraming,
   fetchTaskCodeSwiftray,
   fetchTransferredFcodeSwiftray,
 };

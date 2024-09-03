@@ -283,6 +283,14 @@ class SwiftrayClient extends EventEmitter{
     return this.action(`/devices/${this.port}`, 'getPreview');
   }
 
+  public async startFraming(): Promise<void> {
+    return this.action(`/devices/${this.port}`, 'startFraming');
+  }
+
+  public async stopFraming(): Promise<void> {
+    return this.action(`/devices/${this.port}`, 'stopFraming');
+  }
+
   public async kick(): Promise<void> {
     return this.action(`/devices/${this.port}`, 'kick');
   }

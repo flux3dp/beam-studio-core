@@ -12,10 +12,10 @@ interface IWrappedTaskFile {
 
 interface IWrappedSwiftrayTaskFile {
   data: string;
-  name: string;
-  uploadName: string;
-  extension: string;
-  thumbnail: string;
+  name: string; // currently unused
+  uploadName: string; // currently unused
+  extension: string; // currently unused
+  thumbnail: string; // currently unused
 }
 
 export {
