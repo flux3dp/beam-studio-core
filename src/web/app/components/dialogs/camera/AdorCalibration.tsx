@@ -8,15 +8,12 @@ import isDev from 'helpers/is-dev';
 import progressCaller from 'app/actions/progress-caller';
 import useI18n from 'helpers/useI18n';
 import {
-  addFisheyeCalibrateImg,
-  calculateRegressionParam,
-  doFishEyeCalibration,
-  startFisheyeCalibrate,
-} from 'helpers/camera-calibration-helper';
-import { FisheyeCameraParameters } from 'interfaces/FisheyePreview';
+  FisheyeCameraParameters,
+  FisheyeCameraParametersV1,
+  FisheyeCameraParametersV2,
+} from 'interfaces/FisheyePreview';
 
 import Align from './AdorCalibration/Align';
-import Calibrate from './AdorCalibration/Calibrate';
 import CalibrationType from './AdorCalibration/calibrationTypes';
 import Instruction from './common/Instruction';
 
@@ -25,10 +22,9 @@ const DIALOG_ID = 'fish-eye-calibration';
 
 enum Step {
   WAITING = 0,
-  CALIBRATE = 1,
-  PUT_PAPER = 2,
-  FOCUS_AND_CUT = 3,
-  ALIGN = 4,
+  PUT_PAPER = 1,
+  FOCUS_AND_CUT = 2,
+  ALIGN = 3,
 }
 
 interface Props {
@@ -59,34 +55,16 @@ const AdorCalibration = ({ type = CalibrationType.CAMERA, onClose }: Props): JSX
       // do nothing
     }
     if (!fisheyeParameters) {
-      if (type === CalibrationType.CAMERA) {
-        setStep(Step.CALIBRATE);
-        return;
-      }
       alertCaller.popUp({ message: lang.calibrate_camera_before_calibrate_modules });
       onClose(false);
       return;
     }
     if (type === CalibrationType.CAMERA && isDevMode) {
-      if (!('v' in fisheyeParameters)) {
-        alertCaller.popUp({
-          message: 'V2 calibration detected, please use v2 to calibrate camera.',
-        });
-        onClose(false);
-        return;
-      }
-      const res = await new Promise<boolean>((resolve) => {
-        alertCaller.popUp({
-          message: 'Skip Caculating?',
-          buttonType: alertConstants.YES_NO,
-          onYes: () => resolve(true),
-          onNo: () => resolve(false),
-        });
+      alertCaller.popUp({
+        message: 'V1 calibration detected, please use v2 to calibrate camera.',
       });
-      if (!res) {
-        setStep(Step.CALIBRATE);
-        return;
-      }
+      onClose(false);
+      return;
     }
     param.current = { ...fisheyeParameters };
     if (calibrated[type].has(currentDeviceId)) {
@@ -112,64 +90,6 @@ const AdorCalibration = ({ type = CalibrationType.CAMERA, onClose }: Props): JSX
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // TODO: can be moved out of this component
-  const handleMultiHeightCalibrateNext = async (imgs: { height: number; blob: Blob }[]) => {
-    try {
-      progressCaller.openSteppingProgress({
-        id: PROGRESS_ID,
-        message: lang.uploading_images,
-        percentage: 0,
-      });
-      await startFisheyeCalibrate();
-      for (let i = 0; i < imgs.length; i += 1) {
-        const { height, blob } = imgs[i];
-        // eslint-disable-next-line no-await-in-loop
-        await addFisheyeCalibrateImg(height, blob);
-        progressCaller.update(PROGRESS_ID, {
-          message: lang.uploading_images,
-          percentage: Math.round(100 * ((i + 1) / imgs.length)),
-        });
-      }
-      progressCaller.popById(PROGRESS_ID);
-      progressCaller.openSteppingProgress({
-        id: PROGRESS_ID,
-        message: lang.calculating_camera_matrix,
-      });
-      const { k, d } = await doFishEyeCalibration((val) => {
-        progressCaller.update(PROGRESS_ID, {
-          message: lang.calculating_camera_matrix,
-          percentage: Math.round(100 * val),
-        });
-      });
-      progressCaller.popById(PROGRESS_ID);
-      progressCaller.openSteppingProgress({
-        id: PROGRESS_ID,
-        message: lang.calculating_regression_parameters,
-      });
-      const { data, errors } = await calculateRegressionParam((val) => {
-        progressCaller.update(PROGRESS_ID, {
-          message: lang.calculating_regression_parameters,
-          percentage: Math.round(100 * val),
-        });
-      });
-      param.current = { ...param.current, k, d, z3regParam: data };
-      setStep(Step.PUT_PAPER);
-      if (errors.length > 0) {
-        console.log(errors);
-        if (isDevMode) {
-          const errorHeights = errors.map((e) => e.height).join(', ');
-          alertCaller.popUp({
-            message: `Unable to find perspective points for heights: ${errorHeights}`,
-          });
-        }
-      }
-    } catch (e) {
-      alertCaller.popUp({ message: `${lang.failed_to_calibrate_camera}: ${e}` });
-    } finally {
-      progressCaller.popById(PROGRESS_ID);
-    }
-  };
-
   const title = useMemo(() => {
     if (type === CalibrationType.PRINTER_HEAD) return lang.module_calibration_printer;
     if (type === CalibrationType.IR_LASER) return lang.module_calibration_2w_ir;
@@ -177,14 +97,12 @@ const AdorCalibration = ({ type = CalibrationType.CAMERA, onClose }: Props): JSX
   }, [type, lang]);
 
   switch (step) {
-    case Step.CALIBRATE:
-      return <Calibrate onClose={onClose} onNext={handleMultiHeightCalibrateNext} />;
     case Step.ALIGN:
       return (
         <Align
           title={title}
           type={type}
-          fisheyeParam={param.current}
+          fisheyeParam={param.current as FisheyeCameraParametersV1 | FisheyeCameraParametersV2}
           onBack={() => setStep(Step.FOCUS_AND_CUT)}
           onClose={onClose}
         />
