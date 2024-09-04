@@ -92,11 +92,7 @@ class PreviewModeBackgroundDrawer {
     imgUrl: string,
     x: number,
     y: number,
-    opts: {
-      last?: boolean;
-      callback?: () => void;
-      overlapRatio?: number;
-    } = {}
+    opts: { callback?: () => void; overlapRatio?: number } = {}
   ) {
     const p = this.prepareCroppedAndRotatedImgBlob(imgUrl, x, y, opts);
     this.backgroundDrawerSubject.next(p);
@@ -311,13 +307,9 @@ class PreviewModeBackgroundDrawer {
     imgUrl,
     x,
     y,
-    opts: {
-      last?: boolean;
-      callback?: () => void;
-      overlapRatio?: number;
-    } = {}
+    opts: { callback?: () => void; overlapRatio?: number } = {}
   ) {
-    const { last = false, callback = () => {}, overlapRatio = 0 } = opts;
+    const { callback, overlapRatio = 0 } = opts;
     const img = new Image();
     img.src = imgUrl;
 
@@ -353,10 +345,16 @@ class PreviewModeBackgroundDrawer {
           scaledContext.drawImage(imgCanvas, 0, 0, width * canvasRatio, height * canvasRatio);
           imgCanvas = scaledCanvas;
         }
-        const imgData = imgCanvas.getContext('2d', { willReadFrequently: true })
-        .getImageData(0, 0, width * canvasRatio, height * canvasRatio);
+        const imgData = imgCanvas
+          .getContext('2d', { willReadFrequently: true })
+          .getImageData(0, 0, width * canvasRatio, height * canvasRatio);
         const mainContext = this.canvas.getContext('2d', { willReadFrequently: true });
-        const mainImageData = mainContext.getImageData(minX, minY, width * canvasRatio, height * canvasRatio);
+        const mainImageData = mainContext.getImageData(
+          minX,
+          minY,
+          width * canvasRatio,
+          height * canvasRatio
+        );
         for (let i = 0; i < mainImageData.data.length; i += 4) {
           const imgA = imgData.data[i + 3];
           const mainA = Math.min(mainImageData.data[i + 3], 255 - imgA);
@@ -364,14 +362,16 @@ class PreviewModeBackgroundDrawer {
           mainImageData.data[i + 3] = newA;
           if (newA > 0) {
             mainImageData.data[i] = (imgData.data[i] * imgA + mainImageData.data[i] * mainA) / newA;
-            mainImageData.data[i + 1] = (imgData.data[i + 1] * imgA + mainImageData.data[i + 1] * mainA) / newA;
-            mainImageData.data[i + 2] = (imgData.data[i + 2] * imgA + mainImageData.data[i + 2] * mainA) / newA;
+            mainImageData.data[i + 1] =
+              (imgData.data[i + 1] * imgA + mainImageData.data[i + 1] * mainA) / newA;
+            mainImageData.data[i + 2] =
+              (imgData.data[i + 2] * imgA + mainImageData.data[i + 2] * mainA) / newA;
           }
         }
         mainContext.putImageData(mainImageData, minX, minY);
         this.canvas.toBlob((blob) => {
           resolve(blob);
-          if (last) setTimeout(callback, 1000);
+          if (callback) setTimeout(() => callback, 1000);
         });
       };
     });

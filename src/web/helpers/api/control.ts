@@ -1144,6 +1144,15 @@ class Control extends EventEmitter {
     return this.useRawLineCheckCommand(command);
   };
 
+  rawSetWaterPumpV2 = (on: boolean) => {
+    if (this.mode !== 'raw') {
+      throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
+    }
+    const command = on ? 'M136P1' : 'M136P2';
+    if (!this._isLineCheckMode) return this.useWaitAnyResponse(command);
+    return this.useRawLineCheckCommand(command);
+  };
+
   rawSetAirPump = (on: boolean) => {
     if (this.mode !== 'raw') {
       throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);

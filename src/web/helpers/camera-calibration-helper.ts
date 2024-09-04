@@ -6,7 +6,6 @@ import VersionChecker from 'helpers/version-checker';
 import { CameraConfig } from 'interfaces/Camera';
 import {
   CALIBRATION_PARAMS,
-  CameraConfig,
   DEFAULT_CAMERA_OFFSET,
 } from 'app/constants/camera-calibration-constants';
 import { FisheyeCameraParameters, FisheyeCameraParametersV2Cali } from 'interfaces/FisheyePreview';

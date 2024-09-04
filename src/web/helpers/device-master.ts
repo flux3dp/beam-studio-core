@@ -849,6 +849,9 @@ class DeviceMaster {
 
   async rawSetWaterPump(on: boolean) {
     const controlSocket = await this.getControl();
+    if (constant.fcodeV2Models.has(this.currentDevice.info.model)) {
+      return controlSocket.addTask(controlSocket.rawSetWaterPumpV2, on);
+    }
     return controlSocket.addTask(controlSocket.rawSetWaterPump, on);
   }
 
