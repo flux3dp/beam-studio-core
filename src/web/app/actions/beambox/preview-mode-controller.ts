@@ -8,12 +8,11 @@ import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import checkDeviceStatus from 'helpers/check-device-status';
 import checkOldFirmware from 'helpers/device/checkOldFirmware';
 import Constant from 'app/actions/beambox/constant';
-import dialogCaller from 'app/actions/dialog-caller';
 import deviceMaster from 'helpers/device-master';
 import ErrorConstants from 'app/constants/error-constants';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
-import FisheyePreviewManagerV1 from 'app/actions/beambox/fisheye-preview-helpers/FisheyePreviewManagerV1';
-import FisheyePreviewManagerV2 from 'app/actions/beambox/fisheye-preview-helpers/FisheyePreviewManagerV2';
+import FisheyePreviewManagerV1 from 'app/actions/camera/preview-helper/FisheyePreviewManagerV1';
+import FisheyePreviewManagerV2 from 'app/actions/camera/preview-helper/FisheyePreviewManagerV2';
 import i18n from 'helpers/i18n';
 import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
 import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
@@ -22,7 +21,6 @@ import VersionChecker from 'helpers/version-checker';
 import { CameraConfig, CameraParameters } from 'app/constants/camera-calibration-constants';
 import {
   FisheyeCameraParameters,
-  FisheyeCameraParametersV1,
   FisheyePreviewManager,
   RotationParameters3DCalibration,
 } from 'interfaces/FisheyePreview';

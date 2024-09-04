@@ -4,7 +4,7 @@ import alertCaller from 'app/actions/alert-caller';
 import checkDeviceStatus from 'helpers/check-device-status';
 import deviceMaster from 'helpers/device-master';
 import dialogCaller from 'app/actions/dialog-caller';
-import getLevelingData from 'app/actions/beambox/fisheye-preview-helpers/getLevelingData';
+import getLevelingData from 'app/actions/camera/preview-helper/getLevelingData';
 import progressCaller from 'app/actions/progress-caller';
 import useI18n from 'helpers/useI18n';
 import {

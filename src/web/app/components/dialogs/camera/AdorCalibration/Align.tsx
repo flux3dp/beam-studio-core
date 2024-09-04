@@ -17,11 +17,11 @@ import alertCaller from 'app/actions/alert-caller';
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import defaultModuleOffset from 'app/constants/layer-module/module-offsets';
 import deviceMaster from 'helpers/device-master';
-import FisheyePreviewManagerV2 from 'app/actions/beambox/fisheye-preview-helpers/FisheyePreviewManagerV2';
+import FisheyePreviewManagerV2 from 'app/actions/camera/preview-helper/FisheyePreviewManagerV2';
 import LayerModule from 'app/constants/layer-module/layer-modules';
 import progressCaller from 'app/actions/progress-caller';
 import useI18n from 'helpers/useI18n';
-import { FisheyeCameraParameters } from 'interfaces/FisheyePreview';
+import { FisheyeCameraParametersV1, FisheyeCameraParametersV2 } from 'interfaces/FisheyePreview';
 import { setFisheyeConfig } from 'helpers/camera-calibration-helper';
 import { WorkAreaModel, getWorkarea } from 'app/constants/workarea-constants';
 
@@ -31,7 +31,7 @@ import styles from './Align.module.scss';
 
 interface Props {
   title: string;
-  fisheyeParam: FisheyeCameraParameters;
+  fisheyeParam: FisheyeCameraParametersV1 | FisheyeCameraParametersV2;
   type: CalibrationType;
   onClose: (complete: boolean) => void;
   onBack: () => void;
@@ -224,7 +224,7 @@ const Align = ({ title, fisheyeParam, type, onClose, onBack }: Props): JSX.Eleme
     if (type === CalibrationType.CAMERA) {
       const cx = Math.round(x + imgContainerRef.current.clientWidth / 2);
       const cy = Math.round(y + imgContainerRef.current.clientHeight / 2);
-      const newParam = { ...fisheyeParam, center: [cx, cy] } as FisheyeCameraParameters;
+      const newParam = { ...fisheyeParam, center: [cx, cy] } as FisheyeCameraParametersV1;
       try {
         setFisheyeConfig(newParam);
       } catch (err) {
