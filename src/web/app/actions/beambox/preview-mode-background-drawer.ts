@@ -8,6 +8,7 @@ import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import i18n from 'helpers/i18n';
 import NS from 'app/constants/namespaces';
 import workareaManager from 'app/svgedit/workarea';
+import { CameraParameters } from 'interfaces/Camera';
 import { getSupportInfo } from 'app/constants/add-on';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
@@ -31,7 +32,7 @@ class PreviewModeBackgroundDrawer {
 
   coordinates: { maxX: number; maxY: number; minX: number; minY: number };
 
-  cameraOffset: any;
+  cameraOffset: CameraParameters;
 
   backgroundDrawerSubject: Subject<any>;
 
@@ -60,7 +61,7 @@ class PreviewModeBackgroundDrawer {
     }
   }
 
-  start(cameraOffset) {
+  start(cameraOffset?: CameraParameters) {
     const { width, height, expansion } = workareaManager;
     const canvasHeight = height - expansion[1];
     this.updateRatio(width, height);
@@ -68,7 +69,7 @@ class PreviewModeBackgroundDrawer {
     this.canvas.height = Math.round(canvasHeight * this.canvasRatio);
 
     // { x, y, angle, scaleRatioX, scaleRatioY }
-    this.cameraOffset = cameraOffset;
+    if (cameraOffset) this.cameraOffset = cameraOffset;
 
     this.backgroundDrawerSubject = new Subject();
     this.backgroundDrawerSubject
@@ -378,7 +379,7 @@ class PreviewModeBackgroundDrawer {
 
   cropAndRotateImg(imageObj: HTMLImageElement, opts: { overlapRatio?: number } = {}) {
     const { overlapRatio = 0 } = opts;
-    const { angle, scaleRatioX, scaleRatioY } = this.cameraOffset;
+    const { angle, scaleRatioX, scaleRatioY } = this.cameraOffset ?? {};
 
     const cvs = document.createElement('canvas');
     const ctx = cvs.getContext('2d');

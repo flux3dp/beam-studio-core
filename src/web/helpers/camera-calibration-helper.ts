@@ -3,6 +3,7 @@ import CameraCalibrationApi from 'helpers/api/camera-calibration';
 import deviceMaster from 'helpers/device-master';
 import i18n from 'helpers/i18n';
 import VersionChecker from 'helpers/version-checker';
+import { CameraConfig } from 'interfaces/Camera';
 import {
   CALIBRATION_PARAMS,
   CameraConfig,
