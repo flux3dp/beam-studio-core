@@ -1642,6 +1642,8 @@ const lang: ILang = {
     camera_parameter_saved_successfully: 'Parametri della fotocamera salvati con successo.',
     failed_to_save_camera_parameter: 'Impossibile salvare i parametri della fotocamera.',
     failed_to_solve_pnp: 'Impossibile risolvere la posizione della fotocamera.',
+    put_chessboard_1: 'Posiziona la carta a scacchiera sotto la testa del laser.',
+    put_chessboard_2: "Utilizza l'anteprima dal vivo della fotocamera qui sotto per assicurarti che la carta a scacchiera sia allineata con il bordo rosso.",
   },
   input_machine_password: {
     require_password: '"%s" richiede una password',

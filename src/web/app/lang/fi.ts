@@ -1642,6 +1642,8 @@ const lang: ILang = {
     camera_parameter_saved_successfully: 'Kameran parametrit tallennettu onnistuneesti.',
     failed_to_save_camera_parameter: 'Kameran parametrien tallennus epäonnistui.',
     failed_to_solve_pnp: 'Kameran sijaintia ei voitu ratkaista.',
+    put_chessboard_1: 'Aseta shakkilautapaperi laserpään alle.',
+    put_chessboard_2: 'Käytä alla olevaa kameran esikatselua varmistaaksesi, että shakkilautapaperi on linjassa punaisen kehyksen kanssa.',
   },
   input_machine_password: {
     require_password: '"%s" vaatii salasanan',

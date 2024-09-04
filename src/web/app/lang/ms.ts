@@ -1642,6 +1642,8 @@ const lang: ILang = {
     camera_parameter_saved_successfully: 'Parameter kamera berjaya disimpan.',
     failed_to_save_camera_parameter: 'Gagal menyimpan parameter kamera.',
     failed_to_solve_pnp: 'Gagal menyelesaikan kedudukan kamera.',
+    put_chessboard_1: 'Letakkan kertas papan dam di bawah kepala laser.',
+    put_chessboard_2: 'Gunakan pratonton langsung kamera di bawah untuk memastikan kertas papan dam selari dengan bingkai merah.',
   },
   input_machine_password: {
     require_password: '"%s" memerlukan kata laluan',

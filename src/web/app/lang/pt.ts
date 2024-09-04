@@ -1642,6 +1642,8 @@ const lang: ILang = {
     camera_parameter_saved_successfully: 'Parâmetros da câmera salvos com sucesso.',
     failed_to_save_camera_parameter: 'Falha ao salvar os parâmetros da câmera.',
     failed_to_solve_pnp: 'Falha ao resolver a posição da câmera.',
+    put_chessboard_1: 'Coloque o papel de tabuleiro de xadrez sob a cabeça do laser.',
+    put_chessboard_2: 'Use a visualização ao vivo da câmera abaixo para garantir que o papel de tabuleiro de xadrez esteja alinhado com a moldura vermelha.',
   },
   input_machine_password: {
     require_password: '"%s" requer uma senha',

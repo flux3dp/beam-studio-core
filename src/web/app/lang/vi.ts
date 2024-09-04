@@ -1642,6 +1642,8 @@ const lang: ILang = {
     camera_parameter_saved_successfully: 'Thông số máy ảnh đã được lưu thành công.',
     failed_to_save_camera_parameter: 'Lưu thông số máy ảnh không thành công.',
     failed_to_solve_pnp: 'Không thể giải quyết vị trí của camera.',
+    put_chessboard_1: 'Đặt giấy bàn cờ dưới đầu laser.',
+    put_chessboard_2: 'Sử dụng xem trước trực tiếp của camera bên dưới để đảm bảo rằng giấy bàn cờ thẳng hàng với khung đỏ.',
   },
   input_machine_password: {
     require_password: '"%s" yêu cầu mật khẩu',

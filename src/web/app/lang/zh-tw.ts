@@ -1645,6 +1645,8 @@ const lang: ILang = {
     camera_parameter_saved_successfully: '相機參數保存成功。',
     failed_to_save_camera_parameter: '保存相機參數失敗。',
     failed_to_solve_pnp: '無法解出相機位置。',
+    put_chessboard_1: '請將棋盤紙張放置在雷射頭下方。',
+    put_chessboard_2: '使用下方的相機動態預覽，確認棋盤紙張是否對齊紅色方框。',
   },
   input_machine_password: {
     require_password: '"%s" 需要密碼',

@@ -1642,6 +1642,8 @@ const lang: ILang = {
     camera_parameter_saved_successfully: 'Kameraparametrene er lagret.',
     failed_to_save_camera_parameter: 'Feilet i å lagre kameraparametre.',
     failed_to_solve_pnp: 'Klarte ikke å løse kameraposisjonen.',
+    put_chessboard_1: 'Plasser sjakkbrettpapiret under laserhodet.',
+    put_chessboard_2: 'Bruk kameraets direktesendt forhåndsvisning nedenfor for å sikre at sjakkbrettpapiret er justert med den røde rammen.',
   },
   input_machine_password: {
     require_password: '"%s" krever passord',

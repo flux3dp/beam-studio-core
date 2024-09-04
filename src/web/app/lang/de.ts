@@ -1645,6 +1645,8 @@ const lang: ILang = {
     camera_parameter_saved_successfully: 'Kameraparameter erfolgreich gespeichert.',
     failed_to_save_camera_parameter: 'Speichern der Kameraparameter fehlgeschlagen.',
     failed_to_solve_pnp: 'Die Kameraposition konnte nicht gelöst werden.',
+    put_chessboard_1: 'Legen Sie das Schachbrettpapier unter den Laserkopf.',
+    put_chessboard_2: 'Verwenden Sie die Kamera-Live-Vorschau unten, um sicherzustellen, dass das Schachbrettpapier mit dem roten Rahmen ausgerichtet ist.',
   },
   input_machine_password: {
     require_password: '%s erfordert ein Passwort',

@@ -1642,6 +1642,8 @@ const lang: ILang = {
     camera_parameter_saved_successfully: 'บันทึกพารามิเตอร์ของกล้องสำเร็จ',
     failed_to_save_camera_parameter: 'การบันทึกพารามิเตอร์ของกล้องล้มเหลว',
     failed_to_solve_pnp: 'ไม่สามารถแก้ไขตำแหน่งของกล้องได้.',
+    put_chessboard_1: 'วางกระดาษหมากรุกไว้ใต้หัวเลเซอร์',
+    put_chessboard_2: 'ใช้การดูตัวอย่างสดของกล้องด้านล่างเพื่อให้แน่ใจว่ากระดาษหมากรุกอยู่ในแนวเดียวกับกรอบสีแดง',
   },
   input_machine_password: {
     require_password: '"%s" ต้องการรหัสผ่าน',

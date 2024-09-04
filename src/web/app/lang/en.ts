@@ -1645,6 +1645,8 @@ const lang: ILang = {
     camera_parameter_saved_successfully: 'Camera parameter saved successfully.',
     failed_to_save_camera_parameter: 'Failed to save camera parameter.',
     failed_to_solve_pnp: 'Failed to solve camera position.',
+    put_chessboard_1: 'Place the checkerboard paper under the laser head.',
+    put_chessboard_2: 'Use the camera live preview below to ensure that the checkerboard paper is aligned with the red frame.',
   },
   input_machine_password: {
     require_password: '"%s" requires a password',

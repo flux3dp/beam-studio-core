@@ -1645,6 +1645,8 @@ const lang: ILang = {
     camera_parameter_saved_successfully: 'Parametry kamery zapisane pomyślnie.',
     failed_to_save_camera_parameter: 'Nie udało się zapisać parametrów kamery.',
     failed_to_solve_pnp: 'Nie udało się rozwiązać pozycji kamery.',
+    put_chessboard_1: 'Umieść papier szachownicy pod głowicą lasera.',
+    put_chessboard_2: 'Użyj podglądu na żywo z kamery poniżej, aby upewnić się, że papier szachownicy jest wyrównany z czerwoną ramką.',
   },
   input_machine_password: {
     require_password: '"%s" wymaga hasła',

@@ -609,7 +609,7 @@ const lang: ILang = {
         message: "Beam Studio introducerer nu en ny tekst til sti konverter (Konverter 2.0), som producerer mere pålidelige resultater! Vil du skifte til den nu? \nDu kan også justere denne indstilling senere i 'Tekst til sti konverter' afsnittet i indstillingerne.",
       },
       auto_switch_tab: {
-        title: 'Automatisk skift mellem lag- og objektpanel',
+        title: 'Automatisk Skift mellem Lag- og Objektpanel',
         message: 'En ny mulighed for automatisk at skifte mellem lagpanelet og objektpanelet er blevet tilføjet i Præferencer. Denne mulighed er deaktiveret som standard. Vil du aktivere automatisk skift nu? <br/>Du kan ændre denne indstilling når som helst i Præferencer.',
       },
     },
@@ -1642,6 +1642,8 @@ const lang: ILang = {
     camera_parameter_saved_successfully: 'Kameraparameter gemt succesfuldt.',
     failed_to_save_camera_parameter: 'Kunne ikke gemme kameraparameter.',
     failed_to_solve_pnp: 'Kunne ikke løse kamerapositionen.',
+    put_chessboard_1: 'Placer skakbrætpapiret under laserhovedet.',
+    put_chessboard_2: 'Brug kameraforhåndsvisningen nedenfor for at sikre, at skakbrætpapiret er justeret med den røde ramme.',
   },
   input_machine_password: {
     require_password: '"%s" kræver en adgangskode',

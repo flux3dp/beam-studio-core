@@ -1642,6 +1642,8 @@ const lang: ILang = {
     camera_parameter_saved_successfully: 'Camera parameters succesvol opgeslagen.',
     failed_to_save_camera_parameter: 'Opslaan van camera parameters mislukt.',
     failed_to_solve_pnp: 'Het lukte niet om de camerapositie op te lossen.',
+    put_chessboard_1: 'Plaats het schaakbordpapier onder de laserhoofdkop.',
+    put_chessboard_2: 'Gebruik de live cameravoorvertoning hieronder om ervoor te zorgen dat het schaakbordpapier is uitgelijnd met het rode kader.',
   },
   input_machine_password: {
     require_password: '"%s" vereist een wachtwoord',

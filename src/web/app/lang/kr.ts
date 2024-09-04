@@ -1645,6 +1645,8 @@ const lang: ILang = {
     camera_parameter_saved_successfully: '카메라 매개변수가 성공적으로 저장되었습니다.',
     failed_to_save_camera_parameter: '카메라 매개변수 저장에 실패했습니다.',
     failed_to_solve_pnp: '카메라 위치를 해결하지 못했습니다.',
+    put_chessboard_1: '체커보드 용지를 레이저 헤드 아래에 놓으세요.',
+    put_chessboard_2: '아래의 카메라 라이브 미리보기를 사용하여 체커보드 용지가 빨간 프레임과 정렬되어 있는지 확인하세요.',
   },
   input_machine_password: {
     require_password: '%s은(는) 비밀번호가 필요합니다.',

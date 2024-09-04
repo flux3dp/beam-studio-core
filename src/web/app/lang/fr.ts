@@ -1642,6 +1642,8 @@ const lang: ILang = {
     camera_parameter_saved_successfully: "Paramètres de l'appareil photo enregistrés avec succès.",
     failed_to_save_camera_parameter: "Échec de l'enregistrement des paramètres de l'appareil photo.",
     failed_to_solve_pnp: 'Échec de la résolution de la position de la caméra.',
+    put_chessboard_1: 'Placez le papier à damier sous la tête laser.',
+    put_chessboard_2: "Utilisez l'aperçu en direct de la caméra ci-dessous pour vous assurer que le papier à damier est aligné avec le cadre rouge.",
   },
   input_machine_password: {
     require_password: '"%s" nécessite un mot de passe',

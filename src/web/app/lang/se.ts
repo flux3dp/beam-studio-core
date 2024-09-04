@@ -1642,6 +1642,8 @@ const lang: ILang = {
     camera_parameter_saved_successfully: 'Kameraparametrar sparade framgångsrikt.',
     failed_to_save_camera_parameter: 'Misslyckades med att spara kameraparametrarna.',
     failed_to_solve_pnp: 'Kunde inte lösa kamerapositionen.',
+    put_chessboard_1: 'Placera schackbrädepappret under laserhuvudet.',
+    put_chessboard_2: 'Använd kamerans liveförhandsvisning nedan för att säkerställa att schackbrädepappret är i linje med den röda ramen.',
   },
   input_machine_password: {
     require_password: '"%s" kräver ett lösenord',

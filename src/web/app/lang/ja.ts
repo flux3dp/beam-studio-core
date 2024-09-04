@@ -1645,6 +1645,8 @@ const lang: ILang = {
     camera_parameter_saved_successfully: 'カメラパラメータを正常に保存しました。',
     failed_to_save_camera_parameter: 'カメラパラメータの保存に失敗しました。',
     failed_to_solve_pnp: 'カメラの位置を解決できませんでした。',
+    put_chessboard_1: 'チェッカーボードの紙をレーザーヘッドの下に置いてください。',
+    put_chessboard_2: '下のカメラライブプレビューを使用して、チェッカーボードの紙が赤い枠と揃っていることを確認してください。',
   },
   input_machine_password: {
     require_password: '「%s」にはパスワードが必要です。',

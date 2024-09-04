@@ -1645,6 +1645,8 @@ const lang: ILang = {
     camera_parameter_saved_successfully: '相机参数保存成功。',
     failed_to_save_camera_parameter: '保存相机参数失败。',
     failed_to_solve_pnp: '无法解出相机位置。',
+    put_chessboard_1: '将棋盘纸放在激光头下。',
+    put_chessboard_2: '使用下方的相机实时预览，确保棋盘纸与红框对齐。',
   },
   input_machine_password: {
     require_password: '"%s" 需要密码',
