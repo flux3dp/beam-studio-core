@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Modal } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
+import { Modal, Spin } from 'antd';
 
 import alertCaller from 'app/actions/alert-caller';
 import progressCaller from 'app/actions/progress-caller';
@@ -45,7 +46,7 @@ const Chessboard = ({ updateParam, onNext, onClose }: Props): JSX.Element => {
     cameraLive.current = false;
     let success = false;
     try {
-      const res = await calibrateChessboard(img.blob, 0, [19, 13]);
+      const res = await calibrateChessboard(img.blob, 0, [23, 12]);
       if (res.success === true) {
         const { ret, k, d, rvec, tvec } = res.data;
         updateParam({ ret, k, d, rvec, tvec });
@@ -83,7 +84,16 @@ const Chessboard = ({ updateParam, onNext, onClose }: Props): JSX.Element => {
           <div>1. {lang.put_chessboard_1}</div>
           <div>2. {lang.put_chessboard_2}</div>
         </div>
-        <div className={styles.imgContainer}>{img && <img src={img?.url} alt="Chessboard" />}</div>
+        <div className={styles.imgContainer}>
+          {img ? (
+            <>
+              <img src={img?.url} alt="Chessboard" />
+              <div className={styles.indicator} />
+            </>
+          ) : (
+            <Spin indicator={<LoadingOutlined className={styles.spinner} spin />} />
+          )}
+        </div>
         <ExposureSlider
           className={styles.slider}
           exposureSetting={exposureSetting}

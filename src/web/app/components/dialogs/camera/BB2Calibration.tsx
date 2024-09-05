@@ -30,18 +30,6 @@ interface Props {
   onClose: (completed?: boolean) => void;
 }
 
-const params: FisheyeCameraParametersV3 = {
-  k: [
-    [1642.802166, 1.472694, 2824.719489],
-    [0, 1644.75509, 2095.035927],
-    [0, 0, 1],
-  ],
-  d: [[0], [-0.055254], [0.427829], [-0.406259]],
-  rvec: [-0.033616, 0.015765, 0.003509],
-  tvec: [-15.732608, -44.698144, 141.311],
-  v: 3,
-};
-
 const PROGRESS_ID = 'bb2-calibration';
 const BB2Calibration = ({ onClose }: Props): JSX.Element => {
   const lang = useI18n();
