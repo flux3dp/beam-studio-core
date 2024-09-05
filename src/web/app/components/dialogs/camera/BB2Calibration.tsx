@@ -88,8 +88,10 @@ const BB2Calibration = ({ onClose }: Props): JSX.Element => {
       const deviceStatus = await checkDeviceStatus(deviceMaster.currentDevice.info);
       if (!deviceStatus) return;
       try {
-        progressCaller.update(PROGRESS_ID, { message: tCali.drawing_calibration_image });
-        console.log('TODO: bb2 calibration file');
+        progressCaller.openNonstopProgress({
+          id: PROGRESS_ID,
+          message: tCali.drawing_calibration_image,
+        });
         await deviceMaster.doBB2Calibration();
         progressCaller.update(PROGRESS_ID, { message: tCali.preparing_to_take_picture });
         const res = await moveLaserHead();
