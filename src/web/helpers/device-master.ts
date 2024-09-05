@@ -17,6 +17,7 @@ import { ConnectionError, SelectionResult } from 'app/constants/connection-const
 import {
   FisheyeCameraParameters,
   FisheyeMatrix,
+  PerspectiveGrid,
   RotationParameters3D,
   RotationParameters3DGhostApi,
 } from 'interfaces/FisheyePreview';
@@ -654,6 +655,10 @@ class DeviceMaster {
     await this.doCalibration('fcode/ador-ir.fc');
   }
 
+  async doBB2Calibration() {
+    await this.doCalibration('fcode/bb2-calibration.fc');
+  }
+
   // fs functions
   async ls(path: string) {
     const controlSocket = await this.getControl();
@@ -1119,6 +1124,11 @@ class DeviceMaster {
 
   async setFisheyeObjectHeight(height: number) {
     const res = await this.currentDevice.camera.setFisheyeObjectHeight(height);
+    return res;
+  }
+
+  async setFisheyePerspectiveGrid(data: PerspectiveGrid) {
+    const res = await this.currentDevice.camera.setFisheyePerspectiveGrid(data);
     return res;
   }
 

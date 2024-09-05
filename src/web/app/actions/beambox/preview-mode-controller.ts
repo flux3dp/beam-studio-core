@@ -18,6 +18,7 @@ import { RotationParameters3DCalibration } from 'interfaces/FisheyePreview';
 
 import AdorPreviewManager from '../camera/preview-helper/AdorPreviewManager';
 import BeamPreviewManager from '../camera/preview-helper/BeamPreviewManager';
+import BB2PreviewManager from '../camera/preview-helper/BB2PreviewManager';
 
 const LANG = i18n.lang;
 const canvasEventEmitter = eventEmitterFactory.createEventEmitter('canvas');
@@ -95,7 +96,7 @@ class PreviewModeController {
   }
 
   async start(device: IDeviceInfo, errCallback) {
-    await this.reset();
+    this.reset();
     this.isStarting = true;
 
     const res = await deviceMaster.select(device);
@@ -106,9 +107,11 @@ class PreviewModeController {
 
     try {
       this.currentDevice = device;
-      if (Constant.adorModels.includes(device.model))
+      if (Constant.adorModels.includes(device.model)) {
         this.previewManager = new AdorPreviewManager(device);
-      else this.previewManager = new BeamPreviewManager(device);
+      } else if (device.model === 'fbb2') {
+        this.previewManager = new BB2PreviewManager(device);
+      } else this.previewManager = new BeamPreviewManager(device);
       const setupRes = await this.previewManager.setup({ progressId: 'preview-mode-controller' });
       if (!setupRes) {
         this.isStarting = false;
@@ -185,7 +188,7 @@ class PreviewModeController {
 
   onPreviewSuccess = (): void => {
     const workarea = document.querySelector('#workarea') as HTMLElement;
-    workarea.style.cursor = 'url(img/camera-cursor.svg), cell';
+    workarea.style.cursor = 'url(img/camera-cursor.svg) 9 12, cell';
     this.isPreviewBlocked = false;
     this.isDrawing = false;
   };
@@ -279,7 +282,7 @@ class PreviewModeController {
   }
 
   // movementX, movementY in mm
-  async getPhotoAfterMoveTo(movementX, movementY) {
+  async getPhotoAfterMoveTo(movementX: number, movementY: number) {
     const imgUrl = await this.previewManager.getPhotoAfterMoveTo?.(movementX, movementY);
     return imgUrl;
   }

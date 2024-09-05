@@ -6,7 +6,10 @@ export interface FisheyeMatrix {
   points: [number, number][][];
   center?: [number, number];
 }
-
+/**
+ * @deprecated
+ * V1 is deprecated, used for fisheye camera with variable focal distance, saving perspective points for every height
+ */
 export interface FisheyeCameraParametersV1 {
   k: number[][];
   d: number[][];
@@ -16,6 +19,10 @@ export interface FisheyeCameraParametersV1 {
   z3regParam: number[][][][]; // [i][j][k][l] i: row, j: column, k: x/y, l: 3/2/1/0 th order;
 }
 
+/**
+ * FisheyeCameraParametersV2Cali is calibrating data for V2
+ * also saved rvec, tvec, dh1, dh2 for solvepnp
+ */
 export interface FisheyeCameraParametersV2Cali {
   source?: 'device' | 'user'; // k, d calibration source by device pictures or user input
   refHeight?: number;
@@ -34,6 +41,9 @@ export interface FisheyeCameraParametersV2Cali {
   heights?: number[];
 }
 
+/**
+ * FisheyeCameraParametersV2 is used for Ador or other variable focal disatance fisheye camera
+ */
 export interface FisheyeCameraParametersV2 {
   source?: 'device' | 'user'; // k, d calibration source by device pictures or user input
   refHeight: number;
@@ -47,9 +57,36 @@ export interface FisheyeCameraParametersV2 {
   v: 2;
 }
 
-export type FisheyeCameraParameters = FisheyeCameraParametersV1 | FisheyeCameraParametersV2;
+/**
+ * FisheyeCameraParametersV3 is used for BB2 or other fixed focal disatance fisheye camera
+ */
+export interface FisheyeCameraParametersV3 {
+  k: number[][];
+  d: number[][];
+  rvec: number[];
+  tvec: number[];
+  rvecs?: number[][];
+  tvecs?: number[][];
+  v: 3;
+}
+
+export interface FisheyeCameraParametersV3Cali {
+  ret?: number;
+  k?: number[][];
+  d?: number[][];
+  rvec?: number[];
+  tvec?: number[];
+}
+
+export interface PerspectiveGrid {
+  x: [number, number, number]; // start, end, step
+  y: [number, number, number]; // start, end, step
+}
+
+export type FisheyeCameraParameters = FisheyeCameraParametersV1 | FisheyeCameraParametersV2 | FisheyeCameraParametersV3;
 
 /**
+ * @deprecated only used for V1, should be removed after all V1 camera is updated to V2
  * RotationParameters3D to save in the machine
  */
 export interface RotationParameters3D {
@@ -68,6 +105,7 @@ export interface RotationParameters3D {
 }
 
 /**
+ * @deprecated only used for V1, should be removed after all V1 camera is updated to V2
  * RotationParameters3D for calibration
  * add tx and ty to handle translation error
  * tx and ty will be saved in FisheyeMatrix center
@@ -78,6 +116,7 @@ export interface RotationParameters3DCalibration extends RotationParameters3D {
 }
 
 /**
+ * @deprecated only used for V1, should be removed after all V1 camera is updated to V2
  * RotationParameters3D for ghost api,
  * need to calculate h from sh, ch and object height
  */

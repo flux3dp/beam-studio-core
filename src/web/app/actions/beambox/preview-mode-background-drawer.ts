@@ -88,18 +88,90 @@ class PreviewModeBackgroundDrawer {
     this.backgroundDrawerSubject.next(p);
   }
 
-  async draw(
-    imgUrl: string,
+  /**
+   * drawImageToCanvas
+   * @param sourceCanvas
+   * @param x x center in px
+   * @param y y center in px
+   * @param opts {
+   *   @param opacityMerge: boolean whether to merge the image overlapping part with opacity
+   *   @param callback: () => void callback function after the image is drawn
+   * }
+   */
+  drawImageToCanvas = async (
+    sourceCanvas: HTMLCanvasElement,
     x: number,
     y: number,
-    opts: { callback?: () => void; overlapRatio?: number } = {}
-  ) {
-    const p = this.prepareCroppedAndRotatedImgBlob(imgUrl, x, y, opts);
-    this.backgroundDrawerSubject.next(p);
-    // await p;
-    // if you want to know the time when image transfer to Blob,
-    // which is almost the same time background is drawn.
-  }
+    opts: { opacityMerge?: boolean; callback?: () => void } = {}
+  ): Promise<void> => {
+    const { opacityMerge = false, callback } = opts;
+    const promise = new Promise<Blob>((resolve) => {
+      const { width, height } = sourceCanvas;
+      const { canvasRatio } = this;
+      const minX = (x - width / 2) * canvasRatio;
+      const maxX = (x + width / 2) * canvasRatio;
+      const minY = (y - height / 2) * canvasRatio;
+      const maxY = (y + height / 2) * canvasRatio;
+
+      if (maxX > this.coordinates.maxX) {
+        this.coordinates.maxX = maxX;
+      }
+      if (minX < this.coordinates.minX) {
+        this.coordinates.minX = Math.max(minX, 0);
+      }
+      if (maxY > this.coordinates.maxY) {
+        this.coordinates.maxY = maxY;
+      }
+      if (minY < this.coordinates.minY) {
+        this.coordinates.minY = Math.max(minY, 0);
+      }
+      if (!opacityMerge) {
+        this.canvas
+          .getContext('2d')
+          .drawImage(sourceCanvas, minX, minY, width * canvasRatio, height * canvasRatio);
+      } else {
+        if (canvasRatio < 1) {
+          const scaledCanvas = document.createElement('canvas');
+          scaledCanvas.width = width * canvasRatio;
+          scaledCanvas.height = height * canvasRatio;
+          const scaledContext = scaledCanvas.getContext('2d', { willReadFrequently: true });
+          scaledContext.drawImage(sourceCanvas, 0, 0, width * canvasRatio, height * canvasRatio);
+          // eslint-disable-next-line no-param-reassign
+          sourceCanvas = scaledCanvas;
+        }
+        const sourceCtx = sourceCanvas.getContext('2d', { willReadFrequently: true });
+        const sourceData = sourceCtx.getImageData(0, 0, width * canvasRatio, height * canvasRatio);
+        const mainContext = this.canvas.getContext('2d', { willReadFrequently: true });
+        const mainImageData = mainContext.getImageData(
+          minX,
+          minY,
+          width * canvasRatio,
+          height * canvasRatio
+        );
+        for (let i = 0; i < mainImageData.data.length; i += 4) {
+          const imgA = sourceData.data[i + 3];
+          const mainA = Math.min(mainImageData.data[i + 3], 255 - imgA);
+          const newA = imgA + mainA;
+          mainImageData.data[i + 3] = newA;
+          if (newA > 0) {
+            mainImageData.data[i] =
+              (sourceData.data[i] * imgA + mainImageData.data[i] * mainA) / newA;
+            mainImageData.data[i + 1] =
+              (sourceData.data[i + 1] * imgA + mainImageData.data[i + 1] * mainA) / newA;
+            mainImageData.data[i + 2] =
+              (sourceData.data[i + 2] * imgA + mainImageData.data[i + 2] * mainA) / newA;
+          }
+        }
+        mainContext.putImageData(mainImageData, minX, minY);
+      }
+      this.canvas.toBlob((blob) => {
+        resolve(blob);
+        if (callback) setTimeout(() => callback, 1000);
+      });
+    });
+    this.backgroundDrawerSubject.next(promise);
+    await promise;
+  };
 
   updateCanvasSize = () => {
     this.clear();
@@ -284,6 +356,8 @@ class PreviewModeBackgroundDrawer {
     new Promise((resolve) => {
       const img = new Image();
       img.onload = () => {
+        // free unused blob memory
+        URL.revokeObjectURL(imgUrl);
         const imgDpmm = 5;
         const canvasDpmm = 10;
         const imageRatio = canvasDpmm / imgDpmm;
@@ -302,119 +376,6 @@ class PreviewModeBackgroundDrawer {
       };
       img.src = imgUrl;
     });
-
-  prepareCroppedAndRotatedImgBlob(
-    imgUrl,
-    x,
-    y,
-    opts: { callback?: () => void; overlapRatio?: number } = {}
-  ) {
-    const { callback, overlapRatio = 0 } = opts;
-    const img = new Image();
-    img.src = imgUrl;
-
-    return new Promise((resolve) => {
-      img.onload = () => {
-        // free unused blob memory
-        URL.revokeObjectURL(imgUrl);
-        let imgCanvas = this.cropAndRotateImg(img, { overlapRatio });
-        const { width, height } = imgCanvas;
-        const { canvasRatio } = this;
-        const minX = (x - width / 2) * canvasRatio;
-        const maxX = (x + width / 2) * canvasRatio;
-        const minY = (y - height / 2) * canvasRatio;
-        const maxY = (y + height / 2) * canvasRatio;
-
-        if (maxX > this.coordinates.maxX) {
-          this.coordinates.maxX = maxX;
-        }
-        if (minX < this.coordinates.minX) {
-          this.coordinates.minX = Math.max(minX, 0);
-        }
-        if (maxY > this.coordinates.maxY) {
-          this.coordinates.maxY = maxY;
-        }
-        if (minY < this.coordinates.minY) {
-          this.coordinates.minY = Math.max(minY, 0);
-        }
-        if (canvasRatio < 1) {
-          const scaledCanvas = document.createElement('canvas');
-          scaledCanvas.width = width * canvasRatio;
-          scaledCanvas.height = height * canvasRatio;
-          const scaledContext = scaledCanvas.getContext('2d', { willReadFrequently: true });
-          scaledContext.drawImage(imgCanvas, 0, 0, width * canvasRatio, height * canvasRatio);
-          imgCanvas = scaledCanvas;
-        }
-        const imgData = imgCanvas
-          .getContext('2d', { willReadFrequently: true })
-          .getImageData(0, 0, width * canvasRatio, height * canvasRatio);
-        const mainContext = this.canvas.getContext('2d', { willReadFrequently: true });
-        const mainImageData = mainContext.getImageData(
-          minX,
-          minY,
-          width * canvasRatio,
-          height * canvasRatio
-        );
-        for (let i = 0; i < mainImageData.data.length; i += 4) {
-          const imgA = imgData.data[i + 3];
-          const mainA = Math.min(mainImageData.data[i + 3], 255 - imgA);
-          const newA = imgA + mainA;
-          mainImageData.data[i + 3] = newA;
-          if (newA > 0) {
-            mainImageData.data[i] = (imgData.data[i] * imgA + mainImageData.data[i] * mainA) / newA;
-            mainImageData.data[i + 1] =
-              (imgData.data[i + 1] * imgA + mainImageData.data[i + 1] * mainA) / newA;
-            mainImageData.data[i + 2] =
-              (imgData.data[i + 2] * imgA + mainImageData.data[i + 2] * mainA) / newA;
-          }
-        }
-        mainContext.putImageData(mainImageData, minX, minY);
-        this.canvas.toBlob((blob) => {
-          resolve(blob);
-          if (callback) setTimeout(() => callback, 1000);
-        });
-      };
-    });
-  }
-
-  cropAndRotateImg(imageObj: HTMLImageElement, opts: { overlapRatio?: number } = {}) {
-    const { overlapRatio = 0 } = opts;
-    const { angle, scaleRatioX, scaleRatioY } = this.cameraOffset ?? {};
-
-    const cvs = document.createElement('canvas');
-    const ctx = cvs.getContext('2d');
-
-    const a = angle;
-    const w = imageObj.width;
-    const h = imageObj.height;
-
-    const l = Math.round((h * scaleRatioY) / (Math.cos(a) + Math.sin(a)));
-    cvs.width = l;
-    cvs.height = l;
-    ctx.translate(l / 2, l / 2);
-    ctx.rotate(a);
-    ctx.scale(scaleRatioX, scaleRatioY);
-    ctx.drawImage(imageObj, -w / 2, -h / 2, w, h);
-    const imageData = ctx.getImageData(0, 0, l, l);
-    const overlapWidth = Math.round(overlapRatio * l);
-    if (overlapWidth > 0) {
-      for (let x = 0; x < l; x += 1) {
-        for (let y = 0; y < l; y += 1) {
-          const xDist = Math.min((Math.min(x, l - x - 1) + 1) / overlapWidth, 1);
-          const yDist = Math.min((Math.min(y, l - y - 1) + 1) / overlapWidth, 1);
-          let alphaRatio = xDist * yDist;
-          if (alphaRatio < 1) {
-            alphaRatio **= 1;
-            const i = (y * l + x) * 4;
-            imageData.data[i + 3] = Math.round(imageData.data[i + 3] * alphaRatio);
-          }
-        }
-      }
-    }
-    ctx.putImageData(imageData, 0, 0);
-
-    return cvs;
-  }
 
   // eslint-disable-next-line class-methods-use-this
   getOpenBottomModulePreviewBoundary(uncapturabledHeight) {

@@ -88,6 +88,7 @@ const workareaConstants: { [key in WorkAreaModel]: WorkArea } = {
     maxSpeed: 900,
     minSpeed: 0.5,
     rotary: [0, 1],
+    cameraCenter: [300, 150],
     passThroughMaxHeight: 360,
   },
 };

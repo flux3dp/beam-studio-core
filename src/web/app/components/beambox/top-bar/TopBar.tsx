@@ -152,7 +152,7 @@ export default class TopBar extends React.PureComponent<Record<string, never>, S
         this.isSettingUpPreviewMode = false;
         return;
       }
-      $(workarea).css('cursor', 'url(img/camera-cursor.svg), cell');
+      $(workarea).css('cursor', 'url(img/camera-cursor.svg) 9 12, cell');
       if (constant.adorModels.includes(device.model)) {
         PreviewModeController.previewFullWorkarea(() => {
           updateCanvasContext();

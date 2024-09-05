@@ -401,7 +401,7 @@ export const calibrateChessboard = async (
   | {
       success: true;
       blob: Blob;
-      data?: {
+      data: {
         ret: number;
         k: number[][];
         d: number[][];
@@ -435,7 +435,8 @@ export const findCorners = async (
 
 export const solvePnPFindCorners = async (
   img: Blob | ArrayBuffer,
-  dh: number
+  dh: number,
+  version = 2
 ): Promise<
   | {
       success: true;
@@ -448,18 +449,19 @@ export const solvePnPFindCorners = async (
       data: { status: string; info: string; reason: string };
     }
 > => {
-  const resp = await api.solvePnPFindCorners(img, dh);
+  const resp = await api.solvePnPFindCorners(img, dh, version);
   return resp;
 };
 
 export const solvePnPCalculate = async (
   dh: number,
-  points: [number, number][]
+  points: [number, number][],
+  version = 2
 ): Promise<{
   success: boolean;
   data?: { rvec: number[]; tvec: number[] };
 }> => {
-  const resp = await api.solvePnPCalculate(dh, points);
+  const resp = await api.solvePnPCalculate(dh, points, version);
   return resp;
 };
 

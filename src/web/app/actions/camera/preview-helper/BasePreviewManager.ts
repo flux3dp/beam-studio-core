@@ -54,7 +54,7 @@ class BasePreviewManager implements PreviewManager {
   };
 
   /**
-   * contrain the movement area
+   * constrain the preview area
    * @param x x in px
    * @param y y in px
    */
@@ -72,16 +72,12 @@ class BasePreviewManager implements PreviewManager {
   /**
    * getPhotoAfterMoveTo
    * @param movementX x in mm
-   * @param movementY y im mm
+   * @param movementY y in mm
    * @returns image blob url of the photo taken
    */
   async getPhotoAfterMoveTo(movementX: number, movementY: number): Promise<string> {
     let feedrate = Math.min(constant.camera.movementSpeed.x, constant.camera.movementSpeed.y);
-    const movement = {
-      f: feedrate,
-      x: movementX, // mm
-      y: movementY, // mm
-    };
+    const movement = { f: feedrate, x: movementX, y: movementY };
     if (
       beamboxPreference.read('enable-diode') &&
       getSupportInfo(beamboxPreference.read('workarea')).hybridLaser

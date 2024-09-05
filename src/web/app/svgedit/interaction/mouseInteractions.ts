@@ -831,7 +831,7 @@ const mouseMove = (evt: MouseEvent) => {
             !curveEngravingModeController.started &&
             (PreviewModeController.isPreviewMode() || TopBarController.getTopBarPreviewMode())
           ) {
-            $('#workarea').css('cursor', 'url(img/camera-cursor.svg), cell');
+            $('#workarea').css('cursor', 'url(img/camera-cursor.svg) 9 12, cell');
           } else {
             $('#workarea').css('cursor', 'auto');
           }

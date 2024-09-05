@@ -24,6 +24,7 @@ import { Mode } from 'app/constants/monitor-constants';
 import { parsingChipData } from 'app/components/dialogs/CartridgeSettingPanel';
 import { showAdorCalibration } from 'app/components/dialogs/camera/AdorCalibration';
 import { showAdorCalibrationV2 } from 'app/components/dialogs/camera/AdorCalibrationV2';
+import { showBB2Calibration } from 'app/components/dialogs/camera/BB2Calibration';
 import { showCameraCalibration } from 'app/views/beambox/Camera-Calibration';
 import { showDiodeCalibration } from 'app/views/beambox/Diode-Calibration';
 
@@ -43,6 +44,8 @@ const calibrateCamera = async (
     if (res.success) {
       if (constant.adorModels.includes(device.model)) {
         showAdorCalibrationV2(factoryMode);
+      } else if (device.model === 'fbb2') {
+        showBB2Calibration();
       } else showCameraCalibration(device, isBorderless);
     }
   } catch (error) {

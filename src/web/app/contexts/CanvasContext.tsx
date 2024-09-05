@@ -221,7 +221,7 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
     });
     setMode(CanvasMode.Preview);
     if (workarea) {
-      workarea.style.cursor = 'url(img/camera-cursor.svg), cell';
+      workarea.style.cursor = 'url(img/camera-cursor.svg) 9 12, cell';
     }
     if (TutorialController.getNextStepRequirement() === TutorialConstants.TO_PREVIEW_MODE) {
       TutorialController.handleNextStep();

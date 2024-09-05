@@ -1,0 +1,28 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .desc {
+    width: 100%;
+    text-align: start;
+  }
+
+  .imgContainer {
+    width: fit-content;
+    height: fit-content;
+    min-height: 55vh;
+
+    img {
+      max-height: 55vh;
+    }
+
+    margin: 12px 0;
+  }
+
+  .slider {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+  }
+}

@@ -42,7 +42,6 @@ class BeamPreviewManager extends BasePreviewManager implements PreviewManager {
       await this.retrieveCameraOffset();
       progressCaller.update(this.progressId, { message: lang.message.gettingLaserSpeed });
       const laserSpeed = await deviceMaster.getLaserSpeed();
-
       if (Number(laserSpeed.value) !== 1) {
         this.originalSpeed = Number(laserSpeed.value);
         progressCaller.update(this.progressId, {
@@ -210,15 +209,63 @@ class BeamPreviewManager extends BasePreviewManager implements PreviewManager {
     return this.getPhotoAfterMoveTo(movementX, movementY);
   };
 
+  preprocessImage = async (
+    imgUrl: string,
+    opts: { overlapRatio?: number } = {}
+  ): Promise<HTMLCanvasElement> => {
+    const img = new Image();
+    await new Promise((resolve) => {
+      img.onload = resolve;
+      img.src = imgUrl;
+    });
+    const { overlapRatio = 0 } = opts;
+    const { angle, scaleRatioX, scaleRatioY } = this.cameraOffset;
+    const a = angle;
+    const w = img.width;
+    const h = img.height;
+    const l = Math.round((h * scaleRatioY) / (Math.cos(a) + Math.sin(a)));
+    const canvas = document.createElement('canvas');
+    canvas.width = l;
+    canvas.height = l;
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
+    ctx.translate(l / 2, l / 2);
+    ctx.rotate(a);
+    ctx.scale(scaleRatioX, scaleRatioY);
+    ctx.drawImage(img, -w / 2, -h / 2, w, h);
+    const overlapWidth = Math.round(overlapRatio * l);
+    if (overlapWidth > 0) {
+      const imageData = ctx.getImageData(0, 0, l, l);
+      for (let x = 0; x < l; x += 1) {
+        for (let y = 0; y < l; y += 1) {
+          const xDist = Math.min((Math.min(x, l - x - 1) + 1) / overlapWidth, 1);
+          const yDist = Math.min((Math.min(y, l - y - 1) + 1) / overlapWidth, 1);
+          let alphaRatio = xDist * yDist;
+          if (alphaRatio < 1) {
+            alphaRatio **= 1;
+            const i = (y * l + x) * 4;
+            imageData.data[i + 3] = Math.round(imageData.data[i + 3] * alphaRatio);
+          }
+        }
+      }
+      ctx.putImageData(imageData, 0, 0);
+    }
+    return canvas;
+  };
+
   preview = async (
     x: number,
     y: number,
     opts: { overlapRatio?: number } = {}
   ): Promise<boolean> => {
+    const { overlapRatio = 0 } = opts;
     const constrainedXY = this.constrainPreviewXY(x, y);
     const { x: newX, y: newY } = constrainedXY;
     const imgUrl = await this.getPhotoAfterMove(newX, newY);
-    PreviewModeBackgroundDrawer.draw(imgUrl, newX, newY, opts);
+    const imgCanvas = await this.preprocessImage(imgUrl, { overlapRatio });
+    // await this if you want wait for the image to be drawn
+    PreviewModeBackgroundDrawer.drawImageToCanvas(imgCanvas, newX, newY, {
+      opacityMerge: overlapRatio > 0,
+    });
     return true;
   };
 

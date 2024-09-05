@@ -215,7 +215,7 @@ class CameraCalibrationApi {
     | {
         success: true;
         blob: Blob;
-        data?: {
+        data: {
           ret: number;
           k: number[][];
           d: number[][];
@@ -310,7 +310,8 @@ class CameraCalibrationApi {
 
   solvePnPFindCorners = (
     img: Blob | ArrayBuffer,
-    dh: number
+    dh: number,
+    version = 2
   ): Promise<
     | {
         success: true;
@@ -349,12 +350,13 @@ class CameraCalibrationApi {
       };
       const size = img instanceof Blob ? img.size : img.byteLength;
       // solve_pnp_find_corners [calibration_version] [elevated_dh] [file_length]
-      this.ws.send(`solve_pnp_find_corners 2 ${dh.toFixed(3)} ${size}`);
+      this.ws.send(`solve_pnp_find_corners ${version} ${dh.toFixed(3)} ${size}`);
     });
 
   solvePnPCalculate = (
     dh: number,
-    points: [number, number][]
+    points: [number, number][],
+    version = 2,
   ): Promise<{
     success: boolean;
     data?: { rvec: number[]; tvec: number[] };
@@ -382,7 +384,7 @@ class CameraCalibrationApi {
         console.log('on fatal', response);
       };
       // solve_pnp_calculate [calibration_version] [elevated_dh] [points]
-      this.ws.send(`solve_pnp_calculate 2 ${dh.toFixed(3)} ${JSON.stringify(points)}`);
+      this.ws.send(`solve_pnp_calculate ${version} ${dh.toFixed(3)} ${JSON.stringify(points)}`);
     });
 
   updateData = (data: FisheyeCameraParametersV2Cali): Promise<boolean> =>
