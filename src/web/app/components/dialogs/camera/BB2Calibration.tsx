@@ -43,13 +43,13 @@ const BB2Calibration = ({ onClose }: Props): JSX.Element => {
   if (step === Steps.CHECKPOINT_DATA) {
     return (
       <CheckpointData
+        askUser
         allowCheckPoint={false}
         updateParam={updateParam}
         onClose={onClose}
         onNext={(res: boolean) => {
-          console.log('res', res);
           if (!res) setStep(Steps.PRE_CHESSBOARD);
-          else onClose(res);
+          else setStep(Steps.PUT_PAPER);
         }}
       />
     );
@@ -60,7 +60,7 @@ const BB2Calibration = ({ onClose }: Props): JSX.Element => {
         title="tPut Chessboard"
         steps={['tPlease place the chessboard in the center of workarea']}
         buttons={[
-          { label: tCali.cancel, onClick: () => onClose(false) },
+          { label: tCali.back, onClick: () => setStep(Steps.CHECKPOINT_DATA) },
           {
             label: tCali.next,
             onClick: async () => {

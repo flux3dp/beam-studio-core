@@ -72,6 +72,7 @@ const Chessboard = ({ updateParam, onNext, onClose }: Props): JSX.Element => {
       width="80vw"
       open
       centered
+      maskClosable={false}
       title={lang.camera_calibration}
       okText={lang.next}
       cancelText={lang.cancel}

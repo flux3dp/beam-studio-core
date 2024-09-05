@@ -13,7 +13,7 @@ import styles from './CheckpointData.module.scss';
 
 interface Props<T = FisheyeCameraParametersV2Cali> {
   allowCheckPoint?: boolean;
-  factoryMode?: boolean;
+  askUser?: boolean;
   updateParam: (param: T) => void;
   onClose: (complete: boolean) => void;
   onNext: (res: boolean) => void;
@@ -21,7 +21,7 @@ interface Props<T = FisheyeCameraParametersV2Cali> {
 
 const CheckpointData = <T extends FisheyeCameraParametersV2Cali>({
   allowCheckPoint = true,
-  factoryMode,
+  askUser,
   updateParam,
   onClose,
   onNext,
@@ -43,6 +43,19 @@ const CheckpointData = <T extends FisheyeCameraParametersV2Cali>({
       const [, blob] = data;
       const dataString = await (blob as Blob).text();
       res = JSON.parse(dataString);
+      if (res.v === 3) {
+        setCheckpointData({
+          file: 'fisheye_params.json',
+          data: {
+            k: res.k,
+            d: res.d,
+            rvec: res.rvec,
+            tvec: res.tvec,
+          } as T,
+        });
+        progressCaller.popById(progressId);
+        return;
+      }
       if (res.v === 2) {
         setCheckpointData({
           file: 'fisheye_params.json',
@@ -110,10 +123,10 @@ const CheckpointData = <T extends FisheyeCameraParametersV2Cali>({
   }, []);
 
   useEffect(() => {
-    if (checkpointData && !factoryMode) handleOk();
-  }, [checkpointData, factoryMode, handleOk]);
+    if (checkpointData && !askUser) handleOk();
+  }, [checkpointData, askUser, handleOk]);
 
-  if (!factoryMode)
+  if (!askUser)
     return (
       <Modal
         width={400}
@@ -151,12 +164,6 @@ const CheckpointData = <T extends FisheyeCameraParametersV2Cali>({
         (checkpointData.file === 'fisheye_params.json'
           ? lang.calibration.use_old_camera_parameter
           : lang.calibration.found_checkpoint)}
-      {checkpointData?.data && (
-        <>
-          <br />
-          Data Source: {checkpointData.data.source}
-        </>
-      )}
     </Modal>
   );
 };
