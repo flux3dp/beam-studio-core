@@ -17,7 +17,6 @@ interface Props {
   onChanged?: () => void;
 }
 
-// TODO: add test
 const ExposureSlider = ({
   className,
   exposureSetting,
@@ -45,7 +44,6 @@ const ExposureSlider = ({
             progressCaller.openNonstopProgress({ id: 'exposure-slider' });
             setExposureSetting({ ...exposureSetting, value });
             await deviceMaster.setDeviceSetting('camera_exposure_absolute', value.toString());
-            progressCaller.popById('exposure-slider');
             onChanged();
           } finally {
             progressCaller.popById('exposure-slider');
