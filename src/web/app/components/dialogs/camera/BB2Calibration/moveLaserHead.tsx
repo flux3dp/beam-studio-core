@@ -10,7 +10,7 @@ const moveLaserHead = async (): Promise<boolean> => {
   try {
     progressCaller.openNonstopProgress({
       id: 'move-laser-head',
-      message: 'tMoving to center and focus...',
+      message: lang.moving_laser_head,
     });
     const device = deviceMaster.currentDevice;
     await deviceMaster.enterRawMode();
