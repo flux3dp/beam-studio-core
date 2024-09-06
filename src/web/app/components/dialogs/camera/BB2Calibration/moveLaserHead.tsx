@@ -30,12 +30,15 @@ const moveLaserHead = async (): Promise<boolean> => {
     alertCaller.popUpError({ message: lang.failed_to_move_laser_head });
     return false;
   } finally {
-    if (deviceMaster.currentControlMode === 'raw') {
-      if (isLineCheckMode) await deviceMaster.rawEndLineCheckMode();
-      await deviceMaster.rawLooseMotor();
-      await deviceMaster.endRawMode();
+    try {
+      if (deviceMaster.currentControlMode === 'raw') {
+        if (isLineCheckMode) await deviceMaster.rawEndLineCheckMode();
+        await deviceMaster.rawLooseMotor();
+        await deviceMaster.endRawMode();
+      }
+    } finally {
+      progressCaller.popById('move-laser-head');
     }
-    progressCaller.popById('move-laser-head');
   }
 };
 

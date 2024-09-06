@@ -13,12 +13,13 @@ import useCamera from '../common/useCamera';
 import ExposureSlider from '../common/ExposureSlider';
 
 interface Props {
+  chessboard: [number, number];
   updateParam: (param: FisheyeCameraParametersV3Cali) => void;
   onNext: () => void;
   onClose: (complete?: boolean) => void;
 }
 
-const Chessboard = ({ updateParam, onNext, onClose }: Props): JSX.Element => {
+const Chessboard = ({ chessboard, updateParam, onNext, onClose }: Props): JSX.Element => {
   const lang = useI18n().calibration;
   const [img, setImg] = useState<{ blob: Blob; url: string }>(null);
   const cameraLive = useRef(true);
@@ -46,7 +47,7 @@ const Chessboard = ({ updateParam, onNext, onClose }: Props): JSX.Element => {
     cameraLive.current = false;
     let success = false;
     try {
-      const res = await calibrateChessboard(img.blob, 0, [23, 12]);
+      const res = await calibrateChessboard(img.blob, 0, chessboard);
       if (res.success === true) {
         const { ret, k, d, rvec, tvec } = res.data;
         updateParam({ ret, k, d, rvec, tvec });

@@ -80,6 +80,7 @@ const BB2Calibration = ({ onClose }: Props): JSX.Element => {
   if (step === Steps.CHESSBOARD) {
     return (
       <Chessboard
+        chessboard={[24, 14]}
         updateParam={updateParam}
         onNext={() => setStep(Steps.PUT_PAPER)}
         onClose={onClose}

@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import React, { SyntheticEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Button, Col, InputNumber, Modal, Row } from 'antd';
+import { Button, Col, InputNumber, Modal, Row, Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 
 import alertCaller from 'app/actions/alert-caller';
 import ObjectPanelIcons from 'app/icons/object-panel/ObjectPanelIcons';
@@ -330,42 +331,49 @@ const SolvePnP = ({
               onMouseUp={handleDragEnd}
               onMouseLeave={handleDragEnd}
             >
-              {!imgLoaded ? (
-                <img src={img?.url} onLoad={handleImgLoad} />
-              ) : (
-                <svg
-                  ref={svgRef}
-                  width={imageSizeRef.current.width * scaleRef.current}
-                  height={imageSizeRef.current.height * scaleRef.current}
-                  viewBox={`0 0 ${imageSizeRef.current.width} ${imageSizeRef.current.height}`}
-                >
-                  <image
-                    width={imageSizeRef.current.width}
-                    height={imageSizeRef.current.height}
-                    href={img?.url}
-                  />
-                  {points.map((p, idx) => (
-                    <g
-                      // eslint-disable-next-line react/no-array-index-key
-                      key={idx}
-                      className={classNames({ [styles.selected]: idx === selectedPointIdx })}
-                    >
-                      <circle
-                        cx={p[0]}
-                        cy={p[1]}
-                        r={5 / scaleRef.current}
-                        onMouseDown={(e) => handlePointDragStart(idx, e)}
-                      />
-                      <circle
-                        className={classNames('center', styles.center)}
-                        cx={p[0]}
-                        cy={p[1]}
-                        r={1 / scaleRef.current}
-                      />
-                    </g>
-                  ))}
-                </svg>
+              {!img && (
+                <Spin
+                  className={styles.spin}
+                  indicator={<LoadingOutlined className={styles.spinner} spin />}
+                />
               )}
+              {img &&
+                (!imgLoaded ? (
+                  <img src={img?.url} onLoad={handleImgLoad} />
+                ) : (
+                  <svg
+                    ref={svgRef}
+                    width={imageSizeRef.current.width * scaleRef.current}
+                    height={imageSizeRef.current.height * scaleRef.current}
+                    viewBox={`0 0 ${imageSizeRef.current.width} ${imageSizeRef.current.height}`}
+                  >
+                    <image
+                      width={imageSizeRef.current.width}
+                      height={imageSizeRef.current.height}
+                      href={img?.url}
+                    />
+                    {points.map((p, idx) => (
+                      <g
+                        // eslint-disable-next-line react/no-array-index-key
+                        key={idx}
+                        className={classNames({ [styles.selected]: idx === selectedPointIdx })}
+                      >
+                        <circle
+                          cx={p[0]}
+                          cy={p[1]}
+                          r={5 / scaleRef.current}
+                          onMouseDown={(e) => handlePointDragStart(idx, e)}
+                        />
+                        <circle
+                          className={classNames('center', styles.center)}
+                          cx={p[0]}
+                          cy={p[1]}
+                          r={1 / scaleRef.current}
+                        />
+                      </g>
+                    ))}
+                  </svg>
+                ))}
             </div>
             <div className={styles['zoom-block']}>
               <button type="button" onClick={() => handleZoom(-0.2)}>
