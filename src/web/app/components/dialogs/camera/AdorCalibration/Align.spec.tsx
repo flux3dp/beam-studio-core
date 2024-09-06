@@ -8,7 +8,7 @@ import LayerModule from 'app/constants/layer-module/layer-modules';
 import moduleOffsets from 'app/constants/layer-module/module-offsets';
 
 const mockFisheyePreviewManagerV2 = jest.fn();
-jest.mock('app/actions/beambox/fisheye-preview-helpers/FisheyePreviewManagerV2', () => mockFisheyePreviewManagerV2);
+jest.mock('app/actions/camera/preview-helper/FisheyePreviewManagerV2', () => mockFisheyePreviewManagerV2);
 
 import Align from './Align';
 import CalibrationType from './calibrationTypes';

@@ -4,6 +4,7 @@ import i18n from 'helpers/i18n';
 import progressCaller from 'app/actions/progress-caller';
 import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 
+// TODO: add unit test
 const moveLaserHead = async (): Promise<boolean> => {
   let isLineCheckMode = false;
   const lang = i18n.lang.calibration;
