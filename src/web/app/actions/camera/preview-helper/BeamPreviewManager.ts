@@ -18,6 +18,7 @@ import { PreviewManager } from 'interfaces/PreviewManager';
 
 import BasePreviewManager from './BasePreviewManager';
 
+// TODO: Add tests
 class BeamPreviewManager extends BasePreviewManager implements PreviewManager {
   cameraOffset: CameraParameters;
 

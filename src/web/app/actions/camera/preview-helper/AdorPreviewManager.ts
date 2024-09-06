@@ -11,6 +11,7 @@ import BasePreviewManager from './BasePreviewManager';
 import FisheyePreviewManagerV1 from './FisheyePreviewManagerV1';
 import FisheyePreviewManagerV2 from './FisheyePreviewManagerV2';
 
+// TODO: Add tests
 class AdorPreviewManager extends BasePreviewManager implements PreviewManager {
   private fisheyeManager: FisheyePreviewManager;
 

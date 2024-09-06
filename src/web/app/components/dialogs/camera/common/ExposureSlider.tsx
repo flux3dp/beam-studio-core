@@ -17,7 +17,13 @@ interface Props {
   onChanged?: () => void;
 }
 
-const ExposureSlider = ({ className, exposureSetting, setExposureSetting, onChanged }: Props): JSX.Element => {
+// TODO: add test
+const ExposureSlider = ({
+  className,
+  exposureSetting,
+  setExposureSetting,
+  onChanged,
+}: Props): JSX.Element => {
   const lang = useI18n();
   if (!exposureSetting) {
     return null;

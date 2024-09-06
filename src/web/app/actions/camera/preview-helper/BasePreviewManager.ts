@@ -11,6 +11,7 @@ import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { PreviewManager } from 'interfaces/PreviewManager';
 
+// TODO: Add tests
 class BasePreviewManager implements PreviewManager {
   protected device: IDeviceInfo;
 

@@ -19,6 +19,7 @@ interface Props {
   onClose: (complete?: boolean) => void;
 }
 
+// TODO: add test
 const Chessboard = ({ chessboard, updateParam, onNext, onClose }: Props): JSX.Element => {
   const lang = useI18n().calibration;
   const [img, setImg] = useState<{ blob: Blob; url: string }>(null);

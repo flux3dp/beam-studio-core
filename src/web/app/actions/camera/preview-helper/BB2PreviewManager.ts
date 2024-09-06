@@ -14,6 +14,7 @@ import { PreviewManager } from 'interfaces/PreviewManager';
 
 import BasePreviewManager from './BasePreviewManager';
 
+// TODO: Add tests
 class BB2PreviewManager extends BasePreviewManager implements PreviewManager {
   private lineCheckEnabled: boolean;
 
