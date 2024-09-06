@@ -8,9 +8,9 @@ import useI18n from 'helpers/useI18n';
 import { calibrateChessboard } from 'helpers/camera-calibration-helper';
 import { FisheyeCameraParametersV3Cali } from 'interfaces/FisheyePreview';
 
+import ExposureSlider from '../common/ExposureSlider';
 import styles from './Chessboard.module.scss';
 import useCamera from '../common/useCamera';
-import ExposureSlider from '../common/ExposureSlider';
 
 interface Props {
   chessboard: [number, number];
@@ -19,7 +19,6 @@ interface Props {
   onClose: (complete?: boolean) => void;
 }
 
-// TODO: add test
 const Chessboard = ({ chessboard, updateParam, onNext, onClose }: Props): JSX.Element => {
   const lang = useI18n().calibration;
   const [img, setImg] = useState<{ blob: Blob; url: string }>(null);
