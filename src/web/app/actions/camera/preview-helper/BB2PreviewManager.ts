@@ -217,18 +217,16 @@ class BB2PreviewManager extends BasePreviewManager implements PreviewManager {
     opts: { overlapRatio?: number } = {}
   ): Promise<boolean> => {
     const { overlapRatio = 0.05 } = opts;
-    const points = (() => {
+    const getPoints = (): [number, number][] => {
       const imgW = (this.grid.x[1] - this.grid.x[0]) * constant.dpmm;
       const imgH = (this.grid.y[1] - this.grid.y[0]) * constant.dpmm;
       const { x: l, y: t } = this.constrainPreviewXY(Math.min(x1, x2), Math.min(y1, y2));
       const { x: r, y: b } = this.constrainPreviewXY(Math.max(x1, x2), Math.max(y1, y2));
 
-      let pointsArray = [];
-      let shouldRowReverse = false; // let camera 走Ｓ字型
+      const res: [number, number][] = [];
       const xStep = imgW * (1 - overlapRatio);
       const yStep = imgH * (1 - overlapRatio);
       const xTotal = Math.max(1, Math.ceil((r - l) / xStep));
-      console.log(r - l, xStep, xTotal);
       const yTotal = Math.max(1, Math.ceil((b - t) / yStep));
       for (let j = 0; j < yTotal; j += 1) {
         const y = t + imgH / 2 + j * yStep;
@@ -237,12 +235,12 @@ class BB2PreviewManager extends BasePreviewManager implements PreviewManager {
           const x = l + imgW / 2 + i * xStep;
           row.push([x, y]);
         }
-        if (shouldRowReverse) row.reverse();
-        pointsArray = pointsArray.concat(row);
-        shouldRowReverse = !shouldRowReverse;
+        if (j % 2 !== 0) row.reverse();
+        res.push(...row);
       }
-      return pointsArray;
-    })();
+      return res;
+    }
+    const points = getPoints();
     try {
       for (let i = 0; i < points.length; i += 1) {
         MessageCaller.openMessage({
