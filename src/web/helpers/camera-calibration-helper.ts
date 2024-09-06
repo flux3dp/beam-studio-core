@@ -8,7 +8,11 @@ import {
   CALIBRATION_PARAMS,
   DEFAULT_CAMERA_OFFSET,
 } from 'app/constants/camera-calibration-constants';
-import { FisheyeCameraParameters, FisheyeCameraParametersV2Cali } from 'interfaces/FisheyePreview';
+import {
+  FisheyeCaliParameters,
+  FisheyeCameraParameters,
+  FisheyeCameraParametersV2Cali,
+} from 'interfaces/FisheyePreview';
 import { IDeviceInfo } from 'interfaces/IDevice';
 
 const api = new CameraCalibrationApi();
@@ -465,7 +469,7 @@ export const solvePnPCalculate = async (
   return resp;
 };
 
-export const updateData = async (data: FisheyeCameraParametersV2Cali): Promise<boolean> => {
+export const updateData = async (data: FisheyeCaliParameters): Promise<boolean> => {
   const resp = await api.updateData(data);
   return resp;
 };

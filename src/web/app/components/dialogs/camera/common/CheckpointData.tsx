@@ -6,12 +6,12 @@ import alertCaller from 'app/actions/alert-caller';
 import deviceMaster from 'helpers/device-master';
 import progressCaller from 'app/actions/progress-caller';
 import useI18n from 'helpers/useI18n';
-import { FisheyeCameraParametersV2Cali } from 'interfaces/FisheyePreview';
+import { FisheyeCaliParameters } from 'interfaces/FisheyePreview';
 import { updateData } from 'helpers/camera-calibration-helper';
 
 import styles from './CheckpointData.module.scss';
 
-interface Props<T = FisheyeCameraParametersV2Cali> {
+interface Props<T = FisheyeCaliParameters> {
   allowCheckPoint?: boolean;
   askUser?: boolean;
   updateParam: (param: T) => void;
@@ -19,7 +19,7 @@ interface Props<T = FisheyeCameraParametersV2Cali> {
   onNext: (res: boolean) => void;
 }
 
-const CheckpointData = <T extends FisheyeCameraParametersV2Cali>({
+const CheckpointData = <T extends FisheyeCaliParameters>({
   allowCheckPoint = true,
   askUser,
   updateParam,

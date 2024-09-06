@@ -6,7 +6,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 import alertCaller from 'app/actions/alert-caller';
 import ObjectPanelIcons from 'app/icons/object-panel/ObjectPanelIcons';
 import useI18n from 'helpers/useI18n';
-import { FisheyeCameraParametersV2Cali } from 'interfaces/FisheyePreview';
+import { FisheyeCaliParameters } from 'interfaces/FisheyePreview';
 import {
   solvePnPFindCorners,
   solvePnPCalculate,
@@ -18,7 +18,7 @@ import styles from './SolvePnP.module.scss';
 import useCamera from './useCamera';
 
 interface Props {
-  params: FisheyeCameraParametersV2Cali;
+  params: FisheyeCaliParameters;
   dh: number;
   hasNext?: boolean;
   version?: number;

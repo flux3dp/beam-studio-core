@@ -2,7 +2,10 @@
  * API camera calibration
  * Ref: none
  */
-import { FisheyeCameraParametersV2Cali } from 'interfaces/FisheyePreview';
+import {
+  FisheyeCaliParameters,
+  FisheyeCameraParametersV2Cali,
+} from 'interfaces/FisheyePreview';
 
 import Websocket from '../websocket';
 
@@ -356,7 +359,7 @@ class CameraCalibrationApi {
   solvePnPCalculate = (
     dh: number,
     points: [number, number][],
-    version = 2,
+    version = 2
   ): Promise<{
     success: boolean;
     data?: { rvec: number[]; tvec: number[] };
@@ -387,7 +390,7 @@ class CameraCalibrationApi {
       this.ws.send(`solve_pnp_calculate ${version} ${dh.toFixed(3)} ${JSON.stringify(points)}`);
     });
 
-  updateData = (data: FisheyeCameraParametersV2Cali): Promise<boolean> =>
+  updateData = (data: FisheyeCaliParameters): Promise<boolean> =>
     new Promise((resolve, reject) => {
       this.events.onMessage = (response) => {
         if (response.status === 'ok') {

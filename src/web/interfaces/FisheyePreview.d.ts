@@ -85,6 +85,8 @@ export interface PerspectiveGrid {
 
 export type FisheyeCameraParameters = FisheyeCameraParametersV1 | FisheyeCameraParametersV2 | FisheyeCameraParametersV3;
 
+export type FisheyeCaliParameters = FisheyeCameraParametersV2Cali | FisheyeCameraParametersV3Cali;
+
 /**
  * @deprecated only used for V1, should be removed after all V1 camera is updated to V2
  * RotationParameters3D to save in the machine
