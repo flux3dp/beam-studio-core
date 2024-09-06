@@ -1642,8 +1642,15 @@ export interface ILang {
     camera_parameter_saved_successfully: string;
     failed_to_save_camera_parameter: string;
     failed_to_solve_pnp: string;
+    calibrating: string;
+    moving_laser_head: string;
+    failed_to_move_laser_head: string;
+    put_chessboard: string;
+    put_chessboard_desc: string;
     put_chessboard_1: string;
     put_chessboard_2: string;
+    failed_to_calibrate_chessboard: string;
+    perform_autofocus_bb2: string;
   };
   input_machine_password: {
     require_password: string,

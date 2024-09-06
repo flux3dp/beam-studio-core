@@ -57,8 +57,8 @@ const BB2Calibration = ({ onClose }: Props): JSX.Element => {
   if (step === Steps.PRE_CHESSBOARD) {
     return (
       <Instruction
-        title="tPut Chessboard"
-        steps={['tPlease place the chessboard in the center of workarea']}
+        title={tCali.put_chessboard}
+        steps={[tCali.put_chessboard_desc]}
         buttons={[
           { label: tCali.back, onClick: () => setStep(Steps.CHECKPOINT_DATA) },
           {
@@ -112,7 +112,7 @@ const BB2Calibration = ({ onClose }: Props): JSX.Element => {
           { src: 'video/ador-calibration-2/paper.mp4', type: 'video/mp4' },
         ]}
         title={tCali.put_paper}
-        steps={[tCali.put_paper_step1, tCali.put_paper_step2, tCali.put_paper_step3]}
+        steps={[tCali.put_paper_step1, tCali.put_paper_step2, tCali.perform_autofocus_bb2]}
         buttons={[
           { label: tCali.back, onClick: () => setStep(Steps.CHESSBOARD) },
           { label: tCali.start_engrave, onClick: () => handleNext(), type: 'primary' },

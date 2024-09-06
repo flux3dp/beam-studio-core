@@ -1,10 +1,12 @@
 import alertCaller from 'app/actions/alert-caller';
 import deviceMaster from 'helpers/device-master';
+import i18n from 'helpers/i18n';
 import progressCaller from 'app/actions/progress-caller';
 import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 
 const moveLaserHead = async (): Promise<boolean> => {
   let isLineCheckMode = false;
+  const lang = i18n.lang.calibration;
   try {
     progressCaller.openNonstopProgress({
       id: 'move-laser-head',
@@ -20,14 +22,12 @@ const moveLaserHead = async (): Promise<boolean> => {
     await deviceMaster.rawMove({ x: center[0], y: center[1], f: 7500 });
     await deviceMaster.rawEndLineCheckMode();
     isLineCheckMode = false;
-    // TODO: autofocus after the machine supports it
-    // await deviceMaster.rawAutoFocus();
     await deviceMaster.rawLooseMotor();
     await deviceMaster.endRawMode();
     return true;
   } catch (error) {
     console.error(error);
-    alertCaller.popUpError({ message: 'tFailed to move to center and focus.' });
+    alertCaller.popUpError({ message: lang.failed_to_move_laser_head });
     return false;
   } finally {
     if (deviceMaster.currentControlMode === 'raw') {

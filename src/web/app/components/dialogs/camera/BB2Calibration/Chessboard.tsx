@@ -41,7 +41,7 @@ const Chessboard = ({ updateParam, onNext, onClose }: Props): JSX.Element => {
   }, [img, handleTakePicture]);
 
   const handleCalibrate = async () => {
-    progressCaller.openNonstopProgress({ id: 'calibrate-chessboard', message: 'tCalibrating...' });
+    progressCaller.openNonstopProgress({ id: 'calibrate-chessboard', message: lang.calibrating });
     clearTimeout(liveTimeout.current);
     cameraLive.current = false;
     let success = false;
@@ -55,7 +55,7 @@ const Chessboard = ({ updateParam, onNext, onClose }: Props): JSX.Element => {
         return;
       }
       const { reason } = res.data;
-      alertCaller.popUpError({ message: `tFailed to calibrate with the picture. ${reason}` });
+      alertCaller.popUpError({ message: `${lang.failed_to_calibrate_chessboard} ${reason}` });
     } catch (error) {
       console.error(error);
     } finally {
