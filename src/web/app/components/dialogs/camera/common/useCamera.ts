@@ -24,13 +24,13 @@ const useCamera = (
         });
       const { imgBlob } = (await deviceMaster.takeOnePicture()) || {};
       if (!imgBlob) {
-        if (retryTimes < 3) return handleTakePicture({ retryTimes: retryTimes + 1, silent });
+        if (retryTimes < 2) return handleTakePicture({ retryTimes: retryTimes + 1, silent });
         alertCaller.popUpError({ message: 'Unable to get image' });
         return null;
       }
       if (handleImg) {
         const res = await handleImg(imgBlob);
-        if (!res && retryTimes < 3)
+        if (!res && retryTimes < 2)
           return handleTakePicture({ retryTimes: retryTimes + 1, silent });
       }
       if (!silent) progressCaller.popById('use-camera');
@@ -47,8 +47,12 @@ const useCamera = (
       });
       try {
         await deviceMaster.connectCamera();
-        const exposureRes = await deviceMaster.getDeviceSetting('camera_exposure_absolute');
-        setExposureSetting(JSON.parse(exposureRes.value));
+        try {
+          const exposureRes = await deviceMaster.getDeviceSetting('camera_exposure_absolute');
+          setExposureSetting(JSON.parse(exposureRes.value));
+        } catch (e) {
+          console.log('Failed to get exposure setting', e);
+        }
         handleTakePicture();
       } finally {
         progressCaller.popById('use-camera');
