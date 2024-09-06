@@ -35,6 +35,7 @@ const BB2Calibration = ({ onClose }: Props): JSX.Element => {
   const lang = useI18n();
   const tCali = lang.calibration;
   const calibratingParam = useRef<FisheyeCameraParametersV3Cali>({});
+  const useOldData = useRef(false);
   const [step, setStep] = useState<Steps>(Steps.CHECKPOINT_DATA);
   const updateParam = useCallback((param: FisheyeCameraParametersV3Cali) => {
     calibratingParam.current = { ...calibratingParam.current, ...param };
@@ -48,8 +49,10 @@ const BB2Calibration = ({ onClose }: Props): JSX.Element => {
         updateParam={updateParam}
         onClose={onClose}
         onNext={(res: boolean) => {
-          if (!res) setStep(Steps.PRE_CHESSBOARD);
-          else setStep(Steps.PUT_PAPER);
+          if (res) {
+            useOldData.current = true;
+            setStep(Steps.PUT_PAPER);
+          } else setStep(Steps.PRE_CHESSBOARD);
         }}
       />
     );
@@ -114,7 +117,7 @@ const BB2Calibration = ({ onClose }: Props): JSX.Element => {
         title={tCali.put_paper}
         steps={[tCali.put_paper_step1, tCali.put_paper_step2, tCali.perform_autofocus_bb2]}
         buttons={[
-          { label: tCali.back, onClick: () => setStep(Steps.CHESSBOARD) },
+          { label: tCali.back, onClick: () => setStep(useOldData.current ? Steps.CHECKPOINT_DATA : Steps.CHESSBOARD) },
           { label: tCali.start_engrave, onClick: () => handleNext(), type: 'primary' },
         ]}
       />
