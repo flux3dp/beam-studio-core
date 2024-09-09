@@ -10,6 +10,7 @@ import { callIfExists, cssClasses } from './helpers';
 interface Props {
   id: string,
   attributes?: any,
+  children?: React.ReactNode,
   collect?: Function,
   disable?: boolean,
   holdToDisplay?: number,

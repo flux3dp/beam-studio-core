@@ -10,6 +10,7 @@ interface Position {
 }
 
 interface Props {
+  children?: JSX.Element;
   arrowDirection: ArrowDirection;
   arrowHeight: number;
   arrowWidth: number;
@@ -31,10 +32,22 @@ class DialogBox extends React.PureComponent<Props> {
       position = { left: 100, top: 100 },
     } = this.props;
     const arrowStyle = {
-      top: { borderWidth: `0 ${arrowWidth / 2}px ${arrowHeight}px ${arrowWidth / 2}px`, borderColor: `transparent transparent ${arrowColor} transparent` },
-      left: { borderWidth: `${arrowWidth / 2}px ${arrowHeight}px ${arrowWidth / 2}px 0`, borderColor: `transparent ${arrowColor} transparent transparent` },
-      right: { borderWidth: `${arrowWidth / 2}px 0 ${arrowWidth / 2}px ${arrowHeight}px`, borderColor: `transparent transparent transparent ${arrowColor}` },
-      bottom: { borderWidth: `${arrowHeight}px ${arrowWidth / 2}px 0 ${arrowWidth / 2}px`, borderColor: `${arrowColor} transparent transparent transparent` },
+      top: {
+        borderWidth: `0 ${arrowWidth / 2}px ${arrowHeight}px ${arrowWidth / 2}px`,
+        borderColor: `transparent transparent ${arrowColor} transparent`,
+      },
+      left: {
+        borderWidth: `${arrowWidth / 2}px ${arrowHeight}px ${arrowWidth / 2}px 0`,
+        borderColor: `transparent ${arrowColor} transparent transparent`,
+      },
+      right: {
+        borderWidth: `${arrowWidth / 2}px 0 ${arrowWidth / 2}px ${arrowHeight}px`,
+        borderColor: `transparent transparent transparent ${arrowColor}`,
+      },
+      bottom: {
+        borderWidth: `${arrowHeight}px ${arrowWidth / 2}px 0 ${arrowWidth / 2}px`,
+        borderColor: `${arrowColor} transparent transparent transparent`,
+      },
     }[arrowDirection];
     const horizontalRef = position.left === undefined ? 'right' : 'left';
     const verticalRef = position.top === undefined ? 'bottom' : 'top';
@@ -43,7 +56,7 @@ class DialogBox extends React.PureComponent<Props> {
     } else {
       arrowStyle[verticalRef] = arrowPadding;
     }
-    return (<div className={classNames('dialog-box-arrow', arrowDirection)} style={arrowStyle} />);
+    return <div className={classNames('dialog-box-arrow', arrowDirection)} style={arrowStyle} />;
   };
 
   calculatePositioStyle = () => {
@@ -86,9 +99,7 @@ class DialogBox extends React.PureComponent<Props> {
     return (
       <div className={classNames('dialog-box-container')} style={this.calculatePositioStyle()}>
         {this.renderArrow()}
-        <div className={classNames('dialog-box')}>
-          {children || content}
-        </div>
+        <div className={classNames('dialog-box')}>{children || content}</div>
         {this.renderCloseButton()}
       </div>
     );
