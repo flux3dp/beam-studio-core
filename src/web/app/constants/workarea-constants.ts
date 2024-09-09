@@ -15,6 +15,7 @@ export interface WorkArea {
   deep?: number; // mm
   maxSpeed: number; // mm/s
   minSpeed: number; // mm/s
+  minPower?: number; // %
   rotary: number[];
   cameraCenter?: number[]; // [mm, mm]
   autoFocusOffset?: number[]; // [mm, mm]
@@ -30,6 +31,7 @@ const workareaConstants: { [key in WorkAreaModel]: WorkArea } = {
     pxHeight: 210 * dpmm,
     maxSpeed: 300,
     minSpeed: 0.5,
+    minPower: 10,
     rotary: [0, 1],
   },
   fbb1b: {
@@ -40,6 +42,7 @@ const workareaConstants: { [key in WorkAreaModel]: WorkArea } = {
     pxHeight: 375 * dpmm,
     maxSpeed: 300,
     minSpeed: 0.5,
+    minPower: 10,
     rotary: [0, 1],
   },
   fbb1p: {
@@ -50,6 +53,7 @@ const workareaConstants: { [key in WorkAreaModel]: WorkArea } = {
     pxHeight: 375 * dpmm,
     maxSpeed: 300,
     minSpeed: 0.5,
+    minPower: 10,
     rotary: [0, 1],
   },
   fhexa1: {
@@ -60,6 +64,7 @@ const workareaConstants: { [key in WorkAreaModel]: WorkArea } = {
     pxHeight: 410 * dpmm,
     maxSpeed: 900,
     minSpeed: 0.5,
+    minPower: 10,
     rotary: [0, 1],
     autoFocusOffset: [31.13, 1.2, 6.5],
   },
@@ -74,6 +79,7 @@ const workareaConstants: { [key in WorkAreaModel]: WorkArea } = {
     deep: 40.5,
     maxSpeed: 400,
     minSpeed: 0.5,
+    minPower: 10,
     rotary: [0, 1],
     cameraCenter: [215, 150],
     autoFocusOffset: [20.9, -40.38, 7.5],
