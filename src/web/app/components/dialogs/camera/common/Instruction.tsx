@@ -7,7 +7,7 @@ import useDidUpdateEffect from 'helpers/hooks/useDidUpdateEffect';
 import styles from './Instruction.module.scss';
 
 interface Props {
-  animationSrcs: { src: string; type: string }[];
+  animationSrcs?: { src: string; type: string }[];
   title: string;
   text?: string;
   steps?: string[];
@@ -47,14 +47,18 @@ const Instruction = ({
       {text}
       {steps && (
         <ol className={styles.steps}>
-          {steps.map((step, i) => <li key={i}>{step}</li>)}
+          {steps.map((step, i) => (
+            <li key={i}>{step}</li>
+          ))}
         </ol>
       )}
-      <video className={styles.video} ref={videoRef} autoPlay loop muted>
-        {animationSrcs.map(({ src, type }) => (
-          <source key={src} src={src} type={type} />
-        ))}
-      </video>
+      {animationSrcs && (
+        <video className={styles.video} ref={videoRef} autoPlay loop muted>
+          {animationSrcs.map(({ src, type }) => (
+            <source key={src} src={src} type={type} />
+          ))}
+        </video>
+      )}
     </Modal>
   );
 };

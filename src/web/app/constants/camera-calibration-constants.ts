@@ -16,19 +16,3 @@ export const CALIBRATION_PARAMS = {
   idealOffsetY: 30, // mm
   idealScaleRatio: (585 / 720) * 2, // pixel on studio / pixel on beambox machine; 與焦距成正比
 };
-
-export interface CameraParameters {
-  x: number,
-  y: number,
-  angle: number,
-  scaleRatioX: number,
-  scaleRatioY: number,
-}
-
-export interface CameraConfig {
-  X: number;
-  Y: number;
-  R: number;
-  SX: number;
-  SY: number;
-}

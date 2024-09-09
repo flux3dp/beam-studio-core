@@ -55,6 +55,7 @@ export default {
     fad1: ['ado1', 'fad1'],
   },
   adorModels: ['ado1', 'fad1'],
+  fcodeV2Models: new Set(['ado1', 'fbb2']),
   leftPanelWidth: 50, // px
   rightPanelWidth: window.os !== 'MacOS' ? 258 : 242, // px
   rightPanelScrollBarWidth: window.os !== 'MacOS' ? 16 : 0, // px

@@ -3,12 +3,16 @@ import CameraCalibrationApi from 'helpers/api/camera-calibration';
 import deviceMaster from 'helpers/device-master';
 import i18n from 'helpers/i18n';
 import VersionChecker from 'helpers/version-checker';
+import { CameraConfig } from 'interfaces/Camera';
 import {
   CALIBRATION_PARAMS,
-  CameraConfig,
   DEFAULT_CAMERA_OFFSET,
 } from 'app/constants/camera-calibration-constants';
-import { FisheyeCameraParameters, FisheyeCameraParametersV2Cali } from 'interfaces/FisheyePreview';
+import {
+  FisheyeCaliParameters,
+  FisheyeCameraParameters,
+  FisheyeCameraParametersV2Cali,
+} from 'interfaces/FisheyePreview';
 import { IDeviceInfo } from 'interfaces/IDevice';
 
 const api = new CameraCalibrationApi();
@@ -401,7 +405,7 @@ export const calibrateChessboard = async (
   | {
       success: true;
       blob: Blob;
-      data?: {
+      data: {
         ret: number;
         k: number[][];
         d: number[][];
@@ -435,7 +439,8 @@ export const findCorners = async (
 
 export const solvePnPFindCorners = async (
   img: Blob | ArrayBuffer,
-  dh: number
+  dh: number,
+  version = 2
 ): Promise<
   | {
       success: true;
@@ -448,22 +453,23 @@ export const solvePnPFindCorners = async (
       data: { status: string; info: string; reason: string };
     }
 > => {
-  const resp = await api.solvePnPFindCorners(img, dh);
+  const resp = await api.solvePnPFindCorners(img, dh, version);
   return resp;
 };
 
 export const solvePnPCalculate = async (
   dh: number,
-  points: [number, number][]
+  points: [number, number][],
+  version = 2
 ): Promise<{
   success: boolean;
   data?: { rvec: number[]; tvec: number[] };
 }> => {
-  const resp = await api.solvePnPCalculate(dh, points);
+  const resp = await api.solvePnPCalculate(dh, points, version);
   return resp;
 };
 
-export const updateData = async (data: FisheyeCameraParametersV2Cali): Promise<boolean> => {
+export const updateData = async (data: FisheyeCaliParameters): Promise<boolean> => {
   const resp = await api.updateData(data);
   return resp;
 };

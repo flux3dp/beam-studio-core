@@ -6,23 +6,30 @@ import alertCaller from 'app/actions/alert-caller';
 import deviceMaster from 'helpers/device-master';
 import progressCaller from 'app/actions/progress-caller';
 import useI18n from 'helpers/useI18n';
-import { FisheyeCameraParametersV2Cali } from 'interfaces/FisheyePreview';
+import { FisheyeCaliParameters } from 'interfaces/FisheyePreview';
 import { updateData } from 'helpers/camera-calibration-helper';
 
 import styles from './CheckpointData.module.scss';
 
-interface Props {
-  factoryMode?: boolean;
-  updateParam: (param: FisheyeCameraParametersV2Cali) => void;
+interface Props<T = FisheyeCaliParameters> {
+  allowCheckPoint?: boolean;
+  askUser?: boolean;
+  updateParam: (param: T) => void;
   onClose: (complete: boolean) => void;
   onNext: (res: boolean) => void;
 }
 
-const CheckpointData = ({ factoryMode, updateParam, onClose, onNext }: Props): JSX.Element => {
+const CheckpointData = <T extends FisheyeCaliParameters>({
+  allowCheckPoint = true,
+  askUser,
+  updateParam,
+  onClose,
+  onNext,
+}: Props<T>): JSX.Element => {
   const progressId = useMemo(() => 'camera-check-point', []);
   const [checkpointData, setCheckpointData] = useState<{
     file: string;
-    data: FisheyeCameraParametersV2Cali;
+    data: T;
   }>(null);
   const lang = useI18n();
   const checkData = useCallback(async () => {
@@ -36,6 +43,19 @@ const CheckpointData = ({ factoryMode, updateParam, onClose, onNext }: Props): J
       const [, blob] = data;
       const dataString = await (blob as Blob).text();
       res = JSON.parse(dataString);
+      if (res.v === 3) {
+        setCheckpointData({
+          file: 'fisheye_params.json',
+          data: {
+            k: res.k,
+            d: res.d,
+            rvec: res.rvec,
+            tvec: res.tvec,
+          } as T,
+        });
+        progressCaller.popById(progressId);
+        return;
+      }
       if (res.v === 2) {
         setCheckpointData({
           file: 'fisheye_params.json',
@@ -46,7 +66,7 @@ const CheckpointData = ({ factoryMode, updateParam, onClose, onNext }: Props): J
             tvec: res.tvec,
             refHeight: res.refHeight,
             source: res.source,
-          },
+          } as T,
         });
         progressCaller.popById(progressId);
         return;
@@ -54,25 +74,27 @@ const CheckpointData = ({ factoryMode, updateParam, onClose, onNext }: Props): J
     } catch {
       /* do nothing */
     }
-    try {
-      const data = await deviceMaster.downloadFile('fisheye', 'checkpoint.json');
-      const [, blob] = data;
-      const dataString = await (blob as Blob).text();
-      res = JSON.parse(dataString);
-      if (res) {
-        setCheckpointData({
-          file: 'checkpoint.json',
-          data: res,
-        });
-        progressCaller.popById(progressId);
-        return;
+    if (allowCheckPoint) {
+      try {
+        const data = await deviceMaster.downloadFile('fisheye', 'checkpoint.json');
+        const [, blob] = data;
+        const dataString = await (blob as Blob).text();
+        res = JSON.parse(dataString);
+        if (res) {
+          setCheckpointData({
+            file: 'checkpoint.json',
+            data: res,
+          });
+          progressCaller.popById(progressId);
+          return;
+        }
+      } catch {
+        /* do nothing */
       }
-    } catch {
-      /* do nothing */
     }
     progressCaller.popById(progressId);
     onNext(false);
-  }, [lang, progressId, onNext]);
+  }, [lang, allowCheckPoint, progressId, onNext]);
 
   const handleOk = useCallback(async () => {
     progressCaller.openNonstopProgress({
@@ -101,10 +123,10 @@ const CheckpointData = ({ factoryMode, updateParam, onClose, onNext }: Props): J
   }, []);
 
   useEffect(() => {
-    if (checkpointData && !factoryMode) handleOk();
-  }, [checkpointData, factoryMode, handleOk]);
+    if (checkpointData && !askUser) handleOk();
+  }, [checkpointData, askUser, handleOk]);
 
-  if (!factoryMode)
+  if (!askUser)
     return (
       <Modal
         width={400}
@@ -142,12 +164,6 @@ const CheckpointData = ({ factoryMode, updateParam, onClose, onNext }: Props): J
         (checkpointData.file === 'fisheye_params.json'
           ? lang.calibration.use_old_camera_parameter
           : lang.calibration.found_checkpoint)}
-      {checkpointData?.data && (
-        <>
-          <br />
-          Data Source: {checkpointData.data.source}
-        </>
-      )}
     </Modal>
   );
 };

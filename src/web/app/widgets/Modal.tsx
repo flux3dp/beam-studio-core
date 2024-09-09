@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import shortcuts from '../../helpers/shortcuts';
 
 interface Props {
+  children?: JSX.Element;
   onOpen?: (any?) => void;
   onClose?: (any?) => void;
   content?: JSX.Element;

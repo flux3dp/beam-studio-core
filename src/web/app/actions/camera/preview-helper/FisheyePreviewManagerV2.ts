@@ -49,7 +49,7 @@ class FisheyePreviewManagerV2 extends FisheyePreviewManagerBase implements Fishe
     console.log(params);
     await deviceMaster.setFisheyeParam(params);
     await this.updateLevelingData();
-    this.onObjectHeightChanged();
+    await this.onObjectHeightChanged();
     if (!progressId) progressCaller.popById(this.progressId);
     return true;
   }
@@ -66,7 +66,7 @@ class FisheyePreviewManagerV2 extends FisheyePreviewManagerBase implements Fishe
   async reloadLevelingOffset(): Promise<void> {
     this.levelingOffset = await getLevelingData('offset');
     await this.updateLevelingData();
-    this.onObjectHeightChanged();
+    await this.onObjectHeightChanged();
   }
 
   onObjectHeightChanged = async (): Promise<void> => {

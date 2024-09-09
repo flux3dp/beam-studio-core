@@ -1,40 +1,45 @@
 import classNames from 'classnames';
 import React, { SyntheticEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Button, Col, InputNumber, Modal, Row, Slider, Tooltip } from 'antd';
+import { Button, Col, InputNumber, Modal, Row, Spin } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
 
 import alertCaller from 'app/actions/alert-caller';
-import deviceMaster from 'helpers/device-master';
 import ObjectPanelIcons from 'app/icons/object-panel/ObjectPanelIcons';
-import progressCaller from 'app/actions/progress-caller';
 import useI18n from 'helpers/useI18n';
-import WorkareaIcons from 'app/icons/workarea/WorkareaIcons';
-import { FisheyeCameraParametersV2Cali } from 'interfaces/FisheyePreview';
-import { IConfigSetting } from 'interfaces/IDevice';
+import { FisheyeCaliParameters } from 'interfaces/FisheyePreview';
 import {
   solvePnPFindCorners,
   solvePnPCalculate,
   updateData,
 } from 'helpers/camera-calibration-helper';
 
+import ExposureSlider from './ExposureSlider';
 import styles from './SolvePnP.module.scss';
-
-const PROGRESS_ID = 'camera-solve-pnp';
+import useCamera from './useCamera';
 
 interface Props {
-  params: FisheyeCameraParametersV2Cali;
+  params: FisheyeCaliParameters;
   dh: number;
   hasNext?: boolean;
+  version?: number;
   onClose: (complete: boolean) => void;
   onNext: (rvec: number[], tvec: number[]) => void;
   onBack: () => void;
 }
 
-const SolvePnP = ({ params, dh, hasNext = false, onClose, onNext, onBack }: Props): JSX.Element => {
+const SolvePnP = ({
+  params,
+  dh,
+  hasNext = false,
+  version = 2,
+  onClose,
+  onNext,
+  onBack,
+}: Props): JSX.Element => {
   const [img, setImg] = useState<{ blob: Blob; url: string; success: boolean }>(null);
   const [imgLoaded, setImgLoaded] = useState(false);
   const [points, setPoints] = useState<[number, number][]>([]);
   const [selectedPointIdx, setSelectedPointIdx] = useState<number>(-1);
-  const [exposureSetting, setExposureSetting] = useState<IConfigSetting | null>(null);
   const dragStartPos = useRef<{
     x: number;
     y: number;
@@ -51,14 +56,12 @@ const SolvePnP = ({ params, dh, hasNext = false, onClose, onNext, onBack }: Prop
   const zoomCenter = useRef<{ x: number; y: number }>(null);
   const lang = useI18n();
 
-  const getSetting = async () => {
-    try {
-      const exposureRes = await deviceMaster.getDeviceSetting('camera_exposure_absolute');
-      setExposureSetting(JSON.parse(exposureRes.value));
-    } catch (e) {
-      console.error('Failed to get exposure setting', e);
-    }
-  };
+  useEffect(
+    () => () => {
+      URL.revokeObjectURL(img?.url);
+    },
+    [img]
+  );
 
   const scrollToZoomCenter = useCallback(() => {
     if (zoomCenter.current && imgContainerRef.current) {
@@ -100,32 +103,10 @@ const SolvePnP = ({ params, dh, hasNext = false, onClose, onNext, onBack }: Prop
     [scrollToZoomCenter]
   );
 
-  const initSetup = useCallback(async () => {
-    progressCaller.openNonstopProgress({
-      id: PROGRESS_ID,
-      message: lang.calibration.taking_picture,
-    });
-    try {
-      await deviceMaster.connectCamera();
-      getSetting();
-    } finally {
-      progressCaller.popById(PROGRESS_ID);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const handleTakePicture = async (retryTimes = 0) => {
-    progressCaller.openNonstopProgress({
-      id: PROGRESS_ID,
-      message: lang.calibration.taking_picture,
-    });
-    const { imgBlob } = (await deviceMaster.takeOnePicture()) || {};
-    if (!imgBlob) {
-      if (retryTimes < 3) handleTakePicture(retryTimes + 1);
-      else alertCaller.popUpError({ message: 'Unable to get image' });
-    } else {
+  const handleImg = useCallback(
+    async (imgBlob: Blob) => {
       try {
-        const res = await solvePnPFindCorners(imgBlob, dh);
+        const res = await solvePnPFindCorners(imgBlob, dh, version);
         if (res.success) {
           const { success, blob, data } = res;
           setImg({ blob, url: URL.createObjectURL(blob), success });
@@ -134,24 +115,19 @@ const SolvePnP = ({ params, dh, hasNext = false, onClose, onNext, onBack }: Prop
           const { data } = res;
           if (data.info === 'NO_DATA') {
             await updateData(params);
-          } else if (retryTimes < 3) {
-            handleTakePicture(retryTimes + 1);
+            return await handleImg(imgBlob);
           }
+          return false;
         }
       } catch (err) {
         alertCaller.popUpError({ message: err.message });
       }
-    }
-    progressCaller.popById(PROGRESS_ID);
-  };
+      return true;
+    },
+    [dh, params, version]
+  );
 
-  useEffect(() => {
-    initSetup().then(() => {
-      handleTakePicture();
-    });
-    return () => deviceMaster.disconnectCamera();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { exposureSetting, setExposureSetting, handleTakePicture } = useCamera(handleImg);
 
   const handleContainerDragStart = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     dragStartPos.current = {
@@ -289,7 +265,7 @@ const SolvePnP = ({ params, dh, hasNext = false, onClose, onNext, onBack }: Prop
   }, [handleWheel]);
 
   const handleDone = async () => {
-    const res = await solvePnPCalculate(dh, points);
+    const res = await solvePnPCalculate(dh, points, version);
     if (res.success) {
       const { rvec, tvec } = res.data;
       onNext(rvec, tvec);
@@ -298,16 +274,20 @@ const SolvePnP = ({ params, dh, hasNext = false, onClose, onNext, onBack }: Prop
     }
   };
 
-  const positionText = useMemo(() => [
-    lang.calibration.align_olt,
-    lang.calibration.align_ort,
-    lang.calibration.align_olb,
-    lang.calibration.align_orb,
-    lang.calibration.align_ilt,
-    lang.calibration.align_irt,
-    lang.calibration.align_ilb,
-    lang.calibration.align_irb,
-  ][selectedPointIdx], [lang, selectedPointIdx]);
+  const positionText = useMemo(
+    () =>
+      [
+        lang.calibration.align_olt,
+        lang.calibration.align_ort,
+        lang.calibration.align_olb,
+        lang.calibration.align_orb,
+        lang.calibration.align_ilt,
+        lang.calibration.align_irt,
+        lang.calibration.align_ilb,
+        lang.calibration.align_irb,
+      ][selectedPointIdx],
+    [lang, selectedPointIdx]
+  );
 
   return (
     <Modal
@@ -320,11 +300,7 @@ const SolvePnP = ({ params, dh, hasNext = false, onClose, onNext, onBack }: Prop
         <Button className={styles['footer-button']} onClick={onBack} key="back">
           {lang.buttons.back}
         </Button>,
-        <Button
-          className={styles['footer-button']}
-          onClick={() => handleTakePicture(0)}
-          key="retry"
-        >
+        <Button className={styles['footer-button']} onClick={() => handleTakePicture()} key="retry">
           {lang.calibration.retake}
         </Button>,
         <Button
@@ -355,42 +331,49 @@ const SolvePnP = ({ params, dh, hasNext = false, onClose, onNext, onBack }: Prop
               onMouseUp={handleDragEnd}
               onMouseLeave={handleDragEnd}
             >
-              {!imgLoaded ? (
-                <img src={img?.url} onLoad={handleImgLoad} />
-              ) : (
-                <svg
-                  ref={svgRef}
-                  width={imageSizeRef.current.width * scaleRef.current}
-                  height={imageSizeRef.current.height * scaleRef.current}
-                  viewBox={`0 0 ${imageSizeRef.current.width} ${imageSizeRef.current.height}`}
-                >
-                  <image
-                    width={imageSizeRef.current.width}
-                    height={imageSizeRef.current.height}
-                    href={img?.url}
-                  />
-                  {points.map((p, idx) => (
-                    <g
-                      // eslint-disable-next-line react/no-array-index-key
-                      key={idx}
-                      className={classNames({ [styles.selected]: idx === selectedPointIdx })}
-                    >
-                      <circle
-                        cx={p[0]}
-                        cy={p[1]}
-                        r={5 / scaleRef.current}
-                        onMouseDown={(e) => handlePointDragStart(idx, e)}
-                      />
-                      <circle
-                        className={classNames('center', styles.center)}
-                        cx={p[0]}
-                        cy={p[1]}
-                        r={1 / scaleRef.current}
-                      />
-                    </g>
-                  ))}
-                </svg>
+              {!img && (
+                <Spin
+                  className={styles.spin}
+                  indicator={<LoadingOutlined className={styles.spinner} spin />}
+                />
               )}
+              {img &&
+                (!imgLoaded ? (
+                  <img src={img?.url} onLoad={handleImgLoad} />
+                ) : (
+                  <svg
+                    ref={svgRef}
+                    width={imageSizeRef.current.width * scaleRef.current}
+                    height={imageSizeRef.current.height * scaleRef.current}
+                    viewBox={`0 0 ${imageSizeRef.current.width} ${imageSizeRef.current.height}`}
+                  >
+                    <image
+                      width={imageSizeRef.current.width}
+                      height={imageSizeRef.current.height}
+                      href={img?.url}
+                    />
+                    {points.map((p, idx) => (
+                      <g
+                        // eslint-disable-next-line react/no-array-index-key
+                        key={idx}
+                        className={classNames({ [styles.selected]: idx === selectedPointIdx })}
+                      >
+                        <circle
+                          cx={p[0]}
+                          cy={p[1]}
+                          r={5 / scaleRef.current}
+                          onMouseDown={(e) => handlePointDragStart(idx, e)}
+                        />
+                        <circle
+                          className={classNames('center', styles.center)}
+                          cx={p[0]}
+                          cy={p[1]}
+                          r={1 / scaleRef.current}
+                        />
+                      </g>
+                    ))}
+                  </svg>
+                ))}
             </div>
             <div className={styles['zoom-block']}>
               <button type="button" onClick={() => handleZoom(-0.2)}>
@@ -405,7 +388,9 @@ const SolvePnP = ({ params, dh, hasNext = false, onClose, onNext, onBack }: Prop
         <Col span={8}>
           {selectedPointIdx >= 0 && points[selectedPointIdx] && (
             <Row gutter={[0, 12]} align="middle">
-              <Col span={24} className={styles['point-id']}>Point #{selectedPointIdx}</Col>
+              <Col span={24} className={styles['point-id']}>
+                Point #{selectedPointIdx}
+              </Col>
               <Col span={24}>{positionText}</Col>
               <Col span={4}>X</Col>
               <Col span={20}>
@@ -445,36 +430,11 @@ const SolvePnP = ({ params, dh, hasNext = false, onClose, onNext, onBack }: Prop
         {exposureSetting && (
           <>
             <Col span={16}>
-              <div className={styles['slider-container']}>
-                <Tooltip title={lang.editor.exposure}>
-                  <WorkareaIcons.Exposure className={styles.icon} />
-                </Tooltip>
-                <Slider
-                  className={styles.slider}
-                  min={Math.max(exposureSetting.min, 250)}
-                  max={Math.min(exposureSetting.max, 650)}
-                  step={exposureSetting.step}
-                  value={exposureSetting.value}
-                  onChange={(value: number) => setExposureSetting({ ...exposureSetting, value })}
-                  onAfterChange={async (value: number) => {
-                    try {
-                      progressCaller.openNonstopProgress({
-                        id: PROGRESS_ID,
-                      });
-                      setExposureSetting({ ...exposureSetting, value });
-                      await deviceMaster.setDeviceSetting(
-                        'camera_exposure_absolute',
-                        value.toString()
-                      );
-                      progressCaller.popById(PROGRESS_ID);
-                      await handleTakePicture(0);
-                    } finally {
-                      progressCaller.popById(PROGRESS_ID);
-                    }
-                  }}
-                  tooltip={{ open: false }}
-                />
-              </div>
+              <ExposureSlider
+                exposureSetting={exposureSetting}
+                setExposureSetting={setExposureSetting}
+                onChanged={handleTakePicture}
+              />
             </Col>
             <Col span={8}>
               <div className={styles.value}>{exposureSetting.value}</div>

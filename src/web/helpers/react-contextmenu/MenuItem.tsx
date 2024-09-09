@@ -7,6 +7,7 @@ import { hideMenu } from './actions';
 import { callIfExists, cssClasses, store } from './helpers';
 
 interface Props {
+  children?: React.ReactNode,
   attributes?: any,
   className?: string,
   data?: any,

@@ -3,7 +3,7 @@ import { Button, Modal } from 'antd';
 
 import alertCaller from 'app/actions/alert-caller';
 import deviceMaster from 'helpers/device-master';
-import getLevelingData from 'app/actions/beambox/fisheye-preview-helpers/getLevelingData';
+import getLevelingData from 'app/actions/camera/preview-helper/getLevelingData';
 import progressCaller from 'app/actions/progress-caller';
 import useI18n from 'helpers/useI18n';
 import { FisheyeCameraParametersV2Cali } from 'interfaces/FisheyePreview';

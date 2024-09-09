@@ -167,7 +167,7 @@ export default class AbstractMenu extends Component<any, any> {
   }
 
   renderChildren = (children) => React.Children.map(children, (
-    child: Component<{ divider: any }>,
+    child: Component<{ divider: any; children: React.ReactNode }>,
   ) => {
     const props: any = {};
     if (!React.isValidElement(child)) return child;

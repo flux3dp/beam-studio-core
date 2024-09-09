@@ -13,7 +13,8 @@ import Progress from 'app/actions/progress-caller';
 import useI18n from 'helpers/useI18n';
 import VersionChecker from 'helpers/version-checker';
 import { CalibrationContext } from 'app/contexts/CalibrationContext';
-import { CameraConfig, STEP_BEFORE_ANALYZE_PICTURE } from 'app/constants/camera-calibration-constants';
+import { CameraConfig } from 'interfaces/Camera';
+import { STEP_BEFORE_ANALYZE_PICTURE } from 'app/constants/camera-calibration-constants';
 import { doGetOffsetFromPicture } from 'helpers/camera-calibration-helper';
 
 const StepRefocus = (): JSX.Element => {

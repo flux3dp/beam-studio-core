@@ -9,7 +9,8 @@ import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import Progress from 'app/actions/progress-caller';
 import useI18n from 'helpers/useI18n';
 import { CalibrationContext } from 'app/contexts/CalibrationContext';
-import { CameraConfig, STEP_FINISH, STEP_REFOCUS } from 'app/constants/camera-calibration-constants';
+import { CameraConfig } from 'interfaces/Camera';
+import { STEP_FINISH, STEP_REFOCUS } from 'app/constants/camera-calibration-constants';
 import { QuestionOutlined } from '@ant-design/icons';
 import { sendPictureThenSetConfig } from 'helpers/camera-calibration-helper';
 
