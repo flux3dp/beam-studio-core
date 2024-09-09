@@ -14,6 +14,9 @@ import { CanvasContext, CanvasMode } from 'app/contexts/CanvasContext';
 import styles from './SvgEditor.module.scss';
 
 export default class SvgEditor extends React.Component {
+  // eslint-disable-next-line react/static-property-placement
+  declare context: React.ContextType<typeof CanvasContext>;
+
   componentDidMount(): void {
     const { $ } = window;
     $(svgEditor.init);
