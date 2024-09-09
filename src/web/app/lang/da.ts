@@ -57,6 +57,7 @@ const lang: ILang = {
       power_too_high_msg: 'Brug af lavere laserstyrke (under 70%) forlænger laserens levetid.\nIndtast "NOTERET" for at fortsætte.',
       power_too_high_confirm: 'NOTERET',
       pwm_unavailable: 'Dybde-tilstand kræver firmware version 4.3.4 / 5.3.4 eller nyere. Vil du opdatere firmwaren nu?',
+      job_origin_unavailable: 'Indstilling af joboprindelse kræver firmwareversion 4.3.5 / 5.3.5 eller nyere. Vil du opdatere firmwaren nu?',
     },
     hint: {
       polygon: 'Tryk på + / - tasten for at øge / mindske sider.',

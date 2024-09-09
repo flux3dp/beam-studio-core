@@ -57,6 +57,7 @@ const lang: ILang = {
       power_too_high_msg: 'Using lower laser power (under 70%) will extends laser tube\'s lifetime.\nEnter "NOTED" to proceed.',
       power_too_high_confirm: 'NOTED',
       pwm_unavailable: 'Depth mode requires firmware version 4.3.4 / 5.3.4 or above. Would you like to update the firmware now?',
+      job_origin_unavailable: 'Setting job Origin requires firmware version 4.3.5 / 5.3.5 or above. Would you like to update the firmware now?',
     },
     hint: {
       polygon: 'Press + / - key to increase / decrease sides.',

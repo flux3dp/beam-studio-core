@@ -57,6 +57,7 @@ const lang: ILang = {
       power_too_high_msg: 'Utiliser une puissance laser inférieure (moins de 70 %) prolongera la durée de vie du tube laser.\nEntrez "PRIS EN COMPTE" pour continuer.',
       power_too_high_confirm: 'PRIS EN COMPTE',
       pwm_unavailable: 'Le Mode Profondeur nécessite une version de firmware 4.3.4 / 5.3.4 ou supérieure. Voulez-vous mettre à jour le firmware maintenant ?',
+      job_origin_unavailable: "La définition de l'origine de la tâche nécessite la version du firmware 4.3.5 / 5.3.5 ou supérieure. Voulez-vous mettre à jour le firmware maintenant?",
     },
     hint: {
       polygon: 'Appuyez sur les touches + / - pour augmenter / diminuer les côtés.',

@@ -57,6 +57,7 @@ const lang: ILang = {
       power_too_high_msg: 'Sử dụng công suất laser thấp hơn (dưới 70%) sẽ kéo dài tuổi thọ ống laser.\nNhập "ĐÃ GHI NHẬN" để tiếp tục.',
       power_too_high_confirm: 'ĐÃ GHI NHẬN',
       pwm_unavailable: 'Chế Độ Độ Sâu yêu cầu phiên bản firmware 4.3.4 / 5.3.4 hoặc cao hơn. Bạn có muốn cập nhật firmware bây giờ không?',
+      job_origin_unavailable: 'Thiết lập điểm gốc công việc yêu cầu phiên bản firmware 4.3.5 / 5.3.5 trở lên. Bạn có muốn cập nhật firmware ngay bây giờ không?',
     },
     hint: {
       polygon: 'Nhấn phím + / - để tăng / giảm số cạnh',

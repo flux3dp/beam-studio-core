@@ -57,6 +57,7 @@ const lang: ILang = {
       power_too_high_msg: 'Matalampi laserteho (alle 70 %) pidentää laserputken käyttöikää.\nKirjoita "HUOMAUTETTU" jatkaaksesi.',
       power_too_high_confirm: 'HUOMAUTETTU',
       pwm_unavailable: 'Syvyystila vaatii laiteohjelmistoversion 4.3.4 / 5.3.4 tai uudemman. Haluatko päivittää laiteohjelmiston nyt?',
+      job_origin_unavailable: 'Työn aloituskohdan asettaminen vaatii laiteohjelmistoversion 4.3.5 / 5.3.5 tai uudemman. Haluatko päivittää laiteohjelmiston nyt?',
     },
     hint: {
       polygon: 'Paina +-näppäintä lisätäksesi/vähentääksesi sivuja.',
