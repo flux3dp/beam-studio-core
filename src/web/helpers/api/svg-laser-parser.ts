@@ -14,6 +14,7 @@ import curveEngravingModeController from 'app/actions/canvas/curveEngravingModeC
 import fs from 'implementations/fileSystem';
 import i18n from 'helpers/i18n';
 import isDev from 'helpers/is-dev';
+import getJobOrigin from 'helpers/job-origin';
 import moduleOffsets from 'app/constants/layer-module/module-offsets';
 import Progress from 'app/actions/progress-caller';
 import presprayArea from 'app/actions/canvas/prespray-area';
@@ -240,6 +241,13 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
 
       const loopCompensation = Number(storage.get('loop_compensation') || '0');
       if (loopCompensation > 0) await setParameter('loop_compensation', loopCompensation);
+
+      if (BeamboxPreference.read('start-position')) {
+        // firmware version / model check
+        const { x, y } = getJobOrigin();
+        args.push('-job-origin');
+        args.push(`${x.toFixed(3)},${y.toFixed(3)}`);
+      }
 
       if (curveEngravingModeController.hasArea()) {
         const data = {
