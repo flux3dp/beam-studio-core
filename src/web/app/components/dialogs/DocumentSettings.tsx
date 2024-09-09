@@ -61,9 +61,9 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
   const supportInfo = useMemo(() => getSupportInfo(workarea), [workarea]);
   const [rotaryMode, setRotaryMode] = useState<number>(BeamboxPreference.read('rotary_mode') ?? 0);
   const [startPosition, setStartPosition] = useState<number>(
-    BeamboxPreference.read('start_position') ?? 0
+    BeamboxPreference.read('start-position') ?? 0
   );
-  const [jobOrigin, setJobOrigin] = useState<number>(BeamboxPreference.read('job_origin') ?? 1);
+  const [jobOrigin, setJobOrigin] = useState<number>(BeamboxPreference.read('job-origin') ?? 1);
   const [extendRotaryWorkarea, setExtendRotaryWorkarea] = useState<boolean>(
     !!BeamboxPreference.read('extend-rotary-workarea')
   );
@@ -121,13 +121,14 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
         BeamboxPreference.write('extend-rotary-workarea', extendRotaryWorkarea);
       if (supportInfo.rotary.mirror) BeamboxPreference.write('rotary-mirror', mirrorRotary);
     }
-
     const newPassThrough = showPassThrough && passThrough;
     const passThroughChanged = newPassThrough !== !!BeamboxPreference.read('pass-through');
     BeamboxPreference.write('pass-through', newPassThrough);
     const passThroughHeightChanged =
       passThroughHeight !== BeamboxPreference.read('pass-through-height');
     BeamboxPreference.write('pass-through-height', passThroughHeight);
+    BeamboxPreference.write('start-position', startPosition);
+    BeamboxPreference.write('job-origin', jobOrigin);
     if (workareaChanged || rotaryChanged || passThroughChanged || passThroughHeightChanged) {
       changeWorkarea(workarea, { toggleModule: workareaChanged });
       rotaryAxis.toggleDisplay();
@@ -213,7 +214,7 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
             </Select>
           </div>
         </div>
-        {isDevMode &&
+        {isDevMode && (
           <>
             <div className={styles.separator}>
               <div>{tDocu.start_position}</div>
@@ -238,22 +239,35 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
               {startPosition === 1 && (
                 <div className={styles.row}>
                   <label className={styles.title}>{tDocu.job_origin}:</label>
-                  <div className={classNames(styles.control, styles.radioGroup)}>
-                    {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((val) => (
-                      <input
-                        key={val}
-                        name="jobOrigin"
-                        type="radio"
-                        checked={jobOrigin === val}
-                        onChange={() => setJobOrigin(val)}
-                      />
-                    ))}
+                  <div className={styles.control}>
+                    <div className={styles.radioGroup}>
+                      {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((val) => (
+                        <input
+                          key={val}
+                          name="jobOrigin"
+                          type="radio"
+                          checked={jobOrigin === val}
+                          onChange={() => setJobOrigin(val)}
+                        />
+                      ))}
+                    </div>
+                    <div className={styles['job-origin-example']}>
+                      <img src="core-img/document-panel/job-origin-example.jpg" alt="Origin" />
+                      <div className={classNames(styles.mark, {
+                        [styles.l]: jobOrigin % 3 === 1,
+                        [styles.m]: jobOrigin % 3 === 2,
+                        [styles.r]: jobOrigin % 3 === 0,
+                        [styles.t]: jobOrigin <= 3,
+                        [styles.c]: jobOrigin > 3 && jobOrigin <= 6,
+                        [styles.b]: jobOrigin > 6,
+                      })} />
+                    </div>
                   </div>
                 </div>
               )}
             </div>
           </>
-        }
+        )}
         <div className={styles.separator}>
           <div>{tDocu.add_on}</div>
           <div className={styles.bar} />
