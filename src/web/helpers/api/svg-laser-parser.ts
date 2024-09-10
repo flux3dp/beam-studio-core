@@ -69,7 +69,7 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
     });
 
   return {
-    async getTaskCode(names, opts) {
+    async getTaskCode(names: string[], opts) {
       opts = opts || {};
       opts.onProgressing = opts.onProgressing || (() => {});
       opts.onFinished = opts.onFinished || (() => {});
@@ -119,7 +119,8 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
         }
       }
 
-      const hasJobOrigin = BeamboxPreference.read('enable-job-origin');
+      const { supportJobOrigin = true, supportPwm = true } = opts;
+      const hasJobOrigin = BeamboxPreference.read('enable-job-origin') && supportJobOrigin;
       if (hasJobOrigin) {
         // firmware version / model check
         const { x, y } = getJobOrigin();
@@ -177,7 +178,7 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
       if (opts.shouldUseFastGradient) args.push('-fg');
       if (opts.shouldMockFastGradient) args.push('-mfg');
       if (opts.vectorSpeedConstraint) args.push('-vsc');
-      if (opts.disablePwm) args.push('-no-pwm');
+      if (!supportPwm) args.push('-no-pwm');
       if (modelMinSpeed < 3) args.push(`-min-speed ${modelMinSpeed}`);
       else if (BeamboxPreference.read('enable-low-speed')) args.push('-min-speed 1');
       if (BeamboxPreference.read('reverse-engraving')) args.push('-rev');
