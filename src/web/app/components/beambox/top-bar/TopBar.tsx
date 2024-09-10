@@ -33,6 +33,9 @@ interface State {
 }
 
 export default class TopBar extends React.PureComponent<Record<string, never>, State> {
+  // eslint-disable-next-line react/static-property-placement
+  declare context: React.ContextType<typeof CanvasContext>;
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private discover: any;
 

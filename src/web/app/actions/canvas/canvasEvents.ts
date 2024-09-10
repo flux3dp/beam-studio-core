@@ -31,14 +31,14 @@ const setColorPreviewing = (val: boolean): void => {
 };
 
 const setupPreviewMode = (opts: { showModal?: boolean; callback?: () => void } = {}): void => {
-  canvasEventEmitter.emit('SET_PREVIEW_MODE', opts);
+  canvasEventEmitter.emit('SETUP_PREVIEW_MODE', opts);
 };
 
 const setPathEditing = (val: boolean): void => {
   canvasEventEmitter.emit('SET_PATH_EDITING', val);
 };
 
-const updateContext = () => {
+const updateContext = (): void => {
   canvasEventEmitter.emit('UPDATE_CONTEXT');
 };
 
