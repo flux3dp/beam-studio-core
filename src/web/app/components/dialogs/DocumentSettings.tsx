@@ -241,6 +241,7 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
                 <div className={styles.radioGroup}>
                   {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((val) => (
                     <input
+                      id={`jobOrigin-${val}`}
                       key={val}
                       name="jobOrigin"
                       type="radio"

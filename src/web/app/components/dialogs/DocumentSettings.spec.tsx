@@ -1,13 +1,12 @@
-import React from 'react';
+import React, { act } from 'react';
 import { fireEvent, render } from '@testing-library/react';
-
 
 const mockEventEmitter = {
   emit: jest.fn(),
-}
+};
 const mockCreateEventEmitter = jest.fn();
 jest.mock('helpers/eventEmitterFactory', () => ({
-  createEventEmitter: (...args) =>  {
+  createEventEmitter: (...args) => {
     mockCreateEventEmitter(...args);
     return mockEventEmitter;
   },
@@ -127,7 +126,9 @@ describe('test DocumentSettings', () => {
     const { baseElement } = render(<DocumentSettings unmount={mockUnmount} />);
     const workareaToggle = baseElement.querySelector('input#workareaSelect');
     fireEvent.mouseDown(workareaToggle);
-    fireEvent.click(baseElement.querySelectorAll('.ant-slide-up-appear .ant-select-item-option-content')[4]);
+    fireEvent.click(
+      baseElement.querySelectorAll('.ant-slide-up-appear .ant-select-item-option-content')[4]
+    );
     expect(baseElement).toMatchSnapshot();
     fireEvent.click(baseElement.querySelector('button#rotary_mode'));
     expect(baseElement).toMatchSnapshot();
@@ -138,15 +139,14 @@ describe('test DocumentSettings', () => {
     const { baseElement, getByText } = render(<DocumentSettings unmount={mockUnmount} />);
     expect(baseElement).toMatchSnapshot();
 
-    const dpiToggle = baseElement.querySelector('input#dpi');
-    fireEvent.mouseDown(dpiToggle);
-    fireEvent.click(
-      baseElement.querySelectorAll('.ant-slide-up-appear .ant-select-item-option-content')[2]
-    );
+    act(() => fireEvent.mouseDown(baseElement.querySelector('input#dpi')));
+    act(() => {
+      fireEvent.click(
+        baseElement.querySelectorAll('.ant-slide-up-appear .ant-select-item-option-content')[2]
+      );
+    });
     expect(baseElement).toMatchSnapshot();
-
-    const workareaToggle = baseElement.querySelector('input#workareaSelect');
-    fireEvent.mouseDown(workareaToggle);
+    act(() => fireEvent.mouseDown(baseElement.querySelector('input#workareaSelect')));
     fireEvent.click(
       baseElement.querySelectorAll('.ant-slide-up-appear .ant-select-item-option-content')[0]
     );
@@ -155,8 +155,16 @@ describe('test DocumentSettings', () => {
     fireEvent.click(baseElement.querySelector('button#autofocus-module'));
     fireEvent.click(baseElement.querySelector('button#diode_module'));
     fireEvent.click(baseElement.querySelector('button#pass_through'));
-    fireEvent.change(baseElement.querySelector('#pass_through_height'), { target: { value: 500 } });
+    fireEvent.change(baseElement.querySelector('#pass_through_height'), {
+      target: { value: 500 },
+    });
     fireEvent.blur(baseElement.querySelector('#pass_through_height'));
+    act(() =>fireEvent.mouseDown(baseElement.querySelector('input#startFrom')));
+    act(() => {
+      fireEvent.click(
+        baseElement.querySelectorAll('.ant-slide-up-appear .ant-select-item-option-content')[1]
+      );
+    })
     expect(baseElement).toMatchSnapshot();
 
     expect(mockBeamboxPreferenceWrite).not.toBeCalled();
@@ -177,7 +185,7 @@ describe('test DocumentSettings', () => {
     const { onConfirm } = mockPopUp.mock.calls[0][0];
     onConfirm();
     await new Promise((resolve) => setTimeout(resolve, 0));
-    expect(mockBeamboxPreferenceWrite).toBeCalledTimes(7);
+    expect(mockBeamboxPreferenceWrite).toBeCalledTimes(9);
     expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(1, 'engrave_dpi', 'high');
     expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(2, 'borderless', true);
     expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(3, 'enable-diode', true);
@@ -185,6 +193,8 @@ describe('test DocumentSettings', () => {
     expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(5, 'rotary_mode', 0);
     expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(6, 'pass-through', true);
     expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(7, 'pass-through-height', 500);
+    expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(8, 'enable-job-origin', 1);
+    expect(mockBeamboxPreferenceWrite).toHaveBeenNthCalledWith(9, 'job-origin', 1);
     expect(mockChangeWorkarea).toBeCalledTimes(1);
     expect(mockChangeWorkarea).toHaveBeenLastCalledWith('fbm1', { toggleModule: true });
     expect(mockToggleDisplay).toBeCalledTimes(1);
