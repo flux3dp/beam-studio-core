@@ -9,6 +9,7 @@ import TutorialConstants from 'app/constants/tutorial-constants';
 import useForceUpdate from 'helpers/use-force-update';
 import workareaManager from 'app/svgedit/workarea';
 import * as TutorialController from 'app/views/tutorials/tutorialController';
+import { getLatestDeviceInfo } from 'helpers/api/discover';
 import { getSupportInfo } from 'app/constants/add-on';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
@@ -159,7 +160,7 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
   }, [mode]);
   useEffect(() => {
     const handler = (response: { selectedDevice: IDeviceInfo | null }): void => {
-      response.selectedDevice = selectedDevice;
+      response.selectedDevice = getLatestDeviceInfo(selectedDevice.uuid);
     };
     topBarEventEmitter.on('GET_SELECTED_DEVICE', handler);
     return () => {
