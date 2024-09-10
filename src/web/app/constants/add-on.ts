@@ -22,6 +22,7 @@ interface SupportInfo {
     defaultMirror?: boolean;
   };
   lowerFocus: boolean;
+  redLight?: boolean;
 }
 
 const supportList: Record<WorkAreaModel, SupportInfo> = {
@@ -103,6 +104,7 @@ const supportList: Record<WorkAreaModel, SupportInfo> = {
       mirror: true,
     },
     lowerFocus: isDev(),
+    redLight: true,
   },
 };
 

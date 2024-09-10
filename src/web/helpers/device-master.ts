@@ -893,6 +893,14 @@ class DeviceMaster {
     return controlSocket.addTask(controlSocket.rawSetLaser, args);
   }
 
+  async rawSetRedLight(on: boolean) {
+    if (constant.fcodeV2Models.has(this.currentDevice.info.model)) {
+      const controlSocket = await this.getControl();
+      return controlSocket.addTask(controlSocket.rawSetRedLight, on);
+    }
+    return false;
+  }
+
   async rawSet24V(on: boolean) {
     const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.rawSet24V, on);

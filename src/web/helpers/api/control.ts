@@ -90,7 +90,7 @@ class Control extends EventEmitter {
     this._lineNumber = lineNumber;
   }
 
-  addTask(taskFunction: Function, ...args: any[]): Promise<any> {
+  addTask<T>(taskFunction: (...args) => T, ...args): Promise<T> {
     if (this.taskQueue.length > MAX_TASK_QUEUE) {
       console.error(
         `Control ${this.uuid} task queue exceeds max queue length. Clear queue and then send task`
@@ -265,7 +265,7 @@ class Control extends EventEmitter {
 
   useRawWaitOKResponse(command: string, timeout = 30000) {
     // Resolve after get ok from raw response
-    return new Promise<any>((resolve, reject) => {
+    return new Promise<string>((resolve, reject) => {
       const timeoutTimer = this.setTimeoutTimer(reject, timeout);
       let responseString = '';
       this.on(EVENT_COMMAND_MESSAGE, (response) => {
@@ -1252,6 +1252,15 @@ class Control extends EventEmitter {
     if (!this._isLineCheckMode) return this.useRawWaitOKResponse(command);
     return this.useRawLineCheckCommand(command);
   };
+
+  rawSetRedLight = (on: boolean) => {
+    if (this.mode !== 'raw') {
+      throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
+    }
+    const command = on ? 'M136P196' : 'M136P197';
+    if (!this._isLineCheckMode) return this.useRawWaitOKResponse(command);
+    return this.useRawLineCheckCommand(command);
+  }
 
   rawSet24V = (on: boolean) => {
     if (this.mode !== 'raw') {

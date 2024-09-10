@@ -214,60 +214,58 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
             </Select>
           </div>
         </div>
-        {isDevMode && (
-          <>
-            <div className={styles.separator}>
-              <div>{tDocu.start_position}</div>
-              <div className={styles.bar} />
-            </div>
-            <div className={styles.block}>
-              <div className={styles.row}>
-                <label className={styles.title} htmlFor="startFrom">
-                  {tDocu.start_from}:
-                </label>
-                <Select
-                  id="startFrom"
-                  value={enableJobOrigin}
-                  className={styles.control}
-                  bordered
-                  onChange={setEnableJobOrigin}
-                >
-                  <Select.Option value={0}>{tDocu.origin}</Select.Option>
-                  <Select.Option value={1}>{tDocu.current_position}</Select.Option>
-                </Select>
-              </div>
-              {enableJobOrigin === 1 && (
-                <div className={styles.row}>
-                  <label className={styles.title}>{tDocu.job_origin}:</label>
-                  <div className={styles.control}>
-                    <div className={styles.radioGroup}>
-                      {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((val) => (
-                        <input
-                          key={val}
-                          name="jobOrigin"
-                          type="radio"
-                          checked={jobOrigin === val}
-                          onChange={() => setJobOrigin(val)}
-                        />
-                      ))}
-                    </div>
-                    <div className={styles['job-origin-example']}>
-                      <img src="core-img/document-panel/job-origin-example.jpg" alt="Origin" />
-                      <div className={classNames(styles.mark, {
-                        [styles.l]: jobOrigin % 3 === 1,
-                        [styles.m]: jobOrigin % 3 === 2,
-                        [styles.r]: jobOrigin % 3 === 0,
-                        [styles.t]: jobOrigin <= 3,
-                        [styles.c]: jobOrigin > 3 && jobOrigin <= 6,
-                        [styles.b]: jobOrigin > 6,
-                      })} />
-                    </div>
-                  </div>
+        <div className={styles.separator}>
+          <div>{tDocu.start_position}</div>
+          <div className={styles.bar} />
+        </div>
+        <div className={styles.block}>
+          <div className={styles.row}>
+            <label className={styles.title} htmlFor="startFrom">
+              {tDocu.start_from}:
+            </label>
+            <Select
+              id="startFrom"
+              value={enableJobOrigin}
+              className={styles.control}
+              bordered
+              onChange={setEnableJobOrigin}
+            >
+              <Select.Option value={0}>{tDocu.origin}</Select.Option>
+              <Select.Option value={1}>{tDocu.current_position}</Select.Option>
+            </Select>
+          </div>
+          {enableJobOrigin === 1 && (
+            <div className={styles.row}>
+              <label className={styles.title}>{tDocu.job_origin}:</label>
+              <div className={styles.control}>
+                <div className={styles.radioGroup}>
+                  {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((val) => (
+                    <input
+                      key={val}
+                      name="jobOrigin"
+                      type="radio"
+                      checked={jobOrigin === val}
+                      onChange={() => setJobOrigin(val)}
+                    />
+                  ))}
                 </div>
-              )}
+                <div className={styles['job-origin-example']}>
+                  <img src="core-img/document-panel/job-origin-example.jpg" alt="Origin" />
+                  <div
+                    className={classNames(styles.mark, {
+                      [styles.l]: jobOrigin % 3 === 1,
+                      [styles.m]: jobOrigin % 3 === 2,
+                      [styles.r]: jobOrigin % 3 === 0,
+                      [styles.t]: jobOrigin <= 3,
+                      [styles.c]: jobOrigin > 3 && jobOrigin <= 6,
+                      [styles.b]: jobOrigin > 6,
+                    })}
+                  />
+                </div>
+              </div>
             </div>
-          </>
-        )}
+          )}
+        </div>
         <div className={styles.separator}>
           <div>{tDocu.add_on}</div>
           <div className={styles.bar} />

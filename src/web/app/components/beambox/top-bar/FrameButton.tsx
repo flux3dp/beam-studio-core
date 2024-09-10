@@ -20,7 +20,9 @@ import workareaManager from 'app/svgedit/workarea';
 import { CanvasContext, CanvasMode } from 'app/contexts/CanvasContext';
 import { getAllLayers } from 'helpers/layer/layer-helper';
 import { getData } from 'helpers/layer/layer-config-helper';
+import { getSupportInfo } from 'app/constants/add-on';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { WorkAreaModel } from 'app/constants/workarea-constants';
 
 import styles from './FrameButton.module.scss';
 
@@ -105,6 +107,7 @@ const FrameButton = (): JSX.Element => {
       message: sprintf(lang.message.connectingMachine, device.name),
       timeout: 30000,
     });
+    const supportInfo = getSupportInfo(device.model as WorkAreaModel);
     let lowLaserPower = 0;
     if (isAdor) {
       let warningMessage = '';
@@ -153,9 +156,45 @@ const FrameButton = (): JSX.Element => {
     const enabledInfo = {
       lineCheckMode: false,
       rotary: false,
+      redLight: false,
       '24v': false,
     };
     try {
+      const curPos = { x: 0, y: 0, a: 0 };
+      const movementFeedrate = 6000; // mm/min
+      const moveTo = async ({
+        x,
+        y,
+        a,
+        f = movementFeedrate,
+        wait,
+      }: {
+        x?: number;
+        y?: number;
+        a?: number;
+        f?: number;
+        wait?: boolean;
+      }) => {
+        let xDist = 0;
+        let yDist = 0;
+        if (x !== undefined) {
+          xDist = x - curPos.x;
+          curPos.x = x;
+        }
+        if (y !== undefined) {
+          yDist = y - curPos.y;
+          curPos.y = y;
+        } else if (a !== undefined) {
+          yDist = a - curPos.a;
+          curPos.a = a;
+        }
+        await deviceMaster.rawMove({ x, y, a, f });
+        if (wait) {
+          const totalDist = Math.sqrt(xDist ** 2 + yDist ** 2);
+          const time = (totalDist / f) * 60 * 1000;
+          await new Promise((resolve) => setTimeout(resolve, time));
+        }
+      };
       progressCaller.update(PROGRESS_ID, { message: lang.message.enteringRawMode });
       await deviceMaster.enterRawMode();
       progressCaller.update(PROGRESS_ID, { message: lang.message.exitingRotaryMode });
@@ -177,8 +216,6 @@ const FrameButton = (): JSX.Element => {
       await deviceMaster.rawSetAirPump(false);
       if (!isAdor) await deviceMaster.rawSetWaterPump(false);
       // TODO: add progress update with time
-      const movementFeedrate = 6000; // mm/min
-      // TODO: check if we need to wait between each move
       progressCaller.update(PROGRESS_ID, { message: lang.device.processing });
       const { dpmm } = constant;
       coords.minX /= dpmm;
@@ -188,13 +225,14 @@ const FrameButton = (): JSX.Element => {
       if (rotaryInfo) {
         const { y } = rotaryInfo;
         if (isAdor) {
-          await deviceMaster.rawMove({ x: coords.minX, f: movementFeedrate });
-          await deviceMaster.rawMove({ y, f: movementFeedrate });
+          await moveTo({ x: coords.minX, f: movementFeedrate });
+          await moveTo({ y, f: movementFeedrate });
           await deviceMaster.rawMoveZRelToLastHome(0);
         } else {
-          await deviceMaster.rawMove({ x: 0, y, f: movementFeedrate });
+          await moveTo({ x: 0, y, f: movementFeedrate });
         }
         await deviceMaster.rawSetRotary(true);
+        curPos.a = y;
         enabledInfo.rotary = true;
       }
       const yKey = rotaryInfo?.useAAxis ? 'a' : 'y';
@@ -202,19 +240,24 @@ const FrameButton = (): JSX.Element => {
         coords.minY = 2 * rotaryInfo.y - coords.minY;
         coords.maxY = 2 * rotaryInfo.y - coords.maxY;
       }
-      await deviceMaster.rawMove({ x: coords.minX, [yKey]: coords.minY, f: movementFeedrate });
-      if (lowLaserPower > 0) {
+      await moveTo({ x: coords.minX, [yKey]: coords.minY, f: movementFeedrate, wait: true });
+      if (supportInfo.redLight) {
+        await deviceMaster.rawSetRedLight(true);
+        enabledInfo.redLight = true;
+      } else if (lowLaserPower > 0) {
         await deviceMaster.rawSetLaser({ on: true, s: lowLaserPower });
         await deviceMaster.rawSet24V(true);
         enabledInfo['24v'] = true;
       }
-      await deviceMaster.rawMove({ x: coords.maxX, [yKey]: coords.minY, f: movementFeedrate });
-      await deviceMaster.rawMove({ x: coords.maxX, [yKey]: coords.maxY, f: movementFeedrate });
-      await deviceMaster.rawMove({ x: coords.minX, [yKey]: coords.maxY, f: movementFeedrate });
-      await deviceMaster.rawMove({ x: coords.minX, [yKey]: coords.minY, f: movementFeedrate });
+      await moveTo({ x: coords.maxX, [yKey]: coords.minY, f: movementFeedrate });
+      await moveTo({ x: coords.maxX, [yKey]: coords.maxY, f: movementFeedrate });
+      await moveTo({ x: coords.minX, [yKey]: coords.maxY, f: movementFeedrate });
+      await moveTo({ x: coords.minX, [yKey]: coords.minY, f: movementFeedrate });
       if (rotaryInfo) {
-        if (lowLaserPower > 0) await deviceMaster.rawSetLaser({ on: false, s: 0 });
-        await deviceMaster.rawMove({ [yKey]: rotaryInfo.y, f: movementFeedrate });
+        if (supportInfo.redLight) {
+          await deviceMaster.rawSetRedLight(false);
+        } else if (lowLaserPower > 0) await deviceMaster.rawSetLaser({ on: false, s: 0 });
+        await moveTo({ [yKey]: rotaryInfo.y, f: movementFeedrate });
         await deviceMaster.rawSetRotary(false);
         enabledInfo.rotary = false;
       }
@@ -224,6 +267,7 @@ const FrameButton = (): JSX.Element => {
       if (deviceMaster.currentControlMode === 'raw') {
         if (enabledInfo.lineCheckMode) await deviceMaster.rawEndLineCheckMode();
         if (enabledInfo.rotary) await deviceMaster.rawSetRotary(false);
+        if (supportInfo.redLight && enabledInfo.redLight) await deviceMaster.rawSetRedLight(false);
         await deviceMaster.rawSetLaser({ on: false, s: 0 });
         if (enabledInfo['24v']) await deviceMaster.rawSet24V(false);
         await deviceMaster.rawLooseMotor();
