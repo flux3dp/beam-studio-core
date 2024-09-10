@@ -18,12 +18,37 @@ export const addImage = (): void => {
   canvasEventEmitter.emit('ADD_IMAGE');
 };
 
+export const addLine = (line: SVGLineElement): void => {
+  canvasEventEmitter.emit('addLine', line);
+};
+
+export const addPath = (path?: SVGPathElement): void => {
+  canvasEventEmitter.emit('addPath', path);
+};
+
+const setColorPreviewing = (val: boolean): void => {
+  canvasEventEmitter.emit('SET_COLOR_PREVIEWING', val);
+};
+
+const setupPreviewMode = (opts: { showModal?: boolean; callback?: () => void } = {}): void => {
+  canvasEventEmitter.emit('SET_PREVIEW_MODE', opts);
+};
+
 const setPathEditing = (val: boolean): void => {
   canvasEventEmitter.emit('SET_PATH_EDITING', val);
 };
 
+const updateContext = () => {
+  canvasEventEmitter.emit('UPDATE_CONTEXT');
+};
+
 export default {
   addImage,
-  setSelectedElement,
+  addLine,
+  addPath,
+  setColorPreviewing,
   setPathEditing,
+  setSelectedElement,
+  setupPreviewMode,
+  updateContext,
 };

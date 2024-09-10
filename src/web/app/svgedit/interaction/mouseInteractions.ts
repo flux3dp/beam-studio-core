@@ -1,5 +1,6 @@
 /* eslint-disable no-case-declarations */
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import canvasEvents from 'app/actions/canvas/canvasEvents';
 import clipboard from 'app/svgedit/operations/clipboard';
 import constant from 'app/actions/beambox/constant';
 import createNewText from 'app/svgedit/text/createNewText';
@@ -32,7 +33,6 @@ import wheelEventHandlerGenerator from './wheelEventHandler';
 let svgEditor;
 let svgCanvas: ISVGCanvas;
 
-const canvasEvents = eventEmitterFactory.createEventEmitter('canvas');
 const drawingToolEventEmitter = eventEmitterFactory.createEventEmitter('drawing-tool');
 
 getSVGAsync((globalSVG) => {
@@ -522,7 +522,7 @@ const mouseDown = (evt: MouseEvent) => {
         updateElementColor(newLine);
       }
       svgCanvas.selectOnly([newLine], true);
-      canvasEvents.emit('addLine', newLine);
+      canvasEvents.addLine(newLine as SVGLineElement);
       break;
     case 'circle':
       svgCanvas.unsafeAccess.setStarted(true);
@@ -586,7 +586,7 @@ const mouseDown = (evt: MouseEvent) => {
         startX = newX;
         startY = newY;
         svgCanvas.unsafeAccess.setStarted(true);
-        canvasEvents.emit('addPath');
+        canvasEvents.addPath();
       }
       break;
     case 'textedit':
@@ -1206,7 +1206,7 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
 
   const doPreview = () => {
     const callback = () => {
-      canvasEvents.emit('UPDATE_CONTEXT');
+      canvasEvents.updateContext();
       if (TutorialController.getNextStepRequirement() === TutorialConstants.PREVIEW_PLATFORM) {
         TutorialController.handleNextStep();
       }
@@ -1247,10 +1247,7 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
     case 'pre_preview':
       cleanUpRubberBox();
       svgCanvas.unsafeAccess.setCurrentMode('select');
-      TopBarController.setStartPreviewCallback(() => {
-        doPreview();
-      });
-      TopBarController.setShouldStartPreviewController(true);
+      canvasEvents.setupPreviewMode({ callback: () => doPreview() });
       return;
     case 'preview':
       cleanUpRubberBox();
@@ -1730,7 +1727,7 @@ const dblClick = (evt: MouseEvent) => {
       svgCanvas.textActions.dbClickSelectAll();
     }
   } else if (currentMode === 'preview_color') {
-    canvasEvents.emit('SET_COLOR_PREVIEWING', false);
+    canvasEvents.setColorPreviewing(false);
   }
 
   if ((tagName === 'g' || tagName === 'a') && svgedit.utilities.getRotationAngle(mouseTarget)) {
