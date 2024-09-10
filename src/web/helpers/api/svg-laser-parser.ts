@@ -119,11 +119,19 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
         }
       }
 
+      const hasJobOrigin = BeamboxPreference.read('enable-job-origin');
+      if (hasJobOrigin) {
+        // firmware version / model check
+        const { x, y } = getJobOrigin();
+        args.push('-job-origin');
+        args.push(`${x.toFixed(3)},${y.toFixed(3)}`);
+      }
+
       if (constant.adorModels.includes(model)) {
         const { x, y, w, h } = presprayArea.getPosition(true);
         const workareaWidth = getWorkarea(model).width;
         args.push('-prespray');
-        args.push(rotaryMode ? `${workareaWidth - 12},45,12,${h}` : `${x},${y},${w},${h}`);
+        args.push((rotaryMode && !hasJobOrigin) ? `${workareaWidth - 12},45,12,${h}` : `${x},${y},${w},${h}`);
         if (!isDevMode || BeamboxPreference.read('multipass-compensation') !== false)
           args.push('-mpc');
         if (!isDevMode || BeamboxPreference.read('one-way-printing') !== false) args.push('-owp');
@@ -241,13 +249,6 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
 
       const loopCompensation = Number(storage.get('loop_compensation') || '0');
       if (loopCompensation > 0) await setParameter('loop_compensation', loopCompensation);
-
-      if (BeamboxPreference.read('start-position')) {
-        // firmware version / model check
-        const { x, y } = getJobOrigin();
-        args.push('-job-origin');
-        args.push(`${x.toFixed(3)},${y.toFixed(3)}`);
-      }
 
       if (curveEngravingModeController.hasArea()) {
         const data = {

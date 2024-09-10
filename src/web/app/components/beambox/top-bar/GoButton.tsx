@@ -87,7 +87,7 @@ const GoButton = (props: Props): JSX.Element => {
       }
     }
     if (!vc.meetRequirement(isAdor ? 'ADOR_JOB_ORIGIN' : 'JOB_ORIGIN')) {
-      if (BeamboxPreference.read('start-position')) {
+      if (BeamboxPreference.read('enable-job-origin')) {
         const res = await new Promise((resolve) => {
           alertCaller.popUp({
             type: alertConstants.SHOW_POPUP_ERROR,

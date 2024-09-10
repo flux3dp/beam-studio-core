@@ -23,7 +23,8 @@ const togglePresprayArea = (): void => {
     document.querySelectorAll(`g.layer[data-module="${LayerModule.PRINTER}"]:not([display="none"]`)
       .length > 0;
   const rotaryMode = beamboxPreference.read('rotary_mode');
-  if (shouldShow && !rotaryMode) presprayAreaBlock.removeAttribute('display');
+  const hasJobOrigin = beamboxPreference.read('enable-job-origin');
+  if (shouldShow && !(rotaryMode && !hasJobOrigin)) presprayAreaBlock.removeAttribute('display');
   else presprayAreaBlock.setAttribute('display', 'none');
 };
 

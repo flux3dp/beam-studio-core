@@ -60,8 +60,8 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
   const [workarea, setWorkarea] = useState<WorkAreaModel>(origWorkarea || 'fbb1b');
   const supportInfo = useMemo(() => getSupportInfo(workarea), [workarea]);
   const [rotaryMode, setRotaryMode] = useState<number>(BeamboxPreference.read('rotary_mode') ?? 0);
-  const [startPosition, setStartPosition] = useState<number>(
-    BeamboxPreference.read('start-position') ?? 0
+  const [enableJobOrigin, setEnableJobOrigin] = useState<number>(
+    BeamboxPreference.read('enable-job-origin') ?? 0
   );
   const [jobOrigin, setJobOrigin] = useState<number>(BeamboxPreference.read('job-origin') ?? 1);
   const [extendRotaryWorkarea, setExtendRotaryWorkarea] = useState<boolean>(
@@ -127,18 +127,18 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
     const passThroughHeightChanged =
       passThroughHeight !== BeamboxPreference.read('pass-through-height');
     BeamboxPreference.write('pass-through-height', passThroughHeight);
-    BeamboxPreference.write('start-position', startPosition);
+    BeamboxPreference.write('enable-job-origin', enableJobOrigin);
     BeamboxPreference.write('job-origin', jobOrigin);
     if (workareaChanged || rotaryChanged || passThroughChanged || passThroughHeightChanged) {
       changeWorkarea(workarea, { toggleModule: workareaChanged });
       rotaryAxis.toggleDisplay();
-      presprayArea.togglePresprayArea();
     } else {
       // this is called in changeWorkarea
       OpenBottomBoundaryDrawer.update();
       if (supportInfo.hybridLaser && enableDiode) diodeBoundaryDrawer.show();
       else diodeBoundaryDrawer.hide();
     }
+    presprayArea.togglePresprayArea();
     const canvasEvents = eventEmitterFactory.createEventEmitter('canvas');
     canvasEvents.emit('document-settings-saved');
   };
@@ -227,16 +227,16 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
                 </label>
                 <Select
                   id="startFrom"
-                  value={startPosition}
+                  value={enableJobOrigin}
                   className={styles.control}
                   bordered
-                  onChange={setStartPosition}
+                  onChange={setEnableJobOrigin}
                 >
                   <Select.Option value={0}>{tDocu.origin}</Select.Option>
                   <Select.Option value={1}>{tDocu.current_position}</Select.Option>
                 </Select>
               </div>
-              {startPosition === 1 && (
+              {enableJobOrigin === 1 && (
                 <div className={styles.row}>
                   <label className={styles.title}>{tDocu.job_origin}:</label>
                   <div className={styles.control}>
