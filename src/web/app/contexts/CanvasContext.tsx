@@ -9,12 +9,11 @@ import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import getDevice from 'helpers/device/get-device';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import showResizeAlert from 'helpers/device/fit-device-workarea-alert';
-import TutorialConstants from 'app/constants/tutorial-constants';
+import tutorialConstants from 'app/constants/tutorial-constants';
 import tutorialController from 'app/views/tutorials/tutorialController';
 import useForceUpdate from 'helpers/use-force-update';
 import useI18n from 'helpers/useI18n';
 import workareaManager from 'app/svgedit/workarea';
-import * as TutorialController from 'app/views/tutorials/tutorialController';
 import { getLatestDeviceInfo } from 'helpers/api/discover';
 import { getSupportInfo } from 'app/constants/add-on';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
@@ -99,8 +98,8 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
       // eslint-disable-next-line no-console
       console.log(error);
     } finally {
-      if (TutorialController.getNextStepRequirement() === TutorialConstants.TO_EDIT_MODE) {
-        TutorialController.handleNextStep();
+      if (tutorialController.getNextStepRequirement() === tutorialConstants.TO_EDIT_MODE) {
+        tutorialController.handleNextStep();
       }
       // eslint-disable-next-line react-hooks/rules-of-hooks
       FnWrapper.useSelectTool();
@@ -238,7 +237,7 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
         if (constant.adorModels.includes(device.model)) {
           PreviewModeController.previewFullWorkarea(() => {
             updateCanvasContext();
-            if (tutorialController.getNextStepRequirement() === TutorialConstants.PREVIEW_PLATFORM)
+            if (tutorialController.getNextStepRequirement() === tutorialConstants.PREVIEW_PLATFORM)
               tutorialController.handleNextStep();
           });
         }
@@ -283,8 +282,8 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
     if (workarea) {
       workarea.style.cursor = 'url(img/camera-cursor.svg) 9 12, cell';
     }
-    if (TutorialController.getNextStepRequirement() === TutorialConstants.TO_PREVIEW_MODE) {
-      TutorialController.handleNextStep();
+    if (tutorialController.getNextStepRequirement() === tutorialConstants.TO_PREVIEW_MODE) {
+      tutorialController.handleNextStep();
     }
   };
 
