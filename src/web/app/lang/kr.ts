@@ -1365,6 +1365,7 @@ const lang: ILang = {
     close_door_to_read_cartridge_info: '잉크 정보에 접근하려면 기계의 도어 커버를 닫아주세요.',
     cartridge_info_read_failed: '잉크 카트리지가 완전히 삽입되었는지 확인해주세요. 잉크를 제거하고 다시 설치해보십시오.',
     cartridge_info_verification_failed: '귀하의 잉크가 FLUX 정품인지 확인해주세요.',
+    toolhead_change: '툴 헤드 교체',
   },
   monitor: {
     monitor: 'MONITOR',
