@@ -78,6 +78,9 @@ statusButtonTypeMap[DeviceConstants.status.FATAL] = [
   ButtonTypes.STOP,
   ButtonTypes.DISABLED_PLAY,
 ];
+statusButtonTypeMap[DeviceConstants.status.TOOLHEAD_CHANGE] = [
+  ButtonTypes.STOP,
+];
 
 export default {
   getDisplayStatus: (stLabel: string): string => {
