@@ -1,4 +1,12 @@
-import React, { createContext, useCallback, useEffect, useRef, useState } from 'react';
+import React, {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
 import alertCaller from 'app/actions/alert-caller';
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
@@ -50,7 +58,7 @@ interface CanvasContextType {
   togglePathPreview: () => void;
   updateCanvasContext: () => void;
   selectedDevice: IDeviceInfo | null;
-  setSelectedDevice: (IDeviceInfo) => void;
+  setSelectedDevice: Dispatch<SetStateAction<IDeviceInfo | null>>;
   isColorPreviewing: boolean;
   setIsColorPreviewing: (isColorPreviewing: boolean) => void;
   isPathEditing: boolean;
