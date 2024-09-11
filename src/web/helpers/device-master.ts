@@ -839,7 +839,7 @@ class DeviceMaster {
     return controlSocket.addTask(controlSocket.rawEndLineCheckMode);
   }
 
-  async rawMove(args: { x?: number; y?: number; z?: number; a?:number; f?: number }) {
+  async rawMove(args: { x?: number; y?: number; z?: number; a?: number; f?: number }) {
     const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.rawMove, args);
   }

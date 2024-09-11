@@ -378,9 +378,12 @@ class Control extends EventEmitter {
 
   lsusb = () => this.useWaitAnyResponse('file lsusb');
 
-  fileInfo = async (path: string, fileName: string) => {
+  fileInfo = async (path: string, fileName: string): Promise<any[]> => {
     const { data } = await this.useWaitOKResponse(`file fileinfo ${path}/${fileName}`);
-    return [fileName, ...data];
+    return [
+      fileName,
+      ...(data as [{ [key: string]: string | number }, Blob, { [key: string]: string | number }]),
+    ];
   };
 
   report = () =>
@@ -618,7 +621,7 @@ class Control extends EventEmitter {
   deleteFile = (fileNameWithPath: string) =>
     this.useWaitAnyResponse(`file rmfile ${fileNameWithPath}`);
 
-  downloadFile = (fileNameWithPath: string) =>
+  downloadFile = (fileNameWithPath: string): Promise<[any, Blob]> =>
     new Promise((resolve, reject) => {
       const file = [];
       this.on(EVENT_COMMAND_MESSAGE, (response) => {
@@ -630,7 +633,7 @@ class Control extends EventEmitter {
 
         if (response instanceof Blob) {
           this.removeCommandListeners();
-          resolve(file);
+          resolve(file as [any, Blob]);
         }
       });
       this.setDefaultErrorResponse(reject);
@@ -854,8 +857,8 @@ class Control extends EventEmitter {
 
   maintainMove = (args: any) => {
     let command = '';
-    args.f = args.f || '6000';
-    command += ` f:${args.f}`;
+    const f = args.f || 6000;
+    command += ` f:${f}`;
     if (typeof args.x !== 'undefined') {
       command += ` x:${args.x}`;
     }
@@ -1260,7 +1263,7 @@ class Control extends EventEmitter {
     const command = on ? 'M136P196' : 'M136P197';
     if (!this._isLineCheckMode) return this.useRawWaitOKResponse(command);
     return this.useRawLineCheckCommand(command);
-  }
+  };
 
   rawSet24V = (on: boolean) => {
     if (this.mode !== 'raw') {
@@ -1575,7 +1578,7 @@ class Control extends EventEmitter {
     });
 
   uploadFisheyeParams = (data: string) =>
-    new Promise((resolve, reject) => {
+    new Promise<{ status: string }>((resolve, reject) => {
       const blob = new Blob([data], { type: 'application/json' });
       this.on(EVENT_COMMAND_MESSAGE, (response) => {
         if (response.status === 'ok') {
