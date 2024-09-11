@@ -1365,6 +1365,7 @@ const lang: ILang = {
     close_door_to_read_cartridge_info: '請關閉機器的門蓋以取得墨匣資訊。',
     cartridge_info_read_failed: '請確保墨匣完全插入。嘗試將墨水取出並重新安裝。',
     cartridge_info_verification_failed: '請確認您是否使用 FLUX 原廠墨匣。',
+    toolhead_change: '更換模組頭',
   },
   monitor: {
     monitor: 'MONITOR',

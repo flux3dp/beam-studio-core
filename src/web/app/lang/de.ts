@@ -1365,6 +1365,7 @@ const lang: ILang = {
     close_door_to_read_cartridge_info: 'Um auf Tinteninformationen zuzugreifen, schließen Sie bitte die Türabdeckung der Maschine.',
     cartridge_info_read_failed: 'Bitte stellen Sie sicher, dass die Tintenpatrone vollständig eingesteckt ist. Versuchen Sie, die Tinte zu entfernen und erneut einzusetzen.',
     cartridge_info_verification_failed: 'Bitte überprüfen Sie, ob Ihre Tinte FLUX authentisch ist.',
+    toolhead_change: 'Werkzeugkopf wechseln',
   },
   monitor: {
     monitor: 'MONITOR',

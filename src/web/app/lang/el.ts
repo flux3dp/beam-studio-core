@@ -1362,6 +1362,7 @@ const lang: ILang = {
     close_door_to_read_cartridge_info: "To access ink information, please close the machine's door cover.",
     cartridge_info_read_failed: 'Please ensure that the ink is fully inserted. Try to remove the ink and install it back.',
     cartridge_info_verification_failed: 'Please verify that your ink is FLUX authentic.',
+    toolhead_change: 'Αλλαγή κεφαλής εργαλείου',
   },
   monitor: {
     monitor: 'Παρακολούθηση',

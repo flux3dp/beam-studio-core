@@ -1365,6 +1365,7 @@ const lang: ILang = {
     close_door_to_read_cartridge_info: 'インク情報にアクセスするには、マシンのドアカバーを閉じてください。',
     cartridge_info_read_failed: 'インクカートリッジが完全に挿入されていることを確認してください。インクを取り出して再度取り付けてみてください。',
     cartridge_info_verification_failed: 'ご使用のインクがFLUX正規品であることを確認してください。',
+    toolhead_change: 'ツールヘッドを交換',
   },
   monitor: {
     monitor: 'モニター',

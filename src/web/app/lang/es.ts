@@ -1365,6 +1365,7 @@ const lang: ILang = {
     close_door_to_read_cartridge_info: 'Para acceder a la información de la tinta, por favor cierre la cubierta de la puerta de la máquina.',
     cartridge_info_read_failed: 'Por favor, verifique que su tinta es auténtica de FLUX.',
     cartridge_info_verification_failed: 'Por favor, asegúrese de que la tinta esté completamente insertada. Intente quitar la tinta e instalarla nuevamente.',
+    toolhead_change: 'Cambiar cabezal de herramienta',
   },
   monitor: {
     monitor: 'MONITOR',

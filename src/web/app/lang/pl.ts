@@ -1365,6 +1365,7 @@ const lang: ILang = {
     close_door_to_read_cartridge_info: 'Aby uzyskać dostęp do informacji o tuszu, proszę zamknąć pokrywę drzwi maszyny.',
     cartridge_info_read_failed: 'Upewnij się, że tusz jest w pełni włożony. Spróbuj wyjąć tusz i zainstaluj go ponownie.',
     cartridge_info_verification_failed: 'Proszę sprawdzić, czy tusz jest autentyczny FLUX.',
+    toolhead_change: 'Zmień głowicę narzędzia',
   },
   monitor: {
     monitor: 'MONITOR',

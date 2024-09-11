@@ -1362,6 +1362,7 @@ export interface ILang {
     close_door_to_read_cartridge_info: string;
     cartridge_info_read_failed: string;
     cartridge_info_verification_failed: string;
+    toolhead_change: string;
   },
   monitor: {
     monitor: string,
