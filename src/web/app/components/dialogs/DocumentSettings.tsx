@@ -60,10 +60,10 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
   const [workarea, setWorkarea] = useState<WorkAreaModel>(origWorkarea || 'fbb1b');
   const supportInfo = useMemo(() => getSupportInfo(workarea), [workarea]);
   const [rotaryMode, setRotaryMode] = useState<number>(BeamboxPreference.read('rotary_mode') ?? 0);
-  const [startPosition, setStartPosition] = useState<number>(
-    BeamboxPreference.read('start_position') ?? 0
+  const [enableJobOrigin, setEnableJobOrigin] = useState<number>(
+    BeamboxPreference.read('enable-job-origin') ?? 0
   );
-  const [jobOrigin, setJobOrigin] = useState<number>(BeamboxPreference.read('job_origin') ?? 1);
+  const [jobOrigin, setJobOrigin] = useState<number>(BeamboxPreference.read('job-origin') ?? 1);
   const [extendRotaryWorkarea, setExtendRotaryWorkarea] = useState<boolean>(
     !!BeamboxPreference.read('extend-rotary-workarea')
   );
@@ -121,23 +121,24 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
         BeamboxPreference.write('extend-rotary-workarea', extendRotaryWorkarea);
       if (supportInfo.rotary.mirror) BeamboxPreference.write('rotary-mirror', mirrorRotary);
     }
-
     const newPassThrough = showPassThrough && passThrough;
     const passThroughChanged = newPassThrough !== !!BeamboxPreference.read('pass-through');
     BeamboxPreference.write('pass-through', newPassThrough);
     const passThroughHeightChanged =
       passThroughHeight !== BeamboxPreference.read('pass-through-height');
     BeamboxPreference.write('pass-through-height', passThroughHeight);
+    BeamboxPreference.write('enable-job-origin', enableJobOrigin);
+    BeamboxPreference.write('job-origin', jobOrigin);
     if (workareaChanged || rotaryChanged || passThroughChanged || passThroughHeightChanged) {
       changeWorkarea(workarea, { toggleModule: workareaChanged });
       rotaryAxis.toggleDisplay();
-      presprayArea.togglePresprayArea();
     } else {
       // this is called in changeWorkarea
       OpenBottomBoundaryDrawer.update();
       if (supportInfo.hybridLaser && enableDiode) diodeBoundaryDrawer.show();
       else diodeBoundaryDrawer.hide();
     }
+    presprayArea.togglePresprayArea();
     const canvasEvents = eventEmitterFactory.createEventEmitter('canvas');
     canvasEvents.emit('document-settings-saved');
   };
@@ -213,47 +214,59 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
             </Select>
           </div>
         </div>
-        {isDevMode &&
-          <>
-            <div className={styles.separator}>
-              <div>{tDocu.start_position}</div>
-              <div className={styles.bar} />
-            </div>
-            <div className={styles.block}>
-              <div className={styles.row}>
-                <label className={styles.title} htmlFor="startFrom">
-                  {tDocu.start_from}:
-                </label>
-                <Select
-                  id="startFrom"
-                  value={startPosition}
-                  className={styles.control}
-                  bordered
-                  onChange={setStartPosition}
-                >
-                  <Select.Option value={0}>{tDocu.origin}</Select.Option>
-                  <Select.Option value={1}>{tDocu.current_position}</Select.Option>
-                </Select>
-              </div>
-              {startPosition === 1 && (
-                <div className={styles.row}>
-                  <label className={styles.title}>{tDocu.job_origin}:</label>
-                  <div className={classNames(styles.control, styles.radioGroup)}>
-                    {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((val) => (
-                      <input
-                        key={val}
-                        name="jobOrigin"
-                        type="radio"
-                        checked={jobOrigin === val}
-                        onChange={() => setJobOrigin(val)}
-                      />
-                    ))}
-                  </div>
+        <div className={styles.separator}>
+          <div>{tDocu.start_position}</div>
+          <div className={styles.bar} />
+        </div>
+        <div className={styles.block}>
+          <div className={styles.row}>
+            <label className={styles.title} htmlFor="startFrom">
+              {tDocu.start_from}:
+            </label>
+            <Select
+              id="startFrom"
+              value={enableJobOrigin}
+              className={styles.control}
+              bordered
+              onChange={setEnableJobOrigin}
+            >
+              <Select.Option value={0}>{tDocu.origin}</Select.Option>
+              <Select.Option value={1}>{tDocu.current_position}</Select.Option>
+            </Select>
+          </div>
+          {enableJobOrigin === 1 && (
+            <div className={styles.row}>
+              <label className={styles.title}>{tDocu.job_origin}:</label>
+              <div className={styles.control}>
+                <div className={styles.radioGroup}>
+                  {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((val) => (
+                    <input
+                      id={`jobOrigin-${val}`}
+                      key={val}
+                      name="jobOrigin"
+                      type="radio"
+                      checked={jobOrigin === val}
+                      onChange={() => setJobOrigin(val)}
+                    />
+                  ))}
                 </div>
-              )}
+                <div className={styles['job-origin-example']}>
+                  <img src="core-img/document-panel/job-origin-example.jpg" alt="Origin" />
+                  <div
+                    className={classNames(styles.mark, {
+                      [styles.l]: jobOrigin % 3 === 1,
+                      [styles.m]: jobOrigin % 3 === 2,
+                      [styles.r]: jobOrigin % 3 === 0,
+                      [styles.t]: jobOrigin <= 3,
+                      [styles.c]: jobOrigin > 3 && jobOrigin <= 6,
+                      [styles.b]: jobOrigin > 6,
+                    })}
+                  />
+                </div>
+              </div>
             </div>
-          </>
-        }
+          )}
+        </div>
         <div className={styles.separator}>
           <div>{tDocu.add_on}</div>
           <div className={styles.bar} />

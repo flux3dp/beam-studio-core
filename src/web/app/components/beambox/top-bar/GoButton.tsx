@@ -86,6 +86,21 @@ const GoButton = (props: Props): JSX.Element => {
         return false;
       }
     }
+    if (!vc.meetRequirement(isAdor ? 'ADOR_JOB_ORIGIN' : 'JOB_ORIGIN')) {
+      if (BeamboxPreference.read('enable-job-origin')) {
+        const res = await new Promise((resolve) => {
+          alertCaller.popUp({
+            type: alertConstants.SHOW_POPUP_ERROR,
+            message: lang.topbar.alerts.job_origin_unavailable,
+            buttonType: alertConstants.CONFIRM_CANCEL,
+            onConfirm: () => resolve(true),
+            onCancel: () => resolve(false),
+          });
+        });
+        if (res) executeFirmwareUpdate(device, 'firmware');
+        return false;
+      }
+    }
 
     SymbolMaker.switchImageSymbolForAll(false);
     let isTooFastForPath = false;

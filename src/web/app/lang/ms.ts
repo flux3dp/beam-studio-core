@@ -57,6 +57,7 @@ const lang: ILang = {
       power_too_high_msg: 'Menggunakan kuasa laser yang lebih rendah (bawah 70%) akan memanjangkan jangka hayat tiub laser.\nMasukkan "DIAMBIL PERHATIAN" untuk meneruskan.',
       power_too_high_confirm: 'DIAMBIL PERHATIAN',
       pwm_unavailable: 'Mod Kedalaman memerlukan versi firmware 4.3.4 / 5.3.4 atau ke atas. Adakah anda ingin mengemas kini firmware sekarang?',
+      job_origin_unavailable: 'Menetapkan asal kerja memerlukan versi firmware 4.3.5 / 5.3.5 atau lebih tinggi. Adakah anda ingin mengemas kini firmware sekarang?',
     },
     hint: {
       polygon: 'Tekan kekunci + / - untuk menambah / mengurangkan sisi.',

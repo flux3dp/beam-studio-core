@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { act } from 'react';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 
 import { CanvasContext, CanvasMode } from 'app/contexts/CanvasContext';
@@ -90,6 +90,9 @@ jest.mock(
       mockCheckDeviceStatus(...args)
 );
 
+const mockGetJobOrigin = jest.fn();
+jest.mock('helpers/job-origin', () => () => mockGetJobOrigin());
+
 const mockGetDeviceDetailInfo = jest.fn();
 const mockGetDoorOpen = jest.fn();
 const mockEnterRawMode = jest.fn();
@@ -108,6 +111,8 @@ const mockRawSet24V = jest.fn();
 const mockEndRawMode = jest.fn();
 const mockKick = jest.fn();
 const mockRawMoveZRelToLastHome = jest.fn();
+const mockRawSetOrigin = jest.fn();
+const mockRawUnlock = jest.fn();
 
 jest.mock('helpers/device-master', () => ({
   getDeviceDetailInfo: () => mockGetDeviceDetailInfo(),
@@ -126,6 +131,8 @@ jest.mock('helpers/device-master', () => ({
   rawLooseMotor: (...args) => mockRawLooseMotor(...args),
   rawSetLaser: (...args) => mockRawSetLaser(...args),
   rawSet24V: (...args) => mockRawSet24V(...args),
+  rawSetOrigin: (...args) => mockRawSetOrigin(...args),
+  rawUnlock: (...args) => mockRawUnlock(...args),
   endRawMode: (...args) => mockEndRawMode(...args),
   kick: (...args) => mockKick(...args),
   currentControlMode: 'raw',
@@ -176,6 +183,8 @@ describe('test FrameButton', () => {
     mockGetVisibleElementsAndBBoxes.mockReturnValue([
       { bbox: { x: 0, y: 10, width: 20, height: 30 } },
     ]);
+    jest.useFakeTimers();
+    jest.spyOn(global, 'setTimeout');
   });
 
   test('should render correctly', async () => {
@@ -186,8 +195,9 @@ describe('test FrameButton', () => {
     mockGetExpansion.mockReturnValue([0, 0]);
     mockGetDevice.mockResolvedValueOnce({ device: { model: 'fbm1', version: '4.1.7' } });
     mockRead.mockReturnValue(null);
-    fireEvent.click(container.querySelector('div[class*="button"]'));
-    await waitFor(() => expect(mockPopById).toBeCalledTimes(1));
+    await act(async () => fireEvent.click(container.querySelector('div[class*="button"]')));
+    await act(async () => jest.runAllTimers());
+    expect(mockPopById).toBeCalledTimes(1);
     expect(mockGetAllLayers).toBeCalledTimes(1);
     expect(mockGetDevice).toBeCalledTimes(1);
     expect(mockCheckDeviceStatus).toBeCalledTimes(1);
@@ -208,9 +218,10 @@ describe('test FrameButton', () => {
     expect(mockEndRawMode).toBeCalledTimes(1);
     expect(mockKick).toBeCalledTimes(1);
     expect(mockGetDeviceDetailInfo).not.toBeCalled();
-    expect(mockRead).toBeCalledTimes(2);
+    expect(mockRead).toBeCalledTimes(3);
     expect(mockRead).toHaveBeenNthCalledWith(1, 'module-offsets');
     expect(mockRead).toHaveBeenNthCalledWith(2, 'rotary_mode');
+    expect(mockRead).toHaveBeenNthCalledWith(3, 'enable-job-origin');
   });
 
   test('should render correctly with previewing mode', () => {
@@ -230,8 +241,9 @@ describe('test FrameButton', () => {
     mockGetExpansion.mockReturnValue([0, 0]);
     mockGetVisibleElementsAndBBoxes.mockReturnValue([]);
     const { container } = render(<FrameButton />);
-    fireEvent.click(container.querySelector('div[class*="button"]'));
-    await waitFor(() => expect(mockOpenMessage).toBeCalledTimes(1));
+    await act(async () => fireEvent.click(container.querySelector('div[class*="button"]')));
+    await act(async () => jest.runAllTimers());
+    expect(mockOpenMessage).toBeCalledTimes(1);
     expect(mockOpenMessage).toBeCalledWith({
       key: 'no-element-to-frame',
       level: 'info',
@@ -249,17 +261,19 @@ describe('test FrameButton', () => {
     mockGetDeviceDetailInfo.mockResolvedValue({ head_type: 1 });
     mockRead.mockReturnValueOnce(null).mockReturnValueOnce(3).mockReturnValueOnce(0);
     mockGetDoorOpen.mockResolvedValue({ value: '1', cmd: 'play get_door_open', status: 'ok' });
-    fireEvent.click(container.querySelector('div[class*="button"]'));
-    await waitFor(() => expect(mockPopById).toBeCalledTimes(1));
+    await act(async () => fireEvent.click(container.querySelector('div[class*="button"]')));
+    await act(async () => jest.runAllTimers());
+    expect(mockPopById).toBeCalledTimes(1);
     expect(mockGetAllLayers).toBeCalledTimes(1);
     expect(mockGetDevice).toBeCalledTimes(1);
     expect(mockCheckDeviceStatus).toBeCalledTimes(1);
     expect(mockOpenNonstopProgress).toBeCalledTimes(1);
     expect(mockGetDeviceDetailInfo).toBeCalledTimes(1);
-    expect(mockRead).toBeCalledTimes(3);
+    expect(mockRead).toBeCalledTimes(4);
     expect(mockRead).toHaveBeenNthCalledWith(1, 'module-offsets');
     expect(mockRead).toHaveBeenNthCalledWith(2, 'low_power');
     expect(mockRead).toHaveBeenNthCalledWith(3, 'rotary_mode');
+    expect(mockRead).toHaveBeenNthCalledWith(4, 'enable-job-origin');
     expect(mockGetDoorOpen).toBeCalledTimes(1);
     expect(mockOpenMessage).toBeCalledTimes(1);
     expect(mockOpenMessage).toBeCalledWith({
@@ -305,18 +319,20 @@ describe('test FrameButton', () => {
     mockRead.mockReturnValueOnce(null).mockReturnValueOnce(3).mockReturnValueOnce(1);
     mockGetDoorOpen.mockResolvedValue({ value: '1', cmd: 'play get_door_open', status: 'ok' });
     mockGetPosition.mockReturnValue(10);
-    fireEvent.click(container.querySelector('div[class*="button"]'));
-    await waitFor(() => expect(mockPopById).toBeCalledTimes(1));
+    await act(async () => fireEvent.click(container.querySelector('div[class*="button"]')));
+    await act(async () => jest.runAllTimers());
+    expect(mockPopById).toBeCalledTimes(1);
     expect(mockGetAllLayers).toBeCalledTimes(1);
     expect(mockGetDevice).toBeCalledTimes(1);
     expect(mockCheckDeviceStatus).toBeCalledTimes(1);
     expect(mockOpenNonstopProgress).toBeCalledTimes(1);
     expect(mockGetDeviceDetailInfo).toBeCalledTimes(1);
-    expect(mockRead).toBeCalledTimes(4);
+    expect(mockRead).toBeCalledTimes(5);
     expect(mockRead).toHaveBeenNthCalledWith(1, 'module-offsets');
     expect(mockRead).toHaveBeenNthCalledWith(2, 'low_power');
     expect(mockRead).toHaveBeenNthCalledWith(3, 'rotary_mode');
     expect(mockRead).toHaveBeenNthCalledWith(4, 'rotary-mirror');
+    expect(mockRead).toHaveBeenNthCalledWith(5, 'enable-job-origin');
     expect(mockGetDoorOpen).toBeCalledTimes(1);
     expect(mockOpenMessage).toBeCalledTimes(1);
     expect(mockOpenMessage).toBeCalledWith({
@@ -351,6 +367,74 @@ describe('test FrameButton', () => {
     expect(mockRawSetLaser).toHaveBeenNthCalledWith(1, { on: true, s: 30 });
     expect(mockRawSetLaser).toHaveBeenNthCalledWith(2, { on: false, s: 0 });
     expect(mockRawSetLaser).toHaveBeenNthCalledWith(3, { on: false, s: 0 });
+    expect(mockRawSet24V).toBeCalledTimes(2);
+    expect(mockRawSet24V).toHaveBeenNthCalledWith(1, true);
+    expect(mockRawSet24V).toHaveBeenNthCalledWith(2, false);
+    expect(mockRawLooseMotor).toBeCalledTimes(1);
+    expect(mockEndRawMode).toBeCalledTimes(1);
+    expect(mockKick).toBeCalledTimes(1);
+    expect(mockRawSetWaterPump).not.toBeCalled();
+  });
+
+  test('ador with job origin', async () => {
+    const { container } = render(<FrameButton />);
+    mockGetWidth.mockReturnValue(4300);
+    mockGetHeight.mockReturnValue(3000);
+    mockGetExpansion.mockReturnValue([0, 0]);
+    mockGetDevice.mockResolvedValue({ device: { model: 'ado1', version: '5.3.5' } });
+    mockGetDeviceDetailInfo.mockResolvedValue({ head_type: 1 });
+    mockRead.mockImplementation((key) => {
+      if (key === 'low_power') return 3;
+      if (key === 'rotary_mode') return 0;
+      if (key === 'enable-job-origin') return 1;
+      return null;
+    });
+    mockGetDoorOpen.mockResolvedValue({ value: '1', cmd: 'play get_door_open', status: 'ok' });
+    mockGetPosition.mockReturnValue(10);
+    mockGetJobOrigin.mockReturnValue({ x: 100, y: 100 });
+    await act(async () => fireEvent.click(container.querySelector('div[class*="button"]')));
+    await act(async () => jest.runAllTimers());
+    expect(mockPopById).toBeCalledTimes(1);
+    expect(mockGetAllLayers).toBeCalledTimes(1);
+    expect(mockGetDevice).toBeCalledTimes(1);
+    expect(mockCheckDeviceStatus).toBeCalledTimes(1);
+    expect(mockOpenNonstopProgress).toBeCalledTimes(1);
+    expect(mockGetDeviceDetailInfo).toBeCalledTimes(1);
+    expect(mockRead).toBeCalledTimes(4);
+    expect(mockRead).toHaveBeenNthCalledWith(1, 'module-offsets');
+    expect(mockRead).toHaveBeenNthCalledWith(2, 'low_power');
+    expect(mockRead).toHaveBeenNthCalledWith(3, 'rotary_mode');
+    expect(mockRead).toHaveBeenNthCalledWith(4, 'enable-job-origin');
+    expect(mockGetDoorOpen).toBeCalledTimes(1);
+    expect(mockOpenMessage).toBeCalledTimes(1);
+    expect(mockOpenMessage).toBeCalledWith({
+      key: 'low-laser-warning',
+      level: 'info',
+      content: 'Please close the door cover to enable low laser for running frame.',
+    });
+    expect(mockUpdate).toBeCalledTimes(6);
+    expect(mockEnterRawMode).toBeCalledTimes(1);
+    expect(mockRawHomeZ).not.toBeCalled();
+    expect(mockRawSetRotary).toBeCalledTimes(1);
+    expect(mockRawSetRotary).toHaveBeenNthCalledWith(1, false);
+    expect(mockRawHome).not.toBeCalled();
+    expect(mockRawUnlock).toBeCalledTimes(1);
+    expect(mockRawSetOrigin).toBeCalledTimes(1);
+    expect(mockRawStartLineCheckMode).toBeCalledTimes(1);
+    expect(mockRawSetFan).toBeCalledTimes(1);
+    expect(mockRawSetAirPump).toBeCalledTimes(1);
+    expect(mockRawMoveZRelToLastHome).not.toBeCalled();
+    expect(mockRawMove).toBeCalledTimes(6);
+    expect(mockRawMove).toHaveBeenNthCalledWith(1, { x: -100, y: -99, f: 6000 });
+    expect(mockRawMove).toHaveBeenNthCalledWith(2, { x: -98, y: -99, f: 6000 });
+    expect(mockRawMove).toHaveBeenNthCalledWith(3, { x: -98, y: -96, f: 6000 });
+    expect(mockRawMove).toHaveBeenNthCalledWith(4, { x: -100, y: -96, f: 6000 });
+    expect(mockRawMove).toHaveBeenNthCalledWith(5, { x: -100, y: -99, f: 6000 });
+    expect(mockRawMove).toHaveBeenNthCalledWith(6, { x: 0, y: 0, f: 6000 });
+    expect(mockRawEndLineCheckMode).toBeCalledTimes(1);
+    expect(mockRawSetLaser).toBeCalledTimes(2);
+    expect(mockRawSetLaser).toHaveBeenNthCalledWith(1, { on: true, s: 30 });
+    expect(mockRawSetLaser).toHaveBeenNthCalledWith(2, { on: false, s: 0 });
     expect(mockRawSet24V).toBeCalledTimes(2);
     expect(mockRawSet24V).toHaveBeenNthCalledWith(1, true);
     expect(mockRawSet24V).toHaveBeenNthCalledWith(2, false);

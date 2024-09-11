@@ -57,6 +57,7 @@ const lang: ILang = {
       power_too_high_msg: 'Usar potência laser mais baixa (abaixo de 70%) estenderá a vida útil do tubo laser.\nDigite "ENTENDI" para continuar.',
       power_too_high_confirm: 'ENTENDI',
       pwm_unavailable: 'O Modo de Profundidade requer a versão 4.3.4 / 5.3.4 ou superior do firmware. Gostaria de atualizar o firmware agora?',
+      job_origin_unavailable: 'Configurar a origem do trabalho requer a versão de firmware 4.3.5 / 5.3.5 ou superior. Deseja atualizar o firmware agora?',
     },
     hint: {
       polygon: 'Pressione as teclas + / - para aumentar / diminuir os lados.',

@@ -57,6 +57,7 @@ const lang: ILang = {
       power_too_high_msg: 'Die Verwendung einer niedrigeren Laserleistung (unter 70%) verlängert die Lebensdauer der Laserröhre!\nGeben Sie "OK" ein, um fortzufahren.',
       power_too_high_confirm: 'OK',
       pwm_unavailable: 'Der Tiefenmodus erfordert Firmware-Version 4.3.4 / 5.3.4 oder höher. Möchten Sie die Firmware jetzt aktualisieren?',
+      job_origin_unavailable: 'Das Festlegen des Arbeitsursprungs erfordert die Firmware-Version 4.3.5 / 5.3.5 oder höher. Möchten Sie die Firmware jetzt aktualisieren?',
     },
     hint: {
       polygon: 'Press + / - key to increse / decrease sides.',

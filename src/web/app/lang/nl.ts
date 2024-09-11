@@ -57,6 +57,7 @@ const lang: ILang = {
       power_too_high_msg: 'Gebruik een lager laservermogen (onder 70%) om de levensduur van de lasertube te verlengen.\nVoer "BEGREPEN" in om door te gaan.',
       power_too_high_confirm: 'BEGREPEN',
       pwm_unavailable: 'Dieptemodus vereist firmwareversie 4.3.4 / 5.3.4 of hoger. Wilt u de firmware nu bijwerken?',
+      job_origin_unavailable: 'Het instellen van de taakbron vereist firmwareversie 4.3.5 / 5.3.5 of hoger. Wilt u de firmware nu bijwerken?',
     },
     hint: {
       polygon: 'Druk op + / - om het aantal zijden te verhogen / verlagen.',

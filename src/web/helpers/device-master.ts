@@ -824,6 +824,11 @@ class DeviceMaster {
     return controlSocket.addTask(controlSocket.rawHome, true);
   }
 
+  async rawUnlock() {
+    const controlSocket = await this.getControl();
+    return controlSocket.addTask(controlSocket.rawUnlock);
+  }
+
   async rawMoveZRelToLastHome(z = 0) {
     const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.rawMoveZRelToLastHome, z);
@@ -839,7 +844,7 @@ class DeviceMaster {
     return controlSocket.addTask(controlSocket.rawEndLineCheckMode);
   }
 
-  async rawMove(args: { x?: number; y?: number; z?: number; a?:number; f?: number }) {
+  async rawMove(args: { x?: number; y?: number; z?: number; a?: number; f?: number }) {
     const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.rawMove, args);
   }
@@ -893,6 +898,14 @@ class DeviceMaster {
     return controlSocket.addTask(controlSocket.rawSetLaser, args);
   }
 
+  async rawSetRedLight(on: boolean) {
+    if (constant.fcodeV2Models.has(this.currentDevice.info.model)) {
+      const controlSocket = await this.getControl();
+      return controlSocket.addTask(controlSocket.rawSetRedLight, on);
+    }
+    return false;
+  }
+
   async rawSet24V(on: boolean) {
     const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.rawSet24V, on);
@@ -938,6 +951,19 @@ class DeviceMaster {
       await this.rawMove({ z: Math.max(0, res - relZ) });
     }
     return res;
+  }
+
+  async rawSetOrigin(): Promise<string | null> {
+    const controlSocket = await this.getControl();
+    const vc = VersionChecker(this.currentDevice.info.version);
+    const isV2 = constant.fcodeV2Models.has(this.currentDevice.info.model);
+    if (!vc.meetRequirement(isV2 ? 'ADOR_JOB_ORIGIN' : 'JOB_ORIGIN')) {
+      return null;
+    }
+    if (isV2) {
+      return controlSocket.addTask(controlSocket.rawSetOriginV2);
+    }
+    return controlSocket.addTask(controlSocket.rawSetOrigin);
   }
 
   // Get, Set functions

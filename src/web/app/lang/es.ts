@@ -57,6 +57,7 @@ const lang: ILang = {
       power_too_high_msg: 'Usar una potencia de láser menor (menos del 70%) alargará la vida del tubo láser.\nPulsa "ANOTADO" para proceder.',
       power_too_high_confirm: 'ANOTADO',
       pwm_unavailable: 'El Modo Profundidad requiere la versión de firmware 4.3.4 / 5.3.4 o superior. ¿Le gustaría actualizar el firmware ahora?',
+      job_origin_unavailable: 'Establecer el origen del trabajo requiere la versión de firmware 4.3.5 / 5.3.5 o superior. ¿Desea actualizar el firmware ahora?',
     },
     hint: {
       polygon: 'Presiona la tecla + / - para aumentar / disminuir los lados.',

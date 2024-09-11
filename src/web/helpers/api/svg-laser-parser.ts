@@ -14,6 +14,7 @@ import curveEngravingModeController from 'app/actions/canvas/curveEngravingModeC
 import fs from 'implementations/fileSystem';
 import i18n from 'helpers/i18n';
 import isDev from 'helpers/is-dev';
+import getJobOrigin from 'helpers/job-origin';
 import moduleOffsets from 'app/constants/layer-module/module-offsets';
 import Progress from 'app/actions/progress-caller';
 import presprayArea from 'app/actions/canvas/prespray-area';
@@ -68,7 +69,7 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
     });
 
   return {
-    async getTaskCode(names, opts) {
+    async getTaskCode(names: string[], opts) {
       opts = opts || {};
       opts.onProgressing = opts.onProgressing || (() => {});
       opts.onFinished = opts.onFinished || (() => {});
@@ -118,11 +119,20 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
         }
       }
 
+      const { supportJobOrigin = true, supportPwm = true } = opts;
+      const hasJobOrigin = BeamboxPreference.read('enable-job-origin') && supportJobOrigin;
+      if (hasJobOrigin) {
+        // firmware version / model check
+        const { x, y } = getJobOrigin();
+        args.push('-job-origin');
+        args.push(`${x.toFixed(3)},${y.toFixed(3)}`);
+      }
+
       if (constant.adorModels.includes(model)) {
         const { x, y, w, h } = presprayArea.getPosition(true);
         const workareaWidth = getWorkarea(model).width;
         args.push('-prespray');
-        args.push(rotaryMode ? `${workareaWidth - 12},45,12,${h}` : `${x},${y},${w},${h}`);
+        args.push((rotaryMode && !hasJobOrigin) ? `${workareaWidth - 12},45,12,${h}` : `${x},${y},${w},${h}`);
         if (!isDevMode || BeamboxPreference.read('multipass-compensation') !== false)
           args.push('-mpc');
         if (!isDevMode || BeamboxPreference.read('one-way-printing') !== false) args.push('-owp');
@@ -168,7 +178,7 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
       if (opts.shouldUseFastGradient) args.push('-fg');
       if (opts.shouldMockFastGradient) args.push('-mfg');
       if (opts.vectorSpeedConstraint) args.push('-vsc');
-      if (opts.disablePwm) args.push('-no-pwm');
+      if (!supportPwm) args.push('-no-pwm');
       if (modelMinSpeed < 3) args.push(`-min-speed ${modelMinSpeed}`);
       else if (BeamboxPreference.read('enable-low-speed')) args.push('-min-speed 1');
       if (BeamboxPreference.read('reverse-engraving')) args.push('-rev');

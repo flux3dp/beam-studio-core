@@ -1,3 +1,5 @@
+@use "styles/variables" as variables;
+
 .container {
   margin-top: 28px;
 
@@ -21,6 +23,9 @@
 
       .control {
         width: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
       }
 
       .radioGroup {
@@ -28,10 +33,56 @@
         grid-column-gap: 12px;
         grid-row-gap: 12px;
         grid-template-columns: repeat(3, 16px);
+        grid-template-rows: 16px 16px 16px;
+        height: fit-content;
 
         input[type="radio"] {
           width: 16px;
           height: 16px;
+        }
+      }
+
+      .job-origin-example {
+        margin-left: 40px;
+        width: 72px;
+        height: 72px;
+        position: relative;
+
+        > img {
+          width: 100%;
+          height: 100%;
+        }
+
+        .mark {
+          position: absolute;
+          width: 5px;
+          height: 5px;
+          border-radius: 2.5px;
+          background: variables.$primary-blue;
+
+          &.l {
+            left: calc(11% - 2.5px);
+          }
+
+          &.m {
+            left: calc(50% - 2.5px);
+          }
+
+          &.r {
+            left: calc(90% - 2.5px);
+          }
+
+          &.t {
+            top: calc(12% - 2.5px);
+          }
+
+          &.c {
+            top: calc(50% - 2.5px);
+          }
+
+          &.b {
+            top: calc(88% - 2.5px);
+          }
         }
       }
     }

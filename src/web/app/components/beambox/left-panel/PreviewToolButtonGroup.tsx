@@ -30,7 +30,7 @@ const PreviewToolButtonGroup = ({ className }: Props): JSX.Element => {
   const workarea = useWorkarea();
   const isAdorSeries = useMemo(() => constant.adorModels.includes(workarea), [workarea]);
   const forceUpdate = useForceUpdate();
-  const { endPreviewMode, setShouldStartPreviewController } = useContext(CanvasContext);
+  const { setupPreviewMode, endPreviewMode } = useContext(CanvasContext);
 
   const startImageTrace = () => {
     endPreviewMode();
@@ -63,7 +63,7 @@ const PreviewToolButtonGroup = ({ className }: Props): JSX.Element => {
         active
         onClick={() => {
           if (!PreviewModeController.isPreviewMode()) {
-            setShouldStartPreviewController(true);
+            setupPreviewMode();
           }
         }}
       />

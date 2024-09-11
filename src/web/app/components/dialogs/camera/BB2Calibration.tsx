@@ -145,7 +145,6 @@ const BB2Calibration = ({ onClose }: Props): JSX.Element => {
             v: 3,
           };
           const res = await setFisheyeConfig(param);
-          console.log(res);
           if (res.status === 'ok') {
             alertCaller.popUp({ message: tCali.camera_parameter_saved_successfully });
             onClose(true);

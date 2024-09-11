@@ -83,7 +83,6 @@ describe('test LeftPanel', () => {
       <CanvasContext.Provider
         value={
           {
-            setShouldStartPreviewController: jest.fn(),
             togglePathPreview: jest.fn(),
             mode: CanvasMode.Draw,
           } as any

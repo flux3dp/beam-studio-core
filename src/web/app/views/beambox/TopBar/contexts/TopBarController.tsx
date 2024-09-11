@@ -31,13 +31,6 @@ const getTopBarPreviewMode = (): boolean => {
   return response.isPreviewMode;
 };
 
-const setShouldStartPreviewController = (shouldStartPreviewController: boolean): void => {
-  topBarEventEmitter.emit('SET_SHOULD_START_PREVIEW_CONTROLLER', shouldStartPreviewController);
-};
-
-const setStartPreviewCallback = (callback: () => void): void => {
-  topBarEventEmitter.emit('SET_START_PREVIEW_CALLBACK', callback);
-};
 
 const getSelectedDevice = (): IDeviceInfo | null => {
   const response = {
@@ -56,8 +49,6 @@ export default {
   updateTitle,
   setHasUnsavedChange,
   getTopBarPreviewMode,
-  setShouldStartPreviewController,
-  setStartPreviewCallback,
   getSelectedDevice,
   setSelectedDevice,
 };

@@ -300,7 +300,6 @@ const AdorCalibrationV2 = ({ factoryMode = false, onClose }: Props): JSX.Element
           v: 2,
         };
         const res = await setFisheyeConfig(param);
-        console.log(res);
         if (res.status === 'ok') {
           alertCaller.popUp({ message: tCali.camera_parameter_saved_successfully });
           onClose(true);

@@ -90,7 +90,7 @@ class Control extends EventEmitter {
     this._lineNumber = lineNumber;
   }
 
-  addTask(taskFunction: Function, ...args: any[]): Promise<any> {
+  addTask<T>(taskFunction: (...args) => T, ...args): Promise<T> {
     if (this.taskQueue.length > MAX_TASK_QUEUE) {
       console.error(
         `Control ${this.uuid} task queue exceeds max queue length. Clear queue and then send task`
@@ -265,16 +265,19 @@ class Control extends EventEmitter {
 
   useRawWaitOKResponse(command: string, timeout = 30000) {
     // Resolve after get ok from raw response
-    return new Promise<any>((resolve, reject) => {
+    return new Promise<string>((resolve, reject) => {
       const timeoutTimer = this.setTimeoutTimer(reject, timeout);
       let responseString = '';
       this.on(EVENT_COMMAND_MESSAGE, (response) => {
         if (response && response.status === 'raw') responseString += response.text;
-        const resps = responseString.split('\r\n');
+        const resps = responseString.split(/\r?\n/);
         if (resps.some((r) => r === 'ok')) {
           clearTimeout(timeoutTimer);
           this.removeCommandListeners();
           resolve(responseString);
+        } else if (resps.some((r) => r.startsWith('error:'))) {
+          this.removeCommandListeners();
+          reject(responseString);
         }
       });
       this.setDefaultErrorResponse(reject, timeoutTimer);
@@ -311,7 +314,7 @@ class Control extends EventEmitter {
         if (response && response.status === 'raw') {
           console.log(response.text);
           responseString += response.text;
-          let responseStrings = responseString.replace(/\r/g, '').split('\n');
+          let responseStrings = responseString.split(/\r?\n/);
           responseStrings = responseStrings.filter(
             (s, i) => !s.startsWith('DEBUG:') || i === responseStrings.length - 1
           );
@@ -378,9 +381,12 @@ class Control extends EventEmitter {
 
   lsusb = () => this.useWaitAnyResponse('file lsusb');
 
-  fileInfo = async (path: string, fileName: string) => {
+  fileInfo = async (path: string, fileName: string): Promise<any[]> => {
     const { data } = await this.useWaitOKResponse(`file fileinfo ${path}/${fileName}`);
-    return [fileName, ...data];
+    return [
+      fileName,
+      ...(data as [{ [key: string]: string | number }, Blob, { [key: string]: string | number }]),
+    ];
   };
 
   report = () =>
@@ -618,7 +624,7 @@ class Control extends EventEmitter {
   deleteFile = (fileNameWithPath: string) =>
     this.useWaitAnyResponse(`file rmfile ${fileNameWithPath}`);
 
-  downloadFile = (fileNameWithPath: string) =>
+  downloadFile = (fileNameWithPath: string): Promise<[any, Blob]> =>
     new Promise((resolve, reject) => {
       const file = [];
       this.on(EVENT_COMMAND_MESSAGE, (response) => {
@@ -630,7 +636,7 @@ class Control extends EventEmitter {
 
         if (response instanceof Blob) {
           this.removeCommandListeners();
-          resolve(file);
+          resolve(file as [any, Blob]);
         }
       });
       this.setDefaultErrorResponse(reject);
@@ -854,8 +860,8 @@ class Control extends EventEmitter {
 
   maintainMove = (args: any) => {
     let command = '';
-    args.f = args.f || '6000';
-    command += ` f:${args.f}`;
+    const f = args.f || 6000;
+    command += ` f:${f}`;
     if (typeof args.x !== 'undefined') {
       command += ` x:${args.x}`;
     }
@@ -938,7 +944,7 @@ class Control extends EventEmitter {
           responseString += response.text;
           console.log('raw homing:\t', responseString);
         }
-        const resps = responseString.replace(/\r/g, '').split('\n');
+        const resps = responseString.split(/\r?\n/);
         if (resps.some((resp) => resp.includes('ok')) && !didErrorOccur) {
           this.removeCommandListeners();
           resolve(response);
@@ -983,6 +989,13 @@ class Control extends EventEmitter {
     });
   };
 
+  rawUnlock = () => {
+    if (this.mode !== 'raw') {
+      throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
+    }
+    return this.useRawWaitOKResponse('$X');
+  };
+
   rawMoveZRelToLastHome = (z: number) => {
     if (this.mode !== 'raw') {
       throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
@@ -1011,7 +1024,7 @@ class Control extends EventEmitter {
           console.log('raw line check:\t', response.text);
           responseString += response.text;
         }
-        const resps = responseString.replace(/\r/g, '').split('\n');
+        const resps = responseString.split(/\r?\n/);
         const i = resps.findIndex((r) => r === 'CTRL LINECHECK_ENABLED' || r === 'ok');
         if (i < 0) responseString = resps[resps.length - 1] || '';
         if (i >= 0) {
@@ -1069,7 +1082,7 @@ class Control extends EventEmitter {
           console.log('raw end line check:\t', response.text);
           responseString += response.text;
         }
-        const resps = responseString.replace(/\r/g, '').split('\n');
+        const resps = responseString.split(/\r?\n/);
         const i = resps.findIndex((r) => r === 'CTRL LINECHECK_DISABLED' || r === 'ok');
         if (i < 0) responseString = resps[resps.length - 1] || '';
         if (i >= 0) {
@@ -1253,6 +1266,33 @@ class Control extends EventEmitter {
     return this.useRawLineCheckCommand(command);
   };
 
+  rawSetRedLight = (on: boolean) => {
+    if (this.mode !== 'raw') {
+      throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
+    }
+    const command = on ? 'M136P196' : 'M136P197';
+    if (!this._isLineCheckMode) return this.useRawWaitOKResponse(command);
+    return this.useRawLineCheckCommand(command);
+  };
+
+  rawSetOrigin = () => {
+    if (this.mode !== 'raw') {
+      throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
+    }
+    const command = 'B47';
+    if (!this._isLineCheckMode) return this.useRawWaitOKResponse(command);
+    return this.useRawLineCheckCommand(command);
+  };
+
+  rawSetOriginV2 = () => {
+    if (this.mode !== 'raw') {
+      throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
+    }
+    const command = 'M137P186';
+    if (!this._isLineCheckMode) return this.useRawWaitOKResponse(command);
+    return this.useRawLineCheckCommand(command);
+  };
+
   rawSet24V = (on: boolean) => {
     if (this.mode !== 'raw') {
       throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
@@ -1276,7 +1316,7 @@ class Control extends EventEmitter {
           console.log('raw auto focus:\t', response.text);
           responseString += response.text;
         }
-        const resps = responseString.split('\r\n');
+        const resps = responseString.split(/\r?\n/);
         const i = resps.findIndex((r) => r === 'ok');
         if (i < 0) responseString = resps[resps.length - 1] || '';
         if (i >= 0) {
@@ -1315,7 +1355,7 @@ class Control extends EventEmitter {
           console.log('raw get probe position:\t', response.text);
           responseString += response.text;
         }
-        const resps = responseString.split('\r\n');
+        const resps = responseString.split(/\r?\n/);
         const i = resps.findIndex((r) => r === 'ok');
         if (i >= 0) {
           const resIdx = resps.findIndex((r) =>
@@ -1386,7 +1426,7 @@ class Control extends EventEmitter {
           console.log('raw get last position:\t', response.text);
           responseString += response.text;
         }
-        const resps = responseString.split('\r\n');
+        const resps = responseString.split(/\r?\n/);
         const i = resps.findIndex((r) => r === 'ok');
         if (i < 0) responseString = resps[resps.length - 1] || '';
         if (i >= 0) {
@@ -1566,7 +1606,7 @@ class Control extends EventEmitter {
     });
 
   uploadFisheyeParams = (data: string) =>
-    new Promise((resolve, reject) => {
+    new Promise<{ status: string }>((resolve, reject) => {
       const blob = new Blob([data], { type: 'application/json' });
       this.on(EVENT_COMMAND_MESSAGE, (response) => {
         if (response.status === 'ok') {

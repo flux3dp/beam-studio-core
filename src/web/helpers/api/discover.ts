@@ -18,16 +18,16 @@ let timer;
 const SEND_DEVICES_INTERVAL = 5000;
 const CLEAR_DEVICES_INTERVAL = 60000;
 const discoverLogger = Logger('discover');
-let printers = [];
 const dispatchers = [];
 const idList = [];
-let devices = {};
-const sendFoundPrinter = () => {
+let devices = [];
+let deviceMap = {};
+const sendFoundDevices = () => {
   discoverLogger.clear();
-  discoverLogger.append(devices);
+  discoverLogger.append(deviceMap);
 
   dispatchers.forEach((dispatcher) => {
-    dispatcher.sender(printers);
+    dispatcher.sender(devices);
   });
 };
 const ws = Websocket({
@@ -60,22 +60,22 @@ const onMessage = (device) => {
       storage.set('poke-ip-addr', device.ipaddr);
     }
 
-    devices[device.uuid] = device;
+    deviceMap[device.uuid] = device;
     sentryHelper.sendDeviceInfo(device);
     // SmartUpnp.addSolidIP(device.ip);
-  } else if (typeof devices[device.uuid] === 'undefined') {
-    delete devices[device.uuid];
+  } else if (typeof deviceMap[device.uuid] === 'undefined') {
+    delete deviceMap[device.uuid];
   }
 
   clearTimeout(timer);
   if (Date.now() - lastSendMessage > BUFFER) {
-    printers = DeviceList(devices);
-    sendFoundPrinter();
+    devices = DeviceList(deviceMap);
+    sendFoundDevices();
     lastSendMessage = Date.now();
   } else {
     timer = setTimeout(() => {
-      printers = DeviceList(devices);
-      sendFoundPrinter();
+      devices = DeviceList(deviceMap);
+      sendFoundDevices();
       lastSendMessage = Date.now();
     }, BUFFER);
   }
@@ -102,13 +102,13 @@ if (pokeIPs[0] === '') {
 }
 
 setInterval(() => {
-  printers = [];
-  devices = {};
+  devices = [];
+  deviceMap = {};
 }, CLEAR_DEVICES_INTERVAL);
 
 setInterval(() => {
   if (Date.now() - lastSendMessage > BUFFER) {
-    sendFoundPrinter();
+    sendFoundDevices();
     lastSendMessage = Date.now();
   }
 }, SEND_DEVICES_INTERVAL);
@@ -126,7 +126,7 @@ startTcpPoke();
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const Discover = (id: string, getDevices: (devices: IDeviceInfo[]) => void) => {
-  console.log('Register Discover', id, printers);
+  console.log('Register Discover', id, devices);
   const index = idList.indexOf(id);
 
   if (idList.length === 0 || index === -1) {
@@ -144,8 +144,8 @@ const Discover = (id: string, getDevices: (devices: IDeviceInfo[]) => void) => {
 
   // force callback always executed after return
   setTimeout(() => {
-    if (printers.length > 0) {
-      getDevices(printers);
+    if (devices.length > 0) {
+      getDevices(devices);
     }
   }, 0);
 
@@ -155,7 +155,7 @@ const Discover = (id: string, getDevices: (devices: IDeviceInfo[]) => void) => {
     pokeTcp, // Add to tcp poke list
     testTcp, // Test tcp poke
     countDevices() {
-      return Object.keys(devices).length;
+      return Object.keys(deviceMap).length;
     },
     removeListener(listenerId) {
       const listenerIndex = idList.indexOf(listenerId);
@@ -165,8 +165,8 @@ const Discover = (id: string, getDevices: (devices: IDeviceInfo[]) => void) => {
     sendAggressive() {
       ws.send('aggressive');
     },
-    getLatestPrinter(printer) {
-      return devices[printer.uuid];
+    getDevice(uuid: string) {
+      return deviceMap[uuid];
     },
   };
 };
@@ -199,5 +199,7 @@ const initSmartUpnp = async () => {
 initSmartUpnp();
 
 export const checkConnection = (): boolean => ws?.currentState === ws?.readyState.OPEN;
+
+export const getLatestDeviceInfo = (uuid: string): IDeviceInfo => deviceMap[uuid];
 
 export default Discover;

@@ -1,14 +1,20 @@
-import React, { createContext, useCallback, useEffect, useState } from 'react';
+import React, { createContext, useCallback, useEffect, useRef, useState } from 'react';
 
+import alertCaller from 'app/actions/alert-caller';
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
+import constant from 'app/actions/beambox/constant';
 import curveEngravingModeController from 'app/actions/canvas/curveEngravingModeController';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
+import getDevice from 'helpers/device/get-device';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
-import TutorialConstants from 'app/constants/tutorial-constants';
+import showResizeAlert from 'helpers/device/fit-device-workarea-alert';
+import tutorialConstants from 'app/constants/tutorial-constants';
+import tutorialController from 'app/views/tutorials/tutorialController';
 import useForceUpdate from 'helpers/use-force-update';
+import useI18n from 'helpers/useI18n';
 import workareaManager from 'app/svgedit/workarea';
-import * as TutorialController from 'app/views/tutorials/tutorialController';
+import { getLatestDeviceInfo } from 'helpers/api/discover';
 import { getSupportInfo } from 'app/constants/add-on';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
@@ -40,12 +46,7 @@ interface CanvasContextType {
   hasUnsavedChange: boolean;
   mode: CanvasMode;
   setMode: (mode: CanvasMode) => void;
-  setShouldStartPreviewController: (shouldStartPreviewController: boolean) => void;
-  setStartPreviewCallback: (callback: () => void | null) => void;
-  shouldStartPreviewController: boolean;
-  setupPreviewMode: () => void;
-  setSetupPreviewMode: (callback: () => void | null) => void;
-  startPreviewCallback: () => void | null;
+  setupPreviewMode: (opts?: { showModal?: boolean; callback?: () => void }) => void;
   togglePathPreview: () => void;
   updateCanvasContext: () => void;
   selectedDevice: IDeviceInfo | null;
@@ -64,12 +65,7 @@ const CanvasContext = createContext<CanvasContextType>({
   hasUnsavedChange: false,
   mode: CanvasMode.Draw,
   setMode: () => {},
-  setShouldStartPreviewController: () => {},
-  setStartPreviewCallback: () => {},
-  shouldStartPreviewController: false,
   setupPreviewMode: () => {},
-  setSetupPreviewMode: () => {},
-  startPreviewCallback: () => {},
   togglePathPreview: () => {},
   updateCanvasContext: () => {},
   selectedDevice: null,
@@ -82,14 +78,13 @@ const CanvasContext = createContext<CanvasContextType>({
 });
 
 const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>): JSX.Element => {
+  const lang = useI18n();
+  const settingUpPreview = useRef(false);
   const forceUpdate = useForceUpdate();
   const [mode, setMode] = useState<CanvasMode>(CanvasMode.Draw);
   const [isColorPreviewing, setIsColorPreviewing] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<IUser>(null);
   const [hasUnsavedChange, setHasUnsavedChange] = useState<boolean>(false);
-  const [startPreviewCallback, setStartPreviewCallback] = useState<() => void | null>(null);
-  const [shouldStartPreviewController, setShouldStartPreviewController] = useState<boolean>(false);
-  const [setupPreviewMode, setSetupPreviewMode] = useState<() => void | null>(null);
   const [selectedDevice, setSelectedDevice] = useState<IDeviceInfo | null>(null);
   const [isPathEditing, setIsPathEditing] = useState<boolean>(false);
   const [hasPassthroughExtension, setHasPassthroughExtension] = useState<boolean>(false);
@@ -103,8 +98,8 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
       // eslint-disable-next-line no-console
       console.log(error);
     } finally {
-      if (TutorialController.getNextStepRequirement() === TutorialConstants.TO_EDIT_MODE) {
-        TutorialController.handleNextStep();
+      if (tutorialController.getNextStepRequirement() === tutorialConstants.TO_EDIT_MODE) {
+        tutorialController.handleNextStep();
       }
       // eslint-disable-next-line react-hooks/rules-of-hooks
       FnWrapper.useSelectTool();
@@ -127,25 +122,10 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
     };
   }, [setUser]);
   useEffect(() => {
-    topBarEventEmitter.on('SET_HAS_UNSAVED_CHANGE', setHasUnsavedChange);
-    topBarEventEmitter.on('SET_SHOULD_START_PREVIEW_CONTROLLER', setShouldStartPreviewController);
     topBarEventEmitter.on('SET_SELECTED_DEVICE', setSelectedDevice);
-    const setStartPreviewCallbackHandler = (callback) => {
-      // wrap callback with a function to prevent calling it immediately
-      setStartPreviewCallback(() => callback);
-    };
-    topBarEventEmitter.on('SET_START_PREVIEW_CALLBACK', setStartPreviewCallbackHandler);
     return () => {
       topBarEventEmitter.removeListener('SET_HAS_UNSAVED_CHANGE', setHasUnsavedChange);
-      topBarEventEmitter.removeListener(
-        'SET_SHOULD_START_PREVIEW_CONTROLLER',
-        setShouldStartPreviewController
-      );
       topBarEventEmitter.removeListener('SET_SELECTED_DEVICE', setSelectedDevice);
-      topBarEventEmitter.removeListener(
-        'SET_START_PREVIEW_CALLBACK',
-        setStartPreviewCallbackHandler
-      );
     };
   }, []);
   useEffect(() => {
@@ -159,7 +139,7 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
   }, [mode]);
   useEffect(() => {
     const handler = (response: { selectedDevice: IDeviceInfo | null }): void => {
-      response.selectedDevice = selectedDevice;
+      response.selectedDevice = getLatestDeviceInfo(selectedDevice.uuid);
     };
     topBarEventEmitter.on('GET_SELECTED_DEVICE', handler);
     return () => {
@@ -211,6 +191,85 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
     }
   }, [mode]);
 
+  const setupPreviewMode = useCallback(
+    async (opts: { showModal?: boolean; callback?: () => void } = {}) => {
+      if (settingUpPreview.current) return;
+      settingUpPreview.current = true;
+      const { showModal, callback } = opts;
+      const { device, isWorkareaMatched } = await getDevice(showModal);
+      if (!(await PreviewModeController.checkDevice(device))) {
+        settingUpPreview.current = false;
+        return;
+      }
+      if (!isWorkareaMatched && !(await showResizeAlert(device))) {
+        settingUpPreview.current = false;
+        return;
+      }
+      const t = lang.topbar;
+      const workarea = document.getElementById('workarea');
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      FnWrapper.useSelectTool();
+      svgCanvas.clearSelection();
+      workarea.style.cursor = 'wait';
+
+      const onPreviewError = (errMessage) => {
+        if (errMessage === 'Timeout has occurred') {
+          alertCaller.popUpError({
+            message: t.alerts.start_preview_timeout,
+          });
+        } else {
+          alertCaller.popUpError({
+            message: `${t.alerts.fail_to_start_preview}<br/>${errMessage}`,
+          });
+        }
+        setMode(CanvasMode.Draw);
+        workarea.style.cursor = 'auto';
+      };
+
+      try {
+        await PreviewModeController.start(device, onPreviewError);
+        if (!PreviewModeController.isPreviewModeOn) {
+          workarea.style.cursor = 'auto';
+          settingUpPreview.current = false;
+          return;
+        }
+        workarea.style.cursor = 'url(img/camera-cursor.svg) 9 12, cell';
+        if (constant.adorModels.includes(device.model)) {
+          PreviewModeController.previewFullWorkarea(() => {
+            updateCanvasContext();
+            if (tutorialController.getNextStepRequirement() === tutorialConstants.PREVIEW_PLATFORM)
+              tutorialController.handleNextStep();
+          });
+        }
+        setMode(CanvasMode.Preview);
+        callback?.();
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error(error);
+        if (error.message && error.message.startsWith('Camera WS')) {
+          alertCaller.popUpError({
+            message: `${t.alerts.fail_to_connect_with_camera}<br/>${error.message || ''}`,
+          });
+        } else {
+          alertCaller.popUpError({
+            message: `${t.alerts.fail_to_start_preview}<br/>${error.message || ''}`,
+          });
+        }
+        // eslint-disable-next-line react-hooks/rules-of-hooks
+        FnWrapper.useSelectTool();
+      } finally {
+        settingUpPreview.current = false;
+      }
+    },
+    [lang, updateCanvasContext]
+  );
+  useEffect(() => {
+    canvasEventEmitter.addListener('SETUP_PREVIEW_MODE', setupPreviewMode);
+    return () => {
+      canvasEventEmitter.removeListener('SETUP_PREVIEW_MODE', setupPreviewMode);
+    };
+  }, [setupPreviewMode]);
+
   const changeToPreviewMode = () => {
     svgCanvas.setMode('select');
     workareaEvents.emit('update-context-menu', { menuDisabled: true });
@@ -223,8 +282,8 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
     if (workarea) {
       workarea.style.cursor = 'url(img/camera-cursor.svg) 9 12, cell';
     }
-    if (TutorialController.getNextStepRequirement() === TutorialConstants.TO_PREVIEW_MODE) {
-      TutorialController.handleNextStep();
+    if (tutorialController.getNextStepRequirement() === tutorialConstants.TO_PREVIEW_MODE) {
+      tutorialController.handleNextStep();
     }
   };
 
@@ -242,12 +301,7 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
         hasUnsavedChange,
         mode,
         setMode,
-        setShouldStartPreviewController,
-        setSetupPreviewMode,
-        setStartPreviewCallback,
-        shouldStartPreviewController,
         setupPreviewMode,
-        startPreviewCallback,
         togglePathPreview,
         updateCanvasContext,
         selectedDevice,

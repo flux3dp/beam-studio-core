@@ -57,6 +57,7 @@ const lang: ILang = {
       power_too_high_msg: 'Utilizzare una potenza laser inferiore (sotto il 70%) estende la durata del tubo laser.\nInserire "HO CAPITO" per procedere.',
       power_too_high_confirm: 'HO CAPITO',
       pwm_unavailable: 'La Modalità Profondità richiede una versione del firmware 4.3.4 / 5.3.4 o successiva. Vuoi aggiornare il firmware adesso?',
+      job_origin_unavailable: "Impostare l'origine del lavoro richiede la versione firmware 4.3.5 / 5.3.5 o superiore. Vuoi aggiornare il firmware ora?",
     },
     hint: {
       polygon: 'Premere + / - per aumentare / diminuire i lati.',

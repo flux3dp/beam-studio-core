@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { memo, useCallback, useEffect, useContext, useState } from 'react';
+import React, { memo, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { Button, Popover } from 'antd-mobile';
 
 import ConfigPanelIcons from 'app/icons/config-panel/ConfigPanelIcons';
@@ -10,6 +10,7 @@ import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/Objec
 import objectPanelItemStyles from 'app/views/beambox/Right-Panels/ObjectPanelItem.module.scss';
 import undoManager from 'app/svgedit/history/undoManager';
 import useI18n from 'helpers/useI18n';
+import useWorkarea from 'helpers/hooks/useWorkarea';
 import {
   CUSTOM_PRESET_CONSTANT,
   getData,
@@ -17,6 +18,7 @@ import {
   writeDataLayer,
 } from 'helpers/layer/layer-config-helper';
 import { getLayerByName } from 'helpers/layer/layer-helper';
+import { getWorkarea } from 'app/constants/workarea-constants';
 import { ObjectPanelContext } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
 
 import AdvancedPowerPanel from './AdvancedPowerPanel';
@@ -81,6 +83,8 @@ function PowerBlock({
       undoManager.addCommandToHistory(batchCmd);
     }
   };
+  const workarea = useWorkarea();
+  const workareaObj = useMemo(() => getWorkarea(workarea), [workarea]);
 
   const content = (
     <div className={classNames(styles.panel, styles[type])}>
@@ -111,7 +115,7 @@ function PowerBlock({
         max={MAX_VALUE}
         step={1}
       />
-      {power.value < 10 && (
+      {power.value < workareaObj.minPower  && (
         <div className={styles.warning}>
           <div className={styles['warning-icon']}>!</div>
           <div className={styles['warning-text']}>{t.low_power_warning}</div>
