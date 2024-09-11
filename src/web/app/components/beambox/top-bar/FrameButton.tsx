@@ -8,6 +8,7 @@ import constant from 'app/actions/beambox/constant';
 import defaultModuleOffset from 'app/constants/layer-module/module-offsets';
 import deviceMaster from 'helpers/device-master';
 import getDevice from 'helpers/device/get-device';
+import getJobOrigin from 'helpers/job-origin';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import LayerModule from 'app/constants/layer-module/layer-modules';
 import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
@@ -159,6 +160,12 @@ const FrameButton = (): JSX.Element => {
       redLight: false,
       '24v': false,
     };
+    const vc = versionChecker(device.version);
+    const jobOrigin =
+      beamboxPreference.read('enable-job-origin') &&
+      vc.meetRequirement(isAdor ? 'ADOR_JOB_ORIGIN' : 'JOB_ORIGIN')
+        ? getJobOrigin()
+        : null;
     try {
       const curPos = { x: 0, y: 0, a: 0 };
       const movementFeedrate = 6000; // mm/min
@@ -168,23 +175,23 @@ const FrameButton = (): JSX.Element => {
         a,
         f = movementFeedrate,
         wait,
-      }: {
-        x?: number;
-        y?: number;
-        a?: number;
-        f?: number;
-        wait?: boolean;
-      }) => {
+      }: { x?: number; y?: number; a?: number; f?: number; wait?: boolean; }) => {
         let xDist = 0;
         let yDist = 0;
         if (x !== undefined) {
+          // eslint-disable-next-line no-param-reassign
+          if (jobOrigin) x -= jobOrigin.x;
           xDist = x - curPos.x;
           curPos.x = x;
         }
         if (y !== undefined) {
+          // eslint-disable-next-line no-param-reassign
+          if (jobOrigin) y -= jobOrigin.y;
           yDist = y - curPos.y;
           curPos.y = y;
         } else if (a !== undefined) {
+          // eslint-disable-next-line no-param-reassign
+          if (jobOrigin) a -= jobOrigin.y;
           yDist = a - curPos.a;
           curPos.a = a;
         }
@@ -201,8 +208,11 @@ const FrameButton = (): JSX.Element => {
       await deviceMaster.rawSetRotary(false);
       progressCaller.update(PROGRESS_ID, { message: lang.message.homing });
       if (isAdor && rotaryInfo) await deviceMaster.rawHomeZ();
-      await deviceMaster.rawHome();
-      const vc = versionChecker(device.version);
+      if (jobOrigin) {
+        await deviceMaster.rawUnlock();
+        await deviceMaster.rawSetOrigin();
+      }
+      else await deviceMaster.rawHome();
       if (
         (!isAdor && vc.meetRequirement('MAINTAIN_WITH_LINECHECK')) ||
         (isAdor && vc.meetRequirement('ADOR_RELEASE'))
@@ -260,6 +270,9 @@ const FrameButton = (): JSX.Element => {
         await moveTo({ [yKey]: rotaryInfo.y, f: movementFeedrate });
         await deviceMaster.rawSetRotary(false);
         enabledInfo.rotary = false;
+      }
+      if (jobOrigin) {
+        await moveTo({ x: jobOrigin.x, y: jobOrigin.y, f: movementFeedrate });
       }
     } catch (error) {
       console.log('frame error:\n', error);

@@ -208,9 +208,10 @@ describe('test FrameButton', () => {
     expect(mockEndRawMode).toBeCalledTimes(1);
     expect(mockKick).toBeCalledTimes(1);
     expect(mockGetDeviceDetailInfo).not.toBeCalled();
-    expect(mockRead).toBeCalledTimes(2);
+    expect(mockRead).toBeCalledTimes(3);
     expect(mockRead).toHaveBeenNthCalledWith(1, 'module-offsets');
     expect(mockRead).toHaveBeenNthCalledWith(2, 'rotary_mode');
+    expect(mockRead).toHaveBeenNthCalledWith(3, 'enable-job-origin');
   });
 
   test('should render correctly with previewing mode', () => {
@@ -256,10 +257,11 @@ describe('test FrameButton', () => {
     expect(mockCheckDeviceStatus).toBeCalledTimes(1);
     expect(mockOpenNonstopProgress).toBeCalledTimes(1);
     expect(mockGetDeviceDetailInfo).toBeCalledTimes(1);
-    expect(mockRead).toBeCalledTimes(3);
+    expect(mockRead).toBeCalledTimes(4);
     expect(mockRead).toHaveBeenNthCalledWith(1, 'module-offsets');
     expect(mockRead).toHaveBeenNthCalledWith(2, 'low_power');
     expect(mockRead).toHaveBeenNthCalledWith(3, 'rotary_mode');
+    expect(mockRead).toHaveBeenNthCalledWith(4, 'enable-job-origin');
     expect(mockGetDoorOpen).toBeCalledTimes(1);
     expect(mockOpenMessage).toBeCalledTimes(1);
     expect(mockOpenMessage).toBeCalledWith({
@@ -312,11 +314,12 @@ describe('test FrameButton', () => {
     expect(mockCheckDeviceStatus).toBeCalledTimes(1);
     expect(mockOpenNonstopProgress).toBeCalledTimes(1);
     expect(mockGetDeviceDetailInfo).toBeCalledTimes(1);
-    expect(mockRead).toBeCalledTimes(4);
+    expect(mockRead).toBeCalledTimes(5);
     expect(mockRead).toHaveBeenNthCalledWith(1, 'module-offsets');
     expect(mockRead).toHaveBeenNthCalledWith(2, 'low_power');
     expect(mockRead).toHaveBeenNthCalledWith(3, 'rotary_mode');
     expect(mockRead).toHaveBeenNthCalledWith(4, 'rotary-mirror');
+    expect(mockRead).toHaveBeenNthCalledWith(5, 'enable-job-origin');
     expect(mockGetDoorOpen).toBeCalledTimes(1);
     expect(mockOpenMessage).toBeCalledTimes(1);
     expect(mockOpenMessage).toBeCalledWith({
