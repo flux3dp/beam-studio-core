@@ -1,8 +1,8 @@
-import { IDeviceDetailInfo, IDeviceInfo } from "interfaces/IDevice";
-import deviceMaster from "helpers/device-master";
-import constant from "../constant";
+import constant from 'app/actions/beambox/constant';
+import deviceMaster from 'helpers/device-master';
+import { IDeviceInfo } from 'interfaces/IDevice';
 
-const getAdorPaddingAccel = async (device: IDeviceInfo | null): Promise<number | null> => {
+export const getAdorPaddingAccel = async (device: IDeviceInfo | null): Promise<number | null> => {
   if (!constant.adorModels.includes(device?.model)) return null;
   try {
     await deviceMaster.select(device);
@@ -16,8 +16,6 @@ const getAdorPaddingAccel = async (device: IDeviceInfo | null): Promise<number |
   }
 };
 
-
-export {
-  // eslint-disable-next-line import/prefer-default-export
+export default {
   getAdorPaddingAccel,
 };
