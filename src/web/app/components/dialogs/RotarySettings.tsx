@@ -29,7 +29,7 @@ const RotarySettings = ({ onClose }: Props): JSX.Element => {
     beamboxPreference.read('rotary-type') || RotaryType.Roller
   );
   const [diameter, setDiaMeter] = useState<number>(
-    beamboxPreference.read('rotary-chuck-obj-dia') ?? CHUCK_ROTARY_DIAMETER
+    beamboxPreference.read('rotary-chuck-obj-d') ?? CHUCK_ROTARY_DIAMETER
   );
   const [extend, setExtend] = useState<boolean>(!!beamboxPreference.read('extend-rotary-workarea'));
   const [mirror, setMirror] = useState<boolean>(!!beamboxPreference.read('rotary-mirror'));
@@ -40,7 +40,7 @@ const RotarySettings = ({ onClose }: Props): JSX.Element => {
     const extendChanged = extend !== !!beamboxPreference.read('extend-rotary-workarea');
     beamboxPreference.write('rotary_mode', rotaryMode);
     beamboxPreference.write('rotary-type', rotaryType);
-    if (rotaryType === RotaryType.Chuck) beamboxPreference.write('rotary-chuck-obj-dia', diameter);
+    if (rotaryType === RotaryType.Chuck) beamboxPreference.write('rotary-chuck-obj-d', diameter);
     if (supportInfo.rotary.mirror) beamboxPreference.write('rotary-mirror', mirror);
     if (supportInfo.rotary.extendWorkarea)
       beamboxPreference.write('extend-rotary-workarea', extend);

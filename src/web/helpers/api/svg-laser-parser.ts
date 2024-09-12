@@ -35,7 +35,7 @@ export const getExportOpt = (
   loopCompensation?: number;
   curveEngravingData?: string;
 } => {
-  const { model } = opt;
+  const { model, supportJobOrigin = true, supportPwm = true } = opt;
   const config: IFcodeConfig = {
     model,
     hardware_name: 'beambox',
@@ -64,7 +64,7 @@ export const getExportOpt = (
     config.spin = rotaryAxis.getPosition();
     let rotaryRatio = 1;
     if (BeamboxPreference.read('rotary-type') === RotaryType.Chuck && supportInfo.rotary?.chuck) {
-      const objectDiameter = BeamboxPreference.read('rotary-chuck-obj-dia') || CHUCK_ROTARY_DIAMETER;
+      const objectDiameter = BeamboxPreference.read('rotary-chuck-obj-d') || CHUCK_ROTARY_DIAMETER;
       rotaryRatio = CHUCK_ROTARY_DIAMETER / objectDiameter;
     }
     if (supportInfo.rotary?.mirror) {
@@ -77,7 +77,6 @@ export const getExportOpt = (
     }
   }
 
-  const { supportJobOrigin = true, supportPwm = true } = opt;
   const hasJobOrigin = BeamboxPreference.read('enable-job-origin') && supportJobOrigin;
   if (hasJobOrigin) {
     // firmware version / model check

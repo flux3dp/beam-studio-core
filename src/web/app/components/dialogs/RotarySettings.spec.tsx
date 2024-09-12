@@ -115,7 +115,7 @@ describe('test RotarySettings', () => {
     expect(mockWrite).toHaveBeenCalledTimes(5);
     expect(mockWrite).toHaveBeenNthCalledWith(1, 'rotary_mode', 1);
     expect(mockWrite).toHaveBeenNthCalledWith(2, 'rotary-type', RotaryType.Chuck);
-    expect(mockWrite).toHaveBeenNthCalledWith(3, 'rotary-chuck-obj-dia', 10);
+    expect(mockWrite).toHaveBeenNthCalledWith(3, 'rotary-chuck-obj-d', 10);
     expect(mockWrite).toHaveBeenNthCalledWith(4, 'rotary-mirror', false);
     expect(mockWrite).toHaveBeenNthCalledWith(5, 'extend-rotary-workarea', true);
     expect(mockChangeWorkarea).toHaveBeenCalledTimes(1);
