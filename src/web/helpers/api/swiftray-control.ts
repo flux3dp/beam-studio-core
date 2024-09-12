@@ -543,6 +543,13 @@ class SwiftrayControl extends EventEmitter implements IControlSocket {
     });
   };
 
+  rawUnlock(): Promise<void> {
+    if (this.mode !== 'raw') {
+      throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
+    }
+    return this.useRawWaitOKResponse('$X');
+  }
+
   rawMoveZRelToLastHome = (z: number) => {
     if (this.mode !== 'raw') {
       throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
@@ -692,38 +699,46 @@ class SwiftrayControl extends EventEmitter implements IControlSocket {
     return this.useRawLineCheckCommand(command);
   };
 
-  rawSetWaterPump = (on: boolean) => {
+  rawSetWaterPump = (on: boolean, fcodeVersion = 1) => {
     if (this.mode !== 'raw') {
       throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
     }
-    const command = on ? 'B1' : 'B2';
+    let command: string;
+    if (fcodeVersion === 2) command = on ? 'M136P1' : 'M136P2';
+    else command = on ? 'B1' : 'B2';
     if (!this._isLineCheckMode) return this.useWaitAnyResponse(command);
     return this.useRawLineCheckCommand(command);
   };
 
-  rawSetAirPump = (on: boolean) => {
+  rawSetAirPump = (on: boolean, fcodeVersion = 1) => {
     if (this.mode !== 'raw') {
       throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
     }
-    const command = on ? 'B3' : 'B4';
+    let command: string;
+    if (fcodeVersion === 2) command = on ? 'M136P3' : 'M136P4';
+    else command = on ? 'B3' : 'B4';
     if (!this._isLineCheckMode) return this.useWaitAnyResponse(command);
     return this.useRawLineCheckCommand(command);
   };
 
-  rawSetFan = (on: boolean) => {
+  rawSetFan = (on: boolean, fcodeVersion = 1) => {
     if (this.mode !== 'raw') {
       throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
     }
-    const command = on ? 'B5' : 'B6';
+    let command: string;
+    if (fcodeVersion === 2) command = on ? 'M136P5' : 'M136P6';
+    else command = on ? 'B5' : 'B6';
     if (!this._isLineCheckMode) return this.useWaitAnyResponse(command);
     return this.useRawLineCheckCommand(command);
   };
 
-  rawSetRotary = (on: boolean) => {
+  rawSetRotary = (on: boolean, fcodeVersion = 1) => {
     if (this.mode !== 'raw') {
       throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
     }
-    const command = on ? 'R1' : 'R0';
+    let command: string;
+    if (fcodeVersion === 2) command = on ? 'M137P35' : 'M137P36';
+    else command = on ? 'R1' : 'R0';
     if (!this._isLineCheckMode) return this.useWaitAnyResponse(command);
     return this.useRawLineCheckCommand(command);
   };

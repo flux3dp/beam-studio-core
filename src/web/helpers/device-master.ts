@@ -423,7 +423,11 @@ class DeviceMaster {
     }
   }
 
-  async runAuthProcess(uuid: string, device: IDeviceConnection, deviceInfo: IDeviceInfo): Promise<SelectionResult> {
+  async runAuthProcess(
+    uuid: string,
+    device: IDeviceConnection,
+    deviceInfo: IDeviceInfo
+  ): Promise<SelectionResult> {
     if (device.info.password) {
       const authed = await this.showAuthDialog(uuid);
       if (authed) {
@@ -584,17 +588,17 @@ class DeviceMaster {
   }
 
   async startFraming() {
-    const controlSocket = await this.getControl() as SwiftrayControl;
+    const controlSocket = (await this.getControl()) as SwiftrayControl;
     return controlSocket.addTask(controlSocket.startFraming);
   }
 
   async stopFraming() {
-    const controlSocket = await this.getControl() as SwiftrayControl;
+    const controlSocket = (await this.getControl()) as SwiftrayControl;
     return controlSocket.addTask(controlSocket.stopFraming);
   }
 
   // Calibration and Machine test functions
-  async waitTillCompleted(onProgress?: (number) => void) {
+  async waitTillCompleted(onProgress?: (progress: number) => void) {
     return new Promise((resolve, reject) => {
       let statusChanged = false;
       const statusCheckInterval = setInterval(async () => {
@@ -893,7 +897,7 @@ class DeviceMaster {
   async maintainMove(args: { f: number; x: number; y: number }) {
     const controlSocket = await this.getControl();
     const result = await controlSocket.addTask(controlSocket.maintainMove, args);
-    if (result.status === 'ok') {
+    if (result && result.status === 'ok') {
       return;
     }
     console.warn('maintainMove Result', result);
@@ -957,34 +961,26 @@ class DeviceMaster {
 
   async rawSetRotary(on: boolean) {
     const controlSocket = await this.getControl();
-    if (constant.fcodeV2Models.has(this.currentDevice.info.model)) {
-      return controlSocket.addTask(controlSocket.rawSetRotaryV2, on);
-    }
-    return controlSocket.addTask(controlSocket.rawSetRotary, on);
+    const fcodeVersion = constant.fcodeV2Models.has(this.currentDevice.info.model) ? 2 : 1;
+    return controlSocket.addTask(controlSocket.rawSetRotary, on, fcodeVersion);
   }
 
   async rawSetWaterPump(on: boolean) {
     const controlSocket = await this.getControl();
-    if (constant.fcodeV2Models.has(this.currentDevice.info.model)) {
-      return controlSocket.addTask(controlSocket.rawSetWaterPumpV2, on);
-    }
-    return controlSocket.addTask(controlSocket.rawSetWaterPump, on);
+    const fcodeVersion = constant.fcodeV2Models.has(this.currentDevice.info.model) ? 2 : 1;
+    return controlSocket.addTask(controlSocket.rawSetWaterPump, on, fcodeVersion);
   }
 
   async rawSetFan(on: boolean) {
     const controlSocket = await this.getControl();
-    if (constant.fcodeV2Models.has(this.currentDevice.info.model)) {
-      return controlSocket.addTask(controlSocket.rawSetFanV2, on);
-    }
-    return controlSocket.addTask(controlSocket.rawSetFan, on);
+    const fcodeVersion = constant.fcodeV2Models.has(this.currentDevice.info.model) ? 2 : 1;
+    return controlSocket.addTask(controlSocket.rawSetFan, on, fcodeVersion);
   }
 
   async rawSetAirPump(on: boolean) {
     const controlSocket = await this.getControl();
-    if (constant.fcodeV2Models.has(this.currentDevice.info.model)) {
-      return controlSocket.addTask(controlSocket.rawSetAirPumpV2, on);
-    }
-    return controlSocket.addTask(controlSocket.rawSetAirPump, on);
+    const fcodeVersion = constant.fcodeV2Models.has(this.currentDevice.info.model) ? 2 : 1;
+    return controlSocket.addTask(controlSocket.rawSetAirPump, on, fcodeVersion);
   }
 
   async rawLooseMotor() {

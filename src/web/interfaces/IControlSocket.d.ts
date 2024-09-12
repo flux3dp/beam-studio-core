@@ -3,6 +3,7 @@ import EventEmitter from 'eventemitter3';
 import { SwiftrayClient } from 'helpers/api/swiftray-client';
 
 // eslint-disable-next-line import/no-cycle
+import { FisheyeCameraParameters, RotationParameters3D } from './FisheyePreview';
 import { IDeviceDetailInfo, IReport } from './IDevice';
 import { WrappedWebSocket } from './WebSocket';
 import { RawChipSettings } from './Cartridge';
@@ -57,20 +58,26 @@ interface IControlSocket extends EventEmitter {
   deleteDeviceSetting(name: string): Promise<unknown>;
   enterMaintainMode(): Promise<unknown>;
   endMaintainMode(): Promise<unknown>;
-  maintainMove(args: { x?: number; y?: number; z?: number; f?: number }): Promise<unknown>;
+  maintainMove(args: {
+    x?: number;
+    y?: number;
+    z?: number;
+    f?: number;
+  }): Promise<{ status: string } | void>;
   maintainCloseFan(): Promise<unknown>;
   maintainHome(): Promise<unknown>;
   enterRawMode(): Promise<unknown>;
   endRawMode(): Promise<unknown>;
   rawHome(zAxis?: boolean): Promise<void>;
+  rawUnlock(): Promise<string | void>;
   rawMoveZRelToLastHome(z: number): Promise<unknown>;
   rawStartLineCheckMode(): Promise<void>;
   rawEndLineCheckMode(): Promise<void>;
   rawMove(args: { x?: number; y?: number; z?: number; f?: number }): Promise<unknown>;
-  rawSetWaterPump(on: boolean): Promise<unknown>;
-  rawSetAirPump(on: boolean): Promise<unknown>;
-  rawSetFan(on: boolean): Promise<unknown>;
-  rawSetRotary(on: boolean): Promise<unknown>;
+  rawSetWaterPump(on: boolean, fcodeVersion?: number): Promise<unknown>;
+  rawSetAirPump(on: boolean, fcodeVersion?: number): Promise<unknown>;
+  rawSetFan(on: boolean, fcodeVersion?: number): Promise<unknown>;
+  rawSetRotary(on: boolean, fcodeVersion?: number): Promise<unknown>;
   rawSetLaser(args: { on: boolean; s?: number }): Promise<unknown>;
   rawSet24V(on: boolean): Promise<unknown>;
   rawAutoFocus(timeout?: number): Promise<void>;
@@ -85,6 +92,9 @@ interface IControlSocket extends EventEmitter {
     method: string,
     params: unknown
   ) => Promise<{ status: string; data: { result: { hash: string; sign: string } } }>;
+  fetchFisheyeParams?: () => Promise<FisheyeCameraParameters>;
+  fetchFisheye3DRotation?: () => Promise<RotationParameters3D>;
+  fetchAutoLevelingData?: (dataType: string) => Promise<{ [key: string]: number }>;
 }
 
 export default IControlSocket;

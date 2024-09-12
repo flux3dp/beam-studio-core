@@ -1,8 +1,9 @@
 // Swiftray Client Typescript API Client
 import EventEmitter from 'eventemitter3';
-import { IWrappedSwiftrayTaskFile } from 'interfaces/IWrappedFile';
+
 import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
-import { IDeviceDetailInfo, IDeviceInfo } from '../../interfaces/IDevice';
+import { IDeviceDetailInfo, IDeviceInfo, IReport } from 'interfaces/IDevice';
+import { IWrappedSwiftrayTaskFile } from 'interfaces/IWrappedFile';
 
 interface ErrorObject {
   code: number;
@@ -224,7 +225,7 @@ class SwiftrayClient extends EventEmitter{
     return this.action(`/devices/${this.port}`, 'stop');
   }
 
-  public async getDeviceParam(name: string): Promise<{ value: number }> {
+  public async getDeviceParam<T = number>(name: string): Promise<{ value: T }> {
     return this.action(`/devices/${this.port}`, 'getParam', { name });
   }
 
@@ -306,7 +307,7 @@ class SwiftrayClient extends EventEmitter{
     return this.action(`/devices/${this.port}`, 'sendGCode', command);
   }
 
-  public async getDeviceStatus(): Promise<{ st_id: number, st_prog: number }> {
+  public async getDeviceStatus(): Promise<IReport> {
     return await this.action(`/devices/${this.port}`, 'getStatus') as any;
   }
 
