@@ -107,7 +107,7 @@ export const getExportOpt = (
     }
   }
 
-  if (opt.enableAutoFocus) {
+  if (opt.enableAutoFocus && supportInfo.autoFocus) {
     config.af = true;
     if (BeamboxPreference.read('af-offset')) config.z_offset = BeamboxPreference.read('af-offset');
   }
@@ -120,7 +120,7 @@ export const getExportOpt = (
       config.diode_owe = true;
     }
   }
-  const isBorderLess = BeamboxPreference.read('borderless') && getSupportInfo(model).openBottom;
+  const isBorderLess = BeamboxPreference.read('borderless') && supportInfo.openBottom;
   if (BeamboxPreference.read('enable_mask') || isBorderLess) {
     const clipRect: [number, number, number, number] = [0, 0, 0, 0]; // top right bottom left
     if (isBorderLess) clipRect[1] = constant.borderless.safeDistance.X;
