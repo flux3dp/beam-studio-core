@@ -41,17 +41,18 @@ const sendFoundDevices = () => {
 };
 
 const updatePokeIPAddr = (device: IDeviceInfo): void => {
-  let pokeIPAddr = storage.get('poke-ip-addr');
+  const maxLen = 20;
+  const pokeIPAddr: string = storage.get('poke-ip-addr');
 
-  if (pokeIPAddr && pokeIPAddr !== '') {
+  if (pokeIPAddr?.trim()) {
     const pokeIPAddrArr = pokeIPAddr.split(/[,;] ?/);
 
     if (device.ipaddr && pokeIPAddrArr.indexOf(device.ipaddr) === -1 && device.ipaddr !== 'raspberrypi.local') {
-      if (pokeIPAddrArr.length > 19) {
-        pokeIPAddr = pokeIPAddrArr.slice(pokeIPAddrArr.length - 19, pokeIPAddrArr.length).join();
+      pokeIPAddrArr.push(device.ipaddr);
+      if (pokeIPAddrArr.length > maxLen) {
+        pokeIPAddrArr.splice(0, pokeIPAddrArr.length - maxLen);
       }
-
-      storage.set('poke-ip-addr', `${pokeIPAddr}, ${device.ipaddr}`);
+      storage.set('poke-ip-addr', pokeIPAddrArr.join(', '));
     }
   } else {
     storage.set('poke-ip-addr', device.ipaddr);
