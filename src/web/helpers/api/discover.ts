@@ -31,12 +31,12 @@ const ws = Websocket({
   method: 'discover',
 });
 
-const sendFoundPrinter = () => {
+const sendFoundDevice = () => {
   discoverLogger.clear();
   discoverLogger.append(deviceMap);
 
   dispatchers.forEach((dispatcher) => {
-    dispatcher.sender(deviceMap);
+    dispatcher.sender(devices);
   });
 };
 
@@ -80,12 +80,12 @@ const onMessage = (device) => {
   clearTimeout(timer);
   if (Date.now() - lastSendMessage > BUFFER) {
     devices = DeviceList({ ...deviceMap, ...swiftrayDevices });
-    sendFoundPrinter();
+    sendFoundDevice();
     lastSendMessage = Date.now();
   } else {
     timer = setTimeout(() => {
       devices = DeviceList({ ...deviceMap, ...swiftrayDevices });
-      sendFoundPrinter();
+      sendFoundDevice();
       lastSendMessage = Date.now();
     }, BUFFER);
   }
@@ -99,7 +99,7 @@ const startIntervals = () => {
 
   setInterval(() => {
     if (Date.now() - lastSendMessage > BUFFER) {
-      sendFoundPrinter();
+      sendFoundDevice();
       lastSendMessage = Date.now();
     }
   }, SEND_DEVICES_INTERVAL);
@@ -111,7 +111,7 @@ const startIntervals = () => {
         return acc;
       }, {});
       devices = DeviceList({ ...deviceMap, ...swiftrayDevices });
-      sendFoundPrinter();
+      sendFoundDevice();
     });
   }, 15000);
   setTimeout(() => {
@@ -121,7 +121,7 @@ const startIntervals = () => {
         return acc;
       }, {});
       devices = DeviceList({ ...deviceMap, ...swiftrayDevices });
-      sendFoundPrinter();
+      sendFoundDevice();
     });
   }, 5000);
 };
