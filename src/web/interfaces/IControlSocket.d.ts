@@ -1,8 +1,14 @@
-import { IDeviceDetailInfo } from "./IDevice";
+import EventEmitter from 'eventemitter3';
 
-interface IControlSocket {
+import { SwiftrayClient } from 'helpers/api/swiftray-client';
+
+// eslint-disable-next-line import/no-cycle
+import { IDeviceDetailInfo, IReport } from './IDevice';
+import { WrappedWebSocket } from './WebSocket';
+
+interface IControlSocket extends EventEmitter {
   isConnected: boolean;
-  connection: unknown | null;
+  connection: WrappedWebSocket | SwiftrayClient | null;
   isLineCheckMode: boolean;
   lineNumber: number;
 
@@ -14,10 +20,10 @@ interface IControlSocket {
   setProgressListener(listener: (...args: unknown[]) => void): void;
   removeCommandListeners(): void;
 
-  ls(path: string): Promise<{ files: string[], directories: string[] }>;
+  ls(path: string): Promise<{ files: string[]; directories: string[] }>;
   lsusb(): Promise<unknown>;
   fileInfo(path: string, fileName: string): Promise<unknown[]>;
-  report(): Promise<{ device_status: { st_id: number, st_label?: string } }>;
+  report(): Promise<{ device_status: IReport }>;
   upload(data: any, path?: string, fileName?: string): Promise<void>;
   abort(): Promise<unknown>;
   quit(): Promise<unknown>;
@@ -50,7 +56,7 @@ interface IControlSocket {
   deleteDeviceSetting(name: string): Promise<unknown>;
   enterMaintainMode(): Promise<unknown>;
   endMaintainMode(): Promise<unknown>;
-  maintainMove(args: { x?: number, y?: number, z?: number, f?: number}): Promise<unknown>;
+  maintainMove(args: { x?: number; y?: number; z?: number; f?: number }): Promise<unknown>;
   maintainCloseFan(): Promise<unknown>;
   maintainHome(): Promise<unknown>;
   enterRawMode(): Promise<unknown>;
@@ -68,6 +74,7 @@ interface IControlSocket {
   rawSet24V(on: boolean): Promise<unknown>;
   rawAutoFocus(timeout?: number): Promise<void>;
   fwUpdate(file: File): Promise<unknown>;
+  fetchCameraCalibImage?: (name?: string) => Promise<Blob>;
 }
 
 export default IControlSocket;

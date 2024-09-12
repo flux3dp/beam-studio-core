@@ -1,4 +1,5 @@
 import Camera from '../helpers/api/camera';
+// eslint-disable-next-line import/no-cycle
 import IControlSocket from './IControlSocket';
 
 export interface IDeviceInfo {
