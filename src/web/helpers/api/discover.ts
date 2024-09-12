@@ -9,7 +9,7 @@ import network from 'implementations/network';
 import sentryHelper from 'helpers/sentry-helper';
 import SmartUpnp from 'helpers/smart-upnp';
 import storage from 'implementations/storage';
-import Websocket from 'helpers/websocket';
+import Websocket, { readyStates } from 'helpers/websocket';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { swiftrayClient } from './swiftray-client';
 
@@ -125,7 +125,7 @@ const startIntervals = () => {
 
 startIntervals();
 
-ws.onMessage(onMessage);
+ws.setOnMessage(onMessage);
 
 const poke = (targetIP: string) => {
   if (!targetIP) return;
@@ -229,7 +229,7 @@ const initSmartUpnp = async () => {
 };
 initSmartUpnp();
 
-export const checkConnection = (): boolean => ws?.currentState === ws?.readyState.OPEN;
+export const checkConnection = (): boolean => ws?.currentState === readyStates.OPEN;
 
 export const getLatestDeviceInfo = (uuid: string): IDeviceInfo => deviceMap[uuid];
 
