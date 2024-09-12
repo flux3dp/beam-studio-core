@@ -192,7 +192,7 @@ const fetchTaskCodeSwiftray = async (
   // Prepare for Ador cleanup
   const revertShapesToImage = await convertShapeToBitmap();
   const revertTempSplitFullColorLayers = await tempSplitFullColorLayers();
-  const revertClipPath = convertClipPath();
+  const revertClipPath = await convertClipPath();
   const cleanUpTempModification = async () => {
     revertClipPath();
     revertTempSplitFullColorLayers();
