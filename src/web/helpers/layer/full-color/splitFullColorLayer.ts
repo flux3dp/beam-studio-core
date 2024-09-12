@@ -154,6 +154,8 @@ export const tempSplitFullColorLayers = async (): Promise<() => void> => {
   const allLayerNames = getAllLayerNames();
   const addedLayers = [];
   const removedLayers = [];
+  const drawing = svgCanvas.getCurrentDrawing();
+  const currentLayerName = drawing.getCurrentLayerName();
   for (let i = 0; i < allLayerNames.length; i += 1) {
     const layerName = allLayerNames[i];
     const layer = getLayerElementByName(layerName);
@@ -182,6 +184,8 @@ export const tempSplitFullColorLayers = async (): Promise<() => void> => {
       const layer = addedLayers[i];
       layer.remove();
     }
+    drawing.identifyLayers();
+    drawing.setCurrentLayer(currentLayerName);
   };
   return revert;
 };
