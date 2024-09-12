@@ -76,14 +76,4 @@ export default {
     high: 500,
     ultra: 1000,
   },
-  modelMap: {
-    fbm1: 'BEAMO',
-    fbb1b: 'BEAMBOX',
-    fbb1p: 'BEAMBOX_PRO',
-    fhexa1: 'HEXA',
-    fad1: 'ADOR',
-    ado1: 'ADOR',
-    fpm1: 'PROMARK',
-    flv1: 'LAZERVIDA'
-  }
 };
