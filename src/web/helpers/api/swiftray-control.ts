@@ -189,7 +189,7 @@ class SwiftrayControl extends EventEmitter implements IControlSocket {
       let responseString = '';
       this.on(EVENT_COMMAND_MESSAGE, (response) => {
         if (response && response.status === 'raw') responseString += response.text;
-        const responses = responseString.split('\r\n');
+        const responses = responseString.split(/\r?\n/);
         if (responses.some((r) => r === 'ok')) {
           clearTimeout(timeoutTimer);
           this.removeCommandListeners();
@@ -211,7 +211,7 @@ class SwiftrayControl extends EventEmitter implements IControlSocket {
         if (response && response.status === 'raw') {
           console.log(response.text);
           responseString += response.text;
-          let responseStrings = responseString.replace(/\r/g, '').split('\n');
+          let responseStrings = responseString.split(/\r?\n/);
           responseStrings = responseStrings.filter(
             (s, i) => !s.startsWith('DEBUG:') || i === responseStrings.length - 1
           );
@@ -431,7 +431,7 @@ class SwiftrayControl extends EventEmitter implements IControlSocket {
 
   setOriginY = async (y: number) => this.sc.setDeviceParam('origin_y', y);
 
-  getDoorOpen = async () => this.sc.getDeviceParam('door_open');
+  getDoorOpen = async () => this.sc.getDeviceParam<string>('door_open');
 
   getDeviceSetting = async (name: string) => this.sc.getDeviceParam(name)
 
@@ -498,7 +498,7 @@ class SwiftrayControl extends EventEmitter implements IControlSocket {
           responseString += response.text;
           console.log('raw homing:\t', responseString);
         }
-        const responses = responseString.replace(/\r/g, '').split('\n');
+        const responses = responseString.split(/\r?\n/);
         if (responses.some((r) => r.includes('ok')) && !didErrorOccur) {
           this.removeCommandListeners();
           resolve();
@@ -571,7 +571,7 @@ class SwiftrayControl extends EventEmitter implements IControlSocket {
           console.log('raw line check:\t', response.text);
           responseString += response.text;
         }
-        const responses = responseString.replace(/\r/g, '').split('\n');
+        const responses = responseString.split(/\r?\n/);
         const i = responses.findIndex((r) => r === 'CTRL LINECHECK_ENABLED' || r === 'ok');
         if (i < 0) responseString = responses[responses.length - 1] || '';
         if (i >= 0) {
@@ -629,7 +629,7 @@ class SwiftrayControl extends EventEmitter implements IControlSocket {
           console.log('raw end line check:\t', response.text);
           responseString += response.text;
         }
-        const responses = responseString.replace(/\r/g, '').split('\n');
+        const responses = responseString.split(/\r?\n/);
         const i = responses.findIndex((r) => r === 'CTRL LINECHECK_DISABLED' || r === 'ok');
         if (i < 0) responseString = responses[responses.length - 1] || '';
         if (i >= 0) {
@@ -788,7 +788,7 @@ class SwiftrayControl extends EventEmitter implements IControlSocket {
           console.log('raw auto focus:\t', response.text);
           responseString += response.text;
         }
-        const responses = responseString.split('\r\n');
+        const responses = responseString.split(/\r?\n/);
         const i = responses.findIndex((r) => r === 'ok');
         if (i < 0) responseString = responses[responses.length - 1] || '';
         if (i >= 0) {
@@ -827,7 +827,7 @@ class SwiftrayControl extends EventEmitter implements IControlSocket {
           console.log('raw get probe position:\t', response.text);
           responseString += response.text;
         }
-        const responses = responseString.split('\r\n');
+        const responses = responseString.split(/\r?\n/);
         const i = responses.findIndex((r) => r === 'ok');
         if (i >= 0) {
           const resIdx = responses.findIndex((r) =>
@@ -898,7 +898,7 @@ class SwiftrayControl extends EventEmitter implements IControlSocket {
           console.log('raw get last position:\t', response.text);
           responseString += response.text;
         }
-        const responses = responseString.split('\r\n');
+        const responses = responseString.split(/\r?\n/);
         const i = responses.findIndex((r) => r === 'ok');
         if (i < 0) responseString = responses[responses.length - 1] || '';
         if (i >= 0) {
