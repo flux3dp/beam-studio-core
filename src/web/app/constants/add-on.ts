@@ -111,14 +111,26 @@ const supportList: Record<WorkAreaModel, SupportInfo> = {
     hybridLaser: false,
     openBottom: false,
     passThrough: false,
-    rotary: true,
+    rotary: {
+      roller: true,
+      chuck: false,
+      extendWorkarea: false,
+      mirror: false,
+    },
+    lowerFocus: false,
   },
   flv1: {
     autoFocus: false,
     hybridLaser: false,
     openBottom: false,
     passThrough: false,
-    rotary: true,
+    rotary: {
+      roller: true,
+      chuck: false,
+      extendWorkarea: false,
+      mirror: false,
+    },
+    lowerFocus: false,
   },
 };
 
