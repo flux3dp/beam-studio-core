@@ -44,7 +44,7 @@ interface IControlSocket {
   setFanTemp(fanSpeed: number): Promise<unknown>;
   setOriginX(x: number): Promise<unknown>;
   setOriginY(y: number): Promise<unknown>;
-  getDoorOpen(): Promise<{ value: number }>;
+  getDoorOpen(): Promise<{ value: string }>;
   getDeviceSetting(name: string): Promise<unknown>;
   setDeviceSetting(name: string, value: string): Promise<unknown>;
   deleteDeviceSetting(name: string): Promise<unknown>;
