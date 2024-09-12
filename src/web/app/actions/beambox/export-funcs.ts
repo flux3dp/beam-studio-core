@@ -9,6 +9,7 @@ import currentFileManager from 'app/svgedit/currentFileManager';
 import deviceMaster from 'helpers/device-master';
 import dialog from 'implementations/dialog';
 import FontFuncs from 'app/actions/beambox/font-funcs';
+import generateThumbnail from 'app/actions/beambox/export/generate-thumbnail';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import i18n from 'helpers/i18n';
 import MonitorController from 'app/actions/monitor-controller';
@@ -26,14 +27,11 @@ import { tempSplitFullColorLayers } from 'helpers/layer/full-color/splitFullColo
 import { fetchTaskCodeSwiftray } from 'app/actions/beambox/export-funcs-swiftray';
 
 let svgCanvas: ISVGCanvas;
-let svgedit;
 
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
-  svgedit = globalSVG.Edit;
 });
 
-const { $ } = window;
 const { lang } = i18n;
 const svgeditorParser = svgLaserParser({ type: 'svgeditor' });
 
@@ -51,65 +49,6 @@ const getAdorPaddingAccel = async (device: IDeviceInfo | null): Promise<number |
   }
 };
 
-// capture the scene of the svgCanvas to bitmap
-const fetchThumbnail = async () => {
-  function cloneAndModifySvg($svg) {
-    const $clonedSvg = $svg.clone(false);
-
-    $clonedSvg.find('text').remove();
-    $clonedSvg.find('#selectorParentGroup').remove();
-    $clonedSvg.find('#canvasBackground image#background_image').remove();
-    $clonedSvg.find('#canvasBackground #previewBoundary').remove();
-    $clonedSvg.find('#canvasBackground #guidesLines').remove();
-    $clonedSvg.find('#canvasBackground #diode-boundary').remove();
-
-    return $clonedSvg;
-  }
-
-  async function DOM2Image($svg) {
-    const $modifiedSvg = cloneAndModifySvg($svg);
-    const svgString = new XMLSerializer().serializeToString($modifiedSvg.get(0));
-
-    const image = await new Promise((resolve) => {
-      const img = new Image();
-      img.onload = () => resolve(img);
-      img.src = `data:image/svg+xml; charset=utf8, ${encodeURIComponent(svgString)}`;
-    });
-    return image;
-  }
-
-  function cropAndDrawOnCanvas(img) {
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-
-    // cropping
-    const ratio = img.width / $('#svgroot').width();
-    const W = ratio * $('#svgroot').width();
-    const H = ratio * $('#svgroot').height();
-    const w = ratio * parseInt($('#canvasBackground').attr('width'), 10);
-    const h = ratio * parseInt($('#canvasBackground').attr('height'), 10);
-    const x = -(W - w) / 2;
-    const y = -(H - h) / 2;
-
-    canvas.width = Math.min(w, 500);
-    canvas.height = h * (canvas.width / w);
-
-    ctx.drawImage(img, -x, -y, w, h, 0, 0, canvas.width, canvas.height);
-    return canvas;
-  }
-
-  const $svg = cloneAndModifySvg($('#svgroot'));
-  const img = await DOM2Image($svg);
-  const canvas = cropAndDrawOnCanvas(img);
-
-  const urls = await new Promise<string[]>((resolve) => {
-    canvas.toBlob((blob) => {
-      resolve([canvas.toDataURL(), URL.createObjectURL(blob)]);
-    });
-  });
-  return urls;
-};
-
 interface WrappedFile {
   data: string | ArrayBuffer;
   name: string;
@@ -121,13 +60,6 @@ interface WrappedFile {
   index: number;
   totalFiles: number;
 }
-
-const generateThumbnail = async () => {
-  svgedit.utilities.moveDefsIntoSvgContent();
-  const [thumbnail, thumbnailBlobURL] = await fetchThumbnail();
-  svgedit.utilities.moveDefsOutfromSvgContent();
-  return { thumbnail, thumbnailBlobURL };
-};
 
 const generateUploadFile = async (thumbnail: string, thumbnailUrl: string) => {
   Progress.openNonstopProgress({
@@ -264,7 +196,7 @@ const fetchTaskCode = async (
     const isAdor = constant.adorModels.includes(device.model);
     doesSupportDiodeAndAF = vc.meetRequirement('DIODE_AND_AUTOFOCUS');
     shouldUseFastGradient = shouldUseFastGradient && vc.meetRequirement('FAST_GRADIENT');
-    supportPwm = vc.meetRequirement(isAdor ? 'ADOR_PWM' : 'PWM')
+    supportPwm = vc.meetRequirement(isAdor ? 'ADOR_PWM' : 'PWM');
     supportJobOrigin = vc.meetRequirement(isAdor ? 'ADOR_JOB_ORIGIN' : 'JOB_ORIGIN');
   }
   Progress.popById('upload-scene');
@@ -456,7 +388,7 @@ const openTaskInDeviceMonitor = (
 
 export default {
   uploadFcode: async (device: IDeviceInfo): Promise<void> => {
-    const convertEngine = (device.source === 'swiftray') ? fetchTaskCodeSwiftray : fetchTaskCode;
+    const convertEngine = device.source === 'swiftray' ? fetchTaskCodeSwiftray : fetchTaskCode;
     const { fcodeBlob, thumbnailBlobURL, fileTimeCost } = await convertEngine(device);
     if (!fcodeBlob) {
       return;
@@ -512,12 +444,14 @@ export default {
     return { gcodeBlob, fileTimeCost: fileTimeCost || 0, useSwiftray };
   },
   getFastGradientGcode: async (): Promise<Blob> => {
-    const convertEngine = BeamboxPreference.read('path-engine') === 'swiftray' ? fetchTaskCodeSwiftray : fetchTaskCode;
+    const convertEngine =
+      BeamboxPreference.read('path-engine') === 'swiftray' ? fetchTaskCodeSwiftray : fetchTaskCode;
     const { gcodeBlob } = await convertEngine(null, { output: 'gcode', fgGcode: true });
     return gcodeBlob;
   },
   estimateTime: async (): Promise<number> => {
-    const convertEngine = BeamboxPreference.read('path-engine') === 'swiftray' ? fetchTaskCodeSwiftray : fetchTaskCode;
+    const convertEngine =
+      BeamboxPreference.read('path-engine') === 'swiftray' ? fetchTaskCodeSwiftray : fetchTaskCode;
     const { fcodeBlob, fileTimeCost } = await fetchTaskCode();
     if (!fcodeBlob) {
       return null;

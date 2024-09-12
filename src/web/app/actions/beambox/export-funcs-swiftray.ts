@@ -37,7 +37,7 @@ const dpiTextMap = {
   ultra: 1016,
 };
 
-const generateUploadFile = async (thumbnail: Blob, thumbnailUrl: string): Promise<IWrappedSwiftrayTaskFile> => {
+const generateUploadFile = async (thumbnail: string, thumbnailUrl: string): Promise<IWrappedSwiftrayTaskFile> => {
   Progress.openNonstopProgress({
     id: 'retrieve-image-data',
     message: lang.beambox.bottom_right_panel.retreive_image_data,

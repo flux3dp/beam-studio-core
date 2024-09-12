@@ -66,7 +66,10 @@ const fetchThumbnail = async (): Promise<string[]> => {
   return urls;
 };
 
-const generateThumbnail = async () => {
+const generateThumbnail = async (): Promise<{
+  thumbnail: string;
+  thumbnailBlobURL: string;
+}> => {
   svgedit.utilities.moveDefsIntoSvgContent();
   const [thumbnail, thumbnailBlobURL] = await fetchThumbnail();
   svgedit.utilities.moveDefsOutfromSvgContent();
