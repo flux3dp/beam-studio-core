@@ -5,6 +5,7 @@ import { SwiftrayClient } from 'helpers/api/swiftray-client';
 // eslint-disable-next-line import/no-cycle
 import { IDeviceDetailInfo, IReport } from './IDevice';
 import { WrappedWebSocket } from './WebSocket';
+import { RawChipSettings } from './Cartridge';
 
 interface IControlSocket extends EventEmitter {
   isConnected: boolean;
@@ -74,7 +75,16 @@ interface IControlSocket extends EventEmitter {
   rawSet24V(on: boolean): Promise<unknown>;
   rawAutoFocus(timeout?: number): Promise<void>;
   fwUpdate(file: File): Promise<unknown>;
+
+  // method not supported by SwiftrayClient
   fetchCameraCalibImage?: (name?: string) => Promise<Blob>;
+  enterCartridgeIOMode?: () => Promise<void>;
+  endCartridgeIOMode?: () => Promise<void>;
+  getCartridgeChipData?: () => Promise<{ status: string; data: { result: RawChipSettings } }>;
+  cartridgeIOJsonRpcReq?: (
+    method: string,
+    params: unknown
+  ) => Promise<{ status: string; data: { result: { hash: string; sign: string } } }>;
 }
 
 export default IControlSocket;

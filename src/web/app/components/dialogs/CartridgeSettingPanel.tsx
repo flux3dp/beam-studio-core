@@ -5,19 +5,7 @@ import alertCaller from 'app/actions/alert-caller';
 import deviceMaster from 'helpers/device-master';
 import progressCaller from 'app/actions/progress-caller';
 import Select from 'app/widgets/AntdSelect';
-
-interface ChipSettings {
-  uid: string;
-  serial: string;
-  brand: string;
-  type: number;
-  color: number;
-  offset: number[];
-  plScale: number;
-  totalCapacity: number;
-  timeUsed: number;
-  verified?: boolean;
-}
+import { ChipSettings, RawChipSettings } from 'interfaces/Cartridge';
 
 interface Props {
   inkLevel: number;
@@ -28,7 +16,7 @@ interface Props {
 const initCapacity = 3.85e10;
 const initPlScale = 54.8;
 
-export const parsingChipData = (data: any): ChipSettings => ({
+export const parsingChipData = (data: RawChipSettings): ChipSettings => ({
   uid: data.uid ?? '',
   serial: data.serial ?? '',
   brand: data.brand ?? '',
@@ -153,7 +141,8 @@ const CartridgeSettingPanel = ({ inkLevel, initData, onClose }: Props): JSX.Elem
     const chipData = await deviceMaster.getCartridgeChipData();
     const parsed = parsingChipData(chipData.data.result);
     setChipSettings(parsed);
-    if (!editValueCache) setEditingValues({ ...parsed, plScale: initPlScale, totalCapacity: initCapacity });
+    if (!editValueCache)
+      setEditingValues({ ...parsed, plScale: initPlScale, totalCapacity: initCapacity });
     progressCaller.popById('chip-settings');
   }, []);
 
