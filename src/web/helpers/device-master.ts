@@ -10,6 +10,7 @@ import checkSoftwareForAdor from 'helpers/check-software';
 import constant from 'app/actions/beambox/constant';
 import DeviceConstants from 'app/constants/device-constants';
 import Dialog from 'app/actions/dialog-caller';
+import IControlSocket from 'interfaces/IControlSocket';
 import InputLightBoxConstants from 'app/constants/input-lightbox-constants';
 import Progress from 'app/actions/progress-caller';
 import storage from 'implementations/storage';
@@ -28,9 +29,8 @@ import Control from './api/control';
 import Discover from './api/discover';
 import Touch from './api/touch';
 import i18n from './i18n';
-import VersionChecker from './version-checker';
 import SwiftrayControl from './api/swiftray-control';
-import IControlSocket from 'interfaces/IControlSocket';
+import VersionChecker from './version-checker';
 
 let { lang } = i18n;
 const updateLang = () => {
