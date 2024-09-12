@@ -19,12 +19,12 @@ import svgLaserParser from 'helpers/api/svg-laser-parser';
 import TopBarController from 'app/views/beambox/TopBar/contexts/TopBarController';
 import updateImagesResolution from 'helpers/image/updateImagesResolution';
 import VersionChecker from 'helpers/version-checker';
+import { fetchTaskCodeSwiftray } from 'app/actions/beambox/export-funcs-swiftray';
 import { getSupportInfo } from 'app/constants/add-on';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { Mode } from 'app/constants/monitor-constants';
 import { tempSplitFullColorLayers } from 'helpers/layer/full-color/splitFullColorLayer';
-import { fetchTaskCodeSwiftray } from 'app/actions/beambox/export-funcs-swiftray';
 
 let svgCanvas: ISVGCanvas;
 
