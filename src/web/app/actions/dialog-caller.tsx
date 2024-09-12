@@ -29,7 +29,6 @@ import Prompt from 'app/views/dialogs/Prompt';
 import QRCodeGenerator from 'app/components/dialogs/QRCodeGenerator';
 import RadioSelectDialog from 'app/components/dialogs/RadioSelectDialog';
 import RatingPanel from 'app/components/dialogs/RatingPanel';
-import RotationParameters3DPanel from 'app/components/dialogs/camera/RotationParameters3DPanel';
 import SaveFileModal from 'app/components/dialogs/myCloud/SaveFileModal';
 import ShapePanel from 'app/views/beambox/ShapePanel/ShapePanel';
 import shortcuts from 'helpers/shortcuts';
@@ -471,26 +470,6 @@ export default {
         />
       );
     }),
-  showRotationParameters3DPanel: ({
-    initParams,
-    onApply,
-    onSave,
-  }: {
-    initParams?: RotationParameters3DCalibration;
-    onApply: (params: RotationParameters3DCalibration) => void;
-    onSave: (params: RotationParameters3DCalibration) => void;
-  }): void => {
-    if (isIdExist('rotation-parameters-3d')) return;
-    addDialogComponent(
-      'rotation-parameters-3d',
-      <RotationParameters3DPanel
-        initialParams={initParams}
-        onApply={onApply}
-        onSave={onSave}
-        onClose={() => popDialogById('rotation-parameters-3d')}
-      />
-    );
-  },
   showQRCodeGenerator: (onClose: () => void): void => {
     if (isIdExist('qr-code-generator')) return;
     addDialogComponent(

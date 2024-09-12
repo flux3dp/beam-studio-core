@@ -32,6 +32,9 @@ interface States {
   savedValue: string,
 }
 
+/**
+ * @deprecated use UnitInput from 'app/widgets/UnitInput'
+ */
 class UnitInput extends React.Component<Props, States> {
   static defaultProps = {
     getValue: function (value) { },

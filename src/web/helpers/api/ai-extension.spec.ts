@@ -6,10 +6,6 @@ jest.mock('helpers/websocket', () => mockWebsocket);
 
 const mockWriteData = jest.fn();
 jest.mock('helpers/layer/layer-config-helper', () => ({
-  DataType: {
-    speed: 'speed',
-    strength: 'strength',
-  },
   writeData: mockWriteData,
 }));
 
@@ -35,5 +31,5 @@ test('ai-extension', async () => {
   });
   expect(mockWriteData).toBeCalledTimes(2);
   expect(mockWriteData).toHaveBeenNthCalledWith(1, 'layer1', 'speed', 10);
-  expect(mockWriteData).toHaveBeenNthCalledWith(2, 'layer1', 'strength', 20);
+  expect(mockWriteData).toHaveBeenNthCalledWith(2, 'layer1', 'power', 20);
 });

@@ -11,30 +11,25 @@ exports[`test PositionInput should render correctly on desktop 1`] = `
       X
     </div>
     <div
-      class="input underline"
+      class="input"
     >
-      <div
-        class="ant-input-number css-dev-only-do-not-override-hash input"
-      >
-        <div
-          class="ant-input-number-input-wrap"
-        >
-          <input
-            aria-valuenow="0"
-            autocomplete="off"
-            class="ant-input-number-input"
-            id="x_position"
-            role="spinbutton"
-            step="1"
-            value="0"
-          />
-        </div>
-      </div>
-      <span
-        class="unit"
-      >
+      UnitInput: 
+      x_position
+      <p>
+        precision: 
+        2
+      </p>
+      <p>
+        underline
+      </p>
+      <p>
+        unit: 
         mm
-      </span>
+      </p>
+      <input
+        id="x_position"
+        value="0"
+      />
     </div>
   </div>
 </div>
@@ -51,30 +46,25 @@ exports[`test PositionInput should render correctly on desktop 2`] = `
       Y
     </div>
     <div
-      class="input underline"
+      class="input"
     >
-      <div
-        class="ant-input-number css-dev-only-do-not-override-hash input"
-      >
-        <div
-          class="ant-input-number-input-wrap"
-        >
-          <input
-            aria-valuenow="0"
-            autocomplete="off"
-            class="ant-input-number-input"
-            id="y_position"
-            role="spinbutton"
-            step="1"
-            value="0"
-          />
-        </div>
-      </div>
-      <span
-        class="unit"
-      >
+      UnitInput: 
+      y_position
+      <p>
+        precision: 
+        2
+      </p>
+      <p>
+        underline
+      </p>
+      <p>
+        unit: 
         mm
-      </span>
+      </p>
+      <input
+        id="y_position"
+        value="0"
+      />
     </div>
   </div>
 </div>
@@ -94,30 +84,25 @@ exports[`test PositionInput should render correctly on desktop 3`] = `
       </sub>
     </div>
     <div
-      class="input underline"
+      class="input"
     >
-      <div
-        class="ant-input-number css-dev-only-do-not-override-hash input"
-      >
-        <div
-          class="ant-input-number-input-wrap"
-        >
-          <input
-            aria-valuenow="0"
-            autocomplete="off"
-            class="ant-input-number-input"
-            id="x1_position"
-            role="spinbutton"
-            step="1"
-            value="0"
-          />
-        </div>
-      </div>
-      <span
-        class="unit"
-      >
+      UnitInput: 
+      x1_position
+      <p>
+        precision: 
+        2
+      </p>
+      <p>
+        underline
+      </p>
+      <p>
+        unit: 
         mm
-      </span>
+      </p>
+      <input
+        id="x1_position"
+        value="0"
+      />
     </div>
   </div>
 </div>
@@ -137,30 +122,25 @@ exports[`test PositionInput should render correctly on desktop 4`] = `
       </sub>
     </div>
     <div
-      class="input underline"
+      class="input"
     >
-      <div
-        class="ant-input-number css-dev-only-do-not-override-hash input"
-      >
-        <div
-          class="ant-input-number-input-wrap"
-        >
-          <input
-            aria-valuenow="0"
-            autocomplete="off"
-            class="ant-input-number-input"
-            id="y1_position"
-            role="spinbutton"
-            step="1"
-            value="0"
-          />
-        </div>
-      </div>
-      <span
-        class="unit"
-      >
+      UnitInput: 
+      y1_position
+      <p>
+        precision: 
+        2
+      </p>
+      <p>
+        underline
+      </p>
+      <p>
+        unit: 
         mm
-      </span>
+      </p>
+      <input
+        id="y1_position"
+        value="0"
+      />
     </div>
   </div>
 </div>
@@ -180,30 +160,25 @@ exports[`test PositionInput should render correctly on desktop 5`] = `
       </sub>
     </div>
     <div
-      class="input underline"
+      class="input"
     >
-      <div
-        class="ant-input-number css-dev-only-do-not-override-hash input"
-      >
-        <div
-          class="ant-input-number-input-wrap"
-        >
-          <input
-            aria-valuenow="0"
-            autocomplete="off"
-            class="ant-input-number-input"
-            id="x2_position"
-            role="spinbutton"
-            step="1"
-            value="0"
-          />
-        </div>
-      </div>
-      <span
-        class="unit"
-      >
+      UnitInput: 
+      x2_position
+      <p>
+        precision: 
+        2
+      </p>
+      <p>
+        underline
+      </p>
+      <p>
+        unit: 
         mm
-      </span>
+      </p>
+      <input
+        id="x2_position"
+        value="0"
+      />
     </div>
   </div>
 </div>
@@ -223,30 +198,25 @@ exports[`test PositionInput should render correctly on desktop 6`] = `
       </sub>
     </div>
     <div
-      class="input underline"
+      class="input"
     >
-      <div
-        class="ant-input-number css-dev-only-do-not-override-hash input"
-      >
-        <div
-          class="ant-input-number-input-wrap"
-        >
-          <input
-            aria-valuenow="0"
-            autocomplete="off"
-            class="ant-input-number-input"
-            id="y2_position"
-            role="spinbutton"
-            step="1"
-            value="0"
-          />
-        </div>
-      </div>
-      <span
-        class="unit"
-      >
+      UnitInput: 
+      y2_position
+      <p>
+        precision: 
+        2
+      </p>
+      <p>
+        underline
+      </p>
+      <p>
+        unit: 
         mm
-      </span>
+      </p>
+      <input
+        id="y2_position"
+        value="0"
+      />
     </div>
   </div>
 </div>
@@ -266,30 +236,25 @@ exports[`test PositionInput should render correctly on desktop 7`] = `
       </sub>
     </div>
     <div
-      class="input underline"
+      class="input"
     >
-      <div
-        class="ant-input-number css-dev-only-do-not-override-hash input"
-      >
-        <div
-          class="ant-input-number-input-wrap"
-        >
-          <input
-            aria-valuenow="0"
-            autocomplete="off"
-            class="ant-input-number-input"
-            id="cx_position"
-            role="spinbutton"
-            step="1"
-            value="0"
-          />
-        </div>
-      </div>
-      <span
-        class="unit"
-      >
+      UnitInput: 
+      cx_position
+      <p>
+        precision: 
+        2
+      </p>
+      <p>
+        underline
+      </p>
+      <p>
+        unit: 
         mm
-      </span>
+      </p>
+      <input
+        id="cx_position"
+        value="0"
+      />
     </div>
   </div>
 </div>
@@ -309,30 +274,25 @@ exports[`test PositionInput should render correctly on desktop 8`] = `
       </sub>
     </div>
     <div
-      class="input underline"
+      class="input"
     >
-      <div
-        class="ant-input-number css-dev-only-do-not-override-hash input"
-      >
-        <div
-          class="ant-input-number-input-wrap"
-        >
-          <input
-            aria-valuenow="0"
-            autocomplete="off"
-            class="ant-input-number-input"
-            id="cy_position"
-            role="spinbutton"
-            step="1"
-            value="0"
-          />
-        </div>
-      </div>
-      <span
-        class="unit"
-      >
+      UnitInput: 
+      cy_position
+      <p>
+        precision: 
+        2
+      </p>
+      <p>
+        underline
+      </p>
+      <p>
+        unit: 
         mm
-      </span>
+      </p>
+      <input
+        id="cy_position"
+        value="0"
+      />
     </div>
   </div>
 </div>

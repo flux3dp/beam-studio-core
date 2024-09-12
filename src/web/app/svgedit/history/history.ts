@@ -204,7 +204,10 @@ class ChangeElementCommand extends BaseHistoryCommand implements ICommand {
       } else if (attr === '#href') {
         this.newValues[attr] = svgedit.utilities.getHref(elem);
       } else {
-        this.newValues[attr] = elem.getAttribute(attr);
+        const curVal = elem.getAttribute(attr);
+        if (curVal === attrs[attr] || (!curVal && !attrs[attr])) {
+          delete this.oldValues[attr];
+        } else this.newValues[attr] = curVal;
       }
     }
   }

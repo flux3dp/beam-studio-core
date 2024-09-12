@@ -12,7 +12,7 @@ export enum MessageLevel {
 export interface IMessage {
   level: MessageLevel,
   className?: string,
-  content?: string | ReactNode,
+  content: string | ReactNode,
   duration?: number,
   icon?: ReactNode,
   key?: string,

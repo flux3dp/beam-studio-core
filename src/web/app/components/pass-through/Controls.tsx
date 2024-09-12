@@ -41,23 +41,28 @@ const Controls = (): JSX.Element => {
   );
 
   const { show, x: guideMarkX, width: guideMarkWidth } = guideMark;
+  const { xMax, xMin, widthMax } = useMemo(() => ({
+    xMax: workareaObj.width - guideMarkWidth / 2,
+    xMin: guideMarkWidth / 2,
+    widthMax: (workareaObj.width - guideMarkX) * 2,
+  }), [workareaObj.width, guideMarkX, guideMarkWidth]);
   const setX = useCallback(
     (val) => {
       setGuideMark((cur) => ({
         ...cur,
-        x: Math.max(0, Math.min(val, workareaObj.width - cur.width)),
+        x: Math.max(xMin, Math.min(val, xMax)),
       }));
     },
-    [workareaObj, setGuideMark]
+    [xMax, xMin, setGuideMark]
   );
   const setWidth = useCallback(
     (val) => {
       setGuideMark((cur) => ({
         ...cur,
-        width: Math.max(0, Math.min(val, workareaObj.width - cur.x)),
+        width: Math.max(0, Math.min(val, widthMax)),
       }));
     },
-    [workareaObj, setGuideMark]
+    [widthMax, setGuideMark]
   );
 
   const isInch = useMemo(() => storage.get('default-units') === 'inches', []);
@@ -139,7 +144,7 @@ const Controls = (): JSX.Element => {
                   className={styles.input}
                   value={guideMarkWidth}
                   onChange={setWidth}
-                  max={workareaObj.width - guideMarkX}
+                  max={widthMax}
                   min={0}
                   addonAfter={isInch ? 'in' : 'mm'}
                   isInch={isInch}
@@ -154,8 +159,8 @@ const Controls = (): JSX.Element => {
                   className={styles.input}
                   value={guideMarkX}
                   onChange={setX}
-                  max={workareaObj.width - guideMarkWidth}
-                  min={0}
+                  max={xMax}
+                  min={xMin}
                   addonAfter={isInch ? 'in' : 'mm'}
                   isInch={isInch}
                   controls={false}

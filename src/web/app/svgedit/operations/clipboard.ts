@@ -70,7 +70,10 @@ export const addRefToClipboard = (useElement: SVGUseElement): void => {
   if (symbolElement) refClipboard[symbolId] = symbolElement;
 };
 
-const copyElements = async (elems: Element[]): Promise<void> => {
+const copyElements = async (
+  elems: Element[],
+  opts: { nativeClipBoard?: boolean } = { nativeClipBoard: true }
+): Promise<void> => {
   const layerNames = new Set<string>();
   const serializedData = { elements: [], refs: {} };
   let layerCount = 0;
@@ -99,9 +102,10 @@ const copyElements = async (elems: Element[]): Promise<void> => {
     serializedData.refs[key] = serializeElement(refClipboard[key]);
   }
   clipboard = [...elems];
+  const { nativeClipBoard = true } = opts;
   try {
     const clipBoardText = JSON.stringify(serializedData);
-    await navigator.clipboard.writeText(`BX clip:${clipBoardText}`);
+    if (nativeClipBoard) await navigator.clipboard.writeText(`BX clip:${clipBoardText}`);
     // console.log('Write to clipboard was successful!', clipBoardText);
   } catch (err) {
     console.error('Async: Could not copy text: ', err);
@@ -191,13 +195,16 @@ const pasteRef = async (
   updateElementColor(useElement);
 };
 
-export const handlePastedRef = async (copy: Element, opts: { parentCmd?: IBatchCommand } = {}): Promise<void> => {
+export const handlePastedRef = async (
+  copy: Element,
+  opts: { parentCmd?: IBatchCommand } = {}
+): Promise<void> => {
   const promises: Promise<void>[] = [];
   const uses = Array.from(copy.querySelectorAll('use'));
   if (copy.tagName === 'use') uses.push(copy as SVGUseElement);
   uses.forEach((use: SVGUseElement) => {
     addRefToClipboard(use);
-    promises.push(pasteRef(use, { parentCmd: opts?.parentCmd }))
+    promises.push(pasteRef(use, { parentCmd: opts?.parentCmd }));
   });
 
   const passThroughObjects = Array.from(copy.querySelectorAll('[data-pass-through]'));
@@ -317,26 +324,73 @@ const pasteElements = (args: {
  * @param dx dx of the cloned elements
  * @param dy dy of the cloned elements
  */
-const cloneSelectedElements = (dx: number, dy: number, isSubCmd = false): IBatchCommand | null => {
+const cloneElements = (
+  elements: Element[],
+  dx: number | number[],
+  dy: number | number[],
+  opts: {
+    parentCmd?: IBatchCommand;
+    addToHistory?: boolean;
+    selectElement?: boolean;
+    callChangOnMove?: boolean;
+  } = {
+    addToHistory: true,
+    selectElement: true,
+    callChangOnMove: true,
+  }
+): { cmd: IBatchCommand; elems: Element[] } | null => {
+  const { parentCmd, addToHistory = true, selectElement = true, callChangOnMove = true } = opts;
   const originalClipboard = clipboard ? [...clipboard] : null;
   const batchCmd = new history.BatchCommand('Clone elements');
-  copySelectedElements();
-  const pasteRes = pasteElements({ type: 'in_place', x: null, y: null, isSubCmd: true });
+  copyElements(elements, { nativeClipBoard: false });
+  const pasteRes = pasteElements({
+    type: 'in_place',
+    x: null,
+    y: null,
+    isSubCmd: true,
+    selectElement,
+  });
   if (!pasteRes) return null;
+  const { elems } = pasteRes;
   let { cmd } = pasteRes;
   if (cmd && !cmd.isEmpty()) {
     batchCmd.addSubCommand(cmd);
   }
-  cmd = moveSelectedElements(dx, dy, false);
+  cmd = moveElements(dx, dy, elems, false, !callChangOnMove);
   if (cmd && !cmd.isEmpty()) {
     batchCmd.addSubCommand(cmd);
   }
-  if (!isSubCmd && !batchCmd.isEmpty()) {
-    svgCanvas.undoMgr.addCommandToHistory(batchCmd);
-    return null;
+  if (!batchCmd.isEmpty()) {
+    if (parentCmd) parentCmd.addSubCommand(batchCmd);
+    else if (addToHistory) svgCanvas.undoMgr.addCommandToHistory(batchCmd);
   }
   clipboard = originalClipboard;
-  return batchCmd;
+  return { cmd: batchCmd, elems };
+};
+
+/**
+ * Create deep DOM copies (clones) of all selected elements
+ * @param dx dx of the cloned elements
+ * @param dy dy of the cloned elements
+ */
+const cloneSelectedElements = (
+  dx: number | number[],
+  dy: number | number[],
+  opts: {
+    parentCmd?: IBatchCommand;
+    addToHistory?: boolean;
+    selectElement?: boolean;
+    callChangOnMove?: boolean;
+  } = {
+    addToHistory: true,
+    selectElement: true,
+    callChangOnMove: true,
+  }
+): { cmd: IBatchCommand; elems: Element[] } | null => {
+  const selectedElems = svgCanvas.getSelectedWithoutTempGroup();
+  const res = cloneElements(selectedElems, dx, dy, opts);
+  svgCanvas.tempGroupSelectedElements();
+  return res;
 };
 
 const pasteFromNativeClipboard = async (
@@ -402,6 +456,7 @@ export default {
   pasteElements: pasteFromNativeClipboard,
   pasteInCenter,
   pasteRef,
+  cloneElements,
   cloneSelectedElements,
   generateSelectedElementArray,
   getCurrentClipboard,

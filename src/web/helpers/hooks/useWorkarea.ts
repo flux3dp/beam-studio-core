@@ -2,9 +2,10 @@ import { useEffect, useState } from 'react';
 
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
+import { WorkAreaModel } from 'app/constants/workarea-constants';
 
 const canvasEvents = eventEmitterFactory.createEventEmitter('canvas');
-const useWorkarea = (): string => {
+const useWorkarea = (): WorkAreaModel => {
   const [workarea, setWorkarea] = useState(beamboxPreference.read('workarea'));
 
   useEffect(() => {

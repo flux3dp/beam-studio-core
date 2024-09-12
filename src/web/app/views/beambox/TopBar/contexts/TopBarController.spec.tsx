@@ -56,19 +56,6 @@ describe('test TopBarController', () => {
     });
   });
 
-  test('test setShouldStartPreviewController', () => {
-    TopBarController.setShouldStartPreviewController(true);
-    expect(mockEmit).toHaveBeenCalledTimes(1);
-    expect(mockEmit).toHaveBeenNthCalledWith(1, 'SET_SHOULD_START_PREVIEW_CONTROLLER', true);
-  });
-
-  test('test setStartPreviewCallback', () => {
-    const callback = jest.fn();
-    TopBarController.setStartPreviewCallback(callback);
-    expect(mockEmit).toHaveBeenCalledTimes(1);
-    expect(mockEmit).toHaveBeenNthCalledWith(1, 'SET_START_PREVIEW_CALLBACK', callback);
-  });
-
   test('test getSelectedDevice', () => {
     TopBarController.getSelectedDevice();
     expect(mockEmit).toHaveBeenCalledTimes(1);

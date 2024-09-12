@@ -15,7 +15,7 @@ import {
   getLayerElementByName,
   setLayerLock,
 } from 'helpers/layer/layer-helper';
-import { getData, DataType } from 'helpers/layer/layer-config-helper';
+import { getData } from 'helpers/layer/layer-config-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
 import { useIsMobile } from 'helpers/system-helper';
@@ -94,8 +94,8 @@ const LayerList = ({
       const isFullColor = layer.getAttribute('data-fullcolor') === '1';
       const isSelected = selectedLayers.includes(layerName);
       const isVis = drawing.getLayerVisibility(layerName);
-      const module = getData<LayerModule>(layer, DataType.module);
-      const isRef = getData<boolean>(layer, DataType.ref);
+      const module = getData(layer, 'module');
+      const isRef = getData(layer, 'ref');
       let moduleIcon = null;
       if (isRef) moduleIcon = <LayerPanelIcons.Ref />;
       else if (shouldShowModuleIcon)
@@ -141,7 +141,7 @@ const LayerList = ({
               ) : (
                 <ColorPicker
                   initColor={drawing.getLayerColor(layerName)}
-                  printerColor={module === LayerModule.PRINTER}
+                  forPrinter={module === LayerModule.PRINTER}
                   triggerSize="small"
                   onChange={(color) => onLayerColorChange(layerName, color)}
                 />

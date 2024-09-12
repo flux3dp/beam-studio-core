@@ -1,33 +1,58 @@
-export interface IConfig<T> {
+export type ConfigKeyTypeMap = {
+  // meta configs
+  configName: string;
+  module: number;
+  color: string;
+  clipRect: string; // x y w h
+  ref: boolean;
+  // common configs
+  repeat: number;
+  backlash: number;
+  // laser configs
+  speed: number;
+  power: number;
+  minPower: number;
+  height: number;
+  zStep: number;
+  diode: number;
+  focus: number;
+  focusStep: number;
+  // printing configs
+  fullcolor: boolean;
+  split: boolean;
+  printingSpeed: number;
+  ink: number;
+  multipass: number;
+  cRatio: number;
+  mRatio: number;
+  yRatio: number;
+  kRatio: number;
+  printingStrength: number;
+  halftone: number;
+  wInk: number;
+  wSpeed: number;
+  wMultipass: number;
+  wRepeat: number;
+  uv: number;
+};
+
+type ConfigKey = keyof ConfigKeyTypeMap;
+
+export interface ConfigItem<T> {
   value: T;
   hasMultiValue?: boolean;
 }
 
-export interface ILayerConfig {
-  speed: IConfig<number>;
-  power: IConfig<number>;
-  ink: IConfig<number>;
-  repeat: IConfig<number>;
-  height: IConfig<number>;
-  zStep: IConfig<number>;
-  diode: IConfig<number>;
-  configName: IConfig<string>;
-  module: IConfig<number>;
-  backlash: IConfig<number>;
-  multipass: IConfig<number>;
-  uv: IConfig<number>;
-  halftone: IConfig<number>;
-  wInk: IConfig<number>;
-  wSpeed: IConfig<number>;
-  wMultipass: IConfig<number>;
-  wRepeat: IConfig<number>;
-  color: IConfig<string>;
-  fullcolor: IConfig<boolean>;
-  cRatio: IConfig<number>;
-  mRatio: IConfig<number>;
-  yRatio: IConfig<number>;
-  kRatio: IConfig<number>;
-  printingStrength: IConfig<number>;
-  clipRect: IConfig<string>; // x y w h
-  ref: IConfig<boolean>;
+// Used for ConfigPanel, selected layer(s) config
+export type ILayerConfig = {
+  [key in keyof ConfigKeyTypeMap]: ConfigItem<ConfigKeyTypeMap[key]>;
 }
+
+// Saved parameters, containing presets and user saved configs
+export type Preset = {
+  isDefault?: boolean;
+  name?: string;
+  key?: string;
+  hide?: boolean;
+  module?: number;
+} & { [key in keyof ILayerConfig]?: ConfigKeyTypeMap[key] };

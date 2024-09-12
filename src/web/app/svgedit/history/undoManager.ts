@@ -65,22 +65,24 @@ export class UndoManager implements IUndoManager {
       : '';
   }
 
-  undo(): void {
+  undo(): boolean {
     if (this.undoStackPointer > 0) {
-      svgCanvas.setHasUnsavedChange(true);
       this.undoStackPointer -= 1;
       const cmd = this.undoStack[this.undoStackPointer];
       cmd.unapply(this.handler);
+      return true;
     }
+    return false;
   }
 
-  redo(): void {
+  redo(): boolean {
     if (this.undoStackPointer < this.undoStack.length && this.undoStack.length > 0) {
-      svgCanvas.setHasUnsavedChange(true);
       const cmd = this.undoStack[this.undoStackPointer];
       this.undoStackPointer += 1;
       cmd.apply(this.handler);
+      return true;
     }
+    return false;
   }
 
   addCommandToHistory(cmd: BaseHistoryCommand): void {

@@ -8,6 +8,7 @@ import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import i18n from 'helpers/i18n';
 import NS from 'app/constants/namespaces';
 import workareaManager from 'app/svgedit/workarea';
+import { CameraParameters } from 'interfaces/Camera';
 import { getSupportInfo } from 'app/constants/add-on';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
@@ -31,7 +32,7 @@ class PreviewModeBackgroundDrawer {
 
   coordinates: { maxX: number; maxY: number; minX: number; minY: number };
 
-  cameraOffset: any;
+  cameraOffset: CameraParameters;
 
   backgroundDrawerSubject: Subject<any>;
 
@@ -60,7 +61,7 @@ class PreviewModeBackgroundDrawer {
     }
   }
 
-  start(cameraOffset) {
+  start(cameraOffset?: CameraParameters) {
     const { width, height, expansion } = workareaManager;
     const canvasHeight = height - expansion[1];
     this.updateRatio(width, height);
@@ -68,7 +69,7 @@ class PreviewModeBackgroundDrawer {
     this.canvas.height = Math.round(canvasHeight * this.canvasRatio);
 
     // { x, y, angle, scaleRatioX, scaleRatioY }
-    this.cameraOffset = cameraOffset;
+    if (cameraOffset) this.cameraOffset = cameraOffset;
 
     this.backgroundDrawerSubject = new Subject();
     this.backgroundDrawerSubject
@@ -87,13 +88,90 @@ class PreviewModeBackgroundDrawer {
     this.backgroundDrawerSubject.next(p);
   }
 
-  async draw(imgUrl, x, y, last = false, callBack = () => {}) {
-    const p = this.prepareCroppedAndRotatedImgBlob(imgUrl, x, y, last, callBack);
-    this.backgroundDrawerSubject.next(p);
-    // await p;
-    // if you want to know the time when image transfer to Blob,
-    // which is almost the same time background is drawn.
-  }
+  /**
+   * drawImageToCanvas
+   * @param sourceCanvas
+   * @param x x center in px
+   * @param y y center in px
+   * @param opts {
+   *   @param opacityMerge: boolean whether to merge the image overlapping part with opacity
+   *   @param callback: () => void callback function after the image is drawn
+   * }
+   */
+  drawImageToCanvas = async (
+    sourceCanvas: HTMLCanvasElement,
+    x: number,
+    y: number,
+    opts: { opacityMerge?: boolean; callback?: () => void } = {}
+  ): Promise<void> => {
+    const { opacityMerge = false, callback } = opts;
+    const promise = new Promise<Blob>((resolve) => {
+      const { width, height } = sourceCanvas;
+      const { canvasRatio } = this;
+      const minX = (x - width / 2) * canvasRatio;
+      const maxX = (x + width / 2) * canvasRatio;
+      const minY = (y - height / 2) * canvasRatio;
+      const maxY = (y + height / 2) * canvasRatio;
+
+      if (maxX > this.coordinates.maxX) {
+        this.coordinates.maxX = maxX;
+      }
+      if (minX < this.coordinates.minX) {
+        this.coordinates.minX = Math.max(minX, 0);
+      }
+      if (maxY > this.coordinates.maxY) {
+        this.coordinates.maxY = maxY;
+      }
+      if (minY < this.coordinates.minY) {
+        this.coordinates.minY = Math.max(minY, 0);
+      }
+      if (!opacityMerge) {
+        this.canvas
+          .getContext('2d')
+          .drawImage(sourceCanvas, minX, minY, width * canvasRatio, height * canvasRatio);
+      } else {
+        if (canvasRatio < 1) {
+          const scaledCanvas = document.createElement('canvas');
+          scaledCanvas.width = width * canvasRatio;
+          scaledCanvas.height = height * canvasRatio;
+          const scaledContext = scaledCanvas.getContext('2d', { willReadFrequently: true });
+          scaledContext.drawImage(sourceCanvas, 0, 0, width * canvasRatio, height * canvasRatio);
+          // eslint-disable-next-line no-param-reassign
+          sourceCanvas = scaledCanvas;
+        }
+        const sourceCtx = sourceCanvas.getContext('2d', { willReadFrequently: true });
+        const sourceData = sourceCtx.getImageData(0, 0, width * canvasRatio, height * canvasRatio);
+        const mainContext = this.canvas.getContext('2d', { willReadFrequently: true });
+        const mainImageData = mainContext.getImageData(
+          minX,
+          minY,
+          width * canvasRatio,
+          height * canvasRatio
+        );
+        for (let i = 0; i < mainImageData.data.length; i += 4) {
+          const imgA = sourceData.data[i + 3];
+          const mainA = Math.min(mainImageData.data[i + 3], 255 - imgA);
+          const newA = imgA + mainA;
+          mainImageData.data[i + 3] = newA;
+          if (newA > 0) {
+            mainImageData.data[i] =
+              (sourceData.data[i] * imgA + mainImageData.data[i] * mainA) / newA;
+            mainImageData.data[i + 1] =
+              (sourceData.data[i + 1] * imgA + mainImageData.data[i + 1] * mainA) / newA;
+            mainImageData.data[i + 2] =
+              (sourceData.data[i + 2] * imgA + mainImageData.data[i + 2] * mainA) / newA;
+          }
+        }
+        mainContext.putImageData(mainImageData, minX, minY);
+      }
+      this.canvas.toBlob((blob) => {
+        resolve(blob);
+        if (callback) setTimeout(() => callback, 1000);
+      });
+    });
+    this.backgroundDrawerSubject.next(promise);
+    await promise;
+  };
 
   updateCanvasSize = () => {
     this.clear();
@@ -278,6 +356,8 @@ class PreviewModeBackgroundDrawer {
     new Promise((resolve) => {
       const img = new Image();
       img.onload = () => {
+        // free unused blob memory
+        URL.revokeObjectURL(imgUrl);
         const imgDpmm = 5;
         const canvasDpmm = 10;
         const imageRatio = canvasDpmm / imgDpmm;
@@ -296,68 +376,6 @@ class PreviewModeBackgroundDrawer {
       };
       img.src = imgUrl;
     });
-
-  prepareCroppedAndRotatedImgBlob(imgUrl, x, y, last = false, callBack = () => {}) {
-    const img = new Image();
-    img.src = imgUrl;
-
-    return new Promise((resolve) => {
-      img.onload = () => {
-        // free unused blob memory
-        URL.revokeObjectURL(imgUrl);
-        const regulatedImg = this.cropAndRotateImg(img);
-        const { width, height } = regulatedImg;
-        const { canvasRatio } = this;
-        const minX = (x - width / 2) * canvasRatio;
-        const maxX = (x + width / 2) * canvasRatio;
-        const minY = (y - height / 2) * canvasRatio;
-        const maxY = (y + height / 2) * canvasRatio;
-
-        if (maxX > this.coordinates.maxX) {
-          this.coordinates.maxX = maxX;
-        }
-        if (minX < this.coordinates.minX) {
-          this.coordinates.minX = Math.max(minX, 0);
-        }
-        if (maxY > this.coordinates.maxY) {
-          this.coordinates.maxY = maxY;
-        }
-        if (minY < this.coordinates.minY) {
-          this.coordinates.minY = Math.max(minY, 0);
-        }
-        this.canvas
-          .getContext('2d')
-          .drawImage(regulatedImg, minX, minY, width * canvasRatio, height * canvasRatio);
-        this.canvas.toBlob((blob) => {
-          resolve(blob);
-          if (last) {
-            setTimeout(callBack, 1000);
-          }
-        });
-      };
-    });
-  }
-
-  cropAndRotateImg(imageObj) {
-    const { angle, scaleRatioX, scaleRatioY } = this.cameraOffset;
-
-    const cvs = document.createElement('canvas');
-    const ctx = cvs.getContext('2d');
-
-    const a = angle;
-    const w = imageObj.width;
-    const h = imageObj.height;
-
-    const l = (h * scaleRatioY) / (Math.cos(a) + Math.sin(a));
-    cvs.width = l;
-    cvs.height = l;
-    ctx.translate(l / 2, l / 2);
-    ctx.rotate(a);
-    ctx.scale(scaleRatioX, scaleRatioY);
-    ctx.drawImage(imageObj, -w / 2, -h / 2, w, h);
-
-    return cvs;
-  }
 
   // eslint-disable-next-line class-methods-use-this
   getOpenBottomModulePreviewBoundary(uncapturabledHeight) {

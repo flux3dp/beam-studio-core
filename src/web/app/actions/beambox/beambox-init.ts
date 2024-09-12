@@ -35,6 +35,7 @@ import { getSupportInfo } from 'app/constants/add-on';
 import { IFont } from 'interfaces/IFont';
 import { isMobile } from 'helpers/system-helper';
 import { showAdorCalibrationV2 } from 'app/components/dialogs/camera/AdorCalibrationV2';
+import { showBB2Calibration } from 'app/components/dialogs/camera/BB2Calibration';
 import { showCameraCalibration } from 'app/views/beambox/Camera-Calibration';
 
 class BeamboxInit {
@@ -131,6 +132,23 @@ class BeamboxInit {
         BeamboxPreference.write('font-convert', version);
       }
     }
+    const autoSwitchTab = BeamboxPreference.read('auto-switch-tab');
+    if (autoSwitchTab === undefined) {
+      if (isNewUser) BeamboxPreference.write('auto-switch-tab', false);
+      else {
+        const res = await new Promise<boolean>((resolve) => {
+          Alert.popUp({
+            caption: i18n.lang.beambox.popup.auto_switch_tab.title,
+            message: i18n.lang.beambox.popup.auto_switch_tab.message,
+            buttonType: AlertConstants.YES_NO,
+            onYes: () => resolve(true),
+            onNo: () => resolve(false),
+          });
+        });
+        BeamboxPreference.write('auto-switch-tab', res);
+      }
+    }
+
 
     ratingHelper.init();
     announcementHelper.init(isNewUser);
@@ -306,9 +324,12 @@ class BeamboxInit {
         const caliRes = await showAdorCalibrationV2();
         return caliRes;
       }
+      if (device.model === 'fbb2') {
+        const caliRes = await showBB2Calibration();
+        return caliRes;
+      }
       const caliRes = await showCameraCalibration(device, false);
-      if (!caliRes) return false;
-      return true;
+      return caliRes;
     } catch (e) {
       console.error(e);
       res = await askForRetry();

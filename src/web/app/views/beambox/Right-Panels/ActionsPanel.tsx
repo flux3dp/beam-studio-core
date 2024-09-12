@@ -1,19 +1,20 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Button, ConfigProvider } from 'antd';
 
 import ActionPanelIcons from 'app/icons/action-panel/ActionPanelIcons';
 import Dialog from 'app/actions/dialog-caller';
 import dialog from 'implementations/dialog';
 import FontFuncs from 'app/actions/beambox/font-funcs';
-import i18n from 'helpers/i18n';
 import imageEdit from 'helpers/image-edit';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
+import autoFit from 'app/svgedit/operations/autoFit';
 import textActions from 'app/svgedit/text/textactions';
 import textEdit from 'app/svgedit/text/textedit';
 import textPathEdit from 'app/actions/beambox/textPathEdit';
 import updateElementColor from 'helpers/color/updateElementColor';
+import useI18n from 'helpers/useI18n';
 import webNeedConnectionWrapper from 'helpers/web-need-connection-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { isMobile } from 'helpers/system-helper';
@@ -28,8 +29,6 @@ getSVGAsync((globalSVG) => {
   svgEditor = globalSVG.Editor;
 });
 
-const LANG = i18n.lang.beambox.right_panel.object_panel.actions_panel;
-
 interface Props {
   elem: Element;
 }
@@ -41,10 +40,10 @@ interface ButtonOpts {
   mobileLabel?: string;
 }
 
-class ActionsPanel extends React.Component<Props> {
-  replaceImage = async (): Promise<void> => {
+const ActionsPanel = ({ elem }: Props): JSX.Element => {
+  const lang = useI18n().beambox.right_panel.object_panel.actions_panel;
+  const replaceImage = async (): Promise<void> => {
     setTimeout(() => ObjectPanelController.updateActiveKey(null), 300);
-    const { elem } = this.props;
     const option = {
       filters: [
         {
@@ -73,8 +72,7 @@ class ActionsPanel extends React.Component<Props> {
     }
   };
 
-  convertTextToPath = async (): Promise<void> => {
-    const { elem } = this.props;
+  const convertTextToPath = async (): Promise<void> => {
     const isTextPath = elem.getAttribute('data-textpath-g');
     const textElem = isTextPath ? elem.querySelector('text') : elem;
     if (textActions.isEditing) {
@@ -84,8 +82,7 @@ class ActionsPanel extends React.Component<Props> {
     await FontFuncs.convertTextToPath(textElem);
   };
 
-  weldText = async (): Promise<void> => {
-    const { elem } = this.props;
+  const weldText = async (): Promise<void> => {
     const isTextPath = elem.getAttribute('data-textpath-g');
     const textElem = isTextPath ? elem.querySelector('text') : elem;
     if (textActions.isEditing) {
@@ -95,114 +92,127 @@ class ActionsPanel extends React.Component<Props> {
     await FontFuncs.convertTextToPath(textElem, { weldingTexts: true });
   };
 
-  renderButtons = (
-    id: string,
-    label: string,
-    onClick: () => void,
-    icon: JSX.Element,
-    mobileIcon: JSX.Element,
-    opts: ButtonOpts = {}
-  ): JSX.Element => {
-    const { isFullLine, isDisabled, autoClose, mobileLabel } = opts;
-    return isMobile() ? (
-      <ObjectPanelItem.Item
-        key={mobileLabel || label}
-        id={id}
-        content={mobileIcon}
-        label={mobileLabel || label}
-        onClick={onClick}
-        disabled={isDisabled}
-        autoClose={autoClose}
-      />
-    ) : (
-      <div
-        className={classNames(styles['btn-container'], { [styles.half]: !isFullLine })}
-        key={label}
-      >
-        <Button
-          className={styles.btn}
+  const renderButtons = useCallback(
+    (
+      id: string,
+      label: string,
+      onClick: () => void,
+      icon: JSX.Element,
+      mobileIcon: JSX.Element,
+      opts: ButtonOpts = {}
+    ): JSX.Element => {
+      const { isFullLine, isDisabled, autoClose, mobileLabel } = opts;
+      return isMobile() ? (
+        <ObjectPanelItem.Item
+          key={mobileLabel || label}
           id={id}
-          icon={icon}
+          content={mobileIcon}
+          label={mobileLabel || label}
           onClick={onClick}
           disabled={isDisabled}
-          block
+          autoClose={autoClose}
+        />
+      ) : (
+        <div
+          className={classNames(styles['btn-container'], { [styles.half]: !isFullLine })}
+          key={label}
         >
-          <span className={styles.label}>{label}</span>
-        </Button>
-      </div>
-    );
-  };
+          <Button
+            className={styles.btn}
+            id={id}
+            icon={icon}
+            onClick={onClick}
+            disabled={isDisabled}
+            block
+          >
+            <span className={styles.label}>{label}</span>
+          </Button>
+        </div>
+      );
+    },
+    []
+  );
 
-  renderArrayButton = (opts: ButtonOpts = {}): JSX.Element =>
-    this.renderButtons(
+  const renderAutoFitButon = (opts: ButtonOpts = {}): JSX.Element =>
+    renderButtons(
+      'auto-fit',
+      `${lang.auto_fit} (Beta)`,
+      () => autoFit(elem as SVGElement),
+      <ActionPanelIcons.AutoFit />,
+      <ActionPanelIcons.AutoFit />,
+      { isFullLine: true, autoClose: false, ...opts }
+    );
+
+  const renderArrayButton = (opts: ButtonOpts = {}): JSX.Element =>
+    renderButtons(
       'array',
-      LANG.array,
+      lang.array,
       () => svgEditor.triggerGridTool(),
       <ActionPanelIcons.Array />,
       <ActionPanelIcons.ArrayMobile />,
       { autoClose: false, ...opts }
     );
 
-  renderOffsetButton = (opts: ButtonOpts = {}): JSX.Element =>
-    this.renderButtons(
+  const renderOffsetButton = (opts: ButtonOpts = {}): JSX.Element =>
+    renderButtons(
       'offset',
-      LANG.offset,
+      lang.offset,
       () => svgEditor.triggerOffsetTool(),
       <ActionPanelIcons.Offset />,
       <ActionPanelIcons.Offset />,
       { autoClose: false, ...opts }
     );
 
-  renderAutoArrangeButton = (opts: ButtonOpts = {}): JSX.Element =>
-    this.renderButtons(
-      'auto_arrange',
-      LANG.auto_arrange,
+  const renderSmartNestButton = (opts: ButtonOpts = {}): JSX.Element =>
+    renderButtons(
+      'smart-nest',
+      lang.smart_nest,
       () => Dialog.showSvgNestButtons(),
-      <ActionPanelIcons.AutoArrange />,
-      <ActionPanelIcons.AutoArrange />,
+      <ActionPanelIcons.SmartNest />,
+      <ActionPanelIcons.SmartNest />,
       { isFullLine: true, ...opts }
     );
 
-  renderImageActions = (): JSX.Element[] => {
-    const { elem } = this.props;
+  const renderImageActions = (): JSX.Element[] => {
     const isShading = elem.getAttribute('data-shading') === 'true';
     const content = {
-      autoArrange: this.renderAutoArrangeButton(),
-      replace_with: this.renderButtons(
+      autoFit: renderAutoFitButon(),
+      smartNest: renderSmartNestButton(),
+      replace_with: renderButtons(
         'replace_with',
-        LANG.replace_with,
-        this.replaceImage,
+        lang.replace_with,
+        replaceImage,
         <ActionPanelIcons.Replace />,
         <ActionPanelIcons.ReplaceMobile />,
-        { isFullLine: true, autoClose: false, mobileLabel: LANG.replace_with_short }
+        { isFullLine: true, autoClose: false, mobileLabel: lang.replace_with_short }
       ),
-      'bg-removal': this.renderButtons(
+      'bg-removal': renderButtons(
         'bg-removal',
-        LANG.ai_bg_removal,
+        lang.ai_bg_removal,
         () => imageEdit.removeBackground(elem as SVGImageElement),
         <ActionPanelIcons.BackgroungRemoval />,
         <ActionPanelIcons.BackgroungRemovalMobile />,
-        { isFullLine: true, mobileLabel: LANG.ai_bg_removal_short }
+        { isFullLine: true, mobileLabel: lang.ai_bg_removal_short }
       ),
-      trace: this.renderButtons(
+      trace: renderButtons(
         'trace',
-        LANG.trace,
+        lang.trace,
         () => imageEdit.traceImage(elem as SVGImageElement),
         <ActionPanelIcons.Trace />,
         <ActionPanelIcons.Trace />,
         { isDisabled: isShading }
       ),
-      grading: this.renderButtons(
+      grading: renderButtons(
         'grading',
-        LANG.grading,
+        lang.grading,
         () => Dialog.showPhotoEditPanel('curve'),
         <ActionPanelIcons.Grading />,
         <ActionPanelIcons.Brightness />,
-        { autoClose: false, mobileLabel: LANG.brightness }
+        { autoClose: false, mobileLabel: lang.brightness }
       ),
-      sharpen: this.renderButtons(
+      sharpen: renderButtons(
         'sharpen',
-        LANG.sharpen,
+        lang.sharpen,
         () => {
           webNeedConnectionWrapper(() => Dialog.showPhotoEditPanel('sharpen'));
         },
@@ -210,32 +220,32 @@ class ActionsPanel extends React.Component<Props> {
         <ActionPanelIcons.SharpenMobile />,
         { autoClose: false }
       ),
-      crop: this.renderButtons(
+      crop: renderButtons(
         'crop',
-        LANG.crop,
+        lang.crop,
         () => Dialog.showCropPanel(),
         <ActionPanelIcons.Crop />,
         <ActionPanelIcons.Crop />,
         { autoClose: false }
       ),
-      bevel: this.renderButtons(
+      bevel: renderButtons(
         'bevel',
-        LANG.bevel,
+        lang.bevel,
         () => imageEdit.generateStampBevel(elem as SVGImageElement),
         <ActionPanelIcons.Bevel />,
         <ActionPanelIcons.BevelMobile />
       ),
-      invert: this.renderButtons(
+      invert: renderButtons(
         'invert',
-        LANG.invert,
+        lang.invert,
         () => imageEdit.colorInvert(elem as SVGImageElement),
         <ActionPanelIcons.Invert />,
         <ActionPanelIcons.Invert />
       ),
-      array: this.renderArrayButton(),
-      potrace: this.renderButtons(
+      array: renderArrayButton(),
+      potrace: renderButtons(
         'potrace',
-        LANG.outline,
+        lang.outline,
         () => imageEdit.potrace(elem as SVGImageElement),
         <ActionPanelIcons.Outline />,
         <ActionPanelIcons.Outline />
@@ -243,6 +253,7 @@ class ActionsPanel extends React.Component<Props> {
     };
     const contentOrder = isMobile()
       ? [
+          'autoFit',
           'replace_with',
           'potrace',
           'grading',
@@ -253,12 +264,13 @@ class ActionsPanel extends React.Component<Props> {
           'array',
           'trace',
           'bg-removal',
-          'autoArrange',
+          'smartNest',
         ]
       : [
+          'autoFit',
           'replace_with',
           'bg-removal',
-          'autoArrange',
+          'smartNest',
           'trace',
           'grading',
           'sharpen',
@@ -272,49 +284,50 @@ class ActionsPanel extends React.Component<Props> {
     return contentInOrder;
   };
 
-  renderTextActions = (): JSX.Element[] => {
+  const renderTextActions = (): JSX.Element[] => {
     const content = [
-      this.renderButtons(
+      renderAutoFitButon(),
+      renderButtons(
         'convert_to_path',
-        LANG.convert_to_path,
-        this.convertTextToPath,
+        lang.convert_to_path,
+        convertTextToPath,
         <ActionPanelIcons.ConvertToPath />,
         <ActionPanelIcons.ConvertToPathMobile />,
         {
           isFullLine: true,
-          mobileLabel: LANG.outline,
+          mobileLabel: lang.outline,
         }
       ),
-      this.renderButtons(
+      renderButtons(
         'weld',
-        LANG.weld_text,
-        this.weldText,
+        lang.weld_text,
+        weldText,
         <ActionPanelIcons.WeldText />,
         <ActionPanelIcons.WeldText />,
         {
           isFullLine: true,
         }
       ),
-      this.renderAutoArrangeButton(),
-      this.renderArrayButton({ isFullLine: true }),
+      renderSmartNestButton(),
+      renderArrayButton({ isFullLine: true }),
     ];
     return content;
   };
 
-  renderTextPathActions = (): JSX.Element[] => {
-    const { elem } = this.props;
+  const renderTextPathActions = (): JSX.Element[] => {
     const content = [
-      this.renderButtons(
+      renderAutoFitButon(),
+      renderButtons(
         'edit_path',
-        LANG.edit_path,
+        lang.edit_path,
         () => textPathEdit.editPath(elem as SVGGElement),
         <ActionPanelIcons.EditPath />,
         <ActionPanelIcons.EditPathMobile />,
         { isFullLine: true }
       ),
-      this.renderButtons(
+      renderButtons(
         'detach_path',
-        LANG.detach_path,
+        lang.detach_path,
         () => {
           const { text, path } = textPathEdit.detachText(elem as SVGGElement);
           textEdit.renderText(text);
@@ -322,47 +335,47 @@ class ActionsPanel extends React.Component<Props> {
         },
         <ActionPanelIcons.DecomposeTextpath />,
         <ActionPanelIcons.DecomposeTextpath />,
-        { isFullLine: true, mobileLabel: LANG.detach_path_short }
+        { isFullLine: true, mobileLabel: lang.detach_path_short }
       ),
-      this.renderButtons(
+      renderButtons(
         'convert_to_path',
-        LANG.convert_to_path,
-        this.convertTextToPath,
+        lang.convert_to_path,
+        convertTextToPath,
         <ActionPanelIcons.ConvertToPath />,
         <ActionPanelIcons.ConvertToPathMobile />,
-        { isFullLine: true, mobileLabel: LANG.outline }
+        { isFullLine: true, mobileLabel: lang.outline }
       ),
-      this.renderAutoArrangeButton(),
-      this.renderArrayButton({ isFullLine: true }),
+      renderSmartNestButton(),
+      renderArrayButton({ isFullLine: true }),
     ];
     return content;
   };
 
-  renderPathActions = (): JSX.Element[] => {
-    const { elem } = this.props;
+  const renderPathActions = (): JSX.Element[] => {
     const content = [
-      this.renderButtons(
+      renderAutoFitButon(),
+      renderButtons(
         'edit_path',
-        LANG.edit_path,
+        lang.edit_path,
         () => svgCanvas.pathActions.toEditMode(elem),
         <ActionPanelIcons.EditPath />,
         <ActionPanelIcons.EditPathMobile />,
         { isFullLine: true }
       ),
-      this.renderButtons(
+      renderButtons(
         'decompose_path',
-        LANG.decompose_path,
+        lang.decompose_path,
         () => svgCanvas.decomposePath(),
         <ActionPanelIcons.Decompose />,
         <ActionPanelIcons.DecomposeMobile />,
         { isFullLine: true }
       ),
-      this.renderAutoArrangeButton(),
-      this.renderOffsetButton(),
-      this.renderArrayButton(),
-      this.renderButtons(
+      renderSmartNestButton(),
+      renderOffsetButton(),
+      renderArrayButton(),
+      renderButtons(
         'simplify',
-        LANG.simplify,
+        lang.simplify,
         () => svgCanvas.simplifyPath(),
         <ActionPanelIcons.Simplify />,
         <ActionPanelIcons.SimplifyMobile />,
@@ -372,104 +385,105 @@ class ActionsPanel extends React.Component<Props> {
     return content;
   };
 
-  renderRectActions = (): JSX.Element[] => {
-    const { elem } = this.props;
+  const renderRectActions = (): JSX.Element[] => {
     const content = [
-      this.renderButtons(
+      renderAutoFitButon(),
+      renderButtons(
         'convert_to_path',
-        LANG.convert_to_path,
+        lang.convert_to_path,
         () => svgCanvas.convertToPath(elem),
         <ActionPanelIcons.ConvertToPath />,
         <ActionPanelIcons.ConvertToPathMobile />,
-        { isFullLine: true, mobileLabel: LANG.outline }
+        { isFullLine: true, mobileLabel: lang.outline }
       ),
-      this.renderAutoArrangeButton(),
-      this.renderOffsetButton(),
-      this.renderArrayButton(),
+      renderSmartNestButton(),
+      renderOffsetButton(),
+      renderArrayButton(),
     ];
     return content;
   };
 
-  renderEllipseActions = (): JSX.Element[] => {
-    const { elem } = this.props;
+  const renderEllipseActions = (): JSX.Element[] => {
     const content = [
-      this.renderButtons(
+      renderAutoFitButon(),
+      renderButtons(
         'convert_to_path',
-        LANG.convert_to_path,
+        lang.convert_to_path,
         () => svgCanvas.convertToPath(elem),
         <ActionPanelIcons.ConvertToPath />,
         <ActionPanelIcons.ConvertToPathMobile />,
-        { isFullLine: true, mobileLabel: LANG.outline }
+        { isFullLine: true, mobileLabel: lang.outline }
       ),
-      this.renderAutoArrangeButton(),
-      this.renderOffsetButton(),
-      this.renderArrayButton(),
+      renderSmartNestButton(),
+      renderOffsetButton(),
+      renderArrayButton(),
     ];
     return content;
   };
 
-  renderPolygonActions = (): JSX.Element[] => {
-    const { elem } = this.props;
+  const renderPolygonActions = (): JSX.Element[] => {
     const content = [
-      this.renderButtons(
+      renderAutoFitButon(),
+      renderButtons(
         'convert_to_path',
-        LANG.convert_to_path,
+        lang.convert_to_path,
         () => svgCanvas.convertToPath(elem),
         <ActionPanelIcons.ConvertToPath />,
         <ActionPanelIcons.ConvertToPathMobile />,
-        { isFullLine: true, mobileLabel: LANG.outline }
+        { isFullLine: true, mobileLabel: lang.outline }
       ),
-      this.renderAutoArrangeButton(),
-      this.renderOffsetButton(),
-      this.renderArrayButton(),
+      renderSmartNestButton(),
+      renderOffsetButton(),
+      renderArrayButton(),
     ];
     return content;
   };
 
-  renderLineActions = (): JSX.Element[] => {
-    const { elem } = this.props;
+  const renderLineActions = (): JSX.Element[] => {
     const content = [
-      this.renderButtons(
+      renderAutoFitButon(),
+      renderButtons(
         'convert_to_path',
-        LANG.convert_to_path,
+        lang.convert_to_path,
         () => svgCanvas.convertToPath(elem),
         <ActionPanelIcons.ConvertToPath />,
         <ActionPanelIcons.ConvertToPathMobile />,
-        { isFullLine: true, mobileLabel: LANG.outline }
+        { isFullLine: true, mobileLabel: lang.outline }
       ),
-      this.renderAutoArrangeButton(),
-      this.renderOffsetButton(),
-      this.renderArrayButton(),
+      renderSmartNestButton(),
+      renderOffsetButton(),
+      renderArrayButton(),
     ];
     return content;
   };
 
-  renderUseActions = (): JSX.Element[] => {
+  const renderUseActions = (): JSX.Element[] => {
     const content = [
-      this.renderButtons(
+      renderAutoFitButon(),
+      renderButtons(
         'disassemble_use',
-        LANG.disassemble_use,
+        lang.disassemble_use,
         () => svgCanvas.disassembleUse2Group(),
         <ActionPanelIcons.Disassemble />,
         <ActionPanelIcons.DisassembleMobile />,
         { isFullLine: true }
       ),
-      this.renderAutoArrangeButton(),
-      this.renderArrayButton({ isFullLine: true }),
+      renderSmartNestButton(),
+      renderArrayButton({ isFullLine: true }),
     ];
     return content;
   };
 
-  renderGroupActions = (): JSX.Element[] => {
+  const renderGroupActions = (): JSX.Element[] => {
     const content = [
-      this.renderAutoArrangeButton(),
-      this.renderArrayButton({ isFullLine: true }),
+      renderAutoFitButon(),
+      renderSmartNestButton(),
+      renderArrayButton({ isFullLine: true }),
     ];
     return content;
   };
 
-  renderMultiSelectActions = (): JSX.Element[] => {
-    const { elem } = this.props;
+  const renderMultiSelectActions = (): JSX.Element[] => {
     const children = Array.from(elem.childNodes);
     const supportOffset = children.every(
       (child: ChildNode) => !['g', 'text', 'image', 'use'].includes(child.nodeName)
@@ -482,9 +496,9 @@ class ActionsPanel extends React.Component<Props> {
       ) as Element;
       if (children.length === 2 && text && pathLike) {
         buttons.push(
-          this.renderButtons(
+          renderButtons(
             'create_textpath',
-            LANG.create_textpath,
+            lang.create_textpath,
             () => {
               svgCanvas.ungroupTempGroup();
               let path = pathLike;
@@ -496,7 +510,7 @@ class ActionsPanel extends React.Component<Props> {
             },
             <ActionPanelIcons.CreateTextpath />,
             <ActionPanelIcons.CreateTextpath />,
-            { isFullLine: true, mobileLabel: LANG.create_textpath_short }
+            { isFullLine: true, mobileLabel: lang.create_textpath_short }
           )
         );
       }
@@ -504,59 +518,57 @@ class ActionsPanel extends React.Component<Props> {
     let content: JSX.Element[] = [];
     appendOptionalButtons(content);
     content = [
+      renderAutoFitButon(),
       ...content,
-      this.renderAutoArrangeButton(),
-      this.renderOffsetButton({ isDisabled: !supportOffset }),
-      this.renderArrayButton(),
+      renderSmartNestButton(),
+      renderOffsetButton({ isDisabled: !supportOffset }),
+      renderArrayButton(),
     ];
     return content;
   };
 
-  render(): JSX.Element {
-    const { elem } = this.props;
-    let content: JSX.Element[] | null = null;
-    if (elem) {
-      const tagName = elem.tagName.toLowerCase();
-      if (tagName === 'image' || tagName === 'img') {
-        content = this.renderImageActions();
-      } else if (tagName === 'text') {
-        content = this.renderTextActions();
-      } else if (tagName === 'path') {
-        content = this.renderPathActions();
-      } else if (tagName === 'rect') {
-        content = this.renderRectActions();
-      } else if (tagName === 'ellipse') {
-        content = this.renderEllipseActions();
-      } else if (tagName === 'polygon') {
-        content = this.renderPolygonActions();
-      } else if (tagName === 'line') {
-        content = this.renderLineActions();
-      } else if (tagName === 'use') {
-        content = this.renderUseActions();
-      } else if (tagName === 'g') {
-        if (elem.getAttribute('data-tempgroup') === 'true') {
-          content = this.renderMultiSelectActions();
-        } else if (elem.getAttribute('data-textpath-g')) {
-          content = this.renderTextPathActions();
-        } else {
-          content = this.renderGroupActions();
-        }
+  let content: JSX.Element[] | null = null;
+  if (elem) {
+    const tagName = elem.tagName.toLowerCase();
+    if (tagName === 'image' || tagName === 'img') {
+      content = renderImageActions();
+    } else if (tagName === 'text') {
+      content = renderTextActions();
+    } else if (tagName === 'path') {
+      content = renderPathActions();
+    } else if (tagName === 'rect') {
+      content = renderRectActions();
+    } else if (tagName === 'ellipse') {
+      content = renderEllipseActions();
+    } else if (tagName === 'polygon') {
+      content = renderPolygonActions();
+    } else if (tagName === 'line') {
+      content = renderLineActions();
+    } else if (tagName === 'use') {
+      content = renderUseActions();
+    } else if (tagName === 'g') {
+      if (elem.getAttribute('data-tempgroup') === 'true') {
+        content = renderMultiSelectActions();
+      } else if (elem.getAttribute('data-textpath-g')) {
+        content = renderTextPathActions();
+      } else {
+        content = renderGroupActions();
       }
     }
-    return isMobile() ? (
-      <div className={styles.container}>
-        <ObjectPanelItem.Divider />
-        {content}
-      </div>
-    ) : (
-      <div className={styles.panel}>
-        <div className={styles.title}>ACTIONS</div>
-        <div className={styles['btns-container']}>
-          <ConfigProvider theme={textButtonTheme}>{content}</ConfigProvider>
-        </div>
-      </div>
-    );
   }
-}
+  return isMobile() ? (
+    <div className={styles.container}>
+      <ObjectPanelItem.Divider />
+      {content}
+    </div>
+  ) : (
+    <div className={styles.panel}>
+      <div className={styles.title}>ACTIONS</div>
+      <div className={styles['btns-container']}>
+        <ConfigProvider theme={textButtonTheme}>{content}</ConfigProvider>
+      </div>
+    </div>
+  );
+};
 
 export default ActionsPanel;

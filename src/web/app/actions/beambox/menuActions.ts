@@ -10,6 +10,7 @@ import Dialog from 'app/actions/dialog-caller';
 import ExportFuncs from 'app/actions/beambox/export-funcs';
 import FileExportHelper from 'helpers/file-export-helper';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
+import historyUtils from 'app/svgedit/history/utils';
 import i18n from 'helpers/i18n';
 import isWeb from 'helpers/is-web';
 import imageEdit from 'helpers/image-edit';
@@ -22,6 +23,7 @@ import { externalLinkMemberDashboard, signOut } from 'helpers/api/flux-id';
 import { gestureIntroduction } from 'app/constants/media-tutorials';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { importBvgString } from 'app/svgedit/operations/import/importBvg';
+import { showRotarySettings } from 'app/components/dialogs/RotarySettings';
 
 let svgCanvas;
 let svgEditor;
@@ -126,8 +128,8 @@ export default {
     if (isWeb()) Dialog.forceLoginWrapper(() => ExportFuncs.exportFcode());
     else ExportFuncs.exportFcode();
   },
-  UNDO: () => svgEditor.clickUndo(),
-  REDO: () => svgEditor.clickRedo(),
+  UNDO: historyUtils.undo,
+  REDO: historyUtils.redo,
   GROUP: () => svgCanvas.groupSelectedElements(),
   UNGROUP: () => svgCanvas.ungroupSelectedElement(),
   DELETE: () => svgEditor.deleteSelected(),
@@ -145,6 +147,7 @@ export default {
   SVG_NEST: () => Dialog.showSvgNestButtons(),
   LAYER_COLOR_CONFIG: () => Dialog.showLayerColorConfig(),
   DOCUMENT_SETTING: () => Dialog.showDocumentSettings(),
+  ROTARY_SETUP: showRotarySettings,
   CLEAR_SCENE: () => svgEditor.clearScene(),
   START_TUTORIAL: () => {
     const continuousDrawing = BeamboxPreference.read('continuous_drawing');

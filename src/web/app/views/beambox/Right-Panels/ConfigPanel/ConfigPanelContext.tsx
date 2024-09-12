@@ -1,31 +1,34 @@
 import { createContext, Dispatch } from 'react';
 
-import { DataType, dataKey, defaultConfig } from 'helpers/layer/layer-config-helper';
-import { ILayerConfig } from 'interfaces/ILayerConfig';
+import { defaultConfig } from 'helpers/layer/layer-config-helper';
+import { ConfigKey, ILayerConfig } from 'interfaces/ILayerConfig';
 
 interface State extends ILayerConfig {
-  selectedItem?: string;
+  selectedLayer?: string;
 }
 
 export const getDefaultState = (): State => {
   const keys = Object.keys(defaultConfig);
-  const initState = {} as State;
-  keys.forEach((key) => {
-    // Handle DataType and state type mismatch
-    initState[dataKey[key]] = { value: defaultConfig[key as DataType] };
+  const initState = {};
+  keys.forEach((key: ConfigKey) => {
+    initState[key]  = { value: defaultConfig[key] } as ILayerConfig[ConfigKey];
   });
-  return initState;
+  return initState as State;
 };
 
 export type Action = {
   type: 'update';
-  payload: State;
+  payload: {
+    selectedLayer?: string;
+  } & {
+    [key in ConfigKey]?: ILayerConfig[key];
+  };
 } | {
   type: 'change';
   payload: {
-    selectedItem?: string;
+    selectedLayer?: string;
   } & {
-    [key in keyof ILayerConfig]?: number | string;
+    [key in keyof ILayerConfig]?: ILayerConfig[key]['value'];
   };
 } | {
   type: 'rename';
@@ -38,7 +41,7 @@ export const reducer = (state: State, action: Action): State => {
     const { payload } = action;
     const newState = { ...state };
     Object.keys(payload).forEach((key) => {
-      if (key !== 'selectedItem') newState[key] = { value: payload[key] };
+      if (key !== 'selectedLayer') newState[key] = { value: payload[key] };
       else newState[key] = payload[key];
     });
     return newState;
@@ -47,7 +50,6 @@ export const reducer = (state: State, action: Action): State => {
     const { payload } = action;
     const newState = { ...state };
     newState.configName = { value: payload };
-    newState.selectedItem = payload;
     return newState;
   }
   return state;

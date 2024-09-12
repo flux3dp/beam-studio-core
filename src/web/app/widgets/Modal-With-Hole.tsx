@@ -15,6 +15,7 @@ interface HoleSize {
 }
 
 interface Props {
+  children?: JSX.Element;
   className?: string;
   holePosition: HolePosition;
   holeSize: HoleSize;
@@ -34,18 +35,9 @@ class ModalWithHole extends React.PureComponent<Props> {
   }
 
   render() {
-    const {
-      className,
-      holePosition,
-      holeSize,
-      children,
-    } = this.props;
+    const { className, holePosition, holeSize, children } = this.props;
     if (!holePosition) {
-      return (
-        <Modal className={{ 'with-hole': true }}>
-          {children}
-        </Modal>
-      );
+      return <Modal className={{ 'with-hole': true }}>{children}</Modal>;
     }
 
     let { width, height } = holeSize;
@@ -55,10 +47,22 @@ class ModalWithHole extends React.PureComponent<Props> {
     if (!width) {
       width = window.innerWidth - (holePosition.left || 0 + holePosition.right || 0);
     }
-    const bottom = (holePosition.top !== undefined) ? `calc(100% - ${holePosition.top}px)` : (holePosition.bottom + height);
-    const top = (holePosition.bottom !== undefined) ? `calc(100% - ${holePosition.bottom}px)` : (holePosition.top + height);
-    const right = (holePosition.left !== undefined) ? `calc(100% - ${holePosition.left}px)` : (holePosition.right + width);
-    const left = (holePosition.right !== undefined) ? `calc(100% - ${holePosition.right}px)` : (holePosition.left + width);
+    const bottom =
+      holePosition.top !== undefined
+        ? `calc(100% - ${holePosition.top}px)`
+        : holePosition.bottom + height;
+    const top =
+      holePosition.bottom !== undefined
+        ? `calc(100% - ${holePosition.bottom}px)`
+        : holePosition.top + height;
+    const right =
+      holePosition.left !== undefined
+        ? `calc(100% - ${holePosition.left}px)`
+        : holePosition.right + width;
+    const left =
+      holePosition.right !== undefined
+        ? `calc(100% - ${holePosition.right}px)`
+        : holePosition.left + width;
     return (
       <div className={classNames('modal-window', 'with-hole', className)}>
         <div className="modal-background" style={{ top }} />

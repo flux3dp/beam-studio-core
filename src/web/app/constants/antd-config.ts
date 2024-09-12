@@ -87,3 +87,48 @@ export const objectPanelInputTheme: ThemeConfig = {
     },
   },
 };
+
+export const ConfigModalBlock: ThemeConfig = {
+  token: {
+    colorBgContainerDisabled: 'transparent',
+    lineWidth: 0,
+  },
+  components: {
+    InputNumber: {
+      activeShadow: 'none',
+      activeBorderColor: '#cecece',
+      hoverBorderColor: '#cecece',
+      controlWidth: 40,
+    },
+    Slider: {
+      railSize: 6,
+      handleLineWidth: 2,
+      handleLineWidthHover: 2,
+      handleSize: 10,
+      handleSizeHover: 10,
+    },
+  },
+};
+
+export const ColorRatioModalBlock: ThemeConfig = {
+  ...ConfigModalBlock,
+  token: {
+    colorPrimaryBorder: '#cecece',
+    colorPrimaryBorderHover: '#494949',
+    colorPrimary: '#494949',
+    colorBgContainerDisabled: 'transparent',
+    lineWidth: 0,
+  },
+  components: {
+    ...ConfigModalBlock.components,
+    Slider: {
+      ...ConfigModalBlock.components.Slider,
+      handleColor: '#cecece',
+      handleActiveColor: '#494949',
+      dotActiveBorderColor: '#494949',
+      trackBg: 'transparent',
+      trackBgDisabled: 'transparent',
+      trackHoverBg: 'transparent',
+    }
+  },
+};

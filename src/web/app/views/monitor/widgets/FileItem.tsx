@@ -36,13 +36,22 @@ const FileItem = ({ path, fileName }: Props): JSX.Element => {
         imgSrc = URL.createObjectURL(res[2]);
       }
       if (state.imgSrc) URL.revokeObjectURL(state.imgSrc);
-      setState({ imgSrc, fileInfo: res });
+      setState({
+        imgSrc,
+        fileInfo: res as [
+          string,
+          { [key: string]: string | number },
+          Blob,
+          { [key: string]: string | number }
+        ],
+      });
     };
     getStates();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [path, fileName]);
 
-  const { highlightedItem, onHighlightItem, onSelectFile, onDeleteFile } = useContext(MonitorContext);
+  const { highlightedItem, onHighlightItem, onSelectFile, onDeleteFile } =
+    useContext(MonitorContext);
   const { imgSrc, fileInfo } = state;
   const isSelected = highlightedItem.name === fileName && highlightedItem.type === ItemType.FILE;
   return (
@@ -56,13 +65,12 @@ const FileItem = ({ path, fileName }: Props): JSX.Element => {
     >
       <div className={classNames(styles['img-container'], { [styles.selected]: isSelected })}>
         <img src={imgSrc || DEFAULT_IMAGE} onError={onImageError} />
-        <i
-          className={classNames('fa', 'fa-times-circle-o')}
-          onClick={onDeleteFile}
-        />
+        <i className={classNames('fa', 'fa-times-circle-o')} onClick={onDeleteFile} />
       </div>
       <div className={classNames(styles.name, { [styles.selected]: isSelected })}>
-        {fileName.length > maxFileNameLength ? `${fileName.substring(0, maxFileNameLength)}...` : fileName}
+        {fileName.length > maxFileNameLength
+          ? `${fileName.substring(0, maxFileNameLength)}...`
+          : fileName}
       </div>
     </div>
   );

@@ -1,8 +1,12 @@
 const requirement = {
+  ADOR_JOB_ORIGIN: '5.3.5',
+  ADOR_PWM: '5.3.4',
   ADOR_ROTARY: '5.3.2',
   ADOR_FCODE_V3: '5.1.18',
   ADOR_STATIC_FILE_ENTRY: '5.1.17',
   ADOR_RELEASE: '5.1.12',
+  JOB_ORIGIN: '4.3.5',
+  PWM: '4.3.4',
   LATEST_GHOST_FOR_WEB: '3.5.2',
   CALIBRATION_MODE: '3.5.1',
   NEW_PLAYER: '3.3.0',

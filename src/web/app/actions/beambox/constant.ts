@@ -44,6 +44,7 @@ export default {
     },
   },
   allowedWorkarea: {
+    fbb2: ['fbb2'],
     'laser-b2': ['fhexa1', 'fbb1p', 'fbb1b', 'fbm1'],
     'laser-b1': ['fhexa1', 'fbb1p', 'fbb1b', 'fbm1'],
     fhexa1: ['fhexa1', 'fbb1p', 'fbb1b', 'fbm1'],
@@ -57,7 +58,8 @@ export default {
   },
   adorModels: ['ado1', 'fad1'],
   promarkModels: ['fpm1'],
-  highPowerModels: ['fhx1', 'ado1', 'flv1', 'fpm1'],
+  highPowerModels: ['fhexa1', 'ado1', 'flv1', 'fpm1'],
+  fcodeV2Models: new Set(['ado1', 'fbb2']),
   leftPanelWidth: 50, // px
   rightPanelWidth: window.os !== 'MacOS' ? 258 : 242, // px
   rightPanelScrollBarWidth: window.os !== 'MacOS' ? 16 : 0, // px
@@ -68,10 +70,6 @@ export default {
   menuberHeight: window.os === 'Windows' && !isWeb() ? 30 : 40, // px
   layerListHeight: 400, // px
   rulerWidth: 15, // px
-  rotaryYRatio: {
-    1: 1,
-    2: 1,
-  },
   dpiValueMap: {
     low: 100,
     medium: 250,

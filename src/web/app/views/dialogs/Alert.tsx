@@ -59,17 +59,38 @@ interface Props {
 const Alert = ({ data }: Props): JSX.Element => {
   const lang = useI18n().alert;
   const { popFromStack } = useContext(AlertProgressContext);
-  const { caption, checkbox, message, messageIcon, buttons, iconUrl } = data;
+  const { caption, checkbox, message, messageIcon, buttons, iconUrl, links } = data;
 
   const [checkboxChecked, setCheckboxChecked] = useState(false);
 
   const renderCheckbox = (): JSX.Element => {
     if (!checkbox) return null;
     const { text } = checkbox;
-    return <Checkbox onClick={() => setCheckboxChecked(!checkboxChecked)}>{text}</Checkbox>;
+    return (
+      <div className={styles.checkbox}>
+        <Checkbox onClick={() => setCheckboxChecked(!checkboxChecked)}>{text}</Checkbox>
+      </div>
+    );
   };
 
   const renderLink = (): JSX.Element => {
+    if (links) {
+      return (
+        <div className={styles.links}>
+          {links.map((link) => (
+            <Button
+              key={link.url}
+              className={styles.link}
+              type="link"
+              onClick={() => browser.open(link.url)}
+            >
+              {link.text}
+              <AlertIcons.ExtLink className={styles.icon} />
+            </Button>
+          ))}
+        </div>
+      );
+    }
     if (typeof message !== 'string') return null;
     const errorCode = message.match('^#[0-9]*');
     if (!errorCode) return null;
@@ -78,13 +99,15 @@ const Alert = ({ data }: Props): JSX.Element => {
     const isZHTW = i18n.getActiveLang() === 'zh-tw';
 
     return (
-      <Button
-        className={styles.link}
-        type="link"
-        onClick={() => browser.open(isZHTW ? link.replace('en-us', 'zh-tw') : link)}
-      >
-        {lang.learn_more}
-      </Button>
+      <div className={styles.links}>
+        <Button
+          className={styles.link}
+          type="link"
+          onClick={() => browser.open(isZHTW ? link.replace('en-us', 'zh-tw') : link)}
+        >
+          {lang.learn_more}
+        </Button>
+      </div>
     );
   };
 
@@ -118,6 +141,7 @@ const Alert = ({ data }: Props): JSX.Element => {
       maskClosable={false}
       centered
       onCancel={popFromStack}
+      className={styles.container}
     >
       {renderIcon(iconUrl)}
       {renderMessage(message, messageIcon)}

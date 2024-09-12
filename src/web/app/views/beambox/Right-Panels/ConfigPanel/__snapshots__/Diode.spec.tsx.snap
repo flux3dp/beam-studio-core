@@ -3,18 +3,35 @@
 exports[`test Diode should render correctly 1`] = `
 <div>
   <div
-    class="panel checkbox"
+    class="panel switch"
   >
-    <span
+    <label
       class="title"
+      for="diode"
     >
       diode
-    </span>
-    <input
-      checked=""
-      readonly=""
-      type="checkbox"
-    />
+    </label>
+    <button
+      aria-checked="true"
+      class="ant-switch ant-switch-small switch css-dev-only-do-not-override-hash ant-switch-checked"
+      id="diode"
+      role="switch"
+      type="button"
+    >
+      <div
+        class="ant-switch-handle"
+      />
+      <span
+        class="ant-switch-inner"
+      >
+        <span
+          class="ant-switch-inner-checked"
+        />
+        <span
+          class="ant-switch-inner-unchecked"
+        />
+      </span>
+    </button>
   </div>
 </div>
 `;

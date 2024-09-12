@@ -14,13 +14,14 @@ import curveEngravingModeController from 'app/actions/canvas/curveEngravingModeC
 import fs from 'implementations/fileSystem';
 import i18n from 'helpers/i18n';
 import isDev from 'helpers/is-dev';
+import getJobOrigin from 'helpers/job-origin';
 import moduleOffsets from 'app/constants/layer-module/module-offsets';
 import Progress from 'app/actions/progress-caller';
 import presprayArea from 'app/actions/canvas/prespray-area';
 import storage from 'implementations/storage';
 import Websocket from 'helpers/websocket';
 import rotaryAxis from 'app/actions/canvas/rotary-axis';
-import { getSupportInfo } from 'app/constants/add-on';
+import { CHUCK_ROTARY_DIAMETER, getSupportInfo, RotaryType } from 'app/constants/add-on';
 import { getWorkarea } from 'app/constants/workarea-constants';
 import { IBaseConfig, IFcodeConfig } from 'interfaces/ITaskConfig';
 
@@ -43,7 +44,7 @@ export const getExportOpt = (
   const isDevMode = isDev();
   const paddingAccel = BeamboxPreference.read('padding_accel');
   const useDevPaddingAcc = isDevMode && paddingAccel;
-  const { minSpeed: modelMinSpeed, rotary } = getWorkarea(model);
+  const { minSpeed: modelMinSpeed } = getWorkarea(model);
   if (model === 'fhexa1') {
     config.hardware_name = 'hexa';
     if (!useDevPaddingAcc) config.acc = 7500;
@@ -57,18 +58,38 @@ export const getExportOpt = (
 
   if (opt.codeType === 'gcode') config.gc = true;
 
+  const supportInfo = getSupportInfo(model);
   const rotaryMode = BeamboxPreference.read('rotary_mode');
-  if (rotaryMode) {
+  if (rotaryMode && supportInfo.rotary) {
     config.spin = rotaryAxis.getPosition();
-    if (rotaryMode !== 1 && rotary.includes(rotaryMode)) {
-      config.rotary_y_ratio = Math.round(constant.rotaryYRatio[rotaryMode] * 10 ** 6) / 10 ** 6;
+    let rotaryRatio = 1;
+    if (BeamboxPreference.read('rotary-type') === RotaryType.Chuck && supportInfo.rotary?.chuck) {
+      const objectDiameter = BeamboxPreference.read('rotary-chuck-obj-dia') || CHUCK_ROTARY_DIAMETER;
+      rotaryRatio = CHUCK_ROTARY_DIAMETER / objectDiameter;
     }
+    if (supportInfo.rotary?.mirror) {
+      const mirror = !!BeamboxPreference.read('rotary-mirror');
+      const { defaultMirror } = supportInfo.rotary;
+      if (mirror !== defaultMirror) rotaryRatio *= -1;
+    }
+    if (rotaryRatio !== 1) {
+      config.rotary_y_ratio = rotaryRatio;
+    }
+  }
+
+  const { supportJobOrigin = true, supportPwm = true } = opt;
+  const hasJobOrigin = BeamboxPreference.read('enable-job-origin') && supportJobOrigin;
+  if (hasJobOrigin) {
+    // firmware version / model check
+    const { x, y } = getJobOrigin();
+    config.job_origin = [Math.round(x * 10 ** 3) / 10 ** 3, Math.round(y * 10 ** 3) / 10 ** 3];
   }
 
   if (constant.adorModels.includes(model)) {
     const { x, y, w, h } = presprayArea.getPosition(true);
     const workareaWidth = getWorkarea(model).width;
-    config.prespray = rotaryMode ? [workareaWidth - 12, 45, 12, h] : [x, y, w, h];
+
+    config.prespray = (rotaryMode && !hasJobOrigin) ? [workareaWidth - 12, 45, 12, h] : [x, y, w, h];
     if (!isDevMode || BeamboxPreference.read('multipass-compensation') !== false) config.mpc = true;
     if (!isDevMode || BeamboxPreference.read('one-way-printing') !== false) config.owp = true;
   }
@@ -109,6 +130,7 @@ export const getExportOpt = (
   if (opt.shouldUseFastGradient) config.fg = true;
   if (opt.shouldMockFastGradient) config.mfg = true;
   if (opt.vectorSpeedConstraint) config.vsc = true;
+  if (!supportPwm) config.no_pwm = true;
   if (modelMinSpeed < 3) config.min_speed = modelMinSpeed;
   else if (BeamboxPreference.read('enable-low-speed')) config.min_speed = 1;
   if (BeamboxPreference.read('reverse-engraving')) config.rev = true;
@@ -260,7 +282,7 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
     });
 
   return {
-    async getTaskCode(names, opts) {
+    async getTaskCode(names: string[], opts) {
       opts = opts || {};
       opts.onProgressing = opts.onProgressing || (() => {});
       opts.onFinished = opts.onFinished || (() => {});
@@ -648,7 +670,7 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
           if (opts.model === 'fhexa1') args.push('-hexa');
           else if (opts.model === 'fbb1p') args.push('-pro');
           else if (opts.model === 'fbm1') args.push('-beamo');
-          else if (opts.model === 'ado1') args.push('-ado1');
+          else args.push(`-${opts.model}`);
 
           if (typeof opts.engraveDpi === 'number') {
             args.push(`-dpi ${opts.engraveDpi}`);

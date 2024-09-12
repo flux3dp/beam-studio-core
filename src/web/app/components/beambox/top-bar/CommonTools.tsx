@@ -1,6 +1,7 @@
 import React from 'react';
 
 import i18n from 'helpers/i18n';
+import historyUtils from 'app/svgedit/history/utils';
 import TopBarIcons from 'app/icons/top-bar/TopBarIcons';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { useIsMobile } from 'helpers/system-helper';
@@ -24,10 +25,10 @@ function CommonTools({ isWeb, hide }: Props): JSX.Element {
   if (!isWeb || hide) return null;
   return (
     <div className={styles['common-tools-container']}>
-      <div title={LANG.menu.undo} onClick={() => svgEditor.clickUndo()}>
+      <div title={LANG.menu.undo} onClick={historyUtils.undo}>
         <TopBarIcons.Undo />
       </div>
-      <div title={LANG.menu.redo} onClick={() => svgEditor.clickRedo()}>
+      <div title={LANG.menu.redo} onClick={historyUtils.redo}>
         <TopBarIcons.Redo />
       </div>
       {!isMobile && (

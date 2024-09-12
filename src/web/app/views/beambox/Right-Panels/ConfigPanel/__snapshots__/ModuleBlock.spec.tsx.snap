@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`test ModuleBlock change to 20w should work when selecting 1 layer 1`] = `
+exports[`test ModuleBlock change to 20w should work with preset change 1`] = `
 <body>
   <div
     class="adm-px-tester"
@@ -32,7 +32,6 @@ exports[`test ModuleBlock change to 20w should work when selecting 1 layer 1`] =
               aria-controls="rc_select_TEST_OR_SSR_list"
               aria-expanded="false"
               aria-haspopup="listbox"
-              aria-label="Search"
               aria-owns="rc_select_TEST_OR_SSR_list"
               autocomplete="off"
               class="ant-select-selection-search-input"
@@ -84,7 +83,7 @@ exports[`test ModuleBlock change to 20w should work when selecting 1 layer 1`] =
   <div>
     <div
       class="ant-select-dropdown ant-select-dropdown-hidden css-dev-only-do-not-override-hash ant-select-dropdown-placement-bottomLeft"
-      style="left: 0px; top: 0px; box-sizing: border-box; pointer-events: none;"
+      style="--arrow-x: 0px; --arrow-y: 0px; left: 0px; top: 0px; box-sizing: border-box; pointer-events: none;"
     >
       <div>
         <div
@@ -232,7 +231,6 @@ exports[`test ModuleBlock change to printer should work when selecting 2 layer 1
               aria-controls="rc_select_TEST_OR_SSR_list"
               aria-expanded="false"
               aria-haspopup="listbox"
-              aria-label="Search"
               aria-owns="rc_select_TEST_OR_SSR_list"
               autocomplete="off"
               class="ant-select-selection-search-input"
@@ -284,7 +282,7 @@ exports[`test ModuleBlock change to printer should work when selecting 2 layer 1
   <div>
     <div
       class="ant-select-dropdown ant-select-dropdown-hidden css-dev-only-do-not-override-hash ant-select-dropdown-placement-bottomLeft"
-      style="left: 0px; top: 0px; box-sizing: border-box; pointer-events: none;"
+      style="--arrow-x: 0px; --arrow-y: 0px; left: 0px; top: 0px; box-sizing: border-box; pointer-events: none;"
     >
       <div>
         <div
@@ -424,7 +422,6 @@ exports[`test ModuleBlock should render correctly 1`] = `
             aria-controls="rc_select_TEST_OR_SSR_list"
             aria-expanded="false"
             aria-haspopup="listbox"
-            aria-label="Search"
             aria-owns="rc_select_TEST_OR_SSR_list"
             autocomplete="off"
             class="ant-select-selection-search-input"

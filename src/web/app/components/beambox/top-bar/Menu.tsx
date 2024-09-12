@@ -290,6 +290,7 @@ export default function Menu({ email }: Props): JSX.Element {
         </SubMenu>
         <MenuDivider />
         <MenuItem onClick={() => callback('DOCUMENT_SETTING')}>{menuCms.document_setting}</MenuItem>
+        <MenuItem onClick={() => callback('ROTARY_SETUP')}>{menuCms.rotary_setup}</MenuItem>
       </SubMenu>
       <SubMenu label={menuCms.view}>
         <MenuItem className="rc-menu__item--type-checkbox" onClick={() => callback('ZOOM_IN')}>

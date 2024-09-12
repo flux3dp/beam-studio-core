@@ -7,8 +7,8 @@ import NS from 'app/constants/namespaces';
 import updateImageDisplay from 'helpers/image/updateImageDisplay';
 
 import layerToImage from './layerToImage';
-import { DataType, getData } from './layer-config-helper';
 import { getAllLayerNames, getLayerElementByName } from './layer-helper';
+import { getData } from './layer-config-helper';
 
 /**
  * convertShapeToBitmap
@@ -28,10 +28,7 @@ const convertShapeToBitmap = async (): Promise<() => void> => {
   for (let i = 0; i < allLayerNames.length; i += 1) {
     const layerName = allLayerNames[i];
     const layer = getLayerElementByName(layerName);
-    if (
-      !getData(layer, DataType.fullColor) &&
-      getData(layer, DataType.module) === LayerModule.PRINTER
-    ) {
+    if (!getData(layer, 'fullcolor') && getData(layer, 'module') === LayerModule.PRINTER) {
       // eslint-disable-next-line no-async-promise-executor
       const promise = new Promise<void>(async (resolve) => {
         const { rgbBlob: blob, bbox } = await layerToImage(layer as SVGGElement, {

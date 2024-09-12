@@ -13,7 +13,8 @@ import Progress from 'app/actions/progress-caller';
 import useI18n from 'helpers/useI18n';
 import VersionChecker from 'helpers/version-checker';
 import { CalibrationContext } from 'app/contexts/CalibrationContext';
-import { CameraConfig, STEP_BEFORE_ANALYZE_PICTURE } from 'app/constants/camera-calibration-constants';
+import { CameraConfig } from 'interfaces/Camera';
+import { STEP_BEFORE_ANALYZE_PICTURE } from 'app/constants/camera-calibration-constants';
 import { doGetOffsetFromPicture } from 'helpers/camera-calibration-helper';
 
 const StepRefocus = (): JSX.Element => {
@@ -62,7 +63,7 @@ const StepRefocus = (): JSX.Element => {
       });
       const movementX = Constant.camera.calibrationPicture.centerX - Constant.camera.offsetX_ideal;
       const movementY = Constant.camera.calibrationPicture.centerY - Constant.camera.offsetY_ideal;
-      blobUrl = await PreviewModeController.takePictureAfterMoveTo(movementX, movementY);
+      blobUrl = await PreviewModeController.getPhotoAfterMoveTo(movementX, movementY);
       setCameraPosition({ x: movementX, y: movementY });
     } finally {
       Progress.popById('taking-picture');

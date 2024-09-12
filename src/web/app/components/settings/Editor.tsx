@@ -1,32 +1,24 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import * as React from 'react';
+import React, { useState } from 'react';
 
 import Controls from 'app/components/settings/Control';
 import FontFuncs from 'app/actions/beambox/font-funcs';
-import i18n from 'helpers/i18n';
 import isDev from 'helpers/is-dev';
+import onOffOptionFactory from 'app/components/settings/onOffOptionFactory';
 import SelectControl from 'app/components/settings/SelectControl';
 import storage from 'implementations/storage';
 import UnitInput from 'app/widgets/Unit-Input-v2';
+import useI18n from 'helpers/useI18n';
 import { FontDescriptor } from 'interfaces/IFont';
 import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
-import { OptionValues } from 'app/constants/enums';
 import { StorageKey } from 'interfaces/IStorage';
 
 const fontFamilies = FontFuncs.requestAvailableFontFamilies(true);
 
 interface Props {
   defaultUnit: string;
-  x0: number;
-  y0: number;
   selectedModel: WorkAreaModel;
-  guideSelectionOptions: { value: any, label: string, selected: boolean }[];
-  imageDownsamplingOptions: { value: any, label: string, selected: boolean }[];
-  antiAliasingOptions: { value: any, label: string, selected: boolean }[];
-  continuousDrawingOptions: { value: any, label: string, selected: boolean }[];
-  simplifyClipperPath: { value: any, label: string, selected: boolean }[];
-  enableLowSpeedOptions: { value: any, label: string, selected: boolean }[];
-  enableCustomBacklashOptions: { value: OptionValues, label: string, selected: boolean }[];
+  getBeamboxPreferenceEditingValue: (key: string) => any;
   updateConfigChange: (id: StorageKey, newVal: any) => void;
   updateBeamboxPreferenceChange: (item_key: string, newVal: any) => void;
   updateModel: (selectedModel: WorkAreaModel) => void;
@@ -36,22 +28,14 @@ type SelectOption = { value: string; label: string; selected: boolean };
 
 function Editor({
   defaultUnit,
-  x0,
-  y0,
   selectedModel,
-  guideSelectionOptions,
-  imageDownsamplingOptions,
-  antiAliasingOptions,
-  continuousDrawingOptions,
-  simplifyClipperPath,
-  enableLowSpeedOptions,
-  enableCustomBacklashOptions,
+  getBeamboxPreferenceEditingValue,
   updateConfigChange,
   updateBeamboxPreferenceChange,
   updateModel,
 }: Props): JSX.Element {
-  const { lang } = i18n;
-  const [defaultFont, updateDefaultFont] = React.useState(
+  const lang = useI18n();
+  const [defaultFont, updateDefaultFont] = useState(
     storage.get('default-font') || {
       family: 'Arial',
       style: 'Regular',
@@ -139,8 +123,48 @@ function Editor({
       label: 'Lazervida',
       selected: selectedModel === 'flv1',
     },
+    {
+      value: 'fbb2',
+      label: 'Beambox II',
+      selected: selectedModel === 'fbb2',
+    },
   ];
   const workarea = getWorkarea(selectedModel);
+
+  const guideX = getBeamboxPreferenceEditingValue('guide_x0');
+  const guideY = getBeamboxPreferenceEditingValue('guide_y0');
+
+  const guideSelectionOptions = onOffOptionFactory(
+    getBeamboxPreferenceEditingValue('show_guides') !== false,
+    { lang }
+  );
+  const imageDownsamplingOptions = onOffOptionFactory(
+    getBeamboxPreferenceEditingValue('image_downsampling') !== false,
+    { onLabel: lang.settings.low, offLabel: lang.settings.high }
+  );
+  const antiAliasingOptions = onOffOptionFactory(
+    getBeamboxPreferenceEditingValue('anti-aliasing'),
+    { lang }
+  );
+  const continuousDrawingOptions = onOffOptionFactory(
+    getBeamboxPreferenceEditingValue('continuous_drawing'),
+    { lang }
+  );
+  const simplifyClipperPath = onOffOptionFactory(
+    getBeamboxPreferenceEditingValue('simplify_clipper_path'),
+    { lang }
+  );
+  const enableLowSpeedOptions = onOffOptionFactory(
+    getBeamboxPreferenceEditingValue('enable-low-speed'),
+    { lang }
+  );
+  const autoSwitchTab = onOffOptionFactory(getBeamboxPreferenceEditingValue('auto-switch-tab'), {
+    lang,
+  });
+  const enableCustomBacklashOptions = onOffOptionFactory(
+    getBeamboxPreferenceEditingValue('enable-custom-backlash'),
+    { lang }
+  );
 
   return (
     <>
@@ -190,24 +214,28 @@ function Editor({
         onChange={(e) => updateBeamboxPreferenceChange('show_guides', e.target.value)}
       />
       <Controls label={lang.settings.guides_origin}>
-        <span className="font2" style={{ marginRight: '10px', lineHeight: '32px' }}>X</span>
+        <span className="font2" style={{ marginRight: '10px', lineHeight: '32px' }}>
+          X
+        </span>
         <UnitInput
           id="guide-x-input"
           unit={defaultUnit === 'inches' ? 'in' : 'mm'}
           min={0}
           max={workarea.width}
-          defaultValue={x0}
+          defaultValue={guideX}
           getValue={(val) => updateBeamboxPreferenceChange('guide_x0', val)}
           forceUsePropsUnit
           className={{ half: true }}
         />
-        <span className="font2" style={{ marginRight: '10px', lineHeight: '32px' }}>Y</span>
+        <span className="font2" style={{ marginRight: '10px', lineHeight: '32px' }}>
+          Y
+        </span>
         <UnitInput
           id="guide-y-input"
           unit={defaultUnit === 'inches' ? 'in' : 'mm'}
           min={0}
           max={workarea.displayHeight ?? workarea.height}
-          defaultValue={y0}
+          defaultValue={guideY}
           getValue={(val) => updateBeamboxPreferenceChange('guide_y0', val)}
           forceUsePropsUnit
           className={{ half: true }}
@@ -246,6 +274,12 @@ function Editor({
         label={lang.settings.enable_low_speed}
         options={enableLowSpeedOptions}
         onChange={(e) => updateBeamboxPreferenceChange('enable-low-speed', e.target.value)}
+      />
+      <SelectControl
+        id="auto-switch-tab"
+        label={lang.settings.auto_switch_tab}
+        options={autoSwitchTab}
+        onChange={(e) => updateBeamboxPreferenceChange('auto-switch-tab', e.target.value)}
       />
       {isDev() && (
         <SelectControl

@@ -2,33 +2,36 @@ import React, { useCallback, useMemo } from 'react';
 
 import Controls from 'app/components/settings/Control';
 import LayerModule from 'app/constants/layer-module/layer-modules';
+import layerModuleHelper from 'helpers/layer-module/layer-module-helper';
 import moduleOffsets from 'app/constants/layer-module/module-offsets';
+import onOffOptionFactory from 'app/components/settings/onOffOptionFactory';
 import SelectControl from 'app/components/settings/SelectControl';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import useI18n from 'helpers/useI18n';
 import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
-import { OptionValues } from 'app/constants/enums';
 
 interface Props {
   defaultUnit: string;
   selectedModel: WorkAreaModel;
-  printAdvancedModeOptions: { value: OptionValues; label: string; selected: boolean }[];
-  updateBeamboxPreferenceChange: (item_key: string, newVal: any) => void;
-  currentModuleOffsets: { [m: number]: [number, number] };
-  defaultLaserModule: LayerModule;
-  currentLowPower: number;
+  getBeamboxPreferenceEditingValue: <T = string>(key: string) => T;
+  updateBeamboxPreferenceChange: (key: string, newVal: any) => void;
 }
 
 const AdorModule = ({
   defaultUnit,
   selectedModel,
-  printAdvancedModeOptions,
+  getBeamboxPreferenceEditingValue,
   updateBeamboxPreferenceChange,
-  currentModuleOffsets,
-  defaultLaserModule,
-  currentLowPower,
 }: Props): JSX.Element => {
   const lang = useI18n();
+
+  const defaultLaserModule =
+    getBeamboxPreferenceEditingValue<LayerModule>('default-laser-module') ||
+    layerModuleHelper.getDefaultLaserModule();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const currentModuleOffsets =
+    getBeamboxPreferenceEditingValue<{ [m: number]: [number, number] }>('module-offsets') || {};
+
   const getModuleOffset = useCallback(
     (module: LayerModule) => {
       const val = currentModuleOffsets[module] || moduleOffsets[module];
@@ -51,6 +54,11 @@ const AdorModule = ({
     },
     [currentModuleOffsets, getModuleOffset, updateBeamboxPreferenceChange]
   );
+
+  const isPrintAdvancedModeEnabled =
+    getBeamboxPreferenceEditingValue<boolean>('print-advanced-mode');
+  const printAdvancedModeOptions = onOffOptionFactory(isPrintAdvancedModeEnabled, { lang });
+
   const { workareaWidth, workareaHeight } = useMemo(() => {
     const { width, height, displayHeight } = getWorkarea(selectedModel, 'ado1');
     return { workareaWidth: width, workareaHeight: displayHeight ?? height };
@@ -76,6 +84,7 @@ const AdorModule = ({
     ],
     [defaultLaserModule, lang]
   );
+  const currentLowPower = getBeamboxPreferenceEditingValue<number>('low_power');
 
   return (
     <>

@@ -1,4 +1,5 @@
 import React, { createContext } from 'react';
+import { MessageInstance } from 'antd/es/message/interface';
 
 import AlertConstants from 'app/constants/alert-constants';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
@@ -6,7 +7,6 @@ import i18n from 'helpers/i18n';
 import ProgressConstants from 'app/constants/progress-constants';
 import { IAlert } from 'interfaces/IAlert';
 import { IProgressDialog } from 'interfaces/IProgress';
-import { MessageInstance } from 'antd/es/message/interface';
 import { IMessage } from 'interfaces/IMessage';
 import { MessageLevel } from 'app/actions/message-caller';
 import { IButton } from 'interfaces/IButton';

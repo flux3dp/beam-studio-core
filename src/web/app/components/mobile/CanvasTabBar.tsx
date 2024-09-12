@@ -9,12 +9,12 @@ import dialogCaller from 'app/actions/dialog-caller';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import FluxIcons from 'app/icons/flux/FluxIcons';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
+import historyUtils from 'app/svgedit/history/utils';
 import LeftPanelIcons from 'app/icons/left-panel/LeftPanelIcons';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import RightPanelController from 'app/views/beambox/Right-Panels/contexts/RightPanelController';
-import svgEditor from 'app/actions/beambox/svg-editor';
 import TabBarIcons from 'app/icons/tab-bar/TabBarIcons';
 import TopBarIcons from 'app/icons/top-bar/TopBarIcons';
 import useI18n from 'helpers/useI18n';
@@ -184,10 +184,10 @@ const CanvasTabBar = (): JSX.Element => {
       events.once('addPath', resetActiveKey);
       FnWrapper.insertPath();
     } else if (key === 'undo') {
-      svgEditor.clickUndo();
+      historyUtils.undo();
       setTimeout(resetActiveKey, 300);
     } else if (key === 'redo') {
-      svgEditor.clickRedo();
+      historyUtils.redo();
       setTimeout(resetActiveKey, 300);
     } else if (key === 'shape') {
       dialogCaller.showShapePanel(resetActiveKey);

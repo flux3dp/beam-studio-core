@@ -21,50 +21,48 @@ import history from 'app/svgedit/history/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import i18n from 'helpers/i18n';
 import isDev from 'helpers/is-dev';
-import LaserManageModal from 'app/views/beambox/Right-Panels/LaserManage/LaserManageModal';
 import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
 import LayerPanelIcons from 'app/icons/layer-panel/LayerPanelIcons';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
+import presetHelper from 'helpers/presets/preset-helper';
 import presprayArea from 'app/actions/canvas/prespray-area';
 import Select from 'app/widgets/AntdSelect';
-import storage from 'implementations/storage';
 import tutorialConstants from 'app/constants/tutorial-constants';
 import tutorialController from 'app/views/tutorials/tutorialController';
 import useForceUpdate from 'helpers/use-force-update';
 import useI18n from 'helpers/useI18n';
 import useWorkarea from 'helpers/hooks/useWorkarea';
 import {
+  applyPreset,
   CUSTOM_PRESET_CONSTANT,
-  DataType,
   defaultConfig,
+  forcedKeys,
   getData,
   getLayerConfig,
   getLayersConfig,
+  laserConfigKeys,
   postPresetChange,
+  printerConfigKeys,
   writeData,
 } from 'helpers/layer/layer-config-helper';
 import { getLayerElementByName, moveToOtherLayer } from 'helpers/layer/layer-helper';
-import { getModulePresets } from 'app/constants/right-panel-constants';
 import { getSupportInfo } from 'app/constants/add-on';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { getWorkarea } from 'app/constants/workarea-constants';
-import { ILaserConfig } from 'interfaces/ILaserConfig';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
-import { updateDefaultPresetData } from 'helpers/presets/preset-helper';
 
-import AddOnBlock from './AddOnBlock';
+import AdvancedBlock from './AdvancedBlock';
 import Backlash from './Backlash';
-import ConfigOperations from './ConfigOperations';
 import ConfigPanelContext, { getDefaultState, reducer } from './ConfigPanelContext';
 import HalftoneBlock from './HalftoneBlock';
 import InkBlock from './InkBlock';
 import ModuleBlock from './ModuleBlock';
 import MultipassBlock from './MultipassBlock';
+import ParameterTitle from './ParameterTitle';
 import PowerBlock from './PowerBlock';
 import RepeatBlock from './RepeatBlock';
-import SaveConfigButton from './SaveConfigButton';
 import SpeedBlock from './SpeedBlock';
 import styles from './ConfigPanel.module.scss';
 import UVBlock from './UVBlock';
@@ -87,12 +85,14 @@ interface Props {
 const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
   const { selectedLayers: initLayers } = useContext(LayerPanelContext);
   const [selectedLayers, setSelectedLayers] = useState(initLayers);
+  const [state, dispatch] = useReducer(reducer, null, () => getDefaultState());
   useEffect(() => {
+    const drawing = svgCanvas.getCurrentDrawing();
+    const currentLayerName = drawing.getCurrentLayerName();
     if (UIType === 'modal') {
-      const drawing = svgCanvas.getCurrentDrawing();
-      const currentLayerName = drawing.getCurrentLayerName();
       setSelectedLayers([currentLayerName]);
     } else setSelectedLayers(initLayers);
+    dispatch({ type: 'change', payload: { selectedLayer: currentLayerName } });
   }, [initLayers, UIType]);
   const forceUpdate = useForceUpdate();
   const lang = useI18n().beambox.right_panel.laser_panel;
@@ -109,9 +109,6 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
     [lang.dropdown.parameters, lang.custom_preset, lang.various_preset]
   );
 
-  useMemo(() => updateDefaultPresetData(), []);
-  const [state, dispatch] = useReducer(reducer, null, () => getDefaultState());
-
   const updateDiodeBoundary = useCallback(() => {
     if (
       beamboxPreference.read('enable-diode') &&
@@ -126,21 +123,6 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
   }, [updateDiodeBoundary]);
 
   const workarea = useWorkarea();
-  useEffect(() => {
-    updateDefaultPresetData();
-    postPresetChange();
-    presprayArea.togglePresprayArea();
-    const drawing = svgCanvas.getCurrentDrawing();
-    const currentLayerName = drawing.getCurrentLayerName();
-    const layerData = getLayerConfig(currentLayerName);
-    const { speed, repeat } = state;
-    if (speed.value !== layerData.speed.value || repeat.value !== layerData.repeat.value) {
-      timeEstimationButtonEventEmitter.emit('SET_ESTIMATED_TIME', null);
-    }
-    dispatch({ type: 'update', payload: layerData });
-    updateDiodeBoundary();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [workarea]);
 
   const initState = useCallback((layers: string[] = LayerPanelController.getSelectedLayers()) => {
     if (layers.length > 1) {
@@ -154,13 +136,17 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
     }
   }, []);
 
+  useEffect(() => {
+    postPresetChange();
+    presprayArea.togglePresprayArea();
+    initState();
+    updateDiodeBoundary();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [workarea, initState]);
+
   useEffect(() => initState(selectedLayers), [initState, selectedLayers]);
 
-  const model = beamboxPreference.read('workarea') || beamboxPreference.read('model');
-  const parametersSet = getModulePresets(model, state.module.value);
-  const customizedConfigs = (storage.get('customizedLaserConfigs') || []) as ILaserConfig[];
-  const moduleCustomConfigs = customizedConfigs.filter((c) => !c.isDefault || parametersSet[c.key]);
-
+  const presetList = presetHelper.getPresetsList(workarea, state.module.value);
   const dropdownValue = useMemo(() => {
     const { configName: name, speed, power, ink, repeat, zStep, diode, multipass } = state;
     // multi select
@@ -176,70 +162,55 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
     ) {
       return lang.various_preset;
     }
-    const config = moduleCustomConfigs?.find((c) => c.name === name.value);
-    if (name.value === CUSTOM_PRESET_CONSTANT || !config) {
-      return lang.custom_preset;
-    }
-    if (name.value) return config.key ?? config.name;
+    if (name.value === CUSTOM_PRESET_CONSTANT) return lang.custom_preset;
+    const preset = presetList?.find((p) => name.value === p.key || name.value === p.name);
+    if (!preset) return lang.custom_preset;
+    if (name.value) return preset.key ?? preset.name;
     return PARAMETERS_CONSTANT;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state]);
+  }, [state, lang, presetList]);
 
+  const { module, fullcolor } = state;
   const handleSelectPresets = (value: string) => {
     if (value === PARAMETERS_CONSTANT) {
       forceUpdate();
       return;
     }
-    const selectedConfig = (storage.get('customizedLaserConfigs') as ILaserConfig[]).find((e) => {
-      if (e.isDefault) return e.key === value;
-      return e.name === value;
-    });
-    if (!selectedConfig) {
+    const preset = presetList.find((p) => value === p.key || value === p.name);
+    if (!preset) {
       console.error('No such value', value);
       return;
     }
-    const {
-      speed: dataSpeed,
-      power = defaultConfig.strength,
-      repeat = defaultConfig.repeat,
-      zStep = defaultConfig.zstep,
-      isDefault,
-      key,
-      name,
-      ink = defaultConfig.ink,
-      multipass = defaultConfig.multipass,
-    } = selectedConfig;
+    const changedKeys = module.value === LayerModule.PRINTER ? printerConfigKeys : laserConfigKeys;
+    const payload: { [key: string]: string | number | boolean } = {};
+    payload.configName = value;
     const { maxSpeed, minSpeed } = getWorkarea(beamboxPreference.read('workarea'));
-    const speed = Math.max(minSpeed, Math.min(dataSpeed, maxSpeed));
+    for (let i = 0; i < changedKeys.length; i += 1) {
+      const key = changedKeys[i];
+      let val = preset[key];
+      if (val === undefined) {
+        if (forcedKeys.includes(key)) val = defaultConfig[key];
+        // eslint-disable-next-line no-continue
+        else continue;
+      }
+      if (key === 'speed') val = Math.max(minSpeed, Math.min(val as number, maxSpeed));
+      payload[key] = val;
+    }
     timeEstimationButtonEventEmitter.emit('SET_ESTIMATED_TIME', null);
     dispatch({
       type: 'change',
-      payload: {
-        speed,
-        power,
-        repeat,
-        zStep,
-        configName: name,
-        selectedItem: name,
-        ink,
-        multipass,
-      },
+      payload,
     });
     if (UIType !== 'modal') {
       const batchCmd = new history.BatchCommand('Change layer preset');
       selectedLayers.forEach((layerName: string) => {
-        writeData(layerName, DataType.speed, speed, { applyPrinting: true, batchCmd });
-        writeData(layerName, DataType.strength, power, { batchCmd });
-        writeData(layerName, DataType.repeat, repeat, { batchCmd });
-        writeData(layerName, DataType.zstep, zStep, { batchCmd });
-        writeData(layerName, DataType.configName, name, { batchCmd });
-        writeData(layerName, DataType.ink, ink, { batchCmd });
-        writeData(layerName, DataType.multipass, multipass, { batchCmd });
+        const layer = getLayerElementByName(layerName);
+        applyPreset(layer, preset, { batchCmd });
       });
       batchCmd.onAfter = initState;
       svgCanvas.addCommandToHistory(batchCmd);
     }
 
+    const { key, isDefault } = preset;
     const { SET_PRESET_WOOD_ENGRAVING, SET_PRESET_WOOD_CUTTING } = tutorialConstants;
     if (SET_PRESET_WOOD_ENGRAVING === tutorialController.getNextStepRequirement()) {
       if (isDefault && key.startsWith('wood_engraving')) tutorialController.handleNextStep();
@@ -250,37 +221,15 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
     }
   };
 
-  const { selectedItem } = state;
-  const handleOpenManageModal = () => {
-    dialogCaller.addDialogComponent(
-      'laser-manage-modal',
-      <LaserManageModal
-        selectedItem={selectedItem}
-        onClose={() => {
-          dialogCaller.popDialogById('laser-manage-modal');
-          forceUpdate();
-        }}
-        onSave={postPresetChange}
-      />
-    );
-  };
-
   const isCustomBacklashEnabled = beamboxPreference.read('enable-custom-backlash');
-  const unit = useMemo(() => (storage.get('default-units') as string) || 'mm', []);
-  const dropdownOptions = moduleCustomConfigs
-    ? moduleCustomConfigs.map((e) => ({
-        value: e.key || e.name,
-        key: e.key || e.name,
-        label: e.name,
-      }))
-    : Object.keys(parametersSet).map((key) => {
-        const val = parametersSet[key];
-        const label = lang.dropdown[unit][val.name] || key;
-        return { value: key, key, label };
-      });
+  const dropdownOptions = presetList.map((e) => ({
+    value: e.key || e.name,
+    key: e.key || e.name,
+    label: e.name,
+  }));
 
   const displayName = selectedLayers.length === 1 ? selectedLayers[0] : lang.multi_layer;
-  const { module, fullcolor } = state;
+
   const isDevMode = isDev();
   const commonContent = (
     <>
@@ -306,38 +255,39 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
   const getContent = () => {
     if (UIType === 'default') {
       return (
-        <div id="laser-panel">
-          <div className={classNames('layername', 'hidden-mobile')}>
+        <div id="laser-panel" className={styles['config-panel']}>
+          <div className={classNames(styles.layername, 'hidden-mobile')}>
             {sprintf(lang.preset_setting, displayName)}
           </div>
           <ModuleBlock />
-          <div className="layerparams">
-            <ConfigOperations onMoreClick={handleOpenManageModal} />
-            <div className={styles['preset-dropdown-container']}>
-              <Select
-                id="laser-config-dropdown"
-                className={styles['preset-dropdown']}
-                value={dropdownValue}
-                onChange={handleSelectPresets}
-                options={[
-                  ...dropdownOptions,
-                  ...hiddenOptions.filter((option) => option.value === dropdownValue),
-                ]}
-                popupMatchSelectWidth={false}
-                placement="bottomRight"
-              />
-              {module.value !== LayerModule.PRINTER && <SaveConfigButton />}
+          <div id='layer-parameters' className={styles.container}>
+            <div>
+              <ParameterTitle />
+              <div className={styles['preset-dropdown-container']}>
+                <Select
+                  id="laser-config-dropdown"
+                  className={styles['preset-dropdown']}
+                  value={dropdownValue}
+                  onChange={handleSelectPresets}
+                  options={[
+                    ...hiddenOptions.filter((option) => option.value === dropdownValue),
+                    ...dropdownOptions,
+                  ]}
+                  popupMatchSelectWidth={false}
+                  placement="bottomRight"
+                />
+              </div>
             </div>
             {commonContent}
           </div>
-          <AddOnBlock />
+          <AdvancedBlock type={UIType} />
         </div>
       );
     }
     if (UIType === 'panel-item') {
       return (
         <>
-          {modelsWithModules.has(model) && (
+          {modelsWithModules.has(workarea) && (
             <div className={styles['item-group']}>
               <ModuleBlock />
               {isDevMode && module.value === LayerModule.PRINTER && <UVBlock />}
@@ -376,17 +326,17 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
       const saveDataAndClose = () => {
         const batchCmd = new history.BatchCommand('Change layer parameter');
         selectedLayers.forEach((layerName: string) => {
-          writeData(layerName, DataType.speed, state.speed.value, {
+          writeData(layerName, 'speed', state.speed.value, {
             applyPrinting: true,
             batchCmd,
           });
-          writeData(layerName, DataType.strength, state.power.value, { batchCmd });
-          writeData(layerName, DataType.repeat, state.repeat.value, { batchCmd });
-          writeData(layerName, DataType.zstep, state.zStep.value, { batchCmd });
-          writeData(layerName, DataType.configName, state.configName.value, { batchCmd });
-          writeData(layerName, DataType.ink, state.ink.value, { batchCmd });
-          writeData(layerName, DataType.multipass, state.multipass.value, { batchCmd });
-          writeData(layerName, DataType.halftone, state.halftone.value, { batchCmd });
+          writeData(layerName, 'power', state.power.value, { batchCmd });
+          writeData(layerName, 'repeat', state.repeat.value, { batchCmd });
+          writeData(layerName, 'zStep', state.zStep.value, { batchCmd });
+          writeData(layerName, 'configName', state.configName.value, { batchCmd });
+          writeData(layerName, 'ink', state.ink.value, { batchCmd });
+          writeData(layerName, 'multipass', state.multipass.value, { batchCmd });
+          writeData(layerName, 'halftone', state.halftone.value, { batchCmd });
         });
         batchCmd.onAfter = initState;
         svgCanvas.addCommandToHistory(batchCmd);
@@ -402,7 +352,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
     for (let i = layerCount - 1; i >= 0; i -= 1) {
       const layerName = drawing.getLayerName(i);
       const layer = getLayerElementByName(layerName);
-      const layerModule = getData<LayerModule>(layer, DataType.module);
+      const layerModule: LayerModule = getData(layer, 'module');
       const isFullColor = layer.getAttribute('data-fullcolor') === '1';
       layerOptions.push(
         <Select.Option key={layerName} value={layerName} label={layerName}>
@@ -462,21 +412,24 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
               </Select>
             </div>
           )}
-          <ConfigProvider
-            theme={{ components: { Select: { borderRadius: 100, controlHeight: 30 } } }}
-          >
-            <Select
-              id="laser-config-dropdown"
-              className={styles.select}
-              value={dropdownValue}
-              onChange={handleSelectPresets}
-              options={[
-                ...dropdownOptions,
-                ...hiddenOptions.filter((option) => option.value === dropdownValue),
-              ]}
-            />
-          </ConfigProvider>
-          {commonContent}
+          <div className={styles.params}>
+            <ConfigProvider
+              theme={{ components: { Select: { borderRadius: 100, controlHeight: 30 } } }}
+            >
+              <Select
+                id="laser-config-dropdown"
+                className={styles.select}
+                value={dropdownValue}
+                onChange={handleSelectPresets}
+                options={[
+                  ...dropdownOptions,
+                  ...hiddenOptions.filter((option) => option.value === dropdownValue),
+                ]}
+              />
+            </ConfigProvider>
+            {commonContent}
+          </div>
+          <AdvancedBlock type={UIType} />
         </Modal>
       </ConfigProvider>
     );

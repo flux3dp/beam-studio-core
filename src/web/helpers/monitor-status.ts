@@ -78,26 +78,31 @@ statusButtonTypeMap[DeviceConstants.status.FATAL] = [
   ButtonTypes.STOP,
   ButtonTypes.DISABLED_PLAY,
 ];
+statusButtonTypeMap[DeviceConstants.status.TOOLHEAD_CHANGE] = [
+  ButtonTypes.STOP,
+];
 
 export default {
   getDisplayStatus: (stLabel: string): string => {
     if (!stLabel) return '';
     const key = stLabel.replace(/^"+|"+$/g, '');
+    const lang = i18n.lang.device;
     const statusMap = {
-      IDLE: i18n.lang.device.ready,
-      INIT: i18n.lang.device.starting,
-      STARTING: i18n.lang.device.starting,
-      RUNNING: i18n.lang.device.running,
-      PAUSED: i18n.lang.device.paused,
-      PAUSING: i18n.lang.device.pausing,
-      COMPLETING: i18n.lang.device.completing,
-      COMPLETED: i18n.lang.device.completed,
-      ABORTING: i18n.lang.device.aborting,
-      ABORTED: i18n.lang.device.aborted,
-      RESUMING: i18n.lang.device.starting,
-      OCCUPIED: i18n.lang.device.occupied,
-      SCANNING: i18n.lang.device.scanning,
-      PREPARING: i18n.lang.device.completed,
+      IDLE: lang.ready,
+      INIT: lang.starting,
+      STARTING: lang.starting,
+      RUNNING: lang.running,
+      PAUSED: lang.paused,
+      PAUSING: lang.pausing,
+      COMPLETING: lang.completing,
+      COMPLETED: lang.completed,
+      ABORTING: lang.aborting,
+      ABORTED: lang.aborted,
+      RESUMING: lang.starting,
+      OCCUPIED: lang.occupied,
+      SCANNING: lang.scanning,
+      PREPARING: lang.completed,
+      TOOLHEAD_CHANGE: lang.toolhead_change,
     };
     return statusMap[key] || stLabel || '';
   },

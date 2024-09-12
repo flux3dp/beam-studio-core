@@ -34,7 +34,16 @@ export default class MonitorCamera extends React.PureComponent<Props, State> {
     super(props);
     const { device } = this.props;
     const { model } = device;
-    this.isBeamboxCamera = ['mozu1', 'fbm1', 'fbb1b', 'fbb1p', 'fhexa1', 'laser-b1', 'laser-b2', 'darwin-dev'].includes(model);
+    this.isBeamboxCamera = [
+      'mozu1',
+      'fbm1',
+      'fbb1b',
+      'fbb1p',
+      'fhexa1',
+      'laser-b1',
+      'laser-b2',
+      'darwin-dev',
+    ].includes(model);
     this.state = {
       isHd: false,
     };

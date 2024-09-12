@@ -2,39 +2,40 @@ import * as React from 'react';
 
 import alert from 'app/actions/alert-caller';
 import Controls from 'app/components/settings/Control';
-import i18n from 'helpers/i18n';
+import onOffOptionFactory from 'app/components/settings/onOffOptionFactory';
 import SelectControl from 'app/components/settings/SelectControl';
 import UnitInput from 'app/widgets/Unit-Input-v2';
+import useI18n from 'helpers/useI18n';
 import { OptionValues } from 'app/constants/enums';
 import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 
 interface Props {
   defaultUnit: string;
   selectedModel: WorkAreaModel;
-  diodeOffsetX: number;
-  diodeOffsetY: number;
-  borderlessModeOptions: { value: any, label: string, selected: boolean }[];
-  autofocusModuleOptions: { value: any, label: string, selected: boolean }[];
-  autofocusOffset: number;
-  diodeModuleOptions: { value: any, label: string, selected: boolean }[];
-  diodeOneWayEngravingOpts: { value: OptionValues; label: string; selected: boolean }[];
+  getBeamboxPreferenceEditingValue: (key: string) => any;
   updateBeamboxPreferenceChange: (item_key: string, newVal: any) => void;
 }
 
 const Module = ({
   defaultUnit,
   selectedModel,
-  diodeOffsetX,
-  diodeOffsetY,
-  borderlessModeOptions,
-  autofocusModuleOptions,
-  autofocusOffset,
-  diodeModuleOptions,
-  diodeOneWayEngravingOpts,
+  getBeamboxPreferenceEditingValue,
   updateBeamboxPreferenceChange,
 }: Props): JSX.Element => {
-  const { lang } = i18n;
+  const lang = useI18n();
   const workarea = getWorkarea(selectedModel);
+  const diodeOffsetX = getBeamboxPreferenceEditingValue('diode_offset_x');
+  const diodeOffsetY = getBeamboxPreferenceEditingValue('diode_offset_y');
+  const autofocusOffset = getBeamboxPreferenceEditingValue('af-offset');
+
+  const defaultBorderless = getBeamboxPreferenceEditingValue('default-borderless');
+  const borderlessModeOptions = onOffOptionFactory(defaultBorderless, { lang });
+  const defaultAf = getBeamboxPreferenceEditingValue('default-autofocus');
+  const autofocusModuleOptions = onOffOptionFactory(defaultAf, { lang });
+  const defaultDiode = getBeamboxPreferenceEditingValue('default-diode');
+  const diodeModuleOptions = onOffOptionFactory(defaultDiode, { lang });
+  const diodeOneWay = getBeamboxPreferenceEditingValue('diode-one-way-engraving') !== false;
+  const diodeOneWayEngravingOpts = onOffOptionFactory(diodeOneWay);
 
   const onDiodeOneWayEngravingChanged = (e) => {
     if (e.target.value === OptionValues.FALSE) {
@@ -68,7 +69,9 @@ const Module = ({
         onChange={(e) => updateBeamboxPreferenceChange('default-diode', e.target.value)}
       />
       <Controls label={lang.settings.diode_offset}>
-        <span className="font2" style={{ marginRight: '10px', lineHeight: '32px' }}>X</span>
+        <span className="font2" style={{ marginRight: '10px', lineHeight: '32px' }}>
+          X
+        </span>
         <UnitInput
           id="diode-offset-x-input"
           unit={defaultUnit === 'inches' ? 'in' : 'mm'}
@@ -79,7 +82,9 @@ const Module = ({
           forceUsePropsUnit
           className={{ half: true }}
         />
-        <span className="font2" style={{ marginRight: '10px', lineHeight: '32px' }}>Y</span>
+        <span className="font2" style={{ marginRight: '10px', lineHeight: '32px' }}>
+          Y
+        </span>
         <UnitInput
           id="diode-offset-y-input"
           unit={defaultUnit === 'inches' ? 'in' : 'mm'}

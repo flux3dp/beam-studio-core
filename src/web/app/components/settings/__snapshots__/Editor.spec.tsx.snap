@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`should render correctly initially no warning 1`] = `
+exports[`settings/Editor initially no warning 1`] = `
 <div>
   <div
     class="subtitle"
@@ -50,7 +50,7 @@ exports[`should render correctly initially no warning 1`] = `
     Default Document Setting
     url:
     options:
-    [{"value":"fbm1","label":"beamo","selected":false},{"value":"fbb1b","label":"Beambox","selected":true},{"value":"fbb1p","label":"Beambox Pro","selected":false},{"value":"fhexa1","label":"HEXA","selected":false},{"value":"ado1","label":"Ador","selected":false}]
+    [{"value":"fbm1","label":"beamo","selected":false},{"value":"fbb1b","label":"Beambox","selected":true},{"value":"fbb1p","label":"Beambox Pro","selected":false},{"value":"fhexa1","label":"HEXA","selected":false},{"value":"ado1","label":"Ador","selected":false},{"value":"fbb2","label":"Beambox II","selected":false}]
     <input
       class="select-control"
     />
@@ -200,6 +200,18 @@ exports[`should render correctly initially no warning 1`] = `
   </div>
   <div>
     mock-select-control id:
+    auto-switch-tab
+    label:
+    auto_switch_tab
+    url:
+    options:
+    [{"value":"TRUE","label":"On","selected":false},{"value":"FALSE","label":"Off","selected":true}]
+    <input
+      class="select-control"
+    />
+  </div>
+  <div>
+    mock-select-control id:
     set-enable-custom-backlash
     label:
     url:
@@ -212,7 +224,7 @@ exports[`should render correctly initially no warning 1`] = `
 </div>
 `;
 
-exports[`should render correctly initially no warning 2`] = `
+exports[`settings/Editor initially no warning 2`] = `
 <div>
   <div
     class="subtitle"
@@ -262,7 +274,7 @@ exports[`should render correctly initially no warning 2`] = `
     Default Document Setting
     url:
     options:
-    [{"value":"fbm1","label":"beamo","selected":false},{"value":"fbb1b","label":"Beambox","selected":true},{"value":"fbb1p","label":"Beambox Pro","selected":false},{"value":"fhexa1","label":"HEXA","selected":false},{"value":"ado1","label":"Ador","selected":false}]
+    [{"value":"fbm1","label":"beamo","selected":false},{"value":"fbb1b","label":"Beambox","selected":true},{"value":"fbb1p","label":"Beambox Pro","selected":false},{"value":"fhexa1","label":"HEXA","selected":false},{"value":"ado1","label":"Ador","selected":false},{"value":"fbb2","label":"Beambox II","selected":false}]
     <input
       class="select-control"
     />
@@ -412,6 +424,18 @@ exports[`should render correctly initially no warning 2`] = `
   </div>
   <div>
     mock-select-control id:
+    auto-switch-tab
+    label:
+    auto_switch_tab
+    url:
+    options:
+    [{"value":"TRUE","label":"On","selected":false},{"value":"FALSE","label":"Off","selected":true}]
+    <input
+      class="select-control"
+    />
+  </div>
+  <div>
+    mock-select-control id:
     set-enable-custom-backlash
     label:
     url:
@@ -424,7 +448,7 @@ exports[`should render correctly initially no warning 2`] = `
 </div>
 `;
 
-exports[`should render correctly initially no warning 3`] = `
+exports[`settings/Editor initially no warning 3`] = `
 <div>
   <div
     class="subtitle"
@@ -474,7 +498,7 @@ exports[`should render correctly initially no warning 3`] = `
     Default Document Setting
     url:
     options:
-    [{"value":"fbm1","label":"beamo","selected":false},{"value":"fbb1b","label":"Beambox","selected":true},{"value":"fbb1p","label":"Beambox Pro","selected":false},{"value":"fhexa1","label":"HEXA","selected":false},{"value":"ado1","label":"Ador","selected":false}]
+    [{"value":"fbm1","label":"beamo","selected":false},{"value":"fbb1b","label":"Beambox","selected":true},{"value":"fbb1p","label":"Beambox Pro","selected":false},{"value":"fhexa1","label":"HEXA","selected":false},{"value":"ado1","label":"Ador","selected":false},{"value":"fbb2","label":"Beambox II","selected":false}]
     <input
       class="select-control"
     />
@@ -624,6 +648,18 @@ exports[`should render correctly initially no warning 3`] = `
   </div>
   <div>
     mock-select-control id:
+    auto-switch-tab
+    label:
+    auto_switch_tab
+    url:
+    options:
+    [{"value":"TRUE","label":"On","selected":false},{"value":"FALSE","label":"Off","selected":true}]
+    <input
+      class="select-control"
+    />
+  </div>
+  <div>
+    mock-select-control id:
     set-enable-custom-backlash
     label:
     url:
@@ -636,7 +672,7 @@ exports[`should render correctly initially no warning 3`] = `
 </div>
 `;
 
-exports[`should render correctly initially no warning 4`] = `
+exports[`settings/Editor initially no warning 4`] = `
 <div>
   <div
     class="subtitle"
@@ -686,7 +722,7 @@ exports[`should render correctly initially no warning 4`] = `
     Default Document Setting
     url:
     options:
-    [{"value":"fbm1","label":"beamo","selected":false},{"value":"fbb1b","label":"Beambox","selected":true},{"value":"fbb1p","label":"Beambox Pro","selected":false},{"value":"fhexa1","label":"HEXA","selected":false},{"value":"ado1","label":"Ador","selected":false}]
+    [{"value":"fbm1","label":"beamo","selected":false},{"value":"fbb1b","label":"Beambox","selected":true},{"value":"fbb1p","label":"Beambox Pro","selected":false},{"value":"fhexa1","label":"HEXA","selected":false},{"value":"ado1","label":"Ador","selected":false},{"value":"fbb2","label":"Beambox II","selected":false}]
     <input
       class="select-control"
     />
@@ -827,6 +863,18 @@ exports[`should render correctly initially no warning 4`] = `
     mock-select-control id:
     set-enable-low-speed
     label:
+    url:
+    options:
+    [{"value":"TRUE","label":"On","selected":false},{"value":"FALSE","label":"Off","selected":true}]
+    <input
+      class="select-control"
+    />
+  </div>
+  <div>
+    mock-select-control id:
+    auto-switch-tab
+    label:
+    auto_switch_tab
     url:
     options:
     [{"value":"TRUE","label":"On","selected":false},{"value":"FALSE","label":"Off","selected":true}]

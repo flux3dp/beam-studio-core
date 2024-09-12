@@ -64,6 +64,7 @@ const Rotation = ({ value, onChange }: Props): JSX.Element => {
         value={value || 0}
         precision={2}
         onChange={onChange}
+        fireOnChange
         onBlur={() => onChange(value, true)}
         onPressEnter={() => onChange(value, true)}
       />

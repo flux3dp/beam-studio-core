@@ -10,6 +10,7 @@ export interface IHintCircle {
 }
 
 export interface ITutorialDialog {
+  id?: string;
   dialogBoxStyles: IDialogBoxStyle,
   holePosition?: {
     top?: number,

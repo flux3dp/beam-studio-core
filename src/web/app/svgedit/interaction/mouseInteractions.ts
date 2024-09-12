@@ -1,5 +1,6 @@
 /* eslint-disable no-case-declarations */
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import canvasEvents from 'app/actions/canvas/canvasEvents';
 import clipboard from 'app/svgedit/operations/clipboard';
 import constant from 'app/actions/beambox/constant';
 import createNewText from 'app/svgedit/text/createNewText';
@@ -32,7 +33,6 @@ import wheelEventHandlerGenerator from './wheelEventHandler';
 let svgEditor;
 let svgCanvas: ISVGCanvas;
 
-const canvasEvents = eventEmitterFactory.createEventEmitter('canvas');
 const drawingToolEventEmitter = eventEmitterFactory.createEventEmitter('drawing-tool');
 
 getSVGAsync((globalSVG) => {
@@ -354,11 +354,9 @@ const mouseDown = (evt: MouseEvent) => {
 
           if (!rightClick) {
             if (evt.altKey) {
-              const cmd = clipboard.cloneSelectedElements(0, 0, true);
+              const cmd = clipboard.cloneSelectedElements(0, 0, { addToHistory: false })?.cmd;
               selectedElements = svgCanvas.getSelectedElems();
-              if (cmd && !cmd.isEmpty()) {
-                mouseSelectModeCmds.push(cmd);
-              }
+              if (cmd && !cmd.isEmpty()) mouseSelectModeCmds.push(cmd);
             }
             for (let i = 0; i < selectedElements.length; i += 1) {
               // insert a dummy transform so if the element(s) are moved it will have
@@ -524,7 +522,7 @@ const mouseDown = (evt: MouseEvent) => {
         updateElementColor(newLine);
       }
       svgCanvas.selectOnly([newLine], true);
-      canvasEvents.emit('addLine', newLine);
+      canvasEvents.addLine(newLine as SVGLineElement);
       break;
     case 'circle':
       svgCanvas.unsafeAccess.setStarted(true);
@@ -588,7 +586,7 @@ const mouseDown = (evt: MouseEvent) => {
         startX = newX;
         startY = newY;
         svgCanvas.unsafeAccess.setStarted(true);
-        canvasEvents.emit('addPath');
+        canvasEvents.addPath();
       }
       break;
     case 'textedit':
@@ -833,7 +831,7 @@ const mouseMove = (evt: MouseEvent) => {
             !curveEngravingModeController.started &&
             (PreviewModeController.isPreviewMode() || TopBarController.getTopBarPreviewMode())
           ) {
-            $('#workarea').css('cursor', 'url(img/camera-cursor.svg), cell');
+            $('#workarea').css('cursor', 'url(img/camera-cursor.svg) 9 12, cell');
           } else {
             $('#workarea').css('cursor', 'auto');
           }
@@ -1208,7 +1206,7 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
 
   const doPreview = () => {
     const callback = () => {
-      canvasEvents.emit('UPDATE_CONTEXT');
+      canvasEvents.updateContext();
       if (TutorialController.getNextStepRequirement() === TutorialConstants.PREVIEW_PLATFORM) {
         TutorialController.handleNextStep();
       }
@@ -1217,9 +1215,9 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
       const workarea = BeamboxPreference.read('workarea');
       if (!constant.adorModels.includes(workarea)) {
         if (startX === realX && startY === realY) {
-          PreviewModeController.preview(realX, realY, true, callback);
+          PreviewModeController.preview(realX, realY, { last: true, callback });
         } else {
-          PreviewModeController.previewRegion(startX, startY, realX, realY, callback);
+          PreviewModeController.previewRegion(startX, startY, realX, realY, { callback });
         }
       } else {
         PreviewModeController.previewFullWorkarea(callback);
@@ -1249,10 +1247,7 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
     case 'pre_preview':
       cleanUpRubberBox();
       svgCanvas.unsafeAccess.setCurrentMode('select');
-      TopBarController.setStartPreviewCallback(() => {
-        doPreview();
-      });
-      TopBarController.setShouldStartPreviewController(true);
+      canvasEvents.setupPreviewMode({ callback: () => doPreview() });
       return;
     case 'preview':
       cleanUpRubberBox();
@@ -1674,7 +1669,7 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
     element.setAttribute('style', 'pointer-events:inherit');
     svgCanvas.cleanupElement(element);
     svgCanvas.addCommandToHistory(new history.InsertElementCommand(element));
-    if (svgCanvas.getCurrentConfig().selectNew && !isContinuousDrawing) {
+    if (!isContinuousDrawing) {
       if (currentMode === 'textedit') {
         svgCanvas.selectorManager.requestSelector(element).show(true);
       } else if (element.parentNode) {
@@ -1732,7 +1727,7 @@ const dblClick = (evt: MouseEvent) => {
       svgCanvas.textActions.dbClickSelectAll();
     }
   } else if (currentMode === 'preview_color') {
-    canvasEvents.emit('SET_COLOR_PREVIEWING', false);
+    canvasEvents.setColorPreviewing(false);
   }
 
   if ((tagName === 'g' || tagName === 'a') && svgedit.utilities.getRotationAngle(mouseTarget)) {

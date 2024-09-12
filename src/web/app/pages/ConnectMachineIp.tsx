@@ -20,6 +20,7 @@ import TestInfo from 'app/components/settings/connection/TestInfo';
 import TestState, { isTesting } from 'app/constants/connection-test';
 import useI18n from 'helpers/useI18n';
 import versionChecker from 'helpers/version-checker';
+import { allWorkareas } from 'app/constants/workarea-constants';
 import { IDeviceInfo } from 'interfaces/IDevice';
 
 import styles from './ConnectMachineIp.module.scss';
@@ -185,7 +186,7 @@ const ConnectMachineIp = (): JSX.Element => {
 
   const onFinish = () => {
     const { device } = state;
-    const deviceModel = device.model || 'fbb1b';
+    const deviceModel = allWorkareas.has(device.model) ? device.model : 'fbb1b';
     BeamboxPreference.write('model', deviceModel);
     BeamboxPreference.write('workarea', deviceModel);
     let pokeIPs = storage.get('poke-ip-addr');

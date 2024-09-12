@@ -15,6 +15,7 @@ import Websocket from 'helpers/websocket';
 import {
   FisheyeCameraParameters,
   FisheyeMatrix,
+  PerspectiveGrid,
   RotationParameters3DGhostApi,
 } from 'interfaces/FisheyePreview';
 import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
@@ -241,6 +242,13 @@ class Camera {
   setFisheyeObjectHeight = async (h: number): Promise<boolean> => {
     this.fishEyeSetting = { ...this.fishEyeSetting, objectHeight: h };
     this.ws.send(`set_fisheye_height ${h.toFixed(3)}`);
+    const res = await lastValueFrom(this.nonBinarySource.pipe(take(1)).pipe(timeout(TIMEOUT)));
+    return res.status === 'ok';
+  };
+
+  setFisheyePerspectiveGrid = async (data: PerspectiveGrid): Promise<boolean> => {
+    const dataStr = JSON.stringify(data);
+    this.ws.send(`set_fisheye_grid ${dataStr}`);
     const res = await lastValueFrom(this.nonBinarySource.pipe(take(1)).pipe(timeout(TIMEOUT)));
     return res.status === 'ok';
   };

@@ -5,7 +5,11 @@ const endByLayerSymbol = Symbol('end by_layer');
 const endByColorSymbol = Symbol('end by_color');
 
 // TODO: add test
-const setElementsColor = (elements: Element[], color: string, isFullColor = false): Promise<void> => {
+const setElementsColor = (
+  elements: Element[],
+  color: string,
+  isFullColor = false
+): Promise<void> => {
   const descendants: (Element | typeof endByLayerSymbol | typeof endByColorSymbol)[] = [
     ...elements,
   ];
@@ -21,6 +25,7 @@ const setElementsColor = (elements: Element[], color: string, isFullColor = fals
     } else {
       const attrStroke = elem.getAttribute('stroke');
       const attrFill = elem.getAttribute('fill');
+      const attrFillOpacity = elem.getAttribute('fill-opacity');
       if (['rect', 'circle', 'ellipse', 'path', 'polygon', 'text', 'line'].includes(elem.tagName)) {
         if (!isFullColor) {
           // remove stroke for self drawn elements, set stroke color for imported elements
@@ -29,7 +34,11 @@ const setElementsColor = (elements: Element[], color: string, isFullColor = fals
           if (((isWireFrame && svgByColor === 0) || attrStroke) && attrStroke !== 'none') {
             elem.setAttribute('stroke', color);
           }
-          if (!['none', '#fff', '#ffffff'].includes(attrFill?.toLowerCase()) && !isWireFrame) {
+          if (
+            !['none', '#fff', '#ffffff'].includes(attrFill?.toLowerCase()) &&
+            attrFillOpacity !== '0' &&
+            !isWireFrame
+          ) {
             elem.setAttribute('fill', color);
             elem.setAttribute('fill-opacity', '1');
           }

@@ -30,11 +30,11 @@ class BeamboxGlobalInteraction {
   }
 
   onObjectFocus(elems?) {
-    menu.enable(['DUPLICATE', 'DELETE', 'PATH']);
     let selectedElements = elems || svgCanvas.getSelectedElems().filter((elem) => elem);
     if (selectedElements.length === 0) {
       return;
     }
+    menu.enable(['DUPLICATE', 'DELETE', 'PATH']);
     if (selectedElements[0].tagName === 'image') {
       menu.enable(['PHOTO_EDIT']);
     } else if (selectedElements[0].tagName === 'use') {

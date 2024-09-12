@@ -17,7 +17,7 @@ exports[`test Alert should render correctly 1`] = `
         <div
           aria-labelledby="test-id"
           aria-modal="true"
-          class="ant-modal css-dev-only-do-not-override-hash ant-zoom-appear ant-zoom-appear-prepare ant-zoom"
+          class="ant-modal css-dev-only-do-not-override-hash container ant-zoom-appear ant-zoom-appear-prepare ant-zoom"
           role="dialog"
           style="width: 520px;"
         >
@@ -55,24 +55,54 @@ exports[`test Alert should render correctly 1`] = `
                   Yes or No
                 </div>
               </div>
-              <label
-                class="ant-checkbox-wrapper css-dev-only-do-not-override-hash"
+              <div
+                class="links"
               >
-                <span
-                  class="ant-checkbox ant-wave-target css-dev-only-do-not-override-hash"
+                <button
+                  class="ant-btn css-dev-only-do-not-override-hash ant-btn-link link"
+                  type="button"
                 >
-                  <input
-                    class="ant-checkbox-input"
-                    type="checkbox"
+                  <span>
+                    link1
+                  </span>
+                  <svgr-url
+                    classname="icon"
                   />
+                </button>
+                <button
+                  class="ant-btn css-dev-only-do-not-override-hash ant-btn-link link"
+                  type="button"
+                >
+                  <span>
+                    link2
+                  </span>
+                  <svgr-url
+                    classname="icon"
+                  />
+                </button>
+              </div>
+              <div
+                class="checkbox"
+              >
+                <label
+                  class="ant-checkbox-wrapper css-dev-only-do-not-override-hash"
+                >
                   <span
-                    class="ant-checkbox-inner"
-                  />
-                </span>
-                <span>
-                  checkbox
-                </span>
-              </label>
+                    class="ant-checkbox ant-wave-target css-dev-only-do-not-override-hash"
+                  >
+                    <input
+                      class="ant-checkbox-input"
+                      type="checkbox"
+                    />
+                    <span
+                      class="ant-checkbox-inner"
+                    />
+                  </span>
+                  <span>
+                    checkbox
+                  </span>
+                </label>
+              </div>
             </div>
             <div
               class="ant-modal-footer"
@@ -124,7 +154,7 @@ exports[`test Alert should render correctly with help center link 1`] = `
         <div
           aria-labelledby="test-id"
           aria-modal="true"
-          class="ant-modal css-dev-only-do-not-override-hash ant-zoom-appear ant-zoom-appear-prepare ant-zoom"
+          class="ant-modal css-dev-only-do-not-override-hash container ant-zoom-appear ant-zoom-appear-prepare ant-zoom"
           role="dialog"
           style="width: 520px;"
         >
@@ -162,32 +192,40 @@ exports[`test Alert should render correctly with help center link 1`] = `
                   #801 error
                 </div>
               </div>
-              <button
-                class="ant-btn css-dev-only-do-not-override-hash ant-btn-link link"
-                type="button"
+              <div
+                class="links"
               >
-                <span>
-                  Learn more
-                </span>
-              </button>
-              <label
-                class="ant-checkbox-wrapper css-dev-only-do-not-override-hash"
-              >
-                <span
-                  class="ant-checkbox ant-wave-target css-dev-only-do-not-override-hash"
+                <button
+                  class="ant-btn css-dev-only-do-not-override-hash ant-btn-link link"
+                  type="button"
                 >
-                  <input
-                    class="ant-checkbox-input"
-                    type="checkbox"
-                  />
+                  <span>
+                    Learn more
+                  </span>
+                </button>
+              </div>
+              <div
+                class="checkbox"
+              >
+                <label
+                  class="ant-checkbox-wrapper css-dev-only-do-not-override-hash"
+                >
                   <span
-                    class="ant-checkbox-inner"
-                  />
-                </span>
-                <span>
-                  checkbox
-                </span>
-              </label>
+                    class="ant-checkbox ant-wave-target css-dev-only-do-not-override-hash"
+                  >
+                    <input
+                      class="ant-checkbox-input"
+                      type="checkbox"
+                    />
+                    <span
+                      class="ant-checkbox-inner"
+                    />
+                  </span>
+                  <span>
+                    checkbox
+                  </span>
+                </label>
+              </div>
             </div>
             <div
               class="ant-modal-footer"

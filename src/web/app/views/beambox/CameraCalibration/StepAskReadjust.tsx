@@ -48,7 +48,7 @@ const StepAskReadjust = (): JSX.Element => {
       });
       const x = CALIBRATION_PARAMS.centerX - CALIBRATION_PARAMS.idealOffsetX;
       const y = CALIBRATION_PARAMS.centerY - CALIBRATION_PARAMS.idealOffsetY;
-      const blobUrl = await PreviewModeController.takePictureAfterMoveTo(x, y);
+      const blobUrl = await PreviewModeController.getPhotoAfterMoveTo(x, y);
       setCameraPosition({ x, y });
       await doGetOffsetFromPicture(blobUrl, setCurrentOffset);
       setImgBlobUrl(blobUrl);

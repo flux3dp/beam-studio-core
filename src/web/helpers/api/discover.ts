@@ -20,10 +20,10 @@ const discoverLogger = Logger('discover');
 
 let lastSendMessage = 0;
 let timer;
-let printers = [];
+let devices = [];
 const dispatchers = [];
 const idList = [];
-let devices = {};
+let deviceMap = {};
 let swiftrayDevices = {};
 
 // Open up FLUX wrapped websocket
@@ -33,10 +33,10 @@ const ws = Websocket({
 
 const sendFoundPrinter = () => {
   discoverLogger.clear();
-  discoverLogger.append(devices);
+  discoverLogger.append(deviceMap);
 
   dispatchers.forEach((dispatcher) => {
-    dispatcher.sender(printers);
+    dispatcher.sender(deviceMap);
   });
 };
 
@@ -70,21 +70,21 @@ const onMessage = (device) => {
     }
     updatePokeIPAddr(device);
 
-    devices[device.uuid] = device;
+    deviceMap[device.uuid] = device;
     sentryHelper.sendDeviceInfo(device);
     // SmartUpnp.addSolidIP(device.ip);
-  } else if (typeof devices[device.uuid] === 'undefined') {
-    delete devices[device.uuid];
+  } else if (typeof deviceMap[device.uuid] === 'undefined') {
+    delete deviceMap[device.uuid];
   }
 
   clearTimeout(timer);
   if (Date.now() - lastSendMessage > BUFFER) {
-    printers = DeviceList({ ...devices, ...swiftrayDevices });
+    devices = DeviceList({ ...deviceMap, ...swiftrayDevices });
     sendFoundPrinter();
     lastSendMessage = Date.now();
   } else {
     timer = setTimeout(() => {
-      printers = DeviceList({ ...devices, ...swiftrayDevices });
+      devices = DeviceList({ ...deviceMap, ...swiftrayDevices });
       sendFoundPrinter();
       lastSendMessage = Date.now();
     }, BUFFER);
@@ -93,8 +93,8 @@ const onMessage = (device) => {
 
 const startIntervals = () => {
   setInterval(() => {
-    printers = [];
-    devices = {};
+    devices = [];
+    deviceMap = {};
   }, CLEAR_DEVICES_INTERVAL);
 
   setInterval(() => {
@@ -110,7 +110,7 @@ const startIntervals = () => {
         acc[device.uuid] = device;
         return acc;
       }, {});
-      printers = DeviceList({ ...devices, ...swiftrayDevices });
+      devices = DeviceList({ ...deviceMap, ...swiftrayDevices });
       sendFoundPrinter();
     });
   }, 15000);
@@ -120,7 +120,7 @@ const startIntervals = () => {
         acc[device.uuid] = device;
         return acc;
       }, {});
-      printers = DeviceList({ ...devices, ...swiftrayDevices });
+      devices = DeviceList({ ...deviceMap, ...swiftrayDevices });
       sendFoundPrinter();
     });
   }, 5000);
@@ -182,8 +182,8 @@ const Discover = (id: string, getDevices: (devices: IDeviceInfo[]) => void) => {
 
   // force callback always executed after return
   setTimeout(() => {
-    if (printers.length > 0) {
-      getDevices(printers);
+    if (devices.length > 0) {
+      getDevices(devices);
     }
   }, 0);
 
@@ -193,7 +193,7 @@ const Discover = (id: string, getDevices: (devices: IDeviceInfo[]) => void) => {
     pokeTcp, // Add to tcp poke list
     testTcp, // Test tcp poke
     countDevices() {
-      return Object.keys(devices).length;
+      return Object.keys(deviceMap).length;
     },
     removeListener(listenerId) {
       const listenerIndex = idList.indexOf(listenerId);
@@ -203,8 +203,8 @@ const Discover = (id: string, getDevices: (devices: IDeviceInfo[]) => void) => {
     sendAggressive() {
       ws.send('aggressive');
     },
-    getLatestPrinter(printer) {
-      return devices[printer.uuid];
+    getDevice(uuid: string) {
+      return deviceMap[uuid];
     },
   };
 };
@@ -237,5 +237,7 @@ const initSmartUpnp = async () => {
 initSmartUpnp();
 
 export const checkConnection = (): boolean => ws?.currentState === ws?.readyState.OPEN;
+
+export const getLatestDeviceInfo = (uuid: string): IDeviceInfo => deviceMap[uuid];
 
 export default Discover;

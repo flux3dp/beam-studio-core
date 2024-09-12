@@ -1,6 +1,22 @@
-export type WorkAreaLabel = 'beamo' | 'Beambox' | 'Beambox Pro' | 'HEXA' | 'Ador' | 'Promark' | 'Lazervida';
-export type WorkAreaModel = 'fbm1' | 'fbb1b' | 'fbb1p' | 'fhexa1' | 'ado1' | 'fpm1' | 'flv1';
-export const allWorkareas = new Set(['fbm1', 'fbb1b', 'fbb1p', 'fhexa1', 'ado1']);
+export type WorkAreaLabel =
+  | 'beamo'
+  | 'Beambox'
+  | 'Beambox Pro'
+  | 'HEXA'
+  | 'Ador'
+  | 'Promark'
+  | 'Lazervida'
+  | 'Beambox II';
+export type WorkAreaModel =
+  | 'fbm1'
+  | 'fbb1b'
+  | 'fbb1p'
+  | 'fhexa1'
+  | 'ado1'
+  | 'fpm1'
+  | 'flv1'
+  | 'fbb2';
+export const allWorkareas = new Set(['fbm1', 'fbb1b', 'fbb1p', 'fhexa1', 'ado1', 'fpm1', 'flv1', 'fbb2']);
 
 const dpmm = 10;
 export interface WorkArea {
@@ -15,6 +31,7 @@ export interface WorkArea {
   deep?: number; // mm
   maxSpeed: number; // mm/s
   minSpeed: number; // mm/s
+  minPower?: number; // %
   rotary: number[];
   cameraCenter?: number[]; // [mm, mm]
   autoFocusOffset?: number[]; // [mm, mm]
@@ -30,6 +47,7 @@ const workareaConstants: { [key in WorkAreaModel]: WorkArea } = {
     pxHeight: 210 * dpmm,
     maxSpeed: 300,
     minSpeed: 0.5,
+    minPower: 10,
     rotary: [0, 1],
   },
   fbb1b: {
@@ -40,6 +58,7 @@ const workareaConstants: { [key in WorkAreaModel]: WorkArea } = {
     pxHeight: 375 * dpmm,
     maxSpeed: 300,
     minSpeed: 0.5,
+    minPower: 10,
     rotary: [0, 1],
   },
   fbb1p: {
@@ -50,6 +69,7 @@ const workareaConstants: { [key in WorkAreaModel]: WorkArea } = {
     pxHeight: 375 * dpmm,
     maxSpeed: 300,
     minSpeed: 0.5,
+    minPower: 10,
     rotary: [0, 1],
   },
   fhexa1: {
@@ -60,6 +80,7 @@ const workareaConstants: { [key in WorkAreaModel]: WorkArea } = {
     pxHeight: 410 * dpmm,
     maxSpeed: 900,
     minSpeed: 0.5,
+    minPower: 10,
     rotary: [0, 1],
     autoFocusOffset: [31.13, 1.2, 6.5],
   },
@@ -74,6 +95,7 @@ const workareaConstants: { [key in WorkAreaModel]: WorkArea } = {
     deep: 40.5,
     maxSpeed: 400,
     minSpeed: 0.5,
+    minPower: 10,
     rotary: [0, 1],
     cameraCenter: [215, 150],
     autoFocusOffset: [20.9, -40.38, 7.5],
@@ -99,9 +121,23 @@ const workareaConstants: { [key in WorkAreaModel]: WorkArea } = {
     minSpeed: 1,
     rotary: [0, 1],
   },
+  fbb2: {
+    label: 'Beambox II',
+    width: 600,
+    pxWidth: 600 * dpmm,
+    height: 375,
+    pxHeight: 375 * dpmm,
+    maxSpeed: 900,
+    minSpeed: 0.5,
+    rotary: [0, 1],
+    cameraCenter: [300, 150],
+    passThroughMaxHeight: 360,
+  },
 };
 
-export const getWorkarea = (model: WorkAreaModel, fallbackModel: WorkAreaModel = 'fbm1'): WorkArea =>
-  workareaConstants[model] || workareaConstants[fallbackModel];
+export const getWorkarea = (
+  model: WorkAreaModel,
+  fallbackModel: WorkAreaModel = 'fbm1'
+): WorkArea => workareaConstants[model] || workareaConstants[fallbackModel];
 
 export default workareaConstants;

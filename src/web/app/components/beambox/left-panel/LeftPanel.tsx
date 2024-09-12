@@ -15,6 +15,9 @@ import styles from './LeftPanel.module.scss';
 const LANG = i18n.lang.beambox.left_panel;
 
 class LeftPanel extends React.PureComponent {
+  // eslint-disable-next-line react/static-property-placement
+  declare context: React.ContextType<typeof CanvasContext>;
+
   componentDidMount(): void {
     // Selection Management
     // TODO: move to layer panel

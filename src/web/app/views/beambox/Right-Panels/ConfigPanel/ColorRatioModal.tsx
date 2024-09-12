@@ -2,13 +2,14 @@ import React, { useContext, useMemo, useState } from 'react';
 import { Col, ConfigProvider, Modal, Row } from 'antd';
 
 import useI18n from 'helpers/useI18n';
-import { DataType, writeDataLayer } from 'helpers/layer/layer-config-helper';
+import { ColorRatioModalBlock } from 'app/constants/antd-config';
+import { ConfigItem } from 'interfaces/ILayerConfig';
 import { getLayerByName } from 'helpers/layer/layer-helper';
-import { IConfig } from 'interfaces/ILayerConfig';
 import { PrintingColors } from 'app/constants/color-constants';
+import { writeDataLayer } from 'helpers/layer/layer-config-helper';
 
 import ConfigPanelContext from './ConfigPanelContext';
-import ColorRatioBlock from './ColorRatioBlock';
+import ModalBlock from './ModalBlock';
 
 interface Props {
   fullColor?: boolean;
@@ -19,7 +20,7 @@ interface Props {
 const ColorRationModal = ({ fullColor, onClose }: Props): JSX.Element => {
   const t = useI18n().beambox.right_panel.laser_panel;
   const { dispatch, selectedLayers, state } = useContext(ConfigPanelContext);
-  const [draftValue, setDraftValue] = useState<{ [key: string]: IConfig<number> }>({
+  const [draftValue, setDraftValue] = useState<{ [key: string]: ConfigItem<number> }>({
     cRatio: state.cRatio,
     mRatio: state.mRatio,
     yRatio: state.yRatio,
@@ -31,12 +32,12 @@ const ColorRationModal = ({ fullColor, onClose }: Props): JSX.Element => {
     const keys = fullColor ? ['cRatio', 'mRatio', 'yRatio', 'kRatio'] : ['printingStrength'];
     selectedLayers.forEach((layerName) => {
       const layer = getLayerByName(layerName);
-      keys.forEach((key) => {
+      keys.forEach((key: 'cRatio' | 'mRatio' | 'yRatio' | 'kRatio' | 'printingStrength') => {
         if (
           state[key].value !== draftValue[key].value ||
           state[key].hasMultiValue !== draftValue[key].hasMultiValue
         ) {
-          writeDataLayer(layer, DataType[key], draftValue[key].value);
+          writeDataLayer(layer, key, draftValue[key].value);
           newState[key] = draftValue[key];
         }
       });
@@ -72,69 +73,53 @@ const ColorRationModal = ({ fullColor, onClose }: Props): JSX.Element => {
       okText={t.save}
       title={t.color_adjustment}
     >
-      <ConfigProvider
-        theme={{
-          token: {
-            colorPrimaryBorder: '#cecece',
-            colorPrimaryBorderHover: '#494949',
-            colorPrimary: '#494949',
-          },
-          components: {
-            InputNumber: {
-              activeShadow: 'none',
-              activeBorderColor: '#cecece',
-              hoverBorderColor: '#cecece',
-              controlWidth: 40,
-            },
-            Slider: {
-              handleColor: '#cecece',
-              handleActiveColor: '#494949',
-              dotActiveBorderColor: '#494949',
-              trackBg: 'transparent',
-              trackBgDisabled: 'transparent',
-              trackHoverBg: 'transparent',
-              railSize: 6,
-            },
-          },
-        }}
-      >
+      <ConfigProvider theme={ColorRatioModalBlock}>
         {fullColor ? (
           <>
             <Row gutter={[10, 0]}>
               <Col span={12}>
-                <ColorRatioBlock
+                <ModalBlock
                   color="c"
-                  ratio={draftValue.cRatio.value}
-                  setRatio={(val) => handleValueChange('cRatio', val)}
+                  title="Cyan"
+                  label={t.color_strength}
+                  value={draftValue.cRatio.value}
+                  setValue={(val) => handleValueChange('cRatio', val)}
                 />
               </Col>
               <Col span={12}>
-                <ColorRatioBlock
+                <ModalBlock
                   color="m"
-                  ratio={draftValue.mRatio.value}
-                  setRatio={(val) => handleValueChange('mRatio', val)}
+                  title="Magenta"
+                  label={t.color_strength}
+                  value={draftValue.mRatio.value}
+                  setValue={(val) => handleValueChange('mRatio', val)}
                 />
               </Col>
               <Col span={12}>
-                <ColorRatioBlock
+                <ModalBlock
                   color="y"
-                  ratio={draftValue.yRatio.value}
-                  setRatio={(val) => handleValueChange('yRatio', val)}
+                  title="Yellow"
+                  label={t.color_strength}
+                  value={draftValue.yRatio.value}
+                  setValue={(val) => handleValueChange('yRatio', val)}
                 />
               </Col>
               <Col span={12}>
-                <ColorRatioBlock
+                <ModalBlock
                   color="k"
-                  ratio={draftValue.kRatio.value}
-                  setRatio={(val) => handleValueChange('kRatio', val)}
+                  title="Black"
+                  label={t.color_strength}
+                  value={draftValue.kRatio.value}
+                  setValue={(val) => handleValueChange('kRatio', val)}
                 />
               </Col>
             </Row>
           </>
         ) : (
-          <ColorRatioBlock
-            ratio={draftValue.printingStrength.value}
-            setRatio={(val) => handleValueChange('printingStrength', val)}
+          <ModalBlock
+            label={t.color_strength}
+            value={draftValue.printingStrength.value}
+            setValue={(val) => handleValueChange('printingStrength', val)}
             color={colorLayer}
           />
         )}

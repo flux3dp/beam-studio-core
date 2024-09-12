@@ -30,21 +30,17 @@ const FluxIdLogin = ({ silent, onClose }: Props): JSX.Element => {
 
   const emailInput = useRef<InputRef>(null);
   const passwordInput = useRef<InputRef>(null);
-  const rememberMeCheckbox = useRef(null);
   const [isRememberMeChecked, setIsRememberMeChecked] = useState(
     !!storage.get('keep-flux-id-login')
   );
   const isMobile = useIsMobile();
 
   useEffect(() => {
-    const checkbox = rememberMeCheckbox.current;
     fluxIDEvents.on('oauth-logged-in', onClose);
     return () => {
       fluxIDEvents.removeListener('oauth-logged-in', onClose);
-      const isChecked = checkbox.checked;
-      storage.set('keep-flux-id-login', isChecked);
     };
-  });
+  }, [onClose]);
 
   const renderOAuthContent = () => (
     <div className={styles.oauth}>
@@ -60,12 +56,11 @@ const FluxIdLogin = ({ silent, onClose }: Props): JSX.Element => {
   const handleLogin = async () => {
     const email = emailInput.current.input.value;
     const password = passwordInput.current.input.value;
-    const rememberMe = rememberMeCheckbox.current.checked;
     await signOut();
     const res = await signIn({
       email,
       password,
-      expires_session: !rememberMe,
+      expires_session: !isRememberMeChecked,
     });
     if (res.error) {
       return;
@@ -83,6 +78,7 @@ const FluxIdLogin = ({ silent, onClose }: Props): JSX.Element => {
     if (res.status === 'ok') {
       // eslint-disable-next-line no-console
       console.log('Log in succeeded', res);
+      storage.set('keep-flux-id-login', isRememberMeChecked);
       onClose();
       if (!silent) {
         dialogCaller.showFluxCreditDialog();
@@ -117,7 +113,6 @@ const FluxIdLogin = ({ silent, onClose }: Props): JSX.Element => {
               onClick={() => setIsRememberMeChecked(!isRememberMeChecked)}
             >
               <input
-                ref={rememberMeCheckbox}
                 type="checkbox"
                 checked={isRememberMeChecked}
                 onChange={() => {}}

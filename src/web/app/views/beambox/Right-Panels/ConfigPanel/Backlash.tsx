@@ -9,9 +9,9 @@ import objectPanelItemStyles from 'app/views/beambox/Right-Panels/ObjectPanelIte
 import storage from 'implementations/storage';
 import units from 'helpers/units';
 import useI18n from 'helpers/useI18n';
-import { DataType, writeData } from 'helpers/layer/layer-config-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ObjectPanelContext } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
+import { writeData } from 'helpers/layer/layer-config-helper';
 
 import ConfigPanelContext from './ConfigPanelContext';
 import ConfigSlider from './ConfigSlider';
@@ -41,7 +41,7 @@ const Backlash = ({
     });
     const batchCmd = new history.BatchCommand('Change backlash');
     selectedLayers.forEach((layerName) => {
-      writeData(layerName, DataType.backlash, value, { batchCmd });
+      writeData(layerName, 'backlash', value, { batchCmd });
     });
     batchCmd.onAfter = initState;
     svgCanvas.addCommandToHistory(batchCmd);

@@ -127,7 +127,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
   // Default configuration options
   const curConfig: { [key: string]: any } = {
-    selectNew: true,
     dimensions: [640, 480],
     ...config,
   };

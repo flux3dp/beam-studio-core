@@ -28,7 +28,7 @@ import {
   mergeLayers,
   setLayersLock,
 } from 'helpers/layer/layer-helper';
-import { DataType, getData } from 'helpers/layer/layer-config-helper';
+import { getData } from 'helpers/layer/layer-config-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
 import { ObjectPanelContext } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
@@ -120,12 +120,13 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
     selectedLayers.length === 1 &&
     layerElem &&
     modelsWithModules.has(workarea) &&
-    getData<LayerModule>(layerElem, DataType.module) === LayerModule.PRINTER;
-  const isFullColor = layerElem?.getAttribute('data-fullcolor') === '1';
+    getData(layerElem, 'module') === LayerModule.PRINTER;
+  const isFullColor = getData(layerElem, 'fullcolor');
+  const isSplitLayer = getData(layerElem, 'split');
 
   const handleSplitColor = async () => {
     svgCanvas.clearSelection();
-    if (!isSelectingPrinterLayer) return;
+    if (!isSelectingPrinterLayer || isSplitLayer) return;
     const res = await new Promise<boolean>((resolve) => {
       alertCaller.popUp({
         id: 'split-color',
@@ -228,12 +229,12 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
             content={<Switch checked={isFullColor} />}
             label={LANG.layers.fullColor}
             onClick={() => {
-              if (!isFullColor) {
+              if (!isFullColor && !isSplitLayer) {
                 handleLayerFullColor();
                 updateActiveKey(null);
               }
             }}
-            disabled={isMultiSelecting}
+            disabled={isMultiSelecting || isSplitLayer}
             autoClose={false}
           />
         </Popover>
@@ -314,7 +315,7 @@ const LayerContextMenu = ({ drawing, selectOnlyLayer, renameLayer }: Props): JSX
         <>
           <MenuItem
             attributes={{ id: 'toggle_fullcolor_layer' }}
-            disabled={isMultiSelecting}
+            disabled={isMultiSelecting || isSplitLayer}
             onClick={() => handleLayerFullColor()}
           >
             {isFullColor ? LANG.layers.switchToSingleColor : LANG.layers.switchToFullColor}

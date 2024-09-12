@@ -1,5 +1,5 @@
 export default interface ISVGConfig {
-  // Todo: svgcanvas.js also sets and checks: show_outside_canvas, selectNew; add here?
+  // Todo: svgcanvas.js also sets and checks: show_outside_canvas add here?
   // Change the following to preferences and
   // add pref controls to the UI (e.g., initTool, wireframe, showlayers)?
   canvasName?: string
@@ -26,7 +26,6 @@ export default interface ISVGConfig {
   exportWindowType?: string, // 'same' (todo: also support 'download')
   wireframe?: boolean,
   showlayers?: boolean,
-  selectNew: boolean,
   no_save_warning?: boolean,
   // PATH CONFIGURATION
   // The following path configuration items are disallowed

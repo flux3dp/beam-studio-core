@@ -1,11 +1,28 @@
+import isDev from 'helpers/is-dev';
+
 import { WorkAreaModel } from './workarea-constants';
+
+export enum RotaryType {
+  Roller = 1,
+  Chuck = 2,
+}
+
+export const CHUCK_ROTARY_DIAMETER = 133;
 
 interface SupportInfo {
   autoFocus: boolean;
   hybridLaser: boolean;
   openBottom: boolean;
   passThrough: boolean;
-  rotary: boolean;
+  rotary?: {
+    roller: boolean;
+    chuck: boolean;
+    extendWorkarea: boolean;
+    mirror: boolean;
+    defaultMirror?: boolean;
+  };
+  lowerFocus: boolean;
+  redLight?: boolean;
 }
 
 const supportList: Record<WorkAreaModel, SupportInfo> = {
@@ -14,35 +31,80 @@ const supportList: Record<WorkAreaModel, SupportInfo> = {
     hybridLaser: true,
     openBottom: true,
     passThrough: true,
-    rotary: true,
+    rotary: {
+      roller: true,
+      chuck: true,
+      extendWorkarea: false,
+      mirror: false,
+    },
+    lowerFocus: false,
   },
   fbb1b: {
     autoFocus: false,
     hybridLaser: false,
     openBottom: false,
     passThrough: false,
-    rotary: true,
+    rotary: {
+      roller: true,
+      chuck: false,
+      extendWorkarea: false,
+      mirror: false,
+    },
+    lowerFocus: false,
   },
   fbb1p: {
     autoFocus: false,
     hybridLaser: false,
     openBottom: false,
     passThrough: false,
-    rotary: true,
+    rotary: {
+      roller: true,
+      chuck: false,
+      extendWorkarea: false,
+      mirror: false,
+    },
+    lowerFocus: false,
   },
   fhexa1: {
     autoFocus: false,
     hybridLaser: false,
     openBottom: false,
     passThrough: false,
-    rotary: true,
+    rotary: {
+      roller: true,
+      chuck: true,
+      extendWorkarea: false,
+      mirror: false,
+    },
+    lowerFocus: isDev(),
   },
   ado1: {
     autoFocus: false,
     hybridLaser: false,
     openBottom: false,
     passThrough: true,
-    rotary: false,
+    rotary: {
+      roller: true,
+      chuck: true,
+      extendWorkarea: true,
+      mirror: true,
+      defaultMirror: true,
+    },
+    lowerFocus: isDev(),
+  },
+  fbb2: {
+    autoFocus: false,
+    hybridLaser: false,
+    openBottom: false,
+    passThrough: true,
+    rotary: {
+      roller: true,
+      chuck: true,
+      extendWorkarea: true,
+      mirror: true,
+    },
+    lowerFocus: isDev(),
+    redLight: true,
   },
   fpm1: {
     autoFocus: false,
@@ -65,7 +127,7 @@ export const getSupportInfo = (workarea: WorkAreaModel): SupportInfo => supportL
   hybridLaser: false,
   openBottom: false,
   passThrough: false,
-  rotary: false,
+  lowerFocus: false,
 };
 
 export default {

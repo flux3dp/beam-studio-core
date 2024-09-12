@@ -16,9 +16,9 @@ import Experimental from 'app/components/settings/Experimental';
 import General from 'app/components/settings/General';
 import i18n from 'helpers/i18n';
 import isWeb from 'helpers/is-web';
-import layerModuleHelper from 'helpers/layer-module/layer-module-helper';
 import Mask from 'app/components/settings/Mask';
 import Module from 'app/components/settings/Module';
+import onOffOptionFactory from 'app/components/settings/onOffOptionFactory';
 import Path from 'app/components/settings/Path';
 import Privacy from 'app/components/settings/Privacy';
 import settings from 'app/app-settings';
@@ -66,12 +66,12 @@ class Settings extends React.PureComponent<null, State> {
     });
   };
 
-  updateConfigChange = (id: StorageKey, newVal: any): void => {
+  updateConfigChange = (key: StorageKey, newVal: any): void => {
     let val = newVal;
     if (!Number.isNaN(Number(val))) {
       val = Number(val);
     }
-    this.configChanges[id] = val;
+    this.configChanges[key] = val;
     this.forceUpdate();
   };
 
@@ -82,14 +82,14 @@ class Settings extends React.PureComponent<null, State> {
     return storage.get(key);
   };
 
-  updateBeamboxPreferenceChange = (item_key: string, newVal: any): void => {
+  updateBeamboxPreferenceChange = (key: string, newVal: any): void => {
     let val = newVal;
     if (val === OptionValues.TRUE) {
       val = true;
     } else if (val === OptionValues.FALSE) {
       val = false;
     }
-    this.beamboxPreferenceChanges[item_key] = val;
+    this.beamboxPreferenceChanges[key] = val;
     this.forceUpdate();
   };
 
@@ -143,19 +143,13 @@ class Settings extends React.PureComponent<null, State> {
     offLabel?: string
   ): { value: T; label: string; selected: boolean }[] => {
     const { lang } = this.state;
-
-    return [
-      {
-        value: (onValue !== undefined ? onValue : OptionValues.TRUE) as T,
-        label: onLabel || lang.settings.on,
-        selected: isOnSelected,
-      },
-      {
-        value: (offValue !== undefined ? offValue : OptionValues.FALSE) as T,
-        label: offLabel || lang.settings.off,
-        selected: !isOnSelected,
-      },
-    ];
+    return onOffOptionFactory(isOnSelected, {
+      onValue,
+      offValue,
+      onLabel,
+      offLabel,
+      lang,
+    });
   };
 
   render() {
@@ -187,77 +181,8 @@ class Settings extends React.PureComponent<null, State> {
     const isAutoConnectOn = this.getConfigEditingValue('auto_connect') !== 0;
     const autoConnectOptions = this.onOffOptionFactory(isAutoConnectOn, 1, 0);
 
-    const isGuideOpened = this.getBeamboxPreferenceEditingValue('show_guides') !== false;
-    const guideSelectionOptions = this.onOffOptionFactory(isGuideOpened);
-
-    const isDownsamplingOn = this.getBeamboxPreferenceEditingValue('image_downsampling') !== false;
-    const imageDownsamplingOptions = this.onOffOptionFactory(
-      isDownsamplingOn,
-      OptionValues.TRUE,
-      OptionValues.FALSE,
-      lang.settings.low,
-      lang.settings.high
-    );
-
-    const isAntiAliasingOn = this.getBeamboxPreferenceEditingValue('anti-aliasing');
-    const antiAliasingOptions = this.onOffOptionFactory(isAntiAliasingOn);
-
-    const isContinuousDrawingOn = this.getBeamboxPreferenceEditingValue('continuous_drawing');
-    const continuousDrawingOptions = this.onOffOptionFactory(isContinuousDrawingOn);
-
-    const isSimplifyClipperPathOn = this.getBeamboxPreferenceEditingValue('simplify_clipper_path');
-    const simplifyClipperPath = this.onOffOptionFactory(isSimplifyClipperPathOn);
-
-    const isFastGradientOn = this.getBeamboxPreferenceEditingValue('fast_gradient') !== false;
-    const fastGradientOptions = this.onOffOptionFactory(isFastGradientOn);
-
-    const isReverseEngraving = this.getBeamboxPreferenceEditingValue('reverse-engraving') === true;
-    const reverseEngravingOptions = this.onOffOptionFactory(
-      isReverseEngraving,
-      OptionValues.TRUE,
-      OptionValues.FALSE,
-      lang.settings.bottom_up,
-      lang.settings.top_down
-    );
-
-    const isVectorSpeedConstrainOn =
-      this.getBeamboxPreferenceEditingValue('vector_speed_contraint') !== false;
-    const vectorSpeedConstraintOptions = this.onOffOptionFactory(isVectorSpeedConstrainOn);
-
-    const isPrecutSwitchOn = this.getBeamboxPreferenceEditingValue('blade_precut') === true;
-    const precutSwitchOptions = this.onOffOptionFactory(isPrecutSwitchOn);
-
-    const isMaskEnabled = this.getBeamboxPreferenceEditingValue('enable_mask');
-    const maskOptions = this.onOffOptionFactory(isMaskEnabled);
-
-    const isFontSubstitutionOn = this.getBeamboxPreferenceEditingValue('font-substitute') !== false;
-    const fontSubstituteOptions = this.onOffOptionFactory(isFontSubstitutionOn);
-
-    const defaultFontConvert = this.getBeamboxPreferenceEditingValue('font-convert') || '2.0';
-
-    const isDefaultBorderlessOn = this.getBeamboxPreferenceEditingValue('default-borderless');
-    const borderlessModeOptions = this.onOffOptionFactory(isDefaultBorderlessOn);
-
-    const isDefaultAutofocusOn = this.getBeamboxPreferenceEditingValue('default-autofocus');
-    const autofocusModuleOptions = this.onOffOptionFactory(isDefaultAutofocusOn);
-
-    const isDefaultDiodeOn = this.getBeamboxPreferenceEditingValue('default-diode');
-    const diodeModuleOptions = this.onOffOptionFactory(isDefaultDiodeOn);
-
-    const isDiodeOneWayEngravingOn =
-      this.getBeamboxPreferenceEditingValue('diode-one-way-engraving') !== false;
-    const diodeOneWayEngravingOpts =
-      this.onOffOptionFactory<OptionValues>(isDiodeOneWayEngravingOn);
-
     const isSentryEnabled = this.getConfigEditingValue('enable-sentry') === 1;
     const enableSentryOptions = this.onOffOptionFactory(isSentryEnabled, 1, 0);
-
-    const isLowSpeedEnabled = this.getBeamboxPreferenceEditingValue('enable-low-speed');
-    const enableLowSpeedOptions = this.onOffOptionFactory(isLowSpeedEnabled);
-
-    const isCustomBacklashEnabled = this.getBeamboxPreferenceEditingValue('enable-custom-backlash');
-    const enableCustomBacklashOptions =
-      this.onOffOptionFactory<OptionValues>(isCustomBacklashEnabled);
 
     const isCustomPrevHeightEnabled = this.getBeamboxPreferenceEditingValue(
       'enable-custom-preview-height'
@@ -275,15 +200,6 @@ class Settings extends React.PureComponent<null, State> {
       this.getBeamboxPreferenceEditingValue('one-way-printing') !== false;
     const oneWayPrintingOptions = this.onOffOptionFactory<OptionValues>(oneWayPrintingEnabled);
 
-    const isPrintAdvancedModeEnabled = this.getBeamboxPreferenceEditingValue('print-advanced-mode');
-    const printAdvancedModeOptions = this.onOffOptionFactory<OptionValues>(
-      isPrintAdvancedModeEnabled
-    );
-
-    const defaultLaserModule =
-      this.getBeamboxPreferenceEditingValue('default-laser-module') ||
-      layerModuleHelper.getDefaultLaserModule();
-
     const autoSaveOptions = this.onOffOptionFactory(editingAutosaveConfig.enabled);
 
     const cameraMovementSpeed = Math.min(
@@ -293,7 +209,7 @@ class Settings extends React.PureComponent<null, State> {
 
     const isAllValid = !warnings || Object.keys(warnings).length === 0;
     const web = isWeb();
-
+    const defaultUnit = this.getConfigEditingValue('default-units');
     return (
       <div className="studio-container settings-studio">
         <div className="settings-gradient-overlay" />
@@ -325,8 +241,8 @@ class Settings extends React.PureComponent<null, State> {
           />
           <Camera
             speed={{
-              unit: this.getConfigEditingValue('default-units') === 'inches' ? 'in/s' : 'mm/s',
-              decimal: this.getConfigEditingValue('default-units') === 'inches' ? 2 : 0,
+              unit: defaultUnit === 'inches' ? 'in/s' : 'mm/s',
+              decimal: defaultUnit === 'inches' ? 2 : 0,
               defaultValue:
                 (this.getBeamboxPreferenceEditingValue('preview_movement_speed') ||
                   cameraMovementSpeed) / 60,
@@ -334,8 +250,8 @@ class Settings extends React.PureComponent<null, State> {
                 this.updateBeamboxPreferenceChange('preview_movement_speed', val * 60),
             }}
             speedHL={{
-              unit: this.getConfigEditingValue('default-units') === 'inches' ? 'in/s' : 'mm/s',
-              decimal: this.getConfigEditingValue('default-units') === 'inches' ? 2 : 0,
+              unit: defaultUnit === 'inches' ? 'in/s' : 'mm/s',
+              decimal: defaultUnit === 'inches' ? 2 : 0,
               defaultValue:
                 (this.getBeamboxPreferenceEditingValue('preview_movement_speed_hl') ||
                   cameraMovementSpeed * 0.6) / 60,
@@ -346,75 +262,44 @@ class Settings extends React.PureComponent<null, State> {
             updateBeamboxPreferenceChange={this.updateBeamboxPreferenceChange}
           />
           <Editor
-            defaultUnit={this.getConfigEditingValue('default-units')}
-            x0={this.getBeamboxPreferenceEditingValue('guide_x0')}
-            y0={this.getBeamboxPreferenceEditingValue('guide_y0')}
+            defaultUnit={defaultUnit}
             selectedModel={selectedModel}
-            guideSelectionOptions={guideSelectionOptions}
-            imageDownsamplingOptions={imageDownsamplingOptions}
-            antiAliasingOptions={antiAliasingOptions}
-            continuousDrawingOptions={continuousDrawingOptions}
-            simplifyClipperPath={simplifyClipperPath}
-            enableLowSpeedOptions={enableLowSpeedOptions}
-            enableCustomBacklashOptions={enableCustomBacklashOptions}
+            getBeamboxPreferenceEditingValue={this.getBeamboxPreferenceEditingValue}
             updateConfigChange={this.updateConfigChange}
             updateBeamboxPreferenceChange={this.updateBeamboxPreferenceChange}
             updateModel={(newModel) => this.setState({ selectedModel: newModel })}
           />
           <Engraving
-            fastGradientOptions={fastGradientOptions}
-            reverseEngravingOptions={reverseEngravingOptions}
+            getBeamboxPreferenceEditingValue={this.getBeamboxPreferenceEditingValue}
             updateBeamboxPreferenceChange={this.updateBeamboxPreferenceChange}
-            paddingAccel={{
-              defaultValue: this.getBeamboxPreferenceEditingValue('padding_accel') || 5000,
-              getValue: (val) => this.updateBeamboxPreferenceChange('padding_accel', val),
-            }}
-            paddingAccelDiode={{
-              defaultValue: this.getBeamboxPreferenceEditingValue('padding_accel_diode') || 4500,
-              getValue: (val) => this.updateBeamboxPreferenceChange('padding_accel_diode', val),
-            }}
           />
           <Path
             selectedModel={selectedModel}
-            defaultUnit={this.getConfigEditingValue('default-units')}
-            vectorSpeedConstraintOptions={vectorSpeedConstraintOptions}
-            precutSwitchOptions={precutSwitchOptions}
+            defaultUnit={defaultUnit}
             loopCompensation={this.getConfigEditingValue('loop_compensation')}
-            bladeRadius={this.getBeamboxPreferenceEditingValue('blade_radius')}
-            precutX={this.getBeamboxPreferenceEditingValue('precut_x')}
-            precutY={this.getBeamboxPreferenceEditingValue('precut_y')}
+            getBeamboxPreferenceEditingValue={this.getBeamboxPreferenceEditingValue}
             updateConfigChange={this.updateConfigChange}
             updateBeamboxPreferenceChange={this.updateBeamboxPreferenceChange}
           />
           <Mask
-            maskOptions={maskOptions}
+            getBeamboxPreferenceEditingValue={this.getBeamboxPreferenceEditingValue}
             updateBeamboxPreferenceChange={this.updateBeamboxPreferenceChange}
           />
           <TextToPath
-            fontSubstituteOptions={fontSubstituteOptions}
+            getBeamboxPreferenceEditingValue={this.getBeamboxPreferenceEditingValue}
             updateBeamboxPreferenceChange={this.updateBeamboxPreferenceChange}
-            defaultFontConvert={defaultFontConvert}
           />
           <Module
-            defaultUnit={this.getConfigEditingValue('default-units')}
+            defaultUnit={defaultUnit}
             selectedModel={selectedModel}
-            diodeOffsetX={this.getBeamboxPreferenceEditingValue('diode_offset_x')}
-            diodeOffsetY={this.getBeamboxPreferenceEditingValue('diode_offset_y')}
-            borderlessModeOptions={borderlessModeOptions}
-            autofocusModuleOptions={autofocusModuleOptions}
-            autofocusOffset={this.getBeamboxPreferenceEditingValue('af-offset')}
-            diodeModuleOptions={diodeModuleOptions}
-            diodeOneWayEngravingOpts={diodeOneWayEngravingOpts}
+            getBeamboxPreferenceEditingValue={this.getBeamboxPreferenceEditingValue}
             updateBeamboxPreferenceChange={this.updateBeamboxPreferenceChange}
           />
           <AdorModule
-            defaultLaserModule={defaultLaserModule}
-            defaultUnit={this.getConfigEditingValue('default-units')}
+            defaultUnit={defaultUnit}
             selectedModel={selectedModel}
-            currentModuleOffsets={this.getBeamboxPreferenceEditingValue('module-offsets') || {}}
-            printAdvancedModeOptions={printAdvancedModeOptions}
+            getBeamboxPreferenceEditingValue={this.getBeamboxPreferenceEditingValue}
             updateBeamboxPreferenceChange={this.updateBeamboxPreferenceChange}
-            currentLowPower={this.getBeamboxPreferenceEditingValue('low_power')}
           />
           <Privacy
             enableSentryOptions={enableSentryOptions}

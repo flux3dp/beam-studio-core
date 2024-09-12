@@ -8,11 +8,10 @@ jest.mock('helpers/eventEmitterFactory', () => ({
 
 import ObjectPanelController from './ObjectPanelController';
 
-jest.useFakeTimers();
-
 describe('test ObjectPanelController', () => {
   beforeEach(() => {
     jest.resetAllMocks();
+    jest.useFakeTimers();
     jest.spyOn(global, 'setTimeout');
     jest.spyOn(global, 'clearTimeout');
   });

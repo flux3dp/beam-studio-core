@@ -4,7 +4,7 @@ import alertCaller from 'app/actions/alert-caller';
 import checkDeviceStatus from 'helpers/check-device-status';
 import deviceMaster from 'helpers/device-master';
 import dialogCaller from 'app/actions/dialog-caller';
-import getLevelingData from 'app/actions/beambox/fisheye-preview-helpers/getLevelingData';
+import getLevelingData from 'app/actions/camera/preview-helper/getLevelingData';
 import progressCaller from 'app/actions/progress-caller';
 import useI18n from 'helpers/useI18n';
 import {
@@ -18,11 +18,11 @@ import {
 } from 'helpers/camera-calibration-helper';
 
 import CalibrateChessBoard from './AdorCalibrationV2/CalibrateChessBoard';
-import CheckpointData from './AdorCalibrationV2/CheckpointData';
+import CheckpointData from './common/CheckpointData';
 import CheckPictures from './AdorCalibrationV2/CheckPictures';
 import FindCorner from './AdorCalibrationV2/FindCorner';
-import Instruction from './AdorCalibration/Instruction';
-import SolvePnP from './AdorCalibrationV2/SolvePnP';
+import Instruction from './common/Instruction';
+import SolvePnP from './common/SolvePnP';
 import StepElevate from './AdorCalibrationV2/StepElevate';
 import { getMaterialHeight, prepareToTakePicture, saveCheckPoint } from './AdorCalibrationV2/utils';
 
@@ -63,7 +63,7 @@ const AdorCalibrationV2 = ({ factoryMode = false, onClose }: Props): JSX.Element
   if (step === Step.CHECKPOINT_DATA) {
     return (
       <CheckpointData
-        factoryMode={factoryMode}
+        askUser={factoryMode}
         updateParam={updateParam}
         onNext={(res) => {
           if (res) {
@@ -300,7 +300,6 @@ const AdorCalibrationV2 = ({ factoryMode = false, onClose }: Props): JSX.Element
           v: 2,
         };
         const res = await setFisheyeConfig(param);
-        console.log(res);
         if (res.status === 'ok') {
           alertCaller.popUp({ message: tCali.camera_parameter_saved_successfully });
           onClose(true);

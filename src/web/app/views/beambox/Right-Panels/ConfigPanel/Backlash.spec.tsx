@@ -50,9 +50,6 @@ jest.mock(
 
 const mockWriteData = jest.fn();
 jest.mock('helpers/layer/layer-config-helper', () => ({
-  DataType: {
-    backlash: 'backlash',
-  },
   writeData: (...args) => mockWriteData(...args),
 }));
 

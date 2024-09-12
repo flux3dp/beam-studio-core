@@ -17,6 +17,7 @@ import { ConnectionError, SelectionResult } from 'app/constants/connection-const
 import {
   FisheyeCameraParameters,
   FisheyeMatrix,
+  PerspectiveGrid,
   RotationParameters3D,
   RotationParameters3DGhostApi,
 } from 'interfaces/FisheyePreview';
@@ -760,6 +761,10 @@ class DeviceMaster {
     await this.doCalibration('fcode/ador-ir.fc');
   }
 
+  async doBB2Calibration() {
+    await this.doCalibration('fcode/bb2-calibration.fc');
+  }
+
   // fs functions
   async ls(path: string) {
     const controlSocket = await this.getControl();
@@ -925,6 +930,11 @@ class DeviceMaster {
     return controlSocket.addTask(controlSocket.rawHome, true);
   }
 
+  async rawUnlock() {
+    const controlSocket = await this.getControl();
+    return controlSocket.addTask(controlSocket.rawUnlock);
+  }
+
   async rawMoveZRelToLastHome(z = 0) {
     const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.rawMoveZRelToLastHome, z);
@@ -940,41 +950,47 @@ class DeviceMaster {
     return controlSocket.addTask(controlSocket.rawEndLineCheckMode);
   }
 
-  async rawMove(args: { x?: number; y?: number; z?: number; f?: number }) {
+  async rawMove(args: { x?: number; y?: number; z?: number; a?: number; f?: number }) {
     const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.rawMove, args);
   }
 
   async rawSetRotary(on: boolean) {
     const controlSocket = await this.getControl();
+    if (constant.fcodeV2Models.has(this.currentDevice.info.model)) {
+      return controlSocket.addTask(controlSocket.rawSetRotaryV2, on);
+    }
     return controlSocket.addTask(controlSocket.rawSetRotary, on);
   }
 
   async rawSetWaterPump(on: boolean) {
     const controlSocket = await this.getControl();
+    if (constant.fcodeV2Models.has(this.currentDevice.info.model)) {
+      return controlSocket.addTask(controlSocket.rawSetWaterPumpV2, on);
+    }
     return controlSocket.addTask(controlSocket.rawSetWaterPump, on);
   }
 
   async rawSetFan(on: boolean) {
     const controlSocket = await this.getControl();
-    if (constant.adorModels.includes(this.currentDevice.info.model)) {
-      return controlSocket.addTask(controlSocket.adorRawSetFan, on);
+    if (constant.fcodeV2Models.has(this.currentDevice.info.model)) {
+      return controlSocket.addTask(controlSocket.rawSetFanV2, on);
     }
     return controlSocket.addTask(controlSocket.rawSetFan, on);
   }
 
   async rawSetAirPump(on: boolean) {
     const controlSocket = await this.getControl();
-    if (constant.adorModels.includes(this.currentDevice.info.model)) {
-      return controlSocket.addTask(controlSocket.adorRawSetAirPump, on);
+    if (constant.fcodeV2Models.has(this.currentDevice.info.model)) {
+      return controlSocket.addTask(controlSocket.rawSetAirPumpV2, on);
     }
     return controlSocket.addTask(controlSocket.rawSetAirPump, on);
   }
 
   async rawLooseMotor() {
     const controlSocket = await this.getControl();
-    if (constant.adorModels.includes(this.currentDevice.info.model)) {
-      return controlSocket.addTask(controlSocket.adorRawLooseMotor);
+    if (constant.fcodeV2Models.has(this.currentDevice.info.model)) {
+      return controlSocket.addTask(controlSocket.rawLooseMotorV2);
     }
     const vc = VersionChecker(this.currentDevice.info.version);
     if (vc.meetRequirement('B34_LOOSE_MOTOR')) {
@@ -986,6 +1002,14 @@ class DeviceMaster {
   async rawSetLaser(args: { on: boolean; s?: number }) {
     const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.rawSetLaser, args);
+  }
+
+  async rawSetRedLight(on: boolean) {
+    if (constant.fcodeV2Models.has(this.currentDevice.info.model)) {
+      const controlSocket = await this.getControl();
+      return controlSocket.addTask(controlSocket.rawSetRedLight, on);
+    }
+    return false;
   }
 
   async rawSet24V(on: boolean) {
@@ -1033,6 +1057,19 @@ class DeviceMaster {
       await this.rawMove({ z: Math.max(0, res - relZ) });
     }
     return res;
+  }
+
+  async rawSetOrigin(): Promise<string | null> {
+    const controlSocket = await this.getControl();
+    const vc = VersionChecker(this.currentDevice.info.version);
+    const isV2 = constant.fcodeV2Models.has(this.currentDevice.info.model);
+    if (!vc.meetRequirement(isV2 ? 'ADOR_JOB_ORIGIN' : 'JOB_ORIGIN')) {
+      return null;
+    }
+    if (isV2) {
+      return controlSocket.addTask(controlSocket.rawSetOriginV2);
+    }
+    return controlSocket.addTask(controlSocket.rawSetOrigin);
   }
 
   // Get, Set functions
@@ -1193,7 +1230,7 @@ class DeviceMaster {
   async connectCamera(shouldCrop = true) {
     const { currentDevice } = this;
     if (currentDevice.cameraNeedsFlip === null) {
-      if (constant.adorModels.includes(currentDevice.info.model)) {
+      if (constant.fcodeV2Models.has(currentDevice.info.model)) {
         currentDevice.cameraNeedsFlip = false;
       } else if (currentDevice.control && currentDevice.control.getMode() === '') {
         await this.getDeviceSetting('camera_offset');
@@ -1219,6 +1256,11 @@ class DeviceMaster {
 
   async setFisheyeObjectHeight(height: number) {
     const res = await this.currentDevice.camera.setFisheyeObjectHeight(height);
+    return res;
+  }
+
+  async setFisheyePerspectiveGrid(data: PerspectiveGrid) {
+    const res = await this.currentDevice.camera.setFisheyePerspectiveGrid(data);
     return res;
   }
 

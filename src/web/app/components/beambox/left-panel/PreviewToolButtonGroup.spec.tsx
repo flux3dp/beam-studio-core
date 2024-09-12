@@ -80,13 +80,13 @@ jest.mock('helpers/locale-helper', () => ({
 describe('test PreviewToolButtonGroup', () => {
   it('should render correctly', () => {
     const endPreviewMode = jest.fn();
-    const setShouldStartPreviewController = jest.fn();
+    const setupPreviewMode = jest.fn();
     const { container } = render(
       <CanvasContext.Provider
         value={
           {
             endPreviewMode,
-            setShouldStartPreviewController,
+            setupPreviewMode,
           } as any
         }
       >
@@ -101,22 +101,22 @@ describe('test PreviewToolButtonGroup', () => {
     fireEvent.click(back);
     expect(endPreviewMode).toHaveBeenCalledTimes(1);
 
-    expect(setShouldStartPreviewController).not.toBeCalled();
+    expect(setupPreviewMode).not.toBeCalled();
     const shoot = container.querySelector('#preview-shoot');
     fireEvent.click(shoot);
-    expect(setShouldStartPreviewController).toHaveBeenCalledTimes(1);
+    expect(setupPreviewMode).toHaveBeenCalledTimes(1);
   });
 
   it('should render correctly when isNorthAmerica', () => {
     mockIsNorthAmerica.mockReturnValue(true);
     const endPreviewMode = jest.fn();
-    const setShouldStartPreviewController = jest.fn();
+    const setupPreviewMode = jest.fn();
     const { container } = render(
       <CanvasContext.Provider
         value={
           {
             endPreviewMode,
-            setShouldStartPreviewController,
+            setupPreviewMode,
           } as any
         }
       >

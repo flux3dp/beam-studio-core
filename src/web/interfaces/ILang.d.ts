@@ -1,6 +1,6 @@
 export interface ILang {
   general: {
-    wait: string,
+    processing: string,
     choose_folder: string,
   },
   buttons: {
@@ -53,6 +53,8 @@ export interface ILang {
       power_too_high: string;
       power_too_high_msg: string;
       power_too_high_confirm: string;
+      pwm_unavailable: string;
+      job_origin_unavailable: string;
     };
     hint: {
       polygon: string;
@@ -124,6 +126,7 @@ export interface ILang {
       align_to_edges: string;
       document_setting: string;
       document_setting_short: string;
+      rotary_setup: string;
       clear_scene: string;
       machines: string;
       add_new_machine: string;
@@ -191,6 +194,16 @@ export interface ILang {
       show_layer_color: string;
       anti_aliasing: string;
       disassemble_use: string;
+      about: string;
+      switch_to_beta: string;
+      switch_to_latest: string;
+      reload_app: string;
+      recent: string;
+      update: string;
+      dev_tool: string;
+      camera_calibration_data: string;
+      upload_data: string;
+      download_data: string;
     },
     select_machine: string,
   },
@@ -432,6 +445,7 @@ export interface ILang {
     grouped_objects: string,
     simplify_clipper_path: string,
     enable_low_speed: string;
+    auto_switch_tab: string;
     enable_custom_backlash: string;
     custom_preview_height: string;
     mask: string;
@@ -595,6 +609,10 @@ export interface ILang {
         caption: string;
         message: string;
       };
+      auto_switch_tab: {
+        title: string;
+        message: string;
+      };
     };
     zoom_block: {
       fit_to_window: string,
@@ -702,12 +720,22 @@ export interface ILang {
         multi_layer: string,
         parameters: string,
         strength: string,
+        pwm_advanced_setting: string;
+        pwm_advanced_desc: string;
+        pwm_advanced_hint: string;
         low_power_warning: string;
         speed: string,
         speed_contrain_warning: string,
         low_speed_warning: string;
         repeat: string,
-        add_on: string,
+        advanced: string;
+        lower_focus: string;
+        by: string;
+        stepwise_focusing: string;
+        single_color: string;
+        lower_focus_desc: string;
+        stepwise_focusing_desc: string;
+        single_color_desc: string;
         focus_adjustment: string,
         height: string,
         z_step: string,
@@ -726,20 +754,9 @@ export interface ILang {
         cut: string,
         engrave: string,
         more: string,
-        delete: string,
-        reset: string,
-        sure_to_reset: string,
         apply: string,
         cancel: string,
         save: string,
-        save_and_exit: string,
-        name: string,
-        default: string,
-        customized: string,
-        inuse: string,
-        export_config: string,
-        new_config_name: string,
-        sure_to_load_config: string,
         custom_preset: string,
         various_preset: string,
         module: string;
@@ -757,9 +774,6 @@ export interface ILang {
         dropdown: {
           parameters: string,
           save: string,
-          export: string,
-          import: string,
-          more: string,
           mm: {
             wood_3mm_cutting: string;
             wood_5mm_cutting: string;
@@ -888,7 +902,25 @@ export interface ILang {
         para_in_use: string,
         do_not_adjust_default_para: string,
         existing_name: string,
-        presets: string,
+        presets: string;
+        preset_management: {
+          preset: string;
+          title: string;
+          add_new: string;
+          lower_focus_by: string;
+          save_and_exit: string;
+          delete: string;
+          reset: string;
+          sure_to_reset: string;
+          show_all: string;
+          laser: string;
+          print: string;
+          export: string;
+          export_preset_title: string,
+          import: string;
+          sure_to_import_presets: string,
+          new_preset_name: string;
+        };
       },
       object_panel: {
         zoom: string,
@@ -929,6 +961,8 @@ export interface ILang {
           text_infill: string,
           path_infill: string,
           shading: string,
+          pwm_engraving: string;
+          pwm_engraving_link: string;
           threshold: string,
           threshold_short: string,
           stroke: string,
@@ -953,7 +987,8 @@ export interface ILang {
           wait_for_parsing_font: string,
           offset: string,
           array: string,
-          auto_arrange: string;
+          auto_fit: string;
+          smart_nest: string;
           decompose_path: string,
           disassemble_use: string,
           disassembling: string,
@@ -1028,8 +1063,14 @@ export interface ILang {
       enable_diode: string,
       enable_autofocus: string,
       extend_workarea: string;
+      mirror: string;
       pass_through: string;
       pass_through_height_desc: string;
+      start_position: string;
+      start_from: string;
+      origin: string;
+      current_position: string;
+      job_origin: string;
       add_on: string,
       low: string,
       medium: string,
@@ -1321,6 +1362,7 @@ export interface ILang {
     close_door_to_read_cartridge_info: string;
     cartridge_info_read_failed: string;
     cartridge_info_verification_failed: string;
+    toolhead_change: string;
   },
   monitor: {
     monitor: string,
@@ -1602,6 +1644,15 @@ export interface ILang {
     camera_parameter_saved_successfully: string;
     failed_to_save_camera_parameter: string;
     failed_to_solve_pnp: string;
+    calibrating: string;
+    moving_laser_head: string;
+    failed_to_move_laser_head: string;
+    put_chessboard: string;
+    put_chessboard_desc: string;
+    put_chessboard_1: string;
+    put_chessboard_2: string;
+    failed_to_calibrate_chessboard: string;
+    perform_autofocus_bb2: string;
   };
   input_machine_password: {
     require_password: string,
@@ -1827,5 +1878,23 @@ export interface ILang {
     guide_mark_desc: string;
     export: string;
     exporting: string;
+  };
+  auto_fit: {
+    title: string;
+    step1: string;
+    step2: string;
+    preview_first: string;
+    failed_to_auto_fit: string;
+    error_tip1: string;
+    error_tip2: string;
+    learn_more: string;
+    learn_more_url: string;
+  };
+  rotary_settings: {
+    type: string;
+    // roller: string;
+    // chuck: string;
+    object_diameter: string;
+    circumference: string;
   };
 }

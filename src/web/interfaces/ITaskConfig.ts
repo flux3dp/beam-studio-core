@@ -11,6 +11,8 @@ export interface IBaseConfig {
   vectorSpeedConstraint?: boolean;
   paddingAccel?: number | null;
   codeType?: 'fcode' | 'gcode';
+  supportPwm?: boolean;
+  supportJobOrigin?: boolean;
 }
 
 export type TFcodeOptionalConfig = Partial<{
@@ -31,6 +33,7 @@ export type TFcodeOptionalConfig = Partial<{
   fg: boolean;
   mfg: boolean; // mock fg
   vsc: boolean; // with vector speed constraint
+  no_pwm: boolean;
   min_speed: number;
   rev: boolean; // reverse engraving
   cbl: boolean; // custom backlash
@@ -50,6 +53,7 @@ export type TFcodeOptionalConfig = Partial<{
     points: [number, number, number][];
     gap: [number, number];
   };
+  job_origin: [number, number];
 }>;
 
 export interface IFcodeConfig extends TFcodeOptionalConfig {
