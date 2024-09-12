@@ -1,7 +1,7 @@
 export type Option = Partial<{
   hostname: string;
-  port: number;
-  method: number;
+  port: string;
+  method: string;
   autoReconnect: boolean;
   onMessage: (data: any) => void;
   onOpen: (data: any) => void;
