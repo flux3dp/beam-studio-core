@@ -54,6 +54,4 @@ export const migrate = (): void => {
   if (instance.read('workarea') === 'fad1') instance.write('workarea', 'ado1');
 };
 
-window['BeamboxPreference'] = instance;
-
 export default instance;
