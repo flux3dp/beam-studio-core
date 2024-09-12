@@ -7,6 +7,7 @@
 import classNames from 'classnames';
 import React from 'react';
 import { mat4, vec3 } from 'gl-matrix';
+
 import alertCaller from 'app/actions/alert-caller';
 import alertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
@@ -17,6 +18,7 @@ import dialogCaller from 'app/actions/dialog-caller';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import exportFuncs from 'app/actions/beambox/export-funcs';
 import getDevice from 'helpers/device/get-device';
+import getJobOrigin from 'helpers/job-origin';
 import i18n from 'helpers/i18n';
 import isWeb from 'helpers/is-web';
 import Pointable from 'app/components/beambox/path-preview/Pointable';
@@ -142,7 +144,7 @@ function dist(x1, y1, x2, y2) {
   return Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
 }
 
-function initBuffers(gl, width, height) {
+function initBuffers(gl, width: number, height: number, offset?: { x: number, y: number }) {
   // 建立一個 buffer 來儲存正方形的座標
 
   const positionBuffer = gl.createBuffer();
@@ -153,8 +155,8 @@ function initBuffers(gl, width, height) {
   gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
 
   // Now create an array of positions for the square.
-
-  const positions = [0, 0, width, 0, 0, -height, width, -height];
+  const { x = 0, y = 0 } = offset || {};
+  const positions = [-x, y, width - x, y, -x, -height + y, width - x, -height + y];
 
   // Now pass the list of positions into WebGL to build the
   // shape. We do this by creating a Float32Array from the
@@ -390,14 +392,13 @@ class Grid {
 
   draw(
     drawCommands,
-    { perspective, view, width, height, major = MAJOR_GRID_SPACING, minor = MINOR_GRID_SPACING }
+    { perspective, view, width, height, offset = { x: 0, y: 0 }, major = MAJOR_GRID_SPACING, minor = MINOR_GRID_SPACING }
   ) {
     if (!this.maingrid || !this.origin || this.width !== width || this.height !== height) {
       this.width = width;
       this.height = height;
 
       const c = [];
-
       c.push(0, 0, 0, this.width, 0, 0);
       c.push(0, -this.height, 0, this.width, -this.height, 0);
       c.push(0, -this.height, 0, 0, 0, 0);
@@ -406,7 +407,7 @@ class Grid {
       this.origin = new Float32Array(c);
       this.origincount = c.length / 3;
     }
-
+    const { x, y } = offset;
     drawCommands.basic({
       perspective,
       view,
@@ -415,7 +416,7 @@ class Grid {
       count: this.origincount,
       color: [0, 0, 0, 1],
       scale: [1, 1, 1],
-      translate: [0, 0, 0],
+      translate: [-x, y, 0],
       primitive: drawCommands.gl.LINES,
     });
   }
@@ -456,40 +457,24 @@ interface State {
 
 class PathPreview extends React.Component<Props, State> {
   private camera: any;
-
   private canvas: HTMLCanvasElement;
-
   private drawCommands: any;
-
-  private grid: any;
-
+  private grid: Grid;
   private fingers: any;
-
   private pointers: any;
-
   private position: any;
-
   private moveStarted: boolean;
-
   private adjustingCamera: boolean;
-
   private gcodePreview: any;
-
   private simTimeMax: number;
-
   private timeDisplayRatio: number;
-
   private simInterval: NodeJS.Timeout;
-
   private drawGcodeState: any;
-
   private gcodeString: string;
-
   private fastGradientGcodeString: string;
-
   private isUpdating: boolean;
-
   private spaceKey: boolean;
+  private jobOrigin?: { x: number; y: number };
 
   constructor(props: Props) {
     super(props);
@@ -501,8 +486,12 @@ class PathPreview extends React.Component<Props, State> {
     const { dpmm } = constant;
     width /= dpmm;
     height /= dpmm;
-    defaultCamera.eye = [width / 2, height / 2, 300];
-    defaultCamera.center = [width / 2, height / 2, 0];
+    if (BeamboxPreference.read('enable-job-origin')) {
+      this.jobOrigin = getJobOrigin();
+    }
+    const { x: jobOriginX = 0, y: jobOriginY = 0 } = this.jobOrigin || {};
+    defaultCamera.eye = [width / 2 - jobOriginX, height / 2 - jobOriginY, 300];
+    defaultCamera.center = [width / 2 - jobOriginX, height / 2 - jobOriginY, 0];
     settings.machineWidth = width;
     settings.machineHeight = height;
     this.camera = calcCamera({
@@ -666,8 +655,7 @@ class PathPreview extends React.Component<Props, State> {
     const { workspace, isInverting } = this.state;
     const programInfo = generateProgramInfo(gl);
     const showRemaining = false;
-    const buffer = initBuffers(gl, settings.machineWidth, settings.machineHeight);
-
+    const buffer = initBuffers(gl, settings.machineWidth, settings.machineHeight, this.jobOrigin);
     drawScene(
       gl,
       programInfo,
@@ -685,6 +673,7 @@ class PathPreview extends React.Component<Props, State> {
       height: settings.machineHeight,
       minor: Math.max(settings.toolGridMinorSpacing, 0.1),
       major: Math.max(settings.toolGridMajorSpacing, 1),
+      offset: this.jobOrigin,
     });
     drawTaskPreview(
       this.gcodePreview,
@@ -755,21 +744,22 @@ class PathPreview extends React.Component<Props, State> {
     }
   };
 
-  resetView = () => {
+  resetView = (): void => {
     const { width, height } = this.state;
+    const { x: jobOriginX = 0, y: jobOriginY = 0 } = this.jobOrigin || {};
     const { machineWidth, machineHeight } = settings;
     const scale = Math.min(width / machineWidth, height / machineHeight) * 0.95;
     const cameraHeight = 300;
     let newFovy = 2 * Math.atan(height / (2 * cameraHeight * scale));
     newFovy = Math.max(0.1, Math.min(Math.PI - 0.1, newFovy));
     this.setCameraAttrs({
-      eye: [machineWidth / 2, -machineHeight / 2, cameraHeight],
-      center: [machineWidth / 2, -machineHeight / 2, 0],
+      eye: [machineWidth / 2 - jobOriginX, -machineHeight / 2 + jobOriginY, cameraHeight],
+      center: [machineWidth / 2 - jobOriginX, -machineHeight / 2 + jobOriginY, 0],
       fovy: newFovy,
     });
   };
 
-  setCanvas = (canvas) => {
+  setCanvas = (canvas: HTMLCanvasElement): void => {
     if (this.canvas === canvas) return;
     this.canvas = canvas;
     if (this.drawCommands) {
@@ -1188,14 +1178,15 @@ class PathPreview extends React.Component<Props, State> {
       drawCommands.createFrameBuffer(600, 400);
       const cameraHeight = 300;
       const fovy = 2 * Math.atan(canvas.height / (2 * cameraHeight));
+      const { x, y } = this.jobOrigin ?? { x: 0, y: 0 };
       const camera = calcCamera({
         viewportWidth: canvas.width,
         viewportHeight: canvas.height,
         fovy,
         near: 0.1,
         far: 2000,
-        eye: [machineWidth / 2, -machineHeight / 2, cameraHeight],
-        center: [machineWidth / 2, -machineHeight / 2, 0],
+        eye: [machineWidth / 2 - x, -machineHeight / 2 + y, cameraHeight],
+        center: [machineWidth / 2 - x, -machineHeight / 2 + y, 0],
         up: [0, 1, 0],
         showPerspective: false,
         machineX: 0,
@@ -1209,7 +1200,7 @@ class PathPreview extends React.Component<Props, State> {
       gl.enable(gl.BLEND);
 
       const programInfo = generateProgramInfo(gl);
-      const buffer = initBuffers(gl, settings.machineWidth, settings.machineHeight);
+      const buffer = initBuffers(gl, settings.machineWidth, settings.machineHeight, this.jobOrigin);
       drawScene(gl, programInfo, buffer, camera, false, false, true);
       this.grid.draw(drawCommands, {
         perspective: camera.perspective,
@@ -1218,6 +1209,7 @@ class PathPreview extends React.Component<Props, State> {
         height: machineHeight,
         minor: Math.max(settings.toolGridMinorSpacing, 0.1),
         major: Math.max(settings.toolGridMajorSpacing, 1),
+        offset: this.jobOrigin,
       });
       drawTaskPreview(this.gcodePreview, {}, canvas, drawCommands, workspace, camera, {
         showRemaining: true,
@@ -1281,8 +1273,8 @@ class PathPreview extends React.Component<Props, State> {
 
           // check if is fast gradient engraving and get target Y
           for (let i = target + 1; i > 0; i -= 1) {
-            const matchX = gcodeList[i].match(/X([0-9.]*)/);
-            const matchY = gcodeList[i].match(/Y([0-9.]*)/);
+            const matchX = gcodeList[i].match(/X(-?[0-9.]*)/);
+            const matchY = gcodeList[i].match(/Y(-?[0-9.]*)/);
             const x = matchX ? matchX[1] : '';
             const y = matchY ? matchY[1] : '';
             if ((x && !y) || (!x && y)) {
