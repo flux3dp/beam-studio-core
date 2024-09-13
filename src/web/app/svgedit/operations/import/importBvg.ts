@@ -12,12 +12,15 @@ import presprayArea from 'app/actions/canvas/prespray-area';
 import rotaryAxis from 'app/actions/canvas/rotary-axis';
 import symbolMaker from 'helpers/symbol-maker';
 import workareaManager from 'app/svgedit/workarea';
+import {
+  applyDefaultLaserModule,
+  toggleFullColorAfterWorkareaChange,
+} from 'helpers/layer/layer-config-helper';
 import { changeBeamboxPreferenceValue } from 'app/svgedit/history/beamboxPreferenceCommand';
 import { getSupportInfo } from 'app/constants/add-on';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IBatchCommand, ICommand } from 'interfaces/IHistory';
 import { WorkAreaModel } from 'app/constants/workarea-constants';
-import { toggleFullColorAfterWorkareaChange } from 'helpers/layer/layer-config-helper';
 
 import setSvgContent from './setSvgContent';
 
@@ -167,6 +170,8 @@ export const importBvgString = async (
         });
       }
     }
+  } else {
+    applyDefaultLaserModule();
   }
   console.log('Change workarea to', newWorkarea);
   const changeWorkareaCmd = changeWorkarea(newWorkarea, { toggleModule: false });
