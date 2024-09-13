@@ -17,20 +17,14 @@ import BasePreviewManager from './BasePreviewManager';
 // TODO: Add tests
 class BB2PreviewManager extends BasePreviewManager implements PreviewManager {
   private lineCheckEnabled: boolean;
-
   private originalSpeed: number;
-
   private fisheyeParams: FisheyeCameraParameters;
-
   private cameraPpmm = 5;
-
   private previewPpmm = 10;
-
   private grid: PerspectiveGrid = {
     x: [-80, 80, 10],
     y: [0, 100, 10],
   };
-
   private cameraCenterOffset: { x: number; y: number };
 
   constructor(device: IDeviceInfo) {
@@ -104,6 +98,8 @@ class BB2PreviewManager extends BasePreviewManager implements PreviewManager {
   };
 
   end = async (): Promise<void> => {
+    this.ended = true;
+    MessageCaller.closeMessage('camera-preview');
     try {
       const res = await deviceMaster.select(this.device);
       if (res.success) {
@@ -196,6 +192,7 @@ class BB2PreviewManager extends BasePreviewManager implements PreviewManager {
     y: number,
     opts: { overlapRatio?: number } = {}
   ): Promise<boolean> => {
+    if (this.ended) return false;
     const { overlapRatio = 0 } = opts;
     const cameraPosition = this.getPreviewPosition(x, y);
     const imgUrl = await this.getPhotoAfterMoveTo(cameraPosition.x, cameraPosition.y);
@@ -244,6 +241,7 @@ class BB2PreviewManager extends BasePreviewManager implements PreviewManager {
     const points = getPoints();
     try {
       for (let i = 0; i < points.length; i += 1) {
+        if (this.ended) return false;
         MessageCaller.openMessage({
           key: 'camera-preview',
           content: `${i18n.lang.topbar.preview} ${i}/${points.length}`,
