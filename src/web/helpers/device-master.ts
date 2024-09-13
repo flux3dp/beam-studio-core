@@ -268,7 +268,7 @@ class DeviceMaster {
   }
 
   async select(deviceInfo: IDeviceInfo): Promise<SelectionResult> {
-    console.warn('selecting ', deviceInfo);
+    console.log('selecting ', deviceInfo);
     if (deviceInfo.source === 'swiftray') {
       return this.selectDeviceWithSwiftray(deviceInfo);
     }
