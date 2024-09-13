@@ -178,10 +178,10 @@ const getFontObj = async (font: WebFont | FontDescriptor): Promise<fontkit.Font 
         const buffer = Buffer.from(await data.arrayBuffer());
         try {
           // Font Collection
-          fontObj = fontkit.create(buffer, font.postscriptName);
+          fontObj = fontkit.create(buffer, font.postscriptName) as fontkit.Font;
         } catch {
           // Single Font
-          fontObj = fontkit.create(buffer);
+          fontObj = fontkit.create(buffer) as fontkit.Font;
         }
       }
       if (fontObj) {
