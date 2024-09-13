@@ -1266,15 +1266,6 @@ class Control extends EventEmitter implements IControlSocket {
     return this.useRawLineCheckCommand(command);
   };
 
-  rawSetOriginV2 = () => {
-    if (this.mode !== 'raw') {
-      throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
-    }
-    const command = 'M137P186';
-    if (!this._isLineCheckMode) return this.useRawWaitOKResponse(command);
-    return this.useRawLineCheckCommand(command);
-  };
-
   rawSet24V = (on: boolean) => {
     if (this.mode !== 'raw') {
       throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
