@@ -371,7 +371,7 @@ class SwiftrayControl extends EventEmitter implements IControlSocket {
 
   downloadFile = async (fileNameWithPath: string) => {
     const file  = await this.sc.downloadFile(fileNameWithPath);
-    return [fileNameWithPath, file];
+    return [fileNameWithPath, file] as [string, Blob];
   };
 
   downloadLog = async (logName: string) => {

@@ -39,7 +39,7 @@ interface IControlSocket extends EventEmitter {
   getPreview(): Promise<unknown[]>;
   select(path: string[], fileName: string): Promise<{ status: string }>;
   deleteFile(fileNameWithPath: string): Promise<unknown>;
-  downloadFile(fileNameWithPath: string): Promise<(string | Blob)[]>;
+  downloadFile(fileNameWithPath: string): Promise<[string, Blob]>;
   downloadLog(logName: string): Promise<(string | Blob)[]>;
   getLaserPower(): Promise<{ value: number }>;
   setLaserPower(power: number): Promise<unknown>;
