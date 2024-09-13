@@ -79,10 +79,10 @@ export function parseGcode(gcode) {
           laserEnabled = true; // Specialized for FLUXGhost/Client GCode G1V0
           i += 3;
         } else {
-          let gCmd = parse();
-          if (gCmd == 90) {
+          const gCmd = parse();
+          if (gCmd === 90) {
             useRelative = false;
-          } else if (gCmd == 91) {
+          } else if (gCmd === 91) {
             useRelative = true;
           }
         }
