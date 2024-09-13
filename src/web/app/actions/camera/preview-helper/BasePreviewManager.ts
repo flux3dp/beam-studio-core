@@ -14,11 +14,9 @@ import { PreviewManager } from 'interfaces/PreviewManager';
 // TODO: Add tests
 class BasePreviewManager implements PreviewManager {
   protected device: IDeviceInfo;
-
   protected progressId: string;
-
   protected workarea: WorkAreaModel;
-
+  protected ended = false;
   private lastPosition: [number, number] = [0, 0];
 
   constructor(device: IDeviceInfo) {
@@ -32,6 +30,7 @@ class BasePreviewManager implements PreviewManager {
   };
 
   public end = async (): Promise<void> => {
+    this.ended = true;
     try {
       const res = await deviceMaster.select(this.device);
       deviceMaster.disconnectCamera();

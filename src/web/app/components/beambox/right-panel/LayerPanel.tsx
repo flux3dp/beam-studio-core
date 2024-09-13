@@ -26,7 +26,6 @@ import { cloneLayerConfig } from 'helpers/layer/layer-config-helper';
 import { highlightLayer, moveLayersToPosition, setLayersLock } from 'helpers/layer/layer-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
-import { IBatchCommand } from 'interfaces/IHistory';
 import { isMobile } from 'helpers/system-helper';
 
 import styles from './LayerPanel.module.scss';
@@ -64,22 +63,16 @@ const Handle = React.forwardRef((props: any, ref: React.RefObject<any>) => {
 });
 
 class LayerPanel extends React.PureComponent<Props, State> {
+  // eslint-disable-next-line react/static-property-placement
+  declare context: React.ContextType<typeof LayerPanelContext>;
   private currentTouchID?: number | null;
-
   private firstTouchInfo?: { pageX: number; pageY: number };
-
   private startDragTimer?: NodeJS.Timeout | null;
-
   private draggingScrollTimer?: NodeJS.Timeout | null;
-
   private draggingScrollDirection = 0;
-
   private layerListContainerRef: React.RefObject<HTMLDivElement>;
-
   private isDoingTutorial = false;
-
   private currentHeight = defaultLayerHeight;
-
   private oldHeight = defaultLayerHeight;
 
   constructor(props: Props) {
