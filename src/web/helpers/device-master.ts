@@ -985,14 +985,13 @@ class DeviceMaster {
 
   async rawLooseMotor() {
     const controlSocket = await this.getControl();
-    if (constant.fcodeV2Models.has(this.currentDevice.info.model)) {
-      return controlSocket.addTask(controlSocket.rawLooseMotorV2);
-    }
     const vc = VersionChecker(this.currentDevice.info.version);
-    if (vc.meetRequirement('B34_LOOSE_MOTOR')) {
-      return controlSocket.addTask(controlSocket.rawLooseMotorB34);
+    if (!vc.meetRequirement('B34_LOOSE_MOTOR')) {
+      // TODO: 3.3.0 is pretty old, hope we can remove this check in the future
+      return controlSocket.addTask(controlSocket.rawLooseMotorOld);
     }
-    return controlSocket.addTask(controlSocket.rawLooseMotorB12);
+    const fcodeVersion = constant.fcodeV2Models.has(this.currentDevice.info.model) ? 2 : 1;
+    return controlSocket.addTask(controlSocket.rawLooseMotor, fcodeVersion);
   }
 
   async rawSetLaser(args: { on: boolean; s?: number }) {
@@ -1062,10 +1061,8 @@ class DeviceMaster {
     if (!vc.meetRequirement(isV2 ? 'ADOR_JOB_ORIGIN' : 'JOB_ORIGIN')) {
       return null;
     }
-    if (isV2) {
-      return controlSocket.addTask(controlSocket.rawSetOriginV2);
-    }
-    return controlSocket.addTask(controlSocket.rawSetOrigin);
+    const res = await controlSocket.addTask(controlSocket.rawSetOrigin, isV2 ? 2: 1);
+    return res;
   }
 
   // Get, Set functions
@@ -1193,14 +1190,6 @@ class DeviceMaster {
     return controlSocket.addTask(controlSocket.fwUpdate, file);
   };
 
-  updateToolhead = async (file: File, onProgress: (...args: any[]) => void) => {
-    const controlSocket = await this.getControl();
-    if (onProgress) {
-      controlSocket.setProgressListener(onProgress);
-    }
-    return controlSocket.addTask(controlSocket.toolheadUpdate, file);
-  };
-
   uploadFisheyeParams = async (data: string, onProgress: (...args: any[]) => void) => {
     const controlSocket = await this.getControl();
     if (onProgress) {
@@ -1209,6 +1198,9 @@ class DeviceMaster {
     return controlSocket.addTask(controlSocket.uploadFisheyeParams, data);
   };
 
+  /**
+   * @deprecated Use V2 calibration functions instead so we don't have to set 3d rotation
+   */
   updateFisheye3DRotation = async (data: RotationParameters3D) => {
     const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.updateFisheye3DRotation, data);

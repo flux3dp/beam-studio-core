@@ -53,7 +53,7 @@ interface IControlSocket extends EventEmitter {
   setOriginX(x: number): Promise<unknown>;
   setOriginY(y: number): Promise<unknown>;
   getDoorOpen(): Promise<{ value: string }>;
-  getDeviceSetting(name: string): Promise<unknown>;
+  getDeviceSetting(name: string): Promise<{ status: string; value: string }>;
   setDeviceSetting(name: string, value: string): Promise<unknown>;
   deleteDeviceSetting(name: string): Promise<unknown>;
   enterMaintainMode(): Promise<unknown>;
@@ -78,10 +78,17 @@ interface IControlSocket extends EventEmitter {
   rawSetAirPump(on: boolean, fcodeVersion?: number): Promise<unknown>;
   rawSetFan(on: boolean, fcodeVersion?: number): Promise<unknown>;
   rawSetRotary(on: boolean, fcodeVersion?: number): Promise<unknown>;
+  rawLooseMotor(fcodeVersion?: number): Promise<string>;
+  rawLooseMotorOld: () => Promise<string>;
   rawSetLaser(args: { on: boolean; s?: number }): Promise<unknown>;
+  rawSetRedLight(on: boolean): Promise<unknown>;
   rawSet24V(on: boolean): Promise<unknown>;
   rawAutoFocus(timeout?: number): Promise<void>;
   fwUpdate(file: File): Promise<unknown>;
+  rawGetProbePos: () => Promise<{ x: number; y: number; z: number; a: number; didAf: boolean }>;
+  rawGetLastPos: () => Promise<{ x: number; y: number; z: number; a: number }>;
+  rawMeasureHeight: (baseZ: number | undefined, timeout?: number) => Promise<number>;
+  rawSetOrigin: (fcodeVersion?: number) => Promise<string>;
 
   // method not supported by SwiftrayClient
   fetchCameraCalibImage?: (name?: string) => Promise<Blob>;
@@ -93,7 +100,9 @@ interface IControlSocket extends EventEmitter {
     params: unknown
   ) => Promise<{ status: string; data: { result: { hash: string; sign: string } } }>;
   fetchFisheyeParams?: () => Promise<FisheyeCameraParameters>;
+  uploadFisheyeParams?: (data: string) => Promise<{ status: string }>;
   fetchFisheye3DRotation?: () => Promise<RotationParameters3D>;
+  updateFisheye3DRotation?: (data: RotationParameters3D) => Promise<{ status: string }>;
   fetchAutoLevelingData?: (dataType: string) => Promise<{ [key: string]: number }>;
 }
 

@@ -433,7 +433,7 @@ class SwiftrayControl extends EventEmitter implements IControlSocket {
 
   getDoorOpen = async () => this.sc.getDeviceParam<string>('door_open');
 
-  getDeviceSetting = async (name: string) => this.sc.getDeviceParam(name)
+  getDeviceSetting = async (name: string) => this.sc.getDeviceParam<string>(name)
 
   setDeviceSetting = async (name: string, value: string) => this.sc.setDeviceParam(name, value)
 
@@ -743,7 +743,16 @@ class SwiftrayControl extends EventEmitter implements IControlSocket {
     return this.useRawLineCheckCommand(command);
   };
 
-  rawLooseMotorB12 = async () => {
+  rawLooseMotor = (fcodeVersion = 1) => {
+    if (this.mode !== 'raw') {
+      throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
+    }
+    const command = fcodeVersion === 1 ? 'B34' : 'M137P34';
+    if (!this._isLineCheckMode) return this.useWaitAnyResponse(command);
+    return this.useRawLineCheckCommand(command);
+  };
+
+  rawLooseMotorOld = async () => {
     if (this.mode !== 'raw') {
       throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
     }
@@ -776,6 +785,24 @@ class SwiftrayControl extends EventEmitter implements IControlSocket {
     if (typeof args.s !== 'undefined') {
       command += `S${args.s}`;
     }
+    if (!this._isLineCheckMode) return this.useRawWaitOKResponse(command);
+    return this.useRawLineCheckCommand(command);
+  };
+
+  rawSetRedLight = (on: boolean) => {
+    if (this.mode !== 'raw') {
+      throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
+    }
+    const command = on ? 'M136P196' : 'M136P197';
+    if (!this._isLineCheckMode) return this.useRawWaitOKResponse(command);
+    return this.useRawLineCheckCommand(command);
+  };
+
+  rawSetOrigin = (fcodeVersion = 1) => {
+    if (this.mode !== 'raw') {
+      throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
+    }
+    const command = fcodeVersion === 1 ? 'B47' : 'M137P186';
     if (!this._isLineCheckMode) return this.useRawWaitOKResponse(command);
     return this.useRawLineCheckCommand(command);
   };

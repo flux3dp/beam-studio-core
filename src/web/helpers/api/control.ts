@@ -8,8 +8,8 @@ import ErrorConstants from 'app/constants/error-constants';
 import IControlSocket from 'interfaces/IControlSocket';
 import rsaKey from 'helpers/rsa-key';
 import Websocket from 'helpers/websocket';
+import { FisheyeCameraParameters, RotationParameters3D } from 'interfaces/FisheyePreview';
 import { IDeviceDetailInfo, IReport } from 'interfaces/IDevice';
-import { RotationParameters3D } from 'interfaces/FisheyePreview';
 import { WrappedWebSocket } from 'interfaces/WebSocket';
 
 const EVENT_COMMAND_MESSAGE = 'command-message';
@@ -690,7 +690,7 @@ class Control extends EventEmitter implements IControlSocket {
     });
 
   fetchFisheyeParams = () =>
-    new Promise((resolve, reject) => {
+    new Promise<FisheyeCameraParameters>((resolve, reject) => {
       const file = [];
       this.on(EVENT_COMMAND_MESSAGE, async (response) => {
         console.log(response);
@@ -1193,7 +1193,7 @@ class Control extends EventEmitter implements IControlSocket {
     return this.useRawLineCheckCommand(command);
   };
 
-  rawLooseMotorB12 = async () => {
+  rawLooseMotorOld = async () => {
     if (this.mode !== 'raw') {
       throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
     }
@@ -1207,6 +1207,15 @@ class Control extends EventEmitter implements IControlSocket {
     await new Promise((resolve) => setTimeout(resolve, 200));
     const res = await this.useWaitAnyResponse('$1=255');
     return res;
+  };
+
+  rawLooseMotor = (fcodeVersion = 1) => {
+    if (this.mode !== 'raw') {
+      throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
+    }
+    const command = fcodeVersion === 1 ? 'B34' : 'M137P34';
+    if (!this._isLineCheckMode) return this.useWaitAnyResponse(command);
+    return this.useRawLineCheckCommand(command);
   };
 
   rawLooseMotorB34 = () => {
@@ -1248,11 +1257,11 @@ class Control extends EventEmitter implements IControlSocket {
     return this.useRawLineCheckCommand(command);
   };
 
-  rawSetOrigin = () => {
+  rawSetOrigin = (fcodeVersion = 1) => {
     if (this.mode !== 'raw') {
       throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
     }
-    const command = 'B47';
+    const command = fcodeVersion === 1 ? 'B47' : 'M137P186';
     if (!this._isLineCheckMode) return this.useRawWaitOKResponse(command);
     return this.useRawLineCheckCommand(command);
   };
@@ -1552,32 +1561,6 @@ class Control extends EventEmitter implements IControlSocket {
       this.ws.send(`update_fw binary/flux-firmware ${blob.size}`);
     });
 
-  toolheadUpdate = (file: File) =>
-    new Promise((resolve, reject) => {
-      const blob = new Blob([file], { type: 'binary/flux-firmware' });
-      const args = ['maintain', 'update_hbfw', 'binary/fireware', blob.size];
-      this.on(EVENT_COMMAND_MESSAGE, (response) => {
-        if (response.status === 'ok') {
-          this.removeCommandListeners();
-          resolve(response);
-        } else if (response.status === 'continue') {
-          this.emit(EVENT_COMMAND_PROGRESS, response);
-          this.ws.send(blob);
-        } else if (['operating', 'uploading', 'update_hbfw'].includes(response.status)) {
-          response.percentage = ((response.sent || 0) / blob.size) * 100;
-          this.emit(EVENT_COMMAND_PROGRESS, response);
-        } else {
-          this.removeCommandListeners();
-          reject(response);
-        }
-      });
-
-      this.setDefaultErrorResponse(reject);
-      this.setDefaultFatalResponse(reject);
-
-      this.ws.send(args.join(' '));
-    });
-
   uploadFisheyeParams = (data: string) =>
     new Promise<{ status: string }>((resolve, reject) => {
       const blob = new Blob([data], { type: 'application/json' });
@@ -1604,7 +1587,7 @@ class Control extends EventEmitter implements IControlSocket {
     });
 
   updateFisheye3DRotation = (data: RotationParameters3D) =>
-    new Promise((resolve, reject) => {
+    new Promise<{ status: string }>((resolve, reject) => {
       const strData = JSON.stringify(data, (key, val) => {
         if (typeof val === 'number') {
           return Math.round(val * 1e2) / 1e2;

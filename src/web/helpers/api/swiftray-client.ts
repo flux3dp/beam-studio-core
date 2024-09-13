@@ -225,7 +225,7 @@ class SwiftrayClient extends EventEmitter{
     return this.action(`/devices/${this.port}`, 'stop');
   }
 
-  public async getDeviceParam<T = number>(name: string): Promise<{ value: T }> {
+  public async getDeviceParam<T = number>(name: string): Promise<{ status: string, value: T }> {
     return this.action(`/devices/${this.port}`, 'getParam', { name });
   }
 
