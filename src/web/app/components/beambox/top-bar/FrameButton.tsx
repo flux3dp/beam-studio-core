@@ -24,6 +24,7 @@ import { getAllLayers } from 'helpers/layer/layer-helper';
 import { getData } from 'helpers/layer/layer-config-helper';
 import { getSupportInfo } from 'app/constants/add-on';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { IDeviceInfo } from 'interfaces/IDevice';
 import { WorkAreaModel } from 'app/constants/workarea-constants';
 
 import styles from './FrameButton.module.scss';
@@ -87,12 +88,11 @@ const FrameButton = (): JSX.Element => {
   }, []);
 
 
-  const handlePromarkFraming = async () => {
+  const handlePromarkFraming = async (device: IDeviceInfo) => {
     if (isPromarkFraming) {
       await deviceMaster.stopFraming();
       setIsPromarkFraming(false);
     } else {
-      const { device } = await getDevice();
       const deviceStatus = await checkDeviceStatus(device);
       if (!deviceStatus) return;
       setIsPromarkFraming(true);
@@ -108,10 +108,11 @@ const FrameButton = (): JSX.Element => {
     if (!device) return;
     // Go to Promark logic
     if (constant.promarkModels.includes(device.model)) {
-      await handlePromarkFraming();
+      await handlePromarkFraming(device);
       return;
     }
-
+    const deviceStatus = await checkDeviceStatus(device);
+    if (!deviceStatus) return;
     // Retain the original behavior
     const isAdor = constant.adorModels.includes(device.model);
     const coords = getCoords(isAdor);
@@ -125,9 +126,6 @@ const FrameButton = (): JSX.Element => {
       });
       return;
     }
-
-    const deviceStatus = await checkDeviceStatus(device);
-    if (!deviceStatus) return;
 
     progressCaller.openNonstopProgress({
       id: PROGRESS_ID,
