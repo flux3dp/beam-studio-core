@@ -143,8 +143,12 @@ const testTcp = (targetIP: string) => {
 const initPokeIps = () => {
   const pokeIPAddr: string = storage.get('poke-ip-addr') ?? '192.168.1.1';
   let res = pokeIPAddr.split(/[,;] ?/);
-  if (res[0] === '') {
+  if (res[0] === '' && res.length === 1) {
+    storage.set('poke-ip-addr', '192.168.1.1');
     res = ['192.168.1.1'];
+  } else {
+    res = res.filter((ip) => ip !== '');
+    storage.set('poke-ip-addr', res.join(', '));
   }
   return res;
 };
