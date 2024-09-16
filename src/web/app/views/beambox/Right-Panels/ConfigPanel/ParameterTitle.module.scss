@@ -26,11 +26,11 @@
     cursor: pointer;
     display: inline-flex;
     align-items: center;
-    color: #7c7c7c;
+    color: #1e1e1e;
     font-size: 20px;
 
     &:hover {
-      color: #000000;
+      opacity: 0.75;
     }
   }
 }
