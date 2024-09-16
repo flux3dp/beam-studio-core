@@ -446,15 +446,16 @@ export class MonitorContextProvider extends React.Component<Props, State> {
   // eslint-disable-next-line class-methods-use-this
   async getWorkingTaskInfo(): Promise<any> {
     const res = await DeviceMaster.getPreviewInfo();
+    if (res == null) console.error('Error when getting working task info');
     return res;
   }
 
   // eslint-disable-next-line class-methods-use-this
   getTaskInfo(info: any[]): { imageBlob: Blob; taskTime: number } {
+    console.log('Loading task info', info);
     const imageBlob = getFirstBlobInArray(info);
     const taskTime =
       findKeyInObjectArray(info, 'TIME_COST') || findKeyInObjectArray(info, 'time_cost');
-
     return { imageBlob, taskTime };
   }
 
@@ -462,7 +463,7 @@ export class MonitorContextProvider extends React.Component<Props, State> {
     if (!task) {
       const taskInfo = await this.getWorkingTaskInfo();
       const { imageBlob, taskTime } = this.getTaskInfo(taskInfo);
-      let taskImageURL = null;
+      let { taskImageURL } = this.state;
       if (imageBlob) {
         taskImageURL = URL.createObjectURL(imageBlob);
       }

@@ -114,6 +114,16 @@ function Editor({
       selected: selectedModel === 'ado1',
     },
     {
+      value: 'fpm1',
+      label: 'Promark',
+      selected: selectedModel === 'fpm1',
+    },
+    {
+      value: 'flv1',
+      label: 'Lazervida',
+      selected: selectedModel === 'flv1',
+    },
+    {
       value: 'fbb2',
       label: 'Beambox II',
       selected: selectedModel === 'fbb2',

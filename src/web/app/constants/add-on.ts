@@ -106,6 +106,32 @@ const supportList: Record<WorkAreaModel, SupportInfo> = {
     lowerFocus: isDev(),
     redLight: true,
   },
+  fpm1: {
+    autoFocus: false,
+    hybridLaser: false,
+    openBottom: false,
+    passThrough: false,
+    rotary: {
+      roller: true,
+      chuck: false,
+      extendWorkarea: false,
+      mirror: false,
+    },
+    lowerFocus: false,
+  },
+  flv1: {
+    autoFocus: false,
+    hybridLaser: false,
+    openBottom: false,
+    passThrough: false,
+    rotary: {
+      roller: true,
+      chuck: false,
+      extendWorkarea: false,
+      mirror: false,
+    },
+    lowerFocus: false,
+  },
 };
 
 export const getSupportInfo = (workarea: WorkAreaModel): SupportInfo => supportList[workarea] || {

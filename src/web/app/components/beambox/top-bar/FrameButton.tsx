@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import { sprintf } from 'sprintf-js';
 
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
@@ -19,10 +19,12 @@ import useI18n from 'helpers/useI18n';
 import versionChecker from 'helpers/version-checker';
 import workareaManager from 'app/svgedit/workarea';
 import { CanvasContext, CanvasMode } from 'app/contexts/CanvasContext';
+import { fetchFraming } from 'app/actions/beambox/export-funcs-swiftray';
 import { getAllLayers } from 'helpers/layer/layer-helper';
 import { getData } from 'helpers/layer/layer-config-helper';
 import { getSupportInfo } from 'app/constants/add-on';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { IDeviceInfo } from 'interfaces/IDevice';
 import { WorkAreaModel } from 'app/constants/workarea-constants';
 
 import styles from './FrameButton.module.scss';
@@ -37,6 +39,7 @@ const FrameButton = (): JSX.Element => {
   const lang = useI18n();
   const tAlerts = lang.topbar.alerts;
   const { mode } = useContext(CanvasContext);
+  const [isPromarkFraming, setIsPromarkFraming] = useState(false);
 
   const getCoords = useCallback((isAdor = false) => {
     const coords: {
@@ -84,10 +87,33 @@ const FrameButton = (): JSX.Element => {
     return coords;
   }, []);
 
+
+  const handlePromarkFraming = async (device: IDeviceInfo) => {
+    if (isPromarkFraming) {
+      await deviceMaster.stopFraming();
+      setIsPromarkFraming(false);
+    } else {
+      const deviceStatus = await checkDeviceStatus(device);
+      if (!deviceStatus) return;
+      setIsPromarkFraming(true);
+      console.log('start framing upload');
+      await fetchFraming();
+      console.log('start framing');
+      await deviceMaster.startFraming();
+    }
+  };
+
   const handleClick = async () => {
     const { device } = await getDevice();
     if (!device) return;
-
+    // Go to Promark logic
+    if (constant.promarkModels.includes(device.model)) {
+      await handlePromarkFraming(device);
+      return;
+    }
+    const deviceStatus = await checkDeviceStatus(device);
+    if (!deviceStatus) return;
+    // Retain the original behavior
     const isAdor = constant.adorModels.includes(device.model);
     const coords = getCoords(isAdor);
     // Only check minX because it's enough to know if there is any element
@@ -100,8 +126,6 @@ const FrameButton = (): JSX.Element => {
       });
       return;
     }
-    const deviceStatus = await checkDeviceStatus(device);
-    if (!deviceStatus) return;
 
     progressCaller.openNonstopProgress({
       id: PROGRESS_ID,
@@ -295,6 +319,7 @@ const FrameButton = (): JSX.Element => {
     <div
       className={classNames(styles.button, { [styles.disabled]: mode !== CanvasMode.Draw })}
       onClick={handleClick}
+      style={{ opacity: isPromarkFraming ? 0.5 : 1 }}
       title={lang.topbar.frame_task}
     >
       <TopBarIcons.Frame />

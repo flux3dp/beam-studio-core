@@ -113,6 +113,8 @@ const mockKick = jest.fn();
 const mockRawMoveZRelToLastHome = jest.fn();
 const mockRawSetOrigin = jest.fn();
 const mockRawUnlock = jest.fn();
+const mockStartFraming = jest.fn();
+const mockStopFraming = jest.fn();
 
 jest.mock('helpers/device-master', () => ({
   getDeviceDetailInfo: () => mockGetDeviceDetailInfo(),
@@ -136,6 +138,13 @@ jest.mock('helpers/device-master', () => ({
   endRawMode: (...args) => mockEndRawMode(...args),
   kick: (...args) => mockKick(...args),
   currentControlMode: 'raw',
+  startFraming: (...args) => mockStartFraming(...args),
+  stopFraming: (...args) => mockStopFraming(...args),
+}));
+
+const mockFetchFraming = jest.fn();
+jest.mock('app/actions/beambox/export-funcs-swiftray', () => ({
+  fetchFraming: (...args) => mockFetchFraming(...args),
 }));
 
 const mockGetDevice = jest.fn().mockResolvedValue({ device: {} });
@@ -442,5 +451,26 @@ describe('test FrameButton', () => {
     expect(mockEndRawMode).toBeCalledTimes(1);
     expect(mockKick).toBeCalledTimes(1);
     expect(mockRawSetWaterPump).not.toBeCalled();
+  });
+
+  test('framing with promark & swiftray', async () => {
+    const mockConsoleLog = jest.spyOn(console, 'log').mockImplementation();
+    const { container } = render(<FrameButton />);
+    mockGetDevice.mockResolvedValue({ device: { model: 'fpm1', version: '12.34.56' } });
+    await act(async () => fireEvent.click(container.querySelector('div[class*="button"]')));
+    expect(mockGetDevice).toBeCalledTimes(1);
+    expect(mockCheckDeviceStatus).toBeCalledTimes(1);
+    expect(mockFetchFraming).toBeCalledTimes(1);
+    expect(mockStartFraming).toBeCalledTimes(1)
+    expect(mockStopFraming).not.toBeCalled();
+    expect(mockConsoleLog).toBeCalledTimes(2);
+    expect(mockConsoleLog).toHaveBeenNthCalledWith(1, 'start framing upload');
+    expect(mockConsoleLog).toHaveBeenNthCalledWith(2, 'start framing');
+    await act(async () => fireEvent.click(container.querySelector('div[class*="button"]')));
+    expect(mockStopFraming).toBeCalledTimes(1);
+    expect(mockStartFraming).toBeCalledTimes(1);
+    // make sure original framing is not called
+    expect(mockRead).not.toBeCalled();
+    expect(mockRawHome).not.toBeCalled();
   });
 });

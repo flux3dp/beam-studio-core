@@ -1402,10 +1402,11 @@ svgedit.utilities.convertPath = function(path, toRel) {
 				} else {
 					x += curx;
 					curx = x;
+          y = cury;
 					letter = 'L';
 				}
 				// Convert to "line" for easier editing
-				d += pathDSegment(letter,[[x, cury]]);
+				d += pathDSegment(letter,[[x, y]]);
 				break;
 			case 14: // absolute vertical line (V)
 				y -= cury;
@@ -1416,10 +1417,11 @@ svgedit.utilities.convertPath = function(path, toRel) {
 				} else {
 					y += cury;
 					cury = y;
+          x = curx;
 					letter = 'L';
 				}
 				// Convert to "line" for easier editing
-				d += pathDSegment(letter,[[curx, y]]);
+				d += pathDSegment(letter,[[x, y]]);
 				break;
 			case 2: // absolute move (M)
 			case 4: // absolute line (L)

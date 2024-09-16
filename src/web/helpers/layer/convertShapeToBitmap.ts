@@ -57,7 +57,7 @@ const convertShapeToBitmap = async (): Promise<() => void> => {
         newImage.setAttribute('origImage', newImgUrl);
         newImage.setAttribute('data-threshold', '128');
         newImage.setAttribute('data-shading', 'false');
-        layer.insertBefore(newImage, layer.firstChild);
+        layer.appendChild(newImage);
         await updateImageDisplay(newImage);
         newImages.push(newImage);
         resolve();

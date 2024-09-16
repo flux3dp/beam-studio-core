@@ -53,8 +53,12 @@ export default {
     fbm1: ['fbm1'],
     ado1: ['ado1', 'fad1'],
     fad1: ['ado1', 'fad1'],
+    fpm1: ['fpm1'],
+    flv1: ['flv1'],
   },
   adorModels: ['ado1', 'fad1'],
+  promarkModels: ['fpm1'],
+  highPowerModels: ['fhexa1', 'ado1', 'flv1', 'fpm1'],
   fcodeV2Models: new Set(['ado1', 'fbb2']),
   leftPanelWidth: 50, // px
   rightPanelWidth: window.os !== 'MacOS' ? 258 : 242, // px

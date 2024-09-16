@@ -147,7 +147,7 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
   }, [mode]);
   useEffect(() => {
     const handler = (response: { selectedDevice: IDeviceInfo | null }): void => {
-      response.selectedDevice = getLatestDeviceInfo(selectedDevice.uuid);
+      response.selectedDevice = getLatestDeviceInfo(selectedDevice?.uuid);
     };
     topBarEventEmitter.on('GET_SELECTED_DEVICE', handler);
     return () => {
