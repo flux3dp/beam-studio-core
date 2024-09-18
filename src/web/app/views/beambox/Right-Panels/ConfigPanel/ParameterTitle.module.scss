@@ -1,3 +1,5 @@
+@use "styles/variables" as variables;
+
 .container {
   margin: 6px 15px;
   height: 20px;
@@ -26,11 +28,11 @@
     cursor: pointer;
     display: inline-flex;
     align-items: center;
-    color: #1e1e1e;
+    color: variables.$primary-gray;
     font-size: 20px;
 
     &:hover {
-      opacity: 0.75;
+      color: variables.$secondary-gray;
     }
   }
 }
