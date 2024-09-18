@@ -34,11 +34,14 @@ const CropPanel = ({ src, image, onClose }: Props): JSX.Element => {
   const previewImageRef = useRef<HTMLImageElement>(null);
   const originalSizeRef = useRef({ width: 0, height: 0 });
   const historyRef = useRef<HistoryItem[]>([]);
-  const { isShading, threshold, isFullColor } = useMemo(() => ({
-    isShading: image.getAttribute('data-shading') === 'true',
-    threshold: parseInt(image.getAttribute('data-threshold'), 10),
-    isFullColor: image.getAttribute('data-fullcolor') === '1',
-  }), [image]);
+  const { isShading, threshold, isFullColor } = useMemo(
+    () => ({
+      isShading: image.getAttribute('data-shading') === 'true',
+      threshold: parseInt(image.getAttribute('data-threshold'), 10),
+      isFullColor: image.getAttribute('data-fullcolor') === '1',
+    }),
+    [image]
+  );
   const [state, setState] = useState({
     blobUrl: src,
     displayBase64: '',
@@ -78,7 +81,7 @@ const CropPanel = ({ src, image, onClose }: Props): JSX.Element => {
     return () => {
       cleanUpHistory();
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const startCropper = (aspectRatio = NaN) => {
@@ -107,9 +110,11 @@ const CropPanel = ({ src, image, onClose }: Props): JSX.Element => {
     if (!cropperRef.current) return;
     let { x, y, width, height } = getDimensionFromCropper();
     const { width: resizedW, height: resizedH } = historyRef.current[0].dimension;
-    const { x: currentX, y: currentY } = historyRef.current[historyRef.current.length - 1].dimension;
+    const { x: currentX, y: currentY } =
+      historyRef.current[historyRef.current.length - 1].dimension;
     const { width: originalWidth, height: originalHeight } = originalSizeRef.current;
-    const ratio = originalWidth > originalHeight ? originalWidth / resizedW : originalHeight / resizedH;
+    const ratio =
+      originalWidth > originalHeight ? originalWidth / resizedW : originalHeight / resizedH;
     x += currentX;
     y += currentY;
     x = Math.floor(x * ratio);
@@ -135,7 +140,13 @@ const CropPanel = ({ src, image, onClose }: Props): JSX.Element => {
     if (!cropperRef.current) return;
     const { x, y, width, height } = getDimensionFromCropper();
     const previewImage = previewImageRef.current;
-    if (x === 0 && y === 0 && width === previewImage.naturalWidth && height === previewImage.naturalHeight) return;
+    if (
+      x === 0 &&
+      y === 0 &&
+      width === previewImage.naturalWidth &&
+      height === previewImage.naturalHeight
+    )
+      return;
     progressCaller.openNonstopProgress({ id: 'photo-edit-processing', message: t.processing });
     const result = await jimpHelper.cropImage(blobUrl, x, y, width, height);
     if (result) {
@@ -184,7 +195,7 @@ const CropPanel = ({ src, image, onClose }: Props): JSX.Element => {
   const { width, height, displayBase64 } = state;
   const maxWidth = window.innerWidth - MODAL_PADDING_X;
   const maxHieght = window.innerHeight - MODAL_PADDING_Y;
-  const isWideImage = (width / maxWidth > height / maxHieght);
+  const isWideImage = width / maxWidth > height / maxHieght;
   const isMobile = useIsMobile();
 
   return (
