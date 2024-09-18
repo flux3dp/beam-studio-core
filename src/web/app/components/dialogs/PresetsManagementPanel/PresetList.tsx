@@ -33,7 +33,11 @@ const PresetList = forwardRef<HTMLDivElement, Props>(
     outerRef: MutableRefObject<HTMLDivElement>
   ): JSX.Element => {
     const t = useI18n().beambox.right_panel.laser_panel.preset_management;
-    const handleDropEnd = (result) => {
+    const handleBeforeDragStart = ({ source }) => {
+      setSelectedPreset(displayList[source.index]);
+    };
+
+    const handleDragEnd = (result) => {
       if (!result.destination) return;
       const sourceIdx = presets.findIndex((p) => p === displayList[result.source.index]);
       const destIdx = presets.findIndex((p) => p === displayList[result.destination.index]);
@@ -45,7 +49,7 @@ const PresetList = forwardRef<HTMLDivElement, Props>(
     };
 
     return (
-      <DragDropContext onDragEnd={handleDropEnd}>
+      <DragDropContext onBeforeDragStart={handleBeforeDragStart} onDragEnd={handleDragEnd}>
         <Droppable droppableId="droppable">
           {(droppableProvided) => (
             <div
