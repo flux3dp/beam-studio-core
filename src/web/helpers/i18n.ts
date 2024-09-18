@@ -1,4 +1,5 @@
 import AppSettings from 'app/app-settings';
+import LangCs from 'app/lang/cs';
 import LangDa from 'app/lang/da';
 import LangDe from 'app/lang/de';
 import LangEl from 'app/lang/el';
@@ -25,6 +26,7 @@ import { ILang } from 'interfaces/ILang';
 
 const ACTIVE_LANG = 'active-lang';
 const langCache: { [key: string]: ILang } = {
+  cs: LangCs,
   de: LangDe,
   en: LangEn,
   es: LangEs,
