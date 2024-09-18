@@ -109,20 +109,19 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
     [lang.dropdown.parameters, lang.custom_preset, lang.various_preset]
   );
 
+  const workarea = useWorkarea();
   const updateDiodeBoundary = useCallback(() => {
     if (
       beamboxPreference.read('enable-diode') &&
-      getSupportInfo(beamboxPreference.read('workarea')).hybridLaser
+      getSupportInfo(workarea).hybridLaser
     )
       diodeBoundaryDrawer.show(state.diode.value === 1);
     else diodeBoundaryDrawer.hide();
-  }, [state.diode.value]);
+  }, [state.diode.value, workarea]);
 
   useEffect(() => {
     updateDiodeBoundary();
   }, [updateDiodeBoundary]);
-
-  const workarea = useWorkarea();
 
   const initState = useCallback((layers: string[] = LayerPanelController.getSelectedLayers()) => {
     if (layers.length > 1) {
@@ -183,7 +182,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
     const changedKeys = module.value === LayerModule.PRINTER ? printerConfigKeys : laserConfigKeys;
     const payload: { [key: string]: string | number | boolean } = {};
     payload.configName = value;
-    const { maxSpeed, minSpeed } = getWorkarea(beamboxPreference.read('workarea'));
+    const { maxSpeed, minSpeed } = getWorkarea(workarea);
     for (let i = 0; i < changedKeys.length; i += 1) {
       const key = changedKeys[i];
       let val = preset[key];

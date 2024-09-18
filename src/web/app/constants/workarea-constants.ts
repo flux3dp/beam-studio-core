@@ -1,6 +1,22 @@
-export type WorkAreaLabel = 'beamo' | 'Beambox' | 'Beambox Pro' | 'HEXA' | 'Ador' | 'Beambox II';
-export type WorkAreaModel = 'fbm1' | 'fbb1b' | 'fbb1p' | 'fhexa1' | 'ado1' | 'fbb2';
-export const allWorkareas = new Set(['fbm1', 'fbb1b', 'fbb1p', 'fhexa1', 'ado1', 'fbb2']);
+export type WorkAreaLabel =
+  | 'beamo'
+  | 'Beambox'
+  | 'Beambox Pro'
+  | 'HEXA'
+  | 'Ador'
+  | 'Promark'
+  | 'Lazervida'
+  | 'Beambox II';
+export type WorkAreaModel =
+  | 'fbm1'
+  | 'fbb1b'
+  | 'fbb1p'
+  | 'fhexa1'
+  | 'ado1'
+  | 'fpm1'
+  | 'flv1'
+  | 'fbb2';
+export const allWorkareas = new Set(['fbm1', 'fbb1b', 'fbb1p', 'fhexa1', 'ado1', 'fpm1', 'flv1', 'fbb2']);
 
 const dpmm = 10;
 export interface WorkArea {
@@ -85,6 +101,26 @@ const workareaConstants: { [key in WorkAreaModel]: WorkArea } = {
     autoFocusOffset: [20.9, -40.38, 7.5],
     passThroughMaxHeight: 240,
   },
+  fpm1: {
+    label: 'Promark',
+    width: 150,
+    pxWidth: 150 * dpmm,
+    height: 150,
+    pxHeight: 150 * dpmm,
+    maxSpeed: 3000,
+    minSpeed: 1,
+    rotary: [0, 1],
+  },
+  flv1: {
+    label: 'Lazervida',
+    width: 400,
+    pxWidth: 400 * dpmm,
+    height: 400,
+    pxHeight: 400 * dpmm,
+    maxSpeed: 300,
+    minSpeed: 1,
+    rotary: [0, 1],
+  },
   fbb2: {
     label: 'Beambox II',
     width: 600,
@@ -99,7 +135,9 @@ const workareaConstants: { [key in WorkAreaModel]: WorkArea } = {
   },
 };
 
-export const getWorkarea = (model: WorkAreaModel, fallbackModel: WorkAreaModel = 'fbm1'): WorkArea =>
-  workareaConstants[model] || workareaConstants[fallbackModel];
+export const getWorkarea = (
+  model: WorkAreaModel,
+  fallbackModel: WorkAreaModel = 'fbm1'
+): WorkArea => workareaConstants[model] || workareaConstants[fallbackModel];
 
 export default workareaConstants;

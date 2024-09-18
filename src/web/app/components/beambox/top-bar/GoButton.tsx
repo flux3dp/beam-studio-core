@@ -52,7 +52,7 @@ const GoButton = (props: Props): JSX.Element => {
     const workarea = device.model as WorkAreaModel;
     const layers = [...document.querySelectorAll('#svgcontent > g.layer:not([display="none"])')];
 
-    if (!['fhexa1', 'ado1'].includes(workarea)) {
+    if (!constant.highPowerModels.includes(workarea)) {
       const isPowerTooHigh = layers.some((layer) => {
         const strength = Number(layer.getAttribute('data-strength'));
         const diode = Number(layer.getAttribute('data-diode'));

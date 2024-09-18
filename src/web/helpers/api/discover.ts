@@ -9,19 +9,28 @@ import network from 'implementations/network';
 import sentryHelper from 'helpers/sentry-helper';
 import SmartUpnp from 'helpers/smart-upnp';
 import storage from 'implementations/storage';
-import Websocket from 'helpers/websocket';
+import Websocket, { readyStates } from 'helpers/websocket';
 import { IDeviceInfo } from 'interfaces/IDevice';
+import { swiftrayClient } from './swiftray-client';
 
-let lastSendMessage = 0;
 const BUFFER = 100;
-let timer;
 const SEND_DEVICES_INTERVAL = 5000;
 const CLEAR_DEVICES_INTERVAL = 60000;
 const discoverLogger = Logger('discover');
+
+let lastSendMessage = 0;
+let timer;
+let devices = [];
 const dispatchers = [];
 const idList = [];
-let devices = [];
 let deviceMap = {};
+let swiftrayDevices = {};
+
+// Open up FLUX wrapped websocket
+const ws = Websocket({
+  method: 'discover',
+});
+
 const sendFoundDevices = () => {
   discoverLogger.clear();
   discoverLogger.append(deviceMap);
@@ -30,9 +39,30 @@ const sendFoundDevices = () => {
     dispatcher.sender(devices);
   });
 };
-const ws = Websocket({
-  method: 'discover',
-});
+
+const updatePokeIPAddr = (device: IDeviceInfo): void => {
+  const maxLen = 20;
+  const pokeIPAddr: string = storage.get('poke-ip-addr');
+
+  if (pokeIPAddr?.trim()) {
+    const pokeIPAddrArr = pokeIPAddr.split(/[,;] ?/);
+
+    if (
+      device.ipaddr &&
+      pokeIPAddrArr.indexOf(device.ipaddr) === -1 &&
+      device.ipaddr !== 'raspberrypi.local'
+    ) {
+      pokeIPAddrArr.push(device.ipaddr);
+      if (pokeIPAddrArr.length > maxLen) {
+        pokeIPAddrArr.splice(0, pokeIPAddrArr.length - maxLen);
+      }
+      storage.set('poke-ip-addr', pokeIPAddrArr.join(', '));
+    }
+  } else {
+    storage.set('poke-ip-addr', device.ipaddr);
+  }
+};
+
 const onMessage = (device) => {
   if (device.alive) {
     if (device.source === 'h2h') {
@@ -43,22 +73,7 @@ const onMessage = (device) => {
         uuid: device.addr.toString(),
       };
     }
-
-    let pokeIPAddr = storage.get('poke-ip-addr');
-
-    if (pokeIPAddr && pokeIPAddr !== '') {
-      const pokeIPAddrArr = pokeIPAddr.split(/[,;] ?/);
-
-      if (device.ipaddr && pokeIPAddrArr.indexOf(device.ipaddr) === -1 && device.ipaddr !== 'raspberrypi.local') {
-        if (pokeIPAddrArr.length > 19) {
-          pokeIPAddr = pokeIPAddrArr.slice(pokeIPAddrArr.length - 19, pokeIPAddrArr.length).join();
-        }
-
-        storage.set('poke-ip-addr', `${pokeIPAddr}, ${device.ipaddr}`);
-      }
-    } else {
-      storage.set('poke-ip-addr', device.ipaddr);
-    }
+    updatePokeIPAddr(device);
 
     deviceMap[device.uuid] = device;
     sentryHelper.sendDeviceInfo(device);
@@ -69,17 +84,49 @@ const onMessage = (device) => {
 
   clearTimeout(timer);
   if (Date.now() - lastSendMessage > BUFFER) {
-    devices = DeviceList(deviceMap);
+    devices = DeviceList({ ...deviceMap, ...swiftrayDevices });
     sendFoundDevices();
     lastSendMessage = Date.now();
   } else {
     timer = setTimeout(() => {
-      devices = DeviceList(deviceMap);
+      devices = DeviceList({ ...deviceMap, ...swiftrayDevices });
       sendFoundDevices();
       lastSendMessage = Date.now();
     }, BUFFER);
   }
 };
+
+const startIntervals = () => {
+  setInterval(() => {
+    devices = [];
+    deviceMap = {};
+  }, CLEAR_DEVICES_INTERVAL);
+
+  setInterval(() => {
+    if (Date.now() - lastSendMessage > BUFFER) {
+      sendFoundDevices();
+      lastSendMessage = Date.now();
+    }
+  }, SEND_DEVICES_INTERVAL);
+
+  const updateDeviceFromSwiftray = async () => {
+    const res = await swiftrayClient.listDevices();
+    swiftrayDevices = res.devices.reduce((acc, device) => {
+      acc[device.uuid] = device;
+      return acc;
+    }, {});
+    devices = DeviceList({ ...deviceMap, ...swiftrayDevices });
+    sendFoundDevices();
+  };
+
+  setTimeout(updateDeviceFromSwiftray, 5000);
+  setInterval(updateDeviceFromSwiftray, 15000);
+};
+
+startIntervals();
+
+ws.setOnMessage(onMessage);
+
 const poke = (targetIP: string) => {
   if (!targetIP) return;
   ws?.send(JSON.stringify({ cmd: 'poke', ipaddr: targetIP }));
@@ -93,40 +140,31 @@ const testTcp = (targetIP: string) => {
   ws?.send(JSON.stringify({ cmd: 'testtcp', ipaddr: targetIP }));
 };
 
-const pokeIPAddr = storage.get('poke-ip-addr');
-let pokeIPs = (pokeIPAddr ? pokeIPAddr.split(/[,;] ?/) : ['']);
-
-if (pokeIPs[0] === '') {
-  storage.set('poke-ip-addr', '192.168.1.1');
-  pokeIPs = ['192.168.1.1'];
-}
-
-setInterval(() => {
-  devices = [];
-  deviceMap = {};
-}, CLEAR_DEVICES_INTERVAL);
-
-setInterval(() => {
-  if (Date.now() - lastSendMessage > BUFFER) {
-    sendFoundDevices();
-    lastSendMessage = Date.now();
+const initPokeIps = () => {
+  const pokeIPAddr: string = storage.get('poke-ip-addr') ?? '192.168.1.1';
+  let res = pokeIPAddr.split(/[,;] ?/);
+  if (res[0] === '' && res.length === 1) {
+    storage.set('poke-ip-addr', '192.168.1.1');
+    res = ['192.168.1.1'];
+  } else {
+    res = res.filter((ip) => ip !== '');
+    storage.set('poke-ip-addr', res.join(', '));
   }
-}, SEND_DEVICES_INTERVAL);
-
-ws.onMessage(onMessage);
-
-const startTcpPoke = () => {
+  return res;
+};
+const pokeIPs = initPokeIps();
+const setupPokeTcpInterval = () => {
   let i = 0;
   setInterval(() => {
     pokeTcp(pokeIPs[i]);
     i = i + 1 < pokeIPs.length ? i + 1 : 0;
   }, 1000);
 };
-startTcpPoke();
+setupPokeTcpInterval();
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const Discover = (id: string, getDevices: (devices: IDeviceInfo[]) => void) => {
-  console.log('Register Discover', id, devices);
+  // console.log('Register Discover', id, devices);
   const index = idList.indexOf(id);
 
   if (idList.length === 0 || index === -1) {
@@ -188,17 +226,14 @@ const initSmartUpnp = async () => {
     }
   }
   // TODO: Fix this init...  no id and getPrinters?
-  SmartUpnp.init(Discover(
-    'smart-upnp',
-    () => {},
-  ));
+  SmartUpnp.init(Discover('smart-upnp', () => {}));
   for (let i = 0; i < pokeIPs.length; i += 1) {
     SmartUpnp.startPoke(pokeIPs[i]);
   }
 };
 initSmartUpnp();
 
-export const checkConnection = (): boolean => ws?.currentState === ws?.readyState.OPEN;
+export const checkConnection = (): boolean => ws?.currentState === readyStates.OPEN;
 
 export const getLatestDeviceInfo = (uuid: string): IDeviceInfo => deviceMap[uuid];
 

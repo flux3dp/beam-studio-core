@@ -6,11 +6,6 @@
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  color: #7c7c7c;
-
-  &:hover {
-    color: #000000;
-  }
 
   &.disabled {
     opacity: 0.3;

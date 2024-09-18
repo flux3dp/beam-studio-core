@@ -35,6 +35,12 @@ export const presets: {
         speed: 6,
       },
     },
+    flv1 : {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 100,
+        speed: 6,
+      },
+    },
     ado1: {
       [LayerModule.LASER_10W_DIODE]: {
         power: 100,
@@ -71,6 +77,12 @@ export const presets: {
     fhexa1: {
       [LayerModule.LASER_UNIVERSAL]: {
         power: 65,
+        speed: 3,
+      },
+    },
+    flv1 : {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 100,
         speed: 3,
       },
     },
@@ -137,6 +149,12 @@ export const presets: {
       [LayerModule.LASER_UNIVERSAL]: {
         power: 20,
         speed: 300,
+      },
+    },
+    flv1: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 100,
+        speed: 150,
       },
     },
     ado1: {
@@ -250,6 +268,12 @@ export const presets: {
     },
   },
   black_acrylic_3mm_cutting: {
+    flv1: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 100,
+        speed: 2,
+      },
+    },
     ado1: {
       [LayerModule.LASER_10W_DIODE]: {
         power: 100,
@@ -889,6 +913,14 @@ export const presets: {
         speed: 30,
         multipass: 4,
         module: LayerModule.PRINTER,
+      },
+    },
+  },
+  metal_engraving: {
+    fpm1: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 100,
+        speed: 1200,
       },
     },
   },

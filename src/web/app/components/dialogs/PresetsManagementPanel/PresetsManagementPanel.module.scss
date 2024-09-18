@@ -1,4 +1,4 @@
-@use 'styles/variables' as variables;
+@use "styles/variables" as variables;
 
 div.modal-wrap {
   overflow: unset !important;
@@ -110,6 +110,11 @@ div.modal-wrap {
       cursor: pointer;
       display: inline-flex;
       align-items: center;
+      color: variables.$primary-gray;
+
+      &:hover {
+        color: variables.$secondary-gray;
+      }
     }
 
     > div {

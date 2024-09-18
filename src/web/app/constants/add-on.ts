@@ -1,5 +1,3 @@
-import isDev from 'helpers/is-dev';
-
 import { WorkAreaModel } from './workarea-constants';
 
 export enum RotaryType {
@@ -76,7 +74,7 @@ const supportList: Record<WorkAreaModel, SupportInfo> = {
       extendWorkarea: false,
       mirror: false,
     },
-    lowerFocus: isDev(),
+    lowerFocus: true,
   },
   ado1: {
     autoFocus: false,
@@ -90,7 +88,7 @@ const supportList: Record<WorkAreaModel, SupportInfo> = {
       mirror: true,
       defaultMirror: true,
     },
-    lowerFocus: isDev(),
+    lowerFocus: true,
   },
   fbb2: {
     autoFocus: false,
@@ -103,8 +101,34 @@ const supportList: Record<WorkAreaModel, SupportInfo> = {
       extendWorkarea: true,
       mirror: true,
     },
-    lowerFocus: isDev(),
+    lowerFocus: true,
     redLight: true,
+  },
+  fpm1: {
+    autoFocus: false,
+    hybridLaser: false,
+    openBottom: false,
+    passThrough: false,
+    rotary: {
+      roller: true,
+      chuck: false,
+      extendWorkarea: false,
+      mirror: false,
+    },
+    lowerFocus: false,
+  },
+  flv1: {
+    autoFocus: false,
+    hybridLaser: false,
+    openBottom: false,
+    passThrough: false,
+    rotary: {
+      roller: true,
+      chuck: false,
+      extendWorkarea: false,
+      mirror: false,
+    },
+    lowerFocus: false,
   },
 };
 

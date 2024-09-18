@@ -178,10 +178,10 @@ const getFontObj = async (font: WebFont | FontDescriptor): Promise<fontkit.Font 
         const buffer = Buffer.from(await data.arrayBuffer());
         try {
           // Font Collection
-          fontObj = fontkit.create(buffer, font.postscriptName);
+          fontObj = fontkit.create(buffer, font.postscriptName) as fontkit.Font;
         } catch {
           // Single Font
-          fontObj = fontkit.create(buffer);
+          fontObj = fontkit.create(buffer) as fontkit.Font;
         }
       }
       if (fontObj) {
@@ -539,7 +539,7 @@ const convertTextToPath = async (
     console.log(textElement.getAttribute('font-family'), postscriptName);
     textElement.removeAttribute('stroke-width');
     const isFilled = calculateFilled(textElement);
-    let color = textElement.getAttribute('stroke');
+    let color = textElement.getAttribute('stroke') || 'none';
     color = color !== 'none' ? color : textElement.getAttribute('fill');
 
     let res: IConvertInfo = null;

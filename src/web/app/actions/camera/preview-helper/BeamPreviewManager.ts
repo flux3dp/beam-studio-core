@@ -90,6 +90,8 @@ class BeamPreviewManager extends BasePreviewManager implements PreviewManager {
   };
 
   end = async (): Promise<void> => {
+    this.ended = true;
+    MessageCaller.closeMessage('camera-preview');
     try {
       const res = await deviceMaster.select(this.device);
       if (res.success) {
@@ -258,6 +260,7 @@ class BeamPreviewManager extends BasePreviewManager implements PreviewManager {
     y: number,
     opts: { overlapRatio?: number } = {}
   ): Promise<boolean> => {
+    if (this.ended) return false;
     const { overlapRatio = 0 } = opts;
     const constrainedXY = this.constrainPreviewXY(x, y);
     const { x: newX, y: newY } = constrainedXY;
@@ -323,6 +326,7 @@ class BeamPreviewManager extends BasePreviewManager implements PreviewManager {
     })();
     try {
       for (let i = 0; i < points.length; i += 1) {
+        if (this.ended) return false;
         MessageCaller.openMessage({
           key: 'camera-preview',
           content: `${i18n.lang.topbar.preview} ${i}/${points.length}`,

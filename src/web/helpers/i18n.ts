@@ -77,6 +77,6 @@ export default {
   getActiveLang,
   setActiveLang,
   get lang(): ILang {
-    return langCache[activeLang];
+    return langCache[activeLang] || langCache[AppSettings.i18n.default_lang];
   },
 };

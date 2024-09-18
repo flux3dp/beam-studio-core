@@ -1,6 +1,5 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
-import isDev from 'helpers/is-dev';
 import UnitInput from 'app/widgets/UnitInput';
 import useI18n from 'helpers/useI18n';
 import { defaultConfig } from 'helpers/layer/layer-config-helper';
@@ -27,7 +26,6 @@ const LaserInputs = ({
 }: Props): JSX.Element => {
   const tLaserPanel = useI18n().beambox.right_panel.laser_panel;
   const t = tLaserPanel.preset_management;
-  const devMode = useMemo(() => isDev(), []);
 
   return (
     <div className={styles.inputs}>
@@ -77,23 +75,21 @@ const LaserInputs = ({
         </div>
       </div>
       <div>
-        {devMode && (
-          <div className={styles.field}>
-            <div className={styles.label}>{t.lower_focus_by}</div>
-            <UnitInput
-              data-testid="focus"
-              className={styles.input}
-              disabled={preset.isDefault}
-              value={Math.max(preset.focus ?? defaultConfig.focus, 0)}
-              max={10}
-              min={0}
-              precision={isInch ? 2 : 1}
-              addonAfter={lengthUnit}
-              isInch={isInch}
-              onChange={(value) => handleChange('focus', value)}
-            />
-          </div>
-        )}
+        <div className={styles.field}>
+          <div className={styles.label}>{t.lower_focus_by}</div>
+          <UnitInput
+            data-testid="focus"
+            className={styles.input}
+            disabled={preset.isDefault}
+            value={Math.max(preset.focus ?? defaultConfig.focus, 0)}
+            max={10}
+            min={0}
+            precision={isInch ? 2 : 1}
+            addonAfter={lengthUnit}
+            isInch={isInch}
+            onChange={(value) => handleChange('focus', value)}
+          />
+        </div>
         <div className={styles.field}>
           <div className={styles.label}>{tLaserPanel.z_step}</div>
           <UnitInput

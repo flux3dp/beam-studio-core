@@ -9,6 +9,7 @@ import isWeb from 'helpers/is-web';
 import Logger from 'helpers/logger';
 import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
 import outputError from 'helpers/output-error';
+import { Option, WrappedWebSocket } from 'interfaces/WebSocket';
 
 window.FLUX.websockets = [];
 window.FLUX.websockets.list = () => {
@@ -22,7 +23,7 @@ const logLimit = 100;
 let wsErrorCount = 0;
 let wsCreateFailedCount = 0;
 
-const readyState = {
+export const readyStates = {
   CONNECTING: 0,
   OPEN: 1,
   CLOSING: 2,
@@ -39,7 +40,7 @@ const readyState = {
 //      onFatal       - fired on a fatal error closed
 //      onClose       - fired on connection closed
 //      onOpen        - fired on connection connecting
-export default function (options) {
+export default (options: Option): WrappedWebSocket => {
   const defaultCallback = () => {};
   const defaultOptions = {
     method: '',
@@ -51,14 +52,12 @@ export default function (options) {
       return isWeb() ? '8000' : window.FLUX.ghostPort;
     },
     autoReconnect: true,
-    ignoreAbnormalDisconnect: false,
     onMessage: defaultCallback,
     onError: defaultCallback,
     onFatal: defaultCallback,
     onClose: defaultCallback,
     onOpen: defaultCallback,
   };
-  let receivedData = [];
   let ws: WebSocket | InsecureWebsocket = null;
   const trimMessage = (origMessage: string): string => {
     const message = origMessage.replace(/"/g, '');
@@ -82,7 +81,7 @@ export default function (options) {
     return newOpts;
   };
   const socketOptions = origanizeOptions(options);
-  const wsLog = {
+  const wsLog: { url: string; log: string[] } = {
     url: `/ws/${options.method}`,
     log: [],
   };
@@ -111,7 +110,7 @@ export default function (options) {
   };
 
   const createWebSocket = (createWsOpts) => {
-    if (ws && ws.readyState !== readyState.CLOSED) ws.close();
+    if (ws && ws.readyState !== readyStates.CLOSED) ws.close();
 
     const hostName = createWsOpts.hostname || defaultOptions.hostname;
     const port = createWsOpts.port || defaultOptions.port;
@@ -124,7 +123,7 @@ export default function (options) {
       isWeb() && window.location.protocol === 'https:' && checkFluxTunnel()
         ? InsecureWebsocket
         : WebSocket;
-    let nodeWs;
+    let nodeWs: WebSocket | InsecureWebsocket;
     try {
       nodeWs = new WebSocketClass(url);
     } catch (error) {
@@ -188,11 +187,6 @@ export default function (options) {
         data = data.replace(/\r?\n|\r/g, ' ');
         data = isJson(data) === true ? JSON.parse(data) : data;
       }
-
-      while (receivedData.length >= logLimit) {
-        receivedData.shift();
-      }
-      receivedData.push(data);
 
       switch (data.status) {
         case 'error':
@@ -261,7 +255,6 @@ export default function (options) {
       }
 
       if (socketOptions.autoReconnect === true) {
-        receivedData = [];
         ws = createWebSocket(createWsOpts);
       } else {
         ws = null; // release
@@ -275,7 +268,7 @@ export default function (options) {
   const keepAlive = () => {
     if (timer) clearInterval(timer);
     timer = setInterval(() => {
-      if (ws?.readyState === readyState.OPEN) {
+      if (ws?.readyState === readyStates.OPEN) {
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
         sender('ping');
       }
@@ -301,20 +294,19 @@ export default function (options) {
     get currentState() {
       return ws.readyState;
     },
-    readyState,
     options: socketOptions,
     url: `/ws/${options.method}`,
     log: wsLog.log,
-    send(data) {
+    send(data: string) {
       if (
         !ws ||
         ws === null ||
-        ws?.readyState === readyState.CLOSING ||
-        ws?.readyState === readyState.CLOSED
+        ws?.readyState === readyStates.CLOSING ||
+        ws?.readyState === readyStates.CLOSED
       ) {
         ws = createWebSocket(socketOptions);
       }
-      if (ws.readyState === readyState.CONNECTING) {
+      if (ws.readyState === readyStates.CONNECTING) {
         ws.onopen = (e) => {
           socketOptions.onOpen(e);
           sender(data);
@@ -324,45 +316,16 @@ export default function (options) {
       }
       return wsobj;
     },
-    fetchData() {
-      return receivedData;
-    },
-    fetchLastResponse() {
-      return wsobj.fetchData()[receivedData.length - 1];
-    },
-    getReadyState() {
-      return ws.readyState;
-    },
     close(reconnect?: boolean) {
       if (typeof reconnect === 'boolean') {
         socketOptions.autoReconnect = reconnect;
       }
-      if (ws !== null && ws.readyState !== readyState.CLOSED) {
+      if (ws !== null && ws.readyState !== readyStates.CLOSED) {
         ws.close();
       }
     },
-    setOptions(sockOpts) {
-      Object.assign(socketOptions, sockOpts);
-    },
-    // events
-    onOpen(callback) {
-      socketOptions.onOpen = callback;
-      return wsobj;
-    },
-    onMessage(callback) {
+    setOnMessage(callback) {
       socketOptions.onMessage = callback;
-      return wsobj;
-    },
-    onClose(callback) {
-      socketOptions.onClose = callback;
-      return wsobj;
-    },
-    onError(callback) {
-      socketOptions.onError = callback;
-      return wsobj;
-    },
-    onFatal(callback) {
-      socketOptions.onFatal = callback;
       return wsobj;
     },
   };

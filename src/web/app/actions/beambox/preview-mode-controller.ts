@@ -235,7 +235,7 @@ class PreviewModeController {
     const { callback } = opts;
     try {
       const previewRes = await this.previewManager.preview(x, y);
-      this.onPreviewSuccess();
+      if (previewRes) this.onPreviewSuccess();
       callback();
       return previewRes;
     } catch (error) {
@@ -251,7 +251,7 @@ class PreviewModeController {
     const { callback } = opts;
     try {
       const previewRes = await this.previewManager.previewRegion(x1, y1, x2, y2, opts);
-      this.onPreviewSuccess();
+      if (previewRes) this.onPreviewSuccess();
       callback();
       return previewRes;
     } catch (error) {

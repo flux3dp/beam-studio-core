@@ -10,6 +10,7 @@ import checkSoftwareForAdor from 'helpers/check-software';
 import constant from 'app/actions/beambox/constant';
 import DeviceConstants from 'app/constants/device-constants';
 import Dialog from 'app/actions/dialog-caller';
+import IControlSocket from 'interfaces/IControlSocket';
 import InputLightBoxConstants from 'app/constants/input-lightbox-constants';
 import Progress from 'app/actions/progress-caller';
 import storage from 'implementations/storage';
@@ -28,6 +29,7 @@ import Control from './api/control';
 import Discover from './api/discover';
 import Touch from './api/touch';
 import i18n from './i18n';
+import SwiftrayControl from './api/swiftray-control';
 import VersionChecker from './version-checker';
 
 let { lang } = i18n;
@@ -146,6 +148,12 @@ class DeviceMaster {
     return controlSocket;
   }
 
+  private async createDeviceControlSocketSwiftray(uuid: string) {
+    const controlSocket = new SwiftrayControl(uuid);
+    await controlSocket.connect();
+    return controlSocket;
+  }
+
   setDeviceControlDefaultCloseListener(deviceInfo: IDeviceInfo) {
     const { uuid } = deviceInfo;
     const device = this.deviceConnections.get(uuid);
@@ -173,7 +181,7 @@ class DeviceMaster {
       console.log(`Reconnecting ${uuid}`);
       const mode = controlSocket.getMode();
       const { isLineCheckMode, lineNumber } = controlSocket;
-      const res = await this.selectDevice(deviceInfo);
+      const res = await this.select(deviceInfo);
       if (res && res.success) {
         if (mode === 'maintain') {
           await this.enterMaintainMode();
@@ -260,11 +268,14 @@ class DeviceMaster {
   }
 
   async select(deviceInfo: IDeviceInfo): Promise<SelectionResult> {
-    // Alias for selectDevice
-    return this.selectDevice(deviceInfo);
+    console.log('selecting ', deviceInfo);
+    if (deviceInfo.source === 'swiftray') {
+      return this.selectDeviceWithSwiftray(deviceInfo);
+    }
+    return this.selectDeviceWithGhost(deviceInfo);
   }
 
-  async selectDevice(deviceInfo: IDeviceInfo): Promise<SelectionResult> {
+  async selectDeviceWithGhost(deviceInfo: IDeviceInfo): Promise<SelectionResult> {
     // Match the device from the newest received device list
     if (!deviceInfo || !checkSoftwareForAdor(deviceInfo)) {
       return { success: false };
@@ -325,63 +336,11 @@ class DeviceMaster {
           errorCode as ConnectionError
         )
       ) {
-        if (device.info.password) {
-          const authed = await this.showAuthDialog(uuid);
-          if (authed) {
-            return await this.selectDevice(deviceInfo);
-          }
-          return { success: false };
-        }
-        Progress.openNonstopProgress({
-          id: 'select-device',
-          message: sprintf(lang.message.connectingMachine, device.info.name),
-          timeout: 30000,
-        });
-        const authResult = await this.auth(uuid);
-        if (!authResult.success) {
-          Progress.popById('select-device');
-          Alert.popUp({
-            id: 'auth-error-with-diff-computer', // ADD new error code?
-            message: lang.message.auth_error,
-            type: AlertConstants.SHOW_POPUP_ERROR,
-          });
-          return { success: false };
-        }
-        return await this.selectDevice(deviceInfo);
+        return await this.runAuthProcess(uuid, device, deviceInfo);
       }
 
-      let errCaption = '';
-      let errMessage = lang.message.unknown_error;
-      switch (errorCode) {
-        case ConnectionError.TIMEOUT:
-          errMessage = lang.message.connectionTimeout;
-          break;
-        case ConnectionError.FLUXMONITOR_VERSION_IS_TOO_OLD:
-          errMessage = lang.message.monitor_too_old.content;
-          errCaption = lang.message.monitor_too_old.caption;
-          break;
-        case ConnectionError.NOT_FOUND:
-          errMessage = lang.message.unable_to_find_machine;
-          break;
-        case ConnectionError.DISCONNECTED:
-          errMessage = `#891 ${lang.message.disconnected}`;
-          if (this.discoveredDevices.some((d) => d.uuid === uuid)) {
-            errMessage = `#892 ${lang.message.disconnected}`;
-          }
-          break;
-        case ConnectionError.UNKNOWN_DEVICE:
-          errMessage = lang.message.unknown_device;
-          break;
-        default:
-          errMessage = `${lang.message.unknown_error} ${errorCode}`;
-      }
-      Alert.popById('connection-error');
-      Alert.popUp({
-        id: 'connection-error',
-        caption: errCaption,
-        message: errMessage,
-        type: AlertConstants.SHOW_POPUP_ERROR,
-      });
+      this.popConnectionError(uuid, errorCode as ConnectionError);
+
       return {
         success: false,
         error: errorCode as ConnectionError,
@@ -391,7 +350,147 @@ class DeviceMaster {
     }
   }
 
-  async getControl(): Promise<Control> {
+  async selectDeviceWithSwiftray(deviceInfo: IDeviceInfo): Promise<SelectionResult> {
+    // Match the device from the newest received device list
+    if (!deviceInfo) return { success: false };
+    const { uuid } = deviceInfo;
+
+    // kill existing camera connection
+    if (this.currentDevice?.info?.uuid !== uuid) {
+      this.disconnectCamera();
+    }
+
+    const device: IDeviceConnection = this.getDeviceByUUID(uuid);
+    console.log('Selecting', deviceInfo, device);
+    Progress.openNonstopProgress({
+      id: 'select-device',
+      message: sprintf(lang.message.connectingMachine, device.info.name || deviceInfo.name),
+      timeout: 30000,
+    });
+
+    if (device.control && device.control.isConnected) {
+      try {
+        // Update device status
+        if (device.control.getMode() !== 'raw') {
+          const controlSocket = device.control;
+          const info = await controlSocket.addTask(controlSocket.report);
+          Object.assign(device.info, info.device_status);
+        }
+        this.currentDevice = device;
+        Progress.popById('select-device');
+        return { success: true };
+      } catch (e) {
+        await device.control.killSelf();
+      }
+    }
+
+    try {
+      const controlSocket = await this.createDeviceControlSocketSwiftray(uuid);
+      device.control = controlSocket;
+      this.setDeviceControlDefaultCloseListener(deviceInfo);
+      this.currentDevice = device;
+      console.log(`Connected to ${uuid}`);
+      Progress.popById('select-device');
+      return {
+        success: true,
+      };
+    } catch (e) {
+      let error = e;
+      Progress.popById('select-device');
+      console.error(error);
+      if (e.error) error = e.error;
+      let errorCode = '';
+      if (typeof error === 'string') {
+        errorCode = error.replace(/^.*:\s+(\w+)$/g, '$1').toUpperCase();
+      }
+      // AUTH_FAILED seems to not be used by firmware and fluxghost anymore. Keep it just in case.
+      if (
+        [ConnectionError.AUTH_ERROR, ConnectionError.AUTH_FAILED].includes(
+          errorCode as ConnectionError
+        )
+      ) {
+        return await this.runAuthProcess(uuid, device, deviceInfo);
+      }
+
+      this.popConnectionError(uuid, errorCode as ConnectionError);
+
+      return {
+        success: false,
+        error: errorCode as ConnectionError,
+      };
+    } finally {
+      Progress.popById('select-device');
+    }
+  }
+
+  async runAuthProcess(
+    uuid: string,
+    device: IDeviceConnection,
+    deviceInfo: IDeviceInfo
+  ): Promise<SelectionResult> {
+    if (device.info.password) {
+      const authed = await this.showAuthDialog(uuid);
+      if (authed) {
+        const selectionResultAfterAuthed = await this.select(deviceInfo);
+        return selectionResultAfterAuthed;
+      }
+      return { success: false };
+    }
+    Progress.openNonstopProgress({
+      id: 'select-device',
+      message: sprintf(lang.message.connectingMachine, device.info.name),
+      timeout: 30000,
+    });
+    const authResult = await this.auth(uuid);
+    if (!authResult.success) {
+      Progress.popById('select-device');
+      Alert.popUp({
+        id: 'auth-error-with-diff-computer', // ADD new error code?
+        message: lang.message.auth_error,
+        type: AlertConstants.SHOW_POPUP_ERROR,
+      });
+      return { success: false };
+    }
+    const selectionResultAfterAuthed = await this.select(deviceInfo);
+    return selectionResultAfterAuthed;
+  }
+
+  popConnectionError(uuid: string, errorCode: ConnectionError): void {
+    let errCaption = '';
+    let errMessage = lang.message.unknown_error;
+    switch (errorCode) {
+      case ConnectionError.TIMEOUT:
+        errMessage = lang.message.connectionTimeout;
+        break;
+      case ConnectionError.FLUXMONITOR_VERSION_IS_TOO_OLD:
+        errMessage = lang.message.monitor_too_old.content;
+        errCaption = lang.message.monitor_too_old.caption;
+        break;
+      case ConnectionError.NOT_FOUND:
+        errMessage = lang.message.unable_to_find_machine;
+        break;
+      case ConnectionError.DISCONNECTED:
+        errMessage = `#891 ${lang.message.disconnected}`;
+        if (this.discoveredDevices.some((d) => d.uuid === uuid)) {
+          errMessage = `#892 ${lang.message.disconnected}`;
+        }
+        break;
+      case ConnectionError.UNKNOWN_DEVICE:
+        errMessage = lang.message.unknown_device;
+        break;
+      default:
+        errMessage = `${lang.message.unknown_error} ${errorCode}`;
+    }
+    Alert.popById('connection-error');
+    Alert.popUp({
+      id: 'connection-error',
+      caption: errCaption,
+      message: errMessage,
+      type: AlertConstants.SHOW_POPUP_ERROR,
+    });
+  }
+
+  async getControl(): Promise<IControlSocket> {
     if (!this.currentDevice) {
       return null;
     }
@@ -411,7 +510,7 @@ class DeviceMaster {
     } catch (e) {
       console.error(`currentDevice.control.killSelf error ${e}`);
     }
-    const res = await this.selectDevice(this.currentDevice.info);
+    const res = await this.select(this.currentDevice.info);
     return res;
   }
 
@@ -419,6 +518,7 @@ class DeviceMaster {
     const device: IDeviceConnection = this.getDeviceByUUID(uuid);
     if (device.control) {
       try {
+        // Warning: access to private property
         device.control.connection.close();
       } catch (e) {
         console.error('Error when close control connection', e);
@@ -487,8 +587,18 @@ class DeviceMaster {
     return controlSocket.addTask(controlSocket.kick);
   }
 
+  async startFraming() {
+    const controlSocket = (await this.getControl()) as SwiftrayControl;
+    return controlSocket.addTask(controlSocket.startFraming);
+  }
+
+  async stopFraming() {
+    const controlSocket = (await this.getControl()) as SwiftrayControl;
+    return controlSocket.addTask(controlSocket.stopFraming);
+  }
+
   // Calibration and Machine test functions
-  async waitTillCompleted(onProgress?: (number) => void) {
+  async waitTillCompleted(onProgress?: (progress: number) => void) {
     return new Promise((resolve, reject) => {
       let statusChanged = false;
       const statusCheckInterval = setInterval(async () => {
@@ -787,7 +897,7 @@ class DeviceMaster {
   async maintainMove(args: { f: number; x: number; y: number }) {
     const controlSocket = await this.getControl();
     const result = await controlSocket.addTask(controlSocket.maintainMove, args);
-    if (result.status === 'ok') {
+    if (result && result.status === 'ok') {
       return;
     }
     console.warn('maintainMove Result', result);
@@ -851,46 +961,37 @@ class DeviceMaster {
 
   async rawSetRotary(on: boolean) {
     const controlSocket = await this.getControl();
-    if (constant.fcodeV2Models.has(this.currentDevice.info.model)) {
-      return controlSocket.addTask(controlSocket.rawSetRotaryV2, on);
-    }
-    return controlSocket.addTask(controlSocket.rawSetRotary, on);
+    const fcodeVersion = constant.fcodeV2Models.has(this.currentDevice.info.model) ? 2 : 1;
+    return controlSocket.addTask(controlSocket.rawSetRotary, on, fcodeVersion);
   }
 
   async rawSetWaterPump(on: boolean) {
     const controlSocket = await this.getControl();
-    if (constant.fcodeV2Models.has(this.currentDevice.info.model)) {
-      return controlSocket.addTask(controlSocket.rawSetWaterPumpV2, on);
-    }
-    return controlSocket.addTask(controlSocket.rawSetWaterPump, on);
+    const fcodeVersion = constant.fcodeV2Models.has(this.currentDevice.info.model) ? 2 : 1;
+    return controlSocket.addTask(controlSocket.rawSetWaterPump, on, fcodeVersion);
   }
 
   async rawSetFan(on: boolean) {
     const controlSocket = await this.getControl();
-    if (constant.fcodeV2Models.has(this.currentDevice.info.model)) {
-      return controlSocket.addTask(controlSocket.rawSetFanV2, on);
-    }
-    return controlSocket.addTask(controlSocket.rawSetFan, on);
+    const fcodeVersion = constant.fcodeV2Models.has(this.currentDevice.info.model) ? 2 : 1;
+    return controlSocket.addTask(controlSocket.rawSetFan, on, fcodeVersion);
   }
 
   async rawSetAirPump(on: boolean) {
     const controlSocket = await this.getControl();
-    if (constant.fcodeV2Models.has(this.currentDevice.info.model)) {
-      return controlSocket.addTask(controlSocket.rawSetAirPumpV2, on);
-    }
-    return controlSocket.addTask(controlSocket.rawSetAirPump, on);
+    const fcodeVersion = constant.fcodeV2Models.has(this.currentDevice.info.model) ? 2 : 1;
+    return controlSocket.addTask(controlSocket.rawSetAirPump, on, fcodeVersion);
   }
 
   async rawLooseMotor() {
     const controlSocket = await this.getControl();
-    if (constant.fcodeV2Models.has(this.currentDevice.info.model)) {
-      return controlSocket.addTask(controlSocket.rawLooseMotorV2);
-    }
     const vc = VersionChecker(this.currentDevice.info.version);
-    if (vc.meetRequirement('B34_LOOSE_MOTOR')) {
-      return controlSocket.addTask(controlSocket.rawLooseMotorB34);
+    if (!vc.meetRequirement('B34_LOOSE_MOTOR')) {
+      // TODO: 3.3.0 is pretty old, hope we can remove this check in the future
+      return controlSocket.addTask(controlSocket.rawLooseMotorOld);
     }
-    return controlSocket.addTask(controlSocket.rawLooseMotorB12);
+    const fcodeVersion = constant.fcodeV2Models.has(this.currentDevice.info.model) ? 2 : 1;
+    return controlSocket.addTask(controlSocket.rawLooseMotor, fcodeVersion);
   }
 
   async rawSetLaser(args: { on: boolean; s?: number }) {
@@ -960,10 +1061,8 @@ class DeviceMaster {
     if (!vc.meetRequirement(isV2 ? 'ADOR_JOB_ORIGIN' : 'JOB_ORIGIN')) {
       return null;
     }
-    if (isV2) {
-      return controlSocket.addTask(controlSocket.rawSetOriginV2);
-    }
-    return controlSocket.addTask(controlSocket.rawSetOrigin);
+    const res = await controlSocket.addTask(controlSocket.rawSetOrigin, isV2 ? 2: 1);
+    return res;
   }
 
   // Get, Set functions
@@ -1091,14 +1190,6 @@ class DeviceMaster {
     return controlSocket.addTask(controlSocket.fwUpdate, file);
   };
 
-  updateToolhead = async (file: File, onProgress: (...args: any[]) => void) => {
-    const controlSocket = await this.getControl();
-    if (onProgress) {
-      controlSocket.setProgressListener(onProgress);
-    }
-    return controlSocket.addTask(controlSocket.toolheadUpdate, file);
-  };
-
   uploadFisheyeParams = async (data: string, onProgress: (...args: any[]) => void) => {
     const controlSocket = await this.getControl();
     if (onProgress) {
@@ -1107,6 +1198,9 @@ class DeviceMaster {
     return controlSocket.addTask(controlSocket.uploadFisheyeParams, data);
   };
 
+  /**
+   * @deprecated Use V2 calibration functions instead so we don't have to set 3d rotation
+   */
   updateFisheye3DRotation = async (data: RotationParameters3D) => {
     const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.updateFisheye3DRotation, data);

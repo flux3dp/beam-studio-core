@@ -341,7 +341,7 @@ function cacheDrawing(fn, state, args) {
 }
 
 const drawTaskPreview = (
-  taskPreview,
+  taskPreview: GcodePreview,
   cachedDrawState,
   canvas: HTMLCanvasElement,
   drawCommands,
@@ -465,7 +465,7 @@ class PathPreview extends React.Component<Props, State> {
   private position: any;
   private moveStarted: boolean;
   private adjustingCamera: boolean;
-  private gcodePreview: any;
+  private gcodePreview: GcodePreview;
   private simTimeMax: number;
   private timeDisplayRatio: number;
   private simInterval: NodeJS.Timeout;
@@ -613,7 +613,7 @@ class PathPreview extends React.Component<Props, State> {
     const { togglePathPreview } = this.context;
     const svgEditor = document.getElementById('svg_editor');
     if (svgEditor) svgEditor.style.display = '';
-    const { gcodeBlob, fileTimeCost } = await exportFuncs.getGcode();
+    const { gcodeBlob, fileTimeCost, useSwiftray } = await exportFuncs.getGcode();
     if (!gcodeBlob) {
       togglePathPreview();
     }
@@ -625,9 +625,13 @@ class PathPreview extends React.Component<Props, State> {
     });
     const fileReader = new FileReader();
     fileReader.onloadend = (e) => {
-      const result = (e.target.result as string).split('\n');
-      result.splice(5, 0, 'G1 X0 Y0');
-      this.gcodeString = result.join('\n');
+      if (useSwiftray) {
+        this.gcodeString = e.target.result as string;
+      } else {
+        const result = (e.target.result as string).split('\n');
+        result.splice(5, 0, 'G1 X0 Y0');
+        this.gcodeString = result.join('\n');
+      }
       if (this.gcodeString.length > 83) {
         const parsedGcode = parseGcode(this.gcodeString);
         this.gcodePreview.setParsedGcode(parsedGcode);

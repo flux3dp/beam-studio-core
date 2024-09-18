@@ -284,6 +284,23 @@ export const toggleFullColorAfterWorkareaChange = (): void => {
   }
 };
 
+export const applyDefaultLaserModule = (): void => {
+  const workarea = BeamboxPreference.read('workarea');
+  if (modelsWithModules.has(workarea)) {
+    const layerNames = getAllLayerNames();
+    const defaultLaserModule = layerModuleHelper.getDefaultLaserModule();
+    for (let i = 0; i < layerNames.length; i += 1) {
+      const layerName = layerNames[i];
+      const layer = getLayerByName(layerName);
+      // eslint-disable-next-line no-continue
+      if (!layer) continue;
+      if (getData(layer, 'module') === LayerModule.LASER_UNIVERSAL) {
+        writeDataLayer(layer, 'module', defaultLaserModule);
+      }
+    }
+  }
+};
+
 export const laserConfigKeys: ConfigKey[] = [
   'speed',
   'power',
