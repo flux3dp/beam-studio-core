@@ -151,7 +151,13 @@ var supportsNativeSVGTransformLists_ = (function() {
 	var rxform = rect.transform.baseVal;
 	var t1 = svg.createSVGTransform();
 	rxform.appendItem(t1);
-	return rxform.getItem(0) == t1;
+  // This could be wrong, t1 and rxform.getItem(0) are not the same object
+  // should be something like this
+  // const rx0 = rxform.getItem(0);
+  // return ['a', 'b', 'c', 'd', 'e', 'f'].every((prop, i) => t1.matrix[prop] === rx0.matrix[prop]);
+  // most of the modern browsers support SVGTransform btw
+  // https://developer.mozilla.org/en-US/docs/Web/API/SVGTransform
+  return rxform.getItem(0) == t1;
 }());
 
 // Public API
