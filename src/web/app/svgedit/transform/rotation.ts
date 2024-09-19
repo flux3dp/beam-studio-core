@@ -14,7 +14,7 @@ const getRotationAngleFromTransformList = (
   return 0;
 };
 
-const getRotationAngle = (elem: SVGElement, toRad = false): number => {
+export const getRotationAngle = (elem: SVGElement, toRad = false): number => {
   const tlist = transfromlist.getTransformList(elem as SVGGraphicsElement);
   return getRotationAngleFromTransformList(tlist, toRad);
 };
