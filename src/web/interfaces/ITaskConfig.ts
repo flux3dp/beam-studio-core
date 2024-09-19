@@ -58,5 +58,5 @@ export type TFcodeOptionalConfig = Partial<{
 
 export interface IFcodeConfig extends TFcodeOptionalConfig {
   model: WorkAreaModel;
-  hardware_name: 'hexa' | 'beambox' | 'pro' | 'beamo' | 'ado1' | 'fbb2';
+  hardware_name: 'hexa' | 'beambox' | 'pro' | 'beamo' | 'ado1' | 'fbb2' | WorkAreaModel;
 }
