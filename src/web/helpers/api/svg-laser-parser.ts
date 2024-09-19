@@ -49,11 +49,13 @@ export const getExportOpt = (
     config.hardware_name = 'hexa';
     if (!useDevPaddingAcc) config.acc = 7500;
   } else if (model === 'fbb1p') config.hardware_name = 'pro';
+  else if (model === 'fbb1b') config.hardware_name = 'beambox';
   else if (model === 'fbm1') config.hardware_name = 'beamo';
   else if (model === 'ado1') {
     config.hardware_name = 'ado1';
     if (!useDevPaddingAcc) config.acc = opt.paddingAccel || 3200;
-  }
+  } else config.hardware_name = model;
+
   if (useDevPaddingAcc) config.acc = paddingAccel;
 
   if (opt.codeType === 'gcode') config.gc = true;
