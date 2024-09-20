@@ -1052,6 +1052,10 @@ const lang: ILang = {
       brightness_and_contrast: 'Luminosité / Contraste',
       brightness: 'Luminosité',
       contrast: 'Contraste',
+      rotary_warped: 'Déformé Rotatif',
+      diameter: 'Diamètre',
+      circumference: 'Circonférence',
+      warp: 'Déformation',
     },
     document_panel: {
       document_settings: 'Paramètres du document',

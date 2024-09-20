@@ -1052,6 +1052,10 @@ const lang: ILang = {
       brightness_and_contrast: 'Helderheid / Contrast',
       brightness: 'Helderheid',
       contrast: 'Contrast',
+      rotary_warped: 'Roterend Vervormd',
+      diameter: 'Diameter',
+      circumference: 'Omtrek',
+      warp: 'Vervormen',
     },
     document_panel: {
       document_settings: 'Documentinstellingen',

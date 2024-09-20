@@ -1052,6 +1052,10 @@ const lang: ILang = {
       brightness_and_contrast: 'Độ sáng / Độ tương phản',
       brightness: 'Độ sáng',
       contrast: 'Độ tương phản',
+      rotary_warped: 'Biến Dạng Xoay',
+      diameter: 'Đường kính',
+      circumference: 'Chu vi',
+      warp: 'Biến Dạng',
     },
     document_panel: {
       document_settings: 'Cài đặt tài liệu',

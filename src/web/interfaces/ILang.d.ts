@@ -1051,7 +1051,11 @@ export interface ILang {
       phote_edit: string,
       brightness_and_contrast: string,
       brightness: string,
-      contrast: string,
+      contrast: string;
+      rotary_warped: string;
+      diameter: string;
+      circumference: string;
+      warp: string;
     },
     document_panel: {
       document_settings: string,

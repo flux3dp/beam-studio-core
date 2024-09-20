@@ -1052,6 +1052,10 @@ const lang: ILang = {
       brightness_and_contrast: 'Kecerahan / Kontras',
       brightness: 'Kecerahan',
       contrast: 'Kontras',
+      rotary_warped: 'Berputar Terherot',
+      diameter: 'Diameter',
+      circumference: 'Lilitan',
+      warp: 'Herot',
     },
     document_panel: {
       document_settings: 'Tetapan Dokumen',

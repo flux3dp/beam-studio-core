@@ -1055,6 +1055,10 @@ const lang: ILang = {
       brightness_and_contrast: 'Jas / Kontrast',
       brightness: 'Jas',
       contrast: 'Kontrast',
+      rotary_warped: 'Otočně Zkřivené',
+      diameter: 'Průměr',
+      circumference: 'Obvod',
+      warp: 'Zkřivit',
     },
     document_panel: {
       document_settings: 'Nastavení dokumentu',

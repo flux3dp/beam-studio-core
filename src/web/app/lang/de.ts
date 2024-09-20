@@ -1055,6 +1055,10 @@ const lang: ILang = {
       brightness_and_contrast: 'Helligkeit / Kontrast',
       brightness: 'Helligkeit',
       contrast: 'Kontrast',
+      rotary_warped: 'Drehverzerrt',
+      diameter: 'Durchmesser',
+      circumference: 'Umfang',
+      warp: 'Verzerren',
     },
     document_panel: {
       document_settings: 'Dokumenteinstellungen',

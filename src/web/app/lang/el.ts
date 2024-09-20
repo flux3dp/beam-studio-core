@@ -1052,6 +1052,10 @@ const lang: ILang = {
       brightness_and_contrast: 'Φωτεινότητα / Αντίθεση',
       brightness: 'Φωτεινότητα',
       contrast: 'Αντίθεση',
+      rotary_warped: 'Περιστροφική Παραμόρφωση',
+      diameter: 'Διάμετρος',
+      circumference: 'Περίμετρος',
+      warp: 'Παραμόρφωση',
     },
     document_panel: {
       document_settings: 'Ρυθμίσεις εγγράφου',
