@@ -128,9 +128,13 @@ const CropPanel = ({ src, image, onClose }: Props): JSX.Element => {
     progressCaller.openNonstopProgress({ id: 'photo-edit-processing', message: t.processing });
     const result = await jimpHelper.cropImage(src, x, y, width, height);
     const base64 = await calculateBase64(result, isShading, threshold, isFullColor);
-    const newWidth = parseFloat(image.getAttribute('width')) * (width / originalWidth);
-    const newHeight = parseFloat(image.getAttribute('height')) * (height / originalHeight);
-    handleFinish(image, result, base64, newWidth, newHeight);
+    const elemW = parseFloat(image.getAttribute('width'));
+    const elemH = parseFloat(image.getAttribute('height'));
+    const newX = parseFloat(image.getAttribute('x')) + x / originalWidth * elemW;
+    const newY = parseFloat(image.getAttribute('y')) + y / originalHeight * elemH;
+    const newWidth = elemW * width / originalWidth;
+    const newHeight = elemH * height / originalHeight;
+    handleFinish(image, result, base64, { width: newWidth, height: newHeight, x: newX, y: newY });
     progressCaller.popById('photo-edit-processing');
     onClose();
   };

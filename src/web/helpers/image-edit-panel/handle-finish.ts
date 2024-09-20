@@ -1,4 +1,4 @@
-import history from 'app/svgedit/history/history';
+import imageEdit from 'helpers/image-edit';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
@@ -11,24 +11,10 @@ const handleFinish = (
   element: SVGImageElement,
   src: string,
   base64: string,
-  width?: number,
-  height?: number,
+  attrs: { [key: string]: string | number } = {}
 ): void => {
-  const batchCmd = new history.BatchCommand('Image Edit');
-
-  const handleSetAttribute = (attr: string, value) => {
-    svgCanvas.undoMgr.beginUndoableChange(attr, [element]);
-    element.setAttribute(attr, value);
-    const cmd = svgCanvas.undoMgr.finishUndoableChange();
-    if (!cmd.isEmpty()) {
-      batchCmd.addSubCommand(cmd);
-    }
-  };
-  handleSetAttribute('origImage', src);
-  handleSetAttribute('xlink:href', base64);
-  if (typeof width === 'number') handleSetAttribute('width', width);
-  if (typeof height === 'number') handleSetAttribute('height', height);
-  svgCanvas.undoMgr.addCommandToHistory(batchCmd);
+  const changes: { [key: string]: string | number } = { origImage: src, 'xlink:href': base64, ...attrs };
+  imageEdit.addBatchCommand('Image Edit', element, changes);
   svgCanvas.selectOnly([element], true);
 };
 
