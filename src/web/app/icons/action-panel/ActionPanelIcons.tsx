@@ -24,6 +24,7 @@ import Offset from './offset.svg';
 import Outline from './outline.svg';
 import Replace from './replace.svg';
 import ReplaceMobile from './replace-mobile.svg';
+import RotaryWarped from './rotary-warped.svg';
 import Sharpen from './sharpen.svg';
 import SharpenMobile from './sharpen-mobile.svg';
 import Simplify from './simplify.svg';
@@ -59,6 +60,7 @@ export default {
   Offset,
   Replace,
   ReplaceMobile,
+  RotaryWarped,
   Sharpen,
   SharpenMobile,
   Simplify,
