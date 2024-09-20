@@ -7,7 +7,7 @@ import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import ConnectionTypeIcons from 'app/icons/connection-type/ConnectionTypeIcons';
 import deviceConstants from 'app/constants/device-constants';
-import discover from 'helpers/api/discover';
+import discover, { SEND_DEVICES_INTERVAL } from 'helpers/api/discover';
 import fileExportHelper from 'helpers/file-export-helper';
 import i18n from 'helpers/i18n';
 import TopBarController from 'app/views/beambox/TopBar/contexts/TopBarController';
@@ -65,7 +65,7 @@ const DeviceSelector = ({ onSelect, onClose }: Props): JSX.Element => {
             if (res) window.location.hash = '#initialize/connect/select-machine-model';
           },
         });
-      }, 5000);
+      }, SEND_DEVICES_INTERVAL * 3);
     } else {
       clearTimeout(timeout.current);
     }
