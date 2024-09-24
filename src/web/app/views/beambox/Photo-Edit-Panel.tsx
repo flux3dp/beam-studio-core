@@ -6,8 +6,8 @@ import ActionPanelIcons from 'app/icons/action-panel/ActionPanelIcons';
 import calculateBase64 from 'helpers/image-edit-panel/calculate-base64';
 import Constants from 'app/actions/beambox/constant';
 import CurveControl from 'app/widgets/Curve-Control';
-import history from 'app/svgedit/history/history';
 import i18n from 'helpers/i18n';
+import imageEdit from 'helpers/image-edit';
 import imageProcessor from 'implementations/imageProcessor';
 import jimpHelper from 'helpers/jimp-helper';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
@@ -156,35 +156,18 @@ class PhotoEditPanel extends React.Component<Props, State> {
   }
 
   async handleComplete(): Promise<void> {
-    const clearHistory = () => {
-      const { previewSrc, origSrc } = this.state;
-      if (previewSrc !== origSrc) {
-        URL.revokeObjectURL(previewSrc);
-      }
-    };
-
     Progress.openNonstopProgress({
       id: 'photo-edit-processing',
       message: LANG.processing,
     });
-    const { displaySrc } = this.state;
-    const { element, unmount } = this.props;
-    const batchCmd = new history.BatchCommand('Photo edit');
-
-    const handleSetAttribute = (attr: string, value) => {
-      svgCanvas.undoMgr.beginUndoableChange(attr, [element]);
-      element.setAttribute(attr, value);
-      const cmd = svgCanvas.undoMgr.finishUndoableChange();
-      if (!cmd.isEmpty()) {
-        batchCmd.addSubCommand(cmd);
-      }
-    };
-
-    handleSetAttribute('origImage', displaySrc);
-    clearHistory();
+    const { displaySrc, previewSrc, origSrc } = this.state;
+    const { element, mode, unmount } = this.props;
+    if (previewSrc !== origSrc) URL.revokeObjectURL(previewSrc);
     const result = await this.calculateImageData(displaySrc);
-    handleSetAttribute('xlink:href', result);
-    svgCanvas.undoMgr.addCommandToHistory(batchCmd);
+    imageEdit.addBatchCommand(`Photo edit ${mode}`, element, {
+      origImage: displaySrc,
+      'xlink:href': result,
+    });
     svgCanvas.selectOnly([element], true);
     unmount();
     Progress.popById('photo-edit-processing');

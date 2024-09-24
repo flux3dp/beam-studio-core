@@ -18,6 +18,7 @@ import useI18n from 'helpers/useI18n';
 import webNeedConnectionWrapper from 'helpers/web-need-connection-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { isMobile } from 'helpers/system-helper';
+import { showRotaryWarped } from 'app/views/dialogs/image-edit/RotaryWarped';
 import { textButtonTheme } from 'app/constants/antd-config';
 
 import styles from './ActionsPanel.module.scss';
@@ -41,7 +42,8 @@ interface ButtonOpts {
 }
 
 const ActionsPanel = ({ elem }: Props): JSX.Element => {
-  const lang = useI18n().beambox.right_panel.object_panel.actions_panel;
+  const t = useI18n();
+  const lang = t.beambox.right_panel.object_panel.actions_panel;
   const replaceImage = async (): Promise<void> => {
     setTimeout(() => ObjectPanelController.updateActiveKey(null), 300);
     const option = {
@@ -194,6 +196,14 @@ const ActionsPanel = ({ elem }: Props): JSX.Element => {
         <ActionPanelIcons.BackgroungRemovalMobile />,
         { isFullLine: true, mobileLabel: lang.ai_bg_removal_short }
       ),
+      trapezoid: renderButtons(
+        'trapezoid',
+        t.beambox.photo_edit_panel.rotary_warped,
+        () => showRotaryWarped(elem as SVGImageElement),
+        <ActionPanelIcons.RotaryWarped />,
+        <ActionPanelIcons.RotaryWarped />,
+        { isFullLine: true }
+      ),
       trace: renderButtons(
         'trace',
         lang.trace,
@@ -265,6 +275,7 @@ const ActionsPanel = ({ elem }: Props): JSX.Element => {
           'trace',
           'bg-removal',
           'smartNest',
+          'trapezoid',
         ]
       : [
           'autoFit',
@@ -279,6 +290,7 @@ const ActionsPanel = ({ elem }: Props): JSX.Element => {
           'invert',
           'array',
           'potrace',
+          'trapezoid',
         ];
     const contentInOrder = contentOrder.map((key) => content[key]);
     return contentInOrder;

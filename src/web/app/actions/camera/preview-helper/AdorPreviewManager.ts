@@ -1,3 +1,4 @@
+import alertCaller from 'app/actions/alert-caller';
 import deviceMaster from 'helpers/device-master';
 import i18n from 'helpers/i18n';
 import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
@@ -48,6 +49,15 @@ class AdorPreviewManager extends BasePreviewManager implements PreviewManager {
       return res;
     } catch (error) {
       console.error(error);
+      if (error.message && error.message.startsWith('Camera WS')) {
+        alertCaller.popUpError({
+          message: `${lang.topbar.alerts.fail_to_connect_with_camera}<br/>${error.message || ''}`,
+        });
+      } else {
+        alertCaller.popUpError({
+          message: `${lang.topbar.alerts.fail_to_start_preview}<br/>${error.message || ''}`,
+        });
+      }
       return false;
     } finally {
       if (deviceMaster.currentControlMode === 'raw') {

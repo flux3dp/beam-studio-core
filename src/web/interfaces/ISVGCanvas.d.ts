@@ -77,6 +77,9 @@ export default interface ISVGCanvas {
   getRefElem(refString: string): Element;
   getRoot: () => SVGSVGElement;
   getRootScreenMatrix: () => SVGMatrix;
+  /**
+   * @deprecated use svgedit/transfrom/rotation.ts#getRotationAngle instead
+   */
   getRotationAngle(elem: Element): void;
   getRubberBox: () => SVGRectElement;
   getSelectedElems: (ungroupTempGroup?: boolean) => SVGElement[];

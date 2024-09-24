@@ -6,6 +6,7 @@ import fontHelper from 'helpers/fonts/fontHelper';
 import selector from 'app/svgedit/selector';
 import storage from 'implementations/storage';
 import textActions from 'app/svgedit/text/textactions';
+import { getRotationAngle } from 'app/svgedit/transform/rotation';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ICommand } from 'interfaces/IHistory';
 
@@ -354,7 +355,7 @@ const setIsVertical = (val: boolean): void => {
     textActions.setCursor();
   }
   textActions.setIsVertical(val);
-  const angle = svgedit.utilities.getRotationAngle(elem);
+  const angle = getRotationAngle(elem);
   svgCanvas.setRotationAngle(0, true, elem);
   renderText(elem);
   svgCanvas.setRotationAngle(angle, true, elem);
@@ -397,7 +398,7 @@ const setLineSpacing = (val: number): void => {
   if (!elem || !elem.textContent) {
     textActions.setCursor();
   }
-  const angle = svgedit.utilities.getRotationAngle(elem);
+  const angle = getRotationAngle(elem);
   svgCanvas.setRotationAngle(0, true, elem);
   renderText(elem);
   svgCanvas.setRotationAngle(angle, true, elem);

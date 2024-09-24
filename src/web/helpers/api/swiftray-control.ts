@@ -739,7 +739,7 @@ class SwiftrayControl extends EventEmitter implements IControlSocket {
     let command: string;
     if (fcodeVersion === 2) command = on ? 'M137P35' : 'M137P36';
     else command = on ? 'R1' : 'R0';
-    if (!this._isLineCheckMode) return this.useWaitAnyResponse(command);
+    if (!this._isLineCheckMode || fcodeVersion === 1) return this.useWaitAnyResponse(command);
     return this.useRawLineCheckCommand(command);
   };
 

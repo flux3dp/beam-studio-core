@@ -14,7 +14,7 @@ import { IDeviceInfo } from 'interfaces/IDevice';
 import { swiftrayClient } from './swiftray-client';
 
 const BUFFER = 100;
-const SEND_DEVICES_INTERVAL = 5000;
+export const SEND_DEVICES_INTERVAL = 5000;
 const CLEAR_DEVICES_INTERVAL = 60000;
 const discoverLogger = Logger('discover');
 

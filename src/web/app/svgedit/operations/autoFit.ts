@@ -11,6 +11,7 @@ import i18n from 'helpers/i18n';
 import previewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
 import progressCaller from 'app/actions/progress-caller';
 import undoManager from 'app/svgedit/history/undoManager';
+import { getRotationAngle } from 'app/svgedit/transform/rotation';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 import clipboard from './clipboard';
@@ -108,7 +109,7 @@ const autoFit = async (elem: SVGElement): Promise<void> => {
       ? svgCanvas.ungroupTempGroup()
       : [elem];
     const batchCmd = new history.BatchCommand('Auto Fit');
-    const elemRotationAngle = svgedit.utilities.getRotationAngle(elem);
+    const elemRotationAngle = getRotationAngle(elem);
     for (let i = 0; i < elemsToClone.length; i += 1) {
       const elemToClone = elemsToClone[i];
       const bbox =

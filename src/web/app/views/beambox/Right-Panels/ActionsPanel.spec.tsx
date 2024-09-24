@@ -87,6 +87,9 @@ jest.mock('helpers/useI18n', () => () => ({
         actions_panel: tActionPanel,
       },
     },
+    photo_edit_panel: {
+      rotary_warped: 'rotary_warped',
+    },
   },
 }));
 

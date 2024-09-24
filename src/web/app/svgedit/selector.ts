@@ -15,6 +15,7 @@ import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { isMobile } from 'helpers/system-helper';
 
 import workareaManager from './workarea';
+import { getRotationAngle } from './transform/rotation';
 
 const { svgedit } = window;
 
@@ -295,7 +296,7 @@ class Selector {
     );
     let { aabox } = transformedBBox;
 
-    const angle = svgedit.utilities.getRotationAngle(elem);
+    const angle = getRotationAngle(elem as SVGElement);
     if (angle) {
       const cx = aabox.x + aabox.width / 2;
       const cy = aabox.y + aabox.height / 2;

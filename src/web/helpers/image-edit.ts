@@ -12,6 +12,7 @@ import imageData from 'helpers/image-data';
 import jimpHelper from 'helpers/jimp-helper';
 import progress from 'app/actions/progress-caller';
 import requirejsHelper from 'helpers/requirejs-helper';
+import undoManager from 'app/svgedit/history/undoManager';
 import updateElementColor from 'helpers/color/updateElementColor';
 import {
   axiosFluxId,
@@ -47,7 +48,14 @@ const getSelectedElem = (): SVGImageElement => {
   return element;
 };
 
-const getImageAttributes = (elem: Element) => {
+const getImageAttributes = (
+  elem: Element
+): {
+  isFullColor: boolean;
+  imgUrl: string;
+  shading: boolean;
+  threshold: number;
+} => {
   const imgUrl = elem.getAttribute('origImage') || elem.getAttribute('xlink:href');
   const isFullColor = elem.getAttribute('data-fullcolor') === '1';
   const shading = elem.getAttribute('data-shading') === 'true';
@@ -68,7 +76,7 @@ const generateBase64Image = (
   shading: boolean,
   threshold: number,
   isFullColor = false
-) =>
+): Promise<string> =>
   new Promise<string>((resolve) => {
     imageData(imgSrc, {
       grayscale: isFullColor
@@ -89,13 +97,14 @@ const generateBase64Image = (
 const addBatchCommand = (
   commandName: string,
   elem: Element,
-  changes: { [key: string]: string | number | boolean }
-) => {
+  changes: { [key: string]: string | number | boolean | undefined }
+): IBatchCommand => {
   const batchCommand: IBatchCommand = new history.BatchCommand(commandName);
   const setAttribute = (key: string, value) => {
-    svgCanvas.undoMgr.beginUndoableChange(key, [elem]);
-    elem.setAttribute(key, value);
-    const cmd = svgCanvas.undoMgr.finishUndoableChange();
+    undoManager.beginUndoableChange(key, [elem]);
+    if (value === undefined) elem.removeAttribute(key);
+    else elem.setAttribute(key, value);
+    const cmd = undoManager.finishUndoableChange();
     if (!cmd.isEmpty()) {
       batchCommand.addSubCommand(cmd);
     }
@@ -105,8 +114,9 @@ const addBatchCommand = (
     const key = keys[i];
     setAttribute(key, changes[key]);
   }
+  if (!changes['data-trapezoid']) setAttribute('data-trapezoid', undefined);
   if (!batchCommand.isEmpty()) {
-    svgCanvas.undoMgr.addCommandToHistory(batchCommand);
+    undoManager.addCommandToHistory(batchCommand);
   }
   return batchCommand;
 };
@@ -498,10 +508,81 @@ const potrace = async (elem?: SVGImageElement): Promise<void> => {
   progress.popById('potrace');
 };
 
+/**
+ *
+ * @param img
+ * @param opts dir: 0: top-to-bottom, 1: left-to-right, 2: bottom-to-top, 3: right-to-left
+ * @param opts factor: the smaller side length ratio to the larger side length, should be in (0, 1)
+ * @returns
+ */
+const trapezoid = (
+  img: HTMLImageElement | HTMLCanvasElement,
+  opts: { factor?: number; dir?: number; fixSize?: boolean; returnType?: 'base64' | 'canvas' } = {}
+): HTMLCanvasElement | string => {
+  const { factor = 0.6, dir = 0, fixSize, returnType = 'base64' } = opts;
+  const alongX = dir % 2 === 1;
+  const reverse = dir > 1;
+  const imageRatio = fixSize ? 1 : factor;
+  const canvas = document.createElement('canvas');
+  canvas.width = Math.round(alongX ? img.width : img.width / imageRatio);
+  canvas.height = Math.round(alongX ? img.height / imageRatio : img.height);
+  const ctx = canvas.getContext('2d');
+  const end = alongX ? canvas.width : canvas.height;
+  for (let i = 0; i < end; i += 1) {
+    const cur = (reverse ? end - i - 1 : i) / (end - 1);
+    const lineRatio = factor + (1 - factor) * cur;
+    if (alongX) {
+      const shift = ((1 - lineRatio) * canvas.height) / 2;
+      ctx.drawImage(img, i, 0, 1, img.height, i, shift, 1, lineRatio * canvas.height);
+    } else {
+      const shift = ((1 - lineRatio) * canvas.width) / 2;
+      ctx.drawImage(img, 0, i, img.width, 1, shift, i, lineRatio * canvas.width, 1);
+    }
+  }
+  if (returnType === 'base64') return canvas.toDataURL();
+  return canvas;
+};
+
+const calculateTrapezoidPoints = (
+  points: number[][],
+  width: number,
+  height: number,
+  opts: { factor?: number; dir?: number; fixSize?: boolean } = {}
+): number[][] => {
+  const { factor = 0.6, dir = 0, fixSize } = opts;
+  const alongX = dir % 2 === 1;
+  const reverse = dir > 1;
+  const imageRatio = fixSize ? 1 : factor;
+  const imageWidth = alongX ? width : width / imageRatio;
+  const imageHeight = alongX ? height / imageRatio : height;
+
+  const res = points.map(([x, y]) => {
+    let lineRatio = alongX ? x / (imageWidth - 1) : y / (imageHeight - 1);
+    lineRatio = factor + (1 - factor) * (reverse ? 1 - lineRatio : lineRatio);
+    const ret = [0, 0];
+    if (alongX) {
+      const shift = ((1 - lineRatio) * imageHeight) / 2;
+      ret[0] = x;
+      ret[1] = shift + lineRatio * y;
+    } else {
+      const shift = ((1 - lineRatio) * imageWidth) / 2;
+      ret[0] = shift + lineRatio * x;
+      ret[1] = y;
+    }
+    return ret;
+  });
+  return res;
+};
+
 export default {
+  addBatchCommand,
+  generateBase64Image,
+  getImageAttributes,
   colorInvert,
   generateStampBevel,
   traceImage,
   removeBackground,
   potrace,
+  calculateTrapezoidPoints,
+  trapezoid,
 };

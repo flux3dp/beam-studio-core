@@ -1055,6 +1055,10 @@ const lang: ILang = {
       brightness_and_contrast: '밝기 / 명암',
       brightness: '밝기',
       contrast: '명암 대비',
+      rotary_warped: '회전 왜곡',
+      diameter: '직경',
+      circumference: '둘레',
+      warp: '왜곡',
     },
     document_panel: {
       document_settings: '문서 설정',

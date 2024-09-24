@@ -1052,6 +1052,10 @@ const lang: ILang = {
       brightness_and_contrast: 'Kirkkaus / Kontrasti',
       brightness: 'Kirkkaus',
       contrast: 'Kontrasti',
+      rotary_warped: 'Kiertyvä Vääristymä',
+      diameter: 'Halkaisija',
+      circumference: 'Ympärys',
+      warp: 'Vääristymä',
     },
     document_panel: {
       document_settings: 'Asiakirjan asetukset',

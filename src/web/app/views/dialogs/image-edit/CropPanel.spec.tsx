@@ -4,13 +4,29 @@ import { act, fireEvent, render, waitFor } from '@testing-library/react';
 import CropPanel from './CropPanel';
 
 const mockCropper = jest.fn();
-jest.mock('cropperjs', () => function Cropper(...args) { return mockCropper(...args); });
+jest.mock(
+  'cropperjs',
+  () =>
+    function Cropper(...args) {
+      return mockCropper(...args);
+    }
+);
 
 const mockCalculateBase64 = jest.fn();
-jest.mock('helpers/image-edit-panel/calculate-base64', () => (...args) => mockCalculateBase64(...args));
+jest.mock(
+  'helpers/image-edit-panel/calculate-base64',
+  () =>
+    (...args) =>
+      mockCalculateBase64(...args)
+);
 
 const mockHandleFinish = jest.fn();
-jest.mock('helpers/image-edit-panel/handle-finish', () => (...args) => mockHandleFinish(...args));
+jest.mock(
+  'helpers/image-edit-panel/handle-finish',
+  () =>
+    (...args) =>
+      mockHandleFinish(...args)
+);
 
 const mockCropImage = jest.fn();
 jest.mock('helpers/jimp-helper', () => ({
@@ -61,11 +77,16 @@ describe('test CropPanel', () => {
   beforeEach(() => {
     jest.resetAllMocks();
     global.URL.revokeObjectURL = mockRevokeObjectURL;
-    mockImage.getAttribute.mockReturnValueOnce('true')
-      .mockReturnValueOnce('125')
-      .mockReturnValueOnce(null)
-      .mockReturnValueOnce('200')
-      .mockReturnValueOnce('200');
+    mockImage.getAttribute.mockImplementation((key) => {
+      if (key === 'data-shading') return 'true';
+      if (key === 'data-threshold') return '125';
+      if (key === 'data-fullcolor') return null;
+      if (key === 'width') return '200';
+      if (key === 'height') return '200';
+      if (key === 'x') return '100';
+      if (key === 'y') return '100';
+      return undefined;
+    });
   });
 
   it('should render correctly', async () => {
@@ -77,11 +98,18 @@ describe('test CropPanel', () => {
     });
     mockCalculateBase64.mockResolvedValueOnce('mock-base64-1');
     const { baseElement } = render(
-      <CropPanel src="mock-src" image={mockImage as unknown as SVGImageElement} onClose={mockOnClose} />
+      <CropPanel
+        src="mock-src"
+        image={mockImage as unknown as SVGImageElement}
+        onClose={mockOnClose}
+      />
     );
     await waitFor(() => {
       expect(mockOpenNonstopProgress).toBeCalledTimes(1);
-      expect(mockOpenNonstopProgress).toHaveBeenLastCalledWith({ id: 'photo-edit-processing', message: 'processing' });
+      expect(mockOpenNonstopProgress).toHaveBeenLastCalledWith({
+        id: 'photo-edit-processing',
+        message: 'processing',
+      });
       expect(mockCropPreprocess).toBeCalledTimes(1);
       expect(mockCropPreprocess).toHaveBeenLastCalledWith('mock-src');
       expect(mockCalculateBase64).toBeCalledTimes(1);
@@ -89,7 +117,9 @@ describe('test CropPanel', () => {
       expect(mockPopById).toBeCalledTimes(1);
       expect(mockPopById).toHaveBeenLastCalledWith('photo-edit-processing');
     });
-    await waitFor(() => expect(baseElement.querySelector('.ant-modal')).not.toHaveClass('ant-zoom-appear'));
+    await waitFor(() =>
+      expect(baseElement.querySelector('.ant-modal')).not.toHaveClass('ant-zoom-appear')
+    );
     expect(baseElement).toMatchSnapshot();
   });
 
@@ -101,18 +131,26 @@ describe('test CropPanel', () => {
       originalHeight: 200,
     });
     mockImage.getAttribute.mockReset();
-    mockImage.getAttribute.mockReturnValueOnce('true')
+    mockImage.getAttribute
+      .mockReturnValueOnce('true')
       .mockReturnValueOnce('125')
       .mockReturnValueOnce('1')
       .mockReturnValueOnce('200')
       .mockReturnValueOnce('200');
     mockCalculateBase64.mockResolvedValueOnce('mock-base64-1');
     const { baseElement } = render(
-      <CropPanel src="mock-src" image={mockImage as unknown as SVGImageElement} onClose={mockOnClose} />
+      <CropPanel
+        src="mock-src"
+        image={mockImage as unknown as SVGImageElement}
+        onClose={mockOnClose}
+      />
     );
     await waitFor(() => {
       expect(mockOpenNonstopProgress).toBeCalledTimes(1);
-      expect(mockOpenNonstopProgress).toHaveBeenLastCalledWith({ id: 'photo-edit-processing', message: 'processing' });
+      expect(mockOpenNonstopProgress).toHaveBeenLastCalledWith({
+        id: 'photo-edit-processing',
+        message: 'processing',
+      });
       expect(mockCropPreprocess).toBeCalledTimes(1);
       expect(mockCropPreprocess).toHaveBeenLastCalledWith('mock-src');
       expect(mockCalculateBase64).toBeCalledTimes(1);
@@ -120,7 +158,9 @@ describe('test CropPanel', () => {
       expect(mockPopById).toBeCalledTimes(1);
       expect(mockPopById).toHaveBeenLastCalledWith('photo-edit-processing');
     });
-    await waitFor(() => expect(baseElement.querySelector('.ant-modal')).not.toHaveClass('ant-zoom-appear'));
+    await waitFor(() =>
+      expect(baseElement.querySelector('.ant-modal')).not.toHaveClass('ant-zoom-appear')
+    );
     expect(baseElement).toMatchSnapshot();
   });
 
@@ -134,11 +174,18 @@ describe('test CropPanel', () => {
     });
     mockCalculateBase64.mockResolvedValueOnce('mock-base64-1');
     const { baseElement } = render(
-      <CropPanel src="mock-src" image={mockImage as unknown as SVGImageElement} onClose={mockOnClose} />
+      <CropPanel
+        src="mock-src"
+        image={mockImage as unknown as SVGImageElement}
+        onClose={mockOnClose}
+      />
     );
     await waitFor(() => {
       expect(mockOpenNonstopProgress).toBeCalledTimes(1);
-      expect(mockOpenNonstopProgress).toHaveBeenLastCalledWith({ id: 'photo-edit-processing', message: 'processing' });
+      expect(mockOpenNonstopProgress).toHaveBeenLastCalledWith({
+        id: 'photo-edit-processing',
+        message: 'processing',
+      });
       expect(mockCropPreprocess).toBeCalledTimes(1);
       expect(mockCropPreprocess).toHaveBeenLastCalledWith('mock-src');
       expect(mockCalculateBase64).toBeCalledTimes(1);
@@ -146,7 +193,9 @@ describe('test CropPanel', () => {
       expect(mockPopById).toBeCalledTimes(1);
       expect(mockPopById).toHaveBeenLastCalledWith('photo-edit-processing');
     });
-    await waitFor(() => expect(baseElement.querySelector('.ant-modal')).not.toHaveClass('ant-zoom-appear'));
+    await waitFor(() =>
+      expect(baseElement.querySelector('.ant-modal')).not.toHaveClass('ant-zoom-appear')
+    );
     expect(baseElement).toMatchSnapshot();
   });
 
@@ -157,9 +206,15 @@ describe('test CropPanel', () => {
       originalWidth: 200,
       originalHeight: 200,
     });
-    mockCalculateBase64.mockResolvedValueOnce('mock-base64-1').mockResolvedValueOnce('mock-base64-2');
+    mockCalculateBase64
+      .mockResolvedValueOnce('mock-base64-1')
+      .mockResolvedValueOnce('mock-base64-2');
     const { baseElement, getByText, unmount } = render(
-      <CropPanel src="mock-src" image={mockImage as unknown as SVGImageElement} onClose={mockOnClose} />
+      <CropPanel
+        src="mock-src"
+        image={mockImage as unknown as SVGImageElement}
+        onClose={mockOnClose}
+      />
     );
     await waitFor(() => {
       expect(mockPopById).toBeCalledTimes(1);
@@ -214,7 +269,9 @@ describe('test CropPanel', () => {
       minCropBoxWidth: 1,
       minCropBoxHeight: 1,
     });
-    await waitFor(() => expect(baseElement.querySelector('.ant-modal')).not.toHaveClass('ant-zoom-appear'));
+    await waitFor(() =>
+      expect(baseElement.querySelector('.ant-modal')).not.toHaveClass('ant-zoom-appear')
+    );
     expect(baseElement).toMatchSnapshot();
 
     mockImageNatureWidth.mockReturnValue(80);
@@ -233,7 +290,12 @@ describe('test CropPanel', () => {
     expect(mockCalculateBase64).toBeCalledTimes(3);
     expect(mockCalculateBase64).toHaveBeenLastCalledWith('mock-url-3', true, 125, false);
     expect(mockHandleFinish).toBeCalledTimes(1);
-    expect(mockHandleFinish).toHaveBeenLastCalledWith(mockImage, 'mock-url-3', 'mock-base64-3', 120, 120);
+    expect(mockHandleFinish).toHaveBeenLastCalledWith(mockImage, 'mock-url-3', 'mock-base64-3', {
+      x: 140,
+      y: 140,
+      width: 120,
+      height: 120,
+    });
     expect(mockPopById).toBeCalledTimes(3);
     expect(mockOnClose).toBeCalledTimes(1);
     await act(async () => unmount());
@@ -249,9 +311,15 @@ describe('test CropPanel', () => {
       originalWidth: 200,
       originalHeight: 200,
     });
-    mockCalculateBase64.mockResolvedValueOnce('mock-base64-1').mockResolvedValueOnce('mock-base64-2');
+    mockCalculateBase64
+      .mockResolvedValueOnce('mock-base64-1')
+      .mockResolvedValueOnce('mock-base64-2');
     const { baseElement, getByText, unmount } = render(
-      <CropPanel src="mock-src" image={mockImage as unknown as SVGImageElement} onClose={mockOnClose} />
+      <CropPanel
+        src="mock-src"
+        image={mockImage as unknown as SVGImageElement}
+        onClose={mockOnClose}
+      />
     );
     await waitFor(() => {
       expect(mockPopById).toBeCalledTimes(1);
@@ -321,9 +389,15 @@ describe('test CropPanel', () => {
       originalWidth: 200,
       originalHeight: 300,
     });
-    mockCalculateBase64.mockResolvedValueOnce('mock-base64-1').mockResolvedValueOnce('mock-base64-2');
+    mockCalculateBase64
+      .mockResolvedValueOnce('mock-base64-1')
+      .mockResolvedValueOnce('mock-base64-2');
     const { baseElement, getByText, unmount } = render(
-      <CropPanel src="mock-src" image={mockImage as unknown as SVGImageElement} onClose={mockOnClose} />
+      <CropPanel
+        src="mock-src"
+        image={mockImage as unknown as SVGImageElement}
+        onClose={mockOnClose}
+      />
     );
     await waitFor(() => {
       expect(mockPopById).toBeCalledTimes(1);
@@ -355,7 +429,7 @@ describe('test CropPanel', () => {
     expect(mockCropperInstance.destroy).toBeCalledTimes(1);
     expect(mockCropper).toBeCalledTimes(2);
     expect(mockCropper).toHaveBeenLastCalledWith(img, {
-      aspectRatio: 4/3,
+      aspectRatio: 4 / 3,
       autoCropArea: 1,
       zoomable: false,
       viewMode: 2,
@@ -368,7 +442,7 @@ describe('test CropPanel', () => {
     expect(mockCropperInstance.destroy).toBeCalledTimes(2);
     expect(mockCropper).toBeCalledTimes(3);
     expect(mockCropper).toHaveBeenLastCalledWith(img, {
-      aspectRatio: 2/3,
+      aspectRatio: 2 / 3,
       autoCropArea: 1,
       zoomable: false,
       viewMode: 2,

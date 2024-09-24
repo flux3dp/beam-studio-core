@@ -1052,6 +1052,10 @@ const lang: ILang = {
       brightness_and_contrast: 'ความสว่าง / ความคมชัด',
       brightness: 'ความสว่าง',
       contrast: 'ความคมชัด',
+      rotary_warped: 'บิดเบี้ยวแบบหมุน',
+      diameter: 'เส้นผ่านศูนย์กลาง',
+      circumference: 'เส้นรอบวง',
+      warp: 'บิดเบี้ยว',
     },
     document_panel: {
       document_settings: 'การตั้งค่าเอกสาร',

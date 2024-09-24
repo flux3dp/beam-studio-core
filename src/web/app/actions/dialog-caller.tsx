@@ -5,7 +5,7 @@ import AnnouncementPanel from 'app/components/dialogs/AnnouncementPanel';
 import Boxgen from 'app/components/boxgen/Boxgen';
 import CartridgeSettingPanel from 'app/components/dialogs/CartridgeSettingPanel';
 import ChangeLog from 'app/components/dialogs/ChangeLog';
-import CropPanel from 'app/views/beambox/ImageEditPanel/CropPanel';
+import CropPanel from 'app/views/dialogs/image-edit/CropPanel';
 import DeviceSelector from 'app/views/dialogs/DeviceSelector';
 import DialogBox from 'app/widgets/Dialog-Box';
 import DocumentSettings from 'app/components/dialogs/DocumentSettings';
@@ -43,7 +43,6 @@ import { IAnnouncement } from 'interfaces/IAnnouncement';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { IDialogBoxStyle, IInputLightBox, IPrompt } from 'interfaces/IDialog';
 import { IMediaTutorial, ITutorial } from 'interfaces/ITutorial';
-import { RotationParameters3DCalibration } from 'interfaces/FisheyePreview';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => {

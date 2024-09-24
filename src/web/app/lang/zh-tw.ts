@@ -1055,6 +1055,10 @@ const lang: ILang = {
       brightness_and_contrast: '亮度對比',
       brightness: '亮度',
       contrast: '對比',
+      rotary_warped: '旋轉軸變形',
+      diameter: '直徑',
+      circumference: '周長',
+      warp: '變形',
     },
     document_panel: {
       document_settings: '文件設定',
