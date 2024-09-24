@@ -134,7 +134,7 @@ const RotaryWarped = ({ elem, onClose }: Props): JSX.Element => {
       if (max <= 0 || min <= 0 || !img.current) return;
       await imgLoad.current;
       const factor = min / max;
-      const dir = diameterA > diameterB ? 3 : 1;
+      const dir = diameterA < diameterB ? 3 : 1;
       const url = imageEdit.trapezoid(previewCanvas.current || img.current, {
         dir,
         factor,
@@ -181,7 +181,7 @@ const RotaryWarped = ({ elem, onClose }: Props): JSX.Element => {
     ];
     if (rotation) corners = rotateCorners(origW, origH, rotation, corners);
     const factor = min / max;
-    const dir = diameterA > diameterB ? 3 : 1;
+    const dir = diameterA < diameterB ? 3 : 1;
     let result = imageEdit.trapezoid(source, {
       dir,
       factor,
@@ -252,6 +252,55 @@ const RotaryWarped = ({ elem, onClose }: Props): JSX.Element => {
     onClose();
   };
 
+  const renderSVG = () => {
+    if (!img.current) return null;
+    let { width, height } = previewCanvas.current || img.current;
+    const longSide = Math.max(width, height);
+    width /= longSide;
+    height /= longSide;
+    const l = (0.5 - width / 2) * 100;
+    const r = (0.5 + width / 2) * 100;
+    let aRatio = 1;
+    let bRatio = 1;
+    if (diameterA > diameterB) aRatio = diameterB / diameterA;
+    else bRatio = diameterA / diameterB;
+    const aTop = (0.5 - (height / 2) * aRatio) * 100;
+    const aBottom = (0.5 + (height / 2) * aRatio) * 100;
+    const bTop = (0.5 - (height / 2) * bRatio) * 100;
+    const bBottom = (0.5 + (height / 2) * bRatio) * 100;
+
+    return (
+      <svg>
+        <line className={styles.gray} x1={`${l}%`} x2={`${r}%`} y1={`${aTop}%`} y2={`${bTop}%`} />
+        <line
+          className={styles.gray}
+          x1={`${l}%`}
+          x2={`${r}%`}
+          y1={`${aBottom}%`}
+          y2={`${bBottom}%`}
+        />
+        <ellipse className={styles.blue} cx={`${l}%`} cy={`${aTop}%`} rx="4" ry="4" />
+        <ellipse className={styles.blue} cx={`${l}%`} cy={`${aBottom}%`} rx="4" ry="4" />
+        <line
+          className={styles.blue}
+          x1={`${l}%`}
+          x2={`${l}%`}
+          y1={`${aTop}%`}
+          y2={`${aBottom}%`}
+        />
+        <ellipse className={styles.orange} cx={`${r}%`} cy={`${bTop}%`} rx="4" ry="4" />
+        <ellipse className={styles.orange} cx={`${r}%`} cy={`${bBottom}%`} rx="4" ry="4" />
+        <line
+          className={styles.orange}
+          x1={`${r}%`}
+          x2={`${r}%`}
+          y1={`${bTop}%`}
+          y2={`${bBottom}%`}
+        />
+      </svg>
+    );
+  };
+
   return (
     <Modal
       open
@@ -285,6 +334,7 @@ const RotaryWarped = ({ elem, onClose }: Props): JSX.Element => {
           <div className={styles['img-container']}>
             <img src={originalImgUrl || imgUrl} style={{ opacity: showOriginal ? 1 : 0 }} />
             <img src={previewImgUrl || imgUrl} style={{ opacity: showOriginal ? 0 : 1 }} />
+            {renderSVG()}
           </div>
         </div>
         <div className={styles.controls}>
