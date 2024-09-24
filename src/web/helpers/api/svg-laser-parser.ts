@@ -54,6 +54,9 @@ export const getExportOpt = (
   else if (model === 'ado1') {
     config.hardware_name = 'ado1';
     if (!useDevPaddingAcc) config.acc = opt.paddingAccel || 3200;
+  } else if (model === 'fbb2') {
+    config.hardware_name = 'fbb2';
+    if (!useDevPaddingAcc) config.acc = 8000;
   } else config.hardware_name = model;
 
   if (useDevPaddingAcc) config.acc = paddingAccel;
