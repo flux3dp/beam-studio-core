@@ -7,6 +7,7 @@ import alertCaller from 'app/actions/alert-caller';
 import alertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import changeWorkarea from 'app/svgedit/operations/changeWorkarea';
+import constant from 'app/actions/beambox/constant';
 import diodeBoundaryDrawer from 'app/actions/canvas/diode-boundary-drawer';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import isDev from 'helpers/is-dev';
@@ -37,12 +38,6 @@ const workareaOptions = [
 if (isDev()) workareaOptions.push({ label: 'Beambox II', value: 'fbb2' });
 
 const dpiOptions = ['low', 'medium', 'high', 'ultra'];
-const dpiMap = {
-  low: 125,
-  medium: 250,
-  high: 500,
-  ultra: 1000,
-};
 
 interface Props {
   unmount: () => void;
@@ -210,7 +205,7 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
             >
               {dpiOptions.map((val) => (
                 <Select.Option key={val} value={val}>
-                  {tDocu[val]} ({dpiMap[val]} DPI)
+                  {tDocu[val]} ({constant.dpiValueMap[val]} DPI)
                 </Select.Option>
               ))}
             </Select>

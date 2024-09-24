@@ -71,7 +71,7 @@ export default {
   layerListHeight: 400, // px
   rulerWidth: 15, // px
   dpiValueMap: {
-    low: 100,
+    low: 125,
     medium: 250,
     high: 500,
     ultra: 1000,
