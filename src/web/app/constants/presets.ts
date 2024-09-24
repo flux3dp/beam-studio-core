@@ -112,6 +112,12 @@ export const presets: {
     },
   },
   wood_7mm_cutting: {
+    fbb2: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 40,
+        speed: 3,
+      },
+    },
     ado1: {
       [LayerModule.LASER_20W_DIODE]: {
         power: 100,
@@ -121,13 +127,6 @@ export const presets: {
     },
   },
   wood_8mm_cutting: {
-    fbb2: {
-      [LayerModule.LASER_UNIVERSAL]: {
-        power: 20,
-        speed: 3,
-        repeat: 2,
-      },
-    },
     fhexa1: {
       [LayerModule.LASER_UNIVERSAL]: {
         power: 65,
@@ -166,8 +165,8 @@ export const presets: {
     },
     fbb2: {
       [LayerModule.LASER_UNIVERSAL]: {
-        power: 9,
-        speed: 300,
+        power: 10,
+        speed: 500,
       },
     },
     fhexa1: {
@@ -306,8 +305,8 @@ export const presets: {
     },
     fbb2: {
       [LayerModule.LASER_UNIVERSAL]: {
-        power: 2,
-        speed: 300,
+        power: 5,
+        speed: 500,
       },
     },
     fhexa1: {
@@ -514,8 +513,8 @@ export const presets: {
     },
     fbb2: {
       [LayerModule.LASER_UNIVERSAL]: {
-        power: 2,
-        speed: 300,
+        power: 10,
+        speed: 500,
       },
     },
     fhexa1: {
@@ -648,8 +647,8 @@ export const presets: {
     },
     fbb2: {
       [LayerModule.LASER_UNIVERSAL]: {
-        power: 2,
-        speed: 250,
+        power: 10,
+        speed: 500,
       },
     },
     fhexa1: {
@@ -736,8 +735,8 @@ export const presets: {
     },
     fbb2: {
       [LayerModule.LASER_UNIVERSAL]: {
-        power: 30,
-        speed: 150,
+        power: 35,
+        speed: 500,
       },
     },
     fhexa1: {
