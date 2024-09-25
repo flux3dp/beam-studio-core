@@ -214,14 +214,14 @@ class BeamPreviewManager extends BasePreviewManager implements PreviewManager {
 
   preprocessImage = async (
     imgUrl: string,
-    opts: { overlapRatio?: number } = {}
+    opts: { overlapRatio?: number; overlapFlag?: number } = {}
   ): Promise<HTMLCanvasElement> => {
     const img = new Image();
     await new Promise((resolve) => {
       img.onload = resolve;
       img.src = imgUrl;
     });
-    const { overlapRatio = 0 } = opts;
+    const { overlapRatio = 0, overlapFlag = 0 } = opts;
     const { angle, scaleRatioX, scaleRatioY } = this.cameraOffset;
     const a = angle;
     const w = img.width;
@@ -240,8 +240,16 @@ class BeamPreviewManager extends BasePreviewManager implements PreviewManager {
       const imageData = ctx.getImageData(0, 0, l, l);
       for (let x = 0; x < l; x += 1) {
         for (let y = 0; y < l; y += 1) {
-          const xDist = Math.min((Math.min(x, l - x - 1) + 1) / overlapWidth, 1);
-          const yDist = Math.min((Math.min(y, l - y - 1) + 1) / overlapWidth, 1);
+          // eslint-disable-next-line no-bitwise
+          const tDist = overlapFlag & 1 ? y : overlapWidth;
+          // eslint-disable-next-line no-bitwise
+          const rDist = overlapFlag & 2 ? l - x - 1 : overlapWidth;
+          // eslint-disable-next-line no-bitwise
+          const bDist = overlapFlag & 4 ? l - y - 1 : overlapWidth;
+          // eslint-disable-next-line no-bitwise
+          const lDist = overlapFlag & 8 ? x : overlapWidth;
+          const xDist = Math.min((Math.min(lDist, rDist) + 1) / overlapWidth, 1);
+          const yDist = Math.min((Math.min(tDist, bDist) + 1) / overlapWidth, 1);
           let alphaRatio = xDist * yDist;
           if (alphaRatio < 1) {
             alphaRatio **= 1;
@@ -258,14 +266,14 @@ class BeamPreviewManager extends BasePreviewManager implements PreviewManager {
   preview = async (
     x: number,
     y: number,
-    opts: { overlapRatio?: number } = {}
+    opts: { overlapRatio?: number; overlapFlag?: number } = {}
   ): Promise<boolean> => {
     if (this.ended) return false;
-    const { overlapRatio = 0 } = opts;
+    const { overlapRatio = 0, overlapFlag } = opts;
     const constrainedXY = this.constrainPreviewXY(x, y);
     const { x: newX, y: newY } = constrainedXY;
     const imgUrl = await this.getPhotoAfterMove(newX, newY);
-    const imgCanvas = await this.preprocessImage(imgUrl, { overlapRatio });
+    const imgCanvas = await this.preprocessImage(imgUrl, { overlapRatio, overlapFlag });
     // await this if you want wait for the image to be drawn
     PreviewModeBackgroundDrawer.drawImageToCanvas(imgCanvas, newX, newY, {
       opacityMerge: overlapRatio > 0,
@@ -307,13 +315,19 @@ class BeamPreviewManager extends BasePreviewManager implements PreviewManager {
         };
       })();
 
-      let pointsArray = [];
+      let pointsArray: { point: [number, number]; overlapFlag: number }[] = [];
       let shouldRowReverse = false; // let camera 走Ｓ字型
       const step = (1 - overlapRatio) * size;
       for (let curY = top; curY < bottom + size; curY += step) {
-        const row = [];
+        const row: { point: [number, number]; overlapFlag: number }[] = [];
         for (let curX = left; curX < right + size; curX += step) {
-          row.push([curX, curY]);
+          let overlapFlag = 0;
+          // 1: top, 2: right, 4: bottom, 8: left
+          if (curY !== top) overlapFlag += 1;
+          if (curX + step < right + size) overlapFlag += 2;
+          if (curY + step < bottom + size) overlapFlag += 4;
+          if (curX !== left) overlapFlag += 8;
+          row.push({ point: [curX, curY], overlapFlag });
         }
 
         if (shouldRowReverse) {
@@ -333,8 +347,9 @@ class BeamPreviewManager extends BasePreviewManager implements PreviewManager {
           level: MessageLevel.LOADING,
           duration: 20,
         });
+        const { point, overlapFlag } = points[i];
         // eslint-disable-next-line no-await-in-loop
-        const result = await this.preview(points[i][0], points[i][1], { overlapRatio });
+        const result = await this.preview(point[0], point[1], { overlapRatio, overlapFlag });
         if (!result) return false;
       }
       MessageCaller.openMessage({

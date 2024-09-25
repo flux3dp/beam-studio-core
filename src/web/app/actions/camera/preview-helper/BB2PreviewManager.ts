@@ -145,9 +145,9 @@ class BB2PreviewManager extends BasePreviewManager implements PreviewManager {
 
   preprocessImage = async (
     imgUrl: string,
-    opts: { overlapRatio?: number } = {}
+    opts: { overlapRatio?: number; overlapFlag?: number } = {}
   ): Promise<HTMLCanvasElement> => {
-    const { overlapRatio = 0 } = opts;
+    const { overlapRatio = 0, overlapFlag = 0 } = opts;
     const img = new Image();
     await new Promise<void>((resolve) => {
       img.onload = () => resolve();
@@ -168,11 +168,17 @@ class BB2PreviewManager extends BasePreviewManager implements PreviewManager {
       const imageData = ctx.getImageData(0, 0, width, height);
       for (let x = 0; x < width; x += 1) {
         for (let y = 0; y < height; y += 1) {
-          const xDist = overlapWidth
-            ? Math.min((Math.min(x, width - x - 1) + 1) / overlapWidth, 1)
-            : 1;
+          // eslint-disable-next-line no-bitwise
+          const tDist = overlapFlag & 1 ? y : overlapHeight;
+          // eslint-disable-next-line no-bitwise
+          const rDist = overlapFlag & 2 ? width - x - 1 : overlapWidth;
+          // eslint-disable-next-line no-bitwise
+          const bDist = overlapFlag & 4 ? height - y - 1 : overlapHeight;
+          // eslint-disable-next-line no-bitwise
+          const lDist = overlapFlag & 8 ? x : overlapWidth;
+          const xDist = overlapWidth ? Math.min((Math.min(lDist, rDist) + 1) / overlapWidth, 1) : 1;
           const yDist = overlapHeight
-            ? Math.min((Math.min(y, height - y - 1) + 1) / overlapHeight, 1)
+            ? Math.min((Math.min(tDist, bDist) + 1) / overlapHeight, 1)
             : 1;
           let alphaRatio = xDist * yDist;
           if (alphaRatio < 1) {
@@ -190,13 +196,13 @@ class BB2PreviewManager extends BasePreviewManager implements PreviewManager {
   preview = async (
     x: number,
     y: number,
-    opts: { overlapRatio?: number } = {}
+    opts: { overlapRatio?: number; overlapFlag?: number } = {}
   ): Promise<boolean> => {
     if (this.ended) return false;
-    const { overlapRatio = 0 } = opts;
+    const { overlapRatio = 0, overlapFlag } = opts;
     const cameraPosition = this.getPreviewPosition(x, y);
     const imgUrl = await this.getPhotoAfterMoveTo(cameraPosition.x, cameraPosition.y);
-    const imgCanvas = await this.preprocessImage(imgUrl, { overlapRatio });
+    const imgCanvas = await this.preprocessImage(imgUrl, { overlapRatio, overlapFlag });
     const drawCenter = {
       x: (cameraPosition.x + this.cameraCenterOffset.x) * constant.dpmm,
       y: (cameraPosition.y + this.cameraCenterOffset.y) * constant.dpmm,
@@ -215,13 +221,13 @@ class BB2PreviewManager extends BasePreviewManager implements PreviewManager {
     opts: { overlapRatio?: number } = {}
   ): Promise<boolean> => {
     const { overlapRatio = 0.05 } = opts;
-    const getPoints = (): [number, number][] => {
+    const getPoints = (): { point: [number, number]; overlapFlag: number }[] => {
       const imgW = (this.grid.x[1] - this.grid.x[0]) * constant.dpmm;
       const imgH = (this.grid.y[1] - this.grid.y[0]) * constant.dpmm;
       const { x: l, y: t } = this.constrainPreviewXY(Math.min(x1, x2), Math.min(y1, y2));
       const { x: r, y: b } = this.constrainPreviewXY(Math.max(x1, x2), Math.max(y1, y2));
 
-      const res: [number, number][] = [];
+      const res: { point: [number, number]; overlapFlag: number }[] = [];
       const xStep = imgW * (1 - overlapRatio);
       const yStep = imgH * (1 - overlapRatio);
       const xTotal = Math.max(1, Math.ceil((r - l) / xStep));
@@ -231,13 +237,19 @@ class BB2PreviewManager extends BasePreviewManager implements PreviewManager {
         const row = [];
         for (let i = 0; i < xTotal; i += 1) {
           const x = l + imgW / 2 + i * xStep;
-          row.push([x, y]);
+          let overlapFlag = 0;
+          // 1: top, 2: right, 4: bottom, 8: left
+          if (j !== 0) overlapFlag += 1;
+          if (i !== xTotal - 1) overlapFlag += 2;
+          if (j !== yTotal - 1) overlapFlag += 4;
+          if (i !== 0) overlapFlag += 8;
+          row.push({ point: [x, y], overlapFlag });
         }
         if (j % 2 !== 0) row.reverse();
         res.push(...row);
       }
       return res;
-    }
+    };
     const points = getPoints();
     try {
       for (let i = 0; i < points.length; i += 1) {
@@ -248,8 +260,9 @@ class BB2PreviewManager extends BasePreviewManager implements PreviewManager {
           level: MessageLevel.LOADING,
           duration: 20,
         });
+        const { point, overlapFlag } = points[i];
         // eslint-disable-next-line no-await-in-loop
-        const result = await this.preview(points[i][0], points[i][1], { overlapRatio });
+        const result = await this.preview(point[0], point[1], { overlapRatio, overlapFlag });
         if (!result) return false;
       }
       MessageCaller.openMessage({
