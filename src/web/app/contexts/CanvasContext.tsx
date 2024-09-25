@@ -130,6 +130,7 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
     };
   }, [setUser]);
   useEffect(() => {
+    topBarEventEmitter.on('SET_HAS_UNSAVED_CHANGE', setHasUnsavedChange);
     topBarEventEmitter.on('SET_SELECTED_DEVICE', setSelectedDevice);
     return () => {
       topBarEventEmitter.removeListener('SET_HAS_UNSAVED_CHANGE', setHasUnsavedChange);
