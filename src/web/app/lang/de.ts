@@ -1056,6 +1056,7 @@ const lang: ILang = {
       brightness: 'Helligkeit',
       contrast: 'Kontrast',
       rotary_warped: 'Drehverzerrt',
+      rotary_warped_link: 'https://support.flux3dp.com/hc/en-us/articles/10828006201103',
       diameter: 'Durchmesser',
       circumference: 'Umfang',
       warp: 'Verzerren',

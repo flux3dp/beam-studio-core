@@ -1053,6 +1053,7 @@ const lang: ILang = {
       brightness: 'Ljusstyrka',
       contrast: 'Kontrast',
       rotary_warped: 'Roterande Förvrängd',
+      rotary_warped_link: 'https://support.flux3dp.com/hc/en-us/articles/10828006201103',
       diameter: 'Diameter',
       circumference: 'Omkrets',
       warp: 'Förvrängning',

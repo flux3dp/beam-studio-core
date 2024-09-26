@@ -1053,6 +1053,7 @@ const lang: ILang = {
       brightness: 'Độ sáng',
       contrast: 'Độ tương phản',
       rotary_warped: 'Biến Dạng Xoay',
+      rotary_warped_link: 'https://support.flux3dp.com/hc/en-us/articles/10828006201103',
       diameter: 'Đường kính',
       circumference: 'Chu vi',
       warp: 'Biến Dạng',

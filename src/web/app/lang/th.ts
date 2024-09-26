@@ -1053,6 +1053,7 @@ const lang: ILang = {
       brightness: 'ความสว่าง',
       contrast: 'ความคมชัด',
       rotary_warped: 'บิดเบี้ยวแบบหมุน',
+      rotary_warped_link: 'https://support.flux3dp.com/hc/en-us/articles/10828006201103',
       diameter: 'เส้นผ่านศูนย์กลาง',
       circumference: 'เส้นรอบวง',
       warp: 'บิดเบี้ยว',

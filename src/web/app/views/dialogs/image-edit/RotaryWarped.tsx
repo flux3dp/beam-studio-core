@@ -1,7 +1,9 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Button, Modal, Segmented } from 'antd';
 
+import AlertIcons from 'app/icons/alerts/AlertIcons';
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
+import browser from 'implementations/browser';
 import progressCaller from 'app/actions/progress-caller';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import imageEdit from 'helpers/image-edit';
@@ -64,7 +66,8 @@ const rotateCorners = (w: number, h: number, rotation: number, points: number[][
 };
 
 const RotaryWarped = ({ elem, onClose }: Props): JSX.Element => {
-  const t = useI18n().beambox.photo_edit_panel;
+  const lang = useI18n();
+  const t = lang.beambox.photo_edit_panel;
   const isInch = useMemo(() => storage.get('default-units') === 'inches', []);
   const [inputType, setInputType] = useState<number>(0);
   const [previewImgUrl, setPreviewImgUrl] = useState<string>('');
@@ -375,6 +378,16 @@ const RotaryWarped = ({ elem, onClose }: Props): JSX.Element => {
                 precision={isInch ? 4 : 2}
                 onChange={(val) => setDiaMeterB(inputType === 0 ? val : val / Math.PI)}
               />
+            </div>
+            <div>
+              <Button
+                className={styles.link}
+                type="link"
+                onClick={() => browser.open(t.rotary_warped_link)}
+              >
+                {lang.alert.learn_more}
+                <AlertIcons.ExtLink className={styles.icon} />
+              </Button>
             </div>
           </div>
         </div>

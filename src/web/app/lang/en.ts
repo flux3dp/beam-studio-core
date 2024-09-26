@@ -1056,6 +1056,7 @@ const lang: ILang = {
       brightness: 'Brightness',
       contrast: 'Contrast',
       rotary_warped: 'Rotary Warped',
+      rotary_warped_link: 'https://support.flux3dp.com/hc/en-us/articles/10828006201103',
       diameter: 'Diameter',
       circumference: 'Circumference',
       warp: 'Warp',

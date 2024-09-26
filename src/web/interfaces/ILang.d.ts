@@ -1053,6 +1053,7 @@ export interface ILang {
       brightness: string,
       contrast: string;
       rotary_warped: string;
+      rotary_warped_link: string;
       diameter: string;
       circumference: string;
       warp: string;

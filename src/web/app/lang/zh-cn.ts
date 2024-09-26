@@ -1056,6 +1056,7 @@ const lang: ILang = {
       brightness: '亮度',
       contrast: '对比',
       rotary_warped: '旋转扭曲',
+      rotary_warped_link: 'https://support.flux3dp.com/hc/zh-tw/articles/10828006201103',
       diameter: '直径',
       circumference: '周长',
       warp: '扭曲',
