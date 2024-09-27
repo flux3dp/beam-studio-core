@@ -305,6 +305,22 @@ const GoButton = (props: Props): JSX.Element => {
         return;
       }
     }
+    if (BeamboxPreference.read('enable-job-origin') && !alertConfig.read('skip-job-origin-warning')) {
+      await new Promise((resolve) => {
+        alertCaller.popUp({
+          message: lang.topbar.alerts.job_origin_warning,
+          type: alertConstants.SHOW_POPUP_WARNING,
+          checkbox: {
+            text: lang.beambox.popup.dont_show_again,
+            callbacks: () => {
+              alertConfig.write('skip-job-origin-warning', true);
+              resolve(null);
+            },
+          },
+          callbacks: () => resolve(null),
+        });
+      });
+    }
     ExportFuncs.uploadFcode(device);
   };
 

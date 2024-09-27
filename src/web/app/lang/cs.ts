@@ -58,6 +58,7 @@ const lang: ILang = {
       power_too_high_confirm: 'ROZUMÍM',
       pwm_unavailable: 'Depth mode (režim hloubky) vyžaduje firmware verze 4.3.4 / 5.3.4 nebo vyšší. Chcete nyní aktualizovat firmware?',
       job_origin_unavailable: 'Proces nastavení vodítek požaduje firmware verze 4.3.4 / 5.3.4 nebo vyšší. Chcete nyní aktualizovat firmware?',
+      job_origin_warning: 'Momentálně používáte jako výchozí bod „aktuální pozici“. Ujistěte se, že je laserová hlava přesunuta do správné polohy, aby nedošlo ke kolizím.',
     },
     hint: {
       polygon: 'Pro zvyšování / snižování stran využívejte klávesy + / -.',

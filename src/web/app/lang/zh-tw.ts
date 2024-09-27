@@ -58,6 +58,7 @@ const lang: ILang = {
       power_too_high_confirm: '知道了',
       pwm_unavailable: '深度模式需要韌體版本 4.3.4 / 5.3.4 或更高版本。您現在要更新韌體嗎？',
       job_origin_unavailable: '設定工作起點需要韌體版本 4.3.4 / 5.3.4 或更高版本。您現在要更新韌體嗎？',
+      job_origin_warning: '您目前使用「當前位置」作為起點，請確認雷射頭已移至正確位置，以避免碰撞。',
     },
     hint: {
       polygon: '按下 + / - 鍵以增加 / 減少邊數。',

@@ -55,6 +55,7 @@ export interface ILang {
       power_too_high_confirm: string;
       pwm_unavailable: string;
       job_origin_unavailable: string;
+      job_origin_warning: string;
     };
     hint: {
       polygon: string;

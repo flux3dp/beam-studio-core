@@ -58,6 +58,7 @@ const lang: ILang = {
       power_too_high_confirm: 'NOTERET',
       pwm_unavailable: 'Dybde-tilstand kræver firmware version 4.3.4 / 5.3.4 eller nyere. Vil du opdatere firmwaren nu?',
       job_origin_unavailable: 'Indstilling af joboprindelse kræver firmwareversion 4.3.5 / 5.3.5 eller nyere. Vil du opdatere firmwaren nu?',
+      job_origin_warning: 'Momentálně používáte jako výchozí bod „aktuální pozici“. Ujistěte se, že je laserová hlava přesunuta do správné polohy, aby nedošlo ke kolizím.',
     },
     hint: {
       polygon: 'Tryk på + / - tasten for at øge / mindske sider.',

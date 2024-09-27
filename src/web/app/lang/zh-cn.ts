@@ -58,6 +58,7 @@ const lang: ILang = {
       power_too_high_confirm: '知道了',
       pwm_unavailable: '深度模式需要固件版本 4.3.4 / 5.3.4 或更高版本。您要立即更新固件吗？',
       job_origin_unavailable: '设置工作原点需要固件版本4.3.5 / 5.3.5或更高。您现在要更新固件吗？',
+      job_origin_warning: '您当前正在使用“当前位置”作为起点。请确保将激光头移动到正确的位置，以避免碰撞。',
     },
     hint: {
       polygon: '按下 + / - 键以增加 / 减少边数。',

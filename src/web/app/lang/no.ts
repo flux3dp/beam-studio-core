@@ -58,6 +58,7 @@ const lang: ILang = {
       power_too_high_confirm: 'FORSTÅTT',
       pwm_unavailable: 'Dybde-modus krever firmware-versjon 4.3.4 / 5.3.4 eller nyere. Vil du oppdatere fastvaren nå?',
       job_origin_unavailable: 'Å sette opp jobbopprinnelse krever firmwareversjon 4.3.5 / 5.3.5 eller nyere. Vil du oppdatere firmwaren nå?',
+      job_origin_warning: 'Du bruker for øyeblikket “nåværende posisjon” som startpunkt. Sørg for at laserhodet flyttes til riktig posisjon for å unngå kollisjoner.',
     },
     hint: {
       polygon: 'Trykk + / -tasten for å øke / redusere sider.',

@@ -58,6 +58,7 @@ const lang: ILang = {
       power_too_high_confirm: 'BEGREPEN',
       pwm_unavailable: 'Dieptemodus vereist firmwareversie 4.3.4 / 5.3.4 of hoger. Wilt u de firmware nu bijwerken?',
       job_origin_unavailable: 'Het instellen van de taakbron vereist firmwareversie 4.3.5 / 5.3.5 of hoger. Wilt u de firmware nu bijwerken?',
+      job_origin_warning: 'U gebruikt momenteel de “huidige positie” als startpunt. Zorg ervoor dat de laserkop naar de juiste positie wordt verplaatst om botsingen te voorkomen.',
     },
     hint: {
       polygon: 'Druk op + / - om het aantal zijden te verhogen / verlagen.',

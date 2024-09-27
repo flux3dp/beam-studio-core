@@ -58,6 +58,7 @@ const lang: ILang = {
       power_too_high_confirm: 'HO CAPITO',
       pwm_unavailable: 'La Modalità Profondità richiede una versione del firmware 4.3.4 / 5.3.4 o successiva. Vuoi aggiornare il firmware adesso?',
       job_origin_unavailable: "Impostare l'origine del lavoro richiede la versione firmware 4.3.5 / 5.3.5 o superiore. Vuoi aggiornare il firmware ora?",
+      job_origin_warning: 'Stai utilizzando la “posizione corrente” come punto di partenza. Assicurati che la testa laser sia spostata nella posizione corretta per evitare collisioni.',
     },
     hint: {
       polygon: 'Premere + / - per aumentare / diminuire i lati.',

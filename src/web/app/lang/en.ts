@@ -58,6 +58,7 @@ const lang: ILang = {
       power_too_high_confirm: 'NOTED',
       pwm_unavailable: 'Depth mode requires firmware version 4.3.4 / 5.3.4 or above. Would you like to update the firmware now?',
       job_origin_unavailable: 'Setting job Origin requires firmware version 4.3.5 / 5.3.5 or above. Would you like to update the firmware now?',
+      job_origin_warning: 'You are currently using the “current position” as the starting point. Please ensure the laser head is moved to the correct position to avoid collisions.',
     },
     hint: {
       polygon: 'Press + / - key to increase / decrease sides.',

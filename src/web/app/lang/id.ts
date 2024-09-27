@@ -58,6 +58,7 @@ const lang: ILang = {
       power_too_high_confirm: 'SAYA MENGERTI',
       pwm_unavailable: 'Mode Kedalaman memerlukan versi firmware 4.3.4 / 5.3.4 atau lebih tinggi. Apakah Anda ingin memperbarui firmware sekarang?',
       job_origin_unavailable: 'Pengaturan asal pekerjaan memerlukan versi firmware 4.3.5 / 5.3.5 atau yang lebih baru. Apakah Anda ingin memperbarui firmware sekarang?',
+      job_origin_warning: 'Anda saat ini menggunakan "posisi saat ini" sebagai titik awal. Pastikan kepala laser dipindahkan ke posisi yang benar untuk menghindari tabrakan.',
     },
     hint: {
       polygon: 'Tekan tombol + / - untuk menambah / mengurangi sisi.',

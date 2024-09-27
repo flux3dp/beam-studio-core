@@ -58,6 +58,7 @@ const lang: ILang = {
       power_too_high_confirm: 'OK',
       pwm_unavailable: 'Der Tiefenmodus erfordert Firmware-Version 4.3.4 / 5.3.4 oder höher. Möchten Sie die Firmware jetzt aktualisieren?',
       job_origin_unavailable: 'Das Festlegen des Arbeitsursprungs erfordert die Firmware-Version 4.3.5 / 5.3.5 oder höher. Möchten Sie die Firmware jetzt aktualisieren?',
+      job_origin_warning: 'Sie verwenden derzeit die „aktuelle Position“ als Startpunkt. Stellen Sie sicher, dass der Laserkopf an die richtige Position bewegt wird, um Kollisionen zu vermeiden.',
     },
     hint: {
       polygon: 'Press + / - key to increse / decrease sides.',

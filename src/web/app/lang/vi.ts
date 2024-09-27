@@ -58,6 +58,7 @@ const lang: ILang = {
       power_too_high_confirm: 'ĐÃ GHI NHẬN',
       pwm_unavailable: 'Chế Độ Độ Sâu yêu cầu phiên bản firmware 4.3.4 / 5.3.4 hoặc cao hơn. Bạn có muốn cập nhật firmware bây giờ không?',
       job_origin_unavailable: 'Thiết lập điểm gốc công việc yêu cầu phiên bản firmware 4.3.5 / 5.3.5 trở lên. Bạn có muốn cập nhật firmware ngay bây giờ không?',
+      job_origin_warning: 'Bạn hiện đang sử dụng “vị trí hiện tại” làm điểm bắt đầu. Vui lòng đảm bảo đầu laser được di chuyển đến vị trí chính xác để tránh va chạm.',
     },
     hint: {
       polygon: 'Nhấn phím + / - để tăng / giảm số cạnh',

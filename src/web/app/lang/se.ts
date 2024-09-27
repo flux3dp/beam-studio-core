@@ -58,6 +58,7 @@ const lang: ILang = {
       power_too_high_confirm: 'NOTERAT',
       pwm_unavailable: 'Djup-läge kräver firmware version 4.3.4 / 5.3.4 eller högre. Vill du uppdatera firmware nu?',
       job_origin_unavailable: 'Att ställa in jobbets ursprung kräver firmwareversion 4.3.5 / 5.3.5 eller senare. Vill du uppdatera firmware nu?',
+      job_origin_warning: 'Du använder för närvarande "aktuell position" som startpunkt. Se till att laserhuvudet flyttas till rätt position för att undvika kollisioner.',
     },
     hint: {
       polygon: 'Tryck på + / - tangenten för att öka / minska sidor.',

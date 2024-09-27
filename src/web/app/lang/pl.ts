@@ -58,6 +58,7 @@ const lang: ILang = {
       power_too_high_confirm: 'ROZUMIEM',
       pwm_unavailable: 'Tryb Głębokości wymaga wersji firmware 4.3.4 / 5.3.4 lub nowszej. Czy chcesz zaktualizować firmware teraz?',
       job_origin_unavailable: 'Ustawienie początku zadania wymaga wersji firmware 4.3.5 / 5.3.5 lub wyższej. Czy chcesz teraz zaktualizować firmware?',
+      job_origin_warning: 'Obecnie używasz „aktualnej pozycji” jako punktu początkowego. Upewnij się, że głowica lasera została przesunięta do właściwej pozycji, aby uniknąć kolizji.',
     },
     hint: {
       polygon: 'Naciśnij klawisz + / -, aby zwiększyć / zmniejszyć ilość boków.',
