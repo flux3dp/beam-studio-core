@@ -32,8 +32,8 @@ const workareaOptions = [
   { label: 'Beambox Pro', value: 'fbb1p' },
   { label: 'HEXA', value: 'fhexa1' },
   { label: 'Ador', value: 'ado1' },
+  { label: 'Beambox II', value: 'fbb2' },
 ];
-if (isDev()) workareaOptions.push({ label: 'Beambox II', value: 'fbb2' });
 if (isDev()) workareaOptions.push({ label: 'Promark', value: 'fpm1' });
 if (isDev()) workareaOptions.push({ label: 'Lazervida', value: 'flv1' });
 
