@@ -1893,40 +1893,6 @@ exports[`test DocumentSettings should render correctly 3`] = `
                     unselectable="on"
                   />
                 </div>
-                <div
-                  aria-selected="false"
-                  class="ant-select-item ant-select-item-option"
-                  title="Promark"
-                >
-                  <div
-                    class="ant-select-item-option-content"
-                  >
-                    Promark
-                  </div>
-                  <span
-                    aria-hidden="true"
-                    class="ant-select-item-option-state"
-                    style="user-select: none;"
-                    unselectable="on"
-                  />
-                </div>
-                <div
-                  aria-selected="false"
-                  class="ant-select-item ant-select-item-option"
-                  title="Lazervida"
-                >
-                  <div
-                    class="ant-select-item-option-content"
-                  >
-                    Lazervida
-                  </div>
-                  <span
-                    aria-hidden="true"
-                    class="ant-select-item-option-state"
-                    style="user-select: none;"
-                    unselectable="on"
-                  />
-                </div>
               </div>
             </div>
           </div>
@@ -2575,40 +2541,6 @@ exports[`test DocumentSettings should render correctly for ador 1`] = `
                     unselectable="on"
                   />
                 </div>
-                <div
-                  aria-selected="false"
-                  class="ant-select-item ant-select-item-option"
-                  title="Promark"
-                >
-                  <div
-                    class="ant-select-item-option-content"
-                  >
-                    Promark
-                  </div>
-                  <span
-                    aria-hidden="true"
-                    class="ant-select-item-option-state"
-                    style="user-select: none;"
-                    unselectable="on"
-                  />
-                </div>
-                <div
-                  aria-selected="false"
-                  class="ant-select-item ant-select-item-option"
-                  title="Lazervida"
-                >
-                  <div
-                    class="ant-select-item-option-content"
-                  >
-                    Lazervida
-                  </div>
-                  <span
-                    aria-hidden="true"
-                    class="ant-select-item-option-state"
-                    style="user-select: none;"
-                    unselectable="on"
-                  />
-                </div>
               </div>
             </div>
           </div>
@@ -3207,40 +3139,6 @@ exports[`test DocumentSettings should render correctly for ador 2`] = `
                     class="ant-select-item-option-content"
                   >
                     Ador
-                  </div>
-                  <span
-                    aria-hidden="true"
-                    class="ant-select-item-option-state"
-                    style="user-select: none;"
-                    unselectable="on"
-                  />
-                </div>
-                <div
-                  aria-selected="false"
-                  class="ant-select-item ant-select-item-option"
-                  title="Promark"
-                >
-                  <div
-                    class="ant-select-item-option-content"
-                  >
-                    Promark
-                  </div>
-                  <span
-                    aria-hidden="true"
-                    class="ant-select-item-option-state"
-                    style="user-select: none;"
-                    unselectable="on"
-                  />
-                </div>
-                <div
-                  aria-selected="false"
-                  class="ant-select-item ant-select-item-option"
-                  title="Lazervida"
-                >
-                  <div
-                    class="ant-select-item-option-content"
-                  >
-                    Lazervida
                   </div>
                   <span
                     aria-hidden="true"

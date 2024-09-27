@@ -1,0 +1,70 @@
+@use "styles/variables" as variables;
+
+.container {
+  .low-laser {
+    padding: 20px 0;
+    margin: 20px 0;
+    border: 1px solid #e0e0e0;
+    border-width: 0 0 1px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .icon {
+      font-size: 16px;
+      margin: 8px;
+    }
+
+    .left {
+      display: inline-flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    .input {
+      margin-left: 12px;
+      width: 78px;
+    }
+  }
+
+  .segmented {
+    width: 100%;
+
+    :global(.ant-segmented-item) {
+      flex: 1;
+    }
+
+    .seg {
+      height: 72px;
+      padding: 10px;
+      line-height: 22px;
+
+      svg {
+        font-size: 30px;
+      }
+    }
+  }
+
+  .desc {
+    margin: 12px 0;
+
+    .title {
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+  }
+}
+
+.footer {
+  .button {
+    display: inline-flex;
+    align-items: center;
+    font-size: 14px;
+
+    .icon {
+      margin-left: 8px;
+      font-size: 10px;
+      color: white;
+    }
+  }
+}

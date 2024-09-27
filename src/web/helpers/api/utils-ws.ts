@@ -320,6 +320,44 @@ class UtilsWebSocket extends EventEmitter {
       this.ws.send(args.join(' '));
     });
   };
+
+  getConvexHull = async (imgBlob: Blob) => {
+    const data = await arrayBuffer(imgBlob);
+    return new Promise<[number, number][]>((resolve, reject) => {
+      this.removeCommandListeners();
+      this.setDefaultErrorResponse(reject);
+      this.setDefaultFatalResponse(reject);
+      this.on('message', (response: { data?: [number, number][], info?: string, progress?: number }) => {
+        if (response instanceof Blob) {
+          console.log('strange message from /ws/utils', response);
+          reject(Error('strange message from /ws/utils'));
+        } else {
+          const { status } = response as {
+            status: string;
+          };
+          if (status === 'continue') {
+            let sentLength = 0;
+            while (sentLength < data.byteLength) {
+              const end = Math.min(sentLength + 1000000, data.byteLength);
+              this.ws.send(data.slice(sentLength, end));
+              sentLength = end;
+            }
+          } else if (status === 'uploaded') {
+            console.log('Upload finished');
+          } else if (status === 'ok') {
+            resolve(response.data);
+          } else if (status === 'error') {
+            reject(Error(response.info));
+          } else {
+            console.log('strange message from /ws/utils', response);
+            reject(Error('strange message from /ws/utils'));
+          }
+        }
+      });
+      const args = ['get_convex_hull', data.byteLength];
+      this.ws.send(args.join(' '));
+    });
+  };
 }
 
 let singleton: UtilsWebSocket = null;
