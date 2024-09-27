@@ -4,7 +4,6 @@ exports[`test FrameButton should render correctly 1`] = `
 <div>
   <div
     class="button"
-    style="opacity: 1;"
     title="frame_task"
   >
     <svgr-url />
@@ -16,7 +15,6 @@ exports[`test FrameButton should render correctly with previewing mode 1`] = `
 <div>
   <div
     class="button disabled"
-    style="opacity: 1;"
     title="frame_task"
   >
     <svgr-url />

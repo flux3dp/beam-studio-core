@@ -267,11 +267,7 @@ const GoButton = (props: Props): JSX.Element => {
     }
     const rotaryMode = BeamboxPreference.read('rotary_mode');
     // Check 4.1.5 / 4.1.6 rotary
-    if (
-      rotaryMode &&
-      ['4.1.5', '4.1.6'].includes(version) &&
-      model !== 'fhex1'
-    ) {
+    if (rotaryMode && ['4.1.5', '4.1.6'].includes(version) && model !== 'fhexa1') {
       showForceUpdateAlert('4.1.5,6-rotary-alert');
       return;
     }

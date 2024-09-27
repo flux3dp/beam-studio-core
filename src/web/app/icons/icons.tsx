@@ -4,6 +4,8 @@ import React from 'react';
 import Icon from '@ant-design/icons';
 import type { CustomIconComponentProps } from '@ant-design/icons/lib/components/Icon';
 
+import Play from './play.svg';
+
 const Trash = () => (
   <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width="1em" height="1em" viewBox="0 0 32 32">
     <defs>
@@ -42,3 +44,7 @@ export const TrashIcon = (props: Partial<CustomIconComponentProps>): JSX.Element
 export const DmktIcon = (props: Partial<CustomIconComponentProps>): JSX.Element => (
   <Icon component={DmktSvg} style={commonStyle} {...props} />
 );
+
+export default {
+  Play,
+};

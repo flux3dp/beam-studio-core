@@ -1903,6 +1903,17 @@ const lang: ILang = {
     object_diameter: 'Průměr objektu',
     circumference: 'Obvod',
   },
+  framing: {
+    low_laser: 'Nízký laser',
+    low_laser_desc: 'Nastavte hodnotu nízkého výkonu laseru pro úlohu rámování.',
+    framing: 'Rámování',
+    hull: 'Obrys',
+    area_check: 'Kontrola oblasti',
+    framing_desc: 'Zobrazuje ohraničující rámeček objektu.',
+    hull_desc: 'Zobrazuje tvar, který těsně kopíruje návrh, jako gumička obepínající objekt.',
+    areacheck_desc: 'Zajišťuje bezpečnost pracovní oblasti náhledem na ohraničující rámeček objektu a zónu akcelerace laserové hlavy.',
+    calculating_task: 'Výpočet úlohy...',
+  },
 };
 
 export default lang;

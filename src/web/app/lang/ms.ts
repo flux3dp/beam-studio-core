@@ -1900,6 +1900,17 @@ const lang: ILang = {
     object_diameter: 'Diameter Objek',
     circumference: 'Lilitan',
   },
+  framing: {
+    low_laser: 'Laser rendah',
+    low_laser_desc: 'Tetapkan nilai laser berkuasa rendah untuk tugas pembingkaian.',
+    framing: 'Pembingkaian',
+    hull: 'Kerangka',
+    area_check: 'Semakan Kawasan',
+    framing_desc: 'Memaparkan kotak sempadan objek.',
+    hull_desc: 'Memaparkan bentuk yang rapat mengikuti reka bentuk, seperti gelang getah yang dililitkan pada objek.',
+    areacheck_desc: 'Memastikan kawasan kerja selamat dengan memaparkan kotak sempadan objek dan zon pecutan kepala laser.',
+    calculating_task: 'Mengira tugas...',
+  },
 };
 
 export default lang;

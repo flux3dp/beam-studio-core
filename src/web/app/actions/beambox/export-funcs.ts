@@ -215,6 +215,7 @@ const fetchTaskCode = async (
     new Promise<{
       fileTimeCost: null | number;
       taskCodeBlob: Blob | null;
+      metadata: { [key: string]: string }
     }>((resolve) => {
       const names = [];
       svgeditorParser.getTaskCode(names, {
@@ -224,9 +225,9 @@ const fetchTaskCode = async (
             percentage: data.percentage * 100,
           });
         },
-        onFinished: (taskBlob, fileName, timeCost) => {
+        onFinished: (taskBlob, timeCost, metadata) => {
           Progress.update('fetch-task', { message: lang.message.uploading_fcode, percentage: 100 });
-          resolve({ taskCodeBlob: taskBlob, fileTimeCost: timeCost });
+          resolve({ taskCodeBlob: taskBlob, fileTimeCost: timeCost, metadata });
         },
         onError: (message) => {
           Progress.popById('fetch-task');
@@ -244,6 +245,7 @@ const fetchTaskCode = async (
           resolve({
             taskCodeBlob: null,
             fileTimeCost: null,
+            metadata: {},
           });
         },
         fileMode: '-f',
@@ -276,7 +278,7 @@ const fetchTaskCode = async (
         }
       : undefined
   );
-  const { taskCodeBlob } = taskCodeRes;
+  const { taskCodeBlob, metadata } = taskCodeRes;
   let { fileTimeCost } = taskCodeRes;
 
   if (output === 'gcode' && !fgGcode) {
@@ -294,6 +296,7 @@ const fetchTaskCode = async (
       fcodeBlob: taskCodeBlob,
       thumbnailBlobURL,
       fileTimeCost,
+      metadata,
     };
   }
   return {
@@ -409,10 +412,10 @@ export default {
       });
     }
   },
-  exportFcode: async (): Promise<void> => {
+  exportFcode: async (device?: IDeviceInfo): Promise<void> => {
     const useSwiftray = BeamboxPreference.read('path-engine') === 'swiftray';
     const convertEngine = useSwiftray ? fetchTaskCodeSwiftray : fetchTaskCode;
-    const { fcodeBlob } = await convertEngine();
+    const { fcodeBlob } = await convertEngine(device);
     if (!fcodeBlob) {
       return;
     }
@@ -457,6 +460,15 @@ export default {
       return null;
     }
     return fileTimeCost;
+  },
+  getMetadata: async (device?: IDeviceInfo): Promise<{[key: string]: string}> => {
+    // const convertEngine =
+    //   BeamboxPreference.read('path-engine') === 'swiftray' ? fetchTaskCodeSwiftray : fetchTaskCode;
+      const { fcodeBlob, metadata } = await fetchTaskCode(device);
+      if (!fcodeBlob) {
+        return null;
+      }
+      return metadata;
   },
   gcodeToFcode: async (
     gcodeString: string,

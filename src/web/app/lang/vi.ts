@@ -1900,6 +1900,17 @@ const lang: ILang = {
     object_diameter: 'Đường Kính Vật Thể',
     circumference: 'Chu Vi',
   },
+  framing: {
+    low_laser: 'Laser yếu',
+    low_laser_desc: 'Đặt giá trị laser công suất thấp cho nhiệm vụ đóng khung.',
+    framing: 'Đóng khung',
+    hull: 'Vỏ',
+    area_check: 'Kiểm tra khu vực',
+    framing_desc: 'Hiển thị hộp giới hạn của đối tượng.',
+    hull_desc: 'Xem trước hình dạng bám sát thiết kế, giống như dây cao su bao quanh đối tượng.',
+    areacheck_desc: 'Đảm bảo khu vực làm việc an toàn bằng cách xem trước hộp giới hạn của đối tượng và vùng gia tốc của đầu laser.',
+    calculating_task: 'Đang tính toán nhiệm vụ...',
+  },
 };
 
 export default lang;

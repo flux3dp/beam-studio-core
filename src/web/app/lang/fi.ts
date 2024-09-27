@@ -1900,6 +1900,17 @@ const lang: ILang = {
     object_diameter: 'Kohteen Halkaisija',
     circumference: 'Ympärysmitta',
   },
+  framing: {
+    low_laser: 'Matala laser',
+    low_laser_desc: 'Aseta pienitehoinen laserteho kehyksen tehtävää varten.',
+    framing: 'Kehystys',
+    hull: 'Runko',
+    area_check: 'Alueen tarkistus',
+    framing_desc: 'Näyttää objektin rajauslaatikon.',
+    hull_desc: 'Esikatselu, joka seuraa tiiviisti muotoilua, kuin kuminauha kietoutuneena objektin ympärille.',
+    areacheck_desc: 'Varmistaa työalueen turvallisuuden näyttämällä objektin rajauslaatikon ja laserpään kiihdytysvyöhykkeen.',
+    calculating_task: 'Lasketaan tehtävää...',
+  },
 };
 
 export default lang;

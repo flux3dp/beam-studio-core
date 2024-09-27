@@ -153,9 +153,9 @@ export default window['EasyManipulator'] = class EasyManipulator extends EventEm
         {
           onProgressing: () => {
           },
-          onFinished: (codeBlob, fileName, timeCost) => {
+          onFinished: (codeBlob, timeCost) => {
             resolve({ taskCodeBlob: codeBlob, fileTimeCost: timeCost });
-            this.emit('CALCULATED', { detail: { taskCodeBlob: codeBlob, fileName, fileTimeCost: timeCost } });
+            this.emit('CALCULATED', { detail: { taskCodeBlob: codeBlob, fileTimeCost: timeCost } });
           },
           fileMode: '-f',
           codeType,

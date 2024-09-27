@@ -1903,6 +1903,17 @@ const lang: ILang = {
     object_diameter: 'オブジェクトの直径',
     circumference: '円周',
   },
+  framing: {
+    low_laser: '低出力レーザー',
+    low_laser_desc: 'フレーミング作業用に低出力のレーザー値を設定します。',
+    framing: 'フレーミング',
+    hull: '凸包',
+    area_check: 'エリアチェック',
+    framing_desc: 'オブジェクトのバウンディングボックスを表示します。',
+    hull_desc: 'オブジェクトの周りに巻かれた輪ゴムのように、デザインに密接に従う形状をプレビューします。',
+    areacheck_desc: '作業エリアが安全であることを、オブジェクトのバウンディングボックスとレーザーヘッドの加速ゾーンをプレビューして確認します。',
+    calculating_task: 'タスクを計算中...',
+  },
 };
 
 export default lang;

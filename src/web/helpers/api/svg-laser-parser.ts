@@ -296,6 +296,7 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
       let duration;
       let totalLength = 0;
       let blob;
+      let metadata;
 
       const { loopCompensation, curveEngravingData } = getExportOpt(opts, args);
       if (loopCompensation) await setParameter('loop_compensation', loopCompensation);
@@ -306,12 +307,13 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
         } else if (data.status === 'complete') {
           totalLength = data.length;
           duration = Math.floor(data.time) + 1;
+          metadata = data.metadata
         } else if (data instanceof Blob === true) {
           blobs.push(data);
           blob = new Blob(blobs);
 
           if (totalLength === blob.size) {
-            opts.onFinished(blob, args[2], duration);
+            opts.onFinished(blob, duration, metadata);
           }
         } else if (data.status === 'Error') {
           opts.onError(data.message);

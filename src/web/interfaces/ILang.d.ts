@@ -1902,4 +1902,15 @@ export interface ILang {
     object_diameter: string;
     circumference: string;
   };
+  framing: {
+    low_laser: string;
+    low_laser_desc: string;
+    framing: string;
+    hull: string;
+    area_check: string;
+    framing_desc: string;
+    hull_desc: string;
+    areacheck_desc: string;
+    calculating_task: string;
+  }
 }
