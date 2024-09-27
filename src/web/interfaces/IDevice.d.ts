@@ -1,3 +1,5 @@
+import { WorkAreaModel } from 'app/constants/workarea-constants';
+
 import Camera from '../helpers/api/camera';
 // eslint-disable-next-line import/no-cycle
 import IControlSocket from './IControlSocket';
@@ -7,7 +9,7 @@ export interface IDeviceInfo {
   st_id: number;
   error_label: never;
   uuid: string;
-  model: string;
+  model: WorkAreaModel;
   version: string;
   password: boolean;
   plaintext_password: string;
