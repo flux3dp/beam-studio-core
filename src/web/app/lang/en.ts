@@ -1903,6 +1903,17 @@ const lang: ILang = {
     object_diameter: 'Object Diameter',
     circumference: 'Circumference',
   },
+  framing: {
+    low_laser: 'Low Laser',
+    low_laser_desc: 'Set a low-power laser value for the framing task.',
+    framing: 'Framing',
+    hull: 'Hull',
+    area_check: 'Area Check',
+    framing_desc: "Displays the object's bounding box.",
+    hull_desc: 'Previews a shape that closely follows the design, like a rubber band wrapped around the object.',
+    areacheck_desc: "Ensures the work area is safe by previewing the object's bounding box and the laser head's acceleration zone.",
+    calculating_task: 'Calculating task...',
+  },
 };
 
 export default lang;

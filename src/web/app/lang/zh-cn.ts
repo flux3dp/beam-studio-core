@@ -1903,6 +1903,17 @@ const lang: ILang = {
     object_diameter: '对象直径',
     circumference: '周长',
   },
+  framing: {
+    low_laser: '低功率激光',
+    low_laser_desc: '为框架任务设置低功率激光值。',
+    framing: '外框',
+    hull: '凸包',
+    area_check: '区域检查',
+    framing_desc: '显示对象的边界框。',
+    hull_desc: '预览一个紧随设计的形状，就像橡皮筋缠绕在对象周围一样。',
+    areacheck_desc: '通过预览对象的边界框和激光头的加速区，确保工作区的安全。',
+    calculating_task: '正在计算任务...',
+  },
 };
 
 export default lang;

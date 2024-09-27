@@ -1900,6 +1900,17 @@ const lang: ILang = {
     object_diameter: 'Diâmetro do Objeto',
     circumference: 'Circunferência',
   },
+  framing: {
+    low_laser: 'Laser baixo',
+    low_laser_desc: 'Defina um valor de laser de baixa potência para a tarefa de moldura.',
+    framing: 'Moldura',
+    hull: 'Casco',
+    area_check: 'Verificação da Área',
+    framing_desc: 'Exibe a caixa delimitadora do objeto.',
+    hull_desc: 'Exibe uma pré-visualização de uma forma que segue de perto o design, como um elástico envolvido ao redor do objeto.',
+    areacheck_desc: 'Garante a segurança da área de trabalho exibindo a caixa delimitadora do objeto e a zona de aceleração da cabeça do laser.',
+    calculating_task: 'Calculando tarefa...',
+  },
 };
 
 export default lang;

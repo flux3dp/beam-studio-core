@@ -1900,6 +1900,17 @@ const lang: ILang = {
     object_diameter: 'Objectdiameter',
     circumference: 'Omtrek',
   },
+  framing: {
+    low_laser: 'Lage laser',
+    low_laser_desc: 'Stel een laag laservermogen in voor de inlijsttaak.',
+    framing: 'Inlijsten',
+    hull: 'Omhulsel',
+    area_check: 'Gebied Controle',
+    framing_desc: 'Geeft het begrenzingsvak van het object weer.',
+    hull_desc: 'Voorvertoont een vorm die nauw aansluit bij het ontwerp, zoals een elastiek dat om het object is gewikkeld.',
+    areacheck_desc: 'Zorgt voor een veilige werkruimte door het begrenzingsvak van het object en de versnellingszone van de laserkop te tonen.',
+    calculating_task: 'Taak berekenen...',
+  },
 };
 
 export default lang;

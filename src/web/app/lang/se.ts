@@ -1900,6 +1900,17 @@ const lang: ILang = {
     object_diameter: 'Objekt Diameter',
     circumference: 'Omkrets',
   },
+  framing: {
+    low_laser: 'Låg laser',
+    low_laser_desc: 'Ställ in ett lågeffektslaservärde för inramningsuppgiften.',
+    framing: 'Inramning',
+    hull: 'Skrov',
+    area_check: 'Områdeskontroll',
+    framing_desc: 'Visar objektets begränsningsram.',
+    hull_desc: 'Förhandsvisar en form som följer designen noggrant, som ett gummiband lindat runt objektet.',
+    areacheck_desc: 'Säkerställer att arbetsområdet är säkert genom att förhandsgranska objektets begränsningsram och laserns accelerationszon.',
+    calculating_task: 'Beräknar uppgift...',
+  },
 };
 
 export default lang;

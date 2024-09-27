@@ -1903,6 +1903,17 @@ const lang: ILang = {
     object_diameter: 'Diámetro del Objeto',
     circumference: 'Circunferencia',
   },
+  framing: {
+    low_laser: 'Láser bajo',
+    low_laser_desc: 'Establezca un valor de láser de baja potencia para la tarea de enmarcado.',
+    framing: 'Enmarcado',
+    hull: 'Envoltura',
+    area_check: 'Comprobación de Área',
+    framing_desc: 'Muestra la caja delimitadora del objeto.',
+    hull_desc: 'Previsualiza una forma que sigue de cerca el diseño, como una banda elástica envuelta alrededor del objeto.',
+    areacheck_desc: 'Asegura que el área de trabajo sea segura mostrando la caja delimitadora del objeto y la zona de aceleración del cabezal láser.',
+    calculating_task: 'Calculando tarea...',
+  },
 };
 
 export default lang;

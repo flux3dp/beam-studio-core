@@ -1900,6 +1900,17 @@ const lang: ILang = {
     object_diameter: "Diamètre de l'Objet",
     circumference: 'Circonférence',
   },
+  framing: {
+    low_laser: 'Laser faible',
+    low_laser_desc: 'Définissez une valeur de laser à faible puissance pour la tâche de cadrage.',
+    framing: 'Cadrage',
+    hull: 'Coque',
+    area_check: 'Vérification de la zone',
+    framing_desc: "Affiche la boîte englobante de l'objet.",
+    hull_desc: "Affiche un aperçu d'une forme qui suit étroitement le design, comme un élastique enroulé autour de l'objet.",
+    areacheck_desc: "Assure la sécurité de la zone de travail en prévisualisant la boîte englobante de l'objet et la zone d'accélération de la tête laser.",
+    calculating_task: 'Calcul de la tâche...',
+  },
 };
 
 export default lang;

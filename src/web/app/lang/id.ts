@@ -1900,6 +1900,17 @@ const lang: ILang = {
     object_diameter: 'Diameter Objek',
     circumference: 'Keliling',
   },
+  framing: {
+    low_laser: 'Laser rendah',
+    low_laser_desc: 'Tetapkan nilai laser daya rendah untuk tugas pembingkaian.',
+    framing: 'Pembingkaian',
+    hull: 'Kerangka',
+    area_check: 'Pemeriksaan Area',
+    framing_desc: 'Menampilkan kotak pembatas objek.',
+    hull_desc: 'Memperlihatkan bentuk yang mengikuti desain, seperti karet yang melilit objek.',
+    areacheck_desc: 'Memastikan area kerja aman dengan menampilkan kotak pembatas objek dan zona akselerasi kepala laser.',
+    calculating_task: 'Menghitung tugas...',
+  },
 };
 
 export default lang;
