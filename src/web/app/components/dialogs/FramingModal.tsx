@@ -124,7 +124,7 @@ const FramingModal = ({ device, onClose }: Props): JSX.Element => {
             {
               label: (
                 <div className={styles.seg}>
-                  <FramingIcons.Footprint />
+                  <FramingIcons.AreaCheck />
                   <div>{t.area_check}</div>
                 </div>
               ),
