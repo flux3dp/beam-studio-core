@@ -138,14 +138,19 @@ const getConvexHull = async (imgBlob: Blob): Promise<[number, number][]> => {
   return res;
 };
 
-const getAreaCheckTask = async (device?: IDeviceInfo): Promise<[number, number][]> => {
+const getAreaCheckTask = async (
+  device?: IDeviceInfo,
+  jobOrigin?: { x: number; y: number },
+): Promise<[number, number][]> => {
   try {
     const metadata = await exportFuncs.getMetadata(device);
     if (metadata?.max_x) {
-      const minX = parseFloat(metadata.min_x);
-      const minY = parseFloat(metadata.min_y);
-      const maxX = parseFloat(metadata.max_x);
-      const maxY = parseFloat(metadata.max_y);
+      // compensate job origin
+      const { x = 0, y = 0 } = jobOrigin || {};
+      const minX = parseFloat(metadata.min_x) + x;
+      const minY = parseFloat(metadata.min_y) + y;
+      const maxX = parseFloat(metadata.max_x) + x;
+      const maxY = parseFloat(metadata.max_y) + y;
       const res: [number, number][] = [
         [minX, minY],
         [maxX, minY],
@@ -190,6 +195,12 @@ class FramingTaskManager extends EventEmitter {
     this.vc = versionChecker(device.version);
     this.isAdor = constant.adorModels.includes(device.model);
     this.isPromark = constant.promarkModels.includes(device.model);
+    if (
+      beamboxPreference.read('enable-job-origin') &&
+      this.vc.meetRequirement(this.isAdor ? 'ADOR_JOB_ORIGIN' : 'JOB_ORIGIN')
+    ) {
+      this.jobOrigin = getJobOrigin();
+    } else this.jobOrigin = null;
   }
 
   private resetEnabledInfo = () => {
@@ -292,7 +303,7 @@ class FramingTaskManager extends EventEmitter {
       return res;
     }
     if (type === FramingType.AreaCheck) {
-      const res = await getAreaCheckTask(this.device);
+      const res = await getAreaCheckTask(this.device, this.jobOrigin);
       if (res.length > 0) this.taskCache[type] = res;
       return res;
     }
@@ -319,12 +330,6 @@ class FramingTaskManager extends EventEmitter {
         this.rotaryInfo.mirror = !beamboxPreference.read('rotary-mirror');
       }
     }
-    if (
-      beamboxPreference.read('enable-job-origin') &&
-      this.vc.meetRequirement(this.isAdor ? 'ADOR_JOB_ORIGIN' : 'JOB_ORIGIN')
-    ) {
-      this.jobOrigin = getJobOrigin();
-    } else this.jobOrigin = null;
   };
 
   private setLowPowerValue = async (settingValue: number) => {
