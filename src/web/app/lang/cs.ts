@@ -1910,7 +1910,7 @@ const lang: ILang = {
     framing: 'Rámování',
     hull: 'Obrys',
     area_check: 'Kontrola oblasti',
-    framing_desc: 'Zobrazuje ohraničující rámeček objektu.',
+    framing_desc: 'Náhled ohraničujícího rámečku objektu.',
     hull_desc: 'Zobrazuje tvar, který těsně kopíruje návrh, jako gumička obepínající objekt.',
     areacheck_desc: 'Zajišťuje bezpečnost pracovní oblasti náhledem na ohraničující rámeček objektu a zónu akcelerace laserové hlavy.',
     calculating_task: 'Výpočet úlohy...',

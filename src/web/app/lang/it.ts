@@ -1907,7 +1907,7 @@ const lang: ILang = {
     framing: 'Inquadratura',
     hull: 'Involucro',
     area_check: 'Controllo Area',
-    framing_desc: "Visualizza il riquadro di delimitazione dell'oggetto.",
+    framing_desc: "Anteprima del riquadro di delimitazione dell'oggetto.",
     hull_desc: "Visualizza in anteprima una forma che segue da vicino il disegno, come un elastico avvolto intorno all'oggetto.",
     areacheck_desc: "Garantisce la sicurezza dell'area di lavoro visualizzando il riquadro di delimitazione dell'oggetto e la zona di accelerazione della testa laser.",
     calculating_task: 'Calcolo del compito...',

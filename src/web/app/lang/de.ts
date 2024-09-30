@@ -1910,7 +1910,7 @@ const lang: ILang = {
     framing: 'Rahmung',
     hull: 'Hülle',
     area_check: 'Bereichsprüfung',
-    framing_desc: 'Zeigt den Begrenzungsrahmen des Objekts an.',
+    framing_desc: 'Zeigt die Begrenzungsbox des Objekts in der Vorschau an.',
     hull_desc: 'Zeigt eine Form, die dem Design eng folgt, wie ein Gummiband, das um das Objekt gewickelt ist.',
     areacheck_desc: 'Stellt die Sicherheit des Arbeitsbereichs sicher, indem der Begrenzungsrahmen des Objekts und die Beschleunigungszone des Laserkopfs angezeigt werden.',
     calculating_task: 'Aufgabe wird berechnet...',

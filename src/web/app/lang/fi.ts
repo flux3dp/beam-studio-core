@@ -1907,7 +1907,7 @@ const lang: ILang = {
     framing: 'Kehystys',
     hull: 'Runko',
     area_check: 'Alueen tarkistus',
-    framing_desc: 'Näyttää objektin rajauslaatikon.',
+    framing_desc: 'Esikatselee objektin raja-laatikon.',
     hull_desc: 'Esikatselu, joka seuraa tiiviisti muotoilua, kuin kuminauha kietoutuneena objektin ympärille.',
     areacheck_desc: 'Varmistaa työalueen turvallisuuden näyttämällä objektin rajauslaatikon ja laserpään kiihdytysvyöhykkeen.',
     calculating_task: 'Lasketaan tehtävää...',

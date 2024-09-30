@@ -1907,7 +1907,7 @@ const lang: ILang = {
     framing: 'Moldura',
     hull: 'Casco',
     area_check: 'Verificação da Área',
-    framing_desc: 'Exibe a caixa delimitadora do objeto.',
+    framing_desc: 'Visualiza a caixa delimitadora do objeto.',
     hull_desc: 'Exibe uma pré-visualização de uma forma que segue de perto o design, como um elástico envolvido ao redor do objeto.',
     areacheck_desc: 'Garante a segurança da área de trabalho exibindo a caixa delimitadora do objeto e a zona de aceleração da cabeça do laser.',
     calculating_task: 'Calculando tarefa...',

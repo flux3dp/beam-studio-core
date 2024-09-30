@@ -1910,7 +1910,7 @@ const lang: ILang = {
     framing: 'Enmarcado',
     hull: 'Envoltura',
     area_check: 'Comprobación de Área',
-    framing_desc: 'Muestra la caja delimitadora del objeto.',
+    framing_desc: 'Previsualiza el cuadro delimitador del objeto.',
     hull_desc: 'Previsualiza una forma que sigue de cerca el diseño, como una banda elástica envuelta alrededor del objeto.',
     areacheck_desc: 'Asegura que el área de trabajo sea segura mostrando la caja delimitadora del objeto y la zona de aceleración del cabezal láser.',
     calculating_task: 'Calculando tarea...',

@@ -1907,7 +1907,7 @@ const lang: ILang = {
     framing: 'Cadrage',
     hull: 'Coque',
     area_check: 'Vérification de la zone',
-    framing_desc: "Affiche la boîte englobante de l'objet.",
+    framing_desc: "Aperçu de la boîte englobante de l'objet.",
     hull_desc: "Affiche un aperçu d'une forme qui suit étroitement le design, comme un élastique enroulé autour de l'objet.",
     areacheck_desc: "Assure la sécurité de la zone de travail en prévisualisant la boîte englobante de l'objet et la zone d'accélération de la tête laser.",
     calculating_task: 'Calcul de la tâche...',

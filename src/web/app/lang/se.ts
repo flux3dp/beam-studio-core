@@ -1907,7 +1907,7 @@ const lang: ILang = {
     framing: 'Inramning',
     hull: 'Skrov',
     area_check: 'Områdeskontroll',
-    framing_desc: 'Visar objektets begränsningsram.',
+    framing_desc: 'Förhandsgranskar objektets avgränsningsruta.',
     hull_desc: 'Förhandsvisar en form som följer designen noggrant, som ett gummiband lindat runt objektet.',
     areacheck_desc: 'Säkerställer att arbetsområdet är säkert genom att förhandsgranska objektets begränsningsram och laserns accelerationszon.',
     calculating_task: 'Beräknar uppgift...',

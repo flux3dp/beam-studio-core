@@ -1910,7 +1910,7 @@ const lang: ILang = {
     framing: '프레이밍',
     hull: '외형',
     area_check: '영역 확인',
-    framing_desc: '객체의 경계 상자를 표시합니다.',
+    framing_desc: '객체의 경계 상자를 미리 봅니다.',
     hull_desc: '객체 주위에 고무줄이 감겨 있는 것처럼 디자인을 밀접하게 따르는 모양을 미리 봅니다.',
     areacheck_desc: '작업 영역이 안전한지 객체의 경계 상자와 레이저 헤드의 가속 영역을 미리 보아 확인합니다.',
     calculating_task: '작업 계산 중...',

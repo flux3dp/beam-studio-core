@@ -1907,7 +1907,7 @@ const lang: ILang = {
     framing: 'Đóng khung',
     hull: 'Vỏ',
     area_check: 'Kiểm tra khu vực',
-    framing_desc: 'Hiển thị hộp giới hạn của đối tượng.',
+    framing_desc: 'Xem trước hộp giới hạn của đối tượng.',
     hull_desc: 'Xem trước hình dạng bám sát thiết kế, giống như dây cao su bao quanh đối tượng.',
     areacheck_desc: 'Đảm bảo khu vực làm việc an toàn bằng cách xem trước hộp giới hạn của đối tượng và vùng gia tốc của đầu laser.',
     calculating_task: 'Đang tính toán nhiệm vụ...',

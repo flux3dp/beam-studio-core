@@ -1907,7 +1907,7 @@ const lang: ILang = {
     framing: 'Inlijsten',
     hull: 'Omhulsel',
     area_check: 'Gebied Controle',
-    framing_desc: 'Geeft het begrenzingsvak van het object weer.',
+    framing_desc: 'Geeft een voorbeeld van de begrenzingsbox van het object.',
     hull_desc: 'Voorvertoont een vorm die nauw aansluit bij het ontwerp, zoals een elastiek dat om het object is gewikkeld.',
     areacheck_desc: 'Zorgt voor een veilige werkruimte door het begrenzingsvak van het object en de versnellingszone van de laserkop te tonen.',
     calculating_task: 'Taak berekenen...',

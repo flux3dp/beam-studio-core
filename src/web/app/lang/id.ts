@@ -1907,7 +1907,7 @@ const lang: ILang = {
     framing: 'Pembingkaian',
     hull: 'Kerangka',
     area_check: 'Pemeriksaan Area',
-    framing_desc: 'Menampilkan kotak pembatas objek.',
+    framing_desc: 'Pratinjau kotak pembatas objek.',
     hull_desc: 'Memperlihatkan bentuk yang mengikuti desain, seperti karet yang melilit objek.',
     areacheck_desc: 'Memastikan area kerja aman dengan menampilkan kotak pembatas objek dan zona akselerasi kepala laser.',
     calculating_task: 'Menghitung tugas...',

@@ -1907,7 +1907,7 @@ const lang: ILang = {
     framing: 'Innramming',
     hull: 'Skrog',
     area_check: 'Områdekontroll',
-    framing_desc: 'Viser objektets avgrensningsboks.',
+    framing_desc: 'Forhåndsviser objektets avgrensningsboks.',
     hull_desc: 'Viser en form som følger designet tett, som et gummibånd rundt objektet.',
     areacheck_desc: 'Sikrer at arbeidsområdet er trygt ved å vise objektets avgrensningsboks og laserhodets akselerasjonssone.',
     calculating_task: 'Beregner oppgave...',

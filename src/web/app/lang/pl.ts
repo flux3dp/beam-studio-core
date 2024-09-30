@@ -1910,7 +1910,7 @@ const lang: ILang = {
     framing: 'Ramowanie',
     hull: 'Kadłub',
     area_check: 'Sprawdzenie obszaru',
-    framing_desc: 'Wyświetla ramkę ograniczającą obiekt.',
+    framing_desc: 'Podgląd ramki ograniczającej obiekt.',
     hull_desc: 'Wyświetla podgląd kształtu, który ściśle podąża za projektem, jak gumka owinięta wokół obiektu.',
     areacheck_desc: 'Zapewnia bezpieczeństwo obszaru roboczego poprzez podgląd ramki ograniczającej obiekt i strefy przyspieszenia głowicy lasera.',
     calculating_task: 'Obliczanie zadania...',

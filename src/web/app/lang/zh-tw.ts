@@ -1910,7 +1910,7 @@ const lang: ILang = {
     framing: '外框',
     hull: '凸包',
     area_check: '區域檢查',
-    framing_desc: '顯示物件的邊界框。',
+    framing_desc: '預覽物件的邊界框。',
     hull_desc: '預覽緊密貼合設計的形狀，像橡皮筋纏繞著物件一樣。',
     areacheck_desc: '藉由預覽物件的邊界框與雷射頭的加速區，確保工作區的安全。',
     calculating_task: '正在計算外框工作...',
