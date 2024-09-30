@@ -141,9 +141,7 @@ const getConvexHull = async (imgBlob: Blob): Promise<[number, number][]> => {
 const getAreaCheckTask = async (device?: IDeviceInfo): Promise<[number, number][]> => {
   try {
     const metadata = await exportFuncs.getMetadata(device);
-    console.log(metadata);
     if (metadata?.max_x) {
-      console.log(metadata);
       const minX = parseFloat(metadata.min_x);
       const minY = parseFloat(metadata.min_y);
       const maxX = parseFloat(metadata.max_x);
@@ -295,7 +293,6 @@ class FramingTaskManager extends EventEmitter {
     }
     if (type === FramingType.AreaCheck) {
       const res = await getAreaCheckTask(this.device);
-      console.log(res);
       if (res.length > 0) this.taskCache[type] = res;
       return res;
     }
