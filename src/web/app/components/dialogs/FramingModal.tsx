@@ -41,11 +41,10 @@ const FramingModal = ({ device, onClose }: Props): JSX.Element => {
   }, [device]);
 
   const [lowLaser, setLowLaser] = useState<number>(beamboxPreference.read('low_power') ?? 10);
-  const [lowLaserEnabled, setLowLaserEnabled] = useState<boolean>(true);
   const [type, setType] = useState<FramingType>(FramingType.Framing);
 
   const handleOk = () => {
-    manager.current?.startFraming(type, { lowPower: lowLaserEnabled ? lowLaser : 0 });
+    manager.current?.startFraming(type, { lowPower: lowLaser });
   };
   const handleStop = () => {
     manager.current?.stopFraming();
@@ -88,9 +87,8 @@ const FramingModal = ({ device, onClose }: Props): JSX.Element => {
             </Tooltip>
             {t.low_laser}:
             <InputNumber
-              disabled={!lowLaserEnabled}
               className={styles.input}
-              min={1}
+              min={0}
               max={20}
               value={lowLaser}
               onChange={(val) => setLowLaser(val)}
@@ -99,7 +97,6 @@ const FramingModal = ({ device, onClose }: Props): JSX.Element => {
               precision={0}
             />
           </div>
-          <Switch checked={lowLaserEnabled} onChange={(val) => setLowLaserEnabled(val)} />
         </div>
         <Segmented
           className={styles.segmented}
