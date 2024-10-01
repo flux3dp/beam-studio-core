@@ -20,6 +20,7 @@ interface SupportInfo {
     defaultMirror?: boolean;
   };
   lowerFocus: boolean;
+  framingLowLaser?: boolean;
   redLight?: boolean;
 }
 
@@ -89,6 +90,7 @@ const supportList: Record<WorkAreaModel, SupportInfo> = {
       defaultMirror: true,
     },
     lowerFocus: true,
+    framingLowLaser: true,
   },
   fbb2: {
     autoFocus: false,

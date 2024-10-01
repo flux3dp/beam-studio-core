@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Button, InputNumber, Modal, Segmented, Spin, Switch, Tooltip } from 'antd';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { Button, InputNumber, Modal, Segmented, Spin, Tooltip } from 'antd';
 import { LoadingOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
@@ -10,6 +10,7 @@ import icons from 'app/icons/icons';
 import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
 import useI18n from 'helpers/useI18n';
 import { addDialogComponent, isIdExist, popDialogById } from 'app/actions/dialog-controller';
+import { getSupportInfo } from 'app/constants/add-on';
 import { IDeviceInfo } from 'interfaces/IDevice';
 
 import styles from './FramingModal.module.scss';
@@ -39,12 +40,13 @@ const FramingModal = ({ device, onClose }: Props): JSX.Element => {
       MessageCaller.closeMessage(messageKey);
     };
   }, [device]);
+  const supportInfo = useMemo(() => getSupportInfo(device.model), [device]);
 
   const [lowLaser, setLowLaser] = useState<number>(beamboxPreference.read('low_power') ?? 10);
   const [type, setType] = useState<FramingType>(FramingType.Framing);
 
   const handleOk = () => {
-    manager.current?.startFraming(type, { lowPower: lowLaser });
+    manager.current?.startFraming(type, { lowPower: supportInfo.framingLowLaser ? lowLaser : 0 });
   };
   const handleStop = () => {
     manager.current?.stopFraming();
@@ -80,12 +82,14 @@ const FramingModal = ({ device, onClose }: Props): JSX.Element => {
       }
     >
       <div className={styles.container}>
-        <div className={styles['low-laser']}>
-          <div className={styles.left}>
-            <Tooltip title={t.low_laser_desc}>
-              <QuestionCircleOutlined className={styles.icon} />
-            </Tooltip>
-            {t.low_laser}:
+        {supportInfo.framingLowLaser && (
+          <div className={styles['low-laser']}>
+            <div className={styles.left}>
+              <Tooltip title={t.low_laser_desc}>
+                <QuestionCircleOutlined className={styles.icon} />
+              </Tooltip>
+              {t.low_laser}:
+            </div>
             <InputNumber
               className={styles.input}
               min={0}
@@ -97,7 +101,7 @@ const FramingModal = ({ device, onClose }: Props): JSX.Element => {
               precision={0}
             />
           </div>
-        </div>
+        )}
         <Segmented
           className={styles.segmented}
           value={type}
