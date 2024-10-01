@@ -497,7 +497,7 @@ class FramingTaskManager extends EventEmitter {
       console.error(error);
       alertCaller.popUp({ message: `Failed to start framing: ${error}` });
     } finally {
-      this.endTask();
+      await this.endTask();
       this.emit('close-message');
       this.changeWorkingStatus(false);
     }
