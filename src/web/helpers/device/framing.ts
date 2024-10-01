@@ -263,7 +263,7 @@ class FramingTaskManager extends EventEmitter {
       this.curPos.y = moveTarget.y;
     } else if (moveTarget.a !== undefined) {
       if (this.rotaryInfo?.mirror && this.enabledInfo.rotary)
-        moveTarget.a = 2 * this.rotaryInfo.y - moveTarget.y;
+        moveTarget.a = 2 * this.rotaryInfo.y - moveTarget.a;
       if (this.jobOrigin) moveTarget.a -= this.jobOrigin.y;
       yDist = moveTarget.a - this.curPos.a;
       this.curPos.a = moveTarget.a;
