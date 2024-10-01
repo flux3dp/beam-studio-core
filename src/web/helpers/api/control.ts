@@ -611,7 +611,12 @@ class Control extends EventEmitter implements IControlSocket {
     return this.useWaitAnyResponse('task quit');
   };
 
-  deviceDetailInfo = (): Promise<IDeviceDetailInfo> => this.useWaitAnyResponse('deviceinfo');
+  deviceDetailInfo = (): Promise<IDeviceDetailInfo> => {
+    if (this.mode) {
+      throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
+    }
+    return this.useWaitAnyResponse('deviceinfo');
+  };
 
   getPreview = async () => {
     const { data } = await this.useWaitOKResponse('play info');
