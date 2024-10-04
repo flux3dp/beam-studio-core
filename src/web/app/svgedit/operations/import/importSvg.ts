@@ -23,19 +23,21 @@ import importSvgString from './importSvgString';
 
 const svgWebSocket = svgLaserParser({ type: 'svgeditor' });
 let svgCanvas: ISVGCanvas;
+
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
 });
 
-const getBasename = (path) => {
-  const pathMatch = path.match(/(.+)[/\\].+/);
-  if (pathMatch[1]) return pathMatch[1];
-  return '';
-};
+const getBasename = (path: string) => path.match(/(.+)[/\\].+/)?.[1] ?? '';
 
 const readSVG = (
   blob: Blob | File,
-  args: {
+  {
+    type,
+    targetModule = layerModuleHelper.getDefaultLaserModule(),
+    layerName,
+    parentCmd = null,
+  }: {
     type: ImportType;
     targetModule?: LayerModule;
     layerName?: string;
@@ -43,15 +45,12 @@ const readSVG = (
   }
 ) =>
   new Promise<SVGUseElement>((resolve) => {
-    const {
-      type,
-      targetModule = layerModuleHelper.getDefaultLaserModule(),
-      layerName,
-      parentCmd = null,
-    } = args;
+    const parsedLayerName = layerName === 'nolayer' ? undefined : layerName;
     const reader = new FileReader();
+
     reader.onloadend = async (e) => {
       let svgString = e.target.result as string;
+
       if (!['color', 'layer'].includes(type)) {
         svgString = svgString.replace(/<svg[^>]*>/, (svgTagString) =>
           svgTagString.replace(/"([^"]*)pt"/g, (_, valWithoutPt) => `"${valWithoutPt}"`)
@@ -70,8 +69,8 @@ const readSVG = (
       }
 
       svgString = svgString.replace(/<!\[CDATA\[([^\]]*)\]\]>/g, (_, p1) => p1);
-
       svgString = svgString.replace(/<switch[^>]*>[^<]*<[^/]*\/switch>/g, () => '');
+
       if (!['color', 'layer'].includes(type)) {
         svgString = svgString.replace(/<image[^>]*>[^<]*<[^/]*\/image>/g, () => '');
         svgString = svgString.replace(/<image[^>]*>/g, () => '');
@@ -82,7 +81,7 @@ const readSVG = (
         .replace(/fill= ?"#(fff(fff)?|FFF(FFF))"/g, 'fill="none"');
       const newElement = await importSvgString(modifiedSvgString, {
         type,
-        layerName,
+        layerName: parsedLayerName,
         targetModule,
         parentCmd,
       });
@@ -92,20 +91,27 @@ const readSVG = (
 
       resolve(newElement);
     };
+
     reader.readAsText(blob);
   });
 
 const importSvg = async (
   file: Blob,
-  args: { skipByLayer?: boolean; isFromNounProject?: boolean; isFromAI?: boolean } = {}
+  {
+    skipByLayer = false,
+    isFromNounProject,
+    isFromAI = false,
+  }: { skipByLayer?: boolean; isFromNounProject?: boolean; isFromAI?: boolean } = {}
 ): Promise<void> => {
   const batchCmd = new history.BatchCommand('Import SVG');
   const { lang } = i18n;
+  const isPrinter = modelsWithModules.has(beamboxPreference.read('workarea'));
+  const moduleSuffix = isPrinter ? 'printer' : 'laser';
   let targetModule: LayerModule;
 
-  if (modelsWithModules.has(beamboxPreference.read('workarea'))) {
+  if (isPrinter) {
     targetModule = await dialogCaller.showRadioSelectDialog({
-      id: 'import-module',
+      id: `${moduleSuffix}-import-module`,
       title: lang.beambox.popup.select_import_module,
       options: [
         {
@@ -114,145 +120,211 @@ const importSvg = async (
         },
         { label: lang.layer_module.printing, value: LayerModule.PRINTER },
       ],
+      defaultValue: beamboxPreference.read(`${moduleSuffix}-import-module`),
     });
-  } else targetModule = LayerModule.LASER_10W_DIODE;
-  if (!targetModule) return;
+  } else {
+    targetModule = LayerModule.LASER_10W_DIODE;
+  }
+
+  if (!targetModule) {
+    return;
+  }
+
   const importTypeOptions = [];
-  const { skipByLayer = false, isFromAI = false } = args;
+
   if (!skipByLayer) {
     importTypeOptions.push({ label: lang.beambox.popup.layer_by_layer, value: 'layer' });
   }
-  if (targetModule !== LayerModule.PRINTER)
+
+  if (targetModule !== LayerModule.PRINTER) {
     importTypeOptions.push({ label: lang.beambox.popup.layer_by_color, value: 'color' });
+  }
+
   importTypeOptions.push({ label: lang.beambox.popup.nolayer, value: 'nolayer' });
-  let importType: ImportType;
-  if (isFromAI) importType = 'layer';
-  else if (importTypeOptions.length === 1) importType = importTypeOptions[0].value;
-  else {
-    importType = await dialogCaller.showRadioSelectDialog({
-      id: 'import-type',
+
+  const typeSuffix = (() => {
+    if (targetModule === LayerModule.LASER_10W_DIODE) {
+      return moduleSuffix;
+    }
+
+    if (targetModule === LayerModule.PRINTER) {
+      return `${moduleSuffix}-printer`;
+    }
+
+    return `${moduleSuffix}-laser`;
+  })();
+
+  const importType: ImportType = await (async () => {
+    if (isFromAI) {
+      return 'layer';
+    }
+
+    if (importTypeOptions.length === 1) {
+      return importTypeOptions[0].value;
+    }
+
+    return dialogCaller.showRadioSelectDialog({
+      id: `${typeSuffix}-import-type`,
       title: lang.beambox.popup.select_import_method,
       options: importTypeOptions,
+      defaultValue: beamboxPreference.read(`${typeSuffix}-import-type`),
     });
+  })();
+
+  if (!importType) {
+    return;
   }
-  if (!importType) return;
 
   const result = await svgWebSocket.uploadPlainSVG(file);
   if (result !== 'ok') {
     progressCaller.popById('loading_image');
-    switch (result) {
-      case 'invalid_path':
-        alertCaller.popUpError({
-          message: lang.beambox.popup.import_file_contain_invalid_path,
-        });
-        break;
-      default:
-        break;
+
+    if (result === 'invalid_path') {
+      alertCaller.popUpError({ message: lang.beambox.popup.import_file_contain_invalid_path });
     }
+
     return;
   }
-  let outputs;
-  if (importType === 'layer') outputs = await svgWebSocket.divideSVGbyLayer();
-  else outputs = await svgWebSocket.divideSVG();
+
+  let outputs =
+    importType === 'layer' ? await svgWebSocket.divideSVGbyLayer() : await svgWebSocket.divideSVG();
+
   if (!outputs.res) {
     alertCaller.popUpError({
       buttonType: alertConstants.YES_NO,
       message: `#809 ${outputs.data}\n${lang.beambox.popup.import_file_error_ask_for_upload}`,
       onYes: () => {
         const fileReader = new FileReader();
+
         fileReader.onloadend = (e) => {
           const svgString = e.target.result;
+
+          // @ts-expect-error the file name is not in the type
           awsHelper.uploadToS3(file.name, svgString);
         };
+
         fileReader.readAsText(file);
       },
     });
+
     return;
   }
+
   outputs = outputs.data;
+
   let newElements: SVGUseElement[] = [];
   let newElement: SVGUseElement;
+
   if (['color', 'nolayer'].includes(importType)) {
     newElement = await readSVG(outputs.strokes, {
       type: importType,
       targetModule,
       parentCmd: batchCmd,
     });
-    if (newElement) newElements.push(newElement);
+
+    if (newElement) {
+      newElements.push(newElement);
+    }
+
     newElement = await readSVG(outputs.colors, {
       type: importType,
       targetModule,
       parentCmd: batchCmd,
     });
-    if (newElement) newElements.push(newElement);
+
+    if (newElement) {
+      newElements.push(newElement);
+    }
   } else if (importType === 'layer') {
     const keys = Object.keys(outputs);
+
     for (let i = 0; i < keys.length; i += 1) {
       const key = keys[i];
+
       if (!['bitmap', 'bitmap_offset'].includes(key)) {
-        if (key === 'nolayer') {
-          // eslint-disable-next-line no-await-in-loop
-          newElement = await readSVG(outputs[key], {
-            type: importType,
-            targetModule,
-            parentCmd: batchCmd,
-          });
-        } else {
-          // eslint-disable-next-line no-await-in-loop
-          newElement = await readSVG(outputs[key], {
-            type: importType,
-            targetModule,
-            layerName: key,
-            parentCmd: batchCmd,
-          });
+        // eslint-disable-next-line no-await-in-loop
+        newElement = await readSVG(outputs[key], {
+          type: importType,
+          targetModule,
+          layerName: key,
+          parentCmd: batchCmd,
+        });
+
+        if (newElement) {
+          newElements.push(newElement);
         }
-        if (newElement) newElements.push(newElement);
       }
     }
   } else {
     newElement = await readSVG(file, { type: importType, targetModule, parentCmd: batchCmd });
-    if (newElement) newElements.push(newElement);
+
+    if (newElement) {
+      newElements.push(newElement);
+    }
   }
 
-  newElements = newElements.filter((elem) => elem);
+  newElements = newElements.filter(Boolean);
+
   if (outputs.bitmap.size > 0) {
     const isPrinting = targetModule === LayerModule.PRINTER;
+
     if (!isPrinting || !newElements.length) {
       const layerName = lang.beambox.right_panel.layer_panel.layer_bitmap;
       const { layer: newLayer, name: newLayerName, cmd } = createLayer(layerName);
-      if (cmd && !cmd.isEmpty()) batchCmd.addSubCommand(cmd);
+
+      if (cmd && !cmd.isEmpty()) {
+        batchCmd.addSubCommand(cmd);
+      }
+
       layerConfigHelper.initLayerConfig(newLayerName);
+
       if (isPrinting) {
         writeDataLayer(newLayer, 'module', LayerModule.PRINTER);
         writeDataLayer(newLayer, 'fullcolor', true);
       }
     }
+
     const img = await readBitmapFile(outputs.bitmap, {
       offset: outputs.bitmap_offset,
       gray: !isPrinting,
       parentCmd: batchCmd,
     });
+
     newElements.push(img);
+
     const cmd = removeDefaultLayerIfEmpty();
-    if (cmd) batchCmd.addSubCommand(cmd);
+
+    if (cmd) {
+      batchCmd.addSubCommand(cmd);
+    }
   }
+
   presprayArea.togglePresprayArea();
   progressCaller.popById('loading_image');
-  if (args.isFromNounProject) {
+
+  if (isFromNounProject) {
     for (let i = 0; i < newElements.length; i += 1) {
       const elem = newElements[i];
+
       elem.setAttribute('data-np', '1');
     }
   }
 
   LayerPanelController.setSelectedLayers([svgCanvas.getCurrentDrawing().getCurrentLayerName()]);
+
   if (newElements.length === 0) {
     svgCanvas.clearSelection();
   } else {
     svgCanvas.selectOnly(newElements);
-    if (newElements.length > 1) svgCanvas.tempGroupSelectedElements();
+
+    if (newElements.length > 1) {
+      svgCanvas.tempGroupSelectedElements();
+    }
   }
-  if (!batchCmd.isEmpty()) svgCanvas.addCommandToHistory(batchCmd);
+
+  if (!batchCmd.isEmpty()) {
+    svgCanvas.addCommandToHistory(batchCmd);
+  }
 };
 
 export default importSvg;
