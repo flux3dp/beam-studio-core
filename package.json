@@ -19,7 +19,7 @@
     "antd": "5.9.4",
     "antd-mobile": "^5.29.1",
     "antd-mobile-icons": "^0.3.0",
-    "axios": "^0.21.1",
+    "axios": "^1.7.7",
     "bcp-47": "^2.1.0",
     "buffer": "^6.0.3",
     "classnames": "^2.3.1",
