@@ -2,15 +2,15 @@ import isDev from 'helpers/is-dev';
 import isWeb from 'helpers/is-web';
 
 export const modelsSupportUsb = new Set(['fhexa1', 'ado1']);
+export enum PreviewSpeedLevel {
+  SLOW = 1,
+  MEDIUM = 2,
+  FAST = 3,
+}
 
 export default {
   dpmm: 10,
   camera: {
-    movementSpeed: {
-      // limited by firmware
-      x: 300 * 60, // mm per minutes
-      y: 100 * 60, // mm per minutes
-    },
     imgWidth: 640, // pixel
     imgHeight: 280, // pixel
     offsetX_ideal: 20, // mm

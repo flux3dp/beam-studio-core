@@ -202,11 +202,6 @@ class Settings extends React.PureComponent<null, State> {
 
     const autoSaveOptions = this.onOffOptionFactory(editingAutosaveConfig.enabled);
 
-    const cameraMovementSpeed = Math.min(
-      BeamboxConstant.camera.movementSpeed.x,
-      BeamboxConstant.camera.movementSpeed.y
-    );
-
     const isAllValid = !warnings || Object.keys(warnings).length === 0;
     const web = isWeb();
     const defaultUnit = this.getConfigEditingValue('default-units');
@@ -240,25 +235,8 @@ class Settings extends React.PureComponent<null, State> {
             updateState={(state) => this.setState(state)}
           />
           <Camera
-            speed={{
-              unit: defaultUnit === 'inches' ? 'in/s' : 'mm/s',
-              decimal: defaultUnit === 'inches' ? 2 : 0,
-              defaultValue:
-                (this.getBeamboxPreferenceEditingValue('preview_movement_speed') ||
-                  cameraMovementSpeed) / 60,
-              getValue: (val) =>
-                this.updateBeamboxPreferenceChange('preview_movement_speed', val * 60),
-            }}
-            speedHL={{
-              unit: defaultUnit === 'inches' ? 'in/s' : 'mm/s',
-              decimal: defaultUnit === 'inches' ? 2 : 0,
-              defaultValue:
-                (this.getBeamboxPreferenceEditingValue('preview_movement_speed_hl') ||
-                  cameraMovementSpeed * 0.6) / 60,
-              getValue: (val) =>
-                this.updateBeamboxPreferenceChange('preview_movement_speed_hl', val * 60),
-            }}
             enableCustomPreviewHeightOptions={enableCustomPreviewHeightOptions}
+            getBeamboxPreferenceEditingValue={this.getBeamboxPreferenceEditingValue}
             updateBeamboxPreferenceChange={this.updateBeamboxPreferenceChange}
           />
           <Editor

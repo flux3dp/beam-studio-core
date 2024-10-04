@@ -421,8 +421,10 @@ export interface ILang {
     autosave_interval: string,
     autosave_number: string,
     autosave_path_not_correct: string,
-    preview_movement_speed: string,
-    preview_movement_speed_hl: string,
+    preview_movement_speed: string;
+    slow: string;
+    medium: string;
+    fast: string;
     default_units: string,
     default_font_family: string,
     default_font_style: string,
