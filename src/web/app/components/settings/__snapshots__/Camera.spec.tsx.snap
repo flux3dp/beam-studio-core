@@ -7,52 +7,18 @@ exports[`should render correctly 1`] = `
   >
     Camera
   </div>
-  <mock-control
-    label="Preview Movement Speed"
-  >
-    <div>
-      mock-unit-input id:
-      preview-input
-      unit:
-      in/s
-      min:
-      3
-      max:
-      300
-      defaultValue:
-      1
-      forceUsePropsUnit:
-      false
-      className:
-      {"half":true}
-      <input
-        class="unit-input"
-      />
-    </div>
-  </mock-control>
-  <mock-control
-    label="Preview Movement Speed (Diode Laser Enabled)"
-  >
-    <div>
-      mock-unit-input id:
-      diode-preview-input
-      unit:
-      mm/s
-      min:
-      3
-      max:
-      300
-      defaultValue:
-      1
-      forceUsePropsUnit:
-      false
-      className:
-      {"half":true}
-      <input
-        class="unit-input"
-      />
-    </div>
-  </mock-control>
+  <div>
+    mock-select-control id:
+    set-camera-preview-speed-level
+    label:
+    Preview Movement Speed
+    url:
+    options:
+    [{"value":1,"selected":true},{"value":2,"selected":false},{"value":3,"selected":false}]
+    <input
+      class="select-control"
+    />
+  </div>
   <div>
     mock-select-control id:
     set-enable-custom-preview-height
