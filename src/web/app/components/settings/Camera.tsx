@@ -18,7 +18,6 @@ function Camera({
 }: Props): JSX.Element {
   const { lang } = i18n;
   const previewSpeedLevel = getBeamboxPreferenceEditingValue('preview_movement_speed_level') || 1;
-  console.log('previewSpeedLevel', previewSpeedLevel);
   const options = useMemo(
     () => [
       {
