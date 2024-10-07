@@ -3,13 +3,13 @@ import alertCaller from 'app/actions/alert-caller';
 import alertConfig from 'helpers/api/alert-config';
 import alertConstants from 'app/constants/alert-constants';
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
-import constant from 'app/actions/beambox/constant';
 import deviceMaster from 'helpers/device-master';
 import i18n from 'helpers/i18n';
 import { getSupportInfo } from 'app/constants/add-on';
 import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { PreviewManager } from 'interfaces/PreviewManager';
+import { PreviewSpeedLevel } from 'app/actions/beambox/constant';
 
 // TODO: Add tests
 class BasePreviewManager implements PreviewManager {
@@ -18,6 +18,7 @@ class BasePreviewManager implements PreviewManager {
   protected workarea: WorkAreaModel;
   protected ended = false;
   private lastPosition: [number, number] = [0, 0];
+  private movementSpeed: number; // mm/min
 
   constructor(device: IDeviceInfo) {
     this.device = device;
@@ -53,6 +54,16 @@ class BasePreviewManager implements PreviewManager {
     throw new Error('Method not implemented.');
   };
 
+  protected getMovementSpeed = (): number => {
+    // fixed to 3600 for diode laser
+    if (beamboxPreference.read('enable-diode') && getSupportInfo(this.workarea).hybridLaser)
+      return 3600;
+    const previewMovementSpeedLevel = beamboxPreference.read('preview_movement_speed_level');
+    if (previewMovementSpeedLevel === PreviewSpeedLevel.FAST) return 12000;
+    if (previewMovementSpeedLevel === PreviewSpeedLevel.MEDIUM) return 9000;
+    return 6000;
+  };
+
   /**
    * constrain the preview area
    * @param x x in px
@@ -76,19 +87,8 @@ class BasePreviewManager implements PreviewManager {
    * @returns image blob url of the photo taken
    */
   async getPhotoAfterMoveTo(movementX: number, movementY: number): Promise<string> {
-    let feedrate = Math.min(constant.camera.movementSpeed.x, constant.camera.movementSpeed.y);
-    const movement = { f: feedrate, x: movementX, y: movementY };
-    if (
-      beamboxPreference.read('enable-diode') &&
-      getSupportInfo(beamboxPreference.read('workarea')).hybridLaser
-    ) {
-      if (beamboxPreference.read('preview_movement_speed_hl')) {
-        feedrate = beamboxPreference.read('preview_movement_speed_hl');
-      } else feedrate *= 0.6;
-    } else if (beamboxPreference.read('preview_movement_speed')) {
-      feedrate = beamboxPreference.read('preview_movement_speed');
-    }
-    movement.f = feedrate; // firmware will used limited x, y speed still
+    if (!this.movementSpeed) this.movementSpeed = this.getMovementSpeed();
+    const movement = { f: this.movementSpeed, x: movementX, y: movementY };
 
     const selectRes = await deviceMaster.select(this.device);
     if (!selectRes.success) return null;
@@ -108,19 +108,8 @@ class BasePreviewManager implements PreviewManager {
    * @param movementY
    */
   async waitUntilEstimatedMovementTime(movementX: number, movementY: number): Promise<void> {
-    let feedrate = Math.min(constant.camera.movementSpeed.x, constant.camera.movementSpeed.y);
-
-    if (beamboxPreference.read('enable-diode') && getSupportInfo(this.workarea).hybridLaser) {
-      if (beamboxPreference.read('preview_movement_speed_hl')) {
-        feedrate = beamboxPreference.read('preview_movement_speed_hl');
-      } else {
-        feedrate *= 0.6;
-      }
-    } else if (beamboxPreference.read('preview_movement_speed')) {
-      feedrate = beamboxPreference.read('preview_movement_speed');
-    }
     const moveDist = Math.hypot(this.lastPosition[0] - movementX, this.lastPosition[1] - movementY);
-    let timeToWait = moveDist / feedrate;
+    let timeToWait = moveDist / this.movementSpeed;
     timeToWait *= 60000; // min => ms
     // wait for moving camera to take a stable picture, this value need to be optimized
     timeToWait *= 1.2;

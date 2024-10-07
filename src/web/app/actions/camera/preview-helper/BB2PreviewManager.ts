@@ -1,6 +1,7 @@
 import { sprintf } from 'sprintf-js';
 
 import alertCaller from 'app/actions/alert-caller';
+import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import constant from 'app/actions/beambox/constant';
 import deviceMaster from 'helpers/device-master';
 import i18n from 'helpers/i18n';
@@ -35,6 +36,13 @@ class BB2PreviewManager extends BasePreviewManager implements PreviewManager {
       y: this.grid.y[0] + (this.grid.y[1] - this.grid.y[0]) / 2,
     };
   }
+
+  protected getMovementSpeed = (): number => {
+    const previewMovementSpeedLevel = beamboxPreference.read('preview_movement_speed_level');
+    if (previewMovementSpeedLevel === 'high') return 30000;
+    if (previewMovementSpeedLevel === 'medium') return 24000;
+    return 18000;
+  };
 
   public setup = async (args?: { progressId?: string }): Promise<boolean> => {
     const { lang } = i18n;
