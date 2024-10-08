@@ -12,6 +12,8 @@ jest.mock('helpers/eventEmitterFactory', () => ({
   },
 }));
 
+jest.mock('helpers/is-dev', () => () => true);
+
 // eslint-disable-next-line import/first
 import DocumentSettings from './DocumentSettings';
 
@@ -121,6 +123,10 @@ const mockUnmount = jest.fn();
 const mockQuerySelectorAll = jest.fn();
 
 describe('test DocumentSettings', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should render correctly for ador', async () => {
     document.querySelectorAll = mockQuerySelectorAll;
     const { baseElement } = render(<DocumentSettings unmount={mockUnmount} />);
@@ -159,12 +165,12 @@ describe('test DocumentSettings', () => {
       target: { value: 500 },
     });
     fireEvent.blur(baseElement.querySelector('#pass_through_height'));
-    act(() =>fireEvent.mouseDown(baseElement.querySelector('input#startFrom')));
+    act(() => fireEvent.mouseDown(baseElement.querySelector('input#startFrom')));
     act(() => {
       fireEvent.click(
         baseElement.querySelectorAll('.ant-slide-up-appear .ant-select-item-option-content')[1]
       );
-    })
+    });
     expect(baseElement).toMatchSnapshot();
 
     expect(mockBeamboxPreferenceWrite).not.toBeCalled();
@@ -209,5 +215,37 @@ describe('test DocumentSettings', () => {
     expect(mockEventEmitter.emit).toHaveBeenNthCalledWith(1, 'UPDATE_DPI', 'high');
     expect(mockEventEmitter.emit).toHaveBeenNthCalledWith(2, 'document-settings-saved');
     expect(mockUnmount).toBeCalledTimes(1);
+  });
+
+  test('set dimesnion for promark', async () => {
+    document.querySelectorAll = mockQuerySelectorAll;
+    const { baseElement, getByText } = render(<DocumentSettings unmount={mockUnmount} />);
+    act(() => fireEvent.mouseDown(baseElement.querySelector('input#workareaSelect')));
+    fireEvent.click(
+      baseElement.querySelectorAll('.ant-slide-up-appear .ant-select-item-option-content')[6]
+    );
+    expect(baseElement).toMatchSnapshot();
+    act(() => fireEvent.mouseDown(baseElement.querySelector('input#customDimension')));
+    fireEvent.click(
+      baseElement.querySelectorAll('.ant-slide-up-appear .ant-select-item-option-content')[0]
+    );
+    mockQuerySelectorAll.mockReturnValueOnce([1]);
+    fireEvent.click(getByText('Save'));
+    expect(mockPopUp).toBeCalledTimes(1);
+    expect(mockPopUp).toHaveBeenLastCalledWith({
+      id: 'save-document-settings',
+      message: 'changeFromPrintingWorkareaTitle',
+      messageIcon: 'notice',
+      buttonType: 'CONFIRM_CANCEL',
+      onConfirm: expect.any(Function),
+      onCancel: expect.any(Function),
+    });
+    const { onConfirm } = mockPopUp.mock.calls[0][0];
+    onConfirm();
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(mockBeamboxPreferenceWrite).toBeCalledTimes(10);
+    expect(mockBeamboxPreferenceWrite).toHaveBeenCalledWith('customized-dimension', {
+      fpm1: { width: 110, height: 110 },
+    });
   });
 });

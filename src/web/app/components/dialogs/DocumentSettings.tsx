@@ -24,8 +24,6 @@ import { WorkAreaModel, getWorkarea } from 'app/constants/workarea-constants';
 
 import styles from './DocumentSettings.module.scss';
 
-const eventEmitter = eventEmitterFactory.createEventEmitter('dpi-info');
-
 const workareaOptions = [
   { label: 'beamo', value: 'fbm1' },
   { label: 'Beambox', value: 'fbb1b' },
@@ -100,9 +98,8 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
 
   const handleSave = () => {
     BeamboxPreference.write('engrave_dpi', engraveDpi);
-    eventEmitter.emit('UPDATE_DPI', engraveDpi);
-    // state for engrave dpi v2
-    // BeamboxPreference.write('engrave-dpi-value', engraveDpiValue);
+    const dpiEvent = eventEmitterFactory.createEventEmitter('dpi-info');
+    dpiEvent.emit('UPDATE_DPI', engraveDpi);
     BeamboxPreference.write('borderless', supportInfo.openBottom && borderless);
     BeamboxPreference.write('enable-diode', supportInfo.hybridLaser && enableDiode);
     BeamboxPreference.write('enable-autofocus', supportInfo.autoFocus && enableAutofocus);
