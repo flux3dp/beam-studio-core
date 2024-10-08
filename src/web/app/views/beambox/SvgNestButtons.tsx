@@ -279,22 +279,10 @@ class SvgNestButtons extends React.Component<Props, State> {
     const { isWorking } = this.state;
     // eslint-disable-next-line no-underscore-dangle
     const endText = LANG._nest.end;
-    const className = classNames('svg-nest-buttons', styles.container, {
-      win: !isWeb() && window.os === 'Windows',
-    });
-    if (isWorking) {
-      return (
-        <Modal className={{ 'no-background': true }}>
-          <div className={className}>
-            {this.renderStartButton()}
-            <Button icon={<CloseOutlined />} shape="round" onClick={this.close}>
-              {endText}
-            </Button>
-          </div>
-        </Modal>
-      );
-    }
-    return (
+    const isWindows = !isWeb() && window.os === 'Windows';
+    const className = classNames(styles.container, { win: isWindows });
+
+    const content = (
       <div className={className}>
         {this.renderStartButton()}
         <Button icon={<CloseOutlined />} shape="round" onClick={this.close}>
@@ -302,6 +290,10 @@ class SvgNestButtons extends React.Component<Props, State> {
         </Button>
       </div>
     );
+
+    return isWorking ? (
+      <Modal className={{ 'no-background': true }}>{content}</Modal>
+    ) : content;
   }
 }
 
