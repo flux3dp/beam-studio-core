@@ -1,0 +1,26 @@
+.label {
+  line-height: 32px;
+
+  &::after {
+    content: ':';
+  }
+}
+
+.inputs {
+  width: 80%;
+}
+
+.input {
+  width: 120px;
+
+  &.underline {
+    border: 1px solid #e6e6e6;
+    border-width: 0 0 1px;
+  }
+
+  .unit {
+    margin-left: 0px;
+    font-size: 12px;
+    color: #bbbbbb;
+  }
+}

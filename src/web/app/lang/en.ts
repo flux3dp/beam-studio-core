@@ -2,6 +2,10 @@
 import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
+  global: {
+    cancel: 'Cancel',
+    back: 'Back',
+  },
   general: {
     processing: 'Processing...',
     choose_folder: 'Choose Folder',
@@ -77,6 +81,7 @@ const lang: ILang = {
       help: 'Help',
       open: 'Open',
       samples: 'Examples',
+      material_test_generator: 'Material Test Generator',
       import_hello_beamo: 'Example of beamo',
       import_hello_beambox: 'Example of beambox',
       import_material_testing_old: 'Material Engraving Test - Classic',
@@ -1916,6 +1921,13 @@ const lang: ILang = {
     hull_desc: 'Previews a shape that closely follows the design, like a rubber band wrapped around the object.',
     areacheck_desc: "Ensures the work area is safe by previewing the object's bounding box and the laser head's acceleration zone.",
     calculating_task: 'Calculating task...',
+  },
+  material_test_generator: {
+    title: 'Material Test Generator',
+    table_settings: 'Table Settings',
+    block_settings: 'Block Settings',
+    preview: 'Preview',
+    export: 'Export',
   },
 };
 

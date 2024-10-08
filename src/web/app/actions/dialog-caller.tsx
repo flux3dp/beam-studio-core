@@ -43,6 +43,7 @@ import { IAnnouncement } from 'interfaces/IAnnouncement';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { IDialogBoxStyle, IInputLightBox, IPrompt } from 'interfaces/IDialog';
 import { IMediaTutorial, ITutorial } from 'interfaces/ITutorial';
+import MaterialTestGeneratorPanel from 'app/components/MaterialTestGeneratorPanel';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => {
@@ -534,4 +535,21 @@ export default {
         />
       );
     }),
+  showMaterialTestGenerator: (): void => {
+    if (isIdExist('material-test-generator')) {
+      return;
+    }
+
+    addDialogComponent(
+      'material-test-generator',
+      <MaterialTestGeneratorPanel
+        maxSpeed={100}
+        minSpeed={0}
+        handleChange={() => ({})}
+        onClose={() => {
+          popDialogById('material-test-generator');
+        }}
+      />
+    );
+  },
 };

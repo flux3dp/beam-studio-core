@@ -1,43 +1,44 @@
 export interface ILang {
+  global: Record<'cancel' | 'back', string>;
   general: {
-    processing: string,
-    choose_folder: string,
-  },
+    processing: string;
+    choose_folder: string;
+  };
   buttons: {
-    next: string,
-    back: string,
+    next: string;
+    back: string;
     done: string;
     back_to_beam_studio: string;
-  },
+  };
   topbar: {
-    untitled: string,
+    untitled: string;
     titles: {
-      settings: string,
-    },
-    export: string,
-    preview: string,
+      settings: string;
+    };
+    export: string;
+    preview: string;
     preview_title: string;
     curve_engrave: string;
     task_preview: string;
     frame_task: string;
-    borderless: string,
+    borderless: string;
     tag_names: {
-      rect: string,
-      ellipse: string,
-      path: string,
-      polygon: string,
-      image: string,
-      text: string,
-      text_path: string,
+      rect: string;
+      ellipse: string;
+      path: string;
+      polygon: string;
+      image: string;
+      text: string;
+      text_path: string;
       pass_through_object: string;
-      line: string,
-      g: string,
-      multi_select: string,
-      use: string,
-      svg: string,
-      dxf: string,
+      line: string;
+      g: string;
+      multi_select: string;
+      use: string;
+      svg: string;
+      dxf: string;
       no_selection: string;
-    },
+    };
     alerts: {
       start_preview_timeout: string;
       fail_to_start_preview: string;
@@ -74,6 +75,7 @@ export interface ILang {
       help: string;
       open: string;
       samples: string;
+      material_test_generator: string;
       import_hello_beamo: string;
       import_hello_beambox: string;
       import_material_testing_old: string;
@@ -174,7 +176,7 @@ export interface ILang {
         cloud: string;
         player: string;
         robot: string;
-      },
+      };
       link: {
         help_center: string;
         contact_us: string;
@@ -183,7 +185,7 @@ export interface ILang {
         beam_studio_api: string;
         design_market: string;
         shortcuts: string;
-      },
+      };
       view: string;
       zoom_in: string;
       zoom_out: string;
@@ -205,248 +207,248 @@ export interface ILang {
       camera_calibration_data: string;
       upload_data: string;
       download_data: string;
-    },
-    select_machine: string,
-  },
+    };
+    select_machine: string;
+  };
   support: {
-    no_webgl: string,
-    no_vcredist: string,
-  },
+    no_webgl: string;
+    no_vcredist: string;
+  };
   generic_error: {
-    UNKNOWN_ERROR: string,
-    OPERATION_ERROR: string,
-    SUBSYSTEM_ERROR: string,
-    UNKNOWN_COMMAND: string,
-  },
+    UNKNOWN_ERROR: string;
+    OPERATION_ERROR: string;
+    SUBSYSTEM_ERROR: string;
+    UNKNOWN_COMMAND: string;
+  };
   device_selection: {
     no_beambox: string;
     no_device_web: string;
   };
   update: {
     update: string;
-    release_note: string,
+    release_note: string;
     firmware: {
-      caption: string,
-      message_pattern_1: string,
-      message_pattern_2: string,
+      caption: string;
+      message_pattern_1: string;
+      message_pattern_2: string;
       latest_firmware: {
-        caption: string,
-        message: string,
-        still_update: string,
-        cant_get_latest: string,
-      },
-      confirm: string,
-      upload_file: string,
-      update_success: string,
-      update_fail: string,
-      too_old_for_web: string,
+        caption: string;
+        message: string;
+        still_update: string;
+        cant_get_latest: string;
+      };
+      confirm: string;
+      upload_file: string;
+      update_success: string;
+      update_fail: string;
+      too_old_for_web: string;
       force_update_message: string;
       firmware_too_old_update_by_sdcard: string;
-    },
+    };
     software: {
-      checking: string,
-      switch_version: string,
-      check_update: string,
-      caption: string,
-      downloading: string,
-      install_or_not: string,
-      switch_or_not: string,
-      available_update: string,
-      available_switch: string,
-      not_found: string,
-      no_response: string,
-      switch_version_not_found: string,
-      yes: string,
-      no: string,
-      update_for_ador: string,
-    },
-    updating: string,
-    skip: string,
-    preparing: string,
-    later: string,
-    download: string,
-    cannot_reach_internet: string,
-    install: string,
-    upload: string,
-  },
+      checking: string;
+      switch_version: string;
+      check_update: string;
+      caption: string;
+      downloading: string;
+      install_or_not: string;
+      switch_or_not: string;
+      available_update: string;
+      available_switch: string;
+      not_found: string;
+      no_response: string;
+      switch_version_not_found: string;
+      yes: string;
+      no: string;
+      update_for_ador: string;
+    };
+    updating: string;
+    skip: string;
+    preparing: string;
+    later: string;
+    download: string;
+    cannot_reach_internet: string;
+    install: string;
+    upload: string;
+  };
   topmenu: {
-    version: string,
-    credit: string,
-    ok: string,
+    version: string;
+    credit: string;
+    ok: string;
     file: {
-      label: string,
-      import: string,
-      save_fcode: string,
-      save_scene: string,
-      save_svg: string,
-      save_png: string,
-      save_jpg: string,
-      converting: string,
-      all_files: string,
-      svg_files: string,
-      png_files: string,
-      jpg_files: string,
-      scene_files: string,
-      fcode_files: string,
-      clear_recent: string,
-      path_not_exit: string,
-    },
+      label: string;
+      import: string;
+      save_fcode: string;
+      save_scene: string;
+      save_svg: string;
+      save_png: string;
+      save_jpg: string;
+      converting: string;
+      all_files: string;
+      svg_files: string;
+      png_files: string;
+      jpg_files: string;
+      scene_files: string;
+      fcode_files: string;
+      clear_recent: string;
+      path_not_exit: string;
+    };
     device: {
-      download_log_canceled: string,
-      download_log_error: string,
+      download_log_canceled: string;
+      download_log_error: string;
       log: {
-        usblist: string,
-      },
-      network_test: string,
-    },
-  },
+        usblist: string;
+      };
+      network_test: string;
+    };
+  };
   initialize: {
     // generic strings
-    next: string,
-    start: string,
-    skip: string,
-    cancel: string,
-    confirm: string,
-    connect: string,
-    back: string,
-    retry: string,
-    no_machine: string,
+    next: string;
+    start: string;
+    skip: string;
+    cancel: string;
+    confirm: string;
+    connect: string;
+    back: string;
+    retry: string;
+    no_machine: string;
 
     // specific caption/content
-    select_language: string,
-    select_machine_type: string,
-    select_connection_type: string,
+    select_language: string;
+    select_machine_type: string;
+    select_connection_type: string;
     connection_types: {
-      wifi: string,
-      wired: string,
-      ether2ether: string,
-      usb: string,
-    },
+      wifi: string;
+      wired: string;
+      ether2ether: string;
+      usb: string;
+    };
     connect_wifi: {
-      title: string,
-      tutorial1: string,
+      title: string;
+      tutorial1: string;
       tutorial1_ador: string;
-      tutorial2: string,
-      what_if_1: string,
-      what_if_1_content: string,
-      what_if_2: string,
-      what_if_2_content: string,
-    },
+      tutorial2: string;
+      what_if_1: string;
+      what_if_1_content: string;
+      what_if_2: string;
+      what_if_2_content: string;
+    };
     connect_wired: {
-      title: string,
-      tutorial1: string,
-      tutorial2: string,
+      title: string;
+      tutorial1: string;
+      tutorial2: string;
       tutorial2_ador: string;
-      what_if_1: string,
-      what_if_1_content: string,
-      what_if_2: string,
-      what_if_2_content: string,
-    },
+      what_if_1: string;
+      what_if_1_content: string;
+      what_if_2: string;
+      what_if_2_content: string;
+    };
     connect_ethernet: {
-      title: string,
-      tutorial1: string,
-      tutorial2_1: string,
-      tutorial2_a_text: string,
-      tutorial2_a_href_mac: string,
-      tutorial2_a_href_win: string,
-      tutorial2_2: string,
-      tutorial3: string,
-    },
+      title: string;
+      tutorial1: string;
+      tutorial2_1: string;
+      tutorial2_a_text: string;
+      tutorial2_a_href_mac: string;
+      tutorial2_a_href_win: string;
+      tutorial2_2: string;
+      tutorial3: string;
+    };
     connect_usb: {
-      title: string,
-      title_sub: string,
-      tutorial1: string,
-      tutorial2: string,
+      title: string;
+      title_sub: string;
+      tutorial1: string;
+      tutorial2: string;
       turn_off_machine: string;
       turn_on_machine: string;
       wait_for_turning_on: string;
-    },
+    };
     connect_machine_ip: {
-      check_usb: string,
-      enter_ip: string,
-      check_ip: string,
-      invalid_ip: string,
-      invalid_format: string,
-      starts_with_169254: string,
-      unreachable: string,
-      check_connection: string,
-      check_firmware: string,
-      check_camera: string,
-      retry: string,
-      succeeded_message: string,
-      finish_setting: string,
-    },
-    connecting: string,
+      check_usb: string;
+      enter_ip: string;
+      check_ip: string;
+      invalid_ip: string;
+      invalid_format: string;
+      starts_with_169254: string;
+      unreachable: string;
+      check_connection: string;
+      check_firmware: string;
+      check_camera: string;
+      retry: string;
+      succeeded_message: string;
+      finish_setting: string;
+    };
+    connecting: string;
     setting_completed: {
-      start: string,
-      great: string,
-      setup_later: string,
-      back: string,
-      ok: string,
-    },
-  },
+      start: string;
+      great: string;
+      setup_later: string;
+      back: string;
+      ok: string;
+    };
+  };
   error_pages: {
-    screen_size: string,
-  },
+    screen_size: string;
+  };
   menu: {
-    mm: string,
-    inches: string,
-  },
+    mm: string;
+    inches: string;
+  };
   settings: {
-    on: string,
-    off: string,
-    low: string,
-    high: string,
-    caption: string,
+    on: string;
+    off: string;
+    low: string;
+    high: string;
+    caption: string;
     tabs: {
-      general: string,
-      device: string,
-    },
-    ip: string,
-    guess_poke: string,
-    auto_connect: string,
-    wrong_ip_format: string,
-    default_machine: string,
-    default_machine_button: string,
-    remove_default_machine_button: string,
-    confirm_remove_default: string,
-    reset: string,
-    reset_now: string,
-    confirm_reset: string,
-    language: string,
-    notifications: string,
-    check_updates: string,
-    autosave_enabled: string,
-    autosave_path: string,
-    autosave_interval: string,
-    autosave_number: string,
-    autosave_path_not_correct: string,
+      general: string;
+      device: string;
+    };
+    ip: string;
+    guess_poke: string;
+    auto_connect: string;
+    wrong_ip_format: string;
+    default_machine: string;
+    default_machine_button: string;
+    remove_default_machine_button: string;
+    confirm_remove_default: string;
+    reset: string;
+    reset_now: string;
+    confirm_reset: string;
+    language: string;
+    notifications: string;
+    check_updates: string;
+    autosave_enabled: string;
+    autosave_path: string;
+    autosave_interval: string;
+    autosave_number: string;
+    autosave_path_not_correct: string;
     preview_movement_speed: string;
     slow: string;
     medium: string;
     fast: string;
-    default_units: string,
-    default_font_family: string,
-    default_font_style: string,
-    fast_gradient: string,
+    default_units: string;
+    default_font_family: string;
+    default_font_style: string;
+    fast_gradient: string;
     engraving_direction: string;
     top_down: string;
     bottom_up: string;
-    vector_speed_constraint: string,
-    loop_compensation: string,
-    blade_radius: string,
-    blade_precut_switch: string,
-    blade_precut_position: string,
-    default_beambox_model: string,
-    guides_origin: string,
-    guides: string,
-    image_downsampling: string,
-    anti_aliasing: string,
-    continuous_drawing: string,
-    trace_output: string,
-    single_object: string,
-    grouped_objects: string,
-    simplify_clipper_path: string,
+    vector_speed_constraint: string;
+    loop_compensation: string;
+    blade_radius: string;
+    blade_precut_switch: string;
+    blade_precut_position: string;
+    default_beambox_model: string;
+    guides_origin: string;
+    guides: string;
+    image_downsampling: string;
+    anti_aliasing: string;
+    continuous_drawing: string;
+    trace_output: string;
+    single_object: string;
+    grouped_objects: string;
+    simplify_clipper_path: string;
     enable_low_speed: string;
     auto_switch_tab: string;
     enable_custom_backlash: string;
@@ -477,24 +479,24 @@ export interface ILang {
     default_laser_module: string;
     low_laser_for_preview: string;
     groups: {
-      general: string,
-      update: string,
-      connection: string,
-      autosave: string,
-      camera: string,
-      editor: string,
-      engraving: string,
-      path: string,
-      mask: string,
-      text_to_path: string,
+      general: string;
+      update: string;
+      connection: string;
+      autosave: string;
+      camera: string;
+      editor: string;
+      engraving: string;
+      path: string;
+      mask: string;
+      text_to_path: string;
       modules: string;
       ador_modules: string;
-      privacy: string,
-    },
-    notification_on: string,
-    notification_off: string,
-    update_latest: string,
-    update_beta: string,
+      privacy: string;
+    };
+    notification_on: string;
+    notification_off: string;
+    update_latest: string;
+    update_beta: string;
     help_center_urls: {
       connection: string;
       image_downsampling: string;
@@ -515,84 +517,84 @@ export interface ILang {
   };
   beambox: {
     tag: {
-      g: string,
-      use: string,
-      image: string,
-      text: string,
-    },
+      g: string;
+      use: string;
+      image: string;
+      text: string;
+    };
     context_menu: {
-      cut: string,
-      copy: string,
-      paste: string,
-      paste_in_place: string,
-      duplicate: string,
-      delete: string,
-      group: string,
-      ungroup: string,
-      move_front: string,
-      move_up: string,
-      move_down: string,
-      move_back: string,
-    },
+      cut: string;
+      copy: string;
+      paste: string;
+      paste_in_place: string;
+      duplicate: string;
+      delete: string;
+      group: string;
+      ungroup: string;
+      move_front: string;
+      move_up: string;
+      move_down: string;
+      move_back: string;
+    };
     popup: {
-      select_import_method: string,
+      select_import_method: string;
       select_import_module: string;
-      touchpad: string,
-      mouse: string,
-      layer_by_layer: string,
-      layer_by_color: string,
-      nolayer: string,
-      loading_image: string,
-      no_support_text: string,
-      speed_too_high_lower_the_quality: string,
-      both_power_and_speed_too_high: string,
-      too_fast_for_path: string,
-      too_fast_for_path_and_constrain: string,
-      should_update_firmware_to_continue: string,
+      touchpad: string;
+      mouse: string;
+      layer_by_layer: string;
+      layer_by_color: string;
+      nolayer: string;
+      loading_image: string;
+      no_support_text: string;
+      speed_too_high_lower_the_quality: string;
+      both_power_and_speed_too_high: string;
+      too_fast_for_path: string;
+      too_fast_for_path_and_constrain: string;
+      should_update_firmware_to_continue: string;
       recommend_downgrade_software: string;
       recommend_upgrade_firmware: string;
       still_continue: string;
-      more_than_two_object: string,
-      not_support_object_type: string,
-      select_first: string,
-      select_at_least_two: string,
-      import_file_contain_invalid_path: string,
-      import_file_error_ask_for_upload: string,
-      upload_file_too_large: string,
-      successfully_uploaded: string,
-      upload_failed: string,
-      or_turn_off_borderless_mode: string,
-      svg_1_1_waring: string,
-      svg_image_path_waring: string,
-      dxf_version_waring: string,
-      dont_show_again: string,
-      convert_to_path_fail: string,
-      save_unsave_changed: string,
-      dxf_bounding_box_size_over: string,
+      more_than_two_object: string;
+      not_support_object_type: string;
+      select_first: string;
+      select_at_least_two: string;
+      import_file_contain_invalid_path: string;
+      import_file_error_ask_for_upload: string;
+      upload_file_too_large: string;
+      successfully_uploaded: string;
+      upload_failed: string;
+      or_turn_off_borderless_mode: string;
+      svg_1_1_waring: string;
+      svg_image_path_waring: string;
+      dxf_version_waring: string;
+      dont_show_again: string;
+      convert_to_path_fail: string;
+      save_unsave_changed: string;
+      dxf_bounding_box_size_over: string;
       progress: {
-        uploading: string,
-        calculating: string,
-      },
-      backend_connect_failed_ask_to_upload: string,
+        uploading: string;
+        calculating: string;
+      };
+      backend_connect_failed_ask_to_upload: string;
       backend_error_hint: string;
       pdf2svg: {
-        error_when_converting_pdf: string,
-        error_pdf2svg_not_found: string,
-      },
-      ungroup_use: string,
-      vectorize_shading_image: string,
-      change_workarea_before_preview: string,
-      bug_report: string,
+        error_when_converting_pdf: string;
+        error_pdf2svg_not_found: string;
+      };
+      ungroup_use: string;
+      vectorize_shading_image: string;
+      change_workarea_before_preview: string;
+      bug_report: string;
       sentry: {
-        title: string,
-        message: string,
-      },
+        title: string;
+        message: string;
+      };
       questionnaire: {
-        caption: string,
-        message: string,
-        unable_to_get_url: string,
-        no_questionnaire_available: string,
-      },
+        caption: string;
+        message: string;
+        unable_to_get_url: string;
+        no_questionnaire_available: string;
+      };
       facebook_group_invitation: {
         title: string;
         message: string;
@@ -600,7 +602,7 @@ export interface ILang {
         later: string;
         already_joined: string;
         dont_show_again: string;
-      },
+      };
       ai_credit: {
         relogin_to_use: string;
         insufficient_credit: string;
@@ -618,38 +620,38 @@ export interface ILang {
       };
     };
     zoom_block: {
-      fit_to_window: string,
-    },
+      fit_to_window: string;
+    };
     time_est_button: {
-      calculate: string,
-      estimate_time: string,
-    },
+      calculate: string;
+      estimate_time: string;
+    };
     left_panel: {
-      unpreviewable_area: string,
-      diode_blind_area: string,
-      borderless_blind_area: string,
-      borderless_preview: string,
-      rectangle: string,
-      ellipse: string,
-      line: string,
-      image: string,
-      text: string,
+      unpreviewable_area: string;
+      diode_blind_area: string;
+      borderless_blind_area: string;
+      borderless_preview: string;
+      rectangle: string;
+      ellipse: string;
+      line: string;
+      image: string;
+      text: string;
       label: {
-        cursor: string,
-        photo: string,
-        text: string,
-        line: string,
-        rect: string,
-        oval: string,
-        polygon: string,
-        pen: string,
-        shapes: string,
-        array: string,
-        preview: string,
-        trace: string,
-        end_preview: string,
-        clear_preview: string,
-        choose_camera: string,
+        cursor: string;
+        photo: string;
+        text: string;
+        line: string;
+        rect: string;
+        oval: string;
+        polygon: string;
+        pen: string;
+        shapes: string;
+        array: string;
+        preview: string;
+        trace: string;
+        end_preview: string;
+        clear_preview: string;
+        choose_camera: string;
         live_feed: string;
         adjust_height: string;
         qr_code: string;
@@ -662,29 +664,29 @@ export interface ILang {
           select_area: string;
           preview_3d_curve: string;
           clear_area: string;
-        }
-      },
-    },
+        };
+      };
+    };
     right_panel: {
       tabs: {
-        layers: string,
-        objects: string,
-        path_edit: string,
-      },
+        layers: string;
+        objects: string;
+        path_edit: string;
+      };
       layer_panel: {
-        layer1: string,
-        layer_bitmap: string,
-        layer_engraving: string,
-        layer_cutting: string,
-        current_layer: string,
-        move_elems_to: string,
+        layer1: string;
+        layer_bitmap: string;
+        layer_engraving: string;
+        layer_cutting: string;
+        current_layer: string;
+        move_elems_to: string;
         notification: {
-          dupeLayerName: string,
-          newName: string,
-          enterUniqueLayerName: string,
-          enterNewLayerName: string,
-          layerHasThatName: string,
-          QmoveElemsToLayer: string,
+          dupeLayerName: string;
+          newName: string;
+          enterUniqueLayerName: string;
+          enterNewLayerName: string;
+          layerHasThatName: string;
+          QmoveElemsToLayer: string;
           moveElemFromPrintingLayerTitle: string;
           moveElemFromPrintingLayerMsg: string;
           moveElemToPrintingLayerTitle: string;
@@ -695,42 +697,42 @@ export interface ILang {
           mergeLaserLayerToPrintingLayerMsg: string;
           mergePrintingLayerToLaserLayerTitle: string;
           mergePrintingLayerToLaserLayerMsg: string;
-        },
+        };
         layers: {
-          layer: string,
-          layers: string,
-          del: string,
-          move_down: string,
-          new: string,
-          rename: string,
-          move_up: string,
-          dupe: string,
-          lock: string,
-          unlock: string,
-          merge_down: string,
-          merge_all: string,
-          merge_selected: string,
-          move_elems_to: string,
-          move_selected: string,
+          layer: string;
+          layers: string;
+          del: string;
+          move_down: string;
+          new: string;
+          rename: string;
+          move_up: string;
+          dupe: string;
+          lock: string;
+          unlock: string;
+          merge_down: string;
+          merge_all: string;
+          merge_selected: string;
+          move_elems_to: string;
+          move_selected: string;
           switchToFullColor: string;
           switchToSingleColor: string;
           splitFullColor: string;
           fullColor: string;
-        },
-      },
+        };
+      };
       laser_panel: {
-        preset_setting: string,
-        multi_layer: string,
-        parameters: string,
-        strength: string,
+        preset_setting: string;
+        multi_layer: string;
+        parameters: string;
+        strength: string;
         pwm_advanced_setting: string;
         pwm_advanced_desc: string;
         pwm_advanced_hint: string;
         low_power_warning: string;
-        speed: string,
-        speed_contrain_warning: string,
+        speed: string;
+        speed_contrain_warning: string;
         low_speed_warning: string;
-        repeat: string,
+        repeat: string;
         advanced: string;
         lower_focus: string;
         by: string;
@@ -739,10 +741,10 @@ export interface ILang {
         lower_focus_desc: string;
         stepwise_focusing_desc: string;
         single_color_desc: string;
-        focus_adjustment: string,
-        height: string,
-        z_step: string,
-        diode: string,
+        focus_adjustment: string;
+        height: string;
+        z_step: string;
+        diode: string;
         backlash: string;
         ink_saturation: string;
         print_multipass: string;
@@ -753,15 +755,15 @@ export interface ILang {
         halftone: string;
         halftone_link: string;
         color_strength: string;
-        times: string,
-        cut: string,
-        engrave: string,
-        more: string,
-        apply: string,
-        cancel: string,
-        save: string,
-        custom_preset: string,
-        various_preset: string,
+        times: string;
+        cut: string;
+        engrave: string;
+        more: string;
+        apply: string;
+        cancel: string;
+        save: string;
+        custom_preset: string;
+        various_preset: string;
         module: string;
         slider: {
           regular: string;
@@ -775,8 +777,8 @@ export interface ILang {
           very_fast: string;
         };
         dropdown: {
-          parameters: string,
-          save: string,
+          parameters: string;
+          save: string;
           mm: {
             wood_3mm_cutting: string;
             wood_5mm_cutting: string;
@@ -827,7 +829,7 @@ export interface ILang {
             stainless_steel_printing: string;
             gloss_leather_printing: string;
             glass_printing: string;
-          },
+          };
           inches: {
             wood_3mm_cutting: string;
             wood_5mm_cutting: string;
@@ -878,33 +880,33 @@ export interface ILang {
             stainless_steel_printing: string;
             gloss_leather_printing: string;
             glass_printing: string;
-          },
-        },
+          };
+        };
         laser_speed: {
-          text: string,
-          unit: string,
-          fast: string,
-          slow: string,
-          min: number,
-          max: number,
-          step: number,
-        },
+          text: string;
+          unit: string;
+          fast: string;
+          slow: string;
+          min: number;
+          max: number;
+          step: number;
+        };
         power: {
-          text: string,
-          high: string,
-          low: string,
-          min: number,
-          max: number,
-          step: number,
-        },
+          text: string;
+          high: string;
+          low: string;
+          min: number;
+          max: number;
+          step: number;
+        };
         ink_type: {
-          text: string,
-          normal: string,
-          UV: string,
-        },
-        para_in_use: string,
-        do_not_adjust_default_para: string,
-        existing_name: string,
+          text: string;
+          normal: string;
+          UV: string;
+        };
+        para_in_use: string;
+        do_not_adjust_default_para: string;
+        existing_name: string;
         presets: string;
         preset_management: {
           preset: string;
@@ -919,157 +921,157 @@ export interface ILang {
           laser: string;
           print: string;
           export: string;
-          export_preset_title: string,
+          export_preset_title: string;
           import: string;
-          sure_to_import_presets: string,
+          sure_to_import_presets: string;
           new_preset_name: string;
         };
-      },
+      };
       object_panel: {
-        zoom: string,
-        group: string,
-        ungroup: string,
-        distribute: string,
-        hdist: string,
-        vdist: string,
-        align: string,
-        left_align: string,
-        center_align: string,
-        right_align: string,
-        top_align: string,
-        middle_align: string,
-        bottom_align: string,
-        boolean: string,
-        union: string,
-        subtract: string,
-        intersect: string,
-        difference: string,
-        flip: string,
-        hflip: string,
-        vflip: string,
+        zoom: string;
+        group: string;
+        ungroup: string;
+        distribute: string;
+        hdist: string;
+        vdist: string;
+        align: string;
+        left_align: string;
+        center_align: string;
+        right_align: string;
+        top_align: string;
+        middle_align: string;
+        bottom_align: string;
+        boolean: string;
+        union: string;
+        subtract: string;
+        intersect: string;
+        difference: string;
+        flip: string;
+        hflip: string;
+        vflip: string;
         lock_aspect: string;
         unlock_aspect: string;
         option_panel: {
-          fill: string,
-          rounded_corner: string,
-          sides: string,
-          font_family: string,
-          font_style: string,
-          font_size: string,
-          letter_spacing: string,
-          line_spacing: string,
-          vertical_text: string,
-          start_offset: string,
-          vertical_align: string,
-          text_infill: string,
-          path_infill: string,
-          shading: string,
+          fill: string;
+          rounded_corner: string;
+          sides: string;
+          font_family: string;
+          font_style: string;
+          font_size: string;
+          letter_spacing: string;
+          line_spacing: string;
+          vertical_text: string;
+          start_offset: string;
+          vertical_align: string;
+          text_infill: string;
+          path_infill: string;
+          shading: string;
           pwm_engraving: string;
           pwm_engraving_link: string;
-          threshold: string,
-          threshold_short: string,
-          stroke: string,
-          stroke_color: string,
-          stroke_width: string,
-          color: string,
-        },
+          threshold: string;
+          threshold_short: string;
+          stroke: string;
+          stroke_color: string;
+          stroke_width: string;
+          color: string;
+        };
         actions_panel: {
-          replace_with: string,
-          replace_with_short: string,
-          trace: string,
-          grading: string,
-          brightness: string,
-          sharpen: string,
-          crop: string,
-          bevel: string,
-          invert: string,
-          weld_text: string,
-          convert_to_path: string,
-          fetching_web_font: string,
-          uploading_font_to_machine: string,
-          wait_for_parsing_font: string,
-          offset: string,
-          array: string,
+          replace_with: string;
+          replace_with_short: string;
+          trace: string;
+          grading: string;
+          brightness: string;
+          sharpen: string;
+          crop: string;
+          bevel: string;
+          invert: string;
+          weld_text: string;
+          convert_to_path: string;
+          fetching_web_font: string;
+          uploading_font_to_machine: string;
+          wait_for_parsing_font: string;
+          offset: string;
+          array: string;
           auto_fit: string;
           smart_nest: string;
-          decompose_path: string,
-          disassemble_use: string,
-          disassembling: string,
-          ungrouping: string,
-          create_textpath: string,
-          create_textpath_short: string,
-          detach_path: string,
-          detach_path_short: string,
-          edit_path: string,
+          decompose_path: string;
+          disassemble_use: string;
+          disassembling: string;
+          ungrouping: string;
+          create_textpath: string;
+          create_textpath_short: string;
+          detach_path: string;
+          detach_path_short: string;
+          edit_path: string;
           simplify: string;
           ai_bg_removal: string;
           ai_bg_removal_short: string;
           ai_bg_removal_reminder: string;
           outline: string;
-        },
+        };
         path_edit_panel: {
-          node_type: string,
-          sharp: string,
-          round: string,
-          connect: string,
-          disconnect: string,
-          delete: string,
-        },
-      },
-    },
+          node_type: string;
+          sharp: string;
+          round: string;
+          connect: string;
+          disconnect: string;
+          delete: string;
+        };
+      };
+    };
     bottom_right_panel: {
-      convert_text_to_path_before_export: string,
-      retreive_image_data: string,
-      export_file_error_ask_for_upload: string,
-    },
+      convert_text_to_path_before_export: string;
+      retreive_image_data: string;
+      export_file_error_ask_for_upload: string;
+    };
     image_trace_panel: {
-      apply: string,
-      back: string,
-      cancel: string,
-      next: string,
-      brightness: string,
-      contrast: string,
-      threshold: string,
-      okay: string,
-      tuning: string,
-    },
+      apply: string;
+      back: string;
+      cancel: string;
+      next: string;
+      brightness: string;
+      contrast: string;
+      threshold: string;
+      okay: string;
+      tuning: string;
+    };
     photo_edit_panel: {
-      apply: string,
-      back: string,
-      cancel: string,
-      next: string,
-      sharpen: string,
-      sharpness: string,
-      radius: string,
-      crop: string,
-      aspect_ratio: string,
-      original: string,
-      free: string,
-      curve: string,
-      start: string,
-      processing: string,
-      invert: string,
-      okay: string,
-      compare: string,
-      phote_edit: string,
-      brightness_and_contrast: string,
-      brightness: string,
+      apply: string;
+      back: string;
+      cancel: string;
+      next: string;
+      sharpen: string;
+      sharpness: string;
+      radius: string;
+      crop: string;
+      aspect_ratio: string;
+      original: string;
+      free: string;
+      curve: string;
+      start: string;
+      processing: string;
+      invert: string;
+      okay: string;
+      compare: string;
+      phote_edit: string;
+      brightness_and_contrast: string;
+      brightness: string;
       contrast: string;
       rotary_warped: string;
       rotary_warped_link: string;
       diameter: string;
       circumference: string;
       warp: string;
-    },
+    };
     document_panel: {
-      document_settings: string,
-      engrave_parameters: string,
-      workarea: string,
-      rotary_mode: string,
-      borderless_mode: string,
-      engrave_dpi: string,
-      enable_diode: string,
-      enable_autofocus: string,
+      document_settings: string;
+      engrave_parameters: string;
+      workarea: string;
+      rotary_mode: string;
+      borderless_mode: string;
+      engrave_dpi: string;
+      enable_diode: string;
+      enable_autofocus: string;
       extend_workarea: string;
       mirror: string;
       pass_through: string;
@@ -1079,19 +1081,19 @@ export interface ILang {
       origin: string;
       current_position: string;
       job_origin: string;
-      add_on: string,
-      low: string,
-      medium: string,
-      high: string,
-      ultra: string,
-      enable: string,
-      disable: string,
-      cancel: string,
-      save: string,
+      add_on: string;
+      low: string;
+      medium: string;
+      high: string;
+      ultra: string;
+      enable: string;
+      disable: string;
+      cancel: string;
+      save: string;
       notification: {
         changeFromPrintingWorkareaTitle: string;
       };
-    },
+    };
     object_panels: {
       wait_for_parsing_font: string;
       text_to_path: {
@@ -1104,114 +1106,114 @@ export interface ILang {
       lock_desc: string;
     };
     tool_panels: {
-      cancel: string,
-      confirm: string,
-      grid_array: string,
-      array_dimension: string,
-      rows: string,
-      columns: string,
-      array_interval: string,
-      dx: string,
-      dy: string,
-      offset: string,
-      nest: string,
+      cancel: string;
+      confirm: string;
+      grid_array: string;
+      array_dimension: string;
+      rows: string;
+      columns: string;
+      array_interval: string;
+      dx: string;
+      dy: string;
+      offset: string;
+      nest: string;
       _offset: {
-        direction: string,
-        inward: string,
-        outward: string,
-        dist: string,
-        corner_type: string,
-        sharp: string,
-        round: string,
-        fail_message: string,
-        not_support_message: string,
-      },
+        direction: string;
+        inward: string;
+        outward: string;
+        dist: string;
+        corner_type: string;
+        sharp: string;
+        round: string;
+        fail_message: string;
+        not_support_message: string;
+      };
       _nest: {
-        start_nest: string,
-        stop_nest: string,
-        end: string,
-        spacing: string,
-        rotations: string,
-        no_element: string,
-      }
-    },
+        start_nest: string;
+        stop_nest: string;
+        end: string;
+        spacing: string;
+        rotations: string;
+        no_element: string;
+      };
+    };
     network_testing_panel: {
-      network_testing: string,
-      local_ip: string,
-      insert_ip: string,
-      empty_ip: string,
-      start: string,
-      end: string,
-      testing: string,
-      invalid_ip: string,
-      ip_startswith_169: string,
-      connection_quality: string,
-      average_response: string,
-      test_completed: string,
-      test_fail: string,
-      cannot_connect_1: string,
-      cannot_connect_2: string,
-      network_unhealthy: string,
-      device_not_on_list: string,
-      hint_device_often_on_list: string,
-      link_device_often_on_list: string,
-      hint_connect_failed_when_sending_job: string,
-      link_connect_failed_when_sending_job: string,
-      hint_connect_camera_timeout: string,
-      link_connect_camera_timeout: string,
-      cannot_get_local: string,
-      fail_to_start_network_test: string,
-      linux_permission_hint: string,
-    },
+      network_testing: string;
+      local_ip: string;
+      insert_ip: string;
+      empty_ip: string;
+      start: string;
+      end: string;
+      testing: string;
+      invalid_ip: string;
+      ip_startswith_169: string;
+      connection_quality: string;
+      average_response: string;
+      test_completed: string;
+      test_fail: string;
+      cannot_connect_1: string;
+      cannot_connect_2: string;
+      network_unhealthy: string;
+      device_not_on_list: string;
+      hint_device_often_on_list: string;
+      link_device_often_on_list: string;
+      hint_connect_failed_when_sending_job: string;
+      link_connect_failed_when_sending_job: string;
+      hint_connect_camera_timeout: string;
+      link_connect_camera_timeout: string;
+      cannot_get_local: string;
+      fail_to_start_network_test: string;
+      linux_permission_hint: string;
+    };
     layer_color_config_panel: {
-      layer_color_config: string,
-      color: string,
-      power: string,
-      speed: string,
-      repeat: string,
-      add: string,
-      save: string,
-      cancel: string,
-      default: string,
-      add_config: string,
-      in_use: string,
-      no_input: string,
-      sure_to_reset: string,
-      sure_to_delete: string,
-    },
+      layer_color_config: string;
+      color: string;
+      power: string;
+      speed: string;
+      repeat: string;
+      add: string;
+      save: string;
+      cancel: string;
+      default: string;
+      add_config: string;
+      in_use: string;
+      no_input: string;
+      sure_to_reset: string;
+      sure_to_delete: string;
+    };
     rating_panel: {
-      title: string,
-      description: string,
-      dont_show_again: string,
-      thank_you: string,
-    },
+      title: string;
+      description: string;
+      dont_show_again: string;
+      thank_you: string;
+    };
     svg_editor: {
-      unnsupported_file_type: string,
-      unable_to_fetch_clipboard_img: string,
-    },
+      unnsupported_file_type: string;
+      unable_to_fetch_clipboard_img: string;
+    };
     units: {
-      walt: string,
-      mm: string,
-    },
+      walt: string;
+      mm: string;
+    };
     path_preview: {
-      play: string,
-      pause: string,
-      stop: string,
-      play_speed: string,
-      travel_path: string,
-      invert: string,
-      preview_info: string,
-      size: string,
-      estimated_time: string,
-      cut_time: string,
-      rapid_time: string,
-      cut_distance: string,
-      rapid_distance: string,
-      current_position: string,
-      remark: string,
-      start_here: string,
-      end_preview: string,
-    },
+      play: string;
+      pause: string;
+      stop: string;
+      play_speed: string;
+      travel_path: string;
+      invert: string;
+      preview_info: string;
+      size: string;
+      estimated_time: string;
+      cut_time: string;
+      rapid_time: string;
+      cut_distance: string;
+      rapid_distance: string;
+      current_position: string;
+      remark: string;
+      start_here: string;
+      end_preview: string;
+    };
     shapes_panel: {
       title: string;
       basic: string;
@@ -1297,71 +1299,71 @@ export interface ILang {
     };
   };
   noun_project_panel: {
-    login_first: string,
-    enjoy_shape_library: string,
-    shapes: string,
-    elements: string,
-    recent: string,
-    search: string,
-    clear: string,
-    export_svg_title: string,
-    export_svg_warning: string,
-    learn_more: string,
-  },
+    login_first: string;
+    enjoy_shape_library: string;
+    shapes: string;
+    elements: string;
+    recent: string;
+    search: string;
+    clear: string;
+    export_svg_title: string;
+    export_svg_warning: string;
+    learn_more: string;
+  };
   change_logs: {
-    change_log: string,
-    added: string,
-    fixed: string,
-    changed: string,
-    see_older_version: string,
-    help_center_url: string,
-  },
+    change_log: string;
+    added: string;
+    fixed: string;
+    changed: string;
+    see_older_version: string;
+    help_center_url: string;
+  };
   select_device: {
-    select_device: string,
-    auth_failure: string,
-    unable_to_connect: string,
-  },
+    select_device: string;
+    auth_failure: string;
+    unable_to_connect: string;
+  };
   device: {
-    pause: string,
-    paused: string,
-    pausing: string,
-    select_printer: string,
-    retry: string,
-    status: string,
-    busy: string,
-    ready: string,
-    reset: string,
-    abort: string,
-    start: string,
-    please_wait: string,
-    quit: string,
-    completing: string,
-    aborted: string,
-    completed: string,
-    aborting: string,
-    starting: string,
-    preparing: string,
-    resuming: string,
-    scanning: string,
-    occupied: string,
-    running: string,
-    uploading: string,
-    processing: string,
+    pause: string;
+    paused: string;
+    pausing: string;
+    select_printer: string;
+    retry: string;
+    status: string;
+    busy: string;
+    ready: string;
+    reset: string;
+    abort: string;
+    start: string;
+    please_wait: string;
+    quit: string;
+    completing: string;
+    aborted: string;
+    completed: string;
+    aborting: string;
+    starting: string;
+    preparing: string;
+    resuming: string;
+    scanning: string;
+    occupied: string;
+    running: string;
+    uploading: string;
+    processing: string;
     disconnectedError: {
-      caption: string,
-      message: string,
-    },
-    unknown: string,
-    pausedFromError: string,
-    model_name: string,
-    IP: string,
-    serial_number: string,
-    firmware_version: string,
-    UUID: string,
-    select: string,
-    deviceList: string,
-    disable: string,
-    enable: string,
+      caption: string;
+      message: string;
+    };
+    unknown: string;
+    pausedFromError: string;
+    model_name: string;
+    IP: string;
+    serial_number: string;
+    firmware_version: string;
+    UUID: string;
+    select: string;
+    deviceList: string;
+    disable: string;
+    enable: string;
     submodule_type: string;
     cartridge_serial_number: string;
     ink_color: string;
@@ -1371,24 +1373,24 @@ export interface ILang {
     cartridge_info_read_failed: string;
     cartridge_info_verification_failed: string;
     toolhead_change: string;
-  },
+  };
   monitor: {
-    monitor: string,
-    go: string,
-    resume: string,
-    start: string,
-    pause: string,
-    stop: string,
-    record: string,
-    camera: string,
-    taskTab: string,
-    connecting: string,
-    HARDWARE_ERROR_MAINBOARD_ERROR: string,
-    HARDWARE_ERROR_SUBSYSTEM_ERROR: string,
-    HARDWARE_ERROR_PUMP_ERROR: string,
-    HARDWARE_ERROR_DOOR_OPENED: string,
-    HARDWARE_ERROR_OVER_TEMPERATURE: string,
-    HARDWARE_ERROR_BOTTOM_OPENED: string,
+    monitor: string;
+    go: string;
+    resume: string;
+    start: string;
+    pause: string;
+    stop: string;
+    record: string;
+    camera: string;
+    taskTab: string;
+    connecting: string;
+    HARDWARE_ERROR_MAINBOARD_ERROR: string;
+    HARDWARE_ERROR_SUBSYSTEM_ERROR: string;
+    HARDWARE_ERROR_PUMP_ERROR: string;
+    HARDWARE_ERROR_DOOR_OPENED: string;
+    HARDWARE_ERROR_OVER_TEMPERATURE: string;
+    HARDWARE_ERROR_BOTTOM_OPENED: string;
     HARDWARE_ERROR_PLATFORM_HOMING_FAILED: string;
     HARDWARE_ERROR_DRAWER_OPENED: string;
     HARDWARE_ERROR_FIRE_DETECTED: string;
@@ -1408,115 +1410,115 @@ export interface ILang {
     USER_OPERATION_CHANGE_CARTRIDGE_CARTRIDGE_NOT_DETECTED: string;
     USER_OPERATION_CHANGE_CARTRIDGE: string;
     USER_OPERATION: string;
-    RESOURCE_BUSY: string,
-    DEVICE_ERROR: string,
-    NO_RESPONSE: string,
-    SUBSYSTEM_ERROR: string,
-    HARDWARE_FAILURE: string,
-    MAINBOARD_OFFLINE: string,
-    bug_report: string,
-    processing: string,
-    savingPreview: string,
-    hour: string,
-    minute: string,
-    second: string,
-    left: string,
-    temperature: string,
-    forceStop: string,
-    upload: string,
-    download: string,
-    relocate: string,
-    cancel: string,
-    prepareRelocate: string,
-    extensionNotSupported: string,
-    fileExistContinue: string,
-    confirmFileDelete: string,
-    ask_reconnect: string,
+    RESOURCE_BUSY: string;
+    DEVICE_ERROR: string;
+    NO_RESPONSE: string;
+    SUBSYSTEM_ERROR: string;
+    HARDWARE_FAILURE: string;
+    MAINBOARD_OFFLINE: string;
+    bug_report: string;
+    processing: string;
+    savingPreview: string;
+    hour: string;
+    minute: string;
+    second: string;
+    left: string;
+    temperature: string;
+    forceStop: string;
+    upload: string;
+    download: string;
+    relocate: string;
+    cancel: string;
+    prepareRelocate: string;
+    extensionNotSupported: string;
+    fileExistContinue: string;
+    confirmFileDelete: string;
+    ask_reconnect: string;
     task: {
-      BEAMBOX: string,
-      'N/A': string,
-    },
-  },
+      BEAMBOX: string;
+      'N/A': string;
+    };
+  };
   alert: {
-    caption: string,
-    duplicated_preset_name: string,
-    info: string,
-    warning: string,
-    error: string,
+    caption: string;
+    duplicated_preset_name: string;
+    info: string;
+    warning: string;
+    error: string;
     instruction: string;
-    oops: string,
-    retry: string,
-    abort: string,
-    confirm: string,
-    cancel: string,
-    close: string,
-    ok: string,
-    ok2: string,
-    yes: string,
-    no: string,
-    stop: string,
-    save: string,
-    dont_save: string,
+    oops: string;
+    retry: string;
+    abort: string;
+    confirm: string;
+    cancel: string;
+    close: string;
+    ok: string;
+    ok2: string;
+    yes: string;
+    no: string;
+    stop: string;
+    save: string;
+    dont_save: string;
     learn_more: string;
-  },
+  };
   caption: {
-    connectionTimeout: string,
-  },
+    connectionTimeout: string;
+  };
   message: {
-    cancelling: string,
-    connecting: string,
-    connectingMachine: string,
-    tryingToConenctMachine: string,
-    connected: string,
-    authenticating: string,
-    enteringRawMode: string,
-    endingRawMode: string,
-    enteringLineCheckMode: string,
-    endingLineCheckMode: string,
-    exitingRotaryMode: string,
-    turningOffFan: string,
-    turningOffAirPump: string,
-    gettingLaserSpeed: string,
-    settingLaserSpeed: string,
-    retrievingCameraOffset: string,
-    connectingCamera: string,
-    homing: string,
-    connectionTimeout: string,
+    cancelling: string;
+    connecting: string;
+    connectingMachine: string;
+    tryingToConenctMachine: string;
+    connected: string;
+    authenticating: string;
+    enteringRawMode: string;
+    endingRawMode: string;
+    enteringLineCheckMode: string;
+    endingLineCheckMode: string;
+    exitingRotaryMode: string;
+    turningOffFan: string;
+    turningOffAirPump: string;
+    gettingLaserSpeed: string;
+    settingLaserSpeed: string;
+    retrievingCameraOffset: string;
+    connectingCamera: string;
+    homing: string;
+    connectionTimeout: string;
     getProbePosition: string;
     device_not_found: {
-      caption: string,
-      message: string,
-    },
+      caption: string;
+      message: string;
+    };
     device_busy: {
-      caption: string,
-      message: string,
-    },
-    device_is_used: string,
+      caption: string;
+      message: string;
+    };
+    device_is_used: string;
     monitor_too_old: {
-      caption: string,
-      content: string,
-    },
-    unknown_error: string,
-    unknown_device: string,
-    unsupport_osx_version: string,
-    unsupport_win_version: string,
-    need_password: string,
-    unavailableWorkarea: string,
-    please_enter_dpi: string,
-    auth_error: string,
-    usb_unplugged: string,
-    uploading_fcode: string,
-    cant_connect_to_device: string,
-    unable_to_find_machine: string,
-    disconnected: string,
-    unable_to_start: string,
+      caption: string;
+      content: string;
+    };
+    unknown_error: string;
+    unknown_device: string;
+    unsupport_osx_version: string;
+    unsupport_win_version: string;
+    need_password: string;
+    unavailableWorkarea: string;
+    please_enter_dpi: string;
+    auth_error: string;
+    usb_unplugged: string;
+    uploading_fcode: string;
+    cant_connect_to_device: string;
+    unable_to_find_machine: string;
+    disconnected: string;
+    unable_to_start: string;
     camera: {
-      camera_cable_unstable: string,
-      fail_to_transmit_image: string,
-      ws_closed_unexpectly: string,
-      continue_preview: string,
-      abort_preview: string,
-    },
+      camera_cable_unstable: string;
+      fail_to_transmit_image: string;
+      ws_closed_unexpectly: string;
+      continue_preview: string;
+      abort_preview: string;
+    };
     preview: {
       camera_preview: string;
       auto_focus: string;
@@ -1530,32 +1532,32 @@ export interface ILang {
     };
     unsupported_example_file: string;
     time_remaining: string;
-  },
+  };
   machine_status: {
-    '-17': string,
-    '-10': string,
-    '-2': string,
-    '-1': string,
-    0: string,
-    1: string,
-    2: string,
-    4: string,
-    6: string,
-    16: string,
-    18: string,
-    32: string,
-    36: string,
-    38: string,
-    48: string,
-    50: string,
-    64: string,
-    66: string,
-    68: string,
-    128: string,
+    '-17': string;
+    '-10': string;
+    '-2': string;
+    '-1': string;
+    0: string;
+    1: string;
+    2: string;
+    4: string;
+    6: string;
+    16: string;
+    18: string;
+    32: string;
+    36: string;
+    38: string;
+    48: string;
+    50: string;
+    64: string;
+    66: string;
+    68: string;
+    128: string;
     256: string;
     512: string;
-    UNKNOWN: string,
-  },
+    UNKNOWN: string;
+  };
   calibration: {
     update_firmware_msg1: string;
     update_firmware_msg2: string;
@@ -1563,45 +1565,45 @@ export interface ILang {
     diode_calibration: string;
     module_calibration_printer: string;
     module_calibration_2w_ir: string;
-    back: string,
-    next: string,
-    skip: string,
-    cancel: string,
-    finish: string,
-    do_engraving: string,
-    start_engrave: string,
+    back: string;
+    next: string;
+    skip: string;
+    cancel: string;
+    finish: string;
+    do_engraving: string;
+    start_engrave: string;
     start_printing: string;
-    ask_for_readjust: string,
-    please_goto_beambox_first: string,
-    please_place_paper: string,
+    ask_for_readjust: string;
+    please_goto_beambox_first: string;
+    please_place_paper: string;
     please_place_paper_center: string;
     please_place_dark_colored_paper: string;
     please_refocus: {
-      beambox: string,
-      beamo: string,
-      beamo_af: string,
-      hexa: string,
-    },
-    without_af: string,
-    with_af: string,
-    dx: string,
-    dy: string,
-    rotation_angle: string,
-    x_ratio: string,
-    y_ratio: string,
-    show_last_config: string,
-    use_last_config: string,
-    taking_picture: string,
-    analyze_result_fail: string,
-    drawing_calibration_image: string,
-    calibrate_done: string,
+      beambox: string;
+      beamo: string;
+      beamo_af: string;
+      hexa: string;
+    };
+    without_af: string;
+    with_af: string;
+    dx: string;
+    dy: string;
+    rotation_angle: string;
+    x_ratio: string;
+    y_ratio: string;
+    show_last_config: string;
+    use_last_config: string;
+    taking_picture: string;
+    analyze_result_fail: string;
+    drawing_calibration_image: string;
+    calibrate_done: string;
     calibrate_done_diode: string;
-    hint_red_square: string,
-    hint_adjust_parameters: string,
+    hint_red_square: string;
+    hint_adjust_parameters: string;
     zendesk_link: string;
     please_do_camera_calibration_and_focus: {
-      beambox: string,
-      beamo: string,
+      beambox: string;
+      beamo: string;
     };
     downloading_pictures: string;
     failed_to_download_pictures: string;
@@ -1663,76 +1665,76 @@ export interface ILang {
     perform_autofocus_bb2: string;
   };
   input_machine_password: {
-    require_password: string,
-    connect: string,
-    password: string,
-  },
+    require_password: string;
+    connect: string;
+    password: string;
+  };
   tutorial: {
-    skip: string,
-    welcome: string,
-    suggest_calibrate_camera_first: string,
-    camera_calibration_failed: string,
-    ask_retry_calibration: string,
-    needNewUserTutorial: string,
-    needNewInterfaceTutorial: string,
-    next: string,
-    look_for_machine: string,
-    unable_to_find_machine: string,
-    skip_tutorial: string,
-    set_connection: string,
-    retry: string,
+    skip: string;
+    welcome: string;
+    suggest_calibrate_camera_first: string;
+    camera_calibration_failed: string;
+    ask_retry_calibration: string;
+    needNewUserTutorial: string;
+    needNewInterfaceTutorial: string;
+    next: string;
+    look_for_machine: string;
+    unable_to_find_machine: string;
+    skip_tutorial: string;
+    set_connection: string;
+    retry: string;
     newUser: {
-      draw_a_circle: string,
-      drag_to_draw: string,
-      infill: string,
+      draw_a_circle: string;
+      drag_to_draw: string;
+      infill: string;
       switch_to_object_panel: string;
-      switch_to_layer_panel: string,
-      set_preset_wood_engraving: string,
-      set_preset_wood_cut: string,
-      add_new_layer: string,
-      draw_a_rect: string,
-      switch_to_preview_mode: string,
-      preview_the_platform: string,
-      end_preview_mode: string,
-      put_wood: string,
-      adjust_focus: string,
-      close_cover: string,
-      send_the_file: string,
-      end_alert: string,
-      please_select_wood_engraving: string,
-      please_select_wood_cutting: string,
-    },
+      switch_to_layer_panel: string;
+      set_preset_wood_engraving: string;
+      set_preset_wood_cut: string;
+      add_new_layer: string;
+      draw_a_rect: string;
+      switch_to_preview_mode: string;
+      preview_the_platform: string;
+      end_preview_mode: string;
+      put_wood: string;
+      adjust_focus: string;
+      close_cover: string;
+      send_the_file: string;
+      end_alert: string;
+      please_select_wood_engraving: string;
+      please_select_wood_cutting: string;
+    };
     newInterface: {
-      camera_preview: string,
-      select_image_text: string,
-      basic_shapes: string,
-      pen_tool: string,
-      add_new_layer: string,
-      rename_by_double_click: string,
-      drag_to_sort: string,
-      layer_controls: string,
-      switch_between_layer_panel_and_object_panel: string,
-      align_controls: string,
-      group_controls: string,
-      shape_operation: string,
-      flip: string,
-      object_actions: string,
-      end_alert: string,
-      select_machine: string,
-      start_work: string,
-    },
+      camera_preview: string;
+      select_image_text: string;
+      basic_shapes: string;
+      pen_tool: string;
+      add_new_layer: string;
+      rename_by_double_click: string;
+      drag_to_sort: string;
+      layer_controls: string;
+      switch_between_layer_panel_and_object_panel: string;
+      align_controls: string;
+      group_controls: string;
+      shape_operation: string;
+      flip: string;
+      object_actions: string;
+      end_alert: string;
+      select_machine: string;
+      start_work: string;
+    };
     gesture: {
-      pan: string,
-      zoom: string,
-      click: string,
-      drag: string,
-      hold: string,
-    },
+      pan: string;
+      zoom: string;
+      click: string;
+      drag: string;
+      hold: string;
+    };
     links: {
-      adjust_focus: string,
-    },
-    tutorial_complete: string,
-  },
+      adjust_focus: string;
+    };
+    tutorial_complete: string;
+  };
   layer_module: {
     none: string;
     general_laser: string;
@@ -1754,7 +1756,7 @@ export interface ILang {
       performIRCaliMsg: string;
     };
     non_working_area: string;
-  },
+  };
   qr_code_generator: {
     title: string;
     placeholder: string;
@@ -1915,5 +1917,9 @@ export interface ILang {
     hull_desc: string;
     areacheck_desc: string;
     calculating_task: string;
-  }
+  };
+  material_test_generator: Record<
+    'title' | 'table_settings' | 'block_settings' | 'preview' | 'export',
+    string
+  >;
 }

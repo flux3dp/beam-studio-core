@@ -83,7 +83,9 @@ const loadExampleFile = async (path: string) => {
     let string = buf.toString();
     if (i18n.getActiveLang() && i18n.getActiveLang() !== 'en') {
       const LANG = i18n.lang.beambox.right_panel.layer_panel;
-      string = string.replace(/Engraving/g, LANG.layer_engraving).replace(/Cutting/g, LANG.layer_cutting);
+      string = string
+        .replace(/Engraving/g, LANG.layer_engraving)
+        .replace(/Cutting/g, LANG.layer_cutting);
     }
     await importBvgString(string);
   };
@@ -105,12 +107,16 @@ export default {
     if (res) window.location.hash = '#initialize/connect/select-machine-model';
   },
   SIGN_IN: (): void => Dialog.showLoginDialog(),
+  MATERIAL_TEST_GENERATOR: () => Dialog.showMaterialTestGenerator(),
   IMPORT_EXAMPLE: () => loadExampleFile(getExampleFileName('example')),
   IMPORT_EXAMPLE_ADOR_LASER: () => loadExampleFile(getExampleFileName('ador_example_laser')),
-  IMPORT_EXAMPLE_ADOR_PRINT_SINGLE: () => loadExampleFile(getExampleFileName('ador_example_printing_single')),
-  IMPORT_EXAMPLE_ADOR_PRINT_FULL: () => loadExampleFile(getExampleFileName('ador_example_printing_full')),
+  IMPORT_EXAMPLE_ADOR_PRINT_SINGLE: () =>
+    loadExampleFile(getExampleFileName('ador_example_printing_single')),
+  IMPORT_EXAMPLE_ADOR_PRINT_FULL: () =>
+    loadExampleFile(getExampleFileName('ador_example_printing_full')),
   IMPORT_MATERIAL_TESTING_OLD: () => loadExampleFile(getExampleFileName('mat_test_old')),
-  IMPORT_MATERIAL_TESTING_SIMPLECUT: () => loadExampleFile(getExampleFileName('mat_test_simple_cut')),
+  IMPORT_MATERIAL_TESTING_SIMPLECUT: () =>
+    loadExampleFile(getExampleFileName('mat_test_simple_cut')),
   IMPORT_MATERIAL_TESTING_CUT: () => loadExampleFile(getExampleFileName('mat_test_cut')),
   IMPORT_MATERIAL_TESTING_ENGRAVE: () => loadExampleFile(getExampleFileName('mat_test_engrave')),
   IMPORT_MATERIAL_TESTING_LINE: () => loadExampleFile(getExampleFileName('mat_test_line')),
@@ -160,7 +166,7 @@ export default {
       });
     });
   },
-  START_UI_INTRO: () => Tutorials.startInterfaceTutorial(() => { }),
+  START_UI_INTRO: () => Tutorials.startInterfaceTutorial(() => {}),
   START_GESTURE_INTRO: (): Promise<void> => Dialog.showMediaTutorial(gestureIntroduction),
   ZOOM_IN: (): void => workareaManager.zoomIn(),
   ZOOM_OUT: (): void => workareaManager.zoomOut(),
