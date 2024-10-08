@@ -1063,7 +1063,8 @@ const lang: ILang = {
     },
     document_panel: {
       document_settings: 'การตั้งค่าเอกสาร',
-      engrave_parameters: 'พารามิเตอร์การแกะสลัก',
+      machine: 'เครื่อง',
+      watts: 'วัตต์',
       workarea: 'พื้นที่ทํางาน',
       rotary_mode: 'โหมดหมุน',
       borderless_mode: 'โหมดเปิดก้น',

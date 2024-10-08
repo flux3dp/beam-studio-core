@@ -70,8 +70,8 @@ jest.mock('helpers/useI18n', () => () => ({
   beambox: {
     document_panel: {
       document_settings: 'Document Settings',
-      engrave_parameters: 'Engraving Parameters',
       workarea: 'Working Area',
+      machine: 'Machine',
       rotary_mode: 'Rotary',
       borderless_mode: 'Open Bottom',
       engrave_dpi: 'Resolution',

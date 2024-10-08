@@ -1063,7 +1063,8 @@ const lang: ILang = {
     },
     document_panel: {
       document_settings: 'Asiakirjan asetukset',
-      engrave_parameters: 'Kaiverrusparametrit',
+      machine: 'Kone',
+      watts: 'Wattia',
       workarea: 'Työalue',
       rotary_mode: 'Pyörivä',
       borderless_mode: 'Avoin pohja',

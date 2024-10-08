@@ -1066,7 +1066,8 @@ const lang: ILang = {
     },
     document_panel: {
       document_settings: 'Configuración del documento',
-      engrave_parameters: 'Parámetros de grabado',
+      machine: 'Máquina',
+      watts: 'Vatios',
       workarea: 'Área de trabajo',
       rotary_mode: 'Rotatorio',
       borderless_mode: 'Fondo abierto',

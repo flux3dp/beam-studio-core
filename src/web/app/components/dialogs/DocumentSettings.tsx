@@ -45,16 +45,14 @@ interface Props {
 
 const DocumentSettings = ({ unmount }: Props): JSX.Element => {
   const lang = useI18n();
-  const isDevMode = useMemo(() => isDev(), []);
   const tDocu = lang.beambox.document_panel;
   const [engraveDpi, setEngraveDpi] = useState(BeamboxPreference.read('engrave_dpi'));
-  // state for engrave dpi v2
-  // const [engraveDpiValue, setEngraveDpiValue] = useState(
-  //   BeamboxPreference.read('engrave-dpi-value') || dpiMap[engraveDpi] || 250
-  // );
 
   const origWorkarea = useMemo(() => BeamboxPreference.read('workarea'), []);
   const [workarea, setWorkarea] = useState<WorkAreaModel>(origWorkarea || 'fbb1b');
+  const [customDimension, setCustomDimension] = useState<
+    Record<WorkAreaModel, { width: number; height: number }>
+  >(BeamboxPreference.read('customized-dimension') ?? {});
   const supportInfo = useMemo(() => getSupportInfo(workarea), [workarea]);
   const [rotaryMode, setRotaryMode] = useState<number>(BeamboxPreference.read('rotary_mode') ?? 0);
   const [enableJobOrigin, setEnableJobOrigin] = useState<number>(
@@ -109,6 +107,17 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
     BeamboxPreference.write('enable-diode', supportInfo.hybridLaser && enableDiode);
     BeamboxPreference.write('enable-autofocus', supportInfo.autoFocus && enableAutofocus);
     const workareaChanged = workarea !== origWorkarea;
+    let customDimensionChanged = false;
+    if (workareaObj.dismensionCustomizable) {
+      const origVal = BeamboxPreference.read('customized-dimension') ?? {};
+      customDimensionChanged =
+        customDimension[workarea]?.width !== origVal[workarea]?.width ||
+        customDimension[workarea]?.height !== origVal[workarea]?.height;
+      BeamboxPreference.write('customized-dimension', {
+        ...origVal,
+        [workarea]: customDimension[workarea],
+      });
+    }
     const rotaryChanged =
       rotaryMode !== BeamboxPreference.read('rotary_mode') ||
       extendRotaryWorkarea !== !!BeamboxPreference.read('extend-rotary-workarea');
@@ -126,7 +135,13 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
     BeamboxPreference.write('pass-through-height', passThroughHeight);
     BeamboxPreference.write('enable-job-origin', enableJobOrigin);
     BeamboxPreference.write('job-origin', jobOrigin);
-    if (workareaChanged || rotaryChanged || passThroughChanged || passThroughHeightChanged) {
+    if (
+      workareaChanged ||
+      customDimensionChanged ||
+      rotaryChanged ||
+      passThroughChanged ||
+      passThroughHeightChanged
+    ) {
       changeWorkarea(workarea, { toggleModule: workareaChanged });
       rotaryAxis.toggleDisplay();
     } else {
@@ -176,7 +191,7 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
         <div className={styles.block}>
           <div className={styles.row}>
             <label className={styles.title} htmlFor="workareaSelect">
-              {tDocu.workarea}:
+              {tDocu.machine}:
             </label>
             <Select
               id="workareaSelect"
@@ -192,6 +207,31 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
               ))}
             </Select>
           </div>
+          {workareaObj.dismensionCustomizable && (
+            <div className={styles.row}>
+              <label className={styles.title} htmlFor="customDimension">
+                {tDocu.workarea}:
+              </label>
+              <Select
+                id="customDimension"
+                value={customDimension[workarea]?.width ?? workareaObj.width}
+                className={styles.control}
+                bordered
+                onChange={(val) =>
+                  setCustomDimension((cur) => ({
+                    ...cur,
+                    [workarea]: { width: val, height: val },
+                  }))
+                }
+              >
+                {[110, 150, 220].map((val) => (
+                  <Select.Option key={val} value={val}>
+                    {`${val} x ${val} mm`}
+                  </Select.Option>
+                ))}
+              </Select>
+            </div>
+          )}
           <div className={styles.row}>
             <label className={styles.title} htmlFor="dpi">
               {tDocu.engrave_dpi}:

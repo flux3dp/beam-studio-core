@@ -1066,7 +1066,8 @@ const lang: ILang = {
     },
     document_panel: {
       document_settings: 'Nastavení dokumentu',
-      engrave_parameters: 'Parametry gravírování',
+      machine: 'Stroj',
+      watts: 'Watty',
       workarea: 'Pracovní oblast',
       rotary_mode: 'Rotační',
       borderless_mode: 'Otevřít spodní část',

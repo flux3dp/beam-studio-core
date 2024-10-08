@@ -1063,7 +1063,8 @@ const lang: ILang = {
     },
     document_panel: {
       document_settings: 'Cài đặt tài liệu',
-      engrave_parameters: 'Thông số khắc',
+      machine: 'Máy',
+      watts: 'Oát',
       workarea: 'Khu vực làm việc',
       rotary_mode: 'Chế độ xoay',
       borderless_mode: 'Mở đáy',

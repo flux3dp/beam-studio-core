@@ -1,3 +1,5 @@
+import beamboxPreference from 'app/actions/beambox/beambox-preference';
+
 export type WorkAreaLabel =
   | 'beamo'
   | 'Beambox'
@@ -25,6 +27,7 @@ export interface WorkArea {
   pxWidth: number; // px
   height: number; // mm
   pxHeight: number; // px
+  dismensionCustomizable?: boolean;
   // extra displayHeight for modules
   displayHeight?: number; // mm
   pxDisplayHeight?: number; // px
@@ -32,7 +35,6 @@ export interface WorkArea {
   maxSpeed: number; // mm/s
   minSpeed: number; // mm/s
   minPower?: number; // %
-  rotary: number[];
   cameraCenter?: number[]; // [mm, mm]
   autoFocusOffset?: number[]; // [mm, mm]
   passThroughMaxHeight?: number; // mm
@@ -48,7 +50,6 @@ const workareaConstants: { [key in WorkAreaModel]: WorkArea } = {
     maxSpeed: 300,
     minSpeed: 0.5,
     minPower: 10,
-    rotary: [0, 1],
   },
   fbb1b: {
     label: 'Beambox',
@@ -59,7 +60,6 @@ const workareaConstants: { [key in WorkAreaModel]: WorkArea } = {
     maxSpeed: 300,
     minSpeed: 0.5,
     minPower: 10,
-    rotary: [0, 1],
   },
   fbb1p: {
     label: 'Beambox Pro',
@@ -70,7 +70,6 @@ const workareaConstants: { [key in WorkAreaModel]: WorkArea } = {
     maxSpeed: 300,
     minSpeed: 0.5,
     minPower: 10,
-    rotary: [0, 1],
   },
   fhexa1: {
     label: 'HEXA',
@@ -81,7 +80,6 @@ const workareaConstants: { [key in WorkAreaModel]: WorkArea } = {
     maxSpeed: 900,
     minSpeed: 0.5,
     minPower: 10,
-    rotary: [0, 1],
     autoFocusOffset: [31.13, 1.2, 6.5],
   },
   ado1: {
@@ -96,7 +94,6 @@ const workareaConstants: { [key in WorkAreaModel]: WorkArea } = {
     maxSpeed: 400,
     minSpeed: 0.5,
     minPower: 10,
-    rotary: [0, 1],
     cameraCenter: [215, 150],
     autoFocusOffset: [20.9, -40.38, 7.5],
     passThroughMaxHeight: 240,
@@ -107,9 +104,9 @@ const workareaConstants: { [key in WorkAreaModel]: WorkArea } = {
     pxWidth: 150 * dpmm,
     height: 150,
     pxHeight: 150 * dpmm,
+    dismensionCustomizable: true,
     maxSpeed: 3000,
     minSpeed: 1,
-    rotary: [0, 1],
   },
   flv1: {
     label: 'Lazervida',
@@ -119,7 +116,6 @@ const workareaConstants: { [key in WorkAreaModel]: WorkArea } = {
     pxHeight: 400 * dpmm,
     maxSpeed: 300,
     minSpeed: 1,
-    rotary: [0, 1],
   },
   fbb2: {
     label: 'Beambox II',
@@ -129,7 +125,6 @@ const workareaConstants: { [key in WorkAreaModel]: WorkArea } = {
     pxHeight: 375 * dpmm,
     maxSpeed: 900,
     minSpeed: 0.5,
-    rotary: [0, 1],
     cameraCenter: [300, 150],
     passThroughMaxHeight: 360,
   },
@@ -138,6 +133,14 @@ const workareaConstants: { [key in WorkAreaModel]: WorkArea } = {
 export const getWorkarea = (
   model: WorkAreaModel,
   fallbackModel: WorkAreaModel = 'fbm1'
-): WorkArea => workareaConstants[model] || workareaConstants[fallbackModel];
+): WorkArea => {
+  const res = workareaConstants[model] || workareaConstants[fallbackModel];
+  if (res.dismensionCustomizable) {
+    const customizeDimension = beamboxPreference.read('customized-dimension') ?? {};
+    const { width = res.width, height = res.height } = customizeDimension[model] || {};
+    return { ...res, width, height, pxWidth: width * dpmm, pxHeight: height * dpmm };
+  }
+  return { ...res };
+}
 
 export default workareaConstants;
