@@ -3,7 +3,9 @@
  * API discover
  * Ref: https://github.com/flux3dp/fluxghost/wiki/websocket-discover
  */
+import communicator from 'implementations/communicator';
 import DeviceList from 'helpers/device-list';
+import isWeb from 'helpers/is-web';
 import Logger from 'helpers/logger';
 import network from 'implementations/network';
 import sentryHelper from 'helpers/sentry-helper';
@@ -17,10 +19,11 @@ const BUFFER = 100;
 export const SEND_DEVICES_INTERVAL = 5000;
 const CLEAR_DEVICES_INTERVAL = 60000;
 const discoverLogger = Logger('discover');
+const isWebClient = isWeb();
 
 let lastSendMessage = 0;
-let timer;
-let devices = [];
+let notifyTimeout: NodeJS.Timeout;
+let devices: IDeviceInfo[] = [];
 const dispatchers = [];
 const idList = [];
 let deviceMap = {};
@@ -63,7 +66,7 @@ const updatePokeIPAddr = (device: IDeviceInfo): void => {
   }
 };
 
-const onMessage = (device) => {
+const onMessage = (device: IDeviceInfo) => {
   if (device.alive) {
     if (device.source === 'h2h') {
       // eslint-disable-next-line no-param-reassign
@@ -77,21 +80,22 @@ const onMessage = (device) => {
 
     deviceMap[device.uuid] = device;
     sentryHelper.sendDeviceInfo(device);
-    // SmartUpnp.addSolidIP(device.ip);
   } else if (typeof deviceMap[device.uuid] === 'undefined') {
     delete deviceMap[device.uuid];
   }
+  if (!isWebClient) communicator.send('DEVICE_UPDATED', device);
 
-  clearTimeout(timer);
-  if (Date.now() - lastSendMessage > BUFFER) {
+  const now = Date.now();
+  clearTimeout(notifyTimeout);
+  if (now - lastSendMessage > BUFFER) {
     devices = DeviceList({ ...deviceMap, ...swiftrayDevices });
     sendFoundDevices();
-    lastSendMessage = Date.now();
+    lastSendMessage = now;
   } else {
-    timer = setTimeout(() => {
+    notifyTimeout = setTimeout(() => {
       devices = DeviceList({ ...deviceMap, ...swiftrayDevices });
       sendFoundDevices();
-      lastSendMessage = Date.now();
+      lastSendMessage = now;
     }, BUFFER);
   }
 };
@@ -113,6 +117,7 @@ const startIntervals = () => {
     const res = await swiftrayClient.listDevices();
     swiftrayDevices = res.devices.reduce((acc, device) => {
       acc[device.uuid] = device;
+      if (!isWebClient) communicator.send('DEVICE_UPDATED', device);
       return acc;
     }, {});
     devices = DeviceList({ ...deviceMap, ...swiftrayDevices });
@@ -235,6 +240,6 @@ initSmartUpnp();
 
 export const checkConnection = (): boolean => ws?.currentState === readyStates.OPEN;
 
-export const getLatestDeviceInfo = (uuid: string): IDeviceInfo => deviceMap[uuid];
+export const getLatestDeviceInfo = (uuid: string): IDeviceInfo => deviceMap[uuid] ?? swiftrayDevices[uuid];
 
 export default Discover;

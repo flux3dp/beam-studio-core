@@ -172,7 +172,7 @@ class SwiftrayClient extends EventEmitter{
         height: workarea.displayHeight || workarea.height,
       },
       ...convertOptions,
-    });;
+    });
     const convertResult = (await convertTask) as any;
     const taskBlob = new Blob(
       [type === 'fcode' ? Buffer.from(convertResult.fcode, 'base64') : convertResult.gcode],
