@@ -1063,7 +1063,8 @@ const lang: ILang = {
     },
     document_panel: {
       document_settings: 'Pengaturan Dokumen',
-      engrave_parameters: 'Parameter Ukiran',
+      machine: 'Mesin',
+      watts: 'Watt',
       workarea: 'Area Kerja',
       rotary_mode: 'Putar',
       borderless_mode: 'Buka Bawah',

@@ -1066,7 +1066,8 @@ const lang: ILang = {
     },
     document_panel: {
       document_settings: '文件設定',
-      engrave_parameters: '雕刻參數',
+      machine: '機器',
+      watts: '瓦數',
       workarea: '工作範圍',
       rotary_mode: '旋轉軸',
       borderless_mode: '開蓋模式',

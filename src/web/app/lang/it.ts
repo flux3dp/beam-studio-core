@@ -1063,7 +1063,8 @@ const lang: ILang = {
     },
     document_panel: {
       document_settings: 'Impostazioni documento',
-      engrave_parameters: 'Parametri di incisione',
+      machine: 'Macchina',
+      watts: 'Watt',
       workarea: 'Area di lavoro',
       rotary_mode: 'Rotativo',
       borderless_mode: 'Aperto in basso',

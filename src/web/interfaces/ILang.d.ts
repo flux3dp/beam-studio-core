@@ -1063,7 +1063,8 @@ export interface ILang {
     },
     document_panel: {
       document_settings: string,
-      engrave_parameters: string,
+      machine: string;
+      watts: string;
       workarea: string,
       rotary_mode: string,
       borderless_mode: string,

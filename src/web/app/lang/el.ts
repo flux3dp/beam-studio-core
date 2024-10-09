@@ -1063,7 +1063,8 @@ const lang: ILang = {
     },
     document_panel: {
       document_settings: 'Ρυθμίσεις εγγράφου',
-      engrave_parameters: 'Παράμετροι χάραξης',
+      machine: 'Μηχανή',
+      watts: 'Βατ',
       workarea: 'Περιοχή εργασίας',
       rotary_mode: 'Περιστροφική λειτουργία',
       borderless_mode: 'Ανοιχτό κάτω μέρος',
