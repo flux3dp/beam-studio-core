@@ -37,12 +37,14 @@ import Tutorial from 'app/views/tutorials/Tutorial';
 import webNeedConnectionWrapper from 'helpers/web-need-connection-helper';
 import { AlertConfigKey } from 'helpers/api/alert-config';
 import { eventEmitter } from 'app/contexts/DialogContext';
+import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import { getCurrentUser, getInfo } from 'helpers/api/flux-id';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IAnnouncement } from 'interfaces/IAnnouncement';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { IDialogBoxStyle, IInputLightBox, IPrompt } from 'interfaces/IDialog';
 import { IMediaTutorial, ITutorial } from 'interfaces/ITutorial';
+import { ChipSettings } from 'interfaces/Cartridge';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => {
@@ -432,7 +434,7 @@ export default {
       />
     );
   },
-  showCatridgeSettingPanel: (initData: any, inkLevel: number): void => {
+  showCatridgeSettingPanel: (initData: ChipSettings, inkLevel: number): void => {
     if (isIdExist('catridge-setting')) return;
     addDialogComponent(
       'catridge-setting',
@@ -443,27 +445,35 @@ export default {
       />
     );
   },
-  showRadioSelectDialog: <T,>(args: {
+  showRadioSelectDialog: <T,>({
+    id = 'radio-select',
+    title,
+    options,
+    defaultValue = options[0].value,
+  }: {
     id?: string;
     title: string;
-    options: { label: string; value: T }[];
+    options: Array<{ label: string; value: T }>;
+    defaultValue?: T;
   }): Promise<T> =>
     new Promise((resolve) => {
-      const dialogId = args.id || 'radio-select';
-      if (isIdExist(dialogId)) return;
-      const { title, options } = args;
+      if (isIdExist(id)) {
+        return;
+      }
+
       addDialogComponent(
-        dialogId,
+        id,
         <RadioSelectDialog<T>
           title={title}
           options={options}
-          defaultValue={options[0].value}
+          defaultValue={defaultValue}
           onOk={(val) => {
-            popDialogById(dialogId);
+            popDialogById(id);
+            beamboxPreference.write(id, val);
             resolve(val);
           }}
           onCancel={() => {
-            popDialogById(dialogId);
+            popDialogById(id);
             resolve(null);
           }}
         />
