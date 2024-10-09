@@ -105,13 +105,14 @@ const importSvg = async (
 ): Promise<void> => {
   const batchCmd = new history.BatchCommand('Import SVG');
   const { lang } = i18n;
-  const isPrinter = modelsWithModules.has(beamboxPreference.read('workarea'));
-  const moduleSuffix = isPrinter ? 'printer' : 'laser';
+  const hasModule = modelsWithModules.has(beamboxPreference.read('workarea'));
   let targetModule: LayerModule;
 
-  if (isPrinter) {
+  if (hasModule) {
+    const id = `import-module`;
+
     targetModule = await dialogCaller.showRadioSelectDialog({
-      id: `${moduleSuffix}-import-module`,
+      id,
       title: lang.beambox.popup.select_import_module,
       options: [
         {
@@ -120,7 +121,7 @@ const importSvg = async (
         },
         { label: lang.layer_module.printing, value: LayerModule.PRINTER },
       ],
-      defaultValue: beamboxPreference.read(`${moduleSuffix}-import-module`),
+      defaultValue: beamboxPreference.read(id),
     });
   } else {
     targetModule = LayerModule.LASER_10W_DIODE;
@@ -130,7 +131,7 @@ const importSvg = async (
     return;
   }
 
-  const importTypeOptions = [];
+  const importTypeOptions = Array.of<{ label: string; value: ImportType }>();
 
   if (!skipByLayer) {
     importTypeOptions.push({ label: lang.beambox.popup.layer_by_layer, value: 'layer' });
@@ -142,19 +143,9 @@ const importSvg = async (
 
   importTypeOptions.push({ label: lang.beambox.popup.nolayer, value: 'nolayer' });
 
-  const typeSuffix = (() => {
-    if (targetModule === LayerModule.LASER_10W_DIODE) {
-      return moduleSuffix;
-    }
-
-    if (targetModule === LayerModule.PRINTER) {
-      return `${moduleSuffix}-printer`;
-    }
-
-    return `${moduleSuffix}-laser`;
-  })();
-
   const importType: ImportType = await (async () => {
+    const id = `${targetModule}-import-type`;
+
     if (isFromAI) {
       return 'layer';
     }
@@ -164,10 +155,10 @@ const importSvg = async (
     }
 
     return dialogCaller.showRadioSelectDialog({
-      id: `${typeSuffix}-import-type`,
+      id,
       title: lang.beambox.popup.select_import_method,
       options: importTypeOptions,
-      defaultValue: beamboxPreference.read(`${typeSuffix}-import-type`),
+      defaultValue: beamboxPreference.read(id),
     });
   })();
 
@@ -176,6 +167,7 @@ const importSvg = async (
   }
 
   const result = await svgWebSocket.uploadPlainSVG(file);
+
   if (result !== 'ok') {
     progressCaller.popById('loading_image');
 
@@ -186,13 +178,13 @@ const importSvg = async (
     return;
   }
 
-  let outputs =
+  const output =
     importType === 'layer' ? await svgWebSocket.divideSVGbyLayer() : await svgWebSocket.divideSVG();
 
-  if (!outputs.res) {
+  if (!output.res) {
     alertCaller.popUpError({
       buttonType: alertConstants.YES_NO,
-      message: `#809 ${outputs.data}\n${lang.beambox.popup.import_file_error_ask_for_upload}`,
+      message: `#809 ${output.data}\n${lang.beambox.popup.import_file_error_ask_for_upload}`,
       onYes: () => {
         const fileReader = new FileReader();
 
@@ -210,65 +202,39 @@ const importSvg = async (
     return;
   }
 
-  outputs = outputs.data;
-
-  let newElements: SVGUseElement[] = [];
-  let newElement: SVGUseElement;
+  const { data: outputData } = output;
+  const newElements = Array.of<SVGUseElement>();
+  const elementOptions = { type: importType, targetModule, parentCmd: batchCmd };
 
   if (['color', 'nolayer'].includes(importType)) {
-    newElement = await readSVG(outputs.strokes, {
-      type: importType,
-      targetModule,
-      parentCmd: batchCmd,
-    });
-
-    if (newElement) {
-      newElements.push(newElement);
-    }
-
-    newElement = await readSVG(outputs.colors, {
-      type: importType,
-      targetModule,
-      parentCmd: batchCmd,
-    });
-
-    if (newElement) {
-      newElements.push(newElement);
-    }
+    newElements.push(await readSVG(outputData.strokes, elementOptions));
+    newElements.push(await readSVG(outputData.colors, elementOptions));
   } else if (importType === 'layer') {
-    const keys = Object.keys(outputs);
+    const keys = Object.keys(outputData).filter(
+      (key) => !['bitmap', 'bitmap_offset'].includes(key)
+    );
 
     for (let i = 0; i < keys.length; i += 1) {
       const key = keys[i];
 
-      if (!['bitmap', 'bitmap_offset'].includes(key)) {
+      newElements.push(
         // eslint-disable-next-line no-await-in-loop
-        newElement = await readSVG(outputs[key], {
-          type: importType,
-          targetModule,
+        await readSVG(outputData[key], {
+          ...elementOptions,
           layerName: key,
-          parentCmd: batchCmd,
-        });
-
-        if (newElement) {
-          newElements.push(newElement);
-        }
-      }
+        })
+      );
     }
   } else {
-    newElement = await readSVG(file, { type: importType, targetModule, parentCmd: batchCmd });
-
-    if (newElement) {
-      newElements.push(newElement);
-    }
+    newElements.push(await readSVG(file, elementOptions));
   }
 
-  newElements = newElements.filter(Boolean);
+  const filteredNewElements = newElements.filter(Boolean);
 
-  if (outputs.bitmap.size > 0) {
+  if (outputData.bitmap.size > 0) {
     const isPrinting = targetModule === LayerModule.PRINTER;
 
-    if (!isPrinting || !newElements.length) {
+    if (!isPrinting || !filteredNewElements.length) {
       const layerName = lang.beambox.right_panel.layer_panel.layer_bitmap;
       const { layer: newLayer, name: newLayerName, cmd } = createLayer(layerName);
 
@@ -284,13 +250,13 @@ const importSvg = async (
       }
     }
 
-    const img = await readBitmapFile(outputs.bitmap, {
-      offset: outputs.bitmap_offset,
+    const img = await readBitmapFile(outputData.bitmap, {
+      offset: outputData.bitmap_offset,
       gray: !isPrinting,
       parentCmd: batchCmd,
     });
 
-    newElements.push(img);
+    filteredNewElements.push(img);
 
     const cmd = removeDefaultLayerIfEmpty();
 
@@ -303,8 +269,8 @@ const importSvg = async (
   progressCaller.popById('loading_image');
 
   if (isFromNounProject) {
-    for (let i = 0; i < newElements.length; i += 1) {
-      const elem = newElements[i];
+    for (let i = 0; i < filteredNewElements.length; i += 1) {
+      const elem = filteredNewElements[i];
 
       elem.setAttribute('data-np', '1');
     }
@@ -312,12 +278,12 @@ const importSvg = async (
 
   LayerPanelController.setSelectedLayers([svgCanvas.getCurrentDrawing().getCurrentLayerName()]);
 
-  if (newElements.length === 0) {
+  if (filteredNewElements.length === 0) {
     svgCanvas.clearSelection();
   } else {
-    svgCanvas.selectOnly(newElements);
+    svgCanvas.selectOnly(filteredNewElements);
 
-    if (newElements.length > 1) {
+    if (filteredNewElements.length > 1) {
       svgCanvas.tempGroupSelectedElements();
     }
   }
