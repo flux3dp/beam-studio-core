@@ -159,8 +159,7 @@ const fetchTaskCodeSwiftray = async (
   device: IDeviceInfo = null,
   opts: { output?: 'fcode' | 'gcode'; fgGcode?: boolean } = {}
 ): Promise<{
-  gcodeBlob?: Blob,
-  fcodeBlob?: Blob,
+  taskCodeBlob: Blob,
   thumbnailBlobURL: string,
   fileTimeCost: number,
 } | Record<string, never> > => {
@@ -229,11 +228,12 @@ const fetchTaskCodeSwiftray = async (
   });
 
   const supportInfo = getSupportInfo(BeamboxPreference.read('workarea'));
-  const { output = 'fcode' } = opts;
+  let codeType = opts.output || 'fcode';
   const { fgGcode = false } = opts;
-  const isNonFGCode = (output === 'gcode' && !fgGcode);
+  const isNonFGCode = (codeType === 'gcode' && !fgGcode);
   const model = BeamboxPreference.read('workarea') || BeamboxPreference.read('model');
-  const taskConfig = {
+  if (model === 'fpm1') codeType = 'gcode';
+  let taskConfig = {
     model,
     travelSpeed: model === 'fpm1' ? 4000 : 100,
     enableAutoFocus:
@@ -249,14 +249,19 @@ const fetchTaskCodeSwiftray = async (
     vectorSpeedConstraint: BeamboxPreference.read('vector_speed_contraint') !== false,
     paddingAccel: await getAdorPaddingAccel(device || TopBarController.getSelectedDevice()),
   };
+  if (codeType === 'fcode') taskConfig = {
+    ...taskConfig,
+    ...getExportOpt(taskConfig).config
+  };
+  console.log("fetchTaskCodeSwiftray", codeType, "taskConfig", taskConfig);
 
   if (isCanceled) { // TODO: Copy this logic to regular fetchTaskCode
     return {};
   }
 
   const getTaskCodeResult = await getTaskCode(
-    output,
-    output === 'fcode' ? getExportOpt(taskConfig).config : taskConfig
+    codeType,
+    taskConfig
   );
   const { taskCodeBlob } = getTaskCodeResult;
   let { fileTimeCost } = getTaskCodeResult;
@@ -270,15 +275,8 @@ const fetchTaskCodeSwiftray = async (
   if (isCanceled || taskCodeBlob == null) {
     return {};
   }
-  if (output === 'gcode') {
-    return {
-      gcodeBlob: taskCodeBlob,
-      thumbnailBlobURL,
-      fileTimeCost,
-    };
-  }
   return {
-    fcodeBlob: taskCodeBlob,
+    taskCodeBlob,
     thumbnailBlobURL,
     fileTimeCost,
   };
