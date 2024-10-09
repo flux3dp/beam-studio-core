@@ -4,10 +4,12 @@ import alertCaller from 'app/actions/alert-caller';
 import deviceMaster from 'helpers/device-master';
 import progressCaller from 'app/actions/progress-caller';
 import i18n from 'helpers/i18n';
+import webcamHelper from 'helpers/webcam-helper';
 import { IConfigSetting } from 'interfaces/IDevice';
 
 const useCamera = (
-  handleImg?: (blob: Blob) => Promise<boolean> | boolean
+  handleImg?: (blob: Blob) => Promise<boolean> | boolean,
+  source: 'wifi' | 'usb' = 'wifi'
 ): {
   exposureSetting: IConfigSetting | null;
   setExposureSetting: Dispatch<IConfigSetting | null>;
@@ -22,7 +24,12 @@ const useCamera = (
           id: 'use-camera',
           message: i18n.lang.calibration.taking_picture,
         });
-      const { imgBlob } = (await deviceMaster.takeOnePicture()) || {};
+      let imgBlob: Blob;
+      if (source === 'wifi') {
+        imgBlob = (await deviceMaster.takeOnePicture())?.imgBlob;
+      } else if (source === 'usb') {
+        imgBlob = await webcamHelper.getPictureFromWebcam();
+      }
       if (!imgBlob) {
         if (retryTimes < 2) return handleTakePicture({ retryTimes: retryTimes + 1, silent });
         alertCaller.popUpError({ message: 'Unable to get image' });
@@ -36,7 +43,7 @@ const useCamera = (
       if (!silent) progressCaller.popById('use-camera');
       return imgBlob;
     },
-    [handleImg]
+    [handleImg, source]
   );
 
   useEffect(() => {
@@ -46,21 +53,27 @@ const useCamera = (
         message: i18n.lang.calibration.taking_picture,
       });
       try {
-        await deviceMaster.connectCamera();
-        try {
-          const exposureRes = await deviceMaster.getDeviceSetting('camera_exposure_absolute');
-          setExposureSetting(JSON.parse(exposureRes.value));
-        } catch (e) {
-          console.log('Failed to get exposure setting', e);
+        if (source === 'wifi') {
+          await deviceMaster.connectCamera();
+          try {
+            const exposureRes = await deviceMaster.getDeviceSetting('camera_exposure_absolute');
+            setExposureSetting(JSON.parse(exposureRes.value));
+          } catch (e) {
+            console.log('Failed to get exposure setting', e);
+          }
+          handleTakePicture();
+        } else if (source === 'usb') {
+          const res = await webcamHelper.connectWebcam();
+          if (res) handleTakePicture();
         }
-        handleTakePicture();
       } finally {
         progressCaller.popById('use-camera');
       }
     };
     initSetup();
     return () => {
-      deviceMaster.disconnectCamera();
+      if (source === 'wifi') deviceMaster.disconnectCamera();
+      else if (source === 'usb') webcamHelper.disconnectWebcam();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

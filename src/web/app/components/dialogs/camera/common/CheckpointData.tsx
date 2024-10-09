@@ -14,6 +14,7 @@ import styles from './CheckpointData.module.scss';
 interface Props<T = FisheyeCaliParameters> {
   allowCheckPoint?: boolean;
   askUser?: boolean;
+  getData?: () => Promise<T> | T;
   updateParam: (param: T) => void;
   onClose: (complete: boolean) => void;
   onNext: (res: boolean) => void;
@@ -22,6 +23,7 @@ interface Props<T = FisheyeCaliParameters> {
 const CheckpointData = <T extends FisheyeCaliParameters>({
   allowCheckPoint = true,
   askUser,
+  getData,
   updateParam,
   onClose,
   onNext,
@@ -39,10 +41,14 @@ const CheckpointData = <T extends FisheyeCaliParameters>({
     });
     let res = null;
     try {
-      const data = await deviceMaster.downloadFile('fisheye', 'fisheye_params.json');
-      const [, blob] = data;
-      const dataString = await (blob as Blob).text();
-      res = JSON.parse(dataString);
+      if (getData) {
+        res = await getData();
+      } else {
+        const data = await deviceMaster.downloadFile('fisheye', 'fisheye_params.json');
+        const [, blob] = data;
+        const dataString = await (blob as Blob).text();
+        res = JSON.parse(dataString);
+      }
       if (res.v === 3) {
         setCheckpointData({
           file: 'fisheye_params.json',
@@ -94,7 +100,7 @@ const CheckpointData = <T extends FisheyeCaliParameters>({
     }
     progressCaller.popById(progressId);
     onNext(false);
-  }, [lang, allowCheckPoint, progressId, onNext]);
+  }, [lang, allowCheckPoint, getData, progressId, onNext]);
 
   const handleOk = useCallback(async () => {
     progressCaller.openNonstopProgress({
