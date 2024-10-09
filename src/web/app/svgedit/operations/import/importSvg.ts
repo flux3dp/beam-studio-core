@@ -144,7 +144,8 @@ const importSvg = async (
   importTypeOptions.push({ label: lang.beambox.popup.nolayer, value: 'nolayer' });
 
   const importType: ImportType = await (async () => {
-    const id = `${targetModule}-import-type`;
+    // use skip-by-layer as a flag to separate the import of .svg and .ai files
+    const id = `${targetModule}${skipByLayer ? '-skip-by-layer' : ''}-import-type`;
 
     if (isFromAI) {
       return 'layer';
