@@ -22,13 +22,8 @@ export default function TableSettingForm({
     },
   } = useI18n();
   const lengthUnit = isInch ? 'in' : 'mm';
-
-  const settingEntries = Object.entries(tableSetting).sort(([a], [b]) => a.localeCompare(b));
-
-  const options = settingEntries.map(([key]) => ({
-    value: key,
-    label: tLaserPanel[key],
-  }));
+  const settingEntries = Object.entries(tableSetting).sort(([a], [b]) => b.localeCompare(a));
+  const options = settingEntries.map(([key]) => ({ value: key, label: tLaserPanel[key] }));
 
   const handleSelectChange = (value: string, index: number) => {
     const currentKey = settingEntries.find(([, { selected }]) => selected === index)?.[0];
