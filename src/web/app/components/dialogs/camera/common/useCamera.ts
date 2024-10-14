@@ -1,10 +1,10 @@
-import { Dispatch, useCallback, useEffect, useState } from 'react';
+import { Dispatch, useCallback, useEffect, useRef, useState } from 'react';
 
 import alertCaller from 'app/actions/alert-caller';
 import deviceMaster from 'helpers/device-master';
 import progressCaller from 'app/actions/progress-caller';
 import i18n from 'helpers/i18n';
-import webcamHelper from 'helpers/webcam-helper';
+import webcamHelper, { WebCamConnection } from 'helpers/webcam-helper';
 import { IConfigSetting } from 'interfaces/IDevice';
 
 const useCamera = (
@@ -16,6 +16,7 @@ const useCamera = (
   handleTakePicture: (opts?: { retryTimes?: number; silent?: boolean }) => void;
 } => {
   const [exposureSetting, setExposureSetting] = useState<IConfigSetting | null>(null);
+  const webCamConnection = useRef<WebCamConnection>(null);
   const handleTakePicture = useCallback(
     async (opts?: { retryTimes?: number; silent?: boolean }) => {
       const { retryTimes = 0, silent = false } = opts || {};
@@ -28,7 +29,7 @@ const useCamera = (
       if (source === 'wifi') {
         imgBlob = (await deviceMaster.takeOnePicture())?.imgBlob;
       } else if (source === 'usb') {
-        imgBlob = await webcamHelper.getPictureFromWebcam();
+        imgBlob = await webCamConnection.current?.getPicture();
       }
       if (!imgBlob) {
         if (retryTimes < 2) return handleTakePicture({ retryTimes: retryTimes + 1, silent });
@@ -63,8 +64,8 @@ const useCamera = (
           }
           handleTakePicture();
         } else if (source === 'usb') {
-          const res = await webcamHelper.connectWebcam();
-          if (res) handleTakePicture();
+          webCamConnection.current = await webcamHelper.connectWebcam();
+          if (webCamConnection.current) handleTakePicture();
         }
       } finally {
         progressCaller.popById('use-camera');
@@ -73,7 +74,7 @@ const useCamera = (
     initSetup();
     return () => {
       if (source === 'wifi') deviceMaster.disconnectCamera();
-      else if (source === 'usb') webcamHelper.disconnectWebcam();
+      else if (source === 'usb') webCamConnection.current?.end();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

@@ -5,7 +5,7 @@ import { Modal, Spin } from 'antd';
 import alertCaller from 'app/actions/alert-caller';
 import progressCaller from 'app/actions/progress-caller';
 import useI18n from 'helpers/useI18n';
-import webcamHelper from 'helpers/webcam-helper';
+import webcamHelper, { WebCamConnection } from 'helpers/webcam-helper';
 import { calibrateChessboard } from 'helpers/camera-calibration-helper';
 import { FisheyeCameraParametersV3Cali } from 'interfaces/FisheyePreview';
 
@@ -20,16 +20,18 @@ interface Props {
 
 const Chessboard = ({ chessboard, updateParam, onNext, onClose }: Props): JSX.Element => {
   const lang = useI18n().calibration;
+  const webCamConnection = useRef<WebCamConnection>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [webcamConnected, setWebcamConnected] = useState(false);
 
   useEffect(() => {
     const video = videoRef.current;
-    webcamHelper.connectWebcam({ video }).then((res) => {
-      setWebcamConnected(!!res);
+    webcamHelper.connectWebcam({ video }).then((conn) => {
+      webCamConnection.current = conn;
+      setWebcamConnected(!!conn);
     });
     return () => {
-      webcamHelper.disconnectWebcam(video);
+      webCamConnection.current?.end();
     };
   }, []);
 
@@ -38,7 +40,7 @@ const Chessboard = ({ chessboard, updateParam, onNext, onClose }: Props): JSX.El
     videoRef.current.pause();
     let success = false;
     try {
-      const imgBlob = await webcamHelper.getPictureFromWebcam({ video: videoRef.current });
+      const imgBlob = await webCamConnection.current?.getPicture();
       const res = await calibrateChessboard(imgBlob, 0, chessboard);
       if (res.success === true) {
         const { ret, k, d, rvec, tvec } = res.data;
