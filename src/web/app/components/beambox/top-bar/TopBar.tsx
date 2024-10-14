@@ -38,7 +38,7 @@ const Topbar = (): JSX.Element => {
       setSelectedDevice((cur) => {
         if (!cur && defaultDeviceSerial.current) {
           const defauldDevice = deviceList.find(
-            (device) => device.serial === defaultDeviceSerial.current
+            (device) => device.uuid === defaultDeviceSerial.current
           );
           if (defauldDevice && !checkSoftwareForAdor(defauldDevice, false)) {
             defaultDeviceSerial.current = null;

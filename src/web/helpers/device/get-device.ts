@@ -68,9 +68,9 @@ const getDevice = async (
     }
     TopBarController.setSelectedDevice(device);
     if (device) {
-      const isNewDevice = currentDevice?.serial !== device.serial;
+      const isNewDevice = currentDevice?.uuid !== device.uuid;
       if (isNewDevice) {
-        storage.set('selected-device', device.serial);
+        storage.set('selected-device', device.uuid);
       }
       const res = await DeviceMaster.select(device);
       if (res.success) {
