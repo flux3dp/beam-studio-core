@@ -2,6 +2,7 @@ import isDev from 'helpers/is-dev';
 import isWeb from 'helpers/is-web';
 
 export const modelsSupportUsb = new Set(['fhexa1', 'ado1']);
+export const promarkModels = new Set(['fpm1']);
 export enum PreviewSpeedLevel {
   SLOW = 1,
   MEDIUM = 2,
@@ -57,7 +58,6 @@ export default {
     flv1: ['flv1'],
   },
   adorModels: ['ado1', 'fad1'],
-  promarkModels: ['fpm1'],
   highPowerModels: ['fhexa1', 'ado1', 'flv1', 'fpm1'],
   fcodeV2Models: new Set(['ado1', 'fbb2']),
   leftPanelWidth: 50, // px
