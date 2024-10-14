@@ -1311,9 +1311,9 @@ class DeviceMaster {
     }
   }
 
-  getDeviceBySerial(serial: string, callback) {
-    console.log(serial, this.discoveredDevices);
-    const matchedDevice = this.discoveredDevices.filter((d) => d.serial === serial);
+  getDiscoveredDevice<T extends keyof IDeviceInfo>(key: T, value: IDeviceInfo[T], callback) {
+    console.log(key, value, this.discoveredDevices);
+    const matchedDevice = this.discoveredDevices.filter((d) => d[key] === value);
 
     if (matchedDevice.length > 0) {
       callback.onSuccess(matchedDevice[0]);
@@ -1326,7 +1326,7 @@ class DeviceMaster {
           ...callback,
           timeout: callback.timeout - 500,
         };
-        this.getDeviceBySerial(serial, newCallback);
+        this.getDiscoveredDevice(key, value, newCallback);
       }, 500);
     } else {
       callback.onTimeout();
