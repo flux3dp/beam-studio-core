@@ -221,6 +221,7 @@ export interface ILang {
   device_selection: {
     no_beambox: string;
     no_device_web: string;
+    select_usb_device: string;
   };
   update: {
     update: string;

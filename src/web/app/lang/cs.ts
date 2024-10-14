@@ -224,6 +224,7 @@ const lang: ILang = {
   device_selection: {
     no_beambox: '#801 Nemůžeme najít v síti váš přístroj.\n Podívejte se prosím do tohoto <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">návodu</a> pro řešení problému s připojením.',
     no_device_web: '#801  Zkontrolujte prosím stav vašeho přístroje nebo klikněte v dolní části na Nastavení přístroje k řádnému nastavení přístroje.',
+    select_usb_device: 'Vyberte zařízení USB',
   },
   update: {
     update: 'Aktualizace',

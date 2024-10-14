@@ -224,6 +224,7 @@ const lang: ILang = {
   device_selection: {
     no_beambox: '#801 Nie możemy znaleźć Twojej maszyny w sieci.',
     no_device_web: '#801 Sprawdź status swojej maszyny lub kliknij poniżej „Konfiguracja maszyny”, aby skonfigurować maszynę.',
+    select_usb_device: 'Wybierz urządzenie USB',
   },
   update: {
     update: 'AKTUALIZACJA',

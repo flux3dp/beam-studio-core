@@ -224,6 +224,7 @@ const lang: ILang = {
   device_selection: {
     no_beambox: '#801 Impossibile trovare la macchina sulla rete.\nSeguire la <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">guida</a> per risolvere il problema di connessione.',
     no_device_web: "#801 Controlla lo stato della tua macchina o clicca su 'Configura macchina' qui sotto per configurare la macchina.",
+    select_usb_device: 'Seleziona dispositivo USB',
   },
   update: {
     update: 'Aggiorna',

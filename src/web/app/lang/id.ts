@@ -224,6 +224,7 @@ const lang: ILang = {
   device_selection: {
     no_beambox: '#801 Kami tidak dapat menemukan mesin Anda di jaringan.\nHarap ikuti <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">panduan</a> untuk mengatasi masalah koneksi.',
     no_device_web: "#801 Periksa status mesin Anda, atau klik 'Setup Mesin' di bawah untuk mengatur mesin.",
+    select_usb_device: 'Pilih Perangkat USB',
   },
   update: {
     update: 'Perbarui',

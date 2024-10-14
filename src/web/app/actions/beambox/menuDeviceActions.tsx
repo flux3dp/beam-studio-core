@@ -27,6 +27,7 @@ import { showAdorCalibrationV2 } from 'app/components/dialogs/camera/AdorCalibra
 import { showBB2Calibration } from 'app/components/dialogs/camera/BB2Calibration';
 import { showCameraCalibration } from 'app/views/beambox/Camera-Calibration';
 import { showDiodeCalibration } from 'app/views/beambox/Diode-Calibration';
+import { showPromarkCalibration } from 'app/components/dialogs/camera/PromarkCalibration';
 
 const { lang } = i18n;
 
@@ -46,6 +47,8 @@ const calibrateCamera = async (
         showAdorCalibrationV2(factoryMode);
       } else if (device.model === 'fbb2') {
         showBB2Calibration();
+      } else if (device.model === 'fpm1') {
+        showPromarkCalibration(device.uuid);
       } else showCameraCalibration(device, isBorderless);
     }
   } catch (error) {
