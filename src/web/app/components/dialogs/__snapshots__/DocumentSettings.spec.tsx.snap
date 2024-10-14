@@ -19,7 +19,7 @@ exports[`test DocumentSettings set dimesnion for promark 1`] = `
           aria-modal="true"
           class="ant-modal css-dev-only-do-not-override-hash ant-zoom-appear ant-zoom-appear-prepare ant-zoom"
           role="dialog"
-          style="width: 440px;"
+          style="width: 440px; transform-origin: NaNpx NaNpx;"
         >
           <div
             aria-hidden="true"
