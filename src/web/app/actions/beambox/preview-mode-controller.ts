@@ -19,6 +19,7 @@ import { RotationParameters3DCalibration } from 'interfaces/FisheyePreview';
 import AdorPreviewManager from '../camera/preview-helper/AdorPreviewManager';
 import BeamPreviewManager from '../camera/preview-helper/BeamPreviewManager';
 import BB2PreviewManager from '../camera/preview-helper/BB2PreviewManager';
+import PromarkPreviewManager from '../camera/preview-helper/PromarkPreviewManager';
 
 const LANG = i18n.lang;
 const canvasEventEmitter = eventEmitterFactory.createEventEmitter('canvas');
@@ -107,7 +108,9 @@ class PreviewModeController {
 
     try {
       this.currentDevice = device;
-      if (Constant.adorModels.includes(device.model)) {
+      if (device.model === 'fpm1') {
+        this.previewManager = new PromarkPreviewManager(device);
+      }  else if (Constant.adorModels.includes(device.model)) {
         this.previewManager = new AdorPreviewManager(device);
       } else if (device.model === 'fbb2') {
         this.previewManager = new BB2PreviewManager(device);
