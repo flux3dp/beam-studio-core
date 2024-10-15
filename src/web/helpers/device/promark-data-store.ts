@@ -1,10 +1,6 @@
 import storage from 'implementations/storage';
-import { FisheyeCameraParametersV3 } from 'interfaces/FisheyePreview';
+import { PromarkStore } from 'interfaces/Promark';
 
-interface PromarkStore {
-  cameraParameters?: FisheyeCameraParametersV3;
-  cameraDeviceId?: string;
-}
 
 const get = <T extends keyof PromarkStore>(
   uuid: string,

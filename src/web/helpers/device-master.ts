@@ -7,7 +7,7 @@ import { sprintf } from 'sprintf-js';
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import checkSoftwareForAdor from 'helpers/check-software';
-import constant from 'app/actions/beambox/constant';
+import constant, { promarkModels } from 'app/actions/beambox/constant';
 import DeviceConstants from 'app/constants/device-constants';
 import Dialog from 'app/actions/dialog-caller';
 import IControlSocket from 'interfaces/IControlSocket';
@@ -27,9 +27,10 @@ import { IDeviceInfo, IDeviceConnection, IDeviceDetailInfo } from 'interfaces/ID
 import Camera from './api/camera';
 import Control from './api/control';
 import Discover from './api/discover';
-import Touch from './api/touch';
 import i18n from './i18n';
+import promarkDataStore from './device/promark-data-store';
 import SwiftrayControl from './api/swiftray-control';
+import Touch from './api/touch';
 import VersionChecker from './version-checker';
 
 let { lang } = i18n;
@@ -368,28 +369,20 @@ class DeviceMaster {
       timeout: 30000,
     });
 
-    if (device.control && device.control.isConnected) {
-      try {
-        // Update device status
-        if (device.control.getMode() !== 'raw') {
-          const controlSocket = device.control;
-          const info = await controlSocket.addTask(controlSocket.report);
-          Object.assign(device.info, info.device_status);
-        }
-        this.currentDevice = device;
-        Progress.popById('select-device');
-        return { success: true };
-      } catch (e) {
-        await device.control.killSelf();
-      }
-    }
-
     try {
       const controlSocket = await this.createDeviceControlSocketSwiftray(uuid);
       device.control = controlSocket;
       this.setDeviceControlDefaultCloseListener(deviceInfo);
       this.currentDevice = device;
       console.log(`Connected to ${uuid}`);
+
+      if (promarkModels.has(device.info.model)) {
+        const correction = promarkDataStore.get(device.info.uuid, 'lensCorrection');
+        console.log('Applying', correction);
+        if (correction) {
+          await controlSocket.addTask(controlSocket.setLensCorrection, correction.x, correction.y);
+        }
+      }
       Progress.popById('select-device');
       return {
         success: true,

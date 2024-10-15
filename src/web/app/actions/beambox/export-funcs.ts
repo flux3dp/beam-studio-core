@@ -412,7 +412,6 @@ export default {
     const { taskCodeBlob } = await convertEngine(device);
     if (!taskCodeBlob) {
       throw new Error('exportFCode: No task code blob');
-      return;
     }
     const defaultFCodeName = currentFileManager.getName() || 'untitled';
     const langFile = i18n.lang.topmenu.file;

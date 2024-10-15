@@ -5,8 +5,9 @@ import { SwiftrayClient } from 'helpers/api/swiftray-client';
 // eslint-disable-next-line import/no-cycle
 import { FisheyeCameraParameters, RotationParameters3D } from './FisheyePreview';
 import { IDeviceDetailInfo, IReport } from './IDevice';
-import { WrappedWebSocket } from './WebSocket';
+import { LensCorrection } from './Promark';
 import { RawChipSettings } from './Cartridge';
+import { WrappedWebSocket } from './WebSocket';
 
 interface IControlSocket extends EventEmitter {
   isConnected: boolean;
@@ -52,6 +53,7 @@ interface IControlSocket extends EventEmitter {
   setFanTemp(fanSpeed: number): Promise<unknown>;
   setOriginX(x: number): Promise<unknown>;
   setOriginY(y: number): Promise<unknown>;
+  setLensCorrection(x: LensCorrection, y: LensCorrection): Promise<boolean>;
   getDoorOpen(): Promise<{ value: string }>;
   getDeviceSetting(name: string): Promise<{ status: string; value: string }>;
   setDeviceSetting(name: string, value: string): Promise<unknown>;

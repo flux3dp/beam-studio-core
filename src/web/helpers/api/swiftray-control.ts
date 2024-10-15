@@ -5,8 +5,10 @@
 import EventEmitter from 'eventemitter3';
 
 import ErrorConstants from 'app/constants/error-constants';
-import { IDeviceDetailInfo } from 'interfaces/IDevice';
 import IControlSocket from 'interfaces/IControlSocket';
+import { LensCorrection } from 'interfaces/Promark';
+import { IDeviceDetailInfo } from 'interfaces/IDevice';
+
 import { getDeviceClient, SwiftrayClient } from './swiftray-client';
 
 const EVENT_COMMAND_MESSAGE = 'command-message';
@@ -432,6 +434,20 @@ class SwiftrayControl extends EventEmitter implements IControlSocket {
   setOriginX = async (x: number) => this.sc.setDeviceParam('origin_x', x);
 
   setOriginY = async (y: number) => this.sc.setDeviceParam('origin_y', y);
+
+  setLensCorrection = async (x: LensCorrection, y: LensCorrection) => {
+    const data = {
+      scaleX: x.scale,
+      scaleY: y.scale,
+      bucketX: x.bulge,
+      bucketY: y.bulge,
+      paralleX: x.skew,
+      paralleY: y.skew,
+      trapeX: x.trapezoid,
+      trapeY: y.trapezoid,
+    };
+    return this.sc.setDeviceCorrection(data);
+  };
 
   getDoorOpen = async () => this.sc.getDeviceParam<string>('door_open');
 
