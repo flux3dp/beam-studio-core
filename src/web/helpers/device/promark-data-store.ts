@@ -1,7 +1,6 @@
 import storage from 'implementations/storage';
 import { PromarkStore } from 'interfaces/Promark';
 
-
 const get = <T extends keyof PromarkStore>(
   serial: string,
   key?: T
