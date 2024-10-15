@@ -224,11 +224,12 @@ describe('test DocumentSettings', () => {
     fireEvent.click(
       baseElement.querySelectorAll('.ant-slide-up-appear .ant-select-item-option-content')[6]
     );
-    expect(baseElement).toMatchSnapshot();
+    expect(baseElement.querySelector('input#customDimension')).toBeInTheDocument();
     act(() => fireEvent.mouseDown(baseElement.querySelector('input#customDimension')));
     fireEvent.click(
       baseElement.querySelectorAll('.ant-slide-up-appear .ant-select-item-option-content')[0]
     );
+    expect(baseElement).toMatchSnapshot();
     mockQuerySelectorAll.mockReturnValueOnce([1]);
     fireEvent.click(getByText('Save'));
     expect(mockPopUp).toBeCalledTimes(1);

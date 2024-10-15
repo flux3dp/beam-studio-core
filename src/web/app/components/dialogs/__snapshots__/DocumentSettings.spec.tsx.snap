@@ -19,7 +19,7 @@ exports[`test DocumentSettings set dimesnion for promark 1`] = `
           aria-modal="true"
           class="ant-modal css-dev-only-do-not-override-hash ant-zoom-appear ant-zoom-appear-prepare ant-zoom"
           role="dialog"
-          style="width: 440px; transform-origin: NaNpx NaNpx;"
+          style="width: 440px;"
         >
           <div
             aria-hidden="true"
@@ -187,9 +187,9 @@ exports[`test DocumentSettings set dimesnion for promark 1`] = `
                         </span>
                         <span
                           class="ant-select-selection-item"
-                          title="150 x 150 mm"
+                          title="110 x 110 mm"
                         >
-                          150 x 150 mm
+                          110 x 110 mm
                         </span>
                       </div>
                       <span
@@ -707,6 +707,105 @@ exports[`test DocumentSettings set dimesnion for promark 1`] = `
                     class="ant-select-item-option-content"
                   >
                     Lazervida
+                  </div>
+                  <span
+                    aria-hidden="true"
+                    class="ant-select-item-option-state"
+                    style="user-select: none;"
+                    unselectable="on"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <div
+      class="ant-select-dropdown ant-select-dropdown-hidden css-dev-only-do-not-override-hash ant-select-dropdown-placement-bottomLeft"
+      style="--arrow-x: 0px; --arrow-y: 0px; left: 0px; top: 0px; box-sizing: border-box; pointer-events: none;"
+    >
+      <div>
+        <div
+          id="customDimension_list"
+          role="listbox"
+          style="height: 0px; width: 0px; overflow: hidden;"
+        >
+          <div
+            aria-label="110 x 110 mm"
+            aria-selected="true"
+            id="customDimension_list_0"
+            role="option"
+          >
+            110
+          </div>
+          <div
+            aria-label="150 x 150 mm"
+            aria-selected="false"
+            id="customDimension_list_1"
+            role="option"
+          >
+            150
+          </div>
+        </div>
+        <div
+          class="rc-virtual-list"
+          style="position: relative;"
+        >
+          <div
+            class="rc-virtual-list-holder"
+            style="max-height: 256px; overflow-y: hidden;"
+          >
+            <div>
+              <div
+                class="rc-virtual-list-holder-inner"
+                style="display: flex; flex-direction: column;"
+              >
+                <div
+                  aria-selected="true"
+                  class="ant-select-item ant-select-item-option ant-select-item-option-active ant-select-item-option-selected"
+                  title="110 x 110 mm"
+                >
+                  <div
+                    class="ant-select-item-option-content"
+                  >
+                    110 x 110 mm
+                  </div>
+                  <span
+                    aria-hidden="true"
+                    class="ant-select-item-option-state"
+                    style="user-select: none;"
+                    unselectable="on"
+                  />
+                </div>
+                <div
+                  aria-selected="false"
+                  class="ant-select-item ant-select-item-option"
+                  title="150 x 150 mm"
+                >
+                  <div
+                    class="ant-select-item-option-content"
+                  >
+                    150 x 150 mm
+                  </div>
+                  <span
+                    aria-hidden="true"
+                    class="ant-select-item-option-state"
+                    style="user-select: none;"
+                    unselectable="on"
+                  />
+                </div>
+                <div
+                  aria-selected="false"
+                  class="ant-select-item ant-select-item-option"
+                  title="220 x 220 mm"
+                >
+                  <div
+                    class="ant-select-item-option-content"
+                  >
+                    220 x 220 mm
                   </div>
                   <span
                     aria-hidden="true"
