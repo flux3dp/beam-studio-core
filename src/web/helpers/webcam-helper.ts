@@ -74,19 +74,11 @@ export class WebCamConnection {
   connect = async (deviceId: string = this.device?.deviceId): Promise<boolean> => {
     const permission = await askForPermission();
     if (!permission) {
-      alertCaller.popUp({
-        caption: 'Oops',
-        message: 'tYou denied the permission to access the camera',
-      });
-      return false;
+      throw new Error('tYou denied the permission to access the camera');
     }
     const device = await getDevice(deviceId);
     if (!device) {
-      alertCaller.popUp({
-        caption: 'Oops',
-        message: 'No USB camera found',
-      });
-      return false;
+      throw new Error('No camera device found');
     }
     this.device = device;
     this.stream = await navigator.mediaDevices.getUserMedia({
