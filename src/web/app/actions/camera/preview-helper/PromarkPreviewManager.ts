@@ -34,7 +34,7 @@ class PromarkPreviewManager extends BasePreviewManager implements PreviewManager
         id: this.progressId,
         message: lang.message.connectingCamera,
       });
-      this.fisheyeParams = promarkDataStore.get(this.device.uuid, 'cameraParameters');
+      this.fisheyeParams = promarkDataStore.get(this.device.serial, 'cameraParameters');
       if (!this.fisheyeParams) {
         throw new Error(
           'Unable to get fisheye parameters, please make sure you have calibrated the camera'
@@ -75,7 +75,7 @@ class PromarkPreviewManager extends BasePreviewManager implements PreviewManager
   };
 
   public end = async (): Promise<void> => {
-    this.webCamConnection.end();
+    this.webCamConnection?.end();
   };
 
   public preview = async (): Promise<boolean> => {

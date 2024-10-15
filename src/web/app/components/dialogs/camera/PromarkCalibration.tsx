@@ -27,12 +27,12 @@ enum Steps {
 }
 
 interface Props {
-  deviceUuid: string;
+  deviceSerial: string;
   onClose: (completed?: boolean) => void;
 }
 
 const PROGRESS_ID = 'promark-calibration';
-const PromarkCalibration = ({ deviceUuid, onClose }: Props): JSX.Element => {
+const PromarkCalibration = ({ deviceSerial, onClose }: Props): JSX.Element => {
   const lang = useI18n();
   const tCali = lang.calibration;
   const calibratingParam = useRef<FisheyeCameraParametersV3Cali>({});
@@ -48,7 +48,7 @@ const PromarkCalibration = ({ deviceUuid, onClose }: Props): JSX.Element => {
         askUser
         allowCheckPoint={false}
         updateParam={updateParam}
-        getData={() => promarkDataStore.get(deviceUuid, 'cameraParameters')}
+        getData={() => promarkDataStore.get(deviceSerial, 'cameraParameters')}
         onClose={onClose}
         onNext={(res: boolean) => {
           if (res) {
@@ -145,7 +145,7 @@ const PromarkCalibration = ({ deviceUuid, onClose }: Props): JSX.Element => {
             tvec,
             v: 3,
           };
-          promarkDataStore.set(deviceUuid, 'cameraParameters', param);
+          promarkDataStore.set(deviceSerial, 'cameraParameters', param);
           alertCaller.popUp({ message: tCali.camera_parameter_saved_successfully });
           onClose(true);
         }}
@@ -157,7 +157,7 @@ const PromarkCalibration = ({ deviceUuid, onClose }: Props): JSX.Element => {
   return <></>;
 };
 
-export const showPromarkCalibration = (deviceUuid: string): Promise<boolean> => {
+export const showPromarkCalibration = (deviceSerial: string): Promise<boolean> => {
   const id = 'promark-calibration';
   const onClose = () => popDialogById(id);
   if (isIdExist(id)) onClose();
@@ -165,7 +165,7 @@ export const showPromarkCalibration = (deviceUuid: string): Promise<boolean> => 
     addDialogComponent(
       id,
       <PromarkCalibration
-        deviceUuid={deviceUuid}
+        deviceSerial={deviceSerial}
         onClose={(completed = false) => {
           onClose();
           resolve(completed);

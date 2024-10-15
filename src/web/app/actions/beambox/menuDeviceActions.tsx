@@ -48,7 +48,7 @@ const calibrateCamera = async (
       } else if (device.model === 'fbb2') {
         showBB2Calibration();
       } else if (device.model === 'fpm1') {
-        showPromarkCalibration(device.uuid);
+        showPromarkCalibration(device.serial);
       } else showCameraCalibration(device, isBorderless);
     }
   } catch (error) {

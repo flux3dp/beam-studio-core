@@ -377,7 +377,7 @@ class DeviceMaster {
       console.log(`Connected to ${uuid}`);
 
       if (promarkModels.has(device.info.model)) {
-        const correction = promarkDataStore.get(device.info.uuid, 'lensCorrection');
+        const correction = promarkDataStore.get(device.info.serial, 'lensCorrection');
         console.log('Applying', correction);
         if (correction) {
           await controlSocket.addTask(controlSocket.setLensCorrection, correction.x, correction.y);
