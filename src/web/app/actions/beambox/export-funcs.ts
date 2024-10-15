@@ -384,7 +384,8 @@ const openTaskInDeviceMonitor = (
 
 export default {
   uploadFcode: async (device: IDeviceInfo): Promise<void> => {
-    const convertEngine = device.source === 'swiftray' ? fetchTaskCodeSwiftray : fetchTaskCode;
+    const useSwiftray = device.source === 'swiftray' || BeamboxPreference.read('path-engine') === 'swiftray';
+    const convertEngine = useSwiftray ? fetchTaskCodeSwiftray : fetchTaskCode;
     const { taskCodeBlob, thumbnailBlobURL, fileTimeCost } = await convertEngine(device);
     if (!taskCodeBlob && device.model !== 'fpm1') {
       return;
