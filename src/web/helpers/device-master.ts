@@ -32,6 +32,7 @@ import promarkDataStore from './device/promark-data-store';
 import SwiftrayControl from './api/swiftray-control';
 import Touch from './api/touch';
 import VersionChecker from './version-checker';
+import { swiftrayClient } from './api/swiftray-client';
 
 let { lang } = i18n;
 const updateLang = () => {
@@ -375,6 +376,12 @@ class DeviceMaster {
       this.setDeviceControlDefaultCloseListener(deviceInfo);
       this.currentDevice = device;
       console.log(`Connected to ${uuid}`);
+
+      const res = await swiftrayClient.listDevices();
+      const newInfo = res.devices?.find((d) => d.uuid === uuid);
+      if (newInfo) {
+        device.info = newInfo;
+      }
 
       if (promarkModels.has(device.info.model)) {
         const correction = promarkDataStore.get(device.info.serial, 'lensCorrection');
