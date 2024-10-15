@@ -19,45 +19,39 @@ const namingMap = {
   repeat: 'C',
 };
 
-export default function generateSvgInfo({ tableSetting, blockSetting }: Props): Array<SvgInfo> {
-  const {
+export default function generateSvgInfo({
+  tableSetting,
+  blockSetting: {
     column: {
       count: { value: colLength },
     },
     row: {
       count: { value: rowLength },
     },
-  } = blockSetting;
-
-  const tableArray = Object.entries(tableSetting);
-
-  const [[cName, cParam], [rName, rParam], [sName, sParam]] = tableArray.sort(
+  },
+}: Props): Array<SvgInfo> {
+  const [col, row, third] = Object.entries(tableSetting).sort(
     ([, { selected: a }], [, { selected: b }]) => a - b
   );
+  const generateRange = (
+    length: number,
+    { minValue, maxValue }: { minValue: number; maxValue: number }
+  ) =>
+    Array.from({ length }, (_, i) =>
+      Math.ceil(minValue + ((maxValue - minValue) / (length - 1)) * i)
+    );
 
-  const col = Array.from({ length: colLength }, (_, i) => {
-    const { minValue, maxValue } = cParam;
-    const step = (maxValue - minValue) / (colLength - 1);
+  const colRange = generateRange(colLength, col[1]);
+  const rowRange = generateRange(rowLength, row[1]);
 
-    return Math.ceil(minValue + step * i);
-  });
-  const row = Array.from({ length: rowLength }, (_, i) => {
-    const { minValue, maxValue } = rParam;
-    const step = (maxValue - minValue) / (rowLength - 1);
-
-    return Math.ceil(minValue + step * i);
-  });
-
-  const sum = col
-    .map((c) =>
-      row.map((r) => ({
-        name: `${namingMap[cName]}${c}-${namingMap[rName]}${r}-${namingMap[sName]}${sParam.default}`,
-        [cName]: c,
-        [rName]: r,
-        [sName]: sParam.default,
-      }))
-    )
-    .flat();
-
-  return sum as unknown as Array<SvgInfo>;
+  return colRange.flatMap((c) =>
+    rowRange.map((r) => ({
+      name: `${namingMap[col[0]]}${c}-${namingMap[row[0]]}${r}-${namingMap[third[0]]}${
+        third[1].default
+      }`,
+      [col[0]]: c,
+      [row[0]]: r,
+      [third[0]]: third[1].default,
+    }))
+  ) as unknown as Array<SvgInfo>;
 }

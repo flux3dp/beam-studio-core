@@ -40,7 +40,24 @@ export default function TableSettingForm({
   };
 
   const handleValueChange = (key: string, prefix: 'min' | 'max', value: number) => {
-    handleChange({ ...tableSetting, [key]: { ...tableSetting[key], [`${prefix}Value`]: value } });
+    const { min, max } = tableSetting[key];
+    const limitValue = (v: number) => {
+      if (prefix === 'min') {
+        return v > tableSetting[key].maxValue ? tableSetting[key].maxValue : v;
+      }
+
+      return v < tableSetting[key].minValue ? tableSetting[key].minValue : v;
+    };
+    const finalValue = limitValue(value);
+
+    handleChange({
+      ...tableSetting,
+      [key]: {
+        ...tableSetting[key],
+        // eslint-disable-next-line no-nested-ternary
+        [`${prefix}Value`]: finalValue > max ? max : finalValue < min ? min : finalValue,
+      },
+    });
   };
 
   const renderInputGroup = (index: number) => {
@@ -48,6 +65,7 @@ export default function TableSettingForm({
 
     return (
       <Flex vertical justify="space-between" gap="20px" key={`table-setting-${index}`}>
+        <div className={styles['sub-title']}>{index ? 'Rows' : 'Columns'}</div>
         <Select
           className={styles.input}
           options={options}
@@ -59,9 +77,9 @@ export default function TableSettingForm({
             key={`${prefix}-${key}`}
             data-testid={`${prefix}-${key}`}
             className={styles.input}
-            value={detail?.[`${prefix}Value`]}
-            max={detail?.max}
-            min={detail?.min}
+            value={detail[`${prefix}Value`]}
+            max={detail.max}
+            min={detail.min}
             precision={0}
             // eslint-disable-next-line no-nested-ternary
             addonAfter={key === 'strength' ? '%' : key === 'speed' ? lengthUnit : ''}
@@ -75,6 +93,7 @@ export default function TableSettingForm({
   return (
     <Flex justify="space-between">
       <Flex vertical justify="space-between" gap="20px">
+        <div className={styles['sub-title']}>&nbsp;</div>
         <div className={styles.label}>Parameter</div>
         <div className={styles.label}>Min</div>
         <div className={styles.label}>Max</div>

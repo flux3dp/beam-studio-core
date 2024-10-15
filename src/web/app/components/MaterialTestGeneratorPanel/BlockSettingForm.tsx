@@ -18,9 +18,18 @@ export default function BlockSettingForm({
   const lengthUnit = isInch ? 'in' : 'mm';
 
   const handleValueChange = (scope: string, param: string, value: number) => {
+    const { min, max } = blockSetting[scope][param];
+
     handleChange({
       ...blockSetting,
-      [scope]: { ...blockSetting[scope], [param]: { ...blockSetting[scope][param], value } },
+      [scope]: {
+        ...blockSetting[scope],
+        [param]: {
+          ...blockSetting[scope][param],
+          // eslint-disable-next-line no-nested-ternary
+          value: value > max ? max : value < min ? min : value,
+        },
+      },
     });
   };
 
@@ -44,6 +53,7 @@ export default function BlockSettingForm({
 
   const renderColumn = (scope: string) => (
     <Flex key={scope} vertical justify="space-between" gap="20px">
+      <div className={styles['sub-title']}>{scope === 'row' ? 'Rows' : 'Columns'}</div>
       {blockSettingParams.map((param) => renderInput(scope, param))}
     </Flex>
   );
@@ -51,6 +61,7 @@ export default function BlockSettingForm({
   return (
     <Flex justify="space-between">
       <Flex vertical justify="space-between" gap="20px">
+        <div className={styles['sub-title']}>&nbsp;</div>
         <div className={styles.label}>Count</div>
         <div className={styles.label}>Size (WxL)</div>
         <div className={styles.label}>Spacing</div>
