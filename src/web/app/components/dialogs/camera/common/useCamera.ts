@@ -34,6 +34,7 @@ const useCamera = (
       if (!imgBlob) {
         if (retryTimes < 2) return handleTakePicture({ retryTimes: retryTimes + 1, silent });
         alertCaller.popUpError({ message: 'Unable to get image' });
+        if (!silent) progressCaller.popById('use-camera');
         return null;
       }
       if (handleImg) {
