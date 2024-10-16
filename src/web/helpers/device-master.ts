@@ -377,10 +377,14 @@ class DeviceMaster {
       this.currentDevice = device;
       console.log(`Connected to ${uuid}`);
 
+      // In order to update serial
       const res = await swiftrayClient.listDevices();
-      const newInfo = res.devices?.find((d) => d.uuid === uuid);
-      if (newInfo) {
-        device.info = newInfo;
+      if (res.success) {
+        const newInfo = res.devices?.find((d) => d.uuid === uuid);
+        if (newInfo) {
+          device.info = newInfo;
+          Object.assign(deviceInfo, newInfo);
+        }
       }
 
       if (promarkModels.has(device.info.model)) {
