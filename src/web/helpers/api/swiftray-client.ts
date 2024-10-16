@@ -122,45 +122,64 @@ class SwiftrayClient extends EventEmitter{
 
 
   // Parser API
-  public async loadSVG(file: IWrappedSwiftrayTaskFile,
-  eventListeners: {
-    onProgressing: (progress) => void,
-    onFinished: () => void,
-    onError: (message: string) => void,
-  },
-  loadOptions: {
-    model: string,
-    rotaryMode: boolean,
-    engraveDpi: number
-  }): Promise<{ success: boolean, error?: ErrorObject }> {
-    const uploadRes = await this.action<{ success: boolean, error?: ErrorObject }>('/parser', 'loadSVG', {
-      file,
-      model: loadOptions.model,
-      rotaryMode: loadOptions.rotaryMode,
-      engraveDpi: loadOptions.engraveDpi,
-    });
+  public async loadSVG(
+    file: IWrappedSwiftrayTaskFile,
+    eventListeners: {
+      onProgressing: (progress) => void;
+      onFinished: () => void;
+      onError: (message: string) => void;
+    },
+    loadOptions: {
+      model: string;
+      rotaryMode: boolean;
+      engraveDpi: number;
+    }
+  ): Promise<{ success: boolean; error?: ErrorObject }> {
+    const uploadRes = await this.action<{ success: boolean; error?: ErrorObject }>(
+      '/parser',
+      'loadSVG',
+      {
+        file,
+        model: loadOptions.model,
+        rotaryMode: loadOptions.rotaryMode,
+        engraveDpi: loadOptions.engraveDpi,
+      }
+    );
     return uploadRes;
   }
 
-  public async convert(type: 'gcode' | 'fcode' | 'preview',
-  eventListeners: {
-    onProgressing: (progress) => void,
-    onFinished: (taskBlob: Blob, fileName: string, timeCost: number) => void,
-    onError: (message: string) => void,
-  },
-  convertOptions: {
-    model: WorkAreaModel,
-    enableAutoFocus: boolean,
-    enableDiode: boolean,
-    shouldUseFastGradient: boolean
-    shouldMockFastGradient: boolean,
-    vectorSpeedConstraint: boolean
-    paddingAccel: number,
-  }): Promise<{
-     success: boolean, estimatedTime?: number, error?: ErrorObject
+  public async convert(
+    type: 'gcode' | 'fcode' | 'preview',
+    eventListeners: {
+      onProgressing: (progress) => void;
+      onFinished: (taskBlob: Blob, fileName: string, timeCost: number) => void;
+      onError: (message: string) => void;
+    },
+    convertOptions: {
+      model: WorkAreaModel;
+      enableAutoFocus?: boolean;
+      enableDiode?: boolean;
+      shouldUseFastGradient?: boolean;
+      shouldMockFastGradient?: boolean;
+      vectorSpeedConstraint?: boolean;
+      paddingAccel?: number;
+      travelSpeed?: number;
+    }
+  ): Promise<{
+    success: boolean;
+    estimatedTime?: number;
+    error?: ErrorObject;
   }> {
     const workarea = getWorkarea(convertOptions.model);
-    const convertTask = this.action('/parser', 'convert', {
+    const convertResult = await this.action<{
+      success: boolean;
+      fileName?: string;
+      timeCost?: number;
+      fcode?: string;
+      gcode?: string;
+      estimatedTime?: number;
+      error?: ErrorObject;
+    }>('/parser', 'convert', {
       type,
       workarea: {
         width: workarea.width,
@@ -168,7 +187,6 @@ class SwiftrayClient extends EventEmitter{
       },
       ...convertOptions,
     });
-    const convertResult = (await convertTask) as any;
     const taskBlob = new Blob(
       [type === 'fcode' ? Buffer.from(convertResult.fcode, 'base64') : convertResult.gcode],
       { type: 'text/plain' }
