@@ -35,16 +35,19 @@ export default function BlockSettingForm({
 
   const renderInput = (scope: string, param: string) => {
     const setting = blockSetting[scope][param];
+    const useInch = isInch && param !== 'count';
 
     return (
       <UnitInput
+        isInch={useInch}
         key={`${scope}-${param}`}
         data-testid={`${scope}-${param}`}
         className={styles.input}
         value={setting.value}
         max={setting.max}
         min={setting.min}
-        precision={0}
+        precision={useInch ? 4 : 0}
+        step={useInch ? 25.4 : 1}
         addonAfter={param === 'count' ? '' : lengthUnit}
         onChange={(value) => handleValueChange(scope, param, value)}
       />

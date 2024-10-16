@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import useI18n from 'helpers/useI18n';
 
@@ -12,6 +12,7 @@ import { getSVGAsync } from 'helpers/svg-editor-helper';
 import updateElementColor from 'helpers/color/updateElementColor';
 import history from 'app/svgedit/history/history';
 import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
+import storage from 'implementations/storage';
 import createNewText from 'app/svgedit/text/createNewText';
 import undoManager from 'app/svgedit/history/undoManager';
 import styles from './index.module.scss';
@@ -26,7 +27,6 @@ import { blockSetting as defaultBlockSetting } from './BlockSetting';
 import generateSvgInfo from './generateSvgInfo';
 
 interface Props {
-  isInch?: boolean;
   onClose: () => void;
 }
 
@@ -51,10 +51,11 @@ const paramString = {
 
 const getTextAdjustment = (rawText: number | string) => (rawText.toString().length * 2.7) / 2;
 
-const MaterialTestGeneratorPanel = ({ isInch = false, onClose }: Props): JSX.Element => {
+const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
   const t = useI18n();
   const [tableSetting, setTableSetting] = React.useState(defaultTableSetting());
   const [blockSetting, setBlockSetting] = React.useState(defaultBlockSetting());
+  const isInch = useMemo(() => storage.get('default-units') === 'inches', []);
 
   const handleExport = () => {
     const batchCmd = new history.BatchCommand(`Material Test Generator`);

@@ -62,6 +62,7 @@ export default function TableSettingForm({
 
   const renderInputGroup = (index: number) => {
     const [key, detail] = settingEntries.find(([, { selected }]) => selected === index) || [];
+    const useInch = isInch && key === 'speed';
 
     return (
       <Flex vertical justify="space-between" gap="20px" key={`table-setting-${index}`}>
@@ -76,11 +77,13 @@ export default function TableSettingForm({
           <UnitInput
             key={`${prefix}-${key}`}
             data-testid={`${prefix}-${key}`}
+            isInch={useInch}
             className={styles.input}
             value={detail[`${prefix}Value`]}
             max={detail.max}
             min={detail.min}
-            precision={0}
+            precision={useInch ? 4 : 0}
+            step={useInch ? 25.4 : 1}
             // eslint-disable-next-line no-nested-ternary
             addonAfter={key === 'strength' ? '%' : key === 'speed' ? lengthUnit : ''}
             onChange={(value) => handleValueChange(key, prefix as 'min' | 'max', value)}
