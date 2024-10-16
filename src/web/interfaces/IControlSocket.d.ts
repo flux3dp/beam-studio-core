@@ -23,8 +23,8 @@ interface IControlSocket extends EventEmitter {
   setProgressListener(listener: (...args: unknown[]) => void): void;
   removeCommandListeners(): void;
 
-  ls(path: string): Promise<{ files: string[]; directories: string[]; error?: string; }>;
-  lsusb(): Promise<unknown>;
+  ls(path: string): Promise<{ files: string[]; directories: string[]; error?: string }>;
+  lsusb(): Promise<{ usbs: string[] }>;
   fileInfo(path: string, fileName: string): Promise<unknown[]>;
   report(): Promise<{ device_status: IReport }>;
   upload(data: any, path?: string, fileName?: string): Promise<void>;
