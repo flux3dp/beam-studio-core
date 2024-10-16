@@ -133,18 +133,13 @@ class SwiftrayClient extends EventEmitter{
     rotaryMode: boolean,
     engraveDpi: number
   }): Promise<{ success: boolean, error?: ErrorObject }> {
-    const uploadTask = this.action('/parser', 'loadSVG', {
+    const uploadRes = await this.action<{ success: boolean, error?: ErrorObject }>('/parser', 'loadSVG', {
       file,
       model: loadOptions.model,
       rotaryMode: loadOptions.rotaryMode,
       engraveDpi: loadOptions.engraveDpi,
     });
-
-    const uploadResult = (await uploadTask) as any;
-    return {
-      success: uploadResult.success,
-      error: uploadResult.error,
-    };
+    return uploadRes;
   }
 
   public async convert(type: 'gcode' | 'fcode' | 'preview',
