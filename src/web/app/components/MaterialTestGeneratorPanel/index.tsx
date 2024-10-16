@@ -3,7 +3,7 @@ import React, { useEffect, useMemo } from 'react';
 
 import useI18n from 'helpers/useI18n';
 
-import { Button, Divider, Modal } from 'antd';
+import { Button, Divider, Flex, Modal, Radio } from 'antd';
 import { createLayer } from 'helpers/layer/layer-helper';
 import svgEditor from 'app/actions/beambox/svg-editor';
 import { writeDataLayer } from 'helpers/layer/layer-config-helper';
@@ -57,6 +57,11 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
   const t = useI18n();
   const [tableSetting, setTableSetting] = React.useState(defaultTableSetting());
   const [blockSetting, setBlockSetting] = React.useState(defaultBlockSetting());
+  const [blockOption, setBlockOption] = React.useState<'cut' | 'engrave'>('cut');
+  const blockOptions = [
+    { label: t.material_test_generator.cut, value: 'cut' },
+    { label: t.material_test_generator.engrave, value: 'engrave' },
+  ];
   const batchCmd = React.useRef(new history.BatchCommand(`Material Test Generator`));
   const isInch = useMemo(() => storage.get('default-units') === 'inches', []);
 
@@ -123,7 +128,8 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
     );
 
     const colText = createNewText(
-      -paramWidth[colParam[0]] / 3,
+      // magic number to align the text
+      -(paramWidth[colParam[0]] * 0.55) + 13.19 * dpmm,
       startPadding + (bottom - startPadding) / 2 + paramWidth[colParam[0]] / 10,
       {
         text: paramString[colParam[0]],
@@ -200,8 +206,8 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
           height,
           stroke: '#000',
           id: svgCanvas.getNextId(),
-          fill: 'none',
-          'fill-opacity': 0,
+          fill: blockOption === 'engrave' ? '#000' : 'none',
+          'fill-opacity': blockOption === 'engrave' ? 1 : 0,
           opacity: 1,
         },
       });
@@ -256,7 +262,7 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
   useEffect(() => {
     handlePreview();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tableSetting, blockSetting]);
+  }, [tableSetting, blockSetting, blockOption]);
 
   return (
     <Modal
@@ -274,7 +280,17 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
         </div>
       }
     >
-      <WorkAreaInfo isInch={isInch} />
+      <Flex justify="space-between">
+        <WorkAreaInfo isInch={isInch} />
+        <Radio.Group
+          options={blockOptions}
+          onChange={({ target: { value } }) => {
+            setBlockOption(value);
+          }}
+          value={blockOption}
+          optionType="button"
+        />
+      </Flex>
 
       <Divider orientation="left" orientationMargin="0">
         {t.material_test_generator.table_settings}

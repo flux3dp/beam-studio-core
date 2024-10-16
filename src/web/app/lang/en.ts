@@ -1929,6 +1929,8 @@ const lang: ILang = {
     block_settings: 'Block Settings',
     preview: 'Preview',
     export: 'Export',
+    cut: 'Cut',
+    engrave: 'Engrave',
   },
 };
 
