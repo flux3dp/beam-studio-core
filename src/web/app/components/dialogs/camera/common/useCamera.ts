@@ -17,6 +17,15 @@ const useCamera = (
 } => {
   const [exposureSetting, setExposureSetting] = useState<IConfigSetting | null>(null);
   const webCamConnection = useRef<WebCamConnection>(null);
+  const connectWebCam = useCallback(async () => {
+    if (webCamConnection.current) return;
+    try {
+      webCamConnection.current = await webcamHelper.connectWebcam();
+    } catch (error) {
+      alertCaller.popUpError({ message: `Failed to connect to ${error.message}` });
+    }
+  }, []);
+
   const handleTakePicture = useCallback(
     async (opts?: { retryTimes?: number; silent?: boolean }) => {
       const { retryTimes = 0, silent = false } = opts || {};
@@ -29,6 +38,7 @@ const useCamera = (
       if (source === 'wifi') {
         imgBlob = (await deviceMaster.takeOnePicture())?.imgBlob;
       } else if (source === 'usb') {
+        if (!webCamConnection.current) await connectWebCam();
         imgBlob = await webCamConnection.current?.getPicture();
       }
       if (!imgBlob) {
@@ -45,7 +55,7 @@ const useCamera = (
       if (!silent) progressCaller.popById('use-camera');
       return imgBlob;
     },
-    [handleImg, source]
+    [connectWebCam, handleImg, source]
   );
 
   useEffect(() => {
@@ -65,7 +75,7 @@ const useCamera = (
           }
           handleTakePicture();
         } else if (source === 'usb') {
-          webCamConnection.current = await webcamHelper.connectWebcam();
+          await connectWebCam();
           if (webCamConnection.current) handleTakePicture();
         }
       } finally {
