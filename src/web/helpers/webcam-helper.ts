@@ -1,4 +1,3 @@
-import alertCaller from 'app/actions/alert-caller';
 import communicator from 'implementations/communicator';
 import isWeb from 'helpers/is-web';
 
@@ -39,6 +38,7 @@ const getDevice = async (id?: string): Promise<MediaDeviceInfo> => {
   return selectUsbDevice(devices, listDevices);
 };
 
+// TODO: add i18n
 export class WebCamConnection {
   private video: HTMLVideoElement;
   private stream: MediaStream;
@@ -78,7 +78,7 @@ export class WebCamConnection {
     }
     const device = await getDevice(deviceId);
     if (!device) {
-      throw new Error('No camera device found');
+      throw new Error('tNo camera device found');
     }
     this.device = device;
     this.stream = await navigator.mediaDevices.getUserMedia({
@@ -138,15 +138,31 @@ export class WebCamConnection {
 }
 
 const connectWebcam = async (
-  opts: { video?: HTMLVideoElement; deviceId?: string; width?: number; height?: number } = {}
+  opts: {
+    video?: HTMLVideoElement;
+    deviceId?: string;
+    width?: number;
+    height?: number;
+    timeout?: number;
+  } = {}
 ): Promise<WebCamConnection> => {
+  const { timeout = 5000 } = opts;
   const connection = new WebCamConnection(opts);
-  const res = await connection.connect(opts.deviceId);
-  if (!res) {
-    connection.end();
-    return null;
+  const start = Date.now();
+  let error: Error;
+  while (Date.now() - start < timeout) {
+    try {
+      // eslint-disable-next-line no-await-in-loop
+      const res = await connection.connect(opts.deviceId);
+      if (res) return connection;
+    } catch (err) {
+      console.error(err);
+      error = err;
+    }
   }
-  return connection;
+  connection.end();
+  if (error) throw error;
+  return null;
 };
 
 export default { connectWebcam, getDevice };
