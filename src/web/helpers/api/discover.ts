@@ -197,12 +197,6 @@ const Discover = (id: string, getDevices: (devices: IDeviceInfo[]) => void) => {
       idList.splice(listenerIndex, 1);
       dispatchers.splice(listenerIndex, 1);
     },
-    sendAggressive() {
-      ws.send('aggressive');
-    },
-    getDevice(uuid: string) {
-      return deviceMap[uuid];
-    },
   };
 };
 
