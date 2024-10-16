@@ -68,14 +68,6 @@ const updatePokeIPAddr = (device: IDeviceInfo): void => {
 
 const onMessage = (device: IDeviceInfo) => {
   if (device.alive) {
-    if (device.source === 'h2h') {
-      // eslint-disable-next-line no-param-reassign
-      device = {
-        ...device,
-        h2h_uuid: device.uuid,
-        uuid: device.addr.toString(),
-      };
-    }
     updatePokeIPAddr(device);
 
     deviceMap[device.uuid] = device;
