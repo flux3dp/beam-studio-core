@@ -6,7 +6,7 @@ interface Props {
   blockSetting: BlockSetting;
 }
 
-interface SvgInfo {
+export interface SvgInfo {
   name: string;
   strength: number;
   speed: number;

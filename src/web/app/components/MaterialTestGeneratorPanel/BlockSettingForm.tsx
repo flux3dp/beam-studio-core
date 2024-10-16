@@ -16,7 +16,6 @@ export default function BlockSettingForm({
   handleChange,
 }: Props): JSX.Element {
   const lengthUnit = isInch ? 'in' : 'mm';
-
   const handleValueChange = (scope: string, param: string, value: number) => {
     const { min, max } = blockSetting[scope][param];
 

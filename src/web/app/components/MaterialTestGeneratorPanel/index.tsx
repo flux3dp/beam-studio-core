@@ -1,4 +1,5 @@
-import React, { useMemo } from 'react';
+/* eslint-disable @typescript-eslint/no-shadow */
+import React, { useEffect, useMemo } from 'react';
 
 import useI18n from 'helpers/useI18n';
 
@@ -15,6 +16,7 @@ import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerP
 import storage from 'implementations/storage';
 import createNewText from 'app/svgedit/text/createNewText';
 import undoManager from 'app/svgedit/history/undoManager';
+import { IBatchCommand } from 'interfaces/IHistory';
 import styles from './index.module.scss';
 import WorkAreaInfo from './WorkAreaInfo';
 import TableSettingForm from './TableSettingForm';
@@ -22,9 +24,9 @@ import BlockSettingForm from './BlockSettingForm';
 import { tableSetting as defaultTableSetting } from './TableSetting';
 
 import 'react-resizable/css/styles.css';
-import { blockSetting as defaultBlockSetting } from './BlockSetting';
+import { BlockSetting, blockSetting as defaultBlockSetting } from './BlockSetting';
 
-import generateSvgInfo from './generateSvgInfo';
+import generateSvgInfo, { SvgInfo } from './generateSvgInfo';
 
 interface Props {
   onClose: () => void;
@@ -55,21 +57,20 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
   const t = useI18n();
   const [tableSetting, setTableSetting] = React.useState(defaultTableSetting());
   const [blockSetting, setBlockSetting] = React.useState(defaultBlockSetting());
+  const batchCmd = React.useRef(new history.BatchCommand(`Material Test Generator`));
   const isInch = useMemo(() => storage.get('default-units') === 'inches', []);
 
-  const handleExport = () => {
-    const batchCmd = new history.BatchCommand(`Material Test Generator`);
-    const svgInfos = generateSvgInfo({ tableSetting, blockSetting });
-    const [startPadding, endPadding] = [30 * dpmm, 10 * dpmm];
+  const generateText = (
+    svgInfos: Array<SvgInfo>,
+    blockSetting: BlockSetting,
+    batchCmd: IBatchCommand
+  ) => {
     const { column, row } = blockSetting;
-    // position of box, start from bottom right.
-    // to make sure the top left block is on the top of the layer panel.
+    const [startPadding, endPadding] = [30 * dpmm, 10 * dpmm];
     const [right, bottom] = [
       startPadding + (row.count.value - 1) * (row.spacing.value + row.size.value) * dpmm,
       startPadding + (column.count.value - 1) * (column.spacing.value + column.size.value) * dpmm,
     ];
-    const [width, height] = [row.size.value * dpmm, column.size.value * dpmm];
-    let [x, y] = [right, bottom];
     const rightBound = right + row.size.value * dpmm + endPadding;
     const bottomBound = bottom + column.size.value * dpmm + endPadding;
     const [colParam, rowParam] = Object.entries(tableSetting).sort(
@@ -117,6 +118,7 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
       {
         text: paramString[rowParam[0]],
         fontSize: 130,
+        isToSelect: false,
       }
     );
 
@@ -126,6 +128,7 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
       {
         text: paramString[colParam[0]],
         fontSize: 130,
+        isToSelect: false,
       }
     );
 
@@ -141,6 +144,7 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
         {
           text: svgInfos[index][rowParam[0]].toString(),
           fontSize: 48,
+          isToSelect: false,
         }
       );
     });
@@ -155,11 +159,26 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
         {
           text: svgInfos[index * row.count.value][colParam[0]].toString(),
           fontSize: 48,
+          isToSelect: false,
         }
       );
     });
+  };
 
-    // reverse to make sure the top left block is on the top of the layer panel
+  const generateBlocks = (
+    svgInfos: Array<SvgInfo>,
+    blockSetting: BlockSetting,
+    batchCmd: IBatchCommand
+  ) => {
+    const { row, column } = blockSetting;
+    const startPadding = 30 * dpmm;
+    const [right, bottom] = [
+      startPadding + (row.count.value - 1) * (row.spacing.value + row.size.value) * dpmm,
+      startPadding + (column.count.value - 1) * (column.spacing.value + column.size.value) * dpmm,
+    ];
+    const [width, height] = [row.size.value * dpmm, column.size.value * dpmm];
+    let [x, y] = [right, bottom];
+
     svgInfos.reverse().forEach(({ name, strength, speed, repeat }, index) => {
       const { layer, cmd } = createLayer(name, { isSubCmd: true });
 
@@ -196,13 +215,48 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
 
       updateElementColor(newRect);
     });
+  };
 
-    undoManager.addCommandToHistory(batchCmd);
+  const handlePreview = () => {
+    const svgInfos = generateSvgInfo({ tableSetting, blockSetting });
+
+    undoManager.unApply(batchCmd.current);
+
+    batchCmd.current = new history.BatchCommand(`Material Test Generator`);
+
+    generateText(svgInfos, blockSetting, batchCmd.current);
+    generateBlocks(svgInfos, blockSetting, batchCmd.current);
+
+    svgEditor.updateContextPanel();
+    LayerPanelController.updateLayerPanel();
+  };
+
+  const handleExport = () => {
+    const svgInfos = generateSvgInfo({ tableSetting, blockSetting });
+
+    undoManager.unApply(batchCmd.current);
+
+    batchCmd.current = new history.BatchCommand(`Material Test Generator`);
+
+    generateText(svgInfos, blockSetting, batchCmd.current);
+    generateBlocks(svgInfos, blockSetting, batchCmd.current);
+
+    undoManager.addCommandToHistory(batchCmd.current);
 
     svgEditor.updateContextPanel();
     LayerPanelController.updateLayerPanel();
     onClose();
   };
+
+  const handleClose = () => {
+    undoManager.unApply(batchCmd.current);
+    onClose();
+  };
+
+  useEffect(() => {
+    handlePreview();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tableSetting, blockSetting]);
 
   return (
     <Modal
@@ -210,10 +264,10 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
       centered
       wrapClassName={styles['modal-wrap']}
       title={t.material_test_generator.title}
-      onCancel={onClose}
+      onCancel={handleClose}
       footer={
         <div className={styles.footer}>
-          <Button onClick={onClose}>{t.global.cancel}</Button>
+          <Button onClick={handleClose}>{t.global.cancel}</Button>
           <Button type="primary" onClick={handleExport}>
             {t.material_test_generator.export}
           </Button>
