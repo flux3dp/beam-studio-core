@@ -159,6 +159,8 @@ const connectWebcam = async (
       console.error(err);
       error = err;
     }
+    // eslint-disable-next-line no-await-in-loop
+    await new Promise((resolve) => setTimeout(resolve, 500));
   }
   connection.end();
   if (error) throw error;
