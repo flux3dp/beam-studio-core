@@ -19,12 +19,13 @@ interface Options {
   addToHistory?: boolean;
   fontSize?: number;
   fontPostscript?: string;
+  isToSelect?: boolean;
 }
 
 const createNewText = (
   x: number,
   y: number,
-  { text = '', addToHistory = false, fontSize, fontPostscript }: Options = {}
+  { text = '', addToHistory = false, fontSize, fontPostscript, isToSelect = true }: Options = {}
 ): SVGElement => {
   const currentShape = svgCanvas.getCurrentShape();
   const curText = textEdit.getCurText();
@@ -51,13 +52,25 @@ const createNewText = (
       opacity: currentShape.opacity,
     },
   });
-  if (usePostscriptAsFamily) newText.setAttribute('data-font-family', curText.font_family);
+
+  if (usePostscriptAsFamily) {
+    newText.setAttribute('data-font-family', curText.font_family);
+  }
+
   updateElementColor(newText);
+
   if (text) {
     textEdit.renderText(newText, text);
-    svgCanvas.selectOnly([newText]);
+
+    if (isToSelect) {
+      svgCanvas.selectOnly([newText]);
+    }
   }
-  if (addToHistory) svgCanvas.addCommandToHistory(new history.InsertElementCommand(newText));
+
+  if (addToHistory) {
+    svgCanvas.addCommandToHistory(new history.InsertElementCommand(newText));
+  }
+
   canvasEvents.emit('addText', newText);
 
   return newText;
