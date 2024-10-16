@@ -17,7 +17,7 @@ import { swiftrayClient } from './swiftray-client';
 
 const BUFFER = 100;
 export const SEND_DEVICES_INTERVAL = 5000;
-const CLEAR_DEVICES_INTERVAL = 60000;
+const CLEAR_DEVICES_INTERVAL = 15000;
 const discoverLogger = Logger('discover');
 const isWebClient = isWeb();
 
@@ -26,7 +26,7 @@ let notifyTimeout: NodeJS.Timeout;
 let devices: IDeviceInfo[] = [];
 const dispatchers = [];
 const idList = [];
-let deviceMap = {};
+const deviceMap = {};
 let swiftrayDevices = {};
 
 // Open up FLUX wrapped websocket
@@ -69,10 +69,11 @@ const updatePokeIPAddr = (device: IDeviceInfo): void => {
 const onMessage = (device: IDeviceInfo) => {
   if (device.alive) {
     updatePokeIPAddr(device);
-
+    // eslint-disable-next-line no-param-reassign
+    device.lastAlive = Date.now();
     deviceMap[device.uuid] = device;
     sentryHelper.sendDeviceInfo(device);
-  } else if (typeof deviceMap[device.uuid] === 'undefined') {
+  } else if (deviceMap[device.uuid]) {
     delete deviceMap[device.uuid];
   }
   if (!isWebClient) communicator.send('DEVICE_UPDATED', device);
@@ -94,8 +95,21 @@ const onMessage = (device: IDeviceInfo) => {
 
 const startIntervals = () => {
   setInterval(() => {
-    devices = [];
-    deviceMap = {};
+    const now = Date.now();
+    Object.keys(deviceMap).forEach((uuid) => {
+      if (deviceMap[uuid]?.lastAlive && now - deviceMap[uuid].lastAlive > CLEAR_DEVICES_INTERVAL) {
+        delete deviceMap[uuid];
+      }
+    });
+    Object.keys(swiftrayDevices).forEach((uuid) => {
+      if (
+        swiftrayDevices[uuid]?.lastAlive &&
+        now - swiftrayDevices[uuid].lastAlive > CLEAR_DEVICES_INTERVAL
+      ) {
+        delete swiftrayDevices[uuid];
+      }
+    });
+    devices = DeviceList({ ...deviceMap, ...swiftrayDevices });
   }, CLEAR_DEVICES_INTERVAL);
 
   setInterval(() => {
@@ -108,6 +122,8 @@ const startIntervals = () => {
   const updateDeviceFromSwiftray = async () => {
     const res = await swiftrayClient.listDevices();
     swiftrayDevices = res.devices.reduce((acc, device) => {
+      // eslint-disable-next-line no-param-reassign
+      device.lastAlive = Date.now();
       acc[device.uuid] = device;
       if (!isWebClient) communicator.send('DEVICE_UPDATED', device);
       return acc;
@@ -226,6 +242,7 @@ initSmartUpnp();
 
 export const checkConnection = (): boolean => ws?.currentState === readyStates.OPEN;
 
-export const getLatestDeviceInfo = (uuid: string): IDeviceInfo => deviceMap[uuid] ?? swiftrayDevices[uuid];
+export const getLatestDeviceInfo = (uuid: string): IDeviceInfo =>
+  deviceMap[uuid] ?? swiftrayDevices[uuid];
 
 export default Discover;
