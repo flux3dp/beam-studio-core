@@ -81,6 +81,7 @@ const lang: ILang = {
       help: 'Help',
       open: 'Open',
       samples: 'Examples',
+      tools: 'Tools',
       material_test_generator: 'Material Test Generator',
       import_hello_beamo: 'Example of beamo',
       import_hello_beambox: 'Example of beambox',

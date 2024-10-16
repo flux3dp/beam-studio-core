@@ -75,6 +75,7 @@ export interface ILang {
       help: string;
       open: string;
       samples: string;
+      tools: string;
       material_test_generator: string;
       import_hello_beamo: string;
       import_hello_beambox: string;

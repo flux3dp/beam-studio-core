@@ -41,6 +41,7 @@ const DrawingToolButtonGroup = ({ className }: { className: string }): JSX.Eleme
 
   useEffect(() => {
     eventEmitter.on('SET_ACTIVE_BUTTON', setActiveButton);
+
     return () => {
       eventEmitter.removeListener('SET_ACTIVE_BUTTON');
     };
@@ -108,12 +109,6 @@ const DrawingToolButtonGroup = ({ className }: { className: string }): JSX.Eleme
         <LeftPanelIcons.Draw />,
         `${tLeftPanel.label.pen} (P)`,
         FnWrapper.insertPath
-      )}
-      {renderToolButton('QRCode', <LeftPanelIcons.QRCode />, tLeftPanel.label.qr_code, () =>
-        dialogCaller.showQRCodeGenerator(FnWrapper.useSelectTool)
-      )}
-      {renderToolButton('Boxgen', <LeftPanelIcons.Boxgen />, tLeftPanel.label.boxgen, () =>
-        dialogCaller.showBoxGen(FnWrapper.useSelectTool)
       )}
       {renderToolButton('DM', <LeftPanelIcons.DM />, 'Design Market', () =>
         browser.open(lang.topbar.menu.link.design_market)

@@ -190,13 +190,9 @@ const CanvasTabBar = (): JSX.Element => {
     } else if (key === 'document') {
       dialogCaller.showDocumentSettings();
       setTimeout(resetActiveKey, 300);
-    } else if (key === 'qrcode') {
-      dialogCaller.showQRCodeGenerator(resetActiveKey);
     } else if (key === 'dmkt') {
       browser.open(lang.topbar.menu.link.design_market);
       setTimeout(resetActiveKey, 300);
-    } else if (key === 'boxgen') {
-      dialogCaller.showBoxGen(resetActiveKey);
     } else if (key === 'cloud') {
       dialogCaller.showMyCloud(resetActiveKey);
     } else if (key === 'passthrough') {

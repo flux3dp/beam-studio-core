@@ -470,8 +470,9 @@ export default {
         />
       );
     }),
-  showQRCodeGenerator: (onClose: () => void): void => {
+  showQRCodeGenerator: (onClose: () => void = () => {}): void => {
     if (isIdExist('qr-code-generator')) return;
+
     addDialogComponent(
       'qr-code-generator',
       <QRCodeGenerator
@@ -493,9 +494,11 @@ export default {
       );
     }, true);
   },
-  showBoxGen: (onClose: () => void): void => {
+  showBoxGen: (onClose: () => void = () => {}): void => {
     if (isIdExist('box-gen')) return;
+
     shortcuts.pauseAll();
+
     addDialogComponent(
       'box-gen',
       <Boxgen
@@ -535,7 +538,7 @@ export default {
         />
       );
     }),
-  showMaterialTestGenerator: (): void => {
+  showMaterialTestGenerator: (onClose: () => void = () => {}): void => {
     if (isIdExist('material-test-generator')) {
       return;
     }
@@ -543,11 +546,9 @@ export default {
     addDialogComponent(
       'material-test-generator',
       <MaterialTestGeneratorPanel
-        maxSpeed={100}
-        minSpeed={0}
-        handleChange={() => ({})}
         onClose={() => {
           popDialogById('material-test-generator');
+          onClose();
         }}
       />
     );

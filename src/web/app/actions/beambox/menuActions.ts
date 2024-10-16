@@ -107,7 +107,9 @@ export default {
     if (res) window.location.hash = '#initialize/connect/select-machine-model';
   },
   SIGN_IN: (): void => Dialog.showLoginDialog(),
-  MATERIAL_TEST_GENERATOR: () => Dialog.showMaterialTestGenerator(),
+  MATERIAL_TEST_GENERATOR: (): void => Dialog.showMaterialTestGenerator(),
+  QR_CODE_GENERATOR: (): void => Dialog.showQRCodeGenerator(),
+  BOX_GEN: (): void => Dialog.showBoxGen(),
   IMPORT_EXAMPLE: () => loadExampleFile(getExampleFileName('example')),
   IMPORT_EXAMPLE_ADOR_LASER: () => loadExampleFile(getExampleFileName('ador_example_laser')),
   IMPORT_EXAMPLE_ADOR_PRINT_SINGLE: () =>

@@ -200,9 +200,6 @@ export default function Menu({ email }: Props): JSX.Element {
         <MenuItem onClick={() => callback('SAVE_TO_CLOUD')}>{menuCms.save_to_cloud}</MenuItem>
         <MenuDivider />
         <SubMenu label={menuCms.samples}>
-          <MenuItem onClick={() => callback('MATERIAL_TEST_GENERATOR')}>
-            {menuCms.material_test_generator}
-          </MenuItem>
           <MenuItem onClick={() => callback('IMPORT_EXAMPLE_ADOR_LASER')}>
             {menuCms.import_ador_laser_example}
           </MenuItem>
@@ -377,6 +374,17 @@ export default function Menu({ email }: Props): JSX.Element {
         <MenuItem onClick={() => callback('ADD_NEW_MACHINE')}>{hotkey('add_new_machine')}</MenuItem>
         <MenuItem onClick={() => callback('NETWORK_TESTING')}>{menuCms.network_testing}</MenuItem>
         {deviceMenus()}
+      </SubMenu>
+      <SubMenu label={menuCms.tools}>
+        <MenuItem onClick={() => callback('MATERIAL_TEST_GENERATOR')}>
+          {menuCms.material_test_generator}
+        </MenuItem>
+        <MenuItem onClick={() => callback('QR_CODE_GENERATOR')}>
+          {i18n.lang.beambox.left_panel.label.qr_code}
+        </MenuItem>
+        <MenuItem onClick={() => callback('BOX_GEN')}>
+          {i18n.lang.beambox.left_panel.label.boxgen}
+        </MenuItem>
       </SubMenu>
       <SubMenu label={menuCms.account}>
         {email == null ? (
