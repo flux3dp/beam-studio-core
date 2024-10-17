@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 
 import alertCaller from 'app/actions/alert-caller';
 import checkDeviceStatus from 'helpers/check-device-status';
@@ -11,10 +11,13 @@ import {
   FisheyeCameraParametersV3,
   FisheyeCameraParametersV3Cali,
 } from 'interfaces/FisheyePreview';
+import { getWorkarea } from 'app/constants/workarea-constants';
+import { IDeviceInfo } from 'interfaces/IDevice';
 
 import CheckpointData from './common/CheckpointData';
 import Chessboard from './Promark/Chessboard';
 import Instruction from './common/Instruction';
+import loadCalibrationTask from './Promark/loadCalibrationTask';
 import SolvePnP from './common/SolvePnP';
 import { promarkPnPPoints } from './common/solvePnPConstants';
 
@@ -27,14 +30,15 @@ enum Steps {
 }
 
 interface Props {
-  deviceSerial: string;
+  device: IDeviceInfo;
   onClose: (completed?: boolean) => void;
 }
 
 const PROGRESS_ID = 'promark-calibration';
-const PromarkCalibration = ({ deviceSerial, onClose }: Props): JSX.Element => {
+const PromarkCalibration = ({ device: { serial, model }, onClose }: Props): JSX.Element => {
   const lang = useI18n();
   const tCali = lang.calibration;
+  const workareaWidth = useMemo(() => getWorkarea(model).width, [model]);
   const calibratingParam = useRef<FisheyeCameraParametersV3Cali>({});
   const useOldData = useRef(false);
   const [step, setStep] = useState<Steps>(Steps.CHECKPOINT_DATA);
@@ -48,7 +52,7 @@ const PromarkCalibration = ({ deviceSerial, onClose }: Props): JSX.Element => {
         askUser
         allowCheckPoint={false}
         updateParam={updateParam}
-        getData={() => promarkDataStore.get(deviceSerial, 'cameraParameters')}
+        getData={() => promarkDataStore.get(serial, 'cameraParameters')}
         onClose={onClose}
         onNext={(res: boolean) => {
           if (res) {
@@ -95,6 +99,7 @@ const PromarkCalibration = ({ deviceSerial, onClose }: Props): JSX.Element => {
           id: PROGRESS_ID,
           message: tCali.drawing_calibration_image,
         });
+        await loadCalibrationTask(model, workareaWidth);
         await deviceMaster.doPromarkCalibration();
         progressCaller.update(PROGRESS_ID, { message: tCali.preparing_to_take_picture });
         setStep(Steps.SOLVE_PNP);
@@ -129,7 +134,7 @@ const PromarkCalibration = ({ deviceSerial, onClose }: Props): JSX.Element => {
       <SolvePnP
         params={calibratingParam.current}
         dh={0}
-        refPoints={promarkPnPPoints}
+        refPoints={promarkPnPPoints[workareaWidth]}
         imgSource="usb"
         onClose={onClose}
         onBack={() => setStep(Steps.PUT_PAPER)}
@@ -145,7 +150,7 @@ const PromarkCalibration = ({ deviceSerial, onClose }: Props): JSX.Element => {
             tvec,
             v: 3,
           };
-          promarkDataStore.set(deviceSerial, 'cameraParameters', param);
+          promarkDataStore.set(serial, 'cameraParameters', param);
           alertCaller.popUp({ message: tCali.camera_parameter_saved_successfully });
           onClose(true);
         }}
@@ -157,7 +162,7 @@ const PromarkCalibration = ({ deviceSerial, onClose }: Props): JSX.Element => {
   return <></>;
 };
 
-export const showPromarkCalibration = (deviceSerial: string): Promise<boolean> => {
+export const showPromarkCalibration = (device: IDeviceInfo): Promise<boolean> => {
   const id = 'promark-calibration';
   const onClose = () => popDialogById(id);
   if (isIdExist(id)) onClose();
@@ -165,7 +170,7 @@ export const showPromarkCalibration = (deviceSerial: string): Promise<boolean> =
     addDialogComponent(
       id,
       <PromarkCalibration
-        deviceSerial={deviceSerial}
+        device={device}
         onClose={(completed = false) => {
           onClose();
           resolve(completed);

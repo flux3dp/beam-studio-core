@@ -117,8 +117,13 @@ const SolvePnP = ({
         } else if (res.success === false) {
           const { data } = res;
           if (data.info === 'NO_DATA') {
-            await updateData(params);
-            return await handleImg(imgBlob);
+            if (params.k && params.d) {
+              await updateData(params);
+              return await handleImg(imgBlob);
+            }
+            alertCaller.popUpError({
+              message: 'No chessboard data detected, please restart calibration.',
+            });
           }
           return false;
         }
@@ -130,7 +135,10 @@ const SolvePnP = ({
     [dh, params, refPoints]
   );
 
-  const { exposureSetting, setExposureSetting, handleTakePicture } = useCamera(handleImg, imgSource);
+  const { exposureSetting, setExposureSetting, handleTakePicture } = useCamera(
+    handleImg,
+    imgSource
+  );
 
   const handleContainerDragStart = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     dragStartPos.current = {

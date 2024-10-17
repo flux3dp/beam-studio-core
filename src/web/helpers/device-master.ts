@@ -532,7 +532,7 @@ class DeviceMaster {
   }
 
   // Player functions
-  async go(data, onProgress?: (...args: any[]) => void) {
+  async go(data: Blob, onProgress?: (...args: any[]) => void) {
     const controlSocket = await this.getControl();
     if (!data || !(data instanceof Blob)) {
       return DeviceConstants.READY;
@@ -708,10 +708,16 @@ class DeviceMaster {
     }
   }
 
-  doCalibration = async (fcodeBase64: string) => {
+  doCalibration = async (fcodeSource?: string) => {
     const vc = VersionChecker(this.currentDevice.info.version);
-    const res = await fetch(fcodeBase64);
-    const blob = await res.blob();
+    let blob: Blob;
+    if (fcodeSource) {
+      const resp = await fetch(fcodeSource);
+      blob = await resp.blob();
+    } else {
+      // fake data to upload for swiftray
+      blob = new Blob(['f']);
+    }
     if (vc.meetRequirement('RELOCATE_ORIGIN')) {
       await this.setOriginX(0);
       await this.setOriginY(0);
@@ -771,6 +777,10 @@ class DeviceMaster {
 
   async doBB2Calibration() {
     await this.doCalibration('fcode/bb2-calibration.fc');
+  }
+
+  async doPromarkCalibration() {
+    await this.doCalibration();
   }
 
   // fs functions
@@ -1065,7 +1075,7 @@ class DeviceMaster {
     if (!vc.meetRequirement(isV2 ? 'ADOR_JOB_ORIGIN' : 'JOB_ORIGIN')) {
       return null;
     }
-    const res = await controlSocket.addTask(controlSocket.rawSetOrigin, isV2 ? 2: 1);
+    const res = await controlSocket.addTask(controlSocket.rawSetOrigin, isV2 ? 2 : 1);
     return res;
   }
 
