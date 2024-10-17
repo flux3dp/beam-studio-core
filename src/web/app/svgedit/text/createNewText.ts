@@ -17,6 +17,7 @@ getSVGAsync((globalSVG) => {
 interface Options {
   text?: string;
   addToHistory?: boolean;
+  fill?: string;
   fontSize?: number;
   fontPostscript?: string;
   isToSelect?: boolean;
@@ -25,7 +26,14 @@ interface Options {
 const createNewText = (
   x: number,
   y: number,
-  { text = '', addToHistory = false, fontSize, fontPostscript, isToSelect = true }: Options = {}
+  {
+    text = '',
+    addToHistory = false,
+    fill = 'none',
+    fontSize,
+    fontPostscript,
+    isToSelect = true,
+  }: Options = {}
 ): SVGElement => {
   const currentShape = svgCanvas.getCurrentShape();
   const curText = textEdit.getCurText();
@@ -38,8 +46,8 @@ const createNewText = (
       x,
       y,
       id: svgCanvas.getNextId(),
-      fill: 'none',
-      'fill-opacity': curText.fill_opacity,
+      fill,
+      'fill-opacity': fill === 'none' ? curText.fill_opacity : 1,
       'stroke-width': 2,
       'font-size': fontSize ?? curText.font_size,
       'font-family': usePostscriptAsFamily

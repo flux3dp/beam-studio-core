@@ -124,6 +124,7 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
       {
         text: paramString[rowParam[0]],
         fontSize: 130,
+        fill: '#000',
         isToSelect: false,
       }
     );
@@ -135,6 +136,7 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
       {
         text: paramString[colParam[0]],
         fontSize: 130,
+        fill: '#000',
         isToSelect: false,
       }
     );
@@ -151,6 +153,7 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
         {
           text: svgInfos[index][rowParam[0]].toString(),
           fontSize: 48,
+          fill: '#000',
           isToSelect: false,
         }
       );
@@ -166,6 +169,7 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
         {
           text: svgInfos[index * row.count.value][colParam[0]].toString(),
           fontSize: 48,
+          fill: '#000',
           isToSelect: false,
         }
       );
