@@ -2,6 +2,10 @@
 import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
+  global: {
+    cancel: 'Hủy',
+    back: 'Quay lại',
+  },
   general: {
     processing: 'Đang xử lý...',
     choose_folder: 'Chọn Thư mục',
@@ -208,6 +212,12 @@ const lang: ILang = {
       camera_calibration_data: 'Dữ Liệu Hiệu Chỉnh Camera',
       upload_data: 'Tải Lên Dữ Liệu',
       download_data: 'Tải Xuống Dữ Liệu',
+      tools: {
+        title: 'Công cụ',
+        material_test_generator: 'Trình tạo thử nghiệm vật liệu',
+        qr_code_generator: 'Trình tạo mã QR',
+        boxgen: 'Boxgen',
+      },
     },
     select_machine: 'Chọn máy',
   },
@@ -1913,6 +1923,23 @@ const lang: ILang = {
     hull_desc: 'Xem trước hình dạng bám sát thiết kế, giống như dây cao su bao quanh đối tượng.',
     areacheck_desc: 'Đảm bảo khu vực làm việc an toàn bằng cách xem trước hộp giới hạn của đối tượng và vùng gia tốc của đầu laser.',
     calculating_task: 'Đang tính toán nhiệm vụ...',
+  },
+  material_test_generator: {
+    title: 'Trình tạo thử nghiệm vật liệu',
+    table_settings: 'Cài đặt bảng',
+    block_settings: 'Cài đặt khối',
+    preview: 'Xem trước',
+    export: 'Xuất',
+    cut: 'Cắt',
+    engrave: 'Khắc',
+    columns: 'Cột',
+    rows: 'Hàng',
+    parameter: 'Tham số',
+    min: 'Tối thiểu',
+    max: 'Tối đa',
+    count: 'Số lượng',
+    size: 'Kích thước (CxR)',
+    spacing: 'Khoảng cách',
   },
 };
 

@@ -2,6 +2,10 @@
 import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
+  global: {
+    cancel: 'Cancelar',
+    back: 'Voltar',
+  },
   general: {
     processing: 'Processando...',
     choose_folder: 'Escolher pasta',
@@ -208,6 +212,12 @@ const lang: ILang = {
       camera_calibration_data: 'Dados de calibração da câmera',
       upload_data: 'Enviar dados',
       download_data: 'Baixar dados',
+      tools: {
+        title: 'Ferramentas',
+        material_test_generator: 'Gerador de Teste de Material',
+        qr_code_generator: 'Gerador de Código QR',
+        boxgen: 'Boxgen',
+      },
     },
     select_machine: 'Selecionar uma máquina',
   },
@@ -1913,6 +1923,23 @@ const lang: ILang = {
     hull_desc: 'Exibe uma pré-visualização de uma forma que segue de perto o design, como um elástico envolvido ao redor do objeto.',
     areacheck_desc: 'Garante a segurança da área de trabalho exibindo a caixa delimitadora do objeto e a zona de aceleração da cabeça do laser.',
     calculating_task: 'Calculando tarefa...',
+  },
+  material_test_generator: {
+    title: 'Gerador de Teste de Material',
+    table_settings: 'Configurações de Tabela',
+    block_settings: 'Configurações de Bloco',
+    preview: 'Pré-visualização',
+    export: 'Exportar',
+    cut: 'Cortar',
+    engrave: 'Gravar',
+    columns: 'Colunas',
+    rows: 'Linhas',
+    parameter: 'Parâmetro',
+    min: 'Min',
+    max: 'Máx',
+    count: 'Quantidade',
+    size: 'Tamanho (AxL)',
+    spacing: 'Espaçamento',
   },
 };
 

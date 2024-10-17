@@ -2,6 +2,10 @@
 import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
+  global: {
+    cancel: 'Batal',
+    back: 'Kembali',
+  },
   general: {
     processing: 'Memproses...',
     choose_folder: 'Pilih Folder',
@@ -208,6 +212,12 @@ const lang: ILang = {
       camera_calibration_data: 'Data Kalibrasi Kamera',
       upload_data: 'Unggah Data',
       download_data: 'Unduh Data',
+      tools: {
+        title: 'Alat',
+        material_test_generator: 'Generator Uji Material',
+        qr_code_generator: 'Generator Kode QR',
+        boxgen: 'Boxgen',
+      },
     },
     select_machine: 'Pilih mesin',
   },
@@ -1913,6 +1923,23 @@ const lang: ILang = {
     hull_desc: 'Memperlihatkan bentuk yang mengikuti desain, seperti karet yang melilit objek.',
     areacheck_desc: 'Memastikan area kerja aman dengan menampilkan kotak pembatas objek dan zona akselerasi kepala laser.',
     calculating_task: 'Menghitung tugas...',
+  },
+  material_test_generator: {
+    title: 'Generator Uji Material',
+    table_settings: 'Pengaturan Tabel',
+    block_settings: 'Pengaturan Blok',
+    preview: 'Pratinjau',
+    export: 'Ekspor',
+    cut: 'Potong',
+    engrave: 'Ukir',
+    columns: 'Kolom',
+    rows: 'Baris',
+    parameter: 'Parameter',
+    min: 'Min',
+    max: 'Maks',
+    count: 'Jumlah',
+    size: 'Ukuran (PxL)',
+    spacing: 'Jarak',
   },
 };
 

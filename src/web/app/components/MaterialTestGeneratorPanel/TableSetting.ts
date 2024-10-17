@@ -7,7 +7,6 @@ interface Detail {
   min: number;
   max: number;
   // default value is used when the param is not set
-  // (due to material test setup 2 params as input)
   default: number;
   // selected is used to determine which param is selected
   // by order, 0 for column, 1 for row, 2 for static param with default value

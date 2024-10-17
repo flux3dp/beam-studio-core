@@ -2,6 +2,10 @@
 import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
+  global: {
+    cancel: '취소',
+    back: '뒤로',
+  },
   general: {
     processing: '처리 중...',
     choose_folder: '폴더를 선택해 주세요.',
@@ -208,6 +212,12 @@ const lang: ILang = {
       camera_calibration_data: '카메라 보정 데이터',
       upload_data: '데이터 업로드',
       download_data: '데이터 다운로드',
+      tools: {
+        title: '도구',
+        material_test_generator: '재질 테스트 생성기',
+        qr_code_generator: 'QR 코드 생성기',
+        boxgen: 'Boxgen',
+      },
     },
     select_machine: '기계를 선택하세요',
   },
@@ -1916,6 +1926,23 @@ const lang: ILang = {
     hull_desc: '객체 주위에 고무줄이 감겨 있는 것처럼 디자인을 밀접하게 따르는 모양을 미리 봅니다.',
     areacheck_desc: '작업 영역이 안전한지 객체의 경계 상자와 레이저 헤드의 가속 영역을 미리 보아 확인합니다.',
     calculating_task: '작업 계산 중...',
+  },
+  material_test_generator: {
+    title: '재질 테스트 생성기',
+    table_settings: '테이블 설정',
+    block_settings: '블록 설정',
+    preview: '미리보기',
+    export: '내보내기',
+    cut: '자르기',
+    engrave: '새기기',
+    columns: '열',
+    rows: '행',
+    parameter: '매개변수',
+    min: '최소',
+    max: '최대',
+    count: '수량',
+    size: '크기 (HxW)',
+    spacing: '간격',
   },
 };
 

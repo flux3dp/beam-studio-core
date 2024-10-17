@@ -2,6 +2,10 @@
 import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
+  global: {
+    cancel: 'Peruuta',
+    back: 'Takaisin',
+  },
   general: {
     processing: 'Käsitellään...',
     choose_folder: 'Valitse kansio',
@@ -208,6 +212,12 @@ const lang: ILang = {
       camera_calibration_data: 'Kameran Kalibrointitiedot',
       upload_data: 'Lähetä Tiedot',
       download_data: 'Lataa Tiedot',
+      tools: {
+        title: 'Työkalut',
+        material_test_generator: 'Materiaalitestin Generaattori',
+        qr_code_generator: 'QR-koodin Generaattori',
+        boxgen: 'Boxgen',
+      },
     },
     select_machine: 'Valitse kone',
   },
@@ -1913,6 +1923,23 @@ const lang: ILang = {
     hull_desc: 'Esikatselu, joka seuraa tiiviisti muotoilua, kuin kuminauha kietoutuneena objektin ympärille.',
     areacheck_desc: 'Varmistaa työalueen turvallisuuden näyttämällä objektin rajauslaatikon ja laserpään kiihdytysvyöhykkeen.',
     calculating_task: 'Lasketaan tehtävää...',
+  },
+  material_test_generator: {
+    title: 'Materiaalitestin Generaattori',
+    table_settings: 'Taulukon Asetukset',
+    block_settings: 'Lohkon Asetukset',
+    preview: 'Esikatselu',
+    export: 'Vie',
+    cut: 'Leikkaa',
+    engrave: 'Kaiverra',
+    columns: 'Sarakkeet',
+    rows: 'Rivit',
+    parameter: 'Parametri',
+    min: 'Min',
+    max: 'Max',
+    count: 'Määrä',
+    size: 'Koko (KxL)',
+    spacing: 'Väli',
   },
 };
 
