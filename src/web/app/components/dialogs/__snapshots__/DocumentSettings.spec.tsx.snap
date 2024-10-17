@@ -843,7 +843,7 @@ exports[`test DocumentSettings should render correctly 1`] = `
           aria-modal="true"
           class="ant-modal css-dev-only-do-not-override-hash ant-zoom-appear ant-zoom-appear-prepare ant-zoom"
           role="dialog"
-          style="width: 440px; transform-origin: NaNpx NaNpx;"
+          style="width: 440px;"
         >
           <div
             aria-hidden="true"
@@ -1276,7 +1276,7 @@ exports[`test DocumentSettings should render correctly 2`] = `
           aria-modal="true"
           class="ant-modal css-dev-only-do-not-override-hash ant-zoom-appear ant-zoom-appear-prepare ant-zoom"
           role="dialog"
-          style="width: 440px; transform-origin: NaNpx NaNpx;"
+          style="width: 440px;"
         >
           <div
             aria-hidden="true"
@@ -1831,7 +1831,7 @@ exports[`test DocumentSettings should render correctly 3`] = `
           aria-modal="true"
           class="ant-modal css-dev-only-do-not-override-hash ant-zoom-appear ant-zoom-appear-prepare ant-zoom"
           role="dialog"
-          style="width: 440px; transform-origin: NaNpx NaNpx;"
+          style="width: 440px;"
         >
           <div
             aria-hidden="true"

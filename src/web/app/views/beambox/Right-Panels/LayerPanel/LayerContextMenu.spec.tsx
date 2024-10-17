@@ -516,7 +516,7 @@ describe('test LayerContextMenu', () => {
     });
   });
 
-  test.only('click toggle full color should work', async () => {
+  test('click toggle full color should work', async () => {
     mockDrawing.getLayerName.mockReturnValue('layer1');
     mockGetLayerElementByName.mockReturnValue(mockElem);
     mockGetData.mockReturnValueOnce(LayerModule.PRINTER).mockReturnValueOnce(false);

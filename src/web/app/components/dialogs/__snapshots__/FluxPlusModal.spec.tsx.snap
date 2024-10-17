@@ -18,7 +18,7 @@ exports[`test FluxPlusModal mobile 1`] = `
           aria-modal="true"
           class="ant-modal css-dev-only-do-not-override-hash flux-plus mock-class ant-zoom-appear ant-zoom-appear-prepare ant-zoom"
           role="dialog"
-          style="width: 320px; transform-origin: NaNpx NaNpx;"
+          style="width: 320px;"
         >
           <div
             aria-hidden="true"
