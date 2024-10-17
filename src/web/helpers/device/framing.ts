@@ -3,7 +3,7 @@ import { sprintf } from 'sprintf-js';
 
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import checkDeviceStatus from 'helpers/check-device-status';
-import constant from 'app/actions/beambox/constant';
+import constant, { promarkModels } from 'app/actions/beambox/constant';
 import deviceMaster from 'helpers/device-master';
 import exportFuncs from 'app/actions/beambox/export-funcs';
 import findDefs from 'app/svgedit/utils/findDef';
@@ -194,7 +194,7 @@ class FramingTaskManager extends EventEmitter {
     this.resetEnabledInfo();
     this.vc = versionChecker(device.version);
     this.isAdor = constant.adorModels.includes(device.model);
-    this.isPromark = constant.promarkModels.includes(device.model);
+    this.isPromark = promarkModels.has(device.model);
     if (
       beamboxPreference.read('enable-job-origin') &&
       this.vc.meetRequirement(this.isAdor ? 'ADOR_JOB_ORIGIN' : 'JOB_ORIGIN')

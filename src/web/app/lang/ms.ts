@@ -224,6 +224,7 @@ const lang: ILang = {
   device_selection: {
     no_beambox: '#801 Kami tidak dapat mengesan mesin anda dalam rangkaian.\nSila ikuti <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">panduan</a> untuk menyelesaikan masalah sambungan.',
     no_device_web: "#801 Semak status mesin anda, atau klik pada 'Tambah Mesin Baru' di bawah untuk menetapkan mesin.",
+    select_usb_device: 'Pilih Peranti USB',
   },
   update: {
     update: 'Kemaskini',
@@ -1914,6 +1915,10 @@ const lang: ILang = {
     hull_desc: 'Memaparkan bentuk yang rapat mengikuti reka bentuk, seperti gelang getah yang dililitkan pada objek.',
     areacheck_desc: 'Memastikan kawasan kerja selamat dengan memaparkan kotak sempadan objek dan zon pecutan kepala laser.',
     calculating_task: 'Mengira tugas...',
+  },
+  web_cam: {
+    no_permission: 'Beam Studio tidak mempunyai kebenaran untuk mengakses kamera. Pastikan kebenaran diberikan kepada Beam Studio dalam tetapan pelayar atau sistem.',
+    no_device: 'Tidak dapat mengesan peranti kamera. Sila sambungkan semula kamera dan cuba lagi.',
   },
 };
 

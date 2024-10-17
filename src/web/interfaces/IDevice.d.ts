@@ -5,6 +5,8 @@ import Camera from '../helpers/api/camera';
 import IControlSocket from './IControlSocket';
 
 export interface IDeviceInfo {
+  alive: boolean;
+  lastAlive?: number;
   ipaddr: string;
   st_id: number;
   error_label: never;

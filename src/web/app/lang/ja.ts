@@ -224,6 +224,7 @@ const lang: ILang = {
   device_selection: {
     no_beambox: '#801 お使いのマシンがネットワーク上で見つかりません。\n<a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">このガイド</a>に従って、接続の問題をトラブルシューティングしてください。',
     no_device_web: '#801 マシンのステータスを確認するか、下の「マシン設定」をクリックしてマシンを設定してください。',
+    select_usb_device: 'USBデバイスを選択',
   },
   update: {
     update: 'アップデート',
@@ -1917,6 +1918,10 @@ const lang: ILang = {
     hull_desc: 'オブジェクトの周りに巻かれた輪ゴムのように、デザインに密接に従う形状をプレビューします。',
     areacheck_desc: '作業エリアが安全であることを、オブジェクトのバウンディングボックスとレーザーヘッドの加速ゾーンをプレビューして確認します。',
     calculating_task: 'タスクを計算中...',
+  },
+  web_cam: {
+    no_permission: 'Beam Studioにはカメラにアクセスする許可がありません。ブラウザ設定またはシステム設定でBeam Studioに許可が付与されていることを確認してください。',
+    no_device: 'カメラデバイスを検出できません。カメラを再接続して、もう一度お試しください。',
   },
 };
 

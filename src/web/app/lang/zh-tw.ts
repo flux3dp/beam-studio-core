@@ -224,6 +224,7 @@ const lang: ILang = {
   device_selection: {
     no_beambox: '#801 我們在網路上找不到您的機器，<br/>此功能需要在與機器連線的狀態下才會運作，請先新增機器設定連線，<br/>請參考<a target="_blank" href="https://support.flux3dp.com/hc/zh-tw/articles/360001683556">此指南</a>排除連線問題！',
     no_device_web: '#801 請檢查機器狀態，或者點選以下『新增或設定機器』，進行機器設定。',
+    select_usb_device: '選擇 USB 裝置',
   },
   update: {
     update: '更新',
@@ -1917,6 +1918,10 @@ const lang: ILang = {
     hull_desc: '預覽緊密貼合設計的形狀，像橡皮筋纏繞著物件一樣。',
     areacheck_desc: '藉由預覽物件的邊界框與雷射頭的加速區，確保工作區的安全。',
     calculating_task: '正在計算外框工作...',
+  },
+  web_cam: {
+    no_permission: 'Beam Studio 沒有權限存取相機。請確保在系統設定或瀏覽器設定中已授予 Beam Studio 權限。',
+    no_device: '無法檢測到相機設備。請重新連接相機，然後重試。',
   },
 };
 

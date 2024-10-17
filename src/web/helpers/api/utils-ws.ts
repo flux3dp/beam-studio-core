@@ -4,9 +4,10 @@ import EventEmitter from 'eventemitter3';
 import arrayBuffer from 'helpers/arrayBuffer';
 import Websocket from 'helpers/websocket';
 import { AutoFit } from 'interfaces/IAutoFit';
+import { WrappedWebSocket } from 'interfaces/WebSocket';
 
 class UtilsWebSocket extends EventEmitter {
-  private ws: any;
+  private ws: WrappedWebSocket;
 
   constructor() {
     super();
@@ -25,7 +26,7 @@ class UtilsWebSocket extends EventEmitter {
   }
 
   isAlive(): boolean {
-    return this.ws.getReadyState() === 1;
+    return this.ws.currentState === 1;
   }
 
   removeCommandListeners(): void {

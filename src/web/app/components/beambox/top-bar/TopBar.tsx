@@ -31,17 +31,17 @@ const Topbar = (): JSX.Element => {
   const { mode, hasUnsavedChange, currentUser, togglePathPreview, setSelectedDevice } =
     useContext(CanvasContext);
   const [hasDiscoveredMachine, setHasDiscoveredMachine] = useState(false);
-  const defaultDeviceSerial = useRef<string | null>(storage.get('selected-device'));
+  const defaultDeviceUUID = useRef<string | null>(storage.get('selected-device'));
   useEffect(() => {
     const discover = Discover('top-bar', (deviceList) => {
       setHasDiscoveredMachine(deviceList.some((device) => device.serial !== 'XXXXXXXXXX'));
       setSelectedDevice((cur) => {
-        if (!cur && defaultDeviceSerial.current) {
+        if (!cur && defaultDeviceUUID.current) {
           const defauldDevice = deviceList.find(
-            (device) => device.serial === defaultDeviceSerial.current
+            (device) => device.uuid === defaultDeviceUUID.current
           );
           if (defauldDevice && !checkSoftwareForAdor(defauldDevice, false)) {
-            defaultDeviceSerial.current = null;
+            defaultDeviceUUID.current = null;
           } else {
             return defauldDevice;
           }

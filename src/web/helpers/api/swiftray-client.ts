@@ -122,63 +122,82 @@ class SwiftrayClient extends EventEmitter{
 
 
   // Parser API
-  public async loadSVG(file: IWrappedSwiftrayTaskFile,
-  eventListeners: {
-    onProgressing: (progress) => void,
-    onFinished: () => void,
-    onError: (message: string) => void,
-  },
-  loadOptions: {
-    model: string,
-    rotaryMode: boolean,
-    engraveDpi: number
-  }): Promise<{ success: boolean, error?: ErrorObject }> {
-    const uploadTask = this.action('/parser', 'loadSVG', {
-      file,
-      model: loadOptions.model,
-      rotaryMode: loadOptions.rotaryMode,
-      engraveDpi: loadOptions.engraveDpi,
-    });
-
-    const uploadResult = (await uploadTask) as any;
-    return {
-      success: uploadResult.success,
-      error: uploadResult.error,
-    };
+  public async loadSVG(
+    file: IWrappedSwiftrayTaskFile,
+    eventListeners: {
+      onProgressing: (progress) => void;
+      onFinished: () => void;
+      onError: (message: string) => void;
+    },
+    loadOptions: {
+      model: string;
+      rotaryMode: boolean;
+      engraveDpi: number;
+    }
+  ): Promise<{ success: boolean; error?: ErrorObject }> {
+    const uploadRes = await this.action<{ success: boolean; error?: ErrorObject }>(
+      '/parser',
+      'loadSVG',
+      {
+        file,
+        model: loadOptions.model,
+        rotaryMode: loadOptions.rotaryMode,
+        engraveDpi: loadOptions.engraveDpi,
+      }
+    );
+    return uploadRes;
   }
 
-  public async convert(type: 'gcode' | 'fcode' | 'preview',
-  eventListeners: {
-    onProgressing: (progress) => void,
-    onFinished: (taskBlob: Blob, fileName: string, timeCost: number) => void,
-    onError: (message: string) => void,
-  },
-  convertOptions: {
-    model: WorkAreaModel,
-    enableAutoFocus: boolean,
-    enableDiode: boolean,
-    shouldUseFastGradient: boolean
-    shouldMockFastGradient: boolean,
-    vectorSpeedConstraint: boolean
-    paddingAccel: number,
-  }): Promise<{
-     success: boolean, estimatedTime?: number, error?: ErrorObject
+  public async convert(
+    type: 'gcode' | 'fcode' | 'preview',
+    eventListeners: {
+      onProgressing: (progress) => void;
+      onFinished: (
+        taskBlob: Blob,
+        fileName: string,
+        timeCost: number,
+        metadata: { [key: string]: string | number }
+      ) => void;
+      onError: (message: string) => void;
+    },
+    convertOptions: {
+      model: WorkAreaModel;
+      enableAutoFocus?: boolean;
+      enableDiode?: boolean;
+      shouldUseFastGradient?: boolean;
+      shouldMockFastGradient?: boolean;
+      vectorSpeedConstraint?: boolean;
+      paddingAccel?: number;
+      travelSpeed?: number;
+    }
+  ): Promise<{
+    success: boolean;
+    estimatedTime?: number;
+    error?: ErrorObject;
   }> {
     const workarea = getWorkarea(convertOptions.model);
-    const convertTask = this.action('/parser', 'convert', {
+    const convertResult = await this.action<{
+      success: boolean;
+      fileName?: string;
+      timeCost?: number;
+      fcode?: string;
+      gcode?: string;
+      estimatedTime?: number;
+      metadata?: { [key: string]: string | number }
+      error?: ErrorObject;
+    }>('/parser', 'convert', {
       type,
       workarea: {
         width: workarea.width,
         height: workarea.displayHeight || workarea.height,
       },
       ...convertOptions,
-    });;
-    const convertResult = (await convertTask) as any;
+    });
     const taskBlob = new Blob(
       [type === 'fcode' ? Buffer.from(convertResult.fcode, 'base64') : convertResult.gcode],
       { type: 'text/plain' }
     );
-    eventListeners.onFinished(taskBlob, convertResult.fileName, convertResult.timeCost);
+    eventListeners.onFinished(taskBlob, convertResult.fileName, convertResult.timeCost, convertResult.metadata);
     return {
       success: convertResult.success,
       error: convertResult.error,
@@ -231,6 +250,10 @@ class SwiftrayClient extends EventEmitter{
 
   public async setDeviceParam(name: string, value: string | number): Promise<void> {
     return this.action(`/devices/${this.port}`, 'setParam', { name, value });
+  }
+
+  public async setDeviceCorrection(data: { [key: string]: number }): Promise<boolean> {
+    return this.action(`/devices/${this.port}`, 'setCorrection', data);
   }
 
   public async getDeviceSettings(): Promise<{

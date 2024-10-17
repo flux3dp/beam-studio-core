@@ -5,8 +5,10 @@
 import EventEmitter from 'eventemitter3';
 
 import ErrorConstants from 'app/constants/error-constants';
-import { IDeviceDetailInfo } from 'interfaces/IDevice';
 import IControlSocket from 'interfaces/IControlSocket';
+import { LensCorrection } from 'interfaces/Promark';
+import { IDeviceDetailInfo } from 'interfaces/IDevice';
+
 import { getDeviceClient, SwiftrayClient } from './swiftray-client';
 
 const EVENT_COMMAND_MESSAGE = 'command-message';
@@ -121,7 +123,9 @@ class SwiftrayControl extends EventEmitter implements IControlSocket {
   }
 
   killSelf = async () => {
-    console.warn('SwiftrayControl.killSelf is not implemented in swiftray, or should not be implemented');
+    console.warn(
+      'SwiftrayControl.killSelf is not implemented in swiftray, or should not be implemented'
+    );
     // this.sc.close();
     await new Promise((r) => setTimeout(r, 500));
     return null;
@@ -279,14 +283,14 @@ class SwiftrayControl extends EventEmitter implements IControlSocket {
     console.warn('SwiftrayControl.ls is not implemented in swiftray', path);
     return {
       files: [],
-      directories: []
+      directories: [],
     };
   };
 
   lsusb = async () => {
     console.warn('SwiftrayControl.lsusb is not implemented in swiftray');
     return { usbs: [] };
-  }
+  };
 
   fileInfo = async (path: string, fileName: string) => {
     console.warn('SwiftrayControl.fileInfo is not implemented in swiftray', path, fileName);
@@ -299,8 +303,8 @@ class SwiftrayControl extends EventEmitter implements IControlSocket {
     return { device_status: await this.sc.getDeviceStatus() };
   };
 
-  upload = async (data: any, path?: string, fileName?: string) : Promise<void> => {
-    console.log("SwiftrayControl.upload");
+  upload = async (data: any, path?: string, fileName?: string): Promise<void> => {
+    console.log('SwiftrayControl.upload');
     if (data.size === 0) {
       throw new Error('File is empty');
     }
@@ -313,7 +317,7 @@ class SwiftrayControl extends EventEmitter implements IControlSocket {
     } else {
       await this.sc.upload(data);
     }
-    console.log("SwiftrayControl.upload done");
+    console.log('SwiftrayControl.upload done');
   };
 
   abort = () => this.sc.stopTask();
@@ -321,16 +325,16 @@ class SwiftrayControl extends EventEmitter implements IControlSocket {
   quit = async () => {
     console.warn('SwiftrayControl.quit is not implemented in swiftray');
     return this.sc.quitTask();
-  }
+  };
 
   start = async () => {
     console.log('SwiftrayControl.start');
     return this.sc.startTask();
-  }
+  };
 
   pause = async () => this.sc.pauseTask();
 
-  resume =async () => this.sc.resumeTask();
+  resume = async () => this.sc.resumeTask();
 
   restart = async () => this.sc.startTask();
 
@@ -344,7 +348,7 @@ class SwiftrayControl extends EventEmitter implements IControlSocket {
   deviceDetailInfo = async (): Promise<IDeviceDetailInfo> => {
     console.warn('SwiftrayControl.deviceDetailInfo is not implemented well in swiftray');
     return this.sc.deviceInfo();
-  }
+  };
 
   getPreview = async () => {
     console.warn('SwiftrayControl.getPreview is not implemented well in swiftray');
@@ -370,12 +374,12 @@ class SwiftrayControl extends EventEmitter implements IControlSocket {
     this.useWaitAnyResponse(`file rmfile ${fileNameWithPath}`);
 
   downloadFile = async (fileNameWithPath: string) => {
-    const file  = await this.sc.downloadFile(fileNameWithPath);
+    const file = await this.sc.downloadFile(fileNameWithPath);
     return [fileNameWithPath, file] as [string, Blob];
   };
 
   downloadLog = async (logName: string) => {
-    const file  = await this.sc.downloadLog(logName);
+    const file = await this.sc.downloadLog(logName);
     return [logName, file];
   };
 
@@ -431,11 +435,25 @@ class SwiftrayControl extends EventEmitter implements IControlSocket {
 
   setOriginY = async (y: number) => this.sc.setDeviceParam('origin_y', y);
 
+  setLensCorrection = async (x: LensCorrection, y: LensCorrection) => {
+    const data = {
+      scaleX: x.scale,
+      scaleY: y.scale,
+      bucketX: x.bulge,
+      bucketY: y.bulge,
+      paralleX: x.skew,
+      paralleY: y.skew,
+      trapeX: x.trapezoid,
+      trapeY: y.trapezoid,
+    };
+    return this.sc.setDeviceCorrection(data);
+  };
+
   getDoorOpen = async () => this.sc.getDeviceParam<string>('door_open');
 
-  getDeviceSetting = async (name: string) => this.sc.getDeviceParam<string>(name)
+  getDeviceSetting = async (name: string) => this.sc.getDeviceParam<string>(name);
 
-  setDeviceSetting = async (name: string, value: string) => this.sc.setDeviceParam(name, value)
+  setDeviceSetting = async (name: string, value: string) => this.sc.setDeviceParam(name, value);
 
   deleteDeviceSetting = async (name: string) => this.sc.deleteDeviceSettings(name);
 
@@ -451,7 +469,7 @@ class SwiftrayControl extends EventEmitter implements IControlSocket {
     await this.sc.endMode();
   };
 
-  maintainMove = (args: { x?: number, y?: number, z?: number, f?: number}) => {
+  maintainMove = (args: { x?: number; y?: number; z?: number; f?: number }) => {
     let command = '';
     command += `F${args.f || 6000}`;
     if (typeof args.x !== 'undefined') {

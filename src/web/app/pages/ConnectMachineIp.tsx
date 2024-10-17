@@ -202,7 +202,7 @@ const ConnectMachineIp = (): JSX.Element => {
       storage.set('new-user', true);
     }
     storage.set('printer-is-ready', true);
-    storage.set('selected-device', device.serial);
+    storage.set('selected-device', device.uuid);
     if (constant.adorModels.includes(device.model)) {
       alertConfig.write('done-first-cali', true);
     } else if (device.model === 'fbm1') {

@@ -440,7 +440,7 @@ export const findCorners = async (
 export const solvePnPFindCorners = async (
   img: Blob | ArrayBuffer,
   dh: number,
-  version = 2
+  refPoints: [number, number][]
 ): Promise<
   | {
       success: true;
@@ -453,19 +453,19 @@ export const solvePnPFindCorners = async (
       data: { status: string; info: string; reason: string };
     }
 > => {
-  const resp = await api.solvePnPFindCorners(img, dh, version);
+  const resp = await api.solvePnPFindCorners(img, dh, refPoints);
   return resp;
 };
 
 export const solvePnPCalculate = async (
   dh: number,
   points: [number, number][],
-  version = 2
+  refPoints: [number, number][],
 ): Promise<{
   success: boolean;
   data?: { rvec: number[]; tvec: number[] };
 }> => {
-  const resp = await api.solvePnPCalculate(dh, points, version);
+  const resp = await api.solvePnPCalculate(dh, points, refPoints);
   return resp;
 };
 

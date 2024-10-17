@@ -224,6 +224,7 @@ const lang: ILang = {
   device_selection: {
     no_beambox: '#801 我们在网路上找不到您的机器，\n请参考<a target="_blank" href="https://support.flux3dp.com/hc/zh-tw/articles/360001683556">此指南</a>排除连线问题！',
     no_device_web: '#801 请检查您的机器状态，或点击下方的‘机器设置’来设置机器。',
+    select_usb_device: '选择 USB 设备',
   },
   update: {
     update: '更新',
@@ -1917,6 +1918,10 @@ const lang: ILang = {
     hull_desc: '预览一个紧随设计的形状，就像橡皮筋缠绕在对象周围一样。',
     areacheck_desc: '通过预览对象的边界框和激光头的加速区，确保工作区的安全。',
     calculating_task: '正在计算任务...',
+  },
+  web_cam: {
+    no_permission: 'Beam Studio 没有权限访问相机。请确保在浏览器设置或系统设置中已授予 Beam Studio 权限。',
+    no_device: '无法检测到摄像设备。请重新连接摄像头，然后重试。',
   },
 };
 

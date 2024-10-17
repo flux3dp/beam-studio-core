@@ -221,6 +221,7 @@ export interface ILang {
   device_selection: {
     no_beambox: string;
     no_device_web: string;
+    select_usb_device: string;
   };
   update: {
     update: string;
@@ -1916,5 +1917,9 @@ export interface ILang {
     hull_desc: string;
     areacheck_desc: string;
     calculating_task: string;
-  }
+  };
+  web_cam: {
+    no_permission: string;
+    no_device: string;
+  };
 }

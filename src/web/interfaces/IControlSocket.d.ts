@@ -5,8 +5,9 @@ import { SwiftrayClient } from 'helpers/api/swiftray-client';
 // eslint-disable-next-line import/no-cycle
 import { FisheyeCameraParameters, RotationParameters3D } from './FisheyePreview';
 import { IDeviceDetailInfo, IReport } from './IDevice';
-import { WrappedWebSocket } from './WebSocket';
+import { LensCorrection } from './Promark';
 import { RawChipSettings } from './Cartridge';
+import { WrappedWebSocket } from './WebSocket';
 
 interface IControlSocket extends EventEmitter {
   isConnected: boolean;
@@ -22,8 +23,8 @@ interface IControlSocket extends EventEmitter {
   setProgressListener(listener: (...args: unknown[]) => void): void;
   removeCommandListeners(): void;
 
-  ls(path: string): Promise<{ files: string[]; directories: string[]; error?: string; }>;
-  lsusb(): Promise<unknown>;
+  ls(path: string): Promise<{ files: string[]; directories: string[]; error?: string }>;
+  lsusb(): Promise<{ usbs: string[] }>;
   fileInfo(path: string, fileName: string): Promise<unknown[]>;
   report(): Promise<{ device_status: IReport }>;
   upload(data: any, path?: string, fileName?: string): Promise<void>;
@@ -52,6 +53,7 @@ interface IControlSocket extends EventEmitter {
   setFanTemp(fanSpeed: number): Promise<unknown>;
   setOriginX(x: number): Promise<unknown>;
   setOriginY(y: number): Promise<unknown>;
+  setLensCorrection(x: LensCorrection, y: LensCorrection): Promise<boolean>;
   getDoorOpen(): Promise<{ value: string }>;
   getDeviceSetting(name: string): Promise<{ status: string; value: string }>;
   setDeviceSetting(name: string, value: string): Promise<unknown>;

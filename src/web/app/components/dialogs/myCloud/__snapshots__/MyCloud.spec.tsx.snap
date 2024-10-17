@@ -266,7 +266,7 @@ exports[`test MyCloud should rendered correctly when user is subscribed 1`] = `
           aria-modal="true"
           class="ant-modal css-dev-only-do-not-override-hash ant-zoom-appear ant-zoom-appear-prepare ant-zoom"
           role="dialog"
-          style="width: 720px; transform-origin: NaNpx NaNpx;"
+          style="width: 720px;"
         >
           <div
             aria-hidden="true"

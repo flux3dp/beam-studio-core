@@ -224,6 +224,7 @@ const lang: ILang = {
   device_selection: {
     no_beambox: '#801 네트워크에서 기계를 찾을 수 없습니다. 친절하게 <a target=""_blank"" href=""https://support.flux3dp.com/hc/en-us/articles/360001683556"">안내</a>를 따라 연결 문제를 해결해 주세요.',
     no_device_web: "#801 기계 상태를 확인하거나 아래의 '기계 설정'을 클릭하여 기계를 설정하십시오.",
+    select_usb_device: 'USB 장치를 선택하십시오',
   },
   update: {
     update: '업데이트',
@@ -1917,6 +1918,10 @@ const lang: ILang = {
     hull_desc: '객체 주위에 고무줄이 감겨 있는 것처럼 디자인을 밀접하게 따르는 모양을 미리 봅니다.',
     areacheck_desc: '작업 영역이 안전한지 객체의 경계 상자와 레이저 헤드의 가속 영역을 미리 보아 확인합니다.',
     calculating_task: '작업 계산 중...',
+  },
+  web_cam: {
+    no_permission: 'Beam Studio는 카메라에 액세스할 권한이 없습니다. 브라우저 설정 또는 시스템 설정에서 Beam Studio에 권한이 부여되었는지 확인하십시오.',
+    no_device: '카메라 장치를 감지할 수 없습니다. 카메라를 다시 연결하고 다시 시도하십시오.',
   },
 };
 

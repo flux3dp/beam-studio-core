@@ -17,6 +17,7 @@ import Chessboard from './BB2Calibration/Chessboard';
 import Instruction from './common/Instruction';
 import moveLaserHead from './BB2Calibration/moveLaserHead';
 import SolvePnP from './common/SolvePnP';
+import { bb2PnPPoints } from './common/solvePnPConstants';
 
 enum Steps {
   CHECKPOINT_DATA = 0,
@@ -129,7 +130,7 @@ const BB2Calibration = ({ onClose }: Props): JSX.Element => {
       <SolvePnP
         params={calibratingParam.current}
         dh={0}
-        version={3}
+        refPoints={bb2PnPPoints}
         onClose={onClose}
         onBack={() => setStep(Steps.PUT_PAPER)}
         onNext={async (rvec, tvec) => {

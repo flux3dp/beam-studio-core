@@ -291,18 +291,11 @@ const fetchTaskCode = async (
     return {};
   }
 
-  if (output === 'fcode') {
-    return {
-      fcodeBlob: taskCodeBlob,
-      thumbnailBlobURL,
-      fileTimeCost,
-      metadata,
-    };
-  }
   return {
-    gcodeBlob: taskCodeBlob,
+    taskCodeBlob,
     thumbnailBlobURL,
     fileTimeCost,
+    metadata,
   };
 };
 
@@ -391,9 +384,10 @@ const openTaskInDeviceMonitor = (
 
 export default {
   uploadFcode: async (device: IDeviceInfo): Promise<void> => {
-    const convertEngine = device.source === 'swiftray' ? fetchTaskCodeSwiftray : fetchTaskCode;
-    const { fcodeBlob, thumbnailBlobURL, fileTimeCost } = await convertEngine(device);
-    if (!fcodeBlob) {
+    const useSwiftray = device.source === 'swiftray' || BeamboxPreference.read('path-engine') === 'swiftray';
+    const convertEngine = useSwiftray ? fetchTaskCodeSwiftray : fetchTaskCode;
+    const { taskCodeBlob, thumbnailBlobURL, fileTimeCost } = await convertEngine(device);
+    if (!taskCodeBlob && device.model !== 'fpm1') {
       return;
     }
     try {
@@ -401,7 +395,7 @@ export default {
       if (!res) {
         return;
       }
-      openTaskInDeviceMonitor(device, fcodeBlob, thumbnailBlobURL, fileTimeCost);
+      openTaskInDeviceMonitor(device, taskCodeBlob, thumbnailBlobURL, fileTimeCost);
     } catch (errMsg) {
       console.error(errMsg);
       // TODO: handle err message
@@ -415,9 +409,9 @@ export default {
   exportFcode: async (device?: IDeviceInfo): Promise<void> => {
     const useSwiftray = BeamboxPreference.read('path-engine') === 'swiftray';
     const convertEngine = useSwiftray ? fetchTaskCodeSwiftray : fetchTaskCode;
-    const { fcodeBlob } = await convertEngine(device);
-    if (!fcodeBlob) {
-      return;
+    const { taskCodeBlob } = await convertEngine(device);
+    if (!taskCodeBlob) {
+      throw new Error('exportFCode: No task code blob');
     }
     const defaultFCodeName = currentFileManager.getName() || 'untitled';
     const langFile = i18n.lang.topmenu.file;
@@ -434,7 +428,7 @@ export default {
       ]);
     };
 
-    fileReader.readAsArrayBuffer(fcodeBlob);
+    fileReader.readAsArrayBuffer(taskCodeBlob);
   },
   getGcode: async (): Promise<{
     gcodeBlob?: Blob;
@@ -443,20 +437,21 @@ export default {
   }> => {
     const useSwiftray = BeamboxPreference.read('path-engine') === 'swiftray';
     const convertEngine = useSwiftray ? fetchTaskCodeSwiftray : fetchTaskCode;
-    const { gcodeBlob, fileTimeCost } = await convertEngine(null, { output: 'gcode' });
-    return { gcodeBlob, fileTimeCost: fileTimeCost || 0, useSwiftray };
+    const { taskCodeBlob, fileTimeCost } = await convertEngine(null, { output: 'gcode' });
+    return { gcodeBlob: taskCodeBlob, fileTimeCost: fileTimeCost || 0, useSwiftray };
   },
   getFastGradientGcode: async (): Promise<Blob> => {
     const convertEngine =
       BeamboxPreference.read('path-engine') === 'swiftray' ? fetchTaskCodeSwiftray : fetchTaskCode;
-    const { gcodeBlob } = await convertEngine(null, { output: 'gcode', fgGcode: true });
-    return gcodeBlob;
+    const { taskCodeBlob } = await convertEngine(null, { output: 'gcode', fgGcode: true });
+    return taskCodeBlob;
   },
   estimateTime: async (): Promise<number> => {
     const convertEngine =
       BeamboxPreference.read('path-engine') === 'swiftray' ? fetchTaskCodeSwiftray : fetchTaskCode;
-    const { fcodeBlob, fileTimeCost } = await fetchTaskCode();
-    if (!fcodeBlob) {
+    const { taskCodeBlob, fileTimeCost } = await fetchTaskCode();
+    if (!taskCodeBlob) {
+      throw new Error('estimateTime: No task code blob');
       return null;
     }
     return fileTimeCost;
@@ -464,8 +459,9 @@ export default {
   getMetadata: async (device?: IDeviceInfo): Promise<{[key: string]: string}> => {
     // const convertEngine =
     //   BeamboxPreference.read('path-engine') === 'swiftray' ? fetchTaskCodeSwiftray : fetchTaskCode;
-      const { fcodeBlob, metadata } = await fetchTaskCode(device);
-      if (!fcodeBlob) {
+      const { taskCodeBlob, metadata } = await fetchTaskCode(device);
+      if (!taskCodeBlob) {
+        throw new Error('getMetadata: No task code blob');
         return null;
       }
       return metadata;

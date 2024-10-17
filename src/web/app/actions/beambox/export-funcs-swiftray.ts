@@ -20,8 +20,10 @@ import { IDeviceInfo } from 'interfaces/IDevice';
 import { IWrappedSwiftrayTaskFile } from 'interfaces/IWrappedFile';
 import { swiftrayClient } from 'helpers/api/swiftray-client';
 import { tempSplitFullColorLayers } from 'helpers/layer/full-color/splitFullColorLayer';
+
 import generateThumbnail from './export/generate-thumbnail';
 import { getAdorPaddingAccel } from './export/ador-utils';
+import { promarkModels } from './constant';
 
 let svgCanvas: ISVGCanvas;
 
@@ -121,6 +123,7 @@ const getTaskCode = (codeType: 'gcode' | 'fcode', taskOptions) =>
   new Promise<{
     fileTimeCost: null | number;
     taskCodeBlob: Blob | null;
+    metadata: { [key: string]: string | number };
   }>((resolve) => {
   swiftrayClient.convert(codeType, {
     onProgressing: (data) => {
@@ -129,9 +132,9 @@ const getTaskCode = (codeType: 'gcode' | 'fcode', taskOptions) =>
         percentage: data.percentage * 100,
       });
     },
-    onFinished: (taskBlob, fileName, timeCost) => {
+    onFinished: (taskBlob, fileName, timeCost, metadata) => {
       Progress.update('fetch-task', { message: lang.message.uploading_fcode, percentage: 100 });
-      resolve({ taskCodeBlob: taskBlob, fileTimeCost: timeCost });
+      resolve({ taskCodeBlob: taskBlob, fileTimeCost: timeCost, metadata });
     },
     onError: (message) => {
       Progress.popById('fetch-task');
@@ -159,8 +162,7 @@ const fetchTaskCodeSwiftray = async (
   device: IDeviceInfo = null,
   opts: { output?: 'fcode' | 'gcode'; fgGcode?: boolean } = {}
 ): Promise<{
-  gcodeBlob?: Blob,
-  fcodeBlob?: Blob,
+  taskCodeBlob: Blob,
   thumbnailBlobURL: string,
   fileTimeCost: number,
 } | Record<string, never> > => {
@@ -229,13 +231,15 @@ const fetchTaskCodeSwiftray = async (
   });
 
   const supportInfo = getSupportInfo(BeamboxPreference.read('workarea'));
-  const { output = 'fcode' } = opts;
+  let codeType = opts.output || 'fcode';
   const { fgGcode = false } = opts;
-  const isNonFGCode = (output === 'gcode' && !fgGcode);
+  const isNonFGCode = (codeType === 'gcode' && !fgGcode);
   const model = BeamboxPreference.read('workarea') || BeamboxPreference.read('model');
-  const taskConfig = {
+  const isPromark = promarkModels.has(model);
+  if (isPromark) codeType = 'gcode';
+  let taskConfig = {
     model,
-    travelSpeed: model === 'fpm1' ? 4000 : 100,
+    travelSpeed: isPromark ? 4000 : 100,
     enableAutoFocus:
       doesSupportDiodeAndAF &&
       BeamboxPreference.read('enable-autofocus') &&
@@ -249,14 +253,19 @@ const fetchTaskCodeSwiftray = async (
     vectorSpeedConstraint: BeamboxPreference.read('vector_speed_contraint') !== false,
     paddingAccel: await getAdorPaddingAccel(device || TopBarController.getSelectedDevice()),
   };
+  if (codeType === 'fcode') taskConfig = {
+    ...taskConfig,
+    ...getExportOpt(taskConfig).config
+  };
+  console.log("fetchTaskCodeSwiftray", codeType, "taskConfig", taskConfig);
 
   if (isCanceled) { // TODO: Copy this logic to regular fetchTaskCode
     return {};
   }
 
   const getTaskCodeResult = await getTaskCode(
-    output,
-    output === 'fcode' ? getExportOpt(taskConfig).config : taskConfig
+    codeType,
+    taskConfig
   );
   const { taskCodeBlob } = getTaskCodeResult;
   let { fileTimeCost } = getTaskCodeResult;
@@ -270,15 +279,8 @@ const fetchTaskCodeSwiftray = async (
   if (isCanceled || taskCodeBlob == null) {
     return {};
   }
-  if (output === 'gcode') {
-    return {
-      gcodeBlob: taskCodeBlob,
-      thumbnailBlobURL,
-      fileTimeCost,
-    };
-  }
   return {
-    fcodeBlob: taskCodeBlob,
+    taskCodeBlob,
     thumbnailBlobURL,
     fileTimeCost,
   };

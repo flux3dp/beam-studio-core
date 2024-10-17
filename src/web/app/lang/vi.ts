@@ -224,6 +224,7 @@ const lang: ILang = {
   device_selection: {
     no_beambox: '#801 Chúng tôi không tìm thấy máy của bạn trên mạng.\nVui lòng làm theo <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">hướng dẫn</a> để khắc phục sự cố kết nối.',
     no_device_web: "#801 Vui lòng kiểm tra tình trạng của máy bạn, hoặc nhấn vào 'Thiết lập máy in' bên dưới để cài đặt máy.",
+    select_usb_device: 'Chọn thiết bị USB',
   },
   update: {
     update: 'Cập nhật',
@@ -1914,6 +1915,10 @@ const lang: ILang = {
     hull_desc: 'Xem trước hình dạng bám sát thiết kế, giống như dây cao su bao quanh đối tượng.',
     areacheck_desc: 'Đảm bảo khu vực làm việc an toàn bằng cách xem trước hộp giới hạn của đối tượng và vùng gia tốc của đầu laser.',
     calculating_task: 'Đang tính toán nhiệm vụ...',
+  },
+  web_cam: {
+    no_permission: 'Beam Studio không có quyền truy cập vào camera. Vui lòng đảm bảo rằng quyền đã được cấp cho Beam Studio trong cài đặt trình duyệt hoặc hệ thống.',
+    no_device: 'Không thể phát hiện thiết bị camera. Vui lòng kết nối lại camera và thử lại.',
   },
 };
 

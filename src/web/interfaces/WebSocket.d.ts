@@ -14,7 +14,7 @@ export interface WrappedWebSocket {
   currentState: number;
   url: string;
   log: string[];
-  send: (data: string | Blob) => WrappedWebSocket;
+  send: (data: string | Blob | ArrayBuffer) => WrappedWebSocket;
   close: (reconnect?: boolean) => void;
   setOnMessage: (onMessage: (data: any) => void) => WrappedWebSocket;
 }

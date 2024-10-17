@@ -224,6 +224,7 @@ const lang: ILang = {
   device_selection: {
     no_beambox: '#801 Não conseguimos encontrar sua máquina na rede.\nSiga o <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">guia</a> para resolver o problema de conexão.',
     no_device_web: "#801 Verifique o estado da sua máquina ou clique em 'Configuração da máquina' abaixo para configurar a máquina.",
+    select_usb_device: 'Selecionar dispositivo USB',
   },
   update: {
     update: 'Atualizar',
@@ -1914,6 +1915,10 @@ const lang: ILang = {
     hull_desc: 'Exibe uma pré-visualização de uma forma que segue de perto o design, como um elástico envolvido ao redor do objeto.',
     areacheck_desc: 'Garante a segurança da área de trabalho exibindo a caixa delimitadora do objeto e a zona de aceleração da cabeça do laser.',
     calculating_task: 'Calculando tarefa...',
+  },
+  web_cam: {
+    no_permission: 'O Beam Studio não tem permissão para acessar a câmera. Certifique-se de que a permissão foi concedida ao Beam Studio nas configurações do navegador ou do sistema.',
+    no_device: 'Não foi possível detectar o dispositivo da câmera. Por favor, reconecte a câmera e tente novamente.',
   },
 };
 

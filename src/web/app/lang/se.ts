@@ -224,6 +224,7 @@ const lang: ILang = {
   device_selection: {
     no_beambox: '#801 Vi hittar inte din maskin i nätverket.\nFölj <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">guiden</a> för att felsöka anslutningsproblemet.',
     no_device_web: "#801 Kontrollera statusen för din maskin, eller klicka på 'Maskininställning' nedan för att ställa in maskinen.",
+    select_usb_device: 'Välj USB-enhet',
   },
   update: {
     update: 'Uppdatera',
@@ -1914,6 +1915,10 @@ const lang: ILang = {
     hull_desc: 'Förhandsvisar en form som följer designen noggrant, som ett gummiband lindat runt objektet.',
     areacheck_desc: 'Säkerställer att arbetsområdet är säkert genom att förhandsgranska objektets begränsningsram och laserns accelerationszon.',
     calculating_task: 'Beräknar uppgift...',
+  },
+  web_cam: {
+    no_permission: 'Beam Studio har inte behörighet att komma åt kameran. Se till att behörigheten är beviljad till Beam Studio i webbläsarinställningarna eller systeminställningarna.',
+    no_device: 'Kan inte hitta kameranheten. Anslut kameran igen och försök igen.',
   },
 };
 
