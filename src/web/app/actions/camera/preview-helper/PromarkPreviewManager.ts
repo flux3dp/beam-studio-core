@@ -76,6 +76,7 @@ class PromarkPreviewManager extends BasePreviewManager implements PreviewManager
 
   public end = async (): Promise<void> => {
     this.webCamConnection?.end();
+    this.cameraTransformAPI?.close();
   };
 
   public preview = async (): Promise<boolean> => {

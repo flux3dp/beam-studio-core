@@ -119,6 +119,10 @@ class CameraTransformAPI extends EventEmitter {
       this.ws.send(`transform_image ${data.byteLength}`);
     });
   };
+
+  close = (): void => {
+    this.ws.close();
+  };
 }
 
 export default CameraTransformAPI;
