@@ -17,10 +17,6 @@
     justify-content: center;
     align-items: center;
 
-    img {
-      max-height: 55vh;
-    }
-
     video {
       max-height: 55vh;
       transform: rotate(180deg);
@@ -45,11 +41,5 @@
     }
 
     margin: 12px 0;
-  }
-
-  .slider {
-    width: 100%;
-    margin-left: 0;
-    margin-right: 0;
   }
 }
