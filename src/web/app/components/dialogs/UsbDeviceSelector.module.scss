@@ -46,11 +46,8 @@
       align-items: center;
       justify-content: space-between;
 
-      label {
-        cursor: pointer;
-      }
-
       .name {
+        cursor: pointer;
         font-size: 12px;
         font-style: normal;
         font-weight: 500;
