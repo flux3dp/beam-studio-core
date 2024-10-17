@@ -20,8 +20,10 @@ import { IDeviceInfo } from 'interfaces/IDevice';
 import { IWrappedSwiftrayTaskFile } from 'interfaces/IWrappedFile';
 import { swiftrayClient } from 'helpers/api/swiftray-client';
 import { tempSplitFullColorLayers } from 'helpers/layer/full-color/splitFullColorLayer';
+
 import generateThumbnail from './export/generate-thumbnail';
 import { getAdorPaddingAccel } from './export/ador-utils';
+import { promarkModels } from './constant';
 
 let svgCanvas: ISVGCanvas;
 
@@ -232,10 +234,11 @@ const fetchTaskCodeSwiftray = async (
   const { fgGcode = false } = opts;
   const isNonFGCode = (codeType === 'gcode' && !fgGcode);
   const model = BeamboxPreference.read('workarea') || BeamboxPreference.read('model');
-  if (model === 'fpm1') codeType = 'gcode';
+  const isPromark = promarkModels.has(model);
+  if (isPromark) codeType = 'gcode';
   let taskConfig = {
     model,
-    travelSpeed: model === 'fpm1' ? 4000 : 100,
+    travelSpeed: isPromark ? 4000 : 100,
     enableAutoFocus:
       doesSupportDiodeAndAF &&
       BeamboxPreference.read('enable-autofocus') &&
