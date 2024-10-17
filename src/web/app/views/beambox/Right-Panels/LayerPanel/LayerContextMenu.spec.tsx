@@ -475,9 +475,10 @@ describe('test LayerContextMenu', () => {
     );
     expect(mockGetLayerElementByName).toBeCalledTimes(1);
     expect(mockGetLayerElementByName).toHaveBeenLastCalledWith('layer1');
-    expect(mockGetData).toBeCalledTimes(2);
+    expect(mockGetData).toBeCalledTimes(3);
     expect(mockGetData).toHaveBeenNthCalledWith(1, mockElem, 'module');
     expect(mockGetData).toHaveBeenNthCalledWith(2, mockElem, 'fullcolor');
+    expect(mockGetData).toHaveBeenNthCalledWith(3, mockElem, 'split');
     expect(container).toMatchSnapshot();
   });
 
