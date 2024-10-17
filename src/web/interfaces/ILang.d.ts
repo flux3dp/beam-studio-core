@@ -75,8 +75,6 @@ export interface ILang {
       help: string;
       open: string;
       samples: string;
-      tools: string;
-      material_test_generator: string;
       import_hello_beamo: string;
       import_hello_beambox: string;
       import_material_testing_old: string;
@@ -208,6 +206,12 @@ export interface ILang {
       camera_calibration_data: string;
       upload_data: string;
       download_data: string;
+      tools: {
+        title: string;
+        material_test_generator: string;
+        qr_code_generator: string;
+        boxgen: string;
+      };
     };
     select_machine: string;
   };

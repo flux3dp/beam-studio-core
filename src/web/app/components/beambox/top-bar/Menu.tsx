@@ -375,16 +375,14 @@ export default function Menu({ email }: Props): JSX.Element {
         <MenuItem onClick={() => callback('NETWORK_TESTING')}>{menuCms.network_testing}</MenuItem>
         {deviceMenus()}
       </SubMenu>
-      <SubMenu label={menuCms.tools}>
+      <SubMenu label={menuCms.tools.title}>
         <MenuItem onClick={() => callback('MATERIAL_TEST_GENERATOR')}>
-          {menuCms.material_test_generator}
+          {menuCms.tools.material_test_generator}
         </MenuItem>
         <MenuItem onClick={() => callback('QR_CODE_GENERATOR')}>
-          {i18n.lang.beambox.left_panel.label.qr_code}
+          {menuCms.tools.qr_code_generator}
         </MenuItem>
-        <MenuItem onClick={() => callback('BOX_GEN')}>
-          {i18n.lang.beambox.left_panel.label.boxgen}
-        </MenuItem>
+        <MenuItem onClick={() => callback('BOX_GEN')}>{menuCms.tools.boxgen}</MenuItem>
       </SubMenu>
       <SubMenu label={menuCms.account}>
         {email == null ? (
