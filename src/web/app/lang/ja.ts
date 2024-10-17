@@ -1919,6 +1919,10 @@ const lang: ILang = {
     areacheck_desc: '作業エリアが安全であることを、オブジェクトのバウンディングボックスとレーザーヘッドの加速ゾーンをプレビューして確認します。',
     calculating_task: 'タスクを計算中...',
   },
+  web_cam: {
+    no_permission: 'Beam Studioにはカメラにアクセスする許可がありません。ブラウザ設定またはシステム設定でBeam Studioに許可が付与されていることを確認してください。',
+    no_device: 'カメラデバイスを検出できません。カメラを再接続して、もう一度お試しください。',
+  },
 };
 
 export default lang;

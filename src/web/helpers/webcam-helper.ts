@@ -1,4 +1,5 @@
 import communicator from 'implementations/communicator';
+import i18n from 'helpers/i18n';
 import isWeb from 'helpers/is-web';
 
 import { selectUsbDevice } from 'app/components/dialogs/UsbDeviceSelector';
@@ -38,7 +39,6 @@ const getDevice = async (id?: string): Promise<MediaDeviceInfo> => {
   return selectUsbDevice(devices, listDevices);
 };
 
-// TODO: add i18n
 export class WebCamConnection {
   private video: HTMLVideoElement;
   private stream: MediaStream;
@@ -72,13 +72,14 @@ export class WebCamConnection {
   }
 
   connect = async (deviceId: string = this.device?.deviceId): Promise<boolean> => {
+    const t = i18n.lang.web_cam;
     const permission = await askForPermission();
     if (!permission) {
-      throw new Error('tYou denied the permission to access the camera');
+      throw new Error(t.no_permission);
     }
     const device = await getDevice(deviceId);
     if (!device) {
-      throw new Error('tNo camera device found');
+      throw new Error(t.no_device);
     }
     this.device = device;
     this.stream = await navigator.mediaDevices.getUserMedia({

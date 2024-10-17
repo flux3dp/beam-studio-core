@@ -1919,6 +1919,10 @@ const lang: ILang = {
     areacheck_desc: '藉由預覽物件的邊界框與雷射頭的加速區，確保工作區的安全。',
     calculating_task: '正在計算外框工作...',
   },
+  web_cam: {
+    no_permission: 'Beam Studio 沒有權限存取相機。請確保在系統設定或瀏覽器設定中已授予 Beam Studio 權限。',
+    no_device: '無法檢測到相機設備。請重新連接相機，然後重試。',
+  },
 };
 
 export default lang;

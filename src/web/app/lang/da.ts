@@ -1916,6 +1916,10 @@ const lang: ILang = {
     areacheck_desc: 'Sikrer arbejdsområdet ved at vise objektets afgrænsningsboks og laserhovedets accelerationszone.',
     calculating_task: 'Beregner opgave...',
   },
+  web_cam: {
+    no_permission: 'Beam Studio har ikke tilladelse til at få adgang til kameraet. Sørg for, at tilladelsen er givet til Beam Studio i browserindstillingerne eller systemindstillingerne.',
+    no_device: 'Kan ikke registrere kameranhed. Tilslut kameraet igen og prøv igen.',
+  },
 };
 
 export default lang;

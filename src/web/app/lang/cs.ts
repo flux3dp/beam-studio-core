@@ -1919,6 +1919,10 @@ const lang: ILang = {
     areacheck_desc: 'Zajišťuje bezpečnost pracovní oblasti náhledem na ohraničující rámeček objektu a zónu akcelerace laserové hlavy.',
     calculating_task: 'Výpočet úlohy...',
   },
+  web_cam: {
+    no_permission: 'Beam Studio nemá oprávnění k přístupu k kameře. Ujistěte se, že je v nastavení prohlížeče nebo systému uděleno oprávnění pro Beam Studio.',
+    no_device: 'Nelze detekovat kamerové zařízení. Znovu připojte kameru a zkuste to znovu.',
+  },
 };
 
 export default lang;

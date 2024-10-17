@@ -1916,6 +1916,10 @@ const lang: ILang = {
     areacheck_desc: 'Garante a segurança da área de trabalho exibindo a caixa delimitadora do objeto e a zona de aceleração da cabeça do laser.',
     calculating_task: 'Calculando tarefa...',
   },
+  web_cam: {
+    no_permission: 'O Beam Studio não tem permissão para acessar a câmera. Certifique-se de que a permissão foi concedida ao Beam Studio nas configurações do navegador ou do sistema.',
+    no_device: 'Não foi possível detectar o dispositivo da câmera. Por favor, reconecte a câmera e tente novamente.',
+  },
 };
 
 export default lang;

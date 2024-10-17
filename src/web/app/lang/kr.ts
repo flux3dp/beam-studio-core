@@ -1919,6 +1919,10 @@ const lang: ILang = {
     areacheck_desc: '작업 영역이 안전한지 객체의 경계 상자와 레이저 헤드의 가속 영역을 미리 보아 확인합니다.',
     calculating_task: '작업 계산 중...',
   },
+  web_cam: {
+    no_permission: 'Beam Studio는 카메라에 액세스할 권한이 없습니다. 브라우저 설정 또는 시스템 설정에서 Beam Studio에 권한이 부여되었는지 확인하십시오.',
+    no_device: '카메라 장치를 감지할 수 없습니다. 카메라를 다시 연결하고 다시 시도하십시오.',
+  },
 };
 
 export default lang;

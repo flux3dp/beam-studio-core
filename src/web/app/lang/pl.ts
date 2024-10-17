@@ -1919,6 +1919,10 @@ const lang: ILang = {
     areacheck_desc: 'Zapewnia bezpieczeństwo obszaru roboczego poprzez podgląd ramki ograniczającej obiekt i strefy przyspieszenia głowicy lasera.',
     calculating_task: 'Obliczanie zadania...',
   },
+  web_cam: {
+    no_permission: 'Beam Studio nie ma uprawnień do uzyskania dostępu do kamery. Upewnij się, że uprawnienia są przyznane Beam Studio w ustawieniach przeglądarki lub systemu.',
+    no_device: 'Nie można wykryć urządzenia kamery. Proszę podłączyć kamerę ponownie i spróbować ponownie.',
+  },
 };
 
 export default lang;

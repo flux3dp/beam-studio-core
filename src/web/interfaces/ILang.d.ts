@@ -1917,5 +1917,9 @@ export interface ILang {
     hull_desc: string;
     areacheck_desc: string;
     calculating_task: string;
-  }
+  };
+  web_cam: {
+    no_permission: string;
+    no_device: string;
+  };
 }

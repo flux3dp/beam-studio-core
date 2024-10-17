@@ -1916,6 +1916,10 @@ const lang: ILang = {
     areacheck_desc: 'Säkerställer att arbetsområdet är säkert genom att förhandsgranska objektets begränsningsram och laserns accelerationszon.',
     calculating_task: 'Beräknar uppgift...',
   },
+  web_cam: {
+    no_permission: 'Beam Studio har inte behörighet att komma åt kameran. Se till att behörigheten är beviljad till Beam Studio i webbläsarinställningarna eller systeminställningarna.',
+    no_device: 'Kan inte hitta kameranheten. Anslut kameran igen och försök igen.',
+  },
 };
 
 export default lang;

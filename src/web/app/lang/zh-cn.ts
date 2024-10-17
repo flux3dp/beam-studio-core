@@ -1919,6 +1919,10 @@ const lang: ILang = {
     areacheck_desc: '通过预览对象的边界框和激光头的加速区，确保工作区的安全。',
     calculating_task: '正在计算任务...',
   },
+  web_cam: {
+    no_permission: 'Beam Studio 没有权限访问相机。请确保在浏览器设置或系统设置中已授予 Beam Studio 权限。',
+    no_device: '无法检测到摄像设备。请重新连接摄像头，然后重试。',
+  },
 };
 
 export default lang;

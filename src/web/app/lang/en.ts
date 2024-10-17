@@ -1919,6 +1919,10 @@ const lang: ILang = {
     areacheck_desc: "Ensures the work area is safe by previewing the object's bounding box and the laser head's acceleration zone.",
     calculating_task: 'Calculating task...',
   },
+  web_cam: {
+    no_permission: 'Beam Studio does not have permission to access the camera. Please make sure the permission is granted to Beam Studio in system settings or browser settings.',
+    no_device: 'Unable to detect camera device. Please reconnect the camera and try again.',
+  },
 };
 
 export default lang;

@@ -1916,6 +1916,10 @@ const lang: ILang = {
     areacheck_desc: 'Memastikan kawasan kerja selamat dengan memaparkan kotak sempadan objek dan zon pecutan kepala laser.',
     calculating_task: 'Mengira tugas...',
   },
+  web_cam: {
+    no_permission: 'Beam Studio tidak mempunyai kebenaran untuk mengakses kamera. Pastikan kebenaran diberikan kepada Beam Studio dalam tetapan pelayar atau sistem.',
+    no_device: 'Tidak dapat mengesan peranti kamera. Sila sambungkan semula kamera dan cuba lagi.',
+  },
 };
 
 export default lang;

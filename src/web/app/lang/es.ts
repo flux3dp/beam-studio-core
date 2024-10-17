@@ -1919,6 +1919,10 @@ const lang: ILang = {
     areacheck_desc: 'Asegura que el área de trabajo sea segura mostrando la caja delimitadora del objeto y la zona de aceleración del cabezal láser.',
     calculating_task: 'Calculando tarea...',
   },
+  web_cam: {
+    no_permission: 'Beam Studio no tiene permiso para acceder a la cámara. Asegúrese de que el permiso esté concedido a Beam Studio en la configuración del navegador o del sistema.',
+    no_device: 'No se puede detectar el dispositivo de cámara. Vuelva a conectar la cámara e intente de nuevo.',
+  },
 };
 
 export default lang;
