@@ -234,6 +234,7 @@ const lang: ILang = {
   device_selection: {
     no_beambox: '#801 我们在网路上找不到您的机器，\n请参考<a target="_blank" href="https://support.flux3dp.com/hc/zh-tw/articles/360001683556">此指南</a>排除连线问题！',
     no_device_web: '#801 请检查您的机器状态，或点击下方的‘机器设置’来设置机器。',
+    select_usb_device: '选择 USB 设备',
   },
   update: {
     update: '更新',
@@ -1076,7 +1077,8 @@ const lang: ILang = {
     },
     document_panel: {
       document_settings: '文件设定',
-      engrave_parameters: '雕刻参数',
+      machine: '机器',
+      watts: '瓦',
       workarea: '工作范围',
       rotary_mode: '旋转轴',
       borderless_mode: '开盖模式',
@@ -1945,6 +1947,10 @@ const lang: ILang = {
     count: '数量',
     size: '尺寸 (高x宽)',
     spacing: '间距',
+  },
+  web_cam: {
+    no_permission: 'Beam Studio 没有权限访问相机。请确保在浏览器设置或系统设置中已授予 Beam Studio 权限。',
+    no_device: '无法检测到摄像设备。请重新连接摄像头，然后重试。',
   },
 };
 

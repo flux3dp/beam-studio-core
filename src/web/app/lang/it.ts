@@ -234,6 +234,7 @@ const lang: ILang = {
   device_selection: {
     no_beambox: '#801 Impossibile trovare la macchina sulla rete.\nSeguire la <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">guida</a> per risolvere il problema di connessione.',
     no_device_web: "#801 Controlla lo stato della tua macchina o clicca su 'Configura macchina' qui sotto per configurare la macchina.",
+    select_usb_device: 'Seleziona dispositivo USB',
   },
   update: {
     update: 'Aggiorna',
@@ -1073,7 +1074,8 @@ const lang: ILang = {
     },
     document_panel: {
       document_settings: 'Impostazioni documento',
-      engrave_parameters: 'Parametri di incisione',
+      machine: 'Macchina',
+      watts: 'Watt',
       workarea: 'Area di lavoro',
       rotary_mode: 'Rotativo',
       borderless_mode: 'Aperto in basso',
@@ -1924,22 +1926,10 @@ const lang: ILang = {
     areacheck_desc: "Garantisce la sicurezza dell'area di lavoro visualizzando il riquadro di delimitazione dell'oggetto e la zona di accelerazione della testa laser.",
     calculating_task: 'Calcolo del compito...',
   },
-  material_test_generator: {
-    title: 'Generatore di Test Materiale',
-    table_settings: 'Impostazioni Tabella',
-    block_settings: 'Impostazioni Blocco',
-    preview: 'Anteprima',
-    export: 'Esporta',
-    cut: 'Taglia',
-    engrave: 'Incidi',
-    columns: 'Colonne',
-    rows: 'Righe',
-    parameter: 'Parametro',
-    min: 'Min',
-    max: 'Max',
-    count: 'Quantità',
-    size: 'Dimensioni (AxL)',
-    spacing: 'Spaziatura',
+  material_test_generator: { title: 'Generatore di Test Materiale', table_settings: 'Impostazioni Tabella', block_settings: 'Impostazioni Blocco', preview: 'Anteprima', export: 'Esporta', cut: 'Taglia', engrave: 'Incidi', columns: 'Colonne', rows: 'Righe', parameter: 'Parametro', min: 'Min', max: 'Max', count: 'Quantità', size: 'Dimensioni (AxL)', spacing: 'Spaziatura' },
+  web_cam: {
+    no_permission: "Beam Studio non ha l'autorizzazione per accedere alla fotocamera. Assicurati che l'autorizzazione sia concessa a Beam Studio nelle impostazioni del browser o del sistema.",
+    no_device: 'Impossibile rilevare il dispositivo della fotocamera. Ricollega la fotocamera e riprova.',
   },
 };
 

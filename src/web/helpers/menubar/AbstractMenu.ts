@@ -66,8 +66,8 @@ export default abstract class AbstractMenu {
               level: MessageLevel.LOADING,
               duration: 20,
             });
-
-            DeviceMaster.getDeviceBySerial(menuItem.serial, callback);
+            if (menuItem.serial) DeviceMaster.getDiscoveredDevice('serial', menuItem.serial, callback);
+            else DeviceMaster.getDiscoveredDevice('uuid', menuItem.uuid, callback);
           }
         }
       });

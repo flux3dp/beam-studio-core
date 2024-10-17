@@ -228,6 +228,7 @@ export interface ILang {
   device_selection: {
     no_beambox: string;
     no_device_web: string;
+    select_usb_device: string;
   };
   update: {
     update: string;
@@ -1070,7 +1071,8 @@ export interface ILang {
     };
     document_panel: {
       document_settings: string;
-      engrave_parameters: string;
+      machine: string;
+      watts: string;
       workarea: string;
       rotary_mode: string;
       borderless_mode: string;
@@ -1943,4 +1945,8 @@ export interface ILang {
     | 'spacing',
     string
   >;
+  web_cam: {
+    no_permission: string;
+    no_device: string;
+  };
 }

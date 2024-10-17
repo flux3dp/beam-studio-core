@@ -12,6 +12,7 @@ import useI18n from 'helpers/useI18n';
 import { addDialogComponent, isIdExist, popDialogById } from 'app/actions/dialog-controller';
 import { getSupportInfo } from 'app/constants/add-on';
 import { IDeviceInfo } from 'interfaces/IDevice';
+import { promarkModels } from 'app/actions/beambox/constant';
 
 import styles from './FramingModal.module.scss';
 
@@ -44,6 +45,10 @@ const FramingModal = ({ device, onClose }: Props): JSX.Element => {
 
   const [lowLaser, setLowLaser] = useState<number>(beamboxPreference.read('low_power') ?? 10);
   const [type, setType] = useState<FramingType>(FramingType.Framing);
+  const options: FramingType[] = useMemo(() => {
+    if (promarkModels.has(device.model)) return [FramingType.Framing];
+    return [FramingType.Framing, FramingType.Hull, FramingType.AreaCheck];
+  }, [device.model]);
 
   const handleOk = () => {
     manager.current?.startFraming(type, { lowPower: supportInfo.framingLowLaser ? lowLaser : 0 });
@@ -106,35 +111,29 @@ const FramingModal = ({ device, onClose }: Props): JSX.Element => {
           className={styles.segmented}
           value={type}
           onChange={(val: FramingType) => setType(val)}
-          options={[
-            {
-              label: (
-                <div className={styles.seg}>
-                  <FramingIcons.Framing />
-                  <div>{t.framing}</div>
+          options={options.map((opt) => ({
+            label: (
+              <div className={styles.seg}>
+                {
+                  {
+                    [FramingType.Framing]: <FramingIcons.Framing />,
+                    [FramingType.Hull]: <FramingIcons.Hull />,
+                    [FramingType.AreaCheck]: <FramingIcons.AreaCheck />,
+                  }[opt]
+                }
+                <div>
+                  {
+                    {
+                      [FramingType.Framing]: t.framing,
+                      [FramingType.Hull]: t.hull,
+                      [FramingType.AreaCheck]: t.area_check,
+                    }[opt]
+                  }
                 </div>
-              ),
-              value: FramingType.Framing,
-            },
-            {
-              label: (
-                <div className={styles.seg}>
-                  <FramingIcons.Hull />
-                  <div>{t.hull}</div>
-                </div>
-              ),
-              value: FramingType.Hull,
-            },
-            {
-              label: (
-                <div className={styles.seg}>
-                  <FramingIcons.AreaCheck />
-                  <div>{t.area_check}</div>
-                </div>
-              ),
-              value: FramingType.AreaCheck,
-            },
-          ]}
+              </div>
+            ),
+            value: opt,
+          }))}
         />
         <div className={styles.desc}>
           <div className={styles.title}>

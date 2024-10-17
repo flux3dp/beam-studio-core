@@ -234,6 +234,7 @@ const lang: ILang = {
   device_selection: {
     no_beambox: '#801 เราไม่พบเครื่องของคุณในเครือข่าย\nโปรดทําตาม<a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">คําแนะนํา</a>เพื่อแก้ไขปัญหาการเชื่อมต่อ',
     no_device_web: "#801 กรุณาตรวจสอบสถานะของเครื่องของคุณหรือคลิกที่ 'ตั้งค่าเครื่อง' ด้านล่างเพื่อตั้งค่าเครื่อง.",
+    select_usb_device: 'เลือกอุปกรณ์ USB',
   },
   update: {
     update: 'อัปเดต',
@@ -1073,7 +1074,8 @@ const lang: ILang = {
     },
     document_panel: {
       document_settings: 'การตั้งค่าเอกสาร',
-      engrave_parameters: 'พารามิเตอร์การแกะสลัก',
+      machine: 'เครื่อง',
+      watts: 'วัตต์',
       workarea: 'พื้นที่ทํางาน',
       rotary_mode: 'โหมดหมุน',
       borderless_mode: 'โหมดเปิดก้น',
@@ -1924,22 +1926,10 @@ const lang: ILang = {
     areacheck_desc: 'ตรวจสอบความปลอดภัยของพื้นที่ทำงานโดยการแสดงกล่องขอบเขตของวัตถุและโซนเร่งความเร็วของหัวเลเซอร์',
     calculating_task: 'กำลังคำนวณงาน...',
   },
-  material_test_generator: {
-    title: 'ตัวสร้างการทดสอบวัสดุ',
-    table_settings: 'การตั้งค่าตาราง',
-    block_settings: 'การตั้งค่าบล็อก',
-    preview: 'ดูตัวอย่าง',
-    export: 'ส่งออก',
-    cut: 'ตัด',
-    engrave: 'แกะสลัก',
-    columns: 'คอลัมน์',
-    rows: 'แถว',
-    parameter: 'พารามิเตอร์',
-    min: 'น้อยสุด',
-    max: 'มากสุด',
-    count: 'จำนวน',
-    size: 'ขนาด (สxก)',
-    spacing: 'ระยะห่าง',
+  material_test_generator: { title: 'ตัวสร้างการทดสอบวัสดุ', table_settings: 'การตั้งค่าตาราง', block_settings: 'การตั้งค่าบล็อก', preview: 'ดูตัวอย่าง', export: 'ส่งออก', cut: 'ตัด', engrave: 'แกะสลัก', columns: 'คอลัมน์', rows: 'แถว', parameter: 'พารามิเตอร์', min: 'น้อยสุด', max: 'มากสุด', count: 'จำนวน', size: 'ขนาด (สxก)', spacing: 'ระยะห่าง' },
+  web_cam: {
+    no_permission: 'Beam Studio ไม่มีสิทธิ์เข้าถึงกล้อง โปรดตรวจสอบให้แน่ใจว่า Beam Studio ได้รับสิทธิ์ในเบราว์เซอร์หรือในการตั้งค่าระบบ',
+    no_device: 'ไม่สามารถตรวจพบอุปกรณ์กล้องได้ โปรดเชื่อมต่อกล้องใหม่และลองอีกครั้ง',
   },
 };
 

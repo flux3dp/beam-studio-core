@@ -234,6 +234,7 @@ const lang: ILang = {
   device_selection: {
     no_beambox: '#801 Emme löydä laitettasi verkosta.\nNoudata <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">ohjetta</a> yhteysongelman vianmääritykseen.',
     no_device_web: "#801 Tarkista koneesi tila tai napsauta alla olevaa 'Koneen asetukset' asettaaksesi koneen.",
+    select_usb_device: 'Valitse USB-laite',
   },
   update: {
     update: 'Päivitä',
@@ -1073,7 +1074,8 @@ const lang: ILang = {
     },
     document_panel: {
       document_settings: 'Asiakirjan asetukset',
-      engrave_parameters: 'Kaiverrusparametrit',
+      machine: 'Kone',
+      watts: 'Wattia',
       workarea: 'Työalue',
       rotary_mode: 'Pyörivä',
       borderless_mode: 'Avoin pohja',
@@ -1924,22 +1926,10 @@ const lang: ILang = {
     areacheck_desc: 'Varmistaa työalueen turvallisuuden näyttämällä objektin rajauslaatikon ja laserpään kiihdytysvyöhykkeen.',
     calculating_task: 'Lasketaan tehtävää...',
   },
-  material_test_generator: {
-    title: 'Materiaalitestin Generaattori',
-    table_settings: 'Taulukon Asetukset',
-    block_settings: 'Lohkon Asetukset',
-    preview: 'Esikatselu',
-    export: 'Vie',
-    cut: 'Leikkaa',
-    engrave: 'Kaiverra',
-    columns: 'Sarakkeet',
-    rows: 'Rivit',
-    parameter: 'Parametri',
-    min: 'Min',
-    max: 'Max',
-    count: 'Määrä',
-    size: 'Koko (KxL)',
-    spacing: 'Väli',
+  material_test_generator: { title: 'Materiaalitestin Generaattori', table_settings: 'Taulukon Asetukset', block_settings: 'Lohkon Asetukset', preview: 'Esikatselu', export: 'Vie', cut: 'Leikkaa', engrave: 'Kaiverra', columns: 'Sarakkeet', rows: 'Rivit', parameter: 'Parametri', min: 'Min', max: 'Max', count: 'Määrä', size: 'Koko (KxL)', spacing: 'Väli' },
+  web_cam: {
+    no_permission: 'Beam Studiolla ei ole lupaa käyttää kameraa. Varmista, että lupa on myönnetty Beam Studiolle selainasetuksissa tai järjestelmäasetuksissa.',
+    no_device: 'Kameralaitetta ei havaittu. Kytke kamera uudelleen ja yritä uudelleen.',
   },
 };
 

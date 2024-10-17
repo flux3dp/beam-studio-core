@@ -234,6 +234,7 @@ const lang: ILang = {
   device_selection: {
     no_beambox: '#801 Wir können Ihren Computer nicht im Netzwerk finden.\nBefolgen Sie bitte <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">die Anleitung</a>, um das Verbindungsproblem zu beheben.',
     no_device_web: "#801 Überprüfen Sie bitte den Status Ihrer Maschine oder klicken Sie unten auf 'Maschineneinrichtung', um die Maschine einzurichten.",
+    select_usb_device: 'USB-Gerät auswählen',
   },
   update: {
     update: 'Aktualisieren',
@@ -1076,7 +1077,8 @@ const lang: ILang = {
     },
     document_panel: {
       document_settings: 'Dokumenteinstellungen',
-      engrave_parameters: 'Gravurparameter',
+      machine: 'Maschine',
+      watts: 'Watt',
       workarea: 'Arbeitsbereich',
       rotary_mode: 'Drehtisch',
       borderless_mode: 'Öffnen Sie den Boden',
@@ -1945,6 +1947,10 @@ const lang: ILang = {
     count: 'Anzahl',
     size: 'Größe (HxB)',
     spacing: 'Abstand',
+  },
+  web_cam: {
+    no_permission: 'Beam Studio hat keine Berechtigung, auf die Kamera zuzugreifen. Stellen Sie sicher, dass die Berechtigung für Beam Studio in den Browser- oder Systemeinstellungen erteilt wurde.',
+    no_device: 'Kameragerät kann nicht erkannt werden. Bitte schließen Sie die Kamera erneut an und versuchen Sie es erneut.',
   },
 };
 

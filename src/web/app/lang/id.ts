@@ -234,6 +234,7 @@ const lang: ILang = {
   device_selection: {
     no_beambox: '#801 Kami tidak dapat menemukan mesin Anda di jaringan.\nHarap ikuti <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">panduan</a> untuk mengatasi masalah koneksi.',
     no_device_web: "#801 Periksa status mesin Anda, atau klik 'Setup Mesin' di bawah untuk mengatur mesin.",
+    select_usb_device: 'Pilih Perangkat USB',
   },
   update: {
     update: 'Perbarui',
@@ -1073,7 +1074,8 @@ const lang: ILang = {
     },
     document_panel: {
       document_settings: 'Pengaturan Dokumen',
-      engrave_parameters: 'Parameter Ukiran',
+      machine: 'Mesin',
+      watts: 'Watt',
       workarea: 'Area Kerja',
       rotary_mode: 'Putar',
       borderless_mode: 'Buka Bawah',
@@ -1924,22 +1926,10 @@ const lang: ILang = {
     areacheck_desc: 'Memastikan area kerja aman dengan menampilkan kotak pembatas objek dan zona akselerasi kepala laser.',
     calculating_task: 'Menghitung tugas...',
   },
-  material_test_generator: {
-    title: 'Generator Uji Material',
-    table_settings: 'Pengaturan Tabel',
-    block_settings: 'Pengaturan Blok',
-    preview: 'Pratinjau',
-    export: 'Ekspor',
-    cut: 'Potong',
-    engrave: 'Ukir',
-    columns: 'Kolom',
-    rows: 'Baris',
-    parameter: 'Parameter',
-    min: 'Min',
-    max: 'Maks',
-    count: 'Jumlah',
-    size: 'Ukuran (PxL)',
-    spacing: 'Jarak',
+  material_test_generator: { title: 'Generator Uji Material', table_settings: 'Pengaturan Tabel', block_settings: 'Pengaturan Blok', preview: 'Pratinjau', export: 'Ekspor', cut: 'Potong', engrave: 'Ukir', columns: 'Kolom', rows: 'Baris', parameter: 'Parameter', min: 'Min', max: 'Maks', count: 'Jumlah', size: 'Ukuran (PxL)', spacing: 'Jarak' },
+  web_cam: {
+    no_permission: 'Beam Studio tidak memiliki izin untuk mengakses kamera. Pastikan izin diberikan ke Beam Studio di pengaturan browser atau pengaturan sistem.',
+    no_device: 'Tidak dapat mendeteksi perangkat kamera. Silakan sambungkan kembali kamera dan coba lagi.',
   },
 };
 

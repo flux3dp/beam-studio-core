@@ -234,6 +234,7 @@ const lang: ILang = {
   device_selection: {
     no_beambox: '#801 Vi hittar inte din maskin i nätverket.\nFölj <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">guiden</a> för att felsöka anslutningsproblemet.',
     no_device_web: "#801 Kontrollera statusen för din maskin, eller klicka på 'Maskininställning' nedan för att ställa in maskinen.",
+    select_usb_device: 'Välj USB-enhet',
   },
   update: {
     update: 'Uppdatera',
@@ -1073,7 +1074,8 @@ const lang: ILang = {
     },
     document_panel: {
       document_settings: 'Dokumentinställningar',
-      engrave_parameters: 'Graveringsparametrar',
+      machine: 'Maskin',
+      watts: 'Watt',
       workarea: 'Arbetsområde',
       rotary_mode: 'Roterande',
       borderless_mode: 'Öppen botten',
@@ -1924,22 +1926,10 @@ const lang: ILang = {
     areacheck_desc: 'Säkerställer att arbetsområdet är säkert genom att förhandsgranska objektets begränsningsram och laserns accelerationszon.',
     calculating_task: 'Beräknar uppgift...',
   },
-  material_test_generator: {
-    title: 'Materialtestgenerator',
-    table_settings: 'Tabellinställningar',
-    block_settings: 'Blockinställningar',
-    preview: 'Förhandsgranska',
-    export: 'Exportera',
-    cut: 'Skär',
-    engrave: 'Gravera',
-    columns: 'Kolumner',
-    rows: 'Rader',
-    parameter: 'Parameter',
-    min: 'Min',
-    max: 'Max',
-    count: 'Antal',
-    size: 'Storlek (HxB)',
-    spacing: 'Mellanrum',
+  material_test_generator: { title: 'Materialtestgenerator', table_settings: 'Tabellinställningar', block_settings: 'Blockinställningar', preview: 'Förhandsgranska', export: 'Exportera', cut: 'Skär', engrave: 'Gravera', columns: 'Kolumner', rows: 'Rader', parameter: 'Parameter', min: 'Min', max: 'Max', count: 'Antal', size: 'Storlek (HxB)', spacing: 'Mellanrum' },
+  web_cam: {
+    no_permission: 'Beam Studio har inte behörighet att komma åt kameran. Se till att behörigheten är beviljad till Beam Studio i webbläsarinställningarna eller systeminställningarna.',
+    no_device: 'Kan inte hitta kameranheten. Anslut kameran igen och försök igen.',
   },
 };
 

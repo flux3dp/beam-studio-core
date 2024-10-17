@@ -91,3 +91,8 @@ expect.addSnapshotSerializer({
   print: (val: string) =>
     `"${val.replace(antdCssDevOnlyRegex, 'css-dev-only-do-not-override-hash')}"`,
 });
+
+expect.addSnapshotSerializer({
+  test: (val) => typeof val === 'string' && !!val.match(/ transform-origin: NaNpx NaNpx;/g),
+  print: (val: string) => `"${val.replace(/ transform-origin: NaNpx NaNpx;/g, '')}"`,
+})

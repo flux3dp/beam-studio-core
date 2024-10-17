@@ -841,6 +841,10 @@ class Control extends EventEmitter implements IControlSocket {
     return res;
   };
 
+  setLensCorrection = async () => {
+    throw new Error('Method not implemented.');
+  };
+
   getDoorOpen = async () => {
     const res = (await this.useWaitOKResponse('play get_door_open')).response;
     return res;

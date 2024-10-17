@@ -234,6 +234,7 @@ const lang: ILang = {
   device_selection: {
     no_beambox: '#801 Vi kan ikke finde din maskine på netværket.\nFølg venligst <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">guiden</a> for at finde fejlen i forbindelsen.',
     no_device_web: "#801 Tjek venligst status for din maskine, eller klik på 'Maskinopsætning' nedenfor for at opsætte maskinen.",
+    select_usb_device: 'Vælg USB-enhed',
   },
   update: {
     update: 'Opdater',
@@ -1073,7 +1074,8 @@ const lang: ILang = {
     },
     document_panel: {
       document_settings: 'Dokumentindstillinger',
-      engrave_parameters: 'Graveringsparametre',
+      machine: 'Maskine',
+      watts: 'Watt',
       workarea: 'Arbejdsområde',
       rotary_mode: 'Roterende',
       borderless_mode: 'Åben bund',
@@ -1942,6 +1944,10 @@ const lang: ILang = {
     count: 'Antal',
     size: 'Størrelse (HxB)',
     spacing: 'Mellemrum',
+  },
+  web_cam: {
+    no_permission: 'Beam Studio har ikke tilladelse til at få adgang til kameraet. Sørg for, at tilladelsen er givet til Beam Studio i browserindstillingerne eller systemindstillingerne.',
+    no_device: 'Kan ikke registrere kameranhed. Tilslut kameraet igen og prøv igen.',
   },
 };
 

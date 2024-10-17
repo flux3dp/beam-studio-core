@@ -16,12 +16,14 @@ import {
 import ExposureSlider from './ExposureSlider';
 import styles from './SolvePnP.module.scss';
 import useCamera from './useCamera';
+import { adorPnPPoints } from './solvePnPConstants';
 
 interface Props {
   params: FisheyeCaliParameters;
   dh: number;
   hasNext?: boolean;
-  version?: number;
+  refPoints?: [number, number][];
+  imgSource?: 'wifi' | 'usb';
   onClose: (complete: boolean) => void;
   onNext: (rvec: number[], tvec: number[]) => void;
   onBack: () => void;
@@ -31,7 +33,8 @@ const SolvePnP = ({
   params,
   dh,
   hasNext = false,
-  version = 2,
+  refPoints = adorPnPPoints,
+  imgSource = 'wifi',
   onClose,
   onNext,
   onBack,
@@ -106,7 +109,7 @@ const SolvePnP = ({
   const handleImg = useCallback(
     async (imgBlob: Blob) => {
       try {
-        const res = await solvePnPFindCorners(imgBlob, dh, version);
+        const res = await solvePnPFindCorners(imgBlob, dh, refPoints);
         if (res.success) {
           const { success, blob, data } = res;
           setImg({ blob, url: URL.createObjectURL(blob), success });
@@ -114,8 +117,13 @@ const SolvePnP = ({
         } else if (res.success === false) {
           const { data } = res;
           if (data.info === 'NO_DATA') {
-            await updateData(params);
-            return await handleImg(imgBlob);
+            if (params.k && params.d) {
+              await updateData(params);
+              return await handleImg(imgBlob);
+            }
+            alertCaller.popUpError({
+              message: 'No chessboard data detected, please restart calibration.',
+            });
           }
           return false;
         }
@@ -124,10 +132,13 @@ const SolvePnP = ({
       }
       return true;
     },
-    [dh, params, version]
+    [dh, params, refPoints]
   );
 
-  const { exposureSetting, setExposureSetting, handleTakePicture } = useCamera(handleImg);
+  const { exposureSetting, setExposureSetting, handleTakePicture } = useCamera(
+    handleImg,
+    imgSource
+  );
 
   const handleContainerDragStart = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     dragStartPos.current = {
@@ -265,7 +276,7 @@ const SolvePnP = ({
   }, [handleWheel]);
 
   const handleDone = async () => {
-    const res = await solvePnPCalculate(dh, points, version);
+    const res = await solvePnPCalculate(dh, points, refPoints);
     if (res.success) {
       const { rvec, tvec } = res.data;
       onNext(rvec, tvec);

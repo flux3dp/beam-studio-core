@@ -2,10 +2,7 @@
  * API camera calibration
  * Ref: none
  */
-import {
-  FisheyeCaliParameters,
-  FisheyeCameraParametersV2Cali,
-} from 'interfaces/FisheyePreview';
+import { FisheyeCaliParameters, FisheyeCameraParametersV2Cali } from 'interfaces/FisheyePreview';
 
 import Websocket from '../websocket';
 
@@ -314,7 +311,7 @@ class CameraCalibrationApi {
   solvePnPFindCorners = (
     img: Blob | ArrayBuffer,
     dh: number,
-    version = 2
+    refPoints: [number, number][]
   ): Promise<
     | {
         success: true;
@@ -352,14 +349,14 @@ class CameraCalibrationApi {
         console.log('on fatal', response);
       };
       const size = img instanceof Blob ? img.size : img.byteLength;
-      // solve_pnp_find_corners [calibration_version] [elevated_dh] [file_length]
-      this.ws.send(`solve_pnp_find_corners ${version} ${dh.toFixed(3)} ${size}`);
+      // solve_pnp_find_corners [refPoints] [elevated_dh] [file_length]
+      this.ws.send(`solve_pnp_find_corners ${JSON.stringify(refPoints)} ${dh.toFixed(3)} ${size}`);
     });
 
   solvePnPCalculate = (
     dh: number,
     points: [number, number][],
-    version = 2
+    refPoints: [number, number][]
   ): Promise<{
     success: boolean;
     data?: { rvec: number[]; tvec: number[] };
@@ -386,8 +383,12 @@ class CameraCalibrationApi {
         reject(response);
         console.log('on fatal', response);
       };
-      // solve_pnp_calculate [calibration_version] [elevated_dh] [points]
-      this.ws.send(`solve_pnp_calculate ${version} ${dh.toFixed(3)} ${JSON.stringify(points)}`);
+      // solve_pnp_calculate [ref_points] [elevated_dh] [points]
+      this.ws.send(
+        `solve_pnp_calculate ${JSON.stringify(refPoints)} ${dh.toFixed(3)} ${JSON.stringify(
+          points
+        )}`
+      );
     });
 
   updateData = (data: FisheyeCaliParameters): Promise<boolean> =>

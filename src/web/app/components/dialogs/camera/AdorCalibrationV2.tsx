@@ -24,6 +24,7 @@ import FindCorner from './AdorCalibrationV2/FindCorner';
 import Instruction from './common/Instruction';
 import SolvePnP from './common/SolvePnP';
 import StepElevate from './AdorCalibrationV2/StepElevate';
+import { adorPnPPoints } from './common/solvePnPConstants';
 import { getMaterialHeight, prepareToTakePicture, saveCheckPoint } from './AdorCalibrationV2/utils';
 
 enum Step {
@@ -218,6 +219,7 @@ const AdorCalibrationV2 = ({ factoryMode = false, onClose }: Props): JSX.Element
         hasNext
         params={calibratingParam.current}
         dh={calibratingParam.current.dh1}
+        refPoints={adorPnPPoints}
         onClose={onClose}
         onBack={() => setStep(Step.SOLVE_PNP_INSTRUCTION_1)}
         onNext={async (rvec, tvec) => {
@@ -272,6 +274,7 @@ const AdorCalibrationV2 = ({ factoryMode = false, onClose }: Props): JSX.Element
     <SolvePnP
       params={calibratingParam.current}
       dh={calibratingParam.current.dh2}
+      refPoints={adorPnPPoints}
       onClose={onClose}
       onBack={onBack}
       onNext={async (rvec, tvec) => {

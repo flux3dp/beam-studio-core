@@ -4,7 +4,7 @@ import AlertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import checkDeviceStatus from 'helpers/check-device-status';
 import checkOldFirmware from 'helpers/device/checkOldFirmware';
-import Constant from 'app/actions/beambox/constant';
+import Constant, { promarkModels } from 'app/actions/beambox/constant';
 import deviceMaster from 'helpers/device-master';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import i18n from 'helpers/i18n';
@@ -19,6 +19,7 @@ import { RotationParameters3DCalibration } from 'interfaces/FisheyePreview';
 import AdorPreviewManager from '../camera/preview-helper/AdorPreviewManager';
 import BeamPreviewManager from '../camera/preview-helper/BeamPreviewManager';
 import BB2PreviewManager from '../camera/preview-helper/BB2PreviewManager';
+import PromarkPreviewManager from '../camera/preview-helper/PromarkPreviewManager';
 
 const LANG = i18n.lang;
 const canvasEventEmitter = eventEmitterFactory.createEventEmitter('canvas');
@@ -107,7 +108,9 @@ class PreviewModeController {
 
     try {
       this.currentDevice = device;
-      if (Constant.adorModels.includes(device.model)) {
+      if (promarkModels.has(device.model)) {
+        this.previewManager = new PromarkPreviewManager(device);
+      }  else if (Constant.adorModels.includes(device.model)) {
         this.previewManager = new AdorPreviewManager(device);
       } else if (device.model === 'fbb2') {
         this.previewManager = new BB2PreviewManager(device);

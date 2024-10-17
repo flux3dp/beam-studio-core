@@ -7,7 +7,7 @@ import { sprintf } from 'sprintf-js';
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import checkSoftwareForAdor from 'helpers/check-software';
-import constant from 'app/actions/beambox/constant';
+import constant, { promarkModels } from 'app/actions/beambox/constant';
 import DeviceConstants from 'app/constants/device-constants';
 import Dialog from 'app/actions/dialog-caller';
 import IControlSocket from 'interfaces/IControlSocket';
@@ -27,10 +27,12 @@ import { IDeviceInfo, IDeviceConnection, IDeviceDetailInfo } from 'interfaces/ID
 import Camera from './api/camera';
 import Control from './api/control';
 import Discover from './api/discover';
-import Touch from './api/touch';
 import i18n from './i18n';
+import promarkDataStore from './device/promark-data-store';
 import SwiftrayControl from './api/swiftray-control';
+import Touch from './api/touch';
 import VersionChecker from './version-checker';
+import { swiftrayClient } from './api/swiftray-client';
 
 let { lang } = i18n;
 const updateLang = () => {
@@ -368,28 +370,30 @@ class DeviceMaster {
       timeout: 30000,
     });
 
-    if (device.control && device.control.isConnected) {
-      try {
-        // Update device status
-        if (device.control.getMode() !== 'raw') {
-          const controlSocket = device.control;
-          const info = await controlSocket.addTask(controlSocket.report);
-          Object.assign(device.info, info.device_status);
-        }
-        this.currentDevice = device;
-        Progress.popById('select-device');
-        return { success: true };
-      } catch (e) {
-        await device.control.killSelf();
-      }
-    }
-
     try {
       const controlSocket = await this.createDeviceControlSocketSwiftray(uuid);
       device.control = controlSocket;
       this.setDeviceControlDefaultCloseListener(deviceInfo);
       this.currentDevice = device;
       console.log(`Connected to ${uuid}`);
+
+      // In order to update serial
+      const res = await swiftrayClient.listDevices();
+      if (res.success) {
+        const newInfo = res.devices?.find((d) => d.uuid === uuid);
+        if (newInfo) {
+          device.info = newInfo;
+          Object.assign(deviceInfo, newInfo);
+        }
+      }
+
+      if (promarkModels.has(device.info.model)) {
+        const correction = promarkDataStore.get(device.info.serial, 'lensCorrection');
+        console.log('Applying', correction);
+        if (correction) {
+          await controlSocket.addTask(controlSocket.setLensCorrection, correction.x, correction.y);
+        }
+      }
       Progress.popById('select-device');
       return {
         success: true,
@@ -528,7 +532,7 @@ class DeviceMaster {
   }
 
   // Player functions
-  async go(data, onProgress?: (...args: any[]) => void) {
+  async go(data: Blob, onProgress?: (...args: any[]) => void) {
     const controlSocket = await this.getControl();
     if (!data || !(data instanceof Blob)) {
       return DeviceConstants.READY;
@@ -704,10 +708,16 @@ class DeviceMaster {
     }
   }
 
-  doCalibration = async (fcodeBase64: string) => {
+  doCalibration = async (fcodeSource?: string) => {
     const vc = VersionChecker(this.currentDevice.info.version);
-    const res = await fetch(fcodeBase64);
-    const blob = await res.blob();
+    let blob: Blob;
+    if (fcodeSource) {
+      const resp = await fetch(fcodeSource);
+      blob = await resp.blob();
+    } else {
+      // fake data to upload for swiftray
+      blob = new Blob(['f']);
+    }
     if (vc.meetRequirement('RELOCATE_ORIGIN')) {
       await this.setOriginX(0);
       await this.setOriginY(0);
@@ -767,6 +777,10 @@ class DeviceMaster {
 
   async doBB2Calibration() {
     await this.doCalibration('fcode/bb2-calibration.fc');
+  }
+
+  async doPromarkCalibration() {
+    await this.doCalibration();
   }
 
   // fs functions
@@ -1061,7 +1075,7 @@ class DeviceMaster {
     if (!vc.meetRequirement(isV2 ? 'ADOR_JOB_ORIGIN' : 'JOB_ORIGIN')) {
       return null;
     }
-    const res = await controlSocket.addTask(controlSocket.rawSetOrigin, isV2 ? 2: 1);
+    const res = await controlSocket.addTask(controlSocket.rawSetOrigin, isV2 ? 2 : 1);
     return res;
   }
 
@@ -1311,9 +1325,9 @@ class DeviceMaster {
     }
   }
 
-  getDeviceBySerial(serial: string, callback) {
-    console.log(serial, this.discoveredDevices);
-    const matchedDevice = this.discoveredDevices.filter((d) => d.serial === serial);
+  getDiscoveredDevice<T extends keyof IDeviceInfo>(key: T, value: IDeviceInfo[T], callback) {
+    console.log(key, value, this.discoveredDevices);
+    const matchedDevice = this.discoveredDevices.filter((d) => d[key] === value);
 
     if (matchedDevice.length > 0) {
       callback.onSuccess(matchedDevice[0]);
@@ -1326,7 +1340,7 @@ class DeviceMaster {
           ...callback,
           timeout: callback.timeout - 500,
         };
-        this.getDeviceBySerial(serial, newCallback);
+        this.getDiscoveredDevice(key, value, newCallback);
       }, 500);
     } else {
       callback.onTimeout();

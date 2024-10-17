@@ -42,7 +42,8 @@ export type StorageKey =
   | 'selected-device'
   | 'announcement-record'
   | 'ador-backup-path'
-  | 'layer-panel-height';
+  | 'layer-panel-height'
+  | 'promark-store';
 
 export interface IStorage {
   get(name: StorageKey): any;

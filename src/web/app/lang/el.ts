@@ -234,6 +234,7 @@ const lang: ILang = {
   device_selection: {
     no_beambox: '#801 Δεν μπορούμε να βρούμε το μηχάνημά σας στο δίκτυο.\nΠαρακαλώ ακολουθήστε τον <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">οδηγό</a> για αντιμετώπιση προβλημάτων σύνδεσης.',
     no_device_web: "#801 Ελέγξτε την κατάσταση της μηχανής σας ή κάντε κλικ στο 'Ρύθμιση μηχανής' παρακάτω για να ρυθμίσετε τη μηχανή.",
+    select_usb_device: 'Επιλέξτε συσκευή USB',
   },
   update: {
     update: 'Ενημέρωση',
@@ -1073,7 +1074,8 @@ const lang: ILang = {
     },
     document_panel: {
       document_settings: 'Ρυθμίσεις εγγράφου',
-      engrave_parameters: 'Παράμετροι χάραξης',
+      machine: 'Μηχανή',
+      watts: 'Βατ',
       workarea: 'Περιοχή εργασίας',
       rotary_mode: 'Περιστροφική λειτουργία',
       borderless_mode: 'Ανοιχτό κάτω μέρος',
@@ -1924,22 +1926,10 @@ const lang: ILang = {
     areacheck_desc: 'Εξασφαλίζει την ασφάλεια της περιοχής εργασίας προβάλλοντας το πλαίσιο οριοθέτησης του αντικειμένου και τη ζώνη επιτάχυνσης της κεφαλής λέιζερ.',
     calculating_task: 'Υπολογισμός εργασίας...',
   },
-  material_test_generator: {
-    title: 'Γεννήτρια Δοκιμής Υλικού',
-    table_settings: 'Ρυθμίσεις Πίνακα',
-    block_settings: 'Ρυθμίσεις Μπλοκ',
-    preview: 'Προεπισκόπηση',
-    export: 'Εξαγωγή',
-    cut: 'Κοπή',
-    engrave: 'Χάραξη',
-    columns: 'Στήλες',
-    rows: 'Σειρές',
-    parameter: 'Παράμετρος',
-    min: 'Ελάχ',
-    max: 'Μέγ',
-    count: 'Ποσότητα',
-    size: 'Μέγεθος (ΥxΠ)',
-    spacing: 'Απόσταση',
+  material_test_generator: { title: 'Γεννήτρια Δοκιμής Υλικού', table_settings: 'Ρυθμίσεις Πίνακα', block_settings: 'Ρυθμίσεις Μπλοκ', preview: 'Προεπισκόπηση', export: 'Εξαγωγή', cut: 'Κοπή', engrave: 'Χάραξη', columns: 'Στήλες', rows: 'Σειρές', parameter: 'Παράμετρος', min: 'Ελάχ', max: 'Μέγ', count: 'Ποσότητα', size: 'Μέγεθος (ΥxΠ)', spacing: 'Απόσταση' },
+  web_cam: {
+    no_permission: 'Το Beam Studio δεν έχει άδεια πρόσβασης στην κάμερα. Βεβαιωθείτε ότι έχει δοθεί άδεια στο Beam Studio από τις ρυθμίσεις του προγράμματος περιήγησης ή του συστήματος.',
+    no_device: 'Δεν είναι δυνατή η ανίχνευση της κάμερας. Παρακαλώ συνδέστε ξανά την κάμερα και δοκιμάστε ξανά.',
   },
 };
 

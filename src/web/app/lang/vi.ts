@@ -234,6 +234,7 @@ const lang: ILang = {
   device_selection: {
     no_beambox: '#801 Chúng tôi không tìm thấy máy của bạn trên mạng.\nVui lòng làm theo <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">hướng dẫn</a> để khắc phục sự cố kết nối.',
     no_device_web: "#801 Vui lòng kiểm tra tình trạng của máy bạn, hoặc nhấn vào 'Thiết lập máy in' bên dưới để cài đặt máy.",
+    select_usb_device: 'Chọn thiết bị USB',
   },
   update: {
     update: 'Cập nhật',
@@ -1073,7 +1074,8 @@ const lang: ILang = {
     },
     document_panel: {
       document_settings: 'Cài đặt tài liệu',
-      engrave_parameters: 'Thông số khắc',
+      machine: 'Máy',
+      watts: 'Oát',
       workarea: 'Khu vực làm việc',
       rotary_mode: 'Chế độ xoay',
       borderless_mode: 'Mở đáy',
@@ -1924,22 +1926,10 @@ const lang: ILang = {
     areacheck_desc: 'Đảm bảo khu vực làm việc an toàn bằng cách xem trước hộp giới hạn của đối tượng và vùng gia tốc của đầu laser.',
     calculating_task: 'Đang tính toán nhiệm vụ...',
   },
-  material_test_generator: {
-    title: 'Trình tạo thử nghiệm vật liệu',
-    table_settings: 'Cài đặt bảng',
-    block_settings: 'Cài đặt khối',
-    preview: 'Xem trước',
-    export: 'Xuất',
-    cut: 'Cắt',
-    engrave: 'Khắc',
-    columns: 'Cột',
-    rows: 'Hàng',
-    parameter: 'Tham số',
-    min: 'Tối thiểu',
-    max: 'Tối đa',
-    count: 'Số lượng',
-    size: 'Kích thước (CxR)',
-    spacing: 'Khoảng cách',
+  material_test_generator: { title: 'Trình tạo thử nghiệm vật liệu', table_settings: 'Cài đặt bảng', block_settings: 'Cài đặt khối', preview: 'Xem trước', export: 'Xuất', cut: 'Cắt', engrave: 'Khắc', columns: 'Cột', rows: 'Hàng', parameter: 'Tham số', min: 'Tối thiểu', max: 'Tối đa', count: 'Số lượng', size: 'Kích thước (CxR)', spacing: 'Khoảng cách' },
+  web_cam: {
+    no_permission: 'Beam Studio không có quyền truy cập vào camera. Vui lòng đảm bảo rằng quyền đã được cấp cho Beam Studio trong cài đặt trình duyệt hoặc hệ thống.',
+    no_device: 'Không thể phát hiện thiết bị camera. Vui lòng kết nối lại camera và thử lại.',
   },
 };
 

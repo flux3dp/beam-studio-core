@@ -234,6 +234,7 @@ const lang: ILang = {
   device_selection: {
     no_beambox: '#801 Vi finner ikke maskinen din på nettverket.\nFølg <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/360001683556">veiledningen</a> for å løse tilkoblingsproblemet.',
     no_device_web: "#801 Sjekk statusen til maskinen din, eller klikk på 'Maskinoppsett' nedenfor for å sette opp maskinen.",
+    select_usb_device: 'Velg USB-enhet',
   },
   update: {
     update: 'Oppdater',
@@ -1073,7 +1074,8 @@ const lang: ILang = {
     },
     document_panel: {
       document_settings: 'Dokumentinnstillinger',
-      engrave_parameters: 'Graveringsparametere',
+      machine: 'Maskin',
+      watts: 'Watt',
       workarea: 'Arbeidsområde',
       rotary_mode: 'Roterende',
       borderless_mode: 'Åpen bunn',
@@ -1924,22 +1926,10 @@ const lang: ILang = {
     areacheck_desc: 'Sikrer at arbeidsområdet er trygt ved å vise objektets avgrensningsboks og laserhodets akselerasjonssone.',
     calculating_task: 'Beregner oppgave...',
   },
-  material_test_generator: {
-    title: 'Materialtestgenerator',
-    table_settings: 'Tabellinnstillinger',
-    block_settings: 'Blokkinstillinger',
-    preview: 'Forhåndsvisning',
-    export: 'Eksportere',
-    cut: 'Klipp',
-    engrave: 'Gravere',
-    columns: 'Kolonner',
-    rows: 'Rader',
-    parameter: 'Parameter',
-    min: 'Min',
-    max: 'Maks',
-    count: 'Antall',
-    size: 'Størrelse (HxB)',
-    spacing: 'Avstand',
+  material_test_generator: { title: 'Materialtestgenerator', table_settings: 'Tabellinnstillinger', block_settings: 'Blokkinstillinger', preview: 'Forhåndsvisning', export: 'Eksportere', cut: 'Klipp', engrave: 'Gravere', columns: 'Kolonner', rows: 'Rader', parameter: 'Parameter', min: 'Min', max: 'Maks', count: 'Antall', size: 'Størrelse (HxB)', spacing: 'Avstand' },
+  web_cam: {
+    no_permission: 'Beam Studio har ikke tillatelse til å få tilgang til kameraet. Sørg for at tillatelsen er gitt til Beam Studio i nettleserinnstillingene eller systeminnstillingene.',
+    no_device: 'Kan ikke oppdage kameramaskinen. Vennligst koble til kameraet på nytt og prøv igjen.',
   },
 };
 
