@@ -20,6 +20,7 @@ export default function TableSettingForm({
     beambox: {
       right_panel: { laser_panel: tLaserPanel },
     },
+    material_test_generator: tMaterial,
   } = useI18n();
   const lengthUnit = isInch ? 'in' : 'mm';
   const settingEntries = Object.entries(tableSetting).sort(([a], [b]) => b.localeCompare(a));
@@ -66,7 +67,7 @@ export default function TableSettingForm({
 
     return (
       <Flex vertical justify="space-between" gap="20px" key={`table-setting-${index}`}>
-        <div className={styles['sub-title']}>{index ? 'Rows' : 'Columns'}</div>
+        <div className={styles['sub-title']}>{tMaterial[index ? 'rows' : 'columns']}</div>
         <Select
           className={styles.input}
           options={options}
@@ -97,9 +98,9 @@ export default function TableSettingForm({
     <Flex justify="space-between">
       <Flex vertical justify="space-between" gap="20px">
         <div className={styles['sub-title']}>&nbsp;</div>
-        <div className={styles.label}>Parameter</div>
-        <div className={styles.label}>Min</div>
-        <div className={styles.label}>Max</div>
+        <div className={styles.label}>{tMaterial.parameter}</div>
+        <div className={styles.label}>{tMaterial.min}</div>
+        <div className={styles.label}>{tMaterial.max}</div>
       </Flex>
 
       <Flex className={styles.inputs} justify="flex-end" gap="20px">

@@ -46,9 +46,7 @@ export default function generateSvgInfo({
 
   return colRange.flatMap((c) =>
     rowRange.map((r) => ({
-      name: `${namingMap[col[0]]}${c}-${namingMap[row[0]]}${r}-${namingMap[third[0]]}${
-        third[1].default
-      }`,
+      name: `${namingMap[col[0]]}${c}-${namingMap[row[0]]}${r}`,
       [col[0]]: c,
       [row[0]]: r,
       [third[0]]: third[1].default,

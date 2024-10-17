@@ -35,7 +35,7 @@ const UnitInput = forwardRef<HTMLInputElement, Props>(
     outerRef
   ): JSX.Element => {
     const inputRef = useRef<HTMLInputElement>(null);
-    const prevValueRef = useRef<number | undefined>(); // for onChange
+    const valueRef = useRef<number | undefined>(); // for onChange
 
     useImperativeHandle(outerRef, () => inputRef.current, []);
 
@@ -60,8 +60,8 @@ const UnitInput = forwardRef<HTMLInputElement, Props>(
     const handleValueChange = useCallback(
       (value: number | undefined) => {
         // Only trigger onChange if the value has changed
-        if (value !== prevValueRef.current && !Number.isNaN(value)) {
-          prevValueRef.current = value; // Update the previous value
+        if (value !== valueRef.current && !Number.isNaN(value)) {
+          valueRef.current = value; // Update the previous value
           onChange?.(value);
         }
       },

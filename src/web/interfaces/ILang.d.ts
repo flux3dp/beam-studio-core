@@ -1920,7 +1920,23 @@ export interface ILang {
     calculating_task: string;
   };
   material_test_generator: Record<
-    'title' | 'table_settings' | 'block_settings' | 'preview' | 'export' | 'cut' | 'engrave',
+    | 'title'
+    | 'table_settings'
+    | 'block_settings'
+    | 'preview'
+    | 'export'
+    | 'cut'
+    | 'engrave'
+    | 'columns'
+    | 'rows'
+    // table setting form
+    | 'parameter'
+    | 'min'
+    | 'max'
+    // block setting form
+    | 'count'
+    | 'size'
+    | 'spacing',
     string
   >;
 }

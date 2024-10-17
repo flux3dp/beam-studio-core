@@ -83,6 +83,7 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
     );
 
     const { cmd: tableCmd } = createLayer('Material Test Generator - Table', {
+      hexCode: '#000',
       isSubCmd: true,
     });
 
@@ -185,7 +186,7 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
     const [width, height] = [row.size.value * dpmm, column.size.value * dpmm];
     let [x, y] = [right, bottom];
 
-    svgInfos.reverse().forEach(({ name, strength, speed, repeat }, index) => {
+    [...svgInfos].reverse().forEach(({ name, strength, speed, repeat }, index) => {
       const { layer, cmd } = createLayer(name, { isSubCmd: true });
 
       if (cmd && !cmd.isEmpty()) {
@@ -230,23 +231,14 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
 
     batchCmd.current = new history.BatchCommand(`Material Test Generator`);
 
-    generateText(svgInfos, blockSetting, batchCmd.current);
     generateBlocks(svgInfos, blockSetting, batchCmd.current);
+    generateText(svgInfos, blockSetting, batchCmd.current);
 
     svgEditor.updateContextPanel();
     LayerPanelController.updateLayerPanel();
   };
 
   const handleExport = () => {
-    const svgInfos = generateSvgInfo({ tableSetting, blockSetting });
-
-    undoManager.unApply(batchCmd.current);
-
-    batchCmd.current = new history.BatchCommand(`Material Test Generator`);
-
-    generateText(svgInfos, blockSetting, batchCmd.current);
-    generateBlocks(svgInfos, blockSetting, batchCmd.current);
-
     undoManager.addCommandToHistory(batchCmd.current);
 
     svgEditor.updateContextPanel();

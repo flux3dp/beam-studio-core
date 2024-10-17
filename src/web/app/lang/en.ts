@@ -1931,6 +1931,16 @@ const lang: ILang = {
     export: 'Export',
     cut: 'Cut',
     engrave: 'Engrave',
+    columns: 'Columns',
+    rows: 'Rows',
+    // table setting form
+    parameter: 'Parameter',
+    min: 'Min',
+    max: 'Max',
+    // block setting form
+    count: 'Count',
+    size: 'Size (HxW)',
+    spacing: 'Spacing',
   },
 };
 
