@@ -5,7 +5,7 @@ import AlertConstants from 'app/constants/alert-constants';
 import CalibrationType from 'app/components/dialogs/camera/AdorCalibration/calibrationTypes';
 import checkDeviceStatus from 'helpers/check-device-status';
 import checkFirmware from 'helpers/check-firmware';
-import constant from 'app/actions/beambox/constant';
+import constant, { promarkModels } from 'app/actions/beambox/constant';
 import DeviceMaster from 'helpers/device-master';
 import Dialog from 'app/actions/dialog-caller';
 import dialog from 'implementations/dialog';
@@ -47,7 +47,7 @@ const calibrateCamera = async (
         showAdorCalibrationV2(factoryMode);
       } else if (device.model === 'fbb2') {
         showBB2Calibration();
-      } else if (device.model === 'fpm1') {
+      } else if (promarkModels.has(device.model)) {
         showPromarkCalibration(device);
       } else showCameraCalibration(device, isBorderless);
     }
