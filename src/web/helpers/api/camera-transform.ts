@@ -121,7 +121,7 @@ class CameraTransformAPI extends EventEmitter {
   };
 
   close = (): void => {
-    this.ws.close();
+    this.ws.close(false);
   };
 }
 
