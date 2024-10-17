@@ -152,7 +152,12 @@ class SwiftrayClient extends EventEmitter{
     type: 'gcode' | 'fcode' | 'preview',
     eventListeners: {
       onProgressing: (progress) => void;
-      onFinished: (taskBlob: Blob, fileName: string, timeCost: number) => void;
+      onFinished: (
+        taskBlob: Blob,
+        fileName: string,
+        timeCost: number,
+        metadata: { [key: string]: string | number }
+      ) => void;
       onError: (message: string) => void;
     },
     convertOptions: {
@@ -178,6 +183,7 @@ class SwiftrayClient extends EventEmitter{
       fcode?: string;
       gcode?: string;
       estimatedTime?: number;
+      metadata?: { [key: string]: string | number }
       error?: ErrorObject;
     }>('/parser', 'convert', {
       type,
@@ -191,7 +197,7 @@ class SwiftrayClient extends EventEmitter{
       [type === 'fcode' ? Buffer.from(convertResult.fcode, 'base64') : convertResult.gcode],
       { type: 'text/plain' }
     );
-    eventListeners.onFinished(taskBlob, convertResult.fileName, convertResult.timeCost);
+    eventListeners.onFinished(taskBlob, convertResult.fileName, convertResult.timeCost, convertResult.metadata);
     return {
       success: convertResult.success,
       error: convertResult.error,

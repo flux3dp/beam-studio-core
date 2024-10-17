@@ -123,6 +123,7 @@ const getTaskCode = (codeType: 'gcode' | 'fcode', taskOptions) =>
   new Promise<{
     fileTimeCost: null | number;
     taskCodeBlob: Blob | null;
+    metadata: { [key: string]: string | number };
   }>((resolve) => {
   swiftrayClient.convert(codeType, {
     onProgressing: (data) => {
@@ -131,9 +132,9 @@ const getTaskCode = (codeType: 'gcode' | 'fcode', taskOptions) =>
         percentage: data.percentage * 100,
       });
     },
-    onFinished: (taskBlob, fileName, timeCost) => {
+    onFinished: (taskBlob, fileName, timeCost, metadata) => {
       Progress.update('fetch-task', { message: lang.message.uploading_fcode, percentage: 100 });
-      resolve({ taskCodeBlob: taskBlob, fileTimeCost: timeCost });
+      resolve({ taskCodeBlob: taskBlob, fileTimeCost: timeCost, metadata });
     },
     onError: (message) => {
       Progress.popById('fetch-task');
