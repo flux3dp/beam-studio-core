@@ -1,9 +1,5 @@
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import {
-  IBatchCommand,
-  IHistoryHandler,
-  IUndoManager,
-} from 'interfaces/IHistory';
+import { IBatchCommand, IHistoryHandler, IUndoManager } from 'interfaces/IHistory';
 
 import history, { BaseHistoryCommand } from './history';
 
@@ -40,7 +36,7 @@ export class UndoManager implements IUndoManager {
 
   setHandler(historyEventHandler: IHistoryHandler): void {
     this.handler = historyEventHandler;
-  };
+  }
 
   resetUndoStack(): void {
     this.undoStack = [];
@@ -73,6 +69,10 @@ export class UndoManager implements IUndoManager {
       return true;
     }
     return false;
+  }
+
+  unApply(cmd: BaseHistoryCommand): void {
+    cmd.unapply(this.handler);
   }
 
   redo(): boolean {

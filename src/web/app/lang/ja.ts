@@ -2,6 +2,10 @@
 import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
+  global: {
+    cancel: 'キャンセル',
+    back: '戻る',
+  },
   general: {
     processing: '処理中...',
     choose_folder: 'フォルダーの選択',
@@ -208,6 +212,12 @@ const lang: ILang = {
       camera_calibration_data: 'カメラキャリブレーションデータ',
       upload_data: 'データをアップロード',
       download_data: 'データをダウンロード',
+      tools: {
+        title: 'ツール',
+        material_test_generator: '材料テストジェネレーター',
+        qr_code_generator: 'QRコードジェネレーター',
+        boxgen: 'Boxgen',
+      },
     },
     select_machine: 'マシンの選択',
   },
@@ -1919,6 +1929,7 @@ const lang: ILang = {
     areacheck_desc: '作業エリアが安全であることを、オブジェクトのバウンディングボックスとレーザーヘッドの加速ゾーンをプレビューして確認します。',
     calculating_task: 'タスクを計算中...',
   },
+  material_test_generator: { title: '材料テストジェネレーター', table_settings: 'テーブル設定', block_settings: 'ブロック設定', preview: 'プレビュー', export: 'エクスポート', cut: '切断', engrave: '彫刻', columns: '列', rows: '行', parameter: 'パラメータ', min: '最小', max: '最大', count: '数量', size: 'サイズ (H×W)', spacing: '間隔' },
   web_cam: {
     no_permission: 'Beam Studioにはカメラにアクセスする許可がありません。ブラウザ設定またはシステム設定でBeam Studioに許可が付与されていることを確認してください。',
     no_device: 'カメラデバイスを検出できません。カメラを再接続して、もう一度お試しください。',

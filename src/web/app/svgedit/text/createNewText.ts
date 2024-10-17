@@ -14,7 +14,27 @@ getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
 });
 
-const createNewText = (x: number, y: number, text = '', addToHistory = false): void => {
+interface Options {
+  text?: string;
+  addToHistory?: boolean;
+  fill?: string;
+  fontSize?: number;
+  fontPostscript?: string;
+  isToSelect?: boolean;
+}
+
+const createNewText = (
+  x: number,
+  y: number,
+  {
+    text = '',
+    addToHistory = false,
+    fill = 'none',
+    fontSize,
+    fontPostscript,
+    isToSelect = true,
+  }: Options = {}
+): SVGElement => {
   const currentShape = svgCanvas.getCurrentShape();
   const curText = textEdit.getCurText();
   const usePostscriptAsFamily = fontHelper.usePostscriptAsFamily(curText.font_postscriptName);
@@ -26,26 +46,42 @@ const createNewText = (x: number, y: number, text = '', addToHistory = false): v
       x,
       y,
       id: svgCanvas.getNextId(),
-      fill: 'none',
-      'fill-opacity': curText.fill_opacity,
+      fill,
+      'fill-opacity': fill === 'none' ? curText.fill_opacity : 1,
       'stroke-width': 2,
-      'font-size': curText.font_size,
-      'font-family': usePostscriptAsFamily ? `'${curText.font_postscriptName}'` : curText.font_family,
-      'font-postscript': curText.font_postscriptName,
+      'font-size': fontSize ?? curText.font_size,
+      'font-family': usePostscriptAsFamily
+        ? `'${curText.font_postscriptName}'`
+        : curText.font_family,
+      'font-postscript': fontPostscript ?? curText.font_postscriptName,
       'text-anchor': curText.text_anchor,
       'data-ratiofixed': true,
       'xml:space': 'preserve',
       opacity: currentShape.opacity,
     },
   });
-  if (usePostscriptAsFamily) newText.setAttribute('data-font-family', curText.font_family);
+
+  if (usePostscriptAsFamily) {
+    newText.setAttribute('data-font-family', curText.font_family);
+  }
+
   updateElementColor(newText);
+
   if (text) {
     textEdit.renderText(newText, text);
-    svgCanvas.selectOnly([newText]);
+
+    if (isToSelect) {
+      svgCanvas.selectOnly([newText]);
+    }
   }
-  if (addToHistory) svgCanvas.addCommandToHistory(new history.InsertElementCommand(newText));
+
+  if (addToHistory) {
+    svgCanvas.addCommandToHistory(new history.InsertElementCommand(newText));
+  }
+
   canvasEvents.emit('addText', newText);
+
+  return newText;
 };
 
 export default createNewText;

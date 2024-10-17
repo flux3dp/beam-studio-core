@@ -2,6 +2,10 @@
 import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
+  global: {
+    cancel: 'Annulla',
+    back: 'Indietro',
+  },
   general: {
     processing: 'Elaborazione...',
     choose_folder: 'Scegli cartella',
@@ -208,6 +212,12 @@ const lang: ILang = {
       camera_calibration_data: 'Dati di Calibrazione della Fotocamera',
       upload_data: 'Carica Dati',
       download_data: 'Scarica Dati',
+      tools: {
+        title: 'Strumenti',
+        material_test_generator: 'Generatore di Test Materiale',
+        qr_code_generator: 'Generatore di Codici QR',
+        boxgen: 'Boxgen',
+      },
     },
     select_machine: 'Seleziona una macchina',
   },
@@ -1916,6 +1926,7 @@ const lang: ILang = {
     areacheck_desc: "Garantisce la sicurezza dell'area di lavoro visualizzando il riquadro di delimitazione dell'oggetto e la zona di accelerazione della testa laser.",
     calculating_task: 'Calcolo del compito...',
   },
+  material_test_generator: { title: 'Generatore di Test Materiale', table_settings: 'Impostazioni Tabella', block_settings: 'Impostazioni Blocco', preview: 'Anteprima', export: 'Esporta', cut: 'Taglia', engrave: 'Incidi', columns: 'Colonne', rows: 'Righe', parameter: 'Parametro', min: 'Min', max: 'Max', count: 'Quantità', size: 'Dimensioni (AxL)', spacing: 'Spaziatura' },
   web_cam: {
     no_permission: "Beam Studio non ha l'autorizzazione per accedere alla fotocamera. Assicurati che l'autorizzazione sia concessa a Beam Studio nelle impostazioni del browser o del sistema.",
     no_device: 'Impossibile rilevare il dispositivo della fotocamera. Ricollega la fotocamera e riprova.',

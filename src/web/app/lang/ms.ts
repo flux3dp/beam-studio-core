@@ -2,6 +2,10 @@
 import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
+  global: {
+    cancel: 'Batal',
+    back: 'Kembali',
+  },
   general: {
     processing: 'Memproses...',
     choose_folder: 'Pilih Folder',
@@ -208,6 +212,12 @@ const lang: ILang = {
       camera_calibration_data: 'Data Penentukuran Kamera',
       upload_data: 'Muat Naik Data',
       download_data: 'Muat Turun Data',
+      tools: {
+        title: 'Alat',
+        material_test_generator: 'Penjana Ujian Bahan',
+        qr_code_generator: 'Penjana Kod QR',
+        boxgen: 'Boxgen',
+      },
     },
     select_machine: 'Pilih mesin',
   },
@@ -1916,6 +1926,7 @@ const lang: ILang = {
     areacheck_desc: 'Memastikan kawasan kerja selamat dengan memaparkan kotak sempadan objek dan zon pecutan kepala laser.',
     calculating_task: 'Mengira tugas...',
   },
+  material_test_generator: { title: 'Penjana Ujian Bahan', table_settings: 'Tetapan Jadual', block_settings: 'Tetapan Blok', preview: 'Pratonton', export: 'Eksport', cut: 'Potong', engrave: 'Ukir', columns: 'Lajur', rows: 'Baris', parameter: 'Parameter', min: 'Min', max: 'Maks', count: 'Kuantiti', size: 'Saiz (HxW)', spacing: 'Jarak' },
   web_cam: {
     no_permission: 'Beam Studio tidak mempunyai kebenaran untuk mengakses kamera. Pastikan kebenaran diberikan kepada Beam Studio dalam tetapan pelayar atau sistem.',
     no_device: 'Tidak dapat mengesan peranti kamera. Sila sambungkan semula kamera dan cuba lagi.',

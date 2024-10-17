@@ -2,6 +2,10 @@
 import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
+  global: {
+    cancel: 'ยกเลิก',
+    back: 'กลับ',
+  },
   general: {
     processing: 'กำลังประมวลผล...',
     choose_folder: 'เลือกโฟลเดอร์',
@@ -208,6 +212,12 @@ const lang: ILang = {
       camera_calibration_data: 'ข้อมูลการปรับเทียบกล้อง',
       upload_data: 'อัปโหลดข้อมูล',
       download_data: 'ดาวน์โหลดข้อมูล',
+      tools: {
+        title: 'เครื่องมือ',
+        material_test_generator: 'ตัวสร้างการทดสอบวัสดุ',
+        qr_code_generator: 'ตัวสร้างรหัส QR',
+        boxgen: 'Boxgen',
+      },
     },
     select_machine: 'เลือกเครื่อง',
   },
@@ -1916,6 +1926,7 @@ const lang: ILang = {
     areacheck_desc: 'ตรวจสอบความปลอดภัยของพื้นที่ทำงานโดยการแสดงกล่องขอบเขตของวัตถุและโซนเร่งความเร็วของหัวเลเซอร์',
     calculating_task: 'กำลังคำนวณงาน...',
   },
+  material_test_generator: { title: 'ตัวสร้างการทดสอบวัสดุ', table_settings: 'การตั้งค่าตาราง', block_settings: 'การตั้งค่าบล็อก', preview: 'ดูตัวอย่าง', export: 'ส่งออก', cut: 'ตัด', engrave: 'แกะสลัก', columns: 'คอลัมน์', rows: 'แถว', parameter: 'พารามิเตอร์', min: 'น้อยสุด', max: 'มากสุด', count: 'จำนวน', size: 'ขนาด (สxก)', spacing: 'ระยะห่าง' },
   web_cam: {
     no_permission: 'Beam Studio ไม่มีสิทธิ์เข้าถึงกล้อง โปรดตรวจสอบให้แน่ใจว่า Beam Studio ได้รับสิทธิ์ในเบราว์เซอร์หรือในการตั้งค่าระบบ',
     no_device: 'ไม่สามารถตรวจพบอุปกรณ์กล้องได้ โปรดเชื่อมต่อกล้องใหม่และลองอีกครั้ง',

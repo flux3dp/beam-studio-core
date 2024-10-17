@@ -44,6 +44,7 @@ import { IAnnouncement } from 'interfaces/IAnnouncement';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { IDialogBoxStyle, IInputLightBox, IPrompt } from 'interfaces/IDialog';
 import { IMediaTutorial, ITutorial } from 'interfaces/ITutorial';
+import MaterialTestGeneratorPanel from 'app/components/MaterialTestGeneratorPanel';
 import { ChipSettings } from 'interfaces/Cartridge';
 
 let svgCanvas;
@@ -479,8 +480,9 @@ export default {
         />
       );
     }),
-  showQRCodeGenerator: (onClose: () => void): void => {
+  showQRCodeGenerator: (onClose: () => void = () => {}): void => {
     if (isIdExist('qr-code-generator')) return;
+
     addDialogComponent(
       'qr-code-generator',
       <QRCodeGenerator
@@ -502,9 +504,11 @@ export default {
       );
     }, true);
   },
-  showBoxGen: (onClose: () => void): void => {
+  showBoxGen: (onClose: () => void = () => {}): void => {
     if (isIdExist('box-gen')) return;
+
     shortcuts.pauseAll();
+
     addDialogComponent(
       'box-gen',
       <Boxgen
@@ -544,4 +548,19 @@ export default {
         />
       );
     }),
+  showMaterialTestGenerator: (onClose: () => void = () => {}): void => {
+    if (isIdExist('material-test-generator')) {
+      return;
+    }
+
+    addDialogComponent(
+      'material-test-generator',
+      <MaterialTestGeneratorPanel
+        onClose={() => {
+          popDialogById('material-test-generator');
+          onClose();
+        }}
+      />
+    );
+  },
 };

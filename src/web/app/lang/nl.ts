@@ -2,6 +2,10 @@
 import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
+  global: {
+    cancel: 'Annuleren',
+    back: 'Terug',
+  },
   general: {
     processing: 'Verwerken...',
     choose_folder: 'Map kiezen',
@@ -208,6 +212,12 @@ const lang: ILang = {
       camera_calibration_data: 'Camera kalibratiegegevens',
       upload_data: 'Gegevens uploaden',
       download_data: 'Gegevens downloaden',
+      tools: {
+        title: 'Gereedschappen',
+        material_test_generator: 'Materiaaltestgenerator',
+        qr_code_generator: 'QR-codegenerator',
+        boxgen: 'Boxgen',
+      },
     },
     select_machine: 'Selecteer een machine',
   },
@@ -1916,6 +1926,7 @@ const lang: ILang = {
     areacheck_desc: 'Zorgt voor een veilige werkruimte door het begrenzingsvak van het object en de versnellingszone van de laserkop te tonen.',
     calculating_task: 'Taak berekenen...',
   },
+  material_test_generator: { title: 'Materiaaltestgenerator', table_settings: 'Tabelinstellingen', block_settings: 'Blokinstellingen', preview: 'Voorvertoning', export: 'Exporteren', cut: 'Knippen', engrave: 'Graveren', columns: 'Kolommen', rows: 'Rijen', parameter: 'Parameter', min: 'Min', max: 'Max', count: 'Aantal', size: 'Grootte (HxB)', spacing: 'Afstand' },
   web_cam: {
     no_permission: 'Beam Studio heeft geen toestemming om toegang te krijgen tot de camera. Zorg ervoor dat de toestemming is verleend aan Beam Studio in de browser- of systeeminstellingen.',
     no_device: 'Kan camera-apparaat niet detecteren. Sluit de camera opnieuw aan en probeer het opnieuw.',

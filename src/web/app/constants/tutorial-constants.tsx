@@ -4,9 +4,7 @@ import Constant from 'app/actions/beambox/constant';
 import i18n from 'helpers/i18n';
 import isWeb from 'helpers/is-web';
 import { ITutorial } from 'interfaces/ITutorial';
-import {
-  TopRef, RightRef, calculateTop, calculateRight,
-} from 'helpers/absolute-position-helper';
+import { TopRef, RightRef, calculateTop, calculateRight } from 'helpers/absolute-position-helper';
 
 export enum TutorialCallbacks {
   SELECT_DEFAULT_RECT = 'SELECT_DEFAULT_RECT',
@@ -90,7 +88,9 @@ const NEW_USER_TUTORIAL: ITutorial = {
           <div className="sub-line">{LANG.newUser.put_wood}</div>
           <div className="sub-line">
             {LANG.newUser.adjust_focus}
-            <div className="hint-mark" onClick={() => adjustFocusLinkClick()}>?</div>
+            <div className="hint-mark" onClick={adjustFocusLinkClick}>
+              ?
+            </div>
           </div>
           <div className="sub-line">{LANG.newUser.close_cover}</div>
         </div>
@@ -392,11 +392,9 @@ const INTERFACE_TUTORIAL: ITutorial = {
         arrowDirection: 'top',
       },
       hintCircle: {
-        get right(): number {
-          return calculateRight(80, RightRef.PATH_PREVIEW_BTN);
-        },
+        right: calculateRight(150, RightRef.PATH_PREVIEW_BTN),
         top: calculateTop(2),
-        width: 180,
+        width: 150,
         height: 36,
       },
       text: LANG.newInterface.select_machine,
