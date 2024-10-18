@@ -164,6 +164,9 @@ jest.mock('helpers/i18n', () => ({
         show_layer_color: 'Use Layer Color',
         anti_aliasing: 'Anti-Aliasing',
         disassemble_use: 'Disassemble',
+        tools: {
+          title: 'Tools',
+        },
       },
     },
   },

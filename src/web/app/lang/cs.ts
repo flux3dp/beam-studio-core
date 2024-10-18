@@ -1933,6 +1933,7 @@ const lang: ILang = {
     title: 'Generátor testování materiálu',
     table_settings: 'Nastavení tabulky',
     block_settings: 'Nastavení bloků',
+    text_settings: 'Nastavení textu',
     preview: 'Náhled',
     export: 'Export',
     cut: 'Řez',

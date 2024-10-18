@@ -1930,6 +1930,7 @@ const lang: ILang = {
     title: 'Materialetestgenerator',
     table_settings: 'Tabelindstillinger',
     block_settings: 'Blokindstillinger',
+    text_settings: 'Tekstindstillinger',
     preview: 'Forhåndsvisning',
     export: 'Eksportér',
     cut: 'Skær',

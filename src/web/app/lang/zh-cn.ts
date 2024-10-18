@@ -1933,6 +1933,7 @@ const lang: ILang = {
     title: '材质测试生成器',
     table_settings: '表格设置',
     block_settings: '块设置',
+    text_settings: '文本设置',
     preview: '预览',
     export: '导出',
     cut: '切割',

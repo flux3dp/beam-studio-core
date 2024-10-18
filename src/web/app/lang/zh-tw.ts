@@ -1933,6 +1933,7 @@ const lang: ILang = {
     title: '材質測試產生器',
     table_settings: '參數設定',
     block_settings: '區塊設定',
+    text_settings: '文字設定',
     preview: '預覽',
     export: '匯出',
     cut: '切割',

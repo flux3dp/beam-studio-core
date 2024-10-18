@@ -1933,6 +1933,7 @@ const lang: ILang = {
     title: 'Materialtest-Generator',
     table_settings: 'Tabelleneinstellungen',
     block_settings: 'Blockeinstellungen',
+    text_settings: 'Texteinstellungen',
     preview: 'Vorschau',
     export: 'Exportieren',
     cut: 'Schneiden',
