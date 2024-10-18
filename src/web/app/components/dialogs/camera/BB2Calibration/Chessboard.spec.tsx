@@ -1,7 +1,6 @@
 import React, { act } from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
-
 import Chessboard from './Chessboard';
 
 const mockPopUp = jest.fn();
@@ -166,7 +165,7 @@ describe('test Chessboard', () => {
           label: 'cancel',
           onClick: expect.any(Function),
         },
-      ]
+      ],
     });
     const { buttons } = mockPopUp.mock.calls[0][0];
     await act(() => buttons[0].onClick());
@@ -219,7 +218,7 @@ describe('test Chessboard', () => {
           label: 'cancel',
           onClick: expect.any(Function),
         },
-      ]
+      ],
     });
     const { buttons } = mockPopUp.mock.calls[0][0];
     await act(() => buttons[1].onClick());
