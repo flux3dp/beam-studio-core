@@ -6,17 +6,17 @@ import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import deviceMaster from 'helpers/device-master';
 import i18n from 'helpers/i18n';
 import { getSupportInfo } from 'app/constants/add-on';
-import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
+import { getWorkarea, WorkArea, WorkAreaModel } from 'app/constants/workarea-constants';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { PreviewManager } from 'interfaces/PreviewManager';
 import { PreviewSpeedLevel } from 'app/actions/beambox/constant';
 
-// TODO: Add tests
 class BasePreviewManager implements PreviewManager {
   public isFullScreen = false;
   protected device: IDeviceInfo;
   protected progressId: string;
   protected workarea: WorkAreaModel;
+  protected workareaObj: WorkArea;
   protected ended = false;
   private lastPosition: [number, number] = [0, 0];
   private movementSpeed: number; // mm/min
@@ -25,6 +25,7 @@ class BasePreviewManager implements PreviewManager {
     this.device = device;
     // or use device.model?
     this.workarea = beamboxPreference.read('workarea');
+    this.workareaObj = getWorkarea(this.workarea);
   }
 
   public setup = async (): Promise<boolean> => {
@@ -71,7 +72,7 @@ class BasePreviewManager implements PreviewManager {
    * @param y y in px
    */
   constrainPreviewXY = (x: number, y: number): { x: number; y: number } => {
-    const { pxWidth: width, pxHeight, pxDisplayHeight } = getWorkarea(this.workarea);
+    const { pxWidth: width, pxHeight, pxDisplayHeight } = this.workareaObj;
     const height = pxDisplayHeight ?? pxHeight;
     const newX = Math.min(Math.max(x, 0), width);
     const newY = Math.min(Math.max(y, 0), height);
@@ -116,7 +117,7 @@ class BasePreviewManager implements PreviewManager {
     timeToWait *= 1.2;
     timeToWait += 100;
     this.lastPosition = [movementX, movementY];
-    await new Promise((resolve) => setTimeout(() => resolve(null), timeToWait));
+    await new Promise<void>((r) => setTimeout(r, timeToWait));
   }
 
   async getPhotoFromMachine(): Promise<string> {
