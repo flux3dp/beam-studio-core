@@ -541,7 +541,7 @@ exports[`test DocumentSettings set dimesnion for promark 1`] = `
   <div>
     <div
       class="ant-select-dropdown ant-select-dropdown-hidden css-dev-only-do-not-override-hash ant-select-dropdown-placement-bottomLeft"
-      style="--arrow-x: 0px; --arrow-y: 0px; left: 0px; top: 0px; box-sizing: border-box; pointer-events: none;"
+      style="--arrow-x: 0px; --arrow-y: 0px; left: 0px; top: 0px; box-sizing: border-box; z-index: 1150; pointer-events: none;"
     >
       <div>
         <div
@@ -725,7 +725,7 @@ exports[`test DocumentSettings set dimesnion for promark 1`] = `
   <div>
     <div
       class="ant-select-dropdown ant-select-dropdown-hidden css-dev-only-do-not-override-hash ant-select-dropdown-placement-bottomLeft"
-      style="--arrow-x: 0px; --arrow-y: 0px; left: 0px; top: 0px; box-sizing: border-box; pointer-events: none;"
+      style="--arrow-x: 0px; --arrow-y: 0px; left: 0px; top: 0px; box-sizing: border-box; z-index: 1150; pointer-events: none;"
     >
       <div>
         <div
@@ -1690,7 +1690,7 @@ exports[`test DocumentSettings should render correctly 2`] = `
   <div>
     <div
       class="ant-select-dropdown ant-select-dropdown-hidden css-dev-only-do-not-override-hash ant-select-dropdown-placement-bottomLeft"
-      style="--arrow-x: 0px; --arrow-y: 0px; left: 0px; top: 0px; box-sizing: border-box; pointer-events: none;"
+      style="--arrow-x: 0px; --arrow-y: 0px; left: 0px; top: 0px; box-sizing: border-box; z-index: 1150; pointer-events: none;"
     >
       <div>
         <div
@@ -2472,7 +2472,7 @@ exports[`test DocumentSettings should render correctly 3`] = `
   <div>
     <div
       class="ant-select-dropdown ant-select-dropdown-hidden css-dev-only-do-not-override-hash ant-select-dropdown-placement-bottomLeft"
-      style="--arrow-x: 0px; --arrow-y: 0px; left: 0px; top: 0px; box-sizing: border-box; pointer-events: none;"
+      style="--arrow-x: 0px; --arrow-y: 0px; left: 0px; top: 0px; box-sizing: border-box; z-index: 1150; pointer-events: none;"
     >
       <div>
         <div
@@ -2594,7 +2594,7 @@ exports[`test DocumentSettings should render correctly 3`] = `
   <div>
     <div
       class="ant-select-dropdown ant-select-dropdown-hidden css-dev-only-do-not-override-hash ant-select-dropdown-placement-bottomLeft"
-      style="--arrow-x: 0px; --arrow-y: 0px; left: 0px; top: 0px; box-sizing: border-box; pointer-events: none;"
+      style="--arrow-x: 0px; --arrow-y: 0px; left: 0px; top: 0px; box-sizing: border-box; z-index: 1150; pointer-events: none;"
     >
       <div>
         <div
@@ -2778,7 +2778,7 @@ exports[`test DocumentSettings should render correctly 3`] = `
   <div>
     <div
       class="ant-select-dropdown ant-select-dropdown-hidden css-dev-only-do-not-override-hash ant-select-dropdown-placement-bottomLeft"
-      style="--arrow-x: 0px; --arrow-y: 0px; left: 0px; top: 0px; box-sizing: border-box; pointer-events: none;"
+      style="--arrow-x: 0px; --arrow-y: 0px; left: 0px; top: 0px; box-sizing: border-box; z-index: 1150; pointer-events: none;"
     >
       <div>
         <div
@@ -3293,7 +3293,7 @@ exports[`test DocumentSettings should render correctly for ador 1`] = `
   <div>
     <div
       class="ant-select-dropdown ant-select-dropdown-hidden css-dev-only-do-not-override-hash ant-select-dropdown-placement-bottomLeft"
-      style="--arrow-x: 0px; --arrow-y: 0px; left: 0px; top: 0px; box-sizing: border-box; pointer-events: none;"
+      style="--arrow-x: 0px; --arrow-y: 0px; left: 0px; top: 0px; box-sizing: border-box; z-index: 1150; pointer-events: none;"
     >
       <div>
         <div
@@ -3950,7 +3950,7 @@ exports[`test DocumentSettings should render correctly for ador 2`] = `
   <div>
     <div
       class="ant-select-dropdown ant-select-dropdown-hidden css-dev-only-do-not-override-hash ant-select-dropdown-placement-bottomLeft"
-      style="--arrow-x: 0px; --arrow-y: 0px; left: 0px; top: 0px; box-sizing: border-box; pointer-events: none;"
+      style="--arrow-x: 0px; --arrow-y: 0px; left: 0px; top: 0px; box-sizing: border-box; z-index: 1150; pointer-events: none;"
     >
       <div>
         <div

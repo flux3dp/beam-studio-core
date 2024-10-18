@@ -24,6 +24,7 @@ import { gestureIntroduction } from 'app/constants/media-tutorials';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { importBvgString } from 'app/svgedit/operations/import/importBvg';
 import { showRotarySettings } from 'app/components/dialogs/RotarySettings';
+import { IBatchCommand } from 'interfaces/IHistory';
 
 let svgCanvas;
 let svgEditor;
@@ -83,7 +84,9 @@ const loadExampleFile = async (path: string) => {
     let string = buf.toString();
     if (i18n.getActiveLang() && i18n.getActiveLang() !== 'en') {
       const LANG = i18n.lang.beambox.right_panel.layer_panel;
-      string = string.replace(/Engraving/g, LANG.layer_engraving).replace(/Cutting/g, LANG.layer_cutting);
+      string = string
+        .replace(/Engraving/g, LANG.layer_engraving)
+        .replace(/Cutting/g, LANG.layer_cutting);
     }
     await importBvgString(string);
   };
@@ -105,51 +108,67 @@ export default {
     if (res) window.location.hash = '#initialize/connect/select-machine-model';
   },
   SIGN_IN: (): void => Dialog.showLoginDialog(),
-  IMPORT_EXAMPLE: () => loadExampleFile(getExampleFileName('example')),
-  IMPORT_EXAMPLE_ADOR_LASER: () => loadExampleFile(getExampleFileName('ador_example_laser')),
-  IMPORT_EXAMPLE_ADOR_PRINT_SINGLE: () => loadExampleFile(getExampleFileName('ador_example_printing_single')),
-  IMPORT_EXAMPLE_ADOR_PRINT_FULL: () => loadExampleFile(getExampleFileName('ador_example_printing_full')),
-  IMPORT_MATERIAL_TESTING_OLD: () => loadExampleFile(getExampleFileName('mat_test_old')),
-  IMPORT_MATERIAL_TESTING_SIMPLECUT: () => loadExampleFile(getExampleFileName('mat_test_simple_cut')),
-  IMPORT_MATERIAL_TESTING_CUT: () => loadExampleFile(getExampleFileName('mat_test_cut')),
-  IMPORT_MATERIAL_TESTING_ENGRAVE: () => loadExampleFile(getExampleFileName('mat_test_engrave')),
-  IMPORT_MATERIAL_TESTING_LINE: () => loadExampleFile(getExampleFileName('mat_test_line')),
-  IMPORT_MATERIAL_TESTING_PRINT: () => loadExampleFile(getExampleFileName('mat_test_printing')),
-  IMPORT_ACRYLIC_FOCUS_PROBE: () => loadExampleFile(getExampleFileName('focus_probe')),
-  IMPORT_HELLO_BEAMBOX: () => loadExampleFile(getExampleFileName('hello_beambox')),
-  SAVE_SCENE: () => FileExportHelper.saveFile(),
-  SAVE_AS: () => FileExportHelper.saveAsFile(),
-  SAVE_TO_CLOUD: () => FileExportHelper.saveToCloud(),
-  EXPORT_BVG: () => FileExportHelper.exportAsBVG(),
-  EXPORT_SVG: () => FileExportHelper.exportAsSVG(),
-  EXPORT_PNG: () => FileExportHelper.exportAsImage('png'),
-  EXPORT_JPG: () => FileExportHelper.exportAsImage('jpg'),
+  MATERIAL_TEST_GENERATOR: (): void => Dialog.showMaterialTestGenerator(),
+  QR_CODE_GENERATOR: (): void => Dialog.showQRCodeGenerator(),
+  BOX_GEN: (): void => Dialog.showBoxGen(),
+  IMPORT_EXAMPLE: (): Promise<void> => loadExampleFile(getExampleFileName('example')),
+  IMPORT_EXAMPLE_ADOR_LASER: (): Promise<void> =>
+    loadExampleFile(getExampleFileName('ador_example_laser')),
+  IMPORT_EXAMPLE_ADOR_PRINT_SINGLE: (): Promise<void> =>
+    loadExampleFile(getExampleFileName('ador_example_printing_single')),
+  IMPORT_EXAMPLE_ADOR_PRINT_FULL: (): Promise<void> =>
+    loadExampleFile(getExampleFileName('ador_example_printing_full')),
+  IMPORT_MATERIAL_TESTING_OLD: (): Promise<void> =>
+    loadExampleFile(getExampleFileName('mat_test_old')),
+  IMPORT_MATERIAL_TESTING_SIMPLECUT: (): Promise<void> =>
+    loadExampleFile(getExampleFileName('mat_test_simple_cut')),
+  IMPORT_MATERIAL_TESTING_CUT: (): Promise<void> =>
+    loadExampleFile(getExampleFileName('mat_test_cut')),
+  IMPORT_MATERIAL_TESTING_ENGRAVE: (): Promise<void> =>
+    loadExampleFile(getExampleFileName('mat_test_engrave')),
+  IMPORT_MATERIAL_TESTING_LINE: (): Promise<void> =>
+    loadExampleFile(getExampleFileName('mat_test_line')),
+  IMPORT_MATERIAL_TESTING_PRINT: (): Promise<void> =>
+    loadExampleFile(getExampleFileName('mat_test_printing')),
+  IMPORT_ACRYLIC_FOCUS_PROBE: (): Promise<void> =>
+    loadExampleFile(getExampleFileName('focus_probe')),
+  IMPORT_HELLO_BEAMBOX: (): Promise<void> => loadExampleFile(getExampleFileName('hello_beambox')),
+  SAVE_SCENE: (): Promise<boolean> => FileExportHelper.saveFile(),
+  SAVE_AS: (): Promise<boolean> => FileExportHelper.saveAsFile(),
+  SAVE_TO_CLOUD: (): Promise<boolean> => FileExportHelper.saveToCloud(),
+  EXPORT_BVG: (): Promise<boolean> => FileExportHelper.exportAsBVG(),
+  EXPORT_SVG: (): Promise<void> => FileExportHelper.exportAsSVG(),
+  EXPORT_PNG: (): Promise<void> => FileExportHelper.exportAsImage('png'),
+  EXPORT_JPG: (): Promise<void> => FileExportHelper.exportAsImage('jpg'),
   EXPORT_FLUX_TASK: (): void => {
     if (isWeb()) Dialog.forceLoginWrapper(() => ExportFuncs.exportFcode());
     else ExportFuncs.exportFcode();
   },
   UNDO: historyUtils.undo,
   REDO: historyUtils.redo,
-  GROUP: () => svgCanvas.groupSelectedElements(),
-  UNGROUP: () => svgCanvas.ungroupSelectedElement(),
-  DELETE: () => svgEditor.deleteSelected(),
-  DUPLICATE: () => clipboard.cloneSelectedElements(20, 20),
-  OFFSET: () => svgEditor.triggerOffsetTool(),
-  IMAGE_SHARPEN: () => Dialog.showPhotoEditPanel('sharpen'),
-  IMAGE_CROP: () => Dialog.showCropPanel(),
-  IMAGE_INVERT: () => imageEdit.colorInvert(),
-  IMAGE_STAMP: () => imageEdit.generateStampBevel(),
-  IMAGE_VECTORIZE: () => imageEdit.traceImage(),
-  IMAGE_CURVE: () => Dialog.showPhotoEditPanel('curve'),
-  ALIGN_TO_EDGES: () => svgCanvas.toggleBezierPathAlignToEdge(),
-  DISASSEMBLE_USE: () => svgCanvas.disassembleUse2Group(),
-  DECOMPOSE_PATH: () => svgCanvas.decomposePath(),
-  SVG_NEST: () => Dialog.showSvgNestButtons(),
-  LAYER_COLOR_CONFIG: () => Dialog.showLayerColorConfig(),
-  DOCUMENT_SETTING: () => Dialog.showDocumentSettings(),
+  GROUP: (): Promise<void> => svgCanvas.groupSelectedElements(),
+  UNGROUP: (): Promise<void> => svgCanvas.ungroupSelectedElement(),
+  DELETE: (): Promise<void> => svgEditor.deleteSelected(),
+  DUPLICATE: (): {
+    cmd: IBatchCommand;
+    elems: Element[];
+  } | null => clipboard.cloneSelectedElements(20, 20),
+  OFFSET: (): Promise<void> => svgEditor.triggerOffsetTool(),
+  IMAGE_SHARPEN: (): void => Dialog.showPhotoEditPanel('sharpen'),
+  IMAGE_CROP: (): void => Dialog.showCropPanel(),
+  IMAGE_INVERT: (): Promise<void> => imageEdit.colorInvert(),
+  IMAGE_STAMP: (): Promise<void> => imageEdit.generateStampBevel(),
+  IMAGE_VECTORIZE: (): Promise<void> => imageEdit.traceImage(),
+  IMAGE_CURVE: (): void => Dialog.showPhotoEditPanel('curve'),
+  ALIGN_TO_EDGES: (): Promise<void> => svgCanvas.toggleBezierPathAlignToEdge(),
+  DISASSEMBLE_USE: (): Promise<void> => svgCanvas.disassembleUse2Group(),
+  DECOMPOSE_PATH: (): Promise<void> => svgCanvas.decomposePath(),
+  SVG_NEST: (): void => Dialog.showSvgNestButtons(),
+  LAYER_COLOR_CONFIG: (): void => Dialog.showLayerColorConfig(),
+  DOCUMENT_SETTING: (): void => Dialog.showDocumentSettings(),
   ROTARY_SETUP: showRotarySettings,
-  CLEAR_SCENE: () => svgEditor.clearScene(),
-  START_TUTORIAL: () => {
+  CLEAR_SCENE: (): Promise<void> => svgEditor.clearScene(),
+  START_TUTORIAL: (): void => {
     const continuousDrawing = BeamboxPreference.read('continuous_drawing');
     BeamboxPreference.write('continuous_drawing', false);
     Tutorials.startNewUserTutorial(() => {
@@ -160,21 +179,21 @@ export default {
       });
     });
   },
-  START_UI_INTRO: () => Tutorials.startInterfaceTutorial(() => { }),
+  START_UI_INTRO: (): void => Tutorials.startInterfaceTutorial(() => {}),
   START_GESTURE_INTRO: (): Promise<void> => Dialog.showMediaTutorial(gestureIntroduction),
   ZOOM_IN: (): void => workareaManager.zoomIn(),
   ZOOM_OUT: (): void => workareaManager.zoomOut(),
   FITS_TO_WINDOW: (): void => workareaManager.resetView(),
-  ZOOM_WITH_WINDOW: () => viewMenu.toggleZoomWithWindow(),
-  SHOW_GRIDS: () => viewMenu.toggleGrid(),
-  SHOW_RULERS: () => viewMenu.toggleRulers(),
-  SHOW_LAYER_COLOR: () => viewMenu.toggleLayerColor(),
-  ANTI_ALIASING: () => viewMenu.toggleAntiAliasing(),
-  NETWORK_TESTING: () => Dialog.showNetworkTestingPanel(),
-  ABOUT_BEAM_STUDIO: () => Dialog.showAboutBeamStudio(),
-  MANAGE_ACCOUNT: () => externalLinkMemberDashboard(),
-  SIGN_OUT: () => signOut(),
-  QUESTIONNAIRE: async () => {
+  ZOOM_WITH_WINDOW: (): boolean => viewMenu.toggleZoomWithWindow(),
+  SHOW_GRIDS: (): boolean => viewMenu.toggleGrid(),
+  SHOW_RULERS: (): boolean => viewMenu.toggleRulers(),
+  SHOW_LAYER_COLOR: (): boolean => viewMenu.toggleLayerColor(),
+  ANTI_ALIASING: (): boolean => viewMenu.toggleAntiAliasing(),
+  NETWORK_TESTING: (): void => Dialog.showNetworkTestingPanel(),
+  ABOUT_BEAM_STUDIO: (): void => Dialog.showAboutBeamStudio(),
+  MANAGE_ACCOUNT: (): Promise<void> => externalLinkMemberDashboard(),
+  SIGN_OUT: (): Promise<boolean> => signOut(),
+  QUESTIONNAIRE: async (): Promise<void> => {
     const res = await checkQuestionnaire({ allowOldVersion: true });
     if (!res) {
       Alert.popUp({ message: i18n.lang.beambox.popup.questionnaire.unable_to_get_url });
@@ -192,12 +211,18 @@ export default {
     }
     browser.open(url);
   },
-  CHANGE_LOGS: () => Dialog.showChangLog(),
-  CUT: () => svgEditor.cutSelected(),
-  COPY: () => svgEditor.copySelected(),
-  PASTE: () => clipboard.pasteInCenter(),
-  PASTE_IN_PLACE: () => clipboard.pasteElements('in_place'),
-  BUG_REPORT: () => {
+  CHANGE_LOGS: (): void => Dialog.showChangLog(),
+  CUT: (): Promise<void> => svgEditor.cutSelected(),
+  COPY: (): Promise<void> => svgEditor.copySelected(),
+  PASTE: (): Promise<{
+    cmd: IBatchCommand;
+    elems: Element[];
+  } | null> => clipboard.pasteInCenter(),
+  PASTE_IN_PLACE: (): Promise<{
+    cmd: IBatchCommand;
+    elems: Element[];
+  } | null> => clipboard.pasteElements('in_place'),
+  BUG_REPORT: (): void => {
     OutputError.downloadErrorLog();
   },
 };

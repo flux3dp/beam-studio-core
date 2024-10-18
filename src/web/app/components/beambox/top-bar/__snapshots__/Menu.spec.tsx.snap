@@ -85,6 +85,20 @@ exports[`should render correctly already signed in 1`] = `
         role="presentation"
       >
         <div
+          aria-expanded="false"
+          aria-haspopup="true"
+          class="rc-menu__item"
+          role="menuitem"
+          tabindex="-1"
+        >
+          Tools
+        </div>
+      </li>
+      <li
+        class="rc-menu__submenu"
+        role="presentation"
+      >
+        <div
           aria-expanded="true"
           aria-haspopup="true"
           class="rc-menu__item rc-menu__item--open"
@@ -253,6 +267,20 @@ exports[`should render correctly open the browser and reach the correct page 2`]
           role="menuitem"
           tabindex="-1"
         >
+          Tools
+        </div>
+      </li>
+      <li
+        class="rc-menu__submenu"
+        role="presentation"
+      >
+        <div
+          aria-expanded="false"
+          aria-haspopup="true"
+          class="rc-menu__item"
+          role="menuitem"
+          tabindex="-1"
+        >
           Account
         </div>
       </li>
@@ -353,6 +381,20 @@ exports[`should render correctly open the browser and reach the correct page 3`]
           tabindex="-1"
         >
           Machines
+        </div>
+      </li>
+      <li
+        class="rc-menu__submenu"
+        role="presentation"
+      >
+        <div
+          aria-expanded="false"
+          aria-haspopup="true"
+          class="rc-menu__item"
+          role="menuitem"
+          tabindex="-1"
+        >
+          Tools
         </div>
       </li>
       <li
@@ -680,6 +722,20 @@ exports[`should render correctly test checkbox menu item 2`] = `
           role="menuitem"
           tabindex="-1"
         >
+          Tools
+        </div>
+      </li>
+      <li
+        class="rc-menu__submenu"
+        role="presentation"
+      >
+        <div
+          aria-expanded="false"
+          aria-haspopup="true"
+          class="rc-menu__item"
+          role="menuitem"
+          tabindex="-1"
+        >
           Account
         </div>
       </li>
@@ -879,6 +935,20 @@ exports[`should render correctly test checkbox menu item 3`] = `
           tabindex="-1"
         >
           Machines
+        </div>
+      </li>
+      <li
+        class="rc-menu__submenu"
+        role="presentation"
+      >
+        <div
+          aria-expanded="false"
+          aria-haspopup="true"
+          class="rc-menu__item"
+          role="menuitem"
+          tabindex="-1"
+        >
+          Tools
         </div>
       </li>
       <li

@@ -789,9 +789,14 @@ class DeviceMaster {
     return controlSocket.addTask(controlSocket.ls, path);
   }
 
-  async lsusb() {
+  async lsusb(): Promise<{
+    usbs: string[];
+  }> {
     const controlSocket = await this.getControl();
-    return controlSocket.addTask(controlSocket.lsusb);
+
+    return controlSocket.addTask(controlSocket.lsusb) as unknown as Promise<{
+      usbs: string[];
+    }>;
   }
 
   async fileInfo(path: string, fileName: string) {

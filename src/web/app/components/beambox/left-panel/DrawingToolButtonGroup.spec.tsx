@@ -30,13 +30,9 @@ jest.mock('implementations/browser', () => ({
 }));
 
 const showShapePanel = jest.fn();
-const showQRCodeGenerator = jest.fn();
-const showBoxGen = jest.fn();
 const showMyCloud = jest.fn();
 jest.mock('app/actions/dialog-caller', () => ({
   showShapePanel: (...args) => showShapePanel(...args),
-  showQRCodeGenerator: (...args) => showQRCodeGenerator(...args),
-  showBoxGen: (...args) => showBoxGen(...args),
   showMyCloud: (...args) => showMyCloud(...args),
 }));
 
@@ -127,20 +123,10 @@ describe('test DrawingToolButtonGroup', () => {
     expect(container).toMatchSnapshot();
     expect(mockUseSelectTool).toHaveBeenCalledTimes(1);
 
-    fireEvent.click(container.querySelector('#left-QRCode'));
-    expect(container).toMatchSnapshot();
-    expect(showQRCodeGenerator).toHaveBeenCalledTimes(1);
-    expect(showQRCodeGenerator).toHaveBeenLastCalledWith(mockUseSelectTool);
-
     fireEvent.click(container.querySelector('#left-DM'));
     expect(container).toMatchSnapshot();
     expect(mockOpen).toHaveBeenCalledTimes(1);
     expect(mockOpen).toHaveBeenLastCalledWith('https://dmkt.io');
-
-    fireEvent.click(container.querySelector('#left-Boxgen'));
-    expect(container).toMatchSnapshot();
-    expect(showBoxGen).toHaveBeenCalledTimes(1);
-    expect(showBoxGen).toHaveBeenCalledWith(mockUseSelectTool);
 
     fireEvent.click(container.querySelector('#left-MyCloud'));
     expect(container).toMatchSnapshot();

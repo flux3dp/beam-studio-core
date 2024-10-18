@@ -2,6 +2,10 @@
 import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
+  global: {
+    cancel: 'Avbryt',
+    back: 'Tillbaka',
+  },
   general: {
     processing: 'Bearbetar...',
     choose_folder: 'Välj mapp',
@@ -208,6 +212,12 @@ const lang: ILang = {
       camera_calibration_data: 'Kamerakalibreringsdata',
       upload_data: 'Ladda upp Data',
       download_data: 'Ladda ner Data',
+      tools: {
+        title: 'Verktyg',
+        material_test_generator: 'Materialtestgenerator',
+        qr_code_generator: 'QR-kodgenerator',
+        boxgen: 'Boxgen',
+      },
     },
     select_machine: 'Välj en maskin',
   },
@@ -1920,6 +1930,24 @@ const lang: ILang = {
     hull_desc: 'Förhandsvisar en form som följer designen noggrant, som ett gummiband lindat runt objektet.',
     areacheck_desc: 'Säkerställer att arbetsområdet är säkert genom att förhandsgranska objektets begränsningsram och laserns accelerationszon.',
     calculating_task: 'Beräknar uppgift...',
+  },
+  material_test_generator: {
+    title: 'Materialtestgenerator',
+    table_settings: 'Tabellinställningar',
+    block_settings: 'Blockinställningar',
+    text_settings: 'Textinställningar',
+    preview: 'Förhandsgranska',
+    export: 'Exportera',
+    cut: 'Skär',
+    engrave: 'Gravera',
+    columns: 'Kolumner',
+    rows: 'Rader',
+    parameter: 'Parameter',
+    min: 'Min',
+    max: 'Max',
+    count: 'Antal',
+    size: 'Storlek (HxB)',
+    spacing: 'Mellanrum',
   },
   web_cam: {
     no_permission: 'Beam Studio har inte behörighet att komma åt kameran. Se till att behörigheten är beviljad till Beam Studio i webbläsarinställningarna eller systeminställningarna.',

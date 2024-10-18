@@ -7,6 +7,7 @@ import { ImportType } from 'interfaces/ImportSvg';
 import { IPathActions } from 'app/svgedit/operations/pathActions';
 import { SelectorManager } from 'app/svgedit/selector';
 import { Units } from 'helpers/units';
+import textActions from 'app/svgedit/text/textactions';
 
 export interface IPoint {
   x: number;
@@ -165,7 +166,7 @@ export default interface ISVGCanvas {
   spaceKey: boolean;
   svgToString(elem: Element, indent: number, units?: Units): string;
   tempGroupSelectedElements: () => SVGElement[];
-  textActions: any;
+  textActions: typeof textActions;
   ungroupTempGroup(elem?: SVGElement): SVGElement[];
   undoMgr: IUndoManager;
   ungroupSelectedElement(): void;
