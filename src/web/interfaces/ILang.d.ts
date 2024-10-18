@@ -1661,6 +1661,7 @@ export interface ILang {
     put_chessboard_desc: string;
     put_chessboard_1: string;
     put_chessboard_2: string;
+    put_chessboard_3: string;
     failed_to_calibrate_chessboard: string;
     calibrate_chessboard_success_msg: string;
     res_excellent: string;

@@ -39,6 +39,7 @@ jest.mock('helpers/useI18n', () => () => ({
     camera_calibration: 'camera_calibration',
     put_chessboard_1: 'put_chessboard_1',
     put_chessboard_2: 'put_chessboard_2',
+    put_chessboard_3: 'put_chessboard_3',
     next: 'next',
     cancel: 'cancel',
     calibrate_chessboard_success_msg: 'calibrate_chessboard_success_msg %s %f',
@@ -156,12 +157,20 @@ describe('test Chessboard', () => {
     expect(mockPopUp).toBeCalledTimes(1);
     expect(mockPopUp).toBeCalledWith({
       message: 'calibrate_chessboard_success_msg res_excellent 1',
-      buttonType: alertConstants.CONFIRM_CANCEL,
-      onConfirm: expect.any(Function),
-      onCancel: expect.any(Function),
+      buttons: [
+        {
+          label: 'next',
+          onClick: expect.any(Function),
+          className: 'primary',
+        },
+        {
+          label: 'cancel',
+          onClick: expect.any(Function),
+        },
+      ]
     });
-    const {onConfirm} = mockPopUp.mock.calls[0][0];
-    await act(() => onConfirm());
+    const { buttons } = mockPopUp.mock.calls[0][0];
+    await act(() => buttons[0].onClick());
     expect(mockUpdateParam).toBeCalled();
     expect(mockUpdateParam).toBeCalledWith(mockRes.data);
     expect(mockOnNext).toBeCalled();

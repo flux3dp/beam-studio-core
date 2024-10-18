@@ -4,7 +4,6 @@ import { Modal, Spin } from 'antd';
 import { sprintf } from 'sprintf-js';
 
 import alertCaller from 'app/actions/alert-caller';
-import alertConstants from 'app/constants/alert-constants';
 import dialog from 'implementations/dialog';
 import progressCaller from 'app/actions/progress-caller';
 import useI18n from 'helpers/useI18n';
@@ -61,9 +60,17 @@ const Chessboard = ({ chessboard, updateParam, onNext, onClose }: Props): JSX.El
           else if (ret > 1) rank = tCali.res_average;
           alertCaller.popUp({
             message: sprintf(tCali.calibrate_chessboard_success_msg, rank, ret),
-            buttonType: alertConstants.CONFIRM_CANCEL,
-            onConfirm: () => resolve(true),
-            onCancel: () => resolve(false),
+            buttons: [
+              {
+                label: tCali.next,
+                onClick: () => resolve(true),
+                className: 'primary',
+              },
+              {
+                label: tCali.cancel,
+                onClick: () => resolve(false),
+              }
+            ]
           });
         });
         if (!resp) return;
@@ -106,6 +113,7 @@ const Chessboard = ({ chessboard, updateParam, onNext, onClose }: Props): JSX.El
         <div className={styles.desc}>
           <div>1. {tCali.put_chessboard_1}</div>
           <div>2. {tCali.put_chessboard_2}</div>
+          <div>3. {tCali.put_chessboard_3}</div>
         </div>
         <div className={styles.imgContainer}>
           {img ? (
