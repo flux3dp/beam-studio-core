@@ -1665,7 +1665,11 @@ const lang: ILang = {
     put_chessboard_1: '기계 제어 패널로 가서 AF를 눌러 자동 초점을 수행하십시오.',
     put_chessboard_2: '체커보드 용지 또는 레이저 헤드를 이동하여 라이브 미리보기 창에서 빨간 프레임 내에 체커보드 전체가 확인될 때까지 이동하십시오.',
     failed_to_calibrate_chessboard: '체커보드 사진으로 보정에 실패했습니다.',
-    perform_autofocus_bb2: '',
+    calibrate_chessboard_success_msg: '체스보드 사진을 성공적으로 캡처했습니다. 이 사진의 점수는 %s (%.2f)입니다.',
+    res_excellent: '우수',
+    res_average: '보통',
+    res_poor: '나쁨',
+    perform_autofocus_bb2: '기계 제어 패널로 가서 AF를 눌러 자동 초점을 수행하십시오.',
   },
   input_machine_password: {
     require_password: '%s은(는) 비밀번호가 필요합니다.',

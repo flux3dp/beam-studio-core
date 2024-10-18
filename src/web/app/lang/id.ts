@@ -1662,6 +1662,10 @@ const lang: ILang = {
     put_chessboard_1: 'Silakan pergi ke panel kontrol mesin dan tekan AF untuk melakukan fokus otomatis.',
     put_chessboard_2: 'Silakan pindahkan kertas papan catur atau kepala laser hingga seluruh papan catur dikonfirmasi berada dalam bingkai merah di jendela pratinjau langsung.',
     failed_to_calibrate_chessboard: 'Gagal mengkalibrasi dengan gambar papan catur.',
+    calibrate_chessboard_success_msg: 'Foto papan catur berhasil diambil. Skor untuk foto ini adalah %s (%.2f).',
+    res_excellent: 'Luar biasa',
+    res_average: 'Rata-rata',
+    res_poor: 'Buruk',
     perform_autofocus_bb2: 'Silakan pergi ke panel kontrol mesin dan tekan AF untuk melakukan fokus otomatis.',
   },
   input_machine_password: {

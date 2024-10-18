@@ -1662,6 +1662,10 @@ const lang: ILang = {
     put_chessboard_1: 'Gå till maskinens kontrollpanel och tryck på AF för att utföra autofokus.',
     put_chessboard_2: 'Flytta schackbrädepappret eller laserhuvudet tills hela schackbrädet är bekräftat att vara inom den röda ramen i fönstret för liveförhandsgranskning.',
     failed_to_calibrate_chessboard: 'Misslyckades med att kalibrera med schackbrädsbilden.',
+    calibrate_chessboard_success_msg: 'Schackbrädesfotot har fångats framgångsrikt. Poängen för detta foto är %s (%.2f).',
+    res_excellent: 'Utmärkt',
+    res_average: 'Genomsnittlig',
+    res_poor: 'Dålig',
     perform_autofocus_bb2: 'Gå till maskinens kontrollpanel och tryck på AF för att utföra autofokus.',
   },
   input_machine_password: {

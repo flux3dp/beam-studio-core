@@ -1665,6 +1665,10 @@ const lang: ILang = {
     put_chessboard_1: 'Přejděte na ovládací panel zařízení a stiskněte tlačítko AF pro automatické zaostření.',
     put_chessboard_2: 'Pohybujte šachovnicovým papírem nebo laserovou hlavou, dokud nebude potvrzeno, že celá šachovnice je v okně červeného rámečku živého náhledu.',
     failed_to_calibrate_chessboard: 'Kalibrace s obrázkem šachovnice se nezdařila.',
+    calibrate_chessboard_success_msg: 'Úspěšně zachycena fotografie šachovnice. Skóre pro tuto fotografii je %s (%.2f).',
+    res_excellent: 'Výborné',
+    res_average: 'Průměrné',
+    res_poor: 'Špatné',
     perform_autofocus_bb2: 'Přejděte na ovládací panel zařízení a stiskněte tlačítko AF pro automatické zaostření.',
   },
   input_machine_password: {

@@ -1662,6 +1662,10 @@ const lang: ILang = {
     put_chessboard_1: 'Mene laitteen ohjauspaneeliin ja paina AF suorittaaksesi automaattitarkennuksen.',
     put_chessboard_2: 'Siirrä shakkilautapaperia tai laserpäätä, kunnes koko shakkilauta vahvistetaan olevan punaisen kehyksen sisällä live-esikatseluikkunassa.',
     failed_to_calibrate_chessboard: 'Kalibrointi shakkilautakuvan kanssa epäonnistui.',
+    calibrate_chessboard_success_msg: 'Shakkilautakuva otettiin onnistuneesti. Tämän kuvan pistemäärä on %s (%.2f).',
+    res_excellent: 'Erinomainen',
+    res_average: 'Keskitasoinen',
+    res_poor: 'Heikko',
     perform_autofocus_bb2: 'Mene laitteen ohjauspaneeliin ja paina AF suorittaaksesi automaattitarkennuksen.',
   },
   input_machine_password: {

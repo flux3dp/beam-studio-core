@@ -1662,6 +1662,10 @@ const lang: ILang = {
     put_chessboard_1: 'Sila pergi ke panel kawalan mesin dan tekan AF untuk melakukan autofokus.',
     put_chessboard_2: 'Sila gerakkan kertas papan dam atau kepala laser sehingga keseluruhan papan dam disahkan berada dalam bingkai merah di tetingkap pratonton langsung.',
     failed_to_calibrate_chessboard: 'Gagal mengkalibrasi dengan gambar papan dam.',
+    calibrate_chessboard_success_msg: 'Gambar papan catur berjaya ditangkap. Skor untuk gambar ini adalah %s (%.2f).',
+    res_excellent: 'Cemerlang',
+    res_average: 'Purata',
+    res_poor: 'Lemah',
     perform_autofocus_bb2: 'Sila pergi ke panel kawalan mesin dan tekan AF untuk melakukan autofokus.',
   },
   input_machine_password: {

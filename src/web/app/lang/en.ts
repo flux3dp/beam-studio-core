@@ -1665,6 +1665,10 @@ const lang: ILang = {
     put_chessboard_1: 'Please go to the machine control panel and press AF to perform autofocus.',
     put_chessboard_2: 'Please move the chessboard paper or the laser head until the entire chessboard is confirmed to be within the red frame in the live preview window.',
     failed_to_calibrate_chessboard: 'Failed to calibrate with the chessboard picture.',
+    calibrate_chessboard_success_msg: 'Successfully captured the checkerboard photo. The result for this photo is %s (%.2f).',
+    res_excellent: 'Excellent',
+    res_average: 'Average',
+    res_poor: 'Poor',
     perform_autofocus_bb2: 'Please go to the machine control panel and press AF to perform autofocus.',
   },
   input_machine_password: {

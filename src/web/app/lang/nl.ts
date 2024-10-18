@@ -1662,6 +1662,10 @@ const lang: ILang = {
     put_chessboard_1: 'Ga naar het bedieningspaneel van de machine en druk op AF om de autofocus uit te voeren.',
     put_chessboard_2: 'Verplaats het schaakbordpapier of de laserhoofdkop totdat het volledige schaakbord binnen het rode kader in het livevoorbeeldvenster is bevestigd.',
     failed_to_calibrate_chessboard: 'Mislukt kalibreren met het schaakbordbeeld.',
+    calibrate_chessboard_success_msg: 'De foto van het schaakbord is succesvol vastgelegd. De score voor deze foto is %s (%.2f).',
+    res_excellent: 'Uitstekend',
+    res_average: 'Gemiddeld',
+    res_poor: 'Slecht',
     perform_autofocus_bb2: 'Ga naar het bedieningspaneel van de machine en druk op AF om de autofocus uit te voeren.',
   },
   input_machine_password: {

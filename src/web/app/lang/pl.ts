@@ -1665,6 +1665,10 @@ const lang: ILang = {
     put_chessboard_1: 'Proszę przejść do panelu sterowania maszyny i nacisnąć AF, aby wykonać autofokus.',
     put_chessboard_2: 'Proszę przesunąć papier szachownicy lub głowicę lasera, aż cały szachownica zostanie potwierdzona w czerwonej ramce w oknie podglądu na żywo.',
     failed_to_calibrate_chessboard: 'Nie udało się skalibrować z obrazem szachownicy.',
+    calibrate_chessboard_success_msg: 'Pomyślnie uchwycono zdjęcie szachownicy. Wynik dla tego zdjęcia to %s (%.2f).',
+    res_excellent: 'Doskonały',
+    res_average: 'Średni',
+    res_poor: 'Słaby',
     perform_autofocus_bb2: 'Proszę przejść do panelu sterowania maszyny i nacisnąć AF, aby wykonać autofokus.',
   },
   input_machine_password: {

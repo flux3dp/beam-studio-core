@@ -1665,6 +1665,10 @@ const lang: ILang = {
     put_chessboard_1: 'Por favor, vaya al panel de control de la máquina y presione AF para realizar el enfoque automático.',
     put_chessboard_2: 'Mueva el papel del tablero de ajedrez o la cabeza láser hasta que se confirme que todo el tablero de ajedrez está dentro del marco rojo en la ventana de vista previa en vivo.',
     failed_to_calibrate_chessboard: 'Falló la calibración con la imagen del tablero de ajedrez.',
+    calibrate_chessboard_success_msg: 'Se capturó exitosamente la foto del tablero de ajedrez. La puntuación para esta foto es %s (%.2f).',
+    res_excellent: 'Excelente',
+    res_average: 'Promedio',
+    res_poor: 'Deficiente',
     perform_autofocus_bb2: 'Por favor, vaya al panel de control de la máquina y presione AF para realizar el enfoque automático.',
   },
   input_machine_password: {

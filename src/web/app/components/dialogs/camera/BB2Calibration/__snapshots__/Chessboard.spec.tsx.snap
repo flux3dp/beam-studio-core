@@ -262,13 +262,33 @@ exports[`test Chessboard should render correctly 2`] = `
                 <div
                   class="imgContainer"
                 >
-                  <img
-                    alt="Chessboard"
-                    src="mock-url"
-                  />
                   <div
-                    class="indicator"
-                  />
+                    class="react-contextmenu-wrapper"
+                  >
+                    <img
+                      alt="Chessboard"
+                      src="mock-url"
+                    />
+                    <div
+                      class="indicator"
+                    />
+                  </div>
+                  <nav
+                    class="react-contextmenu"
+                    role="menu"
+                    style="position: fixed; opacity: 0; pointer-events: none;"
+                    tabindex="-1"
+                  >
+                    <div
+                      aria-disabled="false"
+                      class="react-contextmenu-item"
+                      id="download"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      download
+                    </div>
+                  </nav>
                 </div>
                 <div>
                   <h1>

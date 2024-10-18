@@ -1662,6 +1662,10 @@ const lang: ILang = {
     put_chessboard_1: 'Gå venligst til maskinens kontrolpanel og tryk på AF for at udføre autofokus.',
     put_chessboard_2: 'Flyt venligst skakbrætpapiret eller laserhovedet, indtil hele skakbrættet er bekræftet at være inden for den røde ramme i live-forhåndsvisningsvinduet.',
     failed_to_calibrate_chessboard: 'Kunne ikke kalibrere med skakbræt billedet.',
+    calibrate_chessboard_success_msg: 'Skakbræt-fotoet er blevet taget med succes. Scoren for dette foto er %s (%.2f).',
+    res_excellent: 'Fremragende',
+    res_average: 'Gennemsnitlig',
+    res_poor: 'Dårlig',
     perform_autofocus_bb2: 'Gå venligst til maskinens kontrolpanel og tryk på AF for at udføre autofokus.',
   },
   input_machine_password: {

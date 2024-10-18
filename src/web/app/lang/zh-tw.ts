@@ -1665,6 +1665,10 @@ const lang: ILang = {
     put_chessboard_1: '請前往機器控制面板並按下 AF 以執行自動對焦。',
     put_chessboard_2: '請移動棋盤紙或雷射頭，直到確認整個棋盤位於即時預覽視窗中的紅框內。',
     failed_to_calibrate_chessboard: '無法使用棋盤圖片進行校正。',
+    calibrate_chessboard_success_msg: '成功拍攝棋盤格照片，此次照片分數為 %s (%.2f)。',
+    res_excellent: '良好',
+    res_average: '中等',
+    res_poor: '較差',
     perform_autofocus_bb2: '請前往機器控制面板並按下 AF 以執行自動對焦。',
   },
   input_machine_password: {

@@ -1,10 +1,14 @@
 import React, { act } from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
+import alertConstants from 'app/constants/alert-constants';
+
 import Chessboard from './Chessboard';
 
+const mockPopUp = jest.fn();
 const mockPopUpError = jest.fn();
 jest.mock('app/actions/alert-caller', () => ({
+  popUp: (...args) => mockPopUp(...args),
   popUpError: (...args) => mockPopUpError(...args),
 }));
 
@@ -37,7 +41,19 @@ jest.mock('helpers/useI18n', () => () => ({
     put_chessboard_2: 'put_chessboard_2',
     next: 'next',
     cancel: 'cancel',
+    calibrate_chessboard_success_msg: 'calibrate_chessboard_success_msg %s %f',
+    res_excellent: 'res_excellent',
+    res_average: 'res_average',
+    res_poor: 'res_poor',
   },
+  monitor: {
+    download: 'download',
+  },
+}));
+
+const mockWriteFileDialog = jest.fn();
+jest.mock('implementations/dialog', () => ({
+  writeFileDialog: (...args) => mockWriteFileDialog(...args),
 }));
 
 jest.mock('../common/ExposureSlider', () => ({ exposureSetting, onChange }: any) => (
@@ -125,7 +141,7 @@ describe('test Chessboard', () => {
     act(() => handleImg(mockBlob));
     const mockRes = {
       success: true,
-      data: { ret: 'ret', k: 'k', d: 'd', rvec: 'rvec', tvec: 'tvec' },
+      data: { ret: 1, k: 'k', d: 'd', rvec: 'rvec', tvec: 'tvec' },
     };
     mockCalibrateChessboard.mockResolvedValue(mockRes);
     await act(() => fireEvent.click(baseElement.querySelector('button.ant-btn-primary')));
@@ -134,16 +150,42 @@ describe('test Chessboard', () => {
       id: 'calibrate-chessboard',
       message: 'calibrating',
     });
-    expect(mockPopById).toBeCalledTimes(1);
-    expect(mockPopById).toBeCalledWith('calibrate-chessboard');
     expect(clearTimeout).toBeCalled();
     expect(mockCalibrateChessboard).toBeCalledTimes(1);
     expect(mockCalibrateChessboard).toBeCalledWith(mockBlob, 0, [7, 7]);
+    expect(mockPopUp).toBeCalledTimes(1);
+    expect(mockPopUp).toBeCalledWith({
+      message: 'calibrate_chessboard_success_msg res_excellent 1',
+      buttonType: alertConstants.CONFIRM_CANCEL,
+      onConfirm: expect.any(Function),
+      onCancel: expect.any(Function),
+    });
+    const {onConfirm} = mockPopUp.mock.calls[0][0];
+    await act(() => onConfirm());
     expect(mockUpdateParam).toBeCalled();
     expect(mockUpdateParam).toBeCalledWith(mockRes.data);
     expect(mockOnNext).toBeCalled();
     expect(mockHandleTakePicture).not.toBeCalled();
     expect(mockPopUpError).not.toBeCalled();
+    expect(mockPopById).toBeCalledTimes(1);
+    expect(mockPopById).toBeCalledWith('calibrate-chessboard');
+  });
+
+  test('download chessboard img', async () => {
+    const mockUpdateParam = jest.fn();
+    const mockOnNext = jest.fn();
+    const { baseElement } = render(
+      <Chessboard
+        chessboard={[7, 7]}
+        updateParam={mockUpdateParam}
+        onNext={mockOnNext}
+        onClose={jest.fn()}
+      />
+    );
+    const mockBlob = new Blob();
+    act(() => handleImg(mockBlob));
+    fireEvent.click(baseElement.querySelector('#download'));
+    expect(mockWriteFileDialog).toBeCalledTimes(1);
   });
 
   test('calibration failed', async () => {

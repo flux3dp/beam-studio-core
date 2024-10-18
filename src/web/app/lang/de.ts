@@ -1665,6 +1665,10 @@ const lang: ILang = {
     put_chessboard_1: 'Bitte gehen Sie zum Maschinensteuerpult und drücken Sie AF, um den Autofokus auszuführen.',
     put_chessboard_2: 'Bitte bewegen Sie das Schachbrettpapier oder den Laserkopf, bis das gesamte Schachbrett im Vorschaufenster innerhalb des roten Rahmens bestätigt ist.',
     failed_to_calibrate_chessboard: 'Kalibrierung mit dem Schachbrettbild fehlgeschlagen.',
+    calibrate_chessboard_success_msg: 'Das Schachbrettfoto wurde erfolgreich aufgenommen. Die Punktzahl für dieses Foto beträgt %s (%.2f).',
+    res_excellent: 'Hervorragend',
+    res_average: 'Durchschnittlich',
+    res_poor: 'Schlecht',
     perform_autofocus_bb2: 'Bitte gehen Sie zum Maschinensteuerpult und drücken Sie AF, um den Autofokus auszuführen.',
   },
   input_machine_password: {

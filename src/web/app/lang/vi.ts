@@ -1662,6 +1662,10 @@ const lang: ILang = {
     put_chessboard_1: 'Vui lòng đi tới bảng điều khiển máy và nhấn AF để thực hiện lấy nét tự động.',
     put_chessboard_2: 'Vui lòng di chuyển giấy bàn cờ hoặc đầu laser cho đến khi toàn bộ bàn cờ được xác nhận nằm trong khung đỏ trong cửa sổ xem trước trực tiếp.',
     failed_to_calibrate_chessboard: 'Không thể hiệu chỉnh với hình ảnh bàn cờ.',
+    calibrate_chessboard_success_msg: 'Đã chụp thành công ảnh bàn cờ. Điểm cho ảnh này là %s (%.2f).',
+    res_excellent: 'Xuất sắc',
+    res_average: 'Trung bình',
+    res_poor: 'Kém',
     perform_autofocus_bb2: 'Vui lòng đi tới bảng điều khiển máy và nhấn AF để thực hiện lấy nét tự động.',
   },
   input_machine_password: {

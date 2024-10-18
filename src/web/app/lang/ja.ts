@@ -1665,6 +1665,10 @@ const lang: ILang = {
     put_chessboard_1: '機械のコントロールパネルに移動し、AFを押してオートフォーカスを実行してください。',
     put_chessboard_2: 'チェッカーボード用紙またはレーザーヘッドを移動して、ライブプレビューウィンドウ内の赤い枠内にチェッカーボード全体が確認されるまで移動してください。',
     failed_to_calibrate_chessboard: 'チェッカーボード画像でのキャリブレーションに失敗しました。',
+    calibrate_chessboard_success_msg: 'チェスボードの写真を正常にキャプチャしました。この写真のスコアは %s (%.2f) です。',
+    res_excellent: '優秀',
+    res_average: '普通',
+    res_poor: '悪い',
     perform_autofocus_bb2: '機械のコントロールパネルに移動し、AFを押してオートフォーカスを実行してください。',
   },
   input_machine_password: {

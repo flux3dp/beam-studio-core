@@ -1662,6 +1662,10 @@ const lang: ILang = {
     put_chessboard_1: 'Veuillez vous rendre au panneau de commande de la machine et appuyez sur AF pour effectuer la mise au point automatique.',
     put_chessboard_2: "Veuillez déplacer le papier à damier ou la tête laser jusqu'à ce que l'ensemble du damier soit confirmé dans le cadre rouge de la fenêtre de prévisualisation en direct.",
     failed_to_calibrate_chessboard: "Échec de la calibration avec l'image de l'échiquier.",
+    calibrate_chessboard_success_msg: "La photo de l’échiquier a été capturée avec succès. Le score pour cette photo est %s (%.2f).",
+    res_excellent: 'Excellent',
+    res_average: 'Moyen',
+    res_poor: 'Médiocre',
     perform_autofocus_bb2: 'Veuillez vous rendre au panneau de commande de la machine et appuyez sur AF pour effectuer la mise au point automatique.',
   },
   input_machine_password: {

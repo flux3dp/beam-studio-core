@@ -1662,6 +1662,10 @@ const lang: ILang = {
     put_chessboard_1: 'Por favor, vá ao painel de controle da máquina e pressione AF para realizar o foco automático.',
     put_chessboard_2: 'Por favor, mova o papel do tabuleiro de xadrez ou a cabeça do laser até que todo o tabuleiro de xadrez esteja confirmado dentro da moldura vermelha na janela de visualização ao vivo.',
     failed_to_calibrate_chessboard: 'Falha na calibração com a imagem do tabuleiro de xadrez.',
+    calibrate_chessboard_success_msg: 'A foto do tabuleiro de xadrez foi capturada com sucesso. A pontuação para esta foto é %s (%.2f).',
+    res_excellent: 'Excelente',
+    res_average: 'Média',
+    res_poor: 'Fraco',
     perform_autofocus_bb2: 'Por favor, vá ao painel de controle da máquina e pressione AF para realizar o foco automático.',
   },
   input_machine_password: {

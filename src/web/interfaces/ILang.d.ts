@@ -1662,6 +1662,10 @@ export interface ILang {
     put_chessboard_1: string;
     put_chessboard_2: string;
     failed_to_calibrate_chessboard: string;
+    calibrate_chessboard_success_msg: string;
+    res_excellent: string;
+    res_average: string;
+    res_poor: string;
     perform_autofocus_bb2: string;
   };
   input_machine_password: {

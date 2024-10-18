@@ -1662,6 +1662,10 @@ const lang: ILang = {
     put_chessboard_1: "Per favore, vai al pannello di controllo della macchina e premi AF per eseguire l'autofocus.",
     put_chessboard_2: "Si prega di spostare il foglio a scacchiera o la testa del laser finché l'intera scacchiera non sia confermata all'interno della cornice rossa nella finestra di anteprima in tempo reale.",
     failed_to_calibrate_chessboard: "Calibrazione con l'immagine della scacchiera non riuscita.",
+    calibrate_chessboard_success_msg: "Foto della scacchiera catturata con successo. Il punteggio per questa foto è %s (%.2f).",
+    res_excellent: 'Eccellente',
+    res_average: 'Medio',
+    res_poor: 'Scarso',
     perform_autofocus_bb2: "Per favore, vai al pannello di controllo della macchina e premi AF per eseguire l'autofocus.",
   },
   input_machine_password: {
