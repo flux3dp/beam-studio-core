@@ -2,19 +2,21 @@ import React from 'react';
 import UnitInput from 'app/widgets/UnitInput';
 import useI18n from 'helpers/useI18n';
 import { Flex, Select } from 'antd';
-import styles from './TableSettingForm.module.scss';
 import { TableSetting } from './TableSetting';
+import styles from './Form.module.scss';
 
 interface Props {
   isInch: boolean;
   tableSetting: TableSetting;
   handleChange: (tableSetting: TableSetting) => void;
+  className?: string;
 }
 
 export default function TableSettingForm({
   isInch,
   tableSetting,
   handleChange,
+  className,
 }: Props): JSX.Element {
   const {
     beambox: {
@@ -22,7 +24,7 @@ export default function TableSettingForm({
     },
     material_test_generator: tMaterial,
   } = useI18n();
-  const lengthUnit = isInch ? 'in' : 'mm';
+  const lengthUnit = isInch ? 'in/s' : 'mm/s';
   const settingEntries = Object.entries(tableSetting).sort(([a], [b]) => b.localeCompare(a));
   const options = settingEntries.map(([key]) => ({ value: key, label: tLaserPanel[key] }));
 
@@ -66,7 +68,7 @@ export default function TableSettingForm({
     const useInch = isInch && key === 'speed';
 
     return (
-      <Flex vertical justify="space-between" gap="20px" key={`table-setting-${index}`}>
+      <Flex vertical justify="space-between" gap="8px" key={`table-setting-${index}`}>
         <div className={styles['sub-title']}>{tMaterial[index ? 'rows' : 'columns']}</div>
         <Select
           className={styles.input}
@@ -95,9 +97,9 @@ export default function TableSettingForm({
   };
 
   return (
-    <Flex justify="space-between">
-      <Flex vertical justify="space-between" gap="20px">
-        <div className={styles['sub-title']}>&nbsp;</div>
+    <Flex className={className} justify="space-between">
+      <Flex vertical justify="space-between" gap="8px">
+        <div className={styles.title}>{tMaterial.table_settings}</div>
         <div className={styles.label}>{tMaterial.parameter}</div>
         <div className={styles.label}>{tMaterial.min}</div>
         <div className={styles.label}>{tMaterial.max}</div>

@@ -1942,7 +1942,9 @@ export interface ILang {
     // block setting form
     | 'count'
     | 'size'
-    | 'spacing',
+    | 'spacing'
+    // text setting form
+    | 'text_parameters',
     string
   >;
   web_cam: {

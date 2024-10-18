@@ -1947,6 +1947,8 @@ const lang: ILang = {
     count: 'Count',
     size: 'Size (HxW)',
     spacing: 'Spacing',
+    // text setting form
+    text_parameters: 'Text Parameters',
   },
   web_cam: {
     no_permission: 'Beam Studio does not have permission to access the camera. Please make sure the permission is granted to Beam Studio in system settings or browser settings.',

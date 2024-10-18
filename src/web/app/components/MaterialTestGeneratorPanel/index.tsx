@@ -3,7 +3,7 @@ import React from 'react';
 
 import useI18n from 'helpers/useI18n';
 
-import { Button, Divider, Flex, Modal, Radio } from 'antd';
+import { Button, Flex, Modal, Radio } from 'antd';
 import { createLayer } from 'helpers/layer/layer-helper';
 import svgEditor from 'app/actions/beambox/svg-editor';
 import { writeDataLayer } from 'helpers/layer/layer-config-helper';
@@ -24,11 +24,13 @@ import WorkAreaInfo from './WorkAreaInfo';
 import TableSettingForm from './TableSettingForm';
 import BlockSettingForm from './BlockSettingForm';
 import { tableSetting as defaultTableSetting } from './TableSetting';
+import { textSetting as defaultTextSetting } from './TextSetting';
 
 import 'react-resizable/css/styles.css';
 import { BlockSetting, blockSetting as defaultBlockSetting } from './BlockSetting';
 
 import generateSvgInfo, { SvgInfo } from './generateSvgInfo';
+import TextSettingForm from './TextSettingForm';
 
 interface Props {
   onClose: () => void;
@@ -59,6 +61,7 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
   const t = useI18n();
   const [tableSetting, setTableSetting] = React.useState(defaultTableSetting());
   const [blockSetting, setBlockSetting] = React.useState(defaultBlockSetting());
+  const [textSetting, setTextSetting] = React.useState(defaultTextSetting);
   const [disabled, setDisabled] = React.useState(true);
   const [bounds, setBounds] = React.useState({ left: 0, top: 0, bottom: 0, right: 0 });
   const [blockOption, setBlockOption] = React.useState<'cut' | 'engrave'>('cut');
@@ -113,10 +116,13 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
       },
     });
 
-    const { cmd: infoCmd } = createLayer('Material Test Generator - Info', {
+    const { layer: infoLayer, cmd: infoCmd } = createLayer('Material Test Generator - Info', {
       hexCode: '#000',
       isSubCmd: true,
     });
+
+    writeDataLayer(infoLayer, 'power', textSetting.power);
+    writeDataLayer(infoLayer, 'speed', textSetting.speed);
 
     if (infoCmd && !infoCmd.isEmpty()) {
       batchCmd.addSubCommand(infoCmd);
@@ -280,7 +286,7 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
     workareaManager.resetView();
     handlePreview();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tableSetting, blockSetting, blockOption]);
+  }, [tableSetting, blockSetting, textSetting, blockOption]);
 
   return (
     <Modal
@@ -327,7 +333,7 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
         </div>
       }
     >
-      <Flex justify="space-between">
+      <Flex className={styles['mb-28']} justify="space-between">
         <WorkAreaInfo isInch={isInch} />
         <Radio.Group
           options={blockOptions}
@@ -339,25 +345,21 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
         />
       </Flex>
 
-      <Divider orientation="left" orientationMargin="0">
-        {t.material_test_generator.table_settings}
-      </Divider>
-
       <TableSettingForm
+        className={styles['mb-28']}
         isInch={isInch}
         tableSetting={tableSetting}
         handleChange={setTableSetting}
       />
 
-      <Divider orientation="left" orientationMargin="0">
-        {t.material_test_generator.block_settings}
-      </Divider>
-
       <BlockSettingForm
+        className={styles['mb-28']}
         isInch={isInch}
         blockSetting={blockSetting}
         handleChange={setBlockSetting}
       />
+
+      <TextSettingForm isInch={isInch} setting={textSetting} handleChange={setTextSetting} />
     </Modal>
   );
 };

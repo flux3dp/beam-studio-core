@@ -3,18 +3,20 @@ import UnitInput from 'app/widgets/UnitInput';
 import { Flex } from 'antd';
 import useI18n from 'helpers/useI18n';
 import { BlockSetting, blockSettingParams, blockSettingScopes } from './BlockSetting';
-import styles from './BlockSettingForm.module.scss';
+import styles from './Form.module.scss';
 
 interface Props {
   isInch: boolean;
   blockSetting: BlockSetting;
   handleChange: (blockSetting: BlockSetting) => void;
+  className?: string;
 }
 
 export default function BlockSettingForm({
   isInch,
   blockSetting,
   handleChange,
+  className,
 }: Props): JSX.Element {
   const t = useI18n();
   const lengthUnit = isInch ? 'in' : 'mm';
@@ -56,7 +58,7 @@ export default function BlockSettingForm({
   };
 
   const renderColumn = (scope: string) => (
-    <Flex key={scope} vertical justify="space-between" gap="20px">
+    <Flex key={scope} vertical justify="space-between" gap="8px">
       <div className={styles['sub-title']}>
         {t.material_test_generator[scope === 'row' ? 'rows' : 'columns']}
       </div>
@@ -65,9 +67,9 @@ export default function BlockSettingForm({
   );
 
   return (
-    <Flex justify="space-between">
-      <Flex vertical justify="space-between" gap="20px">
-        <div className={styles['sub-title']}>&nbsp;</div>
+    <Flex className={className} justify="space-between">
+      <Flex vertical justify="space-between" gap="8px">
+        <div className={styles.title}>{t.material_test_generator.block_settings}</div>
         <div className={styles.label}>{t.material_test_generator.count}</div>
         <div className={styles.label}>{t.material_test_generator.size}</div>
         <div className={styles.label}>{t.material_test_generator.spacing}</div>
