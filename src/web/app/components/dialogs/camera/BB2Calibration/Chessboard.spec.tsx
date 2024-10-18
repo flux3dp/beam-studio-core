@@ -126,7 +126,7 @@ describe('test Chessboard', () => {
     expect(mockHandleTakePicture).toBeCalled();
   });
 
-  test('handleCalibrate success', async () => {
+  test('handleCalibrate success and go next', async () => {
     const mockUpdateParam = jest.fn();
     const mockOnNext = jest.fn();
     const { baseElement } = render(
@@ -175,6 +175,56 @@ describe('test Chessboard', () => {
     expect(mockOnNext).toBeCalled();
     expect(mockHandleTakePicture).not.toBeCalled();
     expect(mockPopUpError).not.toBeCalled();
+    expect(mockPopById).toBeCalledTimes(1);
+    expect(mockPopById).toBeCalledWith('calibrate-chessboard');
+  });
+
+  test('handleCalibrate success and cancel', async () => {
+    const mockUpdateParam = jest.fn();
+    const mockOnNext = jest.fn();
+    const { baseElement } = render(
+      <Chessboard
+        chessboard={[7, 7]}
+        updateParam={mockUpdateParam}
+        onNext={mockOnNext}
+        onClose={jest.fn()}
+      />
+    );
+    const mockBlob = new Blob();
+    act(() => handleImg(mockBlob));
+    const mockRes = {
+      success: true,
+      data: { ret: 5, k: 'k', d: 'd', rvec: 'rvec', tvec: 'tvec' },
+    };
+    mockCalibrateChessboard.mockResolvedValue(mockRes);
+    await act(() => fireEvent.click(baseElement.querySelector('button.ant-btn-primary')));
+    expect(mockOpenNonstopProgress).toBeCalled();
+    expect(mockOpenNonstopProgress).toBeCalledWith({
+      id: 'calibrate-chessboard',
+      message: 'calibrating',
+    });
+    expect(clearTimeout).toBeCalled();
+    expect(mockCalibrateChessboard).toBeCalledTimes(1);
+    expect(mockCalibrateChessboard).toBeCalledWith(mockBlob, 0, [7, 7]);
+    expect(mockPopUp).toBeCalledTimes(1);
+    expect(mockPopUp).toBeCalledWith({
+      message: 'calibrate_chessboard_success_msg res_poor 5',
+      buttons: [
+        {
+          label: 'next',
+          onClick: expect.any(Function),
+          className: 'primary',
+        },
+        {
+          label: 'cancel',
+          onClick: expect.any(Function),
+        },
+      ]
+    });
+    const { buttons } = mockPopUp.mock.calls[0][0];
+    await act(() => buttons[1].onClick());
+    expect(mockUpdateParam).not.toBeCalled();
+    expect(mockOnNext).not.toBeCalled();
     expect(mockPopById).toBeCalledTimes(1);
     expect(mockPopById).toBeCalledWith('calibrate-chessboard');
   });
