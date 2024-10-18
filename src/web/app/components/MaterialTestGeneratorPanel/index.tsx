@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-shadow */
-import React, { useEffect, useMemo } from 'react';
+import React from 'react';
 
 import useI18n from 'helpers/useI18n';
 
@@ -17,6 +17,8 @@ import storage from 'implementations/storage';
 import createNewText from 'app/svgedit/text/createNewText';
 import undoManager from 'app/svgedit/history/undoManager';
 import { IBatchCommand } from 'interfaces/IHistory';
+import workareaManager from 'app/svgedit/workarea';
+import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
 import styles from './index.module.scss';
 import WorkAreaInfo from './WorkAreaInfo';
 import TableSettingForm from './TableSettingForm';
@@ -38,7 +40,7 @@ getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
 });
 
-const { dpmm } = constant;
+const { dpmm, topBarHeight } = constant;
 
 const paramWidth = {
   speed: 81.61 * dpmm,
@@ -57,13 +59,16 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
   const t = useI18n();
   const [tableSetting, setTableSetting] = React.useState(defaultTableSetting());
   const [blockSetting, setBlockSetting] = React.useState(defaultBlockSetting());
+  const [disabled, setDisabled] = React.useState(true);
+  const [bounds, setBounds] = React.useState({ left: 0, top: 0, bottom: 0, right: 0 });
   const [blockOption, setBlockOption] = React.useState<'cut' | 'engrave'>('cut');
   const blockOptions = [
     { label: t.material_test_generator.cut, value: 'cut' },
     { label: t.material_test_generator.engrave, value: 'engrave' },
   ];
   const batchCmd = React.useRef(new history.BatchCommand(`Material Test Generator`));
-  const isInch = useMemo(() => storage.get('default-units') === 'inches', []);
+  const draggleRef = React.useRef<HTMLDivElement>(null);
+  const isInch = React.useMemo(() => storage.get('default-units') === 'inches', []);
 
   const generateText = (
     svgInfos: Array<SvgInfo>,
@@ -255,7 +260,24 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
     onClose();
   };
 
-  useEffect(() => {
+  const onStart = (_event: DraggableEvent, uiData: DraggableData) => {
+    const { clientWidth, clientHeight } = window.document.documentElement;
+    const targetRect = draggleRef.current?.getBoundingClientRect();
+
+    if (!targetRect) {
+      return;
+    }
+
+    setBounds({
+      left: -targetRect.left + uiData.x,
+      right: clientWidth - (targetRect.right - uiData.x),
+      top: -targetRect.top + uiData.y + topBarHeight,
+      bottom: clientHeight - (targetRect.bottom - uiData.y),
+    });
+  };
+
+  React.useEffect(() => {
+    workareaManager.resetView();
     handlePreview();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tableSetting, blockSetting, blockOption]);
@@ -265,8 +287,37 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
       open
       centered
       wrapClassName={styles['modal-wrap']}
-      title={t.material_test_generator.title}
+      title={
+        <div
+          style={{ width: '100%', cursor: 'move' }}
+          onMouseOver={() => {
+            if (disabled) {
+              setDisabled(false);
+            }
+          }}
+          onMouseOut={() => {
+            setDisabled(true);
+          }}
+          // fix eslintjsx-a11y/mouse-events-have-key-events
+          // https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/mouse-events-have-key-events.md
+          onFocus={() => {}}
+          onBlur={() => {}}
+          // end
+        >
+          {t.material_test_generator.title}
+        </div>
+      }
       onCancel={handleClose}
+      modalRender={(modal) => (
+        <Draggable
+          defaultPosition={{ x: 0, y: -300 }}
+          bounds={bounds}
+          nodeRef={draggleRef}
+          onStart={(event, uiData) => onStart(event, uiData)}
+        >
+          <div ref={draggleRef}>{modal}</div>
+        </Draggable>
+      )}
       footer={
         <div className={styles.footer}>
           <Button onClick={handleClose}>{t.global.cancel}</Button>
