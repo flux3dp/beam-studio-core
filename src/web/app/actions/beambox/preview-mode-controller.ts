@@ -52,6 +52,10 @@ class PreviewModeController {
     this.errorCallback = () => {};
   }
 
+  get isFullScreen() {
+    return this.previewManager?.isFullScreen;
+  }
+
   reloadHeightOffset = async () => {
     this.previewManager?.reloadLevelingOffset?.();
   };
@@ -110,7 +114,7 @@ class PreviewModeController {
       this.currentDevice = device;
       if (promarkModels.has(device.model)) {
         this.previewManager = new PromarkPreviewManager(device);
-      }  else if (Constant.adorModels.includes(device.model)) {
+      } else if (Constant.adorModels.includes(device.model)) {
         this.previewManager = new AdorPreviewManager(device);
       } else if (device.model === 'fbb2') {
         this.previewManager = new BB2PreviewManager(device);

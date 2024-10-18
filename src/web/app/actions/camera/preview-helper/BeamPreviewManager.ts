@@ -12,7 +12,6 @@ import progressCaller from 'app/actions/progress-caller';
 import versionChecker from 'helpers/version-checker';
 import { CameraConfig, CameraParameters } from 'interfaces/Camera';
 import { getSupportInfo } from 'app/constants/add-on';
-import { getWorkarea } from 'app/constants/workarea-constants';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { PreviewManager } from 'interfaces/PreviewManager';
 
@@ -188,7 +187,7 @@ class BeamPreviewManager extends BasePreviewManager implements PreviewManager {
   });
 
   constrainPreviewXY = (x: number, y: number): { x: number; y: number } => {
-    const { pxWidth: width, pxHeight, pxDisplayHeight } = getWorkarea(this.workarea);
+    const { pxWidth: width, pxHeight, pxDisplayHeight } = this.workareaObj;
     const height = pxDisplayHeight ?? pxHeight;
     const supportInfo = getSupportInfo(this.workarea);
     const isDiodeEnabled = beamboxPreference.read('enable-diode') && supportInfo.hybridLaser;

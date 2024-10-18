@@ -2,7 +2,7 @@ import { CameraConfig, CameraParameters } from './Camera';
 // import { IDeviceInfo } from './IDevice';
 
 export interface PreviewManager {
-  fullScreen?: boolean;
+  isFullScreen: boolean;
 
   setup(args?: { progressId?: string }): Promise<boolean>;
 
