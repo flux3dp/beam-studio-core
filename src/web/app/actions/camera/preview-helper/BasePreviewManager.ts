@@ -13,6 +13,7 @@ import { PreviewSpeedLevel } from 'app/actions/beambox/constant';
 
 // TODO: Add tests
 class BasePreviewManager implements PreviewManager {
+  public isFullScreen = false;
   protected device: IDeviceInfo;
   protected progressId: string;
   protected workarea: WorkAreaModel;
