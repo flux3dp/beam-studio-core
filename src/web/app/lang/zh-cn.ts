@@ -1664,7 +1664,12 @@ const lang: ILang = {
     put_chessboard_desc: '请将棋盘板放在工作区域的中央。',
     put_chessboard_1: '请前往机器控制面板，按下AF以执行自动对焦。',
     put_chessboard_2: '请移动棋盘纸或激光头，直到确认整个棋盘在实时预览窗口中的红框内。',
+    put_chessboard_3: '单击右键以下载当前位置的棋盘图像并检查其清晰度。',
     failed_to_calibrate_chessboard: '无法使用棋盘图片进行校准。',
+    calibrate_chessboard_success_msg: '成功捕获了棋盘照片。<br/>此照片的得分为 %s (%.2f)。',
+    res_excellent: '优秀',
+    res_average: '一般',
+    res_poor: '差',
     perform_autofocus_bb2: '请前往机器控制面板，按下AF以执行自动对焦。请前往机器控制面板，按下AF以执行自动对焦。',
   },
   input_machine_password: {
