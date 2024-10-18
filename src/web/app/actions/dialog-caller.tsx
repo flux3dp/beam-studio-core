@@ -14,6 +14,7 @@ import FirmwareUpdate from 'app/components/dialogs/FirmwareUpdate';
 import FluxCredit from 'app/components/dialogs/FluxCredit';
 import FluxIdLogin from 'app/components/dialogs/FluxIdLogin';
 import FluxPlusWarning from 'app/components/dialogs/FluxPlusWarning';
+import MaterialTestGeneratorPanel from 'app/components/dialogs/MaterialTestGeneratorPanel';
 import i18n from 'helpers/i18n';
 import isWeb from 'helpers/is-web';
 import InputLightBox from 'app/widgets/InputLightbox';
@@ -44,7 +45,7 @@ import { IAnnouncement } from 'interfaces/IAnnouncement';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { IDialogBoxStyle, IInputLightBox, IPrompt } from 'interfaces/IDialog';
 import { IMediaTutorial, ITutorial } from 'interfaces/ITutorial';
-import MaterialTestGeneratorPanel from 'app/components/MaterialTestGeneratorPanel';
+
 import { ChipSettings } from 'interfaces/Cartridge';
 
 let svgCanvas;

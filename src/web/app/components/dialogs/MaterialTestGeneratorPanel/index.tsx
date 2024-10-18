@@ -90,7 +90,7 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
       ([, { selected: a }], [, { selected: b }]) => a - b
     );
 
-    const { cmd: tableCmd } = createLayer('Material Test Generator - Table', {
+    const { cmd: tableCmd } = createLayer('Material Test - Frame', {
       hexCode: '#000',
       isSubCmd: true,
     });
@@ -116,7 +116,7 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
       },
     });
 
-    const { layer: infoLayer, cmd: infoCmd } = createLayer('Material Test Generator - Info', {
+    const { layer: infoLayer, cmd: infoCmd } = createLayer('Material Test - Info', {
       hexCode: '#000',
       isSubCmd: true,
     });
