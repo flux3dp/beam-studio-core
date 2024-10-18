@@ -175,7 +175,7 @@ const CanvasTabBar = (): JSX.Element => {
         newText.scrollIntoView({ block: 'center', inline: 'center' });
         resetActiveKey();
       });
-      createNewText(100, 100, { text: 'Text', addToHistory: true });
+      createNewText(100, 100, { text: 'Text', addToHistory: true, isToSelect: true });
     } else if (key === 'pen') {
       events.once('addPath', resetActiveKey);
       FnWrapper.insertPath();

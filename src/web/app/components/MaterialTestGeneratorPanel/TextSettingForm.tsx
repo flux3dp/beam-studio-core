@@ -65,7 +65,7 @@ export default function TextSettingForm({
   return (
     <Flex vertical className={className} justify="space-between" gap="8px">
       <Flex justify="space-between" gap="20px">
-        <div className={styles.title}>{tMaterial.text_parameters}</div>
+        <div className={styles.title}>{tMaterial.text_settings}</div>
         <div style={{ width: '120px' }} className={styles['sub-title']}>
           {tLaserPanel.strength}
         </div>

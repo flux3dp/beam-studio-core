@@ -1929,6 +1929,7 @@ export interface ILang {
     | 'title'
     | 'table_settings'
     | 'block_settings'
+    | 'text_settings'
     | 'preview'
     | 'export'
     | 'cut'
@@ -1942,9 +1943,7 @@ export interface ILang {
     // block setting form
     | 'count'
     | 'size'
-    | 'spacing'
-    // text setting form
-    | 'text_parameters',
+    | 'spacing',
     string
   >;
   web_cam: {
