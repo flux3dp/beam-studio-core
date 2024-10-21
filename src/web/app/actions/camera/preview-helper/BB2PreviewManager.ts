@@ -2,7 +2,7 @@ import { sprintf } from 'sprintf-js';
 
 import alertCaller from 'app/actions/alert-caller';
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
-import constant from 'app/actions/beambox/constant';
+import constant, { PreviewSpeedLevel } from 'app/actions/beambox/constant';
 import deviceMaster from 'helpers/device-master';
 import i18n from 'helpers/i18n';
 import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
@@ -27,6 +27,7 @@ class BB2PreviewManager extends BasePreviewManager implements PreviewManager {
     y: [0, 100, 10],
   };
   private cameraCenterOffset: { x: number; y: number };
+  protected maxMovementSpeed: [number, number] = [54000, 6000]; // mm/min, speed cap of machine
 
   constructor(device: IDeviceInfo) {
     super(device);
@@ -39,8 +40,8 @@ class BB2PreviewManager extends BasePreviewManager implements PreviewManager {
 
   protected getMovementSpeed = (): number => {
     const previewMovementSpeedLevel = beamboxPreference.read('preview_movement_speed_level');
-    if (previewMovementSpeedLevel === 'high') return 30000;
-    if (previewMovementSpeedLevel === 'medium') return 24000;
+    if (previewMovementSpeedLevel === PreviewSpeedLevel.FAST) return 30000;
+    if (previewMovementSpeedLevel === PreviewSpeedLevel.MEDIUM) return 24000;
     return 18000;
   };
 

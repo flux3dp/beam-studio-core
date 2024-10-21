@@ -18,8 +18,9 @@ class BasePreviewManager implements PreviewManager {
   protected workarea: WorkAreaModel;
   protected workareaObj: WorkArea;
   protected ended = false;
-  private lastPosition: [number, number] = [0, 0];
-  private movementSpeed: number; // mm/min
+  protected lastPosition: [number, number] = [0, 0];
+  protected movementSpeed: number; // mm/min
+  protected maxMovementSpeed: [number, number] = [18000, 6000]; // mm/min, speed cap of machine
 
   constructor(device: IDeviceInfo) {
     this.device = device;
@@ -74,11 +75,9 @@ class BasePreviewManager implements PreviewManager {
   constrainPreviewXY = (x: number, y: number): { x: number; y: number } => {
     const { pxWidth: width, pxHeight, pxDisplayHeight } = this.workareaObj;
     const height = pxDisplayHeight ?? pxHeight;
-    const newX = Math.min(Math.max(x, 0), width);
-    const newY = Math.min(Math.max(y, 0), height);
     return {
-      x: newX,
-      y: newY,
+      x: Math.min(Math.max(x, 0), width),
+      y: Math.min(Math.max(y, 0), height),
     };
   };
 
@@ -89,16 +88,8 @@ class BasePreviewManager implements PreviewManager {
    * @returns image blob url of the photo taken
    */
   async getPhotoAfterMoveTo(movementX: number, movementY: number): Promise<string> {
-    if (!this.movementSpeed) this.movementSpeed = this.getMovementSpeed();
-    const movement = { f: this.movementSpeed, x: movementX, y: movementY };
-
-    const selectRes = await deviceMaster.select(this.device);
-    if (!selectRes.success) return null;
-    const control = await deviceMaster.getControl();
-    if (control.getMode() !== 'raw') await deviceMaster.enterRawMode();
-    await deviceMaster.rawMove(movement);
-    await this.waitUntilEstimatedMovementTime(movementX, movementY);
-
+    const moveRes = await this.moveTo(movementX, movementY);
+    if (!moveRes) return null;
     const imgUrl = await this.getPhotoFromMachine();
     return imgUrl;
   }
@@ -106,18 +97,35 @@ class BasePreviewManager implements PreviewManager {
   /**
    * Use raw command to move the camera to the target position
    * and wait an estimated time for the camera to take a stable picture
-   * @param movementX
-   * @param movementY
+   * @param movementX x in mm
+   * @param movementY y in mm
    */
-  async waitUntilEstimatedMovementTime(movementX: number, movementY: number): Promise<void> {
-    const moveDist = Math.hypot(this.lastPosition[0] - movementX, this.lastPosition[1] - movementY);
-    let timeToWait = moveDist / this.movementSpeed;
-    timeToWait *= 60000; // min => ms
+  async moveTo(movementX: number, movementY: number): Promise<boolean> {
+    const selectRes = await deviceMaster.select(this.device);
+    if (!selectRes.success) return false;
+    const control = await deviceMaster.getControl();
+    if (control.getMode() !== 'raw') await deviceMaster.enterRawMode();
+    if (!this.movementSpeed) this.movementSpeed = this.getMovementSpeed();
+    const movement = { f: this.movementSpeed, x: movementX, y: movementY };
+    await deviceMaster.rawMove(movement);
+    const [lastX, lastY] = this.lastPosition;
+    const [distX, distY] = [Math.abs(movementX - lastX), Math.abs(movementY - lastY)];
+    const totalDist = Math.hypot(distX, distY);
+    // the actual speed is limited by maxSpeedX and maxSpeedY
+    const [maxSpeedX, maxSpeedY] = this.maxMovementSpeed;
+    const [speedX, speedY] = [
+      (distX / totalDist) * this.movementSpeed,
+      (distY / totalDist) * this.movementSpeed,
+    ];
+    const speedRatio = Math.min(maxSpeedX / speedX, maxSpeedY / speedY, 1);
+    const actualSpeed = this.movementSpeed * speedRatio;
+    let timeToWait = (totalDist / actualSpeed) * 60000; // min => ms
     // wait for moving camera to take a stable picture, this value need to be optimized
     timeToWait *= 1.2;
     timeToWait += 100;
     this.lastPosition = [movementX, movementY];
     await new Promise<void>((r) => setTimeout(r, timeToWait));
+    return true;
   }
 
   async getPhotoFromMachine(): Promise<string> {
