@@ -23,7 +23,7 @@ const mockSupportInfo: SupportInfo = {
 
 describe('test getRotaryRatio', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    jest.resetAllMocks();
   });
 
   test('non chuck rotary', () => {
