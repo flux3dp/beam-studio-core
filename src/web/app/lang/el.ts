@@ -2,6 +2,10 @@
 import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
+  global: {
+    cancel: 'Ακύρωση',
+    back: 'Πίσω',
+  },
   general: {
     processing: 'Επεξεργασία...',
     choose_folder: 'Επιλέξτε φάκελο',
@@ -208,6 +212,12 @@ const lang: ILang = {
       camera_calibration_data: 'Δεδομένα Βαθμονόμησης Κάμερας',
       upload_data: 'Ανέβασμα Δεδομένων',
       download_data: 'Κατέβασμα Δεδομένων',
+      tools: {
+        title: 'Εργαλεία',
+        material_test_generator: 'Γεννήτρια Δοκιμής Υλικού',
+        qr_code_generator: 'Γεννήτρια Κωδικού QR',
+        boxgen: 'Boxgen',
+      },
     },
     select_machine: 'Επιλέξτε μηχανή',
   },
@@ -1920,6 +1930,24 @@ const lang: ILang = {
     hull_desc: 'Προεπισκοπεί ένα σχήμα που ακολουθεί στενά το σχέδιο, όπως ένα λάστιχο γύρω από το αντικείμενο.',
     areacheck_desc: 'Εξασφαλίζει την ασφάλεια της περιοχής εργασίας προβάλλοντας το πλαίσιο οριοθέτησης του αντικειμένου και τη ζώνη επιτάχυνσης της κεφαλής λέιζερ.',
     calculating_task: 'Υπολογισμός εργασίας...',
+  },
+  material_test_generator: {
+    title: 'Γεννήτρια Δοκιμής Υλικού',
+    table_settings: 'Ρυθμίσεις Πίνακα',
+    block_settings: 'Ρυθμίσεις Μπλοκ',
+    text_settings: 'Ρυθμίσεις κειμένου',
+    preview: 'Προεπισκόπηση',
+    export: 'Εξαγωγή',
+    cut: 'Κοπή',
+    engrave: 'Χάραξη',
+    columns: 'Στήλες',
+    rows: 'Σειρές',
+    parameter: 'Παράμετρος',
+    min: 'Ελάχ',
+    max: 'Μέγ',
+    count: 'Ποσότητα',
+    size: 'Μέγεθος (ΥxΠ)',
+    spacing: 'Απόσταση',
   },
   web_cam: {
     no_permission: 'Το Beam Studio δεν έχει άδεια πρόσβασης στην κάμερα. Βεβαιωθείτε ότι έχει δοθεί άδεια στο Beam Studio από τις ρυθμίσεις του προγράμματος περιήγησης ή του συστήματος.',

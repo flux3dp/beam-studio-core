@@ -23,7 +23,7 @@
     "@react-three/fiber": "^8.15.12",
     "@sentry/react": "^6.4.1",
     "@szhsin/react-menu": "^1.10.1",
-    "antd": "5.9.4",
+    "antd": "5.11",
     "antd-mobile": "^5.29.1",
     "antd-mobile-icons": "^0.3.0",
     "axios": "^1.7.7",

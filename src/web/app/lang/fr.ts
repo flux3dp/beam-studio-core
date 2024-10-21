@@ -2,6 +2,10 @@
 import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
+  global: {
+    cancel: 'Annuler',
+    back: 'Retour',
+  },
   general: {
     processing: 'Traitement...',
     choose_folder: 'Choisir un dossier',
@@ -208,6 +212,12 @@ const lang: ILang = {
       camera_calibration_data: 'Données de calibration de la caméra',
       upload_data: 'Télécharger des données',
       download_data: 'Télécharger des données',
+      tools: {
+        title: 'Outils',
+        material_test_generator: 'Générateur de Test de Matériau',
+        qr_code_generator: 'Générateur de Code QR',
+        boxgen: 'Boxgen',
+      },
     },
     select_machine: 'Sélectionner une machine',
   },
@@ -1920,6 +1930,24 @@ const lang: ILang = {
     hull_desc: "Affiche un aperçu d'une forme qui suit étroitement le design, comme un élastique enroulé autour de l'objet.",
     areacheck_desc: "Assure la sécurité de la zone de travail en prévisualisant la boîte englobante de l'objet et la zone d'accélération de la tête laser.",
     calculating_task: 'Calcul de la tâche...',
+  },
+  material_test_generator: {
+    title: 'Générateur de Test de Matériau',
+    table_settings: 'Paramètres du Tableau',
+    block_settings: 'Paramètres du Bloc',
+    text_settings: 'Paramètres texte',
+    preview: 'Aperçu',
+    export: 'Exporter',
+    cut: 'Couper',
+    engrave: 'Graver',
+    columns: 'Colonnes',
+    rows: 'Lignes',
+    parameter: 'Paramètre',
+    min: 'Min',
+    max: 'Max',
+    count: 'Quantité',
+    size: 'Taille (HxL)',
+    spacing: 'Espacement',
   },
   web_cam: {
     no_permission: "Beam Studio n'a pas l'autorisation d'accéder à la caméra. Assurez-vous que l'autorisation est accordée à Beam Studio dans les paramètres du navigateur ou du système.",

@@ -2,6 +2,10 @@
 import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
+  global: {
+    cancel: '取消',
+    back: '返回',
+  },
   general: {
     processing: '處理中...',
     choose_folder: '選擇檔案夾',
@@ -208,6 +212,12 @@ const lang: ILang = {
       camera_calibration_data: '相機校正資料',
       upload_data: '上傳資料',
       download_data: '下載資料',
+      tools: {
+        title: '工具',
+        material_test_generator: '材質測試產生器',
+        qr_code_generator: 'QR 碼產生器',
+        boxgen: 'Boxgen',
+      },
     },
     select_machine: '選擇機器',
   },
@@ -1923,6 +1933,26 @@ const lang: ILang = {
     hull_desc: '預覽緊密貼合設計的形狀，像橡皮筋纏繞著物件一樣。',
     areacheck_desc: '藉由預覽物件的邊界框與雷射頭的加速區，確保工作區的安全。',
     calculating_task: '正在計算外框工作...',
+  },
+  material_test_generator: {
+    title: '材質測試產生器',
+    table_settings: '參數設定',
+    block_settings: '區塊設定',
+    text_settings: '文字設定',
+    preview: '預覽',
+    export: '匯出',
+    cut: '切割',
+    engrave: '刻印',
+    columns: '行',
+    rows: '列',
+    // table setting form
+    parameter: '參數',
+    min: '最小值',
+    max: '最大值',
+    // block setting form
+    count: '數量',
+    size: '尺寸 (高x寬)',
+    spacing: '間距',
   },
   web_cam: {
     no_permission: 'Beam Studio 沒有權限存取相機。請確保在系統設定或瀏覽器設定中已授予 Beam Studio 權限。',

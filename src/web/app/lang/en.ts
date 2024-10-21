@@ -2,6 +2,10 @@
 import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
+  global: {
+    cancel: 'Cancel',
+    back: 'Back',
+  },
   general: {
     processing: 'Processing...',
     choose_folder: 'Choose Folder',
@@ -208,6 +212,12 @@ const lang: ILang = {
       camera_calibration_data: 'Camera Calibration Data',
       upload_data: 'Upload Data',
       download_data: 'Download Data',
+      tools: {
+        title: 'Tools',
+        material_test_generator: 'Material Test Generator',
+        qr_code_generator: 'QR Code Generator',
+        boxgen: 'Boxgen',
+      },
     },
     select_machine: 'Select a machine',
   },
@@ -1923,6 +1933,26 @@ const lang: ILang = {
     hull_desc: 'Previews a shape that closely follows the design, like a rubber band wrapped around the object.',
     areacheck_desc: "Ensures the work area is safe by previewing the object's bounding box and the laser head's acceleration zone.",
     calculating_task: 'Calculating task...',
+  },
+  material_test_generator: {
+    title: 'Material Test Generator',
+    table_settings: 'Table Settings',
+    block_settings: 'Block Settings',
+    text_settings: 'Text Settings',
+    preview: 'Preview',
+    export: 'Export',
+    cut: 'Cut',
+    engrave: 'Engrave',
+    columns: 'Columns',
+    rows: 'Rows',
+    // table setting form
+    parameter: 'Parameter',
+    min: 'Min',
+    max: 'Max',
+    // block setting form
+    count: 'Count',
+    size: 'Size (HxW)',
+    spacing: 'Spacing',
   },
   web_cam: {
     no_permission: 'Beam Studio does not have permission to access the camera. Please make sure the permission is granted to Beam Studio in system settings or browser settings.',

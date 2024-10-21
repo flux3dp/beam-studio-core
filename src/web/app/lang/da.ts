@@ -2,6 +2,10 @@
 import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
+  global: {
+    cancel: 'Annuller',
+    back: 'Tilbage',
+  },
   general: {
     processing: 'Behandler...',
     choose_folder: 'Vælg mappe',
@@ -208,6 +212,12 @@ const lang: ILang = {
       camera_calibration_data: 'Kamerakalibreringsdata',
       upload_data: 'Upload Data',
       download_data: 'Download Data',
+      tools: {
+        title: 'Værktøjer',
+        material_test_generator: 'Materialetestgenerator',
+        qr_code_generator: 'QR-kodegenerator',
+        boxgen: 'Boxgen',
+      },
     },
     select_machine: 'Vælg en maskine',
   },
@@ -1920,6 +1930,26 @@ const lang: ILang = {
     hull_desc: 'Viser en form, der tæt følger designet, som et elastik, der er viklet omkring objektet.',
     areacheck_desc: 'Sikrer arbejdsområdet ved at vise objektets afgrænsningsboks og laserhovedets accelerationszone.',
     calculating_task: 'Beregner opgave...',
+  },
+  material_test_generator: {
+    title: 'Materialetestgenerator',
+    table_settings: 'Tabelindstillinger',
+    block_settings: 'Blokindstillinger',
+    text_settings: 'Tekstindstillinger',
+    preview: 'Forhåndsvisning',
+    export: 'Eksportér',
+    cut: 'Skær',
+    engrave: 'Gravér',
+    columns: 'Kolonner',
+    rows: 'Rækker',
+    // table setting form
+    parameter: 'Parameter',
+    min: 'Min',
+    max: 'Max',
+    // block setting form
+    count: 'Antal',
+    size: 'Størrelse (HxB)',
+    spacing: 'Mellemrum',
   },
   web_cam: {
     no_permission: 'Beam Studio har ikke tilladelse til at få adgang til kameraet. Sørg for, at tilladelsen er givet til Beam Studio i browserindstillingerne eller systemindstillingerne.',

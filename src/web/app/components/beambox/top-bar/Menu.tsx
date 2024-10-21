@@ -23,7 +23,7 @@ export default function Menu({ email }: Props): JSX.Element {
     () => eventEmitterFactory.createEventEmitter('top-bar-menu'),
     []
   );
-  const [devices, setDevices] = useState<IDeviceInfo[]>([]);
+  const [devices, setDevices] = useState(Array<IDeviceInfo>());
   const [shouldShowRulers, changeShouldShowRulers] = useState(
     BeamboxPreference.read('show_rulers')
   );
@@ -63,6 +63,7 @@ export default function Menu({ email }: Props): JSX.Element {
         menuItemUpdater[item]?.(false);
       }
     });
+
     eventEmitter.on('DISABLE_MENU_ITEM', (items: string[]) => {
       for (let i = 0; i < items.length; i += 1) {
         const item = items[i];
@@ -79,10 +80,12 @@ export default function Menu({ email }: Props): JSX.Element {
   React.useEffect(() => {
     discover = Discover('top-bar-menu', (newDevices: IDeviceInfo[]) => {
       newDevices.sort((a, b) => (a.name >= b.name ? 1 : -1));
+
       if (newDevices.map((d) => d.name).join('') !== devices.map((d) => d.name).join('')) {
         setDevices(newDevices);
       }
     });
+
     return () => {
       discover.removeListener('top-bar-menu');
     };
@@ -90,10 +93,7 @@ export default function Menu({ email }: Props): JSX.Element {
 
   const menuCms = i18n.lang.topbar.menu;
   const callback = (id: string, deviceSerial?: string) => {
-    eventEmitter.emit('MENU_CLICK', null, {
-      id,
-      serial: deviceSerial,
-    });
+    eventEmitter.emit('MENU_CLICK', null, { id, serial: deviceSerial });
   };
   const openPage = (url: string) => browser.open(url);
   const hotkey = (action: string): JSX.Element => (
@@ -105,9 +105,11 @@ export default function Menu({ email }: Props): JSX.Element {
 
   const deviceMenus = () => {
     const submenus = [];
+
     for (let i = 0; i < devices.length; i += 1) {
       const { model, name, serial } = devices[i];
       const hasModules = modelsWithModules.has(model);
+
       submenus.push(
         <SubMenu label={name} key={serial}>
           <MenuItem onClick={() => callback('DASHBOARD', serial)}>{menuCms.dashboard}</MenuItem>
@@ -176,6 +178,7 @@ export default function Menu({ email }: Props): JSX.Element {
         </SubMenu>
       );
     }
+
     return submenus;
   };
 
@@ -371,6 +374,15 @@ export default function Menu({ email }: Props): JSX.Element {
         <MenuItem onClick={() => callback('ADD_NEW_MACHINE')}>{hotkey('add_new_machine')}</MenuItem>
         <MenuItem onClick={() => callback('NETWORK_TESTING')}>{menuCms.network_testing}</MenuItem>
         {deviceMenus()}
+      </SubMenu>
+      <SubMenu label={menuCms.tools.title}>
+        <MenuItem onClick={() => callback('MATERIAL_TEST_GENERATOR')}>
+          {menuCms.tools.material_test_generator}
+        </MenuItem>
+        <MenuItem onClick={() => callback('QR_CODE_GENERATOR')}>
+          {menuCms.tools.qr_code_generator}
+        </MenuItem>
+        <MenuItem onClick={() => callback('BOX_GEN')}>{menuCms.tools.boxgen}</MenuItem>
       </SubMenu>
       <SubMenu label={menuCms.account}>
         {email == null ? (

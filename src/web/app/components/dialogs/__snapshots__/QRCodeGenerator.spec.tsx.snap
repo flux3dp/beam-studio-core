@@ -78,6 +78,7 @@ exports[`test QRCodeGenerator should behave correctly 1`] = `
               >
                 <textarea
                   class="ant-input css-dev-only-do-not-override-hash"
+                  maxlength="200"
                   placeholder="Input a link or text"
                   rows="5"
                 />
@@ -349,6 +350,7 @@ exports[`test QRCodeGenerator should behave correctly 2`] = `
               >
                 <textarea
                   class="ant-input css-dev-only-do-not-override-hash"
+                  maxlength="200"
                   placeholder="Input a link or text"
                   rows="5"
                 >
@@ -375,9 +377,8 @@ exports[`test QRCodeGenerator should behave correctly 2`] = `
                     style="width: 1000px; height: 1000px; background-color: transparent;"
                   >
                     <canvas
-                      height="974"
-                      style="height: 974px; width: 974px;"
-                      width="974"
+                      height="1000"
+                      width="1000"
                     />
                   </div>
                 </div>

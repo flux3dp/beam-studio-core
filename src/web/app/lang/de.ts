@@ -2,6 +2,10 @@
 import { ILang } from 'interfaces/ILang';
 
 const lang: ILang = {
+  global: {
+    cancel: 'Abbrechen',
+    back: 'Zurück',
+  },
   general: {
     processing: 'Verarbeitung...',
     choose_folder: 'Ordner Auswählen',
@@ -208,6 +212,12 @@ const lang: ILang = {
       camera_calibration_data: 'Kamerakalibrierungsdaten',
       upload_data: 'Daten hochladen',
       download_data: 'Daten herunterladen',
+      tools: {
+        title: 'Werkzeuge',
+        material_test_generator: 'Materialtest-Generator',
+        qr_code_generator: 'QR-Code-Generator',
+        boxgen: 'Boxgen',
+      },
     },
     select_machine: 'Wählen Sie eine Maschine aus',
   },
@@ -1923,6 +1933,26 @@ const lang: ILang = {
     hull_desc: 'Zeigt eine Form, die dem Design eng folgt, wie ein Gummiband, das um das Objekt gewickelt ist.',
     areacheck_desc: 'Stellt die Sicherheit des Arbeitsbereichs sicher, indem der Begrenzungsrahmen des Objekts und die Beschleunigungszone des Laserkopfs angezeigt werden.',
     calculating_task: 'Aufgabe wird berechnet...',
+  },
+  material_test_generator: {
+    title: 'Materialtest-Generator',
+    table_settings: 'Tabelleneinstellungen',
+    block_settings: 'Blockeinstellungen',
+    text_settings: 'Texteinstellungen',
+    preview: 'Vorschau',
+    export: 'Exportieren',
+    cut: 'Schneiden',
+    engrave: 'Gravieren',
+    columns: 'Spalten',
+    rows: 'Zeilen',
+    // table setting form
+    parameter: 'Parameter',
+    min: 'Min',
+    max: 'Max',
+    // block setting form
+    count: 'Anzahl',
+    size: 'Größe (HxB)',
+    spacing: 'Abstand',
   },
   web_cam: {
     no_permission: 'Beam Studio hat keine Berechtigung, auf die Kamera zuzugreifen. Stellen Sie sicher, dass die Berechtigung für Beam Studio in den Browser- oder Systemeinstellungen erteilt wurde.',

@@ -40,12 +40,7 @@ const CanvasTabBar = (): JSX.Element => {
   const lang = useI18n();
   const isSubscribed = getCurrentUser()?.info?.subscription?.is_valid;
 
-  const {
-    mode,
-    endPreviewMode,
-    changeToPreviewMode,
-    setupPreviewMode,
-  } = useContext(CanvasContext);
+  const { mode, endPreviewMode, changeToPreviewMode, setupPreviewMode } = useContext(CanvasContext);
   const isPreviewing = mode === CanvasMode.Preview;
   const [activeKey, setActiveKey] = useState('none');
 
@@ -63,7 +58,7 @@ const CanvasTabBar = (): JSX.Element => {
         if (cur === 'layer') return 'none';
         return cur;
       });
-    }
+    };
     rightPanelEventEmitter.on('DISPLAY_LAYER', handler);
     return () => {
       rightPanelEventEmitter.off('DISPLAY_LAYER', handler);
@@ -137,7 +132,8 @@ const CanvasTabBar = (): JSX.Element => {
       key: 'dmkt',
       title: 'DMKT',
       icon: <DmktIcon style={{ fontSize: 40 }} />,
-    },{
+    },
+    {
       key: 'passthrough',
       title: lang.beambox.left_panel.label.pass_through,
       icon: <LeftPanelIcons.PassThrough />,
@@ -179,7 +175,7 @@ const CanvasTabBar = (): JSX.Element => {
         newText.scrollIntoView({ block: 'center', inline: 'center' });
         resetActiveKey();
       });
-      createNewText(100, 100, 'Text', true);
+      createNewText(100, 100, { text: 'Text', addToHistory: true, isToSelect: true });
     } else if (key === 'pen') {
       events.once('addPath', resetActiveKey);
       FnWrapper.insertPath();
@@ -194,13 +190,9 @@ const CanvasTabBar = (): JSX.Element => {
     } else if (key === 'document') {
       dialogCaller.showDocumentSettings();
       setTimeout(resetActiveKey, 300);
-    } else if (key === 'qrcode') {
-      dialogCaller.showQRCodeGenerator(resetActiveKey);
     } else if (key === 'dmkt') {
       browser.open(lang.topbar.menu.link.design_market);
       setTimeout(resetActiveKey, 300);
-    } else if (key === 'boxgen') {
-      dialogCaller.showBoxGen(resetActiveKey);
     } else if (key === 'cloud') {
       dialogCaller.showMyCloud(resetActiveKey);
     } else if (key === 'passthrough') {

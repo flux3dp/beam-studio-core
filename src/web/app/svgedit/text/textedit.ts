@@ -10,24 +10,6 @@ import { getRotationAngle } from 'app/svgedit/transform/rotation';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { ICommand } from 'interfaces/IHistory';
 
-interface TextAttribute {
-  fill?: string;
-  fill_opacity?: string | number;
-  fill_paint?: string;
-  font_family?: string;
-  font_postscriptName?: string;
-  font_size?: string | number;
-  opacity?: string | number;
-  stroke?: string;
-  stroke_dasharray?: string;
-  stroke_linecap?: string;
-  stroke_linejoin?: string;
-  stroke_opacity?: string | number;
-  stroke_paint?: string;
-  stroke_width?: string | number;
-  text_anchor?: string;
-}
-
 const { svgedit } = window;
 const { NS } = svgedit;
 
@@ -64,7 +46,7 @@ const getBold = (): boolean => {
   const selectedElements = svgCanvas.getSelectedElems();
   const textElem = selectedElements[0];
   if (textElem != null && textElem.tagName === 'text' && selectedElements[1] == null) {
-    return (textElem.getAttribute('font-weight') === 'bold');
+    return textElem.getAttribute('font-weight') === 'bold';
   }
   return false;
 };
@@ -132,7 +114,7 @@ const getItalic = (elem?: SVGTextElement): boolean => {
   const selectedElements = svgCanvas.getSelectedElems();
   const textElem = getTextElement(elem);
   if (textElem != null && textElem.tagName === 'text' && selectedElements[1] == null) {
-    return (textElem.getAttribute('font-style') === 'italic');
+    return textElem.getAttribute('font-style') === 'italic';
   }
   return false;
 };
@@ -173,9 +155,11 @@ const renderTextPath = (text: SVGTextElement, val?: string) => {
 };
 
 const renderTspan = (text: SVGTextElement, val?: string) => {
-  const tspans = Array.from(text.childNodes)
-    .filter((child: Element) => child.tagName === 'tspan') as SVGTextContentElement[];
-  const lines = typeof val === 'string' ? val.split('\u0085') : tspans.map((tspan) => tspan.textContent);
+  const tspans = Array.from(text.childNodes).filter(
+    (child: Element) => child.tagName === 'tspan'
+  ) as SVGTextContentElement[];
+  const lines =
+    typeof val === 'string' ? val.split('\u0085') : tspans.map((tspan) => tspan.textContent);
   const isVertical = getIsVertical(text);
   const lineSpacing = parseFloat(getLineSpacing(text));
   const charHeight = getFontSize(text);
@@ -200,7 +184,7 @@ const renderTspan = (text: SVGTextElement, val?: string) => {
         const y = [yPos.toFixed(2)];
         // Add more position if there are more than 2 characters
         for (let j = 1; j < lines[i].length; j += 1) {
-          yPos += (1 + letterSpacing) * charHeight;// text spacing
+          yPos += (1 + letterSpacing) * charHeight; // text spacing
           x.push(xPos.toFixed(2));
           y.push(yPos.toFixed(2));
         }
@@ -208,7 +192,10 @@ const renderTspan = (text: SVGTextElement, val?: string) => {
         tspan.setAttribute('y', y.join(' '));
       } else {
         tspan.setAttribute('x', text.getAttribute('x'));
-        tspan.setAttribute('y', (Number(text.getAttribute('y')) + i * lineSpacing * charHeight).toFixed(2));
+        tspan.setAttribute(
+          'y',
+          (Number(text.getAttribute('y')) + i * lineSpacing * charHeight).toFixed(2)
+        );
         tspan.textContent = lines[i];
         text.appendChild(tspan);
       }
@@ -383,7 +370,9 @@ const setItalic = (val: boolean, isSubCmd = false, elem?: Element): ICommand => 
 const setLetterSpacing = (val: number, elem?: Element): void => {
   const textElem = elem || svgCanvas.getSelectedElems()[0];
   if (textElem?.tagName === 'text') {
-    svgCanvas.changeSelectedAttribute('letter-spacing', val ? `${val.toString()}em` : '0em', [textElem]);
+    svgCanvas.changeSelectedAttribute('letter-spacing', val ? `${val.toString()}em` : '0em', [
+      textElem,
+    ]);
     renderText(textElem);
   }
   if (!textElem.textContent) {
