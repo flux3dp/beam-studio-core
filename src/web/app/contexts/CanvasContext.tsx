@@ -281,13 +281,6 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
 
   const changeToPreviewMode = () => {
     svgCanvas.setMode('select');
-    // if (beamboxPreference.read('enable-job-origin')) {
-    //   alertCaller.popUp({
-    //     message: 'Preview mode is not supported when the start position is current position.',
-    //   });
-    //   return;
-    // }
-
     workareaEvents.emit('update-context-menu', { menuDisabled: true });
     const workarea = document.getElementById('workarea');
     $('#workarea').contextmenu(() => {
