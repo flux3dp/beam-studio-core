@@ -7,7 +7,7 @@ export enum RotaryType {
 
 export const CHUCK_ROTARY_DIAMETER = 133;
 
-interface SupportInfo {
+export interface SupportInfo {
   autoFocus: boolean;
   hybridLaser: boolean;
   openBottom: boolean;

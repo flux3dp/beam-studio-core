@@ -12,6 +12,7 @@ import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import constant from 'app/actions/beambox/constant';
 import curveEngravingModeController from 'app/actions/canvas/curveEngravingModeController';
 import fs from 'implementations/fileSystem';
+import getRotaryRatio from 'helpers/device/get-rotary-ratio';
 import i18n from 'helpers/i18n';
 import isDev from 'helpers/is-dev';
 import getJobOrigin from 'helpers/job-origin';
@@ -21,7 +22,7 @@ import presprayArea from 'app/actions/canvas/prespray-area';
 import storage from 'implementations/storage';
 import Websocket from 'helpers/websocket';
 import rotaryAxis from 'app/actions/canvas/rotary-axis';
-import { CHUCK_ROTARY_DIAMETER, getSupportInfo, RotaryType } from 'app/constants/add-on';
+import { getSupportInfo } from 'app/constants/add-on';
 import { getWorkarea } from 'app/constants/workarea-constants';
 import { IBaseConfig, IFcodeConfig } from 'interfaces/ITaskConfig';
 
@@ -67,16 +68,7 @@ export const getExportOpt = (
   const rotaryMode = BeamboxPreference.read('rotary_mode');
   if (rotaryMode && supportInfo.rotary) {
     config.spin = rotaryAxis.getPosition();
-    let rotaryRatio = 1;
-    if (BeamboxPreference.read('rotary-type') === RotaryType.Chuck && supportInfo.rotary?.chuck) {
-      const objectDiameter = BeamboxPreference.read('rotary-chuck-obj-d') || CHUCK_ROTARY_DIAMETER;
-      rotaryRatio = CHUCK_ROTARY_DIAMETER / objectDiameter;
-    }
-    if (supportInfo.rotary?.mirror) {
-      const mirror = !!BeamboxPreference.read('rotary-mirror');
-      const { defaultMirror } = supportInfo.rotary;
-      if (mirror !== defaultMirror) rotaryRatio *= -1;
-    }
+    const rotaryRatio = getRotaryRatio(supportInfo);
     if (rotaryRatio !== 1) {
       config.rotary_y_ratio = rotaryRatio;
     }
