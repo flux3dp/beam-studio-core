@@ -1,6 +1,7 @@
 import EventEmitter from 'eventemitter3';
 import { sprintf } from 'sprintf-js';
 
+import alertCaller from 'app/actions/alert-caller';
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import checkDeviceStatus from 'helpers/check-device-status';
 import constant, { promarkModels } from 'app/actions/beambox/constant';
@@ -8,6 +9,7 @@ import deviceMaster from 'helpers/device-master';
 import exportFuncs from 'app/actions/beambox/export-funcs';
 import findDefs from 'app/svgedit/utils/findDef';
 import getJobOrigin from 'helpers/job-origin';
+import getRotaryRatio from 'helpers/device/get-rotary-ratio';
 import getUtilWS from 'helpers/api/utils-ws';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import i18n from 'helpers/i18n';
@@ -24,8 +26,6 @@ import { getAllLayers } from 'helpers/layer/layer-helper';
 import { getSupportInfo } from 'app/constants/add-on';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
-import { WorkAreaModel } from 'app/constants/workarea-constants';
-import alertCaller from 'app/actions/alert-caller';
 
 // TODO: add unit test
 export enum FramingType {
@@ -173,7 +173,7 @@ class FramingTaskManager extends EventEmitter {
   private isPromark = false;
   private isWorking = false;
   private interrupted = false;
-  private rotaryInfo: { useAAxis?: boolean; y: number; mirror?: boolean } = null;
+  private rotaryInfo: { useAAxis?: boolean; y: number; yRatio: number; } = null;
   private enabledInfo: {
     lineCheckMode: boolean;
     rotary: boolean;
@@ -256,14 +256,16 @@ class FramingTaskManager extends EventEmitter {
       this.curPos.x = moveTarget.x;
     }
     if (moveTarget.y !== undefined) {
-      if (this.rotaryInfo?.mirror && this.enabledInfo.rotary)
-        moveTarget.y = 2 * this.rotaryInfo.y - moveTarget.y;
+      if (this.enabledInfo.rotary) {
+        moveTarget.y = this.rotaryInfo.yRatio * (moveTarget.y - this.rotaryInfo.y) + this.rotaryInfo.y;
+      }
       if (this.jobOrigin) moveTarget.y -= this.jobOrigin.y;
       yDist = moveTarget.y - this.curPos.y;
       this.curPos.y = moveTarget.y;
     } else if (moveTarget.a !== undefined) {
-      if (this.rotaryInfo?.mirror && this.enabledInfo.rotary)
-        moveTarget.a = 2 * this.rotaryInfo.y - moveTarget.a;
+      if (this.enabledInfo.rotary) {
+        moveTarget.a = this.rotaryInfo.yRatio * (moveTarget.a - this.rotaryInfo.y) + this.rotaryInfo.y;
+      }
       if (this.jobOrigin) moveTarget.a -= this.jobOrigin.y;
       yDist = moveTarget.a - this.curPos.a;
       this.curPos.a = moveTarget.a;
@@ -321,14 +323,11 @@ class FramingTaskManager extends EventEmitter {
     this.curPos = { x: 0, y: 0, a: 0 };
     this.rotaryInfo = null;
     const rotaryMode = beamboxPreference.read('rotary_mode');
-    if (rotaryMode) {
+    const supportInfo = getSupportInfo(this.device.model);
+    if (rotaryMode && supportInfo.rotary) {
       const y = rotaryAxis.getPosition(true);
-      this.rotaryInfo = { y };
-      if (this.isAdor) {
-        this.rotaryInfo.useAAxis = true;
-        // looks weird but default mirror for ador
-        this.rotaryInfo.mirror = !beamboxPreference.read('rotary-mirror');
-      }
+      this.rotaryInfo = { y, yRatio: getRotaryRatio(supportInfo) };
+      if (this.isAdor) this.rotaryInfo.useAAxis = true;
     }
   };
 
@@ -416,7 +415,7 @@ class FramingTaskManager extends EventEmitter {
   private endTask = async () => {
     if (deviceMaster.currentControlMode === 'raw') {
       const { device, enabledInfo } = this;
-      const supportInfo = getSupportInfo(device.model as WorkAreaModel);
+      const supportInfo = getSupportInfo(device.model);
       if (enabledInfo.lineCheckMode) await deviceMaster.rawEndLineCheckMode();
       if (enabledInfo.rotary) await deviceMaster.rawSetRotary(false);
       if (supportInfo.redLight && enabledInfo.redLight) await deviceMaster.rawSetRedLight(false);
@@ -428,10 +427,9 @@ class FramingTaskManager extends EventEmitter {
   };
 
   private performTask = async () => {
-    // TODO: add interupt logic
     const { taskPoints, device, jobOrigin, rotaryInfo } = this;
     if (taskPoints.length === 0) return;
-    const supportInfo = getSupportInfo(device.model as WorkAreaModel);
+    const supportInfo = getSupportInfo(device.model);
     const yKey = rotaryInfo?.useAAxis ? 'a' : 'y';
     await this.moveTo({ x: taskPoints[0][0], [yKey]: taskPoints[0][1], wait: true });
     if (this.interrupted) return;
