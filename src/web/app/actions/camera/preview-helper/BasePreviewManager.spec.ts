@@ -158,11 +158,6 @@ describe('test BasePreviewManager', () => {
   });
 
   test('getPhotoAfterMoveTo', async () => {
-    mockRead.mockImplementation((key) => {
-      if (key === 'enable-diode') return false;
-      if (key === 'workarea') return 'fbm1';
-      return PreviewSpeedLevel.FAST;
-    });
     const basePreviewManager = new BasePreviewManager(mockDeviceInfo);
     const mockGetPhotoFromMachine = jest.spyOn(basePreviewManager, 'getPhotoFromMachine');
     const mockMoveTo = jest.spyOn(basePreviewManager, 'moveTo');
@@ -173,5 +168,30 @@ describe('test BasePreviewManager', () => {
     expect(mockMoveTo).toBeCalledTimes(1);
     expect(mockMoveTo).toBeCalledWith(50, 50);
     expect(mockGetPhotoFromMachine).toBeCalledTimes(1);
+  });
+
+  test('moveTo', async () => {
+    mockRead.mockImplementation((key) => {
+      if (key === 'enable-diode') return false;
+      if (key === 'workarea') return 'fbm1';
+      return PreviewSpeedLevel.FAST;
+    });
+    const basePreviewManager = new BasePreviewManager(mockDeviceInfo);
+    mockSelect.mockResolvedValue({ success: true });
+    mockGetControl.mockResolvedValue({ getMode: () => '' });
+    jest.useFakeTimers();
+    const mockSetTimeout = jest.spyOn(global, 'setTimeout');
+    mockSetTimeout.mockImplementation((cb) => {
+      cb();
+      return 0 as unknown as NodeJS.Timeout;
+    });
+    const p = basePreviewManager.moveTo(50, 50);
+    jest.runAllTimers();
+    await p;
+    expect(mockSelect).toBeCalledTimes(1);
+    expect(mockGetControl).toBeCalledTimes(1);
+    expect(mockEnterRawMode).toBeCalledTimes(1);
+    expect(mockRawMove).toBeCalledTimes(1);
+    expect(mockRawMove).toBeCalledWith({ f: 12000, x: 50, y: 50 });
   });
 });
