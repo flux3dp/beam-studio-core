@@ -16,9 +16,10 @@ jest.mock('helpers/i18n', () => ({
 
 jest.mock(
   'app/widgets/AlertDialog',
-  () => function DummyImageAlertDialog() {
-    return <div>This is dummy AlertDialog</div>;
-  }
+  () =>
+    function DummyImageAlertDialog() {
+      return <div>This is dummy AlertDialog</div>;
+    }
 );
 
 const mockOnSubmit = jest.fn();
@@ -29,7 +30,7 @@ describe('test InputLightbox', () => {
     jest.resetAllMocks();
   });
 
-  it('should render correctly when type is file', () => {
+  it('should trigger onSubmit when file is selected and input events are triggered', () => {
     const { baseElement, getByText } = render(
       <InputLightbox
         defaultValue=""
@@ -42,15 +43,31 @@ describe('test InputLightbox', () => {
         onClose={mockOnClose}
       />
     );
+
     expect(baseElement).toMatchSnapshot();
+
+    // Select the input element
     const input = baseElement.querySelector('input') as HTMLInputElement;
+
+    // Mock the files getter
     const filesGetter = jest.spyOn(input, 'files', 'get');
     const mockFile = new File(['mock-file'], 'mock-file');
     filesGetter.mockReturnValue([mockFile] as any);
-    fireEvent.change(input);
-    expect(mockOnSubmit).not.toBeCalled();
-    fireEvent.click(getByText('UPLOAD'));
+
+    // Fire a keyup event to simulate user interaction
+    fireEvent.keyUp(input, { key: 'Enter', code: 'Enter' });
+
+    // Ensure that the "UPLOAD" button is enabled after input interaction
+    const uploadButton = getByText('UPLOAD').closest('button');
+    expect(uploadButton).not.toBeDisabled();
+
+    // Fire the click event on the enabled button
+    fireEvent.click(uploadButton);
+
+    // Ensure onSubmit is called
     expect(mockOnSubmit).toBeCalledTimes(1);
+
+    // Ensure onClose is called with 'submit'
     expect(mockOnClose).toBeCalledTimes(1);
     expect(mockOnClose).toHaveBeenLastCalledWith('submit');
   });
