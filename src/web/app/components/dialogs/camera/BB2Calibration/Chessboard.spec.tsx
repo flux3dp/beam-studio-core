@@ -3,8 +3,10 @@ import { fireEvent, render } from '@testing-library/react';
 
 import Chessboard from './Chessboard';
 
+const mockPopUp = jest.fn();
 const mockPopUpError = jest.fn();
 jest.mock('app/actions/alert-caller', () => ({
+  popUp: (...args) => mockPopUp(...args),
   popUpError: (...args) => mockPopUpError(...args),
 }));
 
@@ -35,9 +37,22 @@ jest.mock('helpers/useI18n', () => () => ({
     camera_calibration: 'camera_calibration',
     put_chessboard_1: 'put_chessboard_1',
     put_chessboard_2: 'put_chessboard_2',
+    put_chessboard_3: 'put_chessboard_3',
     next: 'next',
     cancel: 'cancel',
+    calibrate_chessboard_success_msg: 'calibrate_chessboard_success_msg %s %f',
+    res_excellent: 'res_excellent',
+    res_average: 'res_average',
+    res_poor: 'res_poor',
   },
+  monitor: {
+    download: 'download',
+  },
+}));
+
+const mockWriteFileDialog = jest.fn();
+jest.mock('implementations/dialog', () => ({
+  writeFileDialog: (...args) => mockWriteFileDialog(...args),
 }));
 
 jest.mock('../common/ExposureSlider', () => ({ exposureSetting, onChange }: any) => (
@@ -110,7 +125,7 @@ describe('test Chessboard', () => {
     expect(mockHandleTakePicture).toBeCalled();
   });
 
-  test('handleCalibrate success', async () => {
+  test('handleCalibrate success and go next', async () => {
     const mockUpdateParam = jest.fn();
     const mockOnNext = jest.fn();
     const { baseElement } = render(
@@ -125,7 +140,7 @@ describe('test Chessboard', () => {
     act(() => handleImg(mockBlob));
     const mockRes = {
       success: true,
-      data: { ret: 'ret', k: 'k', d: 'd', rvec: 'rvec', tvec: 'tvec' },
+      data: { ret: 1, k: 'k', d: 'd', rvec: 'rvec', tvec: 'tvec' },
     };
     mockCalibrateChessboard.mockResolvedValue(mockRes);
     await act(() => fireEvent.click(baseElement.querySelector('button.ant-btn-primary')));
@@ -134,16 +149,100 @@ describe('test Chessboard', () => {
       id: 'calibrate-chessboard',
       message: 'calibrating',
     });
-    expect(mockPopById).toBeCalledTimes(1);
-    expect(mockPopById).toBeCalledWith('calibrate-chessboard');
     expect(clearTimeout).toBeCalled();
     expect(mockCalibrateChessboard).toBeCalledTimes(1);
     expect(mockCalibrateChessboard).toBeCalledWith(mockBlob, 0, [7, 7]);
+    expect(mockPopUp).toBeCalledTimes(1);
+    expect(mockPopUp).toBeCalledWith({
+      message: 'calibrate_chessboard_success_msg res_excellent 1',
+      buttons: [
+        {
+          label: 'next',
+          onClick: expect.any(Function),
+          className: 'primary',
+        },
+        {
+          label: 'cancel',
+          onClick: expect.any(Function),
+        },
+      ],
+    });
+    const { buttons } = mockPopUp.mock.calls[0][0];
+    await act(() => buttons[0].onClick());
     expect(mockUpdateParam).toBeCalled();
     expect(mockUpdateParam).toBeCalledWith(mockRes.data);
     expect(mockOnNext).toBeCalled();
     expect(mockHandleTakePicture).not.toBeCalled();
     expect(mockPopUpError).not.toBeCalled();
+    expect(mockPopById).toBeCalledTimes(1);
+    expect(mockPopById).toBeCalledWith('calibrate-chessboard');
+  });
+
+  test('handleCalibrate success and cancel', async () => {
+    const mockUpdateParam = jest.fn();
+    const mockOnNext = jest.fn();
+    const { baseElement } = render(
+      <Chessboard
+        chessboard={[7, 7]}
+        updateParam={mockUpdateParam}
+        onNext={mockOnNext}
+        onClose={jest.fn()}
+      />
+    );
+    const mockBlob = new Blob();
+    act(() => handleImg(mockBlob));
+    const mockRes = {
+      success: true,
+      data: { ret: 5, k: 'k', d: 'd', rvec: 'rvec', tvec: 'tvec' },
+    };
+    mockCalibrateChessboard.mockResolvedValue(mockRes);
+    await act(() => fireEvent.click(baseElement.querySelector('button.ant-btn-primary')));
+    expect(mockOpenNonstopProgress).toBeCalled();
+    expect(mockOpenNonstopProgress).toBeCalledWith({
+      id: 'calibrate-chessboard',
+      message: 'calibrating',
+    });
+    expect(clearTimeout).toBeCalled();
+    expect(mockCalibrateChessboard).toBeCalledTimes(1);
+    expect(mockCalibrateChessboard).toBeCalledWith(mockBlob, 0, [7, 7]);
+    expect(mockPopUp).toBeCalledTimes(1);
+    expect(mockPopUp).toBeCalledWith({
+      message: 'calibrate_chessboard_success_msg res_poor 5',
+      buttons: [
+        {
+          label: 'next',
+          onClick: expect.any(Function),
+          className: 'primary',
+        },
+        {
+          label: 'cancel',
+          onClick: expect.any(Function),
+        },
+      ],
+    });
+    const { buttons } = mockPopUp.mock.calls[0][0];
+    await act(() => buttons[1].onClick());
+    expect(mockUpdateParam).not.toBeCalled();
+    expect(mockOnNext).not.toBeCalled();
+    expect(mockPopById).toBeCalledTimes(1);
+    expect(mockPopById).toBeCalledWith('calibrate-chessboard');
+  });
+
+  test('download chessboard img', async () => {
+    const mockUpdateParam = jest.fn();
+    const mockOnNext = jest.fn();
+    const { baseElement } = render(
+      <Chessboard
+        chessboard={[7, 7]}
+        updateParam={mockUpdateParam}
+        onNext={mockOnNext}
+        onClose={jest.fn()}
+      />
+    );
+    const mockBlob = new Blob();
+    act(() => handleImg(mockBlob));
+    fireEvent.click(baseElement.querySelector('#download'));
+    expect(mockWriteFileDialog).toBeCalledTimes(1);
   });
 
   test('calibration failed', async () => {

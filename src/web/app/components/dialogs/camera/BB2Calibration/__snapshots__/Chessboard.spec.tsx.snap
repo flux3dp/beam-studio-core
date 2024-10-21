@@ -86,6 +86,10 @@ exports[`test Chessboard should render correctly 1`] = `
                     2. 
                     put_chessboard_2
                   </div>
+                  <div>
+                    3. 
+                    put_chessboard_3
+                  </div>
                 </div>
                 <div
                   class="imgContainer"
@@ -258,17 +262,41 @@ exports[`test Chessboard should render correctly 2`] = `
                     2. 
                     put_chessboard_2
                   </div>
+                  <div>
+                    3. 
+                    put_chessboard_3
+                  </div>
                 </div>
                 <div
                   class="imgContainer"
                 >
-                  <img
-                    alt="Chessboard"
-                    src="mock-url"
-                  />
                   <div
-                    class="indicator"
-                  />
+                    class="react-contextmenu-wrapper"
+                  >
+                    <img
+                      alt="Chessboard"
+                      src="mock-url"
+                    />
+                    <div
+                      class="indicator"
+                    />
+                  </div>
+                  <nav
+                    class="react-contextmenu"
+                    role="menu"
+                    style="position: fixed; opacity: 0; pointer-events: none;"
+                    tabindex="-1"
+                  >
+                    <div
+                      aria-disabled="false"
+                      class="react-contextmenu-item"
+                      id="download"
+                      role="menuitem"
+                      tabindex="-1"
+                    >
+                      download
+                    </div>
+                  </nav>
                 </div>
                 <div>
                   <h1>
