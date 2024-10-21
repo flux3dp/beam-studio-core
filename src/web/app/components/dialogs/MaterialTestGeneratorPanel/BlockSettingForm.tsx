@@ -12,6 +12,9 @@ interface Props {
   className?: string;
 }
 
+type Scope = (typeof blockSettingScopes)[number];
+type Param = (typeof blockSettingParams)[number];
+
 export default function BlockSettingForm({
   isInch,
   blockSetting,
@@ -20,23 +23,19 @@ export default function BlockSettingForm({
 }: Props): JSX.Element {
   const t = useI18n();
   const lengthUnit = isInch ? 'in' : 'mm';
-  const handleValueChange = (scope: string, param: string, value: number) => {
+  const handleValueChange = (scope: Scope, param: Param, value: number) => {
     const { min, max } = blockSetting[scope][param];
 
     handleChange({
       ...blockSetting,
       [scope]: {
         ...blockSetting[scope],
-        [param]: {
-          ...blockSetting[scope][param],
-          // eslint-disable-next-line no-nested-ternary
-          value: value > max ? max : value < min ? min : value,
-        },
+        [param]: { ...blockSetting[scope][param], value: Math.min(max, Math.max(min, value)) },
       },
     });
   };
 
-  const renderInput = (scope: string, param: string) => {
+  const renderInput = (scope: Scope, param: Param) => {
     const setting = blockSetting[scope][param];
     const useInch = isInch && param !== 'count';
 
@@ -57,7 +56,7 @@ export default function BlockSettingForm({
     );
   };
 
-  const renderColumn = (scope: string) => (
+  const renderColumn = (scope: Scope) => (
     <Flex key={scope} vertical justify="space-between" gap="8px">
       <div className={styles['sub-title']}>
         {t.material_test_generator[scope === 'row' ? 'rows' : 'columns']}

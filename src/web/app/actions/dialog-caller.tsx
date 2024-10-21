@@ -45,7 +45,6 @@ import { IAnnouncement } from 'interfaces/IAnnouncement';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { IDialogBoxStyle, IInputLightBox, IPrompt } from 'interfaces/IDialog';
 import { IMediaTutorial, ITutorial } from 'interfaces/ITutorial';
-
 import { ChipSettings } from 'interfaces/Cartridge';
 
 let svgCanvas;

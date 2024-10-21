@@ -5,7 +5,7 @@ import ISVGCanvas from 'interfaces/ISVGCanvas';
 import textEdit from 'app/svgedit/text/textedit';
 import updateElementColor from 'helpers/color/updateElementColor';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import storage from 'implementations/storage';
+import getDefaultFont from 'helpers/fonts/getDefaultFont';
 
 let svgCanvas: ISVGCanvas;
 
@@ -23,43 +23,6 @@ interface Options {
   isToSelect?: boolean;
   isDefaultFont?: boolean;
 }
-
-interface TextAttribute {
-  fill?: string;
-  fill_opacity?: string | number;
-  fill_paint?: string;
-  font_family?: string;
-  font_postscriptName?: string;
-  font_size?: string | number;
-  opacity?: string | number;
-  stroke?: string;
-  stroke_dasharray?: string;
-  stroke_linecap?: string;
-  stroke_linejoin?: string;
-  stroke_opacity?: string | number;
-  stroke_paint?: string;
-  stroke_width?: string | number;
-  text_anchor?: string;
-}
-
-interface DefaultFont {
-  family: string;
-  postscriptName: string;
-  style: string;
-}
-
-const getDefaultFont = (): TextAttribute => {
-  const { family, postscriptName }: DefaultFont = storage.get('default-font');
-
-  return {
-    font_family: family,
-    font_postscriptName: postscriptName,
-    font_size: 14,
-    fill: '#000000',
-    fill_opacity: 0,
-    text_anchor: 'start',
-  };
-};
 
 const createNewText = (
   x: number,

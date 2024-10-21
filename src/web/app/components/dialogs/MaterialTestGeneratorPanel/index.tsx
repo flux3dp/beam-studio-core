@@ -25,10 +25,7 @@ import TableSettingForm from './TableSettingForm';
 import BlockSettingForm from './BlockSettingForm';
 import { tableSetting as defaultTableSetting } from './TableSetting';
 import { textSetting as defaultTextSetting } from './TextSetting';
-
-import 'react-resizable/css/styles.css';
 import { BlockSetting, blockSetting as defaultBlockSetting } from './BlockSetting';
-
 import generateSvgInfo, { SvgInfo } from './generateSvgInfo';
 import TextSettingForm from './TextSettingForm';
 
@@ -59,8 +56,8 @@ const getTextAdjustment = (rawText: number | string) => (rawText.toString().leng
 
 const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
   const t = useI18n();
-  const [tableSetting, setTableSetting] = React.useState(defaultTableSetting());
-  const [blockSetting, setBlockSetting] = React.useState(defaultBlockSetting());
+  const [tableSetting, setTableSetting] = React.useState(defaultTableSetting);
+  const [blockSetting, setBlockSetting] = React.useState(defaultBlockSetting);
   const [textSetting, setTextSetting] = React.useState(defaultTextSetting);
   const [disabled, setDisabled] = React.useState(true);
   const [bounds, setBounds] = React.useState({ left: 0, top: 0, bottom: 0, right: 0 });
@@ -69,7 +66,7 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
     { label: t.material_test_generator.cut, value: 'cut' },
     { label: t.material_test_generator.engrave, value: 'engrave' },
   ];
-  const batchCmd = React.useRef(new history.BatchCommand(`Material Test Generator`));
+  const batchCmd = React.useRef(new history.BatchCommand('Material Test Generator'));
   const draggleRef = React.useRef<HTMLDivElement>(null);
   const isInch = React.useMemo(() => storage.get('default-units') === 'inches', []);
 
@@ -244,7 +241,7 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
 
     undoManager.unApply(batchCmd.current);
 
-    batchCmd.current = new history.BatchCommand(`Material Test Generator`);
+    batchCmd.current = new history.BatchCommand('Material Test Generator');
 
     generateBlocks(svgInfos, blockSetting, batchCmd.current);
     generateText(svgInfos, blockSetting, batchCmd.current);
@@ -261,7 +258,7 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
     onClose();
   };
 
-  const handleClose = () => {
+  const handleCancel = () => {
     undoManager.unApply(batchCmd.current);
     onClose();
   };
@@ -313,20 +310,21 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
           {t.material_test_generator.title}
         </div>
       }
-      onCancel={handleClose}
+      onCancel={handleCancel}
       modalRender={(modal) => (
         <Draggable
+          disabled={disabled}
           defaultPosition={{ x: 0, y: -300 }}
           bounds={bounds}
           nodeRef={draggleRef}
-          onStart={(event, uiData) => onStart(event, uiData)}
+          onStart={onStart}
         >
           <div ref={draggleRef}>{modal}</div>
         </Draggable>
       )}
       footer={
         <div className={styles.footer}>
-          <Button onClick={handleClose}>{t.global.cancel}</Button>
+          <Button onClick={handleCancel}>{t.global.cancel}</Button>
           <Button type="primary" onClick={handleExport}>
             {t.material_test_generator.export}
           </Button>

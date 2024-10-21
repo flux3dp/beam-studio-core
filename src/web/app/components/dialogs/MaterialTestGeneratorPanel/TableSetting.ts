@@ -1,7 +1,7 @@
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import { getWorkarea } from 'app/constants/workarea-constants';
 
-interface Detail {
+export interface Detail {
   minValue: number;
   maxValue: number;
   min: number;

@@ -7,7 +7,7 @@ import presetHelper from 'helpers/presets/preset-helper';
 import useWorkarea from 'helpers/hooks/useWorkarea';
 import layerModuleHelper from 'helpers/layer-module/layer-module-helper';
 import { getWorkarea } from 'app/constants/workarea-constants';
-import { TextSetting } from './TextSetting';
+import { textParams, TextSetting } from './TextSetting';
 import styles from './Form.module.scss';
 
 interface Props {
@@ -16,6 +16,8 @@ interface Props {
   handleChange: (textSetting: TextSetting) => void;
   className?: string;
 }
+
+type Param = (typeof textParams)[number];
 
 export default function TextSettingForm({
   isInch,
@@ -31,15 +33,15 @@ export default function TextSettingForm({
   } = useI18n();
   const lengthUnit = isInch ? 'in/s' : 'mm/s';
   const workarea = useWorkarea();
-  const presetList = presetHelper.getPresetsList(
-    workarea,
-    layerModuleHelper.getDefaultLaserModule()
-  );
-  const { maxSpeed } = getWorkarea(workarea);
-  const dropdownOptions = presetList.map(({ key, name }) => ({
-    value: key || name,
-    label: name,
-  }));
+  const { presetList, maxSpeed, dropdownOptions } = React.useMemo(() => {
+    const list = presetHelper.getPresetsList(workarea, layerModuleHelper.getDefaultLaserModule());
+
+    return {
+      presetList: list,
+      maxSpeed: getWorkarea(workarea).maxSpeed,
+      dropdownOptions: list.map(({ key, name }) => ({ value: key || name, label: name })),
+    };
+  }, [workarea]);
 
   const handleSelectChange = (value: string) => {
     const targetPreset = presetList.find(({ key }) => key === value);
@@ -51,14 +53,13 @@ export default function TextSettingForm({
     });
   };
 
-  const handleValueChange = (key: string, value: number) => {
+  const handleValueChange = (key: Param, value: number) => {
     const { min, max } = key === 'power' ? { min: 1, max: 100 } : { min: 1, max: maxSpeed };
 
     handleChange({
       ...setting,
       select: { value: 'custom', label: 'Custom' },
-      // eslint-disable-next-line no-nested-ternary
-      [key]: value > max ? max : value < min ? min : value,
+      [key]: Math.min(max, Math.max(min, value)),
     });
   };
 
@@ -77,9 +78,8 @@ export default function TextSettingForm({
       <Flex justify="space-between" gap="20px">
         <Select
           style={{ width: '160px' }}
-          value={setting.select}
           options={dropdownOptions}
-          // @ts-expect-error is right
+          value={setting.select.value}
           onChange={handleSelectChange}
         />
         <UnitInput

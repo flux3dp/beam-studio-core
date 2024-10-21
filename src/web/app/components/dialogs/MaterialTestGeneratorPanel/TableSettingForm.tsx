@@ -2,7 +2,7 @@ import React from 'react';
 import UnitInput from 'app/widgets/UnitInput';
 import useI18n from 'helpers/useI18n';
 import { Flex, Select } from 'antd';
-import { TableSetting } from './TableSetting';
+import { Detail, tableParams, TableSetting } from './TableSetting';
 import styles from './Form.module.scss';
 
 interface Props {
@@ -11,6 +11,8 @@ interface Props {
   handleChange: (tableSetting: TableSetting) => void;
   className?: string;
 }
+
+type Param = (typeof tableParams)[number];
 
 export default function TableSettingForm({
   isInch,
@@ -25,8 +27,15 @@ export default function TableSettingForm({
     material_test_generator: tMaterial,
   } = useI18n();
   const lengthUnit = isInch ? 'in/s' : 'mm/s';
-  const settingEntries = Object.entries(tableSetting).sort(([a], [b]) => b.localeCompare(a));
-  const options = settingEntries.map(([key]) => ({ value: key, label: tLaserPanel[key] }));
+  const settingEntries = React.useMemo(
+    () =>
+      Object.entries(tableSetting).sort(([a], [b]) => b.localeCompare(a)) as Array<[Param, Detail]>,
+    [tableSetting]
+  );
+  const options = React.useMemo(
+    () => settingEntries.map(([key]) => ({ value: key, label: tLaserPanel[key] })),
+    [settingEntries, tLaserPanel]
+  );
 
   const handleSelectChange = (value: string, index: number) => {
     const currentKey = settingEntries.find(([, { selected }]) => selected === index)?.[0];
@@ -42,24 +51,20 @@ export default function TableSettingForm({
     });
   };
 
-  const handleValueChange = (key: string, prefix: 'min' | 'max', value: number) => {
+  const handleValueChange = (key: Param, prefix: 'min' | 'max', value: number) => {
     const { min, max } = tableSetting[key];
     const limitValue = (v: number) => {
-      if (prefix === 'min') {
-        return v > tableSetting[key].maxValue ? tableSetting[key].maxValue : v;
-      }
+      const rangedValue = Math[prefix](
+        v,
+        tableSetting[key][prefix === 'min' ? 'maxValue' : 'minValue']
+      );
 
-      return v < tableSetting[key].minValue ? tableSetting[key].minValue : v;
+      return Math.min(max, Math.max(min, rangedValue));
     };
-    const finalValue = limitValue(value);
 
     handleChange({
       ...tableSetting,
-      [key]: {
-        ...tableSetting[key],
-        // eslint-disable-next-line no-nested-ternary
-        [`${prefix}Value`]: finalValue > max ? max : finalValue < min ? min : finalValue,
-      },
+      [key]: { ...tableSetting[key], [`${prefix}Value`]: limitValue(value) },
     });
   };
 
