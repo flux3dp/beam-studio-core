@@ -113,13 +113,8 @@ class BasePreviewManager implements PreviewManager {
     const totalDist = Math.hypot(distX, distY);
     // the actual speed is limited by maxSpeedX and maxSpeedY
     const [maxSpeedX, maxSpeedY] = this.maxMovementSpeed;
-    const [speedX, speedY] = [
-      (distX / totalDist) * this.movementSpeed,
-      (distY / totalDist) * this.movementSpeed,
-    ];
-    const speedRatio = Math.min(maxSpeedX / speedX, maxSpeedY / speedY, 1);
-    const actualSpeed = this.movementSpeed * speedRatio;
-    let timeToWait = (totalDist / actualSpeed) * 60000; // min => ms
+    let timeToWait =
+      Math.max(distX / maxSpeedX, distY / maxSpeedY, totalDist / this.movementSpeed) * 60000; // min => ms
     // wait for moving camera to take a stable picture, this value need to be optimized
     timeToWait *= 1.2;
     timeToWait += 100;
