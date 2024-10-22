@@ -5,7 +5,7 @@ import { Modal, ModalProps } from 'antd';
 import layoutConstants from 'app/constants/layout-constants';
 
 interface Props extends ModalProps {
-  defaultPosition: ControlPosition;
+  defaultPosition?: ControlPosition;
 }
 
 const DraggableModal = (props: Props): JSX.Element => {
