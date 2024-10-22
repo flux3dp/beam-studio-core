@@ -1,8 +1,6 @@
-import {
-  calculateTop, TopRef, calculateRight, RightRef,
-} from './absolute-position-helper';
+import { calculateTop, TopRef, calculateRight, RightRef } from './absolute-position-helper';
 
-jest.mock('app/actions/beambox/constant', () => ({
+jest.mock('app/constants/layout-constants', () => ({
   topBarHeight: 10,
   layerListHeight: 20,
   titlebarHeight: 30,
