@@ -65,6 +65,7 @@ const getCoords = (mm?: boolean): Coordinates => {
   const allLayers = getAllLayers();
   const { dpmm } = constant;
   allLayers.forEach((layer) => {
+    if (layer.getAttribute('display') === 'none') return;
     const bboxs = svgCanvas.getVisibleElementsAndBBoxes([layer]);
     bboxs.forEach(({ bbox }) => {
       const { x, y } = bbox;
@@ -140,7 +141,7 @@ const getConvexHull = async (imgBlob: Blob): Promise<[number, number][]> => {
 
 const getAreaCheckTask = async (
   device?: IDeviceInfo,
-  jobOrigin?: { x: number; y: number },
+  jobOrigin?: { x: number; y: number }
 ): Promise<[number, number][]> => {
   try {
     const metadata = await exportFuncs.getMetadata(device);
@@ -173,7 +174,7 @@ class FramingTaskManager extends EventEmitter {
   private isPromark = false;
   private isWorking = false;
   private interrupted = false;
-  private rotaryInfo: { useAAxis?: boolean; y: number; yRatio: number; } = null;
+  private rotaryInfo: { useAAxis?: boolean; y: number; yRatio: number } = null;
   private enabledInfo: {
     lineCheckMode: boolean;
     rotary: boolean;
@@ -257,14 +258,16 @@ class FramingTaskManager extends EventEmitter {
     }
     if (moveTarget.y !== undefined) {
       if (this.enabledInfo.rotary) {
-        moveTarget.y = this.rotaryInfo.yRatio * (moveTarget.y - this.rotaryInfo.y) + this.rotaryInfo.y;
+        moveTarget.y =
+          this.rotaryInfo.yRatio * (moveTarget.y - this.rotaryInfo.y) + this.rotaryInfo.y;
       }
       if (this.jobOrigin) moveTarget.y -= this.jobOrigin.y;
       yDist = moveTarget.y - this.curPos.y;
       this.curPos.y = moveTarget.y;
     } else if (moveTarget.a !== undefined) {
       if (this.enabledInfo.rotary) {
-        moveTarget.a = this.rotaryInfo.yRatio * (moveTarget.a - this.rotaryInfo.y) + this.rotaryInfo.y;
+        moveTarget.a =
+          this.rotaryInfo.yRatio * (moveTarget.a - this.rotaryInfo.y) + this.rotaryInfo.y;
       }
       if (this.jobOrigin) moveTarget.a -= this.jobOrigin.y;
       yDist = moveTarget.a - this.curPos.a;
