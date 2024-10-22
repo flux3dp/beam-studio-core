@@ -170,28 +170,64 @@ describe('test BasePreviewManager', () => {
     expect(mockGetPhotoFromMachine).toBeCalledTimes(1);
   });
 
-  test('moveTo', async () => {
-    mockRead.mockImplementation((key) => {
-      if (key === 'enable-diode') return false;
-      if (key === 'workarea') return 'fbm1';
-      return PreviewSpeedLevel.FAST;
+  describe('test move to & preview move speed', () => {
+    const testSets = [
+      { label: 'fast', value: PreviewSpeedLevel.FAST, expected: 12000 },
+      { label: 'medium', value: PreviewSpeedLevel.MEDIUM, expected: 9000 },
+      { label: 'slow', value: PreviewSpeedLevel.SLOW, expected: 6000 },
+    ];
+
+    testSets.forEach(({ label, value, expected }) => {
+      test(`moveTo ${label}`, async () => {
+        mockRead.mockImplementation((key) => {
+          if (key === 'enable-diode') return false;
+          if (key === 'workarea') return 'fbm1';
+          return value;
+        });
+        const basePreviewManager = new BasePreviewManager(mockDeviceInfo);
+        mockSelect.mockResolvedValue({ success: true });
+        mockGetControl.mockResolvedValue({ getMode: () => '' });
+        jest.useFakeTimers();
+        const mockSetTimeout = jest.spyOn(global, 'setTimeout');
+        mockSetTimeout.mockImplementation((cb) => {
+          cb();
+          return 0 as unknown as NodeJS.Timeout;
+        });
+        const p = basePreviewManager.moveTo(50, 50);
+        jest.runAllTimers();
+        await p;
+        expect(mockSelect).toBeCalledTimes(1);
+        expect(mockGetControl).toBeCalledTimes(1);
+        expect(mockEnterRawMode).toBeCalledTimes(1);
+        expect(mockRawMove).toBeCalledTimes(1);
+        expect(mockRawMove).toBeCalledWith({ f: expected, x: 50, y: 50 });
+      });
     });
-    const basePreviewManager = new BasePreviewManager(mockDeviceInfo);
-    mockSelect.mockResolvedValue({ success: true });
-    mockGetControl.mockResolvedValue({ getMode: () => '' });
-    jest.useFakeTimers();
-    const mockSetTimeout = jest.spyOn(global, 'setTimeout');
-    mockSetTimeout.mockImplementation((cb) => {
-      cb();
-      return 0 as unknown as NodeJS.Timeout;
+
+    test('moveTo with diode', async () => {
+      mockRead.mockImplementation((key) => {
+        if (key === 'enable-diode') return true;
+        if (key === 'workarea') return 'fbm1';
+        return PreviewSpeedLevel.FAST;
+      });
+      mockGetSupportInfo.mockReturnValue({ hybridLaser: true });
+      const basePreviewManager = new BasePreviewManager(mockDeviceInfo);
+      mockSelect.mockResolvedValue({ success: true });
+      mockGetControl.mockResolvedValue({ getMode: () => '' });
+      jest.useFakeTimers();
+      const mockSetTimeout = jest.spyOn(global, 'setTimeout');
+      mockSetTimeout.mockImplementation((cb) => {
+        cb();
+        return 0 as unknown as NodeJS.Timeout;
+      });
+      const p = basePreviewManager.moveTo(50, 50);
+      jest.runAllTimers();
+      await p;
+      expect(mockSelect).toBeCalledTimes(1);
+      expect(mockGetControl).toBeCalledTimes(1);
+      expect(mockEnterRawMode).toBeCalledTimes(1);
+      expect(mockRawMove).toBeCalledTimes(1);
+      expect(mockRawMove).toBeCalledWith({ f: 3600, x: 50, y: 50 });
     });
-    const p = basePreviewManager.moveTo(50, 50);
-    jest.runAllTimers();
-    await p;
-    expect(mockSelect).toBeCalledTimes(1);
-    expect(mockGetControl).toBeCalledTimes(1);
-    expect(mockEnterRawMode).toBeCalledTimes(1);
-    expect(mockRawMove).toBeCalledTimes(1);
-    expect(mockRawMove).toBeCalledWith({ f: 12000, x: 50, y: 50 });
   });
 });
