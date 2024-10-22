@@ -243,7 +243,7 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
           return;
         }
         workarea.style.cursor = 'url(img/camera-cursor.svg) 9 12, cell';
-        if (constant.adorModels.includes(device.model)) {
+        if (PreviewModeController.isFullScreen) {
           PreviewModeController.previewFullWorkarea(() => {
             updateCanvasContext();
             if (tutorialController.getNextStepRequirement() === tutorialConstants.PREVIEW_PLATFORM)

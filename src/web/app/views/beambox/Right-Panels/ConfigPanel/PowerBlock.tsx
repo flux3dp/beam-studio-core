@@ -28,7 +28,7 @@ import ConfigValueDisplay from './ConfigValueDisplay';
 import styles from './Block.module.scss';
 
 const MAX_VALUE = 100;
-const MIN_VALUE = 1;
+const MIN_VALUE = 0;
 
 function PowerBlock({
   type = 'default',
