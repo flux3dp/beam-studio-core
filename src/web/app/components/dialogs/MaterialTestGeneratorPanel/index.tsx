@@ -3,7 +3,7 @@ import React from 'react';
 
 import useI18n from 'helpers/useI18n';
 
-import { Button, Flex, Modal, Radio } from 'antd';
+import { Button, Flex, Radio } from 'antd';
 import { createLayer } from 'helpers/layer/layer-helper';
 import svgEditor from 'app/actions/beambox/svg-editor';
 import { writeDataLayer } from 'helpers/layer/layer-config-helper';
@@ -13,13 +13,12 @@ import { getSVGAsync } from 'helpers/svg-editor-helper';
 import updateElementColor from 'helpers/color/updateElementColor';
 import history from 'app/svgedit/history/history';
 import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
-import layoutConstants from 'app/constants/layout-constants';
 import storage from 'implementations/storage';
 import createNewText from 'app/svgedit/text/createNewText';
 import undoManager from 'app/svgedit/history/undoManager';
 import { IBatchCommand } from 'interfaces/IHistory';
 import workareaManager from 'app/svgedit/workarea';
-import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
+import DraggableModal from 'app/widgets/DraggableModal';
 import styles from './index.module.scss';
 import WorkAreaInfo from './WorkAreaInfo';
 import TableSettingForm from './TableSettingForm';
@@ -60,15 +59,12 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
   const [tableSetting, setTableSetting] = React.useState(defaultTableSetting);
   const [blockSetting, setBlockSetting] = React.useState(defaultBlockSetting);
   const [textSetting, setTextSetting] = React.useState(defaultTextSetting);
-  const [disabled, setDisabled] = React.useState(true);
-  const [bounds, setBounds] = React.useState({ left: 0, top: 0, bottom: 0, right: 0 });
   const [blockOption, setBlockOption] = React.useState<'cut' | 'engrave'>('cut');
   const blockOptions = [
     { label: t.material_test_generator.cut, value: 'cut' },
     { label: t.material_test_generator.engrave, value: 'engrave' },
   ];
   const batchCmd = React.useRef(new history.BatchCommand('Material Test Generator'));
-  const draggleRef = React.useRef<HTMLDivElement>(null);
   const isInch = React.useMemo(() => storage.get('default-units') === 'inches', []);
 
   const generateText = (
@@ -264,22 +260,6 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
     onClose();
   };
 
-  const onStart = (_event: DraggableEvent, uiData: DraggableData) => {
-    const { clientWidth, clientHeight } = window.document.documentElement;
-    const targetRect = draggleRef.current?.getBoundingClientRect();
-
-    if (!targetRect) {
-      return;
-    }
-
-    setBounds({
-      left: -targetRect.left + uiData.x,
-      right: clientWidth - (targetRect.right - uiData.x),
-      top: -targetRect.top + uiData.y + layoutConstants.topBarHeight,
-      bottom: clientHeight - (targetRect.bottom - uiData.y),
-    });
-  };
-
   React.useEffect(() => {
     workareaManager.resetView();
     handlePreview();
@@ -287,42 +267,12 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
   }, [tableSetting, blockSetting, textSetting, blockOption]);
 
   return (
-    <Modal
+    <DraggableModal
       open
       centered
       wrapClassName={styles['modal-wrap']}
-      title={
-        <div
-          style={{ width: '100%', cursor: 'move' }}
-          onMouseOver={() => {
-            if (disabled) {
-              setDisabled(false);
-            }
-          }}
-          onMouseOut={() => {
-            setDisabled(true);
-          }}
-          // fix eslintjsx-a11y/mouse-events-have-key-events
-          // https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/master/docs/rules/mouse-events-have-key-events.md
-          onFocus={() => {}}
-          onBlur={() => {}}
-          // end
-        >
-          {t.material_test_generator.title}
-        </div>
-      }
+      title={t.material_test_generator.title}
       onCancel={handleCancel}
-      modalRender={(modal) => (
-        <Draggable
-          disabled={disabled}
-          defaultPosition={{ x: 0, y: -300 }}
-          bounds={bounds}
-          nodeRef={draggleRef}
-          onStart={onStart}
-        >
-          <div ref={draggleRef}>{modal}</div>
-        </Draggable>
-      )}
       footer={
         <div className={styles.footer}>
           <Button onClick={handleCancel}>{t.global.cancel}</Button>
@@ -359,7 +309,7 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
       />
 
       <TextSettingForm isInch={isInch} setting={textSetting} handleChange={setTextSetting} />
-    </Modal>
+    </DraggableModal>
   );
 };
 
