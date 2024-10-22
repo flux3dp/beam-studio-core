@@ -21,6 +21,7 @@ import getDevice from 'helpers/device/get-device';
 import getJobOrigin from 'helpers/job-origin';
 import i18n from 'helpers/i18n';
 import isWeb from 'helpers/is-web';
+import layoutConstants from 'app/constants/layout-constants';
 import Pointable from 'app/components/beambox/path-preview/Pointable';
 import progressCaller from 'app/actions/progress-caller';
 import SidePanel from 'app/components/beambox/path-preview/SidePanel';
@@ -144,7 +145,7 @@ function dist(x1, y1, x2, y2) {
   return Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
 }
 
-function initBuffers(gl, width: number, height: number, offset?: { x: number, y: number }) {
+function initBuffers(gl, width: number, height: number, offset?: { x: number; y: number }) {
   // 建立一個 buffer 來儲存正方形的座標
 
   const positionBuffer = gl.createBuffer();
@@ -392,7 +393,15 @@ class Grid {
 
   draw(
     drawCommands,
-    { perspective, view, width, height, offset = { x: 0, y: 0 }, major = MAJOR_GRID_SPACING, minor = MINOR_GRID_SPACING }
+    {
+      perspective,
+      view,
+      width,
+      height,
+      offset = { x: 0, y: 0 },
+      major = MAJOR_GRID_SPACING,
+      minor = MINOR_GRID_SPACING,
+    }
   ) {
     if (!this.maingrid || !this.origin || this.width !== width || this.height !== height) {
       this.width = width;
@@ -517,10 +526,10 @@ class PathPreview extends React.Component<Props, State> {
     this.drawGcodeState = {};
 
     this.state = {
-      width: window.innerWidth - constant.sidePanelsWidth,
+      width: window.innerWidth - layoutConstants.sidePanelsWidth,
       height: Math.max(
         dimensions.height,
-        window.innerHeight - constant.topBarHeight - TOOLS_PANEL_HEIGHT
+        window.innerHeight - layoutConstants.topBarHeight - TOOLS_PANEL_HEIGHT
       ),
       camera: defaultCamera,
       workspace: defaultWorkspace,
@@ -1729,7 +1738,11 @@ class PathPreview extends React.Component<Props, State> {
           rapidDist={`${Math.round(this.gcodePreview.g0DistReal)} mm`}
           currentPosition={this.renderPosition()}
           isStartHereEnabled={playState !== PlayState.PLAY}
-          handleStartHere={isWeb() ? () => dialogCaller.forceLoginWrapper(this.handleStartHere) : this.handleStartHere}
+          handleStartHere={
+            isWeb()
+              ? () => dialogCaller.forceLoginWrapper(this.handleStartHere)
+              : this.handleStartHere
+          }
           togglePathPreview={togglePathPreview}
         />
       </div>

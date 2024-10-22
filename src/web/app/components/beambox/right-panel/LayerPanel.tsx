@@ -5,7 +5,6 @@ import { ResizableBox } from 'react-resizable';
 import AddLayerButton from 'app/components/beambox/right-panel/AddLayerButton';
 import Alert from 'app/actions/alert-caller';
 import ConfigPanel from 'app/views/beambox/Right-Panels/ConfigPanel/ConfigPanel';
-import constant from 'app/actions/beambox/constant';
 import changeLayersColor from 'helpers/layer/changeLayersColor';
 import Dialog from 'app/actions/dialog-caller';
 import DragImage from 'app/components/beambox/right-panel/DragImage';
@@ -17,6 +16,7 @@ import i18n from 'helpers/i18n';
 import LayerContextMenu from 'app/views/beambox/Right-Panels/LayerPanel/LayerContextMenu';
 import LayerList from 'app/views/beambox/Right-Panels/LayerPanel/LayerList';
 import LayerPanelIcons from 'app/icons/layer-panel/LayerPanelIcons';
+import layoutConstants from 'app/constants/layout-constants';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import RightPanelController from 'app/views/beambox/Right-Panels/contexts/RightPanelController';
 import SelLayerBlock from 'app/components/beambox/right-panel/SelLayerBlock';
@@ -37,7 +37,7 @@ getSVGAsync((globalSVG) => {
 
 const LANG = i18n.lang.beambox.right_panel.layer_panel;
 const minLayerHeight = 100;
-const defaultLayerHeight = constant.layerListHeight;
+const defaultLayerHeight = layoutConstants.layerListHeight;
 const layerPanelEventEmitter = eventEmitterFactory.createEventEmitter('layer-panel');
 
 interface Props {
@@ -498,7 +498,7 @@ class LayerPanel extends React.PureComponent<Props, State> {
                 0,
                 328,
                 window.innerHeight * 0.6,
-                window.innerHeight - constant.menuberHeight,
+                window.innerHeight - layoutConstants.menuberHeight,
               ]}
               title={LANG.layers.layer}
               fixedContent={<AddLayerButton setSelectedLayers={setSelectedLayers} />}

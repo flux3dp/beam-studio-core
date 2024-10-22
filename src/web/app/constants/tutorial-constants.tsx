@@ -1,10 +1,11 @@
 import * as React from 'react';
 import browser from 'implementations/browser';
-import Constant from 'app/actions/beambox/constant';
 import i18n from 'helpers/i18n';
 import isWeb from 'helpers/is-web';
 import { ITutorial } from 'interfaces/ITutorial';
 import { TopRef, RightRef, calculateTop, calculateRight } from 'helpers/absolute-position-helper';
+
+import layoutConstants from './layout-constants';
 
 export enum TutorialCallbacks {
   SELECT_DEFAULT_RECT = 'SELECT_DEFAULT_RECT',
@@ -33,7 +34,8 @@ const nextStepRequirements = {
 };
 
 const isMacOrWeb = window.os === 'MacOS' || isWeb();
-const rightPanelInnerWidth = Constant.rightPanelWidth - Constant.rightPanelScrollBarWidth;
+const rightPanelInnerWidth =
+  layoutConstants.rightPanelWidth - layoutConstants.rightPanelScrollBarWidth;
 
 const adjustFocusLinkClick = () => {
   // TODO: Add adjust focus link for Beambox2
@@ -66,20 +68,20 @@ const NEW_USER_TUTORIAL: ITutorial = {
         position: {
           top: calculateTop(260, TopRef.TOPBAR),
           get left(): number {
-            return window.innerWidth - Constant.rightPanelWidth;
+            return window.innerWidth - layoutConstants.rightPanelWidth;
           },
         },
       },
-      holePosition: { left: 50, right: Constant.rightPanelWidth, top: calculateTop(0) },
+      holePosition: { left: 50, right: layoutConstants.rightPanelWidth, top: calculateTop(0) },
       holeSize: {},
       hintCircle: {
         left: 55,
         top: calculateTop(5, TopRef.TOPBAR),
         get width(): number {
-          return window.innerWidth - Constant.sidePanelsWidth - 10;
+          return window.innerWidth - layoutConstants.sidePanelsWidth - 10;
         },
         get height(): number {
-          return window.innerHeight - Constant.topBarHeight - 10;
+          return window.innerHeight - layoutConstants.topBarHeight - 10;
         },
       },
       text: LANG.newUser.preview_the_platform,
@@ -132,20 +134,20 @@ const NEW_USER_TUTORIAL: ITutorial = {
         position: {
           top: calculateTop(260, TopRef.TOPBAR),
           get left(): number {
-            return window.innerWidth - Constant.rightPanelWidth;
+            return window.innerWidth - layoutConstants.rightPanelWidth;
           },
         },
       },
-      holePosition: { left: 50, right: Constant.rightPanelWidth, top: calculateTop(40) },
+      holePosition: { left: 50, right: layoutConstants.rightPanelWidth, top: calculateTop(40) },
       holeSize: {},
       hintCircle: {
         left: 55,
         top: calculateTop(5, TopRef.TOPBAR),
         get width(): number {
-          return window.innerWidth - Constant.sidePanelsWidth - 10;
+          return window.innerWidth - layoutConstants.sidePanelsWidth - 10;
         },
         get height(): number {
-          return window.innerHeight - Constant.topBarHeight - 10;
+          return window.innerHeight - layoutConstants.topBarHeight - 10;
         },
       },
       text: LANG.newUser.drag_to_draw,
@@ -223,13 +225,13 @@ const NEW_USER_TUTORIAL: ITutorial = {
         position: {
           top: calculateTop(260, TopRef.TOPBAR),
           get left(): number {
-            return window.innerWidth - Constant.rightPanelWidth;
+            return window.innerWidth - layoutConstants.rightPanelWidth;
           },
         },
       },
       holePosition: {
         left: 50,
-        right: Constant.rightPanelWidth,
+        right: layoutConstants.rightPanelWidth,
         top: calculateTop(0, TopRef.TOPBAR),
       },
       holeSize: {},
@@ -237,10 +239,10 @@ const NEW_USER_TUTORIAL: ITutorial = {
         left: 55,
         top: calculateTop(5, TopRef.TOPBAR),
         get width(): number {
-          return window.innerWidth - Constant.sidePanelsWidth - 10;
+          return window.innerWidth - layoutConstants.sidePanelsWidth - 10;
         },
         get height(): number {
-          return window.innerHeight - Constant.topBarHeight - 10;
+          return window.innerHeight - layoutConstants.topBarHeight - 10;
         },
       },
       text: LANG.newUser.drag_to_draw,
@@ -545,7 +547,7 @@ const INTERFACE_TUTORIAL: ITutorial = {
         right: calculateRight(4, RightRef.RIGHT_SROLL_BAR),
         top: calculateTop(42, TopRef.TOPBAR),
         width: rightPanelInnerWidth - 15,
-        height: Constant.layerListHeight - 4,
+        height: layoutConstants.layerListHeight - 4,
       },
       text: LANG.newInterface.layer_controls,
     },
@@ -560,7 +562,7 @@ const INTERFACE_TUTORIAL: ITutorial = {
       hintCircle: {
         right: 2,
         top: calculateTop(2, TopRef.TOPBAR),
-        width: Constant.rightPanelWidth - 4,
+        width: layoutConstants.rightPanelWidth - 4,
         height: 36,
       },
       text: LANG.newInterface.switch_between_layer_panel_and_object_panel,

@@ -13,6 +13,7 @@ import { getSVGAsync } from 'helpers/svg-editor-helper';
 import updateElementColor from 'helpers/color/updateElementColor';
 import history from 'app/svgedit/history/history';
 import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
+import layoutConstants from 'app/constants/layout-constants';
 import storage from 'implementations/storage';
 import createNewText from 'app/svgedit/text/createNewText';
 import undoManager from 'app/svgedit/history/undoManager';
@@ -39,7 +40,7 @@ getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
 });
 
-const { dpmm, topBarHeight } = constant;
+const { dpmm } = constant;
 
 const paramWidth = {
   speed: 81.61 * dpmm,
@@ -274,7 +275,7 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
     setBounds({
       left: -targetRect.left + uiData.x,
       right: clientWidth - (targetRect.right - uiData.x),
-      top: -targetRect.top + uiData.y + topBarHeight,
+      top: -targetRect.top + uiData.y + layoutConstants.topBarHeight,
       bottom: clientHeight - (targetRect.bottom - uiData.y),
     });
   };
