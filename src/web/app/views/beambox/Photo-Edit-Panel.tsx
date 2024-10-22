@@ -4,12 +4,12 @@ import { Button, Col, ConfigProvider, InputNumber, Modal, Row, Slider } from 'an
 
 import ActionPanelIcons from 'app/icons/action-panel/ActionPanelIcons';
 import calculateBase64 from 'helpers/image-edit-panel/calculate-base64';
-import Constants from 'app/actions/beambox/constant';
 import CurveControl from 'app/widgets/Curve-Control';
 import i18n from 'helpers/i18n';
 import imageEdit from 'helpers/image-edit';
 import imageProcessor from 'implementations/imageProcessor';
 import jimpHelper from 'helpers/jimp-helper';
+import layoutConstants from 'app/constants/layout-constants';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import OpenCVWebSocket from 'helpers/api/open-cv';
 import Progress from 'app/actions/progress-caller';
@@ -33,10 +33,10 @@ const updateLang = () => {
 export type PhotoEditMode = 'sharpen' | 'curve';
 
 interface Props {
-  element: HTMLElement,
-  src: string,
-  mode: PhotoEditMode,
-  unmount: () => void,
+  element: HTMLElement;
+  src: string;
+  mode: PhotoEditMode;
+  unmount: () => void;
 }
 
 interface State {
@@ -77,7 +77,7 @@ class PhotoEditPanel extends React.Component<Props, State> {
       sharpness: 0,
       sharpRadius: 1,
       threshold: parseInt(element.getAttribute('data-threshold'), 10),
-      shading: (element.getAttribute('data-shading') === 'true'),
+      shading: element.getAttribute('data-shading') === 'true',
       isFullColor: element.getAttribute('data-fullcolor') === '1',
       brightness: 0,
       contrast: 0,
@@ -153,7 +153,7 @@ class PhotoEditPanel extends React.Component<Props, State> {
     if (previewSrc !== src) URL.revokeObjectURL(previewSrc);
     ObjectPanelController.updateActiveKey(null);
     unmount();
-  }
+  };
 
   async handleComplete(): Promise<void> {
     Progress.openNonstopProgress({
@@ -178,9 +178,7 @@ class PhotoEditPanel extends React.Component<Props, State> {
       id: 'photo-edit-processing',
       message: LANG.processing,
     });
-    const {
-      sharpness, displaySrc, previewSrc, origSrc, origWidth, imageWidth,
-    } = this.state;
+    const { sharpness, displaySrc, previewSrc, origSrc, origWidth, imageWidth } = this.state;
     let { sharpRadius } = this.state;
     sharpRadius = isPreview ? Math.ceil(sharpRadius * (imageWidth / origWidth)) : sharpRadius;
     const imgBlobUrl = isPreview ? previewSrc : origSrc;
@@ -260,14 +258,12 @@ class PhotoEditPanel extends React.Component<Props, State> {
   async calculateImageData(src: string): Promise<string> {
     const { shading, threshold, isFullColor } = this.state;
     const resultBase64 = calculateBase64(src, shading, threshold, isFullColor);
-    return resultBase64
+    return resultBase64;
   }
 
   renderPhotoEditeModal(): JSX.Element {
     const { mode } = this.props;
-    const {
-      imageWidth, imageHeight, isShowingOriginal, displayBase64,
-    } = this.state;
+    const { imageWidth, imageHeight, isShowingOriginal, displayBase64 } = this.state;
 
     let panelContent = null;
     let rightWidth = 60;
@@ -287,9 +283,12 @@ class PhotoEditPanel extends React.Component<Props, State> {
         break;
     }
     const maxAllowableWidth = window.innerWidth - rightWidth;
-    const maxAllowableHeight = window.innerHeight - 2 * Constants.topBarHeightWithoutTitleBar - 180;
-    const imgSizeStyle = (imageWidth / maxAllowableWidth > imageHeight / maxAllowableHeight)
-      ? { width: maxAllowableWidth } : { height: maxAllowableHeight };
+    const maxAllowableHeight =
+      window.innerHeight - 2 * layoutConstants.topBarHeightWithoutTitleBar - 180;
+    const imgSizeStyle =
+      imageWidth / maxAllowableWidth > imageHeight / maxAllowableHeight
+        ? { width: maxAllowableWidth }
+        : { height: maxAllowableHeight };
     const imgWidth = imgSizeStyle.width
       ? maxAllowableWidth
       : imgSizeStyle.height * (imageWidth / imageHeight);
@@ -344,9 +343,7 @@ class PhotoEditPanel extends React.Component<Props, State> {
               src={isShowingOriginal ? this.compareBase64 : displayBase64}
             />
           </Col>
-          <Col flex="1 1 260px">
-            {panelContent}
-          </Col>
+          <Col flex="1 1 260px">{panelContent}</Col>
         </Row>
       </Modal>
     );
@@ -421,7 +418,9 @@ class PhotoEditPanel extends React.Component<Props, State> {
               max={20}
               step={1}
               default={0}
-              onChange={(id: string, val: string) => setStateAndPreview('sharpness', parseFloat(val))}
+              onChange={(id: string, val: string) =>
+                setStateAndPreview('sharpness', parseFloat(val))
+              }
               doOnlyOnMouseUp
               doOnlyOnBlur
             />
@@ -432,7 +431,9 @@ class PhotoEditPanel extends React.Component<Props, State> {
               max={100}
               step={1}
               default={1}
-              onChange={(id: string, val: string) => setStateAndPreview('sharpRadius', parseInt(val, 10))}
+              onChange={(id: string, val: string) =>
+                setStateAndPreview('sharpRadius', parseInt(val, 10))
+              }
               doOnlyOnMouseUp
               doOnlyOnBlur
             />
@@ -508,10 +509,7 @@ class PhotoEditPanel extends React.Component<Props, State> {
       </>
     ) : (
       <div style={{ width: 260, height: 260 }}>
-        <CurveControl
-          updateCurveFunction={updateCurveFunction}
-          updateImage={handleCurve}
-        />
+        <CurveControl updateCurveFunction={updateCurveFunction} updateImage={handleCurve} />
       </div>
     );
   }
@@ -541,19 +539,12 @@ class PhotoEditPanel extends React.Component<Props, State> {
     };
 
     const cancelButton = (
-      <Button
-        key="cancel"
-        onClick={this.handleCancel}
-      >
+      <Button key="cancel" onClick={this.handleCancel}>
         {LANG.cancel}
       </Button>
     );
     const okButton = (
-      <Button
-        key="ok"
-        onClick={() => handleOk()}
-        type="primary"
-      >
+      <Button key="ok" onClick={() => handleOk()} type="primary">
         {LANG.okay}
       </Button>
     );

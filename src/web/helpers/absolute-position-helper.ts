@@ -1,7 +1,7 @@
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
-import Constant from 'app/actions/beambox/constant';
 import isDev from 'helpers/is-dev';
 import isWeb from 'helpers/is-web';
+import layoutConstants from 'app/constants/layout-constants';
 import { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 
 export enum TopRef {
@@ -23,24 +23,24 @@ const isMacOrWeb = window.os === 'MacOS' || isWeb();
 export const calculateTop = (top: number, ref: TopRef = TopRef.WINDOW): number => {
   switch (ref) {
     case TopRef.TOPBAR:
-      return top + Constant.topBarHeight;
+      return top + layoutConstants.topBarHeight;
     case TopRef.LAYER_LIST:
-      return top + Constant.topBarHeight + Constant.layerListHeight;
+      return top + layoutConstants.topBarHeight + layoutConstants.layerListHeight;
     case TopRef.LAYER_PARAMS: {
       const offset = document.querySelector('#layer-parameters')?.getBoundingClientRect().top || 0;
       return top + offset;
     }
     default:
-      return top + Constant.titlebarHeight;
+      return top + layoutConstants.titlebarHeight;
   }
 };
 
 export const calculateRight = (right: number, ref: RightRef = RightRef.WINDOW): number => {
   switch (ref) {
     case RightRef.RIGHT_SROLL_BAR:
-      return right + Constant.rightPanelScrollBarWidth;
+      return right + layoutConstants.rightPanelScrollBarWidth;
     case RightRef.RIGHT_PANEL:
-      return right + Constant.rightPanelWidth;
+      return right + layoutConstants.rightPanelWidth;
     case RightRef.PATH_PREVIEW_BTN: {
       const workarea = beamboxPreference.read('workarea');
       const shouldHideBtn = !isDev() && modelsWithModules.has(workarea);

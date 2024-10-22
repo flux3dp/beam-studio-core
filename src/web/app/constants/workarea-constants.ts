@@ -1,4 +1,5 @@
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
+import constant from 'app/actions/beambox/constant';
 
 export type WorkAreaLabel =
   | 'beamo'
@@ -18,9 +19,18 @@ export type WorkAreaModel =
   | 'fpm1'
   | 'flv1'
   | 'fbb2';
-export const allWorkareas = new Set(['fbm1', 'fbb1b', 'fbb1p', 'fhexa1', 'ado1', 'fpm1', 'flv1', 'fbb2']);
+export const allWorkareas = new Set([
+  'fbm1',
+  'fbb1b',
+  'fbb1p',
+  'fhexa1',
+  'ado1',
+  'fpm1',
+  'flv1',
+  'fbb2',
+]);
 
-const dpmm = 10;
+const { dpmm } = constant;
 export interface WorkArea {
   label: WorkAreaLabel;
   width: number; // mm
@@ -141,6 +151,6 @@ export const getWorkarea = (
     return { ...res, width, height, pxWidth: width * dpmm, pxHeight: height * dpmm };
   }
   return { ...res };
-}
+};
 
 export default workareaConstants;

@@ -1,7 +1,5 @@
-import isDev from 'helpers/is-dev';
-import isWeb from 'helpers/is-web';
-
 export const modelsSupportUsb = new Set(['fhexa1', 'ado1']);
+export const adorModels = new Set(['ado1', 'fad1']);
 export const promarkModels = new Set(['fpm1']);
 export enum PreviewSpeedLevel {
   SLOW = 1,
@@ -60,16 +58,6 @@ export default {
   adorModels: ['ado1', 'fad1'],
   highPowerModels: ['fhexa1', 'ado1', 'flv1', 'fpm1'],
   fcodeV2Models: new Set(['ado1', 'fbb2']),
-  leftPanelWidth: 50, // px
-  rightPanelWidth: window.os !== 'MacOS' ? 258 : 242, // px
-  rightPanelScrollBarWidth: window.os !== 'MacOS' ? 16 : 0, // px
-  sidePanelsWidth: window.os !== 'MacOS' ? 308 : 292, // px
-  topBarHeight: window.os === 'Windows' && !isWeb() ? 70 : 40, // px
-  topBarHeightWithoutTitleBar: 40, // px
-  titlebarHeight: window.os === 'Windows' && !isWeb() ? 30 : 0, // px
-  menuberHeight: window.os === 'Windows' && !isWeb() ? 30 : 40, // px
-  layerListHeight: 400, // px
-  rulerWidth: 15, // px
   dpiValueMap: {
     low: 125,
     medium: 250,

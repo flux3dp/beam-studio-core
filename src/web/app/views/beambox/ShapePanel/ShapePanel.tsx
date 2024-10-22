@@ -2,8 +2,8 @@ import React, { Fragment } from 'react';
 import { CapsuleTabs } from 'antd-mobile';
 import { Modal } from 'antd';
 
-import constant from 'app/actions/beambox/constant';
 import FloatingPanel from 'app/widgets/FloatingPanel';
+import layoutConstants from 'app/constants/layout-constants';
 import Shapes, { ShapeTabs, generateFileNameArray } from 'app/constants/shape-panel-constants';
 import ShapeIcon from 'app/views/beambox/ShapePanel/ShapeIcon';
 import useI18n from 'helpers/useI18n';
@@ -14,7 +14,7 @@ import styles from './ShapePanel.module.scss';
 const ShapePanel = ({ onClose }: { onClose: () => void }): JSX.Element => {
   const lang = useI18n().beambox.shapes_panel;
   const isMobile = useIsMobile();
-  const anchors = [0, window.innerHeight - constant.menuberHeight];
+  const anchors = [0, window.innerHeight - layoutConstants.menuberHeight];
   const [close, setClose] = React.useState(false);
   const [activeTab, setActiveTab] = React.useState(ShapeTabs[0]);
 

@@ -1,6 +1,7 @@
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import constant from 'app/actions/beambox/constant';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
+import layoutConstants from 'app/constants/layout-constants';
 import rotaryConstants from 'app/constants/rotary-constants';
 import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 import { getSupportInfo } from 'app/constants/add-on';
@@ -141,8 +142,9 @@ class WorkareaManager {
     const hasRulers = !!beamboxPreference.read('show_rulers');
     const sidePanelsWidth = isMobile()
       ? 0
-      : constant.sidePanelsWidth + (hasRulers ? constant.rulerWidth : 0);
-    const topBarHeight = constant.topBarHeight + (hasRulers ? constant.rulerWidth : 0);
+      : layoutConstants.sidePanelsWidth + (hasRulers ? layoutConstants.rulerWidth : 0);
+    const topBarHeight =
+      layoutConstants.topBarHeight + (hasRulers ? layoutConstants.rulerWidth : 0);
     const workareaToDimensionRatio = Math.min(
       (window.innerWidth - sidePanelsWidth) / width,
       (window.innerHeight - topBarHeight) / height
@@ -152,10 +154,10 @@ class WorkareaManager {
     const workAreaHeight = height * zoomLevel;
     const offsetX =
       (window.innerWidth - sidePanelsWidth - workAreaWidth) / 2 +
-      (hasRulers ? constant.rulerWidth : 0);
+      (hasRulers ? layoutConstants.rulerWidth : 0);
     const offsetY =
       (window.innerHeight - topBarHeight - workAreaHeight) / 2 +
-      (hasRulers ? constant.rulerWidth : 0);
+      (hasRulers ? layoutConstants.rulerWidth : 0);
     this.zoom(zoomLevel);
     const x = parseFloat(background.getAttribute('x'));
     const y = parseFloat(background.getAttribute('y'));
