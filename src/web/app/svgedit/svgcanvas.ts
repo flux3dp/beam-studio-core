@@ -4840,9 +4840,14 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     }
 
     // update selection
+    const layers = selectedElements
+      .map((elem) => LayerHelper.getObjectLayer(elem).title)
+      .filter((layer, index, array) => array.indexOf(layer) === index);
+    LayerPanelController.setSelectedLayers(layers);
     selectOnly([g], true);
     tempGroup = g;
     console.log('temp group created');
+
     return g;
   };
 
