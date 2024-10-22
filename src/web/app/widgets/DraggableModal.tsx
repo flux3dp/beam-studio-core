@@ -1,11 +1,21 @@
-import Draggable, { DraggableData, DraggableEvent } from 'react-draggable';
+import Draggable, { ControlPosition, DraggableData, DraggableEvent } from 'react-draggable';
 import React, { useRef, useState } from 'react';
 import { Modal, ModalProps } from 'antd';
 
 import layoutConstants from 'app/constants/layout-constants';
 
-const DraggableModal = (props: ModalProps): JSX.Element => {
-  const { children, title, modalRender = (modal) => modal, ...restProps } = props;
+interface Props extends ModalProps {
+  defaultPosition: ControlPosition;
+}
+
+const DraggableModal = (props: Props): JSX.Element => {
+  const {
+    children,
+    title,
+    modalRender = (modal) => modal,
+    defaultPosition = { x: 0, y: -300 },
+    ...restProps
+  } = props;
   const [disabled, setDisabled] = useState(true);
   const [bounds, setBounds] = useState({ left: 0, top: 0, bottom: 0, right: 0 });
   const draggleRef = useRef<HTMLDivElement>(null);
@@ -46,7 +56,7 @@ const DraggableModal = (props: ModalProps): JSX.Element => {
       modalRender={(modal) => (
         <Draggable
           disabled={disabled}
-          defaultPosition={{ x: 0, y: -300 }}
+          defaultPosition={defaultPosition}
           bounds={bounds}
           nodeRef={draggleRef}
           onStart={onStart}
