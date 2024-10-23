@@ -5,6 +5,7 @@ const lang: ILang = {
   global: {
     cancel: 'キャンセル',
     back: '戻る',
+    save: '保存する',
   },
   general: {
     processing: '処理中...',
@@ -772,8 +773,6 @@ const lang: ILang = {
         engrave: '彫刻する',
         more: '管理する',
         apply: '適用する',
-        cancel: 'キャンセル',
-        save: '保存する',
         custom_preset: 'カスタム',
         various_preset: '複数のプリセット',
         module: 'モジュール',
@@ -1101,8 +1100,6 @@ const lang: ILang = {
       ultra: '超高',
       enable: '有効',
       disable: '無効',
-      cancel: 'キャンセル',
-      save: '保存する',
       notification: {
         changeFromPrintingWorkareaTitle: '印刷レイヤーをレーザーレイヤーに変換しますか？',
       },
@@ -1185,8 +1182,6 @@ const lang: ILang = {
       speed: '速度',
       repeat: '実行',
       add: '追加する',
-      save: '保存する',
-      cancel: 'キャンセルする',
       default: 'デフォルトにリセット',
       add_config: '色を追加',
       in_use: 'この色は使用中です。',

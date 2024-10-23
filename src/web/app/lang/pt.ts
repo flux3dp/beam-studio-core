@@ -5,6 +5,7 @@ const lang: ILang = {
   global: {
     cancel: 'Cancelar',
     back: 'Voltar',
+    save: 'Salvar',
   },
   general: {
     processing: 'Processando...',
@@ -769,8 +770,6 @@ const lang: ILang = {
         engrave: 'Gravar',
         more: 'Gerenciar',
         apply: 'Aplicar',
-        cancel: 'Cancelar',
-        save: 'Salvar',
         custom_preset: 'Personalizado',
         various_preset: 'Várias Predefinições',
         module: 'Módulo',
@@ -1098,8 +1097,6 @@ const lang: ILang = {
       ultra: 'Ultra Alto',
       enable: 'Habilitar',
       disable: 'Desabilitar',
-      cancel: 'Cancelar',
-      save: 'Salvar',
       notification: {
         changeFromPrintingWorkareaTitle: 'Deseja converter as Camadas de Impressão em Camadas de Laser?',
       },
@@ -1182,8 +1179,6 @@ const lang: ILang = {
       speed: 'Velocidade',
       repeat: 'Repetir',
       add: 'Adicionar',
-      save: 'Salvar',
-      cancel: 'Cancelar',
       default: 'Redefinir padrão',
       add_config: 'Adicionar cor',
       in_use: 'Esta cor está em uso.',

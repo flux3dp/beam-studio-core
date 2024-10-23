@@ -5,6 +5,7 @@ const lang: ILang = {
   global: {
     cancel: 'Annulla',
     back: 'Indietro',
+    save: 'Salva',
   },
   general: {
     processing: 'Elaborazione...',
@@ -769,8 +770,6 @@ const lang: ILang = {
         engrave: 'Incide',
         more: 'Gestisci',
         apply: 'Applica',
-        cancel: 'Annulla',
-        save: 'Salva',
         custom_preset: 'Personalizzato',
         various_preset: 'Vari Preset',
         module: 'Modulo',
@@ -1098,8 +1097,6 @@ const lang: ILang = {
       ultra: 'Altissimo',
       enable: 'Abilita',
       disable: 'Disabilita',
-      cancel: 'Annulla',
-      save: 'Salva',
       notification: {
         changeFromPrintingWorkareaTitle: 'Vuoi convertire gli strati di stampa nelle aree di taglio laser?',
       },
@@ -1182,8 +1179,6 @@ const lang: ILang = {
       speed: 'Velocità',
       repeat: 'Esegui',
       add: 'Aggiungi',
-      save: 'Salva',
-      cancel: 'Annulla',
       default: 'Ripristina predefiniti',
       add_config: 'Aggiungi colore',
       in_use: 'Questo colore è in uso.',
@@ -1673,7 +1668,7 @@ const lang: ILang = {
     put_chessboard_2: "Si prega di spostare il foglio a scacchiera o la testa del laser finché l'intera scacchiera non sia confermata all'interno della cornice rossa nella finestra di anteprima in tempo reale.",
     put_chessboard_3: "Fai clic con il tasto destro per scaricare l'immagine della scacchiera nella posizione attuale e verificarne la chiarezza.",
     failed_to_calibrate_chessboard: "Calibrazione con l'immagine della scacchiera non riuscita.",
-    calibrate_chessboard_success_msg: "Foto della scacchiera catturata con successo.<br/>Il punteggio per questa foto è %s (%.2f).",
+    calibrate_chessboard_success_msg: 'Foto della scacchiera catturata con successo.<br/>Il punteggio per questa foto è %s (%.2f).',
     res_excellent: 'Eccellente',
     res_average: 'Medio',
     res_poor: 'Scarso',

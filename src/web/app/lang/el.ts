@@ -5,6 +5,7 @@ const lang: ILang = {
   global: {
     cancel: 'Ακύρωση',
     back: 'Πίσω',
+    save: 'Αποθήκευση',
   },
   general: {
     processing: 'Επεξεργασία...',
@@ -769,8 +770,6 @@ const lang: ILang = {
         engrave: 'Χαράξτε',
         more: 'Διαχείριση',
         apply: 'Εφαρμογή',
-        cancel: 'Ακύρωση',
-        save: 'Αποθήκευση',
         custom_preset: 'Προσαρμοσμένο',
         various_preset: 'Διάφορες Προεπιλογές',
         module: 'Μονάδα',
@@ -1098,8 +1097,6 @@ const lang: ILang = {
       ultra: 'Πολύ υψηλή',
       enable: 'Ενεργοποίηση',
       disable: 'Απενεργοποίηση',
-      cancel: 'Ακύρωση',
-      save: 'Αποθήκευση',
       notification: {
         changeFromPrintingWorkareaTitle: 'Θέλετε να μετατρέψετε τα επίπεδα εκτύπωσης σε επίπεδα λέιζερ;',
       },
@@ -1182,8 +1179,6 @@ const lang: ILang = {
       speed: 'Ταχύτητα',
       repeat: 'Επανάληψη',
       add: 'Προσθήκη',
-      save: 'Αποθήκευση',
-      cancel: 'Ακύρωση',
       default: 'Επαναφορά στις προεπιλογές',
       add_config: 'Προσθήκη χρώματος',
       in_use: 'Αυτό το χρώμα χρησιμοποιείται.',

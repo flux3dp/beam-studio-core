@@ -5,6 +5,7 @@ const lang: ILang = {
   global: {
     cancel: 'Cancelar',
     back: 'Volver',
+    save: 'Guardar',
   },
   general: {
     processing: 'Procesando...',
@@ -772,8 +773,6 @@ const lang: ILang = {
         engrave: 'Grabar',
         more: 'Gestionar',
         apply: 'Aplicar',
-        cancel: 'Cancelar',
-        save: 'Guardar',
         custom_preset: 'Personalizado',
         various_preset: 'Varios preajustes',
         module: 'Módulo',
@@ -1101,8 +1100,6 @@ const lang: ILang = {
       ultra: 'Ultra Alto',
       enable: 'Habilitar',
       disable: 'Deshabilitar',
-      cancel: 'Cancelar',
-      save: 'Guardar',
       notification: {
         changeFromPrintingWorkareaTitle: '¿Desea convertir las capas de impresión en capas láser?',
       },
@@ -1185,8 +1182,6 @@ const lang: ILang = {
       speed: 'Velocidad',
       repeat: 'Ejecutar',
       add: 'Añadir',
-      save: 'Guardar',
-      cancel: 'Cancelar',
       default: 'Restablecer el valor predeterminado',
       add_config: 'Agregar el color.',
       in_use: 'Este color está en uso.',

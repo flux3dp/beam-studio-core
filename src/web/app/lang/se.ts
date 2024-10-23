@@ -5,6 +5,7 @@ const lang: ILang = {
   global: {
     cancel: 'Avbryt',
     back: 'Tillbaka',
+    save: 'Spara',
   },
   general: {
     processing: 'Bearbetar...',
@@ -769,8 +770,6 @@ const lang: ILang = {
         engrave: 'Gravera',
         more: 'Hantera',
         apply: 'Verkställ',
-        cancel: 'Avbryt',
-        save: 'Spara',
         custom_preset: 'Anpassad',
         various_preset: 'Olika förinställningar',
         module: 'Modul',
@@ -1098,8 +1097,6 @@ const lang: ILang = {
       ultra: 'Ultrahög',
       enable: 'Aktivera',
       disable: 'Inaktivera',
-      cancel: 'Avbryt',
-      save: 'Spara',
       notification: {
         changeFromPrintingWorkareaTitle: 'Vill du konvertera utskriftslagren till laserskikt?',
       },
@@ -1182,8 +1179,6 @@ const lang: ILang = {
       speed: 'Hastighet',
       repeat: 'Upprepa',
       add: 'Lägg till',
-      save: 'Spara',
-      cancel: 'Avbryt',
       default: 'Återställ till standard',
       add_config: 'Lägg till färg',
       in_use: 'Den här färgen används.',

@@ -18,7 +18,12 @@ interface Props {
 
 // TODO: add test
 const ColorRationModal = ({ fullColor, onClose }: Props): JSX.Element => {
-  const t = useI18n().beambox.right_panel.laser_panel;
+  const {
+    global: tGlobal,
+    beambox: {
+      right_panel: { laser_panel: t },
+    },
+  } = useI18n();
   const { dispatch, selectedLayers, state } = useContext(ConfigPanelContext);
   const [draftValue, setDraftValue] = useState<{ [key: string]: ConfigItem<number> }>({
     cRatio: state.cRatio,
@@ -69,8 +74,8 @@ const ColorRationModal = ({ fullColor, onClose }: Props): JSX.Element => {
       width={fullColor ? 600 : 300}
       onOk={handleSave}
       onCancel={onClose}
-      cancelText={t.cancel}
-      okText={t.save}
+      cancelText={tGlobal.cancel}
+      okText={tGlobal.save}
       title={t.color_adjustment}
     >
       <ConfigProvider theme={ColorRatioModalBlock}>

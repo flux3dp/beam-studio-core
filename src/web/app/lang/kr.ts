@@ -5,6 +5,7 @@ const lang: ILang = {
   global: {
     cancel: '취소',
     back: '뒤로',
+    save: '저장',
   },
   general: {
     processing: '처리 중...',
@@ -772,8 +773,6 @@ const lang: ILang = {
         engrave: '각인',
         more: '관리',
         apply: '적용',
-        cancel: '취소',
-        save: '저장',
         custom_preset: '사용자 정의',
         various_preset: '다양한 프리셋',
         module: '모듈',
@@ -1101,8 +1100,6 @@ const lang: ILang = {
       ultra: '최고',
       enable: '사용',
       disable: '비활성화',
-      cancel: '취소',
-      save: '저장',
       notification: {
         changeFromPrintingWorkareaTitle: '인쇄 레이어를 레이저 레이어로 변환하시겠습니까?',
       },
@@ -1185,8 +1182,6 @@ const lang: ILang = {
       speed: '속도',
       repeat: '실행',
       add: '추가',
-      save: '저장',
-      cancel: '취소',
       default: '기본값으로 재설정',
       add_config: '색상 추가',
       in_use: '이 색상을 사용 중입니다.',

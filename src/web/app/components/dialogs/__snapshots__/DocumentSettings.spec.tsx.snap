@@ -298,7 +298,7 @@ exports[`test DocumentSettings set dimesnion for promark 1`] = `
                   class="separator"
                 >
                   <div>
-                    start_position
+                    Start Position
                   </div>
                   <div
                     class="bar"
@@ -314,7 +314,7 @@ exports[`test DocumentSettings set dimesnion for promark 1`] = `
                       class="title"
                       for="startFrom"
                     >
-                      start_from
+                      Start From
                       :
                     </label>
                     <div
@@ -345,9 +345,9 @@ exports[`test DocumentSettings set dimesnion for promark 1`] = `
                         </span>
                         <span
                           class="ant-select-selection-item"
-                          title="current_position"
+                          title="Current Position"
                         >
-                          current_position
+                          Current Position
                         </span>
                       </div>
                       <span
@@ -384,7 +384,7 @@ exports[`test DocumentSettings set dimesnion for promark 1`] = `
                     <label
                       class="title"
                     >
-                      job_origin
+                      Job Origin
                       :
                     </label>
                     <div
@@ -1051,7 +1051,7 @@ exports[`test DocumentSettings should render correctly 1`] = `
                   class="separator"
                 >
                   <div>
-                    start_position
+                    Start Position
                   </div>
                   <div
                     class="bar"
@@ -1067,7 +1067,7 @@ exports[`test DocumentSettings should render correctly 1`] = `
                       class="title"
                       for="startFrom"
                     >
-                      start_from
+                      Start From
                       :
                     </label>
                     <div
@@ -1098,9 +1098,9 @@ exports[`test DocumentSettings should render correctly 1`] = `
                         </span>
                         <span
                           class="ant-select-selection-item"
-                          title="origin"
+                          title="Origin"
                         >
-                          origin
+                          Origin
                         </span>
                       </div>
                       <span
@@ -1484,7 +1484,7 @@ exports[`test DocumentSettings should render correctly 2`] = `
                   class="separator"
                 >
                   <div>
-                    start_position
+                    Start Position
                   </div>
                   <div
                     class="bar"
@@ -1500,7 +1500,7 @@ exports[`test DocumentSettings should render correctly 2`] = `
                       class="title"
                       for="startFrom"
                     >
-                      start_from
+                      Start From
                       :
                     </label>
                     <div
@@ -1531,9 +1531,9 @@ exports[`test DocumentSettings should render correctly 2`] = `
                         </span>
                         <span
                           class="ant-select-selection-item"
-                          title="origin"
+                          title="Origin"
                         >
-                          origin
+                          Origin
                         </span>
                       </div>
                       <span
@@ -2039,7 +2039,7 @@ exports[`test DocumentSettings should render correctly 3`] = `
                   class="separator"
                 >
                   <div>
-                    start_position
+                    Start Position
                   </div>
                   <div
                     class="bar"
@@ -2055,7 +2055,7 @@ exports[`test DocumentSettings should render correctly 3`] = `
                       class="title"
                       for="startFrom"
                     >
-                      start_from
+                      Start From
                       :
                     </label>
                     <div
@@ -2086,9 +2086,9 @@ exports[`test DocumentSettings should render correctly 3`] = `
                         </span>
                         <span
                           class="ant-select-selection-item"
-                          title="current_position"
+                          title="Current Position"
                         >
-                          current_position
+                          Current Position
                         </span>
                       </div>
                       <span
@@ -2125,7 +2125,7 @@ exports[`test DocumentSettings should render correctly 3`] = `
                     <label
                       class="title"
                     >
-                      job_origin
+                      Job Origin
                       :
                     </label>
                     <div
@@ -2787,7 +2787,7 @@ exports[`test DocumentSettings should render correctly 3`] = `
           style="height: 0px; width: 0px; overflow: hidden;"
         >
           <div
-            aria-label="origin"
+            aria-label="Origin"
             aria-selected="false"
             id="startFrom_list_0"
             role="option"
@@ -2795,7 +2795,7 @@ exports[`test DocumentSettings should render correctly 3`] = `
             0
           </div>
           <div
-            aria-label="current_position"
+            aria-label="Current Position"
             aria-selected="true"
             id="startFrom_list_1"
             role="option"
@@ -2819,12 +2819,12 @@ exports[`test DocumentSettings should render correctly 3`] = `
                 <div
                   aria-selected="false"
                   class="ant-select-item ant-select-item-option ant-select-item-option-active"
-                  title="origin"
+                  title="Origin"
                 >
                   <div
                     class="ant-select-item-option-content"
                   >
-                    origin
+                    Origin
                   </div>
                   <span
                     aria-hidden="true"
@@ -2836,12 +2836,12 @@ exports[`test DocumentSettings should render correctly 3`] = `
                 <div
                   aria-selected="true"
                   class="ant-select-item ant-select-item-option ant-select-item-option-selected"
-                  title="current_position"
+                  title="Current Position"
                 >
                   <div
                     class="ant-select-item-option-content"
                   >
-                    current_position
+                    Current Position
                   </div>
                   <span
                     aria-hidden="true"
@@ -3087,7 +3087,7 @@ exports[`test DocumentSettings should render correctly for ador 1`] = `
                   class="separator"
                 >
                   <div>
-                    start_position
+                    Start Position
                   </div>
                   <div
                     class="bar"
@@ -3103,7 +3103,7 @@ exports[`test DocumentSettings should render correctly for ador 1`] = `
                       class="title"
                       for="startFrom"
                     >
-                      start_from
+                      Start From
                       :
                     </label>
                     <div
@@ -3134,9 +3134,9 @@ exports[`test DocumentSettings should render correctly for ador 1`] = `
                         </span>
                         <span
                           class="ant-select-selection-item"
-                          title="origin"
+                          title="Origin"
                         >
-                          origin
+                          Origin
                         </span>
                       </div>
                       <span
@@ -3704,7 +3704,7 @@ exports[`test DocumentSettings should render correctly for ador 2`] = `
                   class="separator"
                 >
                   <div>
-                    start_position
+                    Start Position
                   </div>
                   <div
                     class="bar"
@@ -3720,7 +3720,7 @@ exports[`test DocumentSettings should render correctly for ador 2`] = `
                       class="title"
                       for="startFrom"
                     >
-                      start_from
+                      Start From
                       :
                     </label>
                     <div
@@ -3751,9 +3751,9 @@ exports[`test DocumentSettings should render correctly for ador 2`] = `
                         </span>
                         <span
                           class="ant-select-selection-item"
-                          title="origin"
+                          title="Origin"
                         >
-                          origin
+                          Origin
                         </span>
                       </div>
                       <span
@@ -3852,7 +3852,7 @@ exports[`test DocumentSettings should render correctly for ador 2`] = `
                             />
                           </span>
                           <span>
-                            extend_workarea
+                            Extend Workarea
                           </span>
                         </label>
                         <label
@@ -3870,7 +3870,7 @@ exports[`test DocumentSettings should render correctly for ador 2`] = `
                             />
                           </span>
                           <span>
-                            mirror
+                            Mirror
                           </span>
                         </label>
                       </div>

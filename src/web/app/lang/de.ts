@@ -5,6 +5,7 @@ const lang: ILang = {
   global: {
     cancel: 'Abbrechen',
     back: 'Zurück',
+    save: 'Speichern',
   },
   general: {
     processing: 'Verarbeitung...',
@@ -772,8 +773,6 @@ const lang: ILang = {
         engrave: 'Gravieren',
         more: 'Verwalten',
         apply: 'Anwenden',
-        cancel: 'Stornieren',
-        save: 'Speichern',
         custom_preset: 'Benutzerdefiniert',
         various_preset: 'Mehrere Voreinstellungen',
         module: 'Modul',
@@ -1101,8 +1100,6 @@ const lang: ILang = {
       ultra: 'Ultra Hoch',
       enable: 'Aktivieren',
       disable: 'Deaktivieren',
-      cancel: 'Stornieren',
-      save: 'Speichern',
       notification: {
         changeFromPrintingWorkareaTitle: 'Möchten Sie die Druckschichten in Laserschichten umwandeln?',
       },
@@ -1185,8 +1182,6 @@ const lang: ILang = {
       speed: 'Geschwindigkeit',
       repeat: 'Ausführen',
       add: 'Hinzufügen',
-      save: 'Speichern',
-      cancel: 'Stornieren',
       default: 'Zurücksetzen',
       add_config: 'Farbe hinzufügen',
       in_use: 'Diese Farbe wird verwendet.',

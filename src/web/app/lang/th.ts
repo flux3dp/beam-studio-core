@@ -5,6 +5,7 @@ const lang: ILang = {
   global: {
     cancel: 'ยกเลิก',
     back: 'กลับ',
+    save: 'บันทึก',
   },
   general: {
     processing: 'กำลังประมวลผล...',
@@ -769,8 +770,6 @@ const lang: ILang = {
         engrave: 'กัดสลัก',
         more: 'จัดการ',
         apply: 'ปรับใช้',
-        cancel: 'ยกเลิก',
-        save: 'บันทึก',
         custom_preset: 'กําหนดเอง',
         various_preset: 'การตั้งค่าล่วงหน้าหลากหลาย',
         module: 'โหมด',
@@ -1098,8 +1097,6 @@ const lang: ILang = {
       ultra: 'สูงมาก',
       enable: 'เปิดใช้งาน',
       disable: 'ปิดใช้งาน',
-      cancel: 'ยกเลิก',
-      save: 'บันทึก',
       notification: {
         changeFromPrintingWorkareaTitle: 'คุณต้องการแปลงชั้นการพิมพ์เป็นชั้นเลเซอร์หรือไม่?',
       },
@@ -1182,8 +1179,6 @@ const lang: ILang = {
       speed: 'ความเร็ว',
       repeat: 'ทําซ้ํา',
       add: 'เพิ่ม',
-      save: 'บันทึก',
-      cancel: 'ยกเลิก',
       default: 'รีเซ็ตเป็นค่าเริ่มต้น',
       add_config: 'เพิ่มสี',
       in_use: 'กําลังใช้สีนี้อยู่',
