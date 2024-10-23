@@ -13,7 +13,7 @@ export const getRefModule = (): LayerModule => {
 };
 
 const getJobOrigin = (px = false): { x: number; y: number } => {
-  const { width: workareaWidth, height: fullHeight, expansion, model } = workareaManager;
+  const { width: workareaWidth, height: fullHeight, expansion } = workareaManager;
   const workareaHeight = fullHeight - expansion[0] - expansion[1];
   const svgcontent = document.getElementById('svgcontent') as unknown as SVGSVGElement;
   const boundary = svgcontent.getBBox();
