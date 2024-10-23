@@ -5,6 +5,7 @@ const lang: ILang = {
   global: {
     cancel: 'Anuluj',
     back: 'Wróć',
+    save: 'Zapisz',
   },
   general: {
     processing: 'Przetwarzanie...',
@@ -772,8 +773,6 @@ const lang: ILang = {
         engrave: 'Graweruj',
         more: 'Zarządzaj',
         apply: 'Zastosuj',
-        cancel: 'Anuluj',
-        save: 'Zapisz',
         custom_preset: 'Niestandardowe',
         various_preset: 'Różne ustawienia wstępne',
         module: 'Moduł',
@@ -1101,8 +1100,6 @@ const lang: ILang = {
       ultra: 'Super wysoka',
       enable: 'Włącz',
       disable: 'Wyłącz',
-      cancel: 'Anuluj',
-      save: 'Zapisz',
       notification: {
         changeFromPrintingWorkareaTitle: 'Czy chcesz przekonwertować warstwy druku na warstwy lasera?',
       },
@@ -1185,8 +1182,6 @@ const lang: ILang = {
       speed: 'Prędkość',
       repeat: 'Wykonaj',
       add: 'Dodaj',
-      save: 'Zapisz',
-      cancel: 'Anuluj',
       default: 'Przywróć ustawienia domyślne',
       add_config: 'Dodaj kolor',
       in_use: 'Ten kolor jest używany.',

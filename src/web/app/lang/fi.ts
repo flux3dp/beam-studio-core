@@ -5,6 +5,7 @@ const lang: ILang = {
   global: {
     cancel: 'Peruuta',
     back: 'Takaisin',
+    save: 'Tallenna',
   },
   general: {
     processing: 'Käsitellään...',
@@ -769,8 +770,6 @@ const lang: ILang = {
         engrave: 'Kaiverra',
         more: 'Hallitse',
         apply: 'Käytä',
-        cancel: 'Peruuta',
-        save: 'Tallenna',
         custom_preset: 'Mukautettu',
         various_preset: 'Useita esiasetuksia',
         module: 'Moduuli',
@@ -1098,8 +1097,6 @@ const lang: ILang = {
       ultra: 'Erittäin korkea',
       enable: 'Ota käyttöön',
       disable: 'Poista käytöstä',
-      cancel: 'Peruuta',
-      save: 'Tallenna',
       notification: {
         changeFromPrintingWorkareaTitle: 'Haluatko muuntaa tulostuskerrokset laserkerroksiksi?',
       },
@@ -1182,8 +1179,6 @@ const lang: ILang = {
       speed: 'Nopeus',
       repeat: 'Suorita',
       add: 'Lisää',
-      save: 'Tallenna',
-      cancel: 'Peruuta',
       default: 'Palauta oletusarvot',
       add_config: 'Lisää väri',
       in_use: 'Tätä väriä käytetään.',

@@ -5,6 +5,7 @@ const lang: ILang = {
   global: {
     cancel: 'Zrušit',
     back: 'Zpět',
+    save: 'Uložit',
   },
   general: {
     processing: 'Zpracovávám',
@@ -772,8 +773,6 @@ const lang: ILang = {
         engrave: 'Gravírovat',
         more: 'Spravovat',
         apply: 'Použít',
-        cancel: 'Storno',
-        save: 'Uložit',
         custom_preset: 'Přizpůsobit',
         various_preset: 'Různé předvolby',
         module: 'Modul',
@@ -1101,8 +1100,6 @@ const lang: ILang = {
       ultra: 'Ultravysoké',
       enable: 'Povolit',
       disable: 'Zakázat',
-      cancel: 'Storno',
-      save: 'Uložit',
       notification: {
         changeFromPrintingWorkareaTitle: 'Chcete převést Tiskové vrstvy na Laserové vrstvy?',
       },
@@ -1185,8 +1182,6 @@ const lang: ILang = {
       speed: 'Rychlost',
       repeat: 'Vykonate',
       add: 'Přidat',
-      save: 'Uložit',
-      cancel: 'Storno',
       default: 'Obnovení výchozího nastavení',
       add_config: 'Přidat barvu',
       in_use: 'Tato barva se již využívá.',

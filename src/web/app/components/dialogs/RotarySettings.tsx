@@ -18,9 +18,12 @@ interface Props {
 }
 
 const RotarySettings = ({ onClose }: Props): JSX.Element => {
-  const lang = useI18n();
-  const t = lang.rotary_settings;
-  const tDocu = lang.beambox.document_panel;
+  const {
+    topbar: { menu: tMenu },
+    global: tGlobal,
+    rotary_settings: t,
+    beambox: { document_panel: tDocu },
+  } = useI18n();
 
   const workarea = useMemo(() => beamboxPreference.read('workarea'), []);
   const supportInfo = useMemo(() => getSupportInfo(workarea), [workarea]);
@@ -48,21 +51,21 @@ const RotarySettings = ({ onClose }: Props): JSX.Element => {
     if (rotaryChanged) rotaryAxis.toggleDisplay();
   };
   const rotaryDisabled = rotaryMode === 0;
-  const chuckOptionDisabled = rotaryDisabled || !supportInfo.rotary.chuck || rotaryType !== RotaryType.Chuck;
-
+  const chuckOptionDisabled =
+    rotaryDisabled || !supportInfo.rotary.chuck || rotaryType !== RotaryType.Chuck;
 
   return (
     <Modal
       open
       centered
-      title={lang.topbar.menu.rotary_setup}
+      title={tMenu.rotary_setup}
       onCancel={onClose}
       onOk={() => {
         handleSave();
         onClose();
       }}
-      cancelText={tDocu.cancel}
-      okText={tDocu.save}
+      cancelText={tGlobal.cancel}
+      okText={tGlobal.save}
     >
       <div className={styles.container}>
         <div className={styles.table}>

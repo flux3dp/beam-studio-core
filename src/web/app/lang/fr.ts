@@ -5,6 +5,7 @@ const lang: ILang = {
   global: {
     cancel: 'Annuler',
     back: 'Retour',
+    save: 'Enregistrer',
   },
   general: {
     processing: 'Traitement...',
@@ -769,8 +770,6 @@ const lang: ILang = {
         engrave: 'Graver',
         more: 'Plus',
         apply: 'Appliquer',
-        cancel: 'Annuler',
-        save: 'Enregistrer',
         custom_preset: 'Personnalisé',
         various_preset: 'Divers préréglages',
         module: 'Module',
@@ -1098,8 +1097,6 @@ const lang: ILang = {
       ultra: 'Ultra élevé',
       enable: 'Activer',
       disable: 'Désactiver',
-      cancel: 'Annuler',
-      save: 'Enregistrer',
       notification: {
         changeFromPrintingWorkareaTitle: "Voulez-vous convertir les calques d'impression en calques laser?",
       },
@@ -1182,8 +1179,6 @@ const lang: ILang = {
       speed: 'Vitesse',
       repeat: 'Exécuter',
       add: 'Ajouter',
-      save: 'Enregistrer',
-      cancel: 'Annuler',
       default: 'Réinitialiser aux valeurs par défaut',
       add_config: 'Ajouter une couleur',
       in_use: 'Cette couleur est utilisée.',
@@ -1673,7 +1668,7 @@ const lang: ILang = {
     put_chessboard_2: "Veuillez déplacer le papier à damier ou la tête laser jusqu'à ce que l'ensemble du damier soit confirmé dans le cadre rouge de la fenêtre de prévisualisation en direct.",
     put_chessboard_3: "Cliquez avec le bouton droit pour télécharger l'image de l’échiquier à l'emplacement actuel et vérifier sa netteté.",
     failed_to_calibrate_chessboard: "Échec de la calibration avec l'image de l'échiquier.",
-    calibrate_chessboard_success_msg: "La photo de l’échiquier a été capturée avec succès.<br/>Le score pour cette photo est %s (%.2f).",
+    calibrate_chessboard_success_msg: 'La photo de l’échiquier a été capturée avec succès.<br/>Le score pour cette photo est %s (%.2f).',
     res_excellent: 'Excellent',
     res_average: 'Moyen',
     res_poor: 'Médiocre',

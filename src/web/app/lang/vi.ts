@@ -5,6 +5,7 @@ const lang: ILang = {
   global: {
     cancel: 'Hủy',
     back: 'Quay lại',
+    save: 'Lưu',
   },
   general: {
     processing: 'Đang xử lý...',
@@ -769,8 +770,6 @@ const lang: ILang = {
         engrave: 'Khắc',
         more: 'Quản lý',
         apply: 'Áp dụng',
-        cancel: 'Hủy',
-        save: 'Lưu',
         custom_preset: 'Tùy chỉnh',
         various_preset: 'Các cài đặt mặc định khác nhau',
         module: 'Mô-đun',
@@ -1098,8 +1097,6 @@ const lang: ILang = {
       ultra: 'Rất cao',
       enable: 'Bật',
       disable: 'Tắt',
-      cancel: 'Hủy',
-      save: 'Lưu',
       notification: {
         changeFromPrintingWorkareaTitle: 'Bạn có muốn chuyển các lớp in sang lớp laser không?',
       },
@@ -1182,8 +1179,6 @@ const lang: ILang = {
       speed: 'Tốc độ',
       repeat: 'Lặp lại',
       add: 'Thêm',
-      save: 'Lưu',
-      cancel: 'Hủy',
       default: 'Đặt lại mặc định',
       add_config: 'Thêm màu',
       in_use: 'Màu này đang được sử dụng',

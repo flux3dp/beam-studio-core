@@ -5,6 +5,7 @@ const lang: ILang = {
   global: {
     cancel: '取消',
     back: '返回',
+    save: '储存',
   },
   general: {
     processing: '处理中...',
@@ -772,8 +773,6 @@ const lang: ILang = {
         engrave: '雕刻',
         more: '管理',
         apply: '套用',
-        cancel: '取消',
-        save: '储存参数',
         custom_preset: '自订',
         various_preset: '多个参数',
         module: '模块',
@@ -1101,8 +1100,6 @@ const lang: ILang = {
       ultra: '极高',
       enable: '啟用',
       disable: '关闭',
-      cancel: '取消',
-      save: '储存',
       notification: {
         changeFromPrintingWorkareaTitle: '您要将打印图层转换至雷射图层吗？',
       },
@@ -1185,8 +1182,6 @@ const lang: ILang = {
       speed: '速度',
       repeat: '执行次数',
       add: '新增',
-      save: '储存',
-      cancel: '取消',
       default: '回复预设',
       add_config: '新增颜色',
       in_use: '此颜色已在使用中。',

@@ -5,6 +5,7 @@ const lang: ILang = {
   global: {
     cancel: 'Annuleren',
     back: 'Terug',
+    save: 'Opslaan',
   },
   general: {
     processing: 'Verwerken...',
@@ -769,8 +770,6 @@ const lang: ILang = {
         engrave: 'Graveren',
         more: 'Beheren',
         apply: 'Toepassen',
-        cancel: 'Annuleren',
-        save: 'Opslaan',
         custom_preset: 'Aangepast',
         various_preset: 'Diverse voorinstellingen',
         module: 'Module',
@@ -1098,8 +1097,6 @@ const lang: ILang = {
       ultra: 'Ultra hoog',
       enable: 'Inschakelen',
       disable: 'Uitschakelen',
-      cancel: 'Annuleren',
-      save: 'Opslaan',
       notification: {
         changeFromPrintingWorkareaTitle: 'Wilt u de printlagen converteren naar laslagen?',
       },
@@ -1182,8 +1179,6 @@ const lang: ILang = {
       speed: 'Snelheid',
       repeat: 'Uitvoeren',
       add: 'Toevoegen',
-      save: 'Opslaan',
-      cancel: 'Annuleren',
       default: 'Terugzetten naar standaard',
       add_config: 'Kleur toevoegen',
       in_use: 'Deze kleur wordt gebruikt.',

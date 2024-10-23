@@ -5,6 +5,7 @@ const lang: ILang = {
   global: {
     cancel: 'Annuller',
     back: 'Tilbage',
+    save: 'Gem',
   },
   general: {
     processing: 'Behandler...',
@@ -769,8 +770,6 @@ const lang: ILang = {
         engrave: 'Graver',
         more: 'Administrer',
         apply: 'Anvend',
-        cancel: 'Annullér',
-        save: 'Gem',
         custom_preset: 'Brugerdefineret',
         various_preset: 'Forskellige forudindstillinger',
         module: 'Modul',
@@ -1098,8 +1097,6 @@ const lang: ILang = {
       ultra: 'Ultra høj',
       enable: 'Aktivér',
       disable: 'Deaktivér',
-      cancel: 'Annuller',
-      save: 'Gem',
       notification: {
         changeFromPrintingWorkareaTitle: 'Vil du konvertere Udskriftslag til Laserskærelag?',
       },
@@ -1182,8 +1179,6 @@ const lang: ILang = {
       speed: 'Hastighed',
       repeat: 'Udfør',
       add: 'Tilføj',
-      save: 'Gem',
-      cancel: 'Annuller',
       default: 'Nulstil til standard',
       add_config: 'Tilføj farve',
       in_use: 'Denne farve er i brug.',

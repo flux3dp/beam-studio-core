@@ -5,6 +5,7 @@ const lang: ILang = {
   global: {
     cancel: 'Batal',
     back: 'Kembali',
+    save: 'Simpan',
   },
   general: {
     processing: 'Memproses...',
@@ -769,8 +770,6 @@ const lang: ILang = {
         engrave: 'Ukir',
         more: 'Urus',
         apply: 'Guna',
-        cancel: 'Batal',
-        save: 'Simpan',
         custom_preset: 'Suai',
         various_preset: 'Pelbagai Praset',
         module: 'Modul',
@@ -1098,8 +1097,6 @@ const lang: ILang = {
       ultra: 'Ultra Tinggi',
       enable: 'Benarkan',
       disable: 'Lumpuhkan',
-      cancel: 'Batal',
-      save: 'Simpan',
       notification: {
         changeFromPrintingWorkareaTitle: 'Adakah anda mahu menukar Lapisan Cetakan kepada Lapisan Laser?',
       },
@@ -1182,8 +1179,6 @@ const lang: ILang = {
       speed: 'Kelajuan',
       repeat: 'Ulang',
       add: 'Tambah',
-      save: 'Simpan',
-      cancel: 'Batal',
       default: 'Tetapan Semula ke Lalai',
       add_config: 'Tambah Warna',
       in_use: 'Warna ini sedang digunakan.',

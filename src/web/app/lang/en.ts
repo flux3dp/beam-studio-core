@@ -5,6 +5,7 @@ const lang: ILang = {
   global: {
     cancel: 'Cancel',
     back: 'Back',
+    save: 'Save',
   },
   general: {
     processing: 'Processing...',
@@ -772,8 +773,6 @@ const lang: ILang = {
         engrave: 'Engrave',
         more: 'Manage',
         apply: 'Apply',
-        cancel: 'Cancel',
-        save: 'Save',
         custom_preset: 'Custom',
         various_preset: 'Various Presets',
         module: 'Module',
@@ -1101,8 +1100,6 @@ const lang: ILang = {
       ultra: 'Ultra High',
       enable: 'Enable',
       disable: 'Disable',
-      cancel: 'Cancel',
-      save: 'Save',
       notification: {
         changeFromPrintingWorkareaTitle: 'Do you want to convert the Printing Layers into Laser Layers?',
       },
@@ -1185,8 +1182,6 @@ const lang: ILang = {
       speed: 'Speed',
       repeat: 'Execute',
       add: 'Add',
-      save: 'Save',
-      cancel: 'Cancel',
       default: 'Reset To Default',
       add_config: 'Add Color',
       in_use: 'This color is in use.',

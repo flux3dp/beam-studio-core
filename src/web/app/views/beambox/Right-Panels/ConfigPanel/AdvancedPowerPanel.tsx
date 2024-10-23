@@ -18,7 +18,12 @@ interface Props {
 
 // TODO: add test
 const AdvancedPowerPanel = ({ onClose }: Props): JSX.Element => {
-  const t = useI18n().beambox.right_panel.laser_panel;
+  const {
+    global: tGlobal,
+    beambox: {
+      right_panel: { laser_panel: t },
+    },
+  } = useI18n();
   const { dispatch, initState, selectedLayers, state } = useContext(ConfigPanelContext);
   const [draftValue, setDraftValue] = useState<{ minPower: ConfigItem<number> }>({
     minPower: state.minPower,
@@ -57,8 +62,8 @@ const AdvancedPowerPanel = ({ onClose }: Props): JSX.Element => {
       width={320}
       onOk={handleSave}
       onCancel={onClose}
-      cancelText={t.cancel}
-      okText={t.save}
+      cancelText={tGlobal.cancel}
+      okText={tGlobal.save}
       title={t.pwm_advanced_setting}
     >
       <ConfigProvider theme={ConfigModalBlock}>

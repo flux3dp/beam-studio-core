@@ -64,46 +64,6 @@ jest.mock('app/actions/canvas/prespray-area', () => ({
   togglePresprayArea: () => mockTogglePresprayArea(),
 }));
 
-jest.mock('helpers/useI18n', () => () => ({
-  settings: {
-    on: 'on',
-    off: 'off',
-  },
-  beambox: {
-    document_panel: {
-      document_settings: 'Document Settings',
-      workarea: 'Working Area',
-      machine: 'Machine',
-      rotary_mode: 'Rotary',
-      borderless_mode: 'Open Bottom',
-      engrave_dpi: 'Resolution',
-      enable_diode: 'Diode Laser',
-      enable_autofocus: 'Autofocus',
-      extend_workarea: 'extend_workarea',
-      mirror: 'mirror',
-      pass_through: 'Pass Through',
-      pass_through_height_desc: 'pass_through_height_desc',
-      start_position: 'start_position',
-      start_from: 'start_from',
-      origin: 'origin',
-      current_position: 'current_position',
-      job_origin: 'job_origin',
-      add_on: 'Add-ons',
-      low: 'Low',
-      medium: 'Medium',
-      high: 'High',
-      ultra: 'Ultra High',
-      enable: 'Enable',
-      disable: 'Disable',
-      cancel: 'Cancel',
-      save: 'Save',
-      notification: {
-        changeFromPrintingWorkareaTitle: 'changeFromPrintingWorkareaTitle',
-      },
-    },
-  },
-}));
-
 const mockChangeWorkarea = jest.fn();
 jest.mock(
   'app/svgedit/operations/changeWorkarea',
@@ -182,7 +142,7 @@ describe('test DocumentSettings', () => {
     expect(mockPopUp).toBeCalledTimes(1);
     expect(mockPopUp).toHaveBeenLastCalledWith({
       id: 'save-document-settings',
-      message: 'changeFromPrintingWorkareaTitle',
+      message: 'Do you want to convert the Printing Layers into Laser Layers?',
       messageIcon: 'notice',
       buttonType: 'CONFIRM_CANCEL',
       onConfirm: expect.any(Function),
@@ -235,7 +195,7 @@ describe('test DocumentSettings', () => {
     expect(mockPopUp).toBeCalledTimes(1);
     expect(mockPopUp).toHaveBeenLastCalledWith({
       id: 'save-document-settings',
-      message: 'changeFromPrintingWorkareaTitle',
+      message: 'Do you want to convert the Printing Layers into Laser Layers?',
       messageIcon: 'notice',
       buttonType: 'CONFIRM_CANCEL',
       onConfirm: expect.any(Function),
