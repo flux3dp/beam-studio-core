@@ -182,4 +182,5 @@ export default interface ISVGCanvas {
   uniquifyElems: (elem: SVGElement) => void;
   groupSvgElem: (elem: SVGElement) => void;
   convertGradients: (elem: Element) => void;
+  identifyLayers: () => void;
 }
