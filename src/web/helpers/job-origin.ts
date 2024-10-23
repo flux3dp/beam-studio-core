@@ -1,6 +1,16 @@
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import constant from 'app/actions/beambox/constant';
+import LayerModule from 'app/constants/layer-module/layer-modules';
 import workareaManager from 'app/svgedit/workarea';
+import { getAllLayers } from 'helpers/layer/layer-helper';
+import { getData } from 'helpers/layer/layer-config-helper';
+
+export const getRefModule = (): LayerModule => {
+  const firstLayer = getAllLayers()
+    .reverse()
+    .find((layer) => layer.getAttribute('display') !== 'none');
+  return getData(firstLayer, 'module') as LayerModule;
+};
 
 const getJobOrigin = (px = false): { x: number; y: number } => {
   const { width: workareaWidth, height: fullHeight, expansion } = workareaManager;

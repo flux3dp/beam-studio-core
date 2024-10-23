@@ -15,7 +15,7 @@ import fs from 'implementations/fileSystem';
 import getRotaryRatio from 'helpers/device/get-rotary-ratio';
 import i18n from 'helpers/i18n';
 import isDev from 'helpers/is-dev';
-import getJobOrigin from 'helpers/job-origin';
+import getJobOrigin, { getRefModule } from 'helpers/job-origin';
 import moduleOffsets from 'app/constants/layer-module/module-offsets';
 import Progress from 'app/actions/progress-caller';
 import presprayArea from 'app/actions/canvas/prespray-area';
@@ -25,6 +25,7 @@ import rotaryAxis from 'app/actions/canvas/rotary-axis';
 import { getSupportInfo } from 'app/constants/add-on';
 import { getWorkarea } from 'app/constants/workarea-constants';
 import { IBaseConfig, IFcodeConfig } from 'interfaces/ITaskConfig';
+import { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 
 export const getExportOpt = (
   opt: IBaseConfig,
@@ -85,7 +86,7 @@ export const getExportOpt = (
     const { x, y, w, h } = presprayArea.getPosition(true);
     const workareaWidth = getWorkarea(model).width;
 
-    config.prespray = (rotaryMode && !hasJobOrigin) ? [workareaWidth - 12, 45, 12, h] : [x, y, w, h];
+    config.prespray = rotaryMode && !hasJobOrigin ? [workareaWidth - 12, 45, 12, h] : [x, y, w, h];
     if (!isDevMode || BeamboxPreference.read('multipass-compensation') !== false) config.mpc = true;
     if (!isDevMode || BeamboxPreference.read('one-way-printing') !== false) config.owp = true;
   }
@@ -181,8 +182,17 @@ export const getExportOpt = (
   if (printingBotPadding !== undefined) {
     config.pbp = printingBotPadding;
   }
-  if (model === 'ado1') {
+  if (modelsWithModules.has(model)) {
     const offsets = { ...moduleOffsets, ...BeamboxPreference.read('module-offsets') };
+    if (hasJobOrigin) {
+      const refModule = getRefModule();
+      if (offsets[refModule]) {
+        const [refX, refY] = offsets[refModule];
+        Object.keys(offsets).forEach((key) => {
+          offsets[key] = [offsets[key][0] - refX, offsets[key][1] - refY];
+        });
+      }
+    }
     config.mof = offsets;
   }
 
@@ -299,7 +309,7 @@ export default (parserOpts: { type?: string; onFatal?: (data) => void }) => {
         } else if (data.status === 'complete') {
           totalLength = data.length;
           duration = Math.floor(data.time) + 1;
-          metadata = data.metadata
+          metadata = data.metadata;
         } else if (data instanceof Blob === true) {
           blobs.push(data);
           blob = new Blob(blobs);
