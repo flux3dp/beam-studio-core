@@ -71,10 +71,6 @@ export class UndoManager implements IUndoManager {
     return false;
   }
 
-  unApply(cmd: BaseHistoryCommand): void {
-    cmd.unapply(this.handler);
-  }
-
   redo(): boolean {
     if (this.undoStackPointer < this.undoStack.length && this.undoStack.length > 0) {
       const cmd = this.undoStack[this.undoStackPointer];
