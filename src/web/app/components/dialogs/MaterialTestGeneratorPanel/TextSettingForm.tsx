@@ -2,7 +2,8 @@ import React from 'react';
 
 import UnitInput from 'app/widgets/UnitInput';
 import useI18n from 'helpers/useI18n';
-import { Flex, Select } from 'antd';
+import { Flex } from 'antd';
+import Select from 'app/widgets/AntdSelect';
 import presetHelper from 'helpers/presets/preset-helper';
 import useWorkarea from 'helpers/hooks/useWorkarea';
 import layerModuleHelper from 'helpers/layer-module/layer-module-helper';

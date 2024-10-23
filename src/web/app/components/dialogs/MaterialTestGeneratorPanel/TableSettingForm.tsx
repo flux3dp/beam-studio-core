@@ -1,7 +1,8 @@
 import React from 'react';
 import UnitInput from 'app/widgets/UnitInput';
 import useI18n from 'helpers/useI18n';
-import { Flex, Select } from 'antd';
+import { Flex } from 'antd';
+import Select from 'app/widgets/AntdSelect';
 import { Detail, tableParams, TableSetting } from './TableSetting';
 import styles from './Form.module.scss';
 
@@ -28,14 +29,10 @@ export default function TableSettingForm({
   } = useI18n();
   const lengthUnit = isInch ? 'in/s' : 'mm/s';
   const settingEntries = React.useMemo(
-    () =>
-      Object.entries(tableSetting).sort(([a], [b]) => b.localeCompare(a)) as Array<[Param, Detail]>,
+    () => Object.entries(tableSetting) as Array<[Param, Detail]>,
     [tableSetting]
   );
-  const options = React.useMemo(
-    () => settingEntries.map(([key]) => ({ value: key, label: tLaserPanel[key] })),
-    [settingEntries, tLaserPanel]
-  );
+  const options = tableParams.map((value) => ({ value, label: tLaserPanel[value] }));
 
   const handleSelectChange = (value: string, index: number) => {
     const currentKey = settingEntries.find(([, { selected }]) => selected === index)?.[0];
@@ -78,7 +75,7 @@ export default function TableSettingForm({
         <Select
           className={styles.input}
           options={options}
-          value={options.find(({ value }) => tableSetting[value].selected === index)?.value}
+          value={key}
           onChange={(value) => handleSelectChange(value, index)}
         />
         {['min', 'max'].map((prefix) => (

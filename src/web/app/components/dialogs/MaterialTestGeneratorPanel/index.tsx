@@ -236,15 +236,14 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
   const handlePreview = () => {
     const svgInfos = generateSvgInfo({ tableSetting, blockSetting });
 
-    undoManager.unApply(batchCmd.current);
+    batchCmd.current.unapply();
+    // to prevent layer id conflict
+    svgCanvas.identifyLayers();
 
     batchCmd.current = new history.BatchCommand('Material Test Generator');
 
     generateBlocks(svgInfos, blockSetting, batchCmd.current);
     generateText(svgInfos, blockSetting, batchCmd.current);
-
-    svgEditor.updateContextPanel();
-    LayerPanelController.updateLayerPanel();
   };
 
   const handleExport = () => {
@@ -252,11 +251,15 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
 
     svgEditor.updateContextPanel();
     LayerPanelController.updateLayerPanel();
+
     onClose();
   };
 
   const handleCancel = () => {
-    undoManager.unApply(batchCmd.current);
+    batchCmd.current.unapply();
+    // to prevent layer id conflict
+    svgCanvas.identifyLayers();
+
     onClose();
   };
 
