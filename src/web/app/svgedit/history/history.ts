@@ -62,7 +62,7 @@ export class BaseHistoryCommand implements ICommand {
     throw Error('unapply not implemented');
   };
 
-  unapply(handler: IHistoryHandler): void {
+  unapply(handler?: IHistoryHandler): void {
     handler?.handleHistoryEvent(HistoryEventTypes.BEFORE_UNAPPLY, this);
     this.onBefore?.();
     this.doUnapply(handler);
