@@ -242,7 +242,8 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
   // Array with all the currently selected elements
   // default size of 1 until it needs to grow bigger
-  var selectedElements = [];
+  let selectedElements = [];
+  let selectedLayers = [];
   let tempGroup = null;
 
   // Function: addSvgElementFromJson
@@ -783,19 +784,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
     var resultList = null;
 
-    // Fail when selecting <use>, another method is pretty fast anyway
-    if (!svgedit.browser.isIE() && false) {
-      if (typeof (svgcontent.getIntersectionList) === 'function') {
-        const zoom = workareaManager.zoomRatio;
-        // Offset the bbox of the rubber box by the offset of the svgcontent element.
-        rubberBBox.x = rubberBBox.x * zoom + parseInt(svgcontent.getAttribute('x'), 10);
-        rubberBBox.y = rubberBBox.y * zoom + parseInt(svgcontent.getAttribute('y'), 10);
-        rubberBBox.width *= zoom;
-        rubberBBox.height *= zoom;
-
-        resultList = Array.from(svgcontent.getIntersectionList(rubberBBox, null));
-      }
-    }
 
     if (resultList == null) {
       resultList = [];
@@ -2100,38 +2088,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         }
       }
     });
-
-    // in ids, we now have a map of ids, elements and attributes, let's re-identify
-    var oldid;
-    for (oldid in ids) {
-      break;
-      if (!oldid) {
-        continue;
-      }
-      var elem = ids[oldid].elem;
-      if (elem) {
-        var newid = getNextId();
-
-        // assign element its new id
-        elem.id = newid;
-
-        // remap all url() attributes
-        var attrs = ids[oldid].attrs;
-        var j = attrs.length;
-        while (j--) {
-          var attr = attrs[j];
-          attr.ownerElement.setAttribute(attr.name, 'url(#' + newid + ')');
-        }
-
-        // remap all href attributes
-        var hreffers = ids[oldid].hrefs;
-        var k = hreffers.length;
-        while (k--) {
-          var hreffer = hreffers[k];
-          svgedit.utilities.setHref(hreffer, '#' + newid);
-        }
-      }
-    }
   };
 
 
@@ -4573,7 +4529,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     }
 
     const hasAlreadyTempGroup = selectedElements[0].getAttribute('data-tempgroup');
-    const type = 'g';
     let g;
 
     if (hasAlreadyTempGroup) {
@@ -4581,9 +4536,9 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     } else {
       // create and insert the group element
       g = addSvgElementFromJson({
-        'element': type,
-        'attr': {
-          'id': getNextId(),
+        element: 'g',
+        attr: {
+          id: getNextId(),
           'data-tempgroup': true,
           'data-ratiofixed': true,
         }
@@ -4591,16 +4546,20 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
 
       // Move to direct under svgcontent to avoid group under invisible layer
       const svgcontent = document.getElementById('svgcontent');
+
       svgcontent.appendChild(g);
     }
 
     // now move all children into the group
-    var len = selectedElements.length;
+    let len = selectedElements.length;
+
     for (let i = 0; i < len; i++) {
       if (hasAlreadyTempGroup && i === 0) {
         continue;
       }
-      var elem = selectedElements[i];
+
+      let elem = selectedElements[i];
+
       if (elem == null) {
         continue;
       }
@@ -4608,24 +4567,32 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       if (elem.parentNode && elem.parentNode.tagName === 'a' && elem.parentNode.childNodes.length === 1) {
         elem = elem.parentNode;
       }
+
       if (elem === tempGroup || elem.getAttribute('data-tempgroup') === 'true') {
         while (elem.childNodes.length > 0) {
           g.appendChild(elem.childNodes[0]);
         }
+
         elem.remove();
       } else {
         const originalLayer = LayerHelper.getObjectLayer(elem);
+
         if (originalLayer && originalLayer.title) {
           const title = originalLayer.title;
+
           $(elem).attr('data-original-layer', title);
+
           if (elem.nextSibling) {
             $(elem).attr('data-next-sibling', elem.nextSibling.id);
           }
         }
+
         g.appendChild(elem);
       }
+
       if (['image', 'use'].includes(elem.tagName)) {
         const imageBorder = svgdoc.createElementNS(NS.SVG, 'rect');
+
         if (elem.tagName === 'image') {
           svgedit.utilities.assignAttributes(imageBorder, {
             x: elem.getAttribute('x') || 0,
@@ -4636,6 +4603,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
           });
         } else if (elem.tagName === 'use') {
           const realLocation = this.getUseElementLocationBeforeTransform(elem);
+
           svgedit.utilities.assignAttributes(imageBorder, {
             x: realLocation.x,
             y: realLocation.y,
@@ -4644,6 +4612,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
             transform: elem.getAttribute('transform') || '',
           });
         }
+
         svgedit.utilities.assignAttributes(imageBorder, {
           fill: 'none',
           stroke: 'none',
@@ -4651,6 +4620,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
           style: 'pointer-events:none',
           'data-imageborder': true,
         });
+
         g.appendChild(imageBorder);
       }
     }
@@ -4660,9 +4630,22 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     }
 
     // update selection
+    const layers = selectedElements
+      .flatMap((elem) => elem.getAttribute('data-tempgroup') === 'true'
+        ? selectedLayers
+        : LayerHelper.getObjectLayer(elem)?.title
+      );
+
+    // the uniq process is performed `here` to avoid duplicate layer in layer panel,
+    // and remain the selected layers contains information if there are multiple elements in same layer
+    LayerPanelController.setSelectedLayers(layers.filter((layer, index, array) => array.indexOf(layer) === index));
+    selectedLayers = layers;
+
     selectOnly([g], true);
     tempGroup = g;
+
     console.log('temp group created');
+
     return g;
   };
 
@@ -4674,33 +4657,47 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     if (!tempGroup || !tempGroup.contains(elem)) {
       return;
     }
+
     const originalLayer = getCurrentDrawing().getLayerByName(elem.getAttribute('data-original-layer'));
     const currentLayer = getCurrentDrawing().getCurrentLayer();
     const targetLayer = originalLayer || currentLayer;
+
+    // to explicitly remove one element from the temp group layers
+    selectedLayers = selectedLayers.filter((_layer, index, array) => !(array.indexOf(elem.getAttribute('data-original-layer')) === index));
+    LayerPanelController.setSelectedLayers(selectedLayers.filter((layer, index, array) => array.indexOf(layer) === index));
+
     if (elem.nextSibling && (elem.nextSibling as Element).getAttribute('data-imageborder') === 'true') {
       elem.nextSibling.remove();
     }
+
     let nextSiblingId = elem.getAttribute('data-next-sibling');
+
     if (nextSiblingId) {
       nextSiblingId = nextSiblingId.replace('#', '\\#');
+
       const nextSibling = targetLayer.querySelector(`#${nextSiblingId}`);
+
       if (nextSibling) {
         targetLayer.insertBefore(elem, nextSibling);
       } else {
         targetLayer.appendChild(elem);
       }
+
       elem.removeAttribute('data-next-sibling');
     } else {
       targetLayer.appendChild(elem);
     }
+
     if (this.isUsingLayerColor) {
       updateElementColor(elem);
     }
+
     if (tempGroup.childNodes.length > 1) {
       selectorManager.requestSelector(tempGroup).resize();
       svgEditor.updateContextPanel();
     } else if (tempGroup.childNodes.length === 1) {
       const lastElem = tempGroup.firstChild;
+
       this.ungroupTempGroup();
       this.selectOnly([lastElem], true);
     } else {
@@ -4720,7 +4717,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   // Unwraps all the elements in a selected group (g) element. This requires
   // significant recalculations to apply group's transforms, etc to its children
   this.ungroupTempGroup = function (elem = null) {
-
     let g = elem || selectedElements[0] || tempGroup;
     if (!g) {
       return;
@@ -4783,12 +4779,11 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       // remove the group from the selection
       clearSelection();
     }
+
     return children;
   };
 
-  this.getTempGroup = () => {
-    return tempGroup;
-  };
+  this.getTempGroup = () => tempGroup
 
   // Function: moveUpSelectedElement
   // Move selected element up in layer

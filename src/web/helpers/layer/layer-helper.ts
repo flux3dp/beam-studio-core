@@ -13,11 +13,7 @@ import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerP
 import randomColor from 'helpers/randomColor';
 import updateLayerColor from 'helpers/color/updateLayerColor';
 import updateLayerColorFilter from 'helpers/color/updateLayerColorFilter';
-import {
-  cloneLayerConfig,
-  getData,
-  initLayerConfig,
-} from 'helpers/layer/layer-config-helper';
+import { cloneLayerConfig, getData, initLayerConfig } from 'helpers/layer/layer-config-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { moveSelectedToLayer } from 'helpers/layer/moveToLayer';
 import { IBatchCommand, ICommand } from 'interfaces/IHistory';
@@ -151,13 +147,19 @@ export const deleteLayerByName = (layerName: string): ICommand => {
 export const deleteLayers = (layerNames: string[]): void => {
   const drawing = svgCanvas.getCurrentDrawing();
   const batchCmd: IBatchCommand = new history.BatchCommand('Delete Layer(s)');
+
+  svgCanvas.clearSelection();
+
   for (let i = 0; i < layerNames.length; i += 1) {
     const cmd = deleteLayerByName(layerNames[i]);
+
     if (cmd) {
       batchCmd.addSubCommand(cmd);
     }
   }
+
   const layerCounts = document.querySelectorAll('g.layer').length;
+
   if (!layerCounts) {
     const svgcontent = document.getElementById('svgcontent');
     const newLayer = new svgedit.draw.Layer(
@@ -166,14 +168,16 @@ export const deleteLayers = (layerNames: string[]): void => {
       svgcontent,
       '#333333'
     ).getGroup() as Element;
+
     batchCmd.addSubCommand(new history.InsertElementCommand(newLayer));
     initLayerConfig(LANG.layer1);
   }
+
   if (!batchCmd.isEmpty()) {
     svgCanvas.undoMgr.addCommandToHistory(batchCmd);
   }
+
   drawing.identifyLayers();
-  svgCanvas.clearSelection();
 };
 
 export const cloneLayer = (
@@ -226,6 +230,9 @@ export const cloneLayers = (layerNames: string[]): string[] => {
   const clonedLayerNames: string[] = [];
   const drawing = svgCanvas.getCurrentDrawing();
   const batchCmd = new history.BatchCommand('Clone Layer(s)');
+
+  svgCanvas.clearSelection();
+
   for (let i = 0; i < layerNames.length; i += 1) {
     const res = cloneLayer(layerNames[i], { isSub: true });
     if (res) {
@@ -237,8 +244,9 @@ export const cloneLayers = (layerNames: string[]): string[] => {
   if (!batchCmd.isEmpty()) {
     svgCanvas.undoMgr.addCommandToHistory(batchCmd);
   }
+
   drawing.identifyLayers();
-  svgCanvas.clearSelection();
+
   return clonedLayerNames;
 };
 
@@ -498,10 +506,8 @@ export const moveToOtherLayer = (
   };
   const selectedElements = svgCanvas.getSelectedElems();
   const origLayer = getObjectLayer(selectedElements[0])?.elem;
-  const isPrintingLayer =
-    origLayer && getData(origLayer, 'module') === LayerModule.PRINTER;
-  const isDestPrintingLayer =
-    getData(getLayerByName(destLayer), 'module') === LayerModule.PRINTER;
+  const isPrintingLayer = origLayer && getData(origLayer, 'module') === LayerModule.PRINTER;
+  const isDestPrintingLayer = getData(getLayerByName(destLayer), 'module') === LayerModule.PRINTER;
   const moveOutFromFullColorLayer = isPrintingLayer && !isDestPrintingLayer;
   const moveInToFullColorLayer = !isPrintingLayer && isDestPrintingLayer;
   if (origLayer && (moveOutFromFullColorLayer || moveInToFullColorLayer)) {
