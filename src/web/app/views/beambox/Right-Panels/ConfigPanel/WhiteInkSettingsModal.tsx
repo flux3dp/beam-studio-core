@@ -19,7 +19,12 @@ interface Props {
 // TODO: add test
 const WhiteInkSettingsModal = ({ onClose }: Props): JSX.Element => {
   const { dispatch, selectedLayers, state } = useContext(ConfigPanelContext);
-  const t = useI18n().beambox.right_panel.laser_panel;
+  const {
+    global: tGlobal,
+    beambox: {
+      right_panel: { laser_panel: t },
+    },
+  } = useI18n();
   const { wInk, wSpeed, wMultipass, wRepeat } = state;
   const [ink, setInk] = useState(wInk);
   const [speed, setSpeed] = useState(wSpeed);
@@ -60,11 +65,11 @@ const WhiteInkSettingsModal = ({ onClose }: Props): JSX.Element => {
       centered
       width={290}
       title={t.white_ink_settings}
-      okText={t.save}
       maskClosable={false}
-      cancelText={t.cancel}
-      onCancel={onClose}
+      okText={tGlobal.save}
+      cancelText={tGlobal.cancel}
       onOk={handleSave}
+      onCancel={onClose}
     >
       <div className={styles.container}>
         <WhiteInkSaturation

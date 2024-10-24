@@ -42,8 +42,10 @@ interface Props {
 }
 
 const DocumentSettings = ({ unmount }: Props): JSX.Element => {
-  const lang = useI18n();
-  const tDocu = lang.beambox.document_panel;
+  const {
+    global: tGlobal,
+    beambox: { document_panel: tDocu },
+  } = useI18n();
   const [engraveDpi, setEngraveDpi] = useState(BeamboxPreference.read('engrave_dpi'));
 
   const origWorkarea = useMemo(() => BeamboxPreference.read('workarea'), []);
@@ -181,8 +183,8 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
         handleSave();
         unmount();
       }}
-      cancelText={tDocu.cancel}
-      okText={tDocu.save}
+      cancelText={tGlobal.cancel}
+      okText={tGlobal.save}
     >
       <div className={styles.container}>
         <div className={styles.block}>

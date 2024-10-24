@@ -15,7 +15,14 @@ const set = <T extends keyof PromarkStore>(serial: string, key: T, data: Promark
   storage.set('promark-store', store);
 };
 
+const update = (serial: string, data: PromarkStore): void => {
+  const store = storage.get('promark-store') ?? {};
+  store[serial] = { ...store[serial], ...data };
+  storage.set('promark-store', store);
+};
+
 export default {
   get,
   set,
+  update,
 };
