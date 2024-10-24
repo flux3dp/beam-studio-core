@@ -14,10 +14,10 @@ interface Props {
   setData: Dispatch<SetStateAction<PromarkStore['lensCorrection']>>;
 }
 
-const LensBlock = ({ data, setData }: Props) => {
+const LensBlock = ({ data, setData }: Props): JSX.Element => {
   const { promark_settings: t } = useI18n();
+  const handleSwitch = useCallback(() => setData(({ x, y }) => ({ x: y, y: x })), [setData]);
   const { x, y } = data;
-  const handleSwitch = useCallback(() => setData(({ x, y }) => ({ x: y, y: x })), []);
 
   return (
     <Flex vertical className={styles['full-row']} gap={8}>

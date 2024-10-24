@@ -4,9 +4,8 @@ import { QuestionCircleOutlined } from '@ant-design/icons';
 
 import UnitInput from 'app/widgets/UnitInput';
 import useI18n from 'helpers/useI18n';
-import { getWorkarea } from 'app/constants/workarea-constants';
+import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 import { Field } from 'interfaces/Promark';
-import { WorkAreaModel } from 'app/constants/workarea-constants';
 
 import styles from './Block.module.scss';
 
@@ -17,7 +16,7 @@ interface Props {
   setField: Dispatch<SetStateAction<Field>>;
 }
 
-const FieldBlock = ({ model, isInch, field, setField }: Props) => {
+const FieldBlock = ({ model, isInch, field, setField }: Props): JSX.Element => {
   const {
     promark_settings: t,
     beambox: { document_panel: tDocu },
