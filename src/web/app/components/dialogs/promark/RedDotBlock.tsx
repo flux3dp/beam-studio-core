@@ -2,10 +2,10 @@ import React, { Dispatch, SetStateAction } from 'react';
 import { Flex } from 'antd';
 
 import UnitInput from 'app/widgets/UnitInput';
+import useI18n from 'helpers/useI18n';
 import { RedDot } from 'interfaces/Promark';
 
 import styles from './Block.module.scss';
-import useI18n from 'helpers/useI18n';
 
 interface Props {
   isInch: boolean;
@@ -13,7 +13,7 @@ interface Props {
   setRedDot: Dispatch<SetStateAction<RedDot>>;
 }
 
-const RedDotBlock = ({ isInch, redDot, setRedDot }: Props) => {
+const RedDotBlock = ({ isInch, redDot, setRedDot }: Props): JSX.Element => {
   const { promark_settings: t } = useI18n();
   const { offsetX, offsetY, scaleX, scaleY } = redDot;
 
