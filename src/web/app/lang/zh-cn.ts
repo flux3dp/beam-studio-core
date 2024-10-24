@@ -1953,6 +1953,25 @@ const lang: ILang = {
     no_permission: 'Beam Studio 没有权限访问相机。请确保在浏览器设置或系统设置中已授予 Beam Studio 权限。',
     no_device: '无法检测到摄像设备。请重新连接摄像头，然后重试。',
   },
+  promark_settings: {
+    title: 'Promark设置',
+    field: '区域',
+    red_dot: '红点',
+    galvo_configuration: 'Galvo 配置',
+    switchXY: '切换 X/Y',
+    workarea_hint: '您可以在“文档设置”中更改工作区域。',
+    offsetX: '偏移 X',
+    offsetY: '偏移 Y',
+    angle: '角度',
+    scaleX: '缩放 X',
+    scaleY: '缩放 Y',
+    scale: '缩放',
+    bulge: '桶形',
+    skew: '倾斜',
+    trapezoid: '梯形',
+    preview: '预览',
+    mark: '标记',
+  },
 };
 
 export default lang;

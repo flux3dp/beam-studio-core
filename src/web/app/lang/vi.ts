@@ -1948,6 +1948,25 @@ const lang: ILang = {
     no_permission: 'Beam Studio không có quyền truy cập vào camera. Vui lòng đảm bảo rằng quyền đã được cấp cho Beam Studio trong cài đặt trình duyệt hoặc hệ thống.',
     no_device: 'Không thể phát hiện thiết bị camera. Vui lòng kết nối lại camera và thử lại.',
   },
+  promark_settings: {
+    title: 'Cài đặt Promark',
+    field: 'Trường',
+    red_dot: 'Chấm Đỏ',
+    galvo_configuration: 'Cấu hình Galvo',
+    switchXY: 'Chuyển đổi X/Y',
+    workarea_hint: 'Bạn có thể thay đổi khu vực làm việc trong "Cài đặt Tài liệu".',
+    offsetX: 'Dịch chuyển X',
+    offsetY: 'Dịch chuyển Y',
+    angle: 'Góc',
+    scaleX: 'Tỉ lệ X',
+    scaleY: 'Tỉ lệ Y',
+    scale: 'Tỉ lệ',
+    bulge: 'Phồng',
+    skew: 'Nghiêng',
+    trapezoid: 'Hình thang',
+    preview: 'Xem trước',
+    mark: 'Đánh dấu',
+  },
 };
 
 export default lang;

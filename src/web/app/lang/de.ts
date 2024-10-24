@@ -1953,6 +1953,25 @@ const lang: ILang = {
     no_permission: 'Beam Studio hat keine Berechtigung, auf die Kamera zuzugreifen. Stellen Sie sicher, dass die Berechtigung für Beam Studio in den Browser- oder Systemeinstellungen erteilt wurde.',
     no_device: 'Kameragerät kann nicht erkannt werden. Bitte schließen Sie die Kamera erneut an und versuchen Sie es erneut.',
   },
+  promark_settings: {
+    title: 'Promark-Einstellungen',
+    field: 'Feld',
+    red_dot: 'Roter Punkt',
+    galvo_configuration: 'Galvo-Konfiguration',
+    switchXY: 'X/Y wechseln',
+    workarea_hint: 'Sie können den Arbeitsbereich in den "Dokumenteinstellungen" ändern.',
+    offsetX: 'Versatz X',
+    offsetY: 'Versatz Y',
+    angle: 'Winkel',
+    scaleX: 'Skalierung X',
+    scaleY: 'Skalierung Y',
+    scale: 'Skalierung',
+    bulge: 'Wölbung',
+    skew: 'Schrägstellung',
+    trapezoid: 'Trapez',
+    preview: 'Vorschau',
+    mark: 'Markieren',
+  },
 };
 
 export default lang;

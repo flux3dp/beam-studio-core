@@ -1953,6 +1953,25 @@ const lang: ILang = {
     no_permission: 'Beam Studio 沒有權限存取相機。請確保在系統設定或瀏覽器設定中已授予 Beam Studio 權限。',
     no_device: '無法檢測到相機設備。請重新連接相機，然後重試。',
   },
+  promark_settings: {
+    title: 'Promark 設定',
+    field: '區域',
+    red_dot: '紅點',
+    galvo_configuration: '振鏡設定',
+    switchXY: '切換 X/Y',
+    workarea_hint: '您可以在「文件設定」中更改工作範圍。',
+    offsetX: 'X 偏移',
+    offsetY: 'Y 偏移',
+    angle: '角度',
+    scaleX: 'X 縮放',
+    scaleY: 'Y 縮放',
+    scale: '縮放',
+    bulge: '桶形',
+    skew: '傾斜',
+    trapezoid: '梯形',
+    preview: '預覽',
+    mark: '標記',
+  },
 };
 
 export default lang;

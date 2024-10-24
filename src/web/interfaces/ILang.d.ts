@@ -1949,4 +1949,23 @@ export interface ILang {
     no_permission: string;
     no_device: string;
   };
+  promark_settings: {
+    title: string;
+    field: string;
+    red_dot: string;
+    galvo_configuration: string;
+    switchXY: string;
+    workarea_hint: string;
+    offsetX: string;
+    offsetY: string;
+    angle: string;
+    scaleX: string;
+    scaleY: string;
+    scale: string;
+    bulge: string;
+    skew: string;
+    trapezoid: string;
+    preview: string;
+    mark: string;
+  };
 }

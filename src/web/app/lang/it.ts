@@ -1948,6 +1948,25 @@ const lang: ILang = {
     no_permission: "Beam Studio non ha l'autorizzazione per accedere alla fotocamera. Assicurati che l'autorizzazione sia concessa a Beam Studio nelle impostazioni del browser o del sistema.",
     no_device: 'Impossibile rilevare il dispositivo della fotocamera. Ricollega la fotocamera e riprova.',
   },
+  promark_settings: {
+    title: 'Impostazioni Promark',
+    field: 'Campo',
+    red_dot: 'Punto rosso',
+    galvo_configuration: 'Configurazione Galvo',
+    switchXY: 'Scambia X/Y',
+    workarea_hint: 'Puoi cambiare l\'area di lavoro nelle "Impostazioni del documento".',
+    offsetX: 'Offset X',
+    offsetY: 'Offset Y',
+    angle: 'Angolo',
+    scaleX: 'Scala X',
+    scaleY: 'Scala Y',
+    scale: 'Scala',
+    bulge: 'Rigonfiamento',
+    skew: 'Inclinazione',
+    trapezoid: 'Trapezio',
+    preview: 'Anteprima',
+    mark: 'Marca',
+  },
 };
 
 export default lang;

@@ -1953,6 +1953,25 @@ const lang: ILang = {
     no_permission: 'Beam Studio nemá oprávnění k přístupu k kameře. Ujistěte se, že je v nastavení prohlížeče nebo systému uděleno oprávnění pro Beam Studio.',
     no_device: 'Nelze detekovat kamerové zařízení. Znovu připojte kameru a zkuste to znovu.',
   },
+  promark_settings: {
+    title: 'Nastavení Promark',
+    field: 'Pole',
+    red_dot: 'Červená tečka',
+    galvo_configuration: 'Konfigurace Galva',
+    switchXY: 'Přepnout X/Y',
+    workarea_hint: 'Pracovní plochu můžete změnit v "Nastavení dokumentu".',
+    offsetX: 'Posun X',
+    offsetY: 'Posun Y',
+    angle: 'Úhel',
+    scaleX: 'Měřítko X',
+    scaleY: 'Měřítko Y',
+    scale: 'Měřítko',
+    bulge: 'Vyboulení',
+    skew: 'Sklon',
+    trapezoid: 'Trapezoid',
+    preview: 'Náhled',
+    mark: 'Označit',
+  },
 };
 
 export default lang;
