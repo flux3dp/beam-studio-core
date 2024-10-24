@@ -1951,6 +1951,25 @@ const lang: ILang = {
     no_permission: 'Beam Studio는 카메라에 액세스할 권한이 없습니다. 브라우저 설정 또는 시스템 설정에서 Beam Studio에 권한이 부여되었는지 확인하십시오.',
     no_device: '카메라 장치를 감지할 수 없습니다. 카메라를 다시 연결하고 다시 시도하십시오.',
   },
+  promark_settings: {
+    title: 'Promark 설정',
+    field: '필드',
+    red_dot: '빨간 점',
+    galvo_configuration: '갈보 설정',
+    switchXY: 'X/Y 전환',
+    workarea_hint: '작업 영역은 "문서 설정"에서 변경할 수 있습니다.',
+    offsetX: '오프셋 X',
+    offsetY: '오프셋 Y',
+    angle: '각도',
+    scaleX: '스케일 X',
+    scaleY: '스케일 Y',
+    scale: '스케일',
+    bulge: '볼록함',
+    skew: '기울기',
+    trapezoid: '사다리꼴',
+    preview: '미리보기',
+    mark: '표시',
+  },
 };
 
 export default lang;

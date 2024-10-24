@@ -1951,6 +1951,25 @@ const lang: ILang = {
     no_permission: 'Beam Studio nie ma uprawnień do uzyskania dostępu do kamery. Upewnij się, że uprawnienia są przyznane Beam Studio w ustawieniach przeglądarki lub systemu.',
     no_device: 'Nie można wykryć urządzenia kamery. Proszę podłączyć kamerę ponownie i spróbować ponownie.',
   },
+  promark_settings: {
+    title: 'Ustawienia Promark',
+    field: 'Pole',
+    red_dot: 'Czerwona kropka',
+    galvo_configuration: 'Konfiguracja Galvo',
+    switchXY: 'Zmiana X/Y',
+    workarea_hint: 'Możesz zmienić obszar roboczy w "Ustawieniach dokumentu".',
+    offsetX: 'Przesunięcie X',
+    offsetY: 'Przesunięcie Y',
+    angle: 'Kąt',
+    scaleX: 'Skala X',
+    scaleY: 'Skala Y',
+    scale: 'Skala',
+    bulge: 'Wybrzuszenie',
+    skew: 'Przekrzywienie',
+    trapezoid: 'Trapez',
+    preview: 'Podgląd',
+    mark: 'Oznacz',
+  },
 };
 
 export default lang;

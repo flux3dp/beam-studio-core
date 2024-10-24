@@ -1950,6 +1950,25 @@ const lang: ILang = {
     no_permission: 'Beam Studio har ikke tilladelse til at få adgang til kameraet. Sørg for, at tilladelsen er givet til Beam Studio i browserindstillingerne eller systemindstillingerne.',
     no_device: 'Kan ikke registrere kameranhed. Tilslut kameraet igen og prøv igen.',
   },
+  promark_settings: {
+    title: 'Promark-indstillinger',
+    field: 'Felt',
+    red_dot: 'Rød prik',
+    galvo_configuration: 'Galvo-konfiguration',
+    switchXY: 'Skift X/Y',
+    workarea_hint: 'Du kan ændre arbejdsområdet i "Dokumentindstillinger".',
+    offsetX: 'Forskydning X',
+    offsetY: 'Forskydning Y',
+    angle: 'Vinkel',
+    scaleX: 'Skalering X',
+    scaleY: 'Skalering Y',
+    scale: 'Skalering',
+    bulge: 'Udbuling',
+    skew: 'Skævhed',
+    trapezoid: 'Trapez',
+    preview: 'Forhåndsvisning',
+    mark: 'Markér',
+  },
 };
 
 export default lang;

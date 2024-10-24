@@ -1948,6 +1948,25 @@ const lang: ILang = {
     no_permission: 'Beam Studiolla ei ole lupaa käyttää kameraa. Varmista, että lupa on myönnetty Beam Studiolle selainasetuksissa tai järjestelmäasetuksissa.',
     no_device: 'Kameralaitetta ei havaittu. Kytke kamera uudelleen ja yritä uudelleen.',
   },
+  promark_settings: {
+    title: 'Promark-asetukset',
+    field: 'Kenttä',
+    red_dot: 'Punainen piste',
+    galvo_configuration: 'Galvo-konfiguraatio',
+    workarea_hint: 'Voit vaihtaa työalueen "Asiakirjan asetuksista".',
+    switchXY: 'Vaihda X/Y',
+    offsetX: 'Siirtymä X',
+    offsetY: 'Siirtymä Y',
+    angle: 'Kulma',
+    scaleX: 'Mittakaava X',
+    scaleY: 'Mittakaava Y',
+    scale: 'Mittakaava',
+    bulge: 'Pullistuma',
+    skew: 'Vinous',
+    trapezoid: 'Trapezoidi',
+    preview: 'Esikatselu',
+    mark: 'Merkitse',
+  },
 };
 
 export default lang;

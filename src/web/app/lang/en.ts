@@ -1953,6 +1953,25 @@ const lang: ILang = {
     no_permission: 'Beam Studio does not have permission to access the camera. Please make sure the permission is granted to Beam Studio in system settings or browser settings.',
     no_device: 'Unable to detect camera device. Please reconnect the camera and try again.',
   },
+  promark_settings: {
+    title: 'Promark Settings',
+    field: 'Field',
+    red_dot: 'Red Dot',
+    galvo_configuration: 'Galvo Configuration',
+    switchXY: 'Switch X/Y',
+    workarea_hint: 'You can change working area in "Document Settings"',
+    offsetX: 'Offset X',
+    offsetY: 'Offset Y',
+    angle: 'Angle',
+    scaleX: 'Scale X',
+    scaleY: 'Scale Y',
+    scale: 'Scale',
+    bulge: 'Bulge',
+    skew: 'Skew',
+    trapezoid: 'Trapezoid',
+    preview: 'Preview',
+    mark: 'Mark',
+  },
 };
 
 export default lang;

@@ -1948,6 +1948,25 @@ const lang: ILang = {
     no_permission: 'Beam Studio heeft geen toestemming om toegang te krijgen tot de camera. Zorg ervoor dat de toestemming is verleend aan Beam Studio in de browser- of systeeminstellingen.',
     no_device: 'Kan camera-apparaat niet detecteren. Sluit de camera opnieuw aan en probeer het opnieuw.',
   },
+  promark_settings: {
+    title: 'Promark-instellingen',
+    field: 'Veld',
+    red_dot: 'Rode stip',
+    galvo_configuration: 'Galvo-configuratie',
+    switchXY: 'X/Y wisselen',
+    workarea_hint: 'U kunt het werkgebied wijzigen in "Documentinstellingen".',
+    offsetX: 'Offset X',
+    offsetY: 'Offset Y',
+    angle: 'Hoek',
+    scaleX: 'Schaal X',
+    scaleY: 'Schaal Y',
+    scale: 'Schaal',
+    bulge: 'Bolling',
+    skew: 'Scheefheid',
+    trapezoid: 'Trapezium',
+    preview: 'Voorvertoning',
+    mark: 'Markeren',
+  },
 };
 
 export default lang;

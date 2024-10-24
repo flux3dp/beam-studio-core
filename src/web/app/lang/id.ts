@@ -1948,6 +1948,25 @@ const lang: ILang = {
     no_permission: 'Beam Studio tidak memiliki izin untuk mengakses kamera. Pastikan izin diberikan ke Beam Studio di pengaturan browser atau pengaturan sistem.',
     no_device: 'Tidak dapat mendeteksi perangkat kamera. Silakan sambungkan kembali kamera dan coba lagi.',
   },
+  promark_settings: {
+    title: 'Pengaturan Promark',
+    field: 'Bidang',
+    red_dot: 'Titik Merah',
+    galvo_configuration: 'Konfigurasi Galvo',
+    switchXY: 'Tukar X/Y',
+    workarea_hint: 'Anda dapat mengubah area kerja di "Pengaturan Dokumen".',
+    offsetX: 'Penggeseran X',
+    offsetY: 'Penggeseran Y',
+    angle: 'Sudut',
+    scaleX: 'Skala X',
+    scaleY: 'Skala Y',
+    scale: 'Skala',
+    bulge: 'Tonjolan',
+    skew: 'Kemiringan',
+    trapezoid: 'Trapesium',
+    preview: 'Pratinjau',
+    mark: 'Tandai',
+  },
 };
 
 export default lang;

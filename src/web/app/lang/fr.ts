@@ -1948,6 +1948,25 @@ const lang: ILang = {
     no_permission: "Beam Studio n'a pas l'autorisation d'accéder à la caméra. Assurez-vous que l'autorisation est accordée à Beam Studio dans les paramètres du navigateur ou du système.",
     no_device: "Impossible de détecter l'appareil photo. Veuillez reconnecter la caméra et réessayer.",
   },
+  promark_settings: {
+    title: 'Paramètres Promark',
+    field: 'Champ',
+    red_dot: 'Point rouge',
+    galvo_configuration: 'Configuration Galvo',
+    switchXY: 'Changer X/Y',
+    workarea_hint: 'Vous pouvez changer la zone de travail dans les "Paramètres du document".',
+    offsetX: 'Décalage X',
+    offsetY: 'Décalage Y',
+    angle: 'Angle',
+    scaleX: 'Échelle X',
+    scaleY: 'Échelle Y',
+    scale: 'Échelle',
+    bulge: 'Renflement',
+    skew: 'Inclinaison',
+    trapezoid: 'Trapèze',
+    preview: 'Aperçu',
+    mark: 'Marquer',
+  },
 };
 
 export default lang;
