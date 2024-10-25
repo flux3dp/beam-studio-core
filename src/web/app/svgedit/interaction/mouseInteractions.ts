@@ -291,20 +291,15 @@ const mouseDown = (evt: MouseEvent) => {
 
   svgCanvas.unsafeAccess.setStartTransform(mouseTarget.getAttribute('transform'));
   currentMode = svgCanvas.getCurrentMode();
+
   switch (currentMode) {
     case 'select':
     case 'multiselect':
       svgCanvas.unsafeAccess.setStarted(true);
       svgCanvas.setCurrentResizeMode('none');
+
       if (rightClick) {
         svgCanvas.unsafeAccess.setStarted(false);
-      } else {
-        // End layer multiselect
-        const selectedLayers = LayerPanelController.getSelectedLayers();
-        if (selectedLayers && selectedLayers.length > 1) {
-          const currentLayerName = svgCanvas.getCurrentDrawing().getCurrentLayerName();
-          if (currentLayerName) LayerPanelController.setSelectedLayers([currentLayerName]);
-        }
       }
 
       if (
@@ -313,12 +308,14 @@ const mouseDown = (evt: MouseEvent) => {
       ) {
         // preview mode
         svgCanvas.clearSelection();
+
         if (PreviewModeController.isPreviewMode()) {
           svgCanvas.unsafeAccess.setCurrentMode('preview');
         } else {
           // i.e. TopBarController.getTopBarPreviewMode()
           svgCanvas.unsafeAccess.setCurrentMode('pre_preview');
         }
+
         setRubberBoxStart();
       } else {
         const mouseTargetObjectLayer = LayerHelper.getObjectLayer(mouseTarget);
@@ -328,12 +325,14 @@ const mouseDown = (evt: MouseEvent) => {
           mouseTargetObjectLayer.elem &&
           mouseTargetObjectLayer.elem.getAttribute('display') !== 'none' &&
           !mouseTargetObjectLayer.elem.getAttribute('data-lock');
+
         if (mouseTarget !== svgRoot && (isElemTempGroup || layerSelectable)) {
           // Mouse down on element
           if (!selectedElements.includes(mouseTarget)) {
             if (!evt.shiftKey) {
               svgCanvas.clearSelection(true);
             }
+
             if (navigator.maxTouchPoints > 1 && ['MacOS', 'others'].includes(window.os)) {
               // in touchable mobiles, allow multiselect if click on non selected element
               // if user doesn't multiselect, select [justSelected] in mouseup
@@ -342,16 +341,19 @@ const mouseDown = (evt: MouseEvent) => {
             } else {
               svgCanvas.addToSelection([mouseTarget]);
               selectedElements = svgCanvas.getSelectedElems();
+
               if (selectedElements.length > 1) {
                 svgCanvas.tempGroupSelectedElements();
                 selectedElements = svgCanvas.getSelectedElems();
               }
             }
+
             justSelected = mouseTarget;
             svgCanvas.pathActions.clear();
           } else if (evt.shiftKey) {
             if (mouseTarget === svgCanvas.getTempGroup()) {
               const elemToRemove = svgCanvas.getMouseTarget(evt, false);
+
               svgCanvas.removeFromTempGroup(elemToRemove);
               selectedElements = svgCanvas.getSelectedElems();
             } else {
@@ -381,10 +383,19 @@ const mouseDown = (evt: MouseEvent) => {
               }
             }
           }
-        } else if (!rightClick) {
+
+          if (layerSelectable && !rightClick && !evt.shiftKey) {
+            // clear layer selection
+            LayerPanelController.setSelectedLayers([]);
+          }
+        } else if (mouseTarget === svgRoot && !rightClick) {
           // Mouse down on svg root
           svgCanvas.clearSelection();
+          // clear layer selection
+          LayerPanelController.setSelectedLayers([]);
+
           svgCanvas.unsafeAccess.setCurrentMode('multiselect');
+
           setRubberBoxStart();
         }
       }
@@ -918,11 +929,6 @@ const mouseMove = (evt: MouseEvent) => {
             if (selected == null) {
               break;
             }
-            // if (i==0) {
-            //   var box = svgedit.utilities.getBBox(selected);
-            //     selectedBBoxes[i].x = box.x + dx;
-            //     selectedBBoxes[i].y = box.y + dy;
-            // }
 
             // update the dummy transform in our transform list
             // to be a translate
@@ -939,14 +945,9 @@ const mouseMove = (evt: MouseEvent) => {
               tlist.appendItem(xform);
             }
 
-            // update our internal bbox that we're tracking while dragging
-            // if (tempGroup) {
-            //     Array.from(tempGroup.childNodes).forEach((child) => {
-            //         selectorManager.requestSelector(child).resize();
-            //     });
-            // }
             svgCanvas.selectorManager.requestSelector(selected).resize();
           }
+
           if (svgCanvas.sensorAreaInfo) {
             svgCanvas.sensorAreaInfo.dx = dx * zoom;
             svgCanvas.sensorAreaInfo.dy = dy * zoom;
@@ -966,6 +967,7 @@ const mouseMove = (evt: MouseEvent) => {
             }
           }
           moved = true;
+
           svgCanvas.call('transition', selectedElements);
         }
       }
@@ -1315,16 +1317,24 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
               return false;
             }
             const layerElem = layer.elem;
-            if (
-              layerElem.getAttribute('data-lock') ||
-              layerElem.getAttribute('display') === 'none'
-            ) {
-              return false;
-            }
-            return true;
+
+            return !(
+              layerElem.getAttribute('data-lock') || layerElem.getAttribute('display') === 'none'
+            );
           });
+
           selectedElements = intersectedElements;
+
+          if (intersectedElements.length) {
+            // if there are intersected elements, select one of them as current layer
+            const tempLayer = intersectedElements
+              .map((elem) => LayerHelper.getObjectLayer(elem).title)
+              .find(Boolean);
+
+            svgCanvas.setCurrentLayer(tempLayer);
+          }
         }
+
         svgCanvas.unsafeAccess.setSelectedElements(selectedElements);
         svgCanvas.call('selected', selectedElements);
       }
