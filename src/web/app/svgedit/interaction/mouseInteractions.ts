@@ -1317,28 +1317,24 @@ const mouseUp = async (evt: MouseEvent, blocked = false) => {
               return false;
             }
             const layerElem = layer.elem;
-            if (
-              layerElem.getAttribute('data-lock') ||
-              layerElem.getAttribute('display') === 'none'
-            ) {
-              return false;
-            }
-            return true;
+
+            return !(
+              layerElem.getAttribute('data-lock') || layerElem.getAttribute('display') === 'none'
+            );
           });
 
           selectedElements = intersectedElements;
 
-          if (selectedElements.length) {
-            // if there are intersected elements, select one of them as default layer
-            const [tempLayer] = selectedElements
+          if (intersectedElements.length) {
+            // if there are intersected elements, select one of them as current layer
+            const tempLayer = intersectedElements
               .map((elem) => LayerHelper.getObjectLayer(elem).title)
-              .filter(Boolean)
-              .filter((title, index, self) => self.indexOf(title) === index);
+              .find(Boolean);
 
             svgCanvas.setCurrentLayer(tempLayer);
-            LayerPanelController.setSelectedLayers([tempLayer]);
           }
         }
+
         svgCanvas.unsafeAccess.setSelectedElements(selectedElements);
         svgCanvas.call('selected', selectedElements);
       }

@@ -4855,11 +4855,12 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         : LayerHelper.getObjectLayer(elem)?.title
     );
 
+    // set the newst added layer as currentLayer
+    this.setCurrentLayer(layers[0]);
     // the uniq process is performed `here` to avoid duplicate layer in layer panel,
     // and remain the selected layers contains information if there are multiple elements in same layer
-    LayerPanelController.setSelectedLayers(
-      layers.filter((layer, index, array) => array.indexOf(layer) === index)
-    );
+    LayerPanelController.setSelectedLayers([...new Set(layers)]);
+
     selectedLayers = layers;
 
     selectOnly([g], true);
@@ -4885,13 +4886,15 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     const currentLayer = getCurrentDrawing().getCurrentLayer();
     const targetLayer = originalLayer || currentLayer;
 
-    // to explicitly remove one element from the temp group layers
-    selectedLayers = selectedLayers.filter(
-      (_layer, index, array) => !(array.indexOf(elem.getAttribute('data-original-layer')) === index)
-    );
-    LayerPanelController.setSelectedLayers(
-      selectedLayers.filter((layer, index, array) => array.indexOf(layer) === index)
-    );
+    // explicitly remove one element from the temp group layers
+    const idx = selectedLayers.indexOf(elem.getAttribute('data-original-layer'));
+
+    if (idx >= 0) {
+      selectedLayers.splice(idx, 1);
+    }
+    // set the current layer from the remaining layers
+    this.setCurrentLayer(selectedLayers[0]);
+    LayerPanelController.setSelectedLayers([...new Set(selectedLayers)]);
 
     if (
       elem.nextSibling &&
