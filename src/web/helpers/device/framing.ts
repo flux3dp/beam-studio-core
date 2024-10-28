@@ -23,9 +23,13 @@ import versionChecker from 'helpers/version-checker';
 import workareaManager from 'app/svgedit/workarea';
 import { fetchFraming } from 'app/actions/beambox/export-funcs-swiftray';
 import { getAllLayers } from 'helpers/layer/layer-helper';
+import { getWorkarea } from 'app/constants/workarea-constants';
 import { getSupportInfo } from 'app/constants/add-on';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
+
+import promarkDataStore from './promark-data-store';
+import { calculateRedDotTransform } from './promark/calibration';
 
 // TODO: add unit test
 export enum FramingType {
@@ -224,7 +228,19 @@ class FramingTaskManager extends EventEmitter {
     const deviceStatus = await checkDeviceStatus(this.device);
     if (!deviceStatus) return;
     console.log('start framing upload');
-    await fetchFraming();
+    const redDotData = promarkDataStore.get(this.device?.serial, 'redDot');
+    let transform: string;
+    if (redDotData) {
+      const { width } = getWorkarea(this.device.model);
+      transform = calculateRedDotTransform(
+        width,
+        redDotData.offsetX,
+        redDotData.offsetY,
+        redDotData.scaleX,
+        redDotData.scaleY
+      );
+    }
+    await fetchFraming(transform);
     console.log('start framing');
     await deviceMaster.startFraming();
   };

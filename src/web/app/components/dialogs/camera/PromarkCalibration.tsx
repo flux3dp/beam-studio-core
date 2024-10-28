@@ -13,11 +13,11 @@ import {
 } from 'interfaces/FisheyePreview';
 import { getWorkarea } from 'app/constants/workarea-constants';
 import { IDeviceInfo } from 'interfaces/IDevice';
+import { loadCameraCalibrationTask } from 'helpers/device/promark/calibration';
 
 import CheckpointData from './common/CheckpointData';
 import Chessboard from './Promark/Chessboard';
 import Instruction from './common/Instruction';
-import loadCalibrationTask from './Promark/loadCalibrationTask';
 import SolvePnP from './common/SolvePnP';
 import { promarkPnPPoints } from './common/solvePnPConstants';
 
@@ -99,7 +99,7 @@ const PromarkCalibration = ({ device: { serial, model }, onClose }: Props): JSX.
           id: PROGRESS_ID,
           message: tCali.drawing_calibration_image,
         });
-        await loadCalibrationTask(model, workareaWidth);
+        await loadCameraCalibrationTask(model, workareaWidth);
         await deviceMaster.doPromarkCalibration();
         progressCaller.update(PROGRESS_ID, { message: tCali.preparing_to_take_picture });
         setStep(Steps.SOLVE_PNP);
