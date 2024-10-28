@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useMemo } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { Flex, Tooltip } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 
