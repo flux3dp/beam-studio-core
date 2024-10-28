@@ -13,7 +13,12 @@ jest.mock('app/actions/beambox/beambox-preference', () => ({
 }));
 
 const mockChangeWorkarea = jest.fn();
-jest.mock('app/svgedit/operations/changeWorkarea', () => (...args) => mockChangeWorkarea(...args));
+jest.mock(
+  'app/svgedit/operations/changeWorkarea',
+  () =>
+    (...args) =>
+      mockChangeWorkarea(...args)
+);
 
 const mockToggleDisplay = jest.fn();
 jest.mock('app/actions/canvas/rotary-axis', () => ({
@@ -23,30 +28,6 @@ jest.mock('app/actions/canvas/rotary-axis', () => ({
 const mockStorageGet = jest.fn();
 jest.mock('implementations/storage', () => ({
   get: (...args) => mockStorageGet(...args),
-}));
-
-
-jest.mock('helpers/useI18n', () => () => ({
-  topbar: {
-    menu: {
-      rotary_setup: 'rotary_setup',
-    },
-  },
-  rotary_settings: {
-    title: 'Rotary Setup',
-    type: 'type',
-    object_diameter: 'object_diameter',
-    circumference: 'circumference',
-  },
-  beambox: {
-    document_panel: {
-      save: 'save',
-      cancel: 'cancel',
-      rotary_mode: 'rotary_mode',
-      mirror: 'mirror',
-      extend_workarea: 'extend_workarea',
-    },
-  },
 }));
 
 const mockAddDialogComponent = jest.fn();
