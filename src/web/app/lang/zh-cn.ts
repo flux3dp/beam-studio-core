@@ -1969,6 +1969,7 @@ const lang: ILang = {
     bulge: '桶形',
     skew: '倾斜',
     trapezoid: '梯形',
+    mark_parameters: '打标参数',
     preview: '预览',
     mark: '标记',
   },

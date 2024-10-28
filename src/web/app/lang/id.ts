@@ -1964,6 +1964,7 @@ const lang: ILang = {
     bulge: 'Tonjolan',
     skew: 'Kemiringan',
     trapezoid: 'Trapesium',
+    mark_parameters: 'Parameter Penandaan',
     preview: 'Pratinjau',
     mark: 'Tandai',
   },

@@ -1966,6 +1966,7 @@ const lang: ILang = {
     bulge: 'Udbuling',
     skew: 'Skævhed',
     trapezoid: 'Trapez',
+    mark_parameters: 'Mærkeparametre',
     preview: 'Forhåndsvisning',
     mark: 'Markér',
   },

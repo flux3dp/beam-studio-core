@@ -1967,6 +1967,7 @@ const lang: ILang = {
     bulge: 'Wybrzuszenie',
     skew: 'Przekrzywienie',
     trapezoid: 'Trapez',
+    mark_parameters: 'Parametry znakowania',
     preview: 'Podgląd',
     mark: 'Oznacz',
   },

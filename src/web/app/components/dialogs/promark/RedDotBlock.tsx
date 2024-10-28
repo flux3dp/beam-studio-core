@@ -25,6 +25,7 @@ const RedDotBlock = ({ isInch, redDot, setRedDot }: Props): JSX.Element => {
         <UnitInput
           data-testid="offset-x"
           className={styles.input}
+          size="small"
           value={offsetX}
           precision={isInch ? 5 : 3}
           addonAfter={isInch ? 'in' : 'mm'}
@@ -37,6 +38,7 @@ const RedDotBlock = ({ isInch, redDot, setRedDot }: Props): JSX.Element => {
         <UnitInput
           data-testid="offset-y"
           className={styles.input}
+          size="small"
           value={offsetY}
           precision={isInch ? 5 : 3}
           addonAfter={isInch ? 'in' : 'mm'}
@@ -49,6 +51,7 @@ const RedDotBlock = ({ isInch, redDot, setRedDot }: Props): JSX.Element => {
         <UnitInput
           data-testid="scale-x"
           className={styles.input}
+          size="small"
           value={scaleX}
           precision={3}
           step={0.001}
@@ -60,6 +63,7 @@ const RedDotBlock = ({ isInch, redDot, setRedDot }: Props): JSX.Element => {
         <UnitInput
           data-testid="scale-y"
           className={styles.input}
+          size="small"
           value={scaleY}
           precision={3}
           step={0.001}

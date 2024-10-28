@@ -1969,6 +1969,7 @@ const lang: ILang = {
     bulge: 'Bulge',
     skew: 'Skew',
     trapezoid: 'Trapezoid',
+    mark_parameters: 'Mark Parameters',
     preview: 'Preview',
     mark: 'Mark',
   },

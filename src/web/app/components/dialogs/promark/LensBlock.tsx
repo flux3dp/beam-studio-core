@@ -45,6 +45,7 @@ const LensBlock = ({ data, setData }: Props): JSX.Element => {
                   <UnitInput
                     data-testid={`scale-${axis}`}
                     className={styles.input}
+                    size="small"
                     value={scale}
                     precision={3}
                     addonAfter="%"
@@ -59,6 +60,7 @@ const LensBlock = ({ data, setData }: Props): JSX.Element => {
                   <UnitInput
                     data-testid={`bulge-${axis}`}
                     className={styles.input}
+                    size="small"
                     value={bulge}
                     precision={3}
                     step={0.001}
@@ -73,6 +75,7 @@ const LensBlock = ({ data, setData }: Props): JSX.Element => {
                   <UnitInput
                     data-testid={`skew-${axis}`}
                     className={styles.input}
+                    size="small"
                     value={skew}
                     precision={3}
                     step={0.001}
@@ -87,6 +90,7 @@ const LensBlock = ({ data, setData }: Props): JSX.Element => {
                   <UnitInput
                     data-testid={`trapezoid-${axis}`}
                     className={styles.input}
+                    size="small"
                     value={trapezoid}
                     precision={3}
                     step={0.001}

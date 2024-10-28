@@ -1964,6 +1964,7 @@ const lang: ILang = {
     bulge: 'Pullistuma',
     skew: 'Vinous',
     trapezoid: 'Trapezoidi',
+    mark_parameters: 'Merkintäparametrit',
     preview: 'Esikatselu',
     mark: 'Merkitse',
   },

@@ -1969,6 +1969,7 @@ const lang: ILang = {
     bulge: 'Vyboulení',
     skew: 'Sklon',
     trapezoid: 'Trapezoid',
+    mark_parameters: 'Parametry značení',
     preview: 'Náhled',
     mark: 'Označit',
   },

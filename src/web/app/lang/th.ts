@@ -1964,6 +1964,7 @@ const lang: ILang = {
     bulge: 'การโป่งพอง',
     skew: 'การบิดเบือน',
     trapezoid: 'รูปสี่เหลี่ยมคางหมู',
+    mark_parameters: 'พารามิเตอร์การมาร์ก',
     preview: 'ดูตัวอย่าง',
     mark: 'ทำเครื่องหมาย',
   },

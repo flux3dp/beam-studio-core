@@ -1964,6 +1964,7 @@ const lang: ILang = {
     bulge: 'Εξόγκωμα',
     skew: 'Κλίση',
     trapezoid: 'Τραπέζιο',
+    mark_parameters: 'Παράμετροι χάραξης',
     preview: 'Προεπισκόπηση',
     mark: 'Σήμανση',
   },

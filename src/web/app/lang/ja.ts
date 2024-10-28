@@ -1967,6 +1967,7 @@ const lang: ILang = {
     bulge: '膨らみ',
     skew: '歪み',
     trapezoid: '台形',
+    mark_parameters: 'マーキングパラメータ',
     preview: 'プレビュー',
     mark: 'マーク',
   },

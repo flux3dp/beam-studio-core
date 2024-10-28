@@ -1,6 +1,6 @@
 @use 'styles/variables' as v;
 
-@mixin title {
+@mixin title-text {
   font-weight: bold;
   font-size: 15px;
 }
@@ -15,7 +15,8 @@
 }
 
 .title {
-  @include title;
+  @include title-text;
+  width: 100%;
   display: grid;
   grid-template-columns: auto 1fr;
   align-items: center;
@@ -43,7 +44,7 @@
 }
 
 .subtitle {
-  @include title;
+  @include title-text;
 }
 
 .block {
@@ -79,5 +80,9 @@
 
   .input {
     width: 132px;
+
+    &.short {
+      width: 92px;
+    }
   }
 }

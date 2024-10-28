@@ -4,25 +4,23 @@ import { QuestionCircleOutlined } from '@ant-design/icons';
 
 import UnitInput from 'app/widgets/UnitInput';
 import useI18n from 'helpers/useI18n';
-import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 import { Field } from 'interfaces/Promark';
 
 import styles from './Block.module.scss';
 
 interface Props {
-  model: WorkAreaModel;
   isInch: boolean;
+  width: number;
   field: Field;
   setField: Dispatch<SetStateAction<Field>>;
 }
 
-const FieldBlock = ({ model, isInch, field, setField }: Props): JSX.Element => {
+const FieldBlock = ({ isInch, width, field, setField }: Props): JSX.Element => {
   const {
     promark_settings: t,
     beambox: { document_panel: tDocu },
   } = useI18n();
   const { offsetX, offsetY, angle } = field;
-  const { width } = useMemo(() => getWorkarea(model), [model]);
 
   return (
     <Flex className={styles.block} vertical gap={8}>
@@ -34,12 +32,13 @@ const FieldBlock = ({ model, isInch, field, setField }: Props): JSX.Element => {
             <QuestionCircleOutlined className={styles.tooltip} />
           </Tooltip>
         </Flex>
-        <UnitInput className={styles.input} value={width} addonAfter="mm" disabled />
+        <UnitInput className={styles.input} size="small" value={width} addonAfter="mm" disabled />
       </Flex>
       <Flex className={styles.row} justify="space-between" align="center">
         <span className={styles.label}>{t.offsetX}</span>
         <UnitInput
           data-testid="offset-x"
+          size="small"
           className={styles.input}
           value={offsetX}
           precision={isInch ? 5 : 3}
@@ -52,6 +51,7 @@ const FieldBlock = ({ model, isInch, field, setField }: Props): JSX.Element => {
         <span className={styles.label}>{t.offsetY}</span>
         <UnitInput
           data-testid="offset-y"
+          size="small"
           className={styles.input}
           value={offsetY}
           precision={isInch ? 5 : 3}
@@ -64,6 +64,7 @@ const FieldBlock = ({ model, isInch, field, setField }: Props): JSX.Element => {
         <span className={styles.label}>{t.angle}</span>
         <UnitInput
           data-testid="angle"
+          size="small"
           className={styles.input}
           value={angle}
           precision={3}

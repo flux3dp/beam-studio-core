@@ -1965,6 +1965,7 @@ export interface ILang {
     bulge: string;
     skew: string;
     trapezoid: string;
+    mark_parameters: string;
     preview: string;
     mark: string;
   };

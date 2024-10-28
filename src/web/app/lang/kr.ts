@@ -1967,6 +1967,7 @@ const lang: ILang = {
     bulge: '볼록함',
     skew: '기울기',
     trapezoid: '사다리꼴',
+    mark_parameters: '마킹 매개변수',
     preview: '미리보기',
     mark: '표시',
   },

@@ -1964,6 +1964,7 @@ const lang: ILang = {
     bulge: 'Phồng',
     skew: 'Nghiêng',
     trapezoid: 'Hình thang',
+    mark_parameters: 'Tham số đánh dấu',
     preview: 'Xem trước',
     mark: 'Đánh dấu',
   },

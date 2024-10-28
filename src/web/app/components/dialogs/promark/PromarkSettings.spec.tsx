@@ -1,11 +1,14 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
+import { IDeviceInfo } from 'interfaces/IDevice';
+
 import PromarkSettings from './PromarkSettings';
 
 jest.mock('./FieldBlock', () => () => <div>Mock FieldBlock</div>);
 jest.mock('./RedDotBlock', () => () => <div>Mock RedDotBlock</div>);
 jest.mock('./LensBlock', () => () => <div>Mock LensBlock</div>);
+jest.mock('./ParametersBlock', () => () => <div>Mock ParametersBlock</div>);
 
 const mockStorageGet = jest.fn();
 jest.mock('implementations/storage', () => ({
@@ -19,6 +22,11 @@ jest.mock('helpers/device/promark-data-store', () => ({
 
 const mockOnClose = jest.fn();
 
+const mockDevice = {
+  model: 'fpm1',
+  serial: '123',
+} as IDeviceInfo;
+
 describe('test PromarkSettings', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -27,14 +35,14 @@ describe('test PromarkSettings', () => {
 
   it('should render correctly', () => {
     const { baseElement } = render(
-      <PromarkSettings model="fpm1" serial="123" initData={{}} onClose={mockOnClose} />
+      <PromarkSettings device={mockDevice} initData={{}} onClose={mockOnClose} />
     );
     expect(baseElement).toMatchSnapshot();
   });
 
   test('Cancel button', async () => {
     const { findByText } = render(
-      <PromarkSettings model="fpm1" serial="123" initData={{}} onClose={mockOnClose} />
+      <PromarkSettings device={mockDevice} initData={{}} onClose={mockOnClose} />
     );
     const cancelBtn = await findByText('Cancel');
     expect(mockOnClose).not.toBeCalled();
@@ -44,7 +52,7 @@ describe('test PromarkSettings', () => {
 
   test('Save button', async () => {
     const { findByText } = render(
-      <PromarkSettings model="fpm1" serial="123" initData={{}} onClose={mockOnClose} />
+      <PromarkSettings device={mockDevice} initData={{}} onClose={mockOnClose} />
     );
     const saveBtn = await findByText('Save');
     expect(mockPromarkUpdate).not.toBeCalled();
