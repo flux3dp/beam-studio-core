@@ -3,11 +3,11 @@ import { Menu as TopBarMenu, MenuItem, MenuDivider, SubMenu } from '@szhsin/reac
 
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import browser from 'implementations/browser';
-import constant from 'app/actions/beambox/constant';
+import constant, { promarkModels } from 'app/actions/beambox/constant';
 import Discover from 'helpers/api/discover';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import hotkeys from 'app/constants/hotkeys';
-import i18n from 'helpers/i18n';
+import useI18n from 'helpers/useI18n';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import { useIsMobile } from 'helpers/system-helper';
@@ -91,7 +91,10 @@ export default function Menu({ email }: Props): JSX.Element {
     };
   }, [devices]);
 
-  const menuCms = i18n.lang.topbar.menu;
+  const {
+    topbar: { menu: menuCms },
+    promark_settings: tPromarkSettings,
+  } = useI18n();
   const callback = (id: string, deviceSerial?: string) => {
     eventEmitter.emit('MENU_CLICK', null, { id, serial: deviceSerial });
   };
@@ -109,6 +112,7 @@ export default function Menu({ email }: Props): JSX.Element {
     for (let i = 0; i < devices.length; i += 1) {
       const { model, name, serial } = devices[i];
       const hasModules = modelsWithModules.has(model);
+      const isPromark = promarkModels.has(model);
 
       submenus.push(
         <SubMenu label={name} key={serial}>
@@ -116,6 +120,11 @@ export default function Menu({ email }: Props): JSX.Element {
           <MenuItem onClick={() => callback('MACHINE_INFO', serial)}>
             {menuCms.machine_info}
           </MenuItem>
+          {isPromark && (
+            <MenuItem onClick={() => callback('PROMARK_SETTINGS', serial)}>
+              {tPromarkSettings.title}
+            </MenuItem>
+          )}
           <MenuDivider />
           <MenuItem
             onClick={() => callback('CALIBRATE_BEAMBOX_CAMERA', serial)}

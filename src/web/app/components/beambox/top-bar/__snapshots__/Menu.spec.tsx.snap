@@ -457,7 +457,7 @@ exports[`should render correctly open the browser and reach the correct page 3`]
             role="menuitem"
             tabindex="-1"
           >
-            show_gesture_tutorial
+            Hand Gesture Introduction
           </li>
           <li
             class="rc-menu__item"
@@ -485,7 +485,7 @@ exports[`should render correctly open the browser and reach the correct page 3`]
             role="menuitem"
             tabindex="-1"
           >
-            Keyboard Shortcuts
+            Keyboard shortcuts
           </li>
           <li
             class="rc-menu__item"
