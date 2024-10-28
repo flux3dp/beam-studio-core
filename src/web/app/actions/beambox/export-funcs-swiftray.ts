@@ -8,6 +8,7 @@ import convertShapeToBitmap from 'helpers/layer/convertShapeToBitmap';
 import FontFuncs from 'app/actions/beambox/font-funcs';
 import i18n from 'helpers/i18n';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
+import NS from 'app/constants/namespaces';
 import Progress from 'app/actions/progress-caller';
 import SymbolMaker from 'helpers/symbol-maker';
 import TopBarController from 'app/views/beambox/TopBar/contexts/TopBarController';
@@ -39,7 +40,10 @@ const dpiTextMap = {
   ultra: 1016,
 };
 
-const generateUploadFile = async (thumbnail: string, thumbnailUrl: string): Promise<IWrappedSwiftrayTaskFile> => {
+const generateUploadFile = async (
+  thumbnail: string,
+  thumbnailUrl: string
+): Promise<IWrappedSwiftrayTaskFile> => {
   Progress.openNonstopProgress({
     id: 'retrieve-image-data',
     message: lang.beambox.bottom_right_panel.retreive_image_data,
@@ -53,7 +57,7 @@ const generateUploadFile = async (thumbnail: string, thumbnailUrl: string): Prom
     name: 'svgeditor.svg',
     uploadName: thumbnailUrl.split('/').pop(),
     extension: 'svg',
-    thumbnail: thumbnail.toString()
+    thumbnail: thumbnail.toString(),
   };
 };
 
@@ -65,7 +69,7 @@ const onUploadProgressing = (data): void => {
   });
 };
 
-const onUploadFinished =  (): void => {
+const onUploadFinished = (): void => {
   Progress.update('upload-scene', {
     caption: i18n.lang.beambox.popup.progress.calculating,
     message: lang.message.uploading_fcode,
@@ -91,16 +95,20 @@ const uploadToParser = async (uploadFile: IWrappedSwiftrayTaskFile): Promise<boo
   const uploadConfig = {
     model: BeamboxPreference.read('workarea') || BeamboxPreference.read('model'),
     rotaryMode: BeamboxPreference.read('rotary_mode'),
-    engraveDpi: dpiTextMap[BeamboxPreference.read('engrave_dpi')]
+    engraveDpi: dpiTextMap[BeamboxPreference.read('engrave_dpi')],
   };
-  await swiftrayClient.loadSVG(uploadFile, {
-    onProgressing: onUploadProgressing,
-    onFinished: onUploadFinished,
-    onError: (message: string) => {
-      if (isCanceled || errorMessage) return;
-      errorMessage = message;
+  await swiftrayClient.loadSVG(
+    uploadFile,
+    {
+      onProgressing: onUploadProgressing,
+      onFinished: onUploadFinished,
+      onError: (message: string) => {
+        if (isCanceled || errorMessage) return;
+        errorMessage = message;
+      },
     },
-  }, uploadConfig);
+    uploadConfig
+  );
 
   if (errorMessage && !isCanceled) {
     Progress.popById('upload-scene');
@@ -117,7 +125,7 @@ const uploadToParser = async (uploadFile: IWrappedSwiftrayTaskFile): Promise<boo
   }
 
   return !isCanceled && !errorMessage;
-}
+};
 
 const getTaskCode = (codeType: 'gcode' | 'fcode', taskOptions) =>
   new Promise<{
@@ -161,11 +169,14 @@ const getTaskCode = (codeType: 'gcode' | 'fcode', taskOptions) =>
 const fetchTaskCodeSwiftray = async (
   device: IDeviceInfo = null,
   opts: { output?: 'fcode' | 'gcode'; fgGcode?: boolean } = {}
-): Promise<{
-  taskCodeBlob: Blob,
-  thumbnailBlobURL: string,
-  fileTimeCost: number,
-} | Record<string, never> > => {
+): Promise<
+  | {
+      taskCodeBlob: Blob;
+      thumbnailBlobURL: string;
+      fileTimeCost: number;
+    }
+  | Record<string, never>
+> => {
   let isCanceled = false;
   svgCanvas.removeUnusedDefs();
   SymbolMaker.switchImageSymbolForAll(false);
@@ -233,7 +244,7 @@ const fetchTaskCodeSwiftray = async (
   const supportInfo = getSupportInfo(BeamboxPreference.read('workarea'));
   let codeType = opts.output || 'fcode';
   const { fgGcode = false } = opts;
-  const isNonFGCode = (codeType === 'gcode' && !fgGcode);
+  const isNonFGCode = codeType === 'gcode' && !fgGcode;
   const model = BeamboxPreference.read('workarea') || BeamboxPreference.read('model');
   const isPromark = promarkModels.has(model);
   if (isPromark) codeType = 'gcode';
@@ -241,32 +252,27 @@ const fetchTaskCodeSwiftray = async (
     model,
     travelSpeed: isPromark ? 4000 : 100,
     enableAutoFocus:
-      doesSupportDiodeAndAF &&
-      BeamboxPreference.read('enable-autofocus') &&
-      supportInfo.autoFocus,
+      doesSupportDiodeAndAF && BeamboxPreference.read('enable-autofocus') && supportInfo.autoFocus,
     enableDiode:
-      doesSupportDiodeAndAF &&
-      BeamboxPreference.read('enable-diode') &&
-      supportInfo.hybridLaser,
+      doesSupportDiodeAndAF && BeamboxPreference.read('enable-diode') && supportInfo.hybridLaser,
     shouldUseFastGradient: shouldUseFastGradient && !isNonFGCode,
     shouldMockFastGradient: isNonFGCode,
     vectorSpeedConstraint: BeamboxPreference.read('vector_speed_contraint') !== false,
     paddingAccel: await getAdorPaddingAccel(device || TopBarController.getSelectedDevice()),
   };
-  if (codeType === 'fcode') taskConfig = {
-    ...taskConfig,
-    ...getExportOpt(taskConfig).config
-  };
-  console.log("fetchTaskCodeSwiftray", codeType, "taskConfig", taskConfig);
+  if (codeType === 'fcode')
+    taskConfig = {
+      ...taskConfig,
+      ...getExportOpt(taskConfig).config,
+    };
+  console.log('fetchTaskCodeSwiftray', codeType, 'taskConfig', taskConfig);
 
-  if (isCanceled) { // TODO: Copy this logic to regular fetchTaskCode
+  if (isCanceled) {
+    // TODO: Copy this logic to regular fetchTaskCode
     return {};
   }
 
-  const getTaskCodeResult = await getTaskCode(
-    codeType,
-    taskConfig
-  );
+  const getTaskCodeResult = await getTaskCode(codeType, taskConfig);
   const { taskCodeBlob } = getTaskCodeResult;
   let { fileTimeCost } = getTaskCodeResult;
 
@@ -287,7 +293,7 @@ const fetchTaskCodeSwiftray = async (
 };
 
 // Send svg string and calculate the frame
-const fetchFraming = async (): Promise<boolean> => {
+const fetchFraming = async (transform?: string): Promise<boolean> => {
   svgCanvas.removeUnusedDefs();
   SymbolMaker.switchImageSymbolForAll(false);
   Progress.openNonstopProgress({
@@ -301,38 +307,55 @@ const fetchFraming = async (): Promise<boolean> => {
     Progress.popById('upload-scene');
     SymbolMaker.switchImageSymbolForAll(true);
     return false;
-  };
+  }
 
-  const svgString = svgCanvas.getSvgString();
+  let svgString = svgCanvas.getSvgString();
+  if (transform) {
+    const tempSvg = document.createElement('svg');
+    tempSvg.innerHTML = svgString;
+    tempSvg.querySelectorAll('g.layer').forEach((layer) => {
+      const g = document.createElementNS(NS.SVG, 'g');
+      g.setAttribute('transform', transform);
+      g.innerHTML = layer.innerHTML;
+      // eslint-disable-next-line no-param-reassign
+      layer.innerHTML = g.outerHTML;
+    });
+    svgString = tempSvg.innerHTML;
+    console.log('Transformed SVG', svgString);
+  }
   const uploadConfig = {
     model: BeamboxPreference.read('workarea') || BeamboxPreference.read('model'),
     rotaryMode: BeamboxPreference.read('rotary_mode'),
-    engraveDpi: dpiTextMap[BeamboxPreference.read('engrave_dpi')]
+    engraveDpi: dpiTextMap[BeamboxPreference.read('engrave_dpi')],
   };
   await FontFuncs.revertTempConvert();
 
-  const loadResult = await swiftrayClient.loadSVG({
-    data: svgString,
-    name: 'svgeditor.svg',
-    uploadName: 'framing.svg',
-    extension: 'svg',
-    thumbnail: '',
-  }, {
-    onProgressing: onUploadProgressing,
-    onFinished: onUploadFinished,
-    onError: (message: string) => {
-      Progress.popById('upload-scene');
-      Alert.popUp({
-        id: 'get-taskcode-error',
-        message: `#806 ${message}\n${lang.beambox.bottom_right_panel.export_file_error_ask_for_upload}`,
-        type: AlertConstants.SHOW_POPUP_ERROR,
-        buttonType: AlertConstants.YES_NO,
-        onYes: () => {
-          AwsHelper.uploadToS3('output.bvg', svgString);
-        },
-      });
+  const loadResult = await swiftrayClient.loadSVG(
+    {
+      data: svgString,
+      name: 'svgeditor.svg',
+      uploadName: 'framing.svg',
+      extension: 'svg',
+      thumbnail: '',
     },
-  }, uploadConfig);
+    {
+      onProgressing: onUploadProgressing,
+      onFinished: onUploadFinished,
+      onError: (message: string) => {
+        Progress.popById('upload-scene');
+        Alert.popUp({
+          id: 'get-taskcode-error',
+          message: `#806 ${message}\n${lang.beambox.bottom_right_panel.export_file_error_ask_for_upload}`,
+          type: AlertConstants.SHOW_POPUP_ERROR,
+          buttonType: AlertConstants.YES_NO,
+          onYes: () => {
+            AwsHelper.uploadToS3('output.bvg', svgString);
+          },
+        });
+      },
+    },
+    uploadConfig
+  );
   Progress.popById('upload-scene');
   return loadResult.success;
 };
@@ -342,8 +365,4 @@ const fetchTransferredFcodeSwiftray = async (gcodeString: string, thumbnail: str
   console.warn('fetchTransferredFcode is not yet implement4ed, use fetchTaskCodeSwiftray instead');
 };
 
-export {
-  fetchFraming,
-  fetchTaskCodeSwiftray,
-  fetchTransferredFcodeSwiftray,
-};
+export { fetchFraming, fetchTaskCodeSwiftray, fetchTransferredFcodeSwiftray };
