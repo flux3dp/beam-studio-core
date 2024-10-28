@@ -23,6 +23,7 @@ import {
   RotationParameters3DGhostApi,
 } from 'interfaces/FisheyePreview';
 import { IDeviceInfo, IDeviceConnection, IDeviceDetailInfo } from 'interfaces/IDevice';
+import { LensCorrection } from 'interfaces/Promark';
 
 import Camera from './api/camera';
 import Control from './api/control';
@@ -391,7 +392,7 @@ class DeviceMaster {
         const correction = promarkDataStore.get(device.info.serial, 'lensCorrection');
         console.log('Applying', correction);
         if (correction) {
-          await controlSocket.addTask(controlSocket.setLensCorrection, correction.x, correction.y);
+          await this.setLensCorrection(correction);
         }
       }
       Progress.popById('select-device');
@@ -1177,6 +1178,11 @@ class DeviceMaster {
       return controlSocket.addTask(controlSocket.deleteDeviceSetting, name);
     }
     return controlSocket.addTask(controlSocket.setDeviceSetting, name, value);
+  }
+
+  async setLensCorrection(data: { x: LensCorrection; y: LensCorrection }) {
+    const controlSocket = await this.getControl();
+    return controlSocket.addTask(controlSocket.setLensCorrection, data.x, data.y);
   }
 
   async getDeviceDetailInfo(): Promise<IDeviceDetailInfo> {
