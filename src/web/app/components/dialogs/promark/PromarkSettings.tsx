@@ -10,7 +10,7 @@ import storage from 'implementations/storage';
 import useI18n from 'helpers/useI18n';
 import { addDialogComponent, isIdExist, popDialogById } from 'app/actions/dialog-controller';
 import { Field, PromarkStore, RedDot, LensCorrection } from 'interfaces/Promark';
-import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
+import { getWorkarea } from 'app/constants/workarea-constants';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import {
   calculateRedDotTransform,
