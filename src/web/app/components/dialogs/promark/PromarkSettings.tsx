@@ -95,6 +95,10 @@ const PromarkSettings = ({ device, initData, onClose }: Props): JSX.Element => {
   };
 
   const handleMark = async () => {
+    if (isPreviewing) {
+      await deviceMaster.stopFraming();
+      setIsPreviewing(false);
+    }
     await uploadMarkTask();
     await handleUpdateParameter();
     await deviceMaster.doPromarkCalibration();
@@ -102,12 +106,26 @@ const PromarkSettings = ({ device, initData, onClose }: Props): JSX.Element => {
 
   const handleSave = async () => {
     promarkDataStore.update(serial, { field, redDot, lensCorrection });
-    await handleUpdateParameter();
+    try {
+      if (isPreviewing) await deviceMaster.stopFraming();
+      await handleUpdateParameter();
+    } catch (error) {
+      console.error('Failed to apply promark settings state', error);
+    }
     onClose();
   };
 
   const handleCancel = () => {
-    // TODO: reset data
+    const restore = async () => {
+      try {
+        if (isPreviewing) await deviceMaster.stopFraming();
+        await deviceMaster.setLensCorrection(initData.lensCorrection);
+        // TODO reset field settings
+      } catch (err) {
+        console.error('Failed to restore from promark settings state', err);
+      }
+    };
+    restore();
     onClose();
   };
 
@@ -138,7 +156,15 @@ const PromarkSettings = ({ device, initData, onClose }: Props): JSX.Element => {
   );
 
   return (
-    <Modal open centered width={620} title={t.title} onCancel={handleCancel} footer={footer}>
+    <Modal
+      open
+      centered
+      maskClosable={false}
+      width={620}
+      title={t.title}
+      onCancel={handleCancel}
+      footer={footer}
+    >
       <div className={styles.container}>
         <FieldBlock width={width} isInch={isInch} field={field} setField={setField} />
         <RedDotBlock isInch={isInch} redDot={redDot} setRedDot={setRedDot} />
