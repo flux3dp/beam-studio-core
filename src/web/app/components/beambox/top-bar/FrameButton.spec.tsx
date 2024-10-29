@@ -33,7 +33,7 @@ describe('test FrameButton', () => {
   test('should render correctly', async () => {
     const { container } = render(<FrameButton />);
     expect(container).toMatchSnapshot();
-    fireEvent.click(container.querySelector('div[class*="button"]'))
+    fireEvent.click(container.querySelector('div[class*="button"]'));
     expect(mockShowFramingModal).toBeCalledTimes(1);
   });
 
