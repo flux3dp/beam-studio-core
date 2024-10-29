@@ -324,7 +324,6 @@ const fetchFraming = async (transform?: string): Promise<boolean> => {
       layer.insertBefore(title, layer.firstChild);
     });
     svgString = tempSvg.innerHTML;
-    console.log('Transformed SVG', svgString);
   }
   const uploadConfig = {
     model: BeamboxPreference.read('workarea') || BeamboxPreference.read('model'),
