@@ -7,7 +7,6 @@ import Dialog from 'app/actions/dialog-caller';
 import dialog from 'implementations/dialog';
 import FontFuncs from 'app/actions/beambox/font-funcs';
 import imageEdit from 'helpers/image-edit';
-import isDev from 'helpers/is-dev';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import autoFit from 'app/svgedit/operations/autoFit';
@@ -276,7 +275,7 @@ const ActionsPanel = ({ elem }: Props): JSX.Element => {
           'trace',
           'bg-removal',
           'smartNest',
-          // 'trapezoid',
+          'trapezoid',
         ]
       : [
           'autoFit',
@@ -291,9 +290,8 @@ const ActionsPanel = ({ elem }: Props): JSX.Element => {
           'invert',
           'array',
           'potrace',
-          // 'trapezoid',
+          'trapezoid',
         ];
-    if (isDev()) contentOrder.push('trapezoid');
     const contentInOrder = contentOrder.map((key) => content[key]);
     return contentInOrder;
   };
