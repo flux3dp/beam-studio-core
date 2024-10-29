@@ -5,6 +5,7 @@ const lang: ILang = {
   global: {
     cancel: 'Batal',
     back: 'Kembali',
+    save: 'Simpan',
   },
   general: {
     processing: 'Memproses...',
@@ -769,8 +770,6 @@ const lang: ILang = {
         engrave: 'Ukir',
         more: 'Kelola',
         apply: 'Terapkan',
-        cancel: 'Batal',
-        save: 'Simpan',
         custom_preset: 'Kustom',
         various_preset: 'Berbagai Preset',
         module: 'Modul',
@@ -1098,8 +1097,6 @@ const lang: ILang = {
       ultra: 'Sangat Tinggi',
       enable: 'Aktifkan',
       disable: 'Nonaktifkan',
-      cancel: 'Batal',
-      save: 'Simpan',
       notification: {
         changeFromPrintingWorkareaTitle: 'Apakah Anda ingin mengubah Lapisan Cetak menjadi Lapisan Laser?',
       },
@@ -1182,8 +1179,6 @@ const lang: ILang = {
       speed: 'Kecepatan',
       repeat: 'Eksekusi',
       add: 'Tambah',
-      save: 'Simpan',
-      cancel: 'Batal',
       default: 'Setel Ulang Ke Default',
       add_config: 'Tambah Warna',
       in_use: 'Warna ini sedang digunakan.',
@@ -1952,6 +1947,26 @@ const lang: ILang = {
   web_cam: {
     no_permission: 'Beam Studio tidak memiliki izin untuk mengakses kamera. Pastikan izin diberikan ke Beam Studio di pengaturan browser atau pengaturan sistem.',
     no_device: 'Tidak dapat mendeteksi perangkat kamera. Silakan sambungkan kembali kamera dan coba lagi.',
+  },
+  promark_settings: {
+    title: 'Pengaturan Promark',
+    field: 'Bidang',
+    red_dot: 'Titik Merah',
+    galvo_configuration: 'Konfigurasi Galvo',
+    switchXY: 'Tukar X/Y',
+    workarea_hint: 'Anda dapat mengubah area kerja di "Pengaturan Dokumen".',
+    offsetX: 'Penggeseran X',
+    offsetY: 'Penggeseran Y',
+    angle: 'Sudut',
+    scaleX: 'Skala X',
+    scaleY: 'Skala Y',
+    scale: 'Skala',
+    bulge: 'Tonjolan',
+    skew: 'Kemiringan',
+    trapezoid: 'Trapesium',
+    mark_parameters: 'Parameter Penandaan',
+    preview: 'Pratinjau',
+    mark: 'Tandai',
   },
 };
 

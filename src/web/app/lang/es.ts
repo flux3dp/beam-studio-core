@@ -5,6 +5,7 @@ const lang: ILang = {
   global: {
     cancel: 'Cancelar',
     back: 'Volver',
+    save: 'Guardar',
   },
   general: {
     processing: 'Procesando...',
@@ -772,8 +773,6 @@ const lang: ILang = {
         engrave: 'Grabar',
         more: 'Gestionar',
         apply: 'Aplicar',
-        cancel: 'Cancelar',
-        save: 'Guardar',
         custom_preset: 'Personalizado',
         various_preset: 'Varios preajustes',
         module: 'Módulo',
@@ -1101,8 +1100,6 @@ const lang: ILang = {
       ultra: 'Ultra Alto',
       enable: 'Habilitar',
       disable: 'Deshabilitar',
-      cancel: 'Cancelar',
-      save: 'Guardar',
       notification: {
         changeFromPrintingWorkareaTitle: '¿Desea convertir las capas de impresión en capas láser?',
       },
@@ -1185,8 +1182,6 @@ const lang: ILang = {
       speed: 'Velocidad',
       repeat: 'Ejecutar',
       add: 'Añadir',
-      save: 'Guardar',
-      cancel: 'Cancelar',
       default: 'Restablecer el valor predeterminado',
       add_config: 'Agregar el color.',
       in_use: 'Este color está en uso.',
@@ -1955,6 +1950,26 @@ const lang: ILang = {
   web_cam: {
     no_permission: 'Beam Studio no tiene permiso para acceder a la cámara. Asegúrese de que el permiso esté concedido a Beam Studio en la configuración del navegador o del sistema.',
     no_device: 'No se puede detectar el dispositivo de cámara. Vuelva a conectar la cámara e intente de nuevo.',
+  },
+  promark_settings: {
+    title: 'Configuración de Promark',
+    field: 'Campo',
+    red_dot: 'Punto rojo',
+    galvo_configuration: 'Configuración Galvo',
+    switchXY: 'Cambiar X/Y',
+    workarea_hint: 'Puedes cambiar el área de trabajo en "Configuración del documento".',
+    offsetX: 'Desplazamiento X',
+    offsetY: 'Desplazamiento Y',
+    angle: 'Ángulo',
+    scaleX: 'Escala X',
+    scaleY: 'Escala Y',
+    scale: 'Escala',
+    bulge: 'Abombamiento',
+    skew: 'Sesgo',
+    trapezoid: 'Trapecio',
+    mark_parameters: 'Parámetros de marcado',
+    preview: 'Vista previa',
+    mark: 'Marcar',
   },
 };
 

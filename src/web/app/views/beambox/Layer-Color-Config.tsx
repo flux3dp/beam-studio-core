@@ -7,13 +7,11 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import InputKeyWrapper, { setEditingInput, setStopEditingInput } from 'app/widgets/InputKeyWrapper';
-import i18n from 'helpers/i18n';
 import storage from 'implementations/storage';
+import useI18n from 'helpers/useI18n';
 import { ColorConfig, DefaultColorConfigs } from 'app/constants/color-constants';
 
 import AddColorConfigModal from '../dialogs/AddColorConfigModal';
-
-const LANG = i18n.lang.beambox.layer_color_config_panel;
 
 const formatHexColor = (input: string): string | null => {
   const val = input.replace(/ +/, '');
@@ -30,9 +28,11 @@ const formatHexColor = (input: string): string | null => {
   const matchRGB = val.match(/(rgb)?\([0-9]{1,3},[0-9]{1,3},[0-9]{1,3}\)(?!.)/i);
   if (matchRGB) {
     const rgb = matchRGB[0].match(/[0-9]{1,3},[0-9]{1,3},[0-9]{1,3}/)[0].split(',');
-    let hex = (parseInt(rgb[0], 10) * 65536
-              + parseInt(rgb[1], 10) * 256
-              + parseInt(rgb[2], 10)).toString(16);
+    let hex = (
+      parseInt(rgb[0], 10) * 65536 +
+      parseInt(rgb[1], 10) * 256 +
+      parseInt(rgb[2], 10)
+    ).toString(16);
     if (hex === 'NaN') {
       hex = '0';
     }
@@ -178,7 +178,9 @@ const EditableCell = ({
     <td {...restProps}>
       <InputKeyWrapper inputRef={inputRef}>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          {dataIndex === 'color' && <div style={{ background: record.color }} className="config-color-block" />}
+          {dataIndex === 'color' && (
+            <div style={{ background: record.color }} className="config-color-block" />
+          )}
           {childNode}
         </div>
       </InputKeyWrapper>
@@ -191,6 +193,10 @@ type EditableTableProps = Parameters<typeof Table>[0];
 type ColumnTypes = Exclude<EditableTableProps['columns'], undefined>;
 
 const LayerColorConfigPanel = (props: Props): JSX.Element => {
+  const {
+    global: tGlobal,
+    beambox: { layer_color_config_panel: t },
+  } = useI18n();
   const [displayAddPanel, setDisplayAddPanel] = useState(false);
   const { onClose } = props;
 
@@ -200,10 +206,12 @@ const LayerColorConfigPanel = (props: Props): JSX.Element => {
 
   const initConfigs = layerColorConfigSettings?.array || [...DefaultColorConfigs];
 
-  const [dataSource, setDataSource] = useState<DataType[]>(initConfigs.map((config) => ({
-    key: config.color,
-    ...config,
-  })));
+  const [dataSource, setDataSource] = useState<DataType[]>(
+    initConfigs.map((config) => ({
+      key: config.color,
+      ...config,
+    }))
+  );
 
   const handleDelete = (key: React.Key) => {
     const newData = dataSource.filter((item) => item.key !== key);
@@ -230,14 +238,14 @@ const LayerColorConfigPanel = (props: Props): JSX.Element => {
     validator?: (val: string) => string;
   })[] = [
     {
-      title: LANG.color,
+      title: t.color,
       dataIndex: 'color',
       editable: true,
       validator: (value) => formatHexColor(value) || value,
       width: '130px',
     },
     {
-      title: LANG.speed,
+      title: t.speed,
       dataIndex: 'speed',
       editable: true,
       min: 0,
@@ -246,7 +254,7 @@ const LayerColorConfigPanel = (props: Props): JSX.Element => {
       width: '60px',
     },
     {
-      title: LANG.power,
+      title: t.power,
       dataIndex: 'power',
       editable: true,
       min: 0,
@@ -255,7 +263,7 @@ const LayerColorConfigPanel = (props: Props): JSX.Element => {
       width: '60px',
     },
     {
-      title: LANG.repeat,
+      title: t.repeat,
       dataIndex: 'repeat',
       editable: true,
       min: 0,
@@ -291,12 +299,14 @@ const LayerColorConfigPanel = (props: Props): JSX.Element => {
   const onResetDefault = () => {
     Alert.popUp({
       buttonType: AlertConstants.YES_NO,
-      message: LANG.sure_to_reset,
+      message: t.sure_to_reset,
       onYes: () => {
-        setDataSource(DefaultColorConfigs.map((config) => ({
-          key: config.color,
-          ...config,
-        })));
+        setDataSource(
+          DefaultColorConfigs.map((config) => ({
+            key: config.color,
+            ...config,
+          }))
+        );
       },
     });
   };
@@ -314,13 +324,13 @@ const LayerColorConfigPanel = (props: Props): JSX.Element => {
 
   const renderFooter = () => [
     <Button key="reset" type="dashed" onClick={onResetDefault}>
-      {LANG.default}
+      {t.default}
     </Button>,
     <Button key="cancel" onClick={onClose}>
-      {LANG.cancel}
+      {tGlobal.cancel}
     </Button>,
     <Button key="save" type="primary" onClick={onSave}>
-      {LANG.save}
+      {tGlobal.save}
     </Button>,
   ];
 
@@ -328,12 +338,12 @@ const LayerColorConfigPanel = (props: Props): JSX.Element => {
     if (!config.color) {
       Alert.popUp({
         type: AlertConstants.SHOW_POPUP_ERROR,
-        message: LANG.no_input,
+        message: t.no_input,
       });
     } else if (hasColor(config.color)) {
       Alert.popUp({
         type: AlertConstants.SHOW_POPUP_ERROR,
-        message: LANG.in_use,
+        message: t.in_use,
       });
     } else {
       setDataSource((prev) => [...prev, { key: config.color, ...config }]);
@@ -342,11 +352,11 @@ const LayerColorConfigPanel = (props: Props): JSX.Element => {
   };
 
   const render = () => (
-    <Modal open centered onCancel={onClose} title={LANG.layer_color_config} footer={renderFooter()}>
+    <Modal open centered onCancel={onClose} title={t.layer_color_config} footer={renderFooter()}>
       <Space direction="vertical" style={{ width: '100%' }}>
         <Button type="primary" onClick={() => setDisplayAddPanel(true)}>
           <PlusCircleFilled />
-          {LANG.add_config}
+          {t.add_config}
         </Button>
         <Table
           pagination={{ pageSize: 8 }}

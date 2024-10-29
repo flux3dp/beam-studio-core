@@ -5,6 +5,7 @@ const lang: ILang = {
   global: {
     cancel: '取消',
     back: '返回',
+    save: '储存',
   },
   general: {
     processing: '处理中...',
@@ -772,8 +773,6 @@ const lang: ILang = {
         engrave: '雕刻',
         more: '管理',
         apply: '套用',
-        cancel: '取消',
-        save: '储存参数',
         custom_preset: '自订',
         various_preset: '多个参数',
         module: '模块',
@@ -1101,8 +1100,6 @@ const lang: ILang = {
       ultra: '极高',
       enable: '啟用',
       disable: '关闭',
-      cancel: '取消',
-      save: '储存',
       notification: {
         changeFromPrintingWorkareaTitle: '您要将打印图层转换至雷射图层吗？',
       },
@@ -1185,8 +1182,6 @@ const lang: ILang = {
       speed: '速度',
       repeat: '执行次数',
       add: '新增',
-      save: '储存',
-      cancel: '取消',
       default: '回复预设',
       add_config: '新增颜色',
       in_use: '此颜色已在使用中。',
@@ -1957,6 +1952,26 @@ const lang: ILang = {
   web_cam: {
     no_permission: 'Beam Studio 没有权限访问相机。请确保在浏览器设置或系统设置中已授予 Beam Studio 权限。',
     no_device: '无法检测到摄像设备。请重新连接摄像头，然后重试。',
+  },
+  promark_settings: {
+    title: 'Promark设置',
+    field: '区域',
+    red_dot: '红点',
+    galvo_configuration: 'Galvo 配置',
+    switchXY: '切换 X/Y',
+    workarea_hint: '您可以在“文档设置”中更改工作区域。',
+    offsetX: '偏移 X',
+    offsetY: '偏移 Y',
+    angle: '角度',
+    scaleX: '缩放 X',
+    scaleY: '缩放 Y',
+    scale: '缩放',
+    bulge: '桶形',
+    skew: '倾斜',
+    trapezoid: '梯形',
+    mark_parameters: '打标参数',
+    preview: '预览',
+    mark: '标记',
   },
 };
 

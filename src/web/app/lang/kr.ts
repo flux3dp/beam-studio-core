@@ -5,6 +5,7 @@ const lang: ILang = {
   global: {
     cancel: '취소',
     back: '뒤로',
+    save: '저장',
   },
   general: {
     processing: '처리 중...',
@@ -772,8 +773,6 @@ const lang: ILang = {
         engrave: '각인',
         more: '관리',
         apply: '적용',
-        cancel: '취소',
-        save: '저장',
         custom_preset: '사용자 정의',
         various_preset: '다양한 프리셋',
         module: '모듈',
@@ -1101,8 +1100,6 @@ const lang: ILang = {
       ultra: '최고',
       enable: '사용',
       disable: '비활성화',
-      cancel: '취소',
-      save: '저장',
       notification: {
         changeFromPrintingWorkareaTitle: '인쇄 레이어를 레이저 레이어로 변환하시겠습니까?',
       },
@@ -1185,8 +1182,6 @@ const lang: ILang = {
       speed: '속도',
       repeat: '실행',
       add: '추가',
-      save: '저장',
-      cancel: '취소',
       default: '기본값으로 재설정',
       add_config: '색상 추가',
       in_use: '이 색상을 사용 중입니다.',
@@ -1955,6 +1950,26 @@ const lang: ILang = {
   web_cam: {
     no_permission: 'Beam Studio는 카메라에 액세스할 권한이 없습니다. 브라우저 설정 또는 시스템 설정에서 Beam Studio에 권한이 부여되었는지 확인하십시오.',
     no_device: '카메라 장치를 감지할 수 없습니다. 카메라를 다시 연결하고 다시 시도하십시오.',
+  },
+  promark_settings: {
+    title: 'Promark 설정',
+    field: '필드',
+    red_dot: '빨간 점',
+    galvo_configuration: '갈보 설정',
+    switchXY: 'X/Y 전환',
+    workarea_hint: '작업 영역은 "문서 설정"에서 변경할 수 있습니다.',
+    offsetX: '오프셋 X',
+    offsetY: '오프셋 Y',
+    angle: '각도',
+    scaleX: '스케일 X',
+    scaleY: '스케일 Y',
+    scale: '스케일',
+    bulge: '볼록함',
+    skew: '기울기',
+    trapezoid: '사다리꼴',
+    mark_parameters: '마킹 매개변수',
+    preview: '미리보기',
+    mark: '표시',
   },
 };
 

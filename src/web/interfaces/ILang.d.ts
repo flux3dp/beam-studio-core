@@ -1,5 +1,5 @@
 export interface ILang {
-  global: Record<'cancel' | 'back', string>;
+  global: Record<'cancel' | 'back' | 'save', string>;
   general: {
     processing: string;
     choose_folder: string;
@@ -766,8 +766,6 @@ export interface ILang {
         engrave: string;
         more: string;
         apply: string;
-        cancel: string;
-        save: string;
         custom_preset: string;
         various_preset: string;
         module: string;
@@ -1095,8 +1093,6 @@ export interface ILang {
       ultra: string;
       enable: string;
       disable: string;
-      cancel: string;
-      save: string;
       notification: {
         changeFromPrintingWorkareaTitle: string;
       };
@@ -1179,8 +1175,6 @@ export interface ILang {
       speed: string;
       repeat: string;
       add: string;
-      save: string;
-      cancel: string;
       default: string;
       add_config: string;
       in_use: string;
@@ -1954,5 +1948,25 @@ export interface ILang {
   web_cam: {
     no_permission: string;
     no_device: string;
+  };
+  promark_settings: {
+    title: string;
+    field: string;
+    red_dot: string;
+    galvo_configuration: string;
+    switchXY: string;
+    workarea_hint: string;
+    offsetX: string;
+    offsetY: string;
+    angle: string;
+    scaleX: string;
+    scaleY: string;
+    scale: string;
+    bulge: string;
+    skew: string;
+    trapezoid: string;
+    mark_parameters: string;
+    preview: string;
+    mark: string;
   };
 }

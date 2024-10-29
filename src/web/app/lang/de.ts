@@ -5,6 +5,7 @@ const lang: ILang = {
   global: {
     cancel: 'Abbrechen',
     back: 'Zurück',
+    save: 'Speichern',
   },
   general: {
     processing: 'Verarbeitung...',
@@ -772,8 +773,6 @@ const lang: ILang = {
         engrave: 'Gravieren',
         more: 'Verwalten',
         apply: 'Anwenden',
-        cancel: 'Stornieren',
-        save: 'Speichern',
         custom_preset: 'Benutzerdefiniert',
         various_preset: 'Mehrere Voreinstellungen',
         module: 'Modul',
@@ -1101,8 +1100,6 @@ const lang: ILang = {
       ultra: 'Ultra Hoch',
       enable: 'Aktivieren',
       disable: 'Deaktivieren',
-      cancel: 'Stornieren',
-      save: 'Speichern',
       notification: {
         changeFromPrintingWorkareaTitle: 'Möchten Sie die Druckschichten in Laserschichten umwandeln?',
       },
@@ -1185,8 +1182,6 @@ const lang: ILang = {
       speed: 'Geschwindigkeit',
       repeat: 'Ausführen',
       add: 'Hinzufügen',
-      save: 'Speichern',
-      cancel: 'Stornieren',
       default: 'Zurücksetzen',
       add_config: 'Farbe hinzufügen',
       in_use: 'Diese Farbe wird verwendet.',
@@ -1957,6 +1952,26 @@ const lang: ILang = {
   web_cam: {
     no_permission: 'Beam Studio hat keine Berechtigung, auf die Kamera zuzugreifen. Stellen Sie sicher, dass die Berechtigung für Beam Studio in den Browser- oder Systemeinstellungen erteilt wurde.',
     no_device: 'Kameragerät kann nicht erkannt werden. Bitte schließen Sie die Kamera erneut an und versuchen Sie es erneut.',
+  },
+  promark_settings: {
+    title: 'Promark-Einstellungen',
+    field: 'Feld',
+    red_dot: 'Roter Punkt',
+    galvo_configuration: 'Galvo-Konfiguration',
+    switchXY: 'X/Y wechseln',
+    workarea_hint: 'Sie können den Arbeitsbereich in den "Dokumenteinstellungen" ändern.',
+    offsetX: 'Versatz X',
+    offsetY: 'Versatz Y',
+    angle: 'Winkel',
+    scaleX: 'Skalierung X',
+    scaleY: 'Skalierung Y',
+    scale: 'Skalierung',
+    bulge: 'Wölbung',
+    skew: 'Schrägstellung',
+    trapezoid: 'Trapez',
+    mark_parameters: 'Markierungsparameter',
+    preview: 'Vorschau',
+    mark: 'Markieren',
   },
 };
 

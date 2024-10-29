@@ -5,6 +5,7 @@ const lang: ILang = {
   global: {
     cancel: 'Annuleren',
     back: 'Terug',
+    save: 'Opslaan',
   },
   general: {
     processing: 'Verwerken...',
@@ -769,8 +770,6 @@ const lang: ILang = {
         engrave: 'Graveren',
         more: 'Beheren',
         apply: 'Toepassen',
-        cancel: 'Annuleren',
-        save: 'Opslaan',
         custom_preset: 'Aangepast',
         various_preset: 'Diverse voorinstellingen',
         module: 'Module',
@@ -1098,8 +1097,6 @@ const lang: ILang = {
       ultra: 'Ultra hoog',
       enable: 'Inschakelen',
       disable: 'Uitschakelen',
-      cancel: 'Annuleren',
-      save: 'Opslaan',
       notification: {
         changeFromPrintingWorkareaTitle: 'Wilt u de printlagen converteren naar laslagen?',
       },
@@ -1182,8 +1179,6 @@ const lang: ILang = {
       speed: 'Snelheid',
       repeat: 'Uitvoeren',
       add: 'Toevoegen',
-      save: 'Opslaan',
-      cancel: 'Annuleren',
       default: 'Terugzetten naar standaard',
       add_config: 'Kleur toevoegen',
       in_use: 'Deze kleur wordt gebruikt.',
@@ -1952,6 +1947,26 @@ const lang: ILang = {
   web_cam: {
     no_permission: 'Beam Studio heeft geen toestemming om toegang te krijgen tot de camera. Zorg ervoor dat de toestemming is verleend aan Beam Studio in de browser- of systeeminstellingen.',
     no_device: 'Kan camera-apparaat niet detecteren. Sluit de camera opnieuw aan en probeer het opnieuw.',
+  },
+  promark_settings: {
+    title: 'Promark-instellingen',
+    field: 'Veld',
+    red_dot: 'Rode stip',
+    galvo_configuration: 'Galvo-configuratie',
+    switchXY: 'X/Y wisselen',
+    workarea_hint: 'U kunt het werkgebied wijzigen in "Documentinstellingen".',
+    offsetX: 'Offset X',
+    offsetY: 'Offset Y',
+    angle: 'Hoek',
+    scaleX: 'Schaal X',
+    scaleY: 'Schaal Y',
+    scale: 'Schaal',
+    bulge: 'Bolling',
+    skew: 'Scheefheid',
+    trapezoid: 'Trapezium',
+    mark_parameters: 'Markeerparameters',
+    preview: 'Voorvertoning',
+    mark: 'Markeren',
   },
 };
 

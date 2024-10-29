@@ -5,6 +5,7 @@ const lang: ILang = {
   global: {
     cancel: 'Avbryt',
     back: 'Tilbake',
+    save: 'Lagre',
   },
   general: {
     processing: 'Behandler...',
@@ -769,8 +770,6 @@ const lang: ILang = {
         engrave: 'Graver',
         more: 'Administrer',
         apply: 'Bruk',
-        cancel: 'Avbryt',
-        save: 'Lagre',
         custom_preset: 'Tilpasset',
         various_preset: 'Diverse forhåndsinnstillinger',
         module: 'Modul',
@@ -1098,8 +1097,6 @@ const lang: ILang = {
       ultra: 'Ultra høy',
       enable: 'Aktiver',
       disable: 'Deaktiver',
-      cancel: 'Avbryt',
-      save: 'Lagre',
       notification: {
         changeFromPrintingWorkareaTitle: 'Vil du konvertere Utskriftslag til Laserlag?',
       },
@@ -1182,8 +1179,6 @@ const lang: ILang = {
       speed: 'Hastighet',
       repeat: 'Gjenta',
       add: 'Legg til',
-      save: 'Lagre',
-      cancel: 'Avbryt',
       default: 'Tilbakestill til standard',
       add_config: 'Legg til farge',
       in_use: 'Denne fargen er i bruk.',
@@ -1952,6 +1947,26 @@ const lang: ILang = {
   web_cam: {
     no_permission: 'Beam Studio har ikke tillatelse til å få tilgang til kameraet. Sørg for at tillatelsen er gitt til Beam Studio i nettleserinnstillingene eller systeminnstillingene.',
     no_device: 'Kan ikke oppdage kameramaskinen. Vennligst koble til kameraet på nytt og prøv igjen.',
+  },
+  promark_settings: {
+    title: 'Promark-innstillinger',
+    field: 'Felt',
+    red_dot: 'Rød prikk',
+    galvo_configuration: 'Galvo-konfigurasjon',
+    switchXY: 'Bytt X/Y',
+    workarea_hint: 'Du kan endre arbeidsområdet i "Dokumentinnstillinger".',
+    offsetX: 'Forskyvning X',
+    offsetY: 'Forskyvning Y',
+    angle: 'Vinkel',
+    scaleX: 'Skala X',
+    scaleY: 'Skala Y',
+    scale: 'Skala',
+    bulge: 'Bulking',
+    skew: 'Skjevhet',
+    trapezoid: 'Trapes',
+    mark_parameters: 'Merkingsparametere',
+    preview: 'Forhåndsvisning',
+    mark: 'Merk',
   },
 };
 

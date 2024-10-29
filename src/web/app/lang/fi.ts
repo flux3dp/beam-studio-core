@@ -5,6 +5,7 @@ const lang: ILang = {
   global: {
     cancel: 'Peruuta',
     back: 'Takaisin',
+    save: 'Tallenna',
   },
   general: {
     processing: 'Käsitellään...',
@@ -769,8 +770,6 @@ const lang: ILang = {
         engrave: 'Kaiverra',
         more: 'Hallitse',
         apply: 'Käytä',
-        cancel: 'Peruuta',
-        save: 'Tallenna',
         custom_preset: 'Mukautettu',
         various_preset: 'Useita esiasetuksia',
         module: 'Moduuli',
@@ -1098,8 +1097,6 @@ const lang: ILang = {
       ultra: 'Erittäin korkea',
       enable: 'Ota käyttöön',
       disable: 'Poista käytöstä',
-      cancel: 'Peruuta',
-      save: 'Tallenna',
       notification: {
         changeFromPrintingWorkareaTitle: 'Haluatko muuntaa tulostuskerrokset laserkerroksiksi?',
       },
@@ -1182,8 +1179,6 @@ const lang: ILang = {
       speed: 'Nopeus',
       repeat: 'Suorita',
       add: 'Lisää',
-      save: 'Tallenna',
-      cancel: 'Peruuta',
       default: 'Palauta oletusarvot',
       add_config: 'Lisää väri',
       in_use: 'Tätä väriä käytetään.',
@@ -1952,6 +1947,26 @@ const lang: ILang = {
   web_cam: {
     no_permission: 'Beam Studiolla ei ole lupaa käyttää kameraa. Varmista, että lupa on myönnetty Beam Studiolle selainasetuksissa tai järjestelmäasetuksissa.',
     no_device: 'Kameralaitetta ei havaittu. Kytke kamera uudelleen ja yritä uudelleen.',
+  },
+  promark_settings: {
+    title: 'Promark-asetukset',
+    field: 'Kenttä',
+    red_dot: 'Punainen piste',
+    galvo_configuration: 'Galvo-konfiguraatio',
+    workarea_hint: 'Voit vaihtaa työalueen "Asiakirjan asetuksista".',
+    switchXY: 'Vaihda X/Y',
+    offsetX: 'Siirtymä X',
+    offsetY: 'Siirtymä Y',
+    angle: 'Kulma',
+    scaleX: 'Mittakaava X',
+    scaleY: 'Mittakaava Y',
+    scale: 'Mittakaava',
+    bulge: 'Pullistuma',
+    skew: 'Vinous',
+    trapezoid: 'Trapezoidi',
+    mark_parameters: 'Merkintäparametrit',
+    preview: 'Esikatselu',
+    mark: 'Merkitse',
   },
 };
 

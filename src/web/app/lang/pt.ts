@@ -5,6 +5,7 @@ const lang: ILang = {
   global: {
     cancel: 'Cancelar',
     back: 'Voltar',
+    save: 'Salvar',
   },
   general: {
     processing: 'Processando...',
@@ -769,8 +770,6 @@ const lang: ILang = {
         engrave: 'Gravar',
         more: 'Gerenciar',
         apply: 'Aplicar',
-        cancel: 'Cancelar',
-        save: 'Salvar',
         custom_preset: 'Personalizado',
         various_preset: 'Várias Predefinições',
         module: 'Módulo',
@@ -1098,8 +1097,6 @@ const lang: ILang = {
       ultra: 'Ultra Alto',
       enable: 'Habilitar',
       disable: 'Desabilitar',
-      cancel: 'Cancelar',
-      save: 'Salvar',
       notification: {
         changeFromPrintingWorkareaTitle: 'Deseja converter as Camadas de Impressão em Camadas de Laser?',
       },
@@ -1182,8 +1179,6 @@ const lang: ILang = {
       speed: 'Velocidade',
       repeat: 'Repetir',
       add: 'Adicionar',
-      save: 'Salvar',
-      cancel: 'Cancelar',
       default: 'Redefinir padrão',
       add_config: 'Adicionar cor',
       in_use: 'Esta cor está em uso.',
@@ -1952,6 +1947,26 @@ const lang: ILang = {
   web_cam: {
     no_permission: 'O Beam Studio não tem permissão para acessar a câmera. Certifique-se de que a permissão foi concedida ao Beam Studio nas configurações do navegador ou do sistema.',
     no_device: 'Não foi possível detectar o dispositivo da câmera. Por favor, reconecte a câmera e tente novamente.',
+  },
+  promark_settings: {
+    title: 'Configurações do Promark',
+    field: 'Campo',
+    red_dot: 'Ponto vermelho',
+    galvo_configuration: 'Configuração Galvo',
+    switchXY: 'Alternar X/Y',
+    workarea_hint: 'Você pode alterar a área de trabalho nas "Configurações do documento".',
+    offsetX: 'Deslocamento X',
+    offsetY: 'Deslocamento Y',
+    angle: 'Ângulo',
+    scaleX: 'Escala X',
+    scaleY: 'Escala Y',
+    scale: 'Escala',
+    bulge: 'Abaulamento',
+    skew: 'Inclinação',
+    trapezoid: 'Trapézio',
+    mark_parameters: 'Parâmetros de marcação',
+    preview: 'Pré-visualização',
+    mark: 'Marcar',
   },
 };
 

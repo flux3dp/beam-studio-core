@@ -5,6 +5,7 @@ const lang: ILang = {
   global: {
     cancel: 'Zrušit',
     back: 'Zpět',
+    save: 'Uložit',
   },
   general: {
     processing: 'Zpracovávám',
@@ -772,8 +773,6 @@ const lang: ILang = {
         engrave: 'Gravírovat',
         more: 'Spravovat',
         apply: 'Použít',
-        cancel: 'Storno',
-        save: 'Uložit',
         custom_preset: 'Přizpůsobit',
         various_preset: 'Různé předvolby',
         module: 'Modul',
@@ -1101,8 +1100,6 @@ const lang: ILang = {
       ultra: 'Ultravysoké',
       enable: 'Povolit',
       disable: 'Zakázat',
-      cancel: 'Storno',
-      save: 'Uložit',
       notification: {
         changeFromPrintingWorkareaTitle: 'Chcete převést Tiskové vrstvy na Laserové vrstvy?',
       },
@@ -1185,8 +1182,6 @@ const lang: ILang = {
       speed: 'Rychlost',
       repeat: 'Vykonate',
       add: 'Přidat',
-      save: 'Uložit',
-      cancel: 'Storno',
       default: 'Obnovení výchozího nastavení',
       add_config: 'Přidat barvu',
       in_use: 'Tato barva se již využívá.',
@@ -1957,6 +1952,26 @@ const lang: ILang = {
   web_cam: {
     no_permission: 'Beam Studio nemá oprávnění k přístupu k kameře. Ujistěte se, že je v nastavení prohlížeče nebo systému uděleno oprávnění pro Beam Studio.',
     no_device: 'Nelze detekovat kamerové zařízení. Znovu připojte kameru a zkuste to znovu.',
+  },
+  promark_settings: {
+    title: 'Nastavení Promark',
+    field: 'Pole',
+    red_dot: 'Červená tečka',
+    galvo_configuration: 'Konfigurace Galva',
+    switchXY: 'Přepnout X/Y',
+    workarea_hint: 'Pracovní plochu můžete změnit v "Nastavení dokumentu".',
+    offsetX: 'Posun X',
+    offsetY: 'Posun Y',
+    angle: 'Úhel',
+    scaleX: 'Měřítko X',
+    scaleY: 'Měřítko Y',
+    scale: 'Měřítko',
+    bulge: 'Vyboulení',
+    skew: 'Sklon',
+    trapezoid: 'Trapezoid',
+    mark_parameters: 'Parametry značení',
+    preview: 'Náhled',
+    mark: 'Označit',
   },
 };
 

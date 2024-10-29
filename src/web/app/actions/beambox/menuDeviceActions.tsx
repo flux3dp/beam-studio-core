@@ -28,6 +28,7 @@ import { showBB2Calibration } from 'app/components/dialogs/camera/BB2Calibration
 import { showCameraCalibration } from 'app/views/beambox/Camera-Calibration';
 import { showDiodeCalibration } from 'app/views/beambox/Diode-Calibration';
 import { showPromarkCalibration } from 'app/components/dialogs/camera/PromarkCalibration';
+import { showPromarkSettings } from 'app/components/dialogs/promark/PromarkSettings';
 
 const { lang } = i18n;
 
@@ -310,6 +311,9 @@ export default {
       callbacks: [() => Dialog.showNetworkTestingPanel(device.ipaddr), () => {}],
       primaryButtonIndex: 1,
     });
+  },
+  PROMARK_SETTINGS: async (device: IDeviceInfo): Promise<void> => {
+    showPromarkSettings(device);
   },
   CALIBRATE_BEAMBOX_CAMERA: async (device: IDeviceInfo): Promise<void> => {
     if (window.location.hash !== '#/studio/beambox') {

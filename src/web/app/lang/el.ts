@@ -5,6 +5,7 @@ const lang: ILang = {
   global: {
     cancel: 'Ακύρωση',
     back: 'Πίσω',
+    save: 'Αποθήκευση',
   },
   general: {
     processing: 'Επεξεργασία...',
@@ -769,8 +770,6 @@ const lang: ILang = {
         engrave: 'Χαράξτε',
         more: 'Διαχείριση',
         apply: 'Εφαρμογή',
-        cancel: 'Ακύρωση',
-        save: 'Αποθήκευση',
         custom_preset: 'Προσαρμοσμένο',
         various_preset: 'Διάφορες Προεπιλογές',
         module: 'Μονάδα',
@@ -1098,8 +1097,6 @@ const lang: ILang = {
       ultra: 'Πολύ υψηλή',
       enable: 'Ενεργοποίηση',
       disable: 'Απενεργοποίηση',
-      cancel: 'Ακύρωση',
-      save: 'Αποθήκευση',
       notification: {
         changeFromPrintingWorkareaTitle: 'Θέλετε να μετατρέψετε τα επίπεδα εκτύπωσης σε επίπεδα λέιζερ;',
       },
@@ -1182,8 +1179,6 @@ const lang: ILang = {
       speed: 'Ταχύτητα',
       repeat: 'Επανάληψη',
       add: 'Προσθήκη',
-      save: 'Αποθήκευση',
-      cancel: 'Ακύρωση',
       default: 'Επαναφορά στις προεπιλογές',
       add_config: 'Προσθήκη χρώματος',
       in_use: 'Αυτό το χρώμα χρησιμοποιείται.',
@@ -1952,6 +1947,26 @@ const lang: ILang = {
   web_cam: {
     no_permission: 'Το Beam Studio δεν έχει άδεια πρόσβασης στην κάμερα. Βεβαιωθείτε ότι έχει δοθεί άδεια στο Beam Studio από τις ρυθμίσεις του προγράμματος περιήγησης ή του συστήματος.',
     no_device: 'Δεν είναι δυνατή η ανίχνευση της κάμερας. Παρακαλώ συνδέστε ξανά την κάμερα και δοκιμάστε ξανά.',
+  },
+  promark_settings: {
+    title: 'Ρυθμίσεις Promark',
+    field: 'Πεδίο',
+    red_dot: 'Κόκκινη κουκκίδα',
+    galvo_configuration: 'Ρυθμίσεις Galvo',
+    switchXY: 'Εναλλαγή X/Y',
+    workarea_hint: 'Μπορείτε να αλλάξετε την περιοχή εργασίας στις "Ρυθμίσεις Εγγράφου".',
+    offsetX: 'Μετατόπιση X',
+    offsetY: 'Μετατόπιση Y',
+    angle: 'Γωνία',
+    scaleX: 'Κλίμακα X',
+    scaleY: 'Κλίμακα Y',
+    scale: 'Κλίμακα',
+    bulge: 'Εξόγκωμα',
+    skew: 'Κλίση',
+    trapezoid: 'Τραπέζιο',
+    mark_parameters: 'Παράμετροι χάραξης',
+    preview: 'Προεπισκόπηση',
+    mark: 'Σήμανση',
   },
 };
 

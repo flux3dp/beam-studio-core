@@ -5,6 +5,7 @@ const lang: ILang = {
   global: {
     cancel: 'キャンセル',
     back: '戻る',
+    save: '保存する',
   },
   general: {
     processing: '処理中...',
@@ -772,8 +773,6 @@ const lang: ILang = {
         engrave: '彫刻する',
         more: '管理する',
         apply: '適用する',
-        cancel: 'キャンセル',
-        save: '保存する',
         custom_preset: 'カスタム',
         various_preset: '複数のプリセット',
         module: 'モジュール',
@@ -1101,8 +1100,6 @@ const lang: ILang = {
       ultra: '超高',
       enable: '有効',
       disable: '無効',
-      cancel: 'キャンセル',
-      save: '保存する',
       notification: {
         changeFromPrintingWorkareaTitle: '印刷レイヤーをレーザーレイヤーに変換しますか？',
       },
@@ -1185,8 +1182,6 @@ const lang: ILang = {
       speed: '速度',
       repeat: '実行',
       add: '追加する',
-      save: '保存する',
-      cancel: 'キャンセルする',
       default: 'デフォルトにリセット',
       add_config: '色を追加',
       in_use: 'この色は使用中です。',
@@ -1955,6 +1950,26 @@ const lang: ILang = {
   web_cam: {
     no_permission: 'Beam Studioにはカメラにアクセスする許可がありません。ブラウザ設定またはシステム設定でBeam Studioに許可が付与されていることを確認してください。',
     no_device: 'カメラデバイスを検出できません。カメラを再接続して、もう一度お試しください。',
+  },
+  promark_settings: {
+    title: 'Promark 設定',
+    field: 'フィールド',
+    red_dot: '赤い点',
+    galvo_configuration: 'ガルボ設定',
+    workarea_hint: 'ワークエリアは「ドキュメント設定」で変更できます。',
+    switchXY: 'X/Y 切り替え',
+    offsetX: 'オフセット X',
+    offsetY: 'オフセット Y',
+    angle: '角度',
+    scaleX: 'スケール X',
+    scaleY: 'スケール Y',
+    scale: 'スケール',
+    bulge: '膨らみ',
+    skew: '歪み',
+    trapezoid: '台形',
+    mark_parameters: 'マーキングパラメータ',
+    preview: 'プレビュー',
+    mark: 'マーク',
   },
 };
 

@@ -5,6 +5,7 @@ const lang: ILang = {
   global: {
     cancel: 'Avbryt',
     back: 'Tillbaka',
+    save: 'Spara',
   },
   general: {
     processing: 'Bearbetar...',
@@ -769,8 +770,6 @@ const lang: ILang = {
         engrave: 'Gravera',
         more: 'Hantera',
         apply: 'Verkställ',
-        cancel: 'Avbryt',
-        save: 'Spara',
         custom_preset: 'Anpassad',
         various_preset: 'Olika förinställningar',
         module: 'Modul',
@@ -1098,8 +1097,6 @@ const lang: ILang = {
       ultra: 'Ultrahög',
       enable: 'Aktivera',
       disable: 'Inaktivera',
-      cancel: 'Avbryt',
-      save: 'Spara',
       notification: {
         changeFromPrintingWorkareaTitle: 'Vill du konvertera utskriftslagren till laserskikt?',
       },
@@ -1182,8 +1179,6 @@ const lang: ILang = {
       speed: 'Hastighet',
       repeat: 'Upprepa',
       add: 'Lägg till',
-      save: 'Spara',
-      cancel: 'Avbryt',
       default: 'Återställ till standard',
       add_config: 'Lägg till färg',
       in_use: 'Den här färgen används.',
@@ -1952,6 +1947,26 @@ const lang: ILang = {
   web_cam: {
     no_permission: 'Beam Studio har inte behörighet att komma åt kameran. Se till att behörigheten är beviljad till Beam Studio i webbläsarinställningarna eller systeminställningarna.',
     no_device: 'Kan inte hitta kameranheten. Anslut kameran igen och försök igen.',
+  },
+  promark_settings: {
+    title: 'Promark-inställningar',
+    field: 'Fält',
+    red_dot: 'Röd punkt',
+    galvo_configuration: 'Galvo-konfiguration',
+    switchXY: 'Byt X/Y',
+    workarea_hint: 'Du kan ändra arbetsområdet i "Dokumentinställningar".',
+    offsetX: 'Förskjutning X',
+    offsetY: 'Förskjutning Y',
+    angle: 'Vinkel',
+    scaleX: 'Skala X',
+    scaleY: 'Skala Y',
+    scale: 'Skala',
+    bulge: 'Utbuktning',
+    skew: 'Skevhet',
+    trapezoid: 'Trapezoid',
+    mark_parameters: 'Märkningsparametrar',
+    preview: 'Förhandsvisning',
+    mark: 'Märk',
   },
 };
 

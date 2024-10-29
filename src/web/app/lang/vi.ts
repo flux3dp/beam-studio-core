@@ -5,6 +5,7 @@ const lang: ILang = {
   global: {
     cancel: 'Hủy',
     back: 'Quay lại',
+    save: 'Lưu',
   },
   general: {
     processing: 'Đang xử lý...',
@@ -769,8 +770,6 @@ const lang: ILang = {
         engrave: 'Khắc',
         more: 'Quản lý',
         apply: 'Áp dụng',
-        cancel: 'Hủy',
-        save: 'Lưu',
         custom_preset: 'Tùy chỉnh',
         various_preset: 'Các cài đặt mặc định khác nhau',
         module: 'Mô-đun',
@@ -1098,8 +1097,6 @@ const lang: ILang = {
       ultra: 'Rất cao',
       enable: 'Bật',
       disable: 'Tắt',
-      cancel: 'Hủy',
-      save: 'Lưu',
       notification: {
         changeFromPrintingWorkareaTitle: 'Bạn có muốn chuyển các lớp in sang lớp laser không?',
       },
@@ -1182,8 +1179,6 @@ const lang: ILang = {
       speed: 'Tốc độ',
       repeat: 'Lặp lại',
       add: 'Thêm',
-      save: 'Lưu',
-      cancel: 'Hủy',
       default: 'Đặt lại mặc định',
       add_config: 'Thêm màu',
       in_use: 'Màu này đang được sử dụng',
@@ -1952,6 +1947,26 @@ const lang: ILang = {
   web_cam: {
     no_permission: 'Beam Studio không có quyền truy cập vào camera. Vui lòng đảm bảo rằng quyền đã được cấp cho Beam Studio trong cài đặt trình duyệt hoặc hệ thống.',
     no_device: 'Không thể phát hiện thiết bị camera. Vui lòng kết nối lại camera và thử lại.',
+  },
+  promark_settings: {
+    title: 'Cài đặt Promark',
+    field: 'Trường',
+    red_dot: 'Chấm Đỏ',
+    galvo_configuration: 'Cấu hình Galvo',
+    switchXY: 'Chuyển đổi X/Y',
+    workarea_hint: 'Bạn có thể thay đổi khu vực làm việc trong "Cài đặt Tài liệu".',
+    offsetX: 'Dịch chuyển X',
+    offsetY: 'Dịch chuyển Y',
+    angle: 'Góc',
+    scaleX: 'Tỉ lệ X',
+    scaleY: 'Tỉ lệ Y',
+    scale: 'Tỉ lệ',
+    bulge: 'Phồng',
+    skew: 'Nghiêng',
+    trapezoid: 'Hình thang',
+    mark_parameters: 'Tham số đánh dấu',
+    preview: 'Xem trước',
+    mark: 'Đánh dấu',
   },
 };
 

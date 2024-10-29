@@ -5,6 +5,7 @@ const lang: ILang = {
   global: {
     cancel: 'ยกเลิก',
     back: 'กลับ',
+    save: 'บันทึก',
   },
   general: {
     processing: 'กำลังประมวลผล...',
@@ -769,8 +770,6 @@ const lang: ILang = {
         engrave: 'กัดสลัก',
         more: 'จัดการ',
         apply: 'ปรับใช้',
-        cancel: 'ยกเลิก',
-        save: 'บันทึก',
         custom_preset: 'กําหนดเอง',
         various_preset: 'การตั้งค่าล่วงหน้าหลากหลาย',
         module: 'โหมด',
@@ -1098,8 +1097,6 @@ const lang: ILang = {
       ultra: 'สูงมาก',
       enable: 'เปิดใช้งาน',
       disable: 'ปิดใช้งาน',
-      cancel: 'ยกเลิก',
-      save: 'บันทึก',
       notification: {
         changeFromPrintingWorkareaTitle: 'คุณต้องการแปลงชั้นการพิมพ์เป็นชั้นเลเซอร์หรือไม่?',
       },
@@ -1182,8 +1179,6 @@ const lang: ILang = {
       speed: 'ความเร็ว',
       repeat: 'ทําซ้ํา',
       add: 'เพิ่ม',
-      save: 'บันทึก',
-      cancel: 'ยกเลิก',
       default: 'รีเซ็ตเป็นค่าเริ่มต้น',
       add_config: 'เพิ่มสี',
       in_use: 'กําลังใช้สีนี้อยู่',
@@ -1952,6 +1947,26 @@ const lang: ILang = {
   web_cam: {
     no_permission: 'Beam Studio ไม่มีสิทธิ์เข้าถึงกล้อง โปรดตรวจสอบให้แน่ใจว่า Beam Studio ได้รับสิทธิ์ในเบราว์เซอร์หรือในการตั้งค่าระบบ',
     no_device: 'ไม่สามารถตรวจพบอุปกรณ์กล้องได้ โปรดเชื่อมต่อกล้องใหม่และลองอีกครั้ง',
+  },
+  promark_settings: {
+    title: 'การตั้งค่า Promark',
+    field: 'ฟิลด์',
+    red_dot: 'จุดแดง',
+    galvo_configuration: 'การตั้งค่า Galvo',
+    switchXY: 'สลับ X/Y',
+    workarea_hint: 'คุณสามารถเปลี่ยนพื้นที่ทำงานได้ใน "การตั้งค่าเอกสาร"',
+    offsetX: 'การชดเชย X',
+    offsetY: 'การชดเชย Y',
+    angle: 'มุม',
+    scaleX: 'มาตราส่วน X',
+    scaleY: 'มาตราส่วน Y',
+    scale: 'มาตราส่วน',
+    bulge: 'การโป่งพอง',
+    skew: 'การบิดเบือน',
+    trapezoid: 'รูปสี่เหลี่ยมคางหมู',
+    mark_parameters: 'พารามิเตอร์การมาร์ก',
+    preview: 'ดูตัวอย่าง',
+    mark: 'ทำเครื่องหมาย',
   },
 };
 
