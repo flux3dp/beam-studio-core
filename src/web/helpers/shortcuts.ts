@@ -3,168 +3,157 @@ import { isMobile } from 'helpers/system-helper';
 /**
  * setting up shortcut
  */
-let root = window;
-let isMetaKey = function(keyCode) {
-    return (91 === keyCode || 93 === keyCode);
+const root = window;
+const isMetaKey = (keyCode: number) => keyCode === 91 || keyCode === 93;
+const specialKeyMap = {
+  CMD: -91,
+  L_CMD: KeycodeConstants.KEY_L_CMD,
+  R_CMD: KeycodeConstants.KEY_R_CMD,
+  SHIFT: KeycodeConstants.KEY_SHIFT,
+  CTRL: KeycodeConstants.KEY_CTRL,
+  ALT: KeycodeConstants.KEY_ALT,
+  DEL: KeycodeConstants.KEY_DEL,
+  BACK: KeycodeConstants.KEY_BACK,
+  RETURN: KeycodeConstants.KEY_RETURN,
+  TAB: KeycodeConstants.KEY_TAB,
+  ESC: KeycodeConstants.KEY_ESC,
+  LEFT: KeycodeConstants.KEY_LEFT,
+  UP: KeycodeConstants.KEY_UP,
+  RIGHT: KeycodeConstants.KEY_RIGHT,
+  DOWN: KeycodeConstants.KEY_DOWN,
+  PLUS: KeycodeConstants.KEY_PLUS,
+  MINUS: KeycodeConstants.KEY_MINUS,
+  NUM_PLUS: KeycodeConstants.KEY_NUM_PLUS,
+  NUM_MINUS: KeycodeConstants.KEY_NUM_MINUS,
+  FNKEY: window.os === 'MacOS' ? -91 : KeycodeConstants.KEY_CTRL,
+  '\\': KeycodeConstants.KEY_BACKSLASH,
+  F1: KeycodeConstants.KEY_F1,
+  F2: KeycodeConstants.KEY_F2,
 };
-let special_key_map = {
-    'CMD'    : -91,
-    'L_CMD'  : KeycodeConstants.KEY_L_CMD,
-    'R_CMD'  : KeycodeConstants.KEY_R_CMD,
-    'SHIFT'  : KeycodeConstants.KEY_SHIFT,
-    'CTRL'   : KeycodeConstants.KEY_CTRL,
-    'ALT'    : KeycodeConstants.KEY_ALT,
-    'DEL'    : KeycodeConstants.KEY_DEL,
-    'BACK'   : KeycodeConstants.KEY_BACK,
-    'RETURN' : KeycodeConstants.KEY_RETURN,
-    'TAB'    : KeycodeConstants.KEY_TAB,
-    'ESC'    : KeycodeConstants.KEY_ESC,
-    'LEFT'   : KeycodeConstants.KEY_LEFT,
-    'UP'     : KeycodeConstants.KEY_UP,
-    'RIGHT'  : KeycodeConstants.KEY_RIGHT,
-    'DOWN'   : KeycodeConstants.KEY_DOWN,
-    'PLUS'   : KeycodeConstants.KEY_PLUS,
-    'MINUS'  : KeycodeConstants.KEY_MINUS,
-    'NUM_PLUS': KeycodeConstants.KEY_NUM_PLUS,
-    'NUM_MINUS': KeycodeConstants.KEY_NUM_MINUS,
-    'FNKEY'  : (window.os === 'MacOS') ? -91 : KeycodeConstants.KEY_CTRL,
-    '\\'     : KeycodeConstants.KEY_BACKSLASH,
-}
-let events = [],
-    keyCodeStatus = [],
-    has_bind = false,
-    keyup_event = function() {
-        keyCodeStatus = [];
-    },
-    keydown_event = function(e) {
-        var matches = [];
+let events: {
+  key: string[];
+  keyCode: string;
+  callback: (e: KeyboardEvent) => void;
+  priority?: number;
+}[] = [];
+let keyCodeStatus = [];
+let hasBind = false;
+const keyupEvent = () => {
+  keyCodeStatus = [];
+};
 
-        keyup_event();
+const generateKey = (keyCodes: number[]) => keyCodes.sort().join('+');
+const matchedEvents = (keyCodes: number[]) => {
+  const keyCode = generateKey(keyCodes);
 
-        if (false === isMetaKey(e.keyCode)) {
-            keyCodeStatus.push(e.keyCode);
+  const { matches, maxPriority } = events.reduce(
+    (acc, cur) => {
+      if (cur.keyCode === keyCode) {
+        if (cur.priority > acc.maxPriority) {
+          acc.matches = [cur];
+          acc.maxPriority = cur.priority;
+        } else if (cur.priority === acc.maxPriority) {
+          acc.matches.push(cur);
         }
-
-        if (true === e.ctrlKey) {
-            keyCodeStatus.push(special_key_map.CTRL);
-        }
-
-        if (true === e.altKey) {
-            keyCodeStatus.push(special_key_map.ALT);
-        }
-
-        if (true === e.shiftKey) {
-            keyCodeStatus.push(special_key_map.SHIFT);
-        }
-
-        if (true === e.metaKey) {
-            keyCodeStatus.push(special_key_map.CMD);
-        }
-
-        keyCodeStatus = _unique(keyCodeStatus).sort();
-
-        matches = matchedEvents(keyCodeStatus);
-
-        if (0 < matches.length) {
-            keyCodeStatus = [];
-        }
-
-        matches.forEach(function(event, index) {
-            event.callback.apply(null, [e]);
-        });
+      }
+      return acc;
     },
-    initialize = function() {
-        if (false === has_bind) {
-            $(root).on('keyup', keyup_event);
-            $(root).on('keydown', keydown_event);
+    { matches: [], maxPriority: 0 }
+  );
+  return { matches, maxPriority };
+};
+const keydownEvent = (e: KeyboardEvent) => {
+  keyupEvent();
 
-            has_bind = true;
-        }
-    },
-    convertToKeyCode = function(keys) {
-        keys.forEach(function(key, index) {
-            key = key.toUpperCase();
+  if (isMetaKey(e.keyCode) === false) {
+    keyCodeStatus.push(e.keyCode);
+  }
 
-            if (true === special_key_map.hasOwnProperty(key)) {
-                key = special_key_map[key];
-            }
-            else {
-                key = key.charCodeAt(0);
-            }
+  if (e.ctrlKey === true) {
+    keyCodeStatus.push(specialKeyMap.CTRL);
+  }
 
-            keys[index] = key;
-        });
+  if (e.altKey === true) {
+    keyCodeStatus.push(specialKeyMap.ALT);
+  }
 
-        return keys;
-    },
-    generateKey = function(keyCodes) {
-        return keyCodes.sort().join('+');
-    },
-    matchedEvents = function(keyCodes) {
-        var keyCode = generateKey(keyCodes);
+  if (e.shiftKey === true) {
+    keyCodeStatus.push(specialKeyMap.SHIFT);
+  }
 
-        return events.filter(function(event) {
-            return event.keyCode === keyCode;
-        });
-    },
-    removeEvent = function(event) {
-        var currentEvent;
+  if (e.metaKey === true) {
+    keyCodeStatus.push(specialKeyMap.CMD);
+  }
 
-        for (var i = events.length - 1; i >= 0; i--) {
-            currentEvent = events[i];
+  keyCodeStatus = [...new Set(keyCodeStatus)].sort();
 
-            if (currentEvent.keyCode === event.keyCode) {
-                events.splice(i, 1);
-            }
-        }
-    },
-    unsubscribe = function() {
-        events = events.filter(e => e !== this);
-    },
-    _unique = function(arr) {
-        //this is array-unique.js
-        var unique_array = [],
-            some = function(compare) {
-                return function(el) {
-                    return compare === el;
-                };
-            };
+  const { matches } = matchedEvents(keyCodeStatus);
 
-        arr.forEach(function(el, key) {
-            if (false === unique_array.some(some(el))) {
-                unique_array.push(el);
-            }
-        });
+  if (matches.length > 0) {
+    keyCodeStatus = [];
+  }
 
-        return unique_array;
-    };
+  matches.forEach((event) => {
+    event.callback.apply(null, [e]);
+  });
+};
+const initialize = (): void => {
+  if (hasBind === false) {
+    root.addEventListener('keyup', keyupEvent);
+    root.addEventListener('keydown', keydownEvent);
+    hasBind = true;
+  }
+};
+const convertToKeyCode = (keys: string[]) => {
+  const keyCodes: number[] = keys.map((key) => {
+    const upperKey = key.toUpperCase();
+    const keycode = specialKeyMap[upperKey] ? specialKeyMap[upperKey] : upperKey.charCodeAt(0);
+    return keycode;
+  });
+  return keyCodes;
+};
+
+const unsubscribe = (evt: (typeof events)[number]) => {
+  events = events.filter((e) => e !== evt);
+};
 
 export default {
-    on: function(keys, callback) {
-        if (isMobile()) return;
-        var keyCodes = convertToKeyCode(keys);
-        let e = { key: keys, keyCode: generateKey(keyCodes), callback: callback };
-        events.push(e);
-
-        initialize();
-        return unsubscribe.bind(e);
-    },
-    off: function(keys) {
-        var keyCodes = convertToKeyCode(keys),
-            keyCode = generateKey(keyCodes);
-
-        removeEvent({ keyCode: keyCode });
-
-        return this;
-    },
-    disableAll: function() {
-        $(root).off('keyup keydown');
-        has_bind = false;
-        events = [];
-    },
-    pauseAll: function () {
-        $(root).off('keyup keydown');
-        has_bind = false;
-    },
-    initialize,
+  on(
+    keys: string[],
+    callback: (e: KeyboardEvent) => void,
+    { isBlocking = false }: { isBlocking?: boolean } = {}
+  ): (() => void) | null {
+    if (isMobile()) return null;
+    const keyCodes = convertToKeyCode(keys);
+    const e: (typeof events)[number] = {
+      key: keys,
+      keyCode: generateKey(keyCodes),
+      callback,
+      priority: 0,
+    };
+    if (isBlocking) {
+      const { maxPriority } = matchedEvents(keyCodes);
+      e.priority = maxPriority + 1;
+    }
+    events.push(e);
+    initialize();
+    return () => unsubscribe(e);
+  },
+  off(keys: string[]): void {
+    const keyCodes = convertToKeyCode(keys);
+    const keyCode = generateKey(keyCodes);
+    events = events.filter((event) => event.keyCode !== keyCode);
+  },
+  disableAll(): void {
+    root.removeEventListener('keyup', keyupEvent);
+    root.removeEventListener('keydown', keydownEvent);
+    hasBind = false;
+    events = [];
+  },
+  pauseAll(): void {
+    root.removeEventListener('keyup', keyupEvent);
+    root.removeEventListener('keydown', keydownEvent);
+    hasBind = false;
+  },
+  initialize,
 };

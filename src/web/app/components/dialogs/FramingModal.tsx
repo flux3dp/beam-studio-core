@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Button, InputNumber, Modal, Segmented, Spin, Tooltip } from 'antd';
 import { LoadingOutlined, QuestionCircleOutlined } from '@ant-design/icons';
 
@@ -8,6 +8,7 @@ import FramingTaskManager, { FramingType } from 'helpers/device/framing';
 import getDevice from 'helpers/device/get-device';
 import icons from 'app/icons/icons';
 import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
+import shortcuts from 'helpers/shortcuts';
 import useI18n from 'helpers/useI18n';
 import { addDialogComponent, isIdExist, popDialogById } from 'app/actions/dialog-controller';
 import { getSupportInfo } from 'app/constants/add-on';
@@ -19,14 +20,16 @@ import styles from './FramingModal.module.scss';
 interface Props {
   device: IDeviceInfo;
   onClose: () => void;
+  startOnOpen?: boolean;
 }
 
 // TODO: add unit test
-const FramingModal = ({ device, onClose }: Props): JSX.Element => {
+const FramingModal = ({ device, onClose, startOnOpen = false }: Props): JSX.Element => {
   const lang = useI18n();
   const t = lang.framing;
   const [playing, setPlaying] = useState<boolean>(false);
   const manager = useRef<FramingTaskManager>(null);
+  const shortcutHandler = useRef<() => void>(null);
   useEffect(() => {
     manager.current = new FramingTaskManager(device);
     manager.current.on('status-change', (status: boolean) => setPlaying(status));
@@ -50,12 +53,26 @@ const FramingModal = ({ device, onClose }: Props): JSX.Element => {
     return [FramingType.Framing, FramingType.Hull, FramingType.AreaCheck];
   }, [device.model]);
 
-  const handleOk = () => {
+  const handleStart = useCallback(() => {
     manager.current?.startFraming(type, { lowPower: supportInfo.framingLowLaser ? lowLaser : 0 });
-  };
-  const handleStop = () => {
+  }, [type, lowLaser, supportInfo.framingLowLaser]);
+  const handleStop = useCallback(() => {
     manager.current?.stopFraming();
-  };
+  }, []);
+  useEffect(() => {
+    shortcutHandler.current = playing ? handleStop : handleStart;
+  }, [playing, handleStop, handleStart]);
+  useEffect(() => {
+    if (startOnOpen) handleStart();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    const unregister = shortcuts.on(['F1'], () => shortcutHandler.current?.(), {
+      isBlocking: true,
+    });
+    return () => unregister?.();
+  }, []);
 
   return (
     <Modal
@@ -65,7 +82,6 @@ const FramingModal = ({ device, onClose }: Props): JSX.Element => {
       title={t.framing}
       maskClosable={false}
       onCancel={onClose}
-      onOk={playing ? handleStop : handleOk}
       footer={
         <div className={styles.footer}>
           <Button className={styles.button} onClick={onClose}>
@@ -73,7 +89,7 @@ const FramingModal = ({ device, onClose }: Props): JSX.Element => {
           </Button>
           <Button
             className={styles.button}
-            onClick={playing ? handleStop : handleOk}
+            onClick={playing ? handleStop : handleStart}
             type="primary"
           >
             {playing ? lang.alert.stop : lang.device.start}
@@ -158,12 +174,16 @@ const FramingModal = ({ device, onClose }: Props): JSX.Element => {
 
 export default FramingModal;
 
-export const showFramingModal = async (): Promise<void> => {
+export const showFramingModal = async (startOnOpen?: boolean): Promise<void> => {
   const { device } = await getDevice();
   if (!device) return;
   if (isIdExist('framing-modal')) return;
   addDialogComponent(
     'framing-modal',
-    <FramingModal device={device} onClose={() => popDialogById('framing-modal')} />
+    <FramingModal
+      device={device}
+      onClose={() => popDialogById('framing-modal')}
+      startOnOpen={startOnOpen}
+    />
   );
 };

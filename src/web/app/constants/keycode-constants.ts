@@ -12,7 +12,7 @@ export default {
   KEY_SHIFT: 16,
   KEY_CTRL: 17,
   KEY_ALT: 18,
-  KEY_DEL: (navigator.platform === 'Win32' ? 46 : 8), // windows: (46), osx: (8)
+  KEY_DEL: navigator.platform === 'Win32' ? 46 : 8, // windows: (46), osx: (8)
   KEY_BACK: 8,
   KEY_TAB: 9,
   KEY_ESC: 27,
@@ -27,4 +27,6 @@ export default {
   KEY_X: 88,
   KEY_NUM_PLUS: 107,
   KEY_NUM_MINUS: 109,
+  KEY_F1: 112,
+  KEY_F2: 113,
 };
