@@ -7,7 +7,7 @@ import FrameButton from './FrameButton';
 
 const mockShowFramingModal = jest.fn();
 jest.mock('app/components/dialogs/FramingModal', () => ({
-  showFramingModal: () => mockShowFramingModal(),
+  showFramingModal: (...args) => mockShowFramingModal(...args),
 }));
 
 jest.mock('helpers/useI18n', () => () => ({
@@ -23,6 +23,16 @@ jest.mock('app/contexts/CanvasContext', () => ({
     Preview: 2,
     PathPreview: 3,
   },
+}));
+
+const mockGetSelectedDevice = jest.fn();
+jest.mock('app/views/beambox/TopBar/contexts/TopBarController', () => ({
+  getSelectedDevice: () => mockGetSelectedDevice(),
+}));
+
+const mockOn = jest.fn();
+jest.mock('helpers/shortcuts', () => ({
+  on: (...args) => mockOn(...args),
 }));
 
 describe('test FrameButton', () => {
@@ -45,6 +55,18 @@ describe('test FrameButton', () => {
       </CanvasContext.Provider>
     );
     expect(container).toMatchSnapshot();
+  });
+
+  test('shortcut should work', () => {
+    render(<FrameButton />);
+    expect(mockOn).toBeCalledTimes(1);
+    expect(mockOn).toBeCalledWith(['F1'], expect.any(Function));
+    const handler = mockOn.mock.calls[0][1];
+    expect(mockShowFramingModal).not.toBeCalled();
+    mockGetSelectedDevice.mockReturnValue({ model: 'fpm1' });
+    handler();
+    expect(mockShowFramingModal).toBeCalledTimes(1);
+    expect(mockShowFramingModal).toHaveBeenLastCalledWith(true);
   });
 
   // TODO: move this to helpers/device/framing.ts
