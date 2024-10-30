@@ -19,6 +19,7 @@ import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
 import { ObjectPanelContext } from 'app/views/beambox/Right-Panels/contexts/ObjectPanelContext';
+import { promarkModels } from 'app/actions/beambox/constant';
 
 import ConfigPanelContext from './ConfigPanelContext';
 import ConfigSlider from './ConfigSlider';
@@ -59,27 +60,33 @@ const SpeedBlock = ({
     display: displayUnit,
     decimal,
     calculateUnit: fakeUnit,
+    useInch,
   } = useMemo(() => {
     const unit: 'mm' | 'inches' = storage.get('default-units') || 'mm';
     const display = { mm: 'mm/s', inches: 'in/s' }[unit];
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const calculateUnit: 'mm' | 'inch' = { mm: 'mm', inches: 'inch' }[unit] as any;
     const d = { mm: 1, inches: 2 }[unit];
-    return { display, decimal: d, calculateUnit };
+    return { display, decimal: d, calculateUnit, useInch: unit === 'inches' };
   }, []);
   const workarea: WorkAreaModel = BeamboxPreference.read('workarea');
+  const isPromark = useMemo(() => promarkModels.has(workarea), [workarea]);
   const { workareaMaxSpeed: maxValue, workareaMinSpeed } = useMemo(() => {
     const workareaObj = getWorkarea(workarea);
-    return { workareaMaxSpeed: workareaObj.maxSpeed, workareaMinSpeed: workareaObj.minSpeed };
-  }, [workarea]);
+    let min = workareaObj.minSpeed;
+    if (isPromark && useInch) min = 0.254;
+    return { workareaMaxSpeed: workareaObj.maxSpeed, workareaMinSpeed: min };
+  }, [workarea, isPromark, useInch]);
   let minValue = workareaMinSpeed;
   const enableLowSpeed = BeamboxPreference.read('enable-low-speed');
   if (minValue > 1 && enableLowSpeed) minValue = 1;
   let warningText = '';
-  if (hasVector && value > 20 && BeamboxPreference.read('vector_speed_contraint') !== false) {
-    warningText = t.speed_contrain_warning;
-  } else if (value < workareaMinSpeed && enableLowSpeed) {
-    warningText = t.low_speed_warning;
+  if (!isPromark) {
+    if (hasVector && value > 20 && BeamboxPreference.read('vector_speed_contraint') !== false) {
+      warningText = t.speed_contrain_warning;
+    } else if (value < workareaMinSpeed && enableLowSpeed) {
+      warningText = t.low_speed_warning;
+    }
   }
 
   const handleChange = (val: number) => {

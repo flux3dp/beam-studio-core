@@ -115,8 +115,8 @@ const workareaConstants: { [key in WorkAreaModel]: WorkArea } = {
     height: 150,
     pxHeight: 150 * dpmm,
     dismensionCustomizable: true,
-    maxSpeed: 3000,
-    minSpeed: 1,
+    maxSpeed: 10000,
+    minSpeed: 0.1,
   },
   flv1: {
     label: 'Lazervida',
