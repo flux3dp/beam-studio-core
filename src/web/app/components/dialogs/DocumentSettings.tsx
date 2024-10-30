@@ -7,7 +7,7 @@ import alertCaller from 'app/actions/alert-caller';
 import alertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import changeWorkarea from 'app/svgedit/operations/changeWorkarea';
-import constant from 'app/actions/beambox/constant';
+import constant, { promarkModels } from 'app/actions/beambox/constant';
 import diodeBoundaryDrawer from 'app/actions/canvas/diode-boundary-drawer';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import isDev from 'helpers/is-dev';
@@ -19,7 +19,13 @@ import Select from 'app/widgets/AntdSelect';
 import storage from 'implementations/storage';
 import UnitInput from 'app/widgets/UnitInput';
 import useI18n from 'helpers/useI18n';
+import { getPromarkInfo, setPromarkInfo } from 'helpers/device/promark/promark-info';
 import { getSupportInfo } from 'app/constants/add-on';
+import {
+  mopaWatts,
+  promarkWatts,
+  workareaOptions as pmWorkareaOptions,
+} from 'app/constants/promark-constants';
 import { WorkAreaModel, getWorkarea } from 'app/constants/workarea-constants';
 
 import styles from './DocumentSettings.module.scss';
@@ -32,7 +38,10 @@ const workareaOptions = [
   { label: 'Ador', value: 'ado1' },
 ];
 if (isDev()) workareaOptions.push({ label: 'Beambox II', value: 'fbb2' });
-if (isDev()) workareaOptions.push({ label: 'Promark', value: 'fpm1' });
+if (isDev()) {
+  workareaOptions.push({ label: 'Promark', value: 'fpm1' });
+  workareaOptions.push({ label: 'Promark MOPA', value: 'fpm1-mp' });
+}
 if (isDev()) workareaOptions.push({ label: 'Lazervida', value: 'flv1' });
 
 const dpiOptions = ['low', 'medium', 'high', 'ultra'];
@@ -49,7 +58,13 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
   const [engraveDpi, setEngraveDpi] = useState(BeamboxPreference.read('engrave_dpi'));
 
   const origWorkarea = useMemo(() => BeamboxPreference.read('workarea'), []);
+  const [pmInfo, setPmInfo] = useState(getPromarkInfo());
   const [workarea, setWorkarea] = useState<WorkAreaModel>(origWorkarea || 'fbb1b');
+  // Add suffix '-mp' to workarea for MOPA model
+  const displayWorkarea = useMemo(() => {
+    if (!promarkModels.has(workarea) || !pmInfo.isMopa) return workarea;
+    return `${workarea}-mp`;
+  }, [workarea, pmInfo.isMopa]);
   const [customDimension, setCustomDimension] = useState<
     Record<WorkAreaModel, { width: number; height: number }>
   >(BeamboxPreference.read('customized-dimension') ?? {});
@@ -149,6 +164,7 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
       if (supportInfo.hybridLaser && enableDiode) diodeBoundaryDrawer.show();
       else diodeBoundaryDrawer.hide();
     }
+    if (promarkModels.has(workarea)) setPromarkInfo(pmInfo);
     presprayArea.togglePresprayArea();
     const canvasEvents = eventEmitterFactory.createEventEmitter('canvas');
     canvasEvents.emit('document-settings-saved');
@@ -194,10 +210,15 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
             </label>
             <Select
               id="workareaSelect"
-              value={workarea}
+              value={displayWorkarea}
               className={styles.control}
               bordered
-              onChange={setWorkarea}
+              onChange={(val: string) => {
+                if (val.startsWith('fpm1')) {
+                  setPmInfo({ isMopa: val.endsWith('-mp'), watt: 20 });
+                  setWorkarea('fpm1');
+                } else setWorkarea(val as WorkAreaModel);
+              }}
             >
               {workareaOptions.map((option) => (
                 <Select.Option key={option.value} value={option.value}>
@@ -223,9 +244,29 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
                   }))
                 }
               >
-                {[110, 150, 220].map((val) => (
+                {pmWorkareaOptions.map((val) => (
                   <Select.Option key={val} value={val}>
                     {`${val} x ${val} mm`}
+                  </Select.Option>
+                ))}
+              </Select>
+            </div>
+          )}
+          {promarkModels.has(workarea) && (
+            <div className={styles.row}>
+              <label className={styles.title} htmlFor="pm-watts">
+                {tDocu.watts}:
+              </label>
+              <Select
+                id="pm-watts"
+                value={pmInfo.watt}
+                className={styles.control}
+                bordered
+                onChange={(val) => setPmInfo((cur) => ({ ...cur, watt: val }))}
+              >
+                {(pmInfo.isMopa ? mopaWatts : promarkWatts).map((val: number) => (
+                  <Select.Option key={val} value={val}>
+                    {val}W
                   </Select.Option>
                 ))}
               </Select>

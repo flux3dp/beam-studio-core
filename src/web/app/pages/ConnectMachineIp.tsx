@@ -9,7 +9,6 @@ import checkCamera from 'helpers/device/check-camera';
 import checkIPFormat from 'helpers/check-ip-format';
 import checkRpiIp from 'helpers/check-rpi-ip';
 import checkSoftwareForAdor from 'helpers/check-software';
-import constant from 'app/actions/beambox/constant';
 import Discover from 'helpers/api/discover';
 import dialogCaller from 'app/actions/dialog-caller';
 import isWeb from 'helpers/is-web';
@@ -20,6 +19,7 @@ import TestInfo from 'app/components/settings/connection/TestInfo';
 import TestState, { isTesting } from 'app/constants/connection-test';
 import useI18n from 'helpers/useI18n';
 import versionChecker from 'helpers/version-checker';
+import { adorModels, promarkModels } from 'app/actions/beambox/constant';
 import { allWorkareas } from 'app/constants/workarea-constants';
 import { IDeviceInfo } from 'interfaces/IDevice';
 
@@ -69,7 +69,7 @@ const ConnectMachineIp = (): JSX.Element => {
       model: urlParams.get('model'),
     };
   }, []);
-  const isAdor = useMemo(() => constant.adorModels.includes(model), [model]);
+  const isAdor = useMemo(() => adorModels.has(model), [model]);
   const testingIps = isUsb ? ['10.55.0.1', '10.55.0.17'] : [ipValue];
 
   const testIpFormat = () => {
@@ -203,8 +203,11 @@ const ConnectMachineIp = (): JSX.Element => {
     }
     storage.set('printer-is-ready', true);
     storage.set('selected-device', device.uuid);
-    if (constant.adorModels.includes(device.model)) {
+    if (adorModels.has(device.model)) {
       alertConfig.write('done-first-cali', true);
+    } else if (promarkModels.has(device.model)) {
+      alertConfig.write('done-first-cali', true);
+      storage.set('last-promark-serial', device.serial);
     } else if (device.model === 'fbm1') {
       alertConfig.write('done-first-cali', false);
     }

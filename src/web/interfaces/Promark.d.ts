@@ -1,4 +1,15 @@
 import { FisheyeCameraParametersV3 } from 'interfaces/FisheyePreview';
+import { mopaWatts, promarkWatts } from 'app/constants/promark-constants';
+
+export type PromarkInfo =
+  | {
+      isMopa: false;
+      watt: (typeof promarkWatts)[number];
+    }
+  | {
+      isMopa: true;
+      watt: (typeof mopaWatts)[number];
+    };
 
 export interface Field {
   offsetX: number;
@@ -21,6 +32,7 @@ export interface LensCorrection {
 }
 
 export interface PromarkStore {
+  info?: PromarkInfo;
   field?: Field;
   redDot?: RedDot;
   cameraParameters?: FisheyeCameraParametersV3;

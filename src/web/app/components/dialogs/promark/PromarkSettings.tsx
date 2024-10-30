@@ -5,7 +5,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 import checkDeviceStatus from 'helpers/check-device-status';
 import deviceMaster from 'helpers/device-master';
 import icons from 'app/icons/icons';
-import promarkDataStore from 'helpers/device/promark-data-store';
+import promarkDataStore from 'helpers/device/promark/promark-data-store';
 import storage from 'implementations/storage';
 import useI18n from 'helpers/useI18n';
 import { addDialogComponent, isIdExist, popDialogById } from 'app/actions/dialog-controller';

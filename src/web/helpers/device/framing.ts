@@ -28,7 +28,7 @@ import { getSupportInfo } from 'app/constants/add-on';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
 
-import promarkDataStore from './promark-data-store';
+import promarkDataStore from './promark/promark-data-store';
 import { calculateRedDotTransform } from './promark/calibration';
 
 // TODO: add unit test

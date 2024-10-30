@@ -4,7 +4,7 @@ import i18n from 'helpers/i18n';
 import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
 import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
 import progressCaller from 'app/actions/progress-caller';
-import promarkDataStore from 'helpers/device/promark-data-store';
+import promarkDataStore from 'helpers/device/promark/promark-data-store';
 import webcamHelper, { WebCamConnection } from 'helpers/webcam-helper';
 import workareaManager from 'app/svgedit/workarea';
 import { FisheyeCameraParameters } from 'interfaces/FisheyePreview';
@@ -19,7 +19,7 @@ class PromarkPreviewManager extends BasePreviewManager implements PreviewManager
   public isFullScreen = true;
   private fisheyeParams: FisheyeCameraParameters;
   private cameraTransformAPI: CameraTransformAPI;
-  private webCamConnection: WebCamConnection
+  private webCamConnection: WebCamConnection;
 
   constructor(device: IDeviceInfo) {
     super(device);
@@ -68,8 +68,8 @@ class PromarkPreviewManager extends BasePreviewManager implements PreviewManager
       throw new Error('Failed to set fisheye parameters');
     }
     const workarea = getWorkarea(workareaManager.model);
-    const { width, height } = workarea
-    res = await this.cameraTransformAPI.setFisheyeGrid({ x: [0, width, 10], y: [0, height, 10] })
+    const { width, height } = workarea;
+    res = await this.cameraTransformAPI.setFisheyeGrid({ x: [0, width, 10], y: [0, height, 10] });
     if (!res) {
       throw new Error('Failed to set fisheye grid');
     }
@@ -113,7 +113,7 @@ class PromarkPreviewManager extends BasePreviewManager implements PreviewManager
     return res;
   };
 
-  public previewFullWorkarea? =  async(): Promise<boolean> => {
+  public previewFullWorkarea? = async (): Promise<boolean> => {
     const res = await this.preview();
     return res;
   };
