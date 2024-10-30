@@ -34,7 +34,7 @@ jest.mock('implementations/storage', () => ({
 }));
 
 const mockPromarkUpdate = jest.fn();
-jest.mock('helpers/device/promark-data-store', () => ({
+jest.mock('helpers/device/promark/promark-data-store', () => ({
   update: (...args) => mockPromarkUpdate(...args),
 }));
 
