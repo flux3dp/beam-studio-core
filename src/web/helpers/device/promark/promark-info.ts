@@ -1,8 +1,8 @@
 import storage from 'implementations/storage';
 import TopBarController from 'app/views/beambox/TopBar/contexts/TopBarController';
 import { PromarkInfo } from 'interfaces/Promark';
-
 import { promarkModels } from 'app/actions/beambox/constant';
+
 import promarkDataStore from './promark-data-store';
 
 const defaultValue: PromarkInfo = {
