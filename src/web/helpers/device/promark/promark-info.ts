@@ -18,7 +18,6 @@ const getSerial = (): string => {
 
 export const getPromarkInfo = (): PromarkInfo => {
   const serial = getSerial();
-  if (!serial) return defaultValue;
   return promarkDataStore.get(serial, 'info') || defaultValue;
 };
 
