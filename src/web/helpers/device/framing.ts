@@ -175,6 +175,7 @@ const getAreaCheckTask = async (
 class FramingTaskManager extends EventEmitter {
   private device: IDeviceInfo | null = null;
   private isAdor = false;
+  private isFcodeV2 = false;
   private isPromark = false;
   private isWorking = false;
   private interrupted = false;
@@ -182,7 +183,6 @@ class FramingTaskManager extends EventEmitter {
   private enabledInfo: {
     lineCheckMode: boolean;
     rotary: boolean;
-    redLight: boolean;
     '24v': boolean;
   };
   private jobOrigin: { x: number; y: number } = null;
@@ -200,6 +200,7 @@ class FramingTaskManager extends EventEmitter {
     this.vc = versionChecker(device.version);
     this.isAdor = constant.adorModels.includes(device.model);
     this.isPromark = promarkModels.has(device.model);
+    this.isFcodeV2 = constant.fcodeV2Models.has(device.model);
     if (
       beamboxPreference.read('enable-job-origin') &&
       this.vc.meetRequirement(this.isAdor ? 'ADOR_JOB_ORIGIN' : 'JOB_ORIGIN')
@@ -212,7 +213,6 @@ class FramingTaskManager extends EventEmitter {
     this.enabledInfo = {
       lineCheckMode: false,
       rotary: false,
-      redLight: false,
       '24v': false,
     };
   };
@@ -346,7 +346,7 @@ class FramingTaskManager extends EventEmitter {
     if (rotaryMode && supportInfo.rotary) {
       const y = rotaryAxis.getPosition(true);
       this.rotaryInfo = { y, yRatio: getRotaryRatio(supportInfo) };
-      if (this.isAdor) this.rotaryInfo.useAAxis = true;
+      if (this.isFcodeV2) this.rotaryInfo.useAAxis = true;
     }
   };
 
@@ -433,11 +433,9 @@ class FramingTaskManager extends EventEmitter {
 
   private endTask = async () => {
     if (deviceMaster.currentControlMode === 'raw') {
-      const { device, enabledInfo } = this;
-      const supportInfo = getSupportInfo(device.model);
+      const { enabledInfo } = this;
       if (enabledInfo.lineCheckMode) await deviceMaster.rawEndLineCheckMode();
       if (enabledInfo.rotary) await deviceMaster.rawSetRotary(false);
-      if (supportInfo.redLight && enabledInfo.redLight) await deviceMaster.rawSetRedLight(false);
       await deviceMaster.rawSetLaser({ on: false, s: 0 });
       if (enabledInfo['24v']) await deviceMaster.rawSet24V(false);
       await deviceMaster.rawLooseMotor();
@@ -446,16 +444,12 @@ class FramingTaskManager extends EventEmitter {
   };
 
   private performTask = async () => {
-    const { taskPoints, device, jobOrigin, rotaryInfo } = this;
+    const { taskPoints, jobOrigin, rotaryInfo } = this;
     if (taskPoints.length === 0) return;
-    const supportInfo = getSupportInfo(device.model);
     const yKey = rotaryInfo?.useAAxis ? 'a' : 'y';
     await this.moveTo({ x: taskPoints[0][0], [yKey]: taskPoints[0][1], wait: true });
     if (this.interrupted) return;
-    if (supportInfo.redLight) {
-      await deviceMaster.rawSetRedLight(true);
-      this.enabledInfo.redLight = true;
-    } else if (this.lowPower > 0) {
+    if (this.lowPower > 0) {
       await deviceMaster.rawSetLaser({ on: true, s: this.lowPower });
       await deviceMaster.rawSet24V(true);
       this.enabledInfo['24v'] = true;
@@ -468,9 +462,7 @@ class FramingTaskManager extends EventEmitter {
     }
     if (this.interrupted) return;
     if (rotaryInfo) {
-      if (supportInfo.redLight) {
-        await deviceMaster.rawSetRedLight(false);
-      } else if (this.lowPower > 0) await deviceMaster.rawSetLaser({ on: false, s: 0 });
+      if (this.lowPower > 0) await deviceMaster.rawSetLaser({ on: false, s: 0 });
       await this.moveTo({ [yKey]: rotaryInfo.y });
       await deviceMaster.rawSetRotary(false);
       this.enabledInfo.rotary = false;
