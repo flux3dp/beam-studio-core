@@ -433,9 +433,11 @@ class FramingTaskManager extends EventEmitter {
 
   private endTask = async () => {
     if (deviceMaster.currentControlMode === 'raw') {
-      const { enabledInfo } = this;
+      const { device, enabledInfo } = this;
+      const supportInfo = getSupportInfo(device.model);
       if (enabledInfo.lineCheckMode) await deviceMaster.rawEndLineCheckMode();
       if (enabledInfo.rotary) await deviceMaster.rawSetRotary(false);
+      if (supportInfo.redLight) await deviceMaster.rawSetRedLight(true);
       await deviceMaster.rawSetLaser({ on: false, s: 0 });
       if (enabledInfo['24v']) await deviceMaster.rawSet24V(false);
       await deviceMaster.rawLooseMotor();
@@ -444,12 +446,16 @@ class FramingTaskManager extends EventEmitter {
   };
 
   private performTask = async () => {
-    const { taskPoints, jobOrigin, rotaryInfo } = this;
+    const { taskPoints, device, jobOrigin, rotaryInfo } = this;
     if (taskPoints.length === 0) return;
+    const supportInfo = getSupportInfo(device.model);
     const yKey = rotaryInfo?.useAAxis ? 'a' : 'y';
+    if (supportInfo.redLight) await deviceMaster.rawSetRedLight(false);
     await this.moveTo({ x: taskPoints[0][0], [yKey]: taskPoints[0][1], wait: true });
     if (this.interrupted) return;
-    if (this.lowPower > 0) {
+    if (supportInfo.redLight) {
+      await deviceMaster.rawSetRedLight(true);
+    } else if (this.lowPower > 0) {
       await deviceMaster.rawSetLaser({ on: true, s: this.lowPower });
       await deviceMaster.rawSet24V(true);
       this.enabledInfo['24v'] = true;
@@ -462,7 +468,9 @@ class FramingTaskManager extends EventEmitter {
     }
     if (this.interrupted) return;
     if (rotaryInfo) {
-      if (this.lowPower > 0) await deviceMaster.rawSetLaser({ on: false, s: 0 });
+      if (supportInfo.redLight) {
+        await deviceMaster.rawSetRedLight(false);
+      } else if (this.lowPower > 0) await deviceMaster.rawSetLaser({ on: false, s: 0 });
       await this.moveTo({ [yKey]: rotaryInfo.y });
       await deviceMaster.rawSetRotary(false);
       this.enabledInfo.rotary = false;
