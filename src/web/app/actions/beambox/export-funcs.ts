@@ -215,7 +215,7 @@ const fetchTaskCode = async (
     new Promise<{
       fileTimeCost: null | number;
       taskCodeBlob: Blob | null;
-      metadata: { [key: string]: string }
+      metadata: { [key: string]: string };
     }>((resolve) => {
       const names = [];
       svgeditorParser.getTaskCode(names, {

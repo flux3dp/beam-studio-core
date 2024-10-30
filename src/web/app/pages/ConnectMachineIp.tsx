@@ -9,7 +9,7 @@ import checkCamera from 'helpers/device/check-camera';
 import checkIPFormat from 'helpers/check-ip-format';
 import checkRpiIp from 'helpers/check-rpi-ip';
 import checkSoftwareForAdor from 'helpers/check-software';
-import constant from 'app/actions/beambox/constant';
+import constant, { adorModels, promarkModels } from 'app/actions/beambox/constant';
 import Discover from 'helpers/api/discover';
 import dialogCaller from 'app/actions/dialog-caller';
 import isWeb from 'helpers/is-web';
@@ -203,8 +203,11 @@ const ConnectMachineIp = (): JSX.Element => {
     }
     storage.set('printer-is-ready', true);
     storage.set('selected-device', device.uuid);
-    if (constant.adorModels.includes(device.model)) {
+    if (adorModels.has(device.model)) {
       alertConfig.write('done-first-cali', true);
+    } else if (promarkModels.has(device.model)) {
+      alertConfig.write('done-first-cali', true);
+      storage.set('last-promark-serial', device.serial);
     } else if (device.model === 'fbm1') {
       alertConfig.write('done-first-cali', false);
     }

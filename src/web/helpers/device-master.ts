@@ -29,7 +29,7 @@ import Camera from './api/camera';
 import Control from './api/control';
 import Discover from './api/discover';
 import i18n from './i18n';
-import promarkDataStore from './device/promark-data-store';
+import promarkDataStore from './device/promark/promark-data-store';
 import SwiftrayControl from './api/swiftray-control';
 import Touch from './api/touch';
 import VersionChecker from './version-checker';

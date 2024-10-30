@@ -4,7 +4,7 @@ import alertCaller from 'app/actions/alert-caller';
 import checkDeviceStatus from 'helpers/check-device-status';
 import deviceMaster from 'helpers/device-master';
 import progressCaller from 'app/actions/progress-caller';
-import promarkDataStore from 'helpers/device/promark-data-store';
+import promarkDataStore from 'helpers/device/promark/promark-data-store';
 import useI18n from 'helpers/useI18n';
 import { addDialogComponent, isIdExist, popDialogById } from 'app/actions/dialog-controller';
 import {

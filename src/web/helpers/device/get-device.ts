@@ -40,7 +40,7 @@ const getDevice = async (
         statusRes = await DeviceMaster.getReport();
       }
     } catch (error) {
-      console.error("getDeviceError", error);
+      console.error('getDeviceError', error);
       await DeviceMaster.currentDevice?.control?.killSelf();
     }
     if (!statusRes || !selectRes.success) {
@@ -71,6 +71,7 @@ const getDevice = async (
       const isNewDevice = currentDevice?.uuid !== device.uuid;
       if (isNewDevice) {
         storage.set('selected-device', device.uuid);
+        storage.set('last-promark-serial', device.serial);
       }
       const res = await DeviceMaster.select(device);
       if (res.success) {

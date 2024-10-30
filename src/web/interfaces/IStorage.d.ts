@@ -43,7 +43,8 @@ export type StorageKey =
   | 'announcement-record'
   | 'ador-backup-path'
   | 'layer-panel-height'
-  | 'promark-store';
+  | 'promark-store'
+  | 'last-promark-serial';
 
 export interface IStorage {
   get(name: StorageKey): any;
