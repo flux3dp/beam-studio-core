@@ -1,13 +1,14 @@
 import { FisheyeCameraParametersV3 } from 'interfaces/FisheyePreview';
+import { mopaWatts, promarkWatts } from 'app/constants/promark-constants';
 
 export type PromarkInfo =
   | {
       isMopa: false;
-      watt: 20 | 30 | 50;
+      watt: (typeof promarkWatts)[number];
     }
   | {
       isMopa: true;
-      watt: 20 | 60 | 100;
+      watt: (typeof mopaWatts)[number];
     };
 
 export interface Field {

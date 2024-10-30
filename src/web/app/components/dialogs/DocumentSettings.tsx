@@ -21,6 +21,11 @@ import UnitInput from 'app/widgets/UnitInput';
 import useI18n from 'helpers/useI18n';
 import { getPromarkInfo, setPromarkInfo } from 'helpers/device/promark/promark-info';
 import { getSupportInfo } from 'app/constants/add-on';
+import {
+  mopaWatts,
+  promarkWatts,
+  workareaOptions as pmWorkareaOptions,
+} from 'app/constants/promark-constants';
 import { WorkAreaModel, getWorkarea } from 'app/constants/workarea-constants';
 
 import styles from './DocumentSettings.module.scss';
@@ -239,7 +244,7 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
                   }))
                 }
               >
-                {[110, 150, 220].map((val) => (
+                {pmWorkareaOptions.map((val) => (
                   <Select.Option key={val} value={val}>
                     {`${val} x ${val} mm`}
                   </Select.Option>
@@ -259,7 +264,7 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
                 bordered
                 onChange={(val) => setPmInfo((cur) => ({ ...cur, watt: val }))}
               >
-                {(pmInfo.isMopa ? [20, 60, 100] : [20, 30, 50]).map((val) => (
+                {(pmInfo.isMopa ? mopaWatts : promarkWatts).map((val: number) => (
                   <Select.Option key={val} value={val}>
                     {val}W
                   </Select.Option>
