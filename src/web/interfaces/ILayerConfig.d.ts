@@ -1,3 +1,6 @@
+import { mopaWatts, promarkWatts } from 'app/constants/promark-constants';
+import { WorkAreaModel } from 'app/constants/workarea-constants';
+
 export type ConfigKeyTypeMap = {
   // meta configs
   configName: string;
@@ -34,6 +37,13 @@ export type ConfigKeyTypeMap = {
   wMultipass: number;
   wRepeat: number;
   uv: number;
+  // promark configs
+  frequency: number;
+  pulseWidth: number; // Mopa only
+  fillInterval: number;
+  fillAngle: number;
+  biDirectional: boolean;
+  crossHatch: boolean;
 };
 
 type ConfigKey = keyof ConfigKeyTypeMap;
@@ -46,7 +56,7 @@ export interface ConfigItem<T> {
 // Used for ConfigPanel, selected layer(s) config
 export type ILayerConfig = {
   [key in keyof ConfigKeyTypeMap]: ConfigItem<ConfigKeyTypeMap[key]>;
-}
+};
 
 // Saved parameters, containing presets and user saved configs
 export type Preset = {
@@ -55,4 +65,9 @@ export type Preset = {
   key?: string;
   hide?: boolean;
   module?: number;
-} & { [key in keyof ILayerConfig]?: ConfigKeyTypeMap[key] };
+} & Partial<ConfigKeyTypeMap>;
+
+type TPromarkDesktop = `D${(typeof promarkWatts)[number]}`;
+type TPromarkMopa = `M${(typeof mopaWatts)[number]}`;
+
+export type PresetModel = WorkAreaModel | `fpm1_${TPromarkDesktop | TPromarkMopa}`;

@@ -54,11 +54,17 @@ const attributeMap: { [key in ConfigKey]: string } = {
   ref: 'data-ref',
   focus: 'data-focus',
   focusStep: 'data-focusStep',
+  fillInterval: 'data-fillInterval',
+  frequency: 'data-frequency',
+  pulseWidth: 'data-pulseWidth',
+  fillAngle: 'data-fillAngle',
+  biDirectional: 'data-biDirectional',
+  crossHatch: 'data-crossHatch',
 };
 
 export const CUSTOM_PRESET_CONSTANT = ' ';
 
-export const defaultConfig: { [key in ConfigKey]?: ConfigKeyTypeMap[key] } = {
+export const defaultConfig: Partial<ConfigKeyTypeMap> = {
   speed: 20,
   printingSpeed: 60,
   power: 15,
@@ -90,6 +96,11 @@ export const defaultConfig: { [key in ConfigKey]?: ConfigKeyTypeMap[key] } = {
   // lower focus parameters
   focus: -2,
   focusStep: -2,
+  // promark parameters
+  fillInterval: 0.1,
+  fillAngle: 0,
+  frequency: 27,
+  pulseWidth: 100,
 };
 
 /**

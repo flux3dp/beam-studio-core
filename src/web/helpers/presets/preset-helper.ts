@@ -5,7 +5,9 @@ import dialog from 'implementations/dialog';
 import i18n from 'helpers/i18n';
 import LayerModule from 'app/constants/layer-module/layer-modules';
 import storage from 'implementations/storage';
-import { Preset } from 'interfaces/ILayerConfig';
+import { getPromarkInfo } from 'helpers/device/promark/promark-info';
+import { Preset, PresetModel } from 'interfaces/ILayerConfig';
+import { promarkModels } from 'app/actions/beambox/constant';
 import { WorkAreaModel } from 'app/constants/workarea-constants';
 
 const migrateStorage = () => {
@@ -65,7 +67,7 @@ let allPresets: Preset[];
 const getAllPresets = (): Preset[] => allPresets;
 
 let presetsCache: {
-  [model in WorkAreaModel]?: {
+  [model in PresetModel]?: {
     [module in LayerModule]?: Preset[];
   };
 } = {};
@@ -97,24 +99,35 @@ const reloadPresets = (migrate = false): void => {
   initPresets(migrate);
 };
 
+const getPresetModel = (model: PresetModel): PresetModel => {
+  if (!promarkModels.has(model)) return model;
+  const info = getPromarkInfo();
+  return `fpm1_${info.isMopa ? 'M' : 'D'}${info.watt}` as PresetModel;
+};
+
 const getDefaultPreset = (
   key: string,
-  model: WorkAreaModel,
+  model: PresetModel,
   layerModule: LayerModule = LayerModule.LASER_UNIVERSAL
-): Preset | null =>
-  defaultPresets[key]?.[model]?.[layerModule] ||
-  defaultPresets[key]?.[model]?.[LayerModule.LASER_UNIVERSAL] ||
-  null;
+): Preset | null => {
+  const presetModel = getPresetModel(model);
+  return (
+    defaultPresets[key]?.[presetModel]?.[layerModule] ||
+    defaultPresets[key]?.[presetModel]?.[LayerModule.LASER_UNIVERSAL] ||
+    null
+  );
+};
 
 const modelHasPreset = (model: WorkAreaModel, key: string): boolean =>
-  !!defaultPresets[key]?.[model];
+  !!defaultPresets[key]?.[getPresetModel(model)];
 
 const getPresetsList = (
   model: WorkAreaModel,
   layerModule: LayerModule = LayerModule.LASER_UNIVERSAL
 ): Preset[] => {
-  if (presetsCache[model]?.[layerModule]) {
-    return presetsCache[model][layerModule];
+  const presetModel = getPresetModel(model);
+  if (presetsCache[presetModel]?.[layerModule]) {
+    return presetsCache[presetModel][layerModule];
   }
   const res =
     allPresets
@@ -122,7 +135,7 @@ const getPresetsList = (
         const { key, isDefault, hide, module } = preset;
         if (hide) return null;
         if (isDefault) {
-          const defaultPreset = getDefaultPreset(key, model, layerModule);
+          const defaultPreset = getDefaultPreset(key, presetModel, layerModule);
           if (defaultPreset) return { ...defaultPreset, ...preset };
           return null;
         }
@@ -132,10 +145,10 @@ const getPresetsList = (
         return preset;
       })
       .filter((e) => e) || [];
-  if (!presetsCache[model]) {
-    presetsCache[model] = {};
+  if (!presetsCache[presetModel]) {
+    presetsCache[presetModel] = {};
   }
-  presetsCache[model][layerModule] = res;
+  presetsCache[presetModel][layerModule] = res;
   return res;
 };
 
@@ -238,6 +251,7 @@ const exportPresets = async (presets?: Preset[]): Promise<void> => {
 initPresets(true);
 
 export default {
+  getPresetModel,
   exportPresets,
   getAllPresets,
   getDefaultPreset,

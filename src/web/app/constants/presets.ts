@@ -1,11 +1,9 @@
 import LayerModule from 'app/constants/layer-module/layer-modules';
-import { Preset } from 'interfaces/ILayerConfig';
-
-import { WorkAreaModel } from './workarea-constants';
+import { Preset, PresetModel } from 'interfaces/ILayerConfig';
 
 export const presets: {
   [key: string]: {
-    [model in WorkAreaModel]?: {
+    [model in PresetModel]?: {
       [module in LayerModule]?: Preset;
     };
   };
@@ -41,7 +39,7 @@ export const presets: {
         speed: 6,
       },
     },
-    flv1 : {
+    flv1: {
       [LayerModule.LASER_UNIVERSAL]: {
         power: 100,
         speed: 6,
@@ -92,7 +90,7 @@ export const presets: {
         speed: 3,
       },
     },
-    flv1 : {
+    flv1: {
       [LayerModule.LASER_UNIVERSAL]: {
         power: 100,
         speed: 3,
