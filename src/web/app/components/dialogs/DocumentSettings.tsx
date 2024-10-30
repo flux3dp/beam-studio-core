@@ -7,7 +7,7 @@ import alertCaller from 'app/actions/alert-caller';
 import alertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import changeWorkarea from 'app/svgedit/operations/changeWorkarea';
-import constant from 'app/actions/beambox/constant';
+import constant, { promarkModels } from 'app/actions/beambox/constant';
 import diodeBoundaryDrawer from 'app/actions/canvas/diode-boundary-drawer';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import isDev from 'helpers/is-dev';
@@ -19,6 +19,7 @@ import Select from 'app/widgets/AntdSelect';
 import storage from 'implementations/storage';
 import UnitInput from 'app/widgets/UnitInput';
 import useI18n from 'helpers/useI18n';
+import { getPromarkInfo, setPromarkInfo } from 'helpers/device/promark/promark-info';
 import { getSupportInfo } from 'app/constants/add-on';
 import { WorkAreaModel, getWorkarea } from 'app/constants/workarea-constants';
 
@@ -32,7 +33,10 @@ const workareaOptions = [
   { label: 'Ador', value: 'ado1' },
 ];
 if (isDev()) workareaOptions.push({ label: 'Beambox II', value: 'fbb2' });
-if (isDev()) workareaOptions.push({ label: 'Promark', value: 'fpm1' });
+if (isDev()) {
+  workareaOptions.push({ label: 'Promark', value: 'fpm1' });
+  workareaOptions.push({ label: 'Promark MOPA', value: 'fpm1-mp' });
+}
 if (isDev()) workareaOptions.push({ label: 'Lazervida', value: 'flv1' });
 
 const dpiOptions = ['low', 'medium', 'high', 'ultra'];

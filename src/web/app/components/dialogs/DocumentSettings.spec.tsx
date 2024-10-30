@@ -79,12 +79,20 @@ jest.mock('app/actions/canvas/diode-boundary-drawer', () => ({
   hide: () => mockDiodeBoundaryDrawerHide(),
 }));
 
+const mockGetPromarkInfo = jest.fn();
+const mockSetPromarkInfo = jest.fn();
+jest.mock('helpers/device/promark/promark-info', () => ({
+  getPromarkInfo: (...args) => mockGetPromarkInfo(...args),
+  setPromarkInfo: (...args) => mockSetPromarkInfo(...args),
+}));
+
 const mockUnmount = jest.fn();
 const mockQuerySelectorAll = jest.fn();
 
 describe('test DocumentSettings', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    mockGetPromarkInfo.mockReturnValue({ isMopa: false, watt: 20 });
   });
 
   it('should render correctly for ador', async () => {
@@ -189,6 +197,11 @@ describe('test DocumentSettings', () => {
     fireEvent.click(
       baseElement.querySelectorAll('.ant-slide-up-appear .ant-select-item-option-content')[0]
     );
+    expect(baseElement.querySelector('input#pm-watts')).toBeInTheDocument();
+    act(() => fireEvent.mouseDown(baseElement.querySelector('input#pm-watts')));
+    fireEvent.click(
+      baseElement.querySelectorAll('.ant-slide-up-appear .ant-select-item-option-content')[1]
+    );
     expect(baseElement).toMatchSnapshot();
     mockQuerySelectorAll.mockReturnValueOnce([1]);
     fireEvent.click(getByText('Save'));
@@ -208,5 +221,7 @@ describe('test DocumentSettings', () => {
     expect(mockBeamboxPreferenceWrite).toHaveBeenCalledWith('customized-dimension', {
       fpm1: { width: 110, height: 110 },
     });
+    expect(mockSetPromarkInfo).toBeCalledTimes(1);
+    expect(mockSetPromarkInfo).toHaveBeenLastCalledWith({ isMopa: false, watt: 30 });
   });
 });
