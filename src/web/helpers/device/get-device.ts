@@ -8,6 +8,7 @@ import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
 import storage from 'implementations/storage';
 import TopBarController from 'app/views/beambox/TopBar/contexts/TopBarController';
 import { IDeviceInfo } from 'interfaces/IDevice';
+import { promarkModels } from 'app/actions/beambox/constant';
 import { SelectionResult } from 'app/constants/connection-constants';
 
 import DeviceMaster from '../device-master';
@@ -68,14 +69,18 @@ const getDevice = async (
     }
     TopBarController.setSelectedDevice(device);
     if (device) {
-      const isNewDevice = currentDevice?.uuid !== device.uuid;
+      const { uuid, serial, model } = device;
+      const isNewDevice = currentDevice?.uuid !== uuid;
       if (isNewDevice) {
-        storage.set('selected-device', device.uuid);
-        storage.set('last-promark-serial', device.serial);
+        storage.set('selected-device', uuid);
+        if (promarkModels.has(model)) {
+          storage.set('last-promark-serial', serial);
+          // TODO: update everythings that depends on promark info
+        }
       }
       const res = await DeviceMaster.select(device);
       if (res.success) {
-        isWorkareaMatched = device.model === BeamboxPreference.read('workarea');
+        isWorkareaMatched = model === BeamboxPreference.read('workarea');
         if (!isWorkareaMatched && isNewDevice) {
           isWorkareaMatched = await showResizeAlert(device);
         }
