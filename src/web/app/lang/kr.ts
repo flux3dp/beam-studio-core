@@ -456,7 +456,7 @@ const lang: ILang = {
     guides_origin: '가이드 원점',
     guides: '가이드',
     image_downsampling: '비트맵 미리보기 품질',
-    anti_aliasing: '안티 앨리어싱',
+    anti_aliasing: '앤티앨리어싱',
     continuous_drawing: '연속 그리기',
     trace_output: '이미지 추적 출력',
     single_object: '단일 객체',

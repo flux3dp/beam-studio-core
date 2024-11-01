@@ -453,7 +453,7 @@ const lang: ILang = {
     guides_origin: 'Veiledere opprinnelse',
     guides: 'Veiledere',
     image_downsampling: 'Bildekvalitet',
-    anti_aliasing: 'Kantutjevning',
+    anti_aliasing: 'Anti-Aliasing',
     continuous_drawing: 'Kontinuerlig tegning',
     trace_output: 'Bildesporingsutdata',
     single_object: 'Enkelt objekt',

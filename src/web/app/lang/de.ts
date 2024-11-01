@@ -201,7 +201,7 @@ const lang: ILang = {
       show_grids: 'Gitter anzeigen',
       show_rulers: 'Lineale anzeigen',
       show_layer_color: 'Ebenenfarbe verwenden',
-      anti_aliasing: 'Suavizado',
+      anti_aliasing: 'Anti-Aliasing',
       disassemble_use: 'Zerlegen',
       about: 'Über Beam Studio',
       switch_to_beta: 'Wechsle zur Beta-Version',
