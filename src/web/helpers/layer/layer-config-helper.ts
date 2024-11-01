@@ -9,6 +9,7 @@ import { getAllLayerNames, getLayerByName } from 'helpers/layer/layer-helper';
 import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 import { IBatchCommand } from 'interfaces/IHistory';
 import { ConfigKey, ConfigKeyTypeMap, ILayerConfig, Preset } from 'interfaces/ILayerConfig';
+import { promarkModels } from 'app/actions/beambox/constant';
 
 const getLayerElementByName = (layerName: string) => {
   const allLayers = Array.from(document.querySelectorAll('g.layer'));
@@ -103,6 +104,8 @@ export const defaultConfig: Partial<ConfigKeyTypeMap> = {
   pulseWidth: 100,
 };
 
+const booleanConfig: ConfigKey[] = ['fullcolor', 'ref', 'split', 'biDirectional', 'crossHatch'];
+
 /**
  * getData from layer element
  * @param layer layer Element
@@ -129,8 +132,7 @@ export const getData = <T extends ConfigKey>(
   if (['configName', 'color', 'clipRect'].includes(key)) {
     return (layer.getAttribute(attr) || defaultConfig[key]) as ConfigKeyTypeMap[T];
   }
-  if (key === 'fullcolor' || key === 'ref' || key === 'split')
-    return (layer.getAttribute(attr) === '1') as ConfigKeyTypeMap[T];
+  if (booleanConfig.includes(key)) return (layer.getAttribute(attr) === '1') as ConfigKeyTypeMap[T];
   if (key === 'module')
     return Number(layer.getAttribute(attr) || LayerModule.LASER_UNIVERSAL) as ConfigKeyTypeMap[T];
   return Number(layer.getAttribute(attr) || defaultConfig[key]) as ConfigKeyTypeMap[T];
@@ -152,7 +154,7 @@ export const writeDataLayer = <T extends ConfigKey>(
   )
     attr = attributeMap.printingSpeed;
   const originalValue = layer.getAttribute(attr);
-  if (key === 'fullcolor' || key === 'ref' || key === 'split')
+  if (booleanConfig.includes(key))
     // eslint-disable-next-line no-param-reassign
     value = (value ? '1' : undefined) as ConfigKeyTypeMap[T];
   if (value === undefined) layer.removeAttribute(attr);
@@ -200,7 +202,7 @@ export const getMultiSelectData = <T extends ConfigKey>(
           // Always use on if there is any on
           value = 1 as ConfigKeyTypeMap[T];
           break;
-        } else if (key === 'fullcolor' || key === 'ref' || key === 'split') {
+        } else if (booleanConfig.includes(key)) {
           // Always use true if there is any true
           value = true as ConfigKeyTypeMap[T];
           break;
@@ -235,12 +237,11 @@ export const cloneLayerConfig = (targetLayerName: string, baseLayerName: string)
     const targetLayer = getLayerElementByName(targetLayerName);
     if (targetLayer) {
       for (let i = 0; i < keys.length; i += 1) {
-        if (keys[i] === 'fullcolor' || keys[i] === 'ref') {
+        if (booleanConfig.includes(keys[i])) {
           if (getData(baseLayer, keys[i])) writeDataLayer(targetLayer, keys[i], true);
         } else {
           const value = getData(baseLayer, keys[i]);
-          if (value)
-            writeDataLayer(targetLayer, keys[i], getData(baseLayer, keys[i]) as number | string);
+          if (value) writeDataLayer(targetLayer, keys[i], value as number | string);
         }
       }
       updateLayerColorFilter(targetLayer as SVGGElement);
@@ -342,8 +343,29 @@ export const printerConfigKeys: ConfigKey[] = [
   'repeat',
 ];
 
+export const promarkConfigKeys: ConfigKey[] = [
+  'speed',
+  'power',
+  'repeat',
+  'pulseWidth',
+  'frequency',
+  'fillInterval',
+  'fillAngle',
+  'biDirectional',
+  'crossHatch',
+  'focus',
+  'focusStep',
+];
+
 // Forced Keys: If not set, use default value
 export const forcedKeys = ['speed', 'power', 'ink', 'multipass', 'halftone', 'repeat'];
+
+export const getConfigKeys = (module: LayerModule): ConfigKey[] => {
+  const workarea = BeamboxPreference.read('workarea');
+  if (promarkModels.has(workarea)) return promarkConfigKeys;
+  if (module === LayerModule.PRINTER) return printerConfigKeys;
+  return laserConfigKeys;
+};
 
 export const applyPreset = (
   layer: Element,
@@ -354,7 +376,7 @@ export const applyPreset = (
   const { maxSpeed, minSpeed } = getWorkarea(workarea);
   const { applyName = true, batchCmd } = opts;
   const { module } = preset;
-  const keys = module === LayerModule.PRINTER ? printerConfigKeys : laserConfigKeys;
+  const keys = getConfigKeys(module);
   for (let i = 0; i < keys.length; i += 1) {
     const key = keys[i];
     let value = preset[key];

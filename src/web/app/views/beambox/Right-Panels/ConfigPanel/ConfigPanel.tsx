@@ -39,12 +39,11 @@ import {
   CUSTOM_PRESET_CONSTANT,
   defaultConfig,
   forcedKeys,
+  getConfigKeys,
   getData,
   getLayerConfig,
   getLayersConfig,
-  laserConfigKeys,
   postPresetChange,
-  printerConfigKeys,
   writeData,
 } from 'helpers/layer/layer-config-helper';
 import { getLayerElementByName, moveToOtherLayer } from 'helpers/layer/layer-helper';
@@ -195,7 +194,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
       console.error('No such value', value);
       return;
     }
-    const changedKeys = module.value === LayerModule.PRINTER ? printerConfigKeys : laserConfigKeys;
+    const changedKeys = getConfigKeys(module.value);
     const payload: { [key: string]: string | number | boolean } = {};
     payload.configName = value;
     const { maxSpeed, minSpeed } = getWorkarea(workarea);
