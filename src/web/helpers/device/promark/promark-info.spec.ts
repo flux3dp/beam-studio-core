@@ -1,3 +1,5 @@
+import { LaserType } from 'app/constants/promark-constants';
+
 import { getPromarkInfo, setPromarkInfo } from './promark-info';
 
 const mockStorageGet = jest.fn();
@@ -24,8 +26,8 @@ describe('test promark-info', () => {
 
   test('get with top controller device', () => {
     mockGetSelectedDevice.mockReturnValue({ model: 'fpm1', serial: '123' });
-    mockGet.mockReturnValue({ isMopa: true, watt: 30 });
-    expect(getPromarkInfo()).toEqual({ isMopa: true, watt: 30 });
+    mockGet.mockReturnValue({ laserType: LaserType.MOPA, watt: 30 });
+    expect(getPromarkInfo()).toEqual({ laserType: LaserType.MOPA, watt: 30 });
     expect(mockGetSelectedDevice).toBeCalledTimes(1);
     expect(mockStorageGet).not.toBeCalled();
     expect(mockGet).toBeCalledTimes(1);
@@ -35,8 +37,8 @@ describe('test promark-info', () => {
   test('get with storage', () => {
     mockGetSelectedDevice.mockReturnValue({ model: 'fbm1', serial: '123' });
     mockStorageGet.mockReturnValue('456');
-    mockGet.mockReturnValue({ isMopa: true, watt: 50 });
-    expect(getPromarkInfo()).toEqual({ isMopa: true, watt: 50 });
+    mockGet.mockReturnValue({ laserType: LaserType.MOPA, watt: 50 });
+    expect(getPromarkInfo()).toEqual({ laserType: LaserType.MOPA, watt: 50 });
     expect(mockGetSelectedDevice).toBeCalledTimes(1);
     expect(mockStorageGet).toBeCalledTimes(1);
     expect(mockStorageGet).toBeCalledWith('last-promark-serial');
@@ -47,8 +49,8 @@ describe('test promark-info', () => {
   test('get with no serial', () => {
     mockGetSelectedDevice.mockReturnValue({ model: 'fbm1', serial: '123' });
     mockStorageGet.mockReturnValue(null);
-    mockGet.mockReturnValue({ isMopa: false, watt: 50 });
-    expect(getPromarkInfo()).toEqual({ isMopa: false, watt: 50 });
+    mockGet.mockReturnValue({ laserType: LaserType.Desktop, watt: 50 });
+    expect(getPromarkInfo()).toEqual({ laserType: LaserType.Desktop, watt: 50 });
     expect(mockGetSelectedDevice).toBeCalledTimes(1);
     expect(mockStorageGet).toBeCalledTimes(1);
     expect(mockStorageGet).toBeCalledWith('last-promark-serial');
@@ -58,9 +60,9 @@ describe('test promark-info', () => {
 
   test('set data', () => {
     mockGetSelectedDevice.mockReturnValue({ model: 'fpm1', serial: '123' });
-    setPromarkInfo({ isMopa: false, watt: 30 });
+    setPromarkInfo({ laserType: LaserType.Desktop, watt: 30 });
     expect(mockGetSelectedDevice).toBeCalledTimes(1);
     expect(mockSet).toBeCalledTimes(1);
-    expect(mockSet).toBeCalledWith('123', 'info', { isMopa: false, watt: 30 });
+    expect(mockSet).toBeCalledWith('123', 'info', { laserType: LaserType.Desktop, watt: 30 });
   });
 });
