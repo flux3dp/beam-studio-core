@@ -33,6 +33,7 @@ import { CanvasContext } from 'app/contexts/CanvasContext';
 import { DrawCommands } from 'helpers/path-preview/draw-commands';
 import { GcodePreview } from 'helpers/path-preview/draw-commands/GcodePreview';
 import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
+import { getSupportInfo } from 'app/constants/add-on';
 
 import ProgressBar from './ProgressBar';
 import { parseGcode } from '../../../views/beambox/tmpParseGcode';
@@ -492,10 +493,11 @@ class PathPreview extends React.Component<Props, State> {
     this.position = [0, 0];
     this.grid = new Grid();
     let { width, height } = workareaManager;
+    const { model } = workareaManager;
     const { dpmm } = constant;
     width /= dpmm;
     height /= dpmm;
-    if (BeamboxPreference.read('enable-job-origin')) {
+    if (BeamboxPreference.read('enable-job-origin') && getSupportInfo(model).jobOrigin) {
       this.jobOrigin = getJobOrigin();
     }
     const { x: jobOriginX = 0, y: jobOriginY = 0 } = this.jobOrigin || {};

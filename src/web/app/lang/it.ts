@@ -1074,7 +1074,7 @@ const lang: ILang = {
     document_panel: {
       document_settings: 'Impostazioni documento',
       machine: 'Macchina',
-      watts: 'Watt',
+      laser_source: 'Sorgente laser',
       workarea: 'Area di lavoro',
       rotary_mode: 'Rotativo',
       borderless_mode: 'Aperto in basso',

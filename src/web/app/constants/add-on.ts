@@ -22,6 +22,7 @@ export interface SupportInfo {
   lowerFocus: boolean;
   framingLowLaser?: boolean;
   redLight?: boolean;
+  jobOrigin?: boolean;
 }
 
 const supportList: Record<WorkAreaModel, SupportInfo> = {
@@ -37,6 +38,7 @@ const supportList: Record<WorkAreaModel, SupportInfo> = {
       mirror: false,
     },
     lowerFocus: false,
+    jobOrigin: true,
   },
   fbb1b: {
     autoFocus: false,
@@ -50,6 +52,7 @@ const supportList: Record<WorkAreaModel, SupportInfo> = {
       mirror: false,
     },
     lowerFocus: false,
+    jobOrigin: true,
   },
   fbb1p: {
     autoFocus: false,
@@ -63,6 +66,7 @@ const supportList: Record<WorkAreaModel, SupportInfo> = {
       mirror: false,
     },
     lowerFocus: false,
+    jobOrigin: true,
   },
   fhexa1: {
     autoFocus: false,
@@ -76,6 +80,7 @@ const supportList: Record<WorkAreaModel, SupportInfo> = {
       mirror: false,
     },
     lowerFocus: true,
+    jobOrigin: true,
   },
   ado1: {
     autoFocus: false,
@@ -91,6 +96,7 @@ const supportList: Record<WorkAreaModel, SupportInfo> = {
     },
     lowerFocus: true,
     framingLowLaser: true,
+    jobOrigin: true,
   },
   fbb2: {
     autoFocus: false,
@@ -105,6 +111,7 @@ const supportList: Record<WorkAreaModel, SupportInfo> = {
     },
     lowerFocus: true,
     redLight: true,
+    jobOrigin: true,
   },
   fpm1: {
     autoFocus: false,
@@ -131,16 +138,18 @@ const supportList: Record<WorkAreaModel, SupportInfo> = {
       mirror: false,
     },
     lowerFocus: false,
+    jobOrigin: true,
   },
 };
 
-export const getSupportInfo = (workarea: WorkAreaModel): SupportInfo => supportList[workarea] || {
-  autoFocus: false,
-  hybridLaser: false,
-  openBottom: false,
-  passThrough: false,
-  lowerFocus: false,
-};
+export const getSupportInfo = (workarea: WorkAreaModel): SupportInfo =>
+  supportList[workarea] || {
+    autoFocus: false,
+    hybridLaser: false,
+    openBottom: false,
+    passThrough: false,
+    lowerFocus: false,
+  };
 
 export default {
   getSupportInfo,

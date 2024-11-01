@@ -7,6 +7,7 @@ import NS from 'app/constants/namespaces';
 import presprayIconUrl from 'app/icons/prespray.svg?url';
 import undoManager from 'app/svgedit/history/undoManager';
 import workareaManager from 'app/svgedit/workarea';
+import { getSupportInfo } from 'app/constants/add-on';
 
 let presprayAreaBlock: SVGImageElement;
 
@@ -19,11 +20,13 @@ const round = (num: number, decimal: number): number => {
 };
 
 const togglePresprayArea = (): void => {
+  const { model } = workareaManager;
   const shouldShow =
     document.querySelectorAll(`g.layer[data-module="${LayerModule.PRINTER}"]:not([display="none"]`)
       .length > 0;
   const rotaryMode = beamboxPreference.read('rotary_mode');
-  const hasJobOrigin = beamboxPreference.read('enable-job-origin');
+  const hasJobOrigin =
+    beamboxPreference.read('enable-job-origin') && getSupportInfo(model).jobOrigin;
   if (shouldShow && !(rotaryMode && !hasJobOrigin)) presprayAreaBlock.removeAttribute('display');
   else presprayAreaBlock.setAttribute('display', 'none');
 };

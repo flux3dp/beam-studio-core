@@ -1,13 +1,13 @@
 import { FisheyeCameraParametersV3 } from 'interfaces/FisheyePreview';
-import { mopaWatts, promarkWatts } from 'app/constants/promark-constants';
+import { LaserType, mopaWatts, promarkWatts } from 'app/constants/promark-constants';
 
 export type PromarkInfo =
   | {
-      isMopa: false;
+      laserType: LaserType.Desktop;
       watt: (typeof promarkWatts)[number];
     }
   | {
-      isMopa: true;
+      laserType: LaserType.MOPA;
       watt: (typeof mopaWatts)[number];
     };
 

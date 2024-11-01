@@ -1077,7 +1077,7 @@ const lang: ILang = {
     document_panel: {
       document_settings: '문서 설정',
       machine: '기계',
-      watts: '와트',
+      laser_source: '레이저 소스',
       workarea: '작업 영역',
       rotary_mode: '로터리',
       borderless_mode: '열린 바닥',

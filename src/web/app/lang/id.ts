@@ -1074,7 +1074,7 @@ const lang: ILang = {
     document_panel: {
       document_settings: 'Pengaturan Dokumen',
       machine: 'Mesin',
-      watts: 'Watt',
+      laser_source: 'Sumber Laser',
       workarea: 'Area Kerja',
       rotary_mode: 'Putar',
       borderless_mode: 'Buka Bawah',

@@ -1074,7 +1074,7 @@ const lang: ILang = {
     document_panel: {
       document_settings: 'Asiakirjan asetukset',
       machine: 'Kone',
-      watts: 'Wattia',
+      laser_source: 'Laserlähde',
       workarea: 'Työalue',
       rotary_mode: 'Pyörivä',
       borderless_mode: 'Avoin pohja',

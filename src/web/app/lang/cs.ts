@@ -1077,7 +1077,7 @@ const lang: ILang = {
     document_panel: {
       document_settings: 'Nastavení dokumentu',
       machine: 'Stroj',
-      watts: 'Watty',
+      laser_source: 'Laserový zdroj',
       workarea: 'Pracovní oblast',
       rotary_mode: 'Rotační',
       borderless_mode: 'Otevřít spodní část',

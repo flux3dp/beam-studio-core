@@ -1,12 +1,13 @@
 import storage from 'implementations/storage';
 import TopBarController from 'app/views/beambox/TopBar/contexts/TopBarController';
+import { LaserType } from 'app/constants/promark-constants';
 import { PromarkInfo } from 'interfaces/Promark';
 import { promarkModels } from 'app/actions/beambox/constant';
 
 import promarkDataStore from './promark-data-store';
 
 const defaultValue: PromarkInfo = {
-  isMopa: false,
+  laserType: LaserType.Desktop,
   watt: 20,
 };
 

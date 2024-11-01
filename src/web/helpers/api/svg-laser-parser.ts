@@ -75,7 +75,8 @@ export const getExportOpt = (
     }
   }
 
-  const hasJobOrigin = BeamboxPreference.read('enable-job-origin') && supportJobOrigin;
+  const hasJobOrigin =
+    BeamboxPreference.read('enable-job-origin') && supportInfo.jobOrigin && supportJobOrigin;
   if (hasJobOrigin) {
     // firmware version / model check
     const { x, y } = getJobOrigin();
