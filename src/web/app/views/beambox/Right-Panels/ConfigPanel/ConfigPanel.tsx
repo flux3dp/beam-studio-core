@@ -48,20 +48,26 @@ import {
   writeData,
 } from 'helpers/layer/layer-config-helper';
 import { getLayerElementByName, moveToOtherLayer } from 'helpers/layer/layer-helper';
+import { getPromarkInfo } from 'helpers/device/promark/promark-info';
 import { getSupportInfo } from 'app/constants/add-on';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { getWorkarea } from 'app/constants/workarea-constants';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
+import { promarkModels } from 'app/actions/beambox/constant';
 
 import AdvancedBlock from './AdvancedBlock';
 import Backlash from './Backlash';
 import ConfigPanelContext, { getDefaultState, reducer } from './ConfigPanelContext';
+import FillAngleBlock from './FillAngleBlock';
+import FillIntervalBlock from './FillIntervalBlock';
+import FrequencyBlock from './FrequencyBlock';
 import HalftoneBlock from './HalftoneBlock';
 import InkBlock from './InkBlock';
 import ModuleBlock from './ModuleBlock';
 import MultipassBlock from './MultipassBlock';
 import ParameterTitle from './ParameterTitle';
 import PowerBlock from './PowerBlock';
+import PulseWidthBlock from './PulseWidthBlock';
 import RepeatBlock from './RepeatBlock';
 import SpeedBlock from './SpeedBlock';
 import styles from './ConfigPanel.module.scss';
@@ -85,6 +91,7 @@ interface Props {
 const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
   const { selectedLayers: initLayers } = useContext(LayerPanelContext);
   const [selectedLayers, setSelectedLayers] = useState(initLayers);
+  const [promarkInfo, setPromarkInfo] = useState(getPromarkInfo);
   const [state, dispatch] = useReducer(reducer, null, () => getDefaultState());
   useEffect(() => {
     const drawing = svgCanvas.getCurrentDrawing();
@@ -144,6 +151,15 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
   }, [workarea, initState]);
 
   useEffect(() => initState(selectedLayers), [initState, selectedLayers]);
+
+  useEffect(() => {
+    const canvasEvents = eventEmitterFactory.createEventEmitter('canvas');
+    const refreshPromarkInfo = () => setPromarkInfo(getPromarkInfo());
+    canvasEvents.on('document-settings-saved', refreshPromarkInfo);
+    return () => {
+      canvasEvents.off('document-settings-saved', refreshPromarkInfo);
+    };
+  }, []);
 
   const presetList = presetHelper.getPresetsList(workarea, state.module.value);
   const dropdownValue = useMemo(() => {
@@ -229,6 +245,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
 
   const displayName = selectedLayers.length === 1 ? selectedLayers[0] : lang.multi_layer;
 
+  const isPromark = promarkModels.has(workarea);
   const isDevMode = isDev();
   const commonContent = (
     <>
@@ -248,6 +265,14 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
         module.value === LayerModule.PRINTER &&
         fullcolor.value &&
         UIType === 'panel-item' && <WhiteInkCheckbox type={UIType} />}
+      {isPromark && (
+        <>
+          {promarkInfo.isMopa && <PulseWidthBlock type={UIType} info={promarkInfo} />}
+          <FrequencyBlock type={UIType} info={promarkInfo} />
+          <FillIntervalBlock type={UIType} />
+          <FillAngleBlock type={UIType} />
+        </>
+      )}
     </>
   );
 
@@ -259,7 +284,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
             {sprintf(lang.preset_setting, displayName)}
           </div>
           <ModuleBlock />
-          <div id='layer-parameters' className={styles.container}>
+          <div id="layer-parameters" className={styles.container}>
             <div>
               <ParameterTitle />
               <div className={styles['preset-dropdown-container']}>
