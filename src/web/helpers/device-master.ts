@@ -384,7 +384,7 @@ class DeviceMaster {
         if (res.success) {
           const newInfo = res.devices?.find((d) => d.uuid === uuid);
           console.log('newInfo serial', newInfo?.serial);
-          if (newInfo?.serial) {
+          if (newInfo?.serial?.length >= 8) {
             device.info = newInfo;
             Object.assign(deviceInfo, newInfo);
             return true;
