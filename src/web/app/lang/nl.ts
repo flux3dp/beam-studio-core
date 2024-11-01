@@ -217,7 +217,7 @@ const lang: ILang = {
         title: 'Gereedschappen',
         material_test_generator: 'Materiaaltestgenerator',
         qr_code_generator: 'QR-codegenerator',
-        boxgen: 'Boxgen',
+        box_generator: 'Doos Generator',
       },
     },
     select_machine: 'Selecteer een machine',

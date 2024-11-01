@@ -217,7 +217,7 @@ const lang: ILang = {
         title: 'Công cụ',
         material_test_generator: 'Trình tạo thử nghiệm vật liệu',
         qr_code_generator: 'Trình tạo mã QR',
-        boxgen: 'Boxgen',
+        box_generator: 'Trình Tạo Hộp',
       },
     },
     select_machine: 'Chọn máy',

@@ -217,7 +217,7 @@ const lang: ILang = {
         title: 'Nástroje',
         material_test_generator: 'Generátor testování materiálu',
         qr_code_generator: 'Generátor QR kódu',
-        boxgen: 'Generátor krabic',
+        box_generator: 'Generátor boxů',
       },
     },
     select_machine: 'Vybrat přístroj',

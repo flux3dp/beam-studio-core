@@ -217,7 +217,7 @@ const lang: ILang = {
         title: 'Työkalut',
         material_test_generator: 'Materiaalitestin Generaattori',
         qr_code_generator: 'QR-koodin Generaattori',
-        boxgen: 'Boxgen',
+        box_generator: 'Laatikkogeneraattori',
       },
     },
     select_machine: 'Valitse kone',

@@ -210,7 +210,7 @@ export interface ILang {
         title: string;
         material_test_generator: string;
         qr_code_generator: string;
-        boxgen: string;
+        box_generator: string;
       };
     };
     select_machine: string;

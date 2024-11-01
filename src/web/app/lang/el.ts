@@ -217,7 +217,7 @@ const lang: ILang = {
         title: 'Εργαλεία',
         material_test_generator: 'Γεννήτρια Δοκιμής Υλικού',
         qr_code_generator: 'Γεννήτρια Κωδικού QR',
-        boxgen: 'Boxgen',
+        box_generator: 'Γεννήτρια Κουτιού',
       },
     },
     select_machine: 'Επιλέξτε μηχανή',
