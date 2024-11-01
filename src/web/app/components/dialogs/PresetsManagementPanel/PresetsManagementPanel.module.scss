@@ -183,6 +183,11 @@ div.modal-wrap {
           .select {
             width: 120px;
           }
+
+          &.with-switch {
+            // match height with input
+            height: 32px;
+          }
         }
       }
     }
