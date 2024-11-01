@@ -1,0 +1,19 @@
+.hidden {
+  display: none;
+}
+
+.visible {
+  display: inline-block;
+}
+
+.error-span {
+  line-height: 200px;
+  vertical-align: middle;
+  text-align: center;
+  color: red;
+}
+
+.container {
+  text-align: center;
+  height: 200px;
+}

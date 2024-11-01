@@ -1,45 +1,20 @@
-import React, { useState } from 'react';
-import { Checkbox, Input, Modal, QRCode, QRCodeProps, Radio } from 'antd';
+import React from 'react';
+import { Checkbox, Input, QRCode, QRCodeProps, Radio } from 'antd';
 import { InfoCircleOutlined } from '@ant-design/icons';
 
 import browser from 'implementations/browser';
-import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import useI18n from 'helpers/useI18n';
 
 import styles from './QRCodeGenerator.module.scss';
 
-interface Props {
-  onClose: () => void;
-}
-
-const QRCodeGenerator = ({ onClose }: Props): JSX.Element => {
-  const LANG = useI18n();
-  const lang = LANG.qr_code_generator;
-  const [text, setText] = useState('');
-  const [errorLevel, setErrorLevel] = useState<QRCodeProps['errorLevel']>('L');
-  const [isInvert, setIsInvert] = useState(false);
-
-  const handleOk = () => {
-    const canvas = document.querySelector<HTMLCanvasElement>(`.${styles.qrcode} canvas`);
-    const url = canvas.toDataURL('image/png', 1);
-    FnWrapper.insertImage(url, { x: 0, y: 0, width: 500, height: 500 }, 127, {
-      useCurrentLayer: true,
-      ratioFixed: true,
-    });
-    onClose();
-  };
+const QRCodeGenerator = (): JSX.Element => {
+  const { qr_code_generator: t } = useI18n();
+  const [text, setText] = React.useState('');
+  const [errorLevel, setErrorLevel] = React.useState<QRCodeProps['errorLevel']>('L');
+  const [isInvert, setIsInvert] = React.useState(false);
 
   return (
-    <Modal
-      open
-      centered
-      title={lang.title}
-      onCancel={onClose}
-      onOk={handleOk}
-      okButtonProps={{ disabled: !text }}
-      cancelText={LANG.alert.cancel}
-      okText={LANG.alert.confirm}
-    >
+    <>
       <Input.TextArea
         className={styles.input}
         rows={5}
@@ -47,13 +22,14 @@ const QRCodeGenerator = ({ onClose }: Props): JSX.Element => {
         value={text}
         onKeyDown={(e) => e.stopPropagation()}
         onChange={(e) => setText(e.target.value)}
-        placeholder={lang.placeholder}
+        placeholder={t.placeholder}
         showCount
       />
       <div className={styles.content}>
-        <div className={styles['qrcode-container']}>
+        <div id="qrcode-container" className={styles['qrcode-container']}>
           {text ? (
             <QRCode
+              type="svg"
               className={styles.qrcode}
               value={text}
               size={1000}
@@ -62,13 +38,13 @@ const QRCodeGenerator = ({ onClose }: Props): JSX.Element => {
               bgColor={isInvert ? 'black' : 'transparent'}
             />
           ) : (
-            <div className={styles.placeholder}>{lang.preview}</div>
+            <div className={styles.placeholder}>{t.preview}</div>
           )}
         </div>
         <div className={styles.settings}>
           <div className={styles.label}>
-            {lang.error_tolerance}{' '}
-            <InfoCircleOutlined onClick={() => browser.open(lang.error_tolerance_link)} />
+            {t.error_tolerance}{' '}
+            <InfoCircleOutlined onClick={() => browser.open(t.error_tolerance_link)} />
           </div>
           <Radio.Group
             value={errorLevel}
@@ -85,11 +61,11 @@ const QRCodeGenerator = ({ onClose }: Props): JSX.Element => {
             checked={isInvert}
             onChange={() => setIsInvert(!isInvert)}
           >
-            {lang.invert}
+            {t.invert}
           </Checkbox>
         </div>
       </div>
-    </Modal>
+    </>
   );
 };
 
