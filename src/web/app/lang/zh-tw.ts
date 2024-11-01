@@ -778,6 +778,12 @@ const lang: ILang = {
         custom_preset: '自訂',
         various_preset: '多個參數',
         module: '模組',
+        pulse_width: '脈衝寬度',
+        frequency: '頻率',
+        fill_interval: '填充間隔',
+        fill_angle: '填充角度',
+        bi_directional: '雙向',
+        cross_hatch: '交叉填充',
         slider: {
           regular: '普通',
           low: '低',

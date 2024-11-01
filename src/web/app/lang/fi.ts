@@ -775,6 +775,12 @@ const lang: ILang = {
         custom_preset: 'Mukautettu',
         various_preset: 'Useita esiasetuksia',
         module: 'Moduuli',
+        pulse_width: 'Pulssin leveys',
+        frequency: 'Taajuus',
+        fill_interval: 'Täyttöväli',
+        fill_angle: 'Täyttökulma',
+        bi_directional: 'Kaksisuuntainen',
+        cross_hatch: 'Ristikkäinen Varjostus',
         slider: {
           regular: 'Normaali',
           low: 'Matala',

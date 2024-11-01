@@ -778,6 +778,12 @@ const lang: ILang = {
         custom_preset: '사용자 정의',
         various_preset: '다양한 프리셋',
         module: '모듈',
+        pulse_width: '펄스 폭',
+        frequency: '주파수',
+        fill_interval: '채우기 간격',
+        fill_angle: '채우기 각도',
+        bi_directional: '양방향',
+        cross_hatch: '교차 해칭',
         slider: {
           regular: '표준',
           low: '낮음',

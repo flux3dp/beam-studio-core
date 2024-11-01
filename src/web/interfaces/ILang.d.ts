@@ -771,6 +771,12 @@ export interface ILang {
         custom_preset: string;
         various_preset: string;
         module: string;
+        pulse_width: string;
+        frequency: string;
+        fill_interval: string;
+        fill_angle: string;
+        bi_directional: string;
+        cross_hatch: string;
         slider: {
           regular: string;
           low: string;

@@ -778,6 +778,12 @@ const lang: ILang = {
         custom_preset: 'Niestandardowe',
         various_preset: 'Różne ustawienia wstępne',
         module: 'Moduł',
+        pulse_width: 'Szerokość Impulsu',
+        frequency: 'Częstotliwość',
+        fill_interval: 'Odstęp Wypełnienia',
+        fill_angle: 'Kąt Wypełnienia',
+        bi_directional: 'Dwukierunkowy',
+        cross_hatch: 'Kratkowanie Krzyżowe',
         slider: {
           regular: 'Regularny',
           low: 'Niski',

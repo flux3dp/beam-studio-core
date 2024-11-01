@@ -778,6 +778,12 @@ const lang: ILang = {
         custom_preset: 'Přizpůsobit',
         various_preset: 'Různé předvolby',
         module: 'Modul',
+        pulse_width: 'Šířka Pulzu',
+        frequency: 'Frekvence',
+        fill_interval: 'Interval vyplnění',
+        fill_angle: 'Úhel Vyplnění',
+        bi_directional: 'Obousměrný',
+        cross_hatch: 'Křížové Stínování',
         slider: {
           regular: 'Běžné',
           low: 'Nízké',

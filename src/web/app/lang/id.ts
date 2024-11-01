@@ -775,6 +775,12 @@ const lang: ILang = {
         custom_preset: 'Kustom',
         various_preset: 'Berbagai Preset',
         module: 'Modul',
+        pulse_width: 'Lebar Denyut',
+        frequency: 'Frekuensi',
+        fill_interval: 'Jarak Isian',
+        fill_angle: 'Sudut Isian',
+        bi_directional: 'Dua Arah',
+        cross_hatch: 'Arsir Silang',
         slider: {
           regular: 'Reguler',
           low: 'Rendah',

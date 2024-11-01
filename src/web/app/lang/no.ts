@@ -775,6 +775,12 @@ const lang: ILang = {
         custom_preset: 'Tilpasset',
         various_preset: 'Diverse forhåndsinnstillinger',
         module: 'Modul',
+        pulse_width: 'Pulsbredde',
+        frequency: 'Frekvens',
+        fill_interval: 'Fyll Interval',
+        fill_angle: 'Fyll Vinkel',
+        bi_directional: 'Toveis',
+        cross_hatch: 'Krysskjerming',
         slider: {
           regular: 'Vanlig',
           low: 'Lav',
