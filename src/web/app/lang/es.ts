@@ -201,7 +201,7 @@ const lang: ILang = {
       show_grids: 'Mostrar las cuadrículas',
       show_rulers: 'Mostrar las reglas',
       show_layer_color: 'Usar el color de la capa',
-      anti_aliasing: 'Anti-Aliasing',
+      anti_aliasing: 'Suavizado',
       disassemble_use: 'Desmontar',
       about: 'Acerca de Beam Studio',
       switch_to_beta: 'Cambiar a la versión Beta',

@@ -201,7 +201,7 @@ const lang: ILang = {
       show_grids: 'Visa rutnät',
       show_rulers: 'Visa linjaler',
       show_layer_color: 'Använd lagrets färg',
-      anti_aliasing: 'Anti-aliasing',
+      anti_aliasing: 'Kantutjämning',
       disassemble_use: 'Demontera',
       about: 'Om Beam Studio',
       switch_to_beta: 'Växla till Beta-version',

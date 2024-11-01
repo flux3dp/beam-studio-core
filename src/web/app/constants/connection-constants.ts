@@ -7,6 +7,7 @@ export enum ConnectionError {
   AUTH_ERROR = 'AUTH_ERROR',
   AUTH_FAILED = 'AUTH_FAILED',
   FLUXMONITOR_VERSION_IS_TOO_OLD = 'FLUXMONITOR_VERSION_IS_TOO_OLD',
+  UPDATE_SERIAL_FAILED = 'UPDATE_SERIAL_FAILED',
 }
 
 export interface SelectionResult {

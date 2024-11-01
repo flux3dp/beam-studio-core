@@ -453,7 +453,7 @@ const lang: ILang = {
     guides_origin: 'Apuviivojen alkuperä',
     guides: 'Apuviivat',
     image_downsampling: 'Bitmap-esikatselun laatu',
-    anti_aliasing: 'Reunojen pehmennys',
+    anti_aliasing: 'Anti-Aliasing',
     continuous_drawing: 'Jatkuva piirto',
     trace_output: 'Kuvan jäljityslähtö',
     single_object: 'Yksittäinen objekti',
