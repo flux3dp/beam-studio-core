@@ -378,14 +378,31 @@ class DeviceMaster {
       this.currentDevice = device;
       console.log(`Connected to ${uuid}`);
 
-      // In order to update serial
-      const res = await swiftrayClient.listDevices();
-      if (res.success) {
-        const newInfo = res.devices?.find((d) => d.uuid === uuid);
-        if (newInfo) {
-          device.info = newInfo;
-          Object.assign(deviceInfo, newInfo);
+      const updateSerial = async () => {
+        // In order to update serial
+        const res = await swiftrayClient.listDevices();
+        if (res.success) {
+          const newInfo = res.devices?.find((d) => d.uuid === uuid);
+          console.log('newInfo serial', newInfo?.serial);
+          if (newInfo?.serial) {
+            device.info = newInfo;
+            Object.assign(deviceInfo, newInfo);
+            return true;
+          }
         }
+        return false;
+      };
+
+      const maxRetry = 3;
+      for (let i = 0; i < maxRetry; i += 1) {
+        console.log('Trying to updating serial', i);
+        const res = await updateSerial();
+        console.log('New device serial:', deviceInfo.serial);
+        if (res) break;
+        if (i === maxRetry - 1) {
+          return { success: false, error: ConnectionError.UPDATE_SERIAL_FAILED };
+        }
+        await new Promise((resolve) => setTimeout(resolve, 1000));
       }
 
       if (promarkModels.has(device.info.model)) {
@@ -396,9 +413,7 @@ class DeviceMaster {
         }
       }
       Progress.popById('select-device');
-      return {
-        success: true,
-      };
+      return { success: true };
     } catch (e) {
       let error = e;
       Progress.popById('select-device');
