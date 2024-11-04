@@ -464,7 +464,7 @@ const lang: ILang = {
     simplify_clipper_path: 'Optimalizovat vypočítanou cestu',
     enable_low_speed: 'Povolit pomalý pohyb',
     enable_custom_backlash: 'Povolit vlastní kompenzaci odporu',
-    calculation_optimization: 'Path Calculation Acceleration',
+    calculation_optimization: 'Zrychlení výpočtu cesty',
     auto_switch_tab: 'Automatický přepínač panelu vrstev a objektů',
     custom_preview_height: 'Vlastní výška náhledu',
     mask: 'Výstřižek pracovní oblasti',
