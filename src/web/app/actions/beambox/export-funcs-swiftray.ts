@@ -131,39 +131,43 @@ const getTaskCode = (codeType: 'gcode' | 'fcode', taskOptions) =>
   new Promise<{
     fileTimeCost: null | number;
     taskCodeBlob: Blob | null;
-    metadata: { [key: string]: string | number };
+    metadata: Record<string, string>;
   }>((resolve) => {
-  swiftrayClient.convert(codeType, {
-    onProgressing: (data) => {
-      Progress.update('fetch-task', {
-        message: data.message,
-        percentage: data.percentage * 100,
-      });
-    },
-    onFinished: (taskBlob, fileName, timeCost, metadata) => {
-      Progress.update('fetch-task', { message: lang.message.uploading_fcode, percentage: 100 });
-      resolve({ taskCodeBlob: taskBlob, fileTimeCost: timeCost, metadata });
-    },
-    onError: (message) => {
-      Progress.popById('fetch-task');
-      Alert.popUp({
-        id: 'get-taskcode-error',
-        message: `#806 ${message}\n${lang.beambox.bottom_right_panel.export_file_error_ask_for_upload}`,
-        type: AlertConstants.SHOW_POPUP_ERROR,
-        buttonType: AlertConstants.YES_NO,
-        onYes: () => {
-          const svgString = svgCanvas.getSvgString();
-          AwsHelper.uploadToS3('output.bvg', svgString);
+    swiftrayClient.convert(
+      codeType,
+      {
+        onProgressing: (data) => {
+          Progress.update('fetch-task', {
+            message: data.message,
+            percentage: data.percentage * 100,
+          });
         },
-      });
-      resolve({
-        taskCodeBlob: null,
-        fileTimeCost: null,
-      });
-    },
-  }, taskOptions);
-});
-
+        onFinished: (taskBlob, fileName, timeCost, metadata) => {
+          Progress.update('fetch-task', { message: lang.message.uploading_fcode, percentage: 100 });
+          resolve({ taskCodeBlob: taskBlob, fileTimeCost: timeCost, metadata });
+        },
+        onError: (message) => {
+          Progress.popById('fetch-task');
+          Alert.popUp({
+            id: 'get-taskcode-error',
+            message: `#806 ${message}\n${lang.beambox.bottom_right_panel.export_file_error_ask_for_upload}`,
+            type: AlertConstants.SHOW_POPUP_ERROR,
+            buttonType: AlertConstants.YES_NO,
+            onYes: () => {
+              const svgString = svgCanvas.getSvgString();
+              AwsHelper.uploadToS3('output.bvg', svgString);
+            },
+          });
+          resolve({
+            taskCodeBlob: null,
+            fileTimeCost: null,
+            metadata: {},
+          });
+        },
+      },
+      taskOptions
+    );
+  });
 
 // Send svg string calculate taskcode, output Fcode in default
 const fetchTaskCodeSwiftray = async (
@@ -174,6 +178,7 @@ const fetchTaskCodeSwiftray = async (
       taskCodeBlob: Blob;
       thumbnailBlobURL: string;
       fileTimeCost: number;
+      metadata: Record<string, string>;
     }
   | Record<string, never>
 > => {
@@ -273,7 +278,7 @@ const fetchTaskCodeSwiftray = async (
   }
 
   const getTaskCodeResult = await getTaskCode(codeType, taskConfig);
-  const { taskCodeBlob } = getTaskCodeResult;
+  const { taskCodeBlob, metadata } = getTaskCodeResult;
   let { fileTimeCost } = getTaskCodeResult;
 
   if (isNonFGCode) {
@@ -289,6 +294,7 @@ const fetchTaskCodeSwiftray = async (
     taskCodeBlob,
     thumbnailBlobURL,
     fileTimeCost,
+    metadata,
   };
 };
 

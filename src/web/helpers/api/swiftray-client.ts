@@ -1,6 +1,8 @@
 // Swiftray Client Typescript API Client
 import EventEmitter from 'eventemitter3';
 
+import communicator from 'implementations/communicator';
+import isWeb from 'helpers/is-web';
 import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 import { IDeviceDetailInfo, IDeviceInfo, IReport } from 'interfaces/IDevice';
 import { IWrappedSwiftrayTaskFile } from 'interfaces/IWrappedFile';
@@ -44,7 +46,7 @@ interface PreferenceSettingsObject {
   };
 }
 
-class SwiftrayClient extends EventEmitter{
+class SwiftrayClient extends EventEmitter {
   private socket: WebSocket; // The websocket here is the browser websocket, not wrapped FLUX websocket
 
   private retryCount = 0;
@@ -53,9 +55,9 @@ class SwiftrayClient extends EventEmitter{
 
   private retryDelay = 5000;
 
-  private port = "";
+  private port = '';
 
-  private instanceId = "";
+  private instanceId = '';
 
   constructor(private url: string) {
     super();
@@ -120,7 +122,6 @@ class SwiftrayClient extends EventEmitter{
     });
   }
 
-
   // Parser API
   public async loadSVG(
     file: IWrappedSwiftrayTaskFile,
@@ -156,7 +157,7 @@ class SwiftrayClient extends EventEmitter{
         taskBlob: Blob,
         fileName: string,
         timeCost: number,
-        metadata: { [key: string]: string | number }
+        metadata: Record<string, string>
       ) => void;
       onError: (message: string) => void;
     },
@@ -183,7 +184,7 @@ class SwiftrayClient extends EventEmitter{
       fcode?: string;
       gcode?: string;
       estimatedTime?: number;
-      metadata?: { [key: string]: string | number }
+      metadata?: Record<string, string>;
       error?: ErrorObject;
     }>('/parser', 'convert', {
       type,
@@ -197,54 +198,68 @@ class SwiftrayClient extends EventEmitter{
       [type === 'fcode' ? Buffer.from(convertResult.fcode, 'base64') : convertResult.gcode],
       { type: 'text/plain' }
     );
-    eventListeners.onFinished(taskBlob, convertResult.fileName, convertResult.timeCost, convertResult.metadata);
+    eventListeners.onFinished(
+      taskBlob,
+      convertResult.fileName,
+      convertResult.timeCost,
+      convertResult.metadata
+    );
     return {
       success: convertResult.success,
       error: convertResult.error,
     };
   }
 
-  public async interruptCalculation(): Promise<{ success: boolean, error?: ErrorObject }> {
+  public async interruptCalculation(): Promise<{ success: boolean; error?: ErrorObject }> {
     return this.action('/parser', 'interrupt');
   }
 
-
-  public async loadSettings(data: PreferenceSettingsObject): Promise<{ success: boolean, error?: ErrorObject }> {
+  public async loadSettings(
+    data: PreferenceSettingsObject
+  ): Promise<{ success: boolean; error?: ErrorObject }> {
     return this.action('/parser', 'loadSettings', data);
   }
 
   // System API
-  public async getSystemInfo(): Promise<{ success: boolean, info?: SystemInfo, error?: ErrorObject }> {
+  public async getSystemInfo(): Promise<{
+    success: boolean;
+    info?: SystemInfo;
+    error?: ErrorObject;
+  }> {
     return this.action('/ws/sr/system', 'getInfo');
   }
 
   // Device API
-  public async listDevices(): Promise<{ success: boolean, devices?: IDeviceInfo[], error?: ErrorObject }> {
+  public async listDevices(): Promise<{
+    success: boolean;
+    devices?: IDeviceInfo[];
+    error?: ErrorObject;
+  }> {
     return this.action('/devices', 'list');
   }
 
-  public async connectDevice(port: string): Promise<{ success: boolean, error?: ErrorObject }> {
+  public async connectDevice(port: string): Promise<{ success: boolean; error?: ErrorObject }> {
     this.port = port;
     return this.action(`/devices/${port}`, 'connect');
   }
 
-  public async startTask(): Promise<{ success: boolean, error?: ErrorObject }> {
+  public async startTask(): Promise<{ success: boolean; error?: ErrorObject }> {
     return this.action(`/devices/${this.port}`, 'start');
   }
 
-  public async pauseTask(): Promise<{ success: boolean, error?: ErrorObject }> {
+  public async pauseTask(): Promise<{ success: boolean; error?: ErrorObject }> {
     return this.action(`/devices/${this.port}`, 'pause');
   }
 
-  public async resumeTask(): Promise<{ success: boolean, error?: ErrorObject }> {
+  public async resumeTask(): Promise<{ success: boolean; error?: ErrorObject }> {
     return this.action(`/devices/${this.port}`, 'resume');
   }
 
-  public async stopTask(): Promise<{ success: boolean, error?: ErrorObject }> {
+  public async stopTask(): Promise<{ success: boolean; error?: ErrorObject }> {
     return this.action(`/devices/${this.port}`, 'stop');
   }
 
-  public async getDeviceParam<T = number>(name: string): Promise<{ status: string, value: T }> {
+  public async getDeviceParam<T = number>(name: string): Promise<{ status: string; value: T }> {
     return this.action(`/devices/${this.port}`, 'getParam', { name });
   }
 
@@ -257,34 +272,39 @@ class SwiftrayClient extends EventEmitter{
   }
 
   public async getDeviceSettings(): Promise<{
-    success: boolean, settings?: DeviceSettings, error?: ErrorObject
+    success: boolean;
+    settings?: DeviceSettings;
+    error?: ErrorObject;
   }> {
     return this.action(`/devices/${this.port}`, 'getSettings');
   }
 
   public async updateDeviceSettings(settings: DeviceSettings): Promise<{
-    success: boolean, error?: ErrorObject
+    success: boolean;
+    error?: ErrorObject;
   }> {
     return this.action(`/devices/${this.port}`, 'updateSettings', settings);
   }
 
-  public async deleteDeviceSettings(name: string): Promise<{ success: boolean, error?: ErrorObject }>  {
+  public async deleteDeviceSettings(
+    name: string
+  ): Promise<{ success: boolean; error?: ErrorObject }> {
     return this.action(`/devices/${this.port}`, 'deleteSettings', { name });
   }
 
-  public async updateFirmware(blob: Blob): Promise<{ success: boolean, error?: ErrorObject }> {
+  public async updateFirmware(blob: Blob): Promise<{ success: boolean; error?: ErrorObject }> {
     return this.action(`/devices/${this.port}`, 'updateFirmware', blob);
   }
 
-  public async endMode(): Promise<{ success: boolean, error?: ErrorObject }>  {
+  public async endMode(): Promise<{ success: boolean; error?: ErrorObject }> {
     return this.action(`/devices/${this.port}`, 'endMode');
   }
 
-  public async switchMode(mode: string): Promise<{ success: boolean, error?: ErrorObject }>  {
+  public async switchMode(mode: string): Promise<{ success: boolean; error?: ErrorObject }> {
     return this.action(`/devices/${this.port}`, 'switchMode', mode);
   }
 
-  public async quitTask(): Promise<{ success: boolean, error?: ErrorObject }>  {
+  public async quitTask(): Promise<{ success: boolean; error?: ErrorObject }> {
     return this.action(`/devices/${this.port}`, 'quit');
   }
 
@@ -331,13 +351,21 @@ class SwiftrayClient extends EventEmitter{
   }
 
   public async getDeviceStatus(): Promise<IReport> {
-    return await this.action(`/devices/${this.port}`, 'getStatus') as any;
+    return this.action<IReport>(`/devices/${this.port}`, 'getStatus');
   }
 
   public async home(): Promise<void> {
     return this.action(`/devices/${this.port}`, 'home');
   }
 }
+
+const checkSwiftray = async (): Promise<boolean> => {
+  const supportSwiftray = !isWeb() && window.os !== 'Linux';
+  if (!supportSwiftray) return false;
+  const doSwiftrayExist = communicator.sendSync('CHECK_SWIFTRAY');
+  return doSwiftrayExist;
+};
+const supportSwiftray = checkSwiftray();
 
 const swiftrayClient = new SwiftrayClient('ws://localhost:6611');
 const getDeviceClient = async (port: string): Promise<SwiftrayClient> => {
@@ -346,9 +374,10 @@ const getDeviceClient = async (port: string): Promise<SwiftrayClient> => {
   // const sc = new SwiftrayClient(`ws://localhost:6611/`);
   await swiftrayClient.connectDevice(port);
   return swiftrayClient;
-}
+};
 
 export {
+  supportSwiftray,
   swiftrayClient, // default connection to Swiftray server
   getDeviceClient,
   SwiftrayClient,

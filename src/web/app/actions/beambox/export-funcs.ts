@@ -24,6 +24,7 @@ import { getSupportInfo } from 'app/constants/add-on';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { Mode } from 'app/constants/monitor-constants';
+import { supportSwiftray } from 'helpers/api/swiftray-client';
 import { tempSplitFullColorLayers } from 'helpers/layer/full-color/splitFullColorLayer';
 
 let svgCanvas: ISVGCanvas;
@@ -384,7 +385,9 @@ const openTaskInDeviceMonitor = (
 
 export default {
   uploadFcode: async (device: IDeviceInfo): Promise<void> => {
-    const useSwiftray = device.source === 'swiftray' || BeamboxPreference.read('path-engine') === 'swiftray';
+    const useSwiftray =
+      supportSwiftray &&
+      (device.source === 'swiftray' || BeamboxPreference.read('path-engine') === 'swiftray');
     const convertEngine = useSwiftray ? fetchTaskCodeSwiftray : fetchTaskCode;
     const { taskCodeBlob, thumbnailBlobURL, fileTimeCost } = await convertEngine(device);
     if (!taskCodeBlob && device.model !== 'fpm1') {
@@ -407,7 +410,7 @@ export default {
     }
   },
   exportFcode: async (device?: IDeviceInfo): Promise<void> => {
-    const useSwiftray = BeamboxPreference.read('path-engine') === 'swiftray';
+    const useSwiftray = supportSwiftray && BeamboxPreference.read('path-engine') === 'swiftray';
     const convertEngine = useSwiftray ? fetchTaskCodeSwiftray : fetchTaskCode;
     const { taskCodeBlob } = await convertEngine(device);
     if (!taskCodeBlob) {
@@ -435,36 +438,36 @@ export default {
     fileTimeCost: number;
     useSwiftray: boolean;
   }> => {
-    const useSwiftray = BeamboxPreference.read('path-engine') === 'swiftray';
+    const useSwiftray = supportSwiftray && BeamboxPreference.read('path-engine') === 'swiftray';
     const convertEngine = useSwiftray ? fetchTaskCodeSwiftray : fetchTaskCode;
     const { taskCodeBlob, fileTimeCost } = await convertEngine(null, { output: 'gcode' });
     return { gcodeBlob: taskCodeBlob, fileTimeCost: fileTimeCost || 0, useSwiftray };
   },
   getFastGradientGcode: async (): Promise<Blob> => {
-    const convertEngine =
-      BeamboxPreference.read('path-engine') === 'swiftray' ? fetchTaskCodeSwiftray : fetchTaskCode;
+    const useSwiftray = supportSwiftray && BeamboxPreference.read('path-engine') === 'swiftray';
+    const convertEngine = useSwiftray ? fetchTaskCodeSwiftray : fetchTaskCode;
     const { taskCodeBlob } = await convertEngine(null, { output: 'gcode', fgGcode: true });
     return taskCodeBlob;
   },
   estimateTime: async (): Promise<number> => {
-    const convertEngine =
-      BeamboxPreference.read('path-engine') === 'swiftray' ? fetchTaskCodeSwiftray : fetchTaskCode;
-    const { taskCodeBlob, fileTimeCost } = await fetchTaskCode();
+    const useSwiftray = supportSwiftray && BeamboxPreference.read('path-engine') === 'swiftray';
+    const convertEngine = useSwiftray ? fetchTaskCodeSwiftray : fetchTaskCode;
+    const { taskCodeBlob, fileTimeCost } = await convertEngine();
     if (!taskCodeBlob) {
       throw new Error('estimateTime: No task code blob');
       return null;
     }
     return fileTimeCost;
   },
-  getMetadata: async (device?: IDeviceInfo): Promise<{[key: string]: string}> => {
-    // const convertEngine =
-    //   BeamboxPreference.read('path-engine') === 'swiftray' ? fetchTaskCodeSwiftray : fetchTaskCode;
-      const { taskCodeBlob, metadata } = await fetchTaskCode(device);
-      if (!taskCodeBlob) {
-        throw new Error('getMetadata: No task code blob');
-        return null;
-      }
-      return metadata;
+  getMetadata: async (device?: IDeviceInfo): Promise<{ [key: string]: string }> => {
+    const useSwiftray = supportSwiftray && BeamboxPreference.read('path-engine') === 'swiftray';
+    const convertEngine = useSwiftray ? fetchTaskCodeSwiftray : fetchTaskCode;
+    const { taskCodeBlob, metadata } = await convertEngine(device);
+    if (!taskCodeBlob) {
+      throw new Error('getMetadata: No task code blob');
+      return null;
+    }
+    return metadata;
   },
   gcodeToFcode: async (
     gcodeString: string,
