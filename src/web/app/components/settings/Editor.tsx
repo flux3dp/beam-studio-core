@@ -11,8 +11,8 @@ import UnitInput from 'app/widgets/Unit-Input-v2';
 import useI18n from 'helpers/useI18n';
 import { FontDescriptor } from 'interfaces/IFont';
 import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
+import { hasSwiftray } from 'helpers/api/swiftray-client';
 import { StorageKey } from 'interfaces/IStorage';
-import { supportSwiftray } from 'helpers/api/swiftray-client';
 
 const fontFamilies = FontFuncs.requestAvailableFontFamilies(true);
 
@@ -288,7 +288,7 @@ function Editor({
         options={autoSwitchTab}
         onChange={(e) => updateBeamboxPreferenceChange('auto-switch-tab', e.target.value)}
       />
-      {supportSwiftray && (
+      {hasSwiftray && (
         <SelectControl
           id="path-engine"
           label={lang.settings.calculation_optimization}

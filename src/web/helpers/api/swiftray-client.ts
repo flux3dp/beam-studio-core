@@ -360,12 +360,12 @@ class SwiftrayClient extends EventEmitter {
 }
 
 const checkSwiftray = async (): Promise<boolean> => {
-  const supportSwiftray = !isWeb() && window.os !== 'Linux';
-  if (!supportSwiftray) return false;
+  const res = !isWeb() && window.os !== 'Linux';
+  if (!res) return false;
   const doSwiftrayExist = communicator.sendSync('CHECK_SWIFTRAY');
   return doSwiftrayExist;
 };
-const supportSwiftray = checkSwiftray();
+const hasSwiftray = checkSwiftray();
 
 const swiftrayClient = new SwiftrayClient('ws://localhost:6611');
 const getDeviceClient = async (port: string): Promise<SwiftrayClient> => {
@@ -377,7 +377,7 @@ const getDeviceClient = async (port: string): Promise<SwiftrayClient> => {
 };
 
 export {
-  supportSwiftray,
+  hasSwiftray,
   swiftrayClient, // default connection to Swiftray server
   getDeviceClient,
   SwiftrayClient,
