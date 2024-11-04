@@ -139,7 +139,7 @@ exports[`settings/Editor initially no warning 1`] = `
     mock-select-control id:
     set-bitmap-quality
     label:
-    Bitmap Previewing Quality
+    Bitmap Preview Quality
     url:
     https://support.flux3dp.com/hc/en-us/articles/360004494995
     options:
@@ -191,6 +191,7 @@ exports[`settings/Editor initially no warning 1`] = `
     mock-select-control id:
     set-enable-low-speed
     label:
+    Enable slow speed movement
     url:
     options:
     [{"value":"TRUE","label":"On","selected":false},{"value":"FALSE","label":"Off","selected":true}]
@@ -202,7 +203,7 @@ exports[`settings/Editor initially no warning 1`] = `
     mock-select-control id:
     auto-switch-tab
     label:
-    auto_switch_tab
+    Auto Switch Layer and Object Panel
     url:
     options:
     [{"value":"TRUE","label":"On","selected":false},{"value":"FALSE","label":"Off","selected":true}]
@@ -214,7 +215,9 @@ exports[`settings/Editor initially no warning 1`] = `
     mock-select-control id:
     path-engine
     label:
+    Path Calculation Acceleration
     url:
+    https://support.flux3dp.com/hc/en-us/articles/11146997425039
     options:
     [{"value":"swiftray","label":"On","selected":false},{"value":"fluxghost","label":"Off","selected":true}]
     <input
@@ -225,6 +228,7 @@ exports[`settings/Editor initially no warning 1`] = `
     mock-select-control id:
     set-enable-custom-backlash
     label:
+    Enable Custom Backlash Compensation
     url:
     options:
     [{"value":"TRUE","label":"On","selected":false},{"value":"FALSE","label":"Off","selected":true}]
@@ -374,7 +378,7 @@ exports[`settings/Editor initially no warning 2`] = `
     mock-select-control id:
     set-bitmap-quality
     label:
-    Bitmap Previewing Quality
+    Bitmap Preview Quality
     url:
     https://support.flux3dp.com/hc/en-us/articles/360004494995
     options:
@@ -426,6 +430,7 @@ exports[`settings/Editor initially no warning 2`] = `
     mock-select-control id:
     set-enable-low-speed
     label:
+    Enable slow speed movement
     url:
     options:
     [{"value":"TRUE","label":"On","selected":false},{"value":"FALSE","label":"Off","selected":true}]
@@ -437,7 +442,7 @@ exports[`settings/Editor initially no warning 2`] = `
     mock-select-control id:
     auto-switch-tab
     label:
-    auto_switch_tab
+    Auto Switch Layer and Object Panel
     url:
     options:
     [{"value":"TRUE","label":"On","selected":false},{"value":"FALSE","label":"Off","selected":true}]
@@ -449,7 +454,9 @@ exports[`settings/Editor initially no warning 2`] = `
     mock-select-control id:
     path-engine
     label:
+    Path Calculation Acceleration
     url:
+    https://support.flux3dp.com/hc/en-us/articles/11146997425039
     options:
     [{"value":"swiftray","label":"On","selected":false},{"value":"fluxghost","label":"Off","selected":true}]
     <input
@@ -460,6 +467,7 @@ exports[`settings/Editor initially no warning 2`] = `
     mock-select-control id:
     set-enable-custom-backlash
     label:
+    Enable Custom Backlash Compensation
     url:
     options:
     [{"value":"TRUE","label":"On","selected":false},{"value":"FALSE","label":"Off","selected":true}]
@@ -609,7 +617,7 @@ exports[`settings/Editor initially no warning 3`] = `
     mock-select-control id:
     set-bitmap-quality
     label:
-    Bitmap Previewing Quality
+    Bitmap Preview Quality
     url:
     https://support.flux3dp.com/hc/en-us/articles/360004494995
     options:
@@ -661,6 +669,7 @@ exports[`settings/Editor initially no warning 3`] = `
     mock-select-control id:
     set-enable-low-speed
     label:
+    Enable slow speed movement
     url:
     options:
     [{"value":"TRUE","label":"On","selected":false},{"value":"FALSE","label":"Off","selected":true}]
@@ -672,7 +681,7 @@ exports[`settings/Editor initially no warning 3`] = `
     mock-select-control id:
     auto-switch-tab
     label:
-    auto_switch_tab
+    Auto Switch Layer and Object Panel
     url:
     options:
     [{"value":"TRUE","label":"On","selected":false},{"value":"FALSE","label":"Off","selected":true}]
@@ -684,7 +693,9 @@ exports[`settings/Editor initially no warning 3`] = `
     mock-select-control id:
     path-engine
     label:
+    Path Calculation Acceleration
     url:
+    https://support.flux3dp.com/hc/en-us/articles/11146997425039
     options:
     [{"value":"swiftray","label":"On","selected":false},{"value":"fluxghost","label":"Off","selected":true}]
     <input
@@ -695,6 +706,7 @@ exports[`settings/Editor initially no warning 3`] = `
     mock-select-control id:
     set-enable-custom-backlash
     label:
+    Enable Custom Backlash Compensation
     url:
     options:
     [{"value":"TRUE","label":"On","selected":false},{"value":"FALSE","label":"Off","selected":true}]
@@ -844,7 +856,7 @@ exports[`settings/Editor initially no warning 4`] = `
     mock-select-control id:
     set-bitmap-quality
     label:
-    Bitmap Previewing Quality
+    Bitmap Preview Quality
     url:
     https://support.flux3dp.com/hc/en-us/articles/360004494995
     options:
@@ -896,6 +908,7 @@ exports[`settings/Editor initially no warning 4`] = `
     mock-select-control id:
     set-enable-low-speed
     label:
+    Enable slow speed movement
     url:
     options:
     [{"value":"TRUE","label":"On","selected":false},{"value":"FALSE","label":"Off","selected":true}]
@@ -907,7 +920,7 @@ exports[`settings/Editor initially no warning 4`] = `
     mock-select-control id:
     auto-switch-tab
     label:
-    auto_switch_tab
+    Auto Switch Layer and Object Panel
     url:
     options:
     [{"value":"TRUE","label":"On","selected":false},{"value":"FALSE","label":"Off","selected":true}]
@@ -919,7 +932,9 @@ exports[`settings/Editor initially no warning 4`] = `
     mock-select-control id:
     path-engine
     label:
+    Path Calculation Acceleration
     url:
+    https://support.flux3dp.com/hc/en-us/articles/11146997425039
     options:
     [{"value":"swiftray","label":"On","selected":false},{"value":"fluxghost","label":"Off","selected":true}]
     <input
@@ -930,6 +945,7 @@ exports[`settings/Editor initially no warning 4`] = `
     mock-select-control id:
     set-enable-custom-backlash
     label:
+    Enable Custom Backlash Compensation
     url:
     options:
     [{"value":"TRUE","label":"On","selected":false},{"value":"FALSE","label":"Off","selected":true}]

@@ -5,39 +5,6 @@ import { OptionValues } from 'app/constants/enums';
 
 jest.mock('helpers/is-dev', () => () => true);
 
-jest.mock('helpers/useI18n', () => () => ({
-  menu: {
-    mm: 'mm',
-    inches: 'Inches',
-  },
-  settings: {
-    on: 'On',
-    off: 'Off',
-    low: 'Low',
-    high: 'Normal',
-    default_units: 'Default Units',
-    default_font_family: 'Default Font',
-    default_font_style: 'Default Font Style',
-    default_beambox_model: 'Default Document Setting',
-    guides_origin: 'Guides Origin',
-    guides: 'Guides',
-    image_downsampling: 'Bitmap Previewing Quality',
-    anti_aliasing: 'Anti-Aliasing',
-    continuous_drawing: 'Continuous Drawing',
-    simplify_clipper_path: 'Optimize the Calculated Path',
-    help_center_urls: {
-      image_downsampling: 'https://support.flux3dp.com/hc/en-us/articles/360004494995',
-      anti_aliasing: 'https://support.flux3dp.com/hc/en-us/articles/360004408956',
-      continuous_drawing: 'https://support.flux3dp.com/hc/en-us/articles/360004406496',
-      simplify_clipper_path: 'https://support.flux3dp.com/hc/en-us/articles/360004407276',
-    },
-    groups: {
-      editor: 'Editor',
-    },
-    auto_switch_tab: 'auto_switch_tab',
-  },
-}));
-
 const getFontOfPostscriptName = jest.fn();
 jest.mock('app/actions/beambox/font-funcs', () => ({
   requestAvailableFontFamilies: () => ['Arial', 'Courier', 'Apple LiSung'],
@@ -104,7 +71,7 @@ jest.mock('app/actions/beambox/font-funcs', () => ({
     };
     return fonts[family];
   },
-  getFontOfPostscriptName,
+  getFontOfPostscriptName: (...args) => getFontOfPostscriptName(...args),
 }));
 
 const map = new Map();
@@ -149,6 +116,10 @@ jest.mock(
         </div>
       )
 );
+
+jest.mock('helpers/api/swiftray-client', () => ({
+  supportSwiftray: () => true,
+}));
 
 // eslint-disable-next-line import/first
 import Editor from './Editor';

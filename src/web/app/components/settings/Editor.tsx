@@ -12,6 +12,7 @@ import useI18n from 'helpers/useI18n';
 import { FontDescriptor } from 'interfaces/IFont';
 import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 import { StorageKey } from 'interfaces/IStorage';
+import { supportSwiftray } from 'helpers/api/swiftray-client';
 
 const fontFamilies = FontFuncs.requestAvailableFontFamilies(true);
 
@@ -287,12 +288,15 @@ function Editor({
         options={autoSwitchTab}
         onChange={(e) => updateBeamboxPreferenceChange('auto-switch-tab', e.target.value)}
       />
-      <SelectControl
-        id="path-engine"
-        label={lang.settings.calculation_optimization}
-        options={pathEngineOptions}
-        onChange={(e) => updateBeamboxPreferenceChange('path-engine', e.target.value)}
-      />
+      {supportSwiftray && (
+        <SelectControl
+          id="path-engine"
+          label={lang.settings.calculation_optimization}
+          url={lang.settings.help_center_urls.calculation_optimization}
+          options={pathEngineOptions}
+          onChange={(e) => updateBeamboxPreferenceChange('path-engine', e.target.value)}
+        />
+      )}
       {isDev() && (
         <SelectControl
           id="set-enable-custom-backlash"

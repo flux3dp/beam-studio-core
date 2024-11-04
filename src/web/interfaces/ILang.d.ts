@@ -520,6 +520,7 @@ export interface ILang {
       default_borderless_mode: string;
       default_enable_autofocus_module: string;
       default_enable_diode_module: string;
+      calculation_optimization: string;
     };
   };
   beambox: {
