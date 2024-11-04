@@ -31,7 +31,7 @@ jest.mock('helpers/useI18n', () => () => ({
 const mockWriteData = jest.fn();
 jest.mock('helpers/layer/layer-config-helper', () => ({
   writeData: (...args) => mockWriteData(...args),
-  laserConfigKeys: [
+  getConfigKeys: () => [
     'speed',
     'power',
     'minPower',

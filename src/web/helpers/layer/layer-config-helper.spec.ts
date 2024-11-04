@@ -1,3 +1,5 @@
+import LayerModule from 'app/constants/layer-module/layer-modules';
+
 const mockGetDefaultLaserModule = jest.fn();
 jest.mock('helpers/layer-module/layer-module-helper', () => ({
   getDefaultLaserModule: () => mockGetDefaultLaserModule(),
@@ -11,11 +13,12 @@ jest.mock('app/actions/beambox/beambox-preference', () => ({
 // eslint-disable-next-line import/first
 import {
   cloneLayerConfig,
+  getConfigKeys,
   getLayerConfig,
   getLayersConfig,
   initLayerConfig,
-  writeData,
   toggleFullColorAfterWorkareaChange,
+  writeData,
 } from './layer-config-helper';
 
 const mockGetAllPresets = jest.fn();
@@ -72,6 +75,12 @@ const defaultLaserConfigs = {
   clipRect: { value: undefined },
   focus: { value: -2 },
   focusStep: { value: -2 },
+  pulseWidth: { value: 100 },
+  frequency: { value: 27 },
+  fillInterval: { value: 0.1 },
+  fillAngle: { value: 0 },
+  biDirectional: { value: false },
+  crossHatch: { value: false },
 };
 
 const defaultMultiValueLaserConfigs = {
@@ -106,6 +115,12 @@ const defaultMultiValueLaserConfigs = {
   clipRect: { value: undefined, hasMultiValue: false },
   focus: { value: -2, hasMultiValue: false },
   focusStep: { value: -2, hasMultiValue: false },
+  pulseWidth: { value: 100, hasMultiValue: false },
+  frequency: { value: 27, hasMultiValue: false },
+  fillInterval: { value: 0.1, hasMultiValue: false },
+  fillAngle: { value: 0, hasMultiValue: false },
+  biDirectional: { value: false, hasMultiValue: false },
+  crossHatch: { value: false, hasMultiValue: false },
 };
 
 describe('test layer-config-helper', () => {
@@ -134,7 +149,7 @@ describe('test layer-config-helper', () => {
       return undefined;
     });
     initLayerConfig('layer 1');
-    expect(getLayerConfig('layer 1')).toEqual({...defaultLaserConfigs, module: { value: 1 }});
+    expect(getLayerConfig('layer 1')).toEqual({ ...defaultLaserConfigs, module: { value: 1 } });
   });
 
   test('write zstep data', () => {
@@ -239,5 +254,50 @@ describe('test layer-config-helper', () => {
     expect(mockLayer.setAttribute).toHaveBeenNthCalledWith(1, 'data-module', '1');
     expect(mockLayer.setAttribute).toHaveBeenNthCalledWith(2, 'data-module', '1');
     expect(mockLayer.setAttribute).toHaveBeenNthCalledWith(3, 'data-module', '1');
+  });
+
+  test('getConfigKeys', () => {
+    expect(getConfigKeys(LayerModule.LASER_UNIVERSAL)).toEqual([
+      'speed',
+      'power',
+      'minPower',
+      'repeat',
+      'height',
+      'zStep',
+      'focus',
+      'focusStep',
+    ]);
+    expect(getConfigKeys(LayerModule.PRINTER)).toEqual([
+      'speed',
+      'printingSpeed',
+      'ink',
+      'multipass',
+      'cRatio',
+      'mRatio',
+      'yRatio',
+      'kRatio',
+      'printingStrength',
+      'halftone',
+      'wInk',
+      'wSpeed',
+      'wMultipass',
+      'wRepeat',
+      'uv',
+      'repeat',
+    ]);
+    mockRead.mockReturnValue('fpm1');
+    expect(getConfigKeys(LayerModule.PRINTER)).toEqual([
+      'speed',
+      'power',
+      'repeat',
+      'pulseWidth',
+      'frequency',
+      'fillInterval',
+      'fillAngle',
+      'biDirectional',
+      'crossHatch',
+      'focus',
+      'focusStep',
+    ]);
   });
 });

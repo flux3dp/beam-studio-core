@@ -5,7 +5,6 @@ import { fireEvent, render } from '@testing-library/react';
 import { LaserType } from 'app/constants/promark-constants';
 
 import ConfigPanelContext from './ConfigPanelContext';
-import FrequencyBlock from './FrequencyBlock';
 
 const mockWriteData = jest.fn();
 jest.mock('helpers/layer/layer-config-helper', () => ({
@@ -64,6 +63,9 @@ jest.mock(
         </div>
       )
 );
+
+// eslint-disable-next-line import/first
+import FrequencyBlock from './FrequencyBlock';
 
 describe('test FrequencyBlock', () => {
   beforeEach(() => {
