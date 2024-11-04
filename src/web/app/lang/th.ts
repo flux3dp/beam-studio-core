@@ -461,6 +461,7 @@ const lang: ILang = {
     simplify_clipper_path: 'เพิ่มประสิทธิภาพเส้นทางที่คํานวณ',
     enable_low_speed: 'เปิดใช้งานความเร็วต่ํา',
     enable_custom_backlash: 'เปิดใช้งานการชดเชยการถอยหลังแบบกําหนดเอง',
+    calculation_optimization: 'การเร่งความเร็วในการคำนวณเส้นทาง',
     auto_switch_tab: 'สลับชั้นอัตโนมัติและแผงวัตถุ',
     custom_preview_height: 'ความสูงแสดงตัวอย่างกําหนดเอง',
     mask: 'ตัดขอบพื้นที่ทํางาน',
@@ -523,6 +524,7 @@ const lang: ILang = {
       default_borderless_mode: 'https://support.flux3dp.com/hc/zh-tw/articles/360001104076',
       default_enable_autofocus_module: 'https://support.flux3dp.com/hc/en-us/articles/360001574536',
       default_enable_diode_module: 'https://support.flux3dp.com/hc/en-us/articles/360001568035',
+      calculation_optimization: 'https://support.flux3dp.com/hc/en-us/articles/11146997425039',
     },
   },
   beambox: {

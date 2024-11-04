@@ -461,6 +461,7 @@ const lang: ILang = {
     simplify_clipper_path: 'Optimer den Beregnede Sti',
     enable_low_speed: 'Aktivér langsom hastighed bevægelse',
     enable_custom_backlash: 'Aktivér Brugerdefineret Backlash Kompensation',
+    calculation_optimization: 'Stiberegningsacceleration',
     auto_switch_tab: 'Automatisk skift mellem lag- og objektpanel',
     custom_preview_height: 'Brugerdefineret Forhåndsvisningshøjde',
     mask: 'Arbejdsområde Beskæring',
@@ -523,6 +524,7 @@ const lang: ILang = {
       default_borderless_mode: 'https://support.flux3dp.com/hc/en-us/articles/360001104076',
       default_enable_autofocus_module: 'https://support.flux3dp.com/hc/en-us/articles/360001574536',
       default_enable_diode_module: 'https://support.flux3dp.com/hc/en-us/articles/360001568035',
+      calculation_optimization: 'https://support.flux3dp.com/hc/en-us/articles/11146997425039',
     },
   },
   beambox: {

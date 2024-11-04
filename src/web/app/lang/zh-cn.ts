@@ -464,6 +464,7 @@ const lang: ILang = {
     simplify_clipper_path: '路径计算优化',
     enable_low_speed: '启用慢速移动',
     enable_custom_backlash: '启用自訂背隙補償',
+    calculation_optimization: '路径计算加速',
     auto_switch_tab: '自动切换图层和物件面板',
     custom_preview_height: '自訂预览高度',
     mask: '工作范围剪裁',
@@ -526,6 +527,7 @@ const lang: ILang = {
       default_borderless_mode: 'https://support.flux3dp.com/hc/zh-tw/articles/360001104076',
       default_enable_autofocus_module: 'https://support.flux3dp.com/hc/en-us/articles/360001574536',
       default_enable_diode_module: 'https://support.flux3dp.com/hc/en-us/articles/360001568035',
+      calculation_optimization: 'https://support.flux3dp.com/hc/en-us/articles/11146997425039',
     },
   },
   beambox: {

@@ -11,6 +11,7 @@ import UnitInput from 'app/widgets/Unit-Input-v2';
 import useI18n from 'helpers/useI18n';
 import { FontDescriptor } from 'interfaces/IFont';
 import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
+import { hasSwiftray } from 'helpers/api/swiftray-client';
 import { StorageKey } from 'interfaces/IStorage';
 
 const fontFamilies = FontFuncs.requestAvailableFontFamilies(true);
@@ -166,6 +167,12 @@ function Editor({
     { lang }
   );
 
+  const pathEngine = getBeamboxPreferenceEditingValue('path-engine') || 'fluxghost';
+  const pathEngineOptions = [
+    { value: 'swiftray', label: lang.settings.on, selected: pathEngine === 'swiftray' },
+    { value: 'fluxghost', label: lang.settings.off, selected: pathEngine === 'fluxghost' },
+  ];
+
   return (
     <>
       <div className="subtitle">{lang.settings.groups.editor}</div>
@@ -281,6 +288,15 @@ function Editor({
         options={autoSwitchTab}
         onChange={(e) => updateBeamboxPreferenceChange('auto-switch-tab', e.target.value)}
       />
+      {hasSwiftray && (
+        <SelectControl
+          id="path-engine"
+          label={lang.settings.calculation_optimization}
+          url={lang.settings.help_center_urls.calculation_optimization}
+          options={pathEngineOptions}
+          onChange={(e) => updateBeamboxPreferenceChange('path-engine', e.target.value)}
+        />
+      )}
       {isDev() && (
         <SelectControl
           id="set-enable-custom-backlash"

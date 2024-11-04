@@ -461,6 +461,7 @@ const lang: ILang = {
     simplify_clipper_path: 'Optimaliseer het berekende pad',
     enable_low_speed: 'Schakel lage snelheidsbeweging in',
     enable_custom_backlash: 'Schakel aangepaste backlash compensatie in',
+    calculation_optimization: 'Versnelling van padberekening',
     auto_switch_tab: 'Automatisch schakelen tussen laag- en objectpaneel',
     custom_preview_height: 'Aangepaste voorbeeldhoogte',
     mask: 'Werkgebied bijsnijden',
@@ -523,6 +524,7 @@ const lang: ILang = {
       default_borderless_mode: 'https://support.flux3dp.com/hc/zh-tw/articles/360001104076',
       default_enable_autofocus_module: 'https://support.flux3dp.com/hc/en-us/articles/360001574536',
       default_enable_diode_module: 'https://support.flux3dp.com/hc/en-us/articles/360001568035',
+      calculation_optimization: 'https://support.flux3dp.com/hc/en-us/articles/11146997425039',
     },
   },
   beambox: {

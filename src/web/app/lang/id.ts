@@ -461,6 +461,7 @@ const lang: ILang = {
     simplify_clipper_path: 'Optimalkan Jalur yang Dihitung',
     enable_low_speed: 'Aktifkan gerakan kecepatan lambat',
     enable_custom_backlash: 'Aktifkan Kompensasi Backlash Kustom',
+    calculation_optimization: 'Percepatan Perhitungan Jalur',
     auto_switch_tab: 'Sakelar Otomatis Panel Lapisan dan Objek',
     custom_preview_height: 'Tinggi Pratinjau Kustom',
     mask: 'Pemotongan Area Kerja',
@@ -523,6 +524,7 @@ const lang: ILang = {
       default_borderless_mode: 'https://support.flux3dp.com/hc/zh-tw/articles/360001104076',
       default_enable_autofocus_module: 'https://support.flux3dp.com/hc/en-us/articles/360001574536',
       default_enable_diode_module: 'https://support.flux3dp.com/hc/en-us/articles/360001568035',
+      calculation_optimization: 'https://support.flux3dp.com/hc/en-us/articles/11146997425039',
     },
   },
   beambox: {

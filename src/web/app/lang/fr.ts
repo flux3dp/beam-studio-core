@@ -461,6 +461,7 @@ const lang: ILang = {
     simplify_clipper_path: 'Optimiser le chemin calculé',
     enable_low_speed: 'Activer le mouvement à vitesse lente',
     enable_custom_backlash: 'Activer la compensation de jeu personnalisée',
+    calculation_optimization: 'Accélération du calcul de trajectoire',
     auto_switch_tab: "Changement automatique entre le panneau de calques et d'objets",
     custom_preview_height: "Hauteur d'aperçu personnalisée",
     mask: 'Masque de la zone de travail',
@@ -523,6 +524,7 @@ const lang: ILang = {
       default_borderless_mode: 'https://support.flux3dp.com/hc/zh-tw/articles/360001104076',
       default_enable_autofocus_module: 'https://support.flux3dp.com/hc/en-us/articles/360001574536',
       default_enable_diode_module: 'https://support.flux3dp.com/hc/en-us/articles/360001568035',
+      calculation_optimization: 'https://support.flux3dp.com/hc/en-us/articles/11146997425039',
     },
   },
   beambox: {

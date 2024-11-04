@@ -461,6 +461,7 @@ const lang: ILang = {
     simplify_clipper_path: 'Tối ưu hóa đường dẫn tính toán',
     enable_low_speed: 'Bật chế độ chuyển động tốc độ thấp',
     enable_custom_backlash: 'Bật bù lùi tùy chỉnh',
+    calculation_optimization: 'Tăng tốc tính toán đường dẫn',
     auto_switch_tab: 'Chuyển đổi tự động giữa bảng Lớp và Đối tượng',
     custom_preview_height: 'Chiều cao xem trước tùy chỉnh',
     mask: 'Cắt vùng làm việc',
@@ -523,6 +524,7 @@ const lang: ILang = {
       default_borderless_mode: 'https://support.flux3dp.com/hc/zh-tw/articles/360001104076',
       default_enable_autofocus_module: 'https://support.flux3dp.com/hc/en-us/articles/360001574536',
       default_enable_diode_module: 'https://support.flux3dp.com/hc/en-us/articles/360001568035',
+      calculation_optimization: 'https://support.flux3dp.com/hc/en-us/articles/11146997425039',
     },
   },
   beambox: {

@@ -461,6 +461,7 @@ const lang: ILang = {
     simplify_clipper_path: 'Optimoi laskettu polku',
     enable_low_speed: 'Ota hitaan nopeuden liike käyttöön',
     enable_custom_backlash: 'Ota mukautettu välys kompensointi käyttöön',
+    calculation_optimization: 'Reitin laskennan kiihtyvyys',
     auto_switch_tab: 'Automaattinen vaihto kerros- ja objektipaneelin välillä',
     custom_preview_height: 'Mukautettu esikatselukorkeus',
     mask: 'Työalueen rajaus',
@@ -523,6 +524,7 @@ const lang: ILang = {
       default_borderless_mode: 'https://support.flux3dp.com/hc/en-us/articles/360001104076',
       default_enable_autofocus_module: 'https://support.flux3dp.com/hc/en-us/articles/360001574536',
       default_enable_diode_module: 'https://support.flux3dp.com/hc/en-us/articles/360001568035',
+      calculation_optimization: 'https://support.flux3dp.com/hc/en-us/articles/11146997425039',
     },
   },
   beambox: {

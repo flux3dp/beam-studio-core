@@ -461,6 +461,7 @@ const lang: ILang = {
     simplify_clipper_path: 'Forenklet bane',
     enable_low_speed: 'Aktiver lav hastighetsbevegelse',
     enable_custom_backlash: 'Aktiver egen slakkkompensasjon',
+    calculation_optimization: 'Baneutregningsakselerasjon',
     auto_switch_tab: 'Automatisk bytte mellom lag- og objektpanel',
     custom_preview_height: 'Egen forhåndsvisningshøyde',
     mask: 'Arbeidsområdeklipping',
@@ -523,6 +524,7 @@ const lang: ILang = {
       default_borderless_mode: 'https://support.flux3dp.com/hc/zh-tw/articles/360001104076',
       default_enable_autofocus_module: 'https://support.flux3dp.com/hc/en-us/articles/360001574536',
       default_enable_diode_module: 'https://support.flux3dp.com/hc/en-us/articles/360001568035',
+      calculation_optimization: 'https://support.flux3dp.com/hc/en-us/articles/11146997425039',
     },
   },
   beambox: {

@@ -464,6 +464,7 @@ const lang: ILang = {
     simplify_clipper_path: 'Optimize the Calculated Path',
     enable_low_speed: 'Enable slow speed movement',
     enable_custom_backlash: 'Enable Custom Backlash Compensation',
+    calculation_optimization: 'Path Calculation Acceleration',
     auto_switch_tab: 'Auto Switch Layer and Object Panel',
     custom_preview_height: 'Custom Preview Height',
     mask: 'Workarea Clipping',
@@ -526,6 +527,7 @@ const lang: ILang = {
       default_borderless_mode: 'https://support.flux3dp.com/hc/zh-tw/articles/360001104076',
       default_enable_autofocus_module: 'https://support.flux3dp.com/hc/en-us/articles/360001574536',
       default_enable_diode_module: 'https://support.flux3dp.com/hc/en-us/articles/360001568035',
+      calculation_optimization: 'https://support.flux3dp.com/hc/en-us/articles/11146997425039',
     },
   },
   beambox: {
