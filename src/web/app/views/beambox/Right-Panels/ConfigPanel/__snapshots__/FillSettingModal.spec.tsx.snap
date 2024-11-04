@@ -19,7 +19,7 @@ exports[`test FillSettingModal should render correctly 1`] = `
           aria-modal="true"
           class="ant-modal css-dev-only-do-not-override-hash ant-zoom-appear ant-zoom-appear-prepare ant-zoom"
           role="dialog"
-          style="width: 300px;"
+          style="width: 350px;"
         >
           <div
             aria-hidden="true"
@@ -261,7 +261,7 @@ exports[`test FillSettingModal should render correctly when unit is inch 1`] = `
           aria-modal="true"
           class="ant-modal css-dev-only-do-not-override-hash ant-zoom-appear ant-zoom-appear-prepare ant-zoom"
           role="dialog"
-          style="width: 300px;"
+          style="width: 350px;"
         >
           <div
             aria-hidden="true"

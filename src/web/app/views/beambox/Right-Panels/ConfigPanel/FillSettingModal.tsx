@@ -60,7 +60,7 @@ const FillSettingModal = ({ onClose }: Props): JSX.Element => {
       centered
       open
       maskClosable={false}
-      width={300}
+      width={350}
       onOk={handleSave}
       onCancel={onClose}
       cancelText={tGlobal.cancel}
