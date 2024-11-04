@@ -118,7 +118,7 @@ jest.mock(
 );
 
 jest.mock('helpers/api/swiftray-client', () => ({
-  hasSwiftray: () => true,
+  hasSwiftray: true,
 }));
 
 // eslint-disable-next-line import/first
