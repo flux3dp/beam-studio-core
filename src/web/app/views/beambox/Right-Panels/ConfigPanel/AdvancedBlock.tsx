@@ -3,6 +3,7 @@ import { Collapse, ConfigProvider } from 'antd';
 
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
+import isDev from 'helpers/is-dev';
 import LayerModule from 'app/constants/layer-module/layer-modules';
 import useForceUpdate from 'helpers/use-force-update';
 import useI18n from 'helpers/useI18n';
@@ -32,7 +33,8 @@ const AdvancedBlock = ({
   const workarea = useWorkarea();
   const supportInfo = useMemo(() => getSupportInfo(workarea), [workarea]);
   const isPromark = useMemo(() => promarkModels.has(workarea), [workarea]);
-  const promarkInfo = isPromark ? getPromarkInfo() : null;
+  const dev = useMemo(isDev, []);
+  const promarkInfo = dev && isPromark ? getPromarkInfo() : null;
 
   useEffect(() => {
     const canvasEvents = eventEmitterFactory.createEventEmitter('canvas');
