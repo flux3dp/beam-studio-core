@@ -359,7 +359,7 @@ class SwiftrayClient extends EventEmitter {
   }
 }
 
-const checkSwiftray = async (): Promise<boolean> => {
+const checkSwiftray = (): boolean => {
   const res = !isWeb() && window.os !== 'Linux';
   if (!res) return false;
   const doSwiftrayExist = communicator.sendSync('CHECK_SWIFTRAY');
