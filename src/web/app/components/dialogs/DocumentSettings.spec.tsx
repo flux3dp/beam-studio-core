@@ -1,8 +1,8 @@
 import React, { act } from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
-// eslint-disable-next-line import/first
 import { LaserType } from 'app/constants/promark-constants';
+
 import DocumentSettings from './DocumentSettings';
 
 const mockEventEmitter = {
