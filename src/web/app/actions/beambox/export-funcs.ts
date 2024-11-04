@@ -383,12 +383,17 @@ const openTaskInDeviceMonitor = (
   });
 };
 
+const getConvertEngine = (targetDevice?: IDeviceInfo) => {
+  const useSwiftray =
+    hasSwiftray &&
+    (BeamboxPreference.read('path-engine') === 'swiftray' || targetDevice?.source === 'swiftray');
+  const convertEngine = useSwiftray ? fetchTaskCodeSwiftray : fetchTaskCode;
+  return { convertEngine, useSwiftray };
+};
+
 export default {
   uploadFcode: async (device: IDeviceInfo): Promise<void> => {
-    const useSwiftray =
-      hasSwiftray &&
-      (device.source === 'swiftray' || BeamboxPreference.read('path-engine') === 'swiftray');
-    const convertEngine = useSwiftray ? fetchTaskCodeSwiftray : fetchTaskCode;
+    const { convertEngine } = getConvertEngine(device);
     const { taskCodeBlob, thumbnailBlobURL, fileTimeCost } = await convertEngine(device);
     if (!taskCodeBlob && device.model !== 'fpm1') {
       return;
@@ -410,8 +415,7 @@ export default {
     }
   },
   exportFcode: async (device?: IDeviceInfo): Promise<void> => {
-    const useSwiftray = hasSwiftray && BeamboxPreference.read('path-engine') === 'swiftray';
-    const convertEngine = useSwiftray ? fetchTaskCodeSwiftray : fetchTaskCode;
+    const { convertEngine } = getConvertEngine();
     const { taskCodeBlob } = await convertEngine(device);
     if (!taskCodeBlob) {
       throw new Error('exportFCode: No task code blob');
@@ -438,20 +442,17 @@ export default {
     fileTimeCost: number;
     useSwiftray: boolean;
   }> => {
-    const useSwiftray = hasSwiftray && BeamboxPreference.read('path-engine') === 'swiftray';
-    const convertEngine = useSwiftray ? fetchTaskCodeSwiftray : fetchTaskCode;
+    const { convertEngine, useSwiftray } = getConvertEngine();
     const { taskCodeBlob, fileTimeCost } = await convertEngine(null, { output: 'gcode' });
     return { gcodeBlob: taskCodeBlob, fileTimeCost: fileTimeCost || 0, useSwiftray };
   },
   getFastGradientGcode: async (): Promise<Blob> => {
-    const useSwiftray = hasSwiftray && BeamboxPreference.read('path-engine') === 'swiftray';
-    const convertEngine = useSwiftray ? fetchTaskCodeSwiftray : fetchTaskCode;
+    const { convertEngine } = getConvertEngine();
     const { taskCodeBlob } = await convertEngine(null, { output: 'gcode', fgGcode: true });
     return taskCodeBlob;
   },
   estimateTime: async (): Promise<number> => {
-    const useSwiftray = hasSwiftray && BeamboxPreference.read('path-engine') === 'swiftray';
-    const convertEngine = useSwiftray ? fetchTaskCodeSwiftray : fetchTaskCode;
+    const { convertEngine } = getConvertEngine();
     const { taskCodeBlob, fileTimeCost } = await convertEngine();
     if (!taskCodeBlob) {
       throw new Error('estimateTime: No task code blob');
@@ -460,8 +461,7 @@ export default {
     return fileTimeCost;
   },
   getMetadata: async (device?: IDeviceInfo): Promise<{ [key: string]: string }> => {
-    const useSwiftray = hasSwiftray && BeamboxPreference.read('path-engine') === 'swiftray';
-    const convertEngine = useSwiftray ? fetchTaskCodeSwiftray : fetchTaskCode;
+    const { convertEngine } = getConvertEngine();
     const { taskCodeBlob, metadata } = await convertEngine(device);
     if (!taskCodeBlob) {
       throw new Error('getMetadata: No task code blob');
