@@ -217,7 +217,7 @@ const lang: ILang = {
         title: 'Verktyg',
         material_test_generator: 'Materialtestgenerator',
         qr_code_generator: 'QR-kodgenerator',
-        boxgen: 'Boxgen',
+        box_generator: 'Lådgenerator',
       },
     },
     select_machine: 'Välj en maskin',

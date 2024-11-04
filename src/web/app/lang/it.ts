@@ -217,7 +217,7 @@ const lang: ILang = {
         title: 'Strumenti',
         material_test_generator: 'Generatore di Test Materiale',
         qr_code_generator: 'Generatore di Codici QR',
-        boxgen: 'Boxgen',
+        box_generator: 'Generatore di Scatole',
       },
     },
     select_machine: 'Seleziona una macchina',

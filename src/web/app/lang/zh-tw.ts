@@ -217,7 +217,7 @@ const lang: ILang = {
         title: '工具',
         material_test_generator: '材質測試產生器',
         qr_code_generator: 'QR 碼產生器',
-        boxgen: 'Boxgen',
+        box_generator: '盒子產生器',
       },
     },
     select_machine: '選擇機器',

@@ -217,7 +217,7 @@ const lang: ILang = {
         title: 'Alat',
         material_test_generator: 'Penjana Ujian Bahan',
         qr_code_generator: 'Penjana Kod QR',
-        boxgen: 'Boxgen',
+        box_generator: 'Penjana Kotak',
       },
     },
     select_machine: 'Pilih mesin',

@@ -217,7 +217,7 @@ const lang: ILang = {
         title: '도구',
         material_test_generator: '재질 테스트 생성기',
         qr_code_generator: 'QR 코드 생성기',
-        boxgen: 'Boxgen',
+        box_generator: '박스 생성기',
       },
     },
     select_machine: '기계를 선택하세요',
