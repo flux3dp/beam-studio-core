@@ -2,7 +2,10 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
+import { LaserType } from 'app/constants/promark-constants';
+
 import ConfigPanelContext from './ConfigPanelContext';
+import FrequencyBlock from './FrequencyBlock';
 
 const mockWriteData = jest.fn();
 jest.mock('helpers/layer/layer-config-helper', () => ({
@@ -62,9 +65,6 @@ jest.mock(
       )
 );
 
-// eslint-disable-next-line import/first
-import FrequencyBlock from './FrequencyBlock';
-
 describe('test FrequencyBlock', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -81,7 +81,7 @@ describe('test FrequencyBlock', () => {
           initState: mockInitState,
         }}
       >
-        <FrequencyBlock info={{ isMopa: false, watt: 20 }} />
+        <FrequencyBlock info={{ laserType: LaserType.Desktop, watt: 20 }} />
       </ConfigPanelContext.Provider>
     );
     expect(container).toMatchSnapshot();
@@ -97,7 +97,7 @@ describe('test FrequencyBlock', () => {
           initState: mockInitState,
         }}
       >
-        <FrequencyBlock type="panel-item" info={{ isMopa: false, watt: 20 }} />
+        <FrequencyBlock type="panel-item" info={{ laserType: LaserType.Desktop, watt: 20 }} />
       </ConfigPanelContext.Provider>
     );
     expect(container).toMatchSnapshot();
@@ -113,7 +113,7 @@ describe('test FrequencyBlock', () => {
           initState: mockInitState,
         }}
       >
-        <FrequencyBlock info={{ isMopa: true, watt: 20 }} />
+        <FrequencyBlock info={{ laserType: LaserType.MOPA, watt: 20 }} />
       </ConfigPanelContext.Provider>
     );
     expect(container).toMatchSnapshot();
@@ -129,7 +129,7 @@ describe('test FrequencyBlock', () => {
           initState: mockInitState,
         }}
       >
-        <FrequencyBlock info={{ isMopa: false, watt: 20 }} />
+        <FrequencyBlock info={{ laserType: LaserType.Desktop, watt: 20 }} />
       </ConfigPanelContext.Provider>
     );
     expect(mockDispatch).not.toBeCalled();
@@ -178,7 +178,7 @@ describe('test FrequencyBlock', () => {
           initState: mockInitState,
         }}
       >
-        <FrequencyBlock type="modal" info={{ isMopa: false, watt: 20 }} />
+        <FrequencyBlock type="modal" info={{ laserType: LaserType.Desktop, watt: 20 }} />
       </ConfigPanelContext.Provider>
     );
 

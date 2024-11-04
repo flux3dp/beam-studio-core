@@ -1,6 +1,8 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
+import { LaserType } from 'app/constants/promark-constants';
+
 import PromarkInputs from './PromarkInputs';
 
 const handleChange = jest.fn();
@@ -54,7 +56,7 @@ jest.mock(
 describe('PromarkInputs', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    mockGetPromarkInfo.mockReturnValue({ isMopa: true, watt: 20 });
+    mockGetPromarkInfo.mockReturnValue({ laserType: LaserType.MOPA, watt: 20 });
     mockIsDev.mockReturnValue(true);
   });
 

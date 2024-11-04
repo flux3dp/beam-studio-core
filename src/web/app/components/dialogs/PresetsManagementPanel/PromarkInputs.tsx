@@ -9,6 +9,7 @@ import { ConfigKey, ConfigKeyTypeMap, Preset } from 'interfaces/ILayerConfig';
 import { defaultConfig } from 'helpers/layer/layer-config-helper';
 import { getPromarkInfo } from 'helpers/device/promark/promark-info';
 import { getSupportInfo } from 'app/constants/add-on';
+import { LaserType } from 'app/constants/promark-constants';
 
 import styles from './PresetsManagementPanel.module.scss';
 
@@ -39,8 +40,8 @@ const PromarkInputs = ({
     return 10 / (preset.repeat - 1);
   }, [preset.repeat]);
   const limit = useMemo(() => {
-    const { isMopa, watt } = info;
-    if (isMopa) {
+    const { laserType, watt } = info;
+    if (laserType === LaserType.MOPA) {
       if (watt >= 100)
         return { pulseWidth: { min: 10, max: 500 }, frequency: { min: 1, max: 4000 } };
       // TODO: check M60
@@ -135,7 +136,7 @@ const PromarkInputs = ({
         )}
       </div>
       <div>
-        {info.isMopa && (
+        {info.laserType === LaserType.MOPA && (
           <div className={styles.field}>
             <div className={styles.label}>{tLaserPanel.pulse_width}</div>
             <UnitInput

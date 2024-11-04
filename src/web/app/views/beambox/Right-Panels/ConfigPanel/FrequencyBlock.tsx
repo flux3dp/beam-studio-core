@@ -8,6 +8,7 @@ import UnitInput from 'app/widgets/Unit-Input-v2';
 import useI18n from 'helpers/useI18n';
 import { CUSTOM_PRESET_CONSTANT, writeData } from 'helpers/layer/layer-config-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { LaserType } from 'app/constants/promark-constants';
 import { PromarkInfo } from 'interfaces/Promark';
 
 import ConfigPanelContext from './ConfigPanelContext';
@@ -31,8 +32,8 @@ const FrequencyBlock = ({
   const { selectedLayers, state, dispatch, initState } = useContext(ConfigPanelContext);
   const { frequency } = state;
   const { min, max } = useMemo(() => {
-    const { isMopa, watt } = info;
-    if (isMopa) {
+    const { laserType, watt } = info;
+    if (laserType === LaserType.MOPA) {
       // TODO: check M60
       return { min: 1, max: 4000 };
     }

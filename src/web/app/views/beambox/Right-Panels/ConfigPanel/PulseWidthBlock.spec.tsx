@@ -2,7 +2,10 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
+import { LaserType } from 'app/constants/promark-constants';
+
 import ConfigPanelContext from './ConfigPanelContext';
+import PulseWidthBlock from './PulseWidthBlock';
 
 const mockWriteData = jest.fn();
 jest.mock('helpers/layer/layer-config-helper', () => ({
@@ -61,10 +64,6 @@ jest.mock(
         </div>
       )
 );
-
-// eslint-disable-next-line import/first
-import PulseWidthBlock from './PulseWidthBlock';
-
 describe('test PulseWidthBlock', () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -81,7 +80,7 @@ describe('test PulseWidthBlock', () => {
           initState: mockInitState,
         }}
       >
-        <PulseWidthBlock info={{ isMopa: true, watt: 20 }} />
+        <PulseWidthBlock info={{ laserType: LaserType.MOPA, watt: 20 }} />
       </ConfigPanelContext.Provider>
     );
     expect(container).toMatchSnapshot();
@@ -97,7 +96,7 @@ describe('test PulseWidthBlock', () => {
           initState: mockInitState,
         }}
       >
-        <PulseWidthBlock type="panel-item" info={{ isMopa: true, watt: 20 }} />
+        <PulseWidthBlock type="panel-item" info={{ laserType: LaserType.MOPA, watt: 20 }} />
       </ConfigPanelContext.Provider>
     );
     expect(container).toMatchSnapshot();
@@ -113,7 +112,7 @@ describe('test PulseWidthBlock', () => {
           initState: mockInitState,
         }}
       >
-        <PulseWidthBlock info={{ isMopa: true, watt: 100 }} />
+        <PulseWidthBlock info={{ laserType: LaserType.MOPA, watt: 100 }} />
       </ConfigPanelContext.Provider>
     );
     expect(container).toMatchSnapshot();
@@ -129,7 +128,7 @@ describe('test PulseWidthBlock', () => {
           initState: mockInitState,
         }}
       >
-        <PulseWidthBlock info={{ isMopa: true, watt: 20 }} />
+        <PulseWidthBlock info={{ laserType: LaserType.MOPA, watt: 20 }} />
       </ConfigPanelContext.Provider>
     );
     expect(mockDispatch).not.toBeCalled();
@@ -178,7 +177,7 @@ describe('test PulseWidthBlock', () => {
           initState: mockInitState,
         }}
       >
-        <PulseWidthBlock type="modal" info={{ isMopa: true, watt: 20 }} />
+        <PulseWidthBlock type="modal" info={{ laserType: LaserType.MOPA, watt: 20 }} />
       </ConfigPanelContext.Provider>
     );
 

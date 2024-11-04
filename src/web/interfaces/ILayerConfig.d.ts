@@ -1,4 +1,4 @@
-import { mopaWatts, promarkWatts } from 'app/constants/promark-constants';
+import { LaserType, mopaWatts, promarkWatts } from 'app/constants/promark-constants';
 import { WorkAreaModel } from 'app/constants/workarea-constants';
 
 export type ConfigKeyTypeMap = {
@@ -67,7 +67,7 @@ export type Preset = {
   module?: number;
 } & Partial<ConfigKeyTypeMap>;
 
-type TPromarkDesktop = `D${(typeof promarkWatts)[number]}`;
-type TPromarkMopa = `M${(typeof mopaWatts)[number]}`;
+type TPromarkDesktop = `${LaserType.Desktop}_${(typeof promarkWatts)[number]}`;
+type TPromarkMopa = `${LaserType.MOPA}_${(typeof mopaWatts)[number]}`;
 
 export type PresetModel = WorkAreaModel | `fpm1_${TPromarkDesktop | TPromarkMopa}`;

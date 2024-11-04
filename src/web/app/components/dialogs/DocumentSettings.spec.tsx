@@ -93,7 +93,7 @@ const mockQuerySelectorAll = jest.fn();
 describe('test DocumentSettings', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    mockGetPromarkInfo.mockReturnValue({ isMopa: false, watt: 20 });
+    mockGetPromarkInfo.mockReturnValue({ laserType: LaserType.Desktop, watt: 20 });
   });
 
   it('should render correctly for ador', async () => {

@@ -102,7 +102,7 @@ const reloadPresets = (migrate = false): void => {
 const getPresetModel = (model: PresetModel): PresetModel => {
   if (!promarkModels.has(model)) return model;
   const info = getPromarkInfo();
-  return `fpm1_${info.isMopa ? 'M' : 'D'}${info.watt}` as PresetModel;
+  return `fpm1_${info.laserType}_${info.watt}` as PresetModel;
 };
 
 const getDefaultPreset = (
