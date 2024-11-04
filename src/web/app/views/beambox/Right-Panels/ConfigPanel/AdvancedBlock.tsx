@@ -7,12 +7,17 @@ import LayerModule from 'app/constants/layer-module/layer-modules';
 import useForceUpdate from 'helpers/use-force-update';
 import useI18n from 'helpers/useI18n';
 import useWorkarea from 'helpers/hooks/useWorkarea';
+import { getPromarkInfo } from 'helpers/device/promark/promark-info';
 import { getSupportInfo } from 'app/constants/add-on';
+import { LaserType } from 'app/constants/promark-constants';
+import { promarkModels } from 'app/actions/beambox/constant';
 
 import AutoFocus from './AutoFocus';
 import ConfigPanelContext from './ConfigPanelContext';
 import Diode from './Diode';
 import FocusBlock from './FocusBlock';
+import FrequencyBlock from './FrequencyBlock';
+import PulseWidthBlock from './PulseWidthBlock';
 import SingleColorBlock from './SingleColorBlock';
 import styles from './AdvancedBlock.module.scss';
 
@@ -26,6 +31,8 @@ const AdvancedBlock = ({
   const lang = useI18n().beambox.right_panel.laser_panel;
   const workarea = useWorkarea();
   const supportInfo = useMemo(() => getSupportInfo(workarea), [workarea]);
+  const isPromark = useMemo(() => promarkModels.has(workarea), [workarea]);
+  const promarkInfo = isPromark ? getPromarkInfo() : null;
 
   useEffect(() => {
     const canvasEvents = eventEmitterFactory.createEventEmitter('canvas');
@@ -37,6 +44,11 @@ const AdvancedBlock = ({
 
   const contents = [];
   if (state.module.value !== LayerModule.PRINTER) {
+    if (promarkInfo) {
+      if (promarkInfo.laserType === LaserType.MOPA)
+        contents.push(<PulseWidthBlock type={type} info={promarkInfo} />);
+      contents.push(<FrequencyBlock type={type} info={promarkInfo} />);
+    }
     if (supportInfo.lowerFocus) {
       contents.push(<FocusBlock type={type} key="focus-block" />);
     } else if (supportInfo.autoFocus && beamboxPreference.read('enable-autofocus')) {
