@@ -777,6 +777,7 @@ const lang: ILang = {
         module: 'Mô-đun',
         pulse_width: 'Độ Rộng Xung',
         frequency: 'Tần Số',
+        fill_setting: 'Cài đặt Đổ đầy',
         fill_interval: 'Khoảng Cách Lấp Đầy',
         fill_angle: 'Góc Lấp Đầy',
         bi_directional: 'Hai Chiều',

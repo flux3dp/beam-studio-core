@@ -773,6 +773,7 @@ export interface ILang {
         module: string;
         pulse_width: string;
         frequency: string;
+        fill_setting: string;
         fill_interval: string;
         fill_angle: string;
         bi_directional: string;

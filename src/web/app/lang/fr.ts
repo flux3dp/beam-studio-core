@@ -777,6 +777,7 @@ const lang: ILang = {
         module: 'Module',
         pulse_width: "Largeur d'impulsion",
         frequency: 'Fréquence',
+        fill_setting: 'Paramètres de Remplissage',
         fill_interval: 'Intervalle de Remplissage',
         fill_angle: 'Angle de Remplissage',
         bi_directional: 'Bidirectionnel',

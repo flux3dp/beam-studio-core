@@ -777,6 +777,7 @@ const lang: ILang = {
         module: 'Moduuli',
         pulse_width: 'Pulssin leveys',
         frequency: 'Taajuus',
+        fill_setting: 'Täyttöasetukset',
         fill_interval: 'Täyttöväli',
         fill_angle: 'Täyttökulma',
         bi_directional: 'Kaksisuuntainen',

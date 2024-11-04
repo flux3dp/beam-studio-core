@@ -780,6 +780,7 @@ const lang: ILang = {
         module: '模組',
         pulse_width: '脈衝寬度',
         frequency: '頻率',
+        fill_setting: '填充設定',
         fill_interval: '填充間隔',
         fill_angle: '填充角度',
         bi_directional: '雙向',

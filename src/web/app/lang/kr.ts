@@ -780,6 +780,7 @@ const lang: ILang = {
         module: '모듈',
         pulse_width: '펄스 폭',
         frequency: '주파수',
+        fill_setting: '채우기 설정',
         fill_interval: '채우기 간격',
         fill_angle: '채우기 각도',
         bi_directional: '양방향',

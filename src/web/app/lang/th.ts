@@ -777,6 +777,7 @@ const lang: ILang = {
         module: 'โหมด',
         pulse_width: 'ความกว้างของพัลส์',
         frequency: 'ความถี่',
+        fill_setting: 'การตั้งค่าการเติม',
         fill_interval: 'ช่วงเติมเต็ม',
         fill_angle: 'มุมเติมเต็ม',
         bi_directional: 'สองทิศทาง',

@@ -780,6 +780,7 @@ const lang: ILang = {
         module: 'モジュール',
         pulse_width: 'パルス幅',
         frequency: '周波数',
+        fill_setting: 'フィル設定',
         fill_interval: '填充間隔',
         fill_angle: '填充角度',
         bi_directional: '双方向',

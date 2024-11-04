@@ -777,6 +777,7 @@ const lang: ILang = {
         module: 'Modul',
         pulse_width: 'Lebar Denyut',
         frequency: 'Frekuensi',
+        fill_setting: 'Pengaturan Isi',
         fill_interval: 'Jarak Isian',
         fill_angle: 'Sudut Isian',
         bi_directional: 'Dua Arah',

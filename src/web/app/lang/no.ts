@@ -777,6 +777,7 @@ const lang: ILang = {
         module: 'Modul',
         pulse_width: 'Pulsbredde',
         frequency: 'Frekvens',
+        fill_setting: 'Fyllingsinnstillinger',
         fill_interval: 'Fyll Interval',
         fill_angle: 'Fyll Vinkel',
         bi_directional: 'Toveis',
