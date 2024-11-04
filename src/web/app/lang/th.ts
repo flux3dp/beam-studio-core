@@ -461,6 +461,7 @@ const lang: ILang = {
     simplify_clipper_path: 'เพิ่มประสิทธิภาพเส้นทางที่คํานวณ',
     enable_low_speed: 'เปิดใช้งานความเร็วต่ํา',
     enable_custom_backlash: 'เปิดใช้งานการชดเชยการถอยหลังแบบกําหนดเอง',
+    calculation_optimization: 'การเร่งความเร็วในการคำนวณเส้นทาง',
     auto_switch_tab: 'สลับชั้นอัตโนมัติและแผงวัตถุ',
     custom_preview_height: 'ความสูงแสดงตัวอย่างกําหนดเอง',
     mask: 'ตัดขอบพื้นที่ทํางาน',

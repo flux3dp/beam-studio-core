@@ -461,6 +461,7 @@ const lang: ILang = {
     simplify_clipper_path: 'Optimera den beräknade banan',
     enable_low_speed: 'Aktivera långsam hastighetsrörelse',
     enable_custom_backlash: 'Aktivera anpassad backlashkompensation',
+    calculation_optimization: 'Banuppskattningsacceleration',
     auto_switch_tab: 'Automatisk växling mellan lager- och objektpanelen',
     custom_preview_height: 'Anpassad förhandsgranskningshöjd',
     mask: 'Arbetsområdesklippning',

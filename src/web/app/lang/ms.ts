@@ -461,6 +461,7 @@ const lang: ILang = {
     simplify_clipper_path: 'Optimumkan Laluan Dikira',
     enable_low_speed: 'Dayakan pergerakan perlahan',
     enable_custom_backlash: 'Dayakan Pampasan Undur Tersuai',
+    calculation_optimization: 'Pecutan Pengiraan Laluan',
     auto_switch_tab: 'Tukar Automatik Panel Lapisan dan Objek',
     custom_preview_height: 'Ketinggian Pratonton Tersuai',
     mask: 'Penyepadan Kawasan Kerja',

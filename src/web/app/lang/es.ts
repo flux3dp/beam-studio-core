@@ -464,6 +464,7 @@ const lang: ILang = {
     simplify_clipper_path: 'Optimizar la trayectoria calculada',
     enable_low_speed: 'Activar movimiento lento',
     enable_custom_backlash: 'Activar la compensación de retroceso',
+    calculation_optimization: 'Aceleración de cálculo de trayectorias',
     auto_switch_tab: 'Cambio automático entre panel de capas y objetos',
     custom_preview_height: 'Altura de la previsualización',
     mask: 'Recorte del área de trabajo',

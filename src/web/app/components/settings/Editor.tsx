@@ -166,6 +166,12 @@ function Editor({
     { lang }
   );
 
+  const pathEngine = getBeamboxPreferenceEditingValue('path-engine') || 'fluxghost';
+  const pathEngineOptions = [
+    { value: 'swiftray', label: lang.settings.on, selected: pathEngine === 'swiftray' },
+    { value: 'fluxghost', label: lang.settings.off, selected: pathEngine === 'fluxghost' },
+  ];
+
   return (
     <>
       <div className="subtitle">{lang.settings.groups.editor}</div>
@@ -280,6 +286,12 @@ function Editor({
         label={lang.settings.auto_switch_tab}
         options={autoSwitchTab}
         onChange={(e) => updateBeamboxPreferenceChange('auto-switch-tab', e.target.value)}
+      />
+      <SelectControl
+        id="path-engine"
+        label={lang.settings.calculation_optimization}
+        options={pathEngineOptions}
+        onChange={(e) => updateBeamboxPreferenceChange('path-engine', e.target.value)}
       />
       {isDev() && (
         <SelectControl

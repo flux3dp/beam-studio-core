@@ -464,6 +464,7 @@ const lang: ILang = {
     simplify_clipper_path: 'Optimize the Calculated Path',
     enable_low_speed: 'Enable slow speed movement',
     enable_custom_backlash: 'Enable Custom Backlash Compensation',
+    calculation_optimization: 'Path Calculation Acceleration',
     auto_switch_tab: 'Auto Switch Layer and Object Panel',
     custom_preview_height: 'Custom Preview Height',
     mask: 'Workarea Clipping',

@@ -464,6 +464,7 @@ const lang: ILang = {
     simplify_clipper_path: '計算されたパスを最適化',
     enable_low_speed: '低速モードを有効にする',
     enable_custom_backlash: 'カスタムバックラッシュを有効にする',
+    calculation_optimization: 'パス計算の加速',
     auto_switch_tab: 'レイヤーとオブジェクトパネルの自動切り替え',
     custom_preview_height: 'カスタムプレビュー高さ',
     mask: 'ワークエリアのクリッピング',

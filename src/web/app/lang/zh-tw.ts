@@ -464,6 +464,7 @@ const lang: ILang = {
     simplify_clipper_path: '路徑計算優化',
     enable_low_speed: '啟用慢速移動',
     enable_custom_backlash: '啟用自訂背隙補償',
+    calculation_optimization: '路徑計算加速',
     auto_switch_tab: '自動切換圖層與物件面板',
     custom_preview_height: '自訂預覽高度',
     mask: '工作範圍剪裁',

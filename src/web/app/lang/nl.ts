@@ -461,6 +461,7 @@ const lang: ILang = {
     simplify_clipper_path: 'Optimaliseer het berekende pad',
     enable_low_speed: 'Schakel lage snelheidsbeweging in',
     enable_custom_backlash: 'Schakel aangepaste backlash compensatie in',
+    calculation_optimization: 'Versnelling van padberekening',
     auto_switch_tab: 'Automatisch schakelen tussen laag- en objectpaneel',
     custom_preview_height: 'Aangepaste voorbeeldhoogte',
     mask: 'Werkgebied bijsnijden',

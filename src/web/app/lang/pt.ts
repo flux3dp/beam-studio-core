@@ -461,6 +461,7 @@ const lang: ILang = {
     simplify_clipper_path: 'Otimizar caminho calculado',
     enable_low_speed: 'Ativar movimento de baixa velocidade',
     enable_custom_backlash: 'Ativar compensação de folga personalizada',
+    calculation_optimization: 'Aceleração do cálculo de caminho',
     auto_switch_tab: 'Troca automática entre painel de camadas e objetos',
     custom_preview_height: 'Altura de visualização personalizada',
     mask: 'Máscara da área de trabalho',

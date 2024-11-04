@@ -464,6 +464,7 @@ const lang: ILang = {
     simplify_clipper_path: 'Optymalizuj obliczoną ścieżkę',
     enable_low_speed: 'Włącz ruch z małą prędkością',
     enable_custom_backlash: 'Włącz niestandardową kompensację luzu',
+    calculation_optimization: 'Przyspieszenie obliczeń ścieżki',
     auto_switch_tab: 'Automatyczne przełączanie między panelem warstw a panelem obiektów',
     custom_preview_height: 'Niestandardowa wysokość podglądu',
     mask: 'Przycinanie obszaru roboczego',

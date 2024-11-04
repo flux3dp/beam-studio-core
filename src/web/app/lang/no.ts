@@ -461,6 +461,7 @@ const lang: ILang = {
     simplify_clipper_path: 'Forenklet bane',
     enable_low_speed: 'Aktiver lav hastighetsbevegelse',
     enable_custom_backlash: 'Aktiver egen slakkkompensasjon',
+    calculation_optimization: 'Baneutregningsakselerasjon',
     auto_switch_tab: 'Automatisk bytte mellom lag- og objektpanel',
     custom_preview_height: 'Egen forhåndsvisningshøyde',
     mask: 'Arbeidsområdeklipping',

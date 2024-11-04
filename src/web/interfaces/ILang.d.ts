@@ -458,6 +458,7 @@ export interface ILang {
     enable_low_speed: string;
     auto_switch_tab: string;
     enable_custom_backlash: string;
+    calculation_optimization: string;
     custom_preview_height: string;
     mask: string;
     text_path_calc_optimization: string;

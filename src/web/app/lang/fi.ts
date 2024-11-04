@@ -461,6 +461,7 @@ const lang: ILang = {
     simplify_clipper_path: 'Optimoi laskettu polku',
     enable_low_speed: 'Ota hitaan nopeuden liike käyttöön',
     enable_custom_backlash: 'Ota mukautettu välys kompensointi käyttöön',
+    calculation_optimization: 'Reitin laskennan kiihtyvyys',
     auto_switch_tab: 'Automaattinen vaihto kerros- ja objektipaneelin välillä',
     custom_preview_height: 'Mukautettu esikatselukorkeus',
     mask: 'Työalueen rajaus',

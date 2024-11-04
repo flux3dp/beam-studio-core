@@ -179,7 +179,7 @@ describe('settings/Editor', () => {
         updateModel={updateModel}
       />
     );
-    expect(mockGetBeamboxPreferenceEditingValue).toBeCalledTimes(10);
+    expect(mockGetBeamboxPreferenceEditingValue).toBeCalledTimes(11);
     expect(mockGetBeamboxPreferenceEditingValue).toHaveBeenNthCalledWith(1, 'guide_x0');
     expect(mockGetBeamboxPreferenceEditingValue).toHaveBeenNthCalledWith(2, 'guide_y0');
     expect(mockGetBeamboxPreferenceEditingValue).toHaveBeenNthCalledWith(3, 'show_guides');
@@ -196,6 +196,7 @@ describe('settings/Editor', () => {
       10,
       'enable-custom-backlash'
     );
+    expect(mockGetBeamboxPreferenceEditingValue).toHaveBeenNthCalledWith(11, 'path-engine');
     expect(container).toMatchSnapshot();
 
     const SelectControls = container.querySelectorAll('.select-control');
@@ -265,10 +266,14 @@ describe('settings/Editor', () => {
     expect(updateBeamboxPreferenceChange).toHaveBeenCalledTimes(10);
     expect(updateBeamboxPreferenceChange).toHaveBeenNthCalledWith(10, 'guide_y0', 2);
 
-    fireEvent.change(SelectControls[11], { target: { value: OptionValues.TRUE } });
+    fireEvent.change(SelectControls[11], { target: { value: 'swiftray' } });
     expect(updateBeamboxPreferenceChange).toHaveBeenCalledTimes(11);
+    expect(updateBeamboxPreferenceChange).toHaveBeenNthCalledWith(11, 'path-engine', 'swiftray');
+
+    fireEvent.change(SelectControls[12], { target: { value: OptionValues.TRUE } });
+    expect(updateBeamboxPreferenceChange).toHaveBeenCalledTimes(12);
     expect(updateBeamboxPreferenceChange).toHaveBeenNthCalledWith(
-      11,
+      12,
       'enable-custom-backlash',
       'TRUE'
     );

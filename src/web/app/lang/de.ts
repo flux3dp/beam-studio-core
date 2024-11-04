@@ -464,6 +464,7 @@ const lang: ILang = {
     simplify_clipper_path: 'Optimieren Sie den berechneten Pfad',
     enable_low_speed: 'Langsame Bewegung aktivieren',
     enable_custom_backlash: 'Benutzerdefinierte Backlash-Kompensation aktivieren',
+    calculation_optimization: 'Wegberechnungsbeschleunigung',
     auto_switch_tab: 'Automatisches Umschalten von Ebenen- und Objektpanel',
     custom_preview_height: 'Benutzerdefinierte Vorschauhöhe',
     mask: 'Arbeitsbereich-Ausschnitt',

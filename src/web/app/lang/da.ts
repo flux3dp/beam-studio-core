@@ -461,6 +461,7 @@ const lang: ILang = {
     simplify_clipper_path: 'Optimer den Beregnede Sti',
     enable_low_speed: 'Aktivér langsom hastighed bevægelse',
     enable_custom_backlash: 'Aktivér Brugerdefineret Backlash Kompensation',
+    calculation_optimization: 'Stiberegningsacceleration',
     auto_switch_tab: 'Automatisk skift mellem lag- og objektpanel',
     custom_preview_height: 'Brugerdefineret Forhåndsvisningshøjde',
     mask: 'Arbejdsområde Beskæring',

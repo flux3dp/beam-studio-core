@@ -464,6 +464,7 @@ const lang: ILang = {
     simplify_clipper_path: '계산된 경로 최적화',
     enable_low_speed: '저속 이동 활성화',
     enable_custom_backlash: '사용자 정의 백래시 활성화',
+    calculation_optimization: '경로 계산 가속',
     auto_switch_tab: '레이어 및 객체 패널 자동 전환',
     custom_preview_height: '사용자 정의 미리보기 높이',
     mask: '작업 영역 클리핑',
