@@ -33,7 +33,7 @@ const PulseWidthBlock = ({
   const { min, max } = useMemo(() => {
     const { watt } = info;
     if (watt >= 100) return { min: 10, max: 500 };
-    // TODO: check M60
+    if (watt >= 60) return { min: 2, max: 500 };
     return { min: 2, max: 350 };
   }, [info]);
 

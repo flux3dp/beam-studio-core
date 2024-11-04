@@ -44,7 +44,7 @@ const PromarkInputs = ({
     if (laserType === LaserType.MOPA) {
       if (watt >= 100)
         return { pulseWidth: { min: 10, max: 500 }, frequency: { min: 1, max: 4000 } };
-      // TODO: check M60
+      if (watt >= 60) return { pulseWidth: { min: 2, max: 500 }, frequency: { min: 1, max: 3000 } };
       return { pulseWidth: { min: 2, max: 350 }, frequency: { min: 1, max: 4000 } };
     }
     if (watt >= 50) return { frequency: { min: 45, max: 170 } };

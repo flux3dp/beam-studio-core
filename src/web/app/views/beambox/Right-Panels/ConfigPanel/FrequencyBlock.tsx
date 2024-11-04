@@ -34,7 +34,7 @@ const FrequencyBlock = ({
   const { min, max } = useMemo(() => {
     const { laserType, watt } = info;
     if (laserType === LaserType.MOPA) {
-      // TODO: check M60
+      if (watt === 60) return { min: 1, max: 3000 };
       return { min: 1, max: 4000 };
     }
     if (watt >= 50) return { min: 45, max: 170 };
