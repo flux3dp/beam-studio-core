@@ -1070,7 +1070,7 @@ export interface ILang {
     document_panel: {
       document_settings: string;
       machine: string;
-      watts: string;
+      laser_source: string;
       workarea: string;
       rotary_mode: string;
       borderless_mode: string;

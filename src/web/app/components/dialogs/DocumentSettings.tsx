@@ -21,11 +21,7 @@ import UnitInput from 'app/widgets/UnitInput';
 import useI18n from 'helpers/useI18n';
 import { getPromarkInfo, setPromarkInfo } from 'helpers/device/promark/promark-info';
 import { getSupportInfo } from 'app/constants/add-on';
-import {
-  mopaWatts,
-  promarkWatts,
-  workareaOptions as pmWorkareaOptions,
-} from 'app/constants/promark-constants';
+import { LaserType, workareaOptions as pmWorkareaOptions } from 'app/constants/promark-constants';
 import { WorkAreaModel, getWorkarea } from 'app/constants/workarea-constants';
 
 import styles from './DocumentSettings.module.scss';
@@ -38,11 +34,17 @@ const workareaOptions = [
   { label: 'Ador', value: 'ado1' },
 ];
 if (isDev()) workareaOptions.push({ label: 'Beambox II', value: 'fbb2' });
-if (isDev()) {
-  workareaOptions.push({ label: 'Promark', value: 'fpm1' });
-  workareaOptions.push({ label: 'Promark MOPA', value: 'fpm1-mp' });
-}
+if (isDev()) workareaOptions.push({ label: 'Promark', value: 'fpm1' });
 if (isDev()) workareaOptions.push({ label: 'Lazervida', value: 'flv1' });
+
+const promarkLaserOptions = [
+  { label: 'Desktop - 20W', value: `${LaserType.Desktop}-20` },
+  { label: 'Desktop - 30W', value: `${LaserType.Desktop}-30` },
+  { label: 'Desktop - 50W', value: `${LaserType.Desktop}-50` },
+  { label: 'MOPA - 20W', value: `${LaserType.MOPA}-20` },
+  { label: 'MOPA - 60W', value: `${LaserType.MOPA}-60` },
+  { label: 'MOPA - 100W', value: `${LaserType.MOPA}-100` },
+];
 
 const dpiOptions = ['low', 'medium', 'high', 'ultra'];
 
@@ -60,15 +62,11 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
   const origWorkarea = useMemo(() => BeamboxPreference.read('workarea'), []);
   const [pmInfo, setPmInfo] = useState(getPromarkInfo());
   const [workarea, setWorkarea] = useState<WorkAreaModel>(origWorkarea || 'fbb1b');
-  // Add suffix '-mp' to workarea for MOPA model
-  const displayWorkarea = useMemo(() => {
-    if (!promarkModels.has(workarea) || !pmInfo.isMopa) return workarea;
-    return `${workarea}-mp`;
-  }, [workarea, pmInfo.isMopa]);
   const [customDimension, setCustomDimension] = useState<
     Record<WorkAreaModel, { width: number; height: number }>
   >(BeamboxPreference.read('customized-dimension') ?? {});
   const supportInfo = useMemo(() => getSupportInfo(workarea), [workarea]);
+  const isPromark = useMemo(() => promarkModels.has(workarea), [workarea]);
   const [rotaryMode, setRotaryMode] = useState<number>(BeamboxPreference.read('rotary_mode') ?? 0);
   const [enableJobOrigin, setEnableJobOrigin] = useState<number>(
     BeamboxPreference.read('enable-job-origin') ?? 0
@@ -210,15 +208,10 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
             </label>
             <Select
               id="workareaSelect"
-              value={displayWorkarea}
+              value={workarea}
               className={styles.control}
               bordered
-              onChange={(val: string) => {
-                if (val.startsWith('fpm1')) {
-                  setPmInfo({ isMopa: val.endsWith('-mp'), watt: 20 });
-                  setWorkarea('fpm1');
-                } else setWorkarea(val as WorkAreaModel);
-              }}
+              onChange={setWorkarea}
             >
               {workareaOptions.map((option) => (
                 <Select.Option key={option.value} value={option.value}>
@@ -252,21 +245,24 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
               </Select>
             </div>
           )}
-          {promarkModels.has(workarea) && (
+          {isPromark && (
             <div className={styles.row}>
-              <label className={styles.title} htmlFor="pm-watts">
-                {tDocu.watts}:
+              <label className={styles.title} htmlFor="pm-laser-source">
+                {tDocu.laser_source}
               </label>
               <Select
-                id="pm-watts"
-                value={pmInfo.watt}
+                id="pm-laser-source"
+                value={`${pmInfo.laserType}-${pmInfo.watt}`}
                 className={styles.control}
                 bordered
-                onChange={(val) => setPmInfo((cur) => ({ ...cur, watt: val }))}
+                onChange={(val) => {
+                  const [type, watt] = val.split('-').map(Number);
+                  setPmInfo({ laserType: type, watt });
+                }}
               >
-                {(pmInfo.isMopa ? mopaWatts : promarkWatts).map((val: number) => (
-                  <Select.Option key={val} value={val}>
-                    {val}W
+                {promarkLaserOptions.map(({ label, value }) => (
+                  <Select.Option key={value} value={value}>
+                    {label}
                   </Select.Option>
                 ))}
               </Select>
@@ -291,59 +287,63 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
             </Select>
           </div>
         </div>
-        <div className={styles.separator}>
-          <div>{tDocu.start_position}</div>
-          <div className={styles.bar} />
-        </div>
-        <div className={styles.block}>
-          <div className={styles.row}>
-            <label className={styles.title} htmlFor="startFrom">
-              {tDocu.start_from}:
-            </label>
-            <Select
-              id="startFrom"
-              value={enableJobOrigin}
-              className={styles.control}
-              bordered
-              onChange={setEnableJobOrigin}
-            >
-              <Select.Option value={0}>{tDocu.origin}</Select.Option>
-              <Select.Option value={1}>{tDocu.current_position}</Select.Option>
-            </Select>
-          </div>
-          {enableJobOrigin === 1 && (
-            <div className={styles.row}>
-              <label className={styles.title}>{tDocu.job_origin}:</label>
-              <div className={styles.control}>
-                <div className={styles.radioGroup}>
-                  {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((val) => (
-                    <input
-                      id={`jobOrigin-${val}`}
-                      key={val}
-                      name="jobOrigin"
-                      type="radio"
-                      checked={jobOrigin === val}
-                      onChange={() => setJobOrigin(val)}
-                    />
-                  ))}
-                </div>
-                <div className={styles['job-origin-example']}>
-                  <img src="core-img/document-panel/job-origin-example.jpg" alt="Origin" />
-                  <div
-                    className={classNames(styles.mark, {
-                      [styles.l]: jobOrigin % 3 === 1,
-                      [styles.m]: jobOrigin % 3 === 2,
-                      [styles.r]: jobOrigin % 3 === 0,
-                      [styles.t]: jobOrigin <= 3,
-                      [styles.c]: jobOrigin > 3 && jobOrigin <= 6,
-                      [styles.b]: jobOrigin > 6,
-                    })}
-                  />
-                </div>
-              </div>
+        {supportInfo.jobOrigin && (
+          <>
+            <div className={styles.separator}>
+              <div>{tDocu.start_position}</div>
+              <div className={styles.bar} />
             </div>
-          )}
-        </div>
+            <div className={styles.block}>
+              <div className={styles.row}>
+                <label className={styles.title} htmlFor="startFrom">
+                  {tDocu.start_from}:
+                </label>
+                <Select
+                  id="startFrom"
+                  value={enableJobOrigin}
+                  className={styles.control}
+                  bordered
+                  onChange={setEnableJobOrigin}
+                >
+                  <Select.Option value={0}>{tDocu.origin}</Select.Option>
+                  <Select.Option value={1}>{tDocu.current_position}</Select.Option>
+                </Select>
+              </div>
+              {enableJobOrigin === 1 && (
+                <div className={styles.row}>
+                  <label className={styles.title}>{tDocu.job_origin}:</label>
+                  <div className={styles.control}>
+                    <div className={styles.radioGroup}>
+                      {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((val) => (
+                        <input
+                          id={`jobOrigin-${val}`}
+                          key={val}
+                          name="jobOrigin"
+                          type="radio"
+                          checked={jobOrigin === val}
+                          onChange={() => setJobOrigin(val)}
+                        />
+                      ))}
+                    </div>
+                    <div className={styles['job-origin-example']}>
+                      <img src="core-img/document-panel/job-origin-example.jpg" alt="Origin" />
+                      <div
+                        className={classNames(styles.mark, {
+                          [styles.l]: jobOrigin % 3 === 1,
+                          [styles.m]: jobOrigin % 3 === 2,
+                          [styles.r]: jobOrigin % 3 === 0,
+                          [styles.t]: jobOrigin <= 3,
+                          [styles.c]: jobOrigin > 3 && jobOrigin <= 6,
+                          [styles.b]: jobOrigin > 6,
+                        })}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </>
+        )}
         <div className={styles.separator}>
           <div>{tDocu.add_on}</div>
           <div className={styles.bar} />

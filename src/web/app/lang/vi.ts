@@ -1074,7 +1074,7 @@ const lang: ILang = {
     document_panel: {
       document_settings: 'Cài đặt tài liệu',
       machine: 'Máy',
-      watts: 'Oát',
+      laser_source: 'Nguồn laser',
       workarea: 'Khu vực làm việc',
       rotary_mode: 'Chế độ xoay',
       borderless_mode: 'Mở đáy',

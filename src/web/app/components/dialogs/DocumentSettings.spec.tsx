@@ -1,6 +1,10 @@
 import React, { act } from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
+import { LaserType } from 'app/constants/promark-constants';
+
+import DocumentSettings from './DocumentSettings';
+
 const mockEventEmitter = {
   emit: jest.fn(),
 };
@@ -13,9 +17,6 @@ jest.mock('helpers/eventEmitterFactory', () => ({
 }));
 
 jest.mock('helpers/is-dev', () => () => true);
-
-// eslint-disable-next-line import/first
-import DocumentSettings from './DocumentSettings';
 
 jest.mock('antd', () => ({
   ...jest.requireActual('antd'),
@@ -197,10 +198,10 @@ describe('test DocumentSettings', () => {
     fireEvent.click(
       baseElement.querySelectorAll('.ant-slide-up-appear .ant-select-item-option-content')[0]
     );
-    expect(baseElement.querySelector('input#pm-watts')).toBeInTheDocument();
-    act(() => fireEvent.mouseDown(baseElement.querySelector('input#pm-watts')));
+    expect(baseElement.querySelector('input#pm-laser-source')).toBeInTheDocument();
+    act(() => fireEvent.mouseDown(baseElement.querySelector('input#pm-laser-source')));
     fireEvent.click(
-      baseElement.querySelectorAll('.ant-slide-up-appear .ant-select-item-option-content')[1]
+      baseElement.querySelectorAll('.ant-slide-up-appear .ant-select-item-option-content')[4]
     );
     expect(baseElement).toMatchSnapshot();
     mockQuerySelectorAll.mockReturnValueOnce([1]);
@@ -222,6 +223,6 @@ describe('test DocumentSettings', () => {
       fpm1: { width: 110, height: 110 },
     });
     expect(mockSetPromarkInfo).toBeCalledTimes(1);
-    expect(mockSetPromarkInfo).toHaveBeenLastCalledWith({ isMopa: false, watt: 30 });
+    expect(mockSetPromarkInfo).toHaveBeenLastCalledWith({ laserType: LaserType.MOPA, watt: 60 });
   });
 });

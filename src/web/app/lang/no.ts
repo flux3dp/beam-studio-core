@@ -1074,7 +1074,7 @@ const lang: ILang = {
     document_panel: {
       document_settings: 'Dokumentinnstillinger',
       machine: 'Maskin',
-      watts: 'Watt',
+      laser_source: 'Laserkilde',
       workarea: 'Arbeidsområde',
       rotary_mode: 'Roterende',
       borderless_mode: 'Åpen bunn',

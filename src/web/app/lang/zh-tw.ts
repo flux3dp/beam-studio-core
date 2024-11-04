@@ -1077,7 +1077,7 @@ const lang: ILang = {
     document_panel: {
       document_settings: '文件設定',
       machine: '機器',
-      watts: '瓦數',
+      laser_source: '雷射光源',
       workarea: '工作範圍',
       rotary_mode: '旋轉軸',
       borderless_mode: '開蓋模式',

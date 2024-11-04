@@ -26,10 +26,10 @@ import VersionChecker from 'helpers/version-checker';
 import { CanvasContext, CanvasMode } from 'app/contexts/CanvasContext';
 import { executeFirmwareUpdate } from 'app/actions/beambox/menuDeviceActions';
 import { getNextStepRequirement, handleNextStep } from 'app/views/tutorials/tutorialController';
+import { getSupportInfo } from 'app/constants/add-on';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { showAdorCalibration } from 'app/components/dialogs/camera/AdorCalibration';
-import { WorkAreaModel } from 'app/constants/workarea-constants';
 
 import styles from './GoButton.module.scss';
 
@@ -56,8 +56,9 @@ const GoButton = ({ hasDiscoverdMachine, hasText }: Props): JSX.Element => {
 
   const handleExportAlerts = useCallback(
     async (device: IDeviceInfo) => {
-      const workarea = device.model as WorkAreaModel;
+      const workarea = device.model;
       const layers = [...document.querySelectorAll('#svgcontent > g.layer:not([display="none"])')];
+      const supportInfo = getSupportInfo(workarea);
 
       if (!constant.highPowerModels.includes(workarea)) {
         const isPowerTooHigh = layers.some((layer) => {
@@ -93,7 +94,7 @@ const GoButton = ({ hasDiscoverdMachine, hasText }: Props): JSX.Element => {
           return false;
         }
       }
-      if (!vc.meetRequirement(isAdor ? 'ADOR_JOB_ORIGIN' : 'JOB_ORIGIN')) {
+      if (supportInfo.jobOrigin && !vc.meetRequirement(isAdor ? 'ADOR_JOB_ORIGIN' : 'JOB_ORIGIN')) {
         if (BeamboxPreference.read('enable-job-origin')) {
           const res = await new Promise((resolve) => {
             alertCaller.popUp({

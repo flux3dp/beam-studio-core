@@ -1074,7 +1074,7 @@ const lang: ILang = {
     document_panel: {
       document_settings: 'Ρυθμίσεις εγγράφου',
       machine: 'Μηχανή',
-      watts: 'Βατ',
+      laser_source: 'Πηγή λέιζερ',
       workarea: 'Περιοχή εργασίας',
       rotary_mode: 'Περιστροφική λειτουργία',
       borderless_mode: 'Ανοιχτό κάτω μέρος',

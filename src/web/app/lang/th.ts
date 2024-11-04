@@ -1074,7 +1074,7 @@ const lang: ILang = {
     document_panel: {
       document_settings: 'การตั้งค่าเอกสาร',
       machine: 'เครื่อง',
-      watts: 'วัตต์',
+      laser_source: 'แหล่งกำเนิดเลเซอร์',
       workarea: 'พื้นที่ทํางาน',
       rotary_mode: 'โหมดหมุน',
       borderless_mode: 'โหมดเปิดก้น',
