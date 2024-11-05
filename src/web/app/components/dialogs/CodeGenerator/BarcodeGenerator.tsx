@@ -55,7 +55,12 @@ export default function BarcodeGenerator({ isInvert, setIsInvert }: Props): JSX.
 
   return (
     <>
-      <Barcode value={value} options={options} renderer="svg" />
+      <Barcode
+        style={{ marginBottom: 20, borderRadius: 10, border: '1px solid #d9d9d9' }}
+        value={value}
+        options={options}
+        renderer="svg"
+      />
       <ConfigProvider theme={{ components: { Form: { itemMarginBottom: 12 } } }}>
         <Form>
           <Space.Compact style={{ width: '100%', marginBottom: 20 }}>
@@ -64,14 +69,16 @@ export default function BarcodeGenerator({ isInvert, setIsInvert }: Props): JSX.
               onKeyDown={(e) => e.stopPropagation()}
               onChange={(e) => setValue(e.target.value)}
             />
-            <Cascader
-              value={[options.format]}
-              options={formatOptions}
-              allowClear={false}
-              showSearch={{ filter }}
-              onKeyDown={(e) => e.stopPropagation()}
-              onChange={(format) => setOptions({ ...options, format })}
-            />
+            <ConfigProvider theme={{ token: { colorBgContainer: '#FAFAFA' } }}>
+              <Cascader
+                value={[options.format]}
+                options={formatOptions}
+                allowClear={false}
+                showSearch={{ filter }}
+                onKeyDown={(e) => e.stopPropagation()}
+                onChange={(format) => setOptions({ ...options, format })}
+              />
+            </ConfigProvider>
           </Space.Compact>
 
           <Flex justify="center" gap={32}>
@@ -107,6 +114,13 @@ export default function BarcodeGenerator({ isInvert, setIsInvert }: Props): JSX.
 
               <Form.Item className={styles['flex-child']}>
                 <Checkbox
+                  onChange={(e) => setOptions({ ...options, displayValue: !e.target.checked })}
+                >
+                  Hide Text
+                </Checkbox>
+              </Form.Item>
+              {/* <Form.Item className={styles['flex-child']}>
+                <Checkbox
                   checked={isInvert}
                   onChange={() => {
                     const [black, white] = ['#000000', '#ffffff'];
@@ -121,7 +135,7 @@ export default function BarcodeGenerator({ isInvert, setIsInvert }: Props): JSX.
                 >
                   Invert Color
                 </Checkbox>
-              </Form.Item>
+              </Form.Item> */}
             </Flex>
 
             <Flex vertical>
@@ -201,14 +215,6 @@ export default function BarcodeGenerator({ isInvert, setIsInvert }: Props): JSX.
                   </Form.Item>
                 </Flex>
               </Flex>
-
-              <Form.Item>
-                <Checkbox
-                  onChange={(e) => setOptions({ ...options, displayValue: !e.target.checked })}
-                >
-                  Hide Text
-                </Checkbox>
-              </Form.Item>
             </Flex>
           </Flex>
         </Form>

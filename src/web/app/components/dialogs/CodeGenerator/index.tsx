@@ -11,7 +11,7 @@ import styles from './index.module.scss';
 
 import QRCodeGenerator from './QRCodeGenerator';
 import BarcodeGenerator from './BarcodeGenerator';
-import { extractPathTags, removeFirstRectTag } from './svgOperation';
+import { extractSvgTags, removeFirstRectTag } from './svgOperation';
 
 interface Props {
   onClose: () => void;
@@ -23,10 +23,20 @@ getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
 });
 
-function handleQrCodeInvertColor(svgString: string) {
+function handleQrCodeInvertColor(svgString: string, size: string) {
+  const fullPath = `<path fill="black" d="M0 0h${size}v${size}H0z" />`;
+  const infoPath = extractSvgTags(svgString, 'path')[1];
+  const d = svgCanvas.pathActions.booleanOperation(fullPath, infoPath, 2);
+
+  importSvgString(
+    `<svg xmlns="http://www.w3.org/2000/svg" height="1000" width="1000" viewBox="0 0 ${size} ${size}"><path fill="black" d="${d}" shape-rendering="crispEdges"/></svg>`,
+    { type: 'layer' }
+  );
+}
+
+function handleBarcodeInvertColor(svgString: string) {
   const fullPath = '<path fill="black" d="M0 0h21v21H0z" />';
-  const infoPath = extractPathTags(svgString)[1];
-  console.log(infoPath);
+  const infoPath = extractSvgTags(svgString, 'g')[0];
   const d = svgCanvas.pathActions.booleanOperation(fullPath, infoPath, 2);
 
   importSvgString(
@@ -46,16 +56,22 @@ export default function CodeGenerator({ onClose }: Props): JSX.Element {
     if (!svg) {
       return;
     }
+
     const svgString = new XMLSerializer().serializeToString(svg);
     const parsedSvgString = removeFirstRectTag(svgString);
+    console.log(parsedSvgString);
 
     if (isInvert) {
       if (tabKey === 'qrcode') {
-        handleQrCodeInvertColor(parsedSvgString);
-        onClose();
-
-        return;
+        handleQrCodeInvertColor(parsedSvgString, svg.getAttribute('viewBox').split(' ')[2]);
       }
+
+      if (tabKey === 'barcode') {
+        handleBarcodeInvertColor(parsedSvgString);
+      }
+
+      onClose();
+      return;
     }
 
     importSvgString(parsedSvgString, { type: 'layer' });
@@ -85,14 +101,18 @@ export default function CodeGenerator({ onClose }: Props): JSX.Element {
       open
       centered
       title={
-        <Flex gap={12}>
+        <Flex gap={12} style={{ marginBottom: 20 }}>
           <div style={{ lineHeight: '24px' }}>Code Generator</div>
           <Radio.Group
+            style={{ fontWeight: 'normal' }}
             size="small"
             optionType="button"
             options={options}
             defaultValue={tabKey}
-            onChange={(e) => setTabKey(e.target.value)}
+            onChange={(e) => {
+              setIsInvert(false);
+              setTabKey(e.target.value);
+            }}
           />
         </Flex>
       }

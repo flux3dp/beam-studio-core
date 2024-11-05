@@ -125,7 +125,6 @@ export function Barcode({
           <svg
             id="barcode"
             ref={containerRef}
-            style={style}
             className={classNames(contentClasses, S['barcode-svg'])}
           />
         );
@@ -133,7 +132,7 @@ export function Barcode({
   };
 
   return (
-    <div id="barcode-container" className={S.container}>
+    <div id="barcode-container" className={S.container} style={style}>
       {renderBarcodeElement()}
       <span className={errorClasses}>{error}</span>
     </div>

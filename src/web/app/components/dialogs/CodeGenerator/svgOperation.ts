@@ -17,11 +17,11 @@ export function removeFirstRectTag(svgString: string): string {
   return serializer.serializeToString(doc);
 }
 
-export function extractPathTags(svgString: string): Array<string> {
+export function extractSvgTags(svgString: string, tag: string): Array<string> {
   const parser = new DOMParser();
   const doc = parser.parseFromString(svgString, 'image/svg+xml');
-  const paths = doc.querySelectorAll('path');
+  const elements = doc.querySelectorAll(tag);
 
-  // Convert NodeList to array and map to extract outer HTML of each path
-  return Array.from(paths).map(({ outerHTML }) => outerHTML);
+  // Convert NodeList to an array and map to extract outer HTML of each element
+  return Array.from(elements).map((element) => element.outerHTML);
 }
