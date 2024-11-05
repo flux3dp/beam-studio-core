@@ -2,8 +2,6 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
-import { LaserType } from 'app/constants/promark-constants';
-
 import ConfigPanelContext from './ConfigPanelContext';
 
 const mockWriteData = jest.fn();
