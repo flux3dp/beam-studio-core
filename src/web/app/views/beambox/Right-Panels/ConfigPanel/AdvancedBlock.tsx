@@ -56,6 +56,7 @@ const AdvancedBlock = ({
       if (promarkInfo.laserType === LaserType.MOPA)
         contents.push(
           <PulseWidthBlock
+            key="pulse-width-block"
             type={type}
             min={promarkLimit.pulseWidth.min}
             max={promarkLimit.pulseWidth.max}
@@ -63,6 +64,7 @@ const AdvancedBlock = ({
         );
       contents.push(
         <FrequencyBlock
+          key="frequency-block"
           type={type}
           min={promarkLimit.frequency.min}
           max={promarkLimit.frequency.max}
