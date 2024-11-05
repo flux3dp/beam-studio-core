@@ -7,7 +7,7 @@ import alertConfig, { AlertConfigKey } from 'helpers/api/alert-config';
 import alertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import CalibrationType from 'app/components/dialogs/camera/AdorCalibration/calibrationTypes';
-import constant from 'app/actions/beambox/constant';
+import constant, { promarkModels } from 'app/actions/beambox/constant';
 import checkDeviceStatus from 'helpers/check-device-status';
 import checkOldFirmware from 'helpers/device/checkOldFirmware';
 import Dialog from 'app/actions/dialog-caller';
@@ -57,6 +57,7 @@ const GoButton = ({ hasDiscoverdMachine, hasText }: Props): JSX.Element => {
   const handleExportAlerts = useCallback(
     async (device: IDeviceInfo) => {
       const workarea = device.model;
+      const isPromark = promarkModels.has(workarea);
       const layers = [...document.querySelectorAll('#svgcontent > g.layer:not([display="none"])')];
       const supportInfo = getSupportInfo(workarea);
 
@@ -109,6 +110,9 @@ const GoButton = ({ hasDiscoverdMachine, hasText }: Props): JSX.Element => {
           return false;
         }
       }
+
+      // Skip speed check for promark
+      if (isPromark) return true;
 
       SymbolMaker.switchImageSymbolForAll(false);
       let isTooFastForPath = false;
