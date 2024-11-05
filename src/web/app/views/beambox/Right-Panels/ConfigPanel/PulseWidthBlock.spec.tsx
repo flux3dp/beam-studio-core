@@ -32,7 +32,7 @@ jest.mock('app/svgedit/history/history', () => ({
 }));
 
 const mockSelectedLayers = ['layer1', 'layer2'];
-const mockContextState = { pulseWidth: { value: 87, hasMultiValue: false } };
+const mockContextState = { pulseWidth: { value: 40, hasMultiValue: false } };
 const mockDispatch = jest.fn();
 const mockInitState = jest.fn();
 
@@ -83,7 +83,7 @@ describe('test PulseWidthBlock', () => {
           initState: mockInitState,
         }}
       >
-        <PulseWidthBlock info={{ laserType: LaserType.MOPA, watt: 20 }} />
+        <PulseWidthBlock min={2} max={350} />
       </ConfigPanelContext.Provider>
     );
     expect(container).toMatchSnapshot();
@@ -99,23 +99,7 @@ describe('test PulseWidthBlock', () => {
           initState: mockInitState,
         }}
       >
-        <PulseWidthBlock type="panel-item" info={{ laserType: LaserType.MOPA, watt: 20 }} />
-      </ConfigPanelContext.Provider>
-    );
-    expect(container).toMatchSnapshot();
-  });
-
-  it('should use different min max value correctly when watt is 100', () => {
-    const { container } = render(
-      <ConfigPanelContext.Provider
-        value={{
-          state: mockContextState as any,
-          dispatch: mockDispatch,
-          selectedLayers: mockSelectedLayers,
-          initState: mockInitState,
-        }}
-      >
-        <PulseWidthBlock info={{ laserType: LaserType.MOPA, watt: 100 }} />
+        <PulseWidthBlock type="panel-item" min={2} max={350} />
       </ConfigPanelContext.Provider>
     );
     expect(container).toMatchSnapshot();
@@ -131,7 +115,7 @@ describe('test PulseWidthBlock', () => {
           initState: mockInitState,
         }}
       >
-        <PulseWidthBlock info={{ laserType: LaserType.MOPA, watt: 20 }} />
+        <PulseWidthBlock min={2} max={350} />
       </ConfigPanelContext.Provider>
     );
     expect(mockDispatch).not.toBeCalled();
@@ -180,7 +164,7 @@ describe('test PulseWidthBlock', () => {
           initState: mockInitState,
         }}
       >
-        <PulseWidthBlock type="modal" info={{ laserType: LaserType.MOPA, watt: 20 }} />
+        <PulseWidthBlock type="modal" min={2} max={350} />
       </ConfigPanelContext.Provider>
     );
 

@@ -32,7 +32,7 @@ jest.mock('app/svgedit/history/history', () => ({
 }));
 
 const mockSelectedLayers = ['layer1', 'layer2'];
-const mockContextState = { frequency: { value: 87, hasMultiValue: false } };
+const mockContextState = { frequency: { value: 40, hasMultiValue: false } };
 const mockDispatch = jest.fn();
 const mockInitState = jest.fn();
 
@@ -83,7 +83,7 @@ describe('test FrequencyBlock', () => {
           initState: mockInitState,
         }}
       >
-        <FrequencyBlock info={{ laserType: LaserType.Desktop, watt: 20 }} />
+        <FrequencyBlock min={27} max={60} />
       </ConfigPanelContext.Provider>
     );
     expect(container).toMatchSnapshot();
@@ -99,23 +99,7 @@ describe('test FrequencyBlock', () => {
           initState: mockInitState,
         }}
       >
-        <FrequencyBlock type="panel-item" info={{ laserType: LaserType.Desktop, watt: 20 }} />
-      </ConfigPanelContext.Provider>
-    );
-    expect(container).toMatchSnapshot();
-  });
-
-  it('should use different min max value correctly when Promark info changes', () => {
-    const { container } = render(
-      <ConfigPanelContext.Provider
-        value={{
-          state: mockContextState as any,
-          dispatch: mockDispatch,
-          selectedLayers: mockSelectedLayers,
-          initState: mockInitState,
-        }}
-      >
-        <FrequencyBlock info={{ laserType: LaserType.MOPA, watt: 20 }} />
+        <FrequencyBlock type="panel-item" min={27} max={60} />
       </ConfigPanelContext.Provider>
     );
     expect(container).toMatchSnapshot();
@@ -131,7 +115,7 @@ describe('test FrequencyBlock', () => {
           initState: mockInitState,
         }}
       >
-        <FrequencyBlock info={{ laserType: LaserType.Desktop, watt: 20 }} />
+        <FrequencyBlock min={27} max={60} />
       </ConfigPanelContext.Provider>
     );
     expect(mockDispatch).not.toBeCalled();
@@ -180,7 +164,7 @@ describe('test FrequencyBlock', () => {
           initState: mockInitState,
         }}
       >
-        <FrequencyBlock type="modal" info={{ laserType: LaserType.Desktop, watt: 20 }} />
+        <FrequencyBlock type="modal" min={27} max={60} />
       </ConfigPanelContext.Provider>
     );
 

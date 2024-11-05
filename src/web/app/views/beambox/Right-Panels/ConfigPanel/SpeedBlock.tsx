@@ -60,23 +60,20 @@ const SpeedBlock = ({
     display: displayUnit,
     decimal,
     calculateUnit: fakeUnit,
-    useInch,
   } = useMemo(() => {
     const unit: 'mm' | 'inches' = storage.get('default-units') || 'mm';
     const display = { mm: 'mm/s', inches: 'in/s' }[unit];
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const calculateUnit: 'mm' | 'inch' = { mm: 'mm', inches: 'inch' }[unit] as any;
     const d = { mm: 1, inches: 2 }[unit];
-    return { display, decimal: d, calculateUnit, useInch: unit === 'inches' };
+    return { display, decimal: d, calculateUnit };
   }, []);
   const workarea: WorkAreaModel = BeamboxPreference.read('workarea');
   const isPromark = useMemo(() => promarkModels.has(workarea), [workarea]);
   const { workareaMaxSpeed: maxValue, workareaMinSpeed } = useMemo(() => {
     const workareaObj = getWorkarea(workarea);
-    let min = workareaObj.minSpeed;
-    if (isPromark && useInch) min = 0.254;
-    return { workareaMaxSpeed: workareaObj.maxSpeed, workareaMinSpeed: min };
-  }, [workarea, isPromark, useInch]);
+    return { workareaMaxSpeed: workareaObj.maxSpeed, workareaMinSpeed: workareaObj.minSpeed };
+  }, [workarea]);
   let minValue = workareaMinSpeed;
   const enableLowSpeed = BeamboxPreference.read('enable-low-speed');
   if (minValue > 1 && enableLowSpeed) minValue = 1;

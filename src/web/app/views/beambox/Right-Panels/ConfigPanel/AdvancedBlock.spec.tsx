@@ -55,6 +55,13 @@ jest.mock('helpers/device/promark/promark-info', () => ({
   getPromarkInfo: (...args) => mockGetPromarkInfo(...args),
 }));
 
+jest.mock('helpers/layer/layer-config-helper', () => ({
+  getPromarkLimit: () => ({
+    pulseWidth: { min: 2, max: 350 },
+    frequency: { min: 1, max: 4000 },
+  }),
+}));
+
 jest.mock('./AutoFocus', () => () => <div>Mock AutoFocus</div>);
 jest.mock('./Diode', () => () => <div>Mock Diode</div>);
 jest.mock('./FocusBlock', () => ({ type }: { type: string }) => <div>Mock FocusBlock: {type}</div>);

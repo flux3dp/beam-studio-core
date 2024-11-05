@@ -319,7 +319,7 @@ const PresetsManagementPanel = ({ currentModule, initPreset, onClose }: Props): 
             <PromarkInputs
               preset={displayPreset}
               maxSpeed={workareaObj.maxSpeed}
-              minSpeed={isInch ? 0.254 : workareaObj.minSpeed}
+              minSpeed={workareaObj.minSpeed}
               isInch={isInch}
               lengthUnit={lengthUnit}
               handleChange={handleChange}

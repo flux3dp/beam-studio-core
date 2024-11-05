@@ -1,8 +1,6 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
-import { LaserType } from 'app/constants/promark-constants';
-
 import PromarkInputs from './PromarkInputs';
 
 const handleChange = jest.fn();
@@ -40,9 +38,12 @@ const switchTests = [
   { key: 'crossHatch', value: true },
 ];
 
-const mockGetPromarkInfo = jest.fn();
-jest.mock('helpers/device/promark/promark-info', () => ({
-  getPromarkInfo: (...args) => mockGetPromarkInfo(...args),
+jest.mock('helpers/layer/layer-config-helper', () => ({
+  getPromarkLimit: () => ({
+    pulseWidth: { min: 2, max: 350 },
+    frequency: { min: 1, max: 4000 },
+    interval: { min: 0.001 },
+  }),
 }));
 
 const mockIsDev = jest.fn();
@@ -56,7 +57,6 @@ jest.mock(
 describe('PromarkInputs', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    mockGetPromarkInfo.mockReturnValue({ laserType: LaserType.MOPA, watt: 20 });
     mockIsDev.mockReturnValue(true);
   });
 

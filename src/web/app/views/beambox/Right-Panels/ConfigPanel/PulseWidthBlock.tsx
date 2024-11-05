@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { memo, useContext, useMemo } from 'react';
+import React, { memo, useContext } from 'react';
 
 import history from 'app/svgedit/history/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
@@ -8,7 +8,6 @@ import UnitInput from 'app/widgets/Unit-Input-v2';
 import useI18n from 'helpers/useI18n';
 import { CUSTOM_PRESET_CONSTANT, writeData } from 'helpers/layer/layer-config-helper';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import { PromarkInfo } from 'interfaces/Promark';
 
 import ConfigPanelContext from './ConfigPanelContext';
 import styles from './Block.module.scss';
@@ -20,36 +19,38 @@ getSVGAsync((globalSVG) => {
 
 const PulseWidthBlock = ({
   type = 'default',
-  info,
+  min,
+  max,
 }: {
   type?: 'default' | 'panel-item' | 'modal';
-  info: PromarkInfo;
+  min: number;
+  max: number;
 }): JSX.Element => {
   const lang = useI18n();
   const t = lang.beambox.right_panel.laser_panel;
 
   const { selectedLayers, state, dispatch, initState } = useContext(ConfigPanelContext);
   const { pulseWidth } = state;
-  const { min, max } = useMemo(() => {
-    const { watt } = info;
-    if (watt >= 100) return { min: 10, max: 500 };
-    if (watt >= 60) return { min: 2, max: 500 };
-    return { min: 2, max: 350 };
-  }, [info]);
 
   const handleChange = (value: number) => {
+    // Disable undo if original value is out of range
+    const originalValue = pulseWidth.value;
+    const noHistory = originalValue > max || originalValue < min;
+    console.log('PulseWidthBlock handleChange value:', value, noHistory, pulseWidth.value);
     dispatch({
       type: 'change',
       payload: { pulseWidth: value, configName: CUSTOM_PRESET_CONSTANT },
     });
     if (type !== 'modal') {
-      const batchCmd = new history.BatchCommand('Change pulseWidth');
+      const batchCmd = noHistory ? undefined : new history.BatchCommand('Change pulseWidth');
       selectedLayers.forEach((layerName) => {
         writeData(layerName, 'pulseWidth', value, { batchCmd });
         writeData(layerName, 'configName', CUSTOM_PRESET_CONSTANT, { batchCmd });
       });
-      batchCmd.onAfter = initState;
-      svgCanvas.addCommandToHistory(batchCmd);
+      if (!noHistory) {
+        batchCmd.onAfter = initState;
+        svgCanvas.addCommandToHistory(batchCmd);
+      }
     }
   };
 

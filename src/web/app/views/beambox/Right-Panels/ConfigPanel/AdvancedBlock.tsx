@@ -9,6 +9,7 @@ import useForceUpdate from 'helpers/use-force-update';
 import useI18n from 'helpers/useI18n';
 import useWorkarea from 'helpers/hooks/useWorkarea';
 import { getPromarkInfo } from 'helpers/device/promark/promark-info';
+import { getPromarkLimit } from 'helpers/layer/layer-config-helper';
 import { getSupportInfo } from 'app/constants/add-on';
 import { LaserType } from 'app/constants/promark-constants';
 import { promarkModels } from 'app/actions/beambox/constant';
@@ -35,6 +36,11 @@ const AdvancedBlock = ({
   const isPromark = useMemo(() => promarkModels.has(workarea), [workarea]);
   const dev = useMemo(isDev, []);
   const promarkInfo = dev && isPromark ? getPromarkInfo() : null;
+  const promarkLimit = useMemo(
+    () => (promarkInfo ? getPromarkLimit() : null),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [promarkInfo?.laserType, promarkInfo?.watt]
+  );
 
   useEffect(() => {
     const canvasEvents = eventEmitterFactory.createEventEmitter('canvas');
@@ -48,8 +54,20 @@ const AdvancedBlock = ({
   if (state.module.value !== LayerModule.PRINTER) {
     if (promarkInfo) {
       if (promarkInfo.laserType === LaserType.MOPA)
-        contents.push(<PulseWidthBlock type={type} info={promarkInfo} />);
-      contents.push(<FrequencyBlock type={type} info={promarkInfo} />);
+        contents.push(
+          <PulseWidthBlock
+            type={type}
+            min={promarkLimit.pulseWidth.min}
+            max={promarkLimit.pulseWidth.max}
+          />
+        );
+      contents.push(
+        <FrequencyBlock
+          type={type}
+          min={promarkLimit.frequency.min}
+          max={promarkLimit.frequency.max}
+        />
+      );
     }
     if (supportInfo.lowerFocus) {
       contents.push(<FocusBlock type={type} key="focus-block" />);

@@ -107,7 +107,7 @@ exports[`PromarkInputs should render correctly 1`] = `
           <input
             data-testid="focus"
             max="10"
-            min="0.01"
+            min="0"
             value="0"
           />
         </div>
@@ -135,7 +135,7 @@ exports[`PromarkInputs should render correctly 1`] = `
           <input
             data-testid="focusStep"
             max="10"
-            min="0.01"
+            min="0"
             value="1"
           />
         </div>

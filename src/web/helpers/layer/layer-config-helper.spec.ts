@@ -1,4 +1,6 @@
+/* eslint-disable import/first */
 import LayerModule from 'app/constants/layer-module/layer-modules';
+import { LaserType } from 'app/constants/promark-constants';
 
 const mockGetDefaultLaserModule = jest.fn();
 jest.mock('helpers/layer-module/layer-module-helper', () => ({
@@ -10,12 +12,22 @@ jest.mock('app/actions/beambox/beambox-preference', () => ({
   read: (key: string) => mockRead(key),
 }));
 
-// eslint-disable-next-line import/first
+const mockStorageGet = jest.fn();
+jest.mock('implementations/storage', () => ({
+  get: (...args) => mockStorageGet(...args),
+}));
+
+const mockGetPromarkInfo = jest.fn();
+jest.mock('helpers/device/promark/promark-info', () => ({
+  getPromarkInfo: (...args) => mockGetPromarkInfo(...args),
+}));
+
 import {
   cloneLayerConfig,
   getConfigKeys,
   getLayerConfig,
   getLayersConfig,
+  getPromarkLimit,
   initLayerConfig,
   toggleFullColorAfterWorkareaChange,
   writeData,
@@ -299,5 +311,21 @@ describe('test layer-config-helper', () => {
       'focus',
       'focusStep',
     ]);
+  });
+
+  test('getPromarkLimit', () => {
+    mockStorageGet.mockReturnValue('mm');
+    mockGetPromarkInfo.mockReturnValue({ laserType: LaserType.Desktop, watt: 20 });
+    expect(getPromarkLimit()).toEqual({
+      frequency: { min: 27, max: 60 },
+      interval: { min: 0.001 },
+    });
+    mockStorageGet.mockReturnValue('inches');
+    mockGetPromarkInfo.mockReturnValue({ laserType: LaserType.MOPA, watt: 60 });
+    expect(getPromarkLimit()).toEqual({
+      pulseWidth: { min: 2, max: 500 },
+      frequency: { min: 1, max: 3000 },
+      interval: { min: 0.0254 },
+    });
   });
 });

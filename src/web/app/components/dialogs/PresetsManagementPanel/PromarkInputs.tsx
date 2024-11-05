@@ -6,10 +6,8 @@ import isDev from 'helpers/is-dev';
 import UnitInput from 'app/widgets/UnitInput';
 import useI18n from 'helpers/useI18n';
 import { ConfigKey, ConfigKeyTypeMap, Preset } from 'interfaces/ILayerConfig';
-import { defaultConfig } from 'helpers/layer/layer-config-helper';
-import { getPromarkInfo } from 'helpers/device/promark/promark-info';
+import { defaultConfig, getPromarkLimit } from 'helpers/layer/layer-config-helper';
 import { getSupportInfo } from 'app/constants/add-on';
-import { LaserType } from 'app/constants/promark-constants';
 
 import styles from './PresetsManagementPanel.module.scss';
 
@@ -32,27 +30,13 @@ const PromarkInputs = ({
 }: Props): JSX.Element => {
   const tLaserPanel = useI18n().beambox.right_panel.laser_panel;
   const t = tLaserPanel.preset_management;
-  const info = useMemo(getPromarkInfo, []);
   const supportInfo = useMemo(() => getSupportInfo('fpm1'), []);
   const dev = useMemo(isDev, []);
   const focusStepMax = useMemo(() => {
     if (preset.repeat <= 1) return 10;
     return 10 / (preset.repeat - 1);
   }, [preset.repeat]);
-  const limit = useMemo(() => {
-    const { laserType, watt } = info;
-    if (laserType === LaserType.MOPA) {
-      if (watt >= 100)
-        return { pulseWidth: { min: 10, max: 500 }, frequency: { min: 1, max: 4000 } };
-      if (watt >= 60) return { pulseWidth: { min: 2, max: 500 }, frequency: { min: 1, max: 3000 } };
-      return { pulseWidth: { min: 2, max: 350 }, frequency: { min: 1, max: 4000 } };
-    }
-    if (watt >= 50) return { frequency: { min: 45, max: 170 } };
-    if (watt >= 30) return { frequency: { min: 30, max: 60 } };
-    return { frequency: { min: 27, max: 60 } };
-  }, [info]);
-
-  console.log('PromarkInputs', { preset, maxSpeed, minSpeed, isInch, lengthUnit, handleChange });
+  const limit = useMemo(getPromarkLimit, []);
 
   return (
     <div className={styles.inputs}>
@@ -69,6 +53,7 @@ const PromarkInputs = ({
             precision={0}
             addonAfter="%"
             onChange={(value) => handleChange('power', value)}
+            clipValue
           />
         </div>
         <div className={styles.field}>
@@ -84,6 +69,7 @@ const PromarkInputs = ({
             addonAfter={`${lengthUnit}/s`}
             isInch={isInch}
             onChange={(value) => handleChange('speed', value)}
+            clipValue
           />
         </div>
         <div className={styles.field}>
@@ -98,6 +84,7 @@ const PromarkInputs = ({
             precision={0}
             addonAfter={tLaserPanel.times}
             onChange={(value) => handleChange('repeat', value)}
+            clipValue
           />
         </div>
         {(dev || supportInfo.lowerFocus) && (
@@ -110,11 +97,12 @@ const PromarkInputs = ({
                 disabled={preset.isDefault}
                 value={Math.max(preset.focus ?? defaultConfig.focus, 0)}
                 max={10}
-                min={0.01}
+                min={0}
                 precision={2}
                 addonAfter={lengthUnit}
                 isInch={isInch}
-                onChange={(value) => handleChange('focus', value)}
+                onChange={(value) => handleChange('focus', value > 0 ? value : -0.01)}
+                clipValue
               />
             </div>
             <div className={styles.field}>
@@ -123,32 +111,34 @@ const PromarkInputs = ({
                 data-testid="focusStep"
                 className={styles.input}
                 disabled={preset.isDefault}
-                value={preset.focusStep ?? defaultConfig.focusStep}
+                value={Math.max(preset.focusStep ?? defaultConfig.focusStep, 0)}
                 max={focusStepMax}
-                min={0.01}
+                min={0}
                 precision={2}
                 addonAfter={lengthUnit}
                 isInch={isInch}
-                onChange={(value) => handleChange('focusStep', value)}
+                onChange={(value) => handleChange('focusStep', value > 0 ? value : -0.01)}
+                clipValue
               />
             </div>
           </>
         )}
       </div>
       <div>
-        {info.laserType === LaserType.MOPA && (
+        {limit.pulseWidth && (
           <div className={styles.field}>
             <div className={styles.label}>{tLaserPanel.pulse_width}</div>
             <UnitInput
               data-testid="pulseWidth"
               className={styles.input}
               disabled={preset.isDefault}
-              value={Math.max(preset.pulseWidth ?? defaultConfig.pulseWidth, 0)}
+              value={preset.pulseWidth ?? defaultConfig.pulseWidth}
               max={limit.pulseWidth.max}
               min={limit.pulseWidth.min}
               precision={0}
               addonAfter="ns"
               onChange={(value) => handleChange('pulseWidth', value)}
+              clipValue
             />
           </div>
         )}
@@ -158,12 +148,13 @@ const PromarkInputs = ({
             data-testid="frequency"
             className={styles.input}
             disabled={preset.isDefault}
-            value={Math.max(preset.frequency ?? defaultConfig.frequency, 0)}
+            value={preset.frequency ?? defaultConfig.frequency}
             max={limit.frequency.max}
             min={limit.frequency.min}
             precision={0}
             addonAfter="kHz"
             onChange={(value) => handleChange('frequency', value)}
+            clipValue
           />
         </div>
         <div className={styles.field}>
@@ -172,13 +163,14 @@ const PromarkInputs = ({
             data-testid="fillInterval"
             className={styles.input}
             disabled={preset.isDefault}
-            value={Math.max(preset.fillInterval ?? defaultConfig.fillInterval, 0)}
+            value={preset.fillInterval ?? defaultConfig.fillInterval}
             max={100}
-            min={isInch ? 0.0254 : 0.001}
+            min={limit.interval.min}
             precision={3}
             addonAfter={lengthUnit}
             isInch={isInch}
             onChange={(value) => handleChange('fillInterval', value)}
+            clipValue
           />
         </div>
         <div className={styles.field}>
@@ -193,6 +185,7 @@ const PromarkInputs = ({
             precision={1}
             addonAfter="deg"
             onChange={(value) => handleChange('fillAngle', value)}
+            clipValue
           />
         </div>
         {dev && (

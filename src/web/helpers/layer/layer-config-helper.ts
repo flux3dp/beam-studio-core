@@ -3,12 +3,15 @@ import history from 'app/svgedit/history/history';
 import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import layerModuleHelper from 'helpers/layer-module/layer-module-helper';
 import presetHelper from 'helpers/presets/preset-helper';
+import storage from 'implementations/storage';
 import toggleFullColorLayer from 'helpers/layer/full-color/toggleFullColorLayer';
 import updateLayerColorFilter from 'helpers/color/updateLayerColorFilter';
+import { ConfigKey, ConfigKeyTypeMap, ILayerConfig, Preset } from 'interfaces/ILayerConfig';
 import { getAllLayerNames, getLayerByName } from 'helpers/layer/layer-helper';
+import { getPromarkInfo } from 'helpers/device/promark/promark-info';
 import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 import { IBatchCommand } from 'interfaces/IHistory';
-import { ConfigKey, ConfigKeyTypeMap, ILayerConfig, Preset } from 'interfaces/ILayerConfig';
+import { LaserType } from 'app/constants/promark-constants';
 import { promarkModels } from 'app/actions/beambox/constant';
 
 const getLayerElementByName = (layerName: string) => {
@@ -367,6 +370,30 @@ export const getConfigKeys = (module: LayerModule): ConfigKey[] => {
   return laserConfigKeys;
 };
 
+export const getPromarkLimit = (): {
+  pulseWidth?: { min: number; max: number };
+  frequency?: { min: number; max: number };
+  interval?: { min: number };
+} => {
+  const isInch = storage.get('default-units') === 'inches';
+  const unitLimit = { interval: { min: isInch ? 0.0254 : 0.001 } };
+  const { laserType, watt } = getPromarkInfo();
+  let laserLimit: {
+    pulseWidth?: { min: number; max: number };
+    frequency: { min: number; max: number };
+  };
+  if (laserType === LaserType.MOPA) {
+    if (watt >= 100)
+      laserLimit = { pulseWidth: { min: 10, max: 500 }, frequency: { min: 1, max: 4000 } };
+    else if (watt >= 60)
+      laserLimit = { pulseWidth: { min: 2, max: 500 }, frequency: { min: 1, max: 3000 } };
+    else laserLimit = { pulseWidth: { min: 2, max: 350 }, frequency: { min: 1, max: 4000 } };
+  } else if (watt >= 50) laserLimit = { frequency: { min: 45, max: 170 } };
+  else if (watt >= 30) laserLimit = { frequency: { min: 30, max: 60 } };
+  else laserLimit = { frequency: { min: 27, max: 60 } };
+  return { ...laserLimit, ...unitLimit };
+};
+
 export const applyPreset = (
   layer: Element,
   preset: Preset,
@@ -407,6 +434,8 @@ export const postPresetChange = (): void => {
   // TODO: add test
   const workarea: WorkAreaModel = BeamboxPreference.read('workarea');
   const { maxSpeed, minSpeed } = getWorkarea(workarea);
+  const isPromark = promarkModels.has(workarea);
+  const promarkLimit = isPromark ? getPromarkLimit() : null;
   const layerNames = getAllLayerNames();
   const allPresets = presetHelper.getAllPresets();
 
@@ -440,6 +469,21 @@ export const postPresetChange = (): void => {
     const printingSpeed = getData(layer, 'printingSpeed');
     if (printingSpeed > maxSpeed) writeDataLayer(layer, 'printingSpeed', maxSpeed);
     if (printingSpeed < minSpeed) writeDataLayer(layer, 'printingSpeed', minSpeed);
+    if (isPromark) {
+      const fillInterval = getData(layer, 'fillInterval');
+      if (fillInterval < promarkLimit.interval.min)
+        writeDataLayer(layer, 'fillInterval', promarkLimit.interval.min);
+      const frequency = getData(layer, 'frequency');
+      if (frequency < promarkLimit.frequency.min)
+        writeDataLayer(layer, 'frequency', promarkLimit.frequency.min);
+      else if (frequency > promarkLimit.frequency.max)
+        writeDataLayer(layer, 'frequency', promarkLimit.frequency.max);
+      const pulseWidth = getData(layer, 'pulseWidth');
+      if (pulseWidth < promarkLimit.pulseWidth.min)
+        writeDataLayer(layer, 'pulseWidth', promarkLimit.pulseWidth.min);
+      else if (pulseWidth > promarkLimit.pulseWidth.max)
+        writeDataLayer(layer, 'pulseWidth', promarkLimit.pulseWidth.max);
+    }
   }
 };
 
@@ -451,4 +495,5 @@ export default {
   getLayerConfig,
   getLayersConfig,
   writeData,
+  getPromarkLimit,
 };
