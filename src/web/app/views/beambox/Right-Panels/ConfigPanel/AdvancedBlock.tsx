@@ -3,16 +3,23 @@ import { Collapse, ConfigProvider } from 'antd';
 
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
+import isDev from 'helpers/is-dev';
 import LayerModule from 'app/constants/layer-module/layer-modules';
 import useForceUpdate from 'helpers/use-force-update';
 import useI18n from 'helpers/useI18n';
 import useWorkarea from 'helpers/hooks/useWorkarea';
+import { getPromarkInfo } from 'helpers/device/promark/promark-info';
+import { getPromarkLimit } from 'helpers/layer/layer-config-helper';
 import { getSupportInfo } from 'app/constants/add-on';
+import { LaserType } from 'app/constants/promark-constants';
+import { promarkModels } from 'app/actions/beambox/constant';
 
 import AutoFocus from './AutoFocus';
 import ConfigPanelContext from './ConfigPanelContext';
 import Diode from './Diode';
 import FocusBlock from './FocusBlock';
+import FrequencyBlock from './FrequencyBlock';
+import PulseWidthBlock from './PulseWidthBlock';
 import SingleColorBlock from './SingleColorBlock';
 import styles from './AdvancedBlock.module.scss';
 
@@ -26,6 +33,14 @@ const AdvancedBlock = ({
   const lang = useI18n().beambox.right_panel.laser_panel;
   const workarea = useWorkarea();
   const supportInfo = useMemo(() => getSupportInfo(workarea), [workarea]);
+  const isPromark = useMemo(() => promarkModels.has(workarea), [workarea]);
+  const dev = useMemo(isDev, []);
+  const promarkInfo = dev && isPromark ? getPromarkInfo() : null;
+  const promarkLimit = useMemo(
+    () => (promarkInfo ? getPromarkLimit() : null),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [promarkInfo?.laserType, promarkInfo?.watt]
+  );
 
   useEffect(() => {
     const canvasEvents = eventEmitterFactory.createEventEmitter('canvas');
@@ -37,6 +52,25 @@ const AdvancedBlock = ({
 
   const contents = [];
   if (state.module.value !== LayerModule.PRINTER) {
+    if (promarkInfo) {
+      if (promarkInfo.laserType === LaserType.MOPA)
+        contents.push(
+          <PulseWidthBlock
+            key="pulse-width-block"
+            type={type}
+            min={promarkLimit.pulseWidth.min}
+            max={promarkLimit.pulseWidth.max}
+          />
+        );
+      contents.push(
+        <FrequencyBlock
+          key="frequency-block"
+          type={type}
+          min={promarkLimit.frequency.min}
+          max={promarkLimit.frequency.max}
+        />
+      );
+    }
     if (supportInfo.lowerFocus) {
       contents.push(<FocusBlock type={type} key="focus-block" />);
     } else if (supportInfo.autoFocus && beamboxPreference.read('enable-autofocus')) {

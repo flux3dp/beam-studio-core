@@ -262,7 +262,7 @@ const fetchTaskCodeSwiftray = async (
       doesSupportDiodeAndAF && BeamboxPreference.read('enable-diode') && supportInfo.hybridLaser,
     shouldUseFastGradient: shouldUseFastGradient && !isNonFGCode,
     shouldMockFastGradient: isNonFGCode,
-    vectorSpeedConstraint: BeamboxPreference.read('vector_speed_contraint') !== false,
+    vectorSpeedConstraint: !isPromark && BeamboxPreference.read('vector_speed_contraint') !== false,
     paddingAccel: await getAdorPaddingAccel(device || TopBarController.getSelectedDevice()),
   };
   if (codeType === 'fcode')

@@ -775,6 +775,13 @@ const lang: ILang = {
         custom_preset: 'Aangepast',
         various_preset: 'Diverse voorinstellingen',
         module: 'Module',
+        pulse_width: 'Pulsbreedte',
+        frequency: 'Frequentie',
+        fill_setting: 'Vulinstellingen',
+        fill_interval: 'Vulinterval',
+        fill_angle: 'Vulhoek',
+        bi_directional: 'Tweerichtingsverkeer',
+        cross_hatch: 'Kruislings Arceren',
         slider: {
           regular: 'Normaal',
           low: 'Laag',

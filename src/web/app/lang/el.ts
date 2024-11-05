@@ -775,6 +775,13 @@ const lang: ILang = {
         custom_preset: 'Προσαρμοσμένο',
         various_preset: 'Διάφορες Προεπιλογές',
         module: 'Μονάδα',
+        pulse_width: 'Πλάτος Παλμού',
+        frequency: 'Συχνότητα',
+        fill_setting: 'Ρυθμίσεις Γέμισης',
+        fill_interval: 'Διάστημα Γεμίσματος',
+        fill_angle: 'Γωνία Γεμίσματος',
+        bi_directional: 'Διπλής Κατεύθυνσης',
+        cross_hatch: 'Διασταυρωμένη Σκίαση',
         slider: {
           regular: 'Κανονικό',
           low: 'Χαμηλό',

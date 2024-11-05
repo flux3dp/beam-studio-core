@@ -775,6 +775,13 @@ const lang: ILang = {
         custom_preset: 'กําหนดเอง',
         various_preset: 'การตั้งค่าล่วงหน้าหลากหลาย',
         module: 'โหมด',
+        pulse_width: 'ความกว้างของพัลส์',
+        frequency: 'ความถี่',
+        fill_setting: 'การตั้งค่าการเติม',
+        fill_interval: 'ช่วงเติมเต็ม',
+        fill_angle: 'มุมเติมเต็ม',
+        bi_directional: 'สองทิศทาง',
+        cross_hatch: 'การฟักไข่ข้าม',
         slider: {
           regular: 'ปกติ',
           low: 'ต่ํา',

@@ -2592,8 +2592,12 @@ const svgEditor = window['svgEditor'] = (function () {
         switch (fileType) {
           case 'bvg':
           case 'beam':
-            currentFileManager.setLocalFile(file.path);
-            svgCanvas.updateRecentFiles(file.path);
+            if (file.path) {
+              currentFileManager.setLocalFile(file.path);
+              svgCanvas.updateRecentFiles(file.path);
+            } else {
+              currentFileManager.setFileName(file.name, true);
+            }
             svgCanvas.setHasUnsavedChange(false);
             break;
           case 'dxf':

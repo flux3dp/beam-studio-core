@@ -775,6 +775,13 @@ const lang: ILang = {
         custom_preset: 'Suai',
         various_preset: 'Pelbagai Praset',
         module: 'Modul',
+        pulse_width: 'Lebar Denyut',
+        frequency: 'Frekuensi',
+        fill_setting: 'Tetapan Isian',
+        fill_interval: 'Jarak Isian',
+        fill_angle: 'Sudut Isian',
+        bi_directional: 'Dua Arah',
+        cross_hatch: 'Loret Bersilang',
         slider: {
           regular: 'Biasa',
           low: 'Rendah',

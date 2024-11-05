@@ -775,6 +775,13 @@ const lang: ILang = {
         custom_preset: 'Tùy chỉnh',
         various_preset: 'Các cài đặt mặc định khác nhau',
         module: 'Mô-đun',
+        pulse_width: 'Độ Rộng Xung',
+        frequency: 'Tần Số',
+        fill_setting: 'Cài đặt Đổ đầy',
+        fill_interval: 'Khoảng Cách Lấp Đầy',
+        fill_angle: 'Góc Lấp Đầy',
+        bi_directional: 'Hai Chiều',
+        cross_hatch: 'Nét Chéo',
         slider: {
           regular: 'Bình thường',
           low: 'Thấp',

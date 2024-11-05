@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import classNames from 'classnames';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Button, Dropdown, Modal } from 'antd';
@@ -16,14 +17,16 @@ import storage from 'implementations/storage';
 import useI18n from 'helpers/useI18n';
 import useWorkarea from 'helpers/hooks/useWorkarea';
 import { addDialogComponent, isIdExist, popDialogById } from 'app/actions/dialog-controller';
-import { getWorkarea } from 'app/constants/workarea-constants';
-import { Preset } from 'interfaces/ILayerConfig';
+import { ConfigKey, ConfigKeyTypeMap, Preset } from 'interfaces/ILayerConfig';
 import { defaultConfig, postPresetChange } from 'helpers/layer/layer-config-helper';
+import { getWorkarea } from 'app/constants/workarea-constants';
+import { promarkModels } from 'app/actions/beambox/constant';
 
 import Footer from './Footer';
 import LaserInputs from './LaserInputs';
 import PresetList from './PresetList';
 import PrintingInputs from './PrintingInputs';
+import PromarkInputs from './PromarkInputs';
 import styles from './PresetsManagementPanel.module.scss';
 
 enum Filter {
@@ -45,6 +48,7 @@ const PresetsManagementPanel = ({ currentModule, initPreset, onClose }: Props): 
   const workarea = useWorkarea();
   const workareaObj = useMemo(() => getWorkarea(workarea), [workarea]);
   const hasModule = useMemo(() => modelsWithModules.has(workarea), [workarea]);
+  const isPromark = useMemo(() => promarkModels.has(workarea), [workarea]);
   const [filter, setFilter] = useState(hasModule ? Filter.ALL : Filter.LASER);
   const listRef = useRef<HTMLDivElement>(null);
   const isInch = useMemo(() => (storage.get('default-units') || 'mm') === 'inches', []);
@@ -117,7 +121,7 @@ const PresetsManagementPanel = ({ currentModule, initPreset, onClose }: Props): 
     return { ...selectedPreset, ...Object.values(keyPresets)[0] };
   }, [workarea, selectedPreset, selectedModule, editingValues]);
 
-  const handleChange = (key: string, value: number | string) => {
+  const handleChange = <T extends ConfigKey>(key: T, value: ConfigKeyTypeMap[T]) => {
     const { name, isDefault } = selectedPreset;
     if (isDefault) return;
     const editing = editingValues[name] || {};
@@ -311,7 +315,16 @@ const PresetsManagementPanel = ({ currentModule, initPreset, onClose }: Props): 
               </Select>
             )}
           </div>
-          {isPrinting ? (
+          {isPromark ? (
+            <PromarkInputs
+              preset={displayPreset}
+              maxSpeed={workareaObj.maxSpeed}
+              minSpeed={workareaObj.minSpeed}
+              isInch={isInch}
+              lengthUnit={lengthUnit}
+              handleChange={handleChange}
+            />
+          ) : isPrinting ? (
             <PrintingInputs
               preset={displayPreset}
               maxSpeed={workareaObj.maxSpeed}

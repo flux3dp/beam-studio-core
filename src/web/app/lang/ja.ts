@@ -778,6 +778,13 @@ const lang: ILang = {
         custom_preset: 'カスタム',
         various_preset: '複数のプリセット',
         module: 'モジュール',
+        pulse_width: 'パルス幅',
+        frequency: '周波数',
+        fill_setting: 'フィル設定',
+        fill_interval: '填充間隔',
+        fill_angle: '填充角度',
+        bi_directional: '双方向',
+        cross_hatch: '交差ハッチ',
         slider: {
           regular: '標準',
           low: '低',

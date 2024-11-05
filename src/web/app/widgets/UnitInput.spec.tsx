@@ -26,7 +26,9 @@ describe('test UnitInput', () => {
   });
 
   test('onChange with fireOnChage', () => {
-    const { container } = render(<UnitInput id="test" value={0} onChange={mockOnChange} fireOnChange />);
+    const { container } = render(
+      <UnitInput id="test" value={0} onChange={mockOnChange} fireOnChange />
+    );
     const input = container.querySelector('input');
     fireEvent.change(input, { target: { value: '1' } });
     expect(mockOnChange).toBeCalledTimes(1);
@@ -34,12 +36,36 @@ describe('test UnitInput', () => {
   });
 
   test('inch conversion', () => {
-    const { container } = render(<UnitInput id="test" value={25.4} onChange={mockOnChange} isInch precision={0} />);
+    const { container } = render(
+      <UnitInput id="test" value={25.4} onChange={mockOnChange} isInch precision={0} />
+    );
     const input = container.querySelector('input');
     expect(input).toHaveValue('1');
     fireEvent.change(input, { target: { value: '2' } });
     fireEvent.blur(input);
     expect(mockOnChange).toBeCalledTimes(1);
     expect(mockOnChange).toBeCalledWith(50.8);
+  });
+
+  test('clip min', () => {
+    const { container } = render(
+      <UnitInput id="test" value={0} onChange={mockOnChange} min={10} clipValue />
+    );
+    const input = container.querySelector('input');
+    fireEvent.change(input, { target: { value: '1' } });
+    fireEvent.blur(input);
+    expect(mockOnChange).toBeCalledTimes(1);
+    expect(mockOnChange).toBeCalledWith(10);
+  });
+
+  test('clip max', () => {
+    const { container } = render(
+      <UnitInput id="test" value={0} onChange={mockOnChange} max={10} clipValue />
+    );
+    const input = container.querySelector('input');
+    fireEvent.change(input, { target: { value: '11' } });
+    fireEvent.blur(input);
+    expect(mockOnChange).toBeCalledTimes(1);
+    expect(mockOnChange).toBeCalledWith(10);
   });
 });

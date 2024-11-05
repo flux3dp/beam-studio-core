@@ -778,6 +778,13 @@ const lang: ILang = {
         custom_preset: 'Custom',
         various_preset: 'Various Presets',
         module: 'Module',
+        pulse_width: 'Pulse Width',
+        frequency: 'Frequency',
+        fill_setting: 'Fill Setting',
+        fill_interval: 'Fill Interval',
+        fill_angle: 'Fill Angle',
+        bi_directional: 'Bi-directional',
+        cross_hatch: 'Cross hatch',
         slider: {
           regular: 'Regular',
           low: 'Low',

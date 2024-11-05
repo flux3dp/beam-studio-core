@@ -778,6 +778,13 @@ const lang: ILang = {
         custom_preset: '自订',
         various_preset: '多个参数',
         module: '模块',
+        pulse_width: '脉冲宽度',
+        frequency: '频率',
+        fill_setting: '填充设置',
+        fill_interval: '填充间隔',
+        fill_angle: '填充间隔',
+        bi_directional: '双向',
+        cross_hatch: '交叉填充',
         slider: {
           regular: '普通',
           low: '低',

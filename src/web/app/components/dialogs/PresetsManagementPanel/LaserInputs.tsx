@@ -2,8 +2,8 @@ import React from 'react';
 
 import UnitInput from 'app/widgets/UnitInput';
 import useI18n from 'helpers/useI18n';
+import { ConfigKey, ConfigKeyTypeMap, Preset } from 'interfaces/ILayerConfig';
 import { defaultConfig } from 'helpers/layer/layer-config-helper';
-import { Preset } from 'interfaces/ILayerConfig';
 
 import styles from './PresetsManagementPanel.module.scss';
 
@@ -13,7 +13,7 @@ interface Props {
   minSpeed: number;
   isInch?: boolean;
   lengthUnit?: 'mm' | 'in';
-  handleChange: (key: string, value: number | string) => void;
+  handleChange: <T extends ConfigKey>(key: T, value: ConfigKeyTypeMap[T]) => void;
 }
 
 const LaserInputs = ({

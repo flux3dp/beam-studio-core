@@ -775,6 +775,13 @@ const lang: ILang = {
         custom_preset: 'Brugerdefineret',
         various_preset: 'Forskellige forudindstillinger',
         module: 'Modul',
+        pulse_width: 'Pulsbredde',
+        frequency: 'Frekvens',
+        fill_setting: 'Udfyldningsindstillinger',
+        fill_interval: 'Fyld Interval',
+        fill_angle: 'Fyld Vinkel',
+        bi_directional: 'Tovejskommunikation',
+        cross_hatch: 'Kryds Skraffer',
         slider: {
           regular: 'Almindelig',
           low: 'Lav',

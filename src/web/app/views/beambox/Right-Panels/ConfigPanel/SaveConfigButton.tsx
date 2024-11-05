@@ -9,7 +9,7 @@ import LayerModule from 'app/constants/layer-module/layer-modules';
 import presetHelper from 'helpers/presets/preset-helper';
 import useI18n from 'helpers/useI18n';
 import { ConfigKey, Preset } from 'interfaces/ILayerConfig';
-import { printerConfigKeys, laserConfigKeys, writeData } from 'helpers/layer/layer-config-helper';
+import { getConfigKeys, writeData } from 'helpers/layer/layer-config-helper';
 
 import ConfigPanelContext from './ConfigPanelContext';
 import styles from './SaveConfigButton.module.scss';
@@ -30,7 +30,7 @@ const SaveConfigButton = (): JSX.Element => {
       return;
     }
     const { module } = state;
-    const keys = module.value === LayerModule.PRINTER ? printerConfigKeys : laserConfigKeys;
+    const keys = getConfigKeys(module.value);
     const newConfig: Preset = { name };
     if (module.value === LayerModule.PRINTER) newConfig.module = LayerModule.PRINTER;
     keys.forEach((key: ConfigKey) => {

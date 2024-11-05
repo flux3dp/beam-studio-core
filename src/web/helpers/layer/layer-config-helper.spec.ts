@@ -1,3 +1,7 @@
+/* eslint-disable import/first */
+import LayerModule from 'app/constants/layer-module/layer-modules';
+import { LaserType } from 'app/constants/promark-constants';
+
 const mockGetDefaultLaserModule = jest.fn();
 jest.mock('helpers/layer-module/layer-module-helper', () => ({
   getDefaultLaserModule: () => mockGetDefaultLaserModule(),
@@ -8,14 +12,25 @@ jest.mock('app/actions/beambox/beambox-preference', () => ({
   read: (key: string) => mockRead(key),
 }));
 
-// eslint-disable-next-line import/first
+const mockStorageGet = jest.fn();
+jest.mock('implementations/storage', () => ({
+  get: (...args) => mockStorageGet(...args),
+}));
+
+const mockGetPromarkInfo = jest.fn();
+jest.mock('helpers/device/promark/promark-info', () => ({
+  getPromarkInfo: (...args) => mockGetPromarkInfo(...args),
+}));
+
 import {
   cloneLayerConfig,
+  getConfigKeys,
   getLayerConfig,
   getLayersConfig,
+  getPromarkLimit,
   initLayerConfig,
-  writeData,
   toggleFullColorAfterWorkareaChange,
+  writeData,
 } from './layer-config-helper';
 
 const mockGetAllPresets = jest.fn();
@@ -72,6 +87,12 @@ const defaultLaserConfigs = {
   clipRect: { value: undefined },
   focus: { value: -2 },
   focusStep: { value: -2 },
+  pulseWidth: { value: 100 },
+  frequency: { value: 27 },
+  fillInterval: { value: 0.1 },
+  fillAngle: { value: 0 },
+  biDirectional: { value: false },
+  crossHatch: { value: false },
 };
 
 const defaultMultiValueLaserConfigs = {
@@ -106,6 +127,12 @@ const defaultMultiValueLaserConfigs = {
   clipRect: { value: undefined, hasMultiValue: false },
   focus: { value: -2, hasMultiValue: false },
   focusStep: { value: -2, hasMultiValue: false },
+  pulseWidth: { value: 100, hasMultiValue: false },
+  frequency: { value: 27, hasMultiValue: false },
+  fillInterval: { value: 0.1, hasMultiValue: false },
+  fillAngle: { value: 0, hasMultiValue: false },
+  biDirectional: { value: false, hasMultiValue: false },
+  crossHatch: { value: false, hasMultiValue: false },
 };
 
 describe('test layer-config-helper', () => {
@@ -134,7 +161,7 @@ describe('test layer-config-helper', () => {
       return undefined;
     });
     initLayerConfig('layer 1');
-    expect(getLayerConfig('layer 1')).toEqual({...defaultLaserConfigs, module: { value: 1 }});
+    expect(getLayerConfig('layer 1')).toEqual({ ...defaultLaserConfigs, module: { value: 1 } });
   });
 
   test('write zstep data', () => {
@@ -239,5 +266,66 @@ describe('test layer-config-helper', () => {
     expect(mockLayer.setAttribute).toHaveBeenNthCalledWith(1, 'data-module', '1');
     expect(mockLayer.setAttribute).toHaveBeenNthCalledWith(2, 'data-module', '1');
     expect(mockLayer.setAttribute).toHaveBeenNthCalledWith(3, 'data-module', '1');
+  });
+
+  test('getConfigKeys', () => {
+    expect(getConfigKeys(LayerModule.LASER_UNIVERSAL)).toEqual([
+      'speed',
+      'power',
+      'minPower',
+      'repeat',
+      'height',
+      'zStep',
+      'focus',
+      'focusStep',
+    ]);
+    expect(getConfigKeys(LayerModule.PRINTER)).toEqual([
+      'speed',
+      'printingSpeed',
+      'ink',
+      'multipass',
+      'cRatio',
+      'mRatio',
+      'yRatio',
+      'kRatio',
+      'printingStrength',
+      'halftone',
+      'wInk',
+      'wSpeed',
+      'wMultipass',
+      'wRepeat',
+      'uv',
+      'repeat',
+    ]);
+    mockRead.mockReturnValue('fpm1');
+    expect(getConfigKeys(LayerModule.PRINTER)).toEqual([
+      'speed',
+      'power',
+      'repeat',
+      'pulseWidth',
+      'frequency',
+      'fillInterval',
+      'fillAngle',
+      'biDirectional',
+      'crossHatch',
+      'focus',
+      'focusStep',
+    ]);
+  });
+
+  test('getPromarkLimit', () => {
+    mockStorageGet.mockReturnValue('mm');
+    mockGetPromarkInfo.mockReturnValue({ laserType: LaserType.Desktop, watt: 20 });
+    expect(getPromarkLimit()).toEqual({
+      frequency: { min: 27, max: 60 },
+      interval: { min: 0.001 },
+    });
+    mockStorageGet.mockReturnValue('inches');
+    mockGetPromarkInfo.mockReturnValue({ laserType: LaserType.MOPA, watt: 60 });
+    expect(getPromarkLimit()).toEqual({
+      pulseWidth: { min: 2, max: 500 },
+      frequency: { min: 1, max: 3000 },
+      interval: { min: 0.0254 },
+    });
   });
 });

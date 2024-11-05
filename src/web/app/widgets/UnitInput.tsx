@@ -11,6 +11,7 @@ interface Props extends InputNumberProps<number> {
   theme?: ThemeConfig;
   underline?: boolean;
   fireOnChange?: boolean;
+  clipValue?: boolean;
 }
 
 /**
@@ -30,6 +31,7 @@ const UnitInput = forwardRef<HTMLInputElement, Props>(
       underline,
       precision = 4,
       fireOnChange = false,
+      clipValue = false,
       ...props
     }: Props,
     outerRef
@@ -61,11 +63,16 @@ const UnitInput = forwardRef<HTMLInputElement, Props>(
       (value: number | undefined) => {
         // Only trigger onChange if the value has changed
         if (value !== valueRef.current && !Number.isNaN(value)) {
-          valueRef.current = value; // Update the previous value
-          onChange?.(value);
+          let val = value;
+          if (clipValue) {
+            if (val > props.max) val = props.max;
+            else if (val < props.min) val = props.min;
+          }
+          valueRef.current = val; // Update the previous value
+          onChange?.(val);
         }
       },
-      [onChange]
+      [clipValue, onChange, props.max, props.min]
     );
 
     const handlePressEnter = useCallback(() => {

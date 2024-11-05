@@ -775,6 +775,13 @@ const lang: ILang = {
         custom_preset: 'Anpassad',
         various_preset: 'Olika förinställningar',
         module: 'Modul',
+        pulse_width: 'Pulsbredd',
+        frequency: 'Frekvens',
+        fill_setting: 'Fyllningsinställningar',
+        fill_interval: 'Fyll intervall',
+        fill_angle: 'Fyll Vinkel',
+        bi_directional: 'Dubbelriktad',
+        cross_hatch: 'Korsskraffering',
         slider: {
           regular: 'Vanlig',
           low: 'Låg',

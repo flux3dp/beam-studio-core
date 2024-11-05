@@ -39,12 +39,11 @@ import {
   CUSTOM_PRESET_CONSTANT,
   defaultConfig,
   forcedKeys,
+  getConfigKeys,
   getData,
   getLayerConfig,
   getLayersConfig,
-  laserConfigKeys,
   postPresetChange,
-  printerConfigKeys,
   writeData,
 } from 'helpers/layer/layer-config-helper';
 import { getLayerElementByName, moveToOtherLayer } from 'helpers/layer/layer-helper';
@@ -52,10 +51,12 @@ import { getSupportInfo } from 'app/constants/add-on';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { getWorkarea } from 'app/constants/workarea-constants';
 import { LayerPanelContext } from 'app/views/beambox/Right-Panels/contexts/LayerPanelContext';
+import { promarkModels } from 'app/actions/beambox/constant';
 
 import AdvancedBlock from './AdvancedBlock';
 import Backlash from './Backlash';
 import ConfigPanelContext, { getDefaultState, reducer } from './ConfigPanelContext';
+import FillBlock from './FillBlock';
 import HalftoneBlock from './HalftoneBlock';
 import InkBlock from './InkBlock';
 import ModuleBlock from './ModuleBlock';
@@ -111,10 +112,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
 
   const workarea = useWorkarea();
   const updateDiodeBoundary = useCallback(() => {
-    if (
-      beamboxPreference.read('enable-diode') &&
-      getSupportInfo(workarea).hybridLaser
-    )
+    if (beamboxPreference.read('enable-diode') && getSupportInfo(workarea).hybridLaser)
       diodeBoundaryDrawer.show(state.diode.value === 1);
     else diodeBoundaryDrawer.hide();
   }, [state.diode.value, workarea]);
@@ -179,7 +177,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
       console.error('No such value', value);
       return;
     }
-    const changedKeys = module.value === LayerModule.PRINTER ? printerConfigKeys : laserConfigKeys;
+    const changedKeys = getConfigKeys(module.value);
     const payload: { [key: string]: string | number | boolean } = {};
     payload.configName = value;
     const { maxSpeed, minSpeed } = getWorkarea(workarea);
@@ -229,6 +227,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
 
   const displayName = selectedLayers.length === 1 ? selectedLayers[0] : lang.multi_layer;
 
+  const isPromark = promarkModels.has(workarea);
   const isDevMode = isDev();
   const commonContent = (
     <>
@@ -248,6 +247,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
         module.value === LayerModule.PRINTER &&
         fullcolor.value &&
         UIType === 'panel-item' && <WhiteInkCheckbox type={UIType} />}
+      {isPromark && <FillBlock type={UIType} />}
     </>
   );
 
@@ -259,7 +259,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
             {sprintf(lang.preset_setting, displayName)}
           </div>
           <ModuleBlock />
-          <div id='layer-parameters' className={styles.container}>
+          <div id="layer-parameters" className={styles.container}>
             <div>
               <ParameterTitle />
               <div className={styles['preset-dropdown-container']}>

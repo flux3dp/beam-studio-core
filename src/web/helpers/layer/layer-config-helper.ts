@@ -3,12 +3,16 @@ import history from 'app/svgedit/history/history';
 import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import layerModuleHelper from 'helpers/layer-module/layer-module-helper';
 import presetHelper from 'helpers/presets/preset-helper';
+import storage from 'implementations/storage';
 import toggleFullColorLayer from 'helpers/layer/full-color/toggleFullColorLayer';
 import updateLayerColorFilter from 'helpers/color/updateLayerColorFilter';
+import { ConfigKey, ConfigKeyTypeMap, ILayerConfig, Preset } from 'interfaces/ILayerConfig';
 import { getAllLayerNames, getLayerByName } from 'helpers/layer/layer-helper';
+import { getPromarkInfo } from 'helpers/device/promark/promark-info';
 import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 import { IBatchCommand } from 'interfaces/IHistory';
-import { ConfigKey, ConfigKeyTypeMap, ILayerConfig, Preset } from 'interfaces/ILayerConfig';
+import { LaserType } from 'app/constants/promark-constants';
+import { promarkModels } from 'app/actions/beambox/constant';
 
 const getLayerElementByName = (layerName: string) => {
   const allLayers = Array.from(document.querySelectorAll('g.layer'));
@@ -54,11 +58,17 @@ const attributeMap: { [key in ConfigKey]: string } = {
   ref: 'data-ref',
   focus: 'data-focus',
   focusStep: 'data-focusStep',
+  fillInterval: 'data-fillInterval',
+  frequency: 'data-frequency',
+  pulseWidth: 'data-pulseWidth',
+  fillAngle: 'data-fillAngle',
+  biDirectional: 'data-biDirectional',
+  crossHatch: 'data-crossHatch',
 };
 
 export const CUSTOM_PRESET_CONSTANT = ' ';
 
-export const defaultConfig: { [key in ConfigKey]?: ConfigKeyTypeMap[key] } = {
+export const defaultConfig: Partial<ConfigKeyTypeMap> = {
   speed: 20,
   printingSpeed: 60,
   power: 15,
@@ -90,7 +100,14 @@ export const defaultConfig: { [key in ConfigKey]?: ConfigKeyTypeMap[key] } = {
   // lower focus parameters
   focus: -2,
   focusStep: -2,
+  // promark parameters
+  fillInterval: 0.1,
+  fillAngle: 0,
+  frequency: 27,
+  pulseWidth: 100,
 };
+
+const booleanConfig: ConfigKey[] = ['fullcolor', 'ref', 'split', 'biDirectional', 'crossHatch'];
 
 /**
  * getData from layer element
@@ -118,8 +135,7 @@ export const getData = <T extends ConfigKey>(
   if (['configName', 'color', 'clipRect'].includes(key)) {
     return (layer.getAttribute(attr) || defaultConfig[key]) as ConfigKeyTypeMap[T];
   }
-  if (key === 'fullcolor' || key === 'ref' || key === 'split')
-    return (layer.getAttribute(attr) === '1') as ConfigKeyTypeMap[T];
+  if (booleanConfig.includes(key)) return (layer.getAttribute(attr) === '1') as ConfigKeyTypeMap[T];
   if (key === 'module')
     return Number(layer.getAttribute(attr) || LayerModule.LASER_UNIVERSAL) as ConfigKeyTypeMap[T];
   return Number(layer.getAttribute(attr) || defaultConfig[key]) as ConfigKeyTypeMap[T];
@@ -141,7 +157,7 @@ export const writeDataLayer = <T extends ConfigKey>(
   )
     attr = attributeMap.printingSpeed;
   const originalValue = layer.getAttribute(attr);
-  if (key === 'fullcolor' || key === 'ref' || key === 'split')
+  if (booleanConfig.includes(key))
     // eslint-disable-next-line no-param-reassign
     value = (value ? '1' : undefined) as ConfigKeyTypeMap[T];
   if (value === undefined) layer.removeAttribute(attr);
@@ -189,7 +205,7 @@ export const getMultiSelectData = <T extends ConfigKey>(
           // Always use on if there is any on
           value = 1 as ConfigKeyTypeMap[T];
           break;
-        } else if (key === 'fullcolor' || key === 'ref' || key === 'split') {
+        } else if (booleanConfig.includes(key)) {
           // Always use true if there is any true
           value = true as ConfigKeyTypeMap[T];
           break;
@@ -224,12 +240,11 @@ export const cloneLayerConfig = (targetLayerName: string, baseLayerName: string)
     const targetLayer = getLayerElementByName(targetLayerName);
     if (targetLayer) {
       for (let i = 0; i < keys.length; i += 1) {
-        if (keys[i] === 'fullcolor' || keys[i] === 'ref') {
+        if (booleanConfig.includes(keys[i])) {
           if (getData(baseLayer, keys[i])) writeDataLayer(targetLayer, keys[i], true);
         } else {
           const value = getData(baseLayer, keys[i]);
-          if (value)
-            writeDataLayer(targetLayer, keys[i], getData(baseLayer, keys[i]) as number | string);
+          if (value) writeDataLayer(targetLayer, keys[i], value as number | string);
         }
       }
       updateLayerColorFilter(targetLayer as SVGGElement);
@@ -331,8 +346,53 @@ export const printerConfigKeys: ConfigKey[] = [
   'repeat',
 ];
 
+export const promarkConfigKeys: ConfigKey[] = [
+  'speed',
+  'power',
+  'repeat',
+  'pulseWidth',
+  'frequency',
+  'fillInterval',
+  'fillAngle',
+  'biDirectional',
+  'crossHatch',
+  'focus',
+  'focusStep',
+];
+
 // Forced Keys: If not set, use default value
 export const forcedKeys = ['speed', 'power', 'ink', 'multipass', 'halftone', 'repeat'];
+
+export const getConfigKeys = (module: LayerModule): ConfigKey[] => {
+  const workarea = BeamboxPreference.read('workarea');
+  if (promarkModels.has(workarea)) return promarkConfigKeys;
+  if (module === LayerModule.PRINTER) return printerConfigKeys;
+  return laserConfigKeys;
+};
+
+export const getPromarkLimit = (): {
+  pulseWidth?: { min: number; max: number };
+  frequency?: { min: number; max: number };
+  interval?: { min: number };
+} => {
+  const isInch = storage.get('default-units') === 'inches';
+  const unitLimit = { interval: { min: isInch ? 0.0254 : 0.001 } };
+  const { laserType, watt } = getPromarkInfo();
+  let laserLimit: {
+    pulseWidth?: { min: number; max: number };
+    frequency: { min: number; max: number };
+  };
+  if (laserType === LaserType.MOPA) {
+    if (watt >= 100)
+      laserLimit = { pulseWidth: { min: 10, max: 500 }, frequency: { min: 1, max: 4000 } };
+    else if (watt >= 60)
+      laserLimit = { pulseWidth: { min: 2, max: 500 }, frequency: { min: 1, max: 3000 } };
+    else laserLimit = { pulseWidth: { min: 2, max: 350 }, frequency: { min: 1, max: 4000 } };
+  } else if (watt >= 50) laserLimit = { frequency: { min: 45, max: 170 } };
+  else if (watt >= 30) laserLimit = { frequency: { min: 30, max: 60 } };
+  else laserLimit = { frequency: { min: 27, max: 60 } };
+  return { ...laserLimit, ...unitLimit };
+};
 
 export const applyPreset = (
   layer: Element,
@@ -343,7 +403,7 @@ export const applyPreset = (
   const { maxSpeed, minSpeed } = getWorkarea(workarea);
   const { applyName = true, batchCmd } = opts;
   const { module } = preset;
-  const keys = module === LayerModule.PRINTER ? printerConfigKeys : laserConfigKeys;
+  const keys = getConfigKeys(module);
   for (let i = 0; i < keys.length; i += 1) {
     const key = keys[i];
     let value = preset[key];
@@ -374,6 +434,8 @@ export const postPresetChange = (): void => {
   // TODO: add test
   const workarea: WorkAreaModel = BeamboxPreference.read('workarea');
   const { maxSpeed, minSpeed } = getWorkarea(workarea);
+  const isPromark = promarkModels.has(workarea);
+  const promarkLimit = isPromark ? getPromarkLimit() : null;
   const layerNames = getAllLayerNames();
   const allPresets = presetHelper.getAllPresets();
 
@@ -407,6 +469,21 @@ export const postPresetChange = (): void => {
     const printingSpeed = getData(layer, 'printingSpeed');
     if (printingSpeed > maxSpeed) writeDataLayer(layer, 'printingSpeed', maxSpeed);
     if (printingSpeed < minSpeed) writeDataLayer(layer, 'printingSpeed', minSpeed);
+    if (isPromark) {
+      const fillInterval = getData(layer, 'fillInterval');
+      if (fillInterval < promarkLimit.interval.min)
+        writeDataLayer(layer, 'fillInterval', promarkLimit.interval.min);
+      const frequency = getData(layer, 'frequency');
+      if (frequency < promarkLimit.frequency.min)
+        writeDataLayer(layer, 'frequency', promarkLimit.frequency.min);
+      else if (frequency > promarkLimit.frequency.max)
+        writeDataLayer(layer, 'frequency', promarkLimit.frequency.max);
+      const pulseWidth = getData(layer, 'pulseWidth');
+      if (pulseWidth < promarkLimit.pulseWidth.min)
+        writeDataLayer(layer, 'pulseWidth', promarkLimit.pulseWidth.min);
+      else if (pulseWidth > promarkLimit.pulseWidth.max)
+        writeDataLayer(layer, 'pulseWidth', promarkLimit.pulseWidth.max);
+    }
   }
 };
 
@@ -418,4 +495,5 @@ export default {
   getLayerConfig,
   getLayersConfig,
   writeData,
+  getPromarkLimit,
 };
