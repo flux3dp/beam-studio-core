@@ -33,7 +33,10 @@ jest.mock('app/actions/beambox/svgeditor-function-wrapper', () => ({
 const mockOnClose = jest.fn();
 describe('test QRCodeGenerator', () => {
   it('should behave correctly', () => {
-    const { baseElement } = render(<QRCodeGenerator onClose={mockOnClose} />);
+    const [isInvert, setIsInvert] = [false, jest.fn()];
+    const { baseElement } = render(
+      <QRCodeGenerator isInvert={isInvert} setIsInvert={setIsInvert} />
+    );
 
     const input = baseElement.querySelector('textarea');
     const okButton = baseElement.querySelector('.ant-btn-primary');

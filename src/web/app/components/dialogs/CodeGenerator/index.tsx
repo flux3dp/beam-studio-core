@@ -1,14 +1,17 @@
+/* eslint-disable max-len */
+/* eslint-disable no-param-reassign */
 import React, { useState } from 'react';
-import { Modal, Tabs, TabsProps } from 'antd';
+import { Flex, Modal, Radio } from 'antd';
 
 import ISVGCanvas from 'interfaces/ISVGCanvas';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
-import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import useI18n from 'helpers/useI18n';
+import importSvgString from 'app/svgedit/operations/import/importSvgString';
 import styles from './index.module.scss';
 
 import QRCodeGenerator from './QRCodeGenerator';
 import BarcodeGenerator from './BarcodeGenerator';
+import { extractPathTags, removeFirstRectTag } from './svgOperation';
 
 interface Props {
   onClose: () => void;
@@ -20,64 +23,87 @@ getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
 });
 
+function handleQrCodeInvertColor(svgString: string) {
+  const fullPath = '<path fill="black" d="M0 0h21v21H0z" />';
+  const infoPath = extractPathTags(svgString)[1];
+  console.log(infoPath);
+  const d = svgCanvas.pathActions.booleanOperation(fullPath, infoPath, 2);
+
+  importSvgString(
+    `<svg xmlns="http://www.w3.org/2000/svg" height="1000" width="1000" viewBox="0 0 21 21"><path fill="black" d="${d}" shape-rendering="crispEdges"/></svg>`,
+    { type: 'layer' }
+  );
+}
+
 export default function CodeGenerator({ onClose }: Props): JSX.Element {
   const { alert: tAlert } = useI18n();
   const [tabKey, setTabKey] = useState('barcode');
+  const [isInvert, setIsInvert] = useState(false);
 
   const handleOk = () => {
-    const targetElement = document.getElementById(`${tabKey}-container`);
-    const svg = targetElement?.querySelector<SVGElement>('svg');
-    console.log(tabKey);
+    const svg = document.getElementById(`${tabKey}-container`)?.querySelector<SVGElement>('svg');
 
     if (!svg) {
       return;
     }
-
-    const { width: w, height: h } = svg.getBoundingClientRect();
-    const [width, height] = tabKey === 'qrcode' ? [500, 500] : [w * 4, h * 4];
     const svgString = new XMLSerializer().serializeToString(svg);
+    const parsedSvgString = removeFirstRectTag(svgString);
 
-    const blob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
+    if (isInvert) {
+      if (tabKey === 'qrcode') {
+        handleQrCodeInvertColor(parsedSvgString);
+        onClose();
 
-    // console.log('svgString', svgString);
-    // importSvgString(svgString, { type: 'layer' });
+        return;
+      }
+    }
 
-    FnWrapper.insertImage(url, { x: 0, y: 0, width, height }, 127, {
-      useCurrentLayer: true,
-      ratioFixed: true,
-    });
-
+    importSvgString(parsedSvgString, { type: 'layer' });
     onClose();
   };
 
-  const items: TabsProps['items'] = [
+  const options = [
     {
-      key: 'qrcode',
       label: 'QR Code',
-      children: <QRCodeGenerator />,
+      value: 'qrcode',
     },
     {
-      key: 'barcode',
       label: 'Barcode',
-      children: <BarcodeGenerator />,
+      value: 'barcode',
     },
   ];
+
+  const renderContent = () =>
+    tabKey === 'barcode' ? (
+      <BarcodeGenerator isInvert={isInvert} setIsInvert={setIsInvert} />
+    ) : (
+      <QRCodeGenerator isInvert={isInvert} setIsInvert={setIsInvert} />
+    );
 
   return (
     <Modal
       open
       centered
-      title="Code Generator"
+      title={
+        <Flex gap={12}>
+          <div style={{ lineHeight: '24px' }}>Code Generator</div>
+          <Radio.Group
+            size="small"
+            optionType="button"
+            options={options}
+            defaultValue={tabKey}
+            onChange={(e) => setTabKey(e.target.value)}
+          />
+        </Flex>
+      }
       onCancel={onClose}
       onOk={handleOk}
-      // okButtonProps={{ disabled: !text }}
-      width="auto"
+      width="520"
       cancelText={tAlert.cancel}
       okText={tAlert.confirm}
       className={styles.modal}
     >
-      <Tabs key={tabKey} defaultActiveKey={tabKey} onChange={setTabKey} items={items} />
+      {renderContent()}
     </Modal>
   );
 }

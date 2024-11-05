@@ -1,108 +1,218 @@
-import React, { useMemo, useState } from 'react';
+/* eslint-disable @typescript-eslint/no-shadow */
+import React, { useState } from 'react';
 import {
+  Button,
   Cascader,
+  CascaderProps,
   Checkbox,
-  ColorPicker,
+  ConfigProvider,
+  Flex,
   Form,
   Input,
-  Modal,
-  QRCode,
-  QRCodeProps,
+  InputNumber,
   Radio,
+  Space,
 } from 'antd';
-import { InfoCircleOutlined } from '@ant-design/icons';
-import JsBarcode from 'jsbarcode';
 
-import ISVGCanvas from 'interfaces/ISVGCanvas';
-import { getSVGAsync } from 'helpers/svg-editor-helper';
-import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
-import importSvgString from 'app/svgedit/operations/import/importSvgString';
-import browser from 'implementations/browser';
-import useI18n from 'helpers/useI18n';
-
+import fontFuncs from 'app/actions/beambox/font-funcs';
+import {
+  AlignCenterOutlined,
+  AlignLeftOutlined,
+  AlignRightOutlined,
+  BoldOutlined,
+  ItalicOutlined,
+} from '@ant-design/icons';
 import { Barcode, defaultOptions, formats } from './Barcode';
+import styles from './BarcodeGenerator.module.scss';
+
+type DefaultOptionType = CascaderProps['options'][number];
 
 interface Props {
-  onClose?: () => void;
+  isInvert: boolean;
+  setIsInvert: (isInvert: boolean) => void;
 }
 
-let svgCanvas: ISVGCanvas;
+const fontFamilies = fontFuncs.requestAvailableFontFamilies(true);
 
-getSVGAsync((globalSVG) => {
-  svgCanvas = globalSVG.Canvas;
-});
-
-export default function BarcodeGenerator({ onClose }: Props): JSX.Element {
-  const [value, setValue] = React.useState('1234');
-  const [options, setOptions] = React.useState(defaultOptions);
+export default function BarcodeGenerator({ isInvert, setIsInvert }: Props): JSX.Element {
+  const [value, setValue] = useState('1234');
+  const [options, setOptions] = useState(defaultOptions);
   const formatOptions = formats.map((format) => ({ label: format, value: format }));
+  const fontOptions = fontFamilies.map((family: string) => {
+    const fontName = fontFuncs.fontNameMap.get(family);
+    const label = typeof fontName === 'string' ? fontName : family;
+
+    return {
+      value: family,
+      label,
+    };
+  });
+
+  const filter = (inputValue: string, path: Array<DefaultOptionType>) =>
+    path.some(
+      ({ label }) => (label as string).toLowerCase().indexOf(inputValue.toLowerCase()) > -1
+    );
 
   return (
     <>
       <Barcode value={value} options={options} renderer="svg" />
-      <Form>
-        <Form.Item label="Value">
-          <Input
-            value={value}
-            onKeyDown={(e) => e.stopPropagation()}
-            onChange={(e) => setValue(e.target.value)}
-          />
-        </Form.Item>
-        <Form.Item label="Format">
-          <Cascader
-            value={[options.format]}
-            options={formatOptions}
-            onChange={(format) => setOptions({ ...options, format })}
-          />
-        </Form.Item>
-        <Form.Item label="Width">
-          <Input
-            value={options.width}
-            onKeyDown={(e) => e.stopPropagation()}
-            onChange={(e) => setOptions({ ...options, width: Math.min(4, Number(e.target.value)) })}
-          />
-        </Form.Item>
-        <Form.Item label="Height">
-          <Input
-            value={options.height}
-            onKeyDown={(e) => e.stopPropagation()}
-            onChange={(e) =>
-              setOptions({ ...options, height: Math.min(150, Number(e.target.value)) })
-            }
-          />
-        </Form.Item>
-        {/* <Form.Item label="Margin">
-          <Input
-            value={options.margin}
-            onKeyDown={(e) => e.stopPropagation()}
-            onChange={(e) => setOptions({ ...options, margin: Number(e.target.value) })}
-          />
-        </Form.Item> */}
-        <Form.Item label="Background">
-          <ColorPicker
-            value={options.background}
-            onChange={(color) => setOptions({ ...options, background: color.toHexString() })}
-          />
-        </Form.Item>
-        <Form.Item label="Line Color">
-          <ColorPicker
-            value={options.lineColor}
-            onChange={(color) => setOptions({ ...options, lineColor: color.toHexString() })}
-          />
-        </Form.Item>
-        <Form.Item label="Show Text">
-          <Radio.Group
-            value={options.displayValue}
-            optionType="button"
-            buttonStyle="solid"
-            options={[
-              { label: 'Yes', value: true },
-              { label: 'No', value: false },
-            ]}
-            onChange={(e) => setOptions({ ...options, displayValue: e.target.value })}
-          />
-        </Form.Item>
-      </Form>
+      <ConfigProvider theme={{ components: { Form: { itemMarginBottom: 12 } } }}>
+        <Form>
+          <Space.Compact style={{ width: '100%', marginBottom: 20 }}>
+            <Input
+              value={value}
+              onKeyDown={(e) => e.stopPropagation()}
+              onChange={(e) => setValue(e.target.value)}
+            />
+            <Cascader
+              value={[options.format]}
+              options={formatOptions}
+              allowClear={false}
+              showSearch={{ filter }}
+              onKeyDown={(e) => e.stopPropagation()}
+              onChange={(format) => setOptions({ ...options, format })}
+            />
+          </Space.Compact>
+
+          <Flex justify="center" gap={32}>
+            <Flex vertical>
+              <Form.Item label="Bar Width" className={styles['flex-child']}>
+                <InputNumber
+                  style={{ width: '100%' }}
+                  max={4}
+                  min={1}
+                  value={options.width}
+                  onKeyDown={(e) => e.stopPropagation()}
+                  onChange={(width) => setOptions({ ...options, width })}
+                />
+              </Form.Item>
+              <Form.Item label="Bar Height" className={styles['flex-child']}>
+                <InputNumber
+                  style={{ width: '100%' }}
+                  max={150}
+                  min={1}
+                  value={options.height}
+                  onKeyDown={(e) => e.stopPropagation()}
+                  onChange={(height) => setOptions({ ...options, height })}
+                />
+              </Form.Item>
+              <Form.Item label="Text Margin" className={styles['flex-child']}>
+                <InputNumber
+                  style={{ width: '100%' }}
+                  value={options.textMargin}
+                  onKeyDown={(e) => e.stopPropagation()}
+                  onChange={(textMargin) => setOptions({ ...options, textMargin })}
+                />
+              </Form.Item>
+
+              <Form.Item className={styles['flex-child']}>
+                <Checkbox
+                  checked={isInvert}
+                  onChange={() => {
+                    const [black, white] = ['#000000', '#ffffff'];
+
+                    setIsInvert(!isInvert);
+                    setOptions({
+                      ...options,
+                      background: !isInvert ? black : white,
+                      lineColor: !isInvert ? white : black,
+                    });
+                  }}
+                >
+                  Invert Color
+                </Checkbox>
+              </Form.Item>
+            </Flex>
+
+            <Flex vertical>
+              <Form.Item label="Font" className={styles['flex-child']}>
+                <Cascader
+                  value={[options.font]}
+                  options={fontOptions}
+                  allowClear={false}
+                  showSearch={{ filter }}
+                  onKeyDown={(e) => e.stopPropagation()}
+                  onChange={(font) => setOptions({ ...options, font })}
+                />
+              </Form.Item>
+              <Form.Item label="Font Size" className={styles['flex-child']}>
+                <InputNumber
+                  style={{ width: '100%' }}
+                  min={1}
+                  value={options.fontSize}
+                  onKeyDown={(e) => e.stopPropagation()}
+                  onChange={(fontSize) => setOptions({ ...options, fontSize })}
+                />
+              </Form.Item>
+
+              <Flex justify="space-between">
+                <Form.Item>
+                  <Radio.Group
+                    optionType="button"
+                    value={options.textAlign}
+                    options={[
+                      { label: <AlignLeftOutlined />, value: 'left' },
+                      { label: <AlignCenterOutlined />, value: 'center' },
+                      { label: <AlignRightOutlined />, value: 'right' },
+                    ]}
+                    onChange={(e) => setOptions({ ...options, textAlign: e.target.value })}
+                  />
+                </Form.Item>
+
+                <Flex gap={4}>
+                  <Form.Item>
+                    <Button
+                      defaultChecked={options.fontOptions.includes('bold')}
+                      className={
+                        options.fontOptions.includes('bold') ? styles['check-text-option'] : ''
+                      }
+                      icon={<BoldOutlined />}
+                      onClick={() => {
+                        const { fontOptions } = options;
+
+                        setOptions({
+                          ...options,
+                          fontOptions: !options.fontOptions.includes('bold')
+                            ? `bold ${fontOptions}`
+                            : fontOptions.replace('bold', '').trim(),
+                        });
+                      }}
+                    />
+                  </Form.Item>
+
+                  <Form.Item>
+                    <Button
+                      defaultChecked={options.fontOptions.includes('italic')}
+                      className={
+                        options.fontOptions.includes('italic') ? styles['check-text-option'] : ''
+                      }
+                      icon={<ItalicOutlined />}
+                      onClick={() => {
+                        const { fontOptions } = options;
+
+                        setOptions({
+                          ...options,
+                          fontOptions: !options.fontOptions.includes('italic')
+                            ? `${fontOptions} italic`
+                            : fontOptions.replace('italic', '').trim(),
+                        });
+                      }}
+                    />
+                  </Form.Item>
+                </Flex>
+              </Flex>
+
+              <Form.Item>
+                <Checkbox
+                  onChange={(e) => setOptions({ ...options, displayValue: !e.target.checked })}
+                >
+                  Hide Text
+                </Checkbox>
+              </Form.Item>
+            </Flex>
+          </Flex>
+        </Form>
+      </ConfigProvider>
     </>
   );
 }

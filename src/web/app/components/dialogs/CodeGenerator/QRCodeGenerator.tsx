@@ -1,5 +1,5 @@
 import React from 'react';
-import { Checkbox, Input, QRCode, QRCodeProps, Radio } from 'antd';
+import { Checkbox, ConfigProvider, Flex, Input, QRCode, QRCodeProps, Radio } from 'antd';
 import { InfoCircleOutlined } from '@ant-design/icons';
 
 import browser from 'implementations/browser';
@@ -7,11 +7,15 @@ import useI18n from 'helpers/useI18n';
 
 import styles from './QRCodeGenerator.module.scss';
 
-const QRCodeGenerator = (): JSX.Element => {
+interface Props {
+  isInvert: boolean;
+  setIsInvert: (isInvert: boolean) => void;
+}
+
+const QRCodeGenerator = ({ isInvert, setIsInvert }: Props): JSX.Element => {
   const { qr_code_generator: t } = useI18n();
   const [text, setText] = React.useState('');
   const [errorLevel, setErrorLevel] = React.useState<QRCodeProps['errorLevel']>('L');
-  const [isInvert, setIsInvert] = React.useState(false);
 
   return (
     <>
@@ -41,28 +45,40 @@ const QRCodeGenerator = (): JSX.Element => {
             <div className={styles.placeholder}>{t.preview}</div>
           )}
         </div>
+
         <div className={styles.settings}>
           <div className={styles.label}>
-            {t.error_tolerance}{' '}
+            {`${t.error_tolerance} `}
             <InfoCircleOutlined onClick={() => browser.open(t.error_tolerance_link)} />
           </div>
-          <Radio.Group
-            value={errorLevel}
-            onChange={(e) => setErrorLevel(e.target.value)}
-            options={[
-              { label: '7%', value: 'L' },
-              { label: '15%', value: 'M' },
-              { label: '20%', value: 'Q' },
-              { label: '30%', value: 'H' },
-            ]}
-          />
-          <Checkbox
-            className={styles.checkbox}
-            checked={isInvert}
-            onChange={() => setIsInvert(!isInvert)}
-          >
-            {t.invert}
-          </Checkbox>
+
+          <Flex vertical>
+            <ConfigProvider
+              theme={{
+                components: { Radio: { buttonPaddingInline: 16, wrapperMarginInlineEnd: 0 } },
+              }}
+            >
+              <Radio.Group
+                value={errorLevel}
+                onChange={(e) => setErrorLevel(e.target.value)}
+                size="small"
+                options={[
+                  { label: '7%', value: 'L' },
+                  { label: '15%', value: 'M' },
+                  { label: '20%', value: 'Q' },
+                  { label: '30%', value: 'H' },
+                ]}
+              />
+            </ConfigProvider>
+
+            <Checkbox
+              className={styles.checkbox}
+              checked={isInvert}
+              onChange={() => setIsInvert(!isInvert)}
+            >
+              {t.invert}
+            </Checkbox>
+          </Flex>
         </div>
       </div>
     </>

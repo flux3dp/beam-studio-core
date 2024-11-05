@@ -58,7 +58,7 @@ export const defaultOptions: Options = {
   height: 100,
   displayValue: true,
   fontOptions: '',
-  font: 'monospace',
+  font: 'Noto Sans',
   textAlign: 'center',
   textPosition: 'bottom',
   textMargin: 2,
@@ -121,7 +121,14 @@ export function Barcode({
         );
       case 'svg':
       default:
-        return <svg id="barcode" ref={containerRef} style={style} className={contentClasses} />;
+        return (
+          <svg
+            id="barcode"
+            ref={containerRef}
+            style={style}
+            className={classNames(contentClasses, S['barcode-svg'])}
+          />
+        );
     }
   };
 
