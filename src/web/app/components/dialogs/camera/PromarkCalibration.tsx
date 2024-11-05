@@ -83,7 +83,7 @@ const PromarkCalibration = ({ device: { serial, model }, onClose }: Props): JSX.
   if (step === Steps.CHESSBOARD) {
     return (
       <Chessboard
-        chessboard={[19, 19]}
+        chessboard={[18, 18]}
         updateParam={updateParam}
         onNext={() => setStep(Steps.PUT_PAPER)}
         onClose={onClose}
