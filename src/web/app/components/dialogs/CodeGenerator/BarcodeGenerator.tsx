@@ -96,7 +96,7 @@ export default function BarcodeGenerator({ isInvert, setIsInvert }: Props): JSX.
               <Form.Item label="Bar Height" className={styles['flex-child']}>
                 <InputNumber
                   style={{ width: '100%' }}
-                  max={150}
+                  max={300}
                   min={1}
                   value={options.height}
                   onKeyDown={(e) => e.stopPropagation()}
@@ -106,6 +106,7 @@ export default function BarcodeGenerator({ isInvert, setIsInvert }: Props): JSX.
               <Form.Item label="Text Margin" className={styles['flex-child']}>
                 <InputNumber
                   style={{ width: '100%' }}
+                  max={100}
                   value={options.textMargin}
                   onKeyDown={(e) => e.stopPropagation()}
                   onChange={(textMargin) => setOptions({ ...options, textMargin })}

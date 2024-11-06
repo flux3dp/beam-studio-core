@@ -14,8 +14,10 @@
 }
 
 .container {
-  text-align: center;
-  height: 200px;
+  display: flex;
+  min-height: 200px;
+  justify-content: center;
+  align-items: center;
 }
 
 .barcode-svg {
