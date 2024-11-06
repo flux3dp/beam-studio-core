@@ -16,12 +16,14 @@ jest.mock('helpers/check-device-status', () => ({
 }));
 
 const mockSetLensCorrection = jest.fn();
+const mockSetField = jest.fn();
 const mockStartFraming = jest.fn();
 const mockStopFraming = jest.fn();
 const mockDoPromarkCalibration = jest.fn();
 const mockSelect = jest.fn();
 jest.mock('helpers/device-master', () => ({
   setLensCorrection: (...args) => mockSetLensCorrection(...args),
+  setField: (...args) => mockSetField(...args),
   startFraming: (...args) => mockStartFraming(...args),
   stopFraming: (...args) => mockStopFraming(...args),
   doPromarkCalibration: (...args) => mockDoPromarkCalibration(...args),
@@ -88,6 +90,8 @@ describe('test PromarkSettings', () => {
       x: { scale: 100, bulge: 1, skew: 1, trapezoid: 1 },
       y: { scale: 100, bulge: 1, skew: 1, trapezoid: 1 },
     });
+    expect(mockSetField).toBeCalledTimes(1);
+    expect(mockSetField).toBeCalledWith(150, { offsetX: 0, offsetY: 0, angle: 0 });
     expect(mockCalculateRedDotTransform).toBeCalledTimes(1);
     expect(mockCalculateRedDotTransform).toBeCalledWith(150, 0, 0, 1, 1);
     expect(mockGenerateCalibrationTaskString).toBeCalledTimes(1);

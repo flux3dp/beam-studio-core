@@ -6,7 +6,7 @@ import EventEmitter from 'eventemitter3';
 
 import ErrorConstants from 'app/constants/error-constants';
 import IControlSocket from 'interfaces/IControlSocket';
-import { LensCorrection } from 'interfaces/Promark';
+import { Field, LensCorrection } from 'interfaces/Promark';
 import { IDeviceDetailInfo } from 'interfaces/IDevice';
 
 import { getDeviceClient, SwiftrayClient } from './swiftray-client';
@@ -434,6 +434,16 @@ class SwiftrayControl extends EventEmitter implements IControlSocket {
   setOriginX = async (x: number) => this.sc.setDeviceParam('origin_x', x);
 
   setOriginY = async (y: number) => this.sc.setDeviceParam('origin_y', y);
+
+  setField = async (worksize: number, fieldData: Field) => {
+    const data = {
+      worksize,
+      xOffset: fieldData.offsetX,
+      yOffset: fieldData.offsetY,
+      angle: fieldData.angle,
+    };
+    return this.sc.setScanaheadParams(data);
+  };
 
   setLensCorrection = async (x: LensCorrection, y: LensCorrection) => {
     const data = {

@@ -841,6 +841,10 @@ class Control extends EventEmitter implements IControlSocket {
     return res;
   };
 
+  setField = async () => {
+    throw new Error('Method not implemented.');
+  };
+
   setLensCorrection = async () => {
     throw new Error('Method not implemented.');
   };

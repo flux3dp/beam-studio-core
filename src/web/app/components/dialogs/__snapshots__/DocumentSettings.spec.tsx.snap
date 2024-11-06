@@ -575,14 +575,14 @@ exports[`test DocumentSettings set dimesnion for promark 1`] = `
                   />
                 </div>
                 <div
-                  aria-selected="false"
-                  class="ant-select-item ant-select-item-option"
-                  title="Beambox II"
+                  aria-selected="true"
+                  class="ant-select-item ant-select-item-option ant-select-item-option-selected"
+                  title="Promark"
                 >
                   <div
                     class="ant-select-item-option-content"
                   >
-                    Beambox II
+                    Promark
                   </div>
                   <span
                     aria-hidden="true"
@@ -592,14 +592,14 @@ exports[`test DocumentSettings set dimesnion for promark 1`] = `
                   />
                 </div>
                 <div
-                  aria-selected="true"
-                  class="ant-select-item ant-select-item-option ant-select-item-option-selected"
-                  title="Promark"
+                  aria-selected="false"
+                  class="ant-select-item ant-select-item-option"
+                  title="Beambox II"
                 >
                   <div
                     class="ant-select-item-option-content"
                   >
-                    Promark
+                    Beambox II
                   </div>
                   <span
                     aria-hidden="true"
@@ -2780,12 +2780,12 @@ exports[`test DocumentSettings should render correctly 3`] = `
                 <div
                   aria-selected="false"
                   class="ant-select-item ant-select-item-option"
-                  title="Beambox II"
+                  title="Promark"
                 >
                   <div
                     class="ant-select-item-option-content"
                   >
-                    Beambox II
+                    Promark
                   </div>
                   <span
                     aria-hidden="true"
@@ -2797,12 +2797,12 @@ exports[`test DocumentSettings should render correctly 3`] = `
                 <div
                   aria-selected="false"
                   class="ant-select-item ant-select-item-option"
-                  title="Promark"
+                  title="Beambox II"
                 >
                   <div
                     class="ant-select-item-option-content"
                   >
-                    Promark
+                    Beambox II
                   </div>
                   <span
                     aria-hidden="true"
@@ -3479,12 +3479,12 @@ exports[`test DocumentSettings should render correctly for ador 1`] = `
                 <div
                   aria-selected="false"
                   class="ant-select-item ant-select-item-option"
-                  title="Beambox II"
+                  title="Promark"
                 >
                   <div
                     class="ant-select-item-option-content"
                   >
-                    Beambox II
+                    Promark
                   </div>
                   <span
                     aria-hidden="true"
@@ -3496,12 +3496,12 @@ exports[`test DocumentSettings should render correctly for ador 1`] = `
                 <div
                   aria-selected="false"
                   class="ant-select-item ant-select-item-option"
-                  title="Promark"
+                  title="Beambox II"
                 >
                   <div
                     class="ant-select-item-option-content"
                   >
-                    Promark
+                    Beambox II
                   </div>
                   <span
                     aria-hidden="true"
@@ -4136,12 +4136,12 @@ exports[`test DocumentSettings should render correctly for ador 2`] = `
                 <div
                   aria-selected="false"
                   class="ant-select-item ant-select-item-option"
-                  title="Beambox II"
+                  title="Promark"
                 >
                   <div
                     class="ant-select-item-option-content"
                   >
-                    Beambox II
+                    Promark
                   </div>
                   <span
                     aria-hidden="true"
@@ -4153,12 +4153,12 @@ exports[`test DocumentSettings should render correctly for ador 2`] = `
                 <div
                   aria-selected="false"
                   class="ant-select-item ant-select-item-option"
-                  title="Promark"
+                  title="Beambox II"
                 >
                   <div
                     class="ant-select-item-option-content"
                   >
-                    Promark
+                    Beambox II
                   </div>
                   <span
                     aria-hidden="true"

@@ -191,7 +191,7 @@ describe('test DocumentSettings', () => {
     const { baseElement, getByText } = render(<DocumentSettings unmount={mockUnmount} />);
     act(() => fireEvent.mouseDown(baseElement.querySelector('input#workareaSelect')));
     fireEvent.click(
-      baseElement.querySelectorAll('.ant-slide-up-appear .ant-select-item-option-content')[6]
+      baseElement.querySelectorAll('.ant-slide-up-appear .ant-select-item-option-content')[5]
     );
     expect(baseElement.querySelector('input#customDimension')).toBeInTheDocument();
     act(() => fireEvent.mouseDown(baseElement.querySelector('input#customDimension')));

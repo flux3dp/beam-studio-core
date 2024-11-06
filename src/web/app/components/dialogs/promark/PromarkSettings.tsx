@@ -78,7 +78,7 @@ const PromarkSettings = ({ device, initData, onClose }: Props): JSX.Element => {
   }, [model, width, power, speed]);
 
   const handleUpdateParameter = async () => {
-    // TODO: set field
+    await deviceMaster.setField(width, field);
     await deviceMaster.setLensCorrection(lensCorrection);
   };
 
@@ -119,8 +119,8 @@ const PromarkSettings = ({ device, initData, onClose }: Props): JSX.Element => {
     const restore = async () => {
       try {
         if (isPreviewing) await deviceMaster.stopFraming();
+        await deviceMaster.setField(width, initData.field);
         await deviceMaster.setLensCorrection(initData.lensCorrection);
-        // TODO reset field settings
       } catch (err) {
         console.error('Failed to restore from promark settings state', err);
       }
