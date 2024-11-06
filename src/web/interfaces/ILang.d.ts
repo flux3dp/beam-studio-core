@@ -211,7 +211,7 @@ export interface ILang {
       tools: {
         title: string;
         material_test_generator: string;
-        qr_code_generator: string;
+        code_generator: string;
         box_generator: string;
       };
     };
@@ -1992,5 +1992,18 @@ export interface ILang {
     mark_parameters: string;
     preview: string;
     mark: string;
+  };
+  code_generator: {
+    qr_code: string;
+    barcode: string;
+  };
+  barcode_generator: {
+    bar_width: string;
+    bar_height: string;
+    text_margin: string;
+    invert_color: string;
+    font: string;
+    font_size: string;
+    hide_text: string;
   };
 }

@@ -46,7 +46,13 @@ function handleBarcodeInvertColor(svgString: string) {
 }
 
 export default function CodeGenerator({ onClose }: Props): JSX.Element {
-  const { alert: tAlert } = useI18n();
+  const {
+    alert: tAlert,
+    topbar: {
+      menu: { tools: tTools },
+    },
+    code_generator: tCodeGenerator,
+  } = useI18n();
   const [tabKey, setTabKey] = useState('barcode');
   const [isInvert, setIsInvert] = useState(false);
 
@@ -80,11 +86,11 @@ export default function CodeGenerator({ onClose }: Props): JSX.Element {
 
   const options = [
     {
-      label: 'QR Code',
+      label: tCodeGenerator.qr_code,
       value: 'qrcode',
     },
     {
-      label: 'Barcode',
+      label: tCodeGenerator.barcode,
       value: 'barcode',
     },
   ];
@@ -102,7 +108,7 @@ export default function CodeGenerator({ onClose }: Props): JSX.Element {
       centered
       title={
         <Flex gap={12} style={{ marginBottom: 20 }}>
-          <div style={{ lineHeight: '24px' }}>Code Generator</div>
+          <div style={{ lineHeight: '24px' }}>{tTools.code_generator}</div>
           <Radio.Group
             style={{ fontWeight: 'normal' }}
             size="small"

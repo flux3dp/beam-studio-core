@@ -218,7 +218,7 @@ const lang: ILang = {
       tools: {
         title: 'Työkalut',
         material_test_generator: 'Materiaalitestin Generaattori',
-        qr_code_generator: 'QR-koodin Generaattori',
+        code_generator: 'Koodigeneraattori',
         box_generator: 'Laatikkogeneraattori',
       },
     },
@@ -1991,6 +1991,19 @@ const lang: ILang = {
     mark_parameters: 'Merkintäparametrit',
     preview: 'Esikatselu',
     mark: 'Merkitse',
+  },
+  code_generator: {
+    qr_code: 'QR-koodi',
+    barcode: 'Viivakoodi',
+  },
+  barcode_generator: {
+    bar_width: 'Palkin leveys',
+    bar_height: 'Palkin korkeus',
+    text_margin: 'Tekstin marginaali',
+    invert_color: 'Käännä värit',
+    font: 'Fontti',
+    font_size: 'Fontin koko',
+    hide_text: 'Piilota teksti',
   },
 };
 

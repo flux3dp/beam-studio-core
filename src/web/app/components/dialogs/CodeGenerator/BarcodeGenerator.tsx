@@ -22,6 +22,7 @@ import {
   BoldOutlined,
   ItalicOutlined,
 } from '@ant-design/icons';
+import useI18n from 'helpers/useI18n';
 import { Barcode, defaultOptions, formats } from './Barcode';
 import styles from './BarcodeGenerator.module.scss';
 
@@ -35,6 +36,7 @@ interface Props {
 const fontFamilies = fontFuncs.requestAvailableFontFamilies(true);
 
 export default function BarcodeGenerator({ isInvert, setIsInvert }: Props): JSX.Element {
+  const { barcode_generator: t } = useI18n();
   const [value, setValue] = useState('1234');
   const [options, setOptions] = useState(defaultOptions);
   const formatOptions = formats.map((format) => ({ label: format, value: format }));
@@ -42,10 +44,7 @@ export default function BarcodeGenerator({ isInvert, setIsInvert }: Props): JSX.
     const fontName = fontFuncs.fontNameMap.get(family);
     const label = typeof fontName === 'string' ? fontName : family;
 
-    return {
-      value: family,
-      label,
-    };
+    return { value: family, label };
   });
 
   const filter = (inputValue: string, path: Array<DefaultOptionType>) =>
@@ -83,7 +82,7 @@ export default function BarcodeGenerator({ isInvert, setIsInvert }: Props): JSX.
 
           <Flex justify="center" gap={32}>
             <Flex vertical>
-              <Form.Item label="Bar Width" className={styles['flex-child']}>
+              <Form.Item label={t.bar_width} className={styles['flex-child']}>
                 <InputNumber
                   style={{ width: '100%' }}
                   max={4}
@@ -93,7 +92,7 @@ export default function BarcodeGenerator({ isInvert, setIsInvert }: Props): JSX.
                   onChange={(width) => setOptions({ ...options, width })}
                 />
               </Form.Item>
-              <Form.Item label="Bar Height" className={styles['flex-child']}>
+              <Form.Item label={t.bar_height} className={styles['flex-child']}>
                 <InputNumber
                   style={{ width: '100%' }}
                   max={300}
@@ -103,7 +102,7 @@ export default function BarcodeGenerator({ isInvert, setIsInvert }: Props): JSX.
                   onChange={(height) => setOptions({ ...options, height })}
                 />
               </Form.Item>
-              <Form.Item label="Text Margin" className={styles['flex-child']}>
+              <Form.Item label={t.text_margin} className={styles['flex-child']}>
                 <InputNumber
                   style={{ width: '100%' }}
                   max={100}
@@ -117,7 +116,7 @@ export default function BarcodeGenerator({ isInvert, setIsInvert }: Props): JSX.
                 <Checkbox
                   onChange={(e) => setOptions({ ...options, displayValue: !e.target.checked })}
                 >
-                  Hide Text
+                  {t.hide_text}
                 </Checkbox>
               </Form.Item>
               {/* <Form.Item className={styles['flex-child']}>
@@ -134,13 +133,13 @@ export default function BarcodeGenerator({ isInvert, setIsInvert }: Props): JSX.
                     });
                   }}
                 >
-                  Invert Color
+                  {t.invert_color}
                 </Checkbox>
               </Form.Item> */}
             </Flex>
 
             <Flex vertical>
-              <Form.Item label="Font" className={styles['flex-child']}>
+              <Form.Item label={t.font} className={styles['flex-child']}>
                 <Cascader
                   value={[options.font]}
                   options={fontOptions}
@@ -150,7 +149,7 @@ export default function BarcodeGenerator({ isInvert, setIsInvert }: Props): JSX.
                   onChange={(font) => setOptions({ ...options, font })}
                 />
               </Form.Item>
-              <Form.Item label="Font Size" className={styles['flex-child']}>
+              <Form.Item label={t.font_size} className={styles['flex-child']}>
                 <InputNumber
                   style={{ width: '100%' }}
                   min={1}

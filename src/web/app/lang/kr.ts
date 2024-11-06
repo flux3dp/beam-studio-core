@@ -218,7 +218,7 @@ const lang: ILang = {
       tools: {
         title: '도구',
         material_test_generator: '재질 테스트 생성기',
-        qr_code_generator: 'QR 코드 생성기',
+        code_generator: '코드 생성기',
         box_generator: '박스 생성기',
       },
     },
@@ -1994,6 +1994,19 @@ const lang: ILang = {
     mark_parameters: '마킹 매개변수',
     preview: '미리보기',
     mark: '표시',
+  },
+  code_generator: {
+    qr_code: 'QR 코드',
+    barcode: '바코드',
+  },
+  barcode_generator: {
+    bar_width: '바 너비',
+    bar_height: '바 높이',
+    text_margin: '텍스트 여백',
+    invert_color: '색상 반전',
+    font: '글꼴',
+    font_size: '글꼴 크기',
+    hide_text: '텍스트 숨기기',
   },
 };
 

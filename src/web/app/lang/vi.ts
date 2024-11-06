@@ -218,7 +218,7 @@ const lang: ILang = {
       tools: {
         title: 'Công cụ',
         material_test_generator: 'Trình tạo thử nghiệm vật liệu',
-        qr_code_generator: 'Trình tạo mã QR',
+        code_generator: 'Trình tạo mã',
         box_generator: 'Trình Tạo Hộp',
       },
     },
@@ -1991,6 +1991,19 @@ const lang: ILang = {
     mark_parameters: 'Tham số đánh dấu',
     preview: 'Xem trước',
     mark: 'Đánh dấu',
+  },
+  code_generator: {
+    qr_code: 'Mã QR',
+    barcode: 'Mã vạch',
+  },
+  barcode_generator: {
+    bar_width: 'Chiều rộng thanh',
+    bar_height: 'Chiều cao thanh',
+    text_margin: 'Lề văn bản',
+    invert_color: 'Đảo màu',
+    font: 'Phông chữ',
+    font_size: 'Kích thước phông chữ',
+    hide_text: 'Ẩn văn bản',
   },
 };
 

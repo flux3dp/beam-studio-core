@@ -218,7 +218,7 @@ const lang: ILang = {
       tools: {
         title: 'Verktøy',
         material_test_generator: 'Materialtestgenerator',
-        qr_code_generator: 'QR-kodegenerator',
+        code_generator: 'Kodegenerator',
         box_generator: 'Boksgenerator',
       },
     },
@@ -1991,6 +1991,19 @@ const lang: ILang = {
     mark_parameters: 'Merkingsparametere',
     preview: 'Forhåndsvisning',
     mark: 'Merk',
+  },
+  code_generator: {
+    qr_code: 'QR-kode',
+    barcode: 'Strekkode',
+  },
+  barcode_generator: {
+    bar_width: 'Stolpebredde',
+    bar_height: 'Stolpehøyde',
+    text_margin: 'Tekstmarg',
+    invert_color: 'Inverter farge',
+    font: 'Skrift',
+    font_size: 'Skriftstørrelse',
+    hide_text: 'Skjul tekst',
   },
 };
 

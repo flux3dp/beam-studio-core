@@ -218,7 +218,7 @@ const lang: ILang = {
       tools: {
         title: 'Tools',
         material_test_generator: 'Material Test Generator',
-        qr_code_generator: 'QR Code Generator',
+        code_generator: 'Code Generator',
         box_generator: 'Box Generator',
       },
     },
@@ -1996,6 +1996,19 @@ const lang: ILang = {
     mark_parameters: 'Mark Parameters',
     preview: 'Preview',
     mark: 'Mark',
+  },
+  code_generator: {
+    qr_code: 'QR Code',
+    barcode: 'Barcode',
+  },
+  barcode_generator: {
+    bar_width: 'Bar Width',
+    bar_height: 'Bar Height',
+    text_margin: 'Text Margin',
+    invert_color: 'Invert Color',
+    font: 'Font',
+    font_size: 'Font Size',
+    hide_text: 'Hide Text',
   },
 };
 

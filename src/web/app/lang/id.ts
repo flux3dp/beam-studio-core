@@ -218,7 +218,7 @@ const lang: ILang = {
       tools: {
         title: 'Alat',
         material_test_generator: 'Generator Uji Material',
-        qr_code_generator: 'Generator Kode QR',
+        code_generator: 'Pembuat Kode',
         box_generator: 'Generator Kotak',
       },
     },
@@ -1991,6 +1991,19 @@ const lang: ILang = {
     mark_parameters: 'Parameter Penandaan',
     preview: 'Pratinjau',
     mark: 'Tandai',
+  },
+  code_generator: {
+    qr_code: 'Kode QR',
+    barcode: 'Kode Batang',
+  },
+  barcode_generator: {
+    bar_width: 'Lebar Batang',
+    bar_height: 'Tinggi Batang',
+    text_margin: 'Margin Teks',
+    invert_color: 'Balik Warna',
+    font: 'Font',
+    font_size: 'Ukuran Font',
+    hide_text: 'Sembunyikan Teks',
   },
 };
 

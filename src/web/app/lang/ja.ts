@@ -218,7 +218,7 @@ const lang: ILang = {
       tools: {
         title: 'ツール',
         material_test_generator: '材料テストジェネレーター',
-        qr_code_generator: 'QRコードジェネレーター',
+        code_generator: 'コードジェネレーター',
         box_generator: 'ボックスジェネレーター',
       },
     },
@@ -1994,6 +1994,19 @@ const lang: ILang = {
     mark_parameters: 'マーキングパラメータ',
     preview: 'プレビュー',
     mark: 'マーク',
+  },
+  code_generator: {
+    qr_code: 'QRコード',
+    barcode: 'バーコード',
+  },
+  barcode_generator: {
+    bar_width: 'バー幅',
+    bar_height: 'バーの高さ',
+    text_margin: 'テキスト余白',
+    invert_color: '色を反転',
+    font: 'フォント',
+    font_size: 'フォントサイズ',
+    hide_text: 'テキストを隠す',
   },
 };
 

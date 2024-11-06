@@ -218,7 +218,7 @@ const lang: ILang = {
       tools: {
         title: '工具',
         material_test_generator: '材质测试生成器',
-        qr_code_generator: '二维码生成器',
+        code_generator: '条码生成器',
         box_generator: '盒子生成器',
       },
     },
@@ -1996,6 +1996,19 @@ const lang: ILang = {
     mark_parameters: '打标参数',
     preview: '预览',
     mark: '标记',
+  },
+  code_generator: {
+    qr_code: '二维码',
+    barcode: '条形码',
+  },
+  barcode_generator: {
+    bar_width: '条宽',
+    bar_height: '条高',
+    text_margin: '文本边距',
+    invert_color: '反转颜色',
+    font: '字体',
+    font_size: '字体大小',
+    hide_text: '隐藏文本',
   },
 };
 

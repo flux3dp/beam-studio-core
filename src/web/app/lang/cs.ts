@@ -218,7 +218,7 @@ const lang: ILang = {
       tools: {
         title: 'Nástroje',
         material_test_generator: 'Generátor testování materiálu',
-        qr_code_generator: 'Generátor QR kódu',
+        code_generator: 'Generátor kódu',
         box_generator: 'Generátor boxů',
       },
     },
@@ -1996,6 +1996,19 @@ const lang: ILang = {
     mark_parameters: 'Parametry značení',
     preview: 'Náhled',
     mark: 'Označit',
+  },
+  code_generator: {
+    qr_code: 'QR kód',
+    barcode: 'Čárový kód',
+  },
+  barcode_generator: {
+    bar_width: 'Šířka čáry',
+    bar_height: 'Výška čáry',
+    text_margin: 'Okraj textu',
+    invert_color: 'Invertovat barvu',
+    font: 'Písmo',
+    font_size: 'Velikost písma',
+    hide_text: 'Skrýt text',
   },
 };
 
