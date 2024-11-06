@@ -267,6 +267,10 @@ class SwiftrayClient extends EventEmitter {
     return this.action(`/devices/${this.port}`, 'setParam', { name, value });
   }
 
+  public async setScanaheadParams(params: Record<string, number>): Promise<boolean> {
+    return this.action(`/devices/${this.port}`, 'setScanaheadParams', params);
+  }
+
   public async setDeviceCorrection(data: { [key: string]: number }): Promise<boolean> {
     return this.action(`/devices/${this.port}`, 'setCorrection', data);
   }
@@ -367,7 +371,8 @@ const checkSwiftray = (): boolean => {
 };
 const hasSwiftray = checkSwiftray();
 
-const swiftrayClient = new SwiftrayClient('ws://localhost:6611');
+// const swiftrayClient = new SwiftrayClient('ws://localhost:6611');
+const swiftrayClient = new SwiftrayClient('ws://192.168.1.207:6611');
 const getDeviceClient = async (port: string): Promise<SwiftrayClient> => {
   console.log(`Connecting to device on port ${port}`);
   // TODO:SWIFTRAY - Open a new instance of Swiftray, and use different port number

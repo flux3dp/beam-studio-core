@@ -22,8 +22,9 @@ import {
   RotationParameters3D,
   RotationParameters3DGhostApi,
 } from 'interfaces/FisheyePreview';
+import { getWorkarea } from 'app/constants/workarea-constants';
 import { IDeviceInfo, IDeviceConnection, IDeviceDetailInfo } from 'interfaces/IDevice';
-import { LensCorrection } from 'interfaces/Promark';
+import { Field, LensCorrection, PromarkStore } from 'interfaces/Promark';
 
 import Camera from './api/camera';
 import Control from './api/control';
@@ -407,10 +408,14 @@ class DeviceMaster {
       }
 
       if (promarkModels.has(device.info.model)) {
-        const correction = promarkDataStore.get(device.info.serial, 'lensCorrection');
-        console.log('Applying', correction);
-        if (correction) {
-          await this.setLensCorrection(correction);
+        const { lensCorrection, field } = promarkDataStore.get(device.info.serial) as PromarkStore;
+        if (field) {
+          const { width } = getWorkarea(device.info.model);
+          await this.setField(width, field);
+        }
+        console.log('Applying', lensCorrection);
+        if (lensCorrection) {
+          await this.setLensCorrection(lensCorrection);
         }
       }
       Progress.popById('select-device');
@@ -1194,6 +1199,11 @@ class DeviceMaster {
       return controlSocket.addTask(controlSocket.deleteDeviceSetting, name);
     }
     return controlSocket.addTask(controlSocket.setDeviceSetting, name, value);
+  }
+
+  async setField(worksize: number, fieldData: Field) {
+    const controlSocket = await this.getControl();
+    return controlSocket.addTask(controlSocket.setField, worksize, fieldData);
   }
 
   async setLensCorrection(data: { x: LensCorrection; y: LensCorrection }) {
