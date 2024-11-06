@@ -101,7 +101,7 @@ export const defaultConfig: Partial<ConfigKeyTypeMap> = {
   focus: -2,
   focusStep: -2,
   // promark parameters
-  fillInterval: 0.1,
+  fillInterval: 0.01,
   fillAngle: 0,
   frequency: 27,
   pulseWidth: 100,
