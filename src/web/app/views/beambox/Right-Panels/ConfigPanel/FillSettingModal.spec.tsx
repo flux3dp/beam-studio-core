@@ -5,6 +5,8 @@ import { fireEvent, render } from '@testing-library/react';
 import ConfigPanelContext from './ConfigPanelContext';
 import FillSettingModal from './FillSettingModal';
 
+jest.mock('helpers/is-dev', () => () => true);
+
 const mockGet = jest.fn();
 jest.mock('implementations/storage', () => ({
   get: (...args) => mockGet(...args),

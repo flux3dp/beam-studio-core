@@ -34,8 +34,7 @@ const AdvancedBlock = ({
   const workarea = useWorkarea();
   const supportInfo = useMemo(() => getSupportInfo(workarea), [workarea]);
   const isPromark = useMemo(() => promarkModels.has(workarea), [workarea]);
-  const dev = useMemo(isDev, []);
-  const promarkInfo = dev && isPromark ? getPromarkInfo() : null;
+  const promarkInfo = isPromark ? getPromarkInfo() : null;
   const promarkLimit = useMemo(
     () => (promarkInfo ? getPromarkLimit() : null),
     // eslint-disable-next-line react-hooks/exhaustive-deps

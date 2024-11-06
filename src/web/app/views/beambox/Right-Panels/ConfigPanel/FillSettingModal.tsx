@@ -1,6 +1,7 @@
 import React, { useContext, useMemo, useState } from 'react';
 import { Modal, Switch } from 'antd';
 
+import isDev from 'helpers/is-dev';
 import storage from 'implementations/storage';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import useI18n from 'helpers/useI18n';
@@ -33,6 +34,7 @@ const FillSettingModal = ({ onClose }: Props): JSX.Element => {
     const unit: 'mm' | 'inches' = storage.get('default-units') || 'mm';
     return unit === 'inches' ? 0.0254 : 0.001;
   }, []);
+  const dev = useMemo(isDev, []);
 
   const handleSave = () => {
     const keys = ['fillInterval', 'fillAngle', 'biDirectional', 'crossHatch'] as const;
@@ -96,22 +98,28 @@ const FillSettingModal = ({ onClose }: Props): JSX.Element => {
             displayMultiValue={draftValue.fillAngle.hasMultiValue}
           />
         </div>
-        <div onClick={() => handleValueChange('biDirectional', !draftValue.biDirectional.value)}>
-          <label htmlFor="biDirectional">{t.bi_directional}</label>
-          <Switch
-            id="biDirectional"
-            checked={draftValue.biDirectional.value}
-            onChange={(value) => handleValueChange('biDirectional', value)}
-          />
-        </div>
-        <div onClick={() => handleValueChange('crossHatch', !draftValue.crossHatch.value)}>
-          <label htmlFor="crossHatch">{t.cross_hatch}</label>
-          <Switch
-            id="crossHatch"
-            checked={draftValue.crossHatch.value}
-            onChange={(value) => handleValueChange('crossHatch', value)}
-          />
-        </div>
+        {dev && (
+          <>
+            <div
+              onClick={() => handleValueChange('biDirectional', !draftValue.biDirectional.value)}
+            >
+              <label htmlFor="biDirectional">{t.bi_directional}</label>
+              <Switch
+                id="biDirectional"
+                checked={draftValue.biDirectional.value}
+                onChange={(value) => handleValueChange('biDirectional', value)}
+              />
+            </div>
+            <div onClick={() => handleValueChange('crossHatch', !draftValue.crossHatch.value)}>
+              <label htmlFor="crossHatch">{t.cross_hatch}</label>
+              <Switch
+                id="crossHatch"
+                checked={draftValue.crossHatch.value}
+                onChange={(value) => handleValueChange('crossHatch', value)}
+              />
+            </div>
+          </>
+        )}
       </div>
     </Modal>
   );

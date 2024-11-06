@@ -276,6 +276,7 @@ const GoButton = ({ hasDiscoverdMachine, hasText }: Props): JSX.Element => {
         });
       };
       const { version, model } = device;
+      const supportInfo = getSupportInfo(model);
       if (version === '4.1.1' && model !== 'fhexa1') {
         showForceUpdateAlert('4.1.1-version-alert');
         return;
@@ -321,6 +322,7 @@ const GoButton = ({ hasDiscoverdMachine, hasText }: Props): JSX.Element => {
         }
       }
       if (
+        supportInfo.jobOrigin &&
         BeamboxPreference.read('enable-job-origin') &&
         !alertConfig.read('skip-job-origin-warning')
       ) {
