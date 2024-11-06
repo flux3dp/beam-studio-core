@@ -471,17 +471,17 @@ export const postPresetChange = (): void => {
     if (printingSpeed < minSpeed) writeDataLayer(layer, 'printingSpeed', minSpeed);
     if (isPromark) {
       const fillInterval = getData(layer, 'fillInterval');
-      if (fillInterval < promarkLimit.interval.min)
+      if (fillInterval < promarkLimit.interval?.min)
         writeDataLayer(layer, 'fillInterval', promarkLimit.interval.min);
       const frequency = getData(layer, 'frequency');
-      if (frequency < promarkLimit.frequency.min)
+      if (frequency < promarkLimit.frequency?.min)
         writeDataLayer(layer, 'frequency', promarkLimit.frequency.min);
-      else if (frequency > promarkLimit.frequency.max)
+      else if (frequency > promarkLimit.frequency?.max)
         writeDataLayer(layer, 'frequency', promarkLimit.frequency.max);
       const pulseWidth = getData(layer, 'pulseWidth');
-      if (pulseWidth < promarkLimit.pulseWidth.min)
+      if (pulseWidth < promarkLimit.pulseWidth?.min)
         writeDataLayer(layer, 'pulseWidth', promarkLimit.pulseWidth.min);
-      else if (pulseWidth > promarkLimit.pulseWidth.max)
+      else if (pulseWidth > promarkLimit.pulseWidth?.max)
         writeDataLayer(layer, 'pulseWidth', promarkLimit.pulseWidth.max);
     }
   }
