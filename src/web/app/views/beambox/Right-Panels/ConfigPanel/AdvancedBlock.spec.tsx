@@ -8,13 +8,6 @@ import { LaserType } from 'app/constants/promark-constants';
 import AdvancedBlock from './AdvancedBlock';
 import ConfigPanelContext from './ConfigPanelContext';
 
-jest.mock(
-  'helpers/is-dev',
-  () =>
-    (...args) =>
-      true
-);
-
 const mockRead = jest.fn();
 jest.mock('app/actions/beambox/beambox-preference', () => ({
   read: (key: string) => mockRead(key),
