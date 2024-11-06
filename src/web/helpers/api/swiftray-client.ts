@@ -371,8 +371,7 @@ const checkSwiftray = (): boolean => {
 };
 const hasSwiftray = checkSwiftray();
 
-// const swiftrayClient = new SwiftrayClient('ws://localhost:6611');
-const swiftrayClient = new SwiftrayClient('ws://192.168.1.207:6611');
+const swiftrayClient = new SwiftrayClient('ws://localhost:6611');
 const getDeviceClient = async (port: string): Promise<SwiftrayClient> => {
   console.log(`Connecting to device on port ${port}`);
   // TODO:SWIFTRAY - Open a new instance of Swiftray, and use different port number
