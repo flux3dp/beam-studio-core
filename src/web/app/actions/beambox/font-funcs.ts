@@ -158,7 +158,9 @@ const requestFontByFamilyAndStyle = (opts: IFontQuery): IFont => {
   return font;
 };
 
-const getFontObj = async (font: WebFont | FontDescriptor): Promise<fontkit.Font | undefined> => {
+export const getFontObj = async (
+  font: WebFont | FontDescriptor
+): Promise<fontkit.Font | undefined> => {
   try {
     const { postscriptName } = font;
     let fontObj = fontObjCache.get(postscriptName);
@@ -195,7 +197,10 @@ const getFontObj = async (font: WebFont | FontDescriptor): Promise<fontkit.Font 
   }
 };
 
-const convertTextToPathByFontkit = (textElem: Element, fontObj: fontkit.Font): IConvertInfo => {
+export const convertTextToPathByFontkit = (
+  textElem: Element,
+  fontObj: fontkit.Font
+): IConvertInfo => {
   try {
     const maxChar = 0xffff;
     const fontSize = +textElem.getAttribute('font-size');

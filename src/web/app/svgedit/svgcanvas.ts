@@ -4438,7 +4438,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     return [];
   };
 
-  this.groupSelectedElements = () => {
+  this.groupSelectedElements = (isSubCmd = false) => {
     if (tempGroup) {
       const children = this.ungroupTempGroup();
       this.selectOnly(children, false);
@@ -4487,10 +4487,12 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       group.appendChild(elem);
       batchCmd.addSubCommand(new history.MoveElementCommand(elem, nextSibling, parentNode));
     }
-    if (!batchCmd.isEmpty()) addCommandToHistory(batchCmd);
+    if (!batchCmd.isEmpty() && !isSubCmd) addCommandToHistory(batchCmd);
     if (canvas.isUsingLayerColor) updateElementColor(group);
     // update selection
     selectOnly([group], true);
+
+    return batchCmd;
   };
 
   // Function: pushGroupProperties

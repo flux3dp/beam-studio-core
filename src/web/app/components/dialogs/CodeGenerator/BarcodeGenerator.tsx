@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/no-shadow */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Button,
-  Cascader,
-  CascaderProps,
   Checkbox,
   ConfigProvider,
   Flex,
@@ -23,34 +21,58 @@ import {
   ItalicOutlined,
 } from '@ant-design/icons';
 import useI18n from 'helpers/useI18n';
+import Select from 'app/widgets/AntdSelect';
+import fontHelper from 'helpers/fonts/fontHelper';
+import FluxIcons from 'app/icons/flux/FluxIcons';
 import { Barcode, defaultOptions, formats } from './Barcode';
 import styles from './BarcodeGenerator.module.scss';
-
-type DefaultOptionType = CascaderProps['options'][number];
 
 interface Props {
   isInvert: boolean;
   setIsInvert: (isInvert: boolean) => void;
 }
 
-const fontFamilies = fontFuncs.requestAvailableFontFamilies(true);
+const fontFamilies = fontFuncs.requestAvailableFontFamilies();
+// copied from src/web/app/views/beambox/Right-Panels/Options-Blocks/TextOptions.tsx
+const renderOption = (option) => {
+  const src = fontHelper.getWebFontPreviewUrl(option.value);
+  if (src) {
+    return (
+      <div className={styles['family-option']}>
+        <div className={styles['img-container']}>
+          <img src={src} alt={option.label} draggable="false" />
+        </div>
+        {src.includes('monotype') && <FluxIcons.FluxPlus />}
+      </div>
+    );
+  }
+  return <div style={{ fontFamily: `'${option.value}'`, maxHeight: 24 }}>{option.label}</div>;
+};
+// end of copied code
 
 export default function BarcodeGenerator({ isInvert, setIsInvert }: Props): JSX.Element {
   const { barcode_generator: t } = useI18n();
   const [value, setValue] = useState('1234');
   const [options, setOptions] = useState(defaultOptions);
-  const formatOptions = formats.map((format) => ({ label: format, value: format }));
+  const [validFontStyles, setValidFontStyles] = useState([]);
+  const formatOptions = formats.map((value) => ({ label: value, value }));
   const fontOptions = fontFamilies.map((family: string) => {
     const fontName = fontFuncs.fontNameMap.get(family);
-    const label = typeof fontName === 'string' ? fontName : family;
+    const label = renderOption({
+      value: family,
+      label: typeof fontName === 'string' ? fontName : family,
+    });
 
     return { value: family, label };
   });
 
-  const filter = (inputValue: string, path: Array<DefaultOptionType>) =>
-    path.some(
-      ({ label }) => (label as string).toLowerCase().indexOf(inputValue.toLowerCase()) > -1
-    );
+  useEffect(() => {
+    const fontStyles = fontFuncs
+      .requestFontsOfTheFontFamily(options.font)
+      .map(({ style }) => style);
+
+    setValidFontStyles(fontStyles);
+  }, [options.font]);
 
   return (
     <>
@@ -69,13 +91,13 @@ export default function BarcodeGenerator({ isInvert, setIsInvert }: Props): JSX.
               onChange={(e) => setValue(e.target.value)}
             />
             <ConfigProvider theme={{ token: { colorBgContainer: '#FAFAFA' } }}>
-              <Cascader
+              <Select
                 value={[options.format]}
                 options={formatOptions}
                 allowClear={false}
-                showSearch={{ filter }}
                 onKeyDown={(e) => e.stopPropagation()}
                 onChange={(format) => setOptions({ ...options, format })}
+                showSearch
               />
             </ConfigProvider>
           </Space.Compact>
@@ -140,13 +162,30 @@ export default function BarcodeGenerator({ isInvert, setIsInvert }: Props): JSX.
 
             <Flex vertical>
               <Form.Item label={t.font} className={styles['flex-child']}>
-                <Cascader
+                <Select
                   value={[options.font]}
                   options={fontOptions}
                   allowClear={false}
-                  showSearch={{ filter }}
+                  showSearch
+                  filterOption={(input: string, option?: { label: JSX.Element; value: string }) => {
+                    if (option?.value) {
+                      const searchKey = input.toLowerCase();
+
+                      if (option.value.toLowerCase().includes(searchKey)) {
+                        return true;
+                      }
+
+                      const fontName = fontFuncs.fontNameMap.get(option.value) || '';
+
+                      if (fontName.toLowerCase().includes(searchKey)) {
+                        return true;
+                      }
+                    }
+
+                    return false;
+                  }}
                   onKeyDown={(e) => e.stopPropagation()}
-                  onChange={(font) => setOptions({ ...options, font })}
+                  onChange={(font) => setOptions({ ...options, font, fontOptions: '' })}
                 />
               </Form.Item>
               <Form.Item label={t.font_size} className={styles['flex-child']}>
@@ -187,10 +226,11 @@ export default function BarcodeGenerator({ isInvert, setIsInvert }: Props): JSX.
                         setOptions({
                           ...options,
                           fontOptions: !options.fontOptions.includes('bold')
-                            ? `bold ${fontOptions}`
+                            ? `${fontOptions} bold`
                             : fontOptions.replace('bold', '').trim(),
                         });
                       }}
+                      disabled={!validFontStyles.some((style) => /bold/i.test(style))}
                     />
                   </Form.Item>
 
@@ -211,6 +251,7 @@ export default function BarcodeGenerator({ isInvert, setIsInvert }: Props): JSX.
                             : fontOptions.replace('italic', '').trim(),
                         });
                       }}
+                      disabled={!validFontStyles.some((style) => /italic/i.test(style))}
                     />
                   </Form.Item>
                 </Flex>

@@ -1,48 +1,15 @@
-/* eslint-disable max-len */
-/* eslint-disable no-param-reassign */
-import React, { useState } from 'react';
-import { Flex, Modal, Radio } from 'antd';
-
-import ISVGCanvas from 'interfaces/ISVGCanvas';
-import { getSVGAsync } from 'helpers/svg-editor-helper';
+import React, { useState, useMemo } from 'react';
+import { Flex, Radio } from 'antd';
 import useI18n from 'helpers/useI18n';
-import importSvgString from 'app/svgedit/operations/import/importSvgString';
+import DraggableModal from 'app/widgets/DraggableModal';
 import styles from './index.module.scss';
 
 import QRCodeGenerator from './QRCodeGenerator';
 import BarcodeGenerator from './BarcodeGenerator';
-import { extractSvgTags, removeFirstRectTag } from './svgOperation';
+import { importBarcodeSvgString, importQrCodeSvgString } from './svgOperation';
 
 interface Props {
   onClose: () => void;
-}
-
-let svgCanvas: ISVGCanvas;
-
-getSVGAsync((globalSVG) => {
-  svgCanvas = globalSVG.Canvas;
-});
-
-function handleQrCodeInvertColor(svgString: string, size: string) {
-  const fullPath = `<path fill="black" d="M0 0h${size}v${size}H0z" />`;
-  const infoPath = extractSvgTags(svgString, 'path')[1];
-  const d = svgCanvas.pathActions.booleanOperation(fullPath, infoPath, 2);
-
-  importSvgString(
-    `<svg xmlns="http://www.w3.org/2000/svg" height="1000" width="1000" viewBox="0 0 ${size} ${size}"><path fill="black" d="${d}" shape-rendering="crispEdges"/></svg>`,
-    { type: 'layer' }
-  );
-}
-
-function handleBarcodeInvertColor(svgString: string) {
-  const fullPath = '<path fill="black" d="M0 0h21v21H0z" />';
-  const infoPath = extractSvgTags(svgString, 'g')[0];
-  const d = svgCanvas.pathActions.booleanOperation(fullPath, infoPath, 2);
-
-  importSvgString(
-    `<svg xmlns="http://www.w3.org/2000/svg" height="1000" width="1000" viewBox="0 0 21 21"><path fill="black" d="${d}" shape-rendering="crispEdges"/></svg>`,
-    { type: 'layer' }
-  );
 }
 
 export default function CodeGenerator({ onClose }: Props): JSX.Element {
@@ -53,47 +20,36 @@ export default function CodeGenerator({ onClose }: Props): JSX.Element {
     },
     code_generator: tCodeGenerator,
   } = useI18n();
-  const [tabKey, setTabKey] = useState('barcode');
+  const [tabKey, setTabKey] = useState('qrcode');
   const [isInvert, setIsInvert] = useState(false);
 
-  const handleOk = () => {
-    const svg = document.getElementById(`${tabKey}-container`)?.querySelector<SVGElement>('svg');
+  const handleOk = async () => {
+    const svgElement = document.querySelector<SVGElement>(`#${tabKey}-container svg`);
 
-    if (!svg) {
+    if (!svgElement) {
       return;
     }
 
-    const svgString = new XMLSerializer().serializeToString(svg);
-    const parsedSvgString = removeFirstRectTag(svgString);
-    console.log(parsedSvgString);
+    const svgString = new XMLSerializer().serializeToString(svgElement);
 
-    if (isInvert) {
-      if (tabKey === 'qrcode') {
-        handleQrCodeInvertColor(parsedSvgString, svg.getAttribute('viewBox').split(' ')[2]);
-      }
+    if (tabKey === 'barcode') {
+      await importBarcodeSvgString(svgString, isInvert);
+    } else {
+      const viewBoxWidth = svgElement.getAttribute('viewBox')?.split(' ')[2];
 
-      if (tabKey === 'barcode') {
-        handleBarcodeInvertColor(parsedSvgString);
-      }
-
-      onClose();
-      return;
+      importQrCodeSvgString(svgString, viewBoxWidth, isInvert);
     }
 
-    importSvgString(parsedSvgString, { type: 'layer' });
     onClose();
   };
 
-  const options = [
-    {
-      label: tCodeGenerator.qr_code,
-      value: 'qrcode',
-    },
-    {
-      label: tCodeGenerator.barcode,
-      value: 'barcode',
-    },
-  ];
+  const options = useMemo(
+    () => [
+      { label: tCodeGenerator.qr_code, value: 'qrcode' },
+      { label: tCodeGenerator.barcode, value: 'barcode' },
+    ],
+    [tCodeGenerator]
+  );
 
   const renderContent = () =>
     tabKey === 'barcode' ? (
@@ -102,13 +58,15 @@ export default function CodeGenerator({ onClose }: Props): JSX.Element {
       <QRCodeGenerator isInvert={isInvert} setIsInvert={setIsInvert} />
     );
 
+  const titleStyle = { lineHeight: '24px', marginBottom: 20 };
+
   return (
-    <Modal
+    <DraggableModal
       open
       centered
       title={
-        <Flex gap={12} style={{ marginBottom: 20 }}>
-          <div style={{ lineHeight: '24px' }}>{tTools.code_generator}</div>
+        <Flex gap={12} style={titleStyle}>
+          <div>{tTools.code_generator}</div>
           <Radio.Group
             style={{ fontWeight: 'normal' }}
             size="small"
@@ -116,8 +74,8 @@ export default function CodeGenerator({ onClose }: Props): JSX.Element {
             options={options}
             defaultValue={tabKey}
             onChange={(e) => {
-              setIsInvert(false);
               setTabKey(e.target.value);
+              setIsInvert(false);
             }}
           />
         </Flex>
@@ -130,6 +88,6 @@ export default function CodeGenerator({ onClose }: Props): JSX.Element {
       className={styles.modal}
     >
       {renderContent()}
-    </Modal>
+    </DraggableModal>
   );
 }

@@ -108,17 +108,9 @@ export function Barcode({
   const renderBarcodeElement = () => {
     switch (renderer) {
       case 'canvas':
-        return <canvas id="barcode" ref={containerRef} style={style} className={contentClasses} />;
+        return <canvas id="barcode" ref={containerRef} className={contentClasses} />;
       case 'image':
-        return (
-          <img
-            id="barcode"
-            ref={containerRef}
-            alt="barcode"
-            style={style}
-            className={contentClasses}
-          />
-        );
+        return <img id="barcode" ref={containerRef} alt="barcode" className={contentClasses} />;
       case 'svg':
       default:
         return (
