@@ -94,6 +94,7 @@ const lang: ILang = {
       import_ador_printing_example_single: 'Ví dụ in của Ador - Một màu',
       import_ador_printing_example_full: 'Ví dụ in của Ador - Đầy đủ màu',
       import_acrylic_focus_probe: 'Đầu dò tiêu điểm acrylic - 3mm',
+      import_promark_example: 'Ví dụ về Promark',
       export_to: 'Xuất ra...',
       export_flux_task: 'Nhiệm vụ FLUX',
       export_BVG: 'BVG',

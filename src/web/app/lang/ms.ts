@@ -94,6 +94,7 @@ const lang: ILang = {
       import_ador_printing_example_single: 'Contoh Cetakan Ador - Satu Warna',
       import_ador_printing_example_full: 'Contoh Cetakan Ador - Warna Penuh',
       import_acrylic_focus_probe: 'Pemfokus Akrilik Probe - 3mm',
+      import_promark_example: 'Contoh Promark',
       export_to: 'Eksport Kepada...',
       export_flux_task: 'tugas FLUX',
       export_BVG: 'BVG',

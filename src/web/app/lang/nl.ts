@@ -94,6 +94,7 @@ const lang: ILang = {
       import_ador_printing_example_single: 'Voorbeeld van Ador Printing - Enkele kleur',
       import_ador_printing_example_full: 'Voorbeeld van Ador Printing - Volledige kleur',
       import_acrylic_focus_probe: 'Acryl focus probe - 3mm',
+      import_promark_example: 'Voorbeeld van Promark',
       export_to: 'Exporteren naar...',
       export_flux_task: 'FLUX taak',
       export_BVG: 'BVG',
