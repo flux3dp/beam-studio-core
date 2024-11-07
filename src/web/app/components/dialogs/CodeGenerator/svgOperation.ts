@@ -5,6 +5,7 @@ import importSvgString from 'app/svgedit/operations/import/importSvgString';
 import fontFuncs, { convertTextToPathByFontkit, getFontObj } from 'app/actions/beambox/font-funcs';
 import { FontDescriptor } from 'interfaces/IFont';
 import history from 'app/svgedit/history/history';
+import undoManager from 'app/svgedit/history/undoManager';
 
 let svgCanvas: ISVGCanvas;
 
@@ -32,13 +33,14 @@ export function extractSvgTags(svgString: string, tag: string): Array<string> {
 
 function extractFontDetails(fontStyle: string): {
   fontFamily: string;
-  fontSize: string;
+  fontSize: number;
   isBold: boolean;
   isItalic: boolean;
 } {
   const isBold = /bold/i.test(fontStyle);
   const isItalic = /italic/i.test(fontStyle);
-  const fontSize = fontStyle.match(/(\d+px|\d+em|\d+rem|\d+pt)/)?.[0] || '16px';
+  const fontSizeInfo = fontStyle.match(/(\d+px|\d+em|\d+rem|\d+pt)/)?.[0] || '16px';
+  const fontSize = Number.parseFloat(fontSizeInfo.match(/^(\d+(\.\d+)?)/)?.[0]) || 16;
   const fontFamily = fontStyle
     .replace(/font:\s*|bold|italic|(\d+px|\d+em|\d+rem|\d+pt)/g, '')
     .trim();
@@ -60,12 +62,11 @@ function findMatchingFont(
   );
 }
 
-function preProcessTextTag(svgString: string): string {
-  const doc = new DOMParser().parseFromString(svgString, 'image/svg+xml');
-  const text = doc.querySelector('text');
+function preProcessTextTag(svgElement: SVGElement): SVGElement {
+  const text = svgElement.querySelector('text');
 
   if (!text) {
-    return svgString;
+    return svgElement;
   }
 
   const { fontFamily, fontSize, isBold, isItalic } = extractFontDetails(text.getAttribute('style'));
@@ -73,37 +74,91 @@ function preProcessTextTag(svgString: string): string {
   const font = findMatchingFont(fonts, isBold, isItalic);
 
   text.setAttribute('font-family', `'${font.family}'`);
-  text.setAttribute('font-size', fontSize);
+  text.setAttribute('font-size', fontSize.toString());
   text.setAttribute('font-style', isItalic ? 'italic' : 'normal');
   text.setAttribute('font-weight', font.weight.toString());
   text.setAttribute('font-postscript', font.postscriptName);
   text.removeAttribute('style');
 
-  return new XMLSerializer().serializeToString(doc);
+  return svgElement;
 }
 
 /* Barcode */
-function preProcessBarcodeSvgString(svgString: string): string {
-  return preProcessTextTag(removeFirstRectTag(svgString));
-}
-
-// this function is not implemented yet, it is just a placeholder
-function handleBarcodeInvertColor(svgString: string) {
-  return svgString;
-}
-
-export async function importBarcodeSvgString(svgString: string, isInvert = false): Promise<void> {
-  const processedSvgString = preProcessBarcodeSvgString(svgString);
-  const svg = isInvert ? handleBarcodeInvertColor(processedSvgString) : processedSvgString;
-
+export async function importBarcodeSvgElement(
+  svgElement: SVGElement,
+  isInvert = false
+): Promise<void> {
   const batchCmd = new history.BatchCommand('Import Barcode');
-  const element = await importSvgString(svg, { type: 'layer', parentCmd: batchCmd });
+  const doc = preProcessTextTag(svgElement);
+  const innerG = doc.querySelector('g');
+  const rects = innerG.querySelectorAll('rect');
+  const group = Array.of<SVGElement>();
 
-  batchCmd.addSubCommand(await svgCanvas.disassembleUse2Group([element], true, false, false));
+  rects.forEach((rect) => {
+    const { x, y, width, height } = rect.getBBox();
+
+    group.push(
+      svgCanvas.addSvgElementFromJson({
+        element: 'rect',
+        curStyles: false,
+        attr: {
+          x,
+          y,
+          width,
+          height,
+          stroke: '#000',
+          id: svgCanvas.getNextId(),
+          fill: 'black',
+          'fill-opacity': 1,
+          opacity: 1,
+        },
+      })
+    );
+  });
+
+  const text = innerG.querySelector('text');
+  const { textContent } = text;
+  const tspan = document.createElementNS(SVG_NS, 'tspan');
+
+  text.textContent = '';
+  tspan.setAttribute('x', text.getAttribute('x'));
+  tspan.setAttribute('y', text.getAttribute('y'));
+  text.setAttribute('font-size', text.getAttribute('font-size'));
+  tspan.textContent = textContent;
+  text.appendChild(tspan);
+
+  const postscript = text.getAttribute('font-postscript');
+  const font = fontFuncs.getFontOfPostscriptName(postscript);
+  const fontObj = await getFontObj(font);
+  const { d } = convertTextToPathByFontkit(text, fontObj);
+
+  group.push(
+    svgCanvas.addSvgElementFromJson({
+      element: 'path',
+      curStyles: true,
+      attr: {
+        d,
+        id: svgCanvas.getNextId(),
+        fill: 'black',
+        'fill-opacity': 1,
+        opacity: 1,
+      },
+    })
+  );
+
+  group.forEach((element) => {
+    batchCmd.addSubCommand(new history.InsertElementCommand(element));
+  });
+
+  text.remove();
+  doc.remove();
+
+  svgCanvas.selectOnly(group);
   batchCmd.addSubCommand(svgCanvas.groupSelectedElements(true));
+  svgCanvas.zoomSvgElem(10);
 
   if (!batchCmd.isEmpty()) {
-    svgCanvas.undoMgr.addCommandToHistory(batchCmd);
+    undoManager.addCommandToHistory(batchCmd);
   }
 }
 
@@ -134,58 +189,10 @@ function handleQrCodeInvertColor(svgString: string, size: string): string {
   return new XMLSerializer().serializeToString(svgElement);
 }
 
-export function importQrCodeSvgString(svgString: string, size: string, isInvert = false): void {
+export function importQrCodeSvgElement(svgElement: SVGElement, isInvert = false): void {
+  const svgString = new XMLSerializer().serializeToString(svgElement);
+  const size = svgElement.getAttribute('viewBox')?.split(' ')[2];
   const svg = isInvert ? handleQrCodeInvertColor(svgString, size) : svgString;
 
   importSvgString(svg, { type: 'layer' });
-}
-
-// 'path method' to import barcode text element
-// but the font capability is worse than 'text method'
-export async function importBarcodeSvgStringRaw(
-  svgString: string,
-  isInvert = false
-): Promise<void> {
-  const processedSvgString = preProcessBarcodeSvgString(svgString);
-  const svg = isInvert ? handleBarcodeInvertColor(processedSvgString) : processedSvgString;
-  const svgElement = document.createElement('svg');
-
-  document.body.appendChild(svgElement);
-  svgElement.innerHTML = svg;
-
-  const innterG = svgElement.querySelector('g');
-  const text = innterG.querySelector('text');
-  const { textContent } = text;
-
-  text.textContent = '';
-
-  const tspan = document.createElementNS(SVG_NS, 'tspan');
-
-  tspan.setAttribute('x', text.getAttribute('x'));
-  tspan.setAttribute('y', text.getAttribute('y'));
-  text.setAttribute('font-size', '20');
-  tspan.textContent = textContent;
-  text.appendChild(tspan);
-
-  const postscript = text.getAttribute('font-postscript');
-  const font = fontFuncs.getFontOfPostscriptName(postscript);
-  const fontObj = await getFontObj(font);
-  const { d } = convertTextToPathByFontkit(text, fontObj);
-  const path = document.createElementNS(SVG_NS, 'path');
-
-  text.parentNode.insertBefore(path, text);
-  path.setAttribute('d', d);
-  text.remove();
-
-  const g = document.createElementNS(SVG_NS, 'g');
-
-  g.innerHTML = innterG.innerHTML;
-  svgElement.remove();
-
-  const layer = document.querySelector('g.layer');
-
-  // use add from json
-  // give id
-  // scale to 1
-  layer.appendChild(g);
 }

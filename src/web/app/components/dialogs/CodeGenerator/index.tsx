@@ -6,7 +6,7 @@ import styles from './index.module.scss';
 
 import QRCodeGenerator from './QRCodeGenerator';
 import BarcodeGenerator from './BarcodeGenerator';
-import { importBarcodeSvgString, importQrCodeSvgString } from './svgOperation';
+import { importBarcodeSvgElement, importQrCodeSvgElement } from './svgOperation';
 
 interface Props {
   onClose: () => void;
@@ -30,14 +30,10 @@ export default function CodeGenerator({ onClose }: Props): JSX.Element {
       return;
     }
 
-    const svgString = new XMLSerializer().serializeToString(svgElement);
-
-    if (tabKey === 'barcode') {
-      await importBarcodeSvgString(svgString, isInvert);
+    if (tabKey === 'qrcode') {
+      importQrCodeSvgElement(svgElement, isInvert);
     } else {
-      const viewBoxWidth = svgElement.getAttribute('viewBox')?.split(' ')[2];
-
-      importQrCodeSvgString(svgString, viewBoxWidth, isInvert);
+      await importBarcodeSvgElement(svgElement, isInvert);
     }
 
     onClose();
@@ -52,10 +48,10 @@ export default function CodeGenerator({ onClose }: Props): JSX.Element {
   );
 
   const renderContent = () =>
-    tabKey === 'barcode' ? (
-      <BarcodeGenerator isInvert={isInvert} setIsInvert={setIsInvert} />
-    ) : (
+    tabKey === 'qrcode' ? (
       <QRCodeGenerator isInvert={isInvert} setIsInvert={setIsInvert} />
+    ) : (
+      <BarcodeGenerator isInvert={isInvert} setIsInvert={setIsInvert} />
     );
 
   const titleStyle = { lineHeight: '24px', marginBottom: 20 };

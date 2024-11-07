@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import JsBarcode, { type Options } from 'jsbarcode';
+import JsBarcode, { Options } from 'jsbarcode';
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import S from './Barcode.module.scss';
 
@@ -83,7 +83,7 @@ export function Barcode({
   value,
   options = defaultOptions,
   renderer = 'svg',
-}: Readonly<BarcodeProps>): React.JSX.Element {
+}: Readonly<BarcodeProps>): JSX.Element {
   const containerRef = useRef(null);
   const [error, setError] = useState<string | null>(null);
 

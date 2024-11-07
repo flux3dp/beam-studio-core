@@ -192,6 +192,7 @@ export default function BarcodeGenerator({ isInvert, setIsInvert }: Props): JSX.
                 <InputNumber
                   style={{ width: '100%' }}
                   min={1}
+                  max={100}
                   value={options.fontSize}
                   onKeyDown={(e) => e.stopPropagation()}
                   onChange={(fontSize) => setOptions({ ...options, fontSize })}

@@ -190,4 +190,5 @@ export default interface ISVGCanvas {
     addToHistory?: boolean,
     showProgress?: boolean
   ) => Promise<BaseHistoryCommand>;
+  zoomSvgElem: (zoom: number) => void;
 }

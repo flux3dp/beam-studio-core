@@ -395,7 +395,7 @@ export default function Menu({ email }: Props): JSX.Element {
           {menuCms.tools.material_test_generator}
         </MenuItem>
         <MenuItem onClick={() => callback('CODE_GENERATOR')}>
-          {menuCms.tools.qr_code_generator}
+          {menuCms.tools.code_generator}
         </MenuItem>
         <MenuItem onClick={() => callback('BOX_GEN')}>{menuCms.tools.box_generator}</MenuItem>
       </SubMenu>
