@@ -1646,6 +1646,7 @@ export interface ILang {
     put_paper_step1: string;
     put_paper_step2: string;
     put_paper_step3: string;
+    put_paper_promark_1: string;
     solve_pnp_title: string;
     solve_pnp_step1: string;
     solve_pnp_step2: string;
@@ -1673,12 +1674,16 @@ export interface ILang {
     put_chessboard_1: string;
     put_chessboard_2: string;
     put_chessboard_3: string;
+    put_chessboard_promark_desc_1: string;
+    put_chessboard_promark_desc_2: string;
+    put_chessboard_promark: string;
     failed_to_calibrate_chessboard: string;
     calibrate_chessboard_success_msg: string;
     res_excellent: string;
     res_average: string;
     res_poor: string;
     perform_autofocus_bb2: string;
+    promark_help_link: string;
   };
   input_machine_password: {
     require_password: string;

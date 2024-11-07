@@ -10,10 +10,12 @@ import { FisheyeCaliParameters } from 'interfaces/FisheyePreview';
 import { updateData } from 'helpers/camera-calibration-helper';
 
 import styles from './CheckpointData.module.scss';
+import Title from './Title';
 
 interface Props<T = FisheyeCaliParameters> {
   allowCheckPoint?: boolean;
   askUser?: boolean;
+  titleLink?: string;
   getData?: () => Promise<T> | T;
   updateParam: (param: T) => void;
   onClose: (complete: boolean) => void;
@@ -23,6 +25,7 @@ interface Props<T = FisheyeCaliParameters> {
 const CheckpointData = <T extends FisheyeCaliParameters>({
   allowCheckPoint = true,
   askUser,
+  titleLink,
   getData,
   updateParam,
   onClose,
@@ -153,7 +156,7 @@ const CheckpointData = <T extends FisheyeCaliParameters>({
       open
       centered
       maskClosable={false}
-      title={lang.calibration.check_checkpoint_data}
+      title={<Title title={lang.calibration.check_checkpoint_data} link={titleLink} />}
       closable={!!onClose}
       onCancel={() => onClose?.(false)}
       footer={[

@@ -19,6 +19,7 @@ import CheckpointData from './common/CheckpointData';
 import Chessboard from './Promark/Chessboard';
 import Instruction from './common/Instruction';
 import SolvePnP from './common/SolvePnP';
+import Title from './common/Title';
 import { promarkPnPPoints } from './common/solvePnPConstants';
 
 enum Steps {
@@ -66,10 +67,9 @@ const PromarkCalibration = ({ device: { serial, model }, onClose }: Props): JSX.
   if (step === Steps.PRE_CHESSBOARD) {
     return (
       <Instruction
-        title={tCali.put_chessboard}
-        steps={[tCali.put_chessboard_desc]}
+        title={<Title title={tCali.put_chessboard} link={tCali.promark_help_link} />}
+        steps={[tCali.put_chessboard_promark_desc_1, tCali.put_chessboard_promark_desc_2]}
         buttons={[
-          { label: tCali.back, onClick: () => setStep(Steps.CHECKPOINT_DATA) },
           {
             label: tCali.next,
             onClick: () => setStep(Steps.CHESSBOARD),
@@ -112,13 +112,8 @@ const PromarkCalibration = ({ device: { serial, model }, onClose }: Props): JSX.
     return (
       <Instruction
         onClose={() => onClose(false)}
-        // TODO: animation
-        animationSrcs={[
-          { src: 'video/ador-calibration-2/paper.webm', type: 'video/webm' },
-          { src: 'video/ador-calibration-2/paper.mp4', type: 'video/mp4' },
-        ]}
-        title={tCali.put_paper}
-        steps={[tCali.put_paper_step1, tCali.put_paper_step2, tCali.perform_autofocus_bb2]}
+        title={<Title title={tCali.put_paper} link={tCali.promark_help_link} />}
+        steps={[tCali.put_paper_promark_1]}
         buttons={[
           {
             label: tCali.back,
@@ -136,6 +131,7 @@ const PromarkCalibration = ({ device: { serial, model }, onClose }: Props): JSX.
         dh={0}
         refPoints={promarkPnPPoints[workareaWidth]}
         imgSource="usb"
+        titleLink={tCali.promark_help_link}
         onClose={onClose}
         onBack={() => setStep(Steps.PUT_PAPER)}
         onNext={async (rvec, tvec) => {

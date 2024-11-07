@@ -15,6 +15,7 @@ import {
 
 import ExposureSlider from './ExposureSlider';
 import styles from './SolvePnP.module.scss';
+import Title from './Title';
 import useCamera from './useCamera';
 import { adorPnPPoints } from './solvePnPConstants';
 
@@ -24,6 +25,7 @@ interface Props {
   hasNext?: boolean;
   refPoints?: [number, number][];
   imgSource?: 'wifi' | 'usb';
+  titleLink?: string;
   onClose: (complete: boolean) => void;
   onNext: (rvec: number[], tvec: number[]) => void;
   onBack: () => void;
@@ -35,6 +37,7 @@ const SolvePnP = ({
   hasNext = false,
   refPoints = adorPnPPoints,
   imgSource = 'wifi',
+  titleLink,
   onClose,
   onNext,
   onBack,
@@ -306,7 +309,7 @@ const SolvePnP = ({
       open
       centered
       onCancel={() => onClose(false)}
-      title={lang.calibration.camera_calibration}
+      title={<Title title={lang.calibration.camera_calibration} link={titleLink} />}
       footer={[
         <Button className={styles['footer-button']} onClick={onBack} key="back">
           {lang.buttons.back}

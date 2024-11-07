@@ -8,9 +8,10 @@ import styles from './Instruction.module.scss';
 
 interface Props {
   animationSrcs?: { src: string; type: string }[];
-  title: string;
+  title: React.ReactNode;
   text?: string;
   steps?: string[];
+  children?: React.ReactNode;
   buttons: { label: string; type?: 'primary' | 'default'; onClick: () => void }[];
   onClose?: (done?: boolean) => void;
 }
@@ -20,6 +21,7 @@ const Instruction = ({
   title,
   text,
   steps,
+  children,
   buttons,
   onClose,
 }: Props): JSX.Element => {
@@ -52,6 +54,7 @@ const Instruction = ({
           ))}
         </ol>
       )}
+      {children}
       {animationSrcs && (
         <video className={styles.video} ref={videoRef} autoPlay loop muted>
           {animationSrcs.map(({ src, type }) => (

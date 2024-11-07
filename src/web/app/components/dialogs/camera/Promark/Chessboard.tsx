@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { LoadingOutlined } from '@ant-design/icons';
 import { Modal, Spin } from 'antd';
+import { sprintf } from 'sprintf-js';
 
 import alertCaller from 'app/actions/alert-caller';
 import progressCaller from 'app/actions/progress-caller';
@@ -10,6 +11,7 @@ import { calibrateChessboard } from 'helpers/camera-calibration-helper';
 import { FisheyeCameraParametersV3Cali } from 'interfaces/FisheyePreview';
 
 import styles from './Chessboard.module.scss';
+import Title from '../common/Title';
 
 interface Props {
   chessboard: [number, number];
@@ -44,6 +46,26 @@ const Chessboard = ({ chessboard, updateParam, onNext, onClose }: Props): JSX.El
       const res = await calibrateChessboard(imgBlob, 0, chessboard);
       if (res.success === true) {
         const { ret, k, d, rvec, tvec } = res.data;
+        const resp = await new Promise<boolean>((resolve) => {
+          let rank = lang.res_excellent;
+          if (ret > 5) rank = lang.res_poor;
+          else if (ret > 1) rank = lang.res_average;
+          alertCaller.popUp({
+            message: sprintf(lang.calibrate_chessboard_success_msg, rank, ret),
+            buttons: [
+              {
+                label: lang.next,
+                onClick: () => resolve(true),
+                className: 'primary',
+              },
+              {
+                label: lang.cancel,
+                onClick: () => resolve(false),
+              },
+            ],
+          });
+        });
+        if (!resp) return;
         updateParam({ ret, k, d, rvec, tvec });
         onNext();
         success = true;
@@ -65,7 +87,7 @@ const Chessboard = ({ chessboard, updateParam, onNext, onClose }: Props): JSX.El
       open
       centered
       maskClosable={false}
-      title={lang.camera_calibration}
+      title={<Title title={lang.camera_calibration} link={lang.promark_help_link} />}
       okText={lang.next}
       cancelText={lang.cancel}
       onOk={handleCalibrate}
@@ -74,16 +96,11 @@ const Chessboard = ({ chessboard, updateParam, onNext, onClose }: Props): JSX.El
     >
       <div className={styles.container}>
         <div className={styles.desc}>
-          <div>1. {lang.put_chessboard_1}</div>
-          <div>2. {lang.put_chessboard_2}</div>
+          <div>1. {lang.put_chessboard_promark}</div>
         </div>
         <div className={styles.imgContainer}>
           <video ref={videoRef} />
-          {webcamConnected ? (
-            <>
-              <div className={styles.indicator} />
-            </>
-          ) : (
+          {!webcamConnected && (
             <Spin
               className={styles.spin}
               indicator={<LoadingOutlined className={styles.spinner} spin />}
