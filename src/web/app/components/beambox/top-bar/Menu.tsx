@@ -224,6 +224,9 @@ export default function Menu({ email }: Props): JSX.Element {
           <MenuItem onClick={() => callback('IMPORT_HELLO_BEAMBOX')}>
             {menuCms.import_hello_beambox}
           </MenuItem>
+          <MenuItem onClick={() => callback('IMPORT_EXAMPLE_PROMARK')}>
+            {menuCms.import_promark_example}
+          </MenuItem>
           <MenuItem onClick={() => callback('IMPORT_MATERIAL_TESTING_ENGRAVE')}>
             {menuCms.import_material_testing_engrave}
           </MenuItem>

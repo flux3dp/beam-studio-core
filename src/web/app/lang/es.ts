@@ -94,6 +94,7 @@ const lang: ILang = {
       import_ador_printing_example_single: 'Ejemplo de Ador Impresión - Color Único',
       import_ador_printing_example_full: 'Ejemplo de Ador Impresión - Color Completo',
       import_acrylic_focus_probe: 'Cristal de Enfoque de Acrílico - 3mm',
+      import_promark_example: 'Ejemplo de Promark',
       export_to: 'Exportar a...',
       export_flux_task: 'Tarea de FLUX',
       export_BVG: 'BVG',
