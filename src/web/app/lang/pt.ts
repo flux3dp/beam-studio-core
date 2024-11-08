@@ -1681,6 +1681,7 @@ const lang: ILang = {
     put_chessboard_promark_desc_1: 'Por favor, utilize o papel de xadrez fornecido na caixa de acessórios, ou imprima o seguinte padrão de xadrez em papel A4 para a calibração da câmera.',
     put_chessboard_promark_desc_2: 'Certifique-se de que o papel de xadrez esteja plano na plataforma de trabalho.',
     put_chessboard_promark: 'Certifique-se de que o papel de xadrez esteja claramente visível, sem reflexo. Clique em "Próximo" para tirar uma foto.',
+    download_chessboard_file: 'Baixar arquivo de tabuleiro de xadrez',
     failed_to_calibrate_chessboard: 'Falha na calibração com a imagem do tabuleiro de xadrez.',
     calibrate_chessboard_success_msg: 'A foto do tabuleiro de xadrez foi capturada com sucesso.<br/>A pontuação para esta foto é %s (%.2f).',
     res_excellent: 'Excelente',

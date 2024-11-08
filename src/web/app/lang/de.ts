@@ -1684,6 +1684,7 @@ const lang: ILang = {
     put_chessboard_promark_desc_1: 'Bitte verwenden Sie das im Zubehörkasten bereitgestellte Schachbrettmuster oder drucken Sie das folgende Schachbrettmuster auf A4-Papier für die Kamerakalibrierung.',
     put_chessboard_promark_desc_2: 'Stellen Sie sicher, dass das Schachbrett flach auf der Arbeitsplattform liegt.',
     put_chessboard_promark: 'Stellen Sie sicher, dass das Schachbrettmuster ohne Blendung klar sichtbar ist. Klicken Sie auf "Weiter", um ein Foto zu machen.',
+    download_chessboard_file: 'Schachbrett-Datei herunterladen',
     failed_to_calibrate_chessboard: 'Kalibrierung mit dem Schachbrettbild fehlgeschlagen.',
     calibrate_chessboard_success_msg: 'Das Schachbrettfoto wurde erfolgreich aufgenommen.<br/>Die Punktzahl für dieses Foto beträgt %s (%.2f).',
     res_excellent: 'Hervorragend',

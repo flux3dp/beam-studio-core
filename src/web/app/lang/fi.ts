@@ -1681,6 +1681,7 @@ const lang: ILang = {
     put_chessboard_promark_desc_1: 'Käytä tarvikelaatikossa mukana toimitettua shakkilautapaperia tai tulosta seuraava shakkikuvio A4-paperille kameran kalibrointia varten.',
     put_chessboard_promark_desc_2: 'Varmista, että shakkilauta on asetettu tasaisesti työalustalle.',
     put_chessboard_promark: 'Varmista, että shakkilautapaperi on selkeästi näkyvissä ilman häikäisyä. Napsauta "Seuraava" ottaaksesi kuvan.',
+    download_chessboard_file: 'Lataa shakkiruudukko-tiedosto',
     failed_to_calibrate_chessboard: 'Kalibrointi shakkilautakuvan kanssa epäonnistui.',
     calibrate_chessboard_success_msg: 'Shakkilautakuva otettiin onnistuneesti.<br/>Tämän kuvan pistemäärä on %s (%.2f).',
     res_excellent: 'Erinomainen',

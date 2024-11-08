@@ -1684,6 +1684,7 @@ const lang: ILang = {
     put_chessboard_promark_desc_1: '付属ボックス内のチェッカーボード用紙を使用するか、以下のチェッカーボードパターンをA4用紙に印刷して、カメラのキャリブレーションに使用してください。',
     put_chessboard_promark_desc_2: 'チェッカーボードが作業プラットフォーム上に平らに置かれていることを確認してください。',
     put_chessboard_promark: 'チェッカーボード用紙が反射せずに明確に見えることを確認してください。「次へ」をクリックして写真を撮影します。',
+    download_chessboard_file: 'チェッカーボードファイルをダウンロード',
     failed_to_calibrate_chessboard: 'チェッカーボード画像でのキャリブレーションに失敗しました。',
     calibrate_chessboard_success_msg: 'チェスボードの写真を正常にキャプチャしました。<br/>この写真のスコアは %s (%.2f) です。',
     res_excellent: '優秀',

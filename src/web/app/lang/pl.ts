@@ -1684,6 +1684,7 @@ const lang: ILang = {
     put_chessboard_promark_desc_1: 'Proszę użyć papieru z szachownicą dostarczonego w pudełku z akcesoriami lub wydrukować poniższy wzór szachownicy na papierze A4 do kalibracji kamery.',
     put_chessboard_promark_desc_2: 'Upewnij się, że szachownica jest płasko położona na platformie roboczej.',
     put_chessboard_promark: 'Upewnij się, że papier z szachownicą jest wyraźnie widoczny bez odblasków. Kliknij "Dalej", aby zrobić zdjęcie.',
+    download_chessboard_file: 'Pobierz plik szachownicy',
     failed_to_calibrate_chessboard: 'Nie udało się skalibrować z obrazem szachownicy.',
     calibrate_chessboard_success_msg: 'Pomyślnie uchwycono zdjęcie szachownicy.<br/>Wynik dla tego zdjęcia to %s (%.2f).',
     res_excellent: 'Doskonały',

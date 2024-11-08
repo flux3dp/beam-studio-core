@@ -1681,6 +1681,7 @@ const lang: ILang = {
     put_chessboard_promark_desc_1: "Veuillez utiliser le papier quadrillé fourni dans la boîte d'accessoires ou imprimez le motif de quadrillage suivant sur du papier A4 pour l'étalonnage de la caméra.",
     put_chessboard_promark_desc_2: 'Assurez-vous que le quadrillage est bien à plat sur la plate-forme de travail.',
     put_chessboard_promark: 'Assurez-vous que le papier quadrillé est bien visible sans éblouissement. Cliquez sur "Suivant" pour prendre une photo.',
+    download_chessboard_file: 'Télécharger le fichier échiquier',
     failed_to_calibrate_chessboard: "Échec de la calibration avec l'image de l'échiquier.",
     calibrate_chessboard_success_msg: 'La photo de l’échiquier a été capturée avec succès.<br/>Le score pour cette photo est %s (%.2f).',
     res_excellent: 'Excellent',

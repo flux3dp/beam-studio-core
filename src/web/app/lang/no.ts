@@ -1681,6 +1681,7 @@ const lang: ILang = {
     put_chessboard_promark_desc_1: 'Vennligst bruk sjakkbrettpapiret som følger med i tilbehørsboksen, eller skriv ut det følgende sjakkbrettmønsteret på A4-papir for kamerakalibrering.',
     put_chessboard_promark_desc_2: 'Sørg for at sjakkbrettet ligger flatt på arbeidsplattformen.',
     put_chessboard_promark: 'Sørg for at sjakkbrettpapiret er tydelig synlig uten gjenskinn. Klikk på "Neste" for å ta et bilde.',
+    download_chessboard_file: 'Last ned sjakkbrett-fil',
     failed_to_calibrate_chessboard: 'Mislyktes i å kalibrere med sjakkbrettbildet.',
     calibrate_chessboard_success_msg: 'Sjakkbrett-bildet er tatt med suksess.<br/>Poengsummen for dette bildet er %s (%.2f).',
     res_excellent: 'Utmerket',

@@ -1684,6 +1684,7 @@ const lang: ILang = {
     put_chessboard_promark_desc_1: '부속품 상자에 제공된 체커보드 용지를 사용하거나, 아래 체커보드 패턴을 A4 용지에 인쇄하여 카메라 캘리브레이션을 수행하십시오.',
     put_chessboard_promark_desc_2: '체커보드가 작업 플랫폼에 평평하게 놓여 있는지 확인하십시오.',
     put_chessboard_promark: '체커보드 용지가 빛 반사 없이 선명하게 보이는지 확인해 주세요. "다음"을 클릭하여 사진을 촬영하세요.',
+    download_chessboard_file: '체스보드 파일 다운로드',
     failed_to_calibrate_chessboard: '체커보드 사진으로 보정에 실패했습니다.',
     calibrate_chessboard_success_msg: '체스보드 사진을 성공적으로 캡처했습니다.<br/>이 사진의 점수는 %s (%.2f)입니다.',
     res_excellent: '우수',

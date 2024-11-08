@@ -1677,6 +1677,7 @@ export interface ILang {
     put_chessboard_promark_desc_1: string;
     put_chessboard_promark_desc_2: string;
     put_chessboard_promark: string;
+    download_chessboard_file: string;
     failed_to_calibrate_chessboard: string;
     calibrate_chessboard_success_msg: string;
     res_excellent: string;

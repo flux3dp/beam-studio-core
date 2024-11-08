@@ -1684,6 +1684,7 @@ const lang: ILang = {
     put_chessboard_promark_desc_1: '请使用附件盒中提供的棋盘纸，或将以下棋盘图案打印在A4纸上用于相机校准。',
     put_chessboard_promark_desc_2: '请确保棋盘平放在工作平台上。',
     put_chessboard_promark: '请确保棋盘纸清晰可见且无眩光。点击“下一步”拍照。',
+    download_chessboard_file: '下载棋盘板文件',
     failed_to_calibrate_chessboard: '无法使用棋盘图片进行校准。',
     calibrate_chessboard_success_msg: '成功捕获了棋盘照片。<br/>此照片的得分为 %s (%.2f)。',
     res_excellent: '优秀',

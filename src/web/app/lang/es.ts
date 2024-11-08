@@ -1684,6 +1684,7 @@ const lang: ILang = {
     put_chessboard_promark_desc_1: 'Utilice el papel de tablero de ajedrez proporcionado en la caja de accesorios, o imprima el siguiente patrón de tablero de ajedrez en papel A4 para la calibración de la cámara.',
     put_chessboard_promark_desc_2: 'Asegúrese de que el tablero de ajedrez esté colocado plano en la plataforma de trabajo.',
     put_chessboard_promark: 'Asegúrese de que el papel de tablero de ajedrez sea claramente visible sin reflejos. Haga clic en "Siguiente" para tomar una foto.',
+    download_chessboard_file: 'Descargar archivo de tablero de ajedrez',
     failed_to_calibrate_chessboard: 'Falló la calibración con la imagen del tablero de ajedrez.',
     calibrate_chessboard_success_msg: 'Se capturó exitosamente la foto del tablero de ajedrez.<br/>La puntuación para esta foto es %s (%.2f).',
     res_excellent: 'Excelente',

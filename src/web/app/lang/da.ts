@@ -1681,6 +1681,7 @@ const lang: ILang = {
     put_chessboard_promark_desc_1: 'Brug det skakbrætspapir, der er med i tilbehørsæsken, eller print det følgende skakbrætmønster på A4-papir til kamerapkalibrering.',
     put_chessboard_promark_desc_2: 'Sørg for, at skakbrættet er placeret fladt på arbejdsplatformen.',
     put_chessboard_promark: 'Sørg for, at skakbrætspapiret er tydeligt synligt uden genskin. Klik på "Næste" for at tage et billede.',
+    download_chessboard_file: 'Download skakbræt fil',
     failed_to_calibrate_chessboard: 'Kunne ikke kalibrere med skakbræt billedet.',
     calibrate_chessboard_success_msg: 'Skakbræt-fotoet er blevet taget med succes.<br/>Scoren for dette foto er %s (%.2f).',
     res_excellent: 'Fremragende',

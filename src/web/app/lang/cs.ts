@@ -1684,6 +1684,7 @@ const lang: ILang = {
     put_chessboard_promark_desc_1: 'Použijte šachovnicový papír dodaný v krabici s příslušenstvím, nebo vytiskněte následující šachovnicový vzor na papír velikosti A4 pro kalibraci kamery.',
     put_chessboard_promark_desc_2: 'Ujistěte se, že je šachovnice položena rovně na pracovní platformě.',
     put_chessboard_promark: 'Ujistěte se, že je šachovnicový papír jasně viditelný bez oslnění. Klikněte na "Další" pro pořízení fotografie.',
+    download_chessboard_file: 'Stáhnout soubor šachovnice',
     failed_to_calibrate_chessboard: 'Kalibrace s obrázkem šachovnice se nezdařila.',
     calibrate_chessboard_success_msg: 'Úspěšně zachycena fotografie šachovnice.<br/>Skóre pro tuto fotografii je %s (%.2f).',
     res_excellent: 'Výborné',

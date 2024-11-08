@@ -1684,6 +1684,7 @@ const lang: ILang = {
     put_chessboard_promark_desc_1: 'Please use the checkerboard paper provided in the accessory box, or print the following checkerboard pattern on A4 paper for camera calibration.',
     put_chessboard_promark_desc_2: 'Please ensure the checkerboard is placed flat on the work platform.',
     put_chessboard_promark: "Please ensure the checkerboard paper is clearly visible without glare. Click 'Next' to take a photo.",
+    download_chessboard_file: 'Download chessboard file',
     failed_to_calibrate_chessboard: 'Failed to calibrate with the chessboard picture.',
     calibrate_chessboard_success_msg: 'Successfully captured the checkerboard photo.<br/>The result for this photo is %s (%.2f).',
     res_excellent: 'Excellent',

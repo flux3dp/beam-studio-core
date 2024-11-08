@@ -1681,6 +1681,7 @@ const lang: ILang = {
     put_chessboard_promark_desc_1: 'Använd det rutnätspapper som medföljer i tillbehörslådan, eller skriv ut följande rutnätmönster på A4-papper för kamerakalibrering.',
     put_chessboard_promark_desc_2: 'Se till att rutnätet är placerat plant på arbetsplattformen.',
     put_chessboard_promark: 'Se till att rutnätspappret är tydligt synligt utan bländning. Klicka på "Nästa" för att ta en bild.',
+    download_chessboard_file: 'Ladda ner schackbrädefil',
     failed_to_calibrate_chessboard: 'Misslyckades med att kalibrera med schackbrädsbilden.',
     calibrate_chessboard_success_msg: 'Schackbrädesfotot har fångats framgångsrikt.<br/>Poängen för detta foto är %s (%.2f).',
     res_excellent: 'Utmärkt',

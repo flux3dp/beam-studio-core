@@ -1681,6 +1681,7 @@ const lang: ILang = {
     put_chessboard_promark_desc_1: 'Gebruik het schaakbordpapier dat in de accessoiredoos is meegeleverd, of druk het volgende schaakbordpatroon af op A4-papier voor camerakalibratie.',
     put_chessboard_promark_desc_2: 'Zorg ervoor dat het schaakbord plat op het werkplatform ligt.',
     put_chessboard_promark: 'Zorg ervoor dat het schaakbordpapier duidelijk zichtbaar is zonder schittering. Klik op "Volgende" om een foto te maken.',
+    download_chessboard_file: 'Download schaakbord bestand',
     failed_to_calibrate_chessboard: 'Mislukt kalibreren met het schaakbordbeeld.',
     calibrate_chessboard_success_msg: 'De foto van het schaakbord is succesvol vastgelegd.<br/>De score voor deze foto is %s (%.2f).',
     res_excellent: 'Uitstekend',

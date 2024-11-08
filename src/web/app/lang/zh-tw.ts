@@ -1684,6 +1684,7 @@ const lang: ILang = {
     put_chessboard_promark_desc_1: '請使用配件盒內提供的棋盤格紙，或將以下棋盤格圖檔列印於 A4 紙上，以進行相機校正。',
     put_chessboard_promark_desc_2: '請確保棋盤格平整放置於工作平台上。',
     put_chessboard_promark: '請確認棋盤格清晰可見，避免反光。點選「下一步」以拍攝照片。',
+    download_chessboard_file: '下載棋盤格文件',
     failed_to_calibrate_chessboard: '無法使用棋盤圖片進行校正。',
     calibrate_chessboard_success_msg: '成功拍攝棋盤格照片，此次照片分數為 %s (%.2f)。',
     res_excellent: '良好',

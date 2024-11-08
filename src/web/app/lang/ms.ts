@@ -1681,6 +1681,7 @@ const lang: ILang = {
     put_chessboard_promark_desc_1: 'Sila gunakan kertas papan dam yang disediakan dalam kotak aksesori, atau cetak corak papan dam berikut pada kertas A4 untuk kalibrasi kamera.',
     put_chessboard_promark_desc_2: 'Pastikan papan dam diletakkan rata di atas platform kerja.',
     put_chessboard_promark: 'Pastikan kertas papan dam dapat dilihat dengan jelas tanpa silau. Klik "Seterusnya" untuk mengambil gambar.',
+    download_chessboard_file: 'Muat turun fail papan dam',
     failed_to_calibrate_chessboard: 'Gagal mengkalibrasi dengan gambar papan dam.',
     calibrate_chessboard_success_msg: 'Gambar papan catur berjaya ditangkap.<br/>Skor untuk gambar ini adalah %s (%.2f).',
     res_excellent: 'Cemerlang',

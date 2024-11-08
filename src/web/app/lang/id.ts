@@ -1681,6 +1681,7 @@ const lang: ILang = {
     put_chessboard_promark_desc_1: 'Silakan gunakan kertas papan catur yang disediakan di kotak aksesori, atau cetak pola papan catur berikut di kertas A4 untuk kalibrasi kamera.',
     put_chessboard_promark_desc_2: 'Pastikan papan catur diletakkan datar di platform kerja.',
     put_chessboard_promark: 'Pastikan kertas papan catur terlihat jelas tanpa silau. Klik "Berikutnya" untuk mengambil foto.',
+    download_chessboard_file: 'Unduh file papan catur',
     failed_to_calibrate_chessboard: 'Gagal mengkalibrasi dengan gambar papan catur.',
     calibrate_chessboard_success_msg: 'Foto papan catur berhasil diambil.<br/>Skor untuk foto ini adalah %s (%.2f).',
     res_excellent: 'Luar biasa',

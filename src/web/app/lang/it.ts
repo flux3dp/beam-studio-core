@@ -1681,6 +1681,7 @@ const lang: ILang = {
     put_chessboard_promark_desc_1: 'Utilizzare il foglio a scacchiera fornito nella confezione degli accessori, oppure stampare il seguente motivo a scacchiera su un foglio A4 per la calibrazione della fotocamera.',
     put_chessboard_promark_desc_2: 'Assicurarsi che la scacchiera sia posizionata piatta sulla piattaforma di lavoro.',
     put_chessboard_promark: 'Assicurarsi che il foglio a scacchiera sia chiaramente visibile senza riflessi. Clicca su "Avanti" per scattare una foto.',
+    download_chessboard_file: 'Scarica file scacchiera',
     failed_to_calibrate_chessboard: "Calibrazione con l'immagine della scacchiera non riuscita.",
     calibrate_chessboard_success_msg: 'Foto della scacchiera catturata con successo.<br/>Il punteggio per questa foto è %s (%.2f).',
     res_excellent: 'Eccellente',

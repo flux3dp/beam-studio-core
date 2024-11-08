@@ -1681,6 +1681,7 @@ const lang: ILang = {
     put_chessboard_promark_desc_1: 'Vui lòng sử dụng giấy bàn cờ được cung cấp trong hộp phụ kiện hoặc in mẫu bàn cờ sau trên giấy A4 để hiệu chỉnh máy ảnh.',
     put_chessboard_promark_desc_2: 'Đảm bảo rằng bàn cờ được đặt phẳng trên nền làm việc.',
     put_chessboard_promark: 'Hãy đảm bảo giấy bàn cờ hiển thị rõ ràng mà không bị chói. Nhấn "Tiếp theo" để chụp ảnh.',
+    download_chessboard_file: 'Tải xuống tệp bàn cờ',
     failed_to_calibrate_chessboard: 'Không thể hiệu chỉnh với hình ảnh bàn cờ.',
     calibrate_chessboard_success_msg: 'Đã chụp thành công ảnh bàn cờ.<br/>Điểm cho ảnh này là %s (%.2f).',
     res_excellent: 'Xuất sắc',
