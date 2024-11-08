@@ -1,11 +1,11 @@
-/* eslint-disable max-len */
-import ISVGCanvas from 'interfaces/ISVGCanvas';
-import { getSVGAsync } from 'helpers/svg-editor-helper';
-import importSvgString from 'app/svgedit/operations/import/importSvgString';
+/* eslint-disable no-param-reassign */
 import fontFuncs, { convertTextToPathByFontkit, getFontObj } from 'app/actions/beambox/font-funcs';
-import { FontDescriptor } from 'interfaces/IFont';
 import history from 'app/svgedit/history/history';
 import undoManager from 'app/svgedit/history/undoManager';
+import importSvgString from 'app/svgedit/operations/import/importSvgString';
+import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { FontDescriptor } from 'interfaces/IFont';
+import ISVGCanvas from 'interfaces/ISVGCanvas';
 
 let svgCanvas: ISVGCanvas;
 
@@ -63,24 +63,44 @@ function findMatchingFont(
 }
 
 function preProcessTextTag(svgElement: SVGElement): SVGElement {
-  const text = svgElement.querySelector('text');
+  const texts = svgElement.querySelectorAll('text');
 
-  if (!text) {
+  if (!texts.length) {
     return svgElement;
   }
 
-  const { fontFamily, fontSize, isBold, isItalic } = extractFontDetails(text.getAttribute('style'));
-  const fonts: Array<FontDescriptor> = fontFuncs.requestFontsOfTheFontFamily(fontFamily);
-  const font = findMatchingFont(fonts, isBold, isItalic);
+  texts.forEach((text) => {
+    const { fontFamily, fontSize, isBold, isItalic } = extractFontDetails(
+      text.getAttribute('style')
+    );
+    const fonts: Array<FontDescriptor> = fontFuncs.requestFontsOfTheFontFamily(fontFamily);
+    const font = findMatchingFont(fonts, isBold, isItalic);
 
-  text.setAttribute('font-family', `'${font.family}'`);
-  text.setAttribute('font-size', fontSize.toString());
-  text.setAttribute('font-style', isItalic ? 'italic' : 'normal');
-  text.setAttribute('font-weight', font.weight.toString());
-  text.setAttribute('font-postscript', font.postscriptName);
-  text.removeAttribute('style');
+    text.setAttribute('font-family', `'${font.family}'`);
+    text.setAttribute('font-size', fontSize.toString());
+    text.setAttribute('font-style', isItalic ? 'italic' : 'normal');
+    text.setAttribute('font-weight', font.weight.toString());
+    text.setAttribute('font-postscript', font.postscriptName);
+    text.removeAttribute('style');
+  });
 
   return svgElement;
+}
+
+function getTranslateValues(transform: string): { x: number; y: number } {
+  // Regular expression to match the translate values
+  const match = transform.match(/translate\(([^,]+),?\s*([^)]+)?\)/);
+
+  // If there's a match, extract x and y values
+  if (match) {
+    const x = parseFloat(match[1]); // First captured group is x
+    const y = match[2] ? parseFloat(match[2]) : 0; // Second group is y, default to 0 if missing
+
+    return { x, y };
+  }
+
+  // Default to 0 if no translate function is found
+  return { x: 0, y: 0 };
 }
 
 /* Barcode */
@@ -90,67 +110,74 @@ export async function importBarcodeSvgElement(
 ): Promise<void> {
   const batchCmd = new history.BatchCommand('Import Barcode');
   const doc = preProcessTextTag(svgElement);
-  const innerG = doc.querySelector('g');
-  const rects = innerG.querySelectorAll('rect');
   const group = Array.of<SVGElement>();
-
-  rects.forEach((rect) => {
-    const { x, y, width, height } = rect.getBBox();
-
-    group.push(
-      svgCanvas.addSvgElementFromJson({
-        element: 'rect',
-        curStyles: false,
-        attr: {
-          x,
-          y,
-          width,
-          height,
-          stroke: '#000',
-          id: svgCanvas.getNextId(),
-          fill: 'black',
-          'fill-opacity': 1,
-          opacity: 1,
-        },
-      })
-    );
-  });
-
-  const text = innerG.querySelector('text');
-  const { textContent } = text;
-  const tspan = document.createElementNS(SVG_NS, 'tspan');
-
-  text.textContent = '';
-  tspan.setAttribute('x', text.getAttribute('x'));
-  tspan.setAttribute('y', text.getAttribute('y'));
-  text.setAttribute('font-size', text.getAttribute('font-size'));
-  tspan.textContent = textContent;
-  text.appendChild(tspan);
-
-  const postscript = text.getAttribute('font-postscript');
-  const font = fontFuncs.getFontOfPostscriptName(postscript);
-  const fontObj = await getFontObj(font);
-  const { d } = convertTextToPathByFontkit(text, fontObj);
-
-  group.push(
-    svgCanvas.addSvgElementFromJson({
-      element: 'path',
-      curStyles: true,
-      attr: {
-        d,
-        id: svgCanvas.getNextId(),
-        fill: 'black',
-        'fill-opacity': 1,
-        opacity: 1,
-      },
-    })
+  const gElements = doc.querySelectorAll('g');
+  const fontObj = await getFontObj(
+    fontFuncs.getFontOfPostscriptName(doc.querySelector('text')?.getAttribute('font-postscript'))
   );
+
+  gElements.forEach((g) => {
+    const transform = getTranslateValues(g.getAttribute('transform'));
+
+    g.querySelectorAll('rect').forEach((rect) => {
+      const { x, y, width, height } = rect.getBBox();
+
+      group.push(
+        svgCanvas.addSvgElementFromJson({
+          element: 'rect',
+          curStyles: false,
+          attr: {
+            x: x + transform.x,
+            y: y + transform.y,
+            width,
+            height,
+            stroke: '#000',
+            fill: 'black',
+            opacity: 1,
+            'fill-opacity': 1,
+            id: svgCanvas.getNextId(),
+          },
+        })
+      );
+    });
+
+    g.querySelectorAll('text').forEach((text) => {
+      const { textContent } = text;
+
+      if (!textContent) {
+        return;
+      }
+
+      const tspan = document.createElementNS(SVG_NS, 'tspan');
+
+      tspan.setAttribute('x', `${Number.parseFloat(text.getAttribute('x')) + transform.x}`);
+      tspan.setAttribute('y', `${Number.parseFloat(text.getAttribute('y')) + transform.y}`);
+      tspan.textContent = textContent;
+      text.textContent = '';
+      text.appendChild(tspan);
+
+      const { d } = convertTextToPathByFontkit(text, fontObj);
+
+      group.push(
+        svgCanvas.addSvgElementFromJson({
+          element: 'path',
+          curStyles: true,
+          attr: {
+            d,
+            fill: 'black',
+            opacity: 1,
+            'fill-opacity': 1,
+            id: svgCanvas.getNextId(),
+          },
+        })
+      );
+    });
+  });
 
   group.forEach((element) => {
     batchCmd.addSubCommand(new history.InsertElementCommand(element));
   });
 
-  text.remove();
   doc.remove();
 
   svgCanvas.selectOnly(group);
