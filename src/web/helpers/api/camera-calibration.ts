@@ -156,57 +156,6 @@ class CameraCalibrationApi {
     });
   }
 
-  findPerspectivePoints(onProgress?: (val: number) => void): Promise<{
-    points: [number, number][][][];
-    heights: number[];
-    errors: { height: number; err: string }[];
-  }> {
-    return new Promise((resolve, reject) => {
-      this.events.onMessage = (response) => {
-        switch (response.status) {
-          case 'ok':
-            resolve(response);
-            break;
-          case 'progress':
-            if (onProgress) onProgress(response.progress);
-            break;
-          case 'fail':
-            reject(response.reason);
-            break;
-          default:
-            console.log('strange message', response);
-            break;
-        }
-      };
-      this.ws.send('find_perspective_points');
-    });
-  }
-
-  calculateRegressionParam(onProgress?: (val: number) => void): Promise<{
-    data: number[][][][];
-    errors: { height: number; err: string }[];
-  }> {
-    return new Promise((resolve, reject) => {
-      this.events.onMessage = (response) => {
-        switch (response.status) {
-          case 'ok':
-            resolve(response);
-            break;
-          case 'progress':
-            if (onProgress) onProgress(response.progress);
-            break;
-          case 'fail':
-            reject(response.reason);
-            break;
-          default:
-            console.log('strange message', response);
-            break;
-        }
-      };
-      this.ws.send('cal_regression_param');
-    });
-  }
-
   calibrateChessboard(
     img: Blob | ArrayBuffer,
     height: number,

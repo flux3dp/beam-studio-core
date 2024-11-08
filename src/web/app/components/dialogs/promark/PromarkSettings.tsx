@@ -119,8 +119,13 @@ const PromarkSettings = ({ device, initData, onClose }: Props): JSX.Element => {
     const restore = async () => {
       try {
         if (isPreviewing) await deviceMaster.stopFraming();
-        await deviceMaster.setField(width, initData.field);
-        await deviceMaster.setLensCorrection(initData.lensCorrection);
+        await deviceMaster.setField(width, initData.field || { offsetX: 0, offsetY: 0, angle: 0 });
+        await deviceMaster.setLensCorrection(
+          initData.lensCorrection || {
+            x: { scale: 100, bulge: 1, skew: 1, trapezoid: 1 },
+            y: { scale: 100, bulge: 1, skew: 1, trapezoid: 1 },
+          }
+        );
       } catch (err) {
         console.error('Failed to restore from promark settings state', err);
       }

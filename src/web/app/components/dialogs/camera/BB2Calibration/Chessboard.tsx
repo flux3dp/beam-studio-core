@@ -69,8 +69,8 @@ const Chessboard = ({ chessboard, updateParam, onNext, onClose }: Props): JSX.El
               {
                 label: tCali.cancel,
                 onClick: () => resolve(false),
-              }
-            ]
+              },
+            ],
           });
         });
         if (!resp) return;
