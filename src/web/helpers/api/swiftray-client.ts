@@ -66,6 +66,11 @@ class SwiftrayClient extends EventEmitter {
     this.connect();
   }
 
+  public get readyState(): number {
+    // Defaults to CLOSED if socket is not initialized
+    return this.socket?.readyState ?? WebSocket.CLOSED;
+  }
+
   private connect() {
     this.socket = new WebSocket(this.url);
     this.socket.onopen = this.handleOpen.bind(this);
@@ -366,12 +371,13 @@ class SwiftrayClient extends EventEmitter {
 const checkSwiftray = (): boolean => {
   const res = !isWeb() && window.os !== 'Linux';
   if (!res) return false;
-  const doSwiftrayExist = communicator.sendSync('CHECK_SWIFTRAY');
-  return doSwiftrayExist;
+
+  return communicator.sendSync('CHECK_SWIFTRAY');
 };
 const hasSwiftray = checkSwiftray();
 
 const swiftrayClient = new SwiftrayClient('ws://localhost:6611');
+
 const getDeviceClient = async (port: string): Promise<SwiftrayClient> => {
   console.log(`Connecting to device on port ${port}`);
   // TODO:SWIFTRAY - Open a new instance of Swiftray, and use different port number

@@ -8,6 +8,7 @@ import useI18n from 'helpers/useI18n';
 import windowLocationReload from 'app/actions/windowLocation';
 import { WorkAreaModel } from 'app/constants/workarea-constants';
 
+import { isMobile } from 'helpers/system-helper';
 import styles from './SelectMachineModel.module.scss';
 
 const SelectMachineModel = (): JSX.Element => {
@@ -47,6 +48,10 @@ const SelectMachineModel = (): JSX.Element => {
     { model: 'fpm1', label: 'Promark Series', Icon: InitializeIcons.Promark } as const,
   ];
 
+  const filteredModelList = isMobile()
+    ? modelList.filter(({ model }) => model !== 'fpm1')
+    : modelList;
+
   return (
     <div className={styles.container}>
       <div className={styles['top-bar']} />
@@ -58,7 +63,7 @@ const SelectMachineModel = (): JSX.Element => {
       <div className={styles.main}>
         <h1 className={styles.title}>{t.select_machine_type}</h1>
         <div className={styles.btns}>
-          {modelList.map(({ model, label, Icon, extraClass }) => (
+          {filteredModelList.map(({ model, label, Icon, extraClass }) => (
             <div key={model} className={styles.btn} onClick={() => handleNextClick(model)}>
               <Icon className={styles.icon} />
               <div className={classNames(styles.label, extraClass)}>{label}</div>

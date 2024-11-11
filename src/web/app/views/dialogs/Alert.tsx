@@ -11,8 +11,14 @@ import i18n from 'helpers/i18n';
 import useI18n from 'helpers/useI18n';
 import { AlertProgressContext } from 'app/contexts/AlertProgressContext';
 import { HELP_CENTER_URLS } from 'app/constants/alert-constants';
-import { IAlert } from 'interfaces/IAlert';
+import { IAlert, MessageIcon } from 'interfaces/IAlert';
 
+import {
+  CheckCircleFilled,
+  CloseCircleFilled,
+  ExclamationCircleFilled,
+  InfoCircleFilled,
+} from '@ant-design/icons';
 import styles from './Alert.module.scss';
 
 const renderIcon = (url?: string): JSX.Element => {
@@ -20,9 +26,14 @@ const renderIcon = (url?: string): JSX.Element => {
   return <img className={styles.icon} src={url} />;
 };
 
+// color according to antd [design](https://ant.design/components/alert)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const messageIconMap: { [key: string]: (props: any) => JSX.Element } = {
-  notice: AlertIcons.Notice,
+const messageIconMap: Record<MessageIcon, (props: any) => JSX.Element> = {
+  success: () => <CheckCircleFilled style={{ fontSize: 28, color: '#52c41a' }} />,
+  info: () => <InfoCircleFilled style={{ fontSize: 28, color: '#1677ff' }} />,
+  warning: () => <ExclamationCircleFilled style={{ fontSize: 28, color: '#faad14' }} />,
+  error: () => <CloseCircleFilled style={{ fontSize: 28, color: '#ff4d4f' }} />,
+  notice: () => <ExclamationCircleFilled style={{ fontSize: 28, color: '#faad14' }} />,
 };
 
 const renderMessage = (message: string | React.ReactNode, messageIcon = ''): JSX.Element => {

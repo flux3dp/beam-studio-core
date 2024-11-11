@@ -10,7 +10,7 @@ import styles from './ConnectUsb.module.scss';
 type ModelSupportUsb = 'ado1' | 'fhexa1' | 'fpm1';
 
 export default function ConnectUsb(): JSX.Element {
-  const lang = useI18n().initialize;
+  const { initialize: t } = useI18n();
   const { search } = useLocation();
   const model = React.useMemo(
     () => new URLSearchParams(search).get('model'),
@@ -21,19 +21,19 @@ export default function ConnectUsb(): JSX.Element {
     ado1: {
       title: 'Ador',
       steps: [
-        lang.connect_usb.turn_off_machine,
-        lang.connect_usb.tutorial1,
-        lang.connect_usb.turn_on_machine,
-        lang.connect_usb.wait_for_turning_on,
+        t.connect_usb.turn_off_machine,
+        t.connect_usb.tutorial1,
+        t.connect_usb.turn_on_machine,
+        t.connect_usb.wait_for_turning_on,
       ],
     },
     fhexa1: {
       title: 'HEXA',
-      steps: [lang.connect_usb.tutorial1, lang.connect_usb.tutorial2],
+      steps: [t.connect_usb.tutorial1, t.connect_usb.tutorial2],
     },
     fpm1: {
       title: 'Promark Series',
-      steps: [lang.connect_usb.tutorial1, lang.connect_usb.tutorial2],
+      steps: [t.connect_usb.tutorial1, t.connect_usb.connect_camera, t.connect_usb.tutorial2],
     },
   };
 
@@ -50,7 +50,7 @@ export default function ConnectUsb(): JSX.Element {
         <div className={styles.subtitle}>{renderInformations[model].title}</div>
         <div className={styles.contents}>
           {renderInformations[model].steps.map((step, index) => (
-            <div>
+            <div key={`usb-step-${index + 1}`}>
               {index + 1}. {step}
             </div>
           ))}
@@ -63,10 +63,10 @@ export default function ConnectUsb(): JSX.Element {
       <div className={styles['top-bar']} />
       <div className={styles.btns}>
         <div className={styles.btn} onClick={() => window.history.back()}>
-          {lang.back}
+          {t.back}
         </div>
         <div className={classNames(styles.btn, styles.primary)} onClick={handleNext}>
-          {lang.next}
+          {t.next}
         </div>
       </div>
       <div className={styles.main}>
@@ -76,7 +76,7 @@ export default function ConnectUsb(): JSX.Element {
           <div className={classNames(styles.circle, styles.c2)} />
         </div>
         <div className={styles.text}>
-          <div className={styles.title}>{lang.connect_usb.title}</div>
+          <div className={styles.title}>{t.connect_usb.title}</div>
           {renderStep(model)}
         </div>
       </div>
