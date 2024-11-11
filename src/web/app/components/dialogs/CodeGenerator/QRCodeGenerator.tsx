@@ -10,11 +10,12 @@ import styles from './QRCodeGenerator.module.scss';
 interface Props {
   isInvert: boolean;
   setIsInvert: (isInvert: boolean) => void;
+  text: string;
+  setText: (text: string) => void;
 }
 
-const QRCodeGenerator = ({ isInvert, setIsInvert }: Props): JSX.Element => {
+const QRCodeGenerator = ({ isInvert, setIsInvert, text, setText }: Props): JSX.Element => {
   const { qr_code_generator: t } = useI18n();
-  const [text, setText] = React.useState('');
   const [errorLevel, setErrorLevel] = React.useState<QRCodeProps['errorLevel']>('L');
 
   return (

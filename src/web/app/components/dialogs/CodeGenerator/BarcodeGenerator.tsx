@@ -30,6 +30,8 @@ import styles from './BarcodeGenerator.module.scss';
 interface Props {
   isInvert: boolean;
   setIsInvert: (isInvert: boolean) => void;
+  text: string;
+  setText: (text: string) => void;
 }
 
 const fontFamilies = fontFuncs.requestAvailableFontFamilies();
@@ -50,9 +52,13 @@ const renderOption = (option) => {
 };
 // end of copied code
 
-export default function BarcodeGenerator({ isInvert, setIsInvert }: Props): JSX.Element {
+export default function BarcodeGenerator({
+  isInvert,
+  setIsInvert,
+  text,
+  setText,
+}: Props): JSX.Element {
   const { barcode_generator: t } = useI18n();
-  const [value, setValue] = useState('1234');
   const [options, setOptions] = useState(defaultOptions);
   const [validFontStyles, setValidFontStyles] = useState([]);
   const formatOptions = formats.map((value) => ({ label: value, value }));
@@ -78,7 +84,7 @@ export default function BarcodeGenerator({ isInvert, setIsInvert }: Props): JSX.
     <>
       <Barcode
         style={{ marginBottom: 20, borderRadius: 10, border: '1px solid #d9d9d9' }}
-        value={value}
+        value={text}
         options={options}
         renderer="svg"
       />
@@ -86,9 +92,9 @@ export default function BarcodeGenerator({ isInvert, setIsInvert }: Props): JSX.
         <Form>
           <Space.Compact style={{ width: '100%', marginBottom: 20 }}>
             <Input
-              value={value}
+              value={text}
               onKeyDown={(e) => e.stopPropagation()}
-              onChange={(e) => setValue(e.target.value)}
+              onChange={(e) => setText(e.target.value)}
             />
             <ConfigProvider theme={{ token: { colorBgContainer: '#FAFAFA' } }}>
               <Select

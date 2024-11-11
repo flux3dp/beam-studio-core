@@ -22,6 +22,7 @@ export default function CodeGenerator({ onClose }: Props): JSX.Element {
   } = useI18n();
   const [tabKey, setTabKey] = useState('qrcode');
   const [isInvert, setIsInvert] = useState(false);
+  const [text, setText] = useState('');
 
   const handleOk = async () => {
     const svgElement = document.querySelector<SVGElement>(`#${tabKey}-container svg`);
@@ -49,9 +50,19 @@ export default function CodeGenerator({ onClose }: Props): JSX.Element {
 
   const renderContent = () =>
     tabKey === 'qrcode' ? (
-      <QRCodeGenerator isInvert={isInvert} setIsInvert={setIsInvert} />
+      <QRCodeGenerator
+        isInvert={isInvert}
+        setIsInvert={setIsInvert}
+        text={text}
+        setText={setText}
+      />
     ) : (
-      <BarcodeGenerator isInvert={isInvert} setIsInvert={setIsInvert} />
+      <BarcodeGenerator
+        isInvert={isInvert}
+        setIsInvert={setIsInvert}
+        text={text}
+        setText={setText}
+      />
     );
 
   const titleStyle = { lineHeight: '24px', marginBottom: 20 };
@@ -81,6 +92,7 @@ export default function CodeGenerator({ onClose }: Props): JSX.Element {
       width="520"
       cancelText={tAlert.cancel}
       okText={tAlert.confirm}
+      okButtonProps={{ disabled: !text }}
       className={styles.modal}
     >
       {renderContent()}
