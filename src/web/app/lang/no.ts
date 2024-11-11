@@ -95,6 +95,7 @@ const lang: ILang = {
       import_ador_printing_example_full: 'Eksempel på Ador-utskrift - Fullfarge',
       import_acrylic_focus_probe: 'Akrylfokusprobe - 3 mm',
       import_promark_example: 'Eksempel på Promark',
+      import_hexa_example: 'Eksempel på HEXA',
       export_to: 'Eksporter til...',
       export_flux_task: 'FLUX-oppgave',
       export_BVG: 'BVG',

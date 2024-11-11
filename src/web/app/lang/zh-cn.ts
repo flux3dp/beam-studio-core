@@ -95,6 +95,7 @@ const lang: ILang = {
       import_ador_printing_example_full: 'Ador 打印范例 - 全彩',
       import_acrylic_focus_probe: '压克力对焦尺 - 3mm',
       import_promark_example: 'Promark 范例',
+      import_hexa_example: 'HEXA 范例',
       export_to: '汇出成...',
       export_flux_task: 'FLUX 工作',
       export_BVG: 'BVG',

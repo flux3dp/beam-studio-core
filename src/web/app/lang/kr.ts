@@ -95,6 +95,7 @@ const lang: ILang = {
       import_ador_printing_example_full: 'Ador 인쇄 예시 - 풀 컬러',
       import_acrylic_focus_probe: '아크릴 포커스 프로우브 - 3mm',
       import_promark_example: 'Promark 예시',
+      import_hexa_example: 'HEXA 예제',
       export_to: '내보내기...',
       export_flux_task: '플럭스 태스크',
       export_BVG: 'BVG',

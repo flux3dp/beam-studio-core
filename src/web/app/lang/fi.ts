@@ -95,6 +95,7 @@ const lang: ILang = {
       import_ador_printing_example_full: 'Adorin tulostuksen esimerkki - Täysvärinen',
       import_acrylic_focus_probe: 'Akryylitarkkuustesti - 3 mm',
       import_promark_example: 'Promark-esimerkki',
+      import_hexa_example: 'Esimerkki HEXA:sta',
       export_to: 'Vie...',
       export_flux_task: 'FLUX-tehtävä',
       export_BVG: 'BVG',

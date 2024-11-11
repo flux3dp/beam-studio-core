@@ -95,6 +95,7 @@ const lang: ILang = {
       import_ador_printing_example_full: 'Beispiel für Ador Druck - Vollfarbe',
       import_acrylic_focus_probe: 'Acrylische Fokus-Sonde - 3mm',
       import_promark_example: 'Beispiel für Promark',
+      import_hexa_example: 'Beispiel für HEXA',
       export_to: 'Exportieren nach...',
       export_flux_task: 'FLUX-Datei',
       export_BVG: 'BVG',

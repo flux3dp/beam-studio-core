@@ -88,6 +88,7 @@ export interface ILang {
       import_ador_printing_example_full: string;
       import_acrylic_focus_probe: string;
       import_promark_example: string;
+      import_hexa_example: string;
       export_to: string;
       export_flux_task: string;
       export_BVG: string;

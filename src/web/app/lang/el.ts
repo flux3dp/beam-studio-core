@@ -95,6 +95,7 @@ const lang: ILang = {
       import_ador_printing_example_full: 'Παράδειγμα εκτύπωσης Ador - Πλήρες χρώμα',
       import_acrylic_focus_probe: 'Δοκιμή εστίασης ακρυλικού - 3mm',
       import_promark_example: 'Παράδειγμα Promark',
+      import_hexa_example: 'Παράδειγμα HEXA',
       export_to: 'Εξαγωγή σε...',
       export_flux_task: 'Εξαγωγή εργασίας FLUX',
       export_BVG: 'BVG',
