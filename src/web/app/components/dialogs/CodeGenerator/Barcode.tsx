@@ -25,8 +25,7 @@ export type Format =
   | 'MSI1010'
   | 'MSI1110'
   | 'pharmacode'
-  | 'codabar'
-  | 'GenericBarcode';
+  | 'codabar';
 
 export const formats: Format[] = [
   'CODE39',
@@ -49,7 +48,6 @@ export const formats: Format[] = [
   'MSI1110',
   'pharmacode',
   'codabar',
-  'GenericBarcode',
 ];
 
 export const defaultOptions: Options = {
