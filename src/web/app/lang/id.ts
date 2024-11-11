@@ -373,6 +373,7 @@ const lang: ILang = {
       turn_off_machine: 'Matikan mesin.',
       turn_on_machine: 'Nyalakan mesin.',
       wait_for_turning_on: 'Klik "Lanjutkan" setelah proses startup selesai dan Anda telah masuk ke layar utama.',
+      connect_camera: 'Hubungkan kamera mesin ke komputer Anda dengan kabel USB.',
     },
     connect_machine_ip: {
       check_usb: 'Periksa Koneksi USB',
@@ -388,6 +389,12 @@ const lang: ILang = {
       retry: 'Coba lagi',
       succeeded_message: 'Berhasil terhubung 🎉',
       finish_setting: 'Mulai Membuat!',
+      check_swiftray_connection: 'Memeriksa koneksi server',
+      check_swiftray_connection_unreachable: 'server tidak dapat dijangkau',
+      promark_hint: 'Jika Anda berulang kali gagal terhubung melalui USB, silakan lihat <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/11195313944975">artikel di Pusat Bantuan</a>.',
+      alert: {
+        swiftray_connection_error: 'Tidak dapat terhubung ke server. Silakan mulai ulang Beam Studio dan coba lagi.',
+      },
     },
     connecting: 'Menghubungkan...',
     setting_completed: {

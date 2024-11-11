@@ -373,6 +373,7 @@ const lang: ILang = {
       turn_off_machine: 'Slå av maskinen.',
       turn_on_machine: 'Slå på maskinen.',
       wait_for_turning_on: 'Klikk "Neste" etter at oppstartsprosessen er fullført og du har kommet til hovedskjermen.',
+      connect_camera: 'Koble maskinens kamera til datamaskinen din med en USB-kabel.',
     },
     connect_machine_ip: {
       check_usb: 'Sjekk USB-tilkobling',
@@ -388,6 +389,12 @@ const lang: ILang = {
       retry: 'Prøv igjen',
       succeeded_message: 'Tilkoblet 🎉',
       finish_setting: 'Start å lage!',
+      check_swiftray_connection: 'Sjekker serverforbindelse',
+      check_swiftray_connection_unreachable: 'server utilgjengelig',
+      promark_hint: 'Hvis du gjentatte ganger ikke kan koble til via USB, se <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/11195313944975">Hjelpesenter-artikkelen</a>.',
+      alert: {
+        swiftray_connection_error: 'Kan ikke koble til serveren. Start Beam Studio på nytt og prøv igjen.',
+      },
     },
     connecting: 'Kobler til...',
     setting_completed: {

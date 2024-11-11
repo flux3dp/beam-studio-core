@@ -373,6 +373,7 @@ const lang: ILang = {
       turn_off_machine: 'Tắt máy.',
       turn_on_machine: 'Bật máy.',
       wait_for_turning_on: "Nhấn 'Tiếp theo' sau khi quá trình khởi động hoàn tất và bạn đã vào màn hình chính.",
+      connect_camera: 'Kết nối máy ảnh của máy với máy tính của bạn bằng cáp USB.',
     },
     connect_machine_ip: {
       check_usb: 'Kiểm tra kết nối USB',
@@ -388,6 +389,12 @@ const lang: ILang = {
       retry: 'Thử lại',
       succeeded_message: 'Kết nối thành công 🎉',
       finish_setting: 'Bắt đầu tạo!',
+      check_swiftray_connection: 'Đang kiểm tra kết nối với máy chủ',
+      check_swiftray_connection_unreachable: 'không thể kết nối máy chủ',
+      promark_hint: 'Nếu bạn liên tục không kết nối được qua USB, vui lòng tham khảo <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/11195313944975">bài viết tại Trung tâm trợ giúp</a>.',
+      alert: {
+        swiftray_connection_error: 'Không thể kết nối với máy chủ. Vui lòng khởi động lại Beam Studio và thử lại.',
+      },
     },
     connecting: 'Đang kết nối...',
     setting_completed: {

@@ -376,6 +376,7 @@ const lang: ILang = {
       turn_off_machine: 'Vypněte přístroj.',
       turn_on_machine: 'Zapněte přístroj.',
       wait_for_turning_on: 'Klikněte na “Další”, až bude zahajovací proces hotový a uvidíte hlavní obrazovku.',
+      connect_camera: 'Připojte kameru stroje k počítači pomocí USB kabelu.',
     },
     connect_machine_ip: {
       check_usb: 'Zkontrolujte USB připojení.',
@@ -391,6 +392,12 @@ const lang: ILang = {
       retry: 'Opakovat',
       succeeded_message: 'Úspěšně připojeno 🎉',
       finish_setting: 'Pojďme tvořit!',
+      check_swiftray_connection: 'Kontrola připojení k serveru',
+      check_swiftray_connection_unreachable: 'server není dosažitelný',
+      promark_hint: 'Pokud se vám opakovaně nedaří připojit přes USB, podívejte se na <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/11195313944975">článek v Centru nápovědy</a>.',
+      alert: {
+        swiftray_connection_error: 'Nelze se připojit k serveru. Restartujte Beam Studio a zkuste to znovu.',
+      },
     },
     connecting: 'Připojuji...',
     setting_completed: {

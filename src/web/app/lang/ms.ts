@@ -373,6 +373,7 @@ const lang: ILang = {
       turn_off_machine: 'Matikan mesin.',
       turn_on_machine: 'Hidupkan mesin.',
       wait_for_turning_on: "Klik 'Seterusnya' selepas proses permulaan selesai dan anda telah masuk ke skrin utama.",
+      connect_camera: 'Sambungkan kamera mesin ke komputer anda dengan kabel USB.',
     },
     connect_machine_ip: {
       check_usb: 'Semak Sambungan USB',
@@ -388,6 +389,12 @@ const lang: ILang = {
       retry: 'Cuba lagi',
       succeeded_message: 'Berjaya disambungkan 🎉',
       finish_setting: 'Mulakan Mencipta!',
+      check_swiftray_connection: 'Memeriksa sambungan pelayan',
+      check_swiftray_connection_unreachable: 'pelayan tidak dapat dicapai',
+      promark_hint: 'Jika anda berulang kali gagal menyambung melalui USB, sila rujuk kepada <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/11195313944975">artikel Pusat Bantuan</a>.',
+      alert: {
+        swiftray_connection_error: 'Tidak dapat menyambung ke pelayan. Sila mulakan semula Beam Studio dan cuba lagi.',
+      },
     },
     connecting: 'Menyambung...',
     setting_completed: {

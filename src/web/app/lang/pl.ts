@@ -376,6 +376,7 @@ const lang: ILang = {
       turn_off_machine: 'Twyłącz maszynę.',
       turn_on_machine: 'Włącz maszynę.',
       wait_for_turning_on: "Kliknij 'Dalej' after the startup process is complete and you have entered the main screen.",
+      connect_camera: 'Podłącz kamerę maszyny do komputera za pomocą kabla USB.',
     },
     connect_machine_ip: {
       check_usb: 'Sprawdź połączenie USB',
@@ -391,6 +392,12 @@ const lang: ILang = {
       retry: 'Spróbuj ponownie',
       succeeded_message: 'Zakończ ustawianie 🎉',
       finish_setting: 'Zacznij tworzyć!',
+      check_swiftray_connection: 'Sprawdzanie połączenia z serwerem',
+      check_swiftray_connection_unreachable: 'serwer nieosiągalny',
+      promark_hint: 'Jeśli wielokrotnie nie można nawiązać połączenia przez USB, zapoznaj się z <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/11195313944975">artykułem w Centrum Pomocy</a>.',
+      alert: {
+        swiftray_connection_error: 'Nie udało się połączyć z serwerem. Uruchom ponownie Beam Studio i spróbuj ponownie.',
+      },
     },
     connecting: 'Łączę......',
     setting_completed: {
