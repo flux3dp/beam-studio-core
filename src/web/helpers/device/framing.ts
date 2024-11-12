@@ -27,9 +27,10 @@ import { getWorkarea } from 'app/constants/workarea-constants';
 import { getSupportInfo, SupportInfo } from 'app/constants/add-on';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
+import { PromarkStore } from 'interfaces/Promark';
 
+import applyRedDot from './promark/apply-red-dot';
 import promarkDataStore from './promark/promark-data-store';
-import { calculateRedDotTransform } from './promark/calibration';
 
 // TODO: add unit test
 export enum FramingType {
@@ -193,6 +194,7 @@ class FramingTaskManager extends EventEmitter {
   private lowPower = 0;
   private taskCache: { [type in FramingType]?: [number, number][] } = {};
   private taskPoints: [number, number][] = [];
+  private hasAppliedRedLight = false;
 
   constructor(device: IDeviceInfo) {
     super();
@@ -231,19 +233,23 @@ class FramingTaskManager extends EventEmitter {
     const deviceStatus = await checkDeviceStatus(this.device);
     if (!deviceStatus) return;
     console.log('start framing upload');
-    const redDotData = promarkDataStore.get(this.device?.serial, 'redDot');
-    let transform: string;
-    if (redDotData) {
-      const { width } = getWorkarea(this.device.model);
-      transform = calculateRedDotTransform(
-        width,
-        redDotData.offsetX,
-        redDotData.offsetY,
-        redDotData.scaleX,
-        redDotData.scaleY
-      );
+    if (!this.hasAppliedRedLight) {
+      const { redDot, field, galvoParameters } = promarkDataStore.get(
+        this.device?.serial
+      ) as PromarkStore;
+      if (redDot) {
+        const { field: newField, galvoParameters: newGalvo } = applyRedDot(
+          redDot,
+          field,
+          galvoParameters
+        );
+        const { width } = getWorkarea(this.device.model);
+        await deviceMaster.setField(width, newField);
+        await deviceMaster.setLensCorrection(newGalvo);
+      }
+      this.hasAppliedRedLight = true;
     }
-    await fetchFraming(transform);
+    await fetchFraming();
     console.log('start framing');
     await deviceMaster.startFraming();
   };

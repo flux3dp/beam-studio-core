@@ -299,7 +299,7 @@ const fetchTaskCodeSwiftray = async (
 };
 
 // Send svg string and calculate the frame
-const fetchFraming = async (transform?: string): Promise<boolean> => {
+const fetchFraming = async (): Promise<boolean> => {
   svgCanvas.removeUnusedDefs();
   SymbolMaker.switchImageSymbolForAll(false);
   Progress.openNonstopProgress({
@@ -315,22 +315,7 @@ const fetchFraming = async (transform?: string): Promise<boolean> => {
     return false;
   }
 
-  let svgString = svgCanvas.getSvgString();
-  if (transform) {
-    const tempSvg = document.createElement('svg');
-    tempSvg.innerHTML = svgString;
-    tempSvg.querySelectorAll('g.layer').forEach((layer) => {
-      const title = layer.querySelector('title');
-      layer.removeChild(title);
-      const g = document.createElementNS(NS.SVG, 'g');
-      g.setAttribute('transform', transform);
-      g.innerHTML = layer.innerHTML;
-      // eslint-disable-next-line no-param-reassign
-      layer.innerHTML = g.outerHTML;
-      layer.insertBefore(title, layer.firstChild);
-    });
-    svgString = tempSvg.innerHTML;
-  }
+  const svgString = svgCanvas.getSvgString();
   const uploadConfig = {
     model: BeamboxPreference.read('workarea') || BeamboxPreference.read('model'),
     rotaryMode: BeamboxPreference.read('rotary_mode'),

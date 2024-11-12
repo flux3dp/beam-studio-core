@@ -60,36 +60,4 @@ export const loadCameraCalibrationTask = async (
   await loadTaskToSwiftray(scene, model);
 };
 
-export const calculateRedDotTransform = (
-  width: number,
-  offsetX: number,
-  offsetY: number,
-  scaleX: number,
-  scaleY: number
-): string => {
-  console.log(width);
-  const halfWidthPx = (width * constant.dpmm) / 2;
-  const [offsetXPx, offsetYPx] = [offsetX, offsetY].map((v) => v * constant.dpmm);
-  const translate1 = DOMMatrix.fromMatrix({
-    a: 1,
-    b: 0,
-    c: 0,
-    d: 1,
-    e: halfWidthPx,
-    f: halfWidthPx,
-  });
-  const scale = DOMMatrix.fromMatrix({ a: scaleX, b: 0, c: 0, d: scaleY, e: 0, f: 0 });
-  const translate2 = DOMMatrix.fromMatrix({
-    a: 1,
-    b: 0,
-    c: 0,
-    d: 1,
-    e: -halfWidthPx,
-    f: -halfWidthPx,
-  });
-  const translate3 = DOMMatrix.fromMatrix({ a: 1, b: 0, c: 0, d: 1, e: offsetXPx, f: offsetYPx });
-  const { a, b, c, d, e, f } = translate1.multiply(scale).multiply(translate2).multiply(translate3);
-  return `matrix(${a}, ${b}, ${c}, ${d}, ${e}, ${f})`;
-};
-
 export default { loadCameraCalibrationTask };

@@ -24,7 +24,7 @@ import {
 } from 'interfaces/FisheyePreview';
 import { getWorkarea } from 'app/constants/workarea-constants';
 import { IDeviceInfo, IDeviceConnection, IDeviceDetailInfo } from 'interfaces/IDevice';
-import { Field, LensCorrection, PromarkStore } from 'interfaces/Promark';
+import { Field, GalvoParameters, PromarkStore } from 'interfaces/Promark';
 
 import Camera from './api/camera';
 import Control from './api/control';
@@ -408,11 +408,11 @@ class DeviceMaster {
       }
 
       if (promarkModels.has(device.info.model)) {
-        const { lensCorrection, field } = promarkDataStore.get(device.info.serial) as PromarkStore;
-        if (field) {
-          const { width } = getWorkarea(device.info.model);
-          await this.setField(width, field);
-        }
+        const { galvoParameters: lensCorrection, field } = promarkDataStore.get(
+          device.info.serial
+        ) as PromarkStore;
+        const { width } = getWorkarea(device.info.model);
+        await this.setField(width, field);
         console.log('Applying', lensCorrection);
         if (lensCorrection) {
           await this.setLensCorrection(lensCorrection);
@@ -1201,12 +1201,12 @@ class DeviceMaster {
     return controlSocket.addTask(controlSocket.setDeviceSetting, name, value);
   }
 
-  async setField(worksize: number, fieldData: Field) {
+  async setField(worksize: number, fieldData: Field = { offsetX: 0, offsetY: 0, angle: 0 }) {
     const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.setField, worksize, fieldData);
   }
 
-  async setLensCorrection(data: { x: LensCorrection; y: LensCorrection }) {
+  async setLensCorrection(data: GalvoParameters) {
     const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.setLensCorrection, data.x, data.y);
   }

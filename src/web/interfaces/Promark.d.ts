@@ -31,11 +31,16 @@ export interface LensCorrection {
   trapezoid: number;
 }
 
+export interface GalvoParameters {
+  x: LensCorrection;
+  y: LensCorrection;
+}
+
 export interface PromarkStore {
   info?: PromarkInfo;
   field?: Field;
   redDot?: RedDot;
   cameraParameters?: FisheyeCameraParametersV3;
   cameraDeviceId?: string;
-  lensCorrection?: { x: LensCorrection; y: LensCorrection };
+  galvoParameters?: GalvoParameters;
 }
