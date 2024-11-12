@@ -8,6 +8,7 @@ import { IPathActions } from 'app/svgedit/operations/pathActions';
 import { SelectorManager } from 'app/svgedit/selector';
 import { Units } from 'helpers/units';
 import textActions from 'app/svgedit/text/textactions';
+import { BaseHistoryCommand } from 'app/svgedit/history/history';
 
 export interface IPoint {
   x: number;
@@ -93,7 +94,7 @@ export default interface ISVGCanvas {
   getTempGroup: () => SVGGElement;
   getTitle: () => string;
   getZoom: () => number; // Old getter for current_zoom
-  groupSelectedElements: () => void;
+  groupSelectedElements: (isSubCmd?: boolean) => BaseHistoryCommand | void;
   handleGenerateSensorArea: (evt: MouseEvent) => void;
   prepareSvg: (newDoc: Document) => void;
   importSvgString(
@@ -183,4 +184,11 @@ export default interface ISVGCanvas {
   groupSvgElem: (elem: SVGElement) => void;
   convertGradients: (elem: Element) => void;
   identifyLayers: () => void;
+  disassembleUse2Group: (
+    elems: Array<SVGElement>,
+    skipConfirm?: boolean,
+    addToHistory?: boolean,
+    showProgress?: boolean
+  ) => Promise<BaseHistoryCommand>;
+  zoomSvgElem: (zoom: number) => void;
 }

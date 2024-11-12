@@ -218,7 +218,7 @@ const lang: ILang = {
       tools: {
         title: 'Outils',
         material_test_generator: 'Générateur de Test de Matériau',
-        qr_code_generator: 'Générateur de Code QR',
+        code_generator: 'Générateur de code',
         box_generator: 'Générateur de Boîtes',
       },
     },
@@ -1991,6 +1991,22 @@ const lang: ILang = {
     mark_parameters: 'Paramètres de marquage',
     preview: 'Aperçu',
     mark: 'Marquer',
+  },
+  code_generator: {
+    qr_code: 'Code QR',
+    barcode: 'Code-barres',
+  },
+  barcode_generator: {
+    bar_width: 'Largeur de barre',
+    bar_height: 'Hauteur de barre',
+    text_margin: 'Marge de texte',
+    invert_color: 'Inverser couleur',
+    font: 'Police',
+    font_size: 'Taille de police',
+    hide_text: 'Masquer le texte',
+    barcode: {
+      invalid_value: 'La valeur est invalide pour le format sélectionné.',
+    },
   },
 };
 

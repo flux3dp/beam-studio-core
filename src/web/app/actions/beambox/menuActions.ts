@@ -114,7 +114,7 @@ export default {
   },
   SIGN_IN: (): void => Dialog.showLoginDialog(),
   MATERIAL_TEST_GENERATOR: (): void => Dialog.showMaterialTestGenerator(),
-  QR_CODE_GENERATOR: (): void => Dialog.showQRCodeGenerator(),
+  CODE_GENERATOR: (): void => Dialog.showCodeGenerator(),
   BOX_GEN: (): void => Dialog.showBoxGen(),
   IMPORT_EXAMPLE: (): Promise<void> => loadExampleFile(getExampleFileName('example')),
   IMPORT_EXAMPLE_ADOR_LASER: (): Promise<void> =>

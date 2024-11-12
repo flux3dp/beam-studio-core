@@ -19,46 +19,38 @@ jest.mock('helpers/useI18n', () => () => ({
 }));
 
 const mockOpen = jest.fn();
+
 jest.mock('implementations/browser', () => ({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   open: (...args: any) => mockOpen(...args),
 }));
 
 const mockInsertImage = jest.fn();
+
 jest.mock('app/actions/beambox/svgeditor-function-wrapper', () => ({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   insertImage: (...props: any) => mockInsertImage(...props),
 }));
 
-const mockOnClose = jest.fn();
 describe('test QRCodeGenerator', () => {
   it('should behave correctly', () => {
-    const { baseElement } = render(<QRCodeGenerator onClose={mockOnClose} />);
+    const [isInvert, setIsInvert] = [false, jest.fn()];
+    const [text, setText] = ['', jest.fn()];
+    const { baseElement } = render(
+      <QRCodeGenerator
+        isInvert={isInvert}
+        setIsInvert={setIsInvert}
+        text={text}
+        setText={setText}
+      />
+    );
 
     const input = baseElement.querySelector('textarea');
-    const okButton = baseElement.querySelector('.ant-btn-primary');
     expect(input).toHaveValue('');
-    expect(okButton).toBeDisabled();
     expect(baseElement).toMatchSnapshot();
 
     fireEvent.click(baseElement.querySelector('.label .anticon'));
     expect(mockOpen).toBeCalledTimes(1);
     expect(mockOpen).toBeCalledWith('error_tolerance_link');
-
-    fireEvent.change(input, { target: { value: 'some text' } });
-    expect(okButton).not.toBeDisabled();
-    expect(baseElement).toMatchSnapshot();
-
-    const canvas = baseElement.querySelector('canvas');
-    jest.spyOn(canvas, 'toDataURL').mockReturnValue('mock url');
-    fireEvent.click(okButton);
-    expect(mockInsertImage).toBeCalledTimes(1);
-    expect(mockInsertImage).toBeCalledWith(
-      'mock url',
-      { x: 0, y: 0, width: 500, height: 500 },
-      127,
-      { useCurrentLayer: true, ratioFixed: true }
-    );
-    expect(mockOnClose).toBeCalledTimes(1);
   });
 });

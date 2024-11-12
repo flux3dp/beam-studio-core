@@ -218,7 +218,7 @@ const lang: ILang = {
       tools: {
         title: '工具',
         material_test_generator: '材質測試產生器',
-        qr_code_generator: 'QR 碼產生器',
+        code_generator: '條碼產生器',
         box_generator: '盒子產生器',
       },
     },
@@ -1996,6 +1996,22 @@ const lang: ILang = {
     mark_parameters: '標記參數',
     preview: '預覽',
     mark: '標記',
+  },
+  code_generator: {
+    qr_code: 'QR碼',
+    barcode: '條碼',
+  },
+  barcode_generator: {
+    bar_width: '條寬',
+    bar_height: '條高',
+    text_margin: '文字邊距',
+    invert_color: '反轉顏色',
+    font: '字體',
+    font_size: '字體大小',
+    hide_text: '隱藏文字',
+    barcode: {
+      invalid_value: '該值對於所選格式無效。',
+    },
   },
 };
 

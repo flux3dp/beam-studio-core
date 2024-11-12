@@ -13,6 +13,7 @@ import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgedit;
 let svgCanvas: ISVGCanvas;
+
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
   svgedit = globalSVG.Edit;
@@ -20,20 +21,20 @@ getSVGAsync((globalSVG) => {
 
 const importSvgString = async (
   xmlString: string,
-  args: {
-    type?: ImportType;
-    layerName?: string;
-    parentCmd?: IBatchCommand;
-    targetModule?: LayerModule;
-  } = {}
-): Promise<SVGUseElement> => {
-  const {
+  {
     type = 'nolayer',
     layerName,
     parentCmd,
     targetModule = layerModuleHelper.getDefaultLaserModule(),
-  } = args;
+  }: {
+    type?: ImportType;
+    layerName?: string;
+    parentCmd?: IBatchCommand;
+    targetModule?: LayerModule;
+  }
+): Promise<SVGUseElement> => {
   const batchCmd = new history.BatchCommand('Import Image');
+
   function setDataXform(use_el, it) {
     const bb = svgedit.utilities.getBBox(use_el);
     let dataXform = '';
@@ -49,8 +50,11 @@ const importSvgString = async (
     use_el.setAttribute('data-xform', dataXform);
     return use_el;
   }
+
   const newDoc = svgedit.utilities.text2xml(xmlString);
+
   svgCanvas.prepareSvg(newDoc);
+
   const svg = document.adoptNode(newDoc.documentElement);
   const { symbols } = parseSvg(batchCmd, svg, type);
 
@@ -59,17 +63,24 @@ const importSvgString = async (
       symbols.map(async (symbol) => appendUseElement(symbol, { type, layerName, targetModule }))
     )
   ).filter((res) => res?.element);
+
   const commands = results.map(({ command }) => command);
+
   commands.forEach((cmd) => {
-    if (cmd) batchCmd.addSubCommand(cmd);
+    if (cmd) {
+      batchCmd.addSubCommand(cmd);
+    }
   });
+
   const useElements = results.map(({ element }) => element);
+
   useElements.forEach((elem) => {
     elem.addEventListener('mouseover', svgCanvas.handleGenerateSensorArea);
     elem.addEventListener('mouseleave', svgCanvas.handleGenerateSensorArea);
   });
 
   useElements.forEach((element) => setDataXform(element, type === 'image-trace'));
+
   await Promise.all(
     useElements.map(async (element) => {
       const refId = svgCanvas.getHref(element);
@@ -78,7 +89,9 @@ const importSvgString = async (
       const imageSymbol = await symbolMaker.makeImageSymbol(symbol, {
         fullColor: layer?.getAttribute('data-fullcolor') === '1',
       });
+
       svgCanvas.setHref(element, `#${imageSymbol.id}`);
+
       if (svgCanvas.isUsingLayerColor) {
         updateElementColor(element);
       }
@@ -87,11 +100,18 @@ const importSvgString = async (
 
   if (useElements.length > 0) {
     const cmd = removeDefaultLayerIfEmpty();
-    if (cmd) batchCmd.addSubCommand(cmd);
+
+    if (cmd) {
+      batchCmd.addSubCommand(cmd);
+    }
   }
+
   if (!batchCmd.isEmpty()) {
-    if (parentCmd) parentCmd.addSubCommand(batchCmd);
-    else svgCanvas.addCommandToHistory(batchCmd);
+    if (parentCmd) {
+      parentCmd.addSubCommand(batchCmd);
+    } else {
+      svgCanvas.addCommandToHistory(batchCmd);
+    }
   }
   svgCanvas.call('changed', [document.getElementById('svgcontent')]);
 

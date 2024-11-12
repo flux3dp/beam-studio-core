@@ -218,7 +218,7 @@ const lang: ILang = {
       tools: {
         title: 'Εργαλεία',
         material_test_generator: 'Γεννήτρια Δοκιμής Υλικού',
-        qr_code_generator: 'Γεννήτρια Κωδικού QR',
+        code_generator: 'Γεννήτρια κώδικα',
         box_generator: 'Γεννήτρια Κουτιού',
       },
     },
@@ -1991,6 +1991,22 @@ const lang: ILang = {
     mark_parameters: 'Παράμετροι χάραξης',
     preview: 'Προεπισκόπηση',
     mark: 'Σήμανση',
+  },
+  code_generator: {
+    qr_code: 'QR Κωδικός',
+    barcode: 'Γραμμωτός κώδικας',
+  },
+  barcode_generator: {
+    bar_width: 'Πλάτος γραμμής',
+    bar_height: 'Ύψος γραμμής',
+    text_margin: 'Περιθώριο κειμένου',
+    invert_color: 'Αντιστροφή χρώματος',
+    font: 'Γραμματοσειρά',
+    font_size: 'Μέγεθος γραμματοσειράς',
+    hide_text: 'Απόκρυψη κειμένου',
+    barcode: {
+      invalid_value: 'Η τιμή δεν είναι έγκυρη για την επιλεγμένη μορφή.',
+    },
   },
 };
 

@@ -218,7 +218,7 @@ const lang: ILang = {
       tools: {
         title: 'เครื่องมือ',
         material_test_generator: 'ตัวสร้างการทดสอบวัสดุ',
-        qr_code_generator: 'ตัวสร้างรหัส QR',
+        code_generator: 'เครื่องสร้างโค้ด',
         box_generator: 'เครื่องสร้างกล่อง',
       },
     },
@@ -1991,6 +1991,22 @@ const lang: ILang = {
     mark_parameters: 'พารามิเตอร์การมาร์ก',
     preview: 'ดูตัวอย่าง',
     mark: 'ทำเครื่องหมาย',
+  },
+  code_generator: {
+    qr_code: 'คิวอาร์โค้ด',
+    barcode: 'บาร์โค้ด',
+  },
+  barcode_generator: {
+    bar_width: 'ความกว้างของแท่ง',
+    bar_height: 'ความสูงของแท่ง',
+    text_margin: 'ระยะขอบข้อความ',
+    invert_color: 'กลับสี',
+    font: 'ฟอนต์',
+    font_size: 'ขนาดฟอนต์',
+    hide_text: 'ซ่อนข้อความ',
+    barcode: {
+      invalid_value: 'ค่านี้ไม่ถูกต้องสำหรับรูปแบบที่เลือก',
+    },
   },
 };
 

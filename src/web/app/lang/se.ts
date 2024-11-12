@@ -218,7 +218,7 @@ const lang: ILang = {
       tools: {
         title: 'Verktyg',
         material_test_generator: 'Materialtestgenerator',
-        qr_code_generator: 'QR-kodgenerator',
+        code_generator: 'Kodgenerator',
         box_generator: 'Lådgenerator',
       },
     },
@@ -1991,6 +1991,22 @@ const lang: ILang = {
     mark_parameters: 'Märkningsparametrar',
     preview: 'Förhandsvisning',
     mark: 'Märk',
+  },
+  code_generator: {
+    qr_code: 'QR-kod',
+    barcode: 'Streckkod',
+  },
+  barcode_generator: {
+    bar_width: 'Streckbredd',
+    bar_height: 'Streckhöjd',
+    text_margin: 'Textmarginal',
+    invert_color: 'Invertera färg',
+    font: 'Typsnitt',
+    font_size: 'Teckensnittsstorlek',
+    hide_text: 'Dölj text',
+    barcode: {
+      invalid_value: 'Värdet är ogiltigt för det valda formatet.',
+    },
   },
 };
 

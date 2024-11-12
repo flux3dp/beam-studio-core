@@ -218,7 +218,7 @@ const lang: ILang = {
       tools: {
         title: 'Gereedschappen',
         material_test_generator: 'Materiaaltestgenerator',
-        qr_code_generator: 'QR-codegenerator',
+        code_generator: 'Codegenerator',
         box_generator: 'Doos Generator',
       },
     },
@@ -1991,6 +1991,22 @@ const lang: ILang = {
     mark_parameters: 'Markeerparameters',
     preview: 'Voorvertoning',
     mark: 'Markeren',
+  },
+  code_generator: {
+    qr_code: 'QR-code',
+    barcode: 'Streepjescode',
+  },
+  barcode_generator: {
+    bar_width: 'Balkbreedte',
+    bar_height: 'Balkhoogte',
+    text_margin: 'Tekstmarge',
+    invert_color: 'Kleur omkeren',
+    font: 'Lettertype',
+    font_size: 'Lettergrootte',
+    hide_text: 'Tekst verbergen',
+    barcode: {
+      invalid_value: 'De waarde is ongeldig voor het geselecteerde formaat.',
+    },
   },
 };
 
