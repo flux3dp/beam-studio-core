@@ -3,9 +3,7 @@
   <g data-printingStrength="100" data-repeat="1" data-strength="%(power)d" data-speed="%(speed)d"
     data-color="#333333" style="cursor: move;" class="layer">
     <title>Layer 1</title>
-    <g transform="%(transform)s">
-      <rect vector-effect="non-scaling-stroke" fill-opacity="0" fill="none" id="svg_2"
-        stroke="#333333" height="%(width)d" width="%(width)d" y="0" x="0" />
-    </g>
+    <rect vector-effect="non-scaling-stroke" fill-opacity="0" fill="none" id="svg_2"
+      stroke="#333333" height="%(width)d" width="%(width)d" y="0" x="0" />
   </g>
 </svg>

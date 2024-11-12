@@ -34,19 +34,17 @@ export const loadTaskToSwiftray = async (scene: string, model: WorkAreaModel): P
 
 export const generateCalibrationTaskString = async ({
   width,
-  transform = '',
   power = 20,
   speed = 1000,
 }: {
   width: number;
-  transform?: string;
   power?: number;
   speed?: number;
 }): Promise<string> => {
   const fileName = 'fcode/promark-calibration.bvg';
   const resp = await fetch(fileName);
   let res = await resp.text();
-  res = sprintf(res, { width: width * constant.dpmm, transform, power, speed });
+  res = sprintf(res, { width: width * constant.dpmm, power, speed });
   return res;
 };
 
