@@ -162,7 +162,8 @@ export async function importBarcodeSvgElement(
     });
   });
 
-  group.forEach((element) => {
+  // reverse to prevent doApply cannot find the next sibling
+  [...group].reverse().forEach((element) => {
     batchCmd.addSubCommand(new history.InsertElementCommand(element));
   });
 
@@ -179,6 +180,7 @@ export async function importBarcodeSvgElement(
   svgCanvas.zoomSvgElem(10);
 
   if (!batchCmd.isEmpty()) {
+    console.log('batchCmd', batchCmd);
     undoManager.addCommandToHistory(batchCmd);
   }
 }
