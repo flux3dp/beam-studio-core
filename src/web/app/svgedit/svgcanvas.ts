@@ -87,7 +87,7 @@ import canvasBackground from './canvasBackground';
 import clipboard from './operations/clipboard';
 import currentFileManager from './currentFileManager';
 import findDefs from './utils/findDef';
-import history from './history/history';
+import history, { BaseHistoryCommand } from './history/history';
 import historyRecording from './history/historyrecording';
 import importSvgString from './operations/import/importSvgString';
 import MouseInteractions from './interaction/mouseInteractions';
@@ -4438,7 +4438,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     return [];
   };
 
-  this.groupSelectedElements = (isSubCmd = false) => {
+  this.groupSelectedElements = (isSubCmd = false): BaseHistoryCommand | void => {
     if (tempGroup) {
       const children = this.ungroupTempGroup();
       this.selectOnly(children, false);

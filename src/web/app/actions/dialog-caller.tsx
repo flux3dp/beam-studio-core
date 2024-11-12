@@ -563,19 +563,4 @@ export default {
       />
     );
   },
-  showBarcodeGenerator: (onClose: () => void = () => {}): void => {
-    if (isIdExist('barcode-generator')) {
-      return;
-    }
-
-    addDialogComponent(
-      'barcode-generator',
-      <MaterialTestGeneratorPanel
-        onClose={() => {
-          popDialogById('barcode-generator');
-          onClose();
-        }}
-      />
-    );
-  },
 };

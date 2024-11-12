@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
 import fontFuncs, { convertTextToPathByFontkit, getFontObj } from 'app/actions/beambox/font-funcs';
+import NS from 'app/constants/namespaces';
 import history from 'app/svgedit/history/history';
 import undoManager from 'app/svgedit/history/undoManager';
 import importSvgString from 'app/svgedit/operations/import/importSvgString';
@@ -12,16 +13,6 @@ let svgCanvas: ISVGCanvas;
 getSVGAsync(({ Canvas }) => {
   svgCanvas = Canvas;
 });
-
-const SVG_NS = 'http://www.w3.org/2000/svg';
-
-export function removeFirstRectTag(svgString: string): string {
-  const doc = new DOMParser().parseFromString(svgString, 'image/svg+xml');
-
-  doc.querySelector('rect')?.remove();
-
-  return new XMLSerializer().serializeToString(doc);
-}
 
 export function extractSvgTags(svgString: string, tag: string): Array<string> {
   const elements = new DOMParser()
@@ -56,8 +47,7 @@ function findMatchingFont(
   return (
     fontInfos.find(
       ({ postscriptName }) =>
-        (isBold ? /Bold/.test(postscriptName) : !/Bold/.test(postscriptName)) &&
-        (isItalic ? /Italic/.test(postscriptName) : !/Italic/.test(postscriptName))
+        isBold === postscriptName.includes('Bold') && isItalic === postscriptName.includes('Italic')
     ) || fontInfos[0]
   );
 }
@@ -88,18 +78,16 @@ function preProcessTextTag(svgElement: SVGElement): SVGElement {
 }
 
 function getTranslateValues(transform: string): { x: number; y: number } {
-  // Regular expression to match the translate values
   const match = transform.match(/translate\(([^,]+),?\s*([^)]+)?\)/);
 
-  // If there's a match, extract x and y values
   if (match) {
-    const x = parseFloat(match[1]); // First captured group is x
-    const y = match[2] ? parseFloat(match[2]) : 0; // Second group is y, default to 0 if missing
+    const x = parseFloat(match[1]);
+    // default to 0 if missing
+    const y = match[2] ? parseFloat(match[2]) : 0;
 
     return { x, y };
   }
 
-  // Default to 0 if no translate function is found
   return { x: 0, y: 0 };
 }
 
@@ -148,7 +136,7 @@ export async function importBarcodeSvgElement(
         return;
       }
 
-      const tspan = document.createElementNS(SVG_NS, 'tspan');
+      const tspan = document.createElementNS(NS.SVG, 'tspan');
 
       tspan.setAttribute('x', `${Number.parseFloat(text.getAttribute('x')) + transform.x}`);
       tspan.setAttribute('y', `${Number.parseFloat(text.getAttribute('y')) + transform.y}`);
@@ -181,7 +169,13 @@ export async function importBarcodeSvgElement(
   doc.remove();
 
   svgCanvas.selectOnly(group);
-  batchCmd.addSubCommand(svgCanvas.groupSelectedElements(true));
+
+  const groupElementSubCmd = svgCanvas.groupSelectedElements(true);
+
+  if (groupElementSubCmd) {
+    batchCmd.addSubCommand(groupElementSubCmd);
+  }
+
   svgCanvas.zoomSvgElem(10);
 
   if (!batchCmd.isEmpty()) {
@@ -190,36 +184,41 @@ export async function importBarcodeSvgElement(
 }
 
 /* QR Code */
-function handleQrCodeInvertColor(svgString: string, size: string): string {
-  const svgElement = document.createElementNS(SVG_NS, 'svg');
+function handleQrCodeInvertColor(svgElement: SVGElement): string {
+  const size = svgElement.getAttribute('viewBox')?.split(' ')[2];
+  const svg = document.createElementNS(NS.SVG, 'svg');
 
-  svgElement.setAttribute('xmlns', SVG_NS);
-  svgElement.setAttribute('height', '1000');
-  svgElement.setAttribute('width', '1000');
-  svgElement.setAttribute('viewBox', `0 0 ${size} ${size}`);
+  svg.setAttribute('xmlns', NS.SVG);
+  svg.setAttribute('height', '1000');
+  svg.setAttribute('width', '1000');
+  svg.setAttribute('viewBox', `0 0 ${size} ${size}`);
 
-  const fullBlackPath = document.createElementNS(SVG_NS, 'path');
+  const [backgroundPath, codePath] = extractSvgTags(
+    new XMLSerializer().serializeToString(svgElement),
+    'path'
+  );
+  const subtractedPath = svgCanvas.pathActions.booleanOperation(backgroundPath, codePath, 2);
+  const path = document.createElementNS(NS.SVG, 'path');
 
-  fullBlackPath.setAttribute('fill', 'black');
-  fullBlackPath.setAttribute('d', `M0 0h${size}v${size}H0z`);
+  path.setAttribute('fill', 'black');
+  path.setAttribute('d', subtractedPath);
 
-  const codePathData = extractSvgTags(svgString, 'path')[1];
-  const pathData = svgCanvas.pathActions.booleanOperation(fullBlackPath.outerHTML, codePathData, 2);
-  const pathElement = document.createElementNS(SVG_NS, 'path');
+  svg.appendChild(path);
 
-  pathElement.setAttribute('fill', 'black');
-  pathElement.setAttribute('d', pathData);
-  pathElement.setAttribute('shape-rendering', 'crispEdges');
+  const svgString = new XMLSerializer().serializeToString(svg);
 
-  svgElement.appendChild(pathElement);
+  svg.remove();
 
-  return new XMLSerializer().serializeToString(svgElement);
+  return svgString;
 }
 
-export function importQrCodeSvgElement(svgElement: SVGElement, isInvert = false): void {
-  const svgString = new XMLSerializer().serializeToString(svgElement);
-  const size = svgElement.getAttribute('viewBox')?.split(' ')[2];
-  const svg = isInvert ? handleQrCodeInvertColor(svgString, size) : svgString;
+export async function importQrCodeSvgElement(
+  svgElement: SVGElement,
+  isInvert = false
+): Promise<void> {
+  const svgString = isInvert
+    ? handleQrCodeInvertColor(svgElement)
+    : new XMLSerializer().serializeToString(svgElement);
 
-  importSvgString(svg, { type: 'layer' });
+  await importSvgString(svgString, { type: 'layer' });
 }

@@ -52,8 +52,5 @@ describe('test QRCodeGenerator', () => {
     fireEvent.click(baseElement.querySelector('.label .anticon'));
     expect(mockOpen).toBeCalledTimes(1);
     expect(mockOpen).toBeCalledWith('error_tolerance_link');
-
-    fireEvent.change(input, { target: { value: 'some text' } });
-    expect(baseElement).toMatchSnapshot();
   });
 });

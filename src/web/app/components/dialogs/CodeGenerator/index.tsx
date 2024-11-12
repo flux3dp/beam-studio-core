@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import { Flex, Radio } from 'antd';
 import useI18n from 'helpers/useI18n';
 import DraggableModal from 'app/widgets/DraggableModal';
@@ -23,19 +23,22 @@ export default function CodeGenerator({ onClose }: Props): JSX.Element {
   const [tabKey, setTabKey] = useState('qrcode');
   const [isInvert, setIsInvert] = useState(false);
   const [text, setText] = useState('');
+  const generatorRef = useRef<HTMLDivElement>(null);
 
   const handleOk = async () => {
-    const svgElement = document.querySelector<SVGElement>(`#${tabKey}-container svg`);
+    const svgElement = generatorRef.current?.querySelector('svg');
 
     if (!svgElement) {
       return;
     }
 
     if (tabKey === 'qrcode') {
-      importQrCodeSvgElement(svgElement, isInvert);
+      await importQrCodeSvgElement(svgElement, isInvert);
     } else {
       await importBarcodeSvgElement(svgElement, isInvert);
     }
+
+    svgElement.remove();
 
     onClose();
   };
@@ -51,6 +54,7 @@ export default function CodeGenerator({ onClose }: Props): JSX.Element {
   const renderContent = () =>
     tabKey === 'qrcode' ? (
       <QRCodeGenerator
+        ref={generatorRef}
         isInvert={isInvert}
         setIsInvert={setIsInvert}
         text={text}
@@ -58,6 +62,7 @@ export default function CodeGenerator({ onClose }: Props): JSX.Element {
       />
     ) : (
       <BarcodeGenerator
+        ref={generatorRef}
         isInvert={isInvert}
         setIsInvert={setIsInvert}
         text={text}
@@ -65,17 +70,15 @@ export default function CodeGenerator({ onClose }: Props): JSX.Element {
       />
     );
 
-  const titleStyle = { lineHeight: '24px', marginBottom: 20 };
-
   return (
     <DraggableModal
       open
       centered
       title={
-        <Flex gap={12} style={titleStyle}>
+        <Flex gap={12} className={styles['title-flex']}>
           <div>{tTools.code_generator}</div>
           <Radio.Group
-            style={{ fontWeight: 'normal' }}
+            className={styles['fw-n']}
             size="small"
             optionType="button"
             options={options}

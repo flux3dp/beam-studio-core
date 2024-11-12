@@ -94,7 +94,7 @@ export default interface ISVGCanvas {
   getTempGroup: () => SVGGElement;
   getTitle: () => string;
   getZoom: () => number; // Old getter for current_zoom
-  groupSelectedElements: (isSubCmd?: boolean) => BaseHistoryCommand;
+  groupSelectedElements: (isSubCmd?: boolean) => BaseHistoryCommand | void;
   handleGenerateSensorArea: (evt: MouseEvent) => void;
   prepareSvg: (newDoc: Document) => void;
   importSvgString(
