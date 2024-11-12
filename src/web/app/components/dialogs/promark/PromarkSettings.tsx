@@ -78,10 +78,10 @@ const PromarkSettings = ({ device, initData, onClose }: Props): JSX.Element => {
         galvoParameters
       );
       await deviceMaster.setField(width, newField);
-      await deviceMaster.setLensCorrection(newGalvo);
+      await deviceMaster.setGalvoParameters(newGalvo);
     } else {
       await deviceMaster.setField(width, field);
-      await deviceMaster.setLensCorrection(galvoParameters);
+      await deviceMaster.setGalvoParameters(galvoParameters);
     }
   };
 
@@ -123,7 +123,7 @@ const PromarkSettings = ({ device, initData, onClose }: Props): JSX.Element => {
       try {
         if (isPreviewing) await deviceMaster.stopFraming();
         await deviceMaster.setField(width, initData.field || { offsetX: 0, offsetY: 0, angle: 0 });
-        await deviceMaster.setLensCorrection(
+        await deviceMaster.setGalvoParameters(
           initData.galvoParameters || {
             x: { scale: 100, bulge: 1, skew: 1, trapezoid: 1 },
             y: { scale: 100, bulge: 1, skew: 1, trapezoid: 1 },

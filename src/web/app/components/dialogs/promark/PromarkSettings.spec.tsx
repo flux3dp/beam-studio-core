@@ -15,14 +15,14 @@ jest.mock('helpers/check-device-status', () => ({
   checkDeviceStatus: (...args) => mockCheckDeviceStatus(...args),
 }));
 
-const mockSetLensCorrection = jest.fn();
+const mockSetGalvoParameters = jest.fn();
 const mockSetField = jest.fn();
 const mockStartFraming = jest.fn();
 const mockStopFraming = jest.fn();
 const mockDoPromarkCalibration = jest.fn();
 const mockSelect = jest.fn();
 jest.mock('helpers/device-master', () => ({
-  setLensCorrection: (...args) => mockSetLensCorrection(...args),
+  setGalvoParameters: (...args) => mockSetGalvoParameters(...args),
   setField: (...args) => mockSetField(...args),
   startFraming: (...args) => mockStartFraming(...args),
   stopFraming: (...args) => mockStopFraming(...args),
@@ -54,6 +54,14 @@ jest.mock('helpers/device/promark/calibration', () => ({
   loadTaskToSwiftray: (...args) => mockLoadTaskToSwiftray(...args),
 }));
 
+const mockApplyRedDot = jest.fn();
+jest.mock(
+  'helpers/device/promark/apply-red-dot',
+  () =>
+    (...args) =>
+      mockApplyRedDot(...args)
+);
+
 const mockOnClose = jest.fn();
 
 const mockDevice = {
@@ -79,25 +87,41 @@ describe('test PromarkSettings', () => {
     const { findByText } = render(
       <PromarkSettings device={mockDevice} initData={{}} onClose={mockOnClose} />
     );
-    mockCalculateRedDotTransform.mockReturnValue('transform');
     mockGenerateCalibrationTaskString.mockReturnValue('task');
     const previewBtn = await findByText('Preview');
     expect(mockStartFraming).not.toBeCalled();
     expect(mockLoadTaskToSwiftray).not.toBeCalled();
-    await act(() => fireEvent.click(previewBtn));
-    expect(mockSetLensCorrection).toBeCalledTimes(1);
-    expect(mockSetLensCorrection).toBeCalledWith({
-      x: { scale: 100, bulge: 1, skew: 1, trapezoid: 1 },
-      y: { scale: 100, bulge: 1, skew: 1, trapezoid: 1 },
+    mockApplyRedDot.mockReturnValue({
+      field: 'mock-field',
+      galvoParameters: 'mock-galvoParameters',
     });
+
+    await act(() => fireEvent.click(previewBtn));
+    expect(mockApplyRedDot).toBeCalledTimes(1);
+    expect(mockApplyRedDot).toBeCalledWith(
+      {
+        offsetX: 0,
+        offsetY: 0,
+        scaleX: 1,
+        scaleY: 1,
+      },
+      {
+        offsetX: 0,
+        offsetY: 0,
+        angle: 0,
+      },
+      {
+        x: { scale: 100, bulge: 1, skew: 1, trapezoid: 1 },
+        y: { scale: 100, bulge: 1, skew: 1, trapezoid: 1 },
+      }
+    );
+    expect(mockSetGalvoParameters).toBeCalledTimes(1);
+    expect(mockSetGalvoParameters).toBeCalledWith('mock-galvoParameters');
     expect(mockSetField).toBeCalledTimes(1);
-    expect(mockSetField).toBeCalledWith(150, { offsetX: 0, offsetY: 0, angle: 0 });
-    expect(mockCalculateRedDotTransform).toBeCalledTimes(1);
-    expect(mockCalculateRedDotTransform).toBeCalledWith(150, 0, 0, 1, 1);
+    expect(mockSetField).toBeCalledWith(150, 'mock-field');
     expect(mockGenerateCalibrationTaskString).toBeCalledTimes(1);
     expect(mockGenerateCalibrationTaskString).toBeCalledWith({
       width: 150,
-      transform: 'transform',
     });
     expect(mockLoadTaskToSwiftray).toBeCalledTimes(1);
     expect(mockLoadTaskToSwiftray).toBeCalledWith('task', 'fpm1');
@@ -149,7 +173,7 @@ describe('test PromarkSettings', () => {
     expect(mockPromarkUpdate).toBeCalledWith('123', {
       field: { offsetX: 0, offsetY: 0, angle: 0 },
       redDot: { offsetX: 0, offsetY: 0, scaleX: 1, scaleY: 1 },
-      lensCorrection: {
+      galvoParameters: {
         x: { scale: 100, bulge: 1, skew: 1, trapezoid: 1 },
         y: { scale: 100, bulge: 1, skew: 1, trapezoid: 1 },
       },

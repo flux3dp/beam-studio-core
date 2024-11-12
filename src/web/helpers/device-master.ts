@@ -408,14 +408,12 @@ class DeviceMaster {
       }
 
       if (promarkModels.has(device.info.model)) {
-        const { galvoParameters: lensCorrection, field } = promarkDataStore.get(
-          device.info.serial
-        ) as PromarkStore;
+        const { galvoParameters, field } = promarkDataStore.get(device.info.serial) as PromarkStore;
         const { width } = getWorkarea(device.info.model);
         await this.setField(width, field);
-        console.log('Applying', lensCorrection);
-        if (lensCorrection) {
-          await this.setLensCorrection(lensCorrection);
+        console.log('Applying', galvoParameters);
+        if (galvoParameters) {
+          await this.setGalvoParameters(galvoParameters);
         }
       }
       Progress.popById('select-device');
@@ -1206,7 +1204,7 @@ class DeviceMaster {
     return controlSocket.addTask(controlSocket.setField, worksize, fieldData);
   }
 
-  async setLensCorrection(data: GalvoParameters) {
+  async setGalvoParameters(data: GalvoParameters) {
     const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.setLensCorrection, data.x, data.y);
   }

@@ -245,7 +245,7 @@ class FramingTaskManager extends EventEmitter {
         );
         const { width } = getWorkarea(this.device.model);
         await deviceMaster.setField(width, newField);
-        await deviceMaster.setLensCorrection(newGalvo);
+        await deviceMaster.setGalvoParameters(newGalvo);
       }
       this.hasAppliedRedLight = true;
     }
