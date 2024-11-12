@@ -34,8 +34,8 @@ export const loadTaskToSwiftray = async (scene: string, model: WorkAreaModel): P
 
 export const generateCalibrationTaskString = async ({
   width,
-  power = 20,
-  speed = 1000,
+  power = 100,
+  speed = 350,
 }: {
   width: number;
   power?: number;

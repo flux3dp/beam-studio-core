@@ -137,7 +137,7 @@ const PromarkCalibration = ({ device: { serial, model }, onClose }: Props): JSX.
       <Instruction
         onClose={() => onClose(false)}
         title={<Title title={tCali.put_paper} link={tCali.promark_help_link} />}
-        steps={[tCali.put_paper_promark_1]}
+        steps={[tCali.put_paper_promark_1, tCali.put_paper_promark_2]}
         buttons={[
           {
             label: tCali.back,
