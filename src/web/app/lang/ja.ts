@@ -2008,7 +2008,7 @@ const lang: ILang = {
     font_size: 'フォントサイズ',
     hide_text: 'テキストを隠す',
     barcode: {
-      invalid_value: 'Il valore non è valido per il formato selezionato.',
+      invalid_value: '選択した形式に対して値が無効です。',
     },
   },
 };

@@ -2005,7 +2005,7 @@ const lang: ILang = {
     font_size: 'Teckensnittsstorlek',
     hide_text: 'Dölj text',
     barcode: {
-      invalid_value: 'O valor é inválido para o formato selecionado.',
+      invalid_value: 'Värdet är ogiltigt för det valda formatet.',
     },
   },
 };
