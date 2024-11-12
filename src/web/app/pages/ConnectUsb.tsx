@@ -5,9 +5,8 @@ import classNames from 'classnames';
 
 import useI18n from 'helpers/useI18n';
 
+import { ModelSupportUsb } from 'app/actions/beambox/constant';
 import styles from './ConnectUsb.module.scss';
-
-type ModelSupportUsb = 'ado1' | 'fhexa1' | 'fpm1';
 
 export default function ConnectUsb(): JSX.Element {
   const { initialize: t } = useI18n();

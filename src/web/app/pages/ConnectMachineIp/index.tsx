@@ -38,7 +38,6 @@ const ConnectMachineIp = (): JSX.Element => {
   const lang = useI18n();
   const [ipValue, setIpValue] = useState('');
   const [state, setState] = useState<State>(initialState);
-  const [swiftrayReadyState, setSwiftrayReadyState] = useState(swiftrayClient.readyState);
   const countDown = useRef(0);
   const intervalId = useRef(0);
   const discoveredDevicesRef = useRef(Array.of<IDeviceInfo>());
@@ -174,13 +173,15 @@ const ConnectMachineIp = (): JSX.Element => {
   };
 
   const checkSwiftrayConnection = () => {
+    const { readyState } = swiftrayClient;
+
     updateTestState({ testState: TestState.IP_TESTING });
 
-    if (swiftrayReadyState === WebSocket.OPEN) {
+    if (readyState === WebSocket.OPEN) {
       return true;
     }
 
-    if (swiftrayReadyState === WebSocket.CLOSED) {
+    if (readyState === WebSocket.CLOSED) {
       updateTestState({ testState: TestState.IP_UNREACHABLE });
       alertCaller.popUp({
         messageIcon: 'warning',
@@ -242,18 +243,14 @@ const ConnectMachineIp = (): JSX.Element => {
   };
 
   useEffect(() => {
-    checkRpiIp().then((ip) => ip && setIpValue(ip));
-    const swiftrayIntervalId = setInterval(() => {
-      setSwiftrayReadyState(swiftrayClient.readyState);
-    }, SWIFTRAY_RECONNECT_INTERVAL);
-
     if (isUsb) {
       handleStartTest();
+    } else {
+      checkRpiIp().then((ip) => ip && setIpValue(ip));
     }
 
     return () => {
       clearInterval(intervalId.current);
-      clearInterval(swiftrayIntervalId);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isUsb]);
@@ -324,11 +321,6 @@ const ConnectMachineIp = (): JSX.Element => {
 
   const handleInputKeyDown: KeyboardEventHandler = ({ key }) => {
     if (key === 'Enter') {
-      if (isPromark) {
-        handleStartTestForPromark();
-        return;
-      }
-
       handleStartTest();
     }
   };

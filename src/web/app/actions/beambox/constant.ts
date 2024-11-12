@@ -1,4 +1,6 @@
+export type ModelSupportUsb = 'ado1' | 'fhexa1' | 'fpm1';
 export const modelsSupportUsb = new Set(['fhexa1', 'ado1', 'fpm1']);
+
 export const adorModels = new Set(['ado1', 'fad1']);
 export const promarkModels = new Set(['fpm1']);
 export enum PreviewSpeedLevel {

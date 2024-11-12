@@ -26,14 +26,13 @@ const renderIcon = (url?: string): JSX.Element => {
   return <img className={styles.icon} src={url} />;
 };
 
-// color according to antd [design](https://ant.design/components/alert)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const messageIconMap: Record<MessageIcon, (props: any) => JSX.Element> = {
-  success: () => <CheckCircleFilled style={{ fontSize: 28, color: '#52c41a' }} />,
-  info: () => <InfoCircleFilled style={{ fontSize: 28, color: '#1677ff' }} />,
-  warning: () => <ExclamationCircleFilled style={{ fontSize: 28, color: '#faad14' }} />,
-  error: () => <CloseCircleFilled style={{ fontSize: 28, color: '#ff4d4f' }} />,
-  notice: () => <ExclamationCircleFilled style={{ fontSize: 28, color: '#faad14' }} />,
+  success: () => <CheckCircleFilled style={{ fontSize: 28, color: '#4fbb30' }} />,
+  info: () => <InfoCircleFilled style={{ fontSize: 28, color: '#1890ff' }} />,
+  warning: () => <ExclamationCircleFilled style={{ fontSize: 28, color: '#faa22d' }} />,
+  error: () => <CloseCircleFilled style={{ fontSize: 28, color: '#fe4348' }} />,
+  notice: () => <ExclamationCircleFilled style={{ fontSize: 28, color: '#faa22d' }} />,
 };
 
 const renderMessage = (message: string | React.ReactNode, messageIcon = ''): JSX.Element => {
