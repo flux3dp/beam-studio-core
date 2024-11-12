@@ -30,7 +30,6 @@ import styles from './index.module.scss';
 import { initialState, State } from './state';
 import Hint from './Hint';
 
-const SWIFTRAY_RECONNECT_INTERVAL = 5000;
 const MACHINE_CONNECTION_TIMEOUT = 30;
 
 // TODO: add test
