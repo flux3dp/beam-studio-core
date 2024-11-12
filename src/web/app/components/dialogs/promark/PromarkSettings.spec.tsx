@@ -96,7 +96,7 @@ describe('test PromarkSettings', () => {
       galvoParameters: 'mock-galvoParameters',
     });
 
-    await act(() => fireEvent.click(previewBtn));
+    await act(async () => fireEvent.click(previewBtn));
     expect(mockApplyRedDot).toBeCalledTimes(1);
     expect(mockApplyRedDot).toBeCalledWith(
       {
@@ -127,7 +127,7 @@ describe('test PromarkSettings', () => {
     expect(mockLoadTaskToSwiftray).toBeCalledWith('task', 'fpm1');
     expect(mockStartFraming).toBeCalledTimes(1);
     expect(mockStopFraming).not.toBeCalled();
-    await act(() => fireEvent.click(previewBtn));
+    await act(async () => fireEvent.click(previewBtn));
     expect(mockStopFraming).toBeCalledTimes(1);
   });
 
