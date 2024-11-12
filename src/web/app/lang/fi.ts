@@ -2004,7 +2004,7 @@ const lang: ILang = {
     font: 'Fontti',
     font_size: 'Fontin koko',
     hide_text: 'Piilota teksti',
-    bbarcode: {
+    barcode: {
       invalid_value: 'Arvo ei kelpaa valittuun muotoon.',
     },
   },
