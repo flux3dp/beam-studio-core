@@ -44,7 +44,7 @@ const PromarkSettings = ({ device, initData, onClose }: Props): JSX.Element => {
       y: { scale: 100, bulge: 1, skew: 1, trapezoid: 1 },
     }
   );
-  const [parameters, setParameters] = useState<MarkParameters>({ power: 20, speed: 1000 });
+  const [parameters, setParameters] = useState<MarkParameters>({ power: 100, speed: 350 });
   const { power, speed } = parameters;
   const { width } = useMemo(() => getWorkarea(model), [model]);
   const [isPreviewing, setIsPreviewing] = useState(false);

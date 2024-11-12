@@ -1655,6 +1655,7 @@ export interface ILang {
     put_paper_step2: string;
     put_paper_step3: string;
     put_paper_promark_1: string;
+    put_paper_promark_2: string;
     solve_pnp_title: string;
     solve_pnp_step1: string;
     solve_pnp_step2: string;
