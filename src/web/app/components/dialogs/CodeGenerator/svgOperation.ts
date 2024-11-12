@@ -180,7 +180,6 @@ export async function importBarcodeSvgElement(
   svgCanvas.zoomSvgElem(10);
 
   if (!batchCmd.isEmpty()) {
-    console.log('batchCmd', batchCmd);
     undoManager.addCommandToHistory(batchCmd);
   }
 }
