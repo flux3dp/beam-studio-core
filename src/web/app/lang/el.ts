@@ -95,6 +95,7 @@ const lang: ILang = {
       import_ador_printing_example_full: 'Παράδειγμα εκτύπωσης Ador - Πλήρες χρώμα',
       import_acrylic_focus_probe: 'Δοκιμή εστίασης ακρυλικού - 3mm',
       import_promark_example: 'Παράδειγμα Promark',
+      import_hexa_example: 'Παράδειγμα HEXA',
       export_to: 'Εξαγωγή σε...',
       export_flux_task: 'Εξαγωγή εργασίας FLUX',
       export_BVG: 'BVG',
@@ -373,6 +374,7 @@ const lang: ILang = {
       turn_off_machine: 'Απενεργοποιήστε το μηχάνημα.',
       turn_on_machine: 'Ενεργοποιήστε το μηχάνημα.',
       wait_for_turning_on: 'Πατήστε "Επόμενο" μετά την ολοκλήρωση της διαδικασίας εκκίνησης και αφού έχετε μπει στην κύρια οθόνη.',
+      connect_camera: 'Συνδέστε την κάμερα της μηχανής στον υπολογιστή σας με καλώδιο USB.',
     },
     connect_machine_ip: {
       check_usb: 'Έλεγχος σύνδεσης USB',
@@ -388,6 +390,12 @@ const lang: ILang = {
       retry: 'Επανάληψη',
       succeeded_message: 'Επιτυχής σύνδεση 🎉',
       finish_setting: 'Ξεκινήστε τη δημιουργία!',
+      check_swiftray_connection: 'Έλεγχος σύνδεσης διακομιστή',
+      check_swiftray_connection_unreachable: 'ο διακομιστής δεν είναι προσβάσιμος',
+      promark_hint: 'Εάν αποτύχετε επανειλημμένα να συνδεθείτε μέσω USB, ανατρέξτε στο <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/11195313944975">άρθρο του Κέντρου βοήθειας</a>.',
+      alert: {
+        swiftray_connection_error: 'Αδύνατη η σύνδεση με τον διακομιστή. Επανεκκινήστε το Beam Studio και δοκιμάστε ξανά.',
+      },
     },
     connecting: 'Σύνδεση...',
     setting_completed: {

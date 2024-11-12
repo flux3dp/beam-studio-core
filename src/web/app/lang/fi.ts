@@ -95,6 +95,7 @@ const lang: ILang = {
       import_ador_printing_example_full: 'Adorin tulostuksen esimerkki - Täysvärinen',
       import_acrylic_focus_probe: 'Akryylitarkkuustesti - 3 mm',
       import_promark_example: 'Promark-esimerkki',
+      import_hexa_example: 'Esimerkki HEXA:sta',
       export_to: 'Vie...',
       export_flux_task: 'FLUX-tehtävä',
       export_BVG: 'BVG',
@@ -373,6 +374,7 @@ const lang: ILang = {
       turn_off_machine: 'Sammuta kone.',
       turn_on_machine: 'Käynnistä kone.',
       wait_for_turning_on: 'Paina "Seuraava" kun käynnistys on valmis ja olet päävalikossa.',
+      connect_camera: 'Yhdistä laitteen kamera tietokoneeseesi USB-kaapelilla.',
     },
     connect_machine_ip: {
       check_usb: 'Tarkista USB-yhteys',
@@ -388,6 +390,12 @@ const lang: ILang = {
       retry: 'Yritä uudelleen',
       succeeded_message: 'Yhteys muodostettu onnistuneesti 🎉',
       finish_setting: 'Aloita luominen!',
+      check_swiftray_connection: 'Tarkistetaan yhteys palvelimeen',
+      check_swiftray_connection_unreachable: 'palvelin ei ole saavutettavissa',
+      promark_hint: 'Jos USB-yhteyden muodostaminen epäonnistuu toistuvasti, katso <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/11195313944975">Ohjekeskuksen artikkeli</a>.',
+      alert: {
+        swiftray_connection_error: 'Yhteyttä palvelimeen ei voitu muodostaa. Käynnistä Beam Studio uudelleen ja yritä uudelleen.',
+      },
     },
     connecting: 'Yhdistetään...',
     setting_completed: {

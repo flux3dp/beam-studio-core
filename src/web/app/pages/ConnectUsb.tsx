@@ -1,36 +1,71 @@
+/* eslint-disable @typescript-eslint/no-shadow */
+import React from 'react';
+import { useLocation } from 'react-router-dom';
 import classNames from 'classnames';
-import React, { useMemo } from 'react';
 
 import useI18n from 'helpers/useI18n';
 
+import { ModelSupportUsb } from 'app/actions/beambox/constant';
 import styles from './ConnectUsb.module.scss';
 
-const ConnectUsb = (): JSX.Element => {
-  const lang = useI18n().initialize;
+export default function ConnectUsb(): JSX.Element {
+  const { initialize: t } = useI18n();
+  const { search } = useLocation();
+  const model = React.useMemo(
+    () => new URLSearchParams(search).get('model'),
+    [search]
+  ) as ModelSupportUsb;
 
-  const { model } = useMemo(() => {
-    const queryString = window.location.hash.split('?')[1] || '';
-    const urlParams = new URLSearchParams(queryString);
-    return {
-      model: urlParams.get('model'),
-    };
-  }, []);
+  const renderInformations: Record<ModelSupportUsb, { title: string; steps: Array<string> }> = {
+    ado1: {
+      title: 'Ador',
+      steps: [
+        t.connect_usb.turn_off_machine,
+        t.connect_usb.tutorial1,
+        t.connect_usb.turn_on_machine,
+        t.connect_usb.wait_for_turning_on,
+      ],
+    },
+    fhexa1: {
+      title: 'HEXA',
+      steps: [t.connect_usb.tutorial1, t.connect_usb.tutorial2],
+    },
+    fpm1: {
+      title: 'Promark Series',
+      steps: [t.connect_usb.tutorial1, t.connect_usb.connect_camera, t.connect_usb.tutorial2],
+    },
+  };
 
   const handleNext = () => {
     const urlParams = new URLSearchParams({ model, usb: '1' });
     const queryString = urlParams.toString();
+
     window.location.hash = `#initialize/connect/connect-machine-ip?${queryString}`;
   };
+
+  const renderStep = (model: ModelSupportUsb) =>
+    model ? (
+      <div className={classNames(styles.contents, styles.tutorial)}>
+        <div className={styles.subtitle}>{renderInformations[model].title}</div>
+        <div className={styles.contents}>
+          {renderInformations[model].steps.map((step, index) => (
+            <div key={`usb-step-${index + 1}`}>
+              {index + 1}. {step}
+            </div>
+          ))}
+        </div>
+      </div>
+    ) : null;
 
   return (
     <div className={styles.container}>
       <div className={styles['top-bar']} />
       <div className={styles.btns}>
         <div className={styles.btn} onClick={() => window.history.back()}>
-          {lang.back}
+          {t.back}
         </div>
         <div className={classNames(styles.btn, styles.primary)} onClick={handleNext}>
-          {lang.next}
+          {t.next}
         </div>
       </div>
       <div className={styles.main}>
@@ -40,23 +75,10 @@ const ConnectUsb = (): JSX.Element => {
           <div className={classNames(styles.circle, styles.c2)} />
         </div>
         <div className={styles.text}>
-          <div className={styles.title}>{lang.connect_usb.title}</div>
-          <div className={classNames(styles.contents, styles.tutorial)}>
-            <div className={styles.subtitle}>HEXA</div>
-            <div>1. {lang.connect_usb.tutorial1}</div>
-            <div>2. {lang.connect_usb.tutorial2}</div>
-          </div>
-          <div className={classNames(styles.contents, styles.tutorial)}>
-            <div className={styles.subtitle}>Ador</div>
-            <div>1. {lang.connect_usb.turn_off_machine}</div>
-            <div>2. {lang.connect_usb.tutorial1}</div>
-            <div>3. {lang.connect_usb.turn_on_machine}</div>
-            <div>4. {lang.connect_usb.wait_for_turning_on}</div>
-          </div>
+          <div className={styles.title}>{t.connect_usb.title}</div>
+          {renderStep(model)}
         </div>
       </div>
     </div>
   );
-};
-
-export default ConnectUsb;
+}

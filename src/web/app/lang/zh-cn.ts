@@ -95,6 +95,7 @@ const lang: ILang = {
       import_ador_printing_example_full: 'Ador 打印范例 - 全彩',
       import_acrylic_focus_probe: '压克力对焦尺 - 3mm',
       import_promark_example: 'Promark 范例',
+      import_hexa_example: 'HEXA 范例',
       export_to: '汇出成...',
       export_flux_task: 'FLUX 工作',
       export_BVG: 'BVG',
@@ -376,6 +377,7 @@ const lang: ILang = {
       turn_off_machine: '关闭机器',
       turn_on_machine: '打开机器',
       wait_for_turning_on: "启动过程完成并进入主屏幕后，点击 '下一步'。",
+      connect_camera: '将机器的摄像头与您的电脑以 USB 线连接。',
     },
     connect_machine_ip: {
       check_usb: '确认 USB 连线',
@@ -391,6 +393,12 @@ const lang: ILang = {
       retry: '重试',
       succeeded_message: '连线成功 🎉',
       finish_setting: '开始创作',
+      check_swiftray_connection: '正在检查服务器连接',
+      check_swiftray_connection_unreachable: '服务器无法访问',
+      promark_hint: '如果您多次无法通过USB连接，请参考<a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/11195313944975">帮助中心的文章</a>。',
+      alert: {
+        swiftray_connection_error: '无法连接到服务器。请重新启动Beam Studio并重试。',
+      },
     },
     connecting: '连接中',
     setting_completed: {

@@ -1,12 +1,14 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { IButton } from './IButton';
 
+export type MessageIcon = 'notice' | 'error' | 'info' | 'success' | 'warning';
+
 export interface IAlert {
   id?: string;
   key?: number;
   type?: string;
   message: string | JSX.Element;
-  messageIcon?: string;
+  messageIcon?: MessageIcon;
   caption?: string;
   iconUrl?: string;
   children?: Element;

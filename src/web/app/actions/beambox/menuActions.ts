@@ -48,6 +48,7 @@ const getExampleFileName = (key: string) => {
       focus_probe: 'examples/focus_probe.bvg',
       hello_beambox: 'examples/hello-beambox.bvg',
       promark_example: 'examples/promark_example.bvg',
+      hexa_example: 'examples/hexa_example.bvg',
     }[key];
   }
 
@@ -63,6 +64,7 @@ const getExampleFileName = (key: string) => {
     ador_example_printing_full: 'examples/ador_example_printing_full.bvg',
     ador_example_printing_single: 'examples/ador_example_printing_single.bvg',
     promark_example: 'examples/promark_example.bvg',
+    hexa_example: 'examples/hexa_example.bvg',
   }[key];
 };
 
@@ -138,6 +140,7 @@ export default {
   IMPORT_HELLO_BEAMBOX: (): Promise<void> => loadExampleFile(getExampleFileName('hello_beambox')),
   IMPORT_EXAMPLE_PROMARK: (): Promise<void> =>
     loadExampleFile(getExampleFileName('promark_example')),
+  IMPORT_EXAMPLE_HEXA: (): Promise<void> => loadExampleFile(getExampleFileName('hexa_example')),
   SAVE_SCENE: (): Promise<boolean> => FileExportHelper.saveFile(),
   SAVE_AS: (): Promise<boolean> => FileExportHelper.saveAsFile(),
   SAVE_TO_CLOUD: (): Promise<boolean> => FileExportHelper.saveToCloud(),

@@ -1,5 +1,5 @@
-@use "styles/variables" as variables;
-@use "./connection_setting_page" as connectionSettingPage;
+@use 'styles/variables' as variables;
+@use './connection_setting_page' as connectionSettingPage;
 
 .container {
   @include connectionSettingPage.container;
@@ -20,7 +20,6 @@
   }
 
   .main {
-
     @media screen and (max-width: 600px) {
       padding: 0;
       margin: 0 8px;
@@ -35,13 +34,13 @@
         height: calc(100vh - 220px);
         margin-top: 0px;
         flex-direction: column;
-        justify-content: space-between;
+        gap: 8px 0;
         align-items: center;
       }
 
       .btn {
         width: 152px;
-        height: 140px;
+        height: 152px;
         background-color: #ffffff;
         border: 2px solid #ffffff;
         border-radius: 12px;
@@ -67,6 +66,8 @@
           gap: 28px;
           font-size: 16px;
           text-align: start;
+          min-width: 280px;
+          max-width: 320px;
         }
 
         .label {

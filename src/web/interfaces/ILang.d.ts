@@ -88,6 +88,7 @@ export interface ILang {
       import_ador_printing_example_full: string;
       import_acrylic_focus_probe: string;
       import_promark_example: string;
+      import_hexa_example: string;
       export_to: string;
       export_flux_task: string;
       export_BVG: string;
@@ -369,6 +370,7 @@ export interface ILang {
       turn_off_machine: string;
       turn_on_machine: string;
       wait_for_turning_on: string;
+      connect_camera: string;
     };
     connect_machine_ip: {
       check_usb: string;
@@ -384,6 +386,12 @@ export interface ILang {
       retry: string;
       succeeded_message: string;
       finish_setting: string;
+      check_swiftray_connection: string;
+      check_swiftray_connection_unreachable: string;
+      promark_hint: string;
+      alert: {
+        swiftray_connection_error: string;
+      };
     };
     connecting: string;
     setting_completed: {

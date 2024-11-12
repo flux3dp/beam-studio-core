@@ -18,6 +18,21 @@ jest.mock('helpers/useI18n', () => () => ({
     back: 'Back',
   },
 }));
+jest.mock('react-router-dom', () => {
+  // Require the original module to not be mocked...
+  const originalModule = jest.requireActual('react-router-dom');
+
+  return {
+    __esModule: true,
+    ...originalModule,
+    useLocation: jest.fn(() => ({
+      pathname: '/initialize/connect/connect-usb',
+      search: '?model=ado1',
+      hash: '',
+      state: null,
+    })),
+  };
+});
 
 describe('test ConnectUsb', () => {
   test('should render correctly', () => {

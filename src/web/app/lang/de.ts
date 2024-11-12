@@ -95,6 +95,7 @@ const lang: ILang = {
       import_ador_printing_example_full: 'Beispiel für Ador Druck - Vollfarbe',
       import_acrylic_focus_probe: 'Acrylische Fokus-Sonde - 3mm',
       import_promark_example: 'Beispiel für Promark',
+      import_hexa_example: 'Beispiel für HEXA',
       export_to: 'Exportieren nach...',
       export_flux_task: 'FLUX-Datei',
       export_BVG: 'BVG',
@@ -376,6 +377,7 @@ const lang: ILang = {
       turn_off_machine: 'Schalten Sie Ihre Maschine aus.',
       turn_on_machine: 'Schalten Sie die Maschine ein.',
       wait_for_turning_on: "Klicken Sie auf 'Nächster', nachdem der Startvorgang abgeschlossen ist und Sie den Hauptbildschirm betreten haben.",
+      connect_camera: 'Verbinden Sie die Kamera der Maschine mit Ihrem Computer über ein USB-Kabel.',
     },
     connect_machine_ip: {
       check_usb: 'Überprüfen Sie die USB-Verbindung',
@@ -391,6 +393,12 @@ const lang: ILang = {
       retry: 'Wiederholen',
       succeeded_message: 'Erfolgreich verbunden 🎉',
       finish_setting: 'Einstellung beenden',
+      check_swiftray_connection: 'Serververbindung wird überprüft',
+      check_swiftray_connection_unreachable: 'Server nicht erreichbar',
+      promark_hint: 'Wenn Sie wiederholt keine Verbindung über USB herstellen können, lesen Sie den <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/11195313944975">Artikel im Hilfe-Center</a>.',
+      alert: {
+        swiftray_connection_error: 'Verbindung zum Server konnte nicht hergestellt werden. Starten Sie Beam Studio neu und versuchen Sie es erneut.',
+      },
     },
     connecting: 'Anschließen...',
     setting_completed: {

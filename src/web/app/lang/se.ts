@@ -95,6 +95,7 @@ const lang: ILang = {
       import_ador_printing_example_full: 'Exempel på Ador Utskrift - Flerfärg',
       import_acrylic_focus_probe: 'Akrylfokusprov - 3mm',
       import_promark_example: 'Exempel på Promark',
+      import_hexa_example: 'Exempel på HEXA',
       export_to: 'Exportera till...',
       export_flux_task: 'FLUX-uppgift',
       export_BVG: 'BVG',
@@ -373,6 +374,7 @@ const lang: ILang = {
       turn_off_machine: 'Stäng av maskinen.',
       turn_on_machine: 'Slå på maskinen.',
       wait_for_turning_on: 'Klicka på "Nästa" när startprocessen är klar och du har kommit till huvudskärmen.',
+      connect_camera: 'Anslut maskinens kamera till din dator med en USB-kabel.',
     },
     connect_machine_ip: {
       check_usb: 'Kontrollera USB-anslutning',
@@ -388,6 +390,12 @@ const lang: ILang = {
       retry: 'Försök igen',
       succeeded_message: 'Ansluten 🎉',
       finish_setting: 'Börja skapa!',
+      check_swiftray_connection: 'Kontrollerar serveranslutning',
+      check_swiftray_connection_unreachable: 'servern är inte tillgänglig',
+      promark_hint: 'Om du upprepade gånger inte kan ansluta via USB, se <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/11195313944975">Hjälpcentrets artikel</a>.',
+      alert: {
+        swiftray_connection_error: 'Det gick inte att ansluta till servern. Starta om Beam Studio och försök igen.',
+      },
     },
     connecting: 'Ansluter...',
     setting_completed: {

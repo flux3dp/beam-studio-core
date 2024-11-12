@@ -95,6 +95,7 @@ const lang: ILang = {
       import_ador_printing_example_full: 'Example of Ador Printing - Full Color',
       import_acrylic_focus_probe: 'Acrylic Focus Probe - 3mm',
       import_promark_example: 'Example of Promark',
+      import_hexa_example: 'Example of HEXA',
       export_to: 'Export To...',
       export_flux_task: 'FLUX task',
       export_BVG: 'BVG',
@@ -371,11 +372,12 @@ const lang: ILang = {
     connect_usb: {
       title: 'USB Connection',
       title_sub: ' (HEXA & Ador Only)',
-      tutorial1: 'Connect the machine with your computer with USB cable.',
+      tutorial1: 'Connect the machine to your computer with USB cable.',
       tutorial2: "Click 'Next'.",
       turn_off_machine: 'Turn off the machine.',
       turn_on_machine: 'Turn on the machine.',
       wait_for_turning_on: "Click 'Next' after the startup process is complete and you have entered the main screen.",
+      connect_camera: "Connect the machine's camera to your computer with USB cable.",
     },
     connect_machine_ip: {
       check_usb: 'Check USB Connection',
@@ -391,6 +393,12 @@ const lang: ILang = {
       retry: 'Retry',
       succeeded_message: 'Successfully connected 🎉',
       finish_setting: 'Start Creating!',
+      check_swiftray_connection: 'Checking server connection',
+      check_swiftray_connection_unreachable: 'server unreachable',
+      promark_hint: 'If you repeatedly fail to connect via USB, please refer to the <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/11195313944975">Help Center article</a>.',
+      alert: {
+        swiftray_connection_error: `Unable to connect to server. Please restart Beam Studio and try again.`,
+      },
     },
     connecting: 'Connecting...',
     setting_completed: {
