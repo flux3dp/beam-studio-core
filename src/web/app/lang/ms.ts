@@ -2004,6 +2004,9 @@ const lang: ILang = {
     font: 'Font',
     font_size: 'Saiz Font',
     hide_text: 'Sembunyikan Teks',
+    barcode: {
+      invalid_value: 'Nilai tidak sah untuk format yang dipilih.',
+    },
   },
 };
 

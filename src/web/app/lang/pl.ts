@@ -2007,6 +2007,9 @@ const lang: ILang = {
     font: 'Czcionka',
     font_size: 'Rozmiar czcionki',
     hide_text: 'Ukryj tekst',
+    barcode: {
+      invalid_value: 'Wartość jest nieprawidłowa dla wybranego formatu.',
+    },
   },
 };
 

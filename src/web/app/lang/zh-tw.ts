@@ -2009,6 +2009,9 @@ const lang: ILang = {
     font: '字體',
     font_size: '字體大小',
     hide_text: '隱藏文字',
+    barcode: {
+      invalid_value: '該值對於所選格式無效。',
+    },
   },
 };
 

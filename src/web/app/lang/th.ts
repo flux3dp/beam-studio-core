@@ -2004,6 +2004,9 @@ const lang: ILang = {
     font: 'ฟอนต์',
     font_size: 'ขนาดฟอนต์',
     hide_text: 'ซ่อนข้อความ',
+    barcode: {
+      invalid_value: 'ค่านี้ไม่ถูกต้องสำหรับรูปแบบที่เลือก',
+    },
   },
 };
 

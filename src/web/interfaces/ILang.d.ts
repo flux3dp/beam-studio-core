@@ -2005,5 +2005,8 @@ export interface ILang {
     font: string;
     font_size: string;
     hide_text: string;
+    barcode: {
+      invalid_value: string;
+    };
   };
 }

@@ -2009,6 +2009,9 @@ const lang: ILang = {
     font: 'Schriftart',
     font_size: 'Schriftgröße',
     hide_text: 'Text ausblenden',
+    barcode: {
+      invalid_value: 'Der Wert ist ungültig für das ausgewählte Format.',
+    },
   },
 };
 

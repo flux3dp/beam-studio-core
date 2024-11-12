@@ -2007,6 +2007,9 @@ const lang: ILang = {
     font: 'フォント',
     font_size: 'フォントサイズ',
     hide_text: 'テキストを隠す',
+    barcode: {
+      invalid_value: 'Il valore non è valido per il formato selezionato.',
+    },
   },
 };
 

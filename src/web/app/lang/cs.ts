@@ -2009,6 +2009,9 @@ const lang: ILang = {
     font: 'Písmo',
     font_size: 'Velikost písma',
     hide_text: 'Skrýt text',
+    barcode: {
+      invalid_value: 'Hodnota je neplatná pro vybraný formát.',
+    },
   },
 };
 

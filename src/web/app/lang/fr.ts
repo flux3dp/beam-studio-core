@@ -2004,6 +2004,9 @@ const lang: ILang = {
     font: 'Police',
     font_size: 'Taille de police',
     hide_text: 'Masquer le texte',
+    barcode: {
+      invalid_value: 'El valor no es válido para el formato seleccionado.',
+    },
   },
 };
 

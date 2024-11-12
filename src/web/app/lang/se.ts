@@ -2004,6 +2004,9 @@ const lang: ILang = {
     font: 'Typsnitt',
     font_size: 'Teckensnittsstorlek',
     hide_text: 'Dölj text',
+    barcode: {
+      invalid_value: 'O valor é inválido para o formato selecionado.',
+    },
   },
 };
 

@@ -2004,6 +2004,9 @@ const lang: ILang = {
     font: 'Carattere',
     font_size: 'Dimensione del carattere',
     hide_text: 'Nascondi testo',
+    barcode: {
+      invalid_value: 'Il valore non è valido per il formato selezionato.',
+    },
   },
 };
 

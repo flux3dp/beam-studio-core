@@ -2004,6 +2004,9 @@ const lang: ILang = {
     font: 'Lettertype',
     font_size: 'Lettergrootte',
     hide_text: 'Tekst verbergen',
+    barcode: {
+      invalid_value: 'De waarde is ongeldig voor het geselecteerde formaat.',
+    },
   },
 };
 

@@ -2007,6 +2007,9 @@ const lang: ILang = {
     font: '글꼴',
     font_size: '글꼴 크기',
     hide_text: '텍스트 숨기기',
+    barcode: {
+      invalid_value: '선택한 형식에 대해 값이 유효하지 않습니다.',
+    },
   },
 };
 

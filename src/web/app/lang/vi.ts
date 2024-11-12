@@ -2004,6 +2004,9 @@ const lang: ILang = {
     font: 'Phông chữ',
     font_size: 'Kích thước phông chữ',
     hide_text: 'Ẩn văn bản',
+    barcode: {
+      invalid_value: 'Giá trị không hợp lệ cho định dạng đã chọn.',
+    },
   },
 };
 

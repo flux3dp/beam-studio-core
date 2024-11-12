@@ -2004,6 +2004,9 @@ const lang: ILang = {
     font: 'Fontti',
     font_size: 'Fontin koko',
     hide_text: 'Piilota teksti',
+    barcode: {
+      invalid_value: 'El valor no es válido para el formato seleccionado.',
+    },
   },
 };
 

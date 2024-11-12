@@ -2006,6 +2006,9 @@ const lang: ILang = {
     font: 'Skrifttype',
     font_size: 'Skriftstørrelse',
     hide_text: 'Skjul tekst',
+    barcode: {
+      invalid_value: 'Værdien er ugyldig for det valgte format.',
+    },
   },
 };
 
