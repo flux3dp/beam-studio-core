@@ -111,7 +111,6 @@ const SolvePnP = ({
 
   const zoomToAllPoints = useCallback(
     (targetPoints: [number, number][]) => {
-      console.log('zoomToAllPoints', imgContainerRef.current, targetPoints.length);
       if (!imgContainerRef.current || !targetPoints?.length) return;
       const coord = targetPoints.reduce(
         (acc, p) => {
