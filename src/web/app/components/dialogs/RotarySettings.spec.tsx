@@ -40,6 +40,7 @@ jest.mock('app/actions/dialog-controller', () => ({
 }));
 
 const mockOnClose = jest.fn();
+const languageGetter = jest.spyOn(window.navigator, 'languages', 'get');
 
 describe('test RotarySettings', () => {
   beforeEach(() => {
@@ -48,6 +49,8 @@ describe('test RotarySettings', () => {
       if (key === 'workarea') return 'ado1';
       return undefined;
     });
+
+    languageGetter.mockReturnValue(['en', 'zh-tw']);
   });
 
   it('should render correctly', () => {
