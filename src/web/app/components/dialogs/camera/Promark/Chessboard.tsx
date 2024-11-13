@@ -96,7 +96,8 @@ const Chessboard = ({ chessboard, updateParam, onNext, onClose }: Props): JSX.El
     >
       <div className={styles.container}>
         <div className={styles.desc}>
-          <div>1. {lang.put_chessboard_promark}</div>
+          <div>1. {lang.put_chessboard_promark_1}</div>
+          <div>2. {lang.put_chessboard_promark_2}</div>
         </div>
         <div className={styles.imgContainer}>
           <video ref={videoRef} />
