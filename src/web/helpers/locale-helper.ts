@@ -1,36 +1,40 @@
 import { parse } from 'bcp-47';
 
-const detectNorthAmerica = (): boolean => {
-  try {
-    // @ts-expect-error incase some old browser use userLanguage
-    const userLocale = navigator.language || navigator.userLanguage;
-    const result = parse(userLocale);
-    if (result.region !== 'US' && result.region !== 'CA') return false;
-    const timezoneOffset = new Date().getTimezoneOffset();
-    // UTC-10 (Hawaii) to UTC-4 (Eastern Time Zone)
-    if (timezoneOffset > 600 || timezoneOffset < 240) return false;
-    return true;
-  } catch (e) {
-    console.error('Failed to get locale', e);
-    return true;
-  }
-};
+function detectLocale(
+  regions: Array<string>,
+  timezoneOffsetPredicate: (timezoneOffset: number) => boolean
+): () => boolean {
+  return () => {
+    try {
+      const userLocales = navigator.languages || [
+        // @ts-expect-error: Support for older browsers with userLanguage
+        navigator.language || (navigator.userLanguage as string),
+      ];
+      const hasMatchingRegion = userLocales.some((locale) =>
+        regions.includes(parse(locale).region)
+      );
 
+      return hasMatchingRegion && timezoneOffsetPredicate(new Date().getTimezoneOffset());
+    } catch (e) {
+      console.error('Failed to get locale', e);
+
+      return true;
+    }
+  };
+}
+
+const detectNorthAmerica = detectLocale(
+  ['US', 'CA'],
+  // UTC-10 (Hawaii) to UTC-4 (Eastern Time Zone)
+  (timezoneOffset) => timezoneOffset <= 600 && timezoneOffset >= 240
+);
 const isNorthAmerica = detectNorthAmerica();
 
-const detectTwOrHk = (): boolean => {
-  try {
-    // @ts-expect-error incase some old browser use userLanguage
-    const userLocale = navigator.language || navigator.userLanguage;
-    const result = parse(userLocale);
-    if (result.region !== 'TW' && result.region !== 'HK') return false;
-    const timezoneOffset = new Date().getTimezoneOffset();
-    return timezoneOffset === -480;
-  } catch (e) {
-    console.error('Failed to get locale', e);
-    return true;
-  }
-};
+const detectTwOrHk = detectLocale(
+  ['TW', 'HK'],
+  // UTC+8 timezone
+  (timezoneOffset) => timezoneOffset === -480
+);
 const isTwOrHk = detectTwOrHk();
 
 export default {
