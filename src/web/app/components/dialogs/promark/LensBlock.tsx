@@ -5,13 +5,13 @@ import { Button, Flex } from 'antd';
 import PromarkIcons from 'app/icons/promark/PromarkIcons';
 import UnitInput from 'app/widgets/UnitInput';
 import useI18n from 'helpers/useI18n';
-import { LensCorrection, PromarkStore } from 'interfaces/Promark';
+import { GalvoParameters, LensCorrection } from 'interfaces/Promark';
 
 import styles from './Block.module.scss';
 
 interface Props {
-  data: PromarkStore['lensCorrection'];
-  setData: Dispatch<SetStateAction<PromarkStore['lensCorrection']>>;
+  data: GalvoParameters;
+  setData: Dispatch<SetStateAction<GalvoParameters>>;
 }
 
 const LensBlock = ({ data, setData }: Props): JSX.Element => {

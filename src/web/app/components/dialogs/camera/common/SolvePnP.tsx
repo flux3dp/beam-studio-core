@@ -109,6 +109,34 @@ const SolvePnP = ({
     [scrollToZoomCenter]
   );
 
+  const zoomToAllPoints = useCallback(
+    (targetPoints: [number, number][]) => {
+      if (!imgContainerRef.current || !targetPoints?.length) return;
+      const coord = targetPoints.reduce(
+        (acc, p) => {
+          acc.maxX = Math.max(acc.maxX, p[0]);
+          acc.maxY = Math.max(acc.maxY, p[1]);
+          acc.minX = Math.min(acc.minX, p[0]);
+          acc.minY = Math.min(acc.minY, p[1]);
+          return acc;
+        },
+        { maxX: 0, maxY: 0, minX: Infinity, minY: Infinity }
+      );
+      const width = coord.maxX - coord.minX;
+      const height = coord.maxY - coord.minY;
+      const center = [(coord.maxX + coord.minX) / 2, (coord.maxY + coord.minY) / 2];
+      const scaleW = imgContainerRef.current.clientWidth / width;
+      const scaleH = imgContainerRef.current.clientHeight / height;
+      const targetScale = Math.min(scaleW, scaleH) * 0.8;
+      updateScale(targetScale);
+      imgContainerRef.current.scrollLeft =
+        center[0] * targetScale - imgContainerRef.current.clientWidth / 2;
+      imgContainerRef.current.scrollTop =
+        center[1] * targetScale - imgContainerRef.current.clientHeight / 2;
+    },
+    [updateScale]
+  );
+
   const handleImg = useCallback(
     async (imgBlob: Blob) => {
       try {
@@ -117,6 +145,7 @@ const SolvePnP = ({
           const { success, blob, data } = res;
           setImg({ blob, url: URL.createObjectURL(blob), success });
           setPoints(data.points);
+          zoomToAllPoints(data.points);
         } else if (res.success === false) {
           const { data } = res;
           if (data.info === 'NO_DATA') {
@@ -135,7 +164,7 @@ const SolvePnP = ({
       }
       return true;
     },
-    [dh, params, refPoints]
+    [dh, params, refPoints, zoomToAllPoints]
   );
 
   const { exposureSetting, setExposureSetting, handleTakePicture } = useCamera(
@@ -212,31 +241,6 @@ const SolvePnP = ({
     [updateScale]
   );
 
-  const zoomToAllPoints = useCallback(() => {
-    if (!imgContainerRef.current || !points.length) return;
-    const coord = points.reduce(
-      (acc, p) => {
-        acc.maxX = Math.max(acc.maxX, p[0]);
-        acc.maxY = Math.max(acc.maxY, p[1]);
-        acc.minX = Math.min(acc.minX, p[0]);
-        acc.minY = Math.min(acc.minY, p[1]);
-        return acc;
-      },
-      { maxX: 0, maxY: 0, minX: Infinity, minY: Infinity }
-    );
-    const width = coord.maxX - coord.minX;
-    const height = coord.maxY - coord.minY;
-    const center = [(coord.maxX + coord.minX) / 2, (coord.maxY + coord.minY) / 2];
-    const scaleW = imgContainerRef.current.clientWidth / width;
-    const scaleH = imgContainerRef.current.clientHeight / height;
-    const targetScale = Math.min(scaleW, scaleH) * 0.8;
-    updateScale(targetScale);
-    imgContainerRef.current.scrollLeft =
-      center[0] * targetScale - imgContainerRef.current.clientWidth / 2;
-    imgContainerRef.current.scrollTop =
-      center[1] * targetScale - imgContainerRef.current.clientHeight / 2;
-  }, [updateScale, points]);
-
   const handleImgLoad = useCallback(
     (e: SyntheticEvent<HTMLImageElement>) => {
       imageSizeRef.current = {
@@ -244,9 +248,9 @@ const SolvePnP = ({
         height: e.currentTarget.naturalHeight,
       };
       setImgLoaded(true);
-      zoomToAllPoints();
+      zoomToAllPoints(points);
     },
-    [zoomToAllPoints]
+    [zoomToAllPoints, points]
   );
 
   const handleWheel = useCallback(
