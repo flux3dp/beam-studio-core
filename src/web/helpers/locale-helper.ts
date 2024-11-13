@@ -18,7 +18,23 @@ const detectNorthAmerica = (): boolean => {
 
 const isNorthAmerica = detectNorthAmerica();
 
+const detectTwOrHk = (): boolean => {
+  try {
+    // @ts-expect-error incase some old browser use userLanguage
+    const userLocale = navigator.language || navigator.userLanguage;
+    const result = parse(userLocale);
+    if (result.region !== 'TW' && result.region !== 'HK') return false;
+    const timezoneOffset = new Date().getTimezoneOffset();
+    return timezoneOffset === -480;
+  } catch (e) {
+    console.error('Failed to get locale', e);
+    return true;
+  }
+};
+const isTwOrHk = detectTwOrHk();
+
 export default {
   isNorthAmerica,
   detectNorthAmerica,
+  isTwOrHk,
 };

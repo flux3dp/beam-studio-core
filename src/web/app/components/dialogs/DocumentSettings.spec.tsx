@@ -16,6 +16,10 @@ jest.mock('helpers/eventEmitterFactory', () => ({
   },
 }));
 
+jest.mock('helpers/locale-helper', () => ({
+  isTwOrHk: true,
+}));
+
 jest.mock('helpers/is-dev', () => () => true);
 
 jest.mock('antd', () => ({
