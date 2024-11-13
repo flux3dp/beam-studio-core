@@ -3,7 +3,6 @@ import { Collapse, ConfigProvider } from 'antd';
 
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
-import isDev from 'helpers/is-dev';
 import LayerModule from 'app/constants/layer-module/layer-modules';
 import useForceUpdate from 'helpers/use-force-update';
 import useI18n from 'helpers/useI18n';
