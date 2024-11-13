@@ -34,13 +34,16 @@ const RotarySettings = ({ onClose }: Props): JSX.Element => {
   const [diameter, setDiaMeter] = useState<number>(
     beamboxPreference.read('rotary-chuck-obj-d') ?? CHUCK_ROTARY_DIAMETER
   );
-  const [extend, setExtend] = useState<boolean>(!!beamboxPreference.read('extend-rotary-workarea'));
-  const [mirror, setMirror] = useState<boolean>(!!beamboxPreference.read('rotary-mirror'));
+  const [extend, setExtend] = useState<boolean>(
+    Boolean(beamboxPreference.read('extend-rotary-workarea'))
+  );
+  const [mirror, setMirror] = useState<boolean>(Boolean(beamboxPreference.read('rotary-mirror')));
   const isInch = useMemo(() => storage.get('default-units') === 'inches', []);
+  const isZhTw = useMemo(() => navigator.languages.some((lang) => /zh(-Hant)?-tw/i.test(lang)), []);
 
   const handleSave = async () => {
     const rotaryChanged = rotaryMode !== beamboxPreference.read('rotary_mode');
-    const extendChanged = extend !== !!beamboxPreference.read('extend-rotary-workarea');
+    const extendChanged = extend !== Boolean(beamboxPreference.read('extend-rotary-workarea'));
     beamboxPreference.write('rotary_mode', rotaryMode);
     beamboxPreference.write('rotary-type', rotaryType);
     if (rotaryType === RotaryType.Chuck) beamboxPreference.write('rotary-chuck-obj-d', diameter);
@@ -103,10 +106,11 @@ const RotarySettings = ({ onClose }: Props): JSX.Element => {
                   label: (
                     <div className={styles.seg}>
                       <RotaryIcons.Chuck />
-                      <div>Chuck</div>
+                      <div>{isZhTw ? 'Chuck' : 'Coming Soon'}</div>
                     </div>
                   ),
                   value: RotaryType.Chuck,
+                  disabled: !isZhTw,
                 },
               ]}
             />
