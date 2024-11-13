@@ -37,4 +37,5 @@ export default {
   isNorthAmerica,
   detectNorthAmerica,
   isTwOrHk,
+  detectTwOrHk,
 };
