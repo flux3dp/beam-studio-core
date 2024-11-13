@@ -39,8 +39,11 @@ jest.mock('app/actions/dialog-controller', () => ({
   popDialogById: (...args) => mockPopDialogById(...args),
 }));
 
+jest.mock('helpers/locale-helper', () => ({
+  isTwOrHk: true,
+}));
+
 const mockOnClose = jest.fn();
-const languageGetter = jest.spyOn(window.navigator, 'languages', 'get');
 
 describe('test RotarySettings', () => {
   beforeEach(() => {
@@ -49,8 +52,6 @@ describe('test RotarySettings', () => {
       if (key === 'workarea') return 'ado1';
       return undefined;
     });
-
-    languageGetter.mockReturnValue(['en', 'zh-tw']);
   });
 
   it('should render correctly', () => {

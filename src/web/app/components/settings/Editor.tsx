@@ -291,7 +291,7 @@ function Editor({
       {hasSwiftray && (
         <SelectControl
           id="path-engine"
-          label={lang.settings.calculation_optimization}
+          label={`${lang.settings.calculation_optimization} (Beta)`}
           url={lang.settings.help_center_urls.calculation_optimization}
           options={pathEngineOptions}
           onChange={(e) => updateBeamboxPreferenceChange('path-engine', e.target.value)}

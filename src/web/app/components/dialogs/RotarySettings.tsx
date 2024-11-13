@@ -3,6 +3,7 @@ import { Checkbox, Modal, Segmented, Switch } from 'antd';
 
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import changeWorkarea from 'app/svgedit/operations/changeWorkarea';
+import localeHelper from 'helpers/locale-helper';
 import RotaryIcons from 'app/icons/rotary/RotaryIcons';
 import rotaryAxis from 'app/actions/canvas/rotary-axis';
 import storage from 'implementations/storage';
@@ -39,7 +40,6 @@ const RotarySettings = ({ onClose }: Props): JSX.Element => {
   );
   const [mirror, setMirror] = useState<boolean>(Boolean(beamboxPreference.read('rotary-mirror')));
   const isInch = useMemo(() => storage.get('default-units') === 'inches', []);
-  const isZhTw = useMemo(() => navigator.languages.some((lang) => /zh(-Hant)?-tw/i.test(lang)), []);
 
   const handleSave = async () => {
     const rotaryChanged = rotaryMode !== beamboxPreference.read('rotary_mode');
@@ -106,11 +106,11 @@ const RotarySettings = ({ onClose }: Props): JSX.Element => {
                   label: (
                     <div className={styles.seg}>
                       <RotaryIcons.Chuck />
-                      <div>{isZhTw ? 'Chuck' : 'Coming Soon'}</div>
+                      <div>{localeHelper.isTwOrHk ? 'Chuck' : 'Coming Soon'}</div>
                     </div>
                   ),
                   value: RotaryType.Chuck,
-                  disabled: !isZhTw,
+                  disabled: !localeHelper.isTwOrHk,
                 },
               ]}
             />

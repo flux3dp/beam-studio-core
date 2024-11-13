@@ -12,6 +12,7 @@ import diodeBoundaryDrawer from 'app/actions/canvas/diode-boundary-drawer';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import isDev from 'helpers/is-dev';
 import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
+import localeHelper from 'helpers/locale-helper';
 import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
 import presprayArea from 'app/actions/canvas/prespray-area';
 import rotaryAxis from 'app/actions/canvas/rotary-axis';
@@ -32,10 +33,10 @@ const workareaOptions = [
   { label: 'Beambox Pro', value: 'fbb1p' },
   { label: 'HEXA', value: 'fhexa1' },
   { label: 'Ador', value: 'ado1' },
-  { label: 'Promark', value: 'fpm1' },
-];
-if (isDev()) workareaOptions.push({ label: 'Beambox II', value: 'fbb2' });
-if (isDev()) workareaOptions.push({ label: 'Lazervida', value: 'flv1' });
+  (localeHelper.isTwOrHk || isDev()) && { label: 'Promark', value: 'fpm1' },
+  isDev() && { label: 'Beambox II', value: 'fbb2' },
+  isDev() && { label: 'Lazervida', value: 'flv1' },
+].filter(Boolean);
 
 const promarkLaserOptions = [
   { label: 'Desktop - 20W', value: `${LaserType.Desktop}-20` },
