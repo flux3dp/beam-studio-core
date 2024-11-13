@@ -115,7 +115,8 @@ const PresetsManagementPanel = ({ currentModule, initPreset, onClose }: Props): 
     if (!selectedPreset) return { name: '', isDefault: true };
     if (!selectedPreset.isDefault)
       return { ...selectedPreset, ...editingValues[selectedPreset.name] };
-    const keyPresets = presets[selectedPreset.key]?.[workarea];
+    const presetModel = presetHelper.getPresetModel(workarea);
+    const keyPresets = presets[selectedPreset.key]?.[presetModel];
     if (!keyPresets) return selectedPreset;
     if (keyPresets[selectedModule]) return { ...selectedPreset, ...keyPresets[selectedModule] };
     return { ...selectedPreset, ...Object.values(keyPresets)[0] };
