@@ -384,10 +384,10 @@ export const getPromarkLimit = (): {
   };
   if (laserType === LaserType.MOPA) {
     if (watt >= 100)
-      laserLimit = { pulseWidth: { min: 10, max: 500 }, frequency: { min: 1, max: 4000 } };
+      laserLimit = { pulseWidth: { min: 10, max: 500 }, frequency: { min: 1, max: 1000 } };
     else if (watt >= 60)
-      laserLimit = { pulseWidth: { min: 2, max: 500 }, frequency: { min: 1, max: 3000 } };
-    else laserLimit = { pulseWidth: { min: 2, max: 350 }, frequency: { min: 1, max: 4000 } };
+      laserLimit = { pulseWidth: { min: 2, max: 500 }, frequency: { min: 1, max: 1000 } };
+    else laserLimit = { pulseWidth: { min: 2, max: 350 }, frequency: { min: 1, max: 1000 } };
   } else if (watt >= 50) laserLimit = { frequency: { min: 45, max: 170 } };
   else if (watt >= 30) laserLimit = { frequency: { min: 30, max: 60 } };
   else laserLimit = { frequency: { min: 27, max: 60 } };
