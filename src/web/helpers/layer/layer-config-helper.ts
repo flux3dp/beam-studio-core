@@ -216,10 +216,9 @@ export const getMultiSelectData = <T extends ConfigKey>(
   return { value, hasMultiValue };
 };
 
-export const initLayerConfig = (layerName: string): void => {
+export const getDefaultConfig = (): Partial<ConfigKeyTypeMap> => {
   const workarea = BeamboxPreference.read('workarea');
   const config = { ...defaultConfig };
-  const keys = Object.keys(config) as ConfigKey[];
   const isPromark = promarkModels.has(workarea);
   if (isPromark) {
     config.speed = 1000;
@@ -236,6 +235,13 @@ export const initLayerConfig = (layerName: string): void => {
     else if (promarkInfo.watt >= 30) config.frequency = 30;
     else config.frequency = 27;
   }
+  return config;
+};
+
+export const initLayerConfig = (layerName: string): void => {
+  const workarea = BeamboxPreference.read('workarea');
+  const config = getDefaultConfig();
+  const keys = Object.keys(config) as ConfigKey[];
   const layer = getLayerElementByName(layerName);
   const defaultLaserModule = layerModuleHelper.getDefaultLaserModule();
   for (let i = 0; i < keys.length; i += 1) {
