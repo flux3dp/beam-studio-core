@@ -68,7 +68,7 @@ const attributeMap: { [key in ConfigKey]: string } = {
 
 export const CUSTOM_PRESET_CONSTANT = ' ';
 
-export const defaultConfig: Partial<ConfigKeyTypeMap> = {
+export const baseConfig: Partial<ConfigKeyTypeMap> = {
   speed: 20,
   printingSpeed: 60,
   power: 15,
@@ -107,6 +107,31 @@ export const defaultConfig: Partial<ConfigKeyTypeMap> = {
   pulseWidth: 100,
 };
 
+/**
+ * @returns Default config based on Promark laser type and watt
+ */
+export const getDefaultConfig = (): Partial<ConfigKeyTypeMap> => {
+  const workarea = BeamboxPreference.read('workarea');
+  const config = { ...baseConfig };
+  const isPromark = promarkModels.has(workarea);
+  if (isPromark) {
+    config.speed = 1000;
+    const promarkInfo = getPromarkInfo();
+    if (promarkInfo.laserType === LaserType.MOPA) {
+      config.pulseWidth = 500;
+      if (promarkInfo.watt >= 100) config.frequency = 55;
+      else if (promarkInfo.watt >= 60) config.frequency = 40;
+      else {
+        config.frequency = 25;
+        config.pulseWidth = 350;
+      }
+    } else if (promarkInfo.watt >= 50) config.frequency = 45;
+    else if (promarkInfo.watt >= 30) config.frequency = 30;
+    else config.frequency = 27;
+  }
+  return config;
+};
+
 const booleanConfig: ConfigKey[] = ['fullcolor', 'ref', 'split', 'biDirectional', 'crossHatch'];
 
 /**
@@ -123,6 +148,7 @@ export const getData = <T extends ConfigKey>(
 ): ConfigKeyTypeMap[T] => {
   let attr = attributeMap[key];
   if (!attr || !layer) return undefined;
+  const defaultConfig = getDefaultConfig();
   if (
     key === 'speed' &&
     applyPrinting &&
@@ -216,40 +242,18 @@ export const getMultiSelectData = <T extends ConfigKey>(
   return { value, hasMultiValue };
 };
 
-export const getDefaultConfig = (): Partial<ConfigKeyTypeMap> => {
-  const workarea = BeamboxPreference.read('workarea');
-  const config = { ...defaultConfig };
-  const isPromark = promarkModels.has(workarea);
-  if (isPromark) {
-    config.speed = 1000;
-    const promarkInfo = getPromarkInfo();
-    if (promarkInfo.laserType === LaserType.MOPA) {
-      config.pulseWidth = 500;
-      if (promarkInfo.watt >= 100) config.frequency = 55;
-      else if (promarkInfo.watt >= 60) config.frequency = 40;
-      else {
-        config.frequency = 25;
-        config.pulseWidth = 350;
-      }
-    } else if (promarkInfo.watt >= 50) config.frequency = 45;
-    else if (promarkInfo.watt >= 30) config.frequency = 30;
-    else config.frequency = 27;
-  }
-  return config;
-};
-
 export const initLayerConfig = (layerName: string): void => {
   const workarea = BeamboxPreference.read('workarea');
-  const config = getDefaultConfig();
-  const keys = Object.keys(config) as ConfigKey[];
+  const defaultConfig = getDefaultConfig();
+  const keys = Object.keys(defaultConfig) as ConfigKey[];
   const layer = getLayerElementByName(layerName);
   const defaultLaserModule = layerModuleHelper.getDefaultLaserModule();
   for (let i = 0; i < keys.length; i += 1) {
     const key = keys[i];
-    if (config[key] !== undefined) {
+    if (defaultConfig[key] !== undefined) {
       if (key === 'module' && modelsWithModules.has(workarea)) {
         writeDataLayer(layer, key, defaultLaserModule);
-      } else writeDataLayer(layer, key, config[keys[i]] as number | string);
+      } else writeDataLayer(layer, key, defaultConfig[keys[i]] as number | string);
     }
   }
 };
@@ -427,6 +431,7 @@ export const applyPreset = (
   const { applyName = true, batchCmd } = opts;
   const { module } = preset;
   const keys = getConfigKeys(module);
+  const defaultConfig = getDefaultConfig();
   for (let i = 0; i < keys.length; i += 1) {
     const key = keys[i];
     let value = preset[key];

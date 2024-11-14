@@ -3,7 +3,7 @@ import React from 'react';
 import UnitInput from 'app/widgets/UnitInput';
 import useI18n from 'helpers/useI18n';
 import { ConfigKey, ConfigKeyTypeMap, Preset } from 'interfaces/ILayerConfig';
-import { defaultConfig } from 'helpers/layer/layer-config-helper';
+import { baseConfig } from 'helpers/layer/layer-config-helper';
 
 import styles from './PresetsManagementPanel.module.scss';
 
@@ -36,7 +36,7 @@ const LaserInputs = ({
             data-testid="power"
             className={styles.input}
             disabled={preset.isDefault}
-            value={preset.power ?? defaultConfig.power}
+            value={preset.power ?? baseConfig.power}
             max={100}
             min={0}
             precision={0}
@@ -50,7 +50,7 @@ const LaserInputs = ({
             data-testid="speed"
             className={styles.input}
             disabled={preset.isDefault}
-            value={preset.speed ?? defaultConfig.speed}
+            value={preset.speed ?? baseConfig.speed}
             max={maxSpeed}
             min={minSpeed}
             precision={isInch ? 2 : 1}
@@ -65,7 +65,7 @@ const LaserInputs = ({
             data-testid="repeat"
             className={styles.input}
             disabled={preset.isDefault}
-            value={preset.repeat ?? defaultConfig.repeat}
+            value={preset.repeat ?? baseConfig.repeat}
             max={100}
             min={0}
             precision={0}
@@ -81,7 +81,7 @@ const LaserInputs = ({
             data-testid="focus"
             className={styles.input}
             disabled={preset.isDefault}
-            value={Math.max(preset.focus ?? defaultConfig.focus, 0)}
+            value={Math.max(preset.focus ?? baseConfig.focus, 0)}
             max={10}
             min={0}
             precision={isInch ? 2 : 1}
@@ -96,7 +96,7 @@ const LaserInputs = ({
             data-testid="zStep"
             className={styles.input}
             disabled={preset.isDefault}
-            value={preset.zStep ?? defaultConfig.zStep}
+            value={preset.zStep ?? baseConfig.zStep}
             max={10}
             min={0}
             precision={isInch ? 2 : 1}

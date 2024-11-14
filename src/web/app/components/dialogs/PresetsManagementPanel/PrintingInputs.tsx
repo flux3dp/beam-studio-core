@@ -7,7 +7,7 @@ import Select from 'app/widgets/AntdSelect';
 import UnitInput from 'app/widgets/UnitInput';
 import useI18n from 'helpers/useI18n';
 import { ConfigKey, ConfigKeyTypeMap, Preset } from 'interfaces/ILayerConfig';
-import { defaultConfig } from 'helpers/layer/layer-config-helper';
+import { baseConfig } from 'helpers/layer/layer-config-helper';
 
 import styles from './PresetsManagementPanel.module.scss';
 
@@ -51,7 +51,7 @@ const PrintingInputs = ({
               disabled={preset.isDefault}
               className={styles.select}
               onChange={(val) => handleChange('ink', val)}
-              value={preset.ink ?? defaultConfig.ink}
+              value={preset.ink ?? baseConfig.ink}
             >
               {saturationOptions.map((option) => (
                 <Select.Option key={option.value} value={option.value}>
@@ -64,7 +64,7 @@ const PrintingInputs = ({
               data-testid="ink"
               className={styles.input}
               disabled={preset.isDefault}
-              value={preset.ink ?? defaultConfig.ink}
+              value={preset.ink ?? baseConfig.ink}
               max={15}
               min={1}
               precision={0}
@@ -79,7 +79,7 @@ const PrintingInputs = ({
             className={styles.input}
             size="small"
             disabled={preset.isDefault}
-            value={preset.cRatio ?? defaultConfig.cRatio}
+            value={preset.cRatio ?? baseConfig.cRatio}
             max={200}
             min={0}
             precision={0}
@@ -94,7 +94,7 @@ const PrintingInputs = ({
             className={styles.input}
             size="small"
             disabled={preset.isDefault}
-            value={preset.mRatio ?? defaultConfig.mRatio}
+            value={preset.mRatio ?? baseConfig.mRatio}
             max={200}
             min={0}
             precision={0}
@@ -109,7 +109,7 @@ const PrintingInputs = ({
             className={styles.input}
             size="small"
             disabled={preset.isDefault}
-            value={preset.yRatio ?? defaultConfig.yRatio}
+            value={preset.yRatio ?? baseConfig.yRatio}
             max={200}
             min={0}
             precision={0}
@@ -124,7 +124,7 @@ const PrintingInputs = ({
             className={styles.input}
             size="small"
             disabled={preset.isDefault}
-            value={preset.kRatio ?? defaultConfig.kRatio}
+            value={preset.kRatio ?? baseConfig.kRatio}
             max={200}
             min={0}
             precision={0}
@@ -141,7 +141,7 @@ const PrintingInputs = ({
             disabled={preset.isDefault}
             className={styles.select}
             onChange={(val) => handleChange('halftone', val)}
-            value={preset.halftone ?? defaultConfig.halftone}
+            value={preset.halftone ?? baseConfig.halftone}
           >
             <Select.Option value={1}>FM</Select.Option>
             <Select.Option value={2}>AM</Select.Option>
@@ -155,7 +155,7 @@ const PrintingInputs = ({
               disabled={preset.isDefault}
               className={styles.select}
               onChange={(val) => handleChange('speed', val)}
-              value={preset.speed ?? defaultConfig.speed}
+              value={preset.speed ?? baseConfig.speed}
             >
               {printingSpeedOptions.map((option) => (
                 <Select.Option key={option.value} value={option.value}>
@@ -168,7 +168,7 @@ const PrintingInputs = ({
               data-testid="speed"
               className={styles.input}
               disabled={preset.isDefault}
-              value={preset.speed ?? defaultConfig.speed}
+              value={preset.speed ?? baseConfig.speed}
               max={maxSpeed}
               min={minSpeed}
               precision={isInch ? 2 : 1}
@@ -186,7 +186,7 @@ const PrintingInputs = ({
               disabled={preset.isDefault}
               className={styles.select}
               onChange={(val) => handleChange('multipass', val)}
-              value={preset.multipass ?? defaultConfig.multipass}
+              value={preset.multipass ?? baseConfig.multipass}
             >
               {multipassOptions.map(({ value }) => (
                 <Select.Option key={value} value={value}>
@@ -199,7 +199,7 @@ const PrintingInputs = ({
               data-testid="multipass"
               className={styles.input}
               disabled={preset.isDefault}
-              value={preset.multipass ?? defaultConfig.multipass}
+              value={preset.multipass ?? baseConfig.multipass}
               max={10}
               min={1}
               precision={0}
@@ -214,7 +214,7 @@ const PrintingInputs = ({
             data-testid="repeat"
             className={styles.input}
             disabled={preset.isDefault}
-            value={preset.repeat ?? defaultConfig.repeat}
+            value={preset.repeat ?? baseConfig.repeat}
             max={100}
             min={0}
             precision={0}

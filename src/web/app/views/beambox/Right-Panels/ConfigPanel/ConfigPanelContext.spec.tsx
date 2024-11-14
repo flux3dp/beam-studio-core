@@ -1,13 +1,13 @@
 import { Action, getDefaultState, reducer } from './ConfigPanelContext';
 
 jest.mock('helpers/layer/layer-config-helper', () => ({
-  defaultConfig: {
+  getDefaultConfig: () => ({
     speed: 20,
     power: 15,
     repeat: 1,
     zStep: 0,
     configName: '',
-  },
+  }),
 }));
 
 describe('test ConfigPanelContext', () => {

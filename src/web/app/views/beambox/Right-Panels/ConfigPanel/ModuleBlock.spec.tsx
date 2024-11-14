@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
-import { act, fireEvent, render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 
 import LayerModule from 'app/constants/layer-module/layer-modules';
 
@@ -74,7 +74,7 @@ const mockWriteDataLayer = jest.fn();
 const mockGetData = jest.fn().mockReturnValue('configName');
 jest.mock('helpers/layer/layer-config-helper', () => ({
   applyPreset: (...args) => mockApplyPreset(...args),
-  defaultConfig: {
+  baseConfig: {
     speed: 20,
     printingSpeed: 60,
     strength: 15,

@@ -37,10 +37,10 @@ import useWorkarea from 'helpers/hooks/useWorkarea';
 import {
   applyPreset,
   CUSTOM_PRESET_CONSTANT,
-  defaultConfig,
   forcedKeys,
   getConfigKeys,
   getData,
+  getDefaultConfig,
   getLayerConfig,
   getLayersConfig,
   postPresetChange,
@@ -192,6 +192,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
       return;
     }
     const changedKeys = getConfigKeys(module.value);
+    const defaultConfig = getDefaultConfig();
     const payload: { [key: string]: string | number | boolean } = {};
     payload.configName = value;
     const { maxSpeed, minSpeed } = getWorkarea(workarea);
