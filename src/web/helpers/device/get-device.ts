@@ -81,7 +81,6 @@ const getDevice = async (
           storage.set('last-promark-serial', device.serial);
           const canvasEvents = eventEmitterFactory.createEventEmitter('canvas');
           canvasEvents.emit('document-settings-saved');
-          // TODO: update everythings that depends on promark info
         }
         isWorkareaMatched = model === BeamboxPreference.read('workarea');
         if (!isWorkareaMatched && isNewDevice) {
