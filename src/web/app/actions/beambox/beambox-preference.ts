@@ -45,13 +45,13 @@ class BeamboxPreference {
   }
 }
 
-const instance = new BeamboxPreference();
+const beamboxPreference = new BeamboxPreference();
 
 export const migrate = (): void => {
-  const rotaryMode = instance.read('rotary_mode');
-  if (typeof rotaryMode === 'boolean') instance.write('rotary_mode', rotaryMode ? 1 : 0);
-  if (instance.read('model') === 'fad1') instance.write('model', 'ado1');
-  if (instance.read('workarea') === 'fad1') instance.write('workarea', 'ado1');
+  const rotaryMode = beamboxPreference.read('rotary_mode');
+  if (typeof rotaryMode === 'boolean') beamboxPreference.write('rotary_mode', rotaryMode ? 1 : 0);
+  if (beamboxPreference.read('model') === 'fad1') beamboxPreference.write('model', 'ado1');
+  if (beamboxPreference.read('workarea') === 'fad1') beamboxPreference.write('workarea', 'ado1');
 };
 
-export default instance;
+export default beamboxPreference;

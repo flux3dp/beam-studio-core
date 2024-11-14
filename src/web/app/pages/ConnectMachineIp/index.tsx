@@ -288,6 +288,11 @@ const ConnectMachineIp = (): JSX.Element => {
       alertConfig.write('done-first-cali', false);
     }
 
+    if (isPromark) {
+      window.location.hash = '#initialize/connect/choose-promark-laser-source';
+      return;
+    }
+
     dialogCaller.showLoadingWindow();
 
     window.location.hash = '#studio/beambox';
