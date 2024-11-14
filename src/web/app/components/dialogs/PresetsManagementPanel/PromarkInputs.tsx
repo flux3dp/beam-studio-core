@@ -87,38 +87,42 @@ const PromarkInputs = ({
             clipValue
           />
         </div>
-        <div className={styles.field}>
-          <div className={styles.label}>{t.lower_focus_by}</div>
-          <UnitInput
-            data-testid="focus"
-            className={styles.input}
-            disabled={preset.isDefault}
-            value={Math.max(preset.focus ?? defaultConfig.focus, 0)}
-            max={10}
-            min={0}
-            precision={2}
-            addonAfter={lengthUnit}
-            isInch={isInch}
-            onChange={(value) => handleChange('focus', value > 0 ? value : -0.01)}
-            clipValue
-          />
-        </div>
-        <div className={styles.field}>
-          <div className={styles.label}>{tLaserPanel.z_step}</div>
-          <UnitInput
-            data-testid="focusStep"
-            className={styles.input}
-            disabled={preset.isDefault}
-            value={Math.max(preset.focusStep ?? defaultConfig.focusStep, 0)}
-            max={focusStepMax}
-            min={0}
-            precision={2}
-            addonAfter={lengthUnit}
-            isInch={isInch}
-            onChange={(value) => handleChange('focusStep', value > 0 ? value : -0.01)}
-            clipValue
-          />
-        </div>
+        {supportInfo.lowerFocus && (
+          <>
+            <div className={styles.field}>
+              <div className={styles.label}>{t.lower_focus_by}</div>
+              <UnitInput
+                data-testid="focus"
+                className={styles.input}
+                disabled={preset.isDefault}
+                value={Math.max(preset.focus ?? defaultConfig.focus, 0)}
+                max={10}
+                min={0}
+                precision={2}
+                addonAfter={lengthUnit}
+                isInch={isInch}
+                onChange={(value) => handleChange('focus', value > 0 ? value : -0.01)}
+                clipValue
+              />
+            </div>
+            <div className={styles.field}>
+              <div className={styles.label}>{tLaserPanel.z_step}</div>
+              <UnitInput
+                data-testid="focusStep"
+                className={styles.input}
+                disabled={preset.isDefault}
+                value={Math.max(preset.focusStep ?? defaultConfig.focusStep, 0)}
+                max={focusStepMax}
+                min={0}
+                precision={2}
+                addonAfter={lengthUnit}
+                isInch={isInch}
+                onChange={(value) => handleChange('focusStep', value > 0 ? value : -0.01)}
+                clipValue
+              />
+            </div>
+          </>
+        )}
       </div>
       <div>
         {limit.pulseWidth && (
