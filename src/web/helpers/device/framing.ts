@@ -222,7 +222,7 @@ class FramingTaskManager extends EventEmitter {
     };
   };
 
-  private changeWorkingStatus = (status: boolean) => {
+  public changeWorkingStatus = (status: boolean): void => {
     this.isWorking = status;
     this.emit('status-change', status);
   };

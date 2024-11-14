@@ -21,6 +21,7 @@ import VersionChecker from 'helpers/version-checker';
 import { IDeviceInfo, IReport } from 'interfaces/IDevice';
 import { IProgress } from 'interfaces/IProgress';
 import { ItemType, Mode } from 'app/constants/monitor-constants';
+import { swiftrayClient } from 'helpers/api/swiftray-client';
 
 const eventEmitter = eventEmitterFactory.createEventEmitter('monitor');
 
@@ -170,6 +171,17 @@ export class MonitorContextProvider extends React.Component<Props, State> {
     this.startReport();
     const { mode } = this.state;
     const { device } = this.props;
+    if (promarkModels.has(device.model)) {
+      swiftrayClient.on('disconnected', () => {
+        // eslint-disable-next-line react/destructuring-assignment
+        if (this.state.mode === Mode.WORKING) {
+          this.handlePromarkConnection('disconnected');
+          swiftrayClient.once('reconnected', () => {
+            this.handlePromarkConnection('reconnected');
+          });
+        }
+      });
+    }
     if (mode === Mode.WORKING) {
       if (promarkModels.has(device.model)) {
         const cachedTask = exportFuncs.getCachedPromarkTask(device.serial);
@@ -208,6 +220,40 @@ export class MonitorContextProvider extends React.Component<Props, State> {
     this.stopReport();
     const { taskImageURL } = this.state;
     URL.revokeObjectURL(taskImageURL);
+    swiftrayClient.off('disconnected');
+  }
+
+  handlePromarkConnection(type: string): void {
+    const id = 'promark-connection';
+    const { onClose } = this.props;
+    Alert.popById(id);
+    Progress.popById(id);
+    if (type === 'Promark') {
+      // Promark disconnected
+      Alert.popUp({
+        id,
+        message: '設備連線中斷，請確認設備的連線狀態。',
+      });
+    } else if (type === 'disconnected') {
+      // Swiftray disconnected
+      Progress.openNonstopProgress({
+        id,
+        message: '無法連線到後端，正在重新嘗試連線。',
+        onCancel: onClose,
+      });
+      this.setState((prev) => ({
+        report: { ...prev.report, st_id: DeviceConstants.status.ABORTED },
+      }));
+    } else {
+      // Swiftray reconnected
+      Alert.popUp({
+        id,
+        message: '後端已重新連線，請嘗試重新送出工作。',
+        buttonType: AlertConstants.CONFIRM_CANCEL,
+        onCancel: onClose,
+        onConfirm: () => {},
+      });
+    }
   }
 
   startReport(): void {
@@ -341,6 +387,12 @@ export class MonitorContextProvider extends React.Component<Props, State> {
         const { onClose } = this.props;
         onClose();
       }
+      return;
+    }
+    if (error[0] === 'DISCONNECTED') {
+      if (this.lastErrorId === 'DISCONNECTED') return;
+      this.handlePromarkConnection('Promark');
+      this.lastErrorId = 'DISCONNECTED';
       return;
     }
     const errorId = error.join('_');
