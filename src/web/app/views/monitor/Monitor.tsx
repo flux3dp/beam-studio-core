@@ -11,6 +11,7 @@ import { MonitorContext } from 'app/contexts/MonitorContext';
 import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
 import { IDeviceInfo } from 'interfaces/IDevice';
 
+import { promarkModels } from 'app/actions/beambox/constant';
 import MonitorCamera from './MonitorCamera';
 import MonitorFilelist from './MonitorFilelist';
 import MonitorTabExtraContent from './MonitorTabExtraContent';
@@ -32,16 +33,18 @@ const Monitor = ({ device }: Props): JSX.Element => {
   const key = 'monitorUploadFileMessage';
 
   const tabItems = [
-    {
-      label: (
-        <div>
-          <PictureOutlined />
-          {LANG.monitor.taskTab}
-        </div>
-      ),
-      key: taskMode,
-      children: <MonitorTask />,
-    },
+    taskImageURL || promarkModels.has(device.model)
+      ? {
+          label: (
+            <div>
+              <PictureOutlined />
+              {LANG.monitor.taskTab}
+            </div>
+          ),
+          key: taskMode,
+          children: <MonitorTask />,
+        }
+      : null,
     {
       label: (
         <div>
