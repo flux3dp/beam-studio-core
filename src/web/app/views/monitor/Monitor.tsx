@@ -10,8 +10,8 @@ import { Mode } from 'app/constants/monitor-constants';
 import { MonitorContext } from 'app/contexts/MonitorContext';
 import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
 import { IDeviceInfo } from 'interfaces/IDevice';
-
 import { promarkModels } from 'app/actions/beambox/constant';
+
 import MonitorCamera from './MonitorCamera';
 import MonitorFilelist from './MonitorFilelist';
 import MonitorTabExtraContent from './MonitorTabExtraContent';
