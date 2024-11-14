@@ -1,12 +1,13 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import * as React from 'react';
-import { Button, Form, FormInstance, Input, InputNumber, Modal, Space, Table } from 'antd';
+import { Button, Form, FormInstance, InputNumber, Modal, Space, Table } from 'antd';
 import { DeleteFilled, PlusCircleFilled } from '@ant-design/icons';
 import { useContext, useEffect, useRef, useState } from 'react';
 
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
-import InputKeyWrapper, { setEditingInput, setStopEditingInput } from 'app/widgets/InputKeyWrapper';
+import Input from 'app/widgets/Input';
+import InputKeyWrapper from 'app/widgets/InputKeyWrapper';
 import storage from 'implementations/storage';
 import useI18n from 'helpers/useI18n';
 import { ColorConfig, DefaultColorConfigs } from 'app/constants/color-constants';
@@ -155,9 +156,7 @@ const EditableCell = ({
             size="small"
             ref={inputRef}
             onPressEnter={save}
-            onFocus={() => setEditingInput()}
             onBlur={(e) => {
-              setStopEditingInput();
               form.setFieldsValue({ [dataIndex]: formatHexColor(e.target.value) });
               save();
             }}
