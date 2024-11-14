@@ -11,13 +11,12 @@ import { MonitorContext } from 'app/contexts/MonitorContext';
 import MonitorControl from './MonitorControl';
 import styles from './MonitorTask.module.scss';
 
-const defaultImage = 'img/ph_l.png';
+const defaultImage = 'core-img/ph_l.png';
 const LANG = i18n.lang;
 
 const MonitorTask = (): JSX.Element => {
-  const {
-    taskTime, mode, report, uploadProgress, taskImageURL, fileInfo, previewTask,
-  } = useContext(MonitorContext);
+  const { taskTime, mode, report, uploadProgress, taskImageURL, fileInfo, previewTask } =
+    useContext(MonitorContext);
 
   const getJobTime = (): string => {
     if (mode === Mode.WORKING && report && report.prog) {

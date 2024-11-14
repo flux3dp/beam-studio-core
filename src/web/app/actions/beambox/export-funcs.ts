@@ -3,7 +3,7 @@ import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import AwsHelper from 'helpers/aws-helper';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
-import constant from 'app/actions/beambox/constant';
+import constant, { promarkModels } from 'app/actions/beambox/constant';
 import convertShapeToBitmap from 'helpers/layer/convertShapeToBitmap';
 import currentFileManager from 'app/svgedit/currentFileManager';
 import deviceMaster from 'helpers/device-master';
@@ -294,6 +294,7 @@ const fetchTaskCode = async (
 
   return {
     taskCodeBlob,
+    thumbnail,
     thumbnailBlobURL,
     fileTimeCost,
     metadata,
@@ -391,10 +392,12 @@ const getConvertEngine = (targetDevice?: IDeviceInfo) => {
   return { convertEngine, useSwiftray };
 };
 
+const promarkTaskCache: Record<string, { url: string; timeCost: number }> = {};
+
 export default {
   uploadFcode: async (device: IDeviceInfo): Promise<void> => {
     const { convertEngine } = getConvertEngine(device);
-    const { taskCodeBlob, thumbnailBlobURL, fileTimeCost } = await convertEngine(device);
+    const { taskCodeBlob, thumbnail, thumbnailBlobURL, fileTimeCost } = await convertEngine(device);
     if (!taskCodeBlob && device.model !== 'fpm1') {
       return;
     }
@@ -402,6 +405,12 @@ export default {
       const res = await deviceMaster.select(device);
       if (!res) {
         return;
+      }
+      if (promarkModels.has(device.model)) {
+        promarkTaskCache[device.serial] = {
+          url: thumbnail,
+          timeCost: fileTimeCost,
+        };
       }
       openTaskInDeviceMonitor(device, taskCodeBlob, thumbnailBlobURL, fileTimeCost);
     } catch (errMsg) {
@@ -493,4 +502,6 @@ export default {
     return { uploadFile, thumbnailBlobURL };
   },
   openTaskInDeviceMonitor,
+  getCachedPromarkTask: (serial: string): { url: string; timeCost: number } =>
+    promarkTaskCache[serial],
 };

@@ -6,12 +6,13 @@ import * as React from 'react';
 import Alert from 'app/actions/alert-caller';
 import AlertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
-import Constant from 'app/actions/beambox/constant';
+import Constant, { promarkModels } from 'app/actions/beambox/constant';
 import dialog from 'implementations/dialog';
 import DeviceConstants from 'app/constants/device-constants';
 import DeviceErrorHandler from 'helpers/device-error-handler';
 import DeviceMaster from 'helpers/device-master';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
+import exportFuncs from 'app/actions/beambox/export-funcs';
 import i18n from 'helpers/i18n';
 import MonitorStatus from 'helpers/monitor-status';
 import OutputError from 'helpers/output-error';
@@ -168,18 +169,29 @@ export class MonitorContextProvider extends React.Component<Props, State> {
     await this.fetchInitialInfo();
     this.startReport();
     const { mode } = this.state;
+    const { device } = this.props;
     if (mode === Mode.WORKING) {
-      const taskInfo = await this.getWorkingTaskInfo();
-      const { imageBlob, taskTime } = this.getTaskInfo(taskInfo);
-      let taskImageURL = null;
-      if (imageBlob) {
-        taskImageURL = URL.createObjectURL(imageBlob);
+      if (promarkModels.has(device.model)) {
+        const cachedTask = exportFuncs.getCachedPromarkTask(device.serial);
+        if (cachedTask) {
+          this.setState({
+            taskImageURL: cachedTask.url,
+            taskTime: cachedTask.timeCost,
+          });
+        }
+      } else {
+        const taskInfo = await this.getWorkingTaskInfo();
+        const { imageBlob, taskTime } = this.getTaskInfo(taskInfo);
+        let taskImageURL = null;
+        if (imageBlob) {
+          taskImageURL = URL.createObjectURL(imageBlob);
+        }
+        this.setState({
+          taskImageURL,
+          taskTime,
+          workingTask: taskInfo,
+        });
       }
-      this.setState({
-        taskImageURL,
-        taskTime,
-        workingTask: taskInfo,
-      });
     }
   }
 
