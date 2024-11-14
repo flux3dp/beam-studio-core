@@ -191,4 +191,8 @@ export default interface ISVGCanvas {
     showProgress?: boolean
   ) => Promise<BaseHistoryCommand>;
   zoomSvgElem: (zoom: number) => void;
+  convertToPath: (
+    elem: SVGElement,
+    isSubCmd?: boolean
+  ) => { path: SVGPathElement; cmd: BaseHistoryCommand };
 }

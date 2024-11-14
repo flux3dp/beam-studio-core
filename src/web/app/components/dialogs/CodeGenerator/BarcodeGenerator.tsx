@@ -149,28 +149,21 @@ export default forwardRef<HTMLDivElement, Props>(
 
                 <Form.Item className={styles['flex-child']}>
                   <Checkbox
-                    onChange={(e) => setOptions({ ...options, displayValue: !e.target.checked })}
+                    checked={isInvert}
+                    onChange={() => {
+                      const [black, white] = ['#000000', '#ffffff'];
+
+                      setIsInvert(!isInvert);
+                      setOptions({
+                        ...options,
+                        background: isInvert ? white : black,
+                        lineColor: isInvert ? black : white,
+                      });
+                    }}
                   >
-                    {t.hide_text}
+                    {t.invert_color}
                   </Checkbox>
                 </Form.Item>
-                {/* <Form.Item className={styles['flex-child']}>
-                <Checkbox
-                  checked={isInvert}
-                  onChange={() => {
-                    const [black, white] = ['#000000', '#ffffff'];
-
-                    setIsInvert(!isInvert);
-                    setOptions({
-                      ...options,
-                      background: !isInvert ? black : white,
-                      lineColor: !isInvert ? white : black,
-                    });
-                  }}
-                >
-                  {t.invert_color}
-                </Checkbox>
-              </Form.Item> */}
               </Flex>
 
               <Flex vertical>
@@ -269,6 +262,14 @@ export default forwardRef<HTMLDivElement, Props>(
                     </Form.Item>
                   </Flex>
                 </Flex>
+
+                <Form.Item className={styles['flex-child']}>
+                  <Checkbox
+                    onChange={(e) => setOptions({ ...options, displayValue: !e.target.checked })}
+                  >
+                    {t.hide_text}
+                  </Checkbox>
+                </Form.Item>
               </Flex>
             </Flex>
           </Form>

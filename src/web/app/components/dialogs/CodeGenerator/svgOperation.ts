@@ -92,41 +92,29 @@ function getTranslateValues(transform: string): { x: number; y: number } {
 }
 
 /* Barcode */
-export async function importBarcodeSvgElement(
-  svgElement: SVGElement,
-  isInvert = false
-): Promise<void> {
-  const batchCmd = new history.BatchCommand('Import Barcode');
-  const doc = preProcessTextTag(svgElement);
-  const group = Array.of<SVGElement>();
-  const gElements = doc.querySelectorAll('g');
+async function getDFromBarcodeSvgElement(svgElement: SVGElement) {
+  const ds = Array.of<string>();
+
+  preProcessTextTag(svgElement);
+
   const fontObj = await getFontObj(
-    fontFuncs.getFontOfPostscriptName(doc.querySelector('text')?.getAttribute('font-postscript'))
+    fontFuncs.getFontOfPostscriptName(
+      svgElement.querySelector('text')?.getAttribute('font-postscript')
+    )
   );
 
-  gElements.forEach((g) => {
+  svgElement.querySelectorAll('g').forEach((g) => {
     const transform = getTranslateValues(g.getAttribute('transform'));
 
     g.querySelectorAll('rect').forEach((rect) => {
-      const { x, y, width, height } = rect.getBBox();
+      const { x, y } = rect.getBBox();
 
-      group.push(
-        svgCanvas.addSvgElementFromJson({
-          element: 'rect',
-          curStyles: false,
-          attr: {
-            x: x + transform.x,
-            y: y + transform.y,
-            width,
-            height,
-            stroke: '#000',
-            fill: 'black',
-            opacity: 1,
-            'fill-opacity': 1,
-            id: svgCanvas.getNextId(),
-          },
-        })
-      );
+      rect.setAttribute('x', `${x + transform.x}`);
+      rect.setAttribute('y', `${y + transform.y}`);
+
+      const { path } = svgCanvas.convertToPath(rect, true);
+
+      ds.push(path.getAttribute('d'));
     });
 
     g.querySelectorAll('text').forEach((text) => {
@@ -141,43 +129,66 @@ export async function importBarcodeSvgElement(
       tspan.setAttribute('x', `${Number.parseFloat(text.getAttribute('x')) + transform.x}`);
       tspan.setAttribute('y', `${Number.parseFloat(text.getAttribute('y')) + transform.y}`);
       tspan.textContent = textContent;
+
       text.textContent = '';
       text.appendChild(tspan);
 
       const { d } = convertTextToPathByFontkit(text, fontObj);
 
-      group.push(
-        svgCanvas.addSvgElementFromJson({
-          element: 'path',
-          curStyles: true,
-          attr: {
-            d,
-            fill: 'black',
-            opacity: 1,
-            'fill-opacity': 1,
-            id: svgCanvas.getNextId(),
-          },
-        })
-      );
+      ds.push(d);
     });
   });
 
-  // reverse to prevent doApply cannot find the next sibling
-  [...group].reverse().forEach((element) => {
-    batchCmd.addSubCommand(new history.InsertElementCommand(element));
+  return ds.filter(Boolean).join(' ');
+}
+
+async function getSubtractedDFromBarcodeSvgElement(svgElement: SVGElement) {
+  const { width, height } = svgElement.getBoundingClientRect();
+  const backgroundPath = document.createElementNS(NS.SVG, 'path');
+
+  backgroundPath.setAttribute('fill', 'black');
+  backgroundPath.setAttribute('d', `M0 0h${width}v${height}H0z`);
+
+  const d = await getDFromBarcodeSvgElement(svgElement);
+  const codePath = document.createElementNS(NS.SVG, 'path');
+
+  codePath.setAttribute('fill', 'black');
+  codePath.setAttribute('d', d);
+
+  const subtractedD = svgCanvas.pathActions.booleanOperation(
+    new XMLSerializer().serializeToString(backgroundPath),
+    new XMLSerializer().serializeToString(codePath),
+    2
+  );
+
+  codePath.remove();
+  backgroundPath.remove();
+
+  return subtractedD;
+}
+
+export async function importBarcodeSvgElement(
+  svgElement: SVGElement,
+  isInvert = false
+): Promise<void> {
+  const batchCmd = new history.BatchCommand('Import Barcode');
+  const d = isInvert
+    ? await getSubtractedDFromBarcodeSvgElement(svgElement)
+    : await getDFromBarcodeSvgElement(svgElement);
+
+  const pathElement = svgCanvas.addSvgElementFromJson({
+    element: 'path',
+    curStyles: true,
+    attr: { d, fill: 'black', opacity: 1, 'fill-opacity': 1, id: svgCanvas.getNextId() },
   });
 
-  doc.remove();
+  batchCmd.addSubCommand(new history.InsertElementCommand(pathElement));
 
-  svgCanvas.selectOnly(group);
-
-  const groupElementSubCmd = svgCanvas.groupSelectedElements(true);
-
-  if (groupElementSubCmd) {
-    batchCmd.addSubCommand(groupElementSubCmd);
-  }
-
+  svgCanvas.updateElementColor(pathElement);
+  svgCanvas.selectOnly([pathElement]);
   svgCanvas.zoomSvgElem(10);
+
+  svgElement.remove();
 
   if (!batchCmd.isEmpty()) {
     undoManager.addCommandToHistory(batchCmd);
@@ -198,11 +209,11 @@ function handleQrCodeInvertColor(svgElement: SVGElement): string {
     new XMLSerializer().serializeToString(svgElement),
     'path'
   );
-  const subtractedPath = svgCanvas.pathActions.booleanOperation(backgroundPath, codePath, 2);
+  const subtractedD = svgCanvas.pathActions.booleanOperation(backgroundPath, codePath, 2);
   const path = document.createElementNS(NS.SVG, 'path');
 
   path.setAttribute('fill', 'black');
-  path.setAttribute('d', subtractedPath);
+  path.setAttribute('d', subtractedD);
 
   svg.appendChild(path);
 

@@ -515,7 +515,7 @@ const ActionsPanel = ({ elem }: Props): JSX.Element => {
               svgCanvas.ungroupTempGroup();
               let path = pathLike;
               if (pathLike.nodeName !== 'path') {
-                path = svgCanvas.convertToPath(path);
+                path = svgCanvas.convertToPath(path).path;
               }
               textPathEdit.attachTextToPath(text, path);
               updateElementColor(text);
