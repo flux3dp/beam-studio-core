@@ -1579,6 +1579,9 @@ const lang: ILang = {
     },
     unsupported_example_file: 'Contoh fail yang dipilih tidak disokong oleh ruang kerja semasa.',
     time_remaining: 'Masa yang tinggal:',
+    promark_disconnected: 'Sambungan peranti terganggu, sila periksa status sambungan peranti.',
+    swiftray_disconnected: 'Tidak dapat menyambung ke backend, mencuba untuk menyambung semula.',
+    swiftray_reconnected: 'Backend telah disambung semula, sila cuba hantar kerja semula.',
   },
   machine_status: {
     '0': 'Senggang',

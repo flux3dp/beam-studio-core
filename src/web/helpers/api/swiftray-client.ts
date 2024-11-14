@@ -3,6 +3,7 @@ import EventEmitter from 'eventemitter3';
 
 import communicator from 'implementations/communicator';
 import deviceMaster from 'helpers/device-master';
+import i18n from 'helpers/i18n';
 import isWeb from 'helpers/is-web';
 import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
 import TopBarController from 'app/views/beambox/TopBar/contexts/TopBarController';
@@ -95,7 +96,7 @@ class SwiftrayClient extends EventEmitter {
       if (this.status !== 'connected') return;
       MessageCaller.openMessage({
         key: 'swiftray-error-hint',
-        content: 'Unable to connect to the server. Attempting to reconnect.',
+        content: i18n.lang.message.swiftray_disconnected,
         level: MessageLevel.ERROR,
       });
       this.emit('disconnected');
@@ -104,23 +105,19 @@ class SwiftrayClient extends EventEmitter {
     } else if (newStatus === 'connected' && this.status === 'disconnected') {
       // Reconnect to Promark
       let device = TopBarController.getSelectedDevice();
-      let retry = 5;
-      console.log('Last selected Device:', device);
+      let retry = 8;
       while (!device && this.lastPromark && retry > 0) {
-        console.log('Wait for promark');
         // eslint-disable-next-line no-await-in-loop
         await new Promise((resolve) => setTimeout(resolve, 2000));
         device = TopBarController.getSelectedDevice();
         retry -= 1;
-        console.log('Last selected Device:', device);
       }
       if (promarkModels.has(device?.model)) {
-        const aa = await deviceMaster.select(device);
-        console.log('aa', aa);
+        await deviceMaster.select(device);
       }
       MessageCaller.openMessage({
         key: 'swiftray-error-hint',
-        content: 'Successfully reconnected to the server.',
+        content: i18n.lang.message.swiftray_reconnected,
         level: MessageLevel.SUCCESS,
       });
       this.emit('reconnected');

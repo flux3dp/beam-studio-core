@@ -1582,6 +1582,9 @@ const lang: ILang = {
     },
     unsupported_example_file: 'The selected example file is not supported by current workarea.',
     time_remaining: 'Time remaining:',
+    promark_disconnected: "Device connection interrupted, please check the device's connection status.",
+    swiftray_disconnected: 'Unable to connect to the backend, attempting to reconnect.',
+    swiftray_reconnected: 'Backend reconnected, please try resending the job.',
   },
   machine_status: {
     '-17': 'Cartridge IO Mode',

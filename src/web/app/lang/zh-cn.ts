@@ -1582,6 +1582,9 @@ const lang: ILang = {
     },
     unsupported_example_file: '所选示例文件不受当前工作区支持。',
     time_remaining: '剩余时间：',
+    promark_disconnected: '设备连接中断，请检查设备的连接状态。',
+    swiftray_disconnected: '无法连接到后端，正在尝试重新连接。',
+    swiftray_reconnected: '后端已重新连接，请尝试重新发送工作。',
   },
   machine_status: {
     '-17': '墨匣模式',

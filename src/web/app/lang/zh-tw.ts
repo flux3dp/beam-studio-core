@@ -1582,6 +1582,9 @@ const lang: ILang = {
     },
     unsupported_example_file: '選取範例文件不支援的目前工作範圍。',
     time_remaining: '剩餘時間：',
+    promark_disconnected: '設備連線中斷，請確認設備的連線狀態。',
+    swiftray_disconnected: '無法連線到後端，正在重新嘗試連線。',
+    swiftray_reconnected: '後端已重新連線，請嘗試重新送出工作。',
   },
   machine_status: {
     '-17': '墨匣模式',

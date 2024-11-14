@@ -232,13 +232,13 @@ export class MonitorContextProvider extends React.Component<Props, State> {
       // Promark disconnected
       Alert.popUp({
         id,
-        message: '設備連線中斷，請確認設備的連線狀態。',
+        message: i18n.lang.message.promark_disconnected,
       });
     } else if (type === 'disconnected') {
       // Swiftray disconnected
       Progress.openNonstopProgress({
         id,
-        message: '無法連線到後端，正在重新嘗試連線。',
+        message: i18n.lang.message.swiftray_disconnected,
         onCancel: onClose,
       });
       this.setState((prev) => ({
@@ -248,7 +248,7 @@ export class MonitorContextProvider extends React.Component<Props, State> {
       // Swiftray reconnected
       Alert.popUp({
         id,
-        message: '後端已重新連線，請嘗試重新送出工作。',
+        message: i18n.lang.message.swiftray_reconnected,
         buttonType: AlertConstants.CONFIRM_CANCEL,
         onCancel: onClose,
         onConfirm: () => {},

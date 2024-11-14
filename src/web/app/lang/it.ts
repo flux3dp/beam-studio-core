@@ -1579,6 +1579,9 @@ const lang: ILang = {
     },
     unsupported_example_file: "Il file di esempio selezionato non è supportato dall'area di lavoro corrente.",
     time_remaining: 'Tempo rimanente:',
+    promark_disconnected: 'Connessione al dispositivo interrotta, controlla lo stato della connessione del dispositivo.',
+    swiftray_disconnected: 'Impossibile connettersi al backend, tentativo di riconnessione.',
+    swiftray_reconnected: 'Il backend è stato riconnesso, riprova a inviare il lavoro.',
   },
   machine_status: {
     '0': 'Inattivo',
