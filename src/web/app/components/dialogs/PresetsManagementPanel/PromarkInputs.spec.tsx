@@ -44,6 +44,7 @@ jest.mock('helpers/layer/layer-config-helper', () => ({
     frequency: { min: 1, max: 4000 },
     interval: { min: 0.001 },
   }),
+  getDefaultConfig: () => ({}),
 }));
 
 const mockIsDev = jest.fn();
