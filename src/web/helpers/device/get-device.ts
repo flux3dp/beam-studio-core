@@ -11,6 +11,7 @@ import { IDeviceInfo } from 'interfaces/IDevice';
 import { promarkModels } from 'app/actions/beambox/constant';
 import { SelectionResult } from 'app/constants/connection-constants';
 
+import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import DeviceMaster from '../device-master';
 import showResizeAlert from './fit-device-workarea-alert';
 
@@ -69,17 +70,19 @@ const getDevice = async (
     }
     TopBarController.setSelectedDevice(device);
     if (device) {
-      const { uuid, serial, model } = device;
+      const { uuid, model } = device;
       const isNewDevice = currentDevice?.uuid !== uuid;
       if (isNewDevice) {
         storage.set('selected-device', uuid);
-        if (promarkModels.has(model)) {
-          storage.set('last-promark-serial', serial);
-          // TODO: update everythings that depends on promark info
-        }
       }
       const res = await DeviceMaster.select(device);
       if (res.success) {
+        if (promarkModels.has(model)) {
+          storage.set('last-promark-serial', device.serial);
+          const canvasEvents = eventEmitterFactory.createEventEmitter('canvas');
+          canvasEvents.emit('document-settings-saved');
+          // TODO: update everythings that depends on promark info
+        }
         isWorkareaMatched = model === BeamboxPreference.read('workarea');
         if (!isWorkareaMatched && isNewDevice) {
           isWorkareaMatched = await showResizeAlert(device);
