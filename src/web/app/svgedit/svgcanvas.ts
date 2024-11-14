@@ -3620,21 +3620,19 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     return batchCmd;
   };
 
-  // TODO(codedread): Remove the getBBox argument and split this function into two.
-  // Function: convertToPath
-  // Convert selected element to a path, or get the BBox of an element-as-path
-  //
-  // Parameters:
-  // elem - The DOM element to be converted
-  // getBBox - Boolean on whether or not to only return the path's BBox
-  //
-  // Returns:
-  // If the getBBox flag is true, the resulting path's bounding box object.
-  // Otherwise the resulting path element is returned.
-  this.convertToPath = (elem: Element, getBBox = false) => {
-    if (getBBox) {
-      return svgedit.utilities.getBBoxOfElementAsPath(elem, addSvgElementFromJson, pathActions);
-    }
+  /**
+   * Function: convertToPath
+   * Convert selected element to a path.
+   *
+   * Parameters:
+   * elem - The DOM element to be converted
+   * isSubCmd - Boolean indicating whether the call is part of a further operation
+   *
+   * Returns:
+   * path - path element
+   * cmd - history command
+   */
+  this.convertToPath = (elem: Element, isSubCmd = false) => {
     // TODO: Why is this applying attributes from cur_shape, then inside utilities.convertToPath it's pulling addition attributes from elem?
     // TODO: If convertToPath is called with one elem, cur_shape and elem are probably the same; but calling with multiple is a bug or cool feature.
     const attrs = {
@@ -3655,14 +3653,30 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       pathActions,
       svgedit.history
     );
+
     if (path) {
       if (selectedElements.includes(elem)) selectOnly([path]);
-      if (cmd && !cmd.isEmpty()) {
+      if (cmd && !cmd.isEmpty() && !isSubCmd) {
         addCommandToHistory(cmd);
+        return { path, cmd };
       }
     }
-    return path;
+
+    return { path, cmd };
   };
+
+  /**
+   * Function: getConvertedPathBBox
+   * The BBox of an element-as-path
+   *
+   * Parameters:
+   * elem - The DOM element to be converted to path and getting bbox from.
+   *
+   * Returns:
+   * The path's bounding box object
+   */
+  this.getConvertedPathBBox = (elem: Element) =>
+    svgedit.utilities.getBBoxOfElementAsPath(elem, addSvgElementFromJson, pathActions);
 
   // Function: changeSelectedAttributeNoUndo
   // This function makes the changes to the elements. It does not add the change
