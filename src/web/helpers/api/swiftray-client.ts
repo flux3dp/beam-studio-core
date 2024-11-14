@@ -403,7 +403,12 @@ class SwiftrayClient extends EventEmitter {
   }
 
   public async upload(data: Blob, path?: string): Promise<void> {
-    return this.action(`/devices/${this.port}`, 'upload', { data, path });
+    try {
+      const text = await data.text();
+      return await this.action(`/devices/${this.port}`, 'upload', { data: text, path });
+    } catch (e) {
+      return this.action(`/devices/${this.port}`, 'upload', { data, path });
+    }
   }
 
   public async sendGCode(command: string): Promise<void> {
