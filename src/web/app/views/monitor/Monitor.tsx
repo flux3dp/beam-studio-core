@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Modal, Tabs } from 'antd';
 import { CameraOutlined, FolderOutlined, PictureOutlined } from '@ant-design/icons';
 
@@ -32,18 +32,16 @@ const Monitor = ({ device }: Props): JSX.Element => {
   const key = 'monitorUploadFileMessage';
 
   const tabItems = [
-    taskImageURL
-      ? {
-          label: (
-            <div>
-              <PictureOutlined />
-              {LANG.monitor.taskTab}
-            </div>
-          ),
-          key: taskMode,
-          children: <MonitorTask />,
-        }
-      : null,
+    {
+      label: (
+        <div>
+          <PictureOutlined />
+          {LANG.monitor.taskTab}
+        </div>
+      ),
+      key: taskMode,
+      children: <MonitorTask />,
+    },
     {
       label: (
         <div>
@@ -68,7 +66,7 @@ const Monitor = ({ device }: Props): JSX.Element => {
         },
   ].filter(Boolean);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (uploadProgress) {
       MessageCaller.openMessage({
         key,
@@ -89,13 +87,14 @@ const Monitor = ({ device }: Props): JSX.Element => {
     }
   }, [LANG, isUploadCompleted, report, uploadProgress]);
 
-  const statusText = React.useMemo(() => {
+  const statusText = useMemo(() => {
     if (uploadProgress) {
       return LANG.beambox.popup.progress.uploading;
     }
 
     if (report) {
-      return MonitorStatus.getDisplayStatus(report.st_label);
+      if (report.st_label) return MonitorStatus.getDisplayStatus(report.st_label);
+      return MonitorStatus.getDisplayStatus(MonitorStatus.getStLabel(report.st_id));
     }
 
     return LANG.monitor.connecting;
