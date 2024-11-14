@@ -6,7 +6,7 @@ import isDev from 'helpers/is-dev';
 import UnitInput from 'app/widgets/UnitInput';
 import useI18n from 'helpers/useI18n';
 import { ConfigKey, ConfigKeyTypeMap, Preset } from 'interfaces/ILayerConfig';
-import { defaultConfig, getPromarkLimit } from 'helpers/layer/layer-config-helper';
+import { getDefaultConfig, getPromarkLimit } from 'helpers/layer/layer-config-helper';
 import { getSupportInfo } from 'app/constants/add-on';
 
 import styles from './PresetsManagementPanel.module.scss';
@@ -31,6 +31,7 @@ const PromarkInputs = ({
   const tLaserPanel = useI18n().beambox.right_panel.laser_panel;
   const t = tLaserPanel.preset_management;
   const supportInfo = useMemo(() => getSupportInfo('fpm1'), []);
+  const defaultConfig = useMemo(getDefaultConfig, []);
   const dev = useMemo(isDev, []);
   const focusStepMax = useMemo(() => {
     if (preset.repeat <= 1) return 10;
@@ -87,7 +88,7 @@ const PromarkInputs = ({
             clipValue
           />
         </div>
-        {(dev || supportInfo.lowerFocus) && (
+        {supportInfo.lowerFocus && (
           <>
             <div className={styles.field}>
               <div className={styles.label}>{t.lower_focus_by}</div>

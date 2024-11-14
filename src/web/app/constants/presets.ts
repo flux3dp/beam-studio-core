@@ -995,6 +995,610 @@ export const presets: {
       },
     },
   },
+  aluminum_light: {
+    fpm1_0_20: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 90,
+        speed: 3500,
+        frequency: 27,
+        fillInterval: 0.01,
+      },
+    },
+    fpm1_0_30: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 72,
+        speed: 3500,
+        frequency: 30,
+        fillInterval: 0.01,
+      },
+    },
+    fpm1_0_50: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 55,
+        speed: 3500,
+        frequency: 45,
+        fillInterval: 0.01,
+      },
+    },
+    fpm1_1_20: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 55,
+        speed: 3000,
+        frequency: 25,
+        pulseWidth: 350,
+        fillInterval: 0.01,
+      },
+    },
+    fpm1_1_60: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 28,
+        speed: 3000,
+        frequency: 25,
+        pulseWidth: 350,
+        fillInterval: 0.01,
+      },
+    },
+    fpm1_1_100: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 55,
+        speed: 4000,
+        frequency: 55,
+        pulseWidth: 500,
+        fillInterval: 0.01,
+      },
+    },
+  },
+  stainless_steel_light: {
+    fpm1_0_20: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 50,
+        speed: 4500,
+        frequency: 27,
+        fillInterval: 0.01,
+      },
+    },
+    fpm1_0_30: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 40,
+        speed: 4500,
+        frequency: 30,
+        fillInterval: 0.01,
+      },
+    },
+    fpm1_0_50: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 50,
+        speed: 2000,
+        frequency: 45,
+        fillInterval: 0.01,
+      },
+    },
+    fpm1_1_20: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 20,
+        speed: 2000,
+        frequency: 25,
+        pulseWidth: 350,
+        fillInterval: 0.01,
+      },
+    },
+    fpm1_1_60: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 10,
+        speed: 2000,
+        frequency: 25,
+        pulseWidth: 350,
+        fillInterval: 0.01,
+      },
+    },
+    fpm1_1_100: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 30,
+        speed: 4000,
+        frequency: 55,
+        pulseWidth: 500,
+        fillInterval: 0.01,
+      },
+    },
+  },
+  stainless_steel_dark: {
+    fpm1_0_20: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 10,
+        speed: 300,
+        frequency: 27,
+        fillInterval: 0.01,
+      },
+    },
+    fpm1_0_30: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 8,
+        speed: 300,
+        frequency: 30,
+        fillInterval: 0.01,
+      },
+    },
+    fpm1_0_50: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 20,
+        speed: 400,
+        frequency: 45,
+        fillInterval: 0.01,
+      },
+    },
+    fpm1_1_20: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 30,
+        speed: 150,
+        frequency: 25,
+        pulseWidth: 350,
+        fillInterval: 0.01,
+      },
+    },
+    fpm1_1_60: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 15,
+        speed: 150,
+        frequency: 25,
+        pulseWidth: 350,
+        fillInterval: 0.01,
+      },
+    },
+    fpm1_1_100: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 30,
+        speed: 500,
+        frequency: 55,
+        pulseWidth: 100,
+        fillInterval: 0.01,
+      },
+    },
+  },
+  brass_light: {
+    fpm1_0_20: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 90,
+        speed: 1500,
+        frequency: 27,
+        fillInterval: 0.01,
+      },
+    },
+    fpm1_0_30: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 72,
+        speed: 1500,
+        frequency: 30,
+        fillInterval: 0.01,
+      },
+    },
+    fpm1_0_50: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 55,
+        speed: 3000,
+        frequency: 45,
+        fillInterval: 0.01,
+      },
+    },
+    fpm1_1_20: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 45,
+        speed: 2000,
+        frequency: 25,
+        pulseWidth: 200,
+        fillInterval: 0.01,
+      },
+    },
+    fpm1_1_60: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 23,
+        speed: 2000,
+        frequency: 25,
+        pulseWidth: 200,
+        fillInterval: 0.01,
+      },
+    },
+    fpm1_1_100: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 75,
+        speed: 1500,
+        frequency: 55,
+        pulseWidth: 500,
+        fillInterval: 0.01,
+      },
+    },
+  },
+  brass_dark: {
+    fpm1_0_50: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 90,
+        speed: 700,
+        frequency: 45,
+        fillInterval: 0.01,
+      },
+    },
+    fpm1_1_20: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 80,
+        speed: 500,
+        frequency: 25,
+        pulseWidth: 350,
+        fillInterval: 0.01,
+      },
+    },
+    fpm1_1_60: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 40,
+        speed: 500,
+        frequency: 25,
+        pulseWidth: 350,
+        fillInterval: 0.01,
+      },
+    },
+    fpm1_1_100: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 100,
+        speed: 900,
+        frequency: 55,
+        pulseWidth: 300,
+        fillInterval: 0.01,
+      },
+    },
+  },
+  copper: {
+    fpm1_0_50: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 90,
+        speed: 3000,
+        frequency: 45,
+        fillInterval: 0.01,
+      },
+    },
+    fpm1_1_20: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 90,
+        speed: 1000,
+        frequency: 25,
+        pulseWidth: 350,
+        fillInterval: 0.01,
+      },
+    },
+    fpm1_1_60: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 45,
+        speed: 1000,
+        frequency: 25,
+        pulseWidth: 350,
+        fillInterval: 0.01,
+      },
+    },
+    fpm1_1_100: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 100,
+        speed: 4000,
+        frequency: 55,
+        pulseWidth: 125,
+        fillInterval: 0.01,
+      },
+    },
+  },
+  titanium_light: {
+    fpm1_0_20: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 55,
+        speed: 2500,
+        frequency: 27,
+        fillInterval: 0.01,
+      },
+    },
+    fpm1_0_30: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 44,
+        speed: 2500,
+        frequency: 30,
+        fillInterval: 0.01,
+      },
+    },
+    fpm1_0_50: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 30,
+        speed: 2000,
+        frequency: 45,
+        fillInterval: 0.01,
+      },
+    },
+    fpm1_1_20: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 60,
+        speed: 800,
+        frequency: 25,
+        pulseWidth: 350,
+        fillInterval: 0.01,
+      },
+    },
+    fpm1_1_60: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 30,
+        speed: 800,
+        frequency: 25,
+        pulseWidth: 350,
+        fillInterval: 0.01,
+      },
+    },
+    fpm1_1_100: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 30,
+        speed: 1000,
+        frequency: 55,
+        pulseWidth: 500,
+        fillInterval: 0.05,
+      },
+    },
+  },
+  titanium_dark: {
+    fpm1_0_20: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 100,
+        speed: 700,
+        frequency: 27,
+        fillInterval: 0.01,
+      },
+    },
+    fpm1_0_30: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 80,
+        speed: 700,
+        frequency: 30,
+        fillInterval: 0.01,
+      },
+    },
+    fpm1_0_50: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 55,
+        speed: 1500,
+        frequency: 45,
+        fillInterval: 0.005,
+      },
+    },
+    fpm1_1_20: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 80,
+        speed: 1000,
+        frequency: 25,
+        pulseWidth: 350,
+        fillInterval: 0.01,
+      },
+    },
+    fpm1_1_60: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 40,
+        speed: 1000,
+        frequency: 25,
+        pulseWidth: 350,
+        fillInterval: 0.01,
+      },
+    },
+    fpm1_1_100: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 80,
+        speed: 1000,
+        frequency: 55,
+        pulseWidth: 500,
+        fillInterval: 0.05,
+      },
+    },
+  },
+  white_abs: {
+    fpm1_0_20: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 30,
+        speed: 4000,
+        frequency: 27,
+        fillInterval: 0.01,
+      },
+    },
+    fpm1_0_30: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 24,
+        speed: 4000,
+        frequency: 30,
+        fillInterval: 0.01,
+      },
+    },
+    fpm1_0_50: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 15,
+        speed: 4000,
+        frequency: 45,
+        fillInterval: 0.01,
+      },
+    },
+    fpm1_1_20: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 40,
+        speed: 500,
+        frequency: 25,
+        pulseWidth: 350,
+        fillInterval: 0.05,
+      },
+    },
+    fpm1_1_60: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 20,
+        speed: 500,
+        frequency: 25,
+        pulseWidth: 350,
+        fillInterval: 0.05,
+      },
+    },
+    fpm1_1_100: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 100,
+        speed: 3000,
+        frequency: 30,
+        pulseWidth: 500,
+        fillInterval: 0.05,
+      },
+    },
+  },
+  black_abs: {
+    fpm1_0_20: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 20,
+        speed: 5000,
+        frequency: 27,
+        fillInterval: 0.05,
+      },
+    },
+    fpm1_0_30: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 16,
+        speed: 5000,
+        frequency: 30,
+        fillInterval: 0.05,
+      },
+    },
+    fpm1_0_50: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 15,
+        speed: 700,
+        frequency: 45,
+        fillInterval: 0.05,
+      },
+    },
+    fpm1_1_20: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 25,
+        speed: 4000,
+        frequency: 25,
+        pulseWidth: 350,
+        fillInterval: 0.01,
+      },
+    },
+    fpm1_1_60: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 13,
+        speed: 4000,
+        frequency: 25,
+        pulseWidth: 350,
+        fillInterval: 0.01,
+      },
+    },
+    fpm1_1_100: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 20,
+        speed: 2500,
+        frequency: 55,
+        pulseWidth: 500,
+        fillInterval: 0.05,
+      },
+    },
+  },
+  opaque_acrylic: {
+    fpm1_0_20: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 30,
+        speed: 5000,
+        frequency: 27,
+        fillInterval: 0.01,
+      },
+    },
+    fpm1_0_30: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 24,
+        speed: 5000,
+        frequency: 30,
+        fillInterval: 0.01,
+      },
+    },
+    fpm1_0_50: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 15,
+        speed: 1500,
+        frequency: 45,
+        fillInterval: 0.05,
+      },
+    },
+    fpm1_1_20: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 15,
+        speed: 4000,
+        frequency: 25,
+        pulseWidth: 350,
+        fillInterval: 0.01,
+      },
+    },
+    fpm1_1_60: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 8,
+        speed: 4000,
+        frequency: 25,
+        pulseWidth: 350,
+        fillInterval: 0.01,
+      },
+    },
+    fpm1_1_100: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 100,
+        speed: 3500,
+        frequency: 55,
+        pulseWidth: 500,
+        fillInterval: 0.05,
+      },
+    },
+  },
+  stone: {
+    fpm1_0_20: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 90,
+        speed: 1000,
+        frequency: 27,
+        fillInterval: 0.01,
+      },
+    },
+    fpm1_0_30: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 72,
+        speed: 1000,
+        frequency: 30,
+        fillInterval: 0.01,
+      },
+    },
+    fpm1_0_50: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 30,
+        speed: 250,
+        frequency: 45,
+        fillInterval: 0.05,
+      },
+    },
+    fpm1_1_20: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 60,
+        speed: 500,
+        frequency: 25,
+        pulseWidth: 350,
+        fillInterval: 0.05,
+      },
+    },
+    fpm1_1_60: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 30,
+        speed: 500,
+        frequency: 25,
+        pulseWidth: 350,
+        fillInterval: 0.05,
+      },
+    },
+    fpm1_1_100: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 25,
+        speed: 2500,
+        frequency: 330,
+        pulseWidth: 500,
+        fillInterval: 0.05,
+      },
+    },
+  },
 };
 
 export default presets;

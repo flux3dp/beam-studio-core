@@ -9,7 +9,7 @@ jest.mock('app/actions/beambox/beambox-preference', () => ({
 }));
 
 jest.mock('helpers/layer/layer-config-helper', () => ({
-  defaultConfig: {
+  baseConfig: {
     ink: 3,
     multipass: 3,
     speed: 60,
@@ -21,7 +21,6 @@ jest.mock('helpers/layer/layer-config-helper', () => ({
     halftone: 1,
   },
 }));
-
 
 jest.mock('helpers/useI18n', () => () => ({
   beambox: {
@@ -87,12 +86,16 @@ describe('PrintingInputs', () => {
     );
     const inkToggle = baseElement.querySelector('#inkSelect');
     fireEvent.mouseDown(inkToggle);
-    fireEvent.click(baseElement.querySelectorAll('.ant-slide-up-appear .ant-select-item-option-content')[0]);
+    fireEvent.click(
+      baseElement.querySelectorAll('.ant-slide-up-appear .ant-select-item-option-content')[0]
+    );
     expect(handleChange).toBeCalledTimes(1);
     expect(handleChange).toHaveBeenLastCalledWith('ink', 1);
     const halftoneToggle = baseElement.querySelector('#halftoneSelect');
     fireEvent.mouseDown(halftoneToggle);
-    fireEvent.click(baseElement.querySelectorAll('.ant-slide-up-appear .ant-select-item-option-content')[1]);
+    fireEvent.click(
+      baseElement.querySelectorAll('.ant-slide-up-appear .ant-select-item-option-content')[1]
+    );
     expect(handleChange).toBeCalledTimes(2);
     expect(handleChange).toHaveBeenLastCalledWith('halftone', 2);
   });

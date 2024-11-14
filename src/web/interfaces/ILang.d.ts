@@ -851,6 +851,18 @@ export interface ILang {
             stainless_steel_printing: string;
             gloss_leather_printing: string;
             glass_printing: string;
+            aluminum_light: string;
+            stainless_steel_dark: string;
+            stainless_steel_light: string;
+            brass_dark: string;
+            brass_light: string;
+            copper: string;
+            titanium_dark: string;
+            titanium_light: string;
+            black_abs: string;
+            white_abs: string;
+            opaque_acrylic: string;
+            stone: string;
           };
           inches: {
             wood_3mm_cutting: string;
@@ -902,6 +914,18 @@ export interface ILang {
             stainless_steel_printing: string;
             gloss_leather_printing: string;
             glass_printing: string;
+            aluminum_light: string;
+            stainless_steel_dark: string;
+            stainless_steel_light: string;
+            brass_dark: string;
+            brass_light: string;
+            copper: string;
+            titanium_dark: string;
+            titanium_light: string;
+            black_abs: string;
+            white_abs: string;
+            opaque_acrylic: string;
+            stone: string;
           };
         };
         laser_speed: {

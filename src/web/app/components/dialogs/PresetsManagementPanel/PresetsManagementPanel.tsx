@@ -18,7 +18,7 @@ import useI18n from 'helpers/useI18n';
 import useWorkarea from 'helpers/hooks/useWorkarea';
 import { addDialogComponent, isIdExist, popDialogById } from 'app/actions/dialog-controller';
 import { ConfigKey, ConfigKeyTypeMap, Preset } from 'interfaces/ILayerConfig';
-import { defaultConfig, postPresetChange } from 'helpers/layer/layer-config-helper';
+import { baseConfig, postPresetChange } from 'helpers/layer/layer-config-helper';
 import { getWorkarea } from 'app/constants/workarea-constants';
 import { promarkModels } from 'app/actions/beambox/constant';
 
@@ -115,7 +115,8 @@ const PresetsManagementPanel = ({ currentModule, initPreset, onClose }: Props): 
     if (!selectedPreset) return { name: '', isDefault: true };
     if (!selectedPreset.isDefault)
       return { ...selectedPreset, ...editingValues[selectedPreset.name] };
-    const keyPresets = presets[selectedPreset.key]?.[workarea];
+    const presetModel = presetHelper.getPresetModel(workarea);
+    const keyPresets = presets[selectedPreset.key]?.[presetModel];
     if (!keyPresets) return selectedPreset;
     if (keyPresets[selectedModule]) return { ...selectedPreset, ...keyPresets[selectedModule] };
     return { ...selectedPreset, ...Object.values(keyPresets)[0] };
@@ -228,7 +229,7 @@ const PresetsManagementPanel = ({ currentModule, initPreset, onClose }: Props): 
     const newPreset: Preset = { name: name.trim(), isDefault: false, module: presetModule };
     if (presetModule === LayerModule.PRINTER) {
       newPreset.halftone = 1;
-      newPreset.speed = defaultConfig.printingSpeed;
+      newPreset.speed = baseConfig.printingSpeed;
     }
     setEditingPresets([...editingPresets, newPreset]);
     setSelectedPreset(newPreset);

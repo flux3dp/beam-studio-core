@@ -37,10 +37,10 @@ import useWorkarea from 'helpers/hooks/useWorkarea';
 import {
   applyPreset,
   CUSTOM_PRESET_CONSTANT,
-  defaultConfig,
   forcedKeys,
   getConfigKeys,
   getData,
+  getDefaultConfig,
   getLayerConfig,
   getLayersConfig,
   postPresetChange,
@@ -111,6 +111,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
   );
 
   const workarea = useWorkarea();
+  const isPromark = promarkModels.has(workarea);
   const updateDiodeBoundary = useCallback(() => {
     if (beamboxPreference.read('enable-diode') && getSupportInfo(workarea).hybridLaser)
       diodeBoundaryDrawer.show(state.diode.value === 1);
@@ -132,6 +133,19 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
       dispatch({ type: 'update', payload: config });
     }
   }, []);
+
+  useEffect(() => {
+    if (!isPromark) return () => {};
+    const canvasEvents = eventEmitterFactory.createEventEmitter('canvas');
+    const updatePromarkInfo = () => {
+      postPresetChange();
+      initState();
+    };
+    canvasEvents.on('document-settings-saved', updatePromarkInfo);
+    return () => {
+      canvasEvents.off('document-settings-saved', updatePromarkInfo);
+    };
+  }, [isPromark, initState]);
 
   useEffect(() => {
     postPresetChange();
@@ -178,6 +192,7 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
       return;
     }
     const changedKeys = getConfigKeys(module.value);
+    const defaultConfig = getDefaultConfig();
     const payload: { [key: string]: string | number | boolean } = {};
     payload.configName = value;
     const { maxSpeed, minSpeed } = getWorkarea(workarea);
@@ -227,7 +242,6 @@ const ConfigPanel = ({ UIType = 'default' }: Props): JSX.Element => {
 
   const displayName = selectedLayers.length === 1 ? selectedLayers[0] : lang.multi_layer;
 
-  const isPromark = promarkModels.has(workarea);
   const isDevMode = isDev();
   const commonContent = (
     <>

@@ -124,7 +124,7 @@ const supportList: Record<WorkAreaModel, SupportInfo> = {
       extendWorkarea: false,
       mirror: false,
     },
-    lowerFocus: false,
+    lowerFocus: true,
   },
   flv1: {
     autoFocus: false,

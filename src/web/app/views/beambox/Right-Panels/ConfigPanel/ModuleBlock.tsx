@@ -18,7 +18,7 @@ import useI18n from 'helpers/useI18n';
 import useWorkarea from 'helpers/hooks/useWorkarea';
 import {
   applyPreset,
-  defaultConfig,
+  baseConfig,
   getData,
   writeDataLayer,
 } from 'helpers/layer/layer-config-helper';
@@ -126,12 +126,12 @@ const ModuleBlock = (): JSX.Element => {
       if (!newPreset) {
         writeDataLayer(layer, 'configName', undefined, { batchCmd });
         if (value === LayerModule.PRINTER && newVal !== LayerModule.PRINTER) {
-          writeDataLayer(layer, 'speed', defaultConfig.speed, { batchCmd });
-          writeDataLayer(layer, 'power', defaultConfig.power, { batchCmd });
+          writeDataLayer(layer, 'speed', baseConfig.speed, { batchCmd });
+          writeDataLayer(layer, 'power', baseConfig.power, { batchCmd });
         } else if (value !== LayerModule.PRINTER && newVal === LayerModule.PRINTER) {
-          writeDataLayer(layer, 'printingSpeed', defaultConfig.printingSpeed, { batchCmd });
-          writeDataLayer(layer, 'ink', defaultConfig.ink, { batchCmd });
-          writeDataLayer(layer, 'multipass', defaultConfig.multipass, { batchCmd });
+          writeDataLayer(layer, 'printingSpeed', baseConfig.printingSpeed, { batchCmd });
+          writeDataLayer(layer, 'ink', baseConfig.ink, { batchCmd });
+          writeDataLayer(layer, 'multipass', baseConfig.multipass, { batchCmd });
         }
       } else if (newPreset !== oldPreset) {
         applyPreset(layer, newPreset, { batchCmd });

@@ -1,6 +1,6 @@
 import { createContext, Dispatch } from 'react';
 
-import { defaultConfig } from 'helpers/layer/layer-config-helper';
+import { getDefaultConfig } from 'helpers/layer/layer-config-helper';
 import { ConfigKey, ILayerConfig } from 'interfaces/ILayerConfig';
 
 interface State extends ILayerConfig {
@@ -8,10 +8,11 @@ interface State extends ILayerConfig {
 }
 
 export const getDefaultState = (): State => {
+  const defaultConfig = getDefaultConfig();
   const keys = Object.keys(defaultConfig);
   const initState = {};
   keys.forEach((key: ConfigKey) => {
-    initState[key]  = { value: defaultConfig[key] } as ILayerConfig[ConfigKey];
+    initState[key] = { value: defaultConfig[key] } as ILayerConfig[ConfigKey];
   });
   return initState as State;
 };
