@@ -1,14 +1,10 @@
 import { InputRef } from 'antd';
-import communicator from 'implementations/communicator';
 import * as React from 'react';
 
 interface Props {
   children: React.ReactNode;
   inputRef: React.MutableRefObject<InputRef>;
 }
-
-export const setEditingInput = (): void => communicator.send('SET_EDITING_STANDARD_INPUT', true);
-export const setStopEditingInput = (): void => communicator.send('SET_EDITING_STANDARD_INPUT', false);
 
 const InputKeyWrapper = (props: Props): JSX.Element => {
   const { children, inputRef } = props;
@@ -26,11 +22,7 @@ const InputKeyWrapper = (props: Props): JSX.Element => {
     }
   };
 
-  return (
-    <div onKeyDown={keyFilter}>
-      {children}
-    </div>
-  );
+  return <div onKeyDown={keyFilter}>{children}</div>;
 };
 
 export default InputKeyWrapper;

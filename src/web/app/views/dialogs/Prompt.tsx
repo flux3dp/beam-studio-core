@@ -1,9 +1,10 @@
 /* eslint-disable react/require-default-props */
-import React, { useEffect, useState } from 'react';
-import { Checkbox, Input, InputRef, Modal } from 'antd';
+import React, { useState } from 'react';
+import { Checkbox, InputRef, Modal } from 'antd';
 
 import alertConfig, { AlertConfigKey } from 'helpers/api/alert-config';
-import InputKeyWrapper, { setEditingInput, setStopEditingInput } from 'app/widgets/InputKeyWrapper';
+import Input from 'app/widgets/Input';
+import InputKeyWrapper from 'app/widgets/InputKeyWrapper';
 import useI18n from 'helpers/useI18n';
 
 import styles from './Prompt.module.scss';
@@ -36,13 +37,6 @@ function Prompt({
   const inputRef = React.useRef<InputRef>(null);
   const [checkboxChecked, setCheckboxChecked] = useState(false);
 
-  useEffect(
-    () => () => {
-      if (document.activeElement === inputRef.current?.input) setStopEditingInput();
-    },
-    []
-  );
-
   const messageContent =
     typeof message === 'string' ? message.split('\n').map((t) => <p key={t}>{t}</p>) : message;
   const handleOk = (): void => {
@@ -50,8 +44,7 @@ function Prompt({
     const value = inputElem?.input?.value;
     onYes(value);
     if (!confirmValue || value?.toLowerCase() === confirmValue?.toLowerCase()) {
-      if (alertConfigKey && checkboxChecked)
-        alertConfig.write(alertConfigKey, true);
+      if (alertConfigKey && checkboxChecked) alertConfig.write(alertConfigKey, true);
       onClose();
     }
   };
@@ -81,8 +74,6 @@ function Prompt({
           ref={inputRef}
           className="text-input"
           type="text"
-          onFocus={setEditingInput}
-          onBlur={setStopEditingInput}
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
           defaultValue={defaultValue}
