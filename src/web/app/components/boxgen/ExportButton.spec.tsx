@@ -110,7 +110,7 @@ describe('test ExportButton', () => {
     expect(mockGetLayouts).toBeCalledWith(300, 210, mockData, {
       joinOutput: false,
       textLabel: false,
-      compRadius: 0.2,
+      compRadius: 0.1,
     });
 
     const paginationButtons = modal.querySelectorAll('.ant-pagination-item');
@@ -127,7 +127,7 @@ describe('test ExportButton', () => {
     expect(mockGetLayouts).toHaveBeenLastCalledWith(300, 210, mockData, {
       joinOutput: true,
       textLabel: false,
-      compRadius: 0.2,
+      compRadius: 0.1,
     });
     expect(optionButtons[0].getAttribute('aria-checked')).toBe('true');
     expect(paginationButtons[0]).toHaveClass('ant-pagination-item-active');
@@ -137,7 +137,7 @@ describe('test ExportButton', () => {
     expect(mockGetLayouts).toHaveBeenLastCalledWith(300, 210, mockData, {
       joinOutput: true,
       textLabel: true,
-      compRadius: 0.2,
+      compRadius: 0.1,
     });
 
     fireEvent.click(modal.querySelector('.ant-btn-primary'));

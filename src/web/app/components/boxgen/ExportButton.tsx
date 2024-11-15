@@ -34,7 +34,7 @@ const ExportDialog = ({
   const [options, setOptions] = useState<IExportOptions>({
     joinOutput: false,
     textLabel: false,
-    compRadius: 0.2,
+    compRadius: 0.1,
   });
   const [confirmLoading, setConfirmLoading] = useState(false);
   if (!visible) return null;
