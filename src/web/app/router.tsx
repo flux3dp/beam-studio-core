@@ -18,6 +18,8 @@ import Home from 'app/pages/Home';
 import Settings from 'app/pages/Settings';
 import SelectConnectionType from 'app/pages/SelectConnectionType';
 import SelectMachineModel from 'app/pages/SelectMachineModel';
+import SelectPromarkLaserSource from 'app/pages/SelectPromarkLaserSource';
+import PromarkSettings from 'app/pages/PromarkSettings';
 import { AlertProgressContextProvider } from 'app/contexts/AlertProgressContext';
 import { DialogContextProvider } from 'app/contexts/DialogContext';
 import { StyleProvider } from '@ant-design/cssinjs';
@@ -42,6 +44,7 @@ import nbNO from 'antd/locale/nb_NO';
 import svSE from 'antd/locale/sv_SE';
 import thTH from 'antd/locale/th_TH';
 import viVN from 'antd/locale/vi_VN';
+import { Container } from 'react-dom';
 
 const { defaultAlgorithm } = theme;
 
@@ -56,15 +59,15 @@ const localeMap = {
   'de-DE': deDE,
   'en-US': enUS,
   'pl-PL': plPL,
-  'da_DK': daDK,
-  'el_GR': elGR,
-  'fi_FI': fiFI,
-  'id_ID': idID,
-  'ms_MY': msMY,
-  'nb_NO': nbNO,
-  'sv_SE': svSE,
-  'th_TH': thTH,
-  'vi_VN': viVN,
+  da_DK: daDK,
+  el_GR: elGR,
+  fi_FI: fiFI,
+  id_ID: idID,
+  ms_MY: msMY,
+  nb_NO: nbNO,
+  sv_SE: svSE,
+  th_TH: thTH,
+  vi_VN: viVN,
 };
 
 console.log('Loading language', navigator.language);
@@ -82,8 +85,8 @@ const App = (): JSX.Element => {
               Message: {
                 // set this value because zIndex of windows custom title bar is 99999
                 zIndexPopup: 100000,
-              }
-            }
+              },
+            },
           }}
           locale={localeMap[navigator.language]}
         >
@@ -95,15 +98,41 @@ const App = (): JSX.Element => {
               <Switch>
                 <Route exact path="/google-auth" component={GoogleOAuth} />
                 <Route exact path="/fb-auth" component={FacebookOAuth} />
-                <Route exact path="/initialize/connect/select-connection-type" component={SelectConnectionType} />
-                <Route exact path="/initialize/connect/select-machine-model" component={SelectMachineModel} />
-                <Route exact path="/initialize/connect/connect-machine-ip" component={ConnectMachineIp} />
+                <Route
+                  exact
+                  path="/initialize/connect/select-connection-type"
+                  component={SelectConnectionType}
+                />
+                <Route
+                  exact
+                  path="/initialize/connect/select-machine-model"
+                  component={SelectMachineModel}
+                />
+                <Route
+                  exact
+                  path="/initialize/connect/connect-machine-ip"
+                  component={ConnectMachineIp}
+                />
                 <Route exact path="/initialize/connect/connect-usb" component={ConnectUsb} />
                 <Route exact path="/initialize/connect/connect-wi-fi" component={ConnectWiFi} />
                 <Route exact path="/initialize/connect/connect-wired" component={ConnectWired} />
-                <Route exact path="/initialize/connect/connect-ethernet" component={ConnectEthernet} />
+                <Route
+                  exact
+                  path="/initialize/connect/connect-ethernet"
+                  component={ConnectEthernet}
+                />
                 <Route exact path="/initialize/connect/flux-id-login" component={FluxIdLogin} />
-                <Route exact path="/studio/settings" component={Settings as any} />
+                <Route
+                  exact
+                  path="/initialize/connect/select-promark-laser-source"
+                  component={SelectPromarkLaserSource}
+                />
+                <Route
+                  exact
+                  path="/initialize/connect/promark-settings"
+                  component={PromarkSettings}
+                />
+                <Route exact path="/studio/settings" component={Settings} />
                 <Route exact path="/studio/beambox" component={Beambox} />
                 <Route path="/error/*" component={Error} />
                 <Route path="*" component={Home} />
@@ -116,9 +145,8 @@ const App = (): JSX.Element => {
   );
 };
 
-const router = (container) => {
-  const root = createRoot(container);
-  root.render(<App />);
+const router = (container: Container): void => {
+  createRoot(container).render(<App />);
 };
 
 export default router;

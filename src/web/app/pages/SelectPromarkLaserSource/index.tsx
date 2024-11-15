@@ -76,7 +76,7 @@ export default function ChoosePromarkLaserSource(): JSX.Element {
 
         <Flex vertical>
           <div className={styles['mb-32px']}>
-            <div className={styles.title}>Select Your Promark</div>
+            <div className={styles.title}>{t.promark.select_laser_source}</div>
             <Flex>
               <Radio.Group onChange={onLaserSourceChange} value={laserSource}>
                 <Space split={<Divider type="vertical" className={styles['space-divider']} />}>
@@ -89,7 +89,7 @@ export default function ChoosePromarkLaserSource(): JSX.Element {
 
           <div>
             <div className={classNames(styles.subtitle, styles['mb-12px'])}>
-              Select Your Workarea
+              {t.promark.select_workarea}
             </div>
             <Flex>
               <Radio.Group

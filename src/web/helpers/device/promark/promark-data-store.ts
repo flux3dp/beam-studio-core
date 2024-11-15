@@ -1,12 +1,15 @@
 import storage from 'implementations/storage';
 import { PromarkStore } from 'interfaces/Promark';
 
-const get = <T extends keyof PromarkStore>(
+const get = <T extends keyof PromarkStore = undefined>(
   serial: string,
   key?: T
-): T extends undefined ? PromarkStore : PromarkStore[T] => {
+): T extends undefined ? PromarkStore : PromarkStore[NonNullable<T>] => {
   const store: PromarkStore = storage.get('promark-store')?.[serial] || {};
-  return (key ? store[key] : store) as T extends undefined ? PromarkStore : PromarkStore[T];
+
+  return (key ? store[key] : store) as T extends undefined
+    ? PromarkStore
+    : PromarkStore[NonNullable<T>];
 };
 
 const set = <T extends keyof PromarkStore>(serial: string, key: T, data: PromarkStore[T]): void => {

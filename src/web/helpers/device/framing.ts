@@ -240,9 +240,7 @@ class FramingTaskManager extends EventEmitter {
     if (!deviceStatus) return;
     console.log('start framing upload');
     if (!this.hasAppliedRedLight) {
-      const { redDot, field, galvoParameters } = promarkDataStore.get(
-        this.device?.serial
-      ) as PromarkStore;
+      const { redDot, field, galvoParameters } = promarkDataStore.get(this.device?.serial);
       if (redDot) {
         const { field: newField, galvoParameters: newGalvo } = applyRedDot(
           redDot,
