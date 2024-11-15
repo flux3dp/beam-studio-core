@@ -1575,6 +1575,9 @@ export interface ILang {
     };
     unsupported_example_file: string;
     time_remaining: string;
+    promark_disconnected: string;
+    swiftray_disconnected: string;
+    swiftray_reconnected: string;
   };
   machine_status: {
     '-17': string;

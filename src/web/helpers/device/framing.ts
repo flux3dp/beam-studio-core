@@ -28,6 +28,7 @@ import { getSupportInfo, SupportInfo } from 'app/constants/add-on';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { PromarkStore } from 'interfaces/Promark';
+import { swiftrayClient } from 'helpers/api/swiftray-client';
 
 import applyRedDot from './promark/apply-red-dot';
 import promarkDataStore from './promark/promark-data-store';
@@ -222,12 +223,17 @@ class FramingTaskManager extends EventEmitter {
     };
   };
 
-  private changeWorkingStatus = (status: boolean) => {
+  private changeWorkingStatus = (status: boolean): void => {
     this.isWorking = status;
     this.emit('status-change', status);
   };
 
+  private onSwiftrayDisconnected = (): void => {
+    this.changeWorkingStatus(false);
+  };
+
   public startPromarkFraming = async (): Promise<void> => {
+    swiftrayClient.on('disconnected', this.onSwiftrayDisconnected);
     if (this.isWorking) return;
     this.changeWorkingStatus(true);
     const deviceStatus = await checkDeviceStatus(this.device);
@@ -255,6 +261,7 @@ class FramingTaskManager extends EventEmitter {
   };
 
   public stopPromarkFraming = async (): Promise<void> => {
+    swiftrayClient.off('disconnected', this.onSwiftrayDisconnected);
     if (!this.isWorking) return;
     await deviceMaster.stopFraming();
     this.changeWorkingStatus(false);

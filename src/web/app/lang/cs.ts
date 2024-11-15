@@ -1582,6 +1582,9 @@ const lang: ILang = {
     },
     unsupported_example_file: 'Vybraný ukázkový soubor není podporován současnou pracovní oblastí.',
     time_remaining: 'Zbývající čas:',
+    promark_disconnected: 'Připojení zařízení bylo přerušeno, zkontrolujte stav připojení zařízení.',
+    swiftray_disconnected: 'Nelze se připojit k backendu, opakování připojení probíhá.',
+    swiftray_reconnected: 'Backend byl znovu připojen, zkuste znovu odeslat úkol.',
   },
   machine_status: {
     '-17': 'IO mód kazety',

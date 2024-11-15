@@ -1579,6 +1579,9 @@ const lang: ILang = {
     },
     unsupported_example_file: 'Het geselecteerde voorbeeldbestand wordt niet ondersteund door het huidige werkgebied.',
     time_remaining: 'Resterende tijd:',
+    promark_disconnected: 'Apparaatverbinding onderbroken, controleer de verbindingsstatus van het apparaat.',
+    swiftray_disconnected: 'Kan geen verbinding maken met de backend, opnieuw verbinden.',
+    swiftray_reconnected: 'Backend opnieuw verbonden, probeer de taak opnieuw te verzenden.',
   },
   machine_status: {
     '0': 'Inactief',

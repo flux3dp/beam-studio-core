@@ -1579,6 +1579,9 @@ const lang: ILang = {
     },
     unsupported_example_file: 'Tệp ví dụ đã chọn không được hỗ trợ bởi khu vực làm việc hiện tại.',
     time_remaining: 'Thời gian còn lại:',
+    promark_disconnected: 'Kết nối thiết bị bị gián đoạn, vui lòng kiểm tra trạng thái kết nối của thiết bị.',
+    swiftray_disconnected: 'Không thể kết nối với backend, đang thử kết nối lại.',
+    swiftray_reconnected: 'Backend đã được kết nối lại, vui lòng thử gửi lại công việc.',
   },
   machine_status: {
     '0': 'Nghỉ',

@@ -2,10 +2,15 @@
 import EventEmitter from 'eventemitter3';
 
 import communicator from 'implementations/communicator';
+import deviceMaster from 'helpers/device-master';
+import i18n from 'helpers/i18n';
 import isWeb from 'helpers/is-web';
+import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
+import TopBarController from 'app/views/beambox/TopBar/contexts/TopBarController';
 import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 import { IDeviceDetailInfo, IDeviceInfo, IReport } from 'interfaces/IDevice';
 import { IWrappedSwiftrayTaskFile } from 'interfaces/IWrappedFile';
+import { promarkModels } from 'app/actions/beambox/constant';
 
 interface ErrorObject {
   code: number;
@@ -46,6 +51,8 @@ interface PreferenceSettingsObject {
   };
 }
 
+type TStatus = 'init' | 'connected' | 'disconnected';
+
 class SwiftrayClient extends EventEmitter {
   private socket: WebSocket; // The websocket here is the browser websocket, not wrapped FLUX websocket
 
@@ -59,9 +66,14 @@ class SwiftrayClient extends EventEmitter {
 
   private instanceId = '';
 
+  private status: TStatus = 'init';
+
+  private lastPromark: IDeviceInfo = null;
+
   constructor(private url: string) {
     super();
     this.instanceId = Math.random().toString(36).substr(2, 9);
+    this.status = 'init';
     console.log(`Swiftray Client instance ${this.instanceId} created`);
     this.connect();
   }
@@ -79,13 +91,49 @@ class SwiftrayClient extends EventEmitter {
     this.socket.onmessage = this.handleMessage.bind(this);
   }
 
+  private async updateStatus(newStatus: TStatus): Promise<void> {
+    if (newStatus === 'disconnected') {
+      if (this.status !== 'connected') return;
+      MessageCaller.openMessage({
+        key: 'swiftray-error-hint',
+        content: i18n.lang.message.swiftray_disconnected,
+        level: MessageLevel.ERROR,
+      });
+      this.emit('disconnected');
+      const device = TopBarController.getSelectedDevice();
+      this.lastPromark = promarkModels.has(device?.model) ? device : null;
+    } else if (newStatus === 'connected' && this.status === 'disconnected') {
+      // Reconnect to Promark
+      let device = TopBarController.getSelectedDevice();
+      let retry = 8;
+      while (!device && this.lastPromark && retry > 0) {
+        // eslint-disable-next-line no-await-in-loop
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        device = TopBarController.getSelectedDevice();
+        retry -= 1;
+      }
+      if (promarkModels.has(device?.model)) {
+        await deviceMaster.select(device);
+      }
+      MessageCaller.openMessage({
+        key: 'swiftray-error-hint',
+        content: i18n.lang.message.swiftray_reconnected,
+        level: MessageLevel.SUCCESS,
+      });
+      this.emit('reconnected');
+    }
+    this.status = newStatus;
+  }
+
   private handleOpen() {
     console.log('Connected to Swiftray server 🎉');
+    this.updateStatus('connected');
     this.retryCount = 0;
   }
 
   private handleClose() {
     console.log('Disconnected from Swiftray server');
+    this.updateStatus('disconnected');
     this.retry();
   }
 
@@ -352,7 +400,12 @@ class SwiftrayClient extends EventEmitter {
   }
 
   public async upload(data: Blob, path?: string): Promise<void> {
-    return this.action(`/devices/${this.port}`, 'upload', { data, path });
+    try {
+      const text = await data.text();
+      return await this.action(`/devices/${this.port}`, 'upload', { data: text, path });
+    } catch (e) {
+      return this.action(`/devices/${this.port}`, 'upload', { data, path });
+    }
   }
 
   public async sendGCode(command: string): Promise<void> {

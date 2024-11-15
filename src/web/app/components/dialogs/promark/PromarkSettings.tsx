@@ -22,6 +22,7 @@ import {
   generateCalibrationTaskString,
   loadTaskToSwiftray,
 } from 'helpers/device/promark/calibration';
+import { swiftrayClient } from 'helpers/api/swiftray-client';
 
 import FieldBlock from './FieldBlock';
 import LensBlock from './LensBlock';
@@ -84,6 +85,14 @@ const PromarkSettings = ({ device, initData, onClose }: Props): JSX.Element => {
       await deviceMaster.setGalvoParameters(galvoParameters);
     }
   };
+
+  useEffect(() => {
+    const abortPreview = () => setIsPreviewing(false);
+    swiftrayClient.on('disconnected', abortPreview);
+    return () => {
+      swiftrayClient.off('disconnected', abortPreview);
+    };
+  }, []);
 
   const handlePreview = async () => {
     if (!isPreviewing) {

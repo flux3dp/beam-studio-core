@@ -62,6 +62,15 @@ jest.mock(
       mockApplyRedDot(...args)
 );
 
+const mockOn = jest.fn();
+const mockOff = jest.fn();
+jest.mock('helpers/api/swiftray-client', () => ({
+  swiftrayClient: {
+    on: (...args) => mockOn(...args),
+    off: (...args) => mockOff(...args),
+  },
+}));
+
 const mockOnClose = jest.fn();
 
 const mockDevice = {

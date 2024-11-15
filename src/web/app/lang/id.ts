@@ -1579,6 +1579,9 @@ const lang: ILang = {
     },
     unsupported_example_file: 'File contoh yang dipilih tidak didukung oleh area kerja saat ini.',
     time_remaining: 'Waktu tersisa:',
+    promark_disconnected: 'Koneksi perangkat terputus, periksa status koneksi perangkat.',
+    swiftray_disconnected: 'Tidak dapat terhubung ke backend, mencoba menghubungkan ulang.',
+    swiftray_reconnected: 'Backend telah terhubung kembali, silakan coba kirim ulang pekerjaan.',
   },
   machine_status: {
     '0': 'Menganggur',

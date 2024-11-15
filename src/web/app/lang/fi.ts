@@ -1579,6 +1579,9 @@ const lang: ILang = {
     },
     unsupported_example_file: 'Valittu esimerkkitiedosto ei ole tuettu tällä työalueella.',
     time_remaining: 'Aikaa jäljellä:',
+    promark_disconnected: 'Yhteys laitteeseen katkaistu, tarkista laitteen yhteystila.',
+    swiftray_disconnected: 'Yhteyttä backend-palvelimeen ei voitu muodostaa, yritetään uudelleen.',
+    swiftray_reconnected: 'Backend on yhdistetty uudelleen, yritä lähettää tehtävä uudelleen.',
   },
   machine_status: {
     '0': 'Käyttämätön',

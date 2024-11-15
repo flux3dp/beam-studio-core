@@ -1579,6 +1579,9 @@ const lang: ILang = {
     },
     unsupported_example_file: 'Det valgte eksempelfilen støttes ikke av gjeldende arbeidsområde.',
     time_remaining: 'Gjenstående tid:',
+    promark_disconnected: 'Enhetens tilkobling er brutt, vennligst sjekk enhetens tilkoblingsstatus.',
+    swiftray_disconnected: 'Kan ikke koble til backend, prøver på nytt.',
+    swiftray_reconnected: 'Backend er tilkoblet igjen, prøv å sende jobben på nytt.',
   },
   machine_status: {
     '0': 'Ledig',
