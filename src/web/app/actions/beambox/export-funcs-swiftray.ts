@@ -8,7 +8,6 @@ import convertShapeToBitmap from 'helpers/layer/convertShapeToBitmap';
 import FontFuncs from 'app/actions/beambox/font-funcs';
 import i18n from 'helpers/i18n';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
-import NS from 'app/constants/namespaces';
 import Progress from 'app/actions/progress-caller';
 import SymbolMaker from 'helpers/symbol-maker';
 import TopBarController from 'app/views/beambox/TopBar/contexts/TopBarController';
@@ -176,6 +175,7 @@ const fetchTaskCodeSwiftray = async (
 ): Promise<
   | {
       taskCodeBlob: Blob;
+      thumbnail: string;
       thumbnailBlobURL: string;
       fileTimeCost: number;
       metadata: Record<string, string>;
@@ -292,6 +292,7 @@ const fetchTaskCodeSwiftray = async (
   }
   return {
     taskCodeBlob,
+    thumbnail,
     thumbnailBlobURL,
     fileTimeCost,
     metadata,
