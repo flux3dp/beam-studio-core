@@ -14,7 +14,6 @@ import { addDialogComponent, isIdExist, popDialogById } from 'app/actions/dialog
 import { getSupportInfo } from 'app/constants/add-on';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { promarkModels } from 'app/actions/beambox/constant';
-import { swiftrayClient } from 'helpers/api/swiftray-client';
 
 import styles from './FramingModal.module.scss';
 
@@ -74,15 +73,6 @@ const FramingModal = ({ device, onClose, startOnOpen = false }: Props): JSX.Elem
     });
     return () => unregister?.();
   }, []);
-
-  useEffect(() => {
-    if (!promarkModels.has(device.model)) return () => {};
-    const abortPreview = () => manager.current.changeWorkingStatus(false);
-    swiftrayClient.on('disconnected', abortPreview);
-    return () => {
-      swiftrayClient.off('disconnected', abortPreview);
-    };
-  }, [device]);
 
   return (
     <Modal
