@@ -16,12 +16,13 @@ const FrameButton = (): JSX.Element => {
   const { mode } = useContext(CanvasContext);
   useEffect(() => {
     const shortcutHandler = async () => {
+      if (mode !== CanvasMode.Draw) return;
       const device = TopBarController.getSelectedDevice();
-      if (promarkModels.has(device?.model)) showFramingModal(true);
+      showFramingModal(promarkModels.has(device?.model));
     };
     const unregister = shortcuts.on(['F1'], shortcutHandler);
     return () => unregister?.();
-  }, []);
+  }, [mode]);
 
   return (
     <div
