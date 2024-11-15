@@ -228,8 +228,12 @@ class FramingTaskManager extends EventEmitter {
     this.emit('status-change', status);
   };
 
+  private onSwiftrayDisconnected = (): void => {
+    this.changeWorkingStatus(false);
+  };
+
   public startPromarkFraming = async (): Promise<void> => {
-    swiftrayClient.on('disconnected', () => this.changeWorkingStatus(false));
+    swiftrayClient.on('disconnected', this.onSwiftrayDisconnected);
     if (this.isWorking) return;
     this.changeWorkingStatus(true);
     const deviceStatus = await checkDeviceStatus(this.device);
@@ -257,7 +261,7 @@ class FramingTaskManager extends EventEmitter {
   };
 
   public stopPromarkFraming = async (): Promise<void> => {
-    swiftrayClient.off('disconnected');
+    swiftrayClient.off('disconnected', this.onSwiftrayDisconnected);
     if (!this.isWorking) return;
     await deviceMaster.stopFraming();
     this.changeWorkingStatus(false);
