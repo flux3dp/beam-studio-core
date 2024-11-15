@@ -401,7 +401,9 @@ class SwiftrayClient extends EventEmitter {
 
   public async upload(data: Blob, path?: string): Promise<void> {
     try {
-      const text = await data.text();
+      let text = await data.text();
+      // Clear fake data ('f') from calibration
+      if (text.length < 2) text = '';
       return await this.action(`/devices/${this.port}`, 'upload', { data: text, path });
     } catch (e) {
       return this.action(`/devices/${this.port}`, 'upload', { data, path });
