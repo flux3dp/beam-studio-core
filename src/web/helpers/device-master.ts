@@ -187,9 +187,7 @@ class DeviceMaster {
       const { isLineCheckMode, lineNumber } = controlSocket;
       const res = await this.select(deviceInfo);
       if (res && res.success) {
-        if (mode === 'maintain') {
-          await this.enterMaintainMode();
-        } else if (mode === 'raw') {
+        if (mode === 'raw') {
           await this.enterRawMode();
           controlSocket.isLineCheckMode = isLineCheckMode;
           controlSocket.lineNumber = lineNumber;
@@ -915,41 +913,6 @@ class DeviceMaster {
   async cartridgeIOJsonRpcReq(method: string, params: any[]) {
     const controlSocket = await this.getControl();
     return controlSocket.addTask(controlSocket.cartridgeIOJsonRpcReq, method, params);
-  }
-
-  // Maintain mode functions
-  async enterMaintainMode() {
-    const controlSocket = await this.getControl();
-    const vc = VersionChecker(this.currentDevice.info.version);
-    if (vc.meetRequirement('RELOCATE_ORIGIN')) {
-      await this.setOriginX(0);
-      await this.setOriginY(0);
-    }
-    return controlSocket.addTask(controlSocket.enterMaintainMode);
-  }
-
-  async endMaintainMode() {
-    const controlSocket = await this.getControl();
-    return controlSocket.addTask(controlSocket.endMaintainMode);
-  }
-
-  async maintainMove(args: { f: number; x: number; y: number }) {
-    const controlSocket = await this.getControl();
-    const result = await controlSocket.addTask(controlSocket.maintainMove, args);
-    if (result && result.status === 'ok') {
-      return;
-    }
-    console.warn('maintainMove Result', result);
-  }
-
-  async maintainHome() {
-    const controlSocket = await this.getControl();
-    return controlSocket.addTask(controlSocket.maintainHome);
-  }
-
-  async maintainCloseFan() {
-    const controlSocket = await this.getControl();
-    return controlSocket.addTask(controlSocket.maintainCloseFan);
   }
 
   // Raw mode functions

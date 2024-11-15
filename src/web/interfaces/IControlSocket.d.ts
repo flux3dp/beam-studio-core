@@ -59,16 +59,6 @@ interface IControlSocket extends EventEmitter {
   getDeviceSetting(name: string): Promise<{ status: string; value: string }>;
   setDeviceSetting(name: string, value: string): Promise<unknown>;
   deleteDeviceSetting(name: string): Promise<unknown>;
-  enterMaintainMode(): Promise<unknown>;
-  endMaintainMode(): Promise<unknown>;
-  maintainMove(args: {
-    x?: number;
-    y?: number;
-    z?: number;
-    f?: number;
-  }): Promise<{ status: string } | void>;
-  maintainCloseFan(): Promise<unknown>;
-  maintainHome(): Promise<unknown>;
   enterRawMode(): Promise<unknown>;
   endRawMode(): Promise<unknown>;
   rawHome(zAxis?: boolean): Promise<void>;

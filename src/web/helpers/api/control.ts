@@ -861,37 +861,6 @@ class Control extends EventEmitter implements IControlSocket {
 
   deleteDeviceSetting = (name: string) => this.useWaitAnyResponse(`config del ${name}`);
 
-  enterMaintainMode = async () => {
-    const res = await this.useWaitAnyResponse('task maintain');
-    await new Promise((resolve) => setTimeout(resolve, 3000));
-    this.mode = 'maintain';
-    return res;
-  };
-
-  endMaintainMode = () => {
-    this.mode = '';
-    return this.useWaitAnyResponse('task quit');
-  };
-
-  maintainMove = (args: any) => {
-    let command = '';
-    command += ` f:${args.f || 6000}`;
-    if (typeof args.x !== 'undefined') {
-      command += ` x:${args.x}`;
-    }
-    if (typeof args.y !== 'undefined') {
-      command += ` y:${args.y}`;
-    }
-    if (typeof args.z !== 'undefined') {
-      command += ` z:${args.z}`;
-    }
-    return this.useWaitAnyResponse(`maintain move${command}`);
-  };
-
-  maintainCloseFan = () => this.useWaitAnyResponse('maintain close_fan');
-
-  maintainHome = () => this.useWaitAnyResponse('maintain home');
-
   enterCartridgeIOMode = async () => {
     const res = await this.useWaitAnyResponse('task cartridge_io');
     await new Promise((resolve) => setTimeout(resolve, 1000));
