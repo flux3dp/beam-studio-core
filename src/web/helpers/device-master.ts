@@ -736,7 +736,7 @@ class DeviceMaster {
       blob = await resp.blob();
     } else {
       // fake data to upload for swiftray
-      blob = new Blob(['f']);
+      blob = new Blob(['']);
     }
     if (vc.meetRequirement('RELOCATE_ORIGIN')) {
       await this.setOriginX(0);

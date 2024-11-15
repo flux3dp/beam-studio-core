@@ -305,10 +305,6 @@ class SwiftrayControl extends EventEmitter implements IControlSocket {
 
   upload = async (data: any, path?: string, fileName?: string): Promise<void> => {
     console.log('SwiftrayControl.upload');
-    if (data.size === 0) {
-      throw new Error('File is empty');
-    }
-
     if (path && fileName) {
       // eslint-disable-next-line no-param-reassign
       fileName = fileName.replace(/ /g, '_');
