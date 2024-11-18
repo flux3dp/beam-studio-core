@@ -401,6 +401,14 @@ export interface ILang {
       back: string;
       ok: string;
     };
+    promark: {
+      select_laser_source: string;
+      select_workarea: string;
+      settings: string;
+      qc_instructions: string;
+      configuration_confirmation: string;
+      or_complete_later: string;
+    };
   };
   error_pages: {
     screen_size: string;

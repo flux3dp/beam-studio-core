@@ -405,6 +405,15 @@ const lang: ILang = {
       back: 'Takaisin',
       ok: 'ALOITA LUOMINEN',
     },
+    promark: {
+      select_laser_source: 'Valitse Promarkisi',
+      select_workarea: 'Valitse työalue',
+      settings: 'Promark-asetukset',
+      qc_instructions: 'Täytä parametrit "QC Pass" -kortin takapuolella',
+      configuration_confirmation: 'Tämä varmistaa, että Promark on oikein määritetty optimaalista tehokkuutta ja tarkkuutta varten.',
+      or_complete_later: `Tai ohita tämä vaihe ja viimeistele Promark-asetukset myöhemmin:
+    Koneet > "Promark-nimi" > Promark-asetukset`,
+    },
   },
   error_pages: {
     screen_size: 'Huomaa, että Beam Studio ei välttämättä toimi optimaalisesti laitteellasi. Paras kokemus saadaan näytöllä, jonka leveys on vähintään 1024 pikseliä.',

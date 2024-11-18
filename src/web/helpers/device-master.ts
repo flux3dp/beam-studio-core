@@ -408,7 +408,7 @@ class DeviceMaster {
       }
 
       if (promarkModels.has(device.info.model)) {
-        const { galvoParameters, field } = promarkDataStore.get(device.info.serial) as PromarkStore;
+        const { galvoParameters, field } = promarkDataStore.get(device.info.serial);
         const { width } = getWorkarea(device.info.model);
         await this.setField(width, field);
         console.log('Applying', galvoParameters);

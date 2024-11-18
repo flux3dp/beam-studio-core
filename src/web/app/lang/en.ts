@@ -408,6 +408,15 @@ const lang: ILang = {
       back: 'Back',
       ok: 'START CREATING',
     },
+    promark: {
+      select_laser_source: 'Select Your Promark',
+      select_workarea: 'Select Workarea',
+      settings: 'Promark Settings',
+      qc_instructions: 'Fill in the Parameters located on the back of the ‘QC Pass’ Card',
+      configuration_confirmation: 'This ensures your Promark is properly configured for optimal efficiency and accuracy.',
+      or_complete_later: `Or, skip this step and complete the Promark Settings later at:
+Machines > ‘Promark Name’ > Promark Settings`,
+    },
   },
   error_pages: {
     screen_size: 'Please note that Beam Studio may not work optimally on your device. For an optimal experience, it should be a device with a screen width of at least 1024 pixels width.',

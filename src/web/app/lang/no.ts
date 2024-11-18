@@ -405,6 +405,15 @@ const lang: ILang = {
       back: 'Tilbake',
       ok: 'START Å LAGE',
     },
+    promark: {
+      select_laser_source: 'Velg din Promark',
+      select_workarea: 'Velg Arbeidsområde',
+      settings: 'Promark-innstillinger',
+      qc_instructions: 'Fyll inn parametrene som finnes på baksiden av "QC Pass"-kortet',
+      configuration_confirmation: 'Dette sikrer at Promark-en din er riktig konfigurert for optimal effektivitet og nøyaktighet.',
+      or_complete_later: `Eller hopp over dette trinnet og fullfør Promark-innstillingene senere på:
+    Maskiner > "Promark-navn" > Promark-innstillinger`,
+    },
   },
   error_pages: {
     screen_size: 'Vær oppmerksom på at Beam Studio kanskje ikke fungerer optimalt på enheten din. For best mulig opplevelse bør skjermbredden være minst 1024 piksler.',

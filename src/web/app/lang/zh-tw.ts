@@ -408,6 +408,15 @@ const lang: ILang = {
       back: '回到 Wi-Fi 設定',
       ok: '開始使用',
     },
+    promark: {
+      select_laser_source: '選擇您的 Promark',
+      select_workarea: '選擇工作區域',
+      settings: 'Promark 設定',
+      qc_instructions: '填寫「QC Pass」卡背面的參數',
+      configuration_confirmation: '這可確保您的 Promark 已正確配置，以實現最佳效率和精確性。',
+      or_complete_later: `或者，跳過此步驟，稍後在以下位置完成 Promark 設定：
+    機器 > 「Promark 名稱」 > Promark 設定`,
+    },
   },
   error_pages: {
     screen_size: '請注意，Beam Studio 無法在您的裝置上順利執行。若要獲得最佳使用體驗，裝置螢幕寬度至少應有 1024 像素。',

@@ -197,7 +197,7 @@ export const showPromarkSettings = async (device: IDeviceInfo): Promise<void> =>
   const res = await checkDeviceStatus(device);
   if (!res) return;
   const { serial } = device;
-  const data = promarkDataStore.get(serial) as PromarkStore;
+  const data = promarkDataStore.get(serial);
   const id = 'promark-settings';
   if (!isIdExist(id)) {
     addDialogComponent(

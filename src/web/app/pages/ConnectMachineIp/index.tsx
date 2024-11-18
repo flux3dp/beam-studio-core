@@ -26,6 +26,7 @@ import { allWorkareas } from 'app/constants/workarea-constants';
 import { IDeviceInfo } from 'interfaces/IDevice';
 
 import { swiftrayClient } from 'helpers/api/swiftray-client';
+import deviceMaster from 'helpers/device-master';
 import styles from './index.module.scss';
 import { initialState, State } from './state';
 import Hint from './Hint';
@@ -254,7 +255,7 @@ const ConnectMachineIp = (): JSX.Element => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isUsb]);
 
-  const onFinish = () => {
+  const onFinish = async () => {
     const { device } = state;
     const deviceModel = allWorkareas.has(device.model) ? device.model : 'fbb1b';
 
@@ -284,8 +285,16 @@ const ConnectMachineIp = (): JSX.Element => {
     } else if (promarkModels.has(device.model)) {
       alertConfig.write('done-first-cali', true);
       storage.set('last-promark-serial', device.serial);
+      // select promark device to update promark settings
+      await deviceMaster.select(device);
     } else if (device.model === 'fbm1') {
       alertConfig.write('done-first-cali', false);
+    }
+
+    // go to select-promark-laser-source for promark devices
+    if (isPromark) {
+      window.location.hash = '#initialize/connect/select-promark-laser-source';
+      return;
     }
 
     dialogCaller.showLoadingWindow();
@@ -300,7 +309,10 @@ const ConnectMachineIp = (): JSX.Element => {
     let handleClick: () => void = handleStartTest;
 
     if ([TestState.CAMERA_TEST_FAILED, TestState.TEST_COMPLETED].includes(testState)) {
-      label = lang.initialize.connect_machine_ip.finish_setting;
+      if (!isPromark) {
+        label = lang.initialize.connect_machine_ip.finish_setting;
+      }
+
       handleClick = onFinish;
     } else if (!isTesting(testState) && testState !== TestState.NONE) {
       label = lang.initialize.retry;

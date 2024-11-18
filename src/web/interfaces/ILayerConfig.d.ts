@@ -70,4 +70,5 @@ export type Preset = {
 type TPromarkDesktop = `${LaserType.Desktop}_${(typeof promarkWatts)[number]}`;
 type TPromarkMopa = `${LaserType.MOPA}_${(typeof mopaWatts)[number]}`;
 
-export type PresetModel = WorkAreaModel | `fpm1_${TPromarkDesktop | TPromarkMopa}`;
+export type PromarkModel = `fpm1_${TPromarkDesktop | TPromarkMopa}`;
+export type PresetModel = WorkAreaModel | PromarkModel;
