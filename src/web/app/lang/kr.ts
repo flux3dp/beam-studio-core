@@ -408,6 +408,15 @@ const lang: ILang = {
       back: '뒤로',
       ok: '만들기 시작',
     },
+    promark: {
+      select_laser_source: 'Promark를 선택하세요',
+      select_workarea: '작업 영역을 선택하세요',
+      settings: 'Promark 설정',
+      qc_instructions: '"QC Pass" 카드 뒷면에 있는 매개변수를 입력하세요',
+      configuration_confirmation: '이는 Promark가 최적의 효율성과 정확성을 위해 올바르게 구성되었는지 확인합니다.',
+      or_complete_later: `또는 이 단계를 건너뛰고 나중에 Promark 설정을 완료하세요:
+    기계 > "Promark 이름" > Promark 설정`,
+    },
   },
   error_pages: {
     screen_size: 'Beam Studio가 사용 중인 장치에서 최적으로 작동하지 않을 수 있습니다. 최적의 경험을 위해서는 최소한 1024 픽셀 너비의 스크린이 있는 장치를 사용해야 합니다.',

@@ -405,6 +405,15 @@ const lang: ILang = {
       back: 'Quay lại',
       ok: 'BẮT ĐẦU TẠO',
     },
+    promark: {
+      select_laser_source: 'Chọn Promark của bạn',
+      select_workarea: 'Chọn Khu vực Làm việc',
+      settings: 'Cài đặt Promark',
+      qc_instructions: 'Điền vào các thông số nằm ở mặt sau của thẻ "QC Pass"',
+      configuration_confirmation: 'Điều này đảm bảo rằng Promark của bạn được cấu hình đúng cách để đạt hiệu quả và độ chính xác tối ưu.',
+      or_complete_later: `Hoặc bỏ qua bước này và hoàn thành Cài đặt Promark sau tại:
+    Máy móc > "Tên Promark" > Cài đặt Promark`,
+    },
   },
   error_pages: {
     screen_size: 'Lưu ý rằng Beam Studio có thể không hoạt động tối ưu trên thiết bị của bạn. Để trải nghiệm tốt nhất, nên sử dụng thiết bị có độ rộng màn hình tối thiểu 1024 pixel.',

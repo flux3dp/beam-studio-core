@@ -405,6 +405,15 @@ const lang: ILang = {
       back: 'Kembali',
       ok: 'MULAI MEMBUAT',
     },
+    promark: {
+      select_laser_source: 'Pilih Promark Anda',
+      select_workarea: 'Pilih Area Kerja',
+      settings: 'Pengaturan Promark',
+      qc_instructions: 'Isi parameter yang terletak di bagian belakang kartu "QC Pass"',
+      configuration_confirmation: 'Ini memastikan Promark Anda dikonfigurasi dengan benar untuk efisiensi dan akurasi optimal.',
+      or_complete_later: `Atau, lewati langkah ini dan lengkapi Pengaturan Promark nanti di:
+    Mesin > "Nama Promark" > Pengaturan Promark`,
+    },
   },
   error_pages: {
     screen_size: 'Harap dicatat bahwa Beam Studio mungkin tidak berfungsi secara optimal pada perangkat Anda. Untuk pengalaman terbaik, disarankan perangkat dengan lebar layar minimal 1024 piksel.',

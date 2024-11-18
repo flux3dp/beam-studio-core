@@ -408,6 +408,15 @@ const lang: ILang = {
       back: 'Zpět',
       ok: 'ZAČÍT TVOŘIT',
     },
+    promark: {
+      select_laser_source: 'Vyberte svůj Promark',
+      select_workarea: 'Vyberte pracovní oblast',
+      settings: 'Nastavení Promark',
+      qc_instructions: 'Vyplňte parametry uvedené na zadní straně karty „QC Pass“',
+      configuration_confirmation: 'Tím zajistíte, že váš Promark bude správně nakonfigurován pro optimální efektivitu a přesnost.',
+      or_complete_later: `Nebo přeskočte tento krok a dokončete nastavení Promark později na:
+    Zařízení > „Název Promark“ > Nastavení Promark`,
+    },
   },
   error_pages: {
     screen_size: 'Je možné, že Beam Studio nebude na vašem zařízení správně fungovat. Pro optimální zážitek by měla mít obrazovka minimální šířku 1024 pixelů.',
