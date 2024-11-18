@@ -11,7 +11,7 @@ const defaultValue: PromarkInfo = {
   watt: 20,
 };
 
-const getSerial = (): string => {
+export const getSerial = (): string => {
   const { model, serial } = TopBarController.getSelectedDevice() ?? {};
   if (promarkModels.has(model)) return serial;
   return storage.get('last-promark-serial') || 'no-serial';

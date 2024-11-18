@@ -6,7 +6,6 @@ import classNames from 'classnames';
 
 import useI18n from 'helpers/useI18n';
 import deviceMaster from 'helpers/device-master';
-import applyRedDot from 'helpers/device/promark/apply-red-dot';
 import {
   defaultField,
   defaultGalvoParameters,
@@ -19,6 +18,7 @@ import LensBlock from 'app/components/dialogs/promark/LensBlock';
 import dialogCaller from 'app/actions/dialog-caller';
 import promarkDataStore from 'helpers/device/promark/promark-data-store';
 import { getWorkarea } from 'app/constants/workarea-constants';
+import { getSerial } from 'helpers/device/promark/promark-info';
 
 import styles from './index.module.scss';
 
@@ -29,8 +29,8 @@ export default function PromarkSettings(): JSX.Element {
   const [galvoParameters, setGalvoParameters] = useState(defaultGalvoParameters);
 
   const isInch = useMemo(() => storage.get('default-units') === 'inches', []);
-  const serial: string = useMemo(() => storage.get('last-promark-serial'), []);
-  const { width } = useMemo(() => getWorkarea('fpm1') ?? { width: 110 }, []);
+  const serial = useMemo(getSerial, []);
+  const { width } = useMemo(() => getWorkarea('fpm1'), []);
 
   useEffect(() => {
     const {
@@ -44,20 +44,9 @@ export default function PromarkSettings(): JSX.Element {
     setGalvoParameters(galvoParameters);
   }, [serial]);
 
-  const handleUpdateParameter = async (shouldApplyRedDot = false) => {
-    if (shouldApplyRedDot) {
-      const { field: newField, galvoParameters: newGalvo } = applyRedDot(
-        redDot,
-        field,
-        galvoParameters
-      );
-
-      await deviceMaster.setField(width, newField);
-      await deviceMaster.setGalvoParameters(newGalvo);
-    } else {
-      await deviceMaster.setField(width, field);
-      await deviceMaster.setGalvoParameters(galvoParameters);
-    }
+  const handleUpdateParameter = async () => {
+    await deviceMaster.setField(width, field);
+    await deviceMaster.setGalvoParameters(galvoParameters);
   };
 
   const handleNext = async () => {
