@@ -5,7 +5,7 @@
 import EventEmitter from 'eventemitter3';
 
 import ErrorConstants from 'app/constants/error-constants';
-import IControlSocket from 'interfaces/IControlSocket';
+import IControlSocket, { Mode } from 'interfaces/IControlSocket';
 import rsaKey from 'helpers/rsa-key';
 import Websocket from 'helpers/websocket';
 import { FisheyeCameraParameters, RotationParameters3D } from 'interfaces/FisheyePreview';
@@ -50,7 +50,7 @@ class Control extends EventEmitter implements IControlSocket {
 
   private fileInfoWsId = 0;
 
-  private mode = ''; // null, maintain or raw
+  private mode: Mode = ''; // null, maintain or raw
 
   private _lineNumber = 0;
 
@@ -897,6 +897,59 @@ class Control extends EventEmitter implements IControlSocket {
     );
     const resp = await this.useWaitAnyResponse(`jsonrpc_req "${command}"`);
     return resp;
+  };
+
+  enterRedLaserMeasureMode = async () => {
+    const res = await this.useWaitAnyResponse('task red_laser_measure');
+    this.mode = 'red_laser_measure';
+    return res;
+  };
+
+  endRedLaserMeasureMode = () => {
+    this.mode = '';
+    return this.useWaitAnyResponse('task quit');
+  };
+
+  takeReferenceZ = async (x: number, y: number, feedrate = 6000): Promise<number> => {
+    if (this.mode !== 'red_laser_measure') {
+      throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
+    }
+    const resp = await this.useWaitAnyResponse(
+      `take_reference_z(X:${x.toFixed(3)},Y:${y.toFixed(3)},F:${feedrate})`,
+      180000
+    );
+    const { data } = resp;
+    if (data) {
+      if (data.startsWith('ok')) {
+        const height = /take_reference_z\(([XYF:.,\d]*)\): ([\d.]+)\b/.exec(data)?.[2];
+        return Number(height);
+      }
+      if (data.startsWith('fail')) {
+        throw new Error(data);
+      }
+    }
+    throw new Error(resp);
+  };
+
+  measureZ = async (x: number, y: number, feedrate = 6000): Promise<number> => {
+    if (this.mode !== 'red_laser_measure') {
+      throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
+    }
+    const resp = await this.useWaitAnyResponse(
+      `measure_z(X:${x.toFixed(3)},Y:${y.toFixed(3)},F:${feedrate})`,
+      60000
+    );
+    const { data } = resp;
+    if (data) {
+      if (data.startsWith('ok')) {
+        const height = /measure_z\(([XYF:.,\d]*)\): ([\d.]+)\b/.exec(data)?.[2];
+        return Number(height);
+      }
+      if (data.startsWith('fail')) {
+        throw new Error(data);
+      }
+    }
+    throw new Error(resp);
   };
 
   enterRawMode = async () => {

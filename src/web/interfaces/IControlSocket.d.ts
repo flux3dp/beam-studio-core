@@ -9,13 +9,15 @@ import { Field, LensCorrection } from './Promark';
 import { RawChipSettings } from './Cartridge';
 import { WrappedWebSocket } from './WebSocket';
 
+export type Mode = '' | 'raw' | 'cartridge_io' | 'red_laser_measure';
+
 interface IControlSocket extends EventEmitter {
   isConnected: boolean;
   connection: WrappedWebSocket | SwiftrayClient | null;
   isLineCheckMode: boolean;
   lineNumber: number;
 
-  getMode(): string;
+  getMode(): Mode;
   // eslint-disable-next-line @typescript-eslint/ban-types
   addTask<T>(taskFunction: (...args) => T, ...args: unknown[]): Promise<T>;
   connect(): Promise<void>;
@@ -92,6 +94,10 @@ interface IControlSocket extends EventEmitter {
     method: string,
     params: unknown
   ) => Promise<{ status: string; data: { result: { hash: string; sign: string } } }>;
+  enterRedLaserMeasureMode?: () => Promise<void>;
+  endRedLaserMeasureMode?: () => Promise<void>;
+  takeReferenceZ?: (x: number, y: number, feedrate?: number) => Promise<number>;
+  measureZ?: (x: number, y: number, feedrate?: number) => Promise<number>;
   fetchFisheyeParams?: () => Promise<FisheyeCameraParameters>;
   uploadFisheyeParams?: (data: string) => Promise<{ status: string }>;
   fetchFisheye3DRotation?: () => Promise<RotationParameters3D>;

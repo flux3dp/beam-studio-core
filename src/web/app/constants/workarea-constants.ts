@@ -136,6 +136,7 @@ const workareaConstants: { [key in WorkAreaModel]: WorkArea } = {
     maxSpeed: 900,
     minSpeed: 0.5,
     cameraCenter: [300, 150],
+    autoFocusOffset: [28, 0, 0],
     passThroughMaxHeight: 360,
   },
 };

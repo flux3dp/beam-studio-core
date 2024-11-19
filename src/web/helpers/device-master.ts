@@ -915,6 +915,26 @@ class DeviceMaster {
     return controlSocket.addTask(controlSocket.cartridgeIOJsonRpcReq, method, params);
   }
 
+  async enterRedLaserMeasureMode() {
+    const controlSocket = await this.getControl();
+    return controlSocket.addTask(controlSocket.enterRedLaserMeasureMode);
+  }
+
+  async endRedLaserMeasureMode() {
+    const controlSocket = await this.getControl();
+    return controlSocket.addTask(controlSocket.endRedLaserMeasureMode);
+  }
+
+  async takeReferenceZ(x: number, y: number, f?: number) {
+    const controlSocket = await this.getControl();
+    return controlSocket.addTask(controlSocket.takeReferenceZ, x, y, f);
+  }
+
+  async measureZ(x: number, y: number, f?: number) {
+    const controlSocket = await this.getControl();
+    return controlSocket.addTask(controlSocket.measureZ, x, y, f);
+  }
+
   // Raw mode functions
   async enterRawMode() {
     const controlSocket = await this.getControl();
