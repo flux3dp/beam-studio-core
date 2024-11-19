@@ -30,7 +30,8 @@ enum Steps {
   PRE_CHESSBOARD = 1,
   CHESSBOARD = 2,
   PUT_PAPER = 3,
-  SOLVE_PNP = 4,
+  SOLVE_PNP_INSTRUCTION = 4,
+  SOLVE_PNP = 5,
 }
 
 interface Props {
@@ -97,6 +98,10 @@ const PromarkCalibration = ({ device: { serial, model }, onClose }: Props): JSX.
           },
         ]}
         onClose={onClose}
+        animationSrcs={[
+          { src: 'video/promark-calibration/1-chessboard.webm', type: 'video/webm' },
+          { src: 'video/promark-calibration/1-chessboard.mp4', type: 'video/mp4' },
+        ]}
       >
         <div className={styles.link} onClick={handleDownloadChessboard}>
           {tCali.download_chessboard_file}
@@ -126,7 +131,7 @@ const PromarkCalibration = ({ device: { serial, model }, onClose }: Props): JSX.
         await loadCameraCalibrationTask(model, workareaWidth);
         await deviceMaster.doPromarkCalibration();
         progressCaller.update(PROGRESS_ID, { message: tCali.preparing_to_take_picture });
-        setStep(Steps.SOLVE_PNP);
+        setStep(Steps.SOLVE_PNP_INSTRUCTION);
       } catch (err) {
         console.error(err);
       } finally {
@@ -145,6 +150,27 @@ const PromarkCalibration = ({ device: { serial, model }, onClose }: Props): JSX.
           },
           { label: tCali.start_engrave, onClick: () => handleNext(), type: 'primary' },
         ]}
+        animationSrcs={[
+          { src: 'video/promark-calibration/2-cut.webm', type: 'video/webm' },
+          { src: 'video/promark-calibration/2-cut.mp4', type: 'video/mp4' },
+        ]}
+      />
+    );
+  }
+  if (step === Steps.SOLVE_PNP_INSTRUCTION) {
+    return (
+      <Instruction
+        onClose={() => onClose(false)}
+        animationSrcs={[
+          { src: 'video/promark-calibration/3-align.webm', type: 'video/webm' },
+          { src: 'video/promark-calibration/3-align.mp4', type: 'video/mp4' },
+        ]}
+        title={tCali.solve_pnp_title}
+        steps={[tCali.solve_pnp_step1, tCali.solve_pnp_step2]}
+        buttons={[
+          { label: tCali.back, onClick: () => setStep(Steps.PUT_PAPER) },
+          { label: tCali.next, onClick: () => setStep(Steps.SOLVE_PNP), type: 'primary' },
+        ]}
       />
     );
   }
@@ -157,7 +183,7 @@ const PromarkCalibration = ({ device: { serial, model }, onClose }: Props): JSX.
         imgSource="usb"
         titleLink={tCali.promark_help_link}
         onClose={onClose}
-        onBack={() => setStep(Steps.PUT_PAPER)}
+        onBack={() => setStep(Steps.SOLVE_PNP_INSTRUCTION)}
         onNext={async (rvec, tvec) => {
           progressCaller.openNonstopProgress({ id: PROGRESS_ID, message: lang.device.processing });
           updateParam({ rvec, tvec });
