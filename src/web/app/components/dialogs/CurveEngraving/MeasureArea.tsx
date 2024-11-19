@@ -4,21 +4,16 @@ import classNames from 'classnames';
 import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { Button, Col, Modal, InputNumber, Row, Segmented } from 'antd';
 
-import alertCaller from 'app/actions/alert-caller';
 import browser from 'implementations/browser';
 import checkDeviceStatus from 'helpers/check-device-status';
-import durationFormatter from 'helpers/duration-formatter';
-import deviceMaster from 'helpers/device-master';
 import getDevice from 'helpers/device/get-device';
 import useI18n from 'helpers/useI18n';
 import { addDialogComponent, isIdExist, popDialogById } from 'app/actions/dialog-controller';
-import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
-import { BBox, MeasureData, Points } from 'interfaces/ICurveEngraving';
+import { BBox, MeasureData } from 'interfaces/ICurveEngraving';
 
+import measure from './measure';
 import rangeGenerator from './rangeGenerator';
 import styles from './MeasureArea.module.scss';
-
-const debugging = false;
 
 enum Type {
   Amount = 1,
@@ -82,98 +77,17 @@ const MeasureArea = ({
       setIsMeasuring(false);
       return;
     }
-    try {
-      setProgressText(lang.message.enteringRawMode);
-      await deviceMaster.enterRawMode();
-      setProgressText(lang.message.homing);
-      await deviceMaster.rawHome();
-      if (canceledRef.current) {
-        setIsMeasuring(false);
-        return;
-      }
-      const currentPosition = { x: 0, y: 0 };
-      setProgressText(lang.curve_engraving.starting_measurement);
-      const points: Points = [];
-      const totalPoints = xRange.length * yRange.length;
-      let finished = 0;
-      const workarea = getWorkarea(device.model as WorkAreaModel);
-      const [offsetX, offsetY, offsetZ] = workarea.autoFocusOffset || [0, 0, 0];
-      const feedrate = 6000;
-      const start = Date.now();
-      let lowest: number = null;
-      let highest: number = null;
-      for (let i = 0; i < yRange.length; i += 1) {
-        points.push([]);
-        for (let j = 0; j < xRange.length; j += 1) {
-          if (canceledRef.current) {
-            setIsMeasuring(false);
-            return;
-          }
-          const pointX = xRange[j];
-          const pointY = yRange[i];
-          if (!debugging) {
-            await deviceMaster.rawMove({
-              x: Math.max(pointX - offsetX, 0),
-              y: Math.max(pointY - offsetY),
-              f: feedrate,
-            });
-            const dist = Math.hypot(pointX - currentPosition.x, pointY - currentPosition.y);
-            const time = (dist / feedrate) * 60;
-            await new Promise((resolve) => setTimeout(resolve, time * 1000));
-            currentPosition.x = pointX;
-            currentPosition.y = pointY;
-          }
-          try {
-            if (!debugging) {
-              const z = await deviceMaster.rawMeasureHeight(
-                lowest === null
-                  ? { relZ: objectHeight }
-                  : { baseZ: Math.max(lowest - objectHeight, 0) }
-              );
-              if (lowest === null || z > lowest) lowest = z; // actually the max measured value
-              const pointZ = typeof z === 'number' ? Math.max(0, z - offsetZ) : null;
-              // actually the min measured value, use pointZ to display Plane when z is null
-              if (highest === null || z < highest) highest = pointZ;
-              points[i].push([pointX, pointY, pointZ]);
-            } else {
-              // Debugging height measurement
-              const z = 4 + 2 * Math.sin(pointX) + 2 * Math.cos(pointY);
-              if (lowest === null || z > lowest) lowest = z;
-              if (highest === null || z < highest) highest = z;
-              points[i].push([pointX, pointY, z]);
-            }
-          } catch (error) {
-            points[i].push([pointX, pointY, null]);
-            console.error(`Failed to measure height at point ${pointX}, ${pointY}`, error);
-          }
-          const elapsedTime = Date.now() - start;
-
-          finished += 1;
-          const finishedRatio = finished / totalPoints;
-          const remainingTime = (elapsedTime / finishedRatio - elapsedTime) / 1000;
-          setProgressText(`${lang.message.time_remaining} ${durationFormatter(remainingTime)}`);
-          setFinishedPoints(finished);
-        }
-      }
-      onFinished({
-        points,
-        gap: [xRange[1] - xRange[0], yRange[1] - yRange[0]],
-        objectHeight,
-        lowest,
-        highest,
-      });
-      onClose();
-    } catch (error) {
-      alertCaller.popUpError({ message: `Failed to measure area ${error.message}` });
+    const data = await measure(device, xRange, yRange, objectHeight, {
+      onProgressText: setProgressText,
+      onPointFinished: setFinishedPoints,
+      checkCancel: () => canceledRef.current,
+    });
+    if (!data) {
       setIsMeasuring(false);
-      console.log(error);
       return;
-    } finally {
-      if (deviceMaster.currentControlMode === 'raw') {
-        await deviceMaster.rawLooseMotor();
-        await deviceMaster.endRawMode();
-      }
     }
+    onFinished(data);
+    onClose();
   };
 
   const handleCancel = useCallback(() => {

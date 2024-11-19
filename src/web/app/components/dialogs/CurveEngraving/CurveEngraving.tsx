@@ -12,7 +12,7 @@ import { CurveEngraving as ICurveEngraving } from 'interfaces/ICurveEngraving';
 
 import getCanvasImage from './getCanvasImage';
 import Plane from './Plane';
-import reMeasurePoints from './reMeasurePoints';
+import remeasurePoints from './reMeasurePoints';
 import styles from './CurveEngraving.module.scss';
 
 interface Props {
@@ -84,9 +84,9 @@ const CurveEngraving = ({ data: initData, onRemeasure, onClose }: Props): JSX.El
     setSelectedIndices(new Set(selectedIndices));
   };
 
-  const handleReMeasure = useCallback(async () => {
+  const handleRemeasure = useCallback(async () => {
     const indices = Array.from(selectedIndices).sort((a, b) => a - b);
-    const newData = await reMeasurePoints(data, indices);
+    const newData = await remeasurePoints(data, indices);
     if (newData) {
       onRemeasure(newData);
       setData(newData);
@@ -103,7 +103,7 @@ const CurveEngraving = ({ data: initData, onRemeasure, onClose }: Props): JSX.El
       maskClosable={false}
       onCancel={onClose}
       footer={[
-        <Button key="remeasure" onClick={handleReMeasure} disabled={selectedIndices.size === 0}>
+        <Button key="remeasure" onClick={handleRemeasure} disabled={selectedIndices.size === 0}>
           {lang.curve_engraving.remeasure}
         </Button>,
         <Button key="close" type="primary" onClick={onClose}>
