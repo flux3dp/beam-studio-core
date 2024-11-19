@@ -62,9 +62,6 @@ const measurePointRaw = async (
   return z;
 };
 
-const generatePoints = (xRange: Array<number>, yRange: Array<number>): Points =>
-  yRange.map((y) => xRange.map((x) => [x, y, null]));
-
 export const measurePoints = async (
   device: IDeviceInfo,
   targetIndices: Array<number>,
@@ -87,6 +84,7 @@ export const measurePoints = async (
   const currentPosition = { x: 0, y: 0 };
   const { objectHeight, points } = curData;
   let { lowest = null, highest = null } = curData;
+  // deep copy
   const newPoints = JSON.parse(JSON.stringify(points));
   const start = Date.now();
   const columns = newPoints[0].length;
@@ -154,7 +152,7 @@ const measure = async (
   } = {}
 ): Promise<MeasureData | null> => {
   try {
-    const points = generatePoints(xRange, yRange);
+    const points: Points = yRange.map((y) => xRange.map((x) => [x, y, null]));
     const totalPoints = xRange.length * yRange.length;
     const targetIndices = Array.from({ length: totalPoints }, (_, i) => i);
     const data = await measurePoints(
