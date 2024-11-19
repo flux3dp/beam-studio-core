@@ -126,42 +126,44 @@ export default function Menu({ email }: Props): JSX.Element {
             </MenuItem>
           )}
           <MenuDivider />
-          <MenuItem
-            onClick={() => callback('CALIBRATE_BEAMBOX_CAMERA', serial)}
-            disabled={isMobile}
-          >
-            {menuCms.calibrate_beambox_camera} {isMobile && '(PC Only)'}
-          </MenuItem>
-          {hasModules && (
+          <SubMenu label={menuCms.calibration}>
             <MenuItem
-              onClick={() => callback('CALIBRATE_PRINTER_MODULE', serial)}
+              onClick={() => callback('CALIBRATE_BEAMBOX_CAMERA', serial)}
               disabled={isMobile}
             >
-              {menuCms.calibrate_printer_module}
+              {menuCms.calibrate_beambox_camera} {isMobile && '(PC Only)'}
             </MenuItem>
-          )}
-          {hasModules && (
-            <MenuItem onClick={() => callback('CALIBRATE_IR_MODULE', serial)} disabled={isMobile}>
-              {menuCms.calibrate_ir_module}
-            </MenuItem>
-          )}
-          {model === 'fbm1' ? (
-            <MenuItem
-              onClick={() => callback('CALIBRATE_BEAMBOX_CAMERA_BORDERLESS', serial)}
-              disabled={isMobile}
-            >
-              {menuCms.calibrate_beambox_camera_borderless} {isMobile && '(PC Only)'}
-            </MenuItem>
-          ) : null}
-          {model === 'fbm1' ? (
-            <MenuItem
-              onClick={() => callback('CALIBRATE_DIODE_MODULE', serial)}
-              disabled={isMobile}
-            >
-              {menuCms.calibrate_diode_module} {isMobile && '(PC Only)'}
-            </MenuItem>
-          ) : null}
-          {!constant.adorModels.includes(model) && <MenuDivider />}
+            {hasModules && (
+              <MenuItem
+                onClick={() => callback('CALIBRATE_PRINTER_MODULE', serial)}
+                disabled={isMobile}
+              >
+                {menuCms.calibrate_printer_module}
+              </MenuItem>
+            )}
+            {hasModules && (
+              <MenuItem onClick={() => callback('CALIBRATE_IR_MODULE', serial)} disabled={isMobile}>
+                {menuCms.calibrate_ir_module}
+              </MenuItem>
+            )}
+            {model === 'fbm1' && (
+              <MenuItem
+                onClick={() => callback('CALIBRATE_BEAMBOX_CAMERA_BORDERLESS', serial)}
+                disabled={isMobile}
+              >
+                {menuCms.calibrate_beambox_camera_borderless} {isMobile && '(PC Only)'}
+              </MenuItem>
+            )}
+            {model === 'fbm1' && (
+              <MenuItem
+                onClick={() => callback('CALIBRATE_DIODE_MODULE', serial)}
+                disabled={isMobile}
+              >
+                {menuCms.calibrate_diode_module} {isMobile && '(PC Only)'}
+              </MenuItem>
+            )}
+          </SubMenu>
+          <MenuDivider />
           <MenuItem onClick={() => callback('UPDATE_FIRMWARE', serial)}>
             {menuCms.update_firmware}
           </MenuItem>
@@ -209,48 +211,52 @@ export default function Menu({ email }: Props): JSX.Element {
         <MenuItem onClick={() => callback('SAVE_TO_CLOUD')}>{menuCms.save_to_cloud}</MenuItem>
         <MenuDivider />
         <SubMenu label={menuCms.samples}>
-          <MenuItem onClick={() => callback('IMPORT_EXAMPLE_ADOR_LASER')}>
-            {menuCms.import_ador_laser_example}
-          </MenuItem>
-          <MenuItem onClick={() => callback('IMPORT_EXAMPLE_ADOR_PRINT_SINGLE')}>
-            {menuCms.import_ador_printing_example_single}
-          </MenuItem>
-          <MenuItem onClick={() => callback('IMPORT_EXAMPLE_ADOR_PRINT_FULL')}>
-            {menuCms.import_ador_printing_example_full}
-          </MenuItem>
-          <MenuItem onClick={() => callback('IMPORT_EXAMPLE')}>
-            {menuCms.import_hello_beamo}
-          </MenuItem>
-          <MenuItem onClick={() => callback('IMPORT_HELLO_BEAMBOX')}>
-            {menuCms.import_hello_beambox}
-          </MenuItem>
-          <MenuItem onClick={() => callback('IMPORT_EXAMPLE_BEAMBOX_2')}>
-            {menuCms.import_beambox_2_example}
-          </MenuItem>
-          <MenuItem onClick={() => callback('IMPORT_EXAMPLE_HEXA')}>
-            {menuCms.import_hexa_example}
-          </MenuItem>
-          <MenuItem onClick={() => callback('IMPORT_EXAMPLE_PROMARK')}>
-            {menuCms.import_promark_example}
-          </MenuItem>
-          <MenuItem onClick={() => callback('IMPORT_MATERIAL_TESTING_ENGRAVE')}>
-            {menuCms.import_material_testing_engrave}
-          </MenuItem>
-          <MenuItem onClick={() => callback('IMPORT_MATERIAL_TESTING_OLD')}>
-            {menuCms.import_material_testing_old}
-          </MenuItem>
-          <MenuItem onClick={() => callback('IMPORT_MATERIAL_TESTING_CUT')}>
-            {menuCms.import_material_testing_cut}
-          </MenuItem>
-          <MenuItem onClick={() => callback('IMPORT_MATERIAL_TESTING_SIMPLECUT')}>
-            {menuCms.import_material_testing_simple_cut}
-          </MenuItem>
-          <MenuItem onClick={() => callback('IMPORT_MATERIAL_TESTING_LINE')}>
-            {menuCms.import_material_testing_line}
-          </MenuItem>
-          <MenuItem onClick={() => callback('IMPORT_MATERIAL_TESTING_PRINT')}>
-            {menuCms.import_material_printing_test}
-          </MenuItem>
+          <SubMenu label={menuCms.example_files}>
+            <MenuItem onClick={() => callback('IMPORT_EXAMPLE_ADOR_LASER')}>
+              {menuCms.import_ador_laser_example}
+            </MenuItem>
+            <MenuItem onClick={() => callback('IMPORT_EXAMPLE_ADOR_PRINT_SINGLE')}>
+              {menuCms.import_ador_printing_example_single}
+            </MenuItem>
+            <MenuItem onClick={() => callback('IMPORT_EXAMPLE_ADOR_PRINT_FULL')}>
+              {menuCms.import_ador_printing_example_full}
+            </MenuItem>
+            <MenuItem onClick={() => callback('IMPORT_EXAMPLE')}>
+              {menuCms.import_hello_beamo}
+            </MenuItem>
+            <MenuItem onClick={() => callback('IMPORT_HELLO_BEAMBOX')}>
+              {menuCms.import_hello_beambox}
+            </MenuItem>
+            <MenuItem onClick={() => callback('IMPORT_EXAMPLE_BEAMBOX_2')}>
+              {menuCms.import_beambox_2_example}
+            </MenuItem>
+            <MenuItem onClick={() => callback('IMPORT_EXAMPLE_HEXA')}>
+              {menuCms.import_hexa_example}
+            </MenuItem>
+            <MenuItem onClick={() => callback('IMPORT_EXAMPLE_PROMARK')}>
+              {menuCms.import_promark_example}
+            </MenuItem>
+          </SubMenu>
+          <SubMenu label={menuCms.material_test}>
+            <MenuItem onClick={() => callback('IMPORT_MATERIAL_TESTING_ENGRAVE')}>
+              {menuCms.import_material_testing_engrave}
+            </MenuItem>
+            <MenuItem onClick={() => callback('IMPORT_MATERIAL_TESTING_OLD')}>
+              {menuCms.import_material_testing_old}
+            </MenuItem>
+            <MenuItem onClick={() => callback('IMPORT_MATERIAL_TESTING_CUT')}>
+              {menuCms.import_material_testing_cut}
+            </MenuItem>
+            <MenuItem onClick={() => callback('IMPORT_MATERIAL_TESTING_SIMPLECUT')}>
+              {menuCms.import_material_testing_simple_cut}
+            </MenuItem>
+            <MenuItem onClick={() => callback('IMPORT_MATERIAL_TESTING_LINE')}>
+              {menuCms.import_material_testing_line}
+            </MenuItem>
+            <MenuItem onClick={() => callback('IMPORT_MATERIAL_TESTING_PRINT')}>
+              {menuCms.import_material_printing_test}
+            </MenuItem>
+          </SubMenu>
           <MenuItem onClick={() => callback('IMPORT_ACRYLIC_FOCUS_PROBE')}>
             {menuCms.import_acrylic_focus_probe}
           </MenuItem>
