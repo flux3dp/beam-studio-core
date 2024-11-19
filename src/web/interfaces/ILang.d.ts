@@ -1530,6 +1530,8 @@ export interface ILang {
     endingRawMode: string;
     enteringLineCheckMode: string;
     endingLineCheckMode: string;
+    enteringRedLaserMeasureMode: string;
+    redLaserTakingReference: string;
     exitingRotaryMode: string;
     turningOffFan: string;
     turningOffAirPump: string;

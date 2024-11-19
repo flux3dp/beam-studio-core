@@ -1535,6 +1535,8 @@ const lang: ILang = {
     endingRawMode: 'Έξοδος από ακατέργαστη λειτουργία...',
     enteringLineCheckMode: 'Είσοδος σε λειτουργία ελέγχου γραμμής...',
     endingLineCheckMode: 'Έξοδος από τη λειτουργία ελέγχου γραμμής...',
+    enteringRedLaserMeasureMode: 'Είσοδος σε λειτουργία μέτρησης με κόκκινο λέιζερ...',
+    redLaserTakingReference: 'Λήψη αναφοράς...',
     exitingRotaryMode: 'Έξοδος από τη λειτουργία περιστροφής...',
     turningOffFan: 'Απενεργοποίηση ανεμιστήρα...',
     turningOffAirPump: 'Απενεργοποίηση αντλίας αέρα...',

@@ -1535,6 +1535,8 @@ const lang: ILang = {
     endingRawMode: 'กําลังออกจากโหมดดิบ...',
     enteringLineCheckMode: 'กําลังเข้าสู่โหมดตรวจสอบเส้น...',
     endingLineCheckMode: 'ออกจากโหมดตรวจสอบเส้น...',
+    enteringRedLaserMeasureMode: 'กำลังเข้าสู่โหมดวัดด้วยเลเซอร์สีแดง...',
+    redLaserTakingReference: 'กำลังรับข้อมูลอ้างอิง...',
     exitingRotaryMode: 'ออกจากโหมดหมุน...',
     turningOffFan: 'ปิดแฟน...',
     turningOffAirPump: 'ปิดปั๊มลม...',

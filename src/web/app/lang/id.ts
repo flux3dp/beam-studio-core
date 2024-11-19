@@ -1535,6 +1535,8 @@ const lang: ILang = {
     endingRawMode: 'Keluar dari mode mentah...',
     enteringLineCheckMode: 'Memasuki mode pemeriksaan garis...',
     endingLineCheckMode: 'Keluar dari mode pemeriksaan garis...',
+    enteringRedLaserMeasureMode: 'Memasuki mode pengukuran laser merah...',
+    redLaserTakingReference: 'Mengambil referensi...',
     exitingRotaryMode: 'Keluar dari mode putar...',
     turningOffFan: 'Mematikan kipas...',
     turningOffAirPump: 'Mematikan pompa udara...',

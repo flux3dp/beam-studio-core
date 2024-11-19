@@ -1535,6 +1535,8 @@ const lang: ILang = {
     endingRawMode: 'Raw-modus sluiten...',
     enteringLineCheckMode: 'Lijncontrolemodus openen...',
     endingLineCheckMode: 'Lijncontrolemodus sluiten...',
+    enteringRedLaserMeasureMode: 'Rood-laser meetmodus wordt ingeschakeld...',
+    redLaserTakingReference: 'Referentie wordt genomen...',
     exitingRotaryMode: 'Rotatiemodus sluiten...',
     turningOffFan: 'Ventilator uitschakelen...',
     turningOffAirPump: 'Luchtpomp uitschakelen...',

@@ -1538,6 +1538,8 @@ const lang: ILang = {
     endingRawMode: 'Raw 모드에서 빠져나옵니다...',
     enteringLineCheckMode: '라인 체크 모드로 진입 중...',
     endingLineCheckMode: '라인 체크 모드에서 빠져나옵니다...',
+    enteringRedLaserMeasureMode: '빨간 레이저 측정 모드로 전환 중...',
+    redLaserTakingReference: '기준값을 측정 중...',
     exitingRotaryMode: '로터리 모드에서 빠져나나옵니다...',
     turningOffFan: '팬을 끕니다...',
     turningOffAirPump: '공기 펌프를 끕니다...',

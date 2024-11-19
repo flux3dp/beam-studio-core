@@ -1535,6 +1535,8 @@ const lang: ILang = {
     endingRawMode: 'Forlader rå tilstand...',
     enteringLineCheckMode: 'Indtaster linjetjektilstand...',
     endingLineCheckMode: 'Forlader linje kontroltilstand...',
+    enteringRedLaserMeasureMode: 'Indtastning af rødt laser-målemodus...',
+    redLaserTakingReference: 'Tager reference...',
     exitingRotaryMode: 'Forlader drejetilstand...',
     turningOffFan: 'Slukker blæser...',
     turningOffAirPump: 'Slukker luftpumpe...',

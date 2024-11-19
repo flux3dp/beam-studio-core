@@ -1538,6 +1538,8 @@ const lang: ILang = {
     endingRawMode: 'Ukončuji nezpracovaný mód...',
     enteringLineCheckMode: 'Otevírám mód kontroly linek...',
     endingLineCheckMode: 'Ukončuji mód kontroly linek...',
+    enteringRedLaserMeasureMode: 'Vstup do režimu měření červeným laserem...',
+    redLaserTakingReference: 'Přijímání reference...',
     exitingRotaryMode: 'Ukončuji rotační mód...',
     turningOffFan: 'Vypínám větrák...',
     turningOffAirPump: 'Vypínám vzdušnou pumpičku...',
