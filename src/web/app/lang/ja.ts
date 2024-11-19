@@ -84,6 +84,7 @@ const lang: ILang = {
       samples: 'サンプル',
       import_hello_beamo: 'beamoの例',
       import_hello_beambox: 'Beamboxの例',
+      import_beambox_2_example: 'Beambox IIの例',
       import_material_testing_old: '材料彫りテスト - クラシック',
       import_material_testing_simple_cut: '材料切りテスト - シンプル',
       import_material_testing_cut: '材料切りテスト',

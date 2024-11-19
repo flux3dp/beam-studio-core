@@ -84,6 +84,7 @@ const lang: ILang = {
       samples: 'Παραδείγματα',
       import_hello_beamo: 'Παράδειγμα του beamo',
       import_hello_beambox: 'Παράδειγμα Beambox',
+      import_beambox_2_example: 'Παράδειγμα του Beambox II',
       import_material_testing_old: 'Δοκιμή χάραξης υλικού - Κλασική',
       import_material_testing_simple_cut: 'Δοκιμή κοπής υλικού - Απλή',
       import_material_testing_cut: 'Δοκιμή κοπής υλικού',

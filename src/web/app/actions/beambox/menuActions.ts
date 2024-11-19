@@ -35,7 +35,24 @@ getSVGAsync((globalSVG) => {
 
 const { lang } = i18n;
 
-const getExampleFileName = (key: string) => {
+type ExampleFileKeys =
+  | 'example'
+  | 'mat_test_old'
+  | 'mat_test_simple_cut'
+  | 'mat_test_cut'
+  | 'mat_test_engrave'
+  | 'mat_test_printing'
+  | 'mat_test_line'
+  | 'ador_example_laser'
+  | 'ador_example_printing_single'
+  | 'ador_example_printing_full'
+  | 'focus_probe'
+  | 'hello_beambox'
+  | 'beambox_2_example'
+  | 'hexa_example'
+  | 'promark_example';
+
+const getExampleFileName = (key: ExampleFileKeys) => {
   const workarea = BeamboxPreference.read('workarea') || 'fbm1';
   if (!constant.adorModels.includes(workarea)) {
     return {
@@ -47,6 +64,7 @@ const getExampleFileName = (key: string) => {
       mat_test_line: 'examples/mat_test_line.bvg',
       focus_probe: 'examples/focus_probe.bvg',
       hello_beambox: 'examples/hello-beambox.bvg',
+      beambox_2_example: 'examples/beambox_2_example.bvg',
       promark_example: 'examples/promark_example.bvg',
       hexa_example: 'examples/hexa_example.bvg',
     }[key];
@@ -54,7 +72,6 @@ const getExampleFileName = (key: string) => {
 
   return {
     example: 'examples/badge.bvg',
-    hello_beambox: 'examples/hello-beambox.bvg',
     mat_test_old: 'examples/ador_engraving_test_classic.bvg',
     mat_test_simple_cut: 'examples/ador_cutting_test_simple.bvg',
     mat_test_cut: 'examples/ador_cutting_test.bvg',
@@ -63,8 +80,10 @@ const getExampleFileName = (key: string) => {
     ador_example_laser: 'examples/ador_example_laser.bvg',
     ador_example_printing_full: 'examples/ador_example_printing_full.bvg',
     ador_example_printing_single: 'examples/ador_example_printing_single.bvg',
-    promark_example: 'examples/promark_example.bvg',
+    hello_beambox: 'examples/hello-beambox.bvg',
+    beambox_2_example: 'examples/beambox_2_example.bvg',
     hexa_example: 'examples/hexa_example.bvg',
+    promark_example: 'examples/promark_example.bvg',
   }[key];
 };
 
@@ -138,6 +157,8 @@ export default {
   IMPORT_ACRYLIC_FOCUS_PROBE: (): Promise<void> =>
     loadExampleFile(getExampleFileName('focus_probe')),
   IMPORT_HELLO_BEAMBOX: (): Promise<void> => loadExampleFile(getExampleFileName('hello_beambox')),
+  IMPORT_EXAMPLE_BEAMBOX_2: (): Promise<void> =>
+    loadExampleFile(getExampleFileName('beambox_2_example')),
   IMPORT_EXAMPLE_PROMARK: (): Promise<void> =>
     loadExampleFile(getExampleFileName('promark_example')),
   IMPORT_EXAMPLE_HEXA: (): Promise<void> => loadExampleFile(getExampleFileName('hexa_example')),

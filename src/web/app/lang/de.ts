@@ -84,6 +84,7 @@ const lang: ILang = {
       samples: 'Beispiele',
       import_hello_beamo: 'Beispiel für Beamo',
       import_hello_beambox: 'Beispiel einer Beambox',
+      import_beambox_2_example: 'Beispiel für Beambox II',
       import_material_testing_old: 'Material Gravurtest - Klassisch',
       import_material_testing_simple_cut: 'Material Schneidetest - Einfach',
       import_material_testing_cut: 'Material Schneidetest',
