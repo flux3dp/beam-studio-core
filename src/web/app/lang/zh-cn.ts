@@ -84,6 +84,7 @@ const lang: ILang = {
       samples: '范例',
       import_hello_beamo: 'beamo 范例',
       import_hello_beambox: 'Beambox 范例',
+      import_beambox_2_example: 'Beambox II 范例',
       import_material_testing_old: '材质雕刻测试 - 经典',
       import_material_testing_simple_cut: '材质切割测试 - 简易',
       import_material_testing_cut: '材质切割测试档',
