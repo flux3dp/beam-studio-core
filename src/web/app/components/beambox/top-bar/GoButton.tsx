@@ -91,7 +91,7 @@ const GoButton = ({ hasDiscoverdMachine, hasText }: Props): JSX.Element => {
               onCancel: () => resolve(false),
             });
           });
-          if (res) executeFirmwareUpdate(device, 'firmware');
+          if (res) executeFirmwareUpdate(device);
           return false;
         }
       }
@@ -106,7 +106,7 @@ const GoButton = ({ hasDiscoverdMachine, hasText }: Props): JSX.Element => {
               onCancel: () => resolve(false),
             });
           });
-          if (res) executeFirmwareUpdate(device, 'firmware');
+          if (res) executeFirmwareUpdate(device);
           return false;
         }
       }
@@ -269,9 +269,7 @@ const GoButton = ({ hasDiscoverdMachine, hasText }: Props): JSX.Element => {
           type: alertConstants.SHOW_POPUP_ERROR,
           buttonType: alertConstants.CUSTOM_CANCEL,
           buttonLabels: [lang.update.update],
-          callbacks: () => {
-            executeFirmwareUpdate(device, 'firmware');
-          },
+          callbacks: () => executeFirmwareUpdate(device),
           onCancel: () => {},
         });
       };

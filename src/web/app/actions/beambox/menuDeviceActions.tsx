@@ -72,7 +72,7 @@ const calibrateModule = async (device: IDeviceInfo, type: CalibrationType) => {
   }
 };
 
-export const executeFirmwareUpdate = async (device: IDeviceInfo, type: string): Promise<void> => {
+export const executeFirmwareUpdate = async (device: IDeviceInfo): Promise<void> => {
   const updateFirmware = async () => {
     try {
       const response = await checkFirmware(device);
@@ -438,7 +438,7 @@ export default {
   UPDATE_FIRMWARE: async (device: IDeviceInfo): Promise<void> => {
     const deviceStatus = await checkDeviceStatus(device);
     if (deviceStatus) {
-      executeFirmwareUpdate(device, 'firmware');
+      executeFirmwareUpdate(device);
     }
   },
   LOG_NETWORK: (device: IDeviceInfo): void => {
