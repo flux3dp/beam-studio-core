@@ -46,7 +46,7 @@ export const getExportOpt = (
   const isDevMode = isDev();
   const paddingAccel = BeamboxPreference.read('padding_accel');
   const useDevPaddingAcc = isDevMode && paddingAccel;
-  const { minSpeed: modelMinSpeed } = getWorkarea(model);
+  const workareaObj = getWorkarea(model);
   if (model === 'fhexa1') {
     config.hardware_name = 'hexa';
     if (!useDevPaddingAcc) config.acc = 7500;
@@ -85,7 +85,7 @@ export const getExportOpt = (
 
   if (constant.adorModels.includes(model)) {
     const { x, y, w, h } = presprayArea.getPosition(true);
-    const workareaWidth = getWorkarea(model).width;
+    const workareaWidth = workareaObj.width;
 
     config.prespray = rotaryMode && !hasJobOrigin ? [workareaWidth - 12, 45, 12, h] : [x, y, w, h];
     if (!isDevMode || BeamboxPreference.read('multipass-compensation') !== false) config.mpc = true;
@@ -127,9 +127,14 @@ export const getExportOpt = (
   }
   if (opt.shouldUseFastGradient) config.fg = true;
   if (opt.shouldMockFastGradient) config.mfg = true;
-  if (opt.vectorSpeedConstraint) config.vsc = true;
+  if (opt.vectorSpeedConstraint) {
+    if (workareaObj.vectorSpeedLimit) {
+      config.vsc = true; // not used by new backend, keep for web version compatibility
+      config.vsl = workareaObj.vectorSpeedLimit * 60; // convert to mm/min
+    }
+  }
   if (!supportPwm) config.no_pwm = true;
-  if (modelMinSpeed < 3) config.min_speed = modelMinSpeed;
+  if (workareaObj.minSpeed < 3) config.min_speed = workareaObj.minSpeed;
   else if (BeamboxPreference.read('enable-low-speed')) config.min_speed = 1;
   if (BeamboxPreference.read('reverse-engraving')) config.rev = true;
   if (BeamboxPreference.read('enable-custom-backlash')) config.cbl = true;

@@ -32,7 +32,8 @@ export type TFcodeOptionalConfig = Partial<{
   mask: [number, number, number, number]; // top right bottom left
   fg: boolean;
   mfg: boolean; // mock fg
-  vsc: boolean; // with vector speed constraint
+  vsc: boolean; // with vector speed constraint, used for ghost 2.3.4 and before
+  vsl: number; // vector speed limit
   no_pwm: boolean;
   min_speed: number;
   rev: boolean; // reverse engraving
