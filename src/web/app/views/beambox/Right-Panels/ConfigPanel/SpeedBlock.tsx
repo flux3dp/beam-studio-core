@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import React, { memo, useContext, useMemo } from 'react';
 import { Button, Popover } from 'antd-mobile';
+import { sprintf } from 'sprintf-js';
 
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import configOptions from 'app/constants/config-options';
@@ -70,17 +71,41 @@ const SpeedBlock = ({
   }, []);
   const workarea: WorkAreaModel = BeamboxPreference.read('workarea');
   const isPromark = useMemo(() => promarkModels.has(workarea), [workarea]);
-  const { workareaMaxSpeed: maxValue, workareaMinSpeed } = useMemo(() => {
+  const {
+    workareaMaxSpeed: maxValue,
+    workareaMinSpeed,
+    vectorSpeedLimit,
+  } = useMemo(() => {
     const workareaObj = getWorkarea(workarea);
-    return { workareaMaxSpeed: workareaObj.maxSpeed, workareaMinSpeed: workareaObj.minSpeed };
+    return {
+      workareaMaxSpeed: workareaObj.maxSpeed,
+      workareaMinSpeed: workareaObj.minSpeed,
+      vectorSpeedLimit: workareaObj.vectorSpeedLimit,
+    };
   }, [workarea]);
   let minValue = workareaMinSpeed;
   const enableLowSpeed = BeamboxPreference.read('enable-low-speed');
   if (minValue > 1 && enableLowSpeed) minValue = 1;
   let warningText = '';
+
+  const vectorSpeedWarning = useMemo(
+    () =>
+      sprintf(t.speed_contrain_warning, {
+        limit:
+          fakeUnit === 'mm'
+            ? `${vectorSpeedLimit} mm/s`
+            : `${(vectorSpeedLimit / 25.4).toFixed(2)} in/s`,
+      }),
+    [fakeUnit, t.speed_contrain_warning, vectorSpeedLimit]
+  );
+
   if (!isPromark) {
-    if (hasVector && value > 20 && BeamboxPreference.read('vector_speed_contraint') !== false) {
-      warningText = t.speed_contrain_warning;
+    if (
+      hasVector &&
+      value > vectorSpeedLimit &&
+      BeamboxPreference.read('vector_speed_contraint') !== false
+    ) {
+      warningText = vectorSpeedWarning;
     } else if (value < workareaMinSpeed && enableLowSpeed) {
       warningText = t.low_speed_warning;
     }
