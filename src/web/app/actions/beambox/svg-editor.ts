@@ -2048,9 +2048,6 @@ const svgEditor = (window['svgEditor'] = (function () {
       }
       if (!textActions.isEditing && (selectedElement != null || multiselected)) {
         clipboard.cutSelectedElements();
-        workareaEvents.emit('update-context-menu', {
-          paste: true,
-        });
       }
     };
     editor.cutSelected = cutSelected;
@@ -2063,9 +2060,6 @@ const svgEditor = (window['svgEditor'] = (function () {
       }
       if (!textActions.isEditing && (selectedElement != null || multiselected)) {
         clipboard.copySelectedElements();
-        workareaEvents.emit('update-context-menu', {
-          paste: true,
-        });
       }
     };
     editor.copySelected = copySelected;
