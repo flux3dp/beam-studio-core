@@ -11,12 +11,16 @@ export interface SvgInfo {
   strength: number;
   speed: number;
   repeat: number;
+  pulseWidth?: number;
+  frequency?: number;
 }
 
 const namingMap = {
   strength: 'P',
   speed: 'S',
   repeat: 'C',
+  pulseWidth: 'PW',
+  frequency: 'F',
 };
 
 export default function generateSvgInfo({
@@ -30,7 +34,7 @@ export default function generateSvgInfo({
     },
   },
 }: Props): Array<SvgInfo> {
-  const [col, row, third] = Object.entries(tableSetting).sort(
+  const [col, row, ...staticParams] = Object.entries(tableSetting).sort(
     ([, { selected: a }], [, { selected: b }]) => a - b
   );
   const generateRange = (
@@ -49,7 +53,9 @@ export default function generateSvgInfo({
       name: `${namingMap[col[0]]}${c}-${namingMap[row[0]]}${r}`,
       [col[0]]: c,
       [row[0]]: r,
-      [third[0]]: third[1].default,
+      ...staticParams.map(([key, value]) => ({
+        [key]: value.default,
+      })),
     }))
   ) as unknown as Array<SvgInfo>;
 }
