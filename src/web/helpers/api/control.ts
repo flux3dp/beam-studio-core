@@ -50,7 +50,7 @@ class Control extends EventEmitter implements IControlSocket {
 
   private fileInfoWsId = 0;
 
-  private mode: Mode = ''; // null, maintain or raw
+  private mode: Mode = '';
 
   private _lineNumber = 0;
 
