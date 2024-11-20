@@ -120,14 +120,14 @@ const autoFit = async (elem: SVGElement): Promise<void> => {
       const elemDx = center[0] - elementContour.center[0];
       const elemDy = center[1] - elementContour.center[1];
 
-      data.forEach((d, idx) => {
+      data.forEach(async (d, idx) => {
         if (idx === elementContourId) return;
         const dAngle = d.angle - elementContour.angle;
         let dx = d.center[0] - elementContour.center[0];
         let dy = d.center[1] - elementContour.center[1];
         dx += elemDx * Math.cos(dAngle) - elemDy * Math.sin(dAngle) - elemDx;
         dy += elemDx * Math.sin(dAngle) + elemDy * Math.cos(dAngle) - elemDy;
-        const res = clipboard.cloneElements([elemToClone], [dx], [dy], {
+        const res = await clipboard.cloneElements([elemToClone], [dx], [dy], {
           parentCmd: batchCmd,
           selectElement: false,
           callChangOnMove: false,

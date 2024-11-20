@@ -134,7 +134,10 @@ export default class Workarea extends React.PureComponent<{ className: string },
           <MenuItem disabled={!paste} onClick={() => clipboard.pasteElements('in_place')}>
             {LANG.paste_in_place}
           </MenuItem>
-          <MenuItem disabled={!select} onClick={() => svgCanvas.cloneSelectedElements(20, 20)}>
+          <MenuItem
+            disabled={!select}
+            onClick={async () => svgCanvas.cloneSelectedElements(20, 20)}
+          >
             {LANG.duplicate}
           </MenuItem>
           <div className="seperator" />

@@ -53,7 +53,10 @@ function ObjectPanel({ hide }: Props): JSX.Element {
     const isSingleGroup = elems?.length === 1 && elems[0].tagName.toLowerCase() === 'g';
     return {
       group: !isSingleGroup || elems?.length > 1,
-      ungroup: isSingleGroup && !elem.getAttribute('data-textpath-g') && !elem.getAttribute('data-pass-through'),
+      ungroup:
+        isSingleGroup &&
+        !elem.getAttribute('data-textpath-g') &&
+        !elem.getAttribute('data-pass-through'),
       dist: elems?.length > 2,
       boolean: elems?.length > 1 && elems?.every(allowBooleanOperations),
       union: elems?.length > 1 && elems?.every(allowBooleanOperations),
@@ -85,7 +88,7 @@ function ObjectPanel({ hide }: Props): JSX.Element {
         id="duplicate"
         content={<ObjectPanelIcons.Duplicate />}
         label={lang.topbar.menu.duplicate}
-        onClick={() => svgCanvas.cloneSelectedElements(20, 20)}
+        onClick={async () => svgCanvas.cloneSelectedElements(20, 20)}
       />
       <ObjectPanelItem.Item
         id="parameter"

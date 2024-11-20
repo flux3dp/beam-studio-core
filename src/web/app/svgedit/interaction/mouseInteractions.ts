@@ -373,7 +373,8 @@ const mouseDown = async (evt: MouseEvent) => {
 
           if (!rightClick) {
             if (evt.altKey) {
-              const cmd = clipboard.cloneSelectedElements(0, 0, { addToHistory: false })?.cmd;
+              const cmd = (await clipboard.cloneSelectedElements(0, 0, { addToHistory: false }))
+                ?.cmd;
               selectedElements = svgCanvas.getSelectedElems();
               if (cmd && !cmd.isEmpty()) mouseSelectModeCmds.push(cmd);
             }

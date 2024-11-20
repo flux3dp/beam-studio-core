@@ -282,7 +282,7 @@ export default function Menu({ email }: Props): JSX.Element {
         <MenuItem onClick={() => callback('COPY')}>{hotkey('copy')}</MenuItem>
         <MenuItem onClick={() => callback('PASTE')}>{hotkey('paste')}</MenuItem>
         <MenuItem onClick={() => callback('PASTE_IN_PLACE')}>{hotkey('paste_in_place')}</MenuItem>
-        <MenuItem disabled={duplicateDisabled} onClick={() => callback('DUPLICATE')}>
+        <MenuItem disabled={duplicateDisabled} onClick={async () => callback('DUPLICATE')}>
           {hotkey('duplicate')}
         </MenuItem>
         <MenuDivider />
