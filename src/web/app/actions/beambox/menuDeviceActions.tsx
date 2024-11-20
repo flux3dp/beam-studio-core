@@ -72,7 +72,7 @@ const calibrateModule = async (device: IDeviceInfo, type: CalibrationType) => {
   }
 };
 
-export const executeFirmwareUpdate = async (device: IDeviceInfo, type: string): Promise<void> => {
+export const executeFirmwareUpdate = async (device: IDeviceInfo): Promise<void> => {
   const updateFirmware = async () => {
     try {
       const response = await checkFirmware(device);
@@ -110,23 +110,14 @@ export const executeFirmwareUpdate = async (device: IDeviceInfo, type: string): 
   };
   const checkStatus = () => {
     ProgressCaller.openNonstopProgress({ id: 'check-status', caption: lang.update.preparing });
-    if (type === 'toolhead') {
-      DeviceMaster.enterMaintainMode().then(() => {
-        setTimeout(() => {
-          ProgressCaller.popById('check-status');
-          updateFirmware();
-        }, 3000);
-      });
-    } else {
-      ProgressCaller.popById('check-status');
-      MessageCaller.openMessage({
-        key: 'checking-firmware',
-        level: MessageLevel.LOADING,
-        content: i18n.lang.update.software.checking,
-        duration: 10,
-      });
-      updateFirmware();
-    }
+    ProgressCaller.popById('check-status');
+    MessageCaller.openMessage({
+      key: 'checking-firmware',
+      level: MessageLevel.LOADING,
+      content: i18n.lang.update.software.checking,
+      duration: 10,
+    });
+    updateFirmware();
   };
   // TODO: Handle the error better (output eresp)
   const vc = VersionChecker(device.version);
@@ -447,7 +438,7 @@ export default {
   UPDATE_FIRMWARE: async (device: IDeviceInfo): Promise<void> => {
     const deviceStatus = await checkDeviceStatus(device);
     if (deviceStatus) {
-      executeFirmwareUpdate(device, 'firmware');
+      executeFirmwareUpdate(device);
     }
   },
   LOG_NETWORK: (device: IDeviceInfo): void => {

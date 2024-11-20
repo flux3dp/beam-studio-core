@@ -1538,6 +1538,8 @@ const lang: ILang = {
     endingRawMode: '正在結束基本動作模式...',
     enteringLineCheckMode: '正在進入可靠傳輸模式...',
     endingLineCheckMode: '正在結束可靠傳輸模式...',
+    enteringRedLaserMeasureMode: '正在進入紅光測量模式...',
+    redLaserTakingReference: '正在取得參考點...',
     exitingRotaryMode: '正在結束旋轉軸模式...',
     turningOffFan: '正在關閉抽氣風扇...',
     turningOffAirPump: '正在關閉空氣幫浦...',

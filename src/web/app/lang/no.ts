@@ -1535,6 +1535,8 @@ const lang: ILang = {
     endingRawMode: 'Forlater råmodus...',
     enteringLineCheckMode: 'Går inn i linjesjekkmodus...',
     endingLineCheckMode: 'Avslutter linjekontrollmodus...',
+    enteringRedLaserMeasureMode: 'Går inn i rød laser-målingsmodus...',
+    redLaserTakingReference: 'Tar referanse...',
     exitingRotaryMode: 'Avslutter roteringsmodus...',
     turningOffFan: 'Slår av vifte...',
     turningOffAirPump: 'Slår av luftpumpe...',

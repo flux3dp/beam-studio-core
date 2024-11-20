@@ -463,37 +463,6 @@ class SwiftrayControl extends EventEmitter implements IControlSocket {
 
   deleteDeviceSetting = async (name: string) => this.sc.deleteDeviceSettings(name);
 
-  enterMaintainMode = async () => {
-    const res = await this.sc.switchMode('maintain');
-    await new Promise((resolve) => setTimeout(resolve, 3000));
-    this.mode = 'maintain';
-    return res;
-  };
-
-  endMaintainMode = async () => {
-    this.mode = '';
-    await this.sc.endMode();
-  };
-
-  maintainMove = (args: { x?: number; y?: number; z?: number; f?: number }) => {
-    let command = '';
-    command += `F${args.f || 6000}`;
-    if (typeof args.x !== 'undefined') {
-      command += `X${args.x}`;
-    }
-    if (typeof args.y !== 'undefined') {
-      command += `Y${args.y}`;
-    }
-    if (typeof args.z !== 'undefined') {
-      command += `Z${args.z}`;
-    }
-    return this.sc.sendGCode(`G1${command}`);
-  };
-
-  maintainCloseFan = () => this.sc.setDeviceParam('fan', 0);
-
-  maintainHome = () => this.sc.home();
-
   enterRawMode = async () => {
     const res = await this.sc.switchMode('raw');
     await new Promise((resolve) => setTimeout(resolve, 3000));

@@ -1538,6 +1538,8 @@ const lang: ILang = {
     endingRawMode: 'Rohmodus verlassen...',
     enteringLineCheckMode: 'Aufrufen des Leitungsprüfmodus...',
     endingLineCheckMode: 'Verlassen des Leitungsprüfmodus...',
+    enteringRedLaserMeasureMode: 'Roter Lasermessmodus wird gestartet...',
+    redLaserTakingReference: 'Referenz wird aufgenommen...',
     exitingRotaryMode: 'Rotationsmodus verlassen...',
     turningOffFan: 'Lüfter ausschalten...',
     turningOffAirPump: 'Luftpumpe ausschalten...',

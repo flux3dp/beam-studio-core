@@ -1535,6 +1535,8 @@ const lang: ILang = {
     endingRawMode: 'Keluar mod mentah...',
     enteringLineCheckMode: 'Memasuki mod semak garisan...',
     endingLineCheckMode: 'Keluar dari mod semakan garis akhir...',
+    enteringRedLaserMeasureMode: 'Memasuki mod pengukuran laser merah...',
+    redLaserTakingReference: 'Mengambil rujukan...',
     exitingRotaryMode: 'Keluar dari mod putaran...',
     turningOffFan: 'Mematikan kipas...',
     turningOffAirPump: 'Mematikan pam udara...',

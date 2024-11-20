@@ -1535,6 +1535,8 @@ const lang: ILang = {
     endingRawMode: 'Đang thoát chế độ thô...',
     enteringLineCheckMode: 'Đang vào chế độ kiểm tra đường...',
     endingLineCheckMode: 'Đang thoát chế độ kiểm tra đường...',
+    enteringRedLaserMeasureMode: 'Đang vào chế độ đo laser đỏ...',
+    redLaserTakingReference: 'Đang lấy tham chiếu...',
     exitingRotaryMode: 'Đang thoát chế độ xoay...',
     turningOffFan: 'Đang tắt quạt...',
     turningOffAirPump: 'Đang tắt bơm khí...',

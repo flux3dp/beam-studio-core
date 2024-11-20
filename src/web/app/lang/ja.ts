@@ -1538,6 +1538,8 @@ const lang: ILang = {
     endingRawMode: 'RAWモードを終了中…',
     enteringLineCheckMode: 'ラインチェックモードに入る中…',
     endingLineCheckMode: 'ラインチェックモードを終了中…',
+    enteringRedLaserMeasureMode: '赤色レーザー測定モードに入ります...',
+    redLaserTakingReference: '参照を取得しています...',
     exitingRotaryMode: 'ロータリーモードを終了中…',
     turningOffFan: 'ファンをオフにする…',
     turningOffAirPump: 'エアポンプをオフにする…',

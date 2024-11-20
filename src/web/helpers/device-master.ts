@@ -187,9 +187,7 @@ class DeviceMaster {
       const { isLineCheckMode, lineNumber } = controlSocket;
       const res = await this.select(deviceInfo);
       if (res && res.success) {
-        if (mode === 'maintain') {
-          await this.enterMaintainMode();
-        } else if (mode === 'raw') {
+        if (mode === 'raw') {
           await this.enterRawMode();
           controlSocket.isLineCheckMode = isLineCheckMode;
           controlSocket.lineNumber = lineNumber;
@@ -917,39 +915,24 @@ class DeviceMaster {
     return controlSocket.addTask(controlSocket.cartridgeIOJsonRpcReq, method, params);
   }
 
-  // Maintain mode functions
-  async enterMaintainMode() {
+  async enterRedLaserMeasureMode() {
     const controlSocket = await this.getControl();
-    const vc = VersionChecker(this.currentDevice.info.version);
-    if (vc.meetRequirement('RELOCATE_ORIGIN')) {
-      await this.setOriginX(0);
-      await this.setOriginY(0);
-    }
-    return controlSocket.addTask(controlSocket.enterMaintainMode);
+    return controlSocket.addTask(controlSocket.enterRedLaserMeasureMode);
   }
 
-  async endMaintainMode() {
+  async endRedLaserMeasureMode() {
     const controlSocket = await this.getControl();
-    return controlSocket.addTask(controlSocket.endMaintainMode);
+    return controlSocket.addTask(controlSocket.endRedLaserMeasureMode);
   }
 
-  async maintainMove(args: { f: number; x: number; y: number }) {
+  async takeReferenceZ(x: number, y: number, f?: number) {
     const controlSocket = await this.getControl();
-    const result = await controlSocket.addTask(controlSocket.maintainMove, args);
-    if (result && result.status === 'ok') {
-      return;
-    }
-    console.warn('maintainMove Result', result);
+    return controlSocket.addTask(controlSocket.takeReferenceZ, x, y, f);
   }
 
-  async maintainHome() {
+  async measureZ(x: number, y: number, f?: number) {
     const controlSocket = await this.getControl();
-    return controlSocket.addTask(controlSocket.maintainHome);
-  }
-
-  async maintainCloseFan() {
-    const controlSocket = await this.getControl();
-    return controlSocket.addTask(controlSocket.maintainCloseFan);
+    return controlSocket.addTask(controlSocket.measureZ, x, y, f);
   }
 
   // Raw mode functions

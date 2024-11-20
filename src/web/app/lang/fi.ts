@@ -1535,6 +1535,8 @@ const lang: ILang = {
     endingRawMode: 'Poistutaan raakatilasta...',
     enteringLineCheckMode: 'Siirrytään linjantarkistustilaan...',
     endingLineCheckMode: 'Poistutaan linjantarkistustilasta...',
+    enteringRedLaserMeasureMode: 'Siirrytään punaisen lasermittauksen tilaan...',
+    redLaserTakingReference: 'Otetaan viite...',
     exitingRotaryMode: 'Poistutaan pyörintätilasta...',
     turningOffFan: 'Sammutetaan tuuletin...',
     turningOffAirPump: 'Sammutetaan ilmapumppu...',

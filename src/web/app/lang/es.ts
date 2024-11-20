@@ -1538,6 +1538,8 @@ const lang: ILang = {
     endingRawMode: 'Saliendo del modo raw...',
     enteringLineCheckMode: 'Ingresando al modo de verificación de línea ...',
     endingLineCheckMode: 'Saliendo del modo de verificación de línea ...',
+    enteringRedLaserMeasureMode: 'Entrando en modo de medición con láser rojo...',
+    redLaserTakingReference: 'Tomando referencia...',
     exitingRotaryMode: 'Saliendo del modo rotativo ...',
     turningOffFan: 'Apagando el ventilador ...',
     turningOffAirPump: 'Apagado de la bomba de aire ...',
