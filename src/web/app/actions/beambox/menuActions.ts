@@ -178,10 +178,10 @@ export default {
   GROUP: (): Promise<void> => svgCanvas.groupSelectedElements(),
   UNGROUP: (): Promise<void> => svgCanvas.ungroupSelectedElement(),
   DELETE: (): Promise<void> => svgEditor.deleteSelected(),
-  DUPLICATE: (): {
+  DUPLICATE: (): Promise<{
     cmd: IBatchCommand;
     elems: Element[];
-  } | null => clipboard.cloneSelectedElements(20, 20),
+  } | null> => clipboard.cloneSelectedElements(20, 20),
   OFFSET: (): Promise<void> => svgEditor.triggerOffsetTool(),
   IMAGE_SHARPEN: (): void => Dialog.showPhotoEditPanel('sharpen'),
   IMAGE_CROP: (): void => Dialog.showCropPanel(),

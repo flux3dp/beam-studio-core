@@ -1,3 +1,10 @@
+/* eslint-disable react/no-unused-state */
+/* eslint-disable react/sort-comp */
+/* eslint-disable class-methods-use-this */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable no-underscore-dangle */
 import classNames from 'classnames';
 import React from 'react';
@@ -24,23 +31,25 @@ import { isMobile } from 'helpers/system-helper';
 import { ToolPanelType } from 'app/actions/beambox/toolPanelsController';
 
 let svgCanvas;
-getSVGAsync((globalSVG) => { svgCanvas = globalSVG.Canvas; });
+
+getSVGAsync((globalSVG) => {
+  svgCanvas = globalSVG.Canvas;
+});
 
 const drawingToolEventEmitter = eventEmitterFactory.createEventEmitter('drawing-tool');
 
 const LANG = i18n.lang.beambox.tool_panels;
-const { $ } = window;
 
-let _mm2pixel = function (pixel_input) {
-  const dpmm = Constant.dpmm;
+const _mm2pixel = (pixel_input) => {
+  const { dpmm } = Constant;
   return Number(pixel_input * dpmm);
 };
 
 const validPanelsMap = {
-  'unknown': [],
-  'gridArray': ['rowColumn', 'distance'],
-  'offset': ['offsetDir', 'offsetCorner', 'offsetDist'],
-  'nest': ['nestOffset', 'nestRotation', 'nestGA'],
+  unknown: [],
+  gridArray: ['rowColumn', 'distance'],
+  offset: ['offsetDir', 'offsetCorner', 'offsetDist'],
+  nest: ['nestOffset', 'nestRotation', 'nestGA'],
 };
 
 interface Props {
@@ -51,16 +60,16 @@ interface Props {
 
 class ToolPanel extends React.Component<Props> {
   private offset: {
-    dir: number,
-    distance: number,
-    cornerType: string,
+    dir: number;
+    distance: number;
+    cornerType: string;
   };
 
   private nestOptions: {
-    spacing: number,
-    generations: number,
-    population: number,
-    rotations: number,
+    spacing: number;
+    generations: number;
+    population: number;
+    rotations: number;
   };
 
   constructor(props) {
@@ -73,111 +82,150 @@ class ToolPanel extends React.Component<Props> {
     this.offset = {
       dir: 1, // 1 for outward, 0 for inward
       distance: 5,
-      cornerType: 'sharp'
+      cornerType: 'sharp',
     };
     this.nestOptions = {
       spacing: 0,
       generations: 3,
       population: 10,
-      rotations: 1
-    }
+      rotations: 1,
+    };
   }
 
   _setArrayRowColumn(rowcolumn) {
     this.props.data.rowcolumn = rowcolumn;
     this.setState({ rowcolumn });
-  };
+  }
 
   _setArrayDistance(distance) {
     this.props.data.distance = distance;
     this.setState({ distance });
-  };
+  }
 
   _setOffsetDir(dir) {
     this.offset.dir = dir;
-  };
+  }
 
   _setOffsetDist(val) {
     this.offset.distance = val;
-  };
+  }
 
   _setOffsetCorner(val) {
     this.offset.cornerType = val;
   }
 
   renderPanels() {
-    const data = this.props.data;
-    const validPanels = validPanelsMap[this.props.type] || validPanelsMap['unknown'];
-    let panelsToBeRender = [];
+    const { data, type } = this.props;
+    const validPanels = validPanelsMap[type] || validPanelsMap.unknown;
+    const panelsToBeRender = [];
 
     for (let i = 0; i < validPanels.length; ++i) {
       const panelName = validPanels[i];
       let panel;
       switch (panelName) {
         case 'rowColumn':
-          panel = <RowColumnPanel
-            key={panelName} {...data.rowcolumn} onValueChange={this._setArrayRowColumn}
-          />;
+          panel = (
+            <RowColumnPanel
+              key={panelName}
+              {...data.rowcolumn}
+              onValueChange={this._setArrayRowColumn}
+            />
+          );
           break;
         case 'distance':
-          panel = <IntervalPanel
-            key={panelName} {...data.distance} onValueChange={this._setArrayDistance}
-          />;
+          panel = (
+            <IntervalPanel
+              key={panelName}
+              {...data.distance}
+              onValueChange={this._setArrayDistance}
+            />
+          );
           break;
         case 'offsetDir':
-          panel = <OffsetDirectionPanel
-            key={panelName} dir={this.offset.dir} onValueChange={this._setOffsetDir}
-          />;
+          panel = (
+            <OffsetDirectionPanel
+              key={panelName}
+              dir={this.offset.dir}
+              onValueChange={this._setOffsetDir}
+            />
+          );
           break;
         case 'offsetCorner':
-          panel = <OffsetCornerPanel
-            key={panelName} cornerType={this.offset.cornerType} onValueChange={this._setOffsetCorner}
-          />;
+          panel = (
+            <OffsetCornerPanel
+              key={panelName}
+              cornerType={this.offset.cornerType}
+              onValueChange={this._setOffsetCorner}
+            />
+          );
           break;
         case 'offsetDist':
-          panel = <OffsetDistancePanel
-            key={panelName} distance={this.offset.distance} onValueChange={this._setOffsetDist}
-          />;
+          panel = (
+            <OffsetDistancePanel
+              key={panelName}
+              distance={this.offset.distance}
+              onValueChange={this._setOffsetDist}
+            />
+          );
           break;
         case 'nestOffset':
-          panel = <NestSpacingPanel
-            key={panelName} spacing={this.nestOptions.spacing} onValueChange={(val) => { this.nestOptions.spacing = val; }}
-          />;
+          panel = (
+            <NestSpacingPanel
+              key={panelName}
+              spacing={this.nestOptions.spacing}
+              onValueChange={(val) => {
+                this.nestOptions.spacing = val;
+              }}
+            />
+          );
           break;
         case 'nestGA':
-          panel = <NestGAPanel
-            key={panelName} nestOptions={this.nestOptions} updateNestOptions={(options) => { this.nestOptions = { ...this.nestOptions, ...options } }}
-          />;
+          panel = (
+            <NestGAPanel
+              key={panelName}
+              nestOptions={this.nestOptions}
+              updateNestOptions={(options) => {
+                this.nestOptions = { ...this.nestOptions, ...options };
+              }}
+            />
+          );
           break;
         case 'nestRotation':
-          panel = <NestRotationPanel
-            key={panelName} rotations={this.nestOptions.rotations} onValueChange={(val) => { this.nestOptions.rotations = val; }}
-          />;
+          panel = (
+            <NestRotationPanel
+              key={panelName}
+              rotations={this.nestOptions.rotations}
+              onValueChange={(val) => {
+                this.nestOptions.rotations = val;
+              }}
+            />
+          );
           break;
-        //case 'button':          panel = <div; break;
+        default:
+          break;
       }
       panelsToBeRender.push(panel);
-    };
+    }
     return panelsToBeRender;
   }
 
   renderTitle() {
-    const type = this.props.type;
+    const { type } = this.props;
     const titleMap = {
-      'gridArray': LANG.grid_array,
-      'offset': LANG.offset,
-    }
+      gridArray: LANG.grid_array,
+      offset: LANG.offset,
+    };
     const title = titleMap[type];
     return (
       <div className="tool-panel">
         <label className="controls accordion">
-          <input type="checkbox" className="accordion-switcher" defaultChecked={true} />
+          <input type="checkbox" className="accordion-switcher" defaultChecked />
           <p className="caption">
             <span className="value">{title}</span>
           </p>
         </label>
       </div>
-    )
+    );
   }
 
   _onCancel = () => {
@@ -186,21 +234,24 @@ class ToolPanel extends React.Component<Props> {
     drawingToolEventEmitter.emit('SET_ACTIVE_BUTTON', 'Cursor');
   };
 
-  _getOnYes = () => {
+  _getOnYes = (): (() => Promise<void> | void) => {
     const { data, type, unmount } = this.props;
+
     switch (type) {
       case 'gridArray':
-        return () => {
+        return async () => {
           const distance = {
             dx: _mm2pixel(data.distance.dx),
             dy: _mm2pixel(data.distance.dy),
           };
-          svgCanvas.gridArraySelectedElement(distance, data.rowcolumn);
+
+          await svgCanvas.gridArraySelectedElement(distance, data.rowcolumn);
           unmount();
           svgCanvas.setMode('select');
           drawingToolEventEmitter.emit('SET_ACTIVE_BUTTON', 'Cursor');
           svgCanvas.setHasUnsavedChange(true);
         };
+
       case 'offset':
         return () => {
           offsetElements(
@@ -261,10 +312,10 @@ class ToolPanel extends React.Component<Props> {
               onCancel();
               closeModal();
             }}
-            onOk={(value) => {
+            onOk={async (value) => {
               this._setArrayRowColumn({ row: value.row, column: value.column });
               this._setArrayDistance({ dx: value.dx, dy: value.dy });
-              onOk();
+              await onOk();
               closeModal();
             }}
           />
@@ -278,11 +329,11 @@ class ToolPanel extends React.Component<Props> {
               onCancel();
               closeModal();
             }}
-            onOk={(value) => {
+            onOk={async (value) => {
               this._setOffsetDir(value.dir);
               this._setOffsetDist(value.distance);
               this._setOffsetCorner(value.cornerType);
-              onOk();
+              await onOk();
               closeModal();
             }}
           />
@@ -295,13 +346,12 @@ class ToolPanel extends React.Component<Props> {
   }
 
   _findPositionStyle() {
-    const positionStyle = {
+    return {
       position: 'absolute',
       zIndex: 999,
       bottom: 10,
       left: 50,
     } as React.CSSProperties;
-    return positionStyle;
   }
 
   render() {
@@ -320,6 +370,6 @@ class ToolPanel extends React.Component<Props> {
       </div>
     );
   }
-};
+}
 
 export default ToolPanel;

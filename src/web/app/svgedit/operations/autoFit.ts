@@ -120,14 +120,17 @@ const autoFit = async (elem: SVGElement): Promise<void> => {
       const elemDx = center[0] - elementContour.center[0];
       const elemDy = center[1] - elementContour.center[1];
 
-      data.forEach((d, idx) => {
-        if (idx === elementContourId) return;
+      for (let idx = 0; idx < data.length; idx++) {
+        // eslint-disable-next-line no-continue
+        if (idx === elementContourId) continue;
+        const d = data[idx];
         const dAngle = d.angle - elementContour.angle;
         let dx = d.center[0] - elementContour.center[0];
         let dy = d.center[1] - elementContour.center[1];
         dx += elemDx * Math.cos(dAngle) - elemDy * Math.sin(dAngle) - elemDx;
         dy += elemDx * Math.sin(dAngle) + elemDy * Math.cos(dAngle) - elemDy;
-        const res = clipboard.cloneElements([elemToClone], [dx], [dy], {
+        // eslint-disable-next-line no-await-in-loop
+        const res = await clipboard.cloneElements([elemToClone], [dx], [dy], {
           parentCmd: batchCmd,
           selectElement: false,
           callChangOnMove: false,
@@ -141,7 +144,7 @@ const autoFit = async (elem: SVGElement): Promise<void> => {
           svgCanvas.setRotationAngle(newAngle, true, newElem as SVGElement);
           svgedit.recalculate.recalculateDimensions(newElem);
         }
-      });
+      }
     }
     if (!batchCmd.isEmpty()) undoManager.addCommandToHistory(batchCmd);
   } catch (error) {

@@ -37,9 +37,6 @@ const funcs = {
   clearSelection(): void {
     svgCanvas.clearSelection();
   },
-  cloneSelectedElement(): void {
-    clipboard.cloneSelectedElements(20, 20);
-  },
   // main panel
   importImage: async (): Promise<void> => {
     const file = await dialog.getFileFromDialog({
@@ -121,7 +118,7 @@ const funcs = {
       svgCanvas.updateElementColor(newImage);
       svgCanvas.selectOnly([newImage]);
 
-      window['updateContextPanel']();
+      window.updateContextPanel();
       $('#dialog_box').hide();
     };
   },

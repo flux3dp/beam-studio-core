@@ -1,7 +1,7 @@
 /* eslint-disable no-case-declarations */
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import canvasEvents from 'app/actions/canvas/canvasEvents';
-import clipboard from 'app/svgedit/operations/clipboard';
+import clipboard, { isValidNativeClipboard } from 'app/svgedit/operations/clipboard';
 import constant from 'app/actions/beambox/constant';
 import createNewText from 'app/svgedit/text/createNewText';
 import curveEngravingModeController from 'app/actions/canvas/curveEngravingModeController';
@@ -34,6 +34,7 @@ let svgEditor;
 let svgCanvas: ISVGCanvas;
 
 const drawingToolEventEmitter = eventEmitterFactory.createEventEmitter('drawing-tool');
+const workareaEvents = eventEmitterFactory.createEventEmitter('workarea');
 
 getSVGAsync((globalSVG) => {
   svgEditor = globalSVG.Editor;
@@ -193,8 +194,16 @@ let mouseSelectModeCmds;
 // but the action is not recorded until mousing up
 // - when we are in select mode, select the element, remember the position
 // and do nothing else
-const mouseDown = (evt: MouseEvent) => {
-  if (checkShouldIgnore()) return;
+const mouseDown = async (evt: MouseEvent) => {
+  if (checkShouldIgnore()) {
+    return;
+  }
+
+  // Check if the element in the clipboard can be pasted
+  isValidNativeClipboard().then((paste) => {
+    workareaEvents.emit('update-context-menu', { paste });
+  });
+
   const currentShape = svgCanvas.getCurrentShape();
   const zoom = workareaManager.zoomRatio;
   let selectedElements = svgCanvas.getSelectedElems();
@@ -364,7 +373,8 @@ const mouseDown = (evt: MouseEvent) => {
 
           if (!rightClick) {
             if (evt.altKey) {
-              const cmd = clipboard.cloneSelectedElements(0, 0, { addToHistory: false })?.cmd;
+              const cmd = (await clipboard.cloneSelectedElements(0, 0, { addToHistory: false }))
+                ?.cmd;
               selectedElements = svgCanvas.getSelectedElems();
               if (cmd && !cmd.isEmpty()) mouseSelectModeCmds.push(cmd);
             }
