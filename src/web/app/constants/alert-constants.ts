@@ -81,4 +81,6 @@ export const HELP_CENTER_URLS = {
   845: 'https://support.flux3dp.com/hc/en-us/articles/4402756056079',
   846: 'https://support.flux3dp.com/hc/en-us/articles/4402861605775',
   847: 'https://support.flux3dp.com/hc/en-us/articles/4402854250127',
+  850: 'https://support.flux3dp.com/hc/en-us/articles/11300866366223',
+  851: 'https://support.flux3dp.com/hc/en-us/articles/11300854461711',
 };
