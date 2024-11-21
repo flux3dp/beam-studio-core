@@ -41,7 +41,6 @@ const BB2Calibration = ({ isAdvanced, onClose }: Props): JSX.Element => {
   const lang = useI18n();
   const tCali = lang.calibration;
   const calibratingParam = useRef<FisheyeCameraParametersV3Cali>({});
-  const useOldData = useRef(false);
   const [step, setStep] = useState<Steps>(
     isAdvanced ? Steps.PRE_CHESSBOARD : Steps.CHECKPOINT_DATA
   );
@@ -58,7 +57,6 @@ const BB2Calibration = ({ isAdvanced, onClose }: Props): JSX.Element => {
         onClose={onClose}
         onNext={(res: boolean) => {
           if (res) {
-            useOldData.current = true;
             setStep(Steps.PUT_PAPER);
           } else {
             alertCaller.popUpError({
