@@ -1595,7 +1595,7 @@ const lang: ILang = {
     },
     unsupported_example_file: 'Det valgte eksempelfil understøttes ikke af det aktuelle arbejdsområde.',
     time_remaining: 'Tid tilbage:',
-    promark_disconnected: 'Forbindelsen til enheden blev afbrudt, kontroller enhedens forbindelsesstatus.',
+    promark_disconnected: '#850 Forbindelsen til enheden blev afbrudt, kontroller enhedens forbindelsesstatus.',
     swiftray_disconnected: 'Kan ikke oprette forbindelse til backend, forsøger igen.',
     swiftray_reconnected: 'Backend er genoprettet, prøv venligst at sende jobbet igen.',
   },

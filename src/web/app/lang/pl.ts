@@ -1598,7 +1598,7 @@ const lang: ILang = {
     },
     unsupported_example_file: 'Wybrany przykładowy plik nie jest obsługiwany przez bieżący obszar roboczy.',
     time_remaining: 'Pozostały czas:',
-    promark_disconnected: 'Połączenie z urządzeniem zostało przerwane, sprawdź status połączenia.',
+    promark_disconnected: '#850 Połączenie z urządzeniem zostało przerwane, sprawdź status połączenia.',
     swiftray_disconnected: 'Nie można połączyć się z backendem, ponawianie próby połączenia.',
     swiftray_reconnected: 'Backend ponownie połączony, spróbuj ponownie wysłać zadanie.',
   },

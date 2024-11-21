@@ -1595,7 +1595,7 @@ const lang: ILang = {
     },
     unsupported_example_file: "Le fichier d'exemple sélectionné n'est pas pris en charge par la zone de travail actuelle.",
     time_remaining: 'Temps restant:',
-    promark_disconnected: "Connexion de l'appareil interrompue, veuillez vérifier l'état de connexion de l'appareil.",
+    promark_disconnected: "#850 Connexion de l'appareil interrompue, veuillez vérifier l'état de connexion de l'appareil.",
     swiftray_disconnected: 'Impossible de se connecter au backend, tentative de reconnexion en cours.',
     swiftray_reconnected: "Backend reconnecté, veuillez réessayer d'envoyer la tâche.",
   },

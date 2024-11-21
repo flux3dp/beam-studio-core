@@ -1598,7 +1598,7 @@ const lang: ILang = {
     },
     unsupported_example_file: '선택한 예제 파일은 현재 작업 영역에서 지원되지 않습니다.',
     time_remaining: '남은 시간:',
-    promark_disconnected: '장치 연결이 중단되었습니다. 장치의 연결 상태를 확인하세요.',
+    promark_disconnected: '#850 장치 연결이 중단되었습니다. 장치의 연결 상태를 확인하세요.',
     swiftray_disconnected: '백엔드에 연결할 수 없습니다. 다시 연결을 시도 중입니다.',
     swiftray_reconnected: '백엔드가 다시 연결되었습니다. 작업을 다시 보내세요.',
   },

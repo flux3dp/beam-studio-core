@@ -1595,7 +1595,7 @@ const lang: ILang = {
     },
     unsupported_example_file: 'O arquivo de exemplo selecionado não é suportado por esta área de trabalho.',
     time_remaining: 'Tempo restante:',
-    promark_disconnected: 'Conexão do dispositivo interrompida, por favor verifique o estado da conexão.',
+    promark_disconnected: '#850 Conexão do dispositivo interrompida, por favor verifique o estado da conexão.',
     swiftray_disconnected: 'Não foi possível conectar ao backend, tentando reconectar.',
     swiftray_reconnected: 'Backend reconectado, tente reenviar o trabalho.',
   },

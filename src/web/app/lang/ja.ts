@@ -1598,7 +1598,7 @@ const lang: ILang = {
     },
     unsupported_example_file: '選択したサンプルファイルは現在の作業領域ではサポートされていません。',
     time_remaining: '残り時間：',
-    promark_disconnected: 'デバイスの接続が中断されました。デバイスの接続状態を確認してください。',
+    promark_disconnected: '#850 デバイスの接続が中断されました。デバイスの接続状態を確認してください。',
     swiftray_disconnected: 'バックエンドに接続できません。再接続を試みています。',
     swiftray_reconnected: 'バックエンドが再接続されました。ジョブを再送信してください。',
   },
