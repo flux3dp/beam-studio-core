@@ -121,7 +121,8 @@ const autoFit = async (elem: SVGElement): Promise<void> => {
       const elemDy = center[1] - elementContour.center[1];
 
       for (let idx = 0; idx < data.length; idx++) {
-        if (idx === elementContourId) return;
+        // eslint-disable-next-line no-continue
+        if (idx === elementContourId) continue;
         const d = data[idx];
         const dAngle = d.angle - elementContour.angle;
         let dx = d.center[0] - elementContour.center[0];

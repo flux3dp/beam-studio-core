@@ -200,8 +200,8 @@ const mouseDown = async (evt: MouseEvent) => {
   }
 
   // Check if the element in the clipboard can be pasted
-  workareaEvents.emit('update-context-menu', {
-    paste: await isValidNativeClipboard(),
+  isValidNativeClipboard().then((paste) => {
+    workareaEvents.emit('update-context-menu', { paste });
   });
 
   const currentShape = svgCanvas.getCurrentShape();
