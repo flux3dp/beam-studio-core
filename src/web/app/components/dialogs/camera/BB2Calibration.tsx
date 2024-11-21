@@ -173,8 +173,8 @@ const BB2Calibration = ({ isAdvanced, onClose }: Props): JSX.Element => {
       <Instruction
         onClose={() => onClose(false)}
         animationSrcs={[
-          { src: 'video/promark-calibration/3-align.webm', type: 'video/webm' },
-          { src: 'video/promark-calibration/3-align.mp4', type: 'video/mp4' },
+          { src: 'video/bb2-calibration/3-align.webm', type: 'video/webm' },
+          { src: 'video/bb2-calibration/3-align.mp4', type: 'video/mp4' },
         ]}
         title={tCali.solve_pnp_title}
         steps={[tCali.solve_pnp_step1, tCali.solve_pnp_step2]}
