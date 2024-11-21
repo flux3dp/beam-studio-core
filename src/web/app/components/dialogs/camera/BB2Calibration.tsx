@@ -157,10 +157,12 @@ const BB2Calibration = ({ isAdvanced, onClose }: Props): JSX.Element => {
         title={tCali.put_paper}
         steps={[tCali.put_paper_step1, tCali.put_paper_step2, tCali.perform_autofocus_bb2]}
         buttons={[
-          {
-            label: tCali.back,
-            onClick: () => setStep(useOldData.current ? Steps.CHECKPOINT_DATA : Steps.CHESSBOARD),
-          },
+          isAdvanced
+            ? { label: tCali.back, onClick: () => setStep(Steps.CHESSBOARD) }
+            : {
+                label: tCali.cancel,
+                onClick: () => onClose(false),
+              },
           { label: tCali.skip, onClick: () => handleNext(false) },
           { label: tCali.start_engrave, onClick: () => handleNext(), type: 'primary' },
         ]}
