@@ -397,7 +397,7 @@ const lang: ILang = {
       finish_setting: 'เริ่มสร้าง!',
       check_swiftray_connection: 'กำลังตรวจสอบการเชื่อมต่อกับเซิร์ฟเวอร์',
       check_swiftray_connection_unreachable: 'ไม่สามารถเข้าถึงเซิร์ฟเวอร์',
-      promark_hint: 'หากไม่สามารถเชื่อมต่อผ่าน USB ซ้ำๆ กรุณาดู <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/11195313944975">บทความในศูนย์ช่วยเหลือ</a>.',
+      promark_hint: 'หากไม่สามารถเชื่อมต่อผ่าน USB ซ้ำๆ กรุณาดู <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/11318820440591">บทความในศูนย์ช่วยเหลือ</a>.',
       alert: {
         swiftray_connection_error: 'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ กรุณารีสตาร์ท Beam Studio และลองอีกครั้ง.',
       },

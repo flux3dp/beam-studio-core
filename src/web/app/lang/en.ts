@@ -400,7 +400,7 @@ const lang: ILang = {
       finish_setting: 'Start Creating!',
       check_swiftray_connection: 'Checking server connection',
       check_swiftray_connection_unreachable: 'server unreachable',
-      promark_hint: 'If you repeatedly fail to connect via USB, please refer to the <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/11195313944975">Help Center article</a>.',
+      promark_hint: 'If you repeatedly fail to connect via USB, please refer to the <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/11318820440591">Help Center article</a>.',
       alert: {
         swiftray_connection_error: `Unable to connect to server. Please restart Beam Studio and try again.`,
       },

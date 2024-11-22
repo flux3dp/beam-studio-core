@@ -400,7 +400,7 @@ const lang: ILang = {
       finish_setting: '開始創作',
       check_swiftray_connection: '正在檢查伺服器連線',
       check_swiftray_connection_unreachable: '伺服器無法連線',
-      promark_hint: '如果您持續遇到 USB 連線失敗問題，請參考<a target="_blank" href="https://support.flux3dp.com/hc/zh-tw/articles/11195313944975">說明中心文章</a>。',
+      promark_hint: '如果您持續遇到 USB 連線失敗問題，請參考<a target="_blank" href="https://support.flux3dp.com/hc/zh-tw/articles/11318820440591">說明中心文章</a>。',
       alert: {
         swiftray_connection_error: '無法連接到伺服器。請重新啟動Beam Studio並重試。',
       },

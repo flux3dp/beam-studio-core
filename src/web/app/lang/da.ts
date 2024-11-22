@@ -397,7 +397,7 @@ const lang: ILang = {
       finish_setting: 'Start med at oprette!',
       check_swiftray_connection: 'Tjekker serverforbindelse',
       check_swiftray_connection_unreachable: 'server utilgængelig',
-      promark_hint: 'Hvis du gentagne gange ikke kan oprette forbindelse via USB, henvises du til <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/11195313944975">Hjælpecenterets artikel</a>.',
+      promark_hint: 'Hvis du gentagne gange ikke kan oprette forbindelse via USB, henvises du til <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/11318820440591">Hjælpecenterets artikel</a>.',
       alert: {
         swiftray_connection_error: 'Kan ikke oprette forbindelse til serveren. Genstart Beam Studio og prøv igen.',
       },

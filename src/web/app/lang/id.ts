@@ -397,7 +397,7 @@ const lang: ILang = {
       finish_setting: 'Mulai Membuat!',
       check_swiftray_connection: 'Memeriksa koneksi server',
       check_swiftray_connection_unreachable: 'server tidak dapat dijangkau',
-      promark_hint: 'Jika Anda berulang kali gagal terhubung melalui USB, silakan lihat <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/11195313944975">artikel di Pusat Bantuan</a>.',
+      promark_hint: 'Jika Anda berulang kali gagal terhubung melalui USB, silakan lihat <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/11318820440591">artikel di Pusat Bantuan</a>.',
       alert: {
         swiftray_connection_error: 'Tidak dapat terhubung ke server. Silakan mulai ulang Beam Studio dan coba lagi.',
       },

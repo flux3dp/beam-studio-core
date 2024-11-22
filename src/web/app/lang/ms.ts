@@ -397,7 +397,7 @@ const lang: ILang = {
       finish_setting: 'Mulakan Mencipta!',
       check_swiftray_connection: 'Memeriksa sambungan pelayan',
       check_swiftray_connection_unreachable: 'pelayan tidak dapat dicapai',
-      promark_hint: 'Jika anda berulang kali gagal menyambung melalui USB, sila rujuk kepada <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/11195313944975">artikel Pusat Bantuan</a>.',
+      promark_hint: 'Jika anda berulang kali gagal menyambung melalui USB, sila rujuk kepada <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/11318820440591">artikel Pusat Bantuan</a>.',
       alert: {
         swiftray_connection_error: 'Tidak dapat menyambung ke pelayan. Sila mulakan semula Beam Studio dan cuba lagi.',
       },

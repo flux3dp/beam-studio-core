@@ -400,7 +400,7 @@ const lang: ILang = {
       finish_setting: '作り始めます！',
       check_swiftray_connection: 'サーバー接続を確認中',
       check_swiftray_connection_unreachable: 'サーバーに接続できません',
-      promark_hint: 'USB経由での接続に繰り返し失敗する場合は、<a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/11195313944975">ヘルプセンターの記事</a>をご参照ください。',
+      promark_hint: 'USB経由での接続に繰り返し失敗する場合は、<a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/11318820440591">ヘルプセンターの記事</a>をご参照ください。',
       alert: {
         swiftray_connection_error: 'サーバーに接続できません。Beam Studioを再起動して、もう一度お試しください。',
       },

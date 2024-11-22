@@ -400,7 +400,7 @@ const lang: ILang = {
       finish_setting: '만들기 시작!',
       check_swiftray_connection: '서버 연결 확인 중',
       check_swiftray_connection_unreachable: '서버에 연결할 수 없음',
-      promark_hint: 'USB 연결에 반복적으로 실패할 경우 <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/11195313944975">도움말 센터의 기사</a>를 참조하십시오.',
+      promark_hint: 'USB 연결에 반복적으로 실패할 경우 <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/11318820440591">도움말 센터의 기사</a>를 참조하십시오.',
       alert: {
         swiftray_connection_error: '서버에 연결할 수 없습니다. Beam Studio를 다시 시작하고 다시 시도하십시오.',
       },

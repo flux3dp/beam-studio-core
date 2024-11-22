@@ -397,7 +397,7 @@ const lang: ILang = {
       finish_setting: 'Börja skapa!',
       check_swiftray_connection: 'Kontrollerar serveranslutning',
       check_swiftray_connection_unreachable: 'servern är inte tillgänglig',
-      promark_hint: 'Om du upprepade gånger inte kan ansluta via USB, se <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/11195313944975">Hjälpcentrets artikel</a>.',
+      promark_hint: 'Om du upprepade gånger inte kan ansluta via USB, se <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/11318820440591">Hjälpcentrets artikel</a>.',
       alert: {
         swiftray_connection_error: 'Det gick inte att ansluta till servern. Starta om Beam Studio och försök igen.',
       },
