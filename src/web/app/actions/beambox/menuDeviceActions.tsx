@@ -34,9 +34,9 @@ const { lang } = i18n;
 
 const calibrateCamera = async (
   device: IDeviceInfo,
-  args: { isBorderless?: boolean; factoryMode?: boolean } = {}
+  args: { isBorderless?: boolean; factoryMode?: boolean; isAdvanced?: boolean } = {}
 ) => {
-  const { isBorderless = false, factoryMode = false } = args;
+  const { isBorderless = false, factoryMode = false, isAdvanced = false } = args;
   try {
     const deviceStatus = await checkDeviceStatus(device);
     if (!deviceStatus) {
@@ -47,7 +47,7 @@ const calibrateCamera = async (
       if (constant.adorModels.includes(device.model)) {
         showAdorCalibrationV2(factoryMode);
       } else if (device.model === 'fbb2') {
-        showBB2Calibration();
+        showBB2Calibration(isAdvanced);
       } else if (promarkModels.has(device.model)) {
         showPromarkCalibration(device);
       } else showCameraCalibration(device, isBorderless);
@@ -315,6 +315,16 @@ export default {
       return;
     }
     calibrateCamera(device);
+  },
+  CALIBRATE_CAMERA_ADVANCED: async (device: IDeviceInfo): Promise<void> => {
+    if (window.location.hash !== '#/studio/beambox') {
+      Alert.popUp({
+        type: AlertConstants.SHOW_POPUP_INFO,
+        message: lang.calibration.please_goto_beambox_first,
+      });
+      return;
+    }
+    calibrateCamera(device, { isAdvanced: true });
   },
   CALIBRATE_CAMERA_V2_FACTORY: async (device: IDeviceInfo): Promise<void> => {
     if (window.location.hash !== '#/studio/beambox') {

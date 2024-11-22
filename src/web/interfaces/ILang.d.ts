@@ -162,6 +162,7 @@ export interface ILang {
       calibrate_ir_module: string;
       calibrate_beambox_camera_borderless: string;
       calibrate_diode_module: string;
+      calibrate_camera_advanced: string;
       manage_account: string;
       sign_in: string;
       sign_out: string;
@@ -1687,6 +1688,7 @@ export interface ILang {
     check_device_pictures: string;
     checking_pictures: string;
     no_picutre_found: string;
+    unable_to_load_camera_parameters: string;
     calibrating_with_device_pictures: string;
     failed_to_calibrate_with_pictures: string;
     getting_plane_height: string;
@@ -1720,7 +1722,9 @@ export interface ILang {
     moving_laser_head: string;
     failed_to_move_laser_head: string;
     put_chessboard: string;
-    put_chessboard_desc: string;
+    put_chessboard_bb2_desc_1: string;
+    put_chessboard_bb2_desc_2: string;
+    put_chessboard_bb2_desc_3: string;
     put_chessboard_1: string;
     put_chessboard_2: string;
     put_chessboard_3: string;

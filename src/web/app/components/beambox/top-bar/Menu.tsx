@@ -133,6 +133,14 @@ export default function Menu({ email }: Props): JSX.Element {
             >
               {menuCms.calibrate_beambox_camera} {isMobile && '(PC Only)'}
             </MenuItem>
+            {model === 'fbb2' && (
+              <MenuItem
+                onClick={() => callback('CALIBRATE_CAMERA_ADVANCED', serial)}
+                disabled={isMobile}
+              >
+                {menuCms.calibrate_camera_advanced} {isMobile && '(PC Only)'}
+              </MenuItem>
+            )}
             {hasModules && (
               <MenuItem
                 onClick={() => callback('CALIBRATE_PRINTER_MODULE', serial)}

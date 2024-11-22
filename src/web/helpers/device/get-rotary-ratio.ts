@@ -10,7 +10,7 @@ const getRotaryRatio = (supportInfo: SupportInfo): number => {
   if (supportInfo.rotary?.mirror) {
     const mirror = !!beamboxPreference.read('rotary-mirror');
     const { defaultMirror } = supportInfo.rotary;
-    if (mirror !== defaultMirror) ratio *= -1;
+    if (mirror !== Boolean(defaultMirror)) ratio *= -1;
   }
   return ratio;
 };
