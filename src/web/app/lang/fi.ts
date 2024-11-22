@@ -1952,6 +1952,8 @@ const lang: ILang = {
     click_to_select_point: 'Napsauta valitaksesi tai poistaaksesi valinnan mittauksesta.',
     remeasure: 'Mittaa uudelleen',
     remeasuring_points: 'Mittauspisteiden uudelleenmittaus...',
+    take_reference: 'Ota referenssi',
+    take_reference_desc: 'Siirrä laserpää objektin korkeimpaan kohtaan, laske tarkennusanturi ja napsauta "Vahvista" tarkentaaksesi.',
   },
   pass_through: {
     title: 'Läpäisymoodi',

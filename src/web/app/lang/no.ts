@@ -1952,6 +1952,8 @@ const lang: ILang = {
     click_to_select_point: 'Klikk for å velge eller velge bort punkter for å måle på nytt.',
     remeasure: 'Mål på nytt',
     remeasuring_points: 'Måler punkter på nytt...',
+    take_reference: 'Ta referanse',
+    take_reference_desc: 'Vennligst flytt laserhodet til objektets høyeste punkt, senk fokuseringsproben, og klikk på "Bekreft" for å fokusere.',
   },
   pass_through: {
     title: 'Gå Gjennom-Modus',

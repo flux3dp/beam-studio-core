@@ -1952,6 +1952,8 @@ const lang: ILang = {
     click_to_select_point: 'Cliquez pour sélectionner ou désélectionner les points à mesurer à nouveau.',
     remeasure: 'Re-mesurer',
     remeasuring_points: 'Remesure des points...',
+    take_reference: 'Prendre référence',
+    take_reference_desc: 'Veuillez déplacer la tête laser au point le plus haut de l’objet, abaisser la sonde de mise au point et cliquer sur « Confirmer » pour faire la mise au point.',
   },
   pass_through: {
     title: 'Mode Passage',

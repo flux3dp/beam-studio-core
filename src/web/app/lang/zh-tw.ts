@@ -1955,6 +1955,8 @@ const lang: ILang = {
     click_to_select_point: '點擊選擇或取消選擇要重新測量的點。',
     remeasure: '重新測量',
     remeasuring_points: '正在重新測量點...',
+    take_reference: '取得參考點',
+    take_reference_desc: '請將雷射頭移至雕刻物件的最高處，並將對焦探針放下，點擊「確認」進行對焦。',
   },
   pass_through: {
     title: '廣域雕刻',

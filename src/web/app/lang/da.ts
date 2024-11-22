@@ -1952,6 +1952,8 @@ const lang: ILang = {
     click_to_select_point: 'Klik for at vælge eller fravælge punkter til genmåling.',
     remeasure: 'Genmål',
     remeasuring_points: 'Genmåler punkter...',
+    take_reference: 'Tag reference',
+    take_reference_desc: 'Flyt venligst laserhovedet til objektets højeste punkt, sænk fokusproben, og klik på "Bekræft" for at fokusere.',
   },
   pass_through: {
     title: 'Gennemgangstilstand',

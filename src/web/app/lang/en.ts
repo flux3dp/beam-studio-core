@@ -1955,6 +1955,8 @@ Machines > ‘Promark Name’ > Promark Settings`,
     click_to_select_point: 'Click to select or unselect points to measure again.',
     remeasure: 'Re-measure',
     remeasuring_points: 'Remeasuring Points...',
+    take_reference: 'Take Reference',
+    take_reference_desc: 'Please move the laser head to the highest point of the object, lower the focus probe and click "Confirm" to focus.',
   },
   pass_through: {
     title: 'Pass Through Mode',

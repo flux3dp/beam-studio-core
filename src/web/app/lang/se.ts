@@ -1952,6 +1952,8 @@ const lang: ILang = {
     click_to_select_point: 'Klicka för att välja eller avmarkera punkter för att mäta igen.',
     remeasure: 'Mät om',
     remeasuring_points: 'Mäter om punkter...',
+    take_reference: 'Ta referens',
+    take_reference_desc: 'Flytta laserkoppen till objektets högsta punkt, sänk fokussonden och klicka på "Bekräfta" för att fokusera.',
   },
   pass_through: {
     title: 'Passera Igenom-Läge',

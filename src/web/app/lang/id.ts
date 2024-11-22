@@ -1952,6 +1952,8 @@ const lang: ILang = {
     click_to_select_point: 'Klik untuk memilih atau membatalkan pilihan titik untuk mengukur ulang.',
     remeasure: 'Ukur ulang',
     remeasuring_points: 'Mengukur ulang titik...',
+    take_reference: 'Ambil Referensi',
+    take_reference_desc: 'Silakan pindahkan kepala laser ke titik tertinggi objek, turunkan probe fokus, dan klik "Konfirmasi" untuk memfokuskan.',
   },
   pass_through: {
     title: 'Mode Lewat',

@@ -1955,6 +1955,8 @@ const lang: ILang = {
     click_to_select_point: '再度測定するためにポイントを選択または選択解除するにはクリックしてください。',
     remeasure: '再測定',
     remeasuring_points: 'ポイントを再測定しています...',
+    take_reference: '参照を取得',
+    take_reference_desc: 'レーザーヘッドを対象物の最も高い点に移動させ、フォーカスプローブを下げて「確認」をクリックしてフォーカスしてください。',
   },
   pass_through: {
     title: 'パススルーモード',

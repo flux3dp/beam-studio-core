@@ -1955,6 +1955,8 @@ const lang: ILang = {
     click_to_select_point: 'Kliknij, aby wybrać lub odznaczyć punkty do ponownego pomiaru.',
     remeasure: 'Ponownie zmierz',
     remeasuring_points: 'Ponowne mierzenie punktów...',
+    take_reference: 'Pobierz referencję',
+    take_reference_desc: 'Proszę przesunąć głowicę lasera na najwyższy punkt obiektu, opuścić sondę ostrości i kliknąć „Potwierdź”, aby ustawić ostrość.',
   },
   pass_through: {
     title: 'Tryb Przejścia',

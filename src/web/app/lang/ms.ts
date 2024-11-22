@@ -1952,6 +1952,8 @@ const lang: ILang = {
     click_to_select_point: 'Klik untuk memilih atau nyahpilih titik untuk diukur semula.',
     remeasure: 'Ukur Semula',
     remeasuring_points: 'Mengukur Semula Titik...',
+    take_reference: 'Ambil Rujukan',
+    take_reference_desc: 'Sila gerakkan kepala laser ke titik tertinggi objek, turunkan probe fokus, dan klik "Sahkan" untuk memfokuskan.',
   },
   pass_through: {
     title: 'Mod Lalu',

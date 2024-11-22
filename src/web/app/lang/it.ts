@@ -1952,6 +1952,8 @@ const lang: ILang = {
     click_to_select_point: 'Clicca per selezionare o deselezionare i punti da misurare nuovamente.',
     remeasure: 'Rimisura',
     remeasuring_points: 'Rimisurazione dei punti...',
+    take_reference: 'Prendi riferimento',
+    take_reference_desc: 'Sposta la testa del laser al punto più alto dell\'oggetto, abbassa la sonda di messa a fuoco e fai clic su "Conferma" per mettere a fuoco.',
   },
   pass_through: {
     title: 'Modalità Di Attraversamento',

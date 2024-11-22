@@ -1952,6 +1952,8 @@ const lang: ILang = {
     click_to_select_point: 'Clique para selecionar ou desselecionar pontos para medir novamente.',
     remeasure: 'Re-medir',
     remeasuring_points: 'Re-medindo pontos...',
+    take_reference: 'Pegar referência',
+    take_reference_desc: 'Por favor, mova a cabeça do laser para o ponto mais alto do objeto, abaixe a sonda de foco e clique em "Confirmar" para focar.',
   },
   pass_through: {
     title: 'Modo De Passar Por',

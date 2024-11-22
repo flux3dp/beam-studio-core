@@ -1955,6 +1955,8 @@ const lang: ILang = {
     click_to_select_point: 'Klikněte pro vybrání nebo odznačení bodů pro opětovné měření.',
     remeasure: 'Znovu změřit',
     remeasuring_points: 'Přeměřuji body...',
+    take_reference: 'Vzít referenci',
+    take_reference_desc: 'Prosím, přesuňte laserovou hlavu na nejvyšší bod objektu, spusťte zaostřovací sondu a klikněte na „Potvrdit“ pro zaostření.',
   },
   pass_through: {
     title: 'Režim procházení',

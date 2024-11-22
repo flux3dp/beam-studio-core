@@ -1952,6 +1952,8 @@ const lang: ILang = {
     click_to_select_point: 'Klik om punten te selecteren of te deselecteren voor opnieuw meten.',
     remeasure: 'Opnieuw meten',
     remeasuring_points: 'Punten opnieuw meten...',
+    take_reference: 'Referentie nemen',
+    take_reference_desc: 'Verplaats de laserkop naar het hoogste punt van het object, laat de focusprobe zakken en klik op "Bevestigen" om te focussen.',
   },
   pass_through: {
     title: 'Doorgangsmodus',

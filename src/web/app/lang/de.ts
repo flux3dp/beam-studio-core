@@ -1955,6 +1955,8 @@ const lang: ILang = {
     click_to_select_point: 'Klicken, um Punkte zum erneuten Messen auszuwählen oder abzuwählen.',
     remeasure: 'Erneut messen',
     remeasuring_points: 'Punkte erneut messen...',
+    take_reference: 'Referenz nehmen',
+    take_reference_desc: 'Bitte bewegen Sie den Laser-Kopf zum höchsten Punkt des Objekts, senken Sie die Fokussier-Sonde ab und klicken Sie auf „Bestätigen“, um zu fokussieren.',
   },
   pass_through: {
     title: 'Durchgangsmodus',

@@ -1955,6 +1955,8 @@ const lang: ILang = {
     click_to_select_point: '点击选择或取消选择要重新测量的点。',
     remeasure: '重新测量',
     remeasuring_points: '正在重新测量...',
+    take_reference: '获取参考',
+    take_reference_desc: '请将激光头移动到物体的最高点，放下焦点探针，然后点击“确认”以进行对焦。',
   },
   pass_through: {
     title: '广域雕刻',

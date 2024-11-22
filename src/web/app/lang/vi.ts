@@ -1952,6 +1952,8 @@ const lang: ILang = {
     click_to_select_point: 'Nhấp để chọn hoặc bỏ chọn các điểm để đo lại.',
     remeasure: 'Đo lại',
     remeasuring_points: 'Đang đo lại các điểm...',
+    take_reference: 'Lấy tham chiếu',
+    take_reference_desc: 'Vui lòng di chuyển đầu laser đến điểm cao nhất của đối tượng, hạ đầu dò tiêu điểm xuống và nhấp vào "Xác nhận" để lấy nét.',
   },
   pass_through: {
     title: 'Chế Độ Đi Qua',
