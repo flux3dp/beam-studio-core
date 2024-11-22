@@ -1,28 +1,67 @@
 /* eslint-disable no-await-in-loop */
 import alertCaller from 'app/actions/alert-caller';
+import alertConstants from 'app/constants/alert-constants';
 import deviceMaster from 'helpers/device-master';
 import durationFormatter from 'helpers/duration-formatter';
 import i18n from 'helpers/i18n';
+import progressCaller from 'app/actions/progress-caller';
 import { getSupportInfo } from 'app/constants/add-on';
 import { getWorkarea } from 'app/constants/workarea-constants';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { MeasureData, Points } from 'interfaces/ICurveEngraving';
 
+/**
+ * This function will enter red laser measure mode if needed, show take reference dialog
+ * and stay in red laser measure mode to keep the reference data
+ * @returns {Promise<boolean>} - true if the reference is taken, false if the user cancels
+ */
+export const showTakeReferenceDialog = async (): Promise<boolean> => {
+  const { lang } = i18n;
+  const progressId = 'take-reference';
+  progressCaller.openNonstopProgress({ id: progressId });
+  if (deviceMaster.currentControlMode !== 'red_laser_measure') {
+    progressCaller.update(progressId, { message: lang.message.enteringRedLaserMeasureMode });
+  }
+  const res = await new Promise<boolean>((resolve) => {
+    alertCaller.popUp({
+      caption: lang.curve_engraving.take_reference,
+      message: lang.curve_engraving.take_reference_desc,
+      buttonType: alertConstants.CONFIRM_CANCEL,
+      onConfirm: async () => {
+        try {
+          await deviceMaster.takeReferenceZ();
+          resolve(true);
+        } catch (error) {
+          alertCaller.popUpError({ message: `Failed to take reference ${error.message}` });
+          resolve(false);
+        }
+      },
+      onCancel: () => resolve(false),
+    });
+  });
+  progressCaller.popById(progressId);
+  return res;
+};
+
 export const setupMeasure = async (
   useRedLight: boolean,
   onProgressText?: (text: string) => void
-): Promise<void> => {
+): Promise<boolean> => {
   const { lang } = i18n;
-  onProgressText(lang.message.enteringRawMode);
-  await deviceMaster.enterRawMode();
-  onProgressText(lang.message.homing);
-  await deviceMaster.rawHome();
   if (useRedLight) {
-    onProgressText(lang.message.endingRawMode);
-    await deviceMaster.endRawMode();
-    onProgressText(lang.message.enteringRedLaserMeasureMode);
-    await deviceMaster.enterRedLaserMeasureMode();
+    if (deviceMaster.currentControlMode !== 'red_laser_measure') {
+      onProgressText?.(lang.message.enteringRedLaserMeasureMode);
+      await deviceMaster.enterRedLaserMeasureMode();
+      const res = await showTakeReferenceDialog();
+      return res;
+    }
+  } else {
+    onProgressText(lang.message.enteringRawMode);
+    await deviceMaster.enterRawMode();
+    onProgressText(lang.message.homing);
+    await deviceMaster.rawHome();
   }
+  return true;
 };
 
 export const endMeasure = async (): Promise<void> => {
@@ -35,6 +74,16 @@ export const endMeasure = async (): Promise<void> => {
     }
   } catch (error) {
     console.error('Failed to end measure mode', error);
+  }
+};
+
+export const exitRedLaserMeasureMode = async (): Promise<void> => {
+  try {
+    if (deviceMaster.currentControlMode === 'red_laser_measure') {
+      await deviceMaster.endRedLaserMeasureMode();
+    }
+  } catch (error) {
+    console.error('Failed to exit red laser measure mode', error);
   }
 };
 
@@ -75,8 +124,8 @@ export const measurePoints = async (
   const { lang } = i18n;
   const { checkCancel, onProgressText, onPointFinished } = opts;
   const supportInfo = getSupportInfo(device.model);
-  await setupMeasure(supportInfo.redLight, onProgressText);
-  if (checkCancel?.()) return null;
+  const res = await setupMeasure(supportInfo.redLight, onProgressText);
+  if (!res || checkCancel?.()) return null;
   onProgressText?.(lang.curve_engraving.starting_measurement);
   const workarea = getWorkarea(device.model);
   const [offsetX, offsetY, offsetZ] = workarea.autoFocusOffset || [0, 0, 0];
@@ -99,13 +148,7 @@ export const measurePoints = async (
     try {
       let z: number | null = null;
       if (supportInfo.redLight) {
-        if (i === 0) {
-          onProgressText?.(lang.message.redLaserTakingReference);
-          // first point
-          z = await deviceMaster.takeReferenceZ(Math.max(x - offsetX, 0), Math.max(y - offsetY, 0));
-        } else {
-          z = await deviceMaster.measureZ(x, y);
-        }
+        z = await deviceMaster.measureZ({ X: x, Y: y, F: 6000 });
       } else {
         z = await measurePointRaw(
           x,

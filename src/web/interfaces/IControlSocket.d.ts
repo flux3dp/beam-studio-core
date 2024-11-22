@@ -96,8 +96,8 @@ interface IControlSocket extends EventEmitter {
   ) => Promise<{ status: string; data: { result: { hash: string; sign: string } } }>;
   enterRedLaserMeasureMode?: () => Promise<void>;
   endRedLaserMeasureMode?: () => Promise<void>;
-  takeReferenceZ?: (x: number, y: number, feedrate?: number) => Promise<number>;
-  measureZ?: (x: number, y: number, feedrate?: number) => Promise<number>;
+  takeReferenceZ?: (args?: { X?: number; Y?: number; F?: number; H?: number }) => Promise<number>;
+  measureZ?: (args?: { X?: number; Y?: number; F?: number }) => Promise<number>;
   fetchFisheyeParams?: () => Promise<FisheyeCameraParameters>;
   uploadFisheyeParams?: (data: string) => Promise<{ status: string }>;
   fetchFisheye3DRotation?: () => Promise<RotationParameters3D>;

@@ -14,6 +14,7 @@ import getCanvasImage from './getCanvasImage';
 import Plane from './Plane';
 import remeasurePoints from './remeasurePoints';
 import styles from './CurveEngraving.module.scss';
+import { exitRedLaserMeasureMode } from './measure';
 
 interface Props {
   data: ICurveEngraving;
@@ -169,7 +170,10 @@ export const showCurveEngraving = async (
       <CurveEngraving
         data={data}
         onRemeasure={onRemeasure}
-        onClose={() => popDialogById('curve-engraving')}
+        onClose={() => {
+          exitRedLaserMeasureMode();
+          popDialogById('curve-engraving');
+        }}
       />
     );
   }

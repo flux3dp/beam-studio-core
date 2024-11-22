@@ -910,12 +910,18 @@ class Control extends EventEmitter implements IControlSocket {
     return this.useWaitAnyResponse('task quit');
   };
 
-  takeReferenceZ = async (x: number, y: number, feedrate = 6000): Promise<number> => {
+  takeReferenceZ = async (
+    args: { X?: number; Y?: number; F?: number; H?: number } = {}
+  ): Promise<number> => {
     if (this.mode !== 'red_laser_measure') {
       throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
     }
+    const posCommand = Object.keys(args)
+      .filter((key) => args[key] !== undefined)
+      .map((key) => `${key}:${args[key].toFixed(3)}`)
+      .join(',');
     const resp = await this.useWaitAnyResponse(
-      `take_reference_z(X:${x.toFixed(3)},Y:${y.toFixed(3)},F:${feedrate})`,
+      `take_reference_z${posCommand ? `(${posCommand})` : ''}`,
       180000
     );
     const { data } = resp;
@@ -931,12 +937,16 @@ class Control extends EventEmitter implements IControlSocket {
     throw new Error(resp);
   };
 
-  measureZ = async (x: number, y: number, feedrate = 6000): Promise<number> => {
+  measureZ = async (args: { X?: number; Y?: number; F?: number } = {}): Promise<number> => {
     if (this.mode !== 'red_laser_measure') {
       throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
     }
+    const posCommand = Object.keys(args)
+      .filter((key) => args[key] !== undefined)
+      .map((key) => `${key}:${args[key].toFixed(3)}`)
+      .join(',');
     const resp = await this.useWaitAnyResponse(
-      `measure_z(X:${x.toFixed(3)},Y:${y.toFixed(3)},F:${feedrate})`,
+      `measure_z${posCommand ? `(${posCommand})` : ''}`,
       60000
     );
     const { data } = resp;

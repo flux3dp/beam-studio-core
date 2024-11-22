@@ -11,7 +11,7 @@ import useI18n from 'helpers/useI18n';
 import { addDialogComponent, isIdExist, popDialogById } from 'app/actions/dialog-controller';
 import { BBox, MeasureData } from 'interfaces/ICurveEngraving';
 
-import measure from './measure';
+import measure, { exitRedLaserMeasureMode } from './measure';
 import rangeGenerator from './rangeGenerator';
 import styles from './MeasureArea.module.scss';
 
@@ -23,14 +23,14 @@ enum Type {
 interface Props {
   bbox: BBox;
   onFinished: (data: MeasureData) => void;
-  onClose: () => void;
+  onCancel: () => void;
 }
 
 // TODO: Add unit tests
 const MeasureArea = ({
   bbox: { x, y, width, height },
   onFinished,
-  onClose,
+  onCancel,
 }: Props): JSX.Element => {
   const lang = useI18n();
   const [selectedType, setSelectedType] = useState(Type.Amount);
@@ -87,7 +87,6 @@ const MeasureArea = ({
       return;
     }
     onFinished(data);
-    onClose();
   };
 
   const handleCancel = useCallback(() => {
@@ -112,7 +111,7 @@ const MeasureArea = ({
               </Button>,
             ]
           : [
-              <Button key="cancel" onClick={onClose}>
+              <Button key="cancel" onClick={onCancel}>
                 {lang.curve_engraving.reselect_area}
               </Button>,
               <Button key="start" type="primary" onClick={handleStartMeasuring}>
@@ -244,8 +243,9 @@ export const showMeasureArea = (bbox: BBox): Promise<MeasureData | null> => {
           resolve(data);
           popDialogById('measure-area');
         }}
-        onClose={() => {
+        onCancel={() => {
           resolve(null);
+          exitRedLaserMeasureMode();
           popDialogById('measure-area');
         }}
       />
