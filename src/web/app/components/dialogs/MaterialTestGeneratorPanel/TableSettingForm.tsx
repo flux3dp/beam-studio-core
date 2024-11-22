@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import UnitInput from 'app/widgets/UnitInput';
 import useI18n from 'helpers/useI18n';
 import { Flex } from 'antd';
 import Select from 'app/widgets/AntdSelect';
-import { Detail, tableParams, TableSetting } from './TableSetting';
+import { Detail, mopaTableParams, tableParams, TableSetting } from './TableSetting';
 import styles from './Form.module.scss';
 
 interface Props {
@@ -14,6 +14,7 @@ interface Props {
 }
 
 type Param = (typeof tableParams)[number];
+type MopaParam = (typeof mopaTableParams)[number];
 
 export default function TableSettingForm({
   isInch,
@@ -28,11 +29,16 @@ export default function TableSettingForm({
     material_test_generator: tMaterial,
   } = useI18n();
   const lengthUnit = isInch ? 'in/s' : 'mm/s';
-  const settingEntries = React.useMemo(
-    () => Object.entries(tableSetting) as Array<[Param, Detail]>,
-    [tableSetting]
+  const { settingEntries, options } = useMemo(
+    () => ({
+      settingEntries: Object.entries(tableSetting) as Array<[Param | MopaParam, Detail]>,
+      options: Object.keys(tableSetting).map((value) => ({
+        value,
+        label: value === 'pulseWidth' ? tLaserPanel.pulse_width : tLaserPanel[value],
+      })),
+    }),
+    [tLaserPanel, tableSetting]
   );
-  const options = tableParams.map((value) => ({ value, label: tLaserPanel[value] }));
 
   const handleSelectChange = (value: string, index: number) => {
     const currentKey = settingEntries.find(([, { selected }]) => selected === index)?.[0];
@@ -48,7 +54,7 @@ export default function TableSettingForm({
     });
   };
 
-  const handleValueChange = (key: Param, prefix: 'min' | 'max', value: number) => {
+  const handleValueChange = (key: Param | MopaParam, prefix: 'min' | 'max', value: number) => {
     const { min, max } = tableSetting[key];
     const limitValue = (v: number) => {
       const rangedValue = Math[prefix](
