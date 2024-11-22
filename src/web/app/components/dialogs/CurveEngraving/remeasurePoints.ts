@@ -15,7 +15,7 @@ const remeasurePoints = async (
 ): Promise<CurveEngraving> => {
   const { lang } = i18n;
   let canceled = false;
-  const progressId = 're-measure-points';
+  const progressId = 'remeasure-points';
   progressCaller.openSteppingProgress({
     id: progressId,
     message: lang.message.connectingMachine,
