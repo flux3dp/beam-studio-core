@@ -21,7 +21,6 @@ import workareaManager from 'app/svgedit/workarea';
 import DraggableModal from 'app/widgets/DraggableModal';
 import { getPromarkInfo } from 'helpers/device/promark/promark-info';
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
-import { WorkAreaModel } from 'app/constants/workarea-constants';
 import { LaserType } from 'app/constants/promark-constants';
 import styles from './index.module.scss';
 import WorkAreaInfo from './WorkAreaInfo';
