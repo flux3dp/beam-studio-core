@@ -397,7 +397,7 @@ const lang: ILang = {
       finish_setting: 'Aloita luominen!',
       check_swiftray_connection: 'Tarkistetaan yhteys palvelimeen',
       check_swiftray_connection_unreachable: 'palvelin ei ole saavutettavissa',
-      promark_hint: 'Jos USB-yhteyden muodostaminen epäonnistuu toistuvasti, katso <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/11195313944975">Ohjekeskuksen artikkeli</a>.',
+      promark_hint: 'Jos USB-yhteyden muodostaminen epäonnistuu toistuvasti, katso <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/11318820440591">Ohjekeskuksen artikkeli</a>.',
       alert: {
         swiftray_connection_error: 'Yhteyttä palvelimeen ei voitu muodostaa. Käynnistä Beam Studio uudelleen ja yritä uudelleen.',
       },

@@ -400,7 +400,7 @@ const lang: ILang = {
       finish_setting: 'Pojďme tvořit!',
       check_swiftray_connection: 'Kontrola připojení k serveru',
       check_swiftray_connection_unreachable: 'server není dosažitelný',
-      promark_hint: 'Pokud se vám opakovaně nedaří připojit přes USB, podívejte se na <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/11195313944975">článek v Centru nápovědy</a>.',
+      promark_hint: 'Pokud se vám opakovaně nedaří připojit přes USB, podívejte se na <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/11318820440591">článek v Centru nápovědy</a>.',
       alert: {
         swiftray_connection_error: 'Nelze se připojit k serveru. Restartujte Beam Studio a zkuste to znovu.',
       },

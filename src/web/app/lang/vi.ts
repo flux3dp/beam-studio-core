@@ -397,7 +397,7 @@ const lang: ILang = {
       finish_setting: 'Bắt đầu tạo!',
       check_swiftray_connection: 'Đang kiểm tra kết nối với máy chủ',
       check_swiftray_connection_unreachable: 'không thể kết nối máy chủ',
-      promark_hint: 'Nếu bạn liên tục không kết nối được qua USB, vui lòng tham khảo <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/11195313944975">bài viết tại Trung tâm trợ giúp</a>.',
+      promark_hint: 'Nếu bạn liên tục không kết nối được qua USB, vui lòng tham khảo <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/11318820440591">bài viết tại Trung tâm trợ giúp</a>.',
       alert: {
         swiftray_connection_error: 'Không thể kết nối với máy chủ. Vui lòng khởi động lại Beam Studio và thử lại.',
       },

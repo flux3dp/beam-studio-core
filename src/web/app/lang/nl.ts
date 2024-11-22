@@ -397,7 +397,7 @@ const lang: ILang = {
       finish_setting: 'Begin met ontwerpen!',
       check_swiftray_connection: 'Serververbinding controleren',
       check_swiftray_connection_unreachable: 'server niet bereikbaar',
-      promark_hint: 'Als u herhaaldelijk geen verbinding via USB kunt maken, raadpleeg dan het <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/11195313944975">Helpcentrum-artikel</a>.',
+      promark_hint: 'Als u herhaaldelijk geen verbinding via USB kunt maken, raadpleeg dan het <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/11318820440591">Helpcentrum-artikel</a>.',
       alert: {
         swiftray_connection_error: 'Kan geen verbinding maken met de server. Herstart Beam Studio en probeer het opnieuw.',
       },

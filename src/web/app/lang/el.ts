@@ -397,7 +397,7 @@ const lang: ILang = {
       finish_setting: 'Ξεκινήστε τη δημιουργία!',
       check_swiftray_connection: 'Έλεγχος σύνδεσης διακομιστή',
       check_swiftray_connection_unreachable: 'ο διακομιστής δεν είναι προσβάσιμος',
-      promark_hint: 'Εάν αποτύχετε επανειλημμένα να συνδεθείτε μέσω USB, ανατρέξτε στο <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/11195313944975">άρθρο του Κέντρου βοήθειας</a>.',
+      promark_hint: 'Εάν αποτύχετε επανειλημμένα να συνδεθείτε μέσω USB, ανατρέξτε στο <a target="_blank" href="https://support.flux3dp.com/hc/en-us/articles/11318820440591">άρθρο του Κέντρου βοήθειας</a>.',
       alert: {
         swiftray_connection_error: 'Αδύνατη η σύνδεση με τον διακομιστή. Επανεκκινήστε το Beam Studio και δοκιμάστε ξανά.',
       },
