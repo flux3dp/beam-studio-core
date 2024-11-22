@@ -28,6 +28,7 @@ import { executeFirmwareUpdate } from 'app/actions/beambox/menuDeviceActions';
 import { getNextStepRequirement, handleNextStep } from 'app/views/tutorials/tutorialController';
 import { getSupportInfo } from 'app/constants/add-on';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { getWorkarea } from 'app/constants/workarea-constants';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { showAdorCalibration } from 'app/components/dialogs/camera/AdorCalibration';
 
@@ -58,6 +59,7 @@ const GoButton = ({ hasDiscoverdMachine, hasText }: Props): JSX.Element => {
     async (device: IDeviceInfo) => {
       const workarea = device.model;
       const isPromark = promarkModels.has(workarea);
+      const { vectorSpeedLimit } = getWorkarea(workarea);
       const layers = [...document.querySelectorAll('#svgcontent > g.layer:not([display="none"])')];
       const supportInfo = getSupportInfo(workarea);
 
@@ -120,7 +122,8 @@ const GoButton = ({ hasDiscoverdMachine, hasText }: Props): JSX.Element => {
       for (let i = 0; i < layers.length; i += 1) {
         const layer = layers[i];
         if (
-          parseFloat(layer.getAttribute('data-speed')) > 20 &&
+          vectorSpeedLimit &&
+          parseFloat(layer.getAttribute('data-speed')) > vectorSpeedLimit &&
           layer.getAttribute('display') !== 'none'
         ) {
           const paths = Array.from($(layer).find('path, rect, ellipse, polygon, line'));
@@ -155,12 +158,13 @@ const GoButton = ({ hasDiscoverdMachine, hasText }: Props): JSX.Element => {
 
       if (isTooFastForPath) {
         await new Promise((resolve) => {
+          const limit =
+            storage.get('default-units') === 'inches'
+              ? `${(vectorSpeedLimit / 25.4).toFixed(2)} in/s`
+              : `${vectorSpeedLimit} mm/s`;
           if (BeamboxPreference.read('vector_speed_contraint') === false) {
             if (!alertConfig.read('skip_path_speed_warning')) {
-              let message = lang.beambox.popup.too_fast_for_path;
-              if (storage.get('default-units') === 'inches') {
-                message = message.replace(/20mm\/s/g, '0.8in/s');
-              }
+              const message = sprintf(lang.beambox.popup.too_fast_for_path, { limit });
               alertCaller.popUp({
                 message,
                 type: alertConstants.SHOW_POPUP_WARNING,
@@ -177,13 +181,10 @@ const GoButton = ({ hasDiscoverdMachine, hasText }: Props): JSX.Element => {
               resolve(null);
             }
           } else if (!alertConfig.read('skip_path_speed_constraint_warning')) {
-            let message = sprintf(
-              lang.beambox.popup.too_fast_for_path_and_constrain,
-              tooFastLayers.join(', ')
-            );
-            if (storage.get('default-units') === 'inches') {
-              message = message.replace(/20mm\/s/g, '0.8in/s');
-            }
+            const message = sprintf(lang.beambox.popup.too_fast_for_path_and_constrain, {
+              layers: tooFastLayers.join(', '),
+              limit,
+            });
             alertCaller.popUp({
               message,
               type: alertConstants.SHOW_POPUP_WARNING,
