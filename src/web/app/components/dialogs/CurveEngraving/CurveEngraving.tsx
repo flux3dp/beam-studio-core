@@ -12,7 +12,7 @@ import { CurveEngraving as ICurveEngraving } from 'interfaces/ICurveEngraving';
 
 import getCanvasImage from './getCanvasImage';
 import Plane from './Plane';
-import remeasurePoints from './reMeasurePoints';
+import remeasurePoints from './remeasurePoints';
 import styles from './CurveEngraving.module.scss';
 
 interface Props {
