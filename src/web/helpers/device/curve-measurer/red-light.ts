@@ -22,7 +22,7 @@ export default class RedLightCurveMeasurer extends BaseCurveMeasurer implements 
     return true;
   };
 
-  showTakeReferenceDialog = async (objectHeight: number): Promise<number | null> => {
+  showTakeReferenceDialog = async (): Promise<number | null> => {
     const { lang } = i18n;
     const progressId = 'take-reference';
     progressCaller.openNonstopProgress({ id: progressId });
@@ -36,7 +36,7 @@ export default class RedLightCurveMeasurer extends BaseCurveMeasurer implements 
         buttonType: alertConstants.CONFIRM_CANCEL,
         onConfirm: async () => {
           try {
-            const z = await deviceMaster.takeReferenceZ({ H: objectHeight });
+            const z = await deviceMaster.takeReferenceZ();
             resolve(z);
           } catch (error) {
             alertCaller.popUpError({ message: `Failed to take reference ${error.message}` });
@@ -74,7 +74,7 @@ export default class RedLightCurveMeasurer extends BaseCurveMeasurer implements 
     opts?: InteractiveOptions
   ): Promise<MeasureData> {
     if (!this.hasTakenReference) {
-      const res = await this.showTakeReferenceDialog(curData.objectHeight);
+      const res = await this.showTakeReferenceDialog();
       console.log(res);
       if (!res) return null;
     }
