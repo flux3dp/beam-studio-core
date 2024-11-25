@@ -1,13 +1,21 @@
+import alertCaller from 'app/actions/alert-caller';
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import constant from 'app/actions/beambox/constant';
 import CustomCommand from 'app/svgedit/history/CustomCommand';
 import cursorIconUrl from 'app/icons/left-panel/curve-select.svg?url';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
+import getDevice from 'helpers/device/get-device';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
+import i18n from 'helpers/i18n';
 import NS from 'app/constants/namespaces';
+import progressCaller from 'app/actions/progress-caller';
+import RawModeCurveMeasurer from 'helpers/device/curve-measurer/raw';
+import RedLightCurveMeasurer from 'helpers/device/curve-measurer/red-light';
 import workareaManager from 'app/svgedit/workarea';
+import { CurveMeasurer } from 'interfaces/CurveMeasurer';
 import { CanvasMode } from 'app/contexts/CanvasContext';
 import { CurveEngraving, MeasureData } from 'interfaces/ICurveEngraving';
+import { getSupportInfo } from 'app/constants/add-on';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { getWorkarea } from 'app/constants/workarea-constants';
 import { IBatchCommand, ICommand } from 'interfaces/IHistory';
@@ -24,14 +32,11 @@ const canvasEventEmitter = eventEmitterFactory.createEventEmitter('canvas');
 // TODO: add unit tests
 class CurveEngravingModeController {
   started: boolean;
-
   data: CurveEngraving;
-
   boundarySvg: SVGSVGElement;
-
   boundaryPath: SVGPathElement;
-
   areaPath: SVGPathElement;
+  measurer: CurveMeasurer;
 
   constructor() {
     this.started = false;
@@ -79,12 +84,82 @@ class CurveEngravingModeController {
 
   applyMeasureData = (data: MeasureData) => {
     this.data = { ...this.data, ...data };
-  }
+  };
+
+  initMeasurer = async (): Promise<boolean> => {
+    if (this.measurer) await this.clearMeasurer();
+    const { device } = await getDevice();
+    if (!device) return false;
+    const { redLight } = getSupportInfo(device.model);
+    if (redLight) this.measurer = new RedLightCurveMeasurer(device);
+    else this.measurer = new RawModeCurveMeasurer(device);
+    progressCaller.openNonstopProgress({ id: 'init-measurer' });
+    try {
+      const setupRes = await this.measurer.setup((text) =>
+        progressCaller.update('init-measurer', { message: text })
+      );
+      if (!setupRes) return false;
+      return true;
+    } catch (error) {
+      return false;
+    } finally {
+      progressCaller.popById('init-measurer');
+    }
+  };
+
+  clearMeasurer = async () => {
+    if (!this.measurer) return;
+    console.log('Clearing curve engraving measurer');
+    await this.measurer.end();
+    this.measurer = null;
+  };
+
+  remeasurePoints = async (indices: Array<number>): Promise<CurveEngraving | null> => {
+    const { lang } = i18n;
+    let canceled = false;
+    const progressId = 'remeasure-points';
+    progressCaller.openSteppingProgress({
+      id: progressId,
+      message: lang.message.connectingMachine,
+      onCancel: () => {
+        canceled = true;
+      },
+    });
+    if (canceled) {
+      progressCaller.popById(progressId);
+      return null;
+    }
+    try {
+      let completedCount = 0;
+      const res = await this.measurer.measurePoints(this.data, indices, {
+        checkCancel: () => canceled,
+        onProgressText: (text) =>
+          progressCaller.update(progressId, {
+            message: `${lang.curve_engraving.remeasuring_points} ${completedCount}/${indices.length}<br>${text}`,
+          }),
+        onPointFinished: (count) => {
+          completedCount = count;
+          progressCaller.update(progressId, { percentage: (count / indices.length) * 100 });
+        },
+      });
+      if (!res) return null;
+      this.applyMeasureData(res);
+      return this.data;
+    } catch (error) {
+      return null;
+    } finally {
+      progressCaller.popById(progressId);
+    }
+  };
 
   setArea = async (bbox: { x: number; y: number; width: number; height: number }) => {
     let { x, y, width, height } = bbox;
     const workarea = beamboxPreference.read('workarea');
-    const { width: workareaW, height: workareaH, autoFocusOffset = [0, 0, 0] } = getWorkarea(workarea);
+    const {
+      width: workareaW,
+      height: workareaH,
+      autoFocusOffset = [0, 0, 0],
+    } = getWorkarea(workarea);
     const leftBound = autoFocusOffset[0] > 0 ? autoFocusOffset[0] : 0;
     const rightBound = autoFocusOffset[0] < 0 ? workareaW + autoFocusOffset[0] : workareaW;
     const topBound = autoFocusOffset[1] > 0 ? autoFocusOffset[1] : 0;
@@ -105,12 +180,21 @@ class CurveEngravingModeController {
     }
     if (width <= 0 || height <= 0) return;
     const newBBox = { x, y, width, height };
-    const res = await showMeasureArea(newBBox);
-    if (!res) return;
-    this.data = { bbox, ...res };
-    await showCurveEngraving(this.data, this.applyMeasureData);
-    this.updateAreaPath();
-    canvasEventEmitter.emit('CURVE_ENGRAVING_AREA_SET');
+    try {
+      const initMeasurerRes = await this.initMeasurer();
+      if (!initMeasurerRes) {
+        alertCaller.popUpError({ message: 'Failed to start curve engraving measurer.' });
+        return;
+      }
+      const res = await showMeasureArea(newBBox, this.measurer);
+      if (!res) return;
+      this.data = { bbox, ...res };
+      await showCurveEngraving(this.data, this.remeasurePoints);
+      this.updateAreaPath();
+      canvasEventEmitter.emit('CURVE_ENGRAVING_AREA_SET');
+    } finally {
+      this.clearMeasurer();
+    }
   };
 
   clearArea = () => {
@@ -123,7 +207,16 @@ class CurveEngravingModeController {
 
   preview = async () => {
     if (!this.data) return;
-    showCurveEngraving(this.data, this.applyMeasureData);
+    try {
+      const initMeasurerRes = await this.initMeasurer();
+      if (!initMeasurerRes) {
+        alertCaller.popUpError({ message: 'Failed to start curve engraving measurer.' });
+        return;
+      }
+      await showCurveEngraving(this.data, this.remeasurePoints);
+    } finally {
+      this.clearMeasurer();
+    }
   };
 
   createContainer = () => {
@@ -160,7 +253,11 @@ class CurveEngravingModeController {
       this.boundarySvg.appendChild(this.boundaryPath);
     }
     const workarea = beamboxPreference.read('workarea');
-    const { width: workareaW, height: workareaH, autoFocusOffset = [0, 0, 0] } = getWorkarea(workarea);
+    const {
+      width: workareaW,
+      height: workareaH,
+      autoFocusOffset = [0, 0, 0],
+    } = getWorkarea(workarea);
     const { width, height } = workareaManager;
     const { dpmm } = constant;
     const leftBound = (autoFocusOffset[0] > 0 ? autoFocusOffset[0] : 0) * dpmm;
@@ -202,11 +299,15 @@ class CurveEngravingModeController {
 
   loadData = (data: CurveEngraving, opts: { parentCmd?: IBatchCommand } = {}): ICommand => {
     const origData = this.data;
-    const cmd = new CustomCommand('Load Curve Engraving Data', () => {
-      this.data = data;
-    }, () => {
-      this.data = origData;
-    });
+    const cmd = new CustomCommand(
+      'Load Curve Engraving Data',
+      () => {
+        this.data = data;
+      },
+      () => {
+        this.data = origData;
+      }
+    );
     const postLoadData = () => {
       this.updateContainer();
       this.updateAreaPath();
@@ -217,7 +318,7 @@ class CurveEngravingModeController {
     const { parentCmd } = opts;
     if (parentCmd) parentCmd.addSubCommand(cmd);
     return cmd;
-  }
+  };
 }
 
 const curveEngravingModeController = new CurveEngravingModeController();
