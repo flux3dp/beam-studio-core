@@ -166,21 +166,21 @@ export class MonitorContextProvider extends React.Component<Props, State> {
     };
   }
 
+  // Use arrow function to bind 'this'
+  onSwiftrayDisconnected = (): void => {
+    this.handlePromarkConnection('disconnected');
+    swiftrayClient.once('reconnected', (success: boolean) => {
+      this.handlePromarkConnection('reconnected', success);
+    });
+  };
+
   async componentDidMount(): Promise<void> {
     await this.fetchInitialInfo();
     this.startReport();
     const { mode } = this.state;
     const { device } = this.props;
     if (promarkModels.has(device.model)) {
-      swiftrayClient.on('disconnected', () => {
-        // eslint-disable-next-line react/destructuring-assignment
-        if (this.state.mode === Mode.WORKING) {
-          this.handlePromarkConnection('disconnected');
-          swiftrayClient.once('reconnected', () => {
-            this.handlePromarkConnection('reconnected');
-          });
-        }
-      });
+      swiftrayClient.on('disconnected', this.onSwiftrayDisconnected);
     }
     if (mode === Mode.WORKING) {
       if (promarkModels.has(device.model)) {
@@ -220,10 +220,10 @@ export class MonitorContextProvider extends React.Component<Props, State> {
     this.stopReport();
     const { taskImageURL } = this.state;
     URL.revokeObjectURL(taskImageURL);
-    swiftrayClient.off('disconnected');
+    swiftrayClient.off('disconnected', this.onSwiftrayDisconnected);
   }
 
-  handlePromarkConnection(type: string): void {
+  handlePromarkConnection(type: string, success?: boolean): void {
     const id = 'promark-connection';
     const { onClose } = this.props;
     Alert.popById(id);
@@ -244,14 +244,23 @@ export class MonitorContextProvider extends React.Component<Props, State> {
       this.setState((prev) => ({
         report: { ...prev.report, st_id: DeviceConstants.status.ABORTED },
       }));
-    } else {
-      // Swiftray reconnected
+    } else if (success) {
+      // Swiftray and Promark reconnected
       Alert.popUp({
         id,
         message: i18n.lang.message.swiftray_reconnected,
         buttonType: AlertConstants.CONFIRM_CANCEL,
         onCancel: onClose,
         onConfirm: () => {},
+      });
+    } else {
+      // Swiftray reconnected but Promark not
+      Alert.popUp({
+        id,
+        message: i18n.lang.message.swiftray_reconnected,
+        buttonType: AlertConstants.CUSTOM,
+        buttonLabels: [i18n.lang.alert.confirm],
+        callbacks: [onClose],
       });
     }
   }
