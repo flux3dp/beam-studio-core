@@ -927,7 +927,7 @@ class Control extends EventEmitter implements IControlSocket {
     const { data } = resp;
     if (data) {
       if (data.startsWith('ok')) {
-        const height = /take_reference_z\(([XYF:.,\d]*)\): ([\d.]+)\b/.exec(data)?.[2];
+        const height = /take_reference_z(\([XYF:.,\d]*\))?: ([\d.]+)\b/.exec(data)?.[2];
         return Number(height);
       }
       if (data.startsWith('fail')) {
@@ -952,7 +952,7 @@ class Control extends EventEmitter implements IControlSocket {
     const { data } = resp;
     if (data) {
       if (data.startsWith('ok')) {
-        const height = /measure_z\(([XYF:.,\d]*)\): ([\d.]+)\b/.exec(data)?.[2];
+        const height = /measure_z(\([XYF:.,\d]*\))?: ([\d.]+)\b/.exec(data)?.[2];
         return Number(height);
       }
       if (data.startsWith('fail')) {

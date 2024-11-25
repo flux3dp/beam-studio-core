@@ -5,13 +5,11 @@ import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { Button, Col, Modal, InputNumber, Row, Segmented } from 'antd';
 
 import browser from 'implementations/browser';
-import checkDeviceStatus from 'helpers/check-device-status';
-import getDevice from 'helpers/device/get-device';
 import useI18n from 'helpers/useI18n';
 import { addDialogComponent, isIdExist, popDialogById } from 'app/actions/dialog-controller';
 import { BBox, MeasureData } from 'interfaces/ICurveEngraving';
+import { CurveMeasurer } from 'interfaces/CurveMeasurer';
 
-import measure, { exitRedLaserMeasureMode } from './measure';
 import rangeGenerator from './rangeGenerator';
 import styles from './MeasureArea.module.scss';
 
@@ -22,6 +20,7 @@ enum Type {
 
 interface Props {
   bbox: BBox;
+  measurer: CurveMeasurer;
   onFinished: (data: MeasureData) => void;
   onCancel: () => void;
 }
@@ -29,6 +28,7 @@ interface Props {
 // TODO: Add unit tests
 const MeasureArea = ({
   bbox: { x, y, width, height },
+  measurer,
   onFinished,
   onCancel,
 }: Props): JSX.Element => {
@@ -67,17 +67,7 @@ const MeasureArea = ({
     setCancelling(false);
     setIsMeasuring(true);
     setFinishedPoints(0);
-    const { device } = await getDevice();
-    if (!device) {
-      setIsMeasuring(false);
-      return;
-    }
-    const deviceStatus = await checkDeviceStatus(device);
-    if (!deviceStatus) {
-      setIsMeasuring(false);
-      return;
-    }
-    const data = await measure(device, xRange, yRange, objectHeight, {
+    const data = await measurer.measureArea(xRange, yRange, objectHeight, {
       onProgressText: setProgressText,
       onPointFinished: setFinishedPoints,
       checkCancel: () => canceledRef.current,
@@ -232,20 +222,23 @@ const MeasureArea = ({
 
 export default MeasureArea;
 
-export const showMeasureArea = (bbox: BBox): Promise<MeasureData | null> => {
+export const showMeasureArea = (
+  bbox: BBox,
+  measurer: CurveMeasurer
+): Promise<MeasureData | null> => {
   if (isIdExist('measure-area')) popDialogById('measure-area');
   return new Promise<MeasureData | null>((resolve) => {
     addDialogComponent(
       'measure-area',
       <MeasureArea
         bbox={bbox}
+        measurer={measurer}
         onFinished={(data) => {
           resolve(data);
           popDialogById('measure-area');
         }}
         onCancel={() => {
           resolve(null);
-          exitRedLaserMeasureMode();
           popDialogById('measure-area');
         }}
       />
