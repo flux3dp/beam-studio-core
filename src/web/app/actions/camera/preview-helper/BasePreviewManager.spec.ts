@@ -172,9 +172,9 @@ describe('test BasePreviewManager', () => {
 
   describe('test move to & preview move speed', () => {
     const testSets = [
-      { label: 'fast', value: PreviewSpeedLevel.FAST, expected: 12000 },
-      { label: 'medium', value: PreviewSpeedLevel.MEDIUM, expected: 9000 },
-      { label: 'slow', value: PreviewSpeedLevel.SLOW, expected: 6000 },
+      { label: 'fast', value: PreviewSpeedLevel.FAST, expected: 18000 },
+      { label: 'medium', value: PreviewSpeedLevel.MEDIUM, expected: 14400 },
+      { label: 'slow', value: PreviewSpeedLevel.SLOW, expected: 10800 },
     ];
 
     testSets.forEach(({ label, value, expected }) => {
