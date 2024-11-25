@@ -109,7 +109,6 @@ class CurveEngravingModeController {
 
   clearMeasurer = async () => {
     if (!this.measurer) return;
-    console.log('Clearing curve engraving measurer');
     await this.measurer.end();
     this.measurer = null;
   };
