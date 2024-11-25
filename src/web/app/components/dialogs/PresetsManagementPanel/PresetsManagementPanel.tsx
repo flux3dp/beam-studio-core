@@ -18,7 +18,7 @@ import useI18n from 'helpers/useI18n';
 import useWorkarea from 'helpers/hooks/useWorkarea';
 import { addDialogComponent, isIdExist, popDialogById } from 'app/actions/dialog-controller';
 import { ConfigKey, ConfigKeyTypeMap, Preset } from 'interfaces/ILayerConfig';
-import { baseConfig, postPresetChange } from 'helpers/layer/layer-config-helper';
+import { baseConfig, getDefaultConfig, postPresetChange } from 'helpers/layer/layer-config-helper';
 import { getWorkarea } from 'app/constants/workarea-constants';
 import { promarkModels } from 'app/actions/beambox/constant';
 
@@ -221,12 +221,15 @@ const PresetsManagementPanel = ({ currentModule, initPreset, onClose }: Props): 
     });
     if (!name) return;
     if (editingPresets.find((p) => p.name === name || p.key === name)) {
-      alertCaller.popUpError({
-        message: tLaserPanel.existing_name,
-      });
+      alertCaller.popUpError({ message: tLaserPanel.existing_name });
       return;
     }
-    const newPreset: Preset = { name: name.trim(), isDefault: false, module: presetModule };
+    const newPreset: Preset = {
+      ...getDefaultConfig(),
+      name: name.trim(),
+      isDefault: false,
+      module: presetModule,
+    };
     if (presetModule === LayerModule.PRINTER) {
       newPreset.halftone = 1;
       newPreset.speed = baseConfig.printingSpeed;
