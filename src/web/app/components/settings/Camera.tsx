@@ -22,7 +22,7 @@ function Camera({
     () => [
       {
         value: PreviewSpeedLevel.SLOW,
-        label: lang.settings.slow,
+        label: lang.settings.low,
         selected: previewSpeedLevel === PreviewSpeedLevel.SLOW,
       },
       {
@@ -32,7 +32,7 @@ function Camera({
       },
       {
         value: PreviewSpeedLevel.FAST,
-        label: lang.settings.fast,
+        label: lang.settings.high,
         selected: previewSpeedLevel === PreviewSpeedLevel.FAST,
       },
     ],

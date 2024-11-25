@@ -431,6 +431,7 @@ const lang: ILang = {
     on: 'Bật',
     off: 'Tắt',
     low: 'Thấp',
+    normal: 'Cao',
     high: 'Cao',
     caption: 'Cài đặt',
     tabs: {
@@ -457,9 +458,7 @@ const lang: ILang = {
     autosave_number: 'Số lượng tự động lưu',
     autosave_path_not_correct: 'Đường dẫn không tồn tại.',
     preview_movement_speed: 'Tốc độ xem trước chuyển động',
-    slow: 'Chậm',
     medium: 'Trung bình',
-    fast: 'Nhanh',
     default_units: 'Đơn vị mặc định',
     default_font_family: 'Phông chữ mặc định',
     default_font_style: 'Kiểu phông chữ mặc định',

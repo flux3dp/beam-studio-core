@@ -62,9 +62,9 @@ class BasePreviewManager implements PreviewManager {
     if (beamboxPreference.read('enable-diode') && getSupportInfo(this.workarea).hybridLaser)
       return 3600;
     const previewMovementSpeedLevel = beamboxPreference.read('preview_movement_speed_level');
-    if (previewMovementSpeedLevel === PreviewSpeedLevel.FAST) return 12000;
-    if (previewMovementSpeedLevel === PreviewSpeedLevel.MEDIUM) return 9000;
-    return 6000;
+    if (previewMovementSpeedLevel === PreviewSpeedLevel.FAST) return 18000;
+    if (previewMovementSpeedLevel === PreviewSpeedLevel.MEDIUM) return 14400;
+    return 10800;
   };
 
   /**

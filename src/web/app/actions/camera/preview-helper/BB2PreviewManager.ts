@@ -40,9 +40,9 @@ class BB2PreviewManager extends BasePreviewManager implements PreviewManager {
 
   protected getMovementSpeed = (): number => {
     const previewMovementSpeedLevel = beamboxPreference.read('preview_movement_speed_level');
-    if (previewMovementSpeedLevel === PreviewSpeedLevel.FAST) return 30000;
-    if (previewMovementSpeedLevel === PreviewSpeedLevel.MEDIUM) return 24000;
-    return 18000;
+    if (previewMovementSpeedLevel === PreviewSpeedLevel.FAST) return 42000;
+    if (previewMovementSpeedLevel === PreviewSpeedLevel.MEDIUM) return 36000;
+    return 30000;
   };
 
   public setup = async (args?: { progressId?: string }): Promise<boolean> => {

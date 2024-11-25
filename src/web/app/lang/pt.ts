@@ -431,6 +431,7 @@ const lang: ILang = {
     on: 'Ligado',
     off: 'Desligado',
     low: 'Baixo',
+    normal: 'Alto',
     high: 'Alto',
     caption: 'Configurações',
     tabs: {
@@ -457,9 +458,7 @@ const lang: ILang = {
     autosave_number: 'Número de salvamentos automáticos',
     autosave_path_not_correct: 'Caminho especificado não encontrado.',
     preview_movement_speed: 'Velocidade de visualização do movimento',
-    slow: 'Lento',
     medium: 'Médio',
-    fast: 'Rápido',
     default_units: 'Unidades padrão',
     default_font_family: 'Fonte padrão',
     default_font_style: 'Estilo de fonte padrão',

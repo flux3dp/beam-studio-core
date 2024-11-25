@@ -431,6 +431,7 @@ const lang: ILang = {
     on: 'Hidup',
     off: 'Mati',
     low: 'Rendah',
+    normal: 'Tinggi',
     high: 'Tinggi',
     caption: 'Pengaturan',
     tabs: {
@@ -457,9 +458,7 @@ const lang: ILang = {
     autosave_number: 'Jumlah Simpan Otomatis',
     autosave_path_not_correct: 'Lokasi yang ditentukan tidak ditemukan.',
     preview_movement_speed: 'Kecepatan Pratinjau Gerakan',
-    slow: 'Lambat',
     medium: 'Sedang',
-    fast: 'Cepat',
     default_units: 'Satuan Standar',
     default_font_family: 'Font Default',
     default_font_style: 'Gaya Font Default',
