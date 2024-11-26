@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import Controls from 'app/components/settings/Control';
 import FontFuncs from 'app/actions/beambox/font-funcs';
 import isDev from 'helpers/is-dev';
+import localeHelper from 'helpers/locale-helper';
 import onOffOptionFactory from 'app/components/settings/onOffOptionFactory';
 import SelectControl from 'app/components/settings/SelectControl';
 import storage from 'implementations/storage';
@@ -88,6 +89,8 @@ function Editor({
     });
   };
 
+  const isDevMode = useMemo(() => isDev(), []);
+
   const modelOptions = [
     {
       value: 'fbm1',
@@ -114,22 +117,22 @@ function Editor({
       label: 'Ador',
       selected: selectedModel === 'ado1',
     },
-    {
+    (isDevMode || localeHelper.isTwOrHk) && {
       value: 'fpm1',
       label: 'Promark',
       selected: selectedModel === 'fpm1',
     },
-    {
+    isDevMode && {
       value: 'flv1',
       label: 'Lazervida',
       selected: selectedModel === 'flv1',
     },
-    {
+    isDevMode && {
       value: 'fbb2',
       label: 'Beambox II',
       selected: selectedModel === 'fbb2',
     },
-  ];
+  ].filter(Boolean);
   const workarea = getWorkarea(selectedModel);
 
   const guideX = getBeamboxPreferenceEditingValue('guide_x0');
@@ -297,7 +300,7 @@ function Editor({
           onChange={(e) => updateBeamboxPreferenceChange('path-engine', e.target.value)}
         />
       )}
-      {isDev() && (
+      {isDevMode && (
         <SelectControl
           id="set-enable-custom-backlash"
           label={lang.settings.enable_custom_backlash}
