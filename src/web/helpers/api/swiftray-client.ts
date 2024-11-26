@@ -106,6 +106,7 @@ class SwiftrayClient extends EventEmitter {
       // Reconnect to Promark
       let device = TopBarController.getSelectedDevice();
       let retry = 8;
+      let reconnect = false;
       while (!device && this.lastPromark && retry > 0) {
         // eslint-disable-next-line no-await-in-loop
         await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -113,14 +114,16 @@ class SwiftrayClient extends EventEmitter {
         retry -= 1;
       }
       if (promarkModels.has(device?.model)) {
-        await deviceMaster.select(device);
+        const resp = await deviceMaster.select(device);
+        reconnect = resp.success;
+        console.log('Reconnect to Promark', reconnect);
       }
       MessageCaller.openMessage({
         key: 'swiftray-error-hint',
         content: i18n.lang.message.swiftray_reconnected,
         level: MessageLevel.SUCCESS,
       });
-      this.emit('reconnected');
+      this.emit('reconnected', reconnect);
     }
     this.status = newStatus;
   }

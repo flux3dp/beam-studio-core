@@ -123,7 +123,7 @@ export class GcodePreview {
     this.timeInterval = [];
   }
 
-  setParsedGcode(parsed) {
+  setParsedGcode(parsed, highSpeed = false) {
     this.arrayChanged = true;
     this.timeInterval = [];
     this.arrayVersion += 1;
@@ -202,10 +202,14 @@ export class GcodePreview {
         if (!Number.isNaN(f) && dist !== 0) {
           const acc = Math.abs(y2 - y1) > 0 ? accX : accY;
           const direction = Math.atan2(y2 - y1, x2 - x1);
-          const lastVel = (lastFeedrate * Math.cos(direction - lastDirection));
-          const estimateVel = (lastVel <= 0) ? Math.min(f, (2 * acc * dist) ** 0.5)
+          const lastVel = lastFeedrate * Math.cos(direction - lastDirection);
+          // eslint-disable-next-line no-nested-ternary
+          const estimateVel = highSpeed
+            ? f
+            : lastVel <= 0
+            ? Math.min(f, (2 * acc * dist) ** 0.5)
             : Math.min(f, (lastVel ** 2 + 2 * acc * dist) ** 0.5);
-          tc = (Math.abs(estimateVel - lastVel) / acc) + (dist / estimateVel);
+          tc = (highSpeed ? 0 : Math.abs(estimateVel - lastVel) / acc) + dist / estimateVel;
           lastFeedrate = estimateVel;
           lastDirection = direction;
         }

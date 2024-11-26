@@ -72,10 +72,10 @@ export function parseGcode(gcode) {
     let g = NaN, x = NaN, y = NaN, z = NaN, a = NaN, f = NaN;
     while (i < gcode.length && gcode[i] !== ';' && gcode[i] !== '\r' && gcode[i] !== '\n') {
       if (gcode[i] === 'G' || gcode[i] === 'g') {
-        if (gcode[i+2] === 'S') {
+        if (gcode[i + 2] === 'S') {
           laserEnabled = false; // Specialized for FLUXGhost/Client GCode G1S0
           i += 3;
-        } else if (gcode[i+2] === 'V') {
+        } else if (gcode[i + 2] === 'V') {
           laserEnabled = true; // Specialized for FLUXGhost/Client GCode G1V0
           i += 3;
         } else {
@@ -91,22 +91,24 @@ export function parseGcode(gcode) {
         x = useRelative ? lastX + parse() : parse();
       } else if (gcode[i] === 'Y' || gcode[i] === 'y') {
         y = useRelative ? lastY - parse() : -1 * parse();
-      } else if (gcode[i] === 'Z' || gcode[i] === 'z')
-        z = parse();
-      else if (gcode[i] === 'A' || gcode[i] === 'a')
-        a = parse();
-      else if (gcode[i] === 'F' || gcode[i] === 'f')
+      } else if (gcode[i] === 'Z' || gcode[i] === 'z') z = parse();
+      else if (gcode[i] === 'A' || gcode[i] === 'a') a = parse();
+      else if (gcode[i] === 'F' || gcode[i] === 'f') {
         f = parse();
-      else if (gcode[i] === 'S' || gcode[i] === 's')
+      } else if (gcode[i] === 'S' || gcode[i] === 's') {
         lastS = parse();
-      else if (gcode[i] === 'T' || gcode[i] === 't')
-        lastT = parse();
-      else
-        ++i;
+        g = lastS > 0 ? 1 : 0;
+      } else if (gcode[i] === 'T' || gcode[i] === 't') lastT = parse();
+      else if (gcode[i] === '$' && gcode[i + 1] === 'H') {
+        // For Swiftray GCode
+        // $H: Home
+        x = 0;
+        y = 0;
+        i += 3;
+      } else ++i;
     }
-    if (g === 0 || g === 1 || !isNaN(x) || !isNaN(y) || !isNaN(z) || !isNaN(a)) {
-      if (g === 0 || g === 1)
-        lastG = g;
+    if (g === 0 || g === 1 || !isNaN(x) || !isNaN(y) || !isNaN(z) || !isNaN(a) || !isNaN(f)) {
+      if (g === 0 || g === 1) lastG = g;
       if (!isNaN(x)) {
         if (isNaN(lastX)) {
           for (let j = 1; j < parsedGcode.length; j += stride) {

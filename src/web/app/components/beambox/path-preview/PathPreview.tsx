@@ -12,7 +12,7 @@ import alertCaller from 'app/actions/alert-caller';
 import alertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import checkDeviceStatus from 'helpers/check-device-status';
-import constant from 'app/actions/beambox/constant';
+import constant, { promarkModels } from 'app/actions/beambox/constant';
 import deviceMaster from 'helpers/device-master';
 import dialogCaller from 'app/actions/dialog-caller';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
@@ -645,7 +645,8 @@ class PathPreview extends React.Component<Props, State> {
       }
       if (this.gcodeString.length > 83) {
         const parsedGcode = parseGcode(this.gcodeString);
-        this.gcodePreview.setParsedGcode(parsedGcode);
+        const workarea = BeamboxPreference.read('workarea') || 'fbm1';
+        this.gcodePreview.setParsedGcode(parsedGcode, promarkModels.has(workarea));
         this.simTimeMax =
           Math.ceil((this.gcodePreview.g1Time + this.gcodePreview.g0Time) / SIM_TIME_MINUTE) *
             SIM_TIME_MINUTE +
@@ -829,6 +830,13 @@ class PathPreview extends React.Component<Props, State> {
     const { width, height } = getWorkarea(workarea);
     settings.machineWidth = width;
     settings.machineHeight = height;
+    if (promarkModels.has(workarea)) {
+      this.setState(({ workspace }) => ({ workspace: { ...workspace, g0Rate: 240000 } }));
+    } else {
+      this.setState(({ workspace }) => ({
+        workspace: { ...workspace, g0Rate: defaultWorkspace.g0Rate },
+      }));
+    }
     this.updateGcode();
   };
 

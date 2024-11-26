@@ -95,8 +95,13 @@ export default function Menu({ email }: Props): JSX.Element {
     topbar: { menu: menuCms },
     promark_settings: tPromarkSettings,
   } = useI18n();
-  const callback = (id: string, deviceSerial?: string) => {
-    eventEmitter.emit('MENU_CLICK', null, { id, serial: deviceSerial });
+  const callback = (id: string, device?: IDeviceInfo) => {
+    eventEmitter.emit('MENU_CLICK', null, {
+      id,
+      serial: device?.serial,
+      machineName: device?.name,
+      uuid: device?.uuid,
+    });
   };
   const openPage = (url: string) => browser.open(url);
   const hotkey = (action: string): JSX.Element => (
@@ -116,26 +121,26 @@ export default function Menu({ email }: Props): JSX.Element {
 
       submenus.push(
         <SubMenu label={name} key={serial}>
-          <MenuItem onClick={() => callback('DASHBOARD', serial)}>{menuCms.dashboard}</MenuItem>
-          <MenuItem onClick={() => callback('MACHINE_INFO', serial)}>
+          <MenuItem onClick={() => callback('DASHBOARD', devices[i])}>{menuCms.dashboard}</MenuItem>
+          <MenuItem onClick={() => callback('MACHINE_INFO', devices[i])}>
             {menuCms.machine_info}
           </MenuItem>
           {isPromark && (
-            <MenuItem onClick={() => callback('PROMARK_SETTINGS', serial)}>
+            <MenuItem onClick={() => callback('PROMARK_SETTINGS', devices[i])}>
               {tPromarkSettings.title}
             </MenuItem>
           )}
           <MenuDivider />
           <SubMenu label={menuCms.calibration}>
             <MenuItem
-              onClick={() => callback('CALIBRATE_BEAMBOX_CAMERA', serial)}
+              onClick={() => callback('CALIBRATE_BEAMBOX_CAMERA', devices[i])}
               disabled={isMobile}
             >
               {menuCms.calibrate_beambox_camera} {isMobile && '(PC Only)'}
             </MenuItem>
             {model === 'fbb2' && (
               <MenuItem
-                onClick={() => callback('CALIBRATE_CAMERA_ADVANCED', serial)}
+                onClick={() => callback('CALIBRATE_CAMERA_ADVANCED', devices[i])}
                 disabled={isMobile}
               >
                 {menuCms.calibrate_camera_advanced} {isMobile && '(PC Only)'}
@@ -143,20 +148,23 @@ export default function Menu({ email }: Props): JSX.Element {
             )}
             {hasModules && (
               <MenuItem
-                onClick={() => callback('CALIBRATE_PRINTER_MODULE', serial)}
+                onClick={() => callback('CALIBRATE_PRINTER_MODULE', devices[i])}
                 disabled={isMobile}
               >
                 {menuCms.calibrate_printer_module}
               </MenuItem>
             )}
             {hasModules && (
-              <MenuItem onClick={() => callback('CALIBRATE_IR_MODULE', serial)} disabled={isMobile}>
+              <MenuItem
+                onClick={() => callback('CALIBRATE_IR_MODULE', devices[i])}
+                disabled={isMobile}
+              >
                 {menuCms.calibrate_ir_module}
               </MenuItem>
             )}
             {model === 'fbm1' && (
               <MenuItem
-                onClick={() => callback('CALIBRATE_BEAMBOX_CAMERA_BORDERLESS', serial)}
+                onClick={() => callback('CALIBRATE_BEAMBOX_CAMERA_BORDERLESS', devices[i])}
                 disabled={isMobile}
               >
                 {menuCms.calibrate_beambox_camera_borderless} {isMobile && '(PC Only)'}
@@ -164,7 +172,7 @@ export default function Menu({ email }: Props): JSX.Element {
             )}
             {model === 'fbm1' && (
               <MenuItem
-                onClick={() => callback('CALIBRATE_DIODE_MODULE', serial)}
+                onClick={() => callback('CALIBRATE_DIODE_MODULE', devices[i])}
                 disabled={isMobile}
               >
                 {menuCms.calibrate_diode_module} {isMobile && '(PC Only)'}
@@ -172,27 +180,35 @@ export default function Menu({ email }: Props): JSX.Element {
             )}
           </SubMenu>
           <MenuDivider />
-          <MenuItem onClick={() => callback('UPDATE_FIRMWARE', serial)}>
+          <MenuItem onClick={() => callback('UPDATE_FIRMWARE', devices[i])}>
             {menuCms.update_firmware}
           </MenuItem>
           <SubMenu label={menuCms.download_log}>
-            <MenuItem onClick={() => callback('LOG_NETWORK', serial)}>
+            <MenuItem onClick={() => callback('LOG_NETWORK', devices[i])}>
               {menuCms.log.network}
             </MenuItem>
-            <MenuItem onClick={() => callback('LOG_HARDWARE', serial)}>
+            <MenuItem onClick={() => callback('LOG_HARDWARE', devices[i])}>
               {menuCms.log.hardware}
             </MenuItem>
-            <MenuItem onClick={() => callback('LOG_DISCOVER', serial)}>
+            <MenuItem onClick={() => callback('LOG_DISCOVER', devices[i])}>
               {menuCms.log.discover}
             </MenuItem>
-            <MenuItem onClick={() => callback('LOG_USB', serial)}>{menuCms.log.usb}</MenuItem>
-            <MenuItem onClick={() => callback('LOG_USBLIST', serial)}>
+            <MenuItem onClick={() => callback('LOG_USB', devices[i])}>{menuCms.log.usb}</MenuItem>
+            <MenuItem onClick={() => callback('LOG_USBLIST', devices[i])}>
               {menuCms.log.usblist}
             </MenuItem>
-            <MenuItem onClick={() => callback('LOG_CAMERA', serial)}>{menuCms.log.camera}</MenuItem>
-            <MenuItem onClick={() => callback('LOG_CLOUD', serial)}>{menuCms.log.cloud}</MenuItem>
-            <MenuItem onClick={() => callback('LOG_PLAYER', serial)}>{menuCms.log.player}</MenuItem>
-            <MenuItem onClick={() => callback('LOG_ROBOT', serial)}>{menuCms.log.robot}</MenuItem>
+            <MenuItem onClick={() => callback('LOG_CAMERA', devices[i])}>
+              {menuCms.log.camera}
+            </MenuItem>
+            <MenuItem onClick={() => callback('LOG_CLOUD', devices[i])}>
+              {menuCms.log.cloud}
+            </MenuItem>
+            <MenuItem onClick={() => callback('LOG_PLAYER', devices[i])}>
+              {menuCms.log.player}
+            </MenuItem>
+            <MenuItem onClick={() => callback('LOG_ROBOT', devices[i])}>
+              {menuCms.log.robot}
+            </MenuItem>
           </SubMenu>
         </SubMenu>
       );

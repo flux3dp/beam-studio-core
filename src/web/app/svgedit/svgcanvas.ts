@@ -4152,7 +4152,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
         const child = descendants[j];
         if (!['g', 'tspan'].includes(child.tagName) && wireframe) {
           child.setAttribute('stroke', color);
-          child.setAttribute('fill', '#FFF');
+          child.setAttribute('fill', 'none');
           child.setAttribute('fill-opacity', '0');
         }
         if (isFromNP) child.setAttribute('data-np', '1');

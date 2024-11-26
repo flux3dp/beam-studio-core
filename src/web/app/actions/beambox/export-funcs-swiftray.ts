@@ -281,7 +281,7 @@ const fetchTaskCodeSwiftray = async (
   const { taskCodeBlob, metadata } = getTaskCodeResult;
   let { fileTimeCost } = getTaskCodeResult;
 
-  if (isNonFGCode) {
+  if (isNonFGCode && !isPromark) {
     const fcodeRes = await getTaskCode('fcode', {});
     fileTimeCost = fcodeRes.fileTimeCost;
   }

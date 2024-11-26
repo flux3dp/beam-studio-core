@@ -12,10 +12,12 @@ import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/Objec
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import OptionPanelIcons from 'app/icons/option-panel/OptionPanelIcons';
 import UnitInput from 'app/widgets/Unit-Input-v2';
+import useWorkarea from 'helpers/hooks/useWorkarea';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IBatchCommand } from 'interfaces/IHistory';
 import { IImageDataResult } from 'interfaces/IImage';
 import { isMobile } from 'helpers/system-helper';
+import { promarkModels } from 'app/actions/beambox/constant';
 import { sliderTheme } from 'app/constants/antd-config';
 
 import styles from './ImageOptions.module.scss';
@@ -36,6 +38,11 @@ const ImageOptions = ({ elem, updateObjectPanel }: Props): JSX.Element => {
   const thresholdCache = useRef(new Array(256).fill(null));
   const curCallID = useRef(0);
   const nextCallID = useRef(1);
+  // FIXME: Swiftray Gcode converter(Promark) treat transparent pixel as white pixel
+  // This is a temporary workaround to prevent engraving of transparent pixels when threshold is set to 255
+  const workarea = useWorkarea();
+  const maxThreshold = useMemo(() => (promarkModels.has(workarea) ? 254 : 255), [workarea]);
+  console.log('workarea', workarea, promarkModels.has(workarea) ? 254 : 255, maxThreshold);
 
   const changeAttribute = useCallback(
     (changes: { [key: string]: string | number | boolean }): void => {
@@ -187,7 +194,7 @@ const ImageOptions = ({ elem, updateObjectPanel }: Props): JSX.Element => {
                 className={styles.input}
                 type="number"
                 min={1}
-                max={255}
+                max={maxThreshold}
                 value={threshold}
                 precision={0}
                 onChange={handleThresholdChange}
@@ -197,7 +204,7 @@ const ImageOptions = ({ elem, updateObjectPanel }: Props): JSX.Element => {
             <Slider
               className={styles.slider}
               min={1}
-              max={255}
+              max={maxThreshold}
               step={1}
               marks={{ 128: '128' }}
               value={threshold}
@@ -219,7 +226,7 @@ const ImageOptions = ({ elem, updateObjectPanel }: Props): JSX.Element => {
           <div className={styles.label}>{LANG.threshold}</div>
           <UnitInput
             min={1}
-            max={255}
+            max={maxThreshold}
             decimal={0}
             unit=""
             className={{ [styles['option-input']]: true }}
@@ -228,7 +235,13 @@ const ImageOptions = ({ elem, updateObjectPanel }: Props): JSX.Element => {
           />
         </div>
         <ConfigProvider theme={sliderTheme}>
-          <Slider min={1} max={255} step={1} value={threshold} onChange={handleThresholdChange} />
+          <Slider
+            min={1}
+            max={maxThreshold}
+            step={1}
+            value={threshold}
+            onChange={handleThresholdChange}
+          />
         </ConfigProvider>
       </Fragment>
     );

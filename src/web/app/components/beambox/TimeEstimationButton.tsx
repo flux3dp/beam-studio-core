@@ -35,11 +35,11 @@ const TimeEstimationButton = (): JSX.Element => {
 
   const renderResult = () => (
     <div className={styles.result}>
-      {lang.estimate_time} {FormatDuration(estimatedTime)}
+      {lang.estimate_time} {FormatDuration(Math.max(estimatedTime, 1))}
     </div>
   );
 
-  return estimatedTime ? renderResult() : renderButton();
+  return typeof estimatedTime === 'number' ? renderResult() : renderButton();
 };
 
 export default TimeEstimationButton;
