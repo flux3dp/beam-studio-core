@@ -1,7 +1,9 @@
-import * as React from 'react';
+import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
 import { OptionValues } from 'app/constants/enums';
+
+import Editor from './Editor';
 
 jest.mock('helpers/is-dev', () => () => true);
 
@@ -84,6 +86,20 @@ jest.mock('implementations/storage', () => ({
   set: (key, value) => map.set(key, value),
 }));
 
+jest.mock('app/constants/workarea-constants', () => ({
+  getWorkarea: () => ({
+    label: 'Beambox',
+    width: 400,
+    pxWidth: 4000,
+    height: 375,
+    pxHeight: 3750,
+    maxSpeed: 300,
+    minSpeed: 0.5,
+    minPower: 10,
+    vectorSpeedLimit: 20,
+  }),
+}));
+
 jest.mock(
   'app/components/settings/SelectControl',
   () =>
@@ -121,8 +137,9 @@ jest.mock('helpers/api/swiftray-client', () => ({
   hasSwiftray: true,
 }));
 
-// eslint-disable-next-line import/first
-import Editor from './Editor';
+jest.mock('helpers/locale-helper', () => ({
+  isTwOrHk: true,
+}));
 
 describe('settings/Editor', () => {
   afterEach(() => {
