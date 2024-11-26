@@ -140,7 +140,7 @@ export default function Menu({ email }: Props): JSX.Element {
             </MenuItem>
             {model === 'fbb2' && (
               <MenuItem
-                onClick={() => callback('CALIBRATE_CAMERA_ADVANCED', serial)}
+                onClick={() => callback('CALIBRATE_CAMERA_ADVANCED', devices[i])}
                 disabled={isMobile}
               >
                 {menuCms.calibrate_camera_advanced} {isMobile && '(PC Only)'}
