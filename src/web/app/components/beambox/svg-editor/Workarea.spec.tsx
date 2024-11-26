@@ -1,34 +1,9 @@
 /* eslint-disable import/first */
-import React from 'react';
+import React, { act } from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
 jest.mock('app/svgedit/operations/clipboard', () => ({
   pasteElements: jest.fn(),
-}));
-
-jest.mock('helpers/i18n', () => ({
-  lang: {
-    beambox: {
-      context_menu: {
-        cut: 'Cut',
-        copy: 'Copy',
-        paste: 'Paste',
-        paste_in_place: 'Paste in Place',
-        delete: 'Delete',
-        group: 'Group',
-        ungroup: 'Ungroup',
-        move_front: 'Bring to Front',
-        move_up: 'Bring Forward',
-        move_down: 'Send Backward',
-        move_back: 'Send to Back',
-      },
-      right_panel: {
-        layer_panel: {
-          move_elems_to: 'Move elems to',
-        },
-      },
-    },
-  },
 }));
 
 jest.mock('app/actions/beambox/svg-editor', () => ({
@@ -119,7 +94,7 @@ describe('test workarea', () => {
     });
     expect(eventEmitter.eventNames().length).toBe(1);
 
-    eventEmitter.emit('update-context-menu', { select: true, paste: true });
+    act(() => eventEmitter.emit('update-context-menu', { select: true, paste: true }));
     await new Promise((resolve) => setTimeout(resolve, 0));
     checkState({
       menuDisabled: false,
@@ -129,7 +104,7 @@ describe('test workarea', () => {
       ungroup: false,
     });
 
-    eventEmitter.emit('update-context-menu', { menuDisabled: true });
+    act(() => eventEmitter.emit('update-context-menu', { menuDisabled: true }));
     await new Promise((resolve) => setTimeout(resolve, 0));
     checkState({
       menuDisabled: true,

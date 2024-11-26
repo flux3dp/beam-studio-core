@@ -14,7 +14,7 @@ exports[`should render correctly 1`] = `
     Preview Movement Speed
     url:
     options:
-    [{"value":1,"selected":true},{"value":2,"selected":false},{"value":3,"selected":false}]
+    [{"value":1,"label":"Low","selected":true},{"value":2,"label":"Medium","selected":false},{"value":3,"label":"High","selected":false}]
     <input
       class="select-control"
     />
@@ -23,6 +23,7 @@ exports[`should render correctly 1`] = `
     mock-select-control id:
     set-enable-custom-preview-height
     label:
+    Custom Preview Height
     url:
     options:
     [{"value":"TRUE","label":"On","selected":false},{"value":"FALSE","label":"Off","selected":true}]

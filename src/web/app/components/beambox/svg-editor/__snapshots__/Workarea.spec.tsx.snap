@@ -43,7 +43,9 @@ exports[`test workarea should render correctly 1`] = `
     </dummy-menu-item>
     <dummy-menu-item
       disabled="true"
-    />
+    >
+      Duplicate
+    </dummy-menu-item>
     <div
       class="seperator"
     />
@@ -93,7 +95,7 @@ exports[`test workarea should render correctly 1`] = `
     />
     <dummy-sub-menu
       disabled="true"
-      title="Move elems to"
+      title="Move elements to:"
     >
       <dummy-menu-item
         disabled="true"
@@ -153,7 +155,9 @@ exports[`test workarea should render correctly 2`] = `
     </dummy-menu-item>
     <dummy-menu-item
       disabled="false"
-    />
+    >
+      Duplicate
+    </dummy-menu-item>
     <div
       class="seperator"
     />
@@ -203,7 +207,7 @@ exports[`test workarea should render correctly 2`] = `
     />
     <dummy-sub-menu
       disabled="false"
-      title="Move elems to"
+      title="Move elements to:"
     >
       <dummy-menu-item
         disabled="true"

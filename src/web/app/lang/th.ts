@@ -431,6 +431,7 @@ const lang: ILang = {
     on: 'เปิด',
     off: 'ปิด',
     low: 'ต่ํา',
+    normal: 'สูง',
     high: 'สูง',
     caption: 'การตั้งค่า',
     tabs: {
@@ -457,9 +458,7 @@ const lang: ILang = {
     autosave_number: 'จํานวนการบันทึกอัตโนมัติ',
     autosave_path_not_correct: 'ไม่พบเส้นทางที่ระบุ',
     preview_movement_speed: 'ความเร็วการแสดงตัวอย่าง',
-    slow: 'ช้า',
     medium: 'ปานกลาง',
-    fast: 'เร็ว',
     default_units: 'หน่วยเริ่มต้น',
     default_font_family: 'แบบอักษรเริ่มต้น',
     default_font_style: 'รูปแบบแบบอักษรเริ่มต้น',

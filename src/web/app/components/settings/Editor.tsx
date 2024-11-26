@@ -141,7 +141,7 @@ function Editor({
   );
   const imageDownsamplingOptions = onOffOptionFactory(
     getBeamboxPreferenceEditingValue('image_downsampling') !== false,
-    { onLabel: lang.settings.low, offLabel: lang.settings.high }
+    { onLabel: lang.settings.low, offLabel: lang.settings.normal }
   );
   const antiAliasingOptions = onOffOptionFactory(
     getBeamboxPreferenceEditingValue('anti-aliasing'),

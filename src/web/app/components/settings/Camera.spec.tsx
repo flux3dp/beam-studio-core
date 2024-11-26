@@ -3,18 +3,6 @@ import { render } from '@testing-library/react';
 
 import { OptionValues } from 'app/constants/enums';
 
-jest.mock('helpers/i18n', () => ({
-  lang: {
-    settings: {
-      preview_movement_speed: 'Preview Movement Speed',
-      groups: {
-        camera: 'Camera',
-      },
-    },
-  },
-  getActiveLang: () => 'en',
-}));
-
 jest.mock('app/components/settings/Control', () => 'mock-control');
 
 jest.mock('app/components/settings/SelectControl', () =>

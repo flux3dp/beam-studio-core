@@ -431,6 +431,7 @@ const lang: ILang = {
     on: 'Hidup',
     off: 'Mati',
     low: 'Rendah',
+    normal: 'Tinggi',
     high: 'Tinggi',
     caption: 'Tetapan',
     tabs: {
@@ -457,9 +458,7 @@ const lang: ILang = {
     autosave_number: 'Bilangan Simpan Automatik',
     autosave_path_not_correct: 'Laluan yang dinyatakan tidak dijumpai.',
     preview_movement_speed: 'Kelajuan Pratonton Pergerakan',
-    slow: 'Perlahan',
     medium: 'Sederhana',
-    fast: 'Laju',
     default_units: 'Unit Lalai',
     default_font_family: 'Font Lalai',
     default_font_style: 'Gaya Font Lalai',

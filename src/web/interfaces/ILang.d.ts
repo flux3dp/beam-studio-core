@@ -426,6 +426,7 @@ export interface ILang {
     on: string;
     off: string;
     low: string;
+    normal: string;
     high: string;
     caption: string;
     tabs: {
@@ -452,9 +453,7 @@ export interface ILang {
     autosave_number: string;
     autosave_path_not_correct: string;
     preview_movement_speed: string;
-    slow: string;
     medium: string;
-    fast: string;
     default_units: string;
     default_font_family: string;
     default_font_style: string;
