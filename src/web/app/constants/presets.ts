@@ -29,8 +29,8 @@ export const presets: {
     },
     fbb2: {
       [LayerModule.LASER_UNIVERSAL]: {
-        power: 20,
-        speed: 20,
+        power: 15,
+        speed: 15,
       },
     },
     fhexa1: {
@@ -80,7 +80,7 @@ export const presets: {
     },
     fbb2: {
       [LayerModule.LASER_UNIVERSAL]: {
-        power: 35,
+        power: 45,
         speed: 10,
       },
     },
@@ -112,8 +112,8 @@ export const presets: {
   wood_7mm_cutting: {
     fbb2: {
       [LayerModule.LASER_UNIVERSAL]: {
-        power: 40,
-        speed: 3,
+        power: 45,
+        speed: 5,
       },
     },
     ado1: {
@@ -163,7 +163,7 @@ export const presets: {
     },
     fbb2: {
       [LayerModule.LASER_UNIVERSAL]: {
-        power: 10,
+        power: 20,
         speed: 500,
       },
     },
@@ -213,7 +213,7 @@ export const presets: {
     },
     fbb2: {
       [LayerModule.LASER_UNIVERSAL]: {
-        power: 20,
+        power: 55,
         speed: 10,
       },
     },
@@ -246,8 +246,8 @@ export const presets: {
     },
     fbb2: {
       [LayerModule.LASER_UNIVERSAL]: {
-        power: 30,
-        speed: 10,
+        power: 59,
+        speed: 3,
       },
     },
     fhexa1: {
@@ -260,9 +260,8 @@ export const presets: {
   acrylic_8mm_cutting: {
     fbb2: {
       [LayerModule.LASER_UNIVERSAL]: {
-        power: 35,
-        speed: 6,
-        repeat: 2,
+        power: 65,
+        speed: 3,
       },
     },
     fhexa1: {
@@ -303,7 +302,7 @@ export const presets: {
     },
     fbb2: {
       [LayerModule.LASER_UNIVERSAL]: {
-        power: 5,
+        power: 13,
         speed: 500,
       },
     },
@@ -370,6 +369,12 @@ export const presets: {
     },
   },
   mdf_3mm_cutting: {
+    fbb2: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 30,
+        speed: 15,
+      },
+    },
     ado1: {
       [LayerModule.LASER_10W_DIODE]: {
         power: 100,
@@ -384,6 +389,12 @@ export const presets: {
     },
   },
   mdf_5mm_cutting: {
+    fbb2: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 30,
+        speed: 10,
+      },
+    },
     ado1: {
       [LayerModule.LASER_10W_DIODE]: {
         power: 100,
@@ -398,6 +409,12 @@ export const presets: {
     },
   },
   mdf_engraving: {
+    fbb2: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 30,
+        speed: 500,
+      },
+    },
     ado1: {
       [LayerModule.LASER_10W_DIODE]: {
         power: 30,
@@ -428,6 +445,12 @@ export const presets: {
       [LayerModule.LASER_UNIVERSAL]: {
         power: 55,
         speed: 4,
+      },
+    },
+    fbb2: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 35,
+        speed: 10,
       },
     },
     fhexa1: {
@@ -467,6 +490,12 @@ export const presets: {
       [LayerModule.LASER_UNIVERSAL]: {
         power: 55,
         speed: 2,
+      },
+    },
+    fbb2: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 40,
+        speed: 10,
       },
     },
     fhexa1: {
@@ -511,8 +540,8 @@ export const presets: {
     },
     fbb2: {
       [LayerModule.LASER_UNIVERSAL]: {
-        power: 10,
-        speed: 500,
+        power: 30,
+        speed: 300,
       },
     },
     fhexa1: {
@@ -567,6 +596,12 @@ export const presets: {
         speed: 20,
       },
     },
+    fbb2: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 30,
+        speed: 20,
+      },
+    },
     fhexa1: {
       [LayerModule.LASER_UNIVERSAL]: {
         power: 15,
@@ -602,6 +637,12 @@ export const presets: {
     fbb1p: {
       [LayerModule.LASER_UNIVERSAL]: {
         power: 35,
+        speed: 20,
+      },
+    },
+    fbb2: {
+      [LayerModule.LASER_UNIVERSAL]: {
+        power: 40,
         speed: 20,
       },
     },
@@ -645,8 +686,8 @@ export const presets: {
     },
     fbb2: {
       [LayerModule.LASER_UNIVERSAL]: {
-        power: 10,
-        speed: 500,
+        power: 15,
+        speed: 250,
       },
     },
     fhexa1: {
@@ -690,7 +731,7 @@ export const presets: {
     fbb2: {
       [LayerModule.LASER_UNIVERSAL]: {
         power: 50,
-        speed: 300,
+        speed: 200,
       },
     },
     fhexa1: {
@@ -733,8 +774,8 @@ export const presets: {
     },
     fbb2: {
       [LayerModule.LASER_UNIVERSAL]: {
-        power: 35,
-        speed: 500,
+        power: 30,
+        speed: 150,
       },
     },
     fhexa1: {
