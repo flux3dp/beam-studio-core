@@ -1947,6 +1947,8 @@ export interface ILang {
     click_to_select_point: string;
     remeasure: string;
     remeasuring_points: string;
+    take_reference: string;
+    take_reference_desc: string;
   };
   pass_through: {
     title: string;

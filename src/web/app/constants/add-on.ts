@@ -108,6 +108,7 @@ const supportList: Record<WorkAreaModel, SupportInfo> = {
       chuck: true,
       extendWorkarea: true,
       mirror: true,
+      defaultMirror: true,
     },
     lowerFocus: true,
     redLight: true,

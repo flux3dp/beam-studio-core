@@ -925,14 +925,14 @@ class DeviceMaster {
     return controlSocket.addTask(controlSocket.endRedLaserMeasureMode);
   }
 
-  async takeReferenceZ(x: number, y: number, f?: number) {
+  async takeReferenceZ(args: { X?: number; Y?: number; F?: number; H?: number } = {}) {
     const controlSocket = await this.getControl();
-    return controlSocket.addTask(controlSocket.takeReferenceZ, x, y, f);
+    return controlSocket.addTask(controlSocket.takeReferenceZ, args);
   }
 
-  async measureZ(x: number, y: number, f?: number) {
+  async measureZ(args: { X?: number; Y?: number; F?: number } = {}) {
     const controlSocket = await this.getControl();
-    return controlSocket.addTask(controlSocket.measureZ, x, y, f);
+    return controlSocket.addTask(controlSocket.measureZ, args);
   }
 
   // Raw mode functions

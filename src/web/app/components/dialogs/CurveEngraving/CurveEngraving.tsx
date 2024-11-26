@@ -12,12 +12,11 @@ import { CurveEngraving as ICurveEngraving } from 'interfaces/ICurveEngraving';
 
 import getCanvasImage from './getCanvasImage';
 import Plane from './Plane';
-import remeasurePoints from './reMeasurePoints';
 import styles from './CurveEngraving.module.scss';
 
 interface Props {
   data: ICurveEngraving;
-  onRemeasure: (data: ICurveEngraving) => void;
+  onRemeasure: (indices: Array<number>) => Promise<ICurveEngraving>;
   onClose: () => void;
 }
 
@@ -86,13 +85,12 @@ const CurveEngraving = ({ data: initData, onRemeasure, onClose }: Props): JSX.El
 
   const handleRemeasure = useCallback(async () => {
     const indices = Array.from(selectedIndices).sort((a, b) => a - b);
-    const newData = await remeasurePoints(data, indices);
+    const newData = await onRemeasure(indices);
     if (newData) {
-      onRemeasure(newData);
       setData(newData);
       setSelectedIndices(new Set());
     }
-  }, [data, onRemeasure, selectedIndices]);
+  }, [onRemeasure, selectedIndices]);
 
   return (
     <Modal
@@ -161,16 +159,22 @@ export default CurveEngraving;
 
 export const showCurveEngraving = async (
   data: ICurveEngraving,
-  onRemeasure: (data: ICurveEngraving) => void
+  onRemeasure: (indices: Array<number>) => Promise<ICurveEngraving>
 ): Promise<void> => {
   if (!isIdExist('curve-engraving')) {
-    addDialogComponent(
-      'curve-engraving',
-      <CurveEngraving
-        data={data}
-        onRemeasure={onRemeasure}
-        onClose={() => popDialogById('curve-engraving')}
-      />
-    );
+    return new Promise<void>((resolve) => {
+      addDialogComponent(
+        'curve-engraving',
+        <CurveEngraving
+          data={data}
+          onRemeasure={onRemeasure}
+          onClose={() => {
+            popDialogById('curve-engraving');
+            resolve();
+          }}
+        />
+      );
+    });
   }
+  return Promise.resolve();
 };
