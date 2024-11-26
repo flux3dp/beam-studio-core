@@ -154,6 +154,14 @@ function tick() {
   });
 }
 
+const mockAutoFit = jest.fn();
+jest.mock(
+  'app/svgedit/operations/autoFit',
+  () =>
+    (...args) =>
+      mockAutoFit(...args)
+);
+
 describe('should render correctly', () => {
   beforeEach(() => {
     jest.resetAllMocks();

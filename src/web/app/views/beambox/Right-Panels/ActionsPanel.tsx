@@ -6,6 +6,7 @@ import ActionPanelIcons from 'app/icons/action-panel/ActionPanelIcons';
 import Dialog from 'app/actions/dialog-caller';
 import dialog from 'implementations/dialog';
 import FontFuncs from 'app/actions/beambox/font-funcs';
+import i18n from 'helpers/i18n';
 import imageEdit from 'helpers/image-edit';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
@@ -135,8 +136,9 @@ const ActionsPanel = ({ elem }: Props): JSX.Element => {
     []
   );
 
-  const renderAutoFitButon = (opts: ButtonOpts = {}): JSX.Element =>
-    renderButtons(
+  const renderAutoFitButon = (opts: ButtonOpts = {}): JSX.Element => {
+    if (i18n.getActiveLang() === 'zh-cn') return null;
+    return renderButtons(
       'auto-fit',
       `${lang.auto_fit} (Beta)`,
       () => autoFit(elem as SVGElement),
@@ -144,6 +146,7 @@ const ActionsPanel = ({ elem }: Props): JSX.Element => {
       <ActionPanelIcons.AutoFit />,
       { isFullLine: true, autoClose: false, ...opts }
     );
+  };
 
   const renderArrayButton = (opts: ButtonOpts = {}): JSX.Element =>
     renderButtons(
