@@ -206,6 +206,10 @@ const ConnectMachineIp = (): JSX.Element => {
       return;
     }
 
+    // for correctly select promark device serial
+    const res = await deviceMaster.select(device);
+    console.log('🚀 ~ file: index.tsx:212 ~ handleStartTestForPromark ~ deviceMaster.select:', res);
+
     await testCamera(device);
   };
 
