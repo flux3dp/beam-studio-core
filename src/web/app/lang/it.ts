@@ -1703,6 +1703,7 @@ const lang: ILang = {
     put_paper_step3: 'Fare clic su "Avvia Intaglio".',
     put_paper_promark_1: 'Posiziona il cartoncino nero dalla scatola degli accessori sulla piattaforma di lavoro.',
     put_paper_promark_2: 'Regola correttamente la messa a fuoco, quindi fai clic su "Avvia Intaglio" per procedere con l\'incisione.',
+    put_paper_skip: 'Se il disegno di calibrazione non procede automaticamente con lo scatto, premi "Salta" per scattare la foto.',
     solve_pnp_title: 'Allineare i Punti di Riferimento',
     solve_pnp_step1: 'Allineare i punti di incisione in base al numero e alla posizione prevista di ciascun punto di riferimento rosso.',
     solve_pnp_step2: 'È possibile premere "Riprendi immagine" per riallineare o regolare manualmente le posizioni dei marcatori.',

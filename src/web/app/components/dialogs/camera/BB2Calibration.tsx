@@ -153,7 +153,13 @@ const BB2Calibration = ({ isAdvanced, onClose }: Props): JSX.Element => {
           { src: 'video/bb2-calibration/2-cut.mp4', type: 'video/mp4' },
         ]}
         title={tCali.put_paper}
-        steps={[tCali.put_paper_step1, tCali.put_paper_step2, tCali.perform_autofocus_bb2]}
+        steps={[
+          tCali.put_paper_step1,
+          tCali.put_paper_step2,
+          tCali.perform_autofocus_bb2,
+          tCali.put_paper_step3,
+          tCali.put_paper_skip,
+        ]}
         buttons={[
           isAdvanced
             ? { label: tCali.back, onClick: () => setStep(Steps.CHESSBOARD) }

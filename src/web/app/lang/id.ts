@@ -1703,6 +1703,7 @@ const lang: ILang = {
     put_paper_step3: 'Klik "Mulai Ukir".',
     put_paper_promark_1: 'Letakkan karton hitam dari kotak aksesori di platform kerja.',
     put_paper_promark_2: 'Sesuaikan fokus dengan benar, lalu klik "Mulai Ukir" untuk melanjutkan proses ukiran.',
+    put_paper_skip: 'Jika gambar kalibrasi tidak otomatis melanjutkan ke pengambilan gambar, tekan "Lewati" untuk mengambil gambar.',
     solve_pnp_title: 'Luruskan Titik Penanda',
     solve_pnp_step1: 'Silakan sejajarkan titik ukiran sesuai dengan nomor dan posisi yang diharapkan dari setiap titik penanda merah.',
     solve_pnp_step2: 'Anda dapat menekan "Ambil Ulang Gambar" untuk meluruskan kembali atau menyesuaikan posisi penanda secara manual.',

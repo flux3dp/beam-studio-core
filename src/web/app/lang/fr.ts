@@ -1703,6 +1703,7 @@ const lang: ILang = {
     put_paper_step3: 'Cliquez sur "Commencer Gravure".',
     put_paper_promark_1: "Placez le carton noir de la boîte d'accessoires sur la plateforme de travail.",
     put_paper_promark_2: 'Ajustez la mise au point correctement, puis cliquez sur "Commencer Gravure" pour continuer la gravure.',
+    put_paper_skip: 'Si le dessin de calibration ne passe pas automatiquement à la prise de photo, appuyez sur « Ignorer » pour prendre une photo.',
     solve_pnp_title: 'Aligner les points de repère',
     solve_pnp_step1: 'Veuillez aligner les points de gravure selon le numéro et la position attendue de chaque point marqueur rouge.',
     solve_pnp_step2: 'Vous pouvez appuyer sur "Reprendre la photo" pour réaligner ou ajuster manuellement les positions des marqueurs.',

@@ -1706,6 +1706,7 @@ const lang: ILang = {
     put_paper_step3: '點選「開始繪製校正圖形」以繪製圖形。',
     put_paper_promark_1: '將配件盒中的黑卡紙放置在工作平台上。',
     put_paper_promark_2: '適當調整焦距，點選「開始繪製校正圖形」以繪製圖形。',
+    put_paper_skip: '若繪製校正圖形結束後未自動進入拍攝動作，可按「跳過」以進行拍攝。',
     solve_pnp_title: '對齊標記點',
     solve_pnp_step1: '請根據每個紅色標記點的編號和預期位置對齊雕刻點。',
     solve_pnp_step2: '您可以按下「重拍照片」以重試對齊或手動調整標記點位置。',

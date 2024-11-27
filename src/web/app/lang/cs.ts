@@ -1706,6 +1706,7 @@ const lang: ILang = {
     put_paper_step3: 'Klikněte na "Začít Gravírovat"',
     put_paper_promark_1: 'Položte černou lepenku z příslušenství na pracovní platformu.',
     put_paper_promark_2: 'Správně nastavte zaostření a poté klikněte na "Začít Gravírovat" pro pokračování v gravírování.',
+    put_paper_skip: 'Pokud kalibrační kresba automaticky nepokračuje k pořízení snímku, stiskněte „Přeskočit“ pro pořízení snímku.',
     solve_pnp_title: 'Zarovnat značkovací body.',
     solve_pnp_step1: 'Zarovnejte prosím gravírovací body podle počtu a očekávané pozice všech červených značkovacích bodů.',
     solve_pnp_step2: 'Pro opětovné zarovnání můžete stisknout "Znovu vyfotit" nebo manuálně přizpůsobit pozice značky.',

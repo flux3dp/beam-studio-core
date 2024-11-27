@@ -1706,6 +1706,7 @@ const lang: ILang = {
     put_paper_step3: 'Haga clic en "Empezar a Grabar".',
     put_paper_promark_1: 'Coloque el cartón negro de la caja de accesorios en la plataforma de trabajo.',
     put_paper_promark_2: 'Ajuste el enfoque correctamente y luego haga clic en "Empezar a Grabar" para continuar con el grabado.',
+    put_paper_skip: 'Si el dibujo de calibración no procede automáticamente a tomar una foto, presione "Omitir" para tomarla.',
     solve_pnp_title: 'Alinear puntos de referencia',
     solve_pnp_step1: 'Alinee los puntos de grabado según el número y la posición esperada de cada punto de marcador rojo.',
     solve_pnp_step2: 'Puede presionar "Volver a tomar foto" para realinear o ajustar manualmente las posiciones de los marcadores.',

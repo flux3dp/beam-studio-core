@@ -1703,6 +1703,7 @@ const lang: ILang = {
     put_paper_step3: 'Klikk på "Start Gravering".',
     put_paper_promark_1: 'Plasser den svarte pappen fra tilbehørsboksen på arbeidsplattformen.',
     put_paper_promark_2: 'Juster fokus riktig, og klikk deretter på "Start Gravering" for å fortsette med graveringen.',
+    put_paper_skip: 'Hvis kalibreringstegningen ikke automatisk går videre til å ta bilde, trykk på "Hopp over" for å ta bilde.',
     solve_pnp_title: 'Juster markørpunkter',
     solve_pnp_step1: 'Vennligst juster graveringpunktene i henhold til nummeret og den forventede posisjonen til hvert røde markørpunkt.',
     solve_pnp_step2: 'Du kan trykke på "Ta bilde på nytt" for å justere på nytt eller manuelt justere markørposisjonene.',

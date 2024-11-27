@@ -1703,6 +1703,7 @@ const lang: ILang = {
     put_paper_step3: 'Klik "Mula Ukiran".',
     put_paper_promark_1: 'Letakkan kadbod hitam dari kotak aksesori di platform kerja.',
     put_paper_promark_2: 'Laraskan fokus dengan betul, kemudian klik "Mula Ukiran" untuk meneruskan ukiran.',
+    put_paper_skip: 'Jika lukisan penentukuran tidak meneruskan secara automatik ke pengambilan gambar, tekan "Lompat" untuk mengambil gambar.',
     solve_pnp_title: 'Sejajarkan Titik Penanda',
     solve_pnp_step1: 'Sila selaraskan titik ukiran mengikut nombor dan kedudukan yang diharapkan bagi setiap titik penanda merah.',
     solve_pnp_step2: 'Anda boleh tekan "Ambil Semula Gambar" untuk menyelaraskan semula atau menyesuaikan posisi penanda secara manual.',

@@ -1706,6 +1706,7 @@ const lang: ILang = {
     put_paper_step3: 'Klicken Sie auf "Starte Gravur".',
     put_paper_promark_1: 'Legen Sie die schwarze Pappe aus dem Zubehörkasten auf die Arbeitsplattform.',
     put_paper_promark_2: 'Stellen Sie den Fokus richtig ein und klicken Sie dann auf "Starte Gravur", um mit dem Gravieren fortzufahren.',
+    put_paper_skip: 'Wenn die Kalibrierungszeichnung nicht automatisch mit der Aufnahme eines Bildes fortfährt, drücken Sie „Überspringen“, um ein Bild aufzunehmen.',
     solve_pnp_title: 'Ausrichten von Markierungspunkten',
     solve_pnp_step1: 'Bitte richten Sie die Gravurpunkte entsprechend der Nummer und der erwarteten Position jedes roten Markierungspunktes aus.',
     solve_pnp_step2: 'Sie können auf "Foto erneut aufnehmen" drücken, um die Ausrichtung zu wiederholen oder die Markierungspositionen manuell anzupassen.',

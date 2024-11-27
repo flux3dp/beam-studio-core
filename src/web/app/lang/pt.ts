@@ -1703,6 +1703,7 @@ const lang: ILang = {
     put_paper_step3: 'Clique em "Iniciar Gravação".',
     put_paper_promark_1: 'Coloque o cartão preto da caixa de acessórios na plataforma de trabalho.',
     put_paper_promark_2: 'Ajuste o foco corretamente e clique em "Iniciar Gravação" para continuar com a gravação.',
+    put_paper_skip: 'Se o desenho de calibração não prosseguir automaticamente para tirar a foto, pressione "Pular" para tirar a foto.',
     solve_pnp_title: 'Alinhar Pontos de Marcação',
     solve_pnp_step1: 'Alinhe os pontos de gravação de acordo com o número e a posição esperada de cada ponto de marcador vermelho.',
     solve_pnp_step2: 'Você pode pressionar "Tirar foto novamente" para realinhar ou ajustar manualmente as posições dos marcadores.',

@@ -1706,6 +1706,7 @@ const lang: ILang = {
     put_paper_step3: 'Kliknij "Rozpocznij Grawerować".',
     put_paper_promark_1: 'Umieść czarną tekturę z pudełka z akcesoriami na platformie roboczej.',
     put_paper_promark_2: 'Ustaw ostrość prawidłowo, a następnie kliknij "Rozpocznij Grawerować", aby kontynuować grawerowanie.',
+    put_paper_skip: 'Jeśli rysunek kalibracyjny nie przejdzie automatycznie do robienia zdjęcia, naciśnij „Pomiń”, aby zrobić zdjęcie.',
     solve_pnp_title: 'Wyrównaj punkty znacznikowe',
     solve_pnp_step1: 'Proszę wyrównać punkty grawerowania zgodnie z numerem i oczekiwaną pozycją każdego czerwonego punktu oznaczenia.',
     solve_pnp_step2: 'Możesz nacisnąć przycisk "Powtórz zdjęcie" w celu ponownego wyrównania lub ręcznej regulacji pozycji znaczników.',

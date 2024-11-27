@@ -1703,6 +1703,7 @@ const lang: ILang = {
     put_paper_step3: 'Klicka på "Starta Gravyr".',
     put_paper_promark_1: 'Placera det svarta kartongarket från tillbehörslådan på arbetsplattformen.',
     put_paper_promark_2: 'Justera fokuset korrekt och klicka sedan på "Starta Gravyr" för att fortsätta med graveringen.',
+    put_paper_skip: 'Om kalibreringsritningen inte automatiskt går vidare till att ta bild, tryck på "Hoppa över" för att ta bild.',
     solve_pnp_title: 'Justera markörpunkterna',
     solve_pnp_step1: 'Justera gravyrpunkterna enligt numret och den förväntade positionen för varje röd markörpunkt.',
     solve_pnp_step2: 'Du kan trycka på "Ta om bild" för att justera om eller justera markörpositionerna manuellt.',

@@ -1703,6 +1703,7 @@ const lang: ILang = {
     put_paper_step3: 'Nhấp vào "Bắt Đầu Khắc".',
     put_paper_promark_1: 'Đặt tấm bìa đen từ hộp phụ kiện lên bề mặt làm việc.',
     put_paper_promark_2: 'Điều chỉnh tiêu cự đúng cách, sau đó nhấn "Bắt Đầu Khắc" để tiếp tục khắc.',
+    put_paper_skip: 'Nếu bản vẽ hiệu chỉnh không tự động chuyển sang chụp ảnh, hãy nhấn "Bỏ qua" để chụp ảnh.',
     solve_pnp_title: 'Cân chỉnh điểm đánh dấu',
     solve_pnp_step1: 'Vui lòng căn chỉnh các điểm khắc theo số và vị trí mong đợi của từng điểm đánh dấu màu đỏ.',
     solve_pnp_step2: 'Bạn có thể nhấn "Chụp lại" để điều chỉnh lại hoặc điều chỉnh vị trí của các đánh dấu theo cách thủ công.',

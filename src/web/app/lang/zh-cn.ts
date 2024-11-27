@@ -1706,6 +1706,7 @@ const lang: ILang = {
     put_paper_step3: '点击“开始绘制校正图片”。',
     put_paper_promark_1: '将配件盒中的黑色硬纸板放置在工作平台上。',
     put_paper_promark_2: '正确调整焦距，然后点击“开始绘制校正图片”以继续雕刻。',
+    put_paper_skip: '如果校准图未自动进入拍照，请按“跳过”进行拍照。',
     solve_pnp_title: '对齐标记点',
     solve_pnp_step1: '请根据每个红色标记点的编号和预期位置对齐雕刻点。',
     solve_pnp_step2: '您可以按“重拍照片”重新对齐或手动调整标记位置。',

@@ -1703,6 +1703,7 @@ const lang: ILang = {
     put_paper_step3: 'Napsauta "Aloita Kaiverrus".',
     put_paper_promark_1: 'Aseta musta pahvi tarvikelaatikosta työalustalle.',
     put_paper_promark_2: 'Säädä tarkennus oikein ja napsauta sitten "Aloita Kaiverrus" jatkaaksesi kaiverrusta.',
+    put_paper_skip: 'Jos kalibrointipiirros ei siirry automaattisesti kuvauksen ottamiseen, paina "Ohita" ottaaksesi kuvan.',
     solve_pnp_title: 'Kohdista merkkipisteet',
     solve_pnp_step1: 'Kohdista kaiverruspisteet punaisen merkintäpisteen numeron ja odotetun sijainnin mukaan.',
     solve_pnp_step2: 'Voit painaa "Ota kuva uudelleen" uudelleen suuntautua tai säätää merkkipisteiden sijaintia manuaalisesti.',

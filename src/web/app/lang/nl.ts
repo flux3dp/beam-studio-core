@@ -1703,6 +1703,7 @@ const lang: ILang = {
     put_paper_step3: 'Klik op "Graveren Starten".',
     put_paper_promark_1: 'Plaats het zwarte karton uit de accessoiredoos op het werkplatform.',
     put_paper_promark_2: 'Stel de focus correct af en klik vervolgens op "Graveren Starten" om verder te gaan met graveren.',
+    put_paper_skip: 'Als de kalibratietekening niet automatisch doorgaat naar het maken van een foto, druk dan op "Overslaan" om een foto te maken.',
     solve_pnp_title: 'Markeringspunten uitlijnen',
     solve_pnp_step1: 'Lijn de graveerpunten uit volgens het nummer en de verwachte positie van elk rood markeerpunt.',
     solve_pnp_step2: 'U kunt op "Foto opnieuw nemen" drukken om opnieuw uit te lijnen of de posities van de markeringen handmatig aan te passen.',
