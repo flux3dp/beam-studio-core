@@ -1,3 +1,6 @@
+/* eslint-disable no-continue */
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable no-console */
 import findDefs from 'app/svgedit/utils/findDef';
@@ -34,6 +37,7 @@ getSVGAsync(({ Canvas }) => {
 });
 
 let refClipboard: Record<string, Element> = {};
+const origImageMap: Record<string, string> = {};
 
 export const isValidNativeClipboard = async (): Promise<boolean> => {
   try {
@@ -177,10 +181,37 @@ async function getElementsFromNativeClipboard(): Promise<Array<Element>> {
   const { elements, refs } = data;
   const keys = Object.keys(refs);
 
+  // Update image original image from base64 if blob url is not reachable
+  for (const element of elements) {
+    const origImage = element.attributes.find(({ nodeName }) => nodeName === 'origImage');
+    const base64 = element.attributes.find(({ nodeName }) => nodeName === 'xlink:href')?.value;
+    const oldBlobUrl = origImage?.value;
+
+    if (origImageMap[oldBlobUrl]) {
+      origImage.value = origImageMap[oldBlobUrl];
+
+      continue;
+    }
+
+    if (origImage && base64) {
+      const isBlobReachable = await fetch(oldBlobUrl)
+        .then(({ ok }) => ok)
+        .catch(() => false);
+
+      if (isBlobReachable) {
+        continue;
+      }
+
+      const blobUrl = URL.createObjectURL(await fetch(base64).then((res) => res.blob()));
+
+      origImage.value = blobUrl;
+      origImageMap[oldBlobUrl] = blobUrl;
+    }
+  }
+
   refClipboard = {};
 
-  for (let i = 0; i < keys.length; i += 1) {
-    const key = keys[i];
+  for (const key of keys) {
     const symbolElemData = refs[key];
     const id = symbolElemData.attributes.find(({ nodeName }) => nodeName === 'id')?.value;
     const newSymbol = drawing.copyElemData(symbolElemData);
