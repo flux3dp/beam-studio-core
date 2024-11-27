@@ -1,5 +1,3 @@
-/* eslint-disable no-continue */
-/* eslint-disable no-await-in-loop */
 /* eslint-disable no-restricted-syntax */
 /* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable no-console */
