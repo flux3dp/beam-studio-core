@@ -10,6 +10,8 @@ import { getWorkarea, WorkArea, WorkAreaModel } from 'app/constants/workarea-con
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { PreviewManager } from 'interfaces/PreviewManager';
 import { PreviewSpeedLevel } from 'app/actions/beambox/constant';
+import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
+import shortcuts from 'helpers/shortcuts';
 
 class BasePreviewManager implements PreviewManager {
   public isFullScreen = false;
@@ -55,6 +57,68 @@ class BasePreviewManager implements PreviewManager {
     y2: number
   ): Promise<boolean> => {
     throw new Error('Method not implemented.');
+  };
+
+  // for Beam Series, BB2
+  previewRegionFromPoints = async (
+    x1: number,
+    y1: number,
+    x2: number,
+    y2: number,
+    {
+      getPoints = () => [],
+      overlapRatio = 0.05,
+    }: {
+      getPoints?: () => Array<{ point: [number, number]; overlapFlag: number }>;
+      overlapRatio?: number;
+    } = {}
+  ): Promise<boolean> => {
+    const points = getPoints();
+
+    let isPaused = false;
+    const triggerPause = ({ code }: KeyboardEvent) => {
+      if (code === 'Escape') {
+        isPaused = true;
+      }
+    };
+    const unregisterPause = shortcuts.on(['esc'], triggerPause);
+
+    try {
+      for (let i = 0; i < points.length; i += 1) {
+        if (this.ended) return false;
+
+        MessageCaller.openMessage({
+          key: 'camera-preview',
+          content: `${i18n.lang.topbar.preview} ${i}/${points.length}`,
+          level: MessageLevel.LOADING,
+          duration: 20,
+        });
+
+        const { point, overlapFlag } = points[i];
+        // eslint-disable-next-line no-await-in-loop, @typescript-eslint/no-explicit-any
+        const result = await (this.preview as any)(point[0], point[1], {
+          overlapRatio,
+          overlapFlag,
+        });
+
+        if (!result) return false;
+        if (isPaused) break;
+      }
+
+      MessageCaller.openMessage({
+        key: 'camera-preview',
+        level: MessageLevel.SUCCESS,
+        content: isPaused ? i18n.lang.device.paused : i18n.lang.device.completed,
+        duration: 3,
+      });
+
+      return true;
+    } catch (error) {
+      MessageCaller.closeMessage('camera-preview');
+      throw error;
+    } finally {
+      unregisterPause();
+    }
   };
 
   protected getMovementSpeed = (): number => {
