@@ -37,7 +37,6 @@ getSVGAsync(({ Canvas }) => {
 });
 
 let refClipboard: Record<string, Element> = {};
-const origImageMap: Record<string, string> = {};
 
 export const isValidNativeClipboard = async (): Promise<boolean> => {
   try {
@@ -96,7 +95,7 @@ export const addRefToClipboard = (useElement: SVGUseElement): void => {
 
 const copyElements = async (elems: Array<Element>): Promise<void> => {
   const layerNames = new Set<string>();
-  const serializedData = { elements: [], refs: {} };
+  const serializedData = { elements: [], refs: {}, imageData: {} };
   let layerCount = 0;
   refClipboard = {};
 
@@ -127,6 +126,35 @@ const copyElements = async (elems: Array<Element>): Promise<void> => {
     const key = keys[i];
     serializedData.refs[key] = serializeElement(refClipboard[key]);
   }
+
+  // save original image data as base64
+  const origImageUrls = Array.from(
+    new Set(
+      elems.filter((elem) => elem.tagName === 'image').map((elem) => elem.getAttribute('origImage'))
+    )
+  );
+  const promises = [];
+  for (let i = 0; i < origImageUrls.length; i += 1) {
+    const origImage = origImageUrls[i];
+    promises.push(
+      // eslint-disable-next-line no-async-promise-executor
+      new Promise<void>(async (resolve) => {
+        try {
+          const resp = await fetch(origImage);
+          const blob = await resp.blob();
+          const base64 = await new Promise<string>((resolve) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result as string);
+            reader.readAsDataURL(blob);
+          });
+          serializedData.imageData[origImage] = base64;
+        } finally {
+          resolve();
+        }
+      })
+    );
+  }
+  await Promise.allSettled(promises);
 
   try {
     await navigator.clipboard.writeText(`BX clip:${JSON.stringify(serializedData)}`);
@@ -178,39 +206,10 @@ async function getElementsFromNativeClipboard(): Promise<Array<Element>> {
 
   const drawing = svgCanvas.getCurrentDrawing();
   const data = JSON.parse(clipboardData.substring(8));
-  const { elements, refs } = data;
+  const { elements, refs, imageData } = data;
+
   const keys = Object.keys(refs);
-
-  // Update image original image from base64 if blob url is not reachable
-  for (const element of elements) {
-    const origImage = element.attributes.find(({ nodeName }) => nodeName === 'origImage');
-    const base64 = element.attributes.find(({ nodeName }) => nodeName === 'xlink:href')?.value;
-    const oldBlobUrl = origImage?.value;
-
-    if (origImageMap[oldBlobUrl]) {
-      origImage.value = origImageMap[oldBlobUrl];
-
-      continue;
-    }
-
-    if (origImage && base64) {
-      const isBlobReachable = await fetch(oldBlobUrl)
-        .then(({ ok }) => ok)
-        .catch(() => false);
-
-      if (isBlobReachable) {
-        continue;
-      }
-
-      const blobUrl = URL.createObjectURL(await fetch(base64).then((res) => res.blob()));
-
-      origImage.value = blobUrl;
-      origImageMap[oldBlobUrl] = blobUrl;
-    }
-  }
-
   refClipboard = {};
-
   for (const key of keys) {
     const symbolElemData = refs[key];
     const id = symbolElemData.attributes.find(({ nodeName }) => nodeName === 'id')?.value;
@@ -220,7 +219,38 @@ async function getElementsFromNativeClipboard(): Promise<Array<Element>> {
     refClipboard[key] = newSymbol;
   }
 
-  return elements.map((element: Element) => drawing.copyElemData(element));
+  // retrieve image data and convert to blob url
+  await Promise.allSettled(
+    Object.keys(imageData).map(async (key) => {
+      try {
+        const base64 = imageData[key];
+        const resp = await fetch(base64);
+        const blob = await resp.blob();
+        const url = URL.createObjectURL(blob);
+        imageData[key] = url;
+      } catch (error) {
+        console.error('Failed to fetch image data', error);
+      }
+    })
+  );
+
+  const newElements = elements.map((element: Element) => drawing.copyElemData(element));
+  // use clipboard image data if original image is not available
+  await Promise.allSettled(
+    newElements.map(async (element: Element) => {
+      if (element.tagName === 'image') {
+        const origImage = element.getAttribute('origImage');
+        if (imageData[origImage]) {
+          try {
+            await fetch(origImage);
+          } catch {
+            element.setAttribute('origImage', imageData[origImage]);
+          }
+        }
+      }
+    })
+  );
+  return newElements;
 }
 
 const pasteRef = async (
