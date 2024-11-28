@@ -6,6 +6,8 @@ const lang: ILang = {
     cancel: 'Abbrechen',
     back: 'Zurück',
     save: 'Speichern',
+    ok: 'OK',
+    stop: 'Stopp',
   },
   general: {
     processing: 'Verarbeitung...',
@@ -2046,6 +2048,11 @@ const lang: ILang = {
     mark_parameters: 'Markierungsparameter',
     preview: 'Vorschau',
     mark: 'Markieren',
+    z_axis_adjustment: {
+      title: 'Z-Achsen-Einstellung',
+      section1: 'Passen Sie die Höhe der Z-Achse an, um den Fokus fein abzustimmen.',
+      tooltip1: 'Versuchen Sie, ein 1x1 cm Quadrat zu markieren, um zu überprüfen, ob die aktuelle Brennweite geeignet ist.',
+    },
   },
   code_generator: {
     qr_code: 'QR-Code',

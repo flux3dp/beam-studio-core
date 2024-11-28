@@ -6,6 +6,8 @@ const lang: ILang = {
     cancel: 'Zrušit',
     back: 'Zpět',
     save: 'Uložit',
+    ok: 'OK',
+    stop: 'Zastavit',
   },
   general: {
     processing: 'Zpracovávám',
@@ -2046,6 +2048,11 @@ const lang: ILang = {
     mark_parameters: 'Parametry značení',
     preview: 'Náhled',
     mark: 'Označit',
+    z_axis_adjustment: {
+      title: 'Nastavení osy Z',
+      section1: 'Upravte výšku osy Z pro doladění zaostření.',
+      tooltip1: 'Zkuste označit čtverec 1x1 cm pro ověření, zda je aktuální ohnisková vzdálenost vhodná.',
+    },
   },
   code_generator: {
     qr_code: 'QR kód',

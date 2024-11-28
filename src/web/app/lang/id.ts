@@ -6,6 +6,8 @@ const lang: ILang = {
     cancel: 'Batal',
     back: 'Kembali',
     save: 'Simpan',
+    ok: 'OK',
+    stop: 'Berhenti',
   },
   general: {
     processing: 'Memproses...',
@@ -2041,6 +2043,11 @@ const lang: ILang = {
     mark_parameters: 'Parameter Penandaan',
     preview: 'Pratinjau',
     mark: 'Tandai',
+    z_axis_adjustment: {
+      title: 'Penyesuaian Sumbu Z',
+      section1: 'Sesuaikan ketinggian sumbu Z untuk menyempurnakan fokus.',
+      tooltip1: 'Cobalah menandai kotak 1x1 cm untuk memastikan jarak fokus saat ini sesuai.',
+    },
   },
   code_generator: {
     qr_code: 'Kode QR',

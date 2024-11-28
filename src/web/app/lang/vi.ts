@@ -6,6 +6,8 @@ const lang: ILang = {
     cancel: 'Hủy',
     back: 'Quay lại',
     save: 'Lưu',
+    ok: 'OK',
+    stop: 'Dừng',
   },
   general: {
     processing: 'Đang xử lý...',
@@ -2041,6 +2043,11 @@ const lang: ILang = {
     mark_parameters: 'Tham số đánh dấu',
     preview: 'Xem trước',
     mark: 'Đánh dấu',
+    z_axis_adjustment: {
+      title: 'Điều Chỉnh Trục Z',
+      section1: 'Điều chỉnh độ cao trục Z để tinh chỉnh tiêu điểm.',
+      tooltip1: 'Thử đánh dấu một hình vuông 1x1 cm để xác nhận nếu khoảng cách tiêu điểm hiện tại là phù hợp.',
+    },
   },
   code_generator: {
     qr_code: 'Mã QR',

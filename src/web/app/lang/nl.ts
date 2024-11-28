@@ -6,6 +6,8 @@ const lang: ILang = {
     cancel: 'Annuleren',
     back: 'Terug',
     save: 'Opslaan',
+    ok: 'OK',
+    stop: 'Stop',
   },
   general: {
     processing: 'Verwerken...',
@@ -2041,6 +2043,11 @@ const lang: ILang = {
     mark_parameters: 'Markeerparameters',
     preview: 'Voorvertoning',
     mark: 'Markeren',
+    z_axis_adjustment: {
+      title: 'Z-As Aanpassing',
+      section1: 'Pas de hoogte van de Z-as aan om de focus te verfijnen.',
+      tooltip1: 'Probeer een vierkant van 1x1 cm te markeren om te bevestigen of de huidige brandpuntsafstand geschikt is.',
+    },
   },
   code_generator: {
     qr_code: 'QR-code',

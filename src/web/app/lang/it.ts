@@ -6,6 +6,8 @@ const lang: ILang = {
     cancel: 'Annulla',
     back: 'Indietro',
     save: 'Salva',
+    ok: 'OK',
+    stop: 'Ferma',
   },
   general: {
     processing: 'Elaborazione...',
@@ -2041,6 +2043,11 @@ const lang: ILang = {
     mark_parameters: 'Parametri di marcatura',
     preview: 'Anteprima',
     mark: 'Marca',
+    z_axis_adjustment: {
+      title: 'Regolazione Asse Z',
+      section1: 'Regola l’altezza dell’asse Z per perfezionare la messa a fuoco.',
+      tooltip1: 'Prova a segnare un quadrato di 1x1 cm per confermare se la distanza focale attuale è adeguata.',
+    },
   },
   code_generator: {
     qr_code: 'Codice QR',

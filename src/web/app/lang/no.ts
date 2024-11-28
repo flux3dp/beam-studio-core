@@ -6,6 +6,8 @@ const lang: ILang = {
     cancel: 'Avbryt',
     back: 'Tilbake',
     save: 'Lagre',
+    ok: 'OK',
+    stop: 'Stopp',
   },
   general: {
     processing: 'Behandler...',
@@ -2041,6 +2043,11 @@ const lang: ILang = {
     mark_parameters: 'Merkingsparametere',
     preview: 'Forhåndsvisning',
     mark: 'Merk',
+    z_axis_adjustment: {
+      title: 'Z-Akse Justering',
+      section1: 'Juster høyden på Z-aksen for å finjustere fokus.',
+      tooltip1: 'Prøv å merke en 1x1 cm firkant for å bekrefte om den nåværende fokuseringsavstanden er passende.',
+    },
   },
   code_generator: {
     qr_code: 'QR-kode',

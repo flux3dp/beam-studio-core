@@ -6,6 +6,8 @@ const lang: ILang = {
     cancel: '取消',
     back: '返回',
     save: '儲存',
+    ok: '確定',
+    stop: '停止',
   },
   general: {
     processing: '處理中...',
@@ -2046,6 +2048,11 @@ const lang: ILang = {
     mark_parameters: '標記參數',
     preview: '預覽',
     mark: '標記',
+    z_axis_adjustment: {
+      title: 'Z軸調整',
+      section1: '調整Z軸高度以微調焦點。',
+      tooltip1: '嘗試標記一個1x1公分的方形以確認當前焦距是否合適。',
+    },
   },
   code_generator: {
     qr_code: 'QR碼',

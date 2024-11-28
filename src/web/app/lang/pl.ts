@@ -6,6 +6,8 @@ const lang: ILang = {
     cancel: 'Anuluj',
     back: 'Wróć',
     save: 'Zapisz',
+    ok: 'OK',
+    stop: 'Stop',
   },
   general: {
     processing: 'Przetwarzanie...',
@@ -2044,6 +2046,11 @@ const lang: ILang = {
     mark_parameters: 'Parametry znakowania',
     preview: 'Podgląd',
     mark: 'Oznacz',
+    z_axis_adjustment: {
+      title: 'Regulacja Osi Z',
+      section1: 'Dostosuj wysokość osi Z, aby precyzyjnie ustawić ostrość.',
+      tooltip1: 'Spróbuj oznaczyć kwadrat 1x1 cm, aby potwierdzić, czy bieżąca odległość ogniskowa jest odpowiednia.',
+    },
   },
   code_generator: {
     qr_code: 'Kod QR',
