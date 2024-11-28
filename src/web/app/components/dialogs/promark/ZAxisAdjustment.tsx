@@ -185,7 +185,11 @@ export const ZAxisAdjustment = ({ device, onClose }: Props): JSX.Element => {
       <div className={styles.container}>
         <div className={styles['mb-12']}>{t.z_axis_adjustment.section1}</div>
         <Flex justify="flex-start" className={styles['mb-28']} gap={8}>
-          <Button icon={<ArrowUpOutlined />} onClick={() => handleMove(zAxis)} />
+          <Button
+            icon={<ArrowUpOutlined />}
+            disabled={isMoving}
+            onClick={() => handleMove(zAxis)}
+          />
           <UnitInput
             isInch={isInch}
             className={styles.input}
@@ -197,7 +201,11 @@ export const ZAxisAdjustment = ({ device, onClose }: Props): JSX.Element => {
             addonAfter={isInch ? 'in' : 'mm'}
             onChange={(value) => setZAxis(Math.min(100, Math.max(1, value)))}
           />
-          <Button icon={<ArrowDownOutlined />} onClick={() => handleMove(-zAxis)} />
+          <Button
+            icon={<ArrowDownOutlined />}
+            disabled={isMoving}
+            onClick={() => handleMove(-zAxis)}
+          />
           <Button className={styles.button} danger onClick={handleStop} disabled={!isMoving}>
             {tGlobal.stop}
           </Button>
