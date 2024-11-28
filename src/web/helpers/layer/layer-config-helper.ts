@@ -76,6 +76,7 @@ export const baseConfig: Partial<ConfigKeyTypeMap> = {
   ink: BeamboxPreference.read('multipass-compensation') !== false ? 3 : 1,
   repeat: 1,
   height: -3,
+  // explicit for beamo model
   zStep: 0,
   diode: 0,
   configName: '',

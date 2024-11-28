@@ -111,7 +111,7 @@ const PromarkInputs = ({
               <UnitInput
                 data-testid="focusStep"
                 className={styles.input}
-                disabled={preset.isDefault}
+                disabled={preset.isDefault || preset.repeat <= 1}
                 value={Math.max(preset.focusStep ?? defaultConfig.focusStep, 0)}
                 max={focusStepMax}
                 min={0}
