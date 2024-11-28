@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { memo, useContext, useEffect, useRef, useState } from 'react';
+import React, { memo, useContext, useEffect, useMemo, useRef, useState } from 'react';
 
 import checkSoftwareForAdor from 'helpers/check-software';
 import CommonTools from 'app/components/beambox/top-bar/CommonTools';
@@ -28,6 +28,7 @@ import styles from './TopBar.module.scss';
 const isWhiteTopBar = window.os !== 'MacOS' && !isWeb();
 
 const Topbar = (): JSX.Element => {
+  const isWebMode = useMemo(() => isWeb(), []);
   const { mode, hasUnsavedChange, currentUser, togglePathPreview, setSelectedDevice } =
     useContext(CanvasContext);
   const [hasDiscoveredMachine, setHasDiscoveredMachine] = useState(false);
@@ -62,9 +63,13 @@ const Topbar = (): JSX.Element => {
       {(window.os === 'Windows' && !!window.titlebar) || (
         <FileName hasUnsavedChange={hasUnsavedChange} />
       )}
-      <UserAvatar user={currentUser} />
-      <PreviewButton />
-      <div className={styles.right}>
+      <div className={classNames(styles.controls, styles.left)}>
+        <UserAvatar user={currentUser} />
+        <PreviewButton />
+        <CommonTools isWeb={isWebMode} hide={mode !== CanvasMode.Draw} />
+        <Tabs />
+      </div>
+      <div className={classNames(styles.controls, styles.right)}>
         <SelectMachineButton />
         <DocumentButton />
         <FrameButton />
@@ -85,7 +90,6 @@ const Topbar = (): JSX.Element => {
           <Menu email={currentUser?.email} />
         </div>
       )}
-      <CommonTools isWeb={isWeb()} hide={mode !== CanvasMode.Draw} />
     </div>
   );
 };

@@ -1,21 +1,32 @@
 @use 'styles/variables' as variables;
 
 .top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   color: #ffffff;
   font-size: 30px;
 
-  .right {
-    float: right;
+  .controls {
     display: flex;
     align-items: center;
-    padding: 0 8px;
     gap: 12px;
     height: variables.$topBarHeight;
-    position: relative;
-    z-index: 1;
   }
 
-  .menu{
+  .left {
+    margin-left: 80px;
+
+    @media screen and (max-width: 600px) {
+      margin-left: 60px;
+    }
+  }
+
+  .right {
+    padding: 0 8px;
+  }
+
+  .menu {
     font-size: 10pt;
   }
 

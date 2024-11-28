@@ -2,11 +2,8 @@
 @use './_mixins.scss' as mixins;
 
 .container {
-  position: absolute;
   min-width: 40px;
   max-width: 40px;
-  height: variables.$topBarHeight;
-  margin-left: 120px;
   transition: all 0.1s ease-in-out;
 
   .button {
