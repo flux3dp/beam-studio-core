@@ -1,5 +1,5 @@
 export interface ILang {
-  global: Record<'cancel' | 'back' | 'save', string>;
+  global: Record<'cancel' | 'back' | 'save' | 'ok' | 'stop', string>;
   general: {
     processing: string;
     choose_folder: string;
@@ -2041,6 +2041,11 @@ export interface ILang {
     mark_parameters: string;
     preview: string;
     mark: string;
+    z_axis_adjustment: {
+      title: string;
+      section1: string;
+      tooltip1: string;
+    };
   };
   code_generator: {
     qr_code: string;
