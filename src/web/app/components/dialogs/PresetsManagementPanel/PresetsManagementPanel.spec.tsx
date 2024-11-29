@@ -60,8 +60,10 @@ jest.mock('app/actions/dialog-controller', () => ({
 }));
 
 const mockPostPresetChange = jest.fn();
+const mockGetDefaultConfig = jest.fn();
 jest.mock('helpers/layer/layer-config-helper', () => ({
   postPresetChange: (...args) => mockPostPresetChange(...args),
+  getDefaultConfig: () => mockGetDefaultConfig(),
 }));
 
 jest.mock('./Footer', () => ({ handleSave, handleReset, onClose }: any) => (

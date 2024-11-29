@@ -93,16 +93,24 @@ const LaserInputs = ({
         <div className={styles.field}>
           <div className={styles.label}>{tLaserPanel.z_step}</div>
           <UnitInput
-            data-testid="zStep"
+            data-testid="focusStep"
             className={styles.input}
-            disabled={preset.isDefault}
-            value={preset.zStep ?? baseConfig.zStep}
+            disabled={preset.isDefault || preset.repeat <= 1}
+            value={Math.max(preset.focusStep ?? baseConfig.focusStep, 0)}
             max={10}
             min={0}
             precision={isInch ? 2 : 1}
             addonAfter={lengthUnit}
             isInch={isInch}
-            onChange={(value) => handleChange('zStep', value)}
+            onChange={(value) => {
+              /**
+               * update both zStep and focusStep, to make the user experience consistent
+               * zStep is for beamo only
+               * focusStep is for the other models
+               */
+              handleChange('zStep', value);
+              handleChange('focusStep', value);
+            }}
           />
         </div>
       </div>

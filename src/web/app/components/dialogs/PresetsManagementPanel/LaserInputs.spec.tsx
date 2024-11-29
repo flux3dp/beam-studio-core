@@ -67,9 +67,10 @@ describe('LaserInputs', () => {
     fireEvent.change(repeatInput, { target: { value: '50' } });
     expect(handleChange).toBeCalledTimes(3);
     expect(handleChange).toHaveBeenLastCalledWith('repeat', 50);
-    const zStepInput = getByTestId('zStep');
-    fireEvent.change(zStepInput, { target: { value: '50' } });
-    expect(handleChange).toBeCalledTimes(4);
-    expect(handleChange).toHaveBeenLastCalledWith('zStep', 50);
+    const focusStepInput = getByTestId('focusStep');
+    fireEvent.change(focusStepInput, { target: { value: '50' } });
+    // both focusStep and zStep should be updated
+    expect(handleChange).toBeCalledTimes(5);
+    expect(handleChange).toHaveBeenLastCalledWith('focusStep', 50);
   });
 });

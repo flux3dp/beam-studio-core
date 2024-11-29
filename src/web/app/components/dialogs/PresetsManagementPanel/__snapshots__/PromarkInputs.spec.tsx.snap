@@ -134,6 +134,7 @@ exports[`PromarkInputs should render correctly 1`] = `
           </p>
           <input
             data-testid="focusStep"
+            disabled=""
             max="10"
             min="0"
             value="1"
