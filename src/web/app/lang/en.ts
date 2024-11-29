@@ -1960,6 +1960,7 @@ Machines > ‘Promark Name’ > Promark Settings`,
     remeasuring_points: 'Remeasuring Points...',
     take_reference: 'Take Reference',
     take_reference_desc: 'Please move the laser head to the highest point of the object, lower the focus probe and click "Confirm" to focus.',
+    sure_to_delete: 'Do you want to delete the 3D curve focus data?',
   },
   pass_through: {
     title: 'Pass Through Mode',

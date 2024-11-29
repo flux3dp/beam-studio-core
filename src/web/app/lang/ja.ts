@@ -1960,6 +1960,7 @@ const lang: ILang = {
     remeasuring_points: 'ポイントを再測定しています...',
     take_reference: '参照を取得',
     take_reference_desc: 'レーザーヘッドを対象物の最も高い点に移動させ、フォーカスプローブを下げて「確認」をクリックしてフォーカスしてください。',
+    sure_to_delete: '3D曲線の焦点データを削除しますか？',
   },
   pass_through: {
     title: 'パススルーモード',

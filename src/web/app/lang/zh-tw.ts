@@ -1960,6 +1960,7 @@ const lang: ILang = {
     remeasuring_points: '正在重新測量點...',
     take_reference: '取得參考點',
     take_reference_desc: '請將雷射頭移至雕刻物件的最高處，並將對焦探針放下，點擊「確認」進行對焦。',
+    sure_to_delete: '您是否要刪除 3D curve 對焦資料？',
   },
   pass_through: {
     title: '廣域雕刻',

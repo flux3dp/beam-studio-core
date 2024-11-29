@@ -1960,6 +1960,7 @@ const lang: ILang = {
     remeasuring_points: 'Ponowne mierzenie punktów...',
     take_reference: 'Pobierz referencję',
     take_reference_desc: 'Proszę przesunąć głowicę lasera na najwyższy punkt obiektu, opuścić sondę ostrości i kliknąć „Potwierdź”, aby ustawić ostrość.',
+    sure_to_delete: 'Czy chcesz usunąć dane ostrości 3D krzywej?',
   },
   pass_through: {
     title: 'Tryb Przejścia',

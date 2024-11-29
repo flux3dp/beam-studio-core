@@ -1950,6 +1950,7 @@ export interface ILang {
     remeasuring_points: string;
     take_reference: string;
     take_reference_desc: string;
+    sure_to_delete: string;
   };
   pass_through: {
     title: string;

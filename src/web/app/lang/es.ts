@@ -1960,6 +1960,7 @@ const lang: ILang = {
     remeasuring_points: 'Volviendo a medir puntos...',
     take_reference: 'Tomar referencia',
     take_reference_desc: 'Por favor, mueva la cabeza del láser al punto más alto del objeto, baje la sonda de enfoque y haga clic en "Confirmar" para enfocar.',
+    sure_to_delete: '¿Desea eliminar los datos de enfoque de la curva 3D?',
   },
   pass_through: {
     title: 'Modo De Pasar A Través',

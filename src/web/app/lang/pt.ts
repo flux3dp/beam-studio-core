@@ -1957,6 +1957,7 @@ const lang: ILang = {
     remeasuring_points: 'Re-medindo pontos...',
     take_reference: 'Pegar referência',
     take_reference_desc: 'Por favor, mova a cabeça do laser para o ponto mais alto do objeto, abaixe a sonda de foco e clique em "Confirmar" para focar.',
+    sure_to_delete: 'Deseja excluir os dados de foco da curva 3D?',
   },
   pass_through: {
     title: 'Modo De Passar Por',

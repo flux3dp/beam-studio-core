@@ -1957,6 +1957,7 @@ const lang: ILang = {
     remeasuring_points: 'Punten opnieuw meten...',
     take_reference: 'Referentie nemen',
     take_reference_desc: 'Verplaats de laserkop naar het hoogste punt van het object, laat de focusprobe zakken en klik op "Bevestigen" om te focussen.',
+    sure_to_delete: 'Wilt u de focusgegevens van de 3D-curve verwijderen?',
   },
   pass_through: {
     title: 'Doorgangsmodus',

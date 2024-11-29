@@ -1957,6 +1957,7 @@ const lang: ILang = {
     remeasuring_points: 'Đang đo lại các điểm...',
     take_reference: 'Lấy tham chiếu',
     take_reference_desc: 'Vui lòng di chuyển đầu laser đến điểm cao nhất của đối tượng, hạ đầu dò tiêu điểm xuống và nhấp vào "Xác nhận" để lấy nét.',
+    sure_to_delete: 'Bạn có muốn xóa dữ liệu tiêu điểm của đường cong 3D không?',
   },
   pass_through: {
     title: 'Chế Độ Đi Qua',

@@ -1960,6 +1960,7 @@ const lang: ILang = {
     remeasuring_points: 'Punkte erneut messen...',
     take_reference: 'Referenz nehmen',
     take_reference_desc: 'Bitte bewegen Sie den Laser-Kopf zum höchsten Punkt des Objekts, senken Sie die Fokussier-Sonde ab und klicken Sie auf „Bestätigen“, um zu fokussieren.',
+    sure_to_delete: 'Möchten Sie die Fokusdaten der 3D-Kurve löschen?',
   },
   pass_through: {
     title: 'Durchgangsmodus',

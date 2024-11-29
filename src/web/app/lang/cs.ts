@@ -1960,6 +1960,7 @@ const lang: ILang = {
     remeasuring_points: 'Přeměřuji body...',
     take_reference: 'Vzít referenci',
     take_reference_desc: 'Prosím, přesuňte laserovou hlavu na nejvyšší bod objektu, spusťte zaostřovací sondu a klikněte na „Potvrdit“ pro zaostření.',
+    sure_to_delete: 'Chcete smazat data zaostření 3D křivky?',
   },
   pass_through: {
     title: 'Režim procházení',
