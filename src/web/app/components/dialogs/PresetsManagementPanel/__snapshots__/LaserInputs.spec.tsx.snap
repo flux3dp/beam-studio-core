@@ -135,7 +135,7 @@ exports[`LaserInputs should render correctly 1`] = `
             1
           </p>
           <input
-            data-testid="zStep"
+            data-testid="focusStep"
             max="10"
             min="0"
             value="0"
