@@ -27,6 +27,7 @@ const lang: ILang = {
     export: 'SPUSTIT',
     preview: 'NÁHLED',
     preview_title: 'Náhled',
+    preview_press_esc_to_stop: 'Stisknutím ESC zastavíte náhled kamery.',
     curve_engrave: '3D křivka',
     task_preview: 'Náhled cesty',
     frame_task: 'Rámování',

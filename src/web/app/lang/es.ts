@@ -27,6 +27,7 @@ const lang: ILang = {
     export: 'GO',
     preview: 'VISTA PREVIA',
     preview_title: 'Vista previa',
+    preview_press_esc_to_stop: 'Presiona ESC para detener la vista previa de la cámara.',
     curve_engrave: 'Curva 3D',
     task_preview: 'Previsualizar Trayectoria',
     frame_task: 'Vista previa del cuadro',

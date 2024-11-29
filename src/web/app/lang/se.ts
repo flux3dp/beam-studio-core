@@ -27,6 +27,7 @@ const lang: ILang = {
     export: 'EXPORT',
     preview: 'FÖRHANDSVISA',
     preview_title: 'Förhandsgranskning',
+    preview_press_esc_to_stop: 'Tryck på ESC för att stoppa kameraförhandsvisningen.',
     curve_engrave: '3D Kurva',
     task_preview: 'Banor',
     frame_task: 'Kör ram',

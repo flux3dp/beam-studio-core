@@ -27,6 +27,7 @@ const lang: ILang = {
     export: 'START',
     preview: 'PODGLĄD',
     preview_title: 'PODGLĄD',
+    preview_press_esc_to_stop: 'Naciśnij ESC, aby zatrzymać podgląd kamery.',
     curve_engrave: 'Krzywa 3D',
     task_preview: 'Podgląd ścieżki',
     frame_task: 'Rama do biegania',

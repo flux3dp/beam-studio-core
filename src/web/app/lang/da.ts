@@ -27,6 +27,7 @@ const lang: ILang = {
     export: 'EKSPORTER',
     preview: 'FORHÅNDSVISNING',
     preview_title: 'Forhåndsvisning',
+    preview_press_esc_to_stop: 'Tryk på ESC for at stoppe kameraforhåndsvisningen.',
     curve_engrave: '3D Kurve',
     task_preview: 'Opgaverammeforhåndsvisning',
     frame_task: 'Kørende ramme',

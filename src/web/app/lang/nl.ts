@@ -27,6 +27,7 @@ const lang: ILang = {
     export: 'GA',
     preview: 'Voorbeeld',
     preview_title: 'Voorbeeld',
+    preview_press_esc_to_stop: 'Druk op ESC om de cameravoorvertoning te stoppen.',
     curve_engrave: '3D Curve',
     task_preview: 'Padvoorbeeld',
     frame_task: 'Frame uitvoeren',

@@ -27,6 +27,7 @@ const lang: ILang = {
     export: 'XUẤT',
     preview: 'XEM TRƯỚC',
     preview_title: 'Xem trước',
+    preview_press_esc_to_stop: 'Nhấn ESC để dừng xem trước camera.',
     curve_engrave: 'Đường cong 3D',
     task_preview: 'Xem trước đường đi',
     frame_task: 'Đang chạy khung',

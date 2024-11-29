@@ -75,10 +75,10 @@ class BasePreviewManager implements PreviewManager {
   ): Promise<boolean> => {
     const points = getPoints();
 
-    let isPaused = false;
+    let isStopped = false;
     const triggerPause = ({ code }: KeyboardEvent) => {
       if (code === 'Escape') {
-        isPaused = true;
+        isStopped = true;
       }
     };
     const unregisterPause = shortcuts.on(['esc'], triggerPause);
@@ -89,8 +89,10 @@ class BasePreviewManager implements PreviewManager {
 
         MessageCaller.openMessage({
           key: 'camera-preview',
-          content: `${i18n.lang.topbar.preview} ${i}/${points.length}`,
+          content: `${i18n.lang.topbar.preview} ${i}/${points.length}
+          (${i18n.lang.topbar.preview_press_esc_to_stop})`,
           level: MessageLevel.LOADING,
+          style: { whiteSpace: 'pre-line' },
           duration: 20,
         });
 
@@ -102,19 +104,24 @@ class BasePreviewManager implements PreviewManager {
         });
 
         if (!result) return false;
-        if (isPaused) break;
+        if (isStopped) break;
       }
 
-      MessageCaller.openMessage({
-        key: 'camera-preview',
-        level: MessageLevel.SUCCESS,
-        content: isPaused ? i18n.lang.device.paused : i18n.lang.device.completed,
-        duration: 3,
-      });
+      if (isStopped) {
+        MessageCaller.closeMessage('camera-preview');
+      } else {
+        MessageCaller.openMessage({
+          key: 'camera-preview',
+          level: MessageLevel.SUCCESS,
+          content: i18n.lang.device.completed,
+          duration: 3,
+        });
+      }
 
       return true;
     } catch (error) {
       MessageCaller.closeMessage('camera-preview');
+
       throw error;
     } finally {
       unregisterPause();

@@ -27,6 +27,7 @@ const lang: ILang = {
     export: 'GO',
     preview: 'PREVIEW',
     preview_title: 'Preview',
+    preview_press_esc_to_stop: 'Press ESC to stop the camera preview.',
     curve_engrave: '3D Curve',
     task_preview: 'Path preview',
     frame_task: 'Running Frame',
