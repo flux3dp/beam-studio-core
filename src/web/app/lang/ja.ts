@@ -339,6 +339,7 @@ const lang: ILang = {
     // specific caption/content
     select_language: '言語を選択',
     select_machine_type: 'マシンを選択してください',
+    select_beambox: 'Beamboxを選択してください',
     select_connection_type: 'どのように接続しますか',
     connection_types: {
       wifi: 'Wi-Fi',

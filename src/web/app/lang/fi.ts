@@ -336,6 +336,7 @@ const lang: ILang = {
     no_machine: 'Minulla ei ole konetta nyt.',
     select_language: 'Valitse kieli',
     select_machine_type: 'Valitse mallisi',
+    select_beambox: 'Valitse Beamboxisi',
     select_connection_type: 'Miten haluat muodostaa yhteyden?',
     connection_types: {
       wifi: 'Wi-Fi',
