@@ -126,9 +126,14 @@ export default function Menu({ email }: Props): JSX.Element {
             {menuCms.machine_info}
           </MenuItem>
           {isPromark && (
-            <MenuItem onClick={() => callback('PROMARK_SETTINGS', devices[i])}>
-              {tPromarkSettings.title}
-            </MenuItem>
+            <>
+              <MenuItem onClick={() => callback('PROMARK_SETTINGS', devices[i])}>
+                {tPromarkSettings.title}
+              </MenuItem>
+              <MenuItem onClick={() => callback('Z_AXIS_ADJUSTMENT', devices[i])}>
+                {tPromarkSettings.z_axis_adjustment.title}
+              </MenuItem>
+            </>
           )}
           <MenuDivider />
           <SubMenu label={menuCms.calibration}>

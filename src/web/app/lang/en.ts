@@ -6,6 +6,8 @@ const lang: ILang = {
     cancel: 'Cancel',
     back: 'Back',
     save: 'Save',
+    ok: 'OK',
+    stop: 'Stop',
   },
   general: {
     processing: 'Processing...',
@@ -2046,6 +2048,11 @@ Machines > ‘Promark Name’ > Promark Settings`,
     mark_parameters: 'Mark Parameters',
     preview: 'Preview',
     mark: 'Mark',
+    z_axis_adjustment: {
+      title: 'Z-Axis Adjustment',
+      section1: 'Adjust the Z-axis height to fine-tune the focus.',
+      tooltip1: 'Try marking a 1x1 cm square to confirm if the current focal distance is appropriate.',
+    },
   },
   code_generator: {
     qr_code: 'QR Code',

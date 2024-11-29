@@ -6,6 +6,8 @@ const lang: ILang = {
     cancel: 'Cancelar',
     back: 'Volver',
     save: 'Guardar',
+    ok: 'OK',
+    stop: 'Detener',
   },
   general: {
     processing: 'Procesando...',
@@ -2044,6 +2046,11 @@ const lang: ILang = {
     mark_parameters: 'Parámetros de marcado',
     preview: 'Vista previa',
     mark: 'Marcar',
+    z_axis_adjustment: {
+      title: 'Ajuste del Eje Z',
+      section1: 'Ajusta la altura del eje Z para afinar el enfoque.',
+      tooltip1: 'Prueba a marcar un cuadrado de 1x1 cm para confirmar si la distancia focal actual es adecuada.',
+    },
   },
   code_generator: {
     qr_code: 'Código QR',

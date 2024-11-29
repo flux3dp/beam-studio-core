@@ -6,6 +6,8 @@ const lang: ILang = {
     cancel: '取消',
     back: '返回',
     save: '储存',
+    ok: '确定',
+    stop: '停止',
   },
   general: {
     processing: '处理中...',
@@ -2046,6 +2048,11 @@ const lang: ILang = {
     mark_parameters: '打标参数',
     preview: '预览',
     mark: '标记',
+    z_axis_adjustment: {
+      title: 'Z轴调整',
+      section1: '调整Z轴高度以微调焦点。',
+      tooltip1: '尝试标记一个1x1厘米的方块以确认当前的焦距是否合适。',
+    },
   },
   code_generator: {
     qr_code: '二维码',

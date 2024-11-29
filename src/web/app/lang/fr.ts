@@ -6,6 +6,8 @@ const lang: ILang = {
     cancel: 'Annuler',
     back: 'Retour',
     save: 'Enregistrer',
+    ok: 'OK',
+    stop: 'Arrêter',
   },
   general: {
     processing: 'Traitement...',
@@ -2041,6 +2043,11 @@ const lang: ILang = {
     mark_parameters: 'Paramètres de marquage',
     preview: 'Aperçu',
     mark: 'Marquer',
+    z_axis_adjustment: {
+      title: 'Réglage de l’Axe Z',
+      section1: 'Ajustez la hauteur de l’axe Z pour affiner la mise au point.',
+      tooltip1: 'Essayez de marquer un carré de 1x1 cm pour confirmer si la distance focale actuelle est appropriée.',
+    },
   },
   code_generator: {
     qr_code: 'Code QR',

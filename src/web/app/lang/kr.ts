@@ -6,6 +6,8 @@ const lang: ILang = {
     cancel: '취소',
     back: '뒤로',
     save: '저장',
+    ok: '확인',
+    stop: '중지',
   },
   general: {
     processing: '처리 중...',
@@ -2044,6 +2046,11 @@ const lang: ILang = {
     mark_parameters: '마킹 매개변수',
     preview: '미리보기',
     mark: '표시',
+    z_axis_adjustment: {
+      title: 'Z축 조정',
+      section1: 'Z축 높이를 조정하여 초점을 미세 조정합니다.',
+      tooltip1: '현재 초점 거리가 적절한지 확인하려면 1x1 cm 정사각형을 표시해 보세요.',
+    },
   },
   code_generator: {
     qr_code: 'QR 코드',

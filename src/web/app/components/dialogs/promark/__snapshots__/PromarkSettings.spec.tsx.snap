@@ -84,8 +84,18 @@ exports[`test PromarkSettings should render correctly 1`] = `
                 <div>
                   Mock LensBlock
                 </div>
-                <div>
-                  Mock ParametersBlock
+                <div
+                  class="full-row ant-flex css-dev-only-do-not-override-hash ant-flex-align-center ant-flex-justify-space-between"
+                  style="gap: 8px;"
+                >
+                  <div
+                    class="title"
+                  >
+                    Mark Parameters
+                  </div>
+                  <div>
+                    Mock ParametersBlock
+                  </div>
                 </div>
               </div>
             </div>

@@ -24,15 +24,13 @@ const ParametersBlock = ({
   setParameters,
 }: Props): JSX.Element => {
   const {
-    promark_settings: t,
     beambox: {
       right_panel: { laser_panel: tLaserPanel },
     },
   } = useI18n();
 
   return (
-    <Flex className={styles['full-row']} justify="space-between" align="center" gap={8}>
-      <div className={styles.title}>{t.mark_parameters}</div>
+    <>
       <Flex justify="space-between" align="center" gap={20}>
         <Flex className={styles.row} justify="space-between" align="center" gap={12}>
           <span className={styles.label}>{tLaserPanel.strength}</span>
@@ -64,7 +62,7 @@ const ParametersBlock = ({
           />
         </Flex>
       </Flex>
-    </Flex>
+    </>
   );
 };
 

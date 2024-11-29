@@ -620,16 +620,24 @@ class DeviceMaster {
   }
 
   // Calibration and Machine test functions
-  async waitTillCompleted(onProgress?: (progress: number) => void) {
+  async waitTillStatusPredicate({
+    predicate = (status) => status === 64,
+    onProgress,
+  }: {
+    predicate?: (status: number) => boolean;
+    onProgress?: (progress: number) => void;
+  }) {
     return new Promise((resolve, reject) => {
+      const otherStatus = [36, 48, 64, 128].filter((s) => predicate(s));
       let statusChanged = false;
+
       const statusCheckInterval = setInterval(async () => {
         const controlSocket = await this.getControl();
         const r = await controlSocket.addTask(controlSocket.report);
         const { st_id: stId, error, prog } = r.device_status;
-        if (stId === 64) {
+        if (predicate(stId)) {
           clearInterval(statusCheckInterval);
-          await new Promise((resolve2) => setTimeout(resolve2, 2000));
+          await new Promise((resolve2) => setTimeout(resolve2, 1000));
           try {
             await this.quit();
             resolve(null);
@@ -637,8 +645,8 @@ class DeviceMaster {
             console.error(err);
             reject(Error('Quit failed'));
           }
-        } else if ((stId === 128 || stId === 48 || stId === 36) && error && error.length > 0) {
-          // Error occured
+        } else if (otherStatus.includes(stId) && error && error.length > 0) {
+          // Error occurred
           clearInterval(statusCheckInterval);
           reject(error);
         } else if (stId === 128) {
@@ -652,9 +660,12 @@ class DeviceMaster {
           }
         } else {
           statusChanged = true;
-          if (prog) onProgress?.(prog);
+
+          if (prog) {
+            onProgress?.(prog);
+          }
         }
-      }, 2000);
+      }, 1000);
     });
   }
 
@@ -682,7 +693,7 @@ class DeviceMaster {
       });
 
     try {
-      await this.waitTillCompleted(onProgress);
+      await this.waitTillStatusPredicate({ onProgress });
       Progress.popById('camera-cali-task');
     } catch (err) {
       Progress.popById('camera-cali-task');
@@ -717,7 +728,7 @@ class DeviceMaster {
       });
 
     try {
-      await this.waitTillCompleted(onProgress);
+      await this.waitTillStatusPredicate({ onProgress });
       Progress.popById('diode-cali-task');
     } catch (err) {
       // Error while running test
@@ -765,7 +776,7 @@ class DeviceMaster {
         percentage: Math.round(progress * 100),
       });
     try {
-      await this.waitTillCompleted(onProgress);
+      await this.waitTillStatusPredicate({ onProgress });
       Progress.popById('cali-task');
     } catch (err) {
       Progress.popById('cali-task');
@@ -1368,6 +1379,11 @@ class DeviceMaster {
   existDevice(serial: string) {
     return this.discoveredDevices.some((device) => device.serial === serial);
   }
+
+  public adjustZAxis = async (z: number) => {
+    const blob: Blob = new Blob([`M3\nM102\nZ${z}\nM2\n`]);
+    await this.go(blob);
+  };
 }
 
 const deviceMaster = new DeviceMaster();

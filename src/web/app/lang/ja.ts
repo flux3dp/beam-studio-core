@@ -6,6 +6,8 @@ const lang: ILang = {
     cancel: 'キャンセル',
     back: '戻る',
     save: '保存する',
+    ok: 'OK',
+    stop: '停止',
   },
   general: {
     processing: '処理中...',
@@ -2044,6 +2046,11 @@ const lang: ILang = {
     mark_parameters: 'マーキングパラメータ',
     preview: 'プレビュー',
     mark: 'マーク',
+    z_axis_adjustment: {
+      title: 'Z軸調整',
+      section1: 'Z軸の高さを調整してフォーカスを微調整します。',
+      tooltip1: '現在の焦点距離が適切かどうかを確認するために、1x1 cmの四角を試しにマークしてください。',
+    },
   },
   code_generator: {
     qr_code: 'QRコード',

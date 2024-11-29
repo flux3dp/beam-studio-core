@@ -6,6 +6,8 @@ const lang: ILang = {
     cancel: 'Peruuta',
     back: 'Takaisin',
     save: 'Tallenna',
+    ok: 'OK',
+    stop: 'Pysäytä',
   },
   general: {
     processing: 'Käsitellään...',
@@ -2041,6 +2043,11 @@ const lang: ILang = {
     mark_parameters: 'Merkintäparametrit',
     preview: 'Esikatselu',
     mark: 'Merkitse',
+    z_axis_adjustment: {
+      title: 'Z-Akselin Säätö',
+      section1: 'Säädä Z-akselin korkeutta tarkentaaksesi kohdistusta.',
+      tooltip1: 'Kokeile merkitä 1x1 cm neliö varmistaaksesi, että nykyinen polttoväli on sopiva.',
+    },
   },
   code_generator: {
     qr_code: 'QR-koodi',

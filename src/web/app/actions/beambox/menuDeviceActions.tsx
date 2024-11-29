@@ -29,6 +29,7 @@ import { showCameraCalibration } from 'app/views/beambox/Camera-Calibration';
 import { showDiodeCalibration } from 'app/views/beambox/Diode-Calibration';
 import { showPromarkCalibration } from 'app/components/dialogs/camera/PromarkCalibration';
 import { showPromarkSettings } from 'app/components/dialogs/promark/PromarkSettings';
+import { showZAxisAdjustment } from 'app/components/dialogs/promark/ZAxisAdjustment';
 
 const { lang } = i18n;
 
@@ -305,6 +306,9 @@ export default {
   },
   PROMARK_SETTINGS: async (device: IDeviceInfo): Promise<void> => {
     showPromarkSettings(device);
+  },
+  Z_AXIS_ADJUSTMENT: async (device: IDeviceInfo): Promise<void> => {
+    showZAxisAdjustment(device);
   },
   CALIBRATE_BEAMBOX_CAMERA: async (device: IDeviceInfo): Promise<void> => {
     if (window.location.hash !== '#/studio/beambox') {

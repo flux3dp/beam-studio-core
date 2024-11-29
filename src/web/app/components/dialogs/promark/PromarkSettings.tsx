@@ -29,6 +29,7 @@ import LensBlock from './LensBlock';
 import ParametersBlock, { MarkParameters } from './ParametersBlock';
 import RedDotBlock from './RedDotBlock';
 import styles from './PromarkSettings.module.scss';
+import blockStyles from './Block.module.scss';
 
 interface Props {
   device: IDeviceInfo;
@@ -186,7 +187,10 @@ const PromarkSettings = ({ device, initData, onClose }: Props): JSX.Element => {
         <FieldBlock width={width} isInch={isInch} field={field} setField={setField} />
         <RedDotBlock isInch={isInch} redDot={redDot} setRedDot={setRedDot} />
         <LensBlock data={galvoParameters} setData={setGalvoCorrection} />
-        <ParametersBlock isInch={isInch} parameters={parameters} setParameters={setParameters} />
+        <Flex className={blockStyles['full-row']} justify="space-between" align="center" gap={8}>
+          <div className={blockStyles.title}>{t.mark_parameters}</div>
+          <ParametersBlock isInch={isInch} parameters={parameters} setParameters={setParameters} />
+        </Flex>
       </div>
     </Modal>
   );
