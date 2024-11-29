@@ -41,12 +41,13 @@ export const ZAxisAdjustment = ({ device, onClose }: Props): JSX.Element => {
   const [parameters, setParameters] = useState<MarkParameters>({ power: 100, speed: 350 });
   const previewTask = useRef<string>('');
   const markTask = useRef<string>('');
+  const movingTimeout = useRef<NodeJS.Timeout>();
+
   const waitTillNotRunning = async () => {
     await deviceMaster.waitTillStatusPredicate({
       predicate: (status) => status !== deviceConstants.status.RUNNING,
     });
   };
-  const movingTimeout = useRef<NodeJS.Timeout>();
 
   const uploadPreviewTask = useCallback(async () => {
     if (!previewTask.current) {
@@ -82,13 +83,31 @@ export const ZAxisAdjustment = ({ device, onClose }: Props): JSX.Element => {
     };
   }, []);
 
+  const stopPreview = async () => {
+    try {
+      await deviceMaster.stopFraming();
+      await waitTillNotRunning();
+      setIsPreviewing(false);
+    } catch (err) {
+      console.error('🚀 ~ file: ZAxisAdjustment.tsx:92 ~ stopPreview ~ err:', err);
+    }
+  };
+
+  const handlePreview = async () => {
+    if (!isPreviewing) {
+      await uploadPreviewTask();
+      await deviceMaster.startFraming();
+      setIsPreviewing(true);
+    } else {
+      await stopPreview();
+    }
+  };
+
   const handleMove = async (distance: number) => {
     const getTime = (distance: number) => (Math.abs(distance) * 1000) / 3 + 500;
 
     if (isPreviewing) {
-      await deviceMaster.stopFraming();
-      await waitTillNotRunning();
-      setIsPreviewing(false);
+      await stopPreview();
     }
 
     setIsMoving(true);
@@ -100,23 +119,9 @@ export const ZAxisAdjustment = ({ device, onClose }: Props): JSX.Element => {
     }, getTime(distance));
   };
 
-  const handlePreview = async () => {
-    if (!isPreviewing) {
-      await uploadPreviewTask();
-      await deviceMaster.startFraming();
-      setIsPreviewing(true);
-    } else {
-      await deviceMaster.stopFraming();
-      await waitTillNotRunning();
-      setIsPreviewing(false);
-    }
-  };
-
   const handleMark = async () => {
     if (isPreviewing) {
-      await deviceMaster.stopFraming();
-      await waitTillNotRunning();
-      setIsPreviewing(false);
+      await stopPreview();
     }
 
     await uploadMarkTask();
@@ -135,12 +140,13 @@ export const ZAxisAdjustment = ({ device, onClose }: Props): JSX.Element => {
         }
       }
     } catch (err) {
-      console.error('🚀 ~ file: ZAxisAdjustment.tsx:138 ~ handleStop ~ err:', err);
+      console.error('🚀 ~ file: ZAxisAdjustment.tsx:143 ~ handleStop ~ err:', err);
     }
   };
 
-  const handleClose = () => {
-    handleStop();
+  const handleClose = async () => {
+    await handleStop();
+    await stopPreview();
     onClose();
   };
 
