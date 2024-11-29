@@ -357,12 +357,17 @@ const ConnectMachineIp = (): JSX.Element => {
         {renderNextBtn()}
       </div>
       <div className={classNames(styles.main, { [styles.ador]: isAdor })}>
-        <div className={styles.image}>
-          <div className={classNames(styles.circle, styles.c1)} />
-          <img src="img/init-panel/icon-usb-cable.svg" draggable="false" />
-          <div className={classNames(styles.circle, styles.c2)} />
-        </div>
-        {!isUsb && (
+        {isUsb ? (
+          <div className={classNames(styles.image, styles['is-usb'])}>
+            <div className={classNames(styles.circle, styles.c1)} />
+            <img
+              className={styles['is-usb']}
+              src="img/init-panel/icon-usb-cable.svg"
+              draggable="false"
+            />
+            <div className={classNames(styles.circle, styles.c2)} />
+          </div>
+        ) : (
           <div className={styles.image}>
             <div className={classNames(styles.hint, { [styles.wired]: isWired })} />
             <img src={touchPanelSrc} draggable="false" />

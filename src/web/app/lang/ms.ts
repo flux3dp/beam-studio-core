@@ -336,6 +336,7 @@ const lang: ILang = {
     no_machine: 'Saya tiada mesin sekarang.',
     select_language: 'Pilih Bahasa',
     select_machine_type: 'Pilih Model Anda',
+    select_beambox: 'Pilih Beambox Anda',
     select_connection_type: 'Bagaimana anda mahu sambung?',
     connection_types: {
       wifi: 'Wi-Fi',

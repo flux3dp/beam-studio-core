@@ -336,6 +336,7 @@ const lang: ILang = {
     no_machine: 'Não tenho uma máquina agora.',
     select_language: 'Selecionar Idioma',
     select_machine_type: 'Selecione o Tipo da Sua Máquina',
+    select_beambox: 'Selecione o seu Beambox',
     select_connection_type: 'Como deseja se conectar?',
     connection_types: {
       wifi: 'Wi-Fi',

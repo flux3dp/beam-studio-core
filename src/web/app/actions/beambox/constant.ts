@@ -1,5 +1,14 @@
-export type ModelSupportUsb = 'ado1' | 'fhexa1' | 'fpm1';
-export const modelsSupportUsb = new Set(['fhexa1', 'ado1', 'fpm1']);
+const removeReadonly = <T extends string>(arr: T[] | readonly T[number][]) => arr as string[];
+
+export const supportUsbModelsArray = ['ado1', 'fhexa1', 'fpm1', 'fbb2'] as const;
+export type SupportUsbModels = (typeof supportUsbModelsArray)[number];
+export const supportUsbModelsStrict = new Set(supportUsbModelsArray);
+export const supportUsbModels = new Set(removeReadonly(supportUsbModelsArray));
+
+export const bb2ModelsArray = ['fbb2'] as const;
+export type Bb2Models = (typeof bb2ModelsArray)[number];
+export const bb2ModelsStrict = new Set(bb2ModelsArray);
+export const bb2Models = new Set(removeReadonly(bb2ModelsArray));
 
 export const adorModels = new Set(['ado1', 'fad1']);
 export const promarkModels = new Set(['fpm1']);

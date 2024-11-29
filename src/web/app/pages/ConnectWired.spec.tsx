@@ -3,6 +3,14 @@ import { render } from '@testing-library/react';
 
 import ConnectWired from './ConnectWired';
 
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useLocation: () => ({
+    pathname: '#/initialize/connect/select-connection-type',
+    search: '?model=ado1',
+  }),
+}));
+
 jest.mock('helpers/useI18n', () => () => ({
   initialize: {
     connect_wired: {
@@ -27,7 +35,7 @@ describe('test ConnectWired', () => {
   });
 
   it('should render correctly when is ador', () => {
-    window.location.hash = '?model=ado1'
+    window.location.hash = '?model=ado1';
     const { container } = render(<ConnectWired />);
     expect(container).toMatchSnapshot();
   });

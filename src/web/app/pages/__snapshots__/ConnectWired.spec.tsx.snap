@@ -23,7 +23,7 @@ exports[`test ConnectWired should render correctly 1`] = `
       </div>
     </div>
     <div
-      class="main"
+      class="main ador"
     >
       <div
         class="image"
@@ -33,7 +33,7 @@ exports[`test ConnectWired should render correctly 1`] = `
         />
         <img
           draggable="false"
-          src="img/init-panel/touch-panel-en.jpg"
+          src="core-img/init-panel/ador-network.jpg"
         />
       </div>
       <div
@@ -51,7 +51,7 @@ exports[`test ConnectWired should render correctly 1`] = `
             1. Connect the machine with your router.
           </div>
           <div>
-            2. Press "Network" to get the wired network IP.
+            tutorial2
           </div>
         </div>
         <div

@@ -80,6 +80,33 @@
           }
         }
       }
+
+      .btn-real {
+        width: 320px;
+        height: 200px;
+
+        padding: 40px 20px 0;
+
+        @media screen and (max-width: 600px) {
+          height: 156px;
+          padding: 24px 40px 0;
+          flex-direction: column;
+          gap: 0;
+          text-align: center;
+        }
+      }
+
+      .image {
+        width: 250px;
+        height: 100px;
+
+        margin-bottom: 12px;
+
+        @media screen and (max-width: 600px) {
+          width: 200px;
+          height: 80px;
+        }
+      }
     }
   }
 }
