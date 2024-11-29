@@ -1957,6 +1957,7 @@ const lang: ILang = {
     remeasuring_points: 'Mengukur Semula Titik...',
     take_reference: 'Ambil Rujukan',
     take_reference_desc: 'Sila gerakkan kepala laser ke titik tertinggi objek, turunkan probe fokus, dan klik "Sahkan" untuk memfokuskan.',
+    sure_to_delete: 'Adakah anda ingin memadam data fokus lengkung 3D?',
   },
   pass_through: {
     title: 'Mod Lalu',

@@ -1960,6 +1960,7 @@ const lang: ILang = {
     remeasuring_points: '正在重新测量...',
     take_reference: '获取参考',
     take_reference_desc: '请将激光头移动到物体的最高点，放下焦点探针，然后点击“确认”以进行对焦。',
+    sure_to_delete: '您想删除 3D 曲线的焦点数据吗？',
   },
   pass_through: {
     title: '广域雕刻',

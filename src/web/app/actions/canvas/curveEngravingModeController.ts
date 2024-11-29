@@ -1,4 +1,5 @@
 import alertCaller from 'app/actions/alert-caller';
+import alertConstants from 'app/constants/alert-constants';
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import constant from 'app/actions/beambox/constant';
 import CustomCommand from 'app/svgedit/history/CustomCommand';
@@ -196,7 +197,18 @@ class CurveEngravingModeController {
     }
   };
 
-  clearArea = () => {
+  clearArea = async (showAlert = true) => {
+    if (showAlert) {
+      const res = await new Promise<boolean>((resolve) =>
+        alertCaller.popUp({
+          message: i18n.lang.curve_engraving.sure_to_delete,
+          buttonType: alertConstants.CONFIRM_CANCEL,
+          onConfirm: () => resolve(true),
+          onCancel: () => resolve(false),
+        })
+      );
+      if (!res) return;
+    }
     this.data = null;
     this.updateAreaPath();
     canvasEventEmitter.emit('CURVE_ENGRAVING_AREA_SET');

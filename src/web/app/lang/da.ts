@@ -1957,6 +1957,7 @@ const lang: ILang = {
     remeasuring_points: 'Genmåler punkter...',
     take_reference: 'Tag reference',
     take_reference_desc: 'Flyt venligst laserhovedet til objektets højeste punkt, sænk fokusproben, og klik på "Bekræft" for at fokusere.',
+    sure_to_delete: 'Vil du slette fokusdataene for 3D-kurven?',
   },
   pass_through: {
     title: 'Gennemgangstilstand',

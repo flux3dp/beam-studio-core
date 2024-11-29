@@ -1957,6 +1957,7 @@ const lang: ILang = {
     remeasuring_points: 'Mittauspisteiden uudelleenmittaus...',
     take_reference: 'Ota referenssi',
     take_reference_desc: 'Siirrä laserpää objektin korkeimpaan kohtaan, laske tarkennusanturi ja napsauta "Vahvista" tarkentaaksesi.',
+    sure_to_delete: 'Haluatko poistaa 3D-käyrän tarkennustiedot?',
   },
   pass_through: {
     title: 'Läpäisymoodi',

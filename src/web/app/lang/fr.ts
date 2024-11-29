@@ -1957,6 +1957,7 @@ const lang: ILang = {
     remeasuring_points: 'Remesure des points...',
     take_reference: 'Prendre référence',
     take_reference_desc: 'Veuillez déplacer la tête laser au point le plus haut de l’objet, abaisser la sonde de mise au point et cliquer sur « Confirmer » pour faire la mise au point.',
+    sure_to_delete: 'Voulez-vous supprimer les données de mise au point de la courbe 3D ?',
   },
   pass_through: {
     title: 'Mode Passage',

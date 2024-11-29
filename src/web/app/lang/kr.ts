@@ -1960,6 +1960,7 @@ const lang: ILang = {
     remeasuring_points: '포인트를 다시 측정 중...',
     take_reference: '참조 가져오기',
     take_reference_desc: '레이저 헤드를 객체의 가장 높은 지점으로 이동시키고, 초점 프로브를 내린 후 "확인"을 클릭하여 초점을 맞추세요.',
+    sure_to_delete: '3D 곡선 초점 데이터를 삭제하시겠습니까?',
   },
   pass_through: {
     title: '패스 스루 모드',

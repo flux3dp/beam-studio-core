@@ -9,6 +9,15 @@ import i18n from 'helpers/i18n';
 import progressCaller from 'app/actions/progress-caller';
 import storage from 'implementations/storage';
 
+export const targetDirs = [
+  'camera_calib',
+  'auto_leveling',
+  'fisheye',
+  'laser_records',
+  'preference',
+  'red_laser',
+];
+
 export const downloadCameraData = async (deviceName: string): Promise<void> => {
   const tBackup = i18n.lang.camera_data_backup;
   const progressId = 'camera-data-backup';
@@ -38,10 +47,9 @@ export const downloadCameraData = async (deviceName: string): Promise<void> => {
         zip.file(`${dirName}/${fileName}`, blob);
       }
     };
-    const dirs = ['camera_calib', 'auto_leveling', 'fisheye'];
     let anyFolderHasFiles = false;
-    for (let i = 0; i < dirs.length; i += 1) {
-      const dir = dirs[i];
+    for (let i = 0; i < targetDirs.length; i += 1) {
+      const dir = targetDirs[i];
       if (canceled) return;
       progressCaller.openSteppingProgress({
         id: progressId,
@@ -66,7 +74,7 @@ export const downloadCameraData = async (deviceName: string): Promise<void> => {
       alertCaller.popUpError({ message: tBackup.no_picture_found });
       return;
     }
-    progressCaller.openNonstopProgress({ id: progressId, message: tBackup.downloading_data})
+    progressCaller.openNonstopProgress({ id: progressId, message: tBackup.downloading_data });
     const path = await dialog.writeFileDialog(
       () => zip.generateAsync({ type: 'blob' }),
       tBackup.title,
@@ -116,7 +124,7 @@ export const uploadCameraData = async (): Promise<void> => {
   try {
     const arrayBuffer = await file.arrayBuffer();
     const zip = await JSZip.loadAsync(arrayBuffer);
-    const dirs = new Set(['camera_calib', 'auto_leveling', 'fisheye']);
+    const dirs = new Set(targetDirs);
     const filteredFiles = zip.filter((relativePath, f) => {
       if (f.dir) return false;
       const splitedName = relativePath.split('/');
@@ -171,4 +179,4 @@ export const uploadCameraData = async (): Promise<void> => {
 export default {
   downloadCameraData,
   uploadCameraData,
-}
+};

@@ -210,6 +210,8 @@ export const getExportOpt = (
       bbox: curveEngravingModeController.data.bbox,
       points: curveEngravingModeController.data.points.flat().filter((p) => p[2] !== null),
       gap: curveEngravingModeController.data.gap,
+      max: curveEngravingModeController.data.highest,
+      min: curveEngravingModeController.data.lowest,
     };
     config.curve_engraving = data;
   }

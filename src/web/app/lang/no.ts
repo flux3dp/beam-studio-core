@@ -1957,6 +1957,7 @@ const lang: ILang = {
     remeasuring_points: 'Måler punkter på nytt...',
     take_reference: 'Ta referanse',
     take_reference_desc: 'Vennligst flytt laserhodet til objektets høyeste punkt, senk fokuseringsproben, og klikk på "Bekreft" for å fokusere.',
+    sure_to_delete: 'Vil du slette fokusdataene for 3D-kurven?',
   },
   pass_through: {
     title: 'Gå Gjennom-Modus',

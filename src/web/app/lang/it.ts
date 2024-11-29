@@ -1957,6 +1957,7 @@ const lang: ILang = {
     remeasuring_points: 'Rimisurazione dei punti...',
     take_reference: 'Prendi riferimento',
     take_reference_desc: 'Sposta la testa del laser al punto più alto dell\'oggetto, abbassa la sonda di messa a fuoco e fai clic su "Conferma" per mettere a fuoco.',
+    sure_to_delete: 'Vuoi eliminare i dati di messa a fuoco della curva 3D?',
   },
   pass_through: {
     title: 'Modalità Di Attraversamento',

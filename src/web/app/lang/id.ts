@@ -1957,6 +1957,7 @@ const lang: ILang = {
     remeasuring_points: 'Mengukur ulang titik...',
     take_reference: 'Ambil Referensi',
     take_reference_desc: 'Silakan pindahkan kepala laser ke titik tertinggi objek, turunkan probe fokus, dan klik "Konfirmasi" untuk memfokuskan.',
+    sure_to_delete: 'Apakah Anda ingin menghapus data fokus kurva 3D?',
   },
   pass_through: {
     title: 'Mode Lewat',
