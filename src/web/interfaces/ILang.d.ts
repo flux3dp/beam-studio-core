@@ -330,6 +330,7 @@ export interface ILang {
     // specific caption/content
     select_language: string;
     select_machine_type: string;
+    select_beambox: string;
     select_connection_type: string;
     connection_types: {
       wifi: string;

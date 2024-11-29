@@ -1,4 +1,4 @@
-@use "./connection_setting_page" as connectionSettingPage;
+@use './connection_setting_page' as connectionSettingPage;
 
 @keyframes pulse {
   0% {
@@ -26,9 +26,7 @@
 
       img {
         width: 200px;
-        box-shadow:
-          0 7px 15px rgba(0, 0, 0, 0.2),
-          0 10px 20px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 7px 15px rgba(0, 0, 0, 0.2), 0 10px 20px rgba(0, 0, 0, 0.1);
         border-radius: 5px;
       }
 
@@ -45,6 +43,14 @@
       .image {
         .hint {
           @include connectionSettingPage.ador-network-hint;
+        }
+      }
+    }
+
+    &.bb2 {
+      .image {
+        .hint {
+          @include connectionSettingPage.bb2-network-hint;
         }
       }
     }

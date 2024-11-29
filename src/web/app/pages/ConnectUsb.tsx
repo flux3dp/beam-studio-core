@@ -1,22 +1,22 @@
 /* eslint-disable @typescript-eslint/no-shadow */
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import classNames from 'classnames';
 
 import useI18n from 'helpers/useI18n';
 
-import { ModelSupportUsb } from 'app/actions/beambox/constant';
+import { SupportUsbModels } from 'app/actions/beambox/constant';
 import styles from './ConnectUsb.module.scss';
 
 export default function ConnectUsb(): JSX.Element {
   const { initialize: t } = useI18n();
   const { search } = useLocation();
-  const model = React.useMemo(
+  const model = useMemo(
     () => new URLSearchParams(search).get('model'),
     [search]
-  ) as ModelSupportUsb;
+  ) as SupportUsbModels;
 
-  const renderInformations: Record<ModelSupportUsb, { title: string; steps: Array<string> }> = {
+  const renderInformation: Record<SupportUsbModels, { title: string; steps: Array<string> }> = {
     ado1: {
       title: 'Ador',
       steps: [
@@ -34,6 +34,15 @@ export default function ConnectUsb(): JSX.Element {
       title: 'Promark Series',
       steps: [t.connect_usb.tutorial1, t.connect_usb.connect_camera, t.connect_usb.tutorial2],
     },
+    fbb2: {
+      title: 'Beambox II',
+      steps: [
+        t.connect_usb.turn_off_machine,
+        t.connect_usb.tutorial1,
+        t.connect_usb.turn_on_machine,
+        t.connect_usb.wait_for_turning_on,
+      ],
+    },
   };
 
   const handleNext = () => {
@@ -43,12 +52,12 @@ export default function ConnectUsb(): JSX.Element {
     window.location.hash = `#initialize/connect/connect-machine-ip?${queryString}`;
   };
 
-  const renderStep = (model: ModelSupportUsb) =>
+  const renderStep = (model: SupportUsbModels) =>
     model ? (
       <div className={classNames(styles.contents, styles.tutorial)}>
-        <div className={styles.subtitle}>{renderInformations[model].title}</div>
+        <div className={styles.subtitle}>{renderInformation[model].title}</div>
         <div className={styles.contents}>
-          {renderInformations[model].steps.map((step, index) => (
+          {renderInformation[model].steps.map((step, index) => (
             <div key={`usb-step-${index + 1}`}>
               {index + 1}. {step}
             </div>

@@ -2,28 +2,37 @@ import classNames from 'classnames';
 import React, { useMemo } from 'react';
 import { Collapse } from 'antd';
 
-import constant from 'app/actions/beambox/constant';
+import { adorModels, bb2Models } from 'app/actions/beambox/constant';
 import useI18n from 'helpers/useI18n';
 
+import { useLocation } from 'react-router-dom';
 import styles from './ConnectWiFi.module.scss';
 
 const ConnectWiFi = (): JSX.Element => {
   const lang = useI18n().initialize;
+  const { search } = useLocation();
+  const model = useMemo(() => new URLSearchParams(search).get('model'), [search]);
+  const isAdor = useMemo(() => adorModels.has(model), [model]);
+  const isBb2 = useMemo(() => bb2Models.has(model), [model]);
 
-  const { model } = useMemo(() => {
-    const queryString = window.location.hash.split('?')[1] || '';
-    const urlParams = new URLSearchParams(queryString);
-    return {
-      model: urlParams.get('model'),
-    };
-  }, []);
+  const imageSrc = useMemo(() => {
+    if (isAdor) {
+      return 'core-img/init-panel/ador-network.jpg';
+    }
+
+    if (isBb2) {
+      return 'core-img/init-panel/bb2-home-default.png';
+    }
+
+    return 'img/init-panel/touch-panel-en.jpg';
+  }, [isAdor, isBb2]);
 
   const handleNext = () => {
     const urlParams = new URLSearchParams({ model, wired: '0' });
     const queryString = urlParams.toString();
+
     window.location.hash = `#initialize/connect/connect-machine-ip?${queryString}`;
   };
-  const isAdor = useMemo(() => constant.adorModels.includes(model), [model]);
 
   return (
     <div className={styles.container}>
@@ -36,15 +45,10 @@ const ConnectWiFi = (): JSX.Element => {
           {lang.next}
         </div>
       </div>
-      <div className={classNames(styles.main, { [styles.ador]: isAdor })}>
+      <div className={classNames(styles.main, { [styles.ador]: isAdor, [styles.bb2]: isBb2 })}>
         <div className={styles.image}>
           <div className={styles.hint} />
-          <img
-            src={
-              isAdor ? 'core-img/init-panel/ador-network.jpg' : 'img/init-panel/touch-panel-en.jpg'
-            }
-            draggable="false"
-          />
+          <img src={imageSrc} draggable="false" />
         </div>
         <div className={styles.text}>
           <div className={styles.title}>{lang.connect_wifi.title}</div>
