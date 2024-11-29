@@ -2576,7 +2576,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     canvas.undoMgr.resetUndoStack();
 
     // clear current file
-    this.setHasUnsavedChange(false);
     currentFileManager.clear();
 
     // reset the selector manager
@@ -3851,18 +3850,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       addCommandToHistory(batchCmd);
     }
   });
-
-  // Function: set
-  this.setHasUnsavedChange = (hasUnsaveChanged, shouldClearEstTime = true) => {
-    canvas.changed = hasUnsaveChanged;
-    TopBarController.setHasUnsavedChange(hasUnsaveChanged);
-    if (shouldClearEstTime) {
-      timeEstimationButtonEventEmitter.emit('SET_ESTIMATED_TIME', null);
-    }
-    autoSaveHelper.toggleAutoSave(hasUnsaveChanged);
-  };
-
-  this.getHasUnsaveChanged = () => canvas.changed;
 
   this.updateRecentFiles = (filePath) => {
     const recentFiles = storage.get('recent_files') || [];

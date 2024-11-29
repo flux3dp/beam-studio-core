@@ -1,12 +1,7 @@
-import { getSVGAsync } from 'helpers/svg-editor-helper';
+import currentFileManager from 'app/svgedit/currentFileManager';
 import { IBatchCommand, IHistoryHandler, IUndoManager } from 'interfaces/IHistory';
 
 import history, { BaseHistoryCommand } from './history';
-
-let svgCanvas = null;
-getSVGAsync((globalSVG) => {
-  svgCanvas = globalSVG.Canvas;
-});
 
 export class UndoManager implements IUndoManager {
   private handler: IHistoryHandler;
@@ -95,8 +90,8 @@ export class UndoManager implements IUndoManager {
     this.undoStack.push(cmd);
     this.undoStackPointer = this.undoStack.length;
     const isInitCommand = this.undoStack.length === 1 && cmd.getText() === 'Create Layer';
-    if (svgCanvas && !isInitCommand) {
-      svgCanvas.setHasUnsavedChange(true);
+    if (!isInitCommand) {
+      currentFileManager.setHasUnsavedChanges(true);
     }
     // console.log(this.undoStack);
   }

@@ -405,7 +405,6 @@ const svgEditor = (window['svgEditor'] = (function () {
           'NOTE: Due to a bug in your browser, this image may appear wrong (missing gradients or elements). It will however appear correct once actually saved.',
         saveFromBrowser: "Select 'Save As...' in your browser to save this image as a %s file.",
         noteTheseIssues: 'Also note the following issues: ',
-        unsavedChanges: 'There are unsaved changes.',
         enterNewLinkURL: 'Enter the new hyperlink URL',
         URLloadFail: 'Unable to load from URL',
         retrieving: "Retrieving '%s' ...",
@@ -2447,16 +2446,9 @@ const svgEditor = (window['svgEditor'] = (function () {
       'beforeunload',
       (e) => {
         if (!isWeb()) return null;
-        // Suppress warning if page is empty
-        if (undoMgr.getUndoStackSize() === 0) {
-          editor.showSaveWarning = false;
-        }
 
-        // showSaveWarning is set to 'false' when the page is saved.
-        if (editor.showSaveWarning) {
-          // Browser already asks question about closing the page
-          e.returnValue = uiStrings.notification.unsavedChanges; // Firefox needs this when beforeunload set by addEventListener (even though message is not used)
-          return uiStrings.notification.unsavedChanges;
+        if (!currentFileManager.getHasUnsavedChanges()) {
+          return null;
         }
       },
       false
@@ -2703,7 +2695,7 @@ const svgEditor = (window['svgEditor'] = (function () {
             } else {
               currentFileManager.setFileName(file.name, true);
             }
-            svgCanvas.setHasUnsavedChange(false);
+            currentFileManager.setHasUnsavedChanges(false);
             break;
           case 'dxf':
           case 'svg':
@@ -2712,7 +2704,7 @@ const svgEditor = (window['svgEditor'] = (function () {
             if (!currentFileManager.getName()) {
               currentFileManager.setFileName(file.name, true);
             }
-            svgCanvas.setHasUnsavedChange(true);
+            currentFileManager.setHasUnsavedChanges(false);
             break;
         }
         canvasEvents.addImage();

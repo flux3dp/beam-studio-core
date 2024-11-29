@@ -37,9 +37,9 @@ describe('test TopBarController', () => {
   });
 
   test('test updateTitle', () => {
-    TopBarController.updateTitle();
+    TopBarController.updateTitle('name', true);
     expect(mockEmit).toHaveBeenCalledTimes(1);
-    expect(mockEmit).toHaveBeenNthCalledWith(1, 'UPDATE_TITLE');
+    expect(mockEmit).toHaveBeenNthCalledWith(1, 'UPDATE_TITLE', 'name', true);
   });
 
   test('test setHasUnsavedChange', () => {
