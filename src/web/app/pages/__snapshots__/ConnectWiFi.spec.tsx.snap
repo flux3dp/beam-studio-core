@@ -168,7 +168,7 @@ exports[`test ConnectWiFi should render correctly when is ador 1`] = `
       </div>
     </div>
     <div
-      class="main ador"
+      class="main"
     >
       <div
         class="image"
@@ -178,7 +178,7 @@ exports[`test ConnectWiFi should render correctly when is ador 1`] = `
         />
         <img
           draggable="false"
-          src="core-img/init-panel/ador-network.jpg"
+          src="img/init-panel/touch-panel-en.jpg"
         />
       </div>
       <div
@@ -193,7 +193,7 @@ exports[`test ConnectWiFi should render correctly when is ador 1`] = `
           class="contents tutorial"
         >
           <div>
-            tutorial1
+            1. Go to Touch Panel &gt; Click "Network" &gt; "Connect to WiFi".
           </div>
           <div>
             2. Select and connect your preferred Wi-Fi.

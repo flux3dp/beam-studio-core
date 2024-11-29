@@ -20,6 +20,13 @@ jest.mock('helpers/useI18n', () => () => ({
   },
 }));
 
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useLocation: () => ({
+    pathname: '#/initialize/connect/select-connection-type',
+  }),
+}));
+
 // eslint-disable-next-line import/first
 
 describe('test ConnectWiFi', () => {
@@ -29,7 +36,7 @@ describe('test ConnectWiFi', () => {
   });
 
   test('should render correctly when is ador', () => {
-    window.location.hash = '?model=ado1'
+    window.location.hash = '?model=ado1';
     const { container } = render(<ConnectWifi />);
     expect(container).toMatchSnapshot();
   });
