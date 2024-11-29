@@ -123,27 +123,20 @@ export const ZAxisAdjustment = ({ device, onClose }: Props): JSX.Element => {
     await deviceMaster.doPromarkCalibration();
   };
 
-  const handleStop = () => {
-    const stop = async () => {
-      try {
-        if (isPreviewing) {
-          await deviceMaster.stopFraming();
-        } else if (isMoving) {
-          await deviceMaster.stop();
-
-          if (movingTimeout.current) {
-            clearTimeout(movingTimeout.current);
-            setIsMoving(false);
-          }
-        }
-
+  const handleStop = async () => {
+    try {
+      if (isMoving) {
+        await deviceMaster.stop();
         await waitTillNotRunning();
-      } catch (err) {
-        console.error('Failed to stop', err);
-      }
-    };
 
-    stop();
+        if (movingTimeout.current) {
+          clearTimeout(movingTimeout.current);
+          setIsMoving(false);
+        }
+      }
+    } catch (err) {
+      console.error('🚀 ~ file: ZAxisAdjustment.tsx:138 ~ handleStop ~ err:', err);
+    }
   };
 
   const handleClose = () => {
