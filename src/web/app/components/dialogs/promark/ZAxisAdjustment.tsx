@@ -146,7 +146,11 @@ export const ZAxisAdjustment = ({ device, onClose }: Props): JSX.Element => {
 
   const handleClose = async () => {
     await handleStop();
-    await stopPreview();
+
+    if (isPreviewing) {
+      await stopPreview();
+    }
+
     onClose();
   };
 
