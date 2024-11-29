@@ -22,6 +22,7 @@ import { CanvasContext, CanvasMode } from 'app/contexts/CanvasContext';
 import { SelectedElementContext } from 'app/contexts/SelectedElementContext';
 import { TopBarHintsContextProvider } from 'app/contexts/TopBarHintsContext';
 
+import Tabs from './tabs/Tabs';
 // TODO: move all styles from web to modules.scss
 import styles from './TopBar.module.scss';
 
@@ -29,8 +30,7 @@ const isWhiteTopBar = window.os !== 'MacOS' && !isWeb();
 
 const Topbar = (): JSX.Element => {
   const isWebMode = useMemo(() => isWeb(), []);
-  const { mode, hasUnsavedChange, currentUser, togglePathPreview, setSelectedDevice } =
-    useContext(CanvasContext);
+  const { mode, currentUser, togglePathPreview, setSelectedDevice } = useContext(CanvasContext);
   const [hasDiscoveredMachine, setHasDiscoveredMachine] = useState(false);
   const defaultDeviceUUID = useRef<string | null>(storage.get('selected-device'));
   useEffect(() => {
@@ -67,7 +67,7 @@ const Topbar = (): JSX.Element => {
         <UserAvatar user={currentUser} />
         <PreviewButton />
         <CommonTools isWeb={isWebMode} hide={mode !== CanvasMode.Draw} />
-        <Tabs />
+        {!isWebMode && <Tabs />}
       </div>
       <div className={classNames(styles.controls, styles.right)}>
         <SelectMachineButton />

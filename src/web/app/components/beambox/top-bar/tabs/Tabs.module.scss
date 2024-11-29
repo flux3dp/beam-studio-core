@@ -1,0 +1,52 @@
+.container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100%;
+
+  .tab {
+    -webkit-app-region: no-drag;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    color: #c2c2c2;
+    font-size: 14px;
+    line-height: 22px;
+    height: 100%;
+
+    .name {
+      padding: 0 12px;
+    }
+
+    &::after {
+      content: '';
+      width: 1px;
+      height: 24px;
+      background-color: #525252;
+    }
+
+    &.focused {
+      color: #333333;
+      background-color: #f0f0f0;
+
+      &::after {
+        content: none;
+      }
+    }
+  }
+
+  .add {
+    -webkit-app-region: no-drag;
+    cursor: pointer;
+    color: #c2c2c2;
+    font-size: 24px;
+    line-height: 24px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+
+    &:hover {
+      color: #ffffff;
+    }
+  }
+}
