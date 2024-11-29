@@ -185,7 +185,7 @@ const getLog = async (device: IDeviceInfo, log: string) => {
   }
 };
 
-const BackupCalibrationData = async (device: IDeviceInfo, type: 'download' | 'upload') => {
+const backUpCalibrationData = async (device: IDeviceInfo, type: 'download' | 'upload') => {
   const vc = VersionChecker(device.version);
   if (!vc.meetRequirement('ADOR_STATIC_FILE_ENTRY')) {
     Alert.popUpError({
@@ -444,10 +444,10 @@ export default {
     }
   },
   DOWNLOAD_CALIBRATION_DATA: async (device: IDeviceInfo): Promise<void> => {
-    BackupCalibrationData(device, 'download');
+    backUpCalibrationData(device, 'download');
   },
   UPLOAD_CALIBRATION_DATA: async (device: IDeviceInfo): Promise<void> => {
-    BackupCalibrationData(device, 'upload');
+    backUpCalibrationData(device, 'upload');
   },
   UPDATE_FIRMWARE: async (device: IDeviceInfo): Promise<void> => {
     const deviceStatus = await checkDeviceStatus(device);
