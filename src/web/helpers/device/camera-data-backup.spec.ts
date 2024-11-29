@@ -6,7 +6,7 @@ jest.mock('jszip', () => ({
 }));
 
 // eslint-disable-next-line import/first
-import { downloadCameraData, uploadCameraData } from './camera-data-backup';
+import { downloadCameraData, uploadCameraData, targetDirs } from './camera-data-backup';
 
 const mockPopUp = jest.fn();
 const mockPopUpError = jest.fn();
@@ -90,7 +90,7 @@ describe('test camera-data-backup', () => {
   });
 
   const checkDownloadFiles = () => {
-    expect(mockOpenSteppingProgress).toHaveBeenCalledTimes(3);
+    expect(mockOpenSteppingProgress).toHaveBeenCalledTimes(targetDirs.length);
     expect(mockOpenSteppingProgress).toHaveBeenNthCalledWith(1, {
       id: 'camera-data-backup',
       message: 'downloading_data',
@@ -106,86 +106,44 @@ describe('test camera-data-backup', () => {
       message: 'downloading_data',
       onCancel: expect.any(Function),
     });
-    expect(mockPopById).toBeCalledTimes(5);
-    expect(mockUpdate).toBeCalledTimes(6);
-    expect(mockUpdate).toHaveBeenNthCalledWith(1, 'camera-data-backup', {
-      message: 'downloading_data camera_calib 1/2<br/>estimated_time_left 3.00 seconds',
-      percentage: 25,
-    });
-    expect(mockUpdate).toHaveBeenNthCalledWith(2, 'camera-data-backup', {
-      message: 'downloading_data camera_calib 2/2<br/>estimated_time_left 0.67 seconds',
-      percentage: 75,
-    });
-    expect(mockUpdate).toHaveBeenNthCalledWith(3, 'camera-data-backup', {
-      message: 'downloading_data auto_leveling 1/2<br/>estimated_time_left 3.00 seconds',
-      percentage: 25,
-    });
-    expect(mockUpdate).toHaveBeenNthCalledWith(4, 'camera-data-backup', {
-      message: 'downloading_data auto_leveling 2/2<br/>estimated_time_left 0.67 seconds',
-      percentage: 75,
-    });
-    expect(mockUpdate).toHaveBeenNthCalledWith(5, 'camera-data-backup', {
-      message: 'downloading_data fisheye 1/2<br/>estimated_time_left 3.00 seconds',
-      percentage: 25,
-    });
-    expect(mockUpdate).toHaveBeenNthCalledWith(6, 'camera-data-backup', {
-      message: 'downloading_data fisheye 2/2<br/>estimated_time_left 0.67 seconds',
-      percentage: 75,
-    });
-    expect(mockDownloadFile).toBeCalledTimes(6);
-    expect(mockDownloadFile).toHaveBeenNthCalledWith(
-      1,
-      'camera_calib',
-      'file1',
-      expect.any(Function)
-    );
-    expect(mockDownloadFile).toHaveBeenNthCalledWith(
-      2,
-      'camera_calib',
-      'file2',
-      expect.any(Function)
-    );
-    expect(mockDownloadFile).toHaveBeenNthCalledWith(
-      3,
-      'auto_leveling',
-      'file1',
-      expect.any(Function)
-    );
-    expect(mockDownloadFile).toHaveBeenNthCalledWith(
-      4,
-      'auto_leveling',
-      'file2',
-      expect.any(Function)
-    );
-    expect(mockDownloadFile).toHaveBeenNthCalledWith(5, 'fisheye', 'file1', expect.any(Function));
-    expect(mockDownloadFile).toHaveBeenNthCalledWith(6, 'fisheye', 'file2', expect.any(Function));
-    expect(mockJsZipInstance.folder).toBeCalledTimes(3);
-    expect(mockJsZipInstance.folder).toHaveBeenNthCalledWith(1, 'camera_calib');
-    expect(mockJsZipInstance.folder).toHaveBeenNthCalledWith(2, 'auto_leveling');
-    expect(mockJsZipInstance.folder).toHaveBeenNthCalledWith(3, 'fisheye');
-    expect(mockJsZipInstance.file).toBeCalledTimes(6);
-    expect(mockJsZipInstance.file).toHaveBeenNthCalledWith(
-      1,
-      'camera_calib/file1',
-      'camera_calib/file1'
-    );
-    expect(mockJsZipInstance.file).toHaveBeenNthCalledWith(
-      2,
-      'camera_calib/file2',
-      'camera_calib/file2'
-    );
-    expect(mockJsZipInstance.file).toHaveBeenNthCalledWith(
-      3,
-      'auto_leveling/file1',
-      'auto_leveling/file1'
-    );
-    expect(mockJsZipInstance.file).toHaveBeenNthCalledWith(
-      4,
-      'auto_leveling/file2',
-      'auto_leveling/file2'
-    );
-    expect(mockJsZipInstance.file).toHaveBeenNthCalledWith(5, 'fisheye/file1', 'fisheye/file1');
-    expect(mockJsZipInstance.file).toHaveBeenNthCalledWith(6, 'fisheye/file2', 'fisheye/file2');
+    expect(mockPopById).toBeCalledTimes(targetDirs.length + 2);
+    expect(mockUpdate).toBeCalledTimes(targetDirs.length * 2);
+    expect(mockDownloadFile).toBeCalledTimes(targetDirs.length * 2);
+    expect(mockJsZipInstance.folder).toBeCalledTimes(targetDirs.length);
+    expect(mockJsZipInstance.file).toBeCalledTimes(targetDirs.length * 2);
+    for (let i = 0; i < targetDirs.length; i++) {
+      expect(mockUpdate).toHaveBeenNthCalledWith(i * 2 + 1, 'camera-data-backup', {
+        message: `downloading_data ${targetDirs[i]} 1/2<br/>estimated_time_left 3.00 seconds`,
+        percentage: 25,
+      });
+      expect(mockUpdate).toHaveBeenNthCalledWith(i * 2 + 2, 'camera-data-backup', {
+        message: `downloading_data ${targetDirs[i]} 2/2<br/>estimated_time_left 0.67 seconds`,
+        percentage: 75,
+      });
+      expect(mockDownloadFile).toHaveBeenNthCalledWith(
+        i * 2 + 1,
+        targetDirs[i],
+        'file1',
+        expect.any(Function)
+      );
+      expect(mockDownloadFile).toHaveBeenNthCalledWith(
+        i * 2 + 2,
+        targetDirs[i],
+        'file2',
+        expect.any(Function)
+      );
+      expect(mockJsZipInstance.folder).toHaveBeenNthCalledWith(i + 1, targetDirs[i]);
+      expect(mockJsZipInstance.file).toHaveBeenNthCalledWith(
+        i * 2 + 1,
+        `${targetDirs[i]}/file1`,
+        `${targetDirs[i]}/file1`
+      );
+      expect(mockJsZipInstance.file).toHaveBeenNthCalledWith(
+        i * 2 + 2,
+        `${targetDirs[i]}/file2`,
+        `${targetDirs[i]}/file2`
+      );
+    }
   };
 
   test('successfully download camera data', async () => {

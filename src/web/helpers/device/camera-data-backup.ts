@@ -9,7 +9,7 @@ import i18n from 'helpers/i18n';
 import progressCaller from 'app/actions/progress-caller';
 import storage from 'implementations/storage';
 
-const targetDirs = [
+export const targetDirs = [
   'camera_calib',
   'auto_leveling',
   'fisheye',
