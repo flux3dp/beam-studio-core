@@ -20,6 +20,11 @@ const Tabs = (): JSX.Element => {
   useEffect(() => {
     const handler = () => setTabs(tabController.getAllTabs());
     tabController.onFocused(handler);
+    tabController.onTabsUpdated(handler);
+    return () => {
+      tabController.offFocused(handler);
+      tabController.offTabsUpdated(handler);
+    };
   }, []);
   useEffect(() => {
     const topBarEventEmitter = eventEmitterFactory.createEventEmitter('top-bar');

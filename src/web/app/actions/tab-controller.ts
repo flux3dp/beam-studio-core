@@ -4,6 +4,7 @@ import communicator from 'implementations/communicator';
 import currentFileManager from 'app/svgedit/currentFileManager';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import i18n from 'helpers/i18n';
+import { Tab } from 'interfaces/Tab';
 
 class TabController extends EventEmitter {
   public currentId: number | null = null;
@@ -12,6 +13,9 @@ class TabController extends EventEmitter {
     super();
     communicator.on('TAB_FOCUSED', () => {
       this.emit('TAB_FOCUSED');
+    });
+    communicator.on('TABS_UPDATED', (_, tabs: Array<Tab>) => {
+      this.emit('TABS_UPDATED', tabs);
     });
     this.currentId = communicator.sendSync('get-tab-id');
     const topBarEventEmitter = eventEmitterFactory.createEventEmitter('top-bar');
@@ -35,10 +39,17 @@ class TabController extends EventEmitter {
     this.off('TAB_FOCUSED', handler);
   }
 
+  onTabsUpdated(handler: (tabs: Array<Tab>) => void) {
+    this.on('TABS_UPDATED', handler);
+  }
+
+  offTabsUpdated(handler: (tabs: Array<Tab>) => void) {
+    this.off('TABS_UPDATED', handler);
+  }
+
   getCurrentId = (): number | null => this.currentId;
 
-  getAllTabs = (): Array<{ id: number; title: string; isCloud: boolean }> =>
-    communicator.sendSync('get-all-tabs');
+  getAllTabs = (): Array<Tab> => communicator.sendSync('get-all-tabs');
 
   addNewTab = (): void => communicator.send('add-new-tab');
 
