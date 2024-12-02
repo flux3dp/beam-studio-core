@@ -27,6 +27,7 @@ const lang: ILang = {
     export: 'GEHEN',
     preview: 'VORSCHAU',
     preview_title: 'Vorschau',
+    preview_press_esc_to_stop: 'Drücken Sie ESC, um die Kameravorschau zu stoppen.',
     curve_engrave: '3D Kurve',
     task_preview: 'Pfadvorschau',
     frame_task: 'Frame-Vorschau',

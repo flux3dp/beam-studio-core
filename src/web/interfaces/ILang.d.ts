@@ -18,6 +18,7 @@ export interface ILang {
     export: string;
     preview: string;
     preview_title: string;
+    preview_press_esc_to_stop: string;
     curve_engrave: string;
     task_preview: string;
     frame_task: string;

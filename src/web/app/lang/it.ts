@@ -27,6 +27,7 @@ const lang: ILang = {
     export: 'ESPORTA',
     preview: 'ANTEPRIMA',
     preview_title: 'Anteprima',
+    preview_press_esc_to_stop: 'Premi ESC per interrompere l’anteprima della fotocamera.',
     curve_engrave: 'Curva 3D',
     task_preview: 'Anteprima percorso',
     frame_task: 'Esecuzione cornice',

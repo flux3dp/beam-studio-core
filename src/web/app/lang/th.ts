@@ -27,6 +27,7 @@ const lang: ILang = {
     export: 'ส่งออก',
     preview: 'แสดงตัวอย่าง',
     preview_title: 'ดูตัวอย่าง',
+    preview_press_esc_to_stop: 'กด ESC เพื่อหยุดการแสดงตัวอย่างกล้อง.',
     curve_engrave: 'เส้นโค้ง 3D',
     task_preview: 'ตัวอย่างเส้นทาง',
     frame_task: 'กําลังประมวลผลเฟรม',

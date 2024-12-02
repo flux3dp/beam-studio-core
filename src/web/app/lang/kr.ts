@@ -27,6 +27,7 @@ const lang: ILang = {
     export: 'GO',
     preview: '미리보기',
     preview_title: '미리보기',
+    preview_press_esc_to_stop: 'ESC를 눌러 카메라 미리보기를 중지하세요.',
     curve_engrave: '3D 곡선',
     task_preview: '경로 미리보기',
     frame_task: '프레임 미리보기',

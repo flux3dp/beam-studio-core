@@ -27,6 +27,7 @@ const lang: ILang = {
     export: 'EKSPORT',
     preview: 'PRATONTON',
     preview_title: 'Pratonton',
+    preview_press_esc_to_stop: 'Tekan ESC untuk menghentikan pratonton kamera.',
     curve_engrave: 'Lengkung 3D',
     task_preview: 'Laluan pratonton',
     frame_task: 'Bingkai sedang berjalan',

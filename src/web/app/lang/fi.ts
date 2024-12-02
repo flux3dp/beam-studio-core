@@ -27,6 +27,7 @@ const lang: ILang = {
     export: 'VIENTI',
     preview: 'ESIKATSELU',
     preview_title: 'Esikatselu',
+    preview_press_esc_to_stop: 'Paina ESC lopettaaksesi kameran esikatselun.',
     curve_engrave: '3D Käyrä',
     task_preview: 'Polun esikatselu',
     frame_task: 'Käynnissä oleva kehys',

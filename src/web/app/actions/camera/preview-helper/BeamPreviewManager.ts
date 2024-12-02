@@ -6,7 +6,7 @@ import constant from 'app/actions/beambox/constant';
 import deviceMaster from 'helpers/device-master';
 import ErrorConstants from 'app/constants/error-constants';
 import i18n from 'helpers/i18n';
-import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
+import MessageCaller from 'app/actions/message-caller';
 import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
 import progressCaller from 'app/actions/progress-caller';
 import versionChecker from 'helpers/version-checker';
@@ -285,10 +285,9 @@ class BeamPreviewManager extends BasePreviewManager implements PreviewManager {
     y1: number,
     x2: number,
     y2: number,
-    opts: { overlapRatio?: number } = {}
+    { overlapRatio = 0.05 }: { overlapRatio?: number } = {}
   ): Promise<boolean> => {
-    const { overlapRatio = 0.05 } = opts;
-    const points = (() => {
+    const getPoints = () => {
       const size = (() => {
         const h = constant.camera.imgHeight;
         const a = this.cameraOffset.angle;
@@ -299,7 +298,6 @@ class BeamPreviewManager extends BasePreviewManager implements PreviewManager {
         // it seems like something wrong handling image rotation.
         return c * s;
       })();
-
       const { left, right, top, bottom } = (() => {
         const l = Math.min(x1, x2) + size / 2;
         const r = Math.max(x1, x2) - size / 2;
@@ -317,8 +315,10 @@ class BeamPreviewManager extends BasePreviewManager implements PreviewManager {
       let pointsArray: { point: [number, number]; overlapFlag: number }[] = [];
       let shouldRowReverse = false; // let camera 走Ｓ字型
       const step = (1 - overlapRatio) * size;
+
       for (let curY = top; curY < bottom + size; curY += step) {
         const row: { point: [number, number]; overlapFlag: number }[] = [];
+
         for (let curX = left; curX < right + size; curX += step) {
           let overlapFlag = 0;
           // 1: top, 2: right, 4: bottom, 8: left
@@ -332,36 +332,15 @@ class BeamPreviewManager extends BasePreviewManager implements PreviewManager {
         if (shouldRowReverse) {
           row.reverse();
         }
+
         pointsArray = pointsArray.concat(row);
         shouldRowReverse = !shouldRowReverse;
       }
+
       return pointsArray;
-    })();
-    try {
-      for (let i = 0; i < points.length; i += 1) {
-        if (this.ended) return false;
-        MessageCaller.openMessage({
-          key: 'camera-preview',
-          content: `${i18n.lang.topbar.preview} ${i}/${points.length}`,
-          level: MessageLevel.LOADING,
-          duration: 20,
-        });
-        const { point, overlapFlag } = points[i];
-        // eslint-disable-next-line no-await-in-loop
-        const result = await this.preview(point[0], point[1], { overlapRatio, overlapFlag });
-        if (!result) return false;
-      }
-      MessageCaller.openMessage({
-        key: 'camera-preview',
-        level: MessageLevel.SUCCESS,
-        content: i18n.lang.device.completed,
-        duration: 3,
-      });
-      return true;
-    } catch (error) {
-      MessageCaller.closeMessage('camera-preview');
-      throw error;
-    }
+    };
+
+    return this.previewRegionFromPoints(x1, y1, x2, y2, { getPoints, overlapRatio });
   };
 }
 

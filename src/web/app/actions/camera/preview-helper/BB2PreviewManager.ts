@@ -5,7 +5,7 @@ import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import constant, { PreviewSpeedLevel } from 'app/actions/beambox/constant';
 import deviceMaster from 'helpers/device-master';
 import i18n from 'helpers/i18n';
-import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
+import MessageCaller from 'app/actions/message-caller';
 import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
 import progressCaller from 'app/actions/progress-caller';
 import { FisheyeCameraParameters, PerspectiveGrid } from 'interfaces/FisheyePreview';
@@ -227,10 +227,9 @@ class BB2PreviewManager extends BasePreviewManager implements PreviewManager {
     y1: number,
     x2: number,
     y2: number,
-    opts: { overlapRatio?: number } = {}
+    { overlapRatio = 0.05 }: { overlapRatio?: number } = {}
   ): Promise<boolean> => {
-    const { overlapRatio = 0.05 } = opts;
-    const getPoints = (): { point: [number, number]; overlapFlag: number }[] => {
+    const getPoints = () => {
       const imgW = (this.grid.x[1] - this.grid.x[0]) * constant.dpmm;
       const imgH = (this.grid.y[1] - this.grid.y[0]) * constant.dpmm;
       const { x: l, y: t } = this.constrainPreviewXY(Math.min(x1, x2), Math.min(y1, y2));
@@ -259,32 +258,8 @@ class BB2PreviewManager extends BasePreviewManager implements PreviewManager {
       }
       return res;
     };
-    const points = getPoints();
-    try {
-      for (let i = 0; i < points.length; i += 1) {
-        if (this.ended) return false;
-        MessageCaller.openMessage({
-          key: 'camera-preview',
-          content: `${i18n.lang.topbar.preview} ${i}/${points.length}`,
-          level: MessageLevel.LOADING,
-          duration: 20,
-        });
-        const { point, overlapFlag } = points[i];
-        // eslint-disable-next-line no-await-in-loop
-        const result = await this.preview(point[0], point[1], { overlapRatio, overlapFlag });
-        if (!result) return false;
-      }
-      MessageCaller.openMessage({
-        key: 'camera-preview',
-        level: MessageLevel.SUCCESS,
-        content: i18n.lang.device.completed,
-        duration: 3,
-      });
-      return true;
-    } catch (error) {
-      MessageCaller.closeMessage('camera-preview');
-      throw error;
-    }
+
+    return this.previewRegionFromPoints(x1, y1, x2, y2, { getPoints, overlapRatio });
   };
 }
 

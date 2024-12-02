@@ -27,6 +27,7 @@ const lang: ILang = {
     export: 'GO',
     preview: '相機預覽',
     preview_title: '相機預覽',
+    preview_press_esc_to_stop: '按下 ESC 鍵以停止相機預覽。',
     curve_engrave: '3D 曲面',
     task_preview: '工作預覽',
     frame_task: '外框預覽',

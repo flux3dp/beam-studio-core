@@ -27,6 +27,7 @@ const lang: ILang = {
     export: 'ゴー',
     preview: 'プレビュー',
     preview_title: 'プレビュー',
+    preview_press_esc_to_stop: 'ESCを押してカメラプレビューを停止します。',
     curve_engrave: '3D 曲線',
     task_preview: 'パスプレビュー',
     frame_task: 'フレームプレビュー',

@@ -27,6 +27,7 @@ const lang: ILang = {
     export: 'Ekspor',
     preview: 'PRATINJAU',
     preview_title: 'Pratinjau',
+    preview_press_esc_to_stop: 'Tekan ESC untuk menghentikan pratinjau kamera.',
     curve_engrave: '3D Kurva',
     task_preview: 'Pratinjau Jalur',
     frame_task: 'Jalankan Bingkai',

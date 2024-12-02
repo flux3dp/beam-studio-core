@@ -27,6 +27,7 @@ const lang: ILang = {
     export: 'Exportar',
     preview: 'PRÉ-VISUALIZAÇÃO',
     preview_title: 'Pré-visualização',
+    preview_press_esc_to_stop: 'Pressione ESC para parar a pré-visualização da câmera.',
     curve_engrave: 'Curva 3D',
     task_preview: 'Visualização da trajetória',
     frame_task: 'Executando quadro',

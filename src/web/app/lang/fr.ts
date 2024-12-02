@@ -27,6 +27,7 @@ const lang: ILang = {
     export: 'EXPORTER',
     preview: 'PRÉVISUALISATION',
     preview_title: 'Aperçu',
+    preview_press_esc_to_stop: 'Appuyez sur ESC pour arrêter l’aperçu de la caméra.',
     curve_engrave: 'Courbe 3D',
     task_preview: 'Aperçu de la tâche',
     frame_task: 'Exécution du cadre',

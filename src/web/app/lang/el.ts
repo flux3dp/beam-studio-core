@@ -27,6 +27,7 @@ const lang: ILang = {
     export: 'Εξαγωγή',
     preview: 'ΠΡΟΕΠΙΣΚΟΠΗΣΗ',
     preview_title: 'Προεπισκόπηση',
+    preview_press_esc_to_stop: 'Πατήστε ESC για να σταματήσετε την προεπισκόπηση της κάμερας.',
     curve_engrave: '3D Καμπύλη',
     task_preview: 'Προεπισκόπηση διαδρομής',
     frame_task: 'Εκτέλεση πλαισίου',
