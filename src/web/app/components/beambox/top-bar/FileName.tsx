@@ -29,12 +29,11 @@ function FileName({ hasUnsavedChange, isTitle = false }: Props): JSX.Element {
   const fileName = currentFileManager.getName() || lang.untitled;
   return (
     <div className={isTitle ? styles.title : styles['file-name']}>
-      {isCloudFile && <TopBarIcons.CloudFile />}
+      {isCloudFile && <TopBarIcons.CloudFile className={styles.cloud} />}
       {`${fileName}${hasUnsavedChange ? '*' : ''}`}
     </div>
   );
 }
-
 
 const updateTitle = () => {
   if (window.os === 'Windows' && window.titlebar) {
@@ -45,6 +44,13 @@ const updateTitle = () => {
     if (window.titlebar?._title) window.titlebar._title.innerHTML = title;
   }
 };
-topBarEventEmitter.on('UPDATE_TITLE', updateTitle);
+
+export const registerWindowUpdateTitle = (): void => {
+  topBarEventEmitter.on('UPDATE_TITLE', updateTitle);
+};
+
+export const unregisterWindowUpdateTitle = (): void => {
+  topBarEventEmitter.removeListener('UPDATE_TITLE', updateTitle);
+};
 
 export default FileName;

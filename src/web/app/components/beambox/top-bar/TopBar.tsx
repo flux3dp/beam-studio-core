@@ -6,7 +6,6 @@ import CommonTools from 'app/components/beambox/top-bar/CommonTools';
 import Discover from 'helpers/api/discover';
 import DocumentButton from 'app/components/beambox/top-bar/DocumentButton';
 import ElementTitle from 'app/components/beambox/top-bar/ElementTitle';
-import FileName from 'app/components/beambox/top-bar/FileName';
 import FrameButton from 'app/components/beambox/top-bar/FrameButton';
 import GoButton from 'app/components/beambox/top-bar/GoButton';
 import isWeb from 'helpers/is-web';
@@ -19,6 +18,10 @@ import storage from 'implementations/storage';
 import TopBarHints from 'app/components/beambox/top-bar/TopBarHints';
 import UserAvatar from 'app/components/beambox/top-bar/UserAvatar';
 import { CanvasContext, CanvasMode } from 'app/contexts/CanvasContext';
+import {
+  registerWindowUpdateTitle,
+  unregisterWindowUpdateTitle,
+} from 'app/components/beambox/top-bar/FileName';
 import { SelectedElementContext } from 'app/contexts/SelectedElementContext';
 import { TopBarHintsContextProvider } from 'app/contexts/TopBarHintsContext';
 
@@ -33,6 +36,13 @@ const Topbar = (): JSX.Element => {
   const { mode, currentUser, togglePathPreview, setSelectedDevice } = useContext(CanvasContext);
   const [hasDiscoveredMachine, setHasDiscoveredMachine] = useState(false);
   const defaultDeviceUUID = useRef<string | null>(storage.get('selected-device'));
+  useEffect(() => {
+    registerWindowUpdateTitle();
+    return () => {
+      unregisterWindowUpdateTitle();
+    };
+  }, []);
+
   useEffect(() => {
     const discover = Discover('top-bar', (deviceList) => {
       setHasDiscoveredMachine(deviceList.some((device) => device.serial !== 'XXXXXXXXXX'));
@@ -60,9 +70,6 @@ const Topbar = (): JSX.Element => {
       className={classNames('top-bar', styles['top-bar'], { white: isWhiteTopBar })}
       onClick={() => ObjectPanelController.updateActiveKey(null)}
     >
-      {(window.os === 'Windows' && !!window.titlebar) || (
-        <FileName hasUnsavedChange={hasUnsavedChange} />
-      )}
       <div className={classNames(styles.controls, styles.left)}>
         <UserAvatar user={currentUser} />
         <PreviewButton />
