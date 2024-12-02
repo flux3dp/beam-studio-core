@@ -40,7 +40,7 @@ class TabController extends EventEmitter {
   getAllTabs = (): Array<{ id: number; title: string; isCloud: boolean }> =>
     communicator.sendSync('get-all-tabs');
 
-  createTab = (): void => communicator.send('create-tab');
+  addNewTab = (): void => communicator.send('add-new-tab');
 
   closeTab = (id: number): void => communicator.send('close-tab', id);
 

@@ -31,23 +31,25 @@ const Tabs = (): JSX.Element => {
 
   return (
     <div className={styles.container}>
-      {tabs.map((tab) => {
-        const { id } = tab;
-        let { title } = id === currentId ? currentTabInfo : tab;
-        if (id === currentId) {
-          title = `${title || t.untitled}${hasUnsavedChange ? '*' : ''}`;
-        }
-        return (
-          <div
-            key={id}
-            className={classNames(styles.tab, { [styles.focused]: currentId === id })}
-            onClick={() => tabController.focusTab(id)}
-          >
-            <div className={styles.name}>{title}</div>
-          </div>
-        );
-      })}
-      <div className={styles.add} onClick={tabController.createTab}>
+      <div className={styles.tabs}>
+        {tabs.map((tab) => {
+          const { id } = tab;
+          let { title } = id === currentId ? currentTabInfo : tab;
+          if (id === currentId) {
+            title = `${title || t.untitled}${hasUnsavedChange ? '*' : ''}`;
+          }
+          return (
+            <div
+              key={id}
+              className={classNames(styles.tab, { [styles.focused]: currentId === id })}
+              onClick={() => tabController.focusTab(id)}
+            >
+              <div className={styles.name}>{title}</div>
+            </div>
+          );
+        })}
+      </div>
+      <div className={styles.add} onClick={tabController.addNewTab}>
         +
       </div>
     </div>
