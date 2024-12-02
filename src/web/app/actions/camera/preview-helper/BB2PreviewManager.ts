@@ -5,7 +5,7 @@ import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import constant, { PreviewSpeedLevel } from 'app/actions/beambox/constant';
 import deviceMaster from 'helpers/device-master';
 import i18n from 'helpers/i18n';
-import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
+import MessageCaller from 'app/actions/message-caller';
 import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
 import progressCaller from 'app/actions/progress-caller';
 import { FisheyeCameraParameters, PerspectiveGrid } from 'interfaces/FisheyePreview';

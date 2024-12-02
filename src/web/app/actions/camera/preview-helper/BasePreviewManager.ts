@@ -46,7 +46,11 @@ class BasePreviewManager implements PreviewManager {
     }
   };
 
-  public preview = async (x: number, y: number): Promise<boolean> => {
+  public preview = async (
+    x: number,
+    y: number,
+    opts?: { overlapRatio?: number; overlapFlag?: number }
+  ): Promise<boolean> => {
     throw new Error('Method not implemented.');
   };
 
@@ -97,11 +101,8 @@ class BasePreviewManager implements PreviewManager {
         });
 
         const { point, overlapFlag } = points[i];
-        // eslint-disable-next-line no-await-in-loop, @typescript-eslint/no-explicit-any
-        const result = await (this.preview as any)(point[0], point[1], {
-          overlapRatio,
-          overlapFlag,
-        });
+        // eslint-disable-next-line no-await-in-loop
+        const result = await this.preview(point[0], point[1], { overlapRatio, overlapFlag });
 
         if (!result) return false;
         if (isStopped) break;

@@ -6,7 +6,7 @@ import constant from 'app/actions/beambox/constant';
 import deviceMaster from 'helpers/device-master';
 import ErrorConstants from 'app/constants/error-constants';
 import i18n from 'helpers/i18n';
-import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
+import MessageCaller from 'app/actions/message-caller';
 import PreviewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
 import progressCaller from 'app/actions/progress-caller';
 import versionChecker from 'helpers/version-checker';

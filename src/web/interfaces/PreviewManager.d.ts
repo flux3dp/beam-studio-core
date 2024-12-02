@@ -14,7 +14,11 @@ export interface PreviewManager {
    * @param y y in px
    * @param opts
    */
-  preview(x: number, y: number, opts?: { overlapRatio?: number }): Promise<boolean>;
+  preview(
+    x: number,
+    y: number,
+    opts?: { overlapRatio?: number; overlapFlag?: number }
+  ): Promise<boolean>;
 
   /**
    * preview region
