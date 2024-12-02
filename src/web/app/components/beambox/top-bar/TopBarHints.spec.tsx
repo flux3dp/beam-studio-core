@@ -2,16 +2,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 
-jest.mock('helpers/i18n', () => ({
-  lang: {
-    topbar: {
-      hint: {
-        polygon: 'Press + / - key to increase / decrease sides.',
-      },
-    },
-  },
-}));
-
 import { TopBarHintsContext } from 'app/contexts/TopBarHintsContext';
 
 import TopBarHints from './TopBarHints';

@@ -3,7 +3,7 @@
 exports[`should render correctly 1`] = `
 <div>
   <div
-    class="hint-container"
+    class="container"
   />
 </div>
 `;
@@ -11,7 +11,7 @@ exports[`should render correctly 1`] = `
 exports[`should render correctly 2`] = `
 <div>
   <div
-    class="hint-container"
+    class="container"
   >
     <div>
       Press + / - key to increase / decrease sides.
@@ -23,7 +23,7 @@ exports[`should render correctly 2`] = `
 exports[`should render correctly 3`] = `
 <div>
   <div
-    class="hint-container"
+    class="container"
   />
 </div>
 `;

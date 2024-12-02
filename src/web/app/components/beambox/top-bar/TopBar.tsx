@@ -66,39 +66,43 @@ const Topbar = (): JSX.Element => {
   }, [setSelectedDevice]);
 
   return (
-    <div
-      className={classNames('top-bar', styles['top-bar'], { white: isWhiteTopBar })}
-      onClick={() => ObjectPanelController.updateActiveKey(null)}
-    >
-      <div className={classNames(styles.controls, styles.left)}>
-        <div className={styles['drag-area']} />
-        <UserAvatar user={currentUser} />
-        <PreviewButton />
-        <CommonTools isWeb={isWebMode} hide={mode !== CanvasMode.Draw} />
-        {!isWebMode && <Tabs />}
-      </div>
-      <div className={classNames(styles.controls, styles.right)}>
-        <SelectMachineButton />
-        <DocumentButton />
-        <FrameButton />
-        <PathPreviewButton
-          isDeviceConnected={hasDiscoveredMachine}
-          togglePathPreview={togglePathPreview}
-        />
-        <GoButton hasText={isWhiteTopBar} hasDiscoverdMachine={hasDiscoveredMachine} />
+    <>
+      <div
+        className={classNames('top-bar', styles['top-bar'], { white: isWhiteTopBar })}
+        onClick={() => ObjectPanelController.updateActiveKey(null)}
+      >
+        <div className={classNames(styles.controls, styles.left)}>
+          <div className={styles['drag-area']} />
+          <UserAvatar user={currentUser} />
+          <PreviewButton />
+          <CommonTools isWeb={isWebMode} hide={mode !== CanvasMode.Draw} />
+          {!isWebMode && <Tabs />}
+        </div>
+        <div className={classNames(styles.controls, styles.right)}>
+          <SelectMachineButton />
+          <DocumentButton />
+          <FrameButton />
+          <PathPreviewButton
+            isDeviceConnected={hasDiscoveredMachine}
+            togglePathPreview={togglePathPreview}
+          />
+          <GoButton hasText={isWhiteTopBar} hasDiscoverdMachine={hasDiscoveredMachine} />
+        </div>
+        {isWeb() && (
+          <div className={classNames('top-bar-menu-container', styles.menu)}>
+            <Menu email={currentUser?.email} />
+          </div>
+        )}
       </div>
       <SelectedElementContext.Consumer>
-        {({ selectedElement }) => <ElementTitle selectedElem={selectedElement} />}
+        {({ selectedElement }) => (
+          <ElementTitle selectedElem={selectedElement} white={isWhiteTopBar} />
+        )}
       </SelectedElementContext.Consumer>
       <TopBarHintsContextProvider>
-        <TopBarHints />
+        <TopBarHints white={isWhiteTopBar} />
       </TopBarHintsContextProvider>
-      {isWeb() && (
-        <div className={classNames('top-bar-menu-container', styles.menu)}>
-          <Menu email={currentUser?.email} />
-        </div>
-      )}
-    </div>
+    </>
   );
 };
 
