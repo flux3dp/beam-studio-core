@@ -71,6 +71,7 @@ const Topbar = (): JSX.Element => {
       onClick={() => ObjectPanelController.updateActiveKey(null)}
     >
       <div className={classNames(styles.controls, styles.left)}>
+        <div className={styles['drag-area']} />
         <UserAvatar user={currentUser} />
         <PreviewButton />
         <CommonTools isWeb={isWebMode} hide={mode !== CanvasMode.Draw} />

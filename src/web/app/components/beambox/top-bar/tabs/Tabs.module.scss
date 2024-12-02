@@ -3,23 +3,37 @@
   justify-content: flex-start;
   align-items: center;
   height: 100%;
+  overflow-x: scroll;
+
+  .tabs {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100%;
+    overflow: hidden;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
 
   .tab {
-    -webkit-app-region: no-drag;
-    cursor: pointer;
+    position: relative;
+    flex: 1;
     display: inline-flex;
+    cursor: pointer;
     align-items: center;
     color: #c2c2c2;
     font-size: 14px;
     line-height: 22px;
     height: 100%;
-
-    .name {
-      padding: 0 12px;
-    }
+    padding-left: 8px;
+    overflow: hidden;
 
     &::after {
       content: '';
+      position: absolute;
+      right: 0;
       width: 1px;
       height: 24px;
       background-color: #525252;
@@ -33,10 +47,31 @@
         content: none;
       }
     }
+
+    .cloud {
+      color: #c2c2c2;
+      font-size: 24px;
+    }
+
+    .name {
+      width: calc(100% - 32px);
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .close {
+      padding: 12px;
+      font-size: 8px;
+      color: #525252;
+
+      &:hover {
+        color: #c2c2c2;
+      }
+    }
   }
 
   .add {
-    -webkit-app-region: no-drag;
     cursor: pointer;
     color: #c2c2c2;
     font-size: 24px;

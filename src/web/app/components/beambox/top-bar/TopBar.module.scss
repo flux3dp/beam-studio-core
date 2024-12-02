@@ -1,11 +1,18 @@
 @use 'styles/variables' as variables;
 
 .top-bar {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: variables.$topBarHeight;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: #333333;
   color: #ffffff;
   font-size: 30px;
+  overflow: hidden;
 
   .controls {
     display: flex;
@@ -15,15 +22,22 @@
   }
 
   .left {
-    margin-left: 80px;
+    overflow: hidden;
 
-    @media screen and (max-width: 600px) {
-      margin-left: 60px;
+    .drag-area {
+      width: 80px;
+      height: variables.$topBarHeight;
+      -webkit-app-region: drag;
+
+      @media screen and (max-width: 600px) {
+        width: 60px;
+      }
     }
   }
 
   .right {
     padding: 0 8px;
+    overflow: hidden;
   }
 
   .menu {
