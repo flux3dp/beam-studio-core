@@ -2,36 +2,18 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
-jest.mock('helpers/i18n', () => ({
-  lang: {
-    beambox: {
-      path_preview: {
-        play: 'Play',
-        pause: 'Pause',
-        stop: 'Stop',
-        play_speed: 'Playback Speed',
-        travel_path: 'Travel Path',
-        invert: 'Invert',
-        preview_info: 'Preview Information',
-        size: 'Size',
-        estimated_time: 'Total Time Estimated',
-        cut_time: 'Cut Time',
-        rapid_time: 'Travel Time',
-        cut_distance: 'Cut Distance',
-        rapid_distance: 'Travel Distance',
-        current_position: 'Current Position',
-        remark: '* All pieces of information are estimated value for reference.',
-        start_here: 'Start Here',
-        end_preview: 'End Preview',
-      },
-    },
-  },
-}));
-
 import SidePanel from './SidePanel';
 
+const useWorkarea = jest.fn();
+jest.mock('helpers/hooks/useWorkarea', () => () => useWorkarea());
+
 describe('side panel test', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should render correctly when enabled', () => {
+    useWorkarea.mockReturnValue('fbm1');
     const handleStartHere = jest.fn();
     const togglePathPreview = jest.fn();
     const { container } = render(
@@ -59,6 +41,7 @@ describe('side panel test', () => {
   });
 
   it('should render correctly when disabled', () => {
+    useWorkarea.mockReturnValue('fbm1');
     const handleStartHere = jest.fn();
     const togglePathPreview = jest.fn();
     const { container } = render(
@@ -82,6 +65,31 @@ describe('side panel test', () => {
     expect(handleStartHere).toHaveBeenCalledTimes(0);
 
     fireEvent.click(buttons[1]);
+    expect(togglePathPreview).toHaveBeenCalledTimes(1);
+  });
+
+  it('should render correctly with Promark', () => {
+    useWorkarea.mockReturnValue('fpm1');
+    const handleStartHere = jest.fn();
+    const togglePathPreview = jest.fn();
+    const { container } = render(
+      <SidePanel
+        size="100 x 100 mm"
+        estTime="60 s"
+        lightTime="30 s"
+        rapidTime="10 s"
+        cutDist="50 mm"
+        rapidDist="30 mm"
+        currentPosition="50, 50 mm"
+        handleStartHere={handleStartHere}
+        isStartHereEnabled
+        togglePathPreview={togglePathPreview}
+      />
+    );
+    expect(container).toMatchSnapshot();
+
+    const button = container.querySelector('div.btn-default');
+    fireEvent.click(button);
     expect(togglePathPreview).toHaveBeenCalledTimes(1);
   });
 });
