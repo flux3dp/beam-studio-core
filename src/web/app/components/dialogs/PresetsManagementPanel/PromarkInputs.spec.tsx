@@ -47,18 +47,9 @@ jest.mock('helpers/layer/layer-config-helper', () => ({
   getDefaultConfig: () => ({}),
 }));
 
-const mockIsDev = jest.fn();
-jest.mock(
-  'helpers/is-dev',
-  () =>
-    (...args) =>
-      mockIsDev(...args)
-);
-
 describe('PromarkInputs', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    mockIsDev.mockReturnValue(true);
   });
 
   it('should render correctly', () => {

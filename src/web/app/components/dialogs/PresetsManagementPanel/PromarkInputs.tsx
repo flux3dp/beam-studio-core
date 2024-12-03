@@ -2,7 +2,6 @@ import classNames from 'classnames';
 import React, { useMemo } from 'react';
 import { Switch } from 'antd';
 
-import isDev from 'helpers/is-dev';
 import UnitInput from 'app/widgets/UnitInput';
 import useI18n from 'helpers/useI18n';
 import { ConfigKey, ConfigKeyTypeMap, Preset } from 'interfaces/ILayerConfig';
@@ -32,7 +31,6 @@ const PromarkInputs = ({
   const t = tLaserPanel.preset_management;
   const supportInfo = useMemo(() => getSupportInfo('fpm1'), []);
   const defaultConfig = useMemo(getDefaultConfig, []);
-  const dev = useMemo(isDev, []);
   const focusStepMax = useMemo(() => {
     if (preset.repeat <= 1) return 10;
     return 10 / (preset.repeat - 1);
@@ -189,26 +187,22 @@ const PromarkInputs = ({
             clipValue
           />
         </div>
-        {dev && (
-          <>
-            <div className={classNames(styles.field, styles['with-switch'])}>
-              <div className={styles.label}>{tLaserPanel.bi_directional}</div>
-              <Switch
-                data-testid="biDirectional"
-                checked={preset.biDirectional ?? defaultConfig.biDirectional}
-                onChange={(value) => handleChange('biDirectional', value)}
-              />
-            </div>
-            <div className={classNames(styles.field, styles['with-switch'])}>
-              <div className={styles.label}>{tLaserPanel.cross_hatch}</div>
-              <Switch
-                data-testid="crossHatch"
-                checked={preset.crossHatch ?? defaultConfig.crossHatch}
-                onChange={(value) => handleChange('crossHatch', value)}
-              />
-            </div>
-          </>
-        )}
+        <div className={classNames(styles.field, styles['with-switch'])}>
+          <div className={styles.label}>{tLaserPanel.bi_directional}</div>
+          <Switch
+            data-testid="biDirectional"
+            checked={preset.biDirectional ?? defaultConfig.biDirectional}
+            onChange={(value) => handleChange('biDirectional', value)}
+          />
+        </div>
+        <div className={classNames(styles.field, styles['with-switch'])}>
+          <div className={styles.label}>{tLaserPanel.cross_hatch}</div>
+          <Switch
+            data-testid="crossHatch"
+            checked={preset.crossHatch ?? defaultConfig.crossHatch}
+            onChange={(value) => handleChange('crossHatch', value)}
+          />
+        </div>
       </div>
     </div>
   );
