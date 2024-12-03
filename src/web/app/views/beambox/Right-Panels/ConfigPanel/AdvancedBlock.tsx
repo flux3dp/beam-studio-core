@@ -52,7 +52,7 @@ const AdvancedBlock = ({
   const contents = [];
   if (state.module.value !== LayerModule.PRINTER) {
     if (promarkInfo) {
-      contents.push(<DottingTimeBlock type={type} />);
+      contents.push(<DottingTimeBlock key="dotting-time-block" type={type} />);
       if (promarkInfo.laserType === LaserType.MOPA)
         contents.push(
           <PulseWidthBlock
