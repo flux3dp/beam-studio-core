@@ -1,8 +1,11 @@
-import React, { createContext, useEffect, useState, useCallback } from 'react';
+import React, { createContext, useEffect, useState, useCallback, useMemo } from 'react';
 
 import doLayersContainsVector from 'helpers/layer/check-vector';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import useForceUpdate from 'helpers/use-force-update';
+import useWorkarea from 'helpers/hooks/useWorkarea';
+import { getLayerElementByName } from 'helpers/layer/layer-helper';
+import { promarkModels } from 'app/actions/beambox/constant';
 
 interface ILayerPanelContext {
   selectedLayers: string[];
@@ -10,6 +13,7 @@ interface ILayerPanelContext {
   forceUpdate: () => void;
   forceUpdateSelectedLayers: () => void;
   hasVector: boolean;
+  hasGradient: boolean;
 }
 
 export const LayerPanelContext = createContext<ILayerPanelContext>({
@@ -18,6 +22,7 @@ export const LayerPanelContext = createContext<ILayerPanelContext>({
   forceUpdate: () => {},
   forceUpdateSelectedLayers: () => {},
   hasVector: false,
+  hasGradient: false,
 });
 const layerPanelEventEmitter = eventEmitterFactory.createEventEmitter('layer-panel');
 
@@ -27,12 +32,16 @@ interface Props {
 
 export const LayerPanelContextProvider = ({ children }: Props): JSX.Element => {
   const [hasVector, setHasVector] = useState<boolean>(false);
+  const [hasGradient, setHasGradient] = useState<boolean>(false);
   const [selectedLayers, setSelectedLayers] = useState<string[]>([]);
   const forceUpdate = useForceUpdate();
   const forceUpdateSelectedLayers = useCallback(
     () => setSelectedLayers([...selectedLayers]),
     [selectedLayers]
   );
+  const workarea = useWorkarea();
+  const isPromark = useMemo(() => promarkModels.has(workarea), [workarea]);
+
   const lazySetSelectedLayers = useCallback(
     (newLayers: string[]) => {
       if (
@@ -77,12 +86,36 @@ export const LayerPanelContextProvider = ({ children }: Props): JSX.Element => {
     };
   }, [selectedLayers]);
 
+  useEffect(() => {
+    const checkGradient = () => {
+      if (isPromark) {
+        const newVal = selectedLayers.some((layerName: string) => {
+          const layer = getLayerElementByName(layerName);
+          return !!layer?.querySelector('image[data-shading="true"]');
+        });
+        setHasGradient(newVal);
+      }
+    };
+    checkGradient();
+    layerPanelEventEmitter.on('CHECK_GRADIENT', checkGradient);
+    return () => {
+      layerPanelEventEmitter.removeListener('CHECK_GRADIENT', checkGradient);
+    };
+  }, [selectedLayers, isPromark]);
+
   // move doLayersContainsVector and setVector in effect to avoid heavy render process
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     const newVal = doLayersContainsVector(selectedLayers);
     if (hasVector !== newVal) {
       setHasVector(newVal);
+    }
+    if (isPromark) {
+      const newGradientVal = selectedLayers.some((layerName: string) => {
+        const layer = getLayerElementByName(layerName);
+        return !!layer?.querySelector('image[data-shading="true"]');
+      });
+      if (newGradientVal !== hasGradient) setHasGradient(newGradientVal);
     }
   });
 
@@ -94,6 +127,7 @@ export const LayerPanelContextProvider = ({ children }: Props): JSX.Element => {
         forceUpdate,
         forceUpdateSelectedLayers,
         hasVector,
+        hasGradient,
       }}
     >
       {children}

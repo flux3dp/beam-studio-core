@@ -45,7 +45,7 @@ class ParsedGcode {
   }
 };
 
-export function parseGcode(gcode) {
+export function parseGcode(gcode, isPromark = false) {
   const parsedGcode = new ParsedGcode();
   let lastG = NaN, lastX = NaN, lastY = NaN, lastZ = NaN, lastA = NaN, lastF = NaN, lastS = 0, lastT = 0;
   let stride = 9;
@@ -91,8 +91,10 @@ export function parseGcode(gcode) {
         x = useRelative ? lastX + parse() : parse();
       } else if (gcode[i] === 'Y' || gcode[i] === 'y') {
         y = useRelative ? lastY - parse() : -1 * parse();
-      } else if (gcode[i] === 'Z' || gcode[i] === 'z') z = parse();
-      else if (gcode[i] === 'A' || gcode[i] === 'a') a = parse();
+      } else if (gcode[i] === 'Z' || gcode[i] === 'z') {
+        z = parse();
+        if (isPromark) z = lastZ + z;
+      } else if (gcode[i] === 'A' || gcode[i] === 'a') a = parse();
       else if (gcode[i] === 'F' || gcode[i] === 'f') {
         f = parse();
       } else if (gcode[i] === 'S' || gcode[i] === 's') {
@@ -104,6 +106,7 @@ export function parseGcode(gcode) {
         // $H: Home
         x = 0;
         y = 0;
+        z = 0;
         i += 3;
       } else ++i;
     }

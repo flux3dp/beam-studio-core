@@ -64,6 +64,7 @@ const attributeMap: { [key in ConfigKey]: string } = {
   fillAngle: 'data-fillAngle',
   biDirectional: 'data-biDirectional',
   crossHatch: 'data-crossHatch',
+  dottingTime: 'data-dottingTime',
 };
 
 export const CUSTOM_PRESET_CONSTANT = ' ';
@@ -106,6 +107,7 @@ export const baseConfig: Partial<ConfigKeyTypeMap> = {
   fillAngle: 0,
   frequency: 27,
   pulseWidth: 100,
+  dottingTime: 100,
 };
 
 /**
@@ -386,6 +388,7 @@ export const promarkConfigKeys: ConfigKey[] = [
   'crossHatch',
   'focus',
   'focusStep',
+  'dottingTime',
 ];
 
 // Forced Keys: If not set, use default value

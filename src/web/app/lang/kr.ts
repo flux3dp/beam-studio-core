@@ -812,6 +812,7 @@ const lang: ILang = {
         fill_angle: '채우기 각도',
         bi_directional: '양방향',
         cross_hatch: '교차 해칭',
+        dottingTime: '타점 시간',
         slider: {
           regular: '표준',
           low: '낮음',

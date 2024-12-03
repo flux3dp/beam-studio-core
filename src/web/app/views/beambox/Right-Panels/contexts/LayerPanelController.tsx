@@ -22,8 +22,13 @@ const checkVector = (): void => {
   layerPanelEventEmitter.emit('CHECK_VECTOR');
 };
 
+const checkGradient = (): void => {
+  layerPanelEventEmitter.emit('CHECK_GRADIENT');
+};
+
 export default {
   checkVector,
+  checkGradient,
   updateLayerPanel,
   getSelectedLayers,
   setSelectedLayers,

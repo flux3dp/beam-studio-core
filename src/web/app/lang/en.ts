@@ -812,6 +812,7 @@ Machines > ‘Promark Name’ > Promark Settings`,
         fill_angle: 'Fill Angle',
         bi_directional: 'Bi-directional',
         cross_hatch: 'Cross hatch',
+        dottingTime: 'Dotting Time',
         slider: {
           regular: 'Regular',
           low: 'Low',

@@ -1,8 +1,10 @@
 import classNames from 'classnames';
 import React, { useMemo } from 'react';
 
-import i18n from 'helpers/i18n';
 import isWeb from 'helpers/is-web';
+import useI18n from 'helpers/useI18n';
+import useWorkarea from 'helpers/hooks/useWorkarea';
+import { promarkModels } from 'app/actions/beambox/constant';
 
 interface Props {
   size: string;
@@ -29,13 +31,15 @@ function SidePanel({
   isStartHereEnabled,
   togglePathPreview,
 }: Props): JSX.Element {
-  const LANG = i18n.lang.beambox.path_preview;
+  const LANG = useI18n().beambox.path_preview;
   const renderDataBlock = (label: string, value: string): JSX.Element => (
     <div className="data-block">
       <div className="item">{label}</div>
       <div className="value">{value}</div>
     </div>
   );
+  const workarea = useWorkarea();
+  const isPromark = useMemo(() => promarkModels.has(workarea), [workarea]);
 
   const sideClass = useMemo(
     () =>
@@ -60,12 +64,14 @@ function SidePanel({
       </div>
       <div className="remark">{LANG.remark}</div>
       <div className="buttons">
-        <div
-          className={classNames('btn btn-default primary', { disabled: !isStartHereEnabled })}
-          onClick={isStartHereEnabled ? handleStartHere : null}
-        >
-          {LANG.start_here}
-        </div>
+        {isPromark || (
+          <div
+            className={classNames('btn btn-default primary', { disabled: !isStartHereEnabled })}
+            onClick={isStartHereEnabled ? handleStartHere : null}
+          >
+            {LANG.start_here}
+          </div>
+        )}
         <div className="btn btn-default" onClick={togglePathPreview}>
           {LANG.end_preview}
         </div>

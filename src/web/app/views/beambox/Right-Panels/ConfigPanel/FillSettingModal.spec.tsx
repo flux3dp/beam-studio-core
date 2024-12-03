@@ -5,8 +5,6 @@ import { fireEvent, render } from '@testing-library/react';
 import ConfigPanelContext from './ConfigPanelContext';
 import FillSettingModal from './FillSettingModal';
 
-jest.mock('helpers/is-dev', () => () => true);
-
 const mockGet = jest.fn();
 jest.mock('implementations/storage', () => ({
   get: (...args) => mockGet(...args),
@@ -56,6 +54,12 @@ jest.mock(
       )
 );
 
+const mockCreateEventEmitter = jest.fn();
+jest.mock('helpers/eventEmitterFactory', () => ({
+  createEventEmitter: (...args) => mockCreateEventEmitter(...args),
+}));
+const mockEmit = jest.fn();
+
 const mockOnClose = jest.fn();
 
 const changeValue = (baseElement: HTMLElement) => {
@@ -78,6 +82,7 @@ describe('test FillSettingModal', () => {
     jest.clearAllMocks();
     mockGet.mockReturnValue('mm');
     mockGetLayerByName.mockImplementation((layerName: string) => layerName);
+    mockCreateEventEmitter.mockReturnValueOnce({ emit: mockEmit });
   });
 
   it('should render correctly', () => {
@@ -152,6 +157,10 @@ describe('test FillSettingModal', () => {
         crossHatch: { value: true, hasMultiValue: false },
       },
     });
+    expect(mockCreateEventEmitter).toBeCalledTimes(1);
+    expect(mockCreateEventEmitter).toHaveBeenLastCalledWith('time-estimation-button');
+    expect(mockEmit).toBeCalledTimes(1);
+    expect(mockEmit).toHaveBeenLastCalledWith('SET_ESTIMATED_TIME', null);
     expect(mockOnClose).toBeCalledTimes(1);
   });
 
@@ -178,5 +187,6 @@ describe('test FillSettingModal', () => {
     expect(mockOnClose).toBeCalledTimes(1);
     expect(mockDispatch).not.toBeCalled();
     expect(mockWriteDataLayer).not.toBeCalled();
+    expect(mockCreateEventEmitter).not.toBeCalled();
   });
 });

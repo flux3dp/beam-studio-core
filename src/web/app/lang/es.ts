@@ -812,6 +812,7 @@ const lang: ILang = {
         fill_angle: 'Ángulo de Relleno',
         bi_directional: 'Bidireccional',
         cross_hatch: 'Sombreado Cruzado',
+        dottingTime: 'Tiempo de punteado',
         slider: {
           regular: 'Regular',
           low: 'Bajo',

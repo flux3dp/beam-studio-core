@@ -16,6 +16,7 @@ const preset = {
   fillAngle: 0,
   biDirectional: true,
   crossHatch: false,
+  dottingTime: 100,
   isDefault: false,
 };
 const maxSpeed = 100;
@@ -31,6 +32,7 @@ const inputTests = [
   { key: 'frequency', value: 32 },
   { key: 'fillInterval', value: 0.2 },
   { key: 'fillAngle', value: 10 },
+  { key: 'dottingTime', value: 150 },
 ];
 
 const switchTests = [
@@ -47,18 +49,9 @@ jest.mock('helpers/layer/layer-config-helper', () => ({
   getDefaultConfig: () => ({}),
 }));
 
-const mockIsDev = jest.fn();
-jest.mock(
-  'helpers/is-dev',
-  () =>
-    (...args) =>
-      mockIsDev(...args)
-);
-
 describe('PromarkInputs', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    mockIsDev.mockReturnValue(true);
   });
 
   it('should render correctly', () => {

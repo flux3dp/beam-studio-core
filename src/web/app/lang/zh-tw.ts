@@ -812,6 +812,7 @@ const lang: ILang = {
         fill_angle: '填充角度',
         bi_directional: '雙向',
         cross_hatch: '交叉填充',
+        dottingTime: '打點時間',
         slider: {
           regular: '普通',
           low: '低',

@@ -812,6 +812,7 @@ const lang: ILang = {
         fill_angle: 'Úhel Vyplnění',
         bi_directional: 'Obousměrný',
         cross_hatch: 'Křížové Stínování',
+        dottingTime: 'Čas bodování',
         slider: {
           regular: 'Běžné',
           low: 'Nízké',

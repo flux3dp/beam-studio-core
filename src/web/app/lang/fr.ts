@@ -809,6 +809,7 @@ const lang: ILang = {
         fill_angle: 'Angle de Remplissage',
         bi_directional: 'Bidirectionnel',
         cross_hatch: 'Hachure Croisée',
+        dottingTime: 'Temps de pointage',
         slider: {
           regular: 'Régulier',
           low: 'Bas',

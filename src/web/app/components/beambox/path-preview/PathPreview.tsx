@@ -30,6 +30,7 @@ import VersionChecker from 'helpers/version-checker';
 import workareaManager from 'app/svgedit/workarea';
 import ZoomBlock from 'app/components/beambox/ZoomBlock';
 import { CanvasContext } from 'app/contexts/CanvasContext';
+import { dpiTextMap } from 'app/actions/beambox/export-funcs-swiftray';
 import { DrawCommands } from 'helpers/path-preview/draw-commands';
 import { GcodePreview } from 'helpers/path-preview/draw-commands/GcodePreview';
 import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
@@ -644,9 +645,14 @@ class PathPreview extends React.Component<Props, State> {
         this.gcodeString = result.join('\n');
       }
       if (this.gcodeString.length > 83) {
-        const parsedGcode = parseGcode(this.gcodeString);
         const workarea = BeamboxPreference.read('workarea') || 'fbm1';
-        this.gcodePreview.setParsedGcode(parsedGcode, promarkModels.has(workarea));
+        const isPromark = promarkModels.has(workarea);
+        const parsedGcode = parseGcode(this.gcodeString, isPromark);
+        this.gcodePreview.setParsedGcode(
+          parsedGcode,
+          isPromark,
+          (dpiTextMap[BeamboxPreference.read('engrave_dpi')] || 254) / 25.4
+        );
         this.simTimeMax =
           Math.ceil((this.gcodePreview.g1Time + this.gcodePreview.g0Time) / SIM_TIME_MINUTE) *
             SIM_TIME_MINUTE +

@@ -16,6 +16,7 @@ import { promarkModels } from 'app/actions/beambox/constant';
 import AutoFocus from './AutoFocus';
 import ConfigPanelContext from './ConfigPanelContext';
 import Diode from './Diode';
+import DottingTimeBlock from './DottingTimeBlock';
 import FocusBlock from './FocusBlock';
 import FrequencyBlock from './FrequencyBlock';
 import PulseWidthBlock from './PulseWidthBlock';
@@ -51,6 +52,7 @@ const AdvancedBlock = ({
   const contents = [];
   if (state.module.value !== LayerModule.PRINTER) {
     if (promarkInfo) {
+      contents.push(<DottingTimeBlock key="dotting-time-block" type={type} />);
       if (promarkInfo.laserType === LaserType.MOPA)
         contents.push(
           <PulseWidthBlock

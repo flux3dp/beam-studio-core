@@ -802,6 +802,7 @@ export interface ILang {
         fill_angle: string;
         bi_directional: string;
         cross_hatch: string;
+        dottingTime: string;
         slider: {
           regular: string;
           low: string;

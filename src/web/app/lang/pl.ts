@@ -812,6 +812,7 @@ const lang: ILang = {
         fill_angle: 'Kąt Wypełnienia',
         bi_directional: 'Dwukierunkowy',
         cross_hatch: 'Kratkowanie Krzyżowe',
+        dottingTime: 'Czas punktowania',
         slider: {
           regular: 'Regularny',
           low: 'Niski',

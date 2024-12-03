@@ -809,6 +809,7 @@ const lang: ILang = {
         fill_angle: 'Fyll Vinkel',
         bi_directional: 'Toveis',
         cross_hatch: 'Krysskjerming',
+        dottingTime: 'Punktid',
         slider: {
           regular: 'Vanlig',
           low: 'Lav',

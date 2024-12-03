@@ -809,6 +809,7 @@ const lang: ILang = {
         fill_angle: 'Vulhoek',
         bi_directional: 'Tweerichtingsverkeer',
         cross_hatch: 'Kruislings Arceren',
+        dottingTime: 'Puntentijd',
         slider: {
           regular: 'Normaal',
           low: 'Laag',
