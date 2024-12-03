@@ -74,6 +74,7 @@ import readBitmapFile from 'app/svgedit/operations/import/readBitmapFile';
 import { isMobile } from 'helpers/system-helper';
 import { PanelType } from 'app/constants/right-panel-types';
 import { importPresets } from 'helpers/presets/preset-helper';
+import webNeedConnectionWrapper from 'helpers/web-need-connection-helper';
 
 if (svgCanvasClass) {
   console.log('svgCanvas loaded successfully');
@@ -2596,7 +2597,8 @@ const svgEditor = (window['svgEditor'] = (function () {
           caption: LANG.popup.loading_image,
         });
         svgCanvas.clearSelection();
-        const fileType = (function () {
+
+        const fileType = (() => {
           if (file.name.toLowerCase().endsWith('.beam')) {
             return 'beam';
           }
@@ -2635,7 +2637,9 @@ const svgEditor = (window['svgEditor'] = (function () {
           }
           return 'unknown';
         })();
+
         console.log('File type name:', fileType);
+
         switch (fileType) {
           case 'bvg':
             await importBvg(file);
@@ -2644,7 +2648,10 @@ const svgEditor = (window['svgEditor'] = (function () {
             BeamFileHelper.readBeam(file);
             break;
           case 'svg':
-            await importSvg(file);
+            await webNeedConnectionWrapper(async () => {
+              await importSvg(file);
+            });
+            // remove the loading toast if loaded or no machine connection
             Progress.popById('loading_image');
             break;
           case 'bitmap':
@@ -2659,9 +2666,7 @@ const svgEditor = (window['svgEditor'] = (function () {
           case 'ai':
             const { blob, errorMessage } = await pdfHelper.pdfToSvgBlob(file);
             if (blob) {
-              Object.assign(blob, {
-                name: file.name,
-              });
+              Object.assign(blob, { name: file.name });
               await importSvg(blob as File, { skipByLayer: true });
               Progress.popById('loading_image');
             } else {
