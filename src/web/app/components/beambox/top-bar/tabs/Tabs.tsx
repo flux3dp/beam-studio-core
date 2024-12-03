@@ -1,7 +1,9 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import { CloseOutlined } from '@ant-design/icons';
+import { DragDropContext, Draggable, Droppable, DropResult } from 'react-beautiful-dnd';
 
 import TopBarIcons from 'app/icons/top-bar/TopBarIcons';
 import tabConstants from 'app/constants/tab-constants';
@@ -37,39 +39,68 @@ const Tabs = (): JSX.Element => {
     };
   }, [currentId]);
 
+  const handleDragEnd = ({ destination, source }: DropResult) => {
+    const { index: srcIdx } = source;
+    const { index: dstIdx } = destination;
+    if (srcIdx === dstIdx) return;
+    setTabs((cur) => {
+      const newTabs = Array.from(cur);
+      const [removed] = newTabs.splice(srcIdx, 1);
+      newTabs.splice(dstIdx, 0, removed);
+      return newTabs;
+    });
+    tabController.moveTab(srcIdx, dstIdx);
+  };
+
   return (
     <div className={styles.container}>
-      <div className={styles.tabs}>
-        {tabs.map((tab) => {
-          const { id, isCloud } = tab;
-          let { title } = id === currentId ? currentTabInfo : tab;
-          if (id === currentId) {
-            title = `${title || t.untitled}${hasUnsavedChange ? '*' : ''}`;
-          }
-          return (
+      <DragDropContext onDragEnd={handleDragEnd}>
+        <Droppable droppableId="tabs" direction="horizontal">
+          {(droppableProvided) => (
             <div
-              key={id}
-              title={title}
-              className={classNames(styles.tab, { [styles.focused]: currentId === id })}
-              onClick={() => tabController.focusTab(id)}
+              className={styles.tabs}
+              {...droppableProvided.droppableProps}
+              ref={(node) => droppableProvided.innerRef(node)}
             >
-              {isCloud && <TopBarIcons.CloudFile className={styles.cloud} />}
-              <span className={styles.name}>{title}</span>
-              <span
-                onClick={(e) => {
-                  e.stopPropagation();
-                  e.preventDefault();
-                  tabController.closeTab(id);
-                }}
-                className={styles.close}
-              >
-                <CloseOutlined />
-              </span>
+              {tabs.map((tab, idx) => {
+                const { id, isCloud } = tab;
+                let { title } = id === currentId ? currentTabInfo : tab;
+                if (id === currentId) {
+                  title = `${title || t.untitled}${hasUnsavedChange ? '*' : ''}`;
+                }
+                return (
+                  <Draggable key={id} draggableId={id.toFixed(0)} index={idx}>
+                    {(draggalbeProvided, snapshot) => (
+                      <div
+                        {...draggalbeProvided.draggableProps}
+                        {...draggalbeProvided.dragHandleProps}
+                        ref={draggalbeProvided.innerRef}
+                        title={title}
+                        className={classNames(styles.tab, { [styles.focused]: currentId === id })}
+                        onClick={() => tabController.focusTab(id)}
+                      >
+                        {isCloud && <TopBarIcons.CloudFile className={styles.cloud} />}
+                        <span className={styles.name}>{title}</span>
+                        <span
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            e.preventDefault();
+                            tabController.closeTab(id);
+                          }}
+                          className={styles.close}
+                        >
+                          <CloseOutlined />
+                        </span>
+                      </div>
+                    )}
+                  </Draggable>
+                );
+              })}
             </div>
-          );
-        })}
-      </div>
-      {tabConstants.maxTab && tabs.length < tabConstants.maxTab && (
+          )}
+        </Droppable>
+      </DragDropContext>
+      {(!tabConstants.maxTab || tabs.length < tabConstants.maxTab) && (
         <div className={styles.add} onClick={tabController.addNewTab}>
           +
         </div>

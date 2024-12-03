@@ -55,6 +55,10 @@ class TabController extends EventEmitter {
 
   closeTab = (id: number): void => communicator.send('close-tab', id);
 
+  moveTab = (srcIdx: number, dstIdx: number): void => {
+    communicator.send('move-tab', srcIdx, dstIdx);
+  };
+
   focusTab = (id: number): void => {
     if (id === this.currentId) return;
     communicator.send('focus-tab', id);
