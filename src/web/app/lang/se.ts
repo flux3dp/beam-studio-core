@@ -101,6 +101,7 @@ const lang: ILang = {
       import_ador_printing_example_single: 'Exempel på Ador Utskrift - Enfärg',
       import_ador_printing_example_full: 'Exempel på Ador Utskrift - Flerfärg',
       import_acrylic_focus_probe: 'Akrylfokusprov - 3mm',
+      import_beambox_2_focus_probe: 'Beambox II Fokussond - 3 mm',
       import_promark_example: 'Exempel på Promark',
       import_hexa_example: 'Exempel på HEXA',
       export_to: 'Exportera till...',

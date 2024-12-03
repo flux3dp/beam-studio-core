@@ -101,6 +101,7 @@ const lang: ILang = {
       import_ador_printing_example_single: 'Contoh Cetakan Ador - Satu Warna',
       import_ador_printing_example_full: 'Contoh Cetakan Ador - Warna Penuh',
       import_acrylic_focus_probe: 'Pemfokus Akrilik Probe - 3mm',
+      import_beambox_2_focus_probe: 'Probe Fokus Beambox II - 3mm',
       import_promark_example: 'Contoh Promark',
       import_hexa_example: 'Contoh HEXA',
       export_to: 'Eksport Kepada...',

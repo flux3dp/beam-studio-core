@@ -101,6 +101,7 @@ const lang: ILang = {
       import_ador_printing_example_single: "Exemple d'impression Ador - Couleur unique",
       import_ador_printing_example_full: "Exemple d'impression Ador - Couleurs complètes",
       import_acrylic_focus_probe: 'Sonde de mise au point acrylique - 3mm',
+      import_beambox_2_focus_probe: 'Sonde de Mise au Point Beambox II - 3 mm',
       import_promark_example: 'Exemple de Promark',
       import_hexa_example: 'Exemple de HEXA',
       export_to: 'Exporter vers...',

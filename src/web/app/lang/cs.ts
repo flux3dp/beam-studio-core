@@ -101,6 +101,7 @@ const lang: ILang = {
       import_ador_printing_example_single: 'Příklad Ador tisknutí - jednobarevné',
       import_ador_printing_example_full: 'Příklad Ador tisknutí - barevné',
       import_acrylic_focus_probe: 'Akrylový focus probe - 3mm',
+      import_beambox_2_focus_probe: 'Beambox II Fokusová sonda - 3 mm',
       import_promark_example: 'Příklad Promarku',
       import_hexa_example: 'Příklad HEXA',
       export_to: 'Exportovat do...',

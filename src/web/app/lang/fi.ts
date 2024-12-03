@@ -101,6 +101,7 @@ const lang: ILang = {
       import_ador_printing_example_single: 'Adorin tulostuksen esimerkki - Yksivärinen',
       import_ador_printing_example_full: 'Adorin tulostuksen esimerkki - Täysvärinen',
       import_acrylic_focus_probe: 'Akryylitarkkuustesti - 3 mm',
+      import_beambox_2_focus_probe: 'Beambox II Tarkennusanturi - 3 mm',
       import_promark_example: 'Promark-esimerkki',
       import_hexa_example: 'Esimerkki HEXA:sta',
       export_to: 'Vie...',

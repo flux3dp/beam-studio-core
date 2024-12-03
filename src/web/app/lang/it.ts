@@ -101,6 +101,7 @@ const lang: ILang = {
       import_ador_printing_example_single: 'Esempio di stampa Ador - Monocolore',
       import_ador_printing_example_full: 'Esempio di stampa Ador - Colore completo',
       import_acrylic_focus_probe: 'Sonda messa a fuoco acrilico - 3mm',
+      import_beambox_2_focus_probe: 'Sonda di Messa a Fuoco Beambox II - 3 mm',
       import_promark_example: 'Esempio di Promark',
       import_hexa_example: 'Esempio di HEXA',
       export_to: 'Esporta su...',

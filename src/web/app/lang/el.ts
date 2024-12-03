@@ -101,6 +101,7 @@ const lang: ILang = {
       import_ador_printing_example_single: 'Παράδειγμα εκτύπωσης Ador - Ένα χρώμα',
       import_ador_printing_example_full: 'Παράδειγμα εκτύπωσης Ador - Πλήρες χρώμα',
       import_acrylic_focus_probe: 'Δοκιμή εστίασης ακρυλικού - 3mm',
+      import_beambox_2_focus_probe: 'Beambox II Αισθητήρας Εστίασης - 3mm',
       import_promark_example: 'Παράδειγμα Promark',
       import_hexa_example: 'Παράδειγμα HEXA',
       export_to: 'Εξαγωγή σε...',

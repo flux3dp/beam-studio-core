@@ -101,6 +101,7 @@ const lang: ILang = {
       import_ador_printing_example_single: 'Ejemplo de Ador Impresión - Color Único',
       import_ador_printing_example_full: 'Ejemplo de Ador Impresión - Color Completo',
       import_acrylic_focus_probe: 'Cristal de Enfoque de Acrílico - 3mm',
+      import_beambox_2_focus_probe: 'Sonda de Enfoque Beambox II - 3 mm',
       import_promark_example: 'Ejemplo de Promark',
       import_hexa_example: 'Ejemplo de HEXA',
       export_to: 'Exportar a...',
