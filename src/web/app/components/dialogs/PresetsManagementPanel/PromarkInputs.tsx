@@ -86,6 +86,21 @@ const PromarkInputs = ({
             clipValue
           />
         </div>
+        <div className={styles.field}>
+          <div className={styles.label}>{tLaserPanel.dottingTime}</div>
+          <UnitInput
+            data-testid="dottingTime"
+            className={styles.input}
+            disabled={preset.isDefault}
+            value={preset.dottingTime ?? defaultConfig.dottingTime}
+            min={1}
+            max={10000}
+            precision={0}
+            addonAfter="us"
+            onChange={(value) => handleChange('dottingTime', value)}
+            clipValue
+          />
+        </div>
         {supportInfo.lowerFocus && (
           <>
             <div className={styles.field}>

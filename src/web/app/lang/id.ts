@@ -809,6 +809,7 @@ const lang: ILang = {
         fill_angle: 'Sudut Isian',
         bi_directional: 'Dua Arah',
         cross_hatch: 'Arsir Silang',
+        dottingTime: 'Waktu Penandaan',
         slider: {
           regular: 'Reguler',
           low: 'Rendah',

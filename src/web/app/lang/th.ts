@@ -809,6 +809,7 @@ const lang: ILang = {
         fill_angle: 'มุมเติมเต็ม',
         bi_directional: 'สองทิศทาง',
         cross_hatch: 'การฟักไข่ข้าม',
+        dottingTime: 'เวลาแต้มจุด',
         slider: {
           regular: 'ปกติ',
           low: 'ต่ํา',

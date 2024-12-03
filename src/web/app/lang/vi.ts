@@ -809,6 +809,7 @@ const lang: ILang = {
         fill_angle: 'Góc Lấp Đầy',
         bi_directional: 'Hai Chiều',
         cross_hatch: 'Nét Chéo',
+        dottingTime: 'Thời gian chấm điểm',
         slider: {
           regular: 'Bình thường',
           low: 'Thấp',

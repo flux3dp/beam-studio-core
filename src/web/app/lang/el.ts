@@ -809,6 +809,7 @@ const lang: ILang = {
         fill_angle: 'Γωνία Γεμίσματος',
         bi_directional: 'Διπλής Κατεύθυνσης',
         cross_hatch: 'Διασταυρωμένη Σκίαση',
+        dottingTime: 'Χρόνος στίξης',
         slider: {
           regular: 'Κανονικό',
           low: 'Χαμηλό',

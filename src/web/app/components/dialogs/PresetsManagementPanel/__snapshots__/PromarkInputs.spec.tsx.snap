@@ -90,6 +90,31 @@ exports[`PromarkInputs should render correctly 1`] = `
         <div
           class="label"
         >
+          Dotting Time
+        </div>
+        <div
+          class="input"
+        >
+          UnitInput: 
+          <p>
+            addonAfter: 
+            us
+          </p>
+          0
+          <input
+            data-testid="dottingTime"
+            max="10000"
+            min="1"
+            value="100"
+          />
+        </div>
+      </div>
+      <div
+        class="field"
+      >
+        <div
+          class="label"
+        >
           Lower focus by
         </div>
         <div

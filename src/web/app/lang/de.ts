@@ -812,6 +812,7 @@ const lang: ILang = {
         fill_angle: 'Füllwinkel',
         bi_directional: 'Bidirektional',
         cross_hatch: 'Kreuzschraffur',
+        dottingTime: 'Punktierungszeit',
         slider: {
           regular: 'Normal',
           low: 'Niedrig',

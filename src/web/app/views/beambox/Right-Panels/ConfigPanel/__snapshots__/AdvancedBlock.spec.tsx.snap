@@ -259,6 +259,9 @@ exports[`test AdvancedBlock should render correctly for promark desktop 1`] = `
             class="panel"
           >
             <div>
+              Mock DottingTimeBlock
+            </div>
+            <div>
               Mock FrequencyBlock
             </div>
             <div>
@@ -327,6 +330,9 @@ exports[`test AdvancedBlock should render correctly for promark mopa 1`] = `
           <div
             class="panel"
           >
+            <div>
+              Mock DottingTimeBlock
+            </div>
             <div>
               Mock PulseWidthBlock
             </div>

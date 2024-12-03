@@ -44,6 +44,7 @@ export type ConfigKeyTypeMap = {
   fillAngle: number;
   biDirectional: boolean;
   crossHatch: boolean;
+  dottingTime: number;
 };
 
 type ConfigKey = keyof ConfigKeyTypeMap;

@@ -809,6 +809,7 @@ const lang: ILang = {
         fill_angle: 'Angolo di Riempimento',
         bi_directional: 'Bidirezionale',
         cross_hatch: 'Tratteggio Incrociato',
+        dottingTime: 'Tempo di puntatura',
         slider: {
           regular: 'Normale',
           low: 'Basso',

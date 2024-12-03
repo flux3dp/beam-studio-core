@@ -809,6 +809,7 @@ const lang: ILang = {
         fill_angle: 'Täyttökulma',
         bi_directional: 'Kaksisuuntainen',
         cross_hatch: 'Ristikkäinen Varjostus',
+        dottingTime: 'Pisteytysaika',
         slider: {
           regular: 'Normaali',
           low: 'Matala',

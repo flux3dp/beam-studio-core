@@ -93,6 +93,7 @@ const defaultLaserConfigs = {
   fillAngle: { value: 0 },
   biDirectional: { value: false },
   crossHatch: { value: false },
+  dottingTime: { value: 100 },
 };
 
 const defaultMultiValueLaserConfigs = {
@@ -133,6 +134,7 @@ const defaultMultiValueLaserConfigs = {
   fillAngle: { value: 0, hasMultiValue: false },
   biDirectional: { value: false, hasMultiValue: false },
   crossHatch: { value: false, hasMultiValue: false },
+  dottingTime: { value: 100, hasMultiValue: false },
 };
 
 describe('test layer-config-helper', () => {
@@ -310,6 +312,7 @@ describe('test layer-config-helper', () => {
       'crossHatch',
       'focus',
       'focusStep',
+      'dottingTime',
     ]);
   });
 

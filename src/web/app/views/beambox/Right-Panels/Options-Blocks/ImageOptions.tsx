@@ -8,6 +8,7 @@ import browser from 'implementations/browser';
 import history from 'app/svgedit/history/history';
 import ImageData from 'helpers/image-data';
 import i18n from 'helpers/i18n';
+import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import ObjectPanelItem from 'app/views/beambox/Right-Panels/ObjectPanelItem';
 import OptionPanelIcons from 'app/icons/option-panel/OptionPanelIcons';
@@ -42,7 +43,6 @@ const ImageOptions = ({ elem, updateObjectPanel }: Props): JSX.Element => {
   // This is a temporary workaround to prevent engraving of transparent pixels when threshold is set to 255
   const workarea = useWorkarea();
   const maxThreshold = useMemo(() => (promarkModels.has(workarea) ? 254 : 255), [workarea]);
-  console.log('workarea', workarea, promarkModels.has(workarea) ? 254 : 255, maxThreshold);
 
   const changeAttribute = useCallback(
     (changes: { [key: string]: string | number | boolean }): void => {
@@ -105,6 +105,7 @@ const ImageOptions = ({ elem, updateObjectPanel }: Props): JSX.Element => {
       'xlink:href': pngBase64,
     });
     updateObjectPanel();
+    LayerPanelController.checkGradient();
   }, [elem, changeAttribute, generateImageData, updateObjectPanel]);
 
   const handlePwmClick = useCallback(() => {

@@ -9,7 +9,12 @@ const mockForceUpdate = jest.fn();
 jest.mock('helpers/use-force-update', () => () => mockForceUpdate);
 
 const mockDoLayersContainsVector = jest.fn();
-jest.mock('helpers/layer/check-vector', () => (...args) => mockDoLayersContainsVector(...args));
+jest.mock(
+  'helpers/layer/check-vector',
+  () =>
+    (...args) =>
+      mockDoLayersContainsVector(...args)
+);
 
 const MockChild = () => {
   const { selectedLayers } = useContext(LayerPanelContext);
@@ -24,7 +29,7 @@ describe('test LayerPanelContext', () => {
         <MockChild />
       </LayerPanelContextProvider>
     );
-    expect(layerPanelEventEmitter.eventNames().length).toBe(4);
+    expect(layerPanelEventEmitter.eventNames().length).toBe(5);
     expect(mockDoLayersContainsVector).toBeCalledTimes(2);
     expect(mockDoLayersContainsVector).toHaveBeenLastCalledWith([]);
 

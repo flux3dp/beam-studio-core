@@ -16,6 +16,7 @@ const preset = {
   fillAngle: 0,
   biDirectional: true,
   crossHatch: false,
+  dottingTime: 100,
   isDefault: false,
 };
 const maxSpeed = 100;
@@ -31,6 +32,7 @@ const inputTests = [
   { key: 'frequency', value: 32 },
   { key: 'fillInterval', value: 0.2 },
   { key: 'fillAngle', value: 10 },
+  { key: 'dottingTime', value: 150 },
 ];
 
 const switchTests = [
