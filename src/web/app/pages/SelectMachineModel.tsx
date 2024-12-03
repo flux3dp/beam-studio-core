@@ -105,7 +105,7 @@ const SelectMachineModel = (): JSX.Element => {
     {
       model: 'fbb2',
       label: 'Beambox II',
-      imageSrc: 'core-img/init-panel/beambox-ii-real.png',
+      imageSrc: 'core-img/init-panel/beambox-2-real.png',
       btnClass: styles['btn-real'],
     } as const,
   ];

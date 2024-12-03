@@ -21,7 +21,7 @@ import TestInfo from 'app/components/settings/connection/TestInfo';
 import TestState, { isTesting } from 'app/constants/connection-test';
 import useI18n from 'helpers/useI18n';
 import versionChecker from 'helpers/version-checker';
-import { adorModels, promarkModels } from 'app/actions/beambox/constant';
+import { adorModels, bb2Models, promarkModels } from 'app/actions/beambox/constant';
 import { allWorkareas } from 'app/constants/workarea-constants';
 import { IDeviceInfo } from 'interfaces/IDevice';
 
@@ -63,8 +63,10 @@ const ConnectMachineIp = (): JSX.Element => {
 
   useEffect(() => () => discoverer.removeListener('connect-machine-ip'), [discoverer]);
 
-  const isAdor = useMemo(() => adorModels.has(model), [model]);
-  const isPromark = useMemo(() => promarkModels.has(model), [model]);
+  const [isAdor, isBb2, isPromark] = useMemo(
+    () => [adorModels.has(model), bb2Models.has(model), promarkModels.has(model)],
+    [model]
+  );
   const testingIps = isUsb ? ['10.55.0.1', '10.55.0.17'] : [ipValue];
   const updateTestState = (newState: Partial<State>) =>
     setState((prev) => ({ ...prev, ...newState }));
@@ -344,8 +346,9 @@ const ConnectMachineIp = (): JSX.Element => {
 
   const touchPanelSrc = useMemo(() => {
     if (isAdor) return 'core-img/init-panel/ador-ip.jpg';
+    if (isBb2) return `core-img/init-panel/beambox-2-ip-${isWired ? 'wired' : 'wireless'}.png`;
     return `img/init-panel/network-panel-${isWired ? 'wired' : 'wireless'}.jpg`;
-  }, [isAdor, isWired]);
+  }, [isAdor, isWired, isBb2]);
 
   return (
     <div className={styles.container}>
@@ -356,7 +359,7 @@ const ConnectMachineIp = (): JSX.Element => {
         </div>
         {renderNextBtn()}
       </div>
-      <div className={classNames(styles.main, { [styles.ador]: isAdor })}>
+      <div className={classNames(styles.main, { [styles.ador]: isAdor, [styles.bb2]: isBb2 })}>
         {isUsb ? (
           <div className={classNames(styles.image, styles['is-usb'])}>
             <div className={classNames(styles.circle, styles.c1)} />

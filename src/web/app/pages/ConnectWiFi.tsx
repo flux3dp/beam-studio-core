@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-shadow */
 import classNames from 'classnames';
 import React, { useMemo } from 'react';
 import { Collapse } from 'antd';
@@ -11,9 +12,10 @@ import styles from './ConnectWiFi.module.scss';
 const ConnectWiFi = (): JSX.Element => {
   const lang = useI18n().initialize;
   const { search } = useLocation();
-  const model = useMemo(() => new URLSearchParams(search).get('model'), [search]);
-  const isAdor = useMemo(() => adorModels.has(model), [model]);
-  const isBb2 = useMemo(() => bb2Models.has(model), [model]);
+  const [model, isAdor, isBb2] = useMemo(() => {
+    const model = new URLSearchParams(search).get('model');
+    return [model, adorModels.has(model), bb2Models.has(model)];
+  }, [search]);
 
   const imageSrc = useMemo(() => {
     if (isAdor) {
@@ -21,7 +23,7 @@ const ConnectWiFi = (): JSX.Element => {
     }
 
     if (isBb2) {
-      return 'core-img/init-panel/bb2-home-default.png';
+      return 'core-img/init-panel/beambox-2-panel.png';
     }
 
     return 'img/init-panel/touch-panel-en.jpg';
