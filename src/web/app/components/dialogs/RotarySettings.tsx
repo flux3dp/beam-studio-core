@@ -3,7 +3,6 @@ import { Checkbox, Modal, Segmented, Switch } from 'antd';
 
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import changeWorkarea from 'app/svgedit/operations/changeWorkarea';
-import localeHelper from 'helpers/locale-helper';
 import RotaryIcons from 'app/icons/rotary/RotaryIcons';
 import rotaryAxis from 'app/actions/canvas/rotary-axis';
 import storage from 'implementations/storage';
@@ -106,11 +105,10 @@ const RotarySettings = ({ onClose }: Props): JSX.Element => {
                   label: (
                     <div className={styles.seg}>
                       <RotaryIcons.Chuck />
-                      <div>{localeHelper.isTwOrHk ? 'Chuck' : 'Coming Soon'}</div>
+                      <div>Chuck</div>
                     </div>
                   ),
                   value: RotaryType.Chuck,
-                  disabled: !localeHelper.isTwOrHk,
                 },
               ]}
             />
