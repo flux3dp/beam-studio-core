@@ -27,6 +27,7 @@ import { getSupportInfo } from 'app/constants/add-on';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { IUser } from 'interfaces/IUser';
+import shortcuts from 'helpers/shortcuts';
 
 const canvasEventEmitter = eventEmitterFactory.createEventEmitter('canvas');
 const topBarEventEmitter = eventEmitterFactory.createEventEmitter('top-bar');
@@ -96,6 +97,7 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
   const [selectedDevice, setSelectedDevice] = useState<IDeviceInfo | null>(null);
   const [isPathEditing, setIsPathEditing] = useState<boolean>(false);
   const [hasPassthroughExtension, setHasPassthroughExtension] = useState<boolean>(false);
+  const unregisterEndPreviewShortcut = useRef<() => void | null>(null);
 
   const endPreviewMode = (): void => {
     try {
@@ -109,10 +111,16 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
       if (tutorialController.getNextStepRequirement() === tutorialConstants.TO_EDIT_MODE) {
         tutorialController.handleNextStep();
       }
+
       // eslint-disable-next-line react-hooks/rules-of-hooks
       FnWrapper.useSelectTool();
       $('#workarea').off('contextmenu');
       workareaEventEmitter.emit('update-context-menu', { menuDisabled: false });
+
+      // clear end preview shortcut after preview mode ended
+      unregisterEndPreviewShortcut.current?.();
+      unregisterEndPreviewShortcut.current = null;
+
       setMode(CanvasMode.Draw);
     }
   };
@@ -203,17 +211,22 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
   const setupPreviewMode = useCallback(
     async (opts: { showModal?: boolean; callback?: () => void } = {}) => {
       if (settingUpPreview.current) return;
+
       settingUpPreview.current = true;
+
       const { showModal, callback } = opts;
       const { device, isWorkareaMatched } = await getDevice(showModal);
+
       if (!(await PreviewModeController.checkDevice(device))) {
         settingUpPreview.current = false;
         return;
       }
+
       if (!isWorkareaMatched && !(await showResizeAlert(device))) {
         settingUpPreview.current = false;
         return;
       }
+
       const t = lang.topbar;
       const workarea = document.getElementById('workarea');
       // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -242,7 +255,17 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
           settingUpPreview.current = false;
           return;
         }
+
+        const triggerEndPreview = () => {
+          endPreviewMode();
+        };
+
+        unregisterEndPreviewShortcut.current = shortcuts.on(['esc'], triggerEndPreview, {
+          isBlocking: true,
+        });
+
         workarea.style.cursor = 'url(img/camera-cursor.svg) 9 12, cell';
+
         if (PreviewModeController.isFullScreen) {
           PreviewModeController.previewFullWorkarea(() => {
             updateCanvasContext();

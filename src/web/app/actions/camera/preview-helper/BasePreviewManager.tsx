@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import React from 'react';
 import alertCaller from 'app/actions/alert-caller';
 import alertConfig from 'helpers/api/alert-config';
 import alertConstants from 'app/constants/alert-constants';
@@ -12,6 +13,10 @@ import { PreviewManager } from 'interfaces/PreviewManager';
 import { PreviewSpeedLevel } from 'app/actions/beambox/constant';
 import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
 import shortcuts from 'helpers/shortcuts';
+import { Tooltip } from 'antd';
+import { QuestionCircleOutlined } from '@ant-design/icons';
+
+import styles from './BasePreviewManager.module.scss';
 
 class BasePreviewManager implements PreviewManager {
   public isFullScreen = false;
@@ -80,12 +85,10 @@ class BasePreviewManager implements PreviewManager {
     const points = getPoints();
 
     let isStopped = false;
-    const triggerPause = ({ code }: KeyboardEvent) => {
-      if (code === 'Escape') {
-        isStopped = true;
-      }
+    const triggerPause = () => {
+      isStopped = true;
     };
-    const unregisterPause = shortcuts.on(['esc'], triggerPause);
+    const unregisterPauseShortcut = shortcuts.on(['esc'], triggerPause, { isBlocking: true });
 
     try {
       for (let i = 0; i < points.length; i += 1) {
@@ -93,10 +96,17 @@ class BasePreviewManager implements PreviewManager {
 
         MessageCaller.openMessage({
           key: 'camera-preview',
-          content: `${i18n.lang.topbar.preview} ${i}/${points.length}
-          (${i18n.lang.topbar.preview_press_esc_to_stop})`,
+          // add margin to prevent message display at the draggable area
+          className: styles['mt-24'],
+          content: (
+            <>
+              {`${i18n.lang.topbar.preview} ${i}/${points.length} `}
+              <Tooltip title={i18n.lang.topbar.preview_press_esc_to_stop}>
+                <QuestionCircleOutlined />
+              </Tooltip>
+            </>
+          ),
           level: MessageLevel.LOADING,
-          style: { whiteSpace: 'pre-line' },
           duration: 20,
         });
 
@@ -113,6 +123,7 @@ class BasePreviewManager implements PreviewManager {
       } else {
         MessageCaller.openMessage({
           key: 'camera-preview',
+          className: styles['mt-24'],
           level: MessageLevel.SUCCESS,
           content: i18n.lang.device.completed,
           duration: 3,
@@ -125,7 +136,7 @@ class BasePreviewManager implements PreviewManager {
 
       throw error;
     } finally {
-      unregisterPause();
+      unregisterPauseShortcut();
     }
   };
 
