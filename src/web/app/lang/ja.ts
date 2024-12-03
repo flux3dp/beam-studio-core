@@ -101,6 +101,7 @@ const lang: ILang = {
       import_ador_printing_example_single: 'Ador プリントの例 - シングルカラー',
       import_ador_printing_example_full: 'Ador プリントの例 - フルカラー',
       import_acrylic_focus_probe: 'アクリルフォーカスプローブ - 3mm',
+      import_beambox_2_focus_probe: 'Beambox II フォーカスプローブ - 3mm',
       import_promark_example: 'Promarkの例',
       import_hexa_example: 'HEXAの例',
       export_to: 'エクスポート',

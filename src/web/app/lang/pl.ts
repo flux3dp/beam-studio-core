@@ -101,6 +101,7 @@ const lang: ILang = {
       import_ador_printing_example_single: 'Przykład druku Ador — pojedynczy kolor',
       import_ador_printing_example_full: 'Przykład druku Ador - cały kolor',
       import_acrylic_focus_probe: 'Akrylowa sonda ostrości - 3mm',
+      import_beambox_2_focus_probe: 'Sonda Ostrości Beambox II - 3 mm',
       import_promark_example: 'Przykład Promark',
       import_hexa_example: 'Przykład HEXA',
       export_to: 'Eksportuj do...',

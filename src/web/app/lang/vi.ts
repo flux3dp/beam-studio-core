@@ -101,6 +101,7 @@ const lang: ILang = {
       import_ador_printing_example_single: 'Ví dụ in của Ador - Một màu',
       import_ador_printing_example_full: 'Ví dụ in của Ador - Đầy đủ màu',
       import_acrylic_focus_probe: 'Đầu dò tiêu điểm acrylic - 3mm',
+      import_beambox_2_focus_probe: 'Đầu dò Lấy Nét Beambox II - 3mm',
       import_promark_example: 'Ví dụ về Promark',
       import_hexa_example: 'Ví dụ về HEXA',
       export_to: 'Xuất ra...',

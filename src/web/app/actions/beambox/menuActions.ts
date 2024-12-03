@@ -47,6 +47,7 @@ type ExampleFileKeys =
   | 'ador_example_printing_single'
   | 'ador_example_printing_full'
   | 'focus_probe'
+  | 'beambox_2_focus_probe'
   | 'hello_beambox'
   | 'beambox_2_example'
   | 'hexa_example'
@@ -63,6 +64,7 @@ const getExampleFileName = (key: ExampleFileKeys) => {
       mat_test_engrave: 'examples/mat_test_engrave.bvg',
       mat_test_line: 'examples/mat_test_line.bvg',
       focus_probe: 'examples/focus_probe.bvg',
+      beambox_2_focus_probe: 'examples/beambox_2_focus_probe.bvg',
       hello_beambox: 'examples/hello-beambox.bvg',
       beambox_2_example: 'examples/beambox_2_example.bvg',
       promark_example: 'examples/promark_example.bvg',
@@ -156,6 +158,8 @@ export default {
     loadExampleFile(getExampleFileName('mat_test_printing')),
   IMPORT_ACRYLIC_FOCUS_PROBE: (): Promise<void> =>
     loadExampleFile(getExampleFileName('focus_probe')),
+  IMPORT_BEAMBOX_2_FOCUS_PROBE: (): Promise<void> =>
+    loadExampleFile(getExampleFileName('beambox_2_focus_probe')),
   IMPORT_HELLO_BEAMBOX: (): Promise<void> => loadExampleFile(getExampleFileName('hello_beambox')),
   IMPORT_EXAMPLE_BEAMBOX_2: (): Promise<void> =>
     loadExampleFile(getExampleFileName('beambox_2_example')),

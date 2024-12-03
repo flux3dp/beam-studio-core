@@ -289,6 +289,9 @@ export default function Menu({ email }: Props): JSX.Element {
           <MenuItem onClick={() => callback('IMPORT_ACRYLIC_FOCUS_PROBE')}>
             {menuCms.import_acrylic_focus_probe}
           </MenuItem>
+          <MenuItem onClick={() => callback('IMPORT_BEAMBOX_2_FOCUS_PROBE')}>
+            {menuCms.import_beambox_2_focus_probe}
+          </MenuItem>
         </SubMenu>
         <MenuDivider />
         <SubMenu label={menuCms.export_to}>

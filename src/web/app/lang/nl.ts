@@ -101,6 +101,7 @@ const lang: ILang = {
       import_ador_printing_example_single: 'Voorbeeld van Ador Printing - Enkele kleur',
       import_ador_printing_example_full: 'Voorbeeld van Ador Printing - Volledige kleur',
       import_acrylic_focus_probe: 'Acryl focus probe - 3mm',
+      import_beambox_2_focus_probe: 'Beambox II Focusprobe - 3 mm',
       import_promark_example: 'Voorbeeld van Promark',
       import_hexa_example: 'Voorbeeld van HEXA',
       export_to: 'Exporteren naar...',

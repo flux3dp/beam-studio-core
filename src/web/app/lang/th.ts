@@ -101,6 +101,7 @@ const lang: ILang = {
       import_ador_printing_example_single: 'ตัวอย่างการพิมพ์ของ Ador - สีเดียว',
       import_ador_printing_example_full: 'ตัวอย่างการพิมพ์ของ Ador - สีเต็มรูปแบบ',
       import_acrylic_focus_probe: 'โฟกัสโพรบอะคริลิค - 3 มม.',
+      import_beambox_2_focus_probe: 'หัววัดโฟกัส Beambox II - 3 มม.',
       import_promark_example: 'ตัวอย่างของ Promark',
       import_hexa_example: 'ตัวอย่าง HEXA',
       export_to: 'ส่งออกไปยัง...',
