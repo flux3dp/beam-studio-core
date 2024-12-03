@@ -128,5 +128,13 @@
         }
       }
     }
+
+    &.bb2 {
+      .image {
+        .hint {
+          @include connectionSettingPage.bb2-ip-hint;
+        }
+      }
+    }
   }
 }

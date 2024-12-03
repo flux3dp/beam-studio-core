@@ -327,16 +327,26 @@
 }
 
 @mixin bb2-network-hint {
-  $image-width: min(400px, calc(100vw - 450px));
-  width: calc(0.25 * $image-width);
-  height: calc(0.25 * $image-width);
-  margin: calc(0.45 * $image-width) 0 0 calc(0.01 * $image-width);
+  width: 90px;
+  height: 90px;
+  margin: 188px 0 0 8px;
   border-radius: 100%;
 
   @media screen and (max-width: 600px) {
-    $image-width: calc(100vw - 60px);
-    width: calc(0.15 * $image-width);
-    height: calc(0.15 * $image-width);
-    margin: calc(0.34 * $image-width) 0 0 calc(-0.165 * $image-width);
+    width: 41.25px;
+    height: 41.25px;
+    margin: 110px 0 0 -52px;
+  }
+}
+
+@mixin bb2-ip-hint {
+  width: 160px;
+  height: 20px;
+  margin: 65px 0 0 0;
+
+  @media screen and (max-width: 600px) {
+    width: 110px;
+    height: 16px;
+    margin: 34.5px 0 0 0;
   }
 }
