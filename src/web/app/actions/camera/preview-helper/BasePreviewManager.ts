@@ -80,12 +80,10 @@ class BasePreviewManager implements PreviewManager {
     const points = getPoints();
 
     let isStopped = false;
-    const triggerPause = ({ code }: KeyboardEvent) => {
-      if (code === 'Escape') {
-        isStopped = true;
-      }
+    const triggerPause = () => {
+      isStopped = true;
     };
-    const unregisterPause = shortcuts.on(['esc'], triggerPause);
+    const unregisterPauseShortcut = shortcuts.on(['esc'], triggerPause, { isBlocking: true });
 
     try {
       for (let i = 0; i < points.length; i += 1) {
@@ -125,7 +123,7 @@ class BasePreviewManager implements PreviewManager {
 
       throw error;
     } finally {
-      unregisterPause();
+      unregisterPauseShortcut();
     }
   };
 
