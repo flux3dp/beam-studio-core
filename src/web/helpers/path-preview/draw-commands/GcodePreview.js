@@ -16,6 +16,8 @@
 // Modified by Dean Sung and Kai Tseng, 2021
 //
 
+import { controlConfig } from 'app/constants/promark-constants';
+
 const parsedStride = 9;
 const drawStride = 8;
 const accX = 4000 * 3600; // mm/min^2
@@ -123,7 +125,7 @@ export class GcodePreview {
     this.timeInterval = [];
   }
 
-  setParsedGcode(parsed, highSpeed = false) {
+  setParsedGcode(parsed, isPromark = false, dpmm = 10) {
     this.arrayChanged = true;
     this.timeInterval = [];
     this.arrayVersion += 1;
@@ -157,6 +159,7 @@ export class GcodePreview {
       let g1TimeReal = 0;
       let lastFeedrate = 0;
       let lastDirection = 0;
+      let lastDottingTime = 0;
 
       for (let i = 0; i < parsed.length / parsedStride - 1; i += 1) {
         // g
@@ -197,19 +200,38 @@ export class GcodePreview {
         array[i * drawStride * 2 + 5] = t;
         array[i * drawStride * 2 + 6] = g0Time;
         array[i * drawStride * 2 + 7] = g1Time;
-        const dist = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2 + (z2 - z1) ** 2);
+        const dist = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2 + (isPromark ? 0 : z2 - z1) ** 2);
         let tc = 0;
-        if (!Number.isNaN(f) && dist !== 0) {
+        if (isPromark) {
+          if (z2 !== z1) {
+            // Z move
+            tc = Math.abs(z2 - z1) / controlConfig.zSpeed / 60;
+          }
+          if (dist !== 0) {
+            // XY move
+            if (g === 0) {
+              // Jump (No laser)
+              tc = dist / controlConfig.travelSpeed / 60 + controlConfig.jumpDelay / 60000000;
+            } else if (lastDottingTime > 0) {
+              // Jump and pulse (Dotting mode)
+              tc =
+                dist / controlConfig.travelSpeed / 60 +
+                (dist * dpmm * (lastDottingTime + controlConfig.jumpDelay)) / 60000000; // us to min
+            } else {
+              // Normal mode
+              tc = dist / f + controlConfig.laserDelay / 60000000;
+            }
+          }
+          lastDottingTime = t;
+        } else if (!Number.isNaN(f) && dist !== 0) {
           const acc = Math.abs(y2 - y1) > 0 ? accX : accY;
           const direction = Math.atan2(y2 - y1, x2 - x1);
           const lastVel = lastFeedrate * Math.cos(direction - lastDirection);
-          // eslint-disable-next-line no-nested-ternary
-          const estimateVel = highSpeed
-            ? f
-            : lastVel <= 0
-            ? Math.min(f, (2 * acc * dist) ** 0.5)
-            : Math.min(f, (lastVel ** 2 + 2 * acc * dist) ** 0.5);
-          tc = (highSpeed ? 0 : Math.abs(estimateVel - lastVel) / acc) + dist / estimateVel;
+          const estimateVel =
+            lastVel <= 0
+              ? Math.min(f, (2 * acc * dist) ** 0.5)
+              : Math.min(f, (lastVel ** 2 + 2 * acc * dist) ** 0.5);
+          tc = Math.abs(estimateVel - lastVel) / acc + dist / estimateVel;
           lastFeedrate = estimateVel;
           lastDirection = direction;
         }

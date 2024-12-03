@@ -13,6 +13,7 @@ import SymbolMaker from 'helpers/symbol-maker';
 import TopBarController from 'app/views/beambox/TopBar/contexts/TopBarController';
 import updateImagesResolution from 'helpers/image/updateImagesResolution';
 import VersionChecker from 'helpers/version-checker';
+import { controlConfig } from 'app/constants/promark-constants';
 import { getExportOpt } from 'helpers/api/svg-laser-parser';
 import { getSupportInfo } from 'app/constants/add-on';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
@@ -32,7 +33,7 @@ getSVGAsync((globalSVG) => {
 });
 
 const { lang } = i18n;
-const dpiTextMap = {
+export const dpiTextMap = {
   low: 127,
   medium: 254,
   high: 508,
@@ -255,7 +256,7 @@ const fetchTaskCodeSwiftray = async (
   if (isPromark) codeType = 'gcode';
   let taskConfig = {
     model,
-    travelSpeed: isPromark ? 4000 : 100,
+    travelSpeed: isPromark ? controlConfig.travelSpeed : 100,
     enableAutoFocus:
       doesSupportDiodeAndAF && BeamboxPreference.read('enable-autofocus') && supportInfo.autoFocus,
     enableDiode:

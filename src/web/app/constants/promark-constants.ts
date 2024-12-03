@@ -18,6 +18,13 @@ export const defaultGalvoParameters: GalvoParameters = {
 };
 export const defaultRedLight: RedDot = { offsetX: 0, offsetY: 0, scaleX: 1, scaleY: 1 };
 
+export const controlConfig = {
+  travelSpeed: 4000, // mm/s
+  zSpeed: 3, // mm/s (RunSpeed/pulsePerMM)
+  jumpDelay: 300, // us ((MaxJumpDelay+MinJumpDelay)/2)
+  laserDelay: 200, // us (LaserOffDelay-LaserOnDelay)
+};
+
 export default {
   promarkWatts,
   mopaWatts,
