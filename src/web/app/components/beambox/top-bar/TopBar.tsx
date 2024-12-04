@@ -69,7 +69,7 @@ const Topbar = (): JSX.Element => {
   return (
     <>
       <div
-        className={classNames('top-bar', styles['top-bar'], { white: hasTitleBar })}
+        className={styles['top-bar']}
         onClick={() => ObjectPanelController.updateActiveKey(null)}
       >
         <div className={classNames(styles.controls, styles.left)}>
