@@ -71,7 +71,11 @@ const Topbar = (): JSX.Element => {
         className={styles['top-bar']}
         onClick={() => ObjectPanelController.updateActiveKey(null)}
       >
-        <div className={classNames(styles.controls, styles.left)}>
+        <div
+          className={classNames(styles.controls, styles.left, {
+            [styles['margin-left']]: hasTitleBar,
+          })}
+        >
           {!hasTitleBar && <div className={styles['drag-area']} />}
           <UserAvatar user={currentUser} />
           <PreviewButton />

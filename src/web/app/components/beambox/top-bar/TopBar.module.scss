@@ -25,9 +25,13 @@
     flex: 1 1 auto;
     overflow: hidden;
 
+    &.margin-left {
+      margin-left: 8px;
+    }
+
     .drag-area {
       flex: 0 0 auto;
-      width: 80px;
+      width: 72px;
       height: variables.$topBarHeight;
       -webkit-app-region: drag;
 
