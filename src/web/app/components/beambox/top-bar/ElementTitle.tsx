@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import React from 'react';
 
 import i18n from 'helpers/i18n';
@@ -15,10 +14,9 @@ const LANG = i18n.lang.topbar;
 
 interface Props {
   selectedElem: Element | null;
-  white?: boolean;
 }
 
-function ElementTitle({ selectedElem, white = false }: Props): JSX.Element {
+function ElementTitle({ selectedElem }: Props): JSX.Element {
   let content = '';
   if (selectedElem) {
     if (selectedElem.getAttribute('data-tempgroup') === 'true') {
@@ -45,9 +43,7 @@ function ElementTitle({ selectedElem, white = false }: Props): JSX.Element {
   if (!content) {
     return null;
   }
-  return (
-    <div className={classNames(styles['element-title'], { [styles.white]: white })}>{content}</div>
-  );
+  return <div className={styles['element-title']}>{content}</div>;
 }
 
 export default ElementTitle;

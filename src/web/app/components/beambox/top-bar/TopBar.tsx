@@ -96,12 +96,10 @@ const Topbar = (): JSX.Element => {
         )}
       </div>
       <SelectedElementContext.Consumer>
-        {({ selectedElement }) => (
-          <ElementTitle selectedElem={selectedElement} white={hasTitleBar} />
-        )}
+        {({ selectedElement }) => <ElementTitle selectedElem={selectedElement} />}
       </SelectedElementContext.Consumer>
       <TopBarHintsContextProvider>
-        <TopBarHints white={hasTitleBar} />
+        <TopBarHints />
       </TopBarHintsContextProvider>
     </>
   );

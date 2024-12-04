@@ -41,24 +41,3 @@
     }
   }
 }
-
-:global(.white) .container {
-  position: relative;
-  float: left;
-  margin-left: 40px;
-  overflow: hidden;
-  min-width: 50px;
-  max-width: 50px;
-
-  .button {
-    padding: 0 13px;
-  }
-
-  &.previewing {
-    background-color: unset;
-    min-width: 150px;
-    max-width: 270px;
-    border: 3px solid #595959;
-    border-width: 0 0 3px 0;
-  }
-}
