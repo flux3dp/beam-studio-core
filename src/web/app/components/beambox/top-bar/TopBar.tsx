@@ -29,10 +29,11 @@ import Tabs from './tabs/Tabs';
 // TODO: move all styles from web to modules.scss
 import styles from './TopBar.module.scss';
 
-const isWhiteTopBar = window.os !== 'MacOS' && !isWeb();
-
 const Topbar = (): JSX.Element => {
-  const isWebMode = useMemo(() => isWeb(), []);
+  const { isWebMode, hasTitleBar } = useMemo(() => {
+    const web = isWeb();
+    return { isWebMode: web, hasTitleBar: window.os !== 'MacOS' && !web };
+  }, []);
   const { mode, currentUser, togglePathPreview, setSelectedDevice } = useContext(CanvasContext);
   const [hasDiscoveredMachine, setHasDiscoveredMachine] = useState(false);
   const defaultDeviceUUID = useRef<string | null>(storage.get('selected-device'));
@@ -72,7 +73,7 @@ const Topbar = (): JSX.Element => {
         onClick={() => ObjectPanelController.updateActiveKey(null)}
       >
         <div className={classNames(styles.controls, styles.left)}>
-          <div className={styles['drag-area']} />
+          {!hasTitleBar && <div className={styles['drag-area']} />}
           <UserAvatar user={currentUser} />
           <PreviewButton />
           <CommonTools isWeb={isWebMode} hide={mode !== CanvasMode.Draw} />
@@ -86,7 +87,7 @@ const Topbar = (): JSX.Element => {
             isDeviceConnected={hasDiscoveredMachine}
             togglePathPreview={togglePathPreview}
           />
-          <GoButton hasText={isWhiteTopBar} hasDiscoverdMachine={hasDiscoveredMachine} />
+          <GoButton hasText={hasTitleBar} hasDiscoverdMachine={hasDiscoveredMachine} />
         </div>
         {isWeb() && (
           <div className={classNames('top-bar-menu-container', styles.menu)}>
@@ -96,11 +97,11 @@ const Topbar = (): JSX.Element => {
       </div>
       <SelectedElementContext.Consumer>
         {({ selectedElement }) => (
-          <ElementTitle selectedElem={selectedElement} white={isWhiteTopBar} />
+          <ElementTitle selectedElem={selectedElement} white={hasTitleBar} />
         )}
       </SelectedElementContext.Consumer>
       <TopBarHintsContextProvider>
-        <TopBarHints white={isWhiteTopBar} />
+        <TopBarHints white={hasTitleBar} />
       </TopBarHintsContextProvider>
     </>
   );
