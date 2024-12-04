@@ -26,7 +26,6 @@ import { SelectedElementContext } from 'app/contexts/SelectedElementContext';
 import { TopBarHintsContextProvider } from 'app/contexts/TopBarHintsContext';
 
 import Tabs from './tabs/Tabs';
-// TODO: move all styles from web to modules.scss
 import styles from './TopBar.module.scss';
 
 const Topbar = (): JSX.Element => {
