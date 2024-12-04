@@ -77,11 +77,13 @@
   }
 
   .add {
+    flex: 0 0;
     cursor: pointer;
     color: #c2c2c2;
     font-size: 24px;
     line-height: 24px;
     width: 30px;
+    min-width: 30px;
     height: 30px;
     text-align: center;
 
