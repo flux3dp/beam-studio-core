@@ -1,12 +1,14 @@
 import React, { memo, useContext, useEffect, useState } from 'react';
 
 import browser from 'implementations/browser';
+import curveEngravingModeController from 'app/actions/canvas/curveEngravingModeController';
 import dialogCaller from 'app/actions/dialog-caller';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import LeftPanelIcons from 'app/icons/left-panel/LeftPanelIcons';
 import LeftPanelButton from 'app/components/beambox/left-panel/LeftPanelButton';
 import useI18n from 'helpers/useI18n';
+import useWorkarea from 'helpers/hooks/useWorkarea';
 import { CanvasContext } from 'app/contexts/CanvasContext';
 import { getCurrentUser } from 'helpers/api/flux-id';
 import { showPassThrough } from 'app/components/pass-through/PassThrough';
@@ -15,6 +17,7 @@ const eventEmitter = eventEmitterFactory.createEventEmitter('drawing-tool');
 
 const DrawingToolButtonGroup = ({ className }: { className: string }): JSX.Element => {
   const lang = useI18n();
+  const workarea = useWorkarea();
   const tLeftPanel = lang.beambox.left_panel;
   const { hasPassthroughExtension } = useContext(CanvasContext);
   const [activeButton, setActiveButton] = useState('Cursor');
@@ -112,6 +115,14 @@ const DrawingToolButtonGroup = ({ className }: { className: string }): JSX.Eleme
       )}
       {renderToolButton('DM', <LeftPanelIcons.DM />, 'Design Market', () =>
         browser.open(lang.topbar.menu.link.design_market)
+      )}
+      {workarea === 'fbb2' && (
+        <LeftPanelButton
+          id="curve-engrave"
+          icon={<LeftPanelIcons.CurveEngrave />}
+          title={tLeftPanel.label.curve_engraving.title}
+          onClick={() => curveEngravingModeController.start()}
+        />
       )}
       {hasPassthroughExtension &&
         renderToolButton(
