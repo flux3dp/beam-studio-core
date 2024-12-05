@@ -1305,7 +1305,9 @@ class DeviceMaster {
     return res;
   }
 
-  async takeOnePicture(opts: { timeout?: number } = {}) {
+  async takeOnePicture(
+    opts: { timeout?: number } = {}
+  ): Promise<{ imgBlob?: Blob; needCameraCableAlert?: boolean }> {
     const { timeout = 30 } = opts;
     const startTime = Date.now();
     const cameraFishEyeSetting = this.currentDevice.camera?.getFisheyeSetting();
@@ -1320,6 +1322,9 @@ class DeviceMaster {
         console.log('Error when getting camera image', err);
         lastErr = err;
       }
+      // return null result if camera is disconnected by other operation
+      if (!this.currentDevice.camera) return {};
+      // try to reconnect camera and retake
       this.disconnectCamera();
       await this.connectCamera();
       if (cameraFishEyeSetting) {
