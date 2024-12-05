@@ -1952,7 +1952,6 @@ const lang: ILang = {
     column_gap: 'Mezera mezi sloupci',
     set_object_height: 'Nastavit výšku objektu',
     set_object_height_desc: 'Změřit maximální tloušťku objektu.',
-    measure_area_help: 'Jak vybrat oblast autofokusu pro 3D Curve?',
     reselect_area: 'Znovu vybrat oblast',
     start_autofocus: 'Zahájit autofokus',
     starting_measurement: 'Zahájit měření...',
@@ -1965,6 +1964,7 @@ const lang: ILang = {
     take_reference: 'Vzít referenci',
     take_reference_desc: 'Prosím, přesuňte laserovou hlavu na nejvyšší bod objektu, spusťte zaostřovací sondu a klikněte na „Potvrdit“ pro zaostření.',
     sure_to_delete: 'Chcete smazat data zaostření 3D křivky?',
+    help_center_url: 'https://support.flux3dp.com/hc/en-us/articles/10364060644495',
   },
   pass_through: {
     title: 'Režim procházení',

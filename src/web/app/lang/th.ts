@@ -1949,7 +1949,6 @@ const lang: ILang = {
     column_gap: 'ช่องว่างระหว่างคอลัมน์',
     set_object_height: 'ตั้งค่าความสูงของวัตถุ',
     set_object_height_desc: 'วัดความหนาสูงสุดของวัตถุ',
-    measure_area_help: 'วิธีเลือกพื้นที่โฟกัสอัตโนมัติสำหรับ 3D Curve?',
     reselect_area: 'เลือกพื้นที่ใหม่',
     start_autofocus: 'เริ่มโฟกัสอัตโนมัติ',
     starting_measurement: 'กำลังเริ่มวัด...',
@@ -1962,6 +1961,7 @@ const lang: ILang = {
     take_reference: 'รับค่าการอ้างอิง',
     take_reference_desc: 'กรุณาย้ายหัวเลเซอร์ไปยังจุดที่สูงที่สุดของวัตถุ ลดหัววัดโฟกัสลง และคลิก "ยืนยัน" เพื่อปรับโฟกัส',
     sure_to_delete: 'คุณต้องการลบข้อมูลโฟกัสของเส้นโค้ง 3D หรือไม่?',
+    help_center_url: 'https://support.flux3dp.com/hc/en-us/articles/10364060644495',
   },
   pass_through: {
     title: 'โหมดผ่าน',

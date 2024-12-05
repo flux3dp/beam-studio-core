@@ -1949,7 +1949,6 @@ const lang: ILang = {
     column_gap: 'Spazio tra le colonne',
     set_object_height: 'Imposta altezza oggetto',
     set_object_height_desc: "Misurare lo spessore massimo dell'oggetto.",
-    measure_area_help: "Come selezionare l'area di autofocus per la curva 3D?",
     reselect_area: 'Reseleziona area',
     start_autofocus: 'Avvia autofocus',
     starting_measurement: 'Inizio della misurazione...',
@@ -1962,6 +1961,7 @@ const lang: ILang = {
     take_reference: 'Prendi riferimento',
     take_reference_desc: 'Sposta la testa del laser al punto più alto dell\'oggetto, abbassa la sonda di messa a fuoco e fai clic su "Conferma" per mettere a fuoco.',
     sure_to_delete: 'Vuoi eliminare i dati di messa a fuoco della curva 3D?',
+    help_center_url: 'https://support.flux3dp.com/hc/en-us/articles/10364060644495',
   },
   pass_through: {
     title: 'Modalità Di Attraversamento',

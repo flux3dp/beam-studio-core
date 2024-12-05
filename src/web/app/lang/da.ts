@@ -1949,7 +1949,6 @@ const lang: ILang = {
     column_gap: 'Kolonner Mellemrum',
     set_object_height: 'Indstil objektets højde',
     set_object_height_desc: 'Mål objektets maksimale tykkelse.',
-    measure_area_help: 'Hvordan vælger man autofokusområdet til 3D-kurve?',
     reselect_area: 'Vælg område igen',
     start_autofocus: 'Start Autofokus',
     starting_measurement: 'Starter måling...',
@@ -1962,6 +1961,7 @@ const lang: ILang = {
     take_reference: 'Tag reference',
     take_reference_desc: 'Flyt venligst laserhovedet til objektets højeste punkt, sænk fokusproben, og klik på "Bekræft" for at fokusere.',
     sure_to_delete: 'Vil du slette fokusdataene for 3D-kurven?',
+    help_center_url: 'https://support.flux3dp.com/hc/en-us/articles/10364060644495',
   },
   pass_through: {
     title: 'Gennemgangstilstand',

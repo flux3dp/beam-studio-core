@@ -1949,7 +1949,6 @@ const lang: ILang = {
     column_gap: 'Khoảng cách cột',
     set_object_height: 'Đặt chiều cao đối tượng',
     set_object_height_desc: 'Đo độ dày tối đa của đối tượng.',
-    measure_area_help: 'Làm thế nào để chọn khu vực lấy nét tự động cho 3D Curve?',
     reselect_area: 'Chọn lại Khu vực',
     start_autofocus: 'Bắt đầu Lấy nét tự động',
     starting_measurement: 'Bắt đầu đo...',
@@ -1962,6 +1961,7 @@ const lang: ILang = {
     take_reference: 'Lấy tham chiếu',
     take_reference_desc: 'Vui lòng di chuyển đầu laser đến điểm cao nhất của đối tượng, hạ đầu dò tiêu điểm xuống và nhấp vào "Xác nhận" để lấy nét.',
     sure_to_delete: 'Bạn có muốn xóa dữ liệu tiêu điểm của đường cong 3D không?',
+    help_center_url: 'https://support.flux3dp.com/hc/en-us/articles/10364060644495',
   },
   pass_through: {
     title: 'Chế Độ Đi Qua',

@@ -1949,7 +1949,6 @@ const lang: ILang = {
     column_gap: 'Kolomafstand',
     set_object_height: 'Stel objecthoogte in',
     set_object_height_desc: 'Meet de maximale dikte van het object.',
-    measure_area_help: 'Hoe selecteer je het autofocusgebied voor 3D-curve?',
     reselect_area: 'Selecteer gebied opnieuw',
     start_autofocus: 'Start autofocus',
     starting_measurement: 'Meten starten...',
@@ -1962,6 +1961,7 @@ const lang: ILang = {
     take_reference: 'Referentie nemen',
     take_reference_desc: 'Verplaats de laserkop naar het hoogste punt van het object, laat de focusprobe zakken en klik op "Bevestigen" om te focussen.',
     sure_to_delete: 'Wilt u de focusgegevens van de 3D-curve verwijderen?',
+    help_center_url: 'https://support.flux3dp.com/hc/en-us/articles/10364060644495',
   },
   pass_through: {
     title: 'Doorgangsmodus',

@@ -1949,7 +1949,6 @@ const lang: ILang = {
     column_gap: 'Kolumnavstånd',
     set_object_height: 'Ställ in objektets höjd',
     set_object_height_desc: 'Mät objektets maximala tjocklek.',
-    measure_area_help: 'Hur väljer man autofokusområdet för 3D-kurva?',
     reselect_area: 'Välj område igen',
     start_autofocus: 'Starta autofokus',
     starting_measurement: 'Startar mätning...',
@@ -1962,6 +1961,7 @@ const lang: ILang = {
     take_reference: 'Ta referens',
     take_reference_desc: 'Flytta laserkoppen till objektets högsta punkt, sänk fokussonden och klicka på "Bekräfta" för att fokusera.',
     sure_to_delete: 'Vill du ta bort fokusdata för 3D-kurvan?',
+    help_center_url: 'https://support.flux3dp.com/hc/en-us/articles/10364060644495',
   },
   pass_through: {
     title: 'Passera Igenom-Läge',

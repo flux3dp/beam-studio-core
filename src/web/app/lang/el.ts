@@ -1949,7 +1949,6 @@ const lang: ILang = {
     column_gap: 'Διάκενο στηλών',
     set_object_height: 'Ρύθμιση ύψους αντικειμένου',
     set_object_height_desc: 'Μετρήστε το μέγιστο πάχος του αντικειμένου.',
-    measure_area_help: 'Πώς να επιλέξετε την περιοχή αυτόματης εστίασης για την 3D καμπύλη;',
     reselect_area: 'Επαναεπιλογή περιοχής',
     start_autofocus: 'Εκκίνηση αυτόματης εστίασης',
     starting_measurement: 'Ξεκινώντας μέτρηση...',
@@ -1962,6 +1961,7 @@ const lang: ILang = {
     take_reference: 'Λήψη αναφοράς',
     take_reference_desc: 'Παρακαλώ μετακινήστε την κεφαλή του λέιζερ στο υψηλότερο σημείο του αντικειμένου, χαμηλώστε τον αισθητήρα εστίασης και κάντε κλικ στο "Επιβεβαίωση" για εστίαση.',
     sure_to_delete: 'Θέλετε να διαγράψετε τα δεδομένα εστίασης της 3D καμπύλης;',
+    help_center_url: 'https://support.flux3dp.com/hc/en-us/articles/10364060644495',
   },
   pass_through: {
     title: 'Λειτουργία Διέλευσης',

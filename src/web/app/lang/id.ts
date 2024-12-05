@@ -1949,7 +1949,6 @@ const lang: ILang = {
     column_gap: 'Celah Kolom',
     set_object_height: 'Atur Tinggi Objek',
     set_object_height_desc: 'Ukur ketebalan maksimum objek.',
-    measure_area_help: 'Bagaimana memilih area fokus otomatis untuk Kurva 3D?',
     reselect_area: 'Pilih Area Kembali',
     start_autofocus: 'Mulai Autofokus',
     starting_measurement: 'Memulai pengukuran...',
@@ -1962,6 +1961,7 @@ const lang: ILang = {
     take_reference: 'Ambil Referensi',
     take_reference_desc: 'Silakan pindahkan kepala laser ke titik tertinggi objek, turunkan probe fokus, dan klik "Konfirmasi" untuk memfokuskan.',
     sure_to_delete: 'Apakah Anda ingin menghapus data fokus kurva 3D?',
+    help_center_url: 'https://support.flux3dp.com/hc/en-us/articles/10364060644495',
   },
   pass_through: {
     title: 'Mode Lewat',

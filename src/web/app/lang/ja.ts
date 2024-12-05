@@ -1952,7 +1952,6 @@ const lang: ILang = {
     column_gap: '列間',
     set_object_height: 'オブジェクトの高さを設定',
     set_object_height_desc: 'オブジェクトの最大厚さを測定します。',
-    measure_area_help: '3Dカーブ用のオートフォーカスエリアをどのように選択しますか？',
     reselect_area: 'エリアを再選択',
     start_autofocus: 'オートフォーカスを開始',
     starting_measurement: '測定開始...',
@@ -1965,6 +1964,7 @@ const lang: ILang = {
     take_reference: '参照を取得',
     take_reference_desc: 'レーザーヘッドを対象物の最も高い点に移動させ、フォーカスプローブを下げて「確認」をクリックしてフォーカスしてください。',
     sure_to_delete: '3D曲線の焦点データを削除しますか？',
+    help_center_url: 'https://support.flux3dp.com/hc/en-us/articles/10364060644495',
   },
   pass_through: {
     title: 'パススルーモード',

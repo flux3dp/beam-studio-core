@@ -1952,7 +1952,6 @@ const lang: ILang = {
     column_gap: '열 간격',
     set_object_height: '객체 높이 설정',
     set_object_height_desc: '객체의 최대 두께를 측정하십시오.',
-    measure_area_help: '3D 곡선을 위한 자동 초점 영역을 선택하는 방법은?',
     reselect_area: '영역 다시 선택',
     start_autofocus: '자동 초점 시작',
     starting_measurement: '측정 시작 중...',
@@ -1965,6 +1964,7 @@ const lang: ILang = {
     take_reference: '참조 가져오기',
     take_reference_desc: '레이저 헤드를 객체의 가장 높은 지점으로 이동시키고, 초점 프로브를 내린 후 "확인"을 클릭하여 초점을 맞추세요.',
     sure_to_delete: '3D 곡선 초점 데이터를 삭제하시겠습니까?',
+    help_center_url: 'https://support.flux3dp.com/hc/en-us/articles/10364060644495',
   },
   pass_through: {
     title: '패스 스루 모드',

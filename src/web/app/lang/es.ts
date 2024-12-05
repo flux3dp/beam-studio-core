@@ -1952,7 +1952,6 @@ const lang: ILang = {
     column_gap: 'Espacio entre columnas',
     set_object_height: 'Establecer altura del objeto',
     set_object_height_desc: 'Medir el grosor máximo del objeto.',
-    measure_area_help: '¿Cómo seleccionar el área de autofoco para la curva 3D?',
     reselect_area: 'Volver a seleccionar área',
     start_autofocus: 'Iniciar autofoco',
     starting_measurement: 'Iniciando medición...',
@@ -1965,6 +1964,7 @@ const lang: ILang = {
     take_reference: 'Tomar referencia',
     take_reference_desc: 'Por favor, mueva la cabeza del láser al punto más alto del objeto, baje la sonda de enfoque y haga clic en "Confirmar" para enfocar.',
     sure_to_delete: '¿Desea eliminar los datos de enfoque de la curva 3D?',
+    help_center_url: 'https://support.flux3dp.com/hc/en-us/articles/10364060644495',
   },
   pass_through: {
     title: 'Modo De Pasar A Través',

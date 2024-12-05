@@ -1949,7 +1949,6 @@ const lang: ILang = {
     column_gap: 'Écart entre les colonnes',
     set_object_height: "Définir la hauteur de l'objet",
     set_object_height_desc: "Mesurez l'épaisseur maximale de l'objet.",
-    measure_area_help: 'Comment sélectionner la zone de mise au point automatique pour la courbe 3D?',
     reselect_area: 'Re-sélectionner la zone',
     start_autofocus: 'Démarrer la mise au point automatique',
     starting_measurement: 'Démarrage de la mesure...',
@@ -1962,6 +1961,7 @@ const lang: ILang = {
     take_reference: 'Prendre référence',
     take_reference_desc: 'Veuillez déplacer la tête laser au point le plus haut de l’objet, abaisser la sonde de mise au point et cliquer sur « Confirmer » pour faire la mise au point.',
     sure_to_delete: 'Voulez-vous supprimer les données de mise au point de la courbe 3D ?',
+    help_center_url: 'https://support.flux3dp.com/hc/en-us/articles/10364060644495',
   },
   pass_through: {
     title: 'Mode Passage',

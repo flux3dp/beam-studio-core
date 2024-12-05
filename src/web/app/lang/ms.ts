@@ -1949,7 +1949,6 @@ const lang: ILang = {
     column_gap: 'Jurang Lajur',
     set_object_height: 'Tetapkan Ketinggian Objek',
     set_object_height_desc: 'Ukur ketebalan maksimum objek.',
-    measure_area_help: 'Bagaimana memilih kawasan autofokus untuk 3D Curve?',
     reselect_area: 'Pilih Semula Kawasan',
     start_autofocus: 'Mulakan Autofokus',
     starting_measurement: 'Memulakan pengukuran...',
@@ -1962,6 +1961,7 @@ const lang: ILang = {
     take_reference: 'Ambil Rujukan',
     take_reference_desc: 'Sila gerakkan kepala laser ke titik tertinggi objek, turunkan probe fokus, dan klik "Sahkan" untuk memfokuskan.',
     sure_to_delete: 'Adakah anda ingin memadam data fokus lengkung 3D?',
+    help_center_url: 'https://support.flux3dp.com/hc/en-us/articles/10364060644495',
   },
   pass_through: {
     title: 'Mod Lalu',

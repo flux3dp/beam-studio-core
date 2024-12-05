@@ -1952,7 +1952,6 @@ const lang: ILang = {
     column_gap: 'Odstęp między kolumnami',
     set_object_height: 'Ustaw wysokość obiektu',
     set_object_height_desc: 'Zmierz maksymalną grubość obiektu.',
-    measure_area_help: 'Jak wybrać obszar autofokusa dla krzywej 3D?',
     reselect_area: 'Ponownie wybierz obszar',
     start_autofocus: 'Rozpocznij autofokus',
     starting_measurement: 'Rozpoczynanie pomiaru...',
@@ -1965,6 +1964,7 @@ const lang: ILang = {
     take_reference: 'Pobierz referencję',
     take_reference_desc: 'Proszę przesunąć głowicę lasera na najwyższy punkt obiektu, opuścić sondę ostrości i kliknąć „Potwierdź”, aby ustawić ostrość.',
     sure_to_delete: 'Czy chcesz usunąć dane ostrości 3D krzywej?',
+    help_center_url: 'https://support.flux3dp.com/hc/en-us/articles/10364060644495',
   },
   pass_through: {
     title: 'Tryb Przejścia',

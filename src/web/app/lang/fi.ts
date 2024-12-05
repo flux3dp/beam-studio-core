@@ -1949,7 +1949,6 @@ const lang: ILang = {
     column_gap: 'Sarakeväli',
     set_object_height: 'Aseta objektin korkeus',
     set_object_height_desc: 'Mittaa objektin suurin paksuus.',
-    measure_area_help: 'Kuinka valita automaattitarkennusalue 3D-käyrälle?',
     reselect_area: 'Valitse alue uudelleen',
     start_autofocus: 'Käynnistä automaattitarkennus',
     starting_measurement: 'Aloitetaan mittaus...',
@@ -1962,6 +1961,7 @@ const lang: ILang = {
     take_reference: 'Ota referenssi',
     take_reference_desc: 'Siirrä laserpää objektin korkeimpaan kohtaan, laske tarkennusanturi ja napsauta "Vahvista" tarkentaaksesi.',
     sure_to_delete: 'Haluatko poistaa 3D-käyrän tarkennustiedot?',
+    help_center_url: 'https://support.flux3dp.com/hc/en-us/articles/10364060644495',
   },
   pass_through: {
     title: 'Läpäisymoodi',

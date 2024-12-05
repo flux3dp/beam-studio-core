@@ -1952,7 +1952,6 @@ const lang: ILang = {
     column_gap: '列间距',
     set_object_height: '设置物件高度',
     set_object_height_desc: '测量物件的最大厚度。',
-    measure_area_help: '如何选择3D曲线的自动对焦区域？',
     reselect_area: '重新选择区域',
     start_autofocus: '开始自动对焦',
     starting_measurement: '开始测量...',
@@ -1965,6 +1964,7 @@ const lang: ILang = {
     take_reference: '获取参考',
     take_reference_desc: '请将激光头移动到物体的最高点，放下焦点探针，然后点击“确认”以进行对焦。',
     sure_to_delete: '您想删除 3D 曲线的焦点数据吗？',
+    help_center_url: 'https://support.flux3dp.com/hc/zh-tw/articles/10364060644495',
   },
   pass_through: {
     title: '广域雕刻',

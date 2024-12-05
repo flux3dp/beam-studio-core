@@ -1949,7 +1949,6 @@ const lang: ILang = {
     column_gap: 'Kolonner Avstand',
     set_object_height: 'Sett objektets høyde',
     set_object_height_desc: 'Mål den maksimale tykkelsen på objektet.',
-    measure_area_help: 'Hvordan velge autofokusområdet for 3D-kurve?',
     reselect_area: 'Velg område på nytt',
     start_autofocus: 'Start autofokus',
     starting_measurement: 'Starter måling...',
@@ -1962,6 +1961,7 @@ const lang: ILang = {
     take_reference: 'Ta referanse',
     take_reference_desc: 'Vennligst flytt laserhodet til objektets høyeste punkt, senk fokuseringsproben, og klikk på "Bekreft" for å fokusere.',
     sure_to_delete: 'Vil du slette fokusdataene for 3D-kurven?',
+    help_center_url: 'https://support.flux3dp.com/hc/en-us/articles/10364060644495',
   },
   pass_through: {
     title: 'Gå Gjennom-Modus',

@@ -1952,7 +1952,6 @@ const lang: ILang = {
     column_gap: '列間距',
     set_object_height: '設定物件高度',
     set_object_height_desc: '測量物件的最大厚度。',
-    measure_area_help: '如何選擇3D曲面的自動對焦區域？',
     reselect_area: '重新選擇區域',
     start_autofocus: '開始自動對焦',
     starting_measurement: '正在開始測量...',
@@ -1965,6 +1964,7 @@ const lang: ILang = {
     take_reference: '取得參考點',
     take_reference_desc: '請將雷射頭移至雕刻物件的最高處，並將對焦探針放下，點擊「確認」進行對焦。',
     sure_to_delete: '您是否要刪除 3D 曲面對焦資料？',
+    help_center_url: 'https://support.flux3dp.com/hc/zh-tw/articles/10364060644495',
   },
   pass_through: {
     title: '廣域雕刻',
