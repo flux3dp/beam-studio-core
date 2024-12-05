@@ -39,7 +39,7 @@ const CurveEngravingTool = ({ className }: Props): JSX.Element => {
         id="back"
         icon={<LeftPanelIcons.Back />}
         title={lang.curve_engraving.exit}
-        onClick={() => curveEngravingModeController.backToPreview()}
+        onClick={() => curveEngravingModeController.back()}
       />
       <LeftPanelButton
         id="cursor"
