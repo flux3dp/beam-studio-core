@@ -2,7 +2,7 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
-import { CloseOutlined } from '@ant-design/icons';
+import { CloseOutlined, PlusOutlined } from '@ant-design/icons';
 import { DragDropContext, Draggable, Droppable, DropResult } from 'react-beautiful-dnd';
 
 import TopBarIcons from 'app/icons/top-bar/TopBarIcons';
@@ -102,7 +102,7 @@ const Tabs = (): JSX.Element => {
       </DragDropContext>
       {(!tabConstants.maxTab || tabs.length < tabConstants.maxTab) && (
         <div className={styles.add} onClick={tabController.addNewTab}>
-          +
+          <PlusOutlined />
         </div>
       )}
     </div>
