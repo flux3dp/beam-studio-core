@@ -1942,7 +1942,6 @@ export interface ILang {
     column_gap: string;
     set_object_height: string;
     set_object_height_desc: string;
-    measure_area_help: string;
     reselect_area: string;
     start_autofocus: string;
     starting_measurement: string;
@@ -1955,6 +1954,7 @@ export interface ILang {
     take_reference: string;
     take_reference_desc: string;
     sure_to_delete: string;
+    help_center_url: string;
   };
   pass_through: {
     title: string;
