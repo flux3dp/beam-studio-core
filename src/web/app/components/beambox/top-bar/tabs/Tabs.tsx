@@ -96,6 +96,7 @@ const Tabs = (): JSX.Element => {
                   </Draggable>
                 );
               })}
+              {droppableProvided.placeholder}
             </div>
           )}
         </Droppable>
