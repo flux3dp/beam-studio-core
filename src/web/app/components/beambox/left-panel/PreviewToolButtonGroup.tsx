@@ -113,7 +113,10 @@ const PreviewToolButtonGroup = ({ className }: Props): JSX.Element => {
           id="curve-engrave"
           icon={<LeftPanelIcons.CurveEngrave />}
           title={lang.label.curve_engraving.title}
-          onClick={() => curveEngravingModeController.start()}
+          onClick={async () => {
+            if (PreviewModeController.isPreviewMode()) await PreviewModeController.end();
+            curveEngravingModeController.start();
+          }}
         />
       )}
     </div>
