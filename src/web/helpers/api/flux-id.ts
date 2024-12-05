@@ -12,8 +12,8 @@ import progress from 'app/actions/progress-caller';
 import storage from 'implementations/storage';
 import { IUser } from 'interfaces/IUser';
 
-export interface ResponseWithError extends AxiosResponse {
-  error?: AxiosError;
+export interface ResponseWithError<T = any, D = any> extends AxiosResponse<T, D> {
+  error?: AxiosError<T, D>;
 }
 const OAUTH_REDIRECT_URI = 'https://id.flux3dp.com/api/beam-studio/auth';
 const FB_OAUTH_URI = 'https://www.facebook.com/v10.0/dialog/oauth';
