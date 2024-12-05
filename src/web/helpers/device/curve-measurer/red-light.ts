@@ -46,7 +46,6 @@ export default class RedLightCurveMeasurer extends BaseCurveMeasurer implements 
         onCancel: () => resolve(null),
       });
     });
-    console.log(res);
     if (res) this.hasTakenReference = true;
     progressCaller.popById(progressId);
     return res;
@@ -75,7 +74,6 @@ export default class RedLightCurveMeasurer extends BaseCurveMeasurer implements 
   ): Promise<MeasureData> {
     if (!this.hasTakenReference) {
       const res = await this.showTakeReferenceDialog();
-      console.log(res);
       if (!res) return null;
     }
     const res = await super.measurePoints(curData, targetIndices, opts);
