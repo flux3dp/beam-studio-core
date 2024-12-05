@@ -2,11 +2,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 
-jest.mock('helpers/useI18n', () => () => ({
-  topbar: {
-    untitled: 'Untitled',
-  },
-}));
+import FileName from './FileName';
 
 const mockGetName = jest.fn();
 const mockGetIsCloudFile = jest.fn();
@@ -19,8 +15,6 @@ jest.mock('app/svgedit/currentFileManager', () => ({
     getName: () => mockGetName(),
   },
 }));
-
-import FileName from './FileName';
 
 describe('test FileName', () => {
   beforeEach(() => {
