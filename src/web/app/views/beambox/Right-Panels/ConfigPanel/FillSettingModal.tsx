@@ -8,7 +8,7 @@ import UnitInput from 'app/widgets/Unit-Input-v2';
 import useI18n from 'helpers/useI18n';
 import { ConfigKey, ConfigKeyTypeMap } from 'interfaces/ILayerConfig';
 import { getLayerByName } from 'helpers/layer/layer-helper';
-import { writeDataLayer } from 'helpers/layer/layer-config-helper';
+import { getPromarkLimit, writeDataLayer } from 'helpers/layer/layer-config-helper';
 
 import ConfigPanelContext from './ConfigPanelContext';
 import styles from './FillSettingModal.module.scss';
@@ -31,10 +31,7 @@ const FillSettingModal = ({ onClose }: Props): JSX.Element => {
     biDirectional: state.biDirectional,
     crossHatch: state.crossHatch,
   });
-  const minInterval = useMemo(() => {
-    const unit: 'mm' | 'inches' = storage.get('default-units') || 'mm';
-    return unit === 'inches' ? 0.0254 : 0.001;
-  }, []);
+  const limit = useMemo(getPromarkLimit, []);
 
   const handleSave = () => {
     const keys = ['fillInterval', 'fillAngle', 'biDirectional', 'crossHatch'] as const;
@@ -87,10 +84,11 @@ const FillSettingModal = ({ onClose }: Props): JSX.Element => {
             className={{ [styles.input]: true }}
             defaultValue={draftValue.fillInterval.value}
             getValue={(value) => handleValueChange('fillInterval', value)}
-            min={minInterval}
+            min={limit.interval.min}
             max={100}
             unit="mm"
-            decimal={3}
+            decimal={4}
+            step={0.0001}
             displayMultiValue={draftValue.fillInterval.hasMultiValue}
           />
         </div>

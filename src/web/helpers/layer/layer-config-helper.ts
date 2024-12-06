@@ -407,7 +407,7 @@ export const getPromarkLimit = (): {
   interval?: { min: number };
 } => {
   const isInch = storage.get('default-units') === 'inches';
-  const unitLimit = { interval: { min: isInch ? 0.0254 : 0.001 } };
+  const unitLimit = { interval: { min: isInch ? 0.00254 : 0.0001 } };
   const { laserType, watt } = getPromarkInfo();
   let laserLimit: {
     pulseWidth?: { min: number; max: number };

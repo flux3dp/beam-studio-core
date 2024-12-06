@@ -180,10 +180,12 @@ const PromarkInputs = ({
             value={preset.fillInterval ?? defaultConfig.fillInterval}
             max={100}
             min={limit.interval.min}
-            precision={3}
+            precision={4}
+            step={0.0001}
             addonAfter={lengthUnit}
             isInch={isInch}
             onChange={(value) => handleChange('fillInterval', value)}
+            controls={false}
             clipValue
           />
         </div>
