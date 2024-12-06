@@ -38,8 +38,8 @@ export type TFcodeOptionalConfig = Partial<{
   min_speed: number;
   rev: boolean; // reverse engraving
   cbl: boolean; // custom backlash
-  mep: number; // min engraving padding
-  mpp: number; // min printing padding
+  mep: number; // min engraving padding in mm
+  mpp: number; // min printing padding in mm
   nv: number; // nozzle votage
   npw: number; // nozzle pulse width
   ts: number; // travel speed
