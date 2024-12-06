@@ -32,6 +32,7 @@ import { getWorkarea } from 'app/constants/workarea-constants';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { showAdorCalibration } from 'app/components/dialogs/camera/AdorCalibration';
 
+import progressCaller from 'app/actions/progress-caller';
 import styles from './GoButton.module.scss';
 
 let svgCanvas;
@@ -46,12 +47,28 @@ interface Props {
   hasDiscoverdMachine: boolean;
 }
 
+function throttle(func: () => void, delay: number): () => void {
+  let timer = null;
+
+  return () => {
+    if (timer === null) {
+      timer = setTimeout(() => {
+        timer = null;
+      }, delay);
+
+      func();
+    }
+  };
+}
+
 const GoButton = ({ hasDiscoverdMachine, hasText }: Props): JSX.Element => {
   const lang = useI18n();
   const { endPreviewMode, mode } = useContext(CanvasContext);
   const shortcutHandler = useRef<() => void>(null);
+
   useEffect(() => {
     const unregister = shortcuts.on(['F2'], () => shortcutHandler.current?.());
+
     return () => unregister?.();
   }, []);
 
@@ -346,6 +363,12 @@ const GoButton = ({ hasDiscoverdMachine, hasText }: Props): JSX.Element => {
   );
 
   const handleExportClick = useCallback(async () => {
+    const progressList = ['retrieve-image-data', 'fetch-task-code', 'fetch-task', 'upload-scene'];
+
+    if (Dialog.isIdExist('monitor') || progressList.some((id) => progressCaller.checkIdExist(id))) {
+      return;
+    }
+
     endPreviewMode();
 
     if (getNextStepRequirement() === TutorialConstants.SEND_FILE) {
@@ -366,16 +389,19 @@ const GoButton = ({ hasDiscoverdMachine, hasText }: Props): JSX.Element => {
     if (isWeb() && navigator.language !== 'da') Dialog.forceLoginWrapper(handleExport);
     else handleExport();
   }, [endPreviewMode, handleExportAlerts, checkModuleCalibration, exportTask]);
+
+  const throttledHandleExportClick = throttle(handleExportClick, 2000);
+
   useEffect(() => {
-    shortcutHandler.current = handleExportClick;
-  }, [handleExportClick]);
+    shortcutHandler.current = throttledHandleExportClick;
+  }, [throttledHandleExportClick]);
 
   return (
     <div
       className={classNames(styles.button, {
         [styles.disabled]: !hasDiscoverdMachine || mode !== CanvasMode.Draw,
       })}
-      onClick={handleExportClick}
+      onClick={throttledHandleExportClick}
       title={lang.tutorial.newInterface.start_work}
     >
       {hasText && <span className={styles.text}>{lang.topbar.export}</span>}
