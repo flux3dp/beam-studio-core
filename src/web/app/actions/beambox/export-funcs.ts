@@ -385,8 +385,11 @@ const openTaskInDeviceMonitor = (
 };
 
 const getConvertEngine = (targetDevice?: IDeviceInfo) => {
+  const currentWorkarea = BeamboxPreference.read('workarea');
+  const isPromark = promarkModels.has(currentWorkarea);
   const useSwiftray =
     hasSwiftray &&
+    isPromark &&
     (BeamboxPreference.read('path-engine') === 'swiftray' || targetDevice?.source === 'swiftray');
   const convertEngine = useSwiftray ? fetchTaskCodeSwiftray : fetchTaskCode;
   return { convertEngine, useSwiftray };
