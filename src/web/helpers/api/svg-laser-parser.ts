@@ -144,6 +144,13 @@ export const getExportOpt = (
     printingTopPadding = 43;
     printingBotPadding = 43;
   }
+  const isPassThroughTask =
+    document.querySelectorAll('#svgcontent > g.layer:not([display="none"]) [data-pass-through="1"]')
+      .length > 0 || BeamboxPreference.read('pass-through');
+  if (isPassThroughTask && model === 'fbb2') {
+    config.mep = 50;
+  }
+
   if (isDevMode) {
     let storageValue = localStorage.getItem('min_engraving_padding');
     if (storageValue) {
