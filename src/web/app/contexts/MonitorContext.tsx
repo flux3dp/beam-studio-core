@@ -140,6 +140,8 @@ export class MonitorContextProvider extends React.Component<Props, State> {
 
   isGettingReport: boolean;
 
+  isClosed: boolean; // for swiftray handler
+
   constructor(props: Props) {
     super(props);
     const { mode, previewTask } = props;
@@ -148,6 +150,7 @@ export class MonitorContextProvider extends React.Component<Props, State> {
     this.lastErrorId = null;
     this.modeBeforeCamera = mode;
     this.modeBeforeRelocate = mode;
+    this.isClosed = false;
     this.state = {
       mode,
       currentPath: [],
@@ -170,7 +173,7 @@ export class MonitorContextProvider extends React.Component<Props, State> {
   onSwiftrayDisconnected = (): void => {
     this.handlePromarkConnection('disconnected');
     swiftrayClient.once('reconnected', (success: boolean) => {
-      this.handlePromarkConnection('reconnected', success);
+      if (!this.isClosed) this.handlePromarkConnection('reconnected', success);
     });
   };
 
@@ -221,6 +224,7 @@ export class MonitorContextProvider extends React.Component<Props, State> {
     const { taskImageURL } = this.state;
     URL.revokeObjectURL(taskImageURL);
     swiftrayClient.off('disconnected', this.onSwiftrayDisconnected);
+    this.isClosed = true;
   }
 
   handlePromarkConnection(type: string, success?: boolean): void {
