@@ -36,32 +36,6 @@ jest.mock('app/actions/dialog-caller', () => ({
   showMyCloud: (...args) => showMyCloud(...args),
 }));
 
-jest.mock('helpers/useI18n', () => () => ({
-  beambox: {
-    left_panel: {
-      label: {
-        cursor: 'Select',
-        photo: 'Image',
-        text: 'Text',
-        line: 'Line',
-        rect: 'Rectangle',
-        oval: 'Oval',
-        polygon: 'Polygon',
-        pen: 'Pen',
-        shapes: 'Elements',
-        boxgen: 'Boxgen',
-      },
-    },
-  },
-  topbar: {
-    menu: {
-      link: {
-        design_market: 'https://dmkt.io',
-      },
-    },
-  },
-}));
-
 const getCurrentUser = jest.fn();
 jest.mock('helpers/api/flux-id', () => ({
   getCurrentUser: () => getCurrentUser(),
@@ -77,6 +51,11 @@ jest.mock('app/components/pass-through/PassThrough', () => ({
 }));
 
 import DrawingToolButtonGroup from './DrawingToolButtonGroup';
+
+const mockCurveEngravingModeControllerStart = jest.fn();
+jest.mock('app/actions/canvas/curveEngravingModeController', () => ({
+  start: () => mockCurveEngravingModeControllerStart(),
+}));
 
 describe('test DrawingToolButtonGroup', () => {
   beforeEach(() => {
@@ -160,6 +139,21 @@ describe('test DrawingToolButtonGroup', () => {
     fireEvent.click(container.querySelector('#left-PassThrough'));
     expect(mockShowPassThrough).toBeCalledTimes(1);
     expect(mockShowPassThrough).toHaveBeenCalledWith(mockUseSelectTool);
+  });
+
+  test('should render correctly when model is bb2', () => {
+    const contextValue = { selectedDevice: { model: 'fbb2' } };
+    const { container } = render(
+      <CanvasContext.Provider value={contextValue as any}>
+        <DrawingToolButtonGroup className="flux" />
+      </CanvasContext.Provider>
+    );
+
+    expect(container).toMatchSnapshot();
+    expect(mockCurveEngravingModeControllerStart).not.toBeCalled();
+    fireEvent.click(container.querySelector('#left-curve-engrave'));
+    expect(mockCurveEngravingModeControllerStart).toBeCalledTimes(1);
+    expect(mockCurveEngravingModeControllerStart).toHaveBeenCalledWith();
   });
 
   test('event emitter', async () => {

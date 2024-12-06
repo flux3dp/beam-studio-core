@@ -30,6 +30,7 @@ exports[`test DrawingToolButtonGroup should render correctly 1`] = `
     <div
       class="container"
       id="left-MyCloud"
+      title="My Cloud"
     >
       <span
         class="ant-badge badge css-dev-only-do-not-override-hash"
@@ -159,6 +160,7 @@ exports[`test DrawingToolButtonGroup should render correctly 2`] = `
     <div
       class="container"
       id="left-MyCloud"
+      title="My Cloud"
     >
       <span
         class="ant-badge badge css-dev-only-do-not-override-hash"
@@ -288,6 +290,7 @@ exports[`test DrawingToolButtonGroup should render correctly 3`] = `
     <div
       class="container"
       id="left-MyCloud"
+      title="My Cloud"
     >
       <span
         class="ant-badge badge css-dev-only-do-not-override-hash"
@@ -417,6 +420,7 @@ exports[`test DrawingToolButtonGroup should render correctly 4`] = `
     <div
       class="container"
       id="left-MyCloud"
+      title="My Cloud"
     >
       <span
         class="ant-badge badge css-dev-only-do-not-override-hash"
@@ -546,6 +550,7 @@ exports[`test DrawingToolButtonGroup should render correctly 5`] = `
     <div
       class="container"
       id="left-MyCloud"
+      title="My Cloud"
     >
       <span
         class="ant-badge badge css-dev-only-do-not-override-hash"
@@ -675,6 +680,7 @@ exports[`test DrawingToolButtonGroup should render correctly 6`] = `
     <div
       class="container"
       id="left-MyCloud"
+      title="My Cloud"
     >
       <span
         class="ant-badge badge css-dev-only-do-not-override-hash"
@@ -804,6 +810,7 @@ exports[`test DrawingToolButtonGroup should render correctly 7`] = `
     <div
       class="container"
       id="left-MyCloud"
+      title="My Cloud"
     >
       <span
         class="ant-badge badge css-dev-only-do-not-override-hash"
@@ -933,6 +940,7 @@ exports[`test DrawingToolButtonGroup should render correctly 8`] = `
     <div
       class="container"
       id="left-MyCloud"
+      title="My Cloud"
     >
       <span
         class="ant-badge badge css-dev-only-do-not-override-hash"
@@ -1062,6 +1070,7 @@ exports[`test DrawingToolButtonGroup should render correctly 9`] = `
     <div
       class="container"
       id="left-MyCloud"
+      title="My Cloud"
     >
       <span
         class="ant-badge badge css-dev-only-do-not-override-hash"
@@ -1191,6 +1200,7 @@ exports[`test DrawingToolButtonGroup should render correctly 10`] = `
     <div
       class="container"
       id="left-MyCloud"
+      title="My Cloud"
     >
       <span
         class="ant-badge badge css-dev-only-do-not-override-hash"
@@ -1320,6 +1330,7 @@ exports[`test DrawingToolButtonGroup should render correctly 11`] = `
     <div
       class="container"
       id="left-MyCloud"
+      title="My Cloud"
     >
       <span
         class="ant-badge badge css-dev-only-do-not-override-hash"
@@ -1449,6 +1460,7 @@ exports[`test DrawingToolButtonGroup should render correctly 12`] = `
     <div
       class="container active"
       id="left-MyCloud"
+      title="My Cloud"
     >
       <span
         class="ant-badge badge css-dev-only-do-not-override-hash"
@@ -1578,6 +1590,7 @@ exports[`test DrawingToolButtonGroup should render correctly when in pass throug
     <div
       class="container"
       id="left-MyCloud"
+      title="My Cloud"
     >
       <span
         class="ant-badge badge css-dev-only-do-not-override-hash"
@@ -1680,6 +1693,152 @@ exports[`test DrawingToolButtonGroup should render correctly when in pass throug
     <div
       class="container"
       id="left-PassThrough"
+      title="Pass Through"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`test DrawingToolButtonGroup should render correctly when model is bb2 1`] = `
+<div>
+  <div
+    class="flux"
+  >
+    <div
+      class="container active"
+      id="left-Cursor"
+      title="Select (V)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Photo"
+      title="Image (I)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-MyCloud"
+      title="My Cloud"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+        <svgr-url
+          classname="ant-scroll-number-custom-component flux-plus"
+          style="margin-top: 6px; right: 4px;"
+        />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Text"
+      title="Text (T)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Element"
+      title="Elements (E)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Rectangle"
+      title="Rectangle (M)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Ellipse"
+      title="Oval (C)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Polygon"
+      title="Polygon"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Line"
+      title="Line (\\)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-Pen"
+      title="Pen (P)"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-DM"
+      title="Design Market"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
+      id="left-curve-engrave"
+      title="3D Curve"
     >
       <span
         class="ant-badge badge css-dev-only-do-not-override-hash"
@@ -1695,6 +1854,7 @@ exports[`test DrawingToolButtonGroup should render flux plus icon correctly 1`] 
 <div
   class="container"
   id="left-MyCloud"
+  title="My Cloud"
 >
   <span
     class="ant-badge badge css-dev-only-do-not-override-hash"
@@ -1712,6 +1872,7 @@ exports[`test DrawingToolButtonGroup should render flux plus icon correctly 2`] 
 <div
   class="container active"
   id="left-MyCloud"
+  title="My Cloud"
 >
   <span
     class="ant-badge badge css-dev-only-do-not-override-hash"

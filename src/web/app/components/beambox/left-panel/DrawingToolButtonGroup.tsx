@@ -115,14 +115,13 @@ const DrawingToolButtonGroup = ({ className }: { className: string }): JSX.Eleme
       {renderToolButton('DM', <LeftPanelIcons.DM />, 'Design Market', () =>
         browser.open(lang.topbar.menu.link.design_market)
       )}
-      {(selectedDevice?.model === 'fbb2' || isDev()) && (
-        <LeftPanelButton
-          id="curve-engrave"
-          icon={<LeftPanelIcons.CurveEngrave />}
-          title={tLeftPanel.label.curve_engraving.title}
-          onClick={() => curveEngravingModeController.start()}
-        />
-      )}
+      {(selectedDevice?.model === 'fbb2' || isDev()) &&
+        renderToolButton(
+          'curve-engrave',
+          <LeftPanelIcons.CurveEngrave />,
+          tLeftPanel.label.curve_engraving.title,
+          () => curveEngravingModeController.start()
+        )}
       {hasPassthroughExtension &&
         renderToolButton(
           'PassThrough',
