@@ -774,6 +774,7 @@ const lang: ILang = {
         speed: 'Prędkość',
         speed_contrain_warning: 'Szybkość cięcia obiektów wektorowych zostanie ograniczona do %(limit)s. Możesz usunąć to ograniczenie w Ustawieniach preferencji.',
         low_speed_warning: 'Niska prędkość może spowodować spalenie materiału.',
+        promark_speed_desc: 'Parametry prędkości nie mają zastosowania do obrazów z gradientem.',
         repeat: 'Liczba Przejść',
         advanced: 'Zaawansowane',
         lower_focus: 'Obniż Fokus',
@@ -813,6 +814,8 @@ const lang: ILang = {
         bi_directional: 'Dwukierunkowy',
         cross_hatch: 'Kratkowanie Krzyżowe',
         dottingTime: 'Czas punktowania',
+        gradient_only: 'Tylko dla obrazów gradientowych',
+        filled_path_only: 'Tylko dla ścieżek wypełnienia',
         slider: {
           regular: 'Regularny',
           low: 'Niski',

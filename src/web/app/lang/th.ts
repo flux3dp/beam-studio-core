@@ -771,6 +771,7 @@ const lang: ILang = {
         speed: 'ความเร็ว',
         speed_contrain_warning: 'ความเร็วการตัดของวัตถุเส้นทางเวกเตอร์จะถูกจํากัดไว้ที่ %(limit)s คุณสามารถลบขีดจํากัดนี้ออกได้ที่การตั้งค่าการตั้งค่า',
         low_speed_warning: 'ความเร็วต่ําอาจทําให้วัสดุไหม้',
+        promark_speed_desc: 'พารามิเตอร์ความเร็วไม่สามารถใช้ได้กับภาพไล่เฉดสี',
         repeat: 'จำนวนรอบ',
         advanced: 'ขั้นสูง',
         lower_focus: 'ลดระยะโฟกัส',
@@ -810,6 +811,8 @@ const lang: ILang = {
         bi_directional: 'สองทิศทาง',
         cross_hatch: 'การฟักไข่ข้าม',
         dottingTime: 'เวลาแต้มจุด',
+        gradient_only: 'ใช้ได้เฉพาะภาพไล่สี',
+        filled_path_only: 'ใช้ได้เฉพาะเส้นทางเติมสี',
         slider: {
           regular: 'ปกติ',
           low: 'ต่ํา',

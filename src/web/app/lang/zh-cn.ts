@@ -774,6 +774,7 @@ const lang: ILang = {
         speed: '速度',
         speed_contrain_warning: '矢量路径速度将被限制在 %(limit)s，您可以在偏好设定解除此限制。',
         low_speed_warning: '低速度下可能会导致材料燃烧。',
+        promark_speed_desc: '速度参数不适用于渐层图像。',
         repeat: '运行次数',
         advanced: '高级設置',
         lower_focus: '降低焦距',
@@ -813,6 +814,8 @@ const lang: ILang = {
         bi_directional: '双向',
         cross_hatch: '交叉填充',
         dottingTime: '打点时间',
+        gradient_only: '仅适用于渐变图片',
+        filled_path_only: '仅适用于填充路径',
         slider: {
           regular: '普通',
           low: '低',

@@ -774,6 +774,7 @@ const lang: ILang = {
         speed: '스피드',
         speed_contrain_warning: '벡터 경로 객체의 절단 속도는 %(limit)s 로 제한됩니다. 환경설정에서 이 제한을 삭제할 수 있습니다.',
         low_speed_warning: '속도가 낮으면 재료가 타버릴 수 있습니다.',
+        promark_speed_desc: '속도 매개변수는 그라데이션 이미지에 적용되지 않습니다.',
         repeat: '통과 횟수',
         advanced: '고급',
         lower_focus: '초점 낮추기',
@@ -813,6 +814,8 @@ const lang: ILang = {
         bi_directional: '양방향',
         cross_hatch: '교차 해칭',
         dottingTime: '타점 시간',
+        gradient_only: '그라데이션 이미지에만 해당',
+        filled_path_only: '채우기 경로에만 해당',
         slider: {
           regular: '표준',
           low: '낮음',

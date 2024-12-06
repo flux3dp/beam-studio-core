@@ -774,6 +774,7 @@ const lang: ILang = {
         speed: 'Rychlost',
         speed_contrain_warning: 'Rychlost řezání objektů vektorových cest bude omezeno na %(limit)s. Toto omezení můžete odstranit v Nastavení.',
         low_speed_warning: 'Nízká rychlost může způsobit pálení materiálu.',
+        promark_speed_desc: 'Parametr rychlosti není použitelný pro přechodové obrázky.',
         repeat: 'Přeskočit počítání',
         advanced: 'Pokročilé',
         lower_focus: 'Nižší zaostření',
@@ -813,6 +814,8 @@ const lang: ILang = {
         bi_directional: 'Obousměrný',
         cross_hatch: 'Křížové Stínování',
         dottingTime: 'Čas bodování',
+        gradient_only: 'Pouze pro gradientní obrázky',
+        filled_path_only: 'Pouze pro vyplněné cesty',
         slider: {
           regular: 'Běžné',
           low: 'Nízké',

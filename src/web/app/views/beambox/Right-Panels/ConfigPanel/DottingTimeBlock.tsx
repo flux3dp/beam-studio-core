@@ -1,5 +1,7 @@
 import classNames from 'classnames';
 import React, { memo, useContext, useMemo } from 'react';
+import { QuestionCircleOutlined } from '@ant-design/icons';
+import { Tooltip } from 'antd';
 
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import history from 'app/svgedit/history/history';
@@ -66,7 +68,12 @@ const DottingTimeBlock = ({
     />
   ) : (
     <div className={classNames(styles.panel, styles['without-drag'])}>
-      <span className={styles.title}>{t.dottingTime}</span>
+      <span className={styles.title}>
+        {t.dottingTime}
+        <Tooltip overlayClassName={styles['hint-overlay']} title={t.gradient_only}>
+          <QuestionCircleOutlined className={styles.hint} />
+        </Tooltip>
+      </span>
       <UnitInput
         id="dottingTime"
         className={{ [styles.input]: true }}

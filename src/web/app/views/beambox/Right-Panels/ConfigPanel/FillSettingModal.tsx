@@ -1,5 +1,6 @@
 import React, { useContext, useMemo, useState } from 'react';
-import { Modal, Switch } from 'antd';
+import { Modal, Switch, Tooltip } from 'antd';
+import { QuestionCircleOutlined } from '@ant-design/icons';
 
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import storage from 'implementations/storage';
@@ -69,7 +70,14 @@ const FillSettingModal = ({ onClose }: Props): JSX.Element => {
       onCancel={onClose}
       cancelText={tGlobal.cancel}
       okText={tGlobal.save}
-      title={t.fill_setting}
+      title={
+        <div>
+          {t.fill_setting}
+          <Tooltip title={t.filled_path_only}>
+            <QuestionCircleOutlined className={styles.hint} />
+          </Tooltip>
+        </div>
+      }
     >
       <div className={styles.container}>
         <div>

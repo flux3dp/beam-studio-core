@@ -771,6 +771,7 @@ const lang: ILang = {
         speed: 'Hastighet',
         speed_contrain_warning: 'Skärhastigheten för vektorbanor kommer att begränsas till %(limit)s. Du kan ta bort denna gräns i inställningarna.',
         low_speed_warning: 'Låg hastighet kan orsaka brännskador på materialet.',
+        promark_speed_desc: 'Hastighetsparametrar gäller inte för gradientbilder.',
         repeat: 'Passantal',
         advanced: 'Avancerat',
         lower_focus: 'Sänk Fokus',
@@ -810,6 +811,8 @@ const lang: ILang = {
         bi_directional: 'Dubbelriktad',
         cross_hatch: 'Korsskraffering',
         dottingTime: 'Punktningstid',
+        gradient_only: 'Endast för gradientbilder',
+        filled_path_only: 'Endast för fyllnadsbanor',
         slider: {
           regular: 'Vanlig',
           low: 'Låg',

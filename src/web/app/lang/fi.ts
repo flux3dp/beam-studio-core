@@ -771,6 +771,7 @@ const lang: ILang = {
         speed: 'Nopeus',
         speed_contrain_warning: 'Vektoripolkuobjektien leikkausnopeus rajoitetaan %(limit)s. Voit poistaa tämän rajoituksen asetuksista.',
         low_speed_warning: 'Alhainen nopeus voi aiheuttaa materiaalin palamista.',
+        promark_speed_desc: 'Nopeusparametrit eivät koske liukuvärikuvia.',
         repeat: 'Ohitusmäärä',
         advanced: 'Edistynyt',
         lower_focus: 'Laske Tarkennusta',
@@ -810,6 +811,8 @@ const lang: ILang = {
         bi_directional: 'Kaksisuuntainen',
         cross_hatch: 'Ristikkäinen Varjostus',
         dottingTime: 'Pisteytysaika',
+        gradient_only: 'Vain liukuväriä varten',
+        filled_path_only: 'Vain täyttöpoluille',
         slider: {
           regular: 'Normaali',
           low: 'Matala',

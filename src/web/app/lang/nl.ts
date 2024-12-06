@@ -771,6 +771,7 @@ const lang: ILang = {
         speed: 'Snelheid',
         speed_contrain_warning: 'De snijsnelheid van vectorpadobjecten wordt beperkt tot %(limit)s. U kunt deze beperking opheffen bij de voorkeursinstellingen.',
         low_speed_warning: 'Lage snelheid kan brandplekken op het materiaal veroorzaken.',
+        promark_speed_desc: 'Snelheidsparameters zijn niet van toepassing op afbeeldingen met verlopen.',
         repeat: 'Aantal Passes',
         advanced: 'Geavanceerd',
         lower_focus: 'Focus Verlagen',
@@ -810,6 +811,8 @@ const lang: ILang = {
         bi_directional: 'Tweerichtingsverkeer',
         cross_hatch: 'Kruislings Arceren',
         dottingTime: 'Puntentijd',
+        gradient_only: 'Alleen voor verloopafbeeldingen',
+        filled_path_only: 'Alleen voor vulpaden',
         slider: {
           regular: 'Normaal',
           low: 'Laag',
