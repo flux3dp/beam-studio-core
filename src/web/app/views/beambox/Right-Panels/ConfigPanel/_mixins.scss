@@ -150,3 +150,10 @@
     }
   }
 }
+
+// Fix padding inside AdvancedBlock.tsx
+@mixin hint-overlay {
+  :global(.ant-tooltip-inner) {
+    padding: 6px 8px;
+  }
+}

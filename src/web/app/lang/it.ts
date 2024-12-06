@@ -771,6 +771,7 @@ const lang: ILang = {
         speed: 'Velocità',
         speed_contrain_warning: 'La velocità di taglio degli oggetti vettoriali sarà limitata a %(limit)s. È possibile rimuovere questo limite nelle impostazioni delle preferenze.',
         low_speed_warning: 'Una velocità bassa potrebbe causare la combustione del materiale.',
+        promark_speed_desc: 'I parametri di velocità non si applicano alle immagini con sfumature.',
         repeat: 'Conteggio dei Passaggi',
         advanced: 'Avanzate',
         lower_focus: 'Abbassa la Messa a Fuoco',
@@ -810,6 +811,8 @@ const lang: ILang = {
         bi_directional: 'Bidirezionale',
         cross_hatch: 'Tratteggio Incrociato',
         dottingTime: 'Tempo di puntatura',
+        gradient_only: 'Solo per immagini sfumate',
+        filled_path_only: 'Solo per percorsi di riempimento',
         slider: {
           regular: 'Normale',
           low: 'Basso',

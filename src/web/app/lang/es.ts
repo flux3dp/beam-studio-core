@@ -774,6 +774,7 @@ const lang: ILang = {
         speed: 'Velocidad',
         speed_contrain_warning: 'La velocidad de corte de los objetos de trayectoria vectorial se limitará a %(limit)s. Puede eliminar este límite en Configuración de preferencias.',
         low_speed_warning: 'La velocidad baja puede causar quemaduras en el material.',
+        promark_speed_desc: 'Los parámetros de velocidad no se aplican a imágenes con degradados.',
         repeat: 'Número de Pasadas',
         advanced: 'Avanzado',
         lower_focus: 'Bajar Enfoque',
@@ -813,6 +814,8 @@ const lang: ILang = {
         bi_directional: 'Bidireccional',
         cross_hatch: 'Sombreado Cruzado',
         dottingTime: 'Tiempo de punteado',
+        gradient_only: 'Solo para imágenes degradadas',
+        filled_path_only: 'Solo para rutas de relleno',
         slider: {
           regular: 'Regular',
           low: 'Bajo',

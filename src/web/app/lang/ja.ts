@@ -774,6 +774,7 @@ const lang: ILang = {
         speed: '速度',
         speed_contrain_warning: 'ベクトルパスオブジェクトの切断速度は %(limit)s に制限されます。この制限は[好み]で削除できます。',
         low_speed_warning: '低速では、材料が焼き付く可能性があります。',
+        promark_speed_desc: '速度パラメーターはグラデーション画像には適用できません。',
         repeat: 'パス数',
         advanced: '詳細設定',
         lower_focus: 'フォーカスを下げる',
@@ -813,6 +814,8 @@ const lang: ILang = {
         bi_directional: '双方向',
         cross_hatch: '交差ハッチ',
         dottingTime: '打点時間',
+        gradient_only: 'グラデーション画像のみ対応',
+        filled_path_only: '塗りつぶしパスのみ対応',
         slider: {
           regular: '標準',
           low: '低',

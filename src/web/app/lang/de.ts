@@ -774,6 +774,7 @@ const lang: ILang = {
         speed: 'Geschwindigkeit',
         speed_contrain_warning: 'Die Schnittgeschwindigkeit von Vektorpfadobjekten wird auf %(limit)s begrenzt. Sie können diese Grenze in den Einstellungen für Einstellungen entfernen.',
         low_speed_warning: 'Niedrigere Geschwindigkeit kann zu Verbrennungen des Materials führen.',
+        promark_speed_desc: 'Geschwindigkeitsparameter sind für Gradientenbilder nicht anwendbar.',
         repeat: 'Durchgangszahl',
         advanced: 'Erweitert',
         lower_focus: 'Fokus Senken',
@@ -813,6 +814,8 @@ const lang: ILang = {
         bi_directional: 'Bidirektional',
         cross_hatch: 'Kreuzschraffur',
         dottingTime: 'Punktierungszeit',
+        gradient_only: 'Nur für Verlaufsbilder',
+        filled_path_only: 'Nur für Füllpfade',
         slider: {
           regular: 'Normal',
           low: 'Niedrig',

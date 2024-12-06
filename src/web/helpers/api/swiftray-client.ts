@@ -128,10 +128,12 @@ class SwiftrayClient extends EventEmitter {
     this.status = newStatus;
   }
 
-  private handleOpen() {
+  private async handleOpen() {
     console.log('Connected to Swiftray server 🎉');
     this.updateStatus('connected');
     this.retryCount = 0;
+    const resp = await this.getSystemInfo();
+    console.log(`Swiftray version ${resp?.info?.swiftrayVersion}`);
   }
 
   private handleClose() {
