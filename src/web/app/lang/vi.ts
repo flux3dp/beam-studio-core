@@ -771,6 +771,7 @@ const lang: ILang = {
         speed: 'Tốc độ',
         speed_contrain_warning: 'Tốc độ cắt của các đối tượng đường vector sẽ bị giới hạn ở %(limit)s. Bạn có thể loại bỏ giới hạn này tại Cài đặt Tùy chọn.',
         low_speed_warning: 'Tốc độ thấp có thể gây cháy vật liệu.',
+        promark_speed_desc: 'Các tham số tốc độ không áp dụng cho hình ảnh gradient.',
         repeat: 'Số Lần Cắt',
         advanced: 'Nâng Cao',
         lower_focus: 'Hạ Tiêu Cự',
@@ -810,6 +811,8 @@ const lang: ILang = {
         bi_directional: 'Hai Chiều',
         cross_hatch: 'Nét Chéo',
         dottingTime: 'Thời gian chấm điểm',
+        gradient_only: 'Chỉ dành cho hình ảnh chuyển sắc',
+        filled_path_only: 'Chỉ dành cho đường dẫn tô màu',
         slider: {
           regular: 'Bình thường',
           low: 'Thấp',

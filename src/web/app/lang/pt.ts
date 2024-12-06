@@ -771,6 +771,7 @@ const lang: ILang = {
         speed: 'Velocidade',
         speed_contrain_warning: 'A velocidade de corte dos objetos de caminho vetorial será limitada a %(limit)s. Você pode remover este limite nas Configurações de Preferências.',
         low_speed_warning: 'Baixa velocidade pode causar queima do material.',
+        promark_speed_desc: 'Os parâmetros de velocidade não se aplicam a imagens com gradientes.',
         repeat: 'Contagem de Passes',
         advanced: 'Avançado',
         lower_focus: 'Abaixar Foco',
@@ -810,6 +811,8 @@ const lang: ILang = {
         bi_directional: 'Bidirecional',
         cross_hatch: 'Hachura Cruzada',
         dottingTime: 'Tempo de pontuação',
+        gradient_only: 'Apenas para imagens em gradiente',
+        filled_path_only: 'Apenas para caminhos de preenchimento',
         slider: {
           regular: 'Regular',
           low: 'Baixo',

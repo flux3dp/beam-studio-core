@@ -771,6 +771,7 @@ const lang: ILang = {
         speed: 'Hastighet',
         speed_contrain_warning: 'Kuttehastigheten for vektorbaner vil være begrenset til %(limit)s. Du kan fjerne denne grensen under Innstillinger.',
         low_speed_warning: 'Lav hastighet kan føre til brenning av materialet.',
+        promark_speed_desc: 'Hastighetsparametere gjelder ikke for gradientbilder.',
         repeat: 'Pass Antall',
         advanced: 'Avansert',
         lower_focus: 'Senk Fokus',
@@ -810,6 +811,8 @@ const lang: ILang = {
         bi_directional: 'Toveis',
         cross_hatch: 'Krysskjerming',
         dottingTime: 'Punktid',
+        gradient_only: 'Kun for gradientbilder',
+        filled_path_only: 'Kun for fyllingsbaner',
         slider: {
           regular: 'Vanlig',
           low: 'Lav',

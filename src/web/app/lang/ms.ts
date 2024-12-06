@@ -771,6 +771,7 @@ const lang: ILang = {
         speed: 'Kelajuan',
         speed_contrain_warning: 'Kelajuan pemotongan objek laluan vektor akan dihadkan kepada %(limit)s. Anda boleh mengalih had ini di Tetapan Keutamaan.',
         low_speed_warning: 'Kelajuan rendah mungkin menyebabkan bahan terbakar.',
+        promark_speed_desc: 'Parameter kelajuan tidak terpakai pada imej kecerunan.',
         repeat: 'Kiraan Lalu',
         advanced: 'Lanjutan',
         lower_focus: 'Turunkan Fokus',
@@ -810,6 +811,8 @@ const lang: ILang = {
         bi_directional: 'Dua Arah',
         cross_hatch: 'Loret Bersilang',
         dottingTime: 'Masa Pemarkahan',
+        gradient_only: 'Hanya untuk imej kecerunan',
+        filled_path_only: 'Hanya untuk laluan isian',
         slider: {
           regular: 'Biasa',
           low: 'Rendah',

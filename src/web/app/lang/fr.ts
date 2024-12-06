@@ -771,6 +771,7 @@ const lang: ILang = {
         speed: 'Vitesse',
         speed_contrain_warning: 'La vitesse de découpe des objets de trajet vectoriel sera limitée à %(limit)s. Vous pouvez supprimer cette limite dans les paramètres de préférences.',
         low_speed_warning: 'Une vitesse lente pourrait brûler le matériau.',
+        promark_speed_desc: "Les paramètres de vitesse ne s'appliquent pas aux images avec dégradés.",
         repeat: 'Nombre de Passes',
         advanced: 'Avancé',
         lower_focus: 'Abaisser la Mise au Point',
@@ -810,6 +811,8 @@ const lang: ILang = {
         bi_directional: 'Bidirectionnel',
         cross_hatch: 'Hachure Croisée',
         dottingTime: 'Temps de pointage',
+        gradient_only: 'Uniquement pour les images dégradées',
+        filled_path_only: 'Uniquement pour les chemins de remplissage',
         slider: {
           regular: 'Régulier',
           low: 'Bas',

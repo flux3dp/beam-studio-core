@@ -764,6 +764,7 @@ export interface ILang {
         speed: string;
         speed_contrain_warning: string;
         low_speed_warning: string;
+        promark_speed_desc: string;
         repeat: string;
         advanced: string;
         lower_focus: string;
@@ -803,6 +804,8 @@ export interface ILang {
         bi_directional: string;
         cross_hatch: string;
         dottingTime: string;
+        gradient_only: string;
+        filled_path_only: string;
         slider: {
           regular: string;
           low: string;

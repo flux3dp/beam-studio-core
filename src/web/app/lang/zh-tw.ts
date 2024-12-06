@@ -774,6 +774,7 @@ const lang: ILang = {
         speed: '速度',
         speed_contrain_warning: '向量路徑速度將被限制在 %(limit)s，您可以在偏好設定解除此限制。',
         low_speed_warning: '低速下可能會導致材料燃燒。',
+        promark_speed_desc: '速度參數不適用於漸層圖片。',
         repeat: '執行次數',
         advanced: '進階設定',
         lower_focus: '降低焦距',
@@ -813,6 +814,8 @@ const lang: ILang = {
         bi_directional: '雙向',
         cross_hatch: '交叉填充',
         dottingTime: '打點時間',
+        gradient_only: '僅適用於漸層圖片',
+        filled_path_only: '僅適用於填充路徑',
         slider: {
           regular: '普通',
           low: '低',

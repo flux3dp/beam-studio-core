@@ -771,6 +771,7 @@ const lang: ILang = {
         speed: 'Hastighed',
         speed_contrain_warning: 'Skærehastigheden for vektorstibaner vil være begrænset til %(limit)s. Du kan fjerne denne begrænsning under Indstillinger.',
         low_speed_warning: 'Lav hastighed kan forårsage brænding af materialet.',
+        promark_speed_desc: 'Hastighedsparametre gælder ikke for gradientbilleder.',
         repeat: 'Antal Gennemløb',
         advanced: 'Avanceret',
         lower_focus: 'Sænk Fokus',
@@ -810,6 +811,8 @@ const lang: ILang = {
         bi_directional: 'Tovejskommunikation',
         cross_hatch: 'Kryds Skraffer',
         dottingTime: 'Punkteringstid',
+        gradient_only: 'Kun for gradientbilleder',
+        filled_path_only: 'Kun for udfyldningsstier',
         slider: {
           regular: 'Almindelig',
           low: 'Lav',

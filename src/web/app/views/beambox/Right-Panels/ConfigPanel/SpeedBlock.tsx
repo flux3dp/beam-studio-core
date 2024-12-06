@@ -1,7 +1,9 @@
 import classNames from 'classnames';
 import React, { memo, useContext, useMemo } from 'react';
 import { Button, Popover } from 'antd-mobile';
+import { QuestionCircleOutlined } from '@ant-design/icons';
 import { sprintf } from 'sprintf-js';
+import { Tooltip } from 'antd';
 
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import configOptions from 'app/constants/config-options';
@@ -138,7 +140,14 @@ const SpeedBlock = ({
 
   const content = (
     <div className={classNames(styles.panel, styles[type])}>
-      <span className={styles.title}>{t.speed}</span>
+      <span className={styles.title}>
+        {t.speed}
+        {isPromark && (
+          <Tooltip title={t.promark_speed_desc}>
+            <QuestionCircleOutlined className={styles.hint} />
+          </Tooltip>
+        )}
+      </span>
       <ConfigValueDisplay
         inputId="speed-input"
         type={type}

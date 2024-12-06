@@ -771,6 +771,7 @@ const lang: ILang = {
         speed: 'Kecepatan',
         speed_contrain_warning: 'Kecepatan pemotongan path vector akan dibatasi hingga %(limit)s. Anda dapat menghapus batasan ini di Pengaturan Preferensi.',
         low_speed_warning: 'Kecepatan rendah dapat menyebabkan pembakaran bahan.',
+        promark_speed_desc: 'Parameter kecepatan tidak berlaku untuk gambar gradasi.',
         repeat: 'Jumlah Lintasan',
         advanced: 'Lanjutan',
         lower_focus: 'Turunkan Fokus',
@@ -810,6 +811,8 @@ const lang: ILang = {
         bi_directional: 'Dua Arah',
         cross_hatch: 'Arsir Silang',
         dottingTime: 'Waktu Penandaan',
+        gradient_only: 'Hanya untuk gambar gradasi',
+        filled_path_only: 'Hanya untuk jalur isian',
         slider: {
           regular: 'Reguler',
           low: 'Rendah',
