@@ -209,9 +209,9 @@ const MeasureArea = ({
           <button
             className={styles.link}
             type="button"
-            onClick={() => browser.open('https://google.com')}
+            onClick={() => browser.open(lang.curve_engraving.help_center_url)}
           >
-            {lang.curve_engraving.measure_area_help}
+            {lang.alert.learn_more}
           </button>
         </>
       )}

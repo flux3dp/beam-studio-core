@@ -478,15 +478,11 @@ class DeviceMaster {
   }
 
   popConnectionError(uuid: string, errorCode: ConnectionError): void {
-    let errCaption = '';
+    const errCaption = '';
     let errMessage = lang.message.unknown_error;
     switch (errorCode) {
       case ConnectionError.TIMEOUT:
         errMessage = lang.message.connectionTimeout;
-        break;
-      case ConnectionError.FLUXMONITOR_VERSION_IS_TOO_OLD:
-        errMessage = lang.message.monitor_too_old.content;
-        errCaption = lang.message.monitor_too_old.caption;
         break;
       case ConnectionError.NOT_FOUND:
         errMessage = lang.message.unable_to_find_machine;

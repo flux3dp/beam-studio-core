@@ -2,9 +2,7 @@ import React, { useContext, useMemo } from 'react';
 
 import beamboxStore from 'app/stores/beambox-store';
 import constant from 'app/actions/beambox/constant';
-import curveEngravingModeController from 'app/actions/canvas/curveEngravingModeController';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
-import isDev from 'helpers/is-dev';
 import LeftPanelButton from 'app/components/beambox/left-panel/LeftPanelButton';
 import LeftPanelIcons from 'app/icons/left-panel/LeftPanelIcons';
 import localeHelper from 'helpers/locale-helper';
@@ -108,17 +106,6 @@ const PreviewToolButtonGroup = ({ className }: Props): JSX.Element => {
         disabled={isCanvasEmpty}
         onClick={clearPreview}
       />
-      {isDev() && (
-        <LeftPanelButton
-          id="curve-engrave"
-          icon={<LeftPanelIcons.CurveEngrave />}
-          title={lang.label.curve_engraving.title}
-          onClick={async () => {
-            if (PreviewModeController.isPreviewMode()) await PreviewModeController.end();
-            curveEngravingModeController.start();
-          }}
-        />
-      )}
     </div>
   );
 };

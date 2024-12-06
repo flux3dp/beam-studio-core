@@ -57,14 +57,18 @@ class CurveEngravingModeController {
     this.updateBoundaryPath();
   };
 
-  backToPreview = () => {
+  back = (mode: CanvasMode = CanvasMode.Draw) => {
     this.end();
     svgCanvas.setMode('select');
-    const workarea = document.querySelector('#workarea');
+    const workarea: HTMLDivElement = document.querySelector('#workarea');
     if (workarea) {
-      (workarea as HTMLDivElement).style.cursor = 'url(img/camera-cursor.svg) 9 12, cell';
+      if (mode === CanvasMode.Preview) {
+        workarea.style.cursor = 'url(img/camera-cursor.svg) 9 12, cell';
+      } else {
+        workarea.style.cursor = 'auto';
+      }
     }
-    canvasEventEmitter.emit('SET_MODE', CanvasMode.Preview);
+    canvasEventEmitter.emit('SET_MODE', mode);
   };
 
   toAreaSelectMode = () => {

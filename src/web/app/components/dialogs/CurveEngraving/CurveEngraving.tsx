@@ -28,7 +28,15 @@ const CurveEngraving = ({ data: initData, onRemeasure, onClose }: Props): JSX.El
   const [displayCanvas, setDisplayCanvas] = useState(false);
   const [displayCamera, setDisplayCamera] = useState(false);
   const [selectedIndices, setSelectedIndices] = useState<Set<number>>(new Set());
+  const [isAntdMotionCompleted, setIsAntdMotionCompleted] = useState(false);
   const { bbox } = data;
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsAntdMotionCompleted(true);
+      // 0.3s according to antd global config motionDurationSlow
+    }, 300);
+  }, []);
 
   const canvasImagePromise = useMemo(async () => {
     const { x, y, width, height } = bbox;
@@ -110,27 +118,29 @@ const CurveEngraving = ({ data: initData, onRemeasure, onClose }: Props): JSX.El
       ]}
     >
       <div className={styles.container}>
-        <Canvas
-          camera={{
-            fov: 55,
-            near: 0.1,
-            far: 1000,
-            position: [0, 0, Math.max(bbox.width, bbox.height)],
-          }}
-          gl={{ antialias: true, toneMapping: THREE.NoToneMapping }}
-          linear
-        >
-          <Stage adjustCamera={1} shadows={false} environment={null}>
-            <Suspense fallback={null}>
-              <Plane
-                data={data}
-                textureSource={image}
-                selectedIndices={selectedIndices}
-                toggleSelectedIndex={toggleSelectIdx}
-              />
-            </Suspense>
-          </Stage>
-        </Canvas>
+        {isAntdMotionCompleted && (
+          <Canvas
+            camera={{
+              fov: 55,
+              near: 0.1,
+              far: 1000,
+              position: [0, 0, Math.max(bbox.width, bbox.height)],
+            }}
+            gl={{ antialias: true, toneMapping: THREE.NoToneMapping }}
+            linear
+          >
+            <Stage adjustCamera={1} shadows={false} environment={null}>
+              <Suspense fallback={null}>
+                <Plane
+                  data={data}
+                  textureSource={image}
+                  selectedIndices={selectedIndices}
+                  toggleSelectedIndex={toggleSelectIdx}
+                />
+              </Suspense>
+            </Stage>
+          </Canvas>
+        )}
       </div>
       <div className={styles.buttons}>
         <Button
