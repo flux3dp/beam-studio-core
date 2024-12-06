@@ -649,7 +649,7 @@ const lang: ILang = {
         relogin_to_use: '请重新登录以使用此功能。',
         insufficient_credit: '您的 Credit 已用完',
         insufficient_credit_msg: '您无法使用%s，请前往会员中心充值 AI Credit。',
-        buy_link: 'https://member.flux3dp.com/en-us/credit',
+        buy_link: 'https://member.flux3dp.com/en-US/credit',
         go: '前往',
       },
       text_to_path: {
@@ -1565,10 +1565,6 @@ const lang: ILang = {
       message: '机器正在进行另外一项工作，请稍候再试。如果机器持续没有回应，请将机器重新启动。',
     },
     device_is_used: '机器正被使用中，是否要终止现在任务？',
-    monitor_too_old: {
-      caption: '固件需要更新',
-      content: '#814 请按照<a target="_blank" href="http://helpcenter.flux3dp.com/hc/en-us/articles/216251077">此说明</a>安装最新固件版本',
-    },
     unknown_error: '#821 无法与机器创建连接，请使用“功能表 > 说明 > 错误回报”',
     unknown_device: '#826 无法与机器创建连接，请确认 USB 有连接于机器',
     unsupport_osx_version: '目前系统版本 MacOS X %s 较旧，部分功能可能无法使用，请更新到 macOS 11+。',

@@ -1562,10 +1562,6 @@ const lang: ILang = {
       message: 'La macchina sta eseguendo un altro compito, riprovare più tardi. Se smette di funzionare, riavviare la macchina.',
     },
     device_is_used: "La macchina è in uso, interrompere l'attività corrente?",
-    monitor_too_old: {
-      caption: 'Firmware obsoleto',
-      content: '#814 Installare l\'ultimo firmware con <a target="_blank" href="http://helpcenter.flux3dp.com/hc/en-us/articles/216251077">questa guida</a>.',
-    },
     unknown_error: "#821 L'applicazione ha rilevato un errore sconosciuto, utilizzare Aiuto > Menu > Segnalazione bug.",
     unknown_device: '#826 Impossibile connettersi alla macchina, assicurarsi che la USB sia collegata alla macchina',
     unsupport_osx_version: 'La versione corrente di macOS %s potrebbe non supportare alcune funzioni. Aggiornare a macOS 11+.',

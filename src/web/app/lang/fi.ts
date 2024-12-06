@@ -1562,10 +1562,6 @@ const lang: ILang = {
       message: 'Kone suorittaa toista tehtävää, yritä myöhemmin uudelleen. Jos se lakkaa toimimasta, käynnistä kone uudelleen.',
     },
     device_is_used: 'Konetta käytetään, haluatko keskeyttää nykyisen tehtävän?',
-    monitor_too_old: {
-      caption: 'Vanhentunut laiteohjelmisto',
-      content: '#814 Asenna uusin laiteohjelmisto tällä <a target="_blank" href="http://helpcenter.flux3dp.com/hc/en-us/articles/216251077">ohjeella</a>.',
-    },
     unknown_error: '#821 Sovelluksessa tapahtui tuntematon virhe, ilmoita virheestä valikossa Apua > Valikko > Virheraportti.',
     unknown_device: '#826 Ei voi muodostaa yhteyttä koneeseen, varmista että USB on liitetty koneeseen',
     unsupport_osx_version: 'Nykyinen macOS-versio %s ei ehkä tue kaikkia toimintoja. Päivitä macOS 11+ -versioon.',

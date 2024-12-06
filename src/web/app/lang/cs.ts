@@ -1565,10 +1565,6 @@ const lang: ILang = {
       message: 'Přístroj vykonává jinou úlohu, zkuste to prosím později. Pokud přestane fungovat, restartujte prosím přístroj.',
     },
     device_is_used: 'Přístroj je momentálně využíván, chcete zrušit současnou úlohu?',
-    monitor_too_old: {
-      caption: 'Zastaralý firmware',
-      content: '#814 Nainstalujte prosím nejaktuálnější firmware pomocí <a target="_blank" href="http://helpcenter.flux3dp.com/hc/en-us/articles/216251077">tohoto návodu</a>.',
-    },
     unknown_error: '#821 Aplikace se setkala s neznámou chybou, využijte prosím Pomoc > Menu > Hlášení chyby.',
     unknown_device: '#826 Nepodařilo se připojit k přístroji. Ujistěte se prosím, že je USB připojen k přístroji.',
     unsupport_osx_version: 'Současná verze macOS #s nemusí podporovat některé funkce. Aktualizujte prosím na macOS 11+.',

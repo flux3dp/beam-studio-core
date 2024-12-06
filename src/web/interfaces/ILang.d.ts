@@ -1555,10 +1555,6 @@ export interface ILang {
       message: string;
     };
     device_is_used: string;
-    monitor_too_old: {
-      caption: string;
-      content: string;
-    };
     unknown_error: string;
     unknown_device: string;
     unsupport_osx_version: string;

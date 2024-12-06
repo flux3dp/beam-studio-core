@@ -1562,10 +1562,6 @@ const lang: ILang = {
       message: 'Máy đang thực hiện tác vụ khác, vui lòng thử lại sau. Nếu máy ngừng hoạt động, vui lòng khởi động lại.',
     },
     device_is_used: 'Máy đang được sử dụng, bạn có muốn hủy tác vụ hiện tại không?',
-    monitor_too_old: {
-      caption: 'Phiên bản phần mềm lỗi thời',
-      content: '#814 Vui lòng cài đặt phiên bản phần mềm mới nhất theo <a target="_blank" href="http://helpcenter.flux3dp.com/hc/en-us/articles/216251077">hướng dẫn này</a>.',
-    },
     unknown_error: '#821 Ứng dụng gặp lỗi không xác định, vui lòng sử dụng Trợ giúp > Menu > Báo cáo lỗi.',
     unknown_device: '#826 Không thể kết nối với máy, vui lòng đảm bảo USB được cắm vào máy',
     unsupport_osx_version: 'Phiên bản macOS %s có thể không hỗ trợ một số chức năng. Vui lòng nâng cấp lên macOS 11+.',

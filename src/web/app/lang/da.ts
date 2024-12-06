@@ -1562,10 +1562,6 @@ const lang: ILang = {
       message: 'Maskinen udfører en anden opgave, prøv igen senere. Hvis den holder op med at fungere, genstart da maskinen.',
     },
     device_is_used: 'Maskinen er i brug, vil du afbryde den nuværende opgave?',
-    monitor_too_old: {
-      caption: 'Forældet firmware',
-      content: '#814 Installer venligst den nyeste firmware med <a target="_blank" href="http://helpcenter.flux3dp.com/hc/en-us/articles/216251077">denne vejledning</a>.',
-    },
     unknown_error: '#821 Programmet stødte på en ukendt fejl, brug Hjælp > Menu > Fejlrapportering.',
     unknown_device: '#826 Kan ikke oprette forbindelse til maskinen, sørg for at USB er tilsluttet maskinen',
     unsupport_osx_version: 'Den nuværende macOS-version %s understøtter muligvis ikke alle funktioner. Opdater venligst til macOS 11+.',

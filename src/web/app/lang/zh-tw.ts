@@ -1565,10 +1565,6 @@ const lang: ILang = {
       message: '機器正在進行另外一項工作，請稍候再試。如果機器持續沒有回應，請將機器重新啟動。',
     },
     device_is_used: '機器正被使用中，是否要終止現在任務？',
-    monitor_too_old: {
-      caption: '韌體需要更新',
-      content: '#814 請按照<a target="_blank" href="http://helpcenter.flux3dp.com/hc/zh-tw/articles/216251077">此說明</a>安裝最新韌體版本',
-    },
     unknown_error: '#821 無法與機器建立連線，請使用「功能表 > 說明 > 錯誤回報」',
     unknown_device: '#826 無法與機器建立連線，請確認 USB 有連接於機器',
     unsupport_osx_version: '目前系統版本 macOS %s 較舊，部分功能可能無法使用，請更新到 macOS 11+。',

@@ -1565,10 +1565,6 @@ const lang: ILang = {
       message: 'Urządzenie wykonuje inne zadanie, spróbuj ponownie później. Jeśli przestanie działać, uruchom ponownie urządzenie.',
     },
     device_is_used: 'Maszyna jest używana, czy chcesz przerwać bieżące zadanie?',
-    monitor_too_old: {
-      caption: 'Nieaktualne oprogramowanie układowe',
-      content: '#814 Zainstaluj najnowsze oprogramowanie sprzętowe, korzystając z <a target="_blank" href="http://helpcenter.flux3dp.com/hc/en-us/articles/216251077">tego przewodnika</a>.',
-    },
     unknown_error: '#821 Aplikacja napotkała nieznany błąd, użyj opcji Pomoc > Menu > Raport o błędzie.',
     unknown_device: '#826 Nie można połączyć się z urządzeniem. Upewnij się, że urządzenie jest podłączone do portu USB',
     unsupport_osx_version: 'Bieżąca wersja systemu MacOS X %s może nie obsługiwać niektórych funkcji. Uprzejmie prosimy o aktualizację do najnowszej wersji.',

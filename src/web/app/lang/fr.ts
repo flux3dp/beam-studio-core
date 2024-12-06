@@ -1562,10 +1562,6 @@ const lang: ILang = {
       message: 'La machine exécute une autre tâche, réessayez plus tard. Si elle ne fonctionne plus, veuillez redémarrer la machine.',
     },
     device_is_used: 'La machine est utilisée, voulez-vous annuler la tâche en cours ?',
-    monitor_too_old: {
-      caption: 'Micrologiciel obsolète',
-      content: '#814 Veuillez installer le dernier micrologiciel avec <a target="_blank" href="http://helpcenter.flux3dp.com/hc/en-us/articles/216251077">ce guide</a>.',
-    },
     unknown_error: "#821 L'application a rencontré une erreur inconnue, veuillez utiliser Aide > Menu > Rapport de bug.",
     unknown_device: "#826 Impossible de se connecter à la machine, assurez-vous que l'USB est connecté à la machine",
     unsupport_osx_version: 'La version actuelle de macOS %s peut ne pas prendre en charge certaines fonctions. Veuillez mettre à jour vers macOS 11+.',

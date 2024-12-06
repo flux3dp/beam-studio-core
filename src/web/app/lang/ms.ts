@@ -1562,10 +1562,6 @@ const lang: ILang = {
       message: 'Mesin sedang melaksanakan tugas lain, cuba lagi nanti. Jika berhenti berfungsi, sila mulakan semula mesin.',
     },
     device_is_used: 'Mesin sedang digunakan, adakah anda mahu membatalkan tugas semasa?',
-    monitor_too_old: {
-      caption: 'Firmware Usang',
-      content: '#814 Sila pasang firmware terkini dengan <a target="_blank" href="http://helpcenter.flux3dp.com/hc/en-us/articles/216251077">panduan ini</a>.',
-    },
     unknown_error: '#821 Aplikasi telah menghadapi ralat yang tidak diketahui, sila gunakan Bantuan > Menu > Laporan Pepijat.',
     unknown_device: '#826 Tidak dapat disambung ke mesin, pastikan USB disambung ke mesin',
     unsupport_osx_version: 'Versi macOS %s semasa mungkin tidak menyokong beberapa fungsi. Sila kemas kini ke macOS 11+.',

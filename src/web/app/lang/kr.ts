@@ -1565,10 +1565,6 @@ const lang: ILang = {
       message: '기계가 다른 작업을 실행 중입니다. 나중에 다시 시도해보세요. 만약 기계가 작동을 멈춘다면, 기계를 다시 시작하세요.',
     },
     device_is_used: '기계가 사용 중입니다. 현재 작업을 중단하시겠습니까?',
-    monitor_too_old: {
-      caption: '펌웨어가 오래되었습니다',
-      content: '#814 <a target="_blank" href="http://helpcenter.flux3dp.com/hc/en-us/articles/216251077">이 가이드</a>를 따라 최신 펌웨어를 설치해주세요.',
-    },
     unknown_error: '#821 알 수 없는 오류가 발생했습니다. 도움말 > 메뉴 > 버그 보고서를 사용해주세요.',
     unknown_device: '#826 기계에 연결할 수 없습니다. USB가 기계에 연결되어 있는지 확인해주세요.',
     unsupport_osx_version: '현재 macOS 버전 %s은(는) 일부 기능을 지원하지 않을 수 있습니다. macOS 11+로 업데이트해 주세요.',

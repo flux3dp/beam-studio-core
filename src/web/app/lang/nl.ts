@@ -1562,10 +1562,6 @@ const lang: ILang = {
       message: 'Het apparaat voert een andere taak uit, probeer het later opnieuw. Als het apparaat niet meer werkt, start het dan opnieuw op.',
     },
     device_is_used: 'Het apparaat wordt gebruikt, wilt u de huidige taak annuleren?',
-    monitor_too_old: {
-      caption: 'Verouderde firmware',
-      content: '#814 Installeer de nieuwste firmware met <a target="_blank" href="http://helpcenter.flux3dp.com/hc/en-us/articles/216251077">deze handleiding</a>.',
-    },
     unknown_error: '#821 De applicatie heeft een onbekende fout gevonden, gebruik Help > Menu > Fout rapporteren.',
     unknown_device: '#826 Kan geen verbinding maken met het apparaat, zorg ervoor dat de USB is aangesloten op het apparaat',
     unsupport_osx_version: 'De huidige macOS-versie %s ondersteunt mogelijk niet alle functies. Werk alsjeblieft bij naar macOS 11+.',

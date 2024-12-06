@@ -1562,10 +1562,6 @@ const lang: ILang = {
       message: 'A máquina está executando outra tarefa, tente novamente mais tarde. Se parar de funcionar, reinicie a máquina.',
     },
     device_is_used: 'A máquina está sendo usada, deseja abortar a tarefa atual?',
-    monitor_too_old: {
-      caption: 'Firmware desatualizado',
-      content: '#814 Instale o firmware mais recente com <a target="_blank" href="http://helpcenter.flux3dp.com/hc/en-us/articles/216251077">este guia</a>.',
-    },
     unknown_error: '#821 O aplicativo encontrou um erro desconhecido, use Ajuda > Menu > Relatório de erros.',
     unknown_device: '#826 Não é possível conectar à máquina, verifique se o USB está conectado à máquina',
     unsupport_osx_version: 'A versão atual do macOS %s pode não suportar algumas funções. Atualize para o macOS 11+.',

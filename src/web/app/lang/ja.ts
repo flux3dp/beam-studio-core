@@ -1565,10 +1565,6 @@ const lang: ILang = {
       message: 'マシンは別のタスクを実行しています。後で再試行してください。動作しなくなった場合は、マシンを再起動してください。',
     },
     device_is_used: 'マシンは使用中です。現在のタスクをアボートしますか？',
-    monitor_too_old: {
-      caption: '古いファームウェア',
-      content: '#814 <a target="_blank" href="http://helpcenter.flux3dp.com/hc/en-us/articles/216251077">このガイド</a>を使って、最新のファームウェアをインストールしてください。',
-    },
     unknown_error: '#821 アプリケーションで不明なエラーが発生しました。[ヘルプ]>[メニュー]>[バグレポート]を使用してください。',
     unknown_device: '#826 マシンに接続できません。USBがマシンに接続されていることを確認してください',
     unsupport_osx_version: '現在のmacOSバージョン%sは一部の機能をサポートしていない可能性があります。macOS 11+に更新してください。',

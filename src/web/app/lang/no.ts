@@ -1562,10 +1562,6 @@ const lang: ILang = {
       message: 'Maskinen utfører en annen oppgave, prøv igjen senere. Hvis den slutter å fungere, start maskinen på nytt.',
     },
     device_is_used: 'Maskinen er i bruk, vil du avbryte gjeldende oppgave?',
-    monitor_too_old: {
-      caption: 'Fastvare utdatert',
-      content: '#814 Installer nyeste fastvare med <a target="_blank" href="http://helpcenter.flux3dp.com/hc/en-us/articles/216251077">denne veiledningen</a>.',
-    },
     unknown_error: '#821 Programmet har støtt på en ukjent feil, bruk Hjelp > Meny > Rapporter feil.',
     unknown_device: '#826 Kan ikke koble til maskinen, kontroller at USB er tilkoblet maskinen',
     unsupport_osx_version: 'Gjeldende macOS-versjon %s støtter kanskje ikke alle funksjoner. Oppdater til macOS 11+.',

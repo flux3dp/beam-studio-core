@@ -1565,10 +1565,6 @@ const lang: ILang = {
       message: 'Die Maschine führt eine andere Aufgabe aus, versuchen Sie es später noch einmal. Wenn sie nicht mehr funktioniert, starte die Maschine bitte neu.',
     },
     device_is_used: 'Die Maschine wird benutzt, möchten Sie die aktuelle Aufgabe abbrechen?',
-    monitor_too_old: {
-      caption: 'Veraltete Firmware',
-      content: '#814 Bitte installieren Sie die neueste Firmware mit <a target="_blank" href="http://helpcenter.flux3dp.com/hc/en-us/articles/216251077">dieser Anleitung</a>.',
-    },
     unknown_error: '#821 Die Anwendung ist auf einen unbekannten Fehler gestoßen, bitte benutzen Sie Hilfe > Menü > Fehlerbericht.',
     unknown_device: '#826 Die Verbindung zum Gerät kann nicht hergestellt werden, Bitte stelle sicher, dass USB an das Gerät angeschlossen ist.',
     unsupport_osx_version: 'Die aktuelle macOS-Version %s unterstützt möglicherweise einige Funktionen nicht. Bitte aktualisieren Sie auf die macOS 11+.',
