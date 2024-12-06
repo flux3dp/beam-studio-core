@@ -1703,7 +1703,7 @@ const lang: ILang = {
     no_picutre_found: '#846 귀하의 장치에는 보정용으로 사용 가능한 원시 사진이 없습니다. FLUX 지원에 문의하십시오.',
     unable_to_load_camera_parameters: "#851 기기에서 사용할 수 있는 카메라 보정 매개변수가 없습니다. '보정' > '카메라 보정 (고급)'으로 이동하여 보정을 완료하고 매개변수를 얻으세요.",
     calibrating_with_device_pictures: '장치 사진을 사용하여 보정 중...',
-    failed_to_calibrate_with_pictures: '#847 장치 사진을 사용한 보정에 실패했습니다.',
+    failed_to_calibrate_with_pictures: '#848 장치 사진을 사용한 보정에 실패했습니다.',
     getting_plane_height: '평면 높이 가져오는 중...',
     preparing_to_take_picture: '사진 촬영 준비 중...',
     put_paper: '종이를 놓으세요',

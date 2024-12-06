@@ -1700,7 +1700,7 @@ const lang: ILang = {
     no_picutre_found: "#846 Uw apparaat heeft geen beschikbare ruwe foto's voor kalibratie. Neem contact op met FLUX-ondersteuning.",
     unable_to_load_camera_parameters: "#851 Er zijn geen camerakalibratieparameters beschikbaar op uw apparaat. Ga naar 'Kalibratie' > 'Camera kalibreren (Geavanceerd)' om de kalibratie te voltooien en de parameters te verkrijgen.",
     calibrating_with_device_pictures: "Kalibreren met apparaatfoto's...",
-    failed_to_calibrate_with_pictures: "Kalibratie met apparaatfoto's mislukt.",
+    failed_to_calibrate_with_pictures: "#848 Kalibratie met apparaatfoto's mislukt.",
     getting_plane_height: 'Hoogte van het vlak ophalen...',
     preparing_to_take_picture: 'Voorbereiden om foto te nemen...',
     put_paper: 'Plaats papier',

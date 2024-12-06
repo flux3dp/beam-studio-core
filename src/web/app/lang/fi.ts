@@ -1700,7 +1700,7 @@ const lang: ILang = {
     no_picutre_found: '#846 Laitteellasi ei ole saatavilla raakakuvia kalibrointia varten. Ota yhteyttä FLUX-tukeen.',
     unable_to_load_camera_parameters: "#851 Laitteellasi ei ole saatavilla kameran kalibrointiparametreja. Siirry kohtaan 'Kalibrointi' > 'Kalibroi kamera (Edistynyt)' suorittaaksesi kalibroinnin ja saadaksesi parametrit.",
     calibrating_with_device_pictures: 'Kalibroidaan laitteen kuvien avulla...',
-    failed_to_calibrate_with_pictures: '#847 Kalibrointi laitteen kuvilla epäonnistui.',
+    failed_to_calibrate_with_pictures: '#848 Kalibrointi laitteen kuvilla epäonnistui.',
     getting_plane_height: 'Haetaan Tasokorkeutta...',
     preparing_to_take_picture: 'Valmistaudutaan valokuvan ottamiseen...',
     put_paper: 'Aseta paperi',

@@ -1700,7 +1700,7 @@ const lang: ILang = {
     no_picutre_found: '#846 Thiết bị của bạn không có ảnh nguyên bản nào để hiệu chỉnh. Vui lòng liên hệ hỗ trợ FLUX.',
     unable_to_load_camera_parameters: "#851 Không có thông số hiệu chỉnh máy ảnh nào khả dụng trên thiết bị của bạn. Đi tới 'Hiệu chỉnh' > 'Hiệu chỉnh máy ảnh (Nâng cao)' để hoàn tất hiệu chỉnh và nhận thông số.",
     calibrating_with_device_pictures: 'Đang hiệu chỉnh với hình ảnh thiết bị...',
-    failed_to_calibrate_with_pictures: '#847 Không thể hiệu chỉnh với hình ảnh thiết bị.',
+    failed_to_calibrate_with_pictures: '#848 Không thể hiệu chỉnh với hình ảnh thiết bị.',
     getting_plane_height: 'Đang Lấy Độ Cao Mặt Phẳng...',
     preparing_to_take_picture: 'Chuẩn bị để chụp ảnh...',
     put_paper: 'Đặt Giấy',

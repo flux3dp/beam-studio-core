@@ -1703,7 +1703,7 @@ const lang: ILang = {
     no_picutre_found: '#846 Vaše zařízení nemá dostupné žádné nezpracované fotky ke kalibraci. Kontaktujte prosím podporu FLUX.',
     unable_to_load_camera_parameters: "#851 Na vašem zařízení nejsou dostupné žádné parametry kalibrace kamery. Přejděte do 'Kalibrace' > 'Kalibrace kamery (Pokročilé)' a dokončete kalibraci pro získání parametrů.",
     calibrating_with_device_pictures: 'Kalibruji s obrázky zařízení...',
-    failed_to_calibrate_with_pictures: '#847 Nepodařilo se kalibrovat s obrázky zařízení.',
+    failed_to_calibrate_with_pictures: '#848 Nepodařilo se kalibrovat s obrázky zařízení.',
     getting_plane_height: 'Získávám výšku plochy...',
     preparing_to_take_picture: 'Připravuji se k vyfocení...',
     put_paper: 'Vložte papír',

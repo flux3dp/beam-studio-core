@@ -1703,7 +1703,7 @@ const lang: ILang = {
     no_picutre_found: '#846 您的機器中沒有可使用的照片以用於校正，請聯繫 FLUX 客服。',
     unable_to_load_camera_parameters: '#851 您的設備未找到可用的相機校正參數。請前往「相機校正」>「相機校正（進階）」完成校正以取得參數。',
     calibrating_with_device_pictures: '使用機器照片進行校正...',
-    failed_to_calibrate_with_pictures: '#847 使用機器照片進行校正失敗。',
+    failed_to_calibrate_with_pictures: '#848 使用機器照片進行校正失敗。',
     getting_plane_height: '取得平面高度...',
     preparing_to_take_picture: '準備拍攝...',
     put_paper: '放置紙張',

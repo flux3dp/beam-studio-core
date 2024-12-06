@@ -1700,7 +1700,7 @@ const lang: ILang = {
     no_picutre_found: '#846 Seu dispositivo não possui fotos brutas disponíveis para calibração. Entre em contato com o suporte da FLUX.',
     unable_to_load_camera_parameters: "#851 Não há parâmetros de calibração de câmera disponíveis no seu dispositivo. Vá para 'Calibração' > 'Calibrar câmera (Avançado)' para concluir a calibração e obter os parâmetros.",
     calibrating_with_device_pictures: 'Calibrando com imagens do dispositivo...',
-    failed_to_calibrate_with_pictures: '#847 Falha ao calibrar com imagens do dispositivo.',
+    failed_to_calibrate_with_pictures: '#848 Falha ao calibrar com imagens do dispositivo.',
     getting_plane_height: 'Obtendo Altura do Plano...',
     preparing_to_take_picture: 'Preparando para tirar uma foto...',
     put_paper: 'Coloque o papel',

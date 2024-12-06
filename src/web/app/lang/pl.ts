@@ -1703,7 +1703,7 @@ const lang: ILang = {
     no_picutre_found: '#846 Twoje urządzenie nie ma dostępnych zdjęć w formacie raw do kalibracji. Skontaktuj się z obsługą FLUX.',
     unable_to_load_camera_parameters: "#851 Na twoim urządzeniu nie ma dostępnych parametrów kalibracji kamery. Przejdź do 'Kalibracja' > 'Kalibracja kamery (Zaawansowane)', aby ukończyć kalibrację i uzyskać parametry.",
     calibrating_with_device_pictures: 'Kalibracja za pomocą zdjęć urządzenia...',
-    failed_to_calibrate_with_pictures: '#847 Nie udało się skalibrować za pomocą zdjęć urządzenia.',
+    failed_to_calibrate_with_pictures: '#848 Nie udało się skalibrować za pomocą zdjęć urządzenia.',
     getting_plane_height: 'Pobieranie Wysokości Płaszczyzny...',
     preparing_to_take_picture: 'Przygotowanie do zrobienia zdjęcia...',
     put_paper: 'Połóż Papier',

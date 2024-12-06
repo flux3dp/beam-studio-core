@@ -1703,7 +1703,7 @@ const lang: ILang = {
     no_picutre_found: '#846 Dein Gerät hat keine verfügbaren Rohfotos für die Kalibrierung. Bitte kontaktiere den FLUX-Support.',
     unable_to_load_camera_parameters: "#851 Es sind keine Kamerakalibrierungsparameter auf Ihrem Gerät verfügbar. Gehen Sie zu 'Kalibrierung' > 'Kamera kalibrieren (Erweitert)', um die Kalibrierung abzuschließen und die Parameter zu erhalten.",
     calibrating_with_device_pictures: 'Kalibrieren mit Gerätebildern...',
-    failed_to_calibrate_with_pictures: '#847 Kalibrierung mit Gerätebildern fehlgeschlagen.',
+    failed_to_calibrate_with_pictures: '#848 Kalibrierung mit Gerätebildern fehlgeschlagen.',
     getting_plane_height: 'Ermittlung der Höhe der Ebene...',
     preparing_to_take_picture: 'Vorbereitung zum Fotografieren...',
     put_paper: 'Papier einlegen',

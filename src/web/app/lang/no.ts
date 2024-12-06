@@ -1700,7 +1700,7 @@ const lang: ILang = {
     no_picutre_found: '#846 Enheten din har ingen tilgjengelige rå bilder for kalibrering. Vennligst kontakt FLUX-støtte.',
     unable_to_load_camera_parameters: "#851 Det er ingen tilgjengelige kamerakalibreringsparametere på enheten din. Gå til 'Kalibrering' > 'Kalibrer kamera (Avansert)' for å fullføre kalibreringen og få parametrene.",
     calibrating_with_device_pictures: 'Kalibrerer med enhetsbilder...',
-    failed_to_calibrate_with_pictures: '#847 Klarte ikke å kalibrere med enhetsbilder.',
+    failed_to_calibrate_with_pictures: '#848 Klarte ikke å kalibrere med enhetsbilder.',
     getting_plane_height: 'Få Høyde på Plan...',
     preparing_to_take_picture: 'Forbereder for å ta bilde...',
     put_paper: 'Legg papir',

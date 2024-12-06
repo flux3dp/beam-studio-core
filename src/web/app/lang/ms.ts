@@ -1700,7 +1700,7 @@ const lang: ILang = {
     no_picutre_found: '#846 Peranti anda tidak mempunyai gambar mentah yang tersedia untuk kalibrasi. Sila hubungi sokongan FLUX.',
     unable_to_load_camera_parameters: "#851 Tiada parameter kalibrasi kamera tersedia pada peranti anda. Pergi ke 'Kalibrasi' > 'Kalibrasi Kamera (Lanjutan)' untuk melengkapkan kalibrasi dan mendapatkan parameter.",
     calibrating_with_device_pictures: 'Mengkalibrasi dengan gambar peranti...',
-    failed_to_calibrate_with_pictures: '#847 Gagal mengkalibrasi dengan gambar peranti.',
+    failed_to_calibrate_with_pictures: '#848 Gagal mengkalibrasi dengan gambar peranti.',
     getting_plane_height: 'Mendapatkan Ketinggian Satah...',
     preparing_to_take_picture: 'Sedang Bersedia untuk Ambil Gambar...',
     put_paper: 'Letakkan Kertas',

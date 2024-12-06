@@ -1703,7 +1703,7 @@ const lang: ILang = {
     no_picutre_found: '#846 あなたのデバイスには、キャリブレーション用の利用可能な生の写真がありません。FLUXサポートにお問い合わせください。',
     unable_to_load_camera_parameters: '#851 お使いのデバイスにはカメラのキャリブレーションパラメータが利用できません。「キャリブレーション」 > 「カメラを校正（高度な設定）」に進んで、キャリブレーションを完了し、パラメータを取得してください。',
     calibrating_with_device_pictures: 'デバイスの写真でキャリブレーション中...',
-    failed_to_calibrate_with_pictures: '#847 デバイスの写真でのキャリブレーションに失敗しました。',
+    failed_to_calibrate_with_pictures: '#848 デバイスの写真でのキャリブレーションに失敗しました。',
     getting_plane_height: '平面の高さを取得しています...',
     preparing_to_take_picture: '写真撮影の準備中...',
     put_paper: '紙を置く',
