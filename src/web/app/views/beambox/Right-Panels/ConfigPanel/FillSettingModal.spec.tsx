@@ -12,6 +12,10 @@ jest.mock('implementations/storage', () => ({
 
 const mockWriteDataLayer = jest.fn();
 jest.mock('helpers/layer/layer-config-helper', () => ({
+  getPromarkLimit: () => ({
+    pulseWidth: { min: 2, max: 350 },
+    frequency: { min: 1, max: 4000 },
+  }),
   writeDataLayer: (...args) => mockWriteDataLayer(...args),
 }));
 
@@ -86,23 +90,6 @@ describe('test FillSettingModal', () => {
   });
 
   it('should render correctly', () => {
-    const { baseElement } = render(
-      <ConfigPanelContext.Provider
-        value={{
-          state: mockContextState as any,
-          dispatch: mockDispatch,
-          selectedLayers: mockSelectedLayers,
-          initState: mockInitState,
-        }}
-      >
-        <FillSettingModal onClose={mockOnClose} />
-      </ConfigPanelContext.Provider>
-    );
-    expect(baseElement).toMatchSnapshot();
-  });
-
-  it('should render correctly when unit is inch', () => {
-    mockGet.mockReturnValue('inches');
     const { baseElement } = render(
       <ConfigPanelContext.Provider
         value={{

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // Swiftray Client Typescript API Client
 import EventEmitter from 'eventemitter3';
 
@@ -7,6 +8,7 @@ import i18n from 'helpers/i18n';
 import isWeb from 'helpers/is-web';
 import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
 import TopBarController from 'app/views/beambox/TopBar/contexts/TopBarController';
+import { booleanConfig, getDefaultConfig } from 'helpers/layer/layer-config-helper';
 import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 import { IDeviceDetailInfo, IDeviceInfo, IReport } from 'interfaces/IDevice';
 import { IWrappedSwiftrayTaskFile } from 'interfaces/IWrappedFile';
@@ -194,6 +196,10 @@ class SwiftrayClient extends EventEmitter {
       engraveDpi: number;
     }
   ): Promise<{ success: boolean; error?: ErrorObject }> {
+    const defaultConfig: any = getDefaultConfig();
+    booleanConfig.forEach((key) => {
+      if (defaultConfig[key]) defaultConfig[key] = 1;
+    });
     const uploadRes = await this.action<{ success: boolean; error?: ErrorObject }>(
       '/parser',
       'loadSVG',
@@ -202,6 +208,7 @@ class SwiftrayClient extends EventEmitter {
         model: loadOptions.model,
         rotaryMode: loadOptions.rotaryMode,
         engraveDpi: loadOptions.engraveDpi,
+        defaultConfig,
       }
     );
     return uploadRes;

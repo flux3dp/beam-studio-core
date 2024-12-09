@@ -3,7 +3,6 @@ import history from 'app/svgedit/history/history';
 import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import layerModuleHelper from 'helpers/layer-module/layer-module-helper';
 import presetHelper from 'helpers/presets/preset-helper';
-import storage from 'implementations/storage';
 import toggleFullColorLayer from 'helpers/layer/full-color/toggleFullColorLayer';
 import updateLayerColorFilter from 'helpers/color/updateLayerColorFilter';
 import { ConfigKey, ConfigKeyTypeMap, ILayerConfig, Preset } from 'interfaces/ILayerConfig';
@@ -135,7 +134,13 @@ export const getDefaultConfig = (): Partial<ConfigKeyTypeMap> => {
   return config;
 };
 
-const booleanConfig: ConfigKey[] = ['fullcolor', 'ref', 'split', 'biDirectional', 'crossHatch'];
+export const booleanConfig: ConfigKey[] = [
+  'fullcolor',
+  'ref',
+  'split',
+  'biDirectional',
+  'crossHatch',
+];
 
 /**
  * getData from layer element
@@ -404,25 +409,16 @@ export const getConfigKeys = (module: LayerModule): ConfigKey[] => {
 export const getPromarkLimit = (): {
   pulseWidth?: { min: number; max: number };
   frequency?: { min: number; max: number };
-  interval?: { min: number };
 } => {
-  const isInch = storage.get('default-units') === 'inches';
-  const unitLimit = { interval: { min: isInch ? 0.0254 : 0.001 } };
   const { laserType, watt } = getPromarkInfo();
-  let laserLimit: {
-    pulseWidth?: { min: number; max: number };
-    frequency: { min: number; max: number };
-  };
   if (laserType === LaserType.MOPA) {
-    if (watt >= 100)
-      laserLimit = { pulseWidth: { min: 10, max: 500 }, frequency: { min: 1, max: 1000 } };
-    else if (watt >= 60)
-      laserLimit = { pulseWidth: { min: 2, max: 500 }, frequency: { min: 1, max: 1000 } };
-    else laserLimit = { pulseWidth: { min: 2, max: 350 }, frequency: { min: 1, max: 1000 } };
-  } else if (watt >= 50) laserLimit = { frequency: { min: 45, max: 170 } };
-  else if (watt >= 30) laserLimit = { frequency: { min: 30, max: 60 } };
-  else laserLimit = { frequency: { min: 27, max: 60 } };
-  return { ...laserLimit, ...unitLimit };
+    if (watt >= 100) return { pulseWidth: { min: 10, max: 500 }, frequency: { min: 1, max: 1000 } };
+    if (watt >= 60) return { pulseWidth: { min: 2, max: 500 }, frequency: { min: 1, max: 1000 } };
+    return { pulseWidth: { min: 2, max: 350 }, frequency: { min: 1, max: 1000 } };
+  }
+  if (watt >= 50) return { frequency: { min: 45, max: 170 } };
+  if (watt >= 30) return { frequency: { min: 30, max: 60 } };
+  return { frequency: { min: 27, max: 60 } };
 };
 
 export const applyPreset = (
@@ -502,11 +498,6 @@ export const postPresetChange = (): void => {
     if (printingSpeed > maxSpeed) writeDataLayer(layer, 'printingSpeed', maxSpeed);
     if (printingSpeed < minSpeed) writeDataLayer(layer, 'printingSpeed', minSpeed);
     if (isPromark) {
-      if (promarkLimit.interval) {
-        const fillInterval = getData(layer, 'fillInterval');
-        if (fillInterval < promarkLimit.interval.min)
-          writeDataLayer(layer, 'fillInterval', promarkLimit.interval.min);
-      }
       if (promarkLimit.frequency) {
         const frequency = getData(layer, 'frequency');
         if (frequency < promarkLimit.frequency.min)

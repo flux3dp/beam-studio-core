@@ -236,12 +236,12 @@ exports[`PromarkInputs should render correctly 1`] = `
           </p>
           <p>
             precision: 
-            3
+            4
           </p>
           <input
             data-testid="fillInterval"
             max="100"
-            min="0.001"
+            min="0.0001"
             value="0.1"
           />
         </div>
