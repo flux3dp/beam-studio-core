@@ -1,10 +1,11 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
-import { CloseOutlined, PlusOutlined } from '@ant-design/icons';
+import { CloseOutlined, PlusOutlined, LoadingOutlined } from '@ant-design/icons';
 import { DragDropContext, Draggable, Droppable, DropResult } from 'react-beautiful-dnd';
 
+import Tab from 'interfaces/Tab';
 import TopBarIcons from 'app/icons/top-bar/TopBarIcons';
 import tabConstants from 'app/constants/tab-constants';
 import tabController from 'app/actions/tabController';
@@ -52,6 +53,13 @@ const Tabs = (): JSX.Element => {
     tabController.moveTab(srcIdx, dstIdx);
   };
 
+  const renderIcon = useCallback(({ isLoading, isPreviewing, isCloud }: Tab) => {
+    if (isLoading) return <LoadingOutlined className={classNames(styles.icon, styles.loading)} />;
+    if (isPreviewing) return <TopBarIcons.Camera className={styles.icon} />;
+    if (isCloud) return <TopBarIcons.CloudFile className={styles.icon} />;
+    return null;
+  }, []);
+
   return (
     <div className={styles.container}>
       <DragDropContext onDragEnd={handleDragEnd}>
@@ -63,14 +71,14 @@ const Tabs = (): JSX.Element => {
               ref={(node) => droppableProvided.innerRef(node)}
             >
               {tabs.map((tab, idx) => {
-                const { id, isCloud } = tab;
+                const { id } = tab;
                 let { title } = id === currentId ? currentTabInfo : tab;
                 if (id === currentId) {
                   title = `${title || t.untitled}${hasUnsavedChange ? '*' : ''}`;
                 }
                 return (
                   <Draggable key={id} draggableId={id.toFixed(0)} index={idx}>
-                    {(draggalbeProvided, snapshot) => (
+                    {(draggalbeProvided) => (
                       <div
                         {...draggalbeProvided.draggableProps}
                         {...draggalbeProvided.dragHandleProps}
@@ -79,7 +87,7 @@ const Tabs = (): JSX.Element => {
                         className={classNames(styles.tab, { [styles.focused]: currentId === id })}
                         onClick={() => tabController.focusTab(id)}
                       >
-                        {isCloud && <TopBarIcons.CloudFile className={styles.cloud} />}
+                        {renderIcon(tab)}
                         <span className={styles.name}>{title}</span>
                         <span
                           onClick={(e) => {

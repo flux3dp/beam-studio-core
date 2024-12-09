@@ -54,9 +54,14 @@
       }
     }
 
-    .cloud {
+    .icon {
       color: #c2c2c2;
       font-size: 24px;
+
+      &.loading {
+        font-size: 14px;
+        margin-right: 4px;
+      }
     }
 
     .name {
