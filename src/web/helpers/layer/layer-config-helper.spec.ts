@@ -321,14 +321,14 @@ describe('test layer-config-helper', () => {
     mockGetPromarkInfo.mockReturnValue({ laserType: LaserType.Desktop, watt: 20 });
     expect(getPromarkLimit()).toEqual({
       frequency: { min: 27, max: 60 },
-      interval: { min: 0.001 },
+      interval: { min: 0.0001 },
     });
     mockStorageGet.mockReturnValue('inches');
     mockGetPromarkInfo.mockReturnValue({ laserType: LaserType.MOPA, watt: 60 });
     expect(getPromarkLimit()).toEqual({
       pulseWidth: { min: 2, max: 500 },
       frequency: { min: 1, max: 1000 },
-      interval: { min: 0.0254 },
+      interval: { min: 0.00254 },
     });
   });
 });
