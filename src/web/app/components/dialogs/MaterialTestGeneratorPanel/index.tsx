@@ -167,7 +167,7 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
     svgCanvas.setRotationAngle(-90, true, colText);
 
     Array.from({ length: row.count.value }).forEach((_, index) => {
-      createNewText(
+      const rowText = createNewText(
         startPadding +
           10 * dpmm +
           (row.size.value + row.spacing.value) * dpmm * index +
@@ -181,6 +181,8 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
           isDefaultFont: true,
         }
       );
+
+      svgCanvas.setRotationAngle(90, true, rowText);
     });
 
     Array.from({ length: column.count.value }).forEach((_, index) => {
