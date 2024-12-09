@@ -135,7 +135,13 @@ export const getDefaultConfig = (): Partial<ConfigKeyTypeMap> => {
   return config;
 };
 
-const booleanConfig: ConfigKey[] = ['fullcolor', 'ref', 'split', 'biDirectional', 'crossHatch'];
+export const booleanConfig: ConfigKey[] = [
+  'fullcolor',
+  'ref',
+  'split',
+  'biDirectional',
+  'crossHatch',
+];
 
 /**
  * getData from layer element
