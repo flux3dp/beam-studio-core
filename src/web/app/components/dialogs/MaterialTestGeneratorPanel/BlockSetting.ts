@@ -10,8 +10,8 @@ export type BlockSetting = Record<(typeof blockSettingScopes)[number], BlockInfo
 
 const blockInfo = (): BlockInfo => ({
   count: { value: 10, min: 1, max: 20 },
-  size: { value: 10, min: 5, max: Number.MAX_SAFE_INTEGER },
-  spacing: { value: 5, min: 5, max: Number.MAX_SAFE_INTEGER },
+  size: { value: 10, min: 1, max: Number.MAX_SAFE_INTEGER },
+  spacing: { value: 5, min: 1, max: Number.MAX_SAFE_INTEGER },
 });
 
 export const blockSetting = (): BlockSetting => ({

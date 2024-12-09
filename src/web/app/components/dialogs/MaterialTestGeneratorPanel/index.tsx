@@ -26,7 +26,7 @@ import styles from './index.module.scss';
 import WorkAreaInfo from './WorkAreaInfo';
 import TableSettingForm from './TableSettingForm';
 import BlockSettingForm from './BlockSettingForm';
-import { tableSetting as defaultTableSetting } from './TableSetting';
+import { getTableSetting as defaultTableSetting } from './TableSetting';
 import { textSetting as defaultTextSetting } from './TextSetting';
 import { BlockSetting, blockSetting as defaultBlockSetting } from './BlockSetting';
 import generateSvgInfo, { SvgInfo } from './generateSvgInfo';
@@ -75,10 +75,10 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
     }),
     [laserType, workarea]
   );
-  const [tableSetting, setTableSetting] = useState(defaultTableSetting(workarea, laserType));
+  const [blockOption, setBlockOption] = useState<'cut' | 'engrave'>('cut');
+  const [tableSetting, setTableSetting] = useState(defaultTableSetting(workarea, { laserType }));
   const [blockSetting, setBlockSetting] = useState(defaultBlockSetting);
   const [textSetting, setTextSetting] = useState(defaultTextSetting);
-  const [blockOption, setBlockOption] = useState<'cut' | 'engrave'>('cut');
   const blockOptions = [
     { label: t.material_test_generator.cut, value: 'cut' },
     { label: t.material_test_generator.engrave, value: 'engrave' },
@@ -333,6 +333,9 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
         className={styles['mb-28']}
         isInch={isInch}
         tableSetting={tableSetting}
+        workarea={workarea}
+        laserType={laserType}
+        blockOption={blockOption}
         handleChange={setTableSetting}
       />
 

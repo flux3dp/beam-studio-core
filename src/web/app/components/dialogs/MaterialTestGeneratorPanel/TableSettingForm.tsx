@@ -1,10 +1,14 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import UnitInput from 'app/widgets/UnitInput';
 import useI18n from 'helpers/useI18n';
 import { Flex } from 'antd';
 import Select from 'app/widgets/AntdSelect';
+import { LaserType } from 'app/constants/promark-constants';
+import { WorkAreaModel } from 'app/constants/workarea-constants';
+import { promarkModels } from 'app/actions/beambox/constant';
 import {
   Detail,
+  getTableSetting,
   mopaTableParams,
   promarkTableParams,
   tableParams,
@@ -15,6 +19,9 @@ import styles from './Form.module.scss';
 interface Props {
   isInch: boolean;
   tableSetting: TableSetting;
+  workarea?: WorkAreaModel;
+  laserType?: LaserType;
+  blockOption?: 'cut' | 'engrave';
   handleChange: (tableSetting: TableSetting) => void;
   className?: string;
 }
@@ -31,6 +38,9 @@ function camelToSnake(str: string): string {
 export default function TableSettingForm({
   isInch,
   tableSetting,
+  workarea,
+  laserType,
+  blockOption,
   handleChange,
   className,
 }: Props): JSX.Element {
@@ -44,13 +54,49 @@ export default function TableSettingForm({
   const { settingEntries, options } = useMemo(
     () => ({
       settingEntries: Object.entries(tableSetting) as Array<[TableParams, Detail]>,
-      options: Object.keys(tableSetting).map((value) => ({
-        value,
-        label: tLaserPanel[camelToSnake(value)],
-      })),
+      options: Object.keys(tableSetting)
+        .filter((key) => (blockOption === 'engrave' ? true : key !== 'fillInterval'))
+        .map((value) => ({
+          value,
+          label: tLaserPanel[camelToSnake(value)],
+        })),
     }),
-    [tLaserPanel, tableSetting]
+    [blockOption, tLaserPanel, tableSetting]
   );
+
+  const handleBlockOptionChange = (value: 'cut' | 'engrave') => {
+    if (!promarkModels.has(workarea) || value !== 'cut') {
+      return;
+    }
+
+    const { fillInterval: defaultFillInterval } = getTableSetting(workarea, { laserType });
+    const needSelectOther = settingEntries.some(
+      ([key, { selected }]) => key === 'fillInterval' && selected !== 2
+    );
+    const fillIntervalSelected = settingEntries.find(([key]) => key === 'fillInterval')?.[1]
+      .selected;
+    const firstNotSelected = settingEntries.find(
+      ([key, { selected }]) => key !== 'fillInterval' && selected === 2
+    );
+    const modifiedTableSetting = needSelectOther
+      ? {
+          ...tableSetting,
+          [firstNotSelected[0]]: {
+            ...tableSetting[firstNotSelected[0]],
+            selected: fillIntervalSelected,
+          },
+          fillInterval: { ...tableSetting.fillInterval, selected: 2 },
+        }
+      : tableSetting;
+    console.log(modifiedTableSetting);
+
+    handleChange({ ...modifiedTableSetting, fillInterval: defaultFillInterval });
+  };
+
+  useEffect(() => {
+    handleBlockOptionChange(blockOption);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [blockOption, laserType, workarea]);
 
   const handleSelectChange = (value: string, index: number) => {
     const currentKey = settingEntries.find(([, { selected }]) => selected === index)?.[0];
