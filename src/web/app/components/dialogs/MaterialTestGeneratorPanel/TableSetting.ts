@@ -98,8 +98,8 @@ const promarkTableSetting = (
     fillInterval: {
       minValue: 0.01,
       maxValue: 1,
-      min: limit.interval.min,
-      max: limit.interval.max,
+      min: 0.0001,
+      max: 100,
       default: 25,
       selected: 2,
     },

@@ -28,7 +28,7 @@ import TableSettingForm from './TableSettingForm';
 import BlockSettingForm from './BlockSettingForm';
 import { getTableSetting as defaultTableSetting } from './TableSetting';
 import { textSetting as defaultTextSetting } from './TextSetting';
-import { BlockSetting, blockSetting as defaultBlockSetting } from './BlockSetting';
+import { BlockInfo, BlockSetting, blockSetting as defaultBlockSetting } from './BlockSetting';
 import generateSvgInfo, { SvgInfo } from './generateSvgInfo';
 import TextSettingForm from './TextSettingForm';
 
@@ -45,12 +45,12 @@ getSVGAsync(({ Canvas }) => {
 const { dpmm } = constant;
 
 const paramWidth = {
-  speed: 81.61 * dpmm,
-  strength: 60.66 * dpmm,
-  repeat: 42.63 * dpmm,
-  pulseWidth: 97.79 * dpmm,
-  frequency: 97.31 * dpmm,
-  fillInterval: 96.77 * dpmm,
+  speed: 81.61,
+  strength: 60.66,
+  repeat: 42.63,
+  pulseWidth: 97.79,
+  frequency: 97.31,
+  fillInterval: 96.77,
 };
 const paramString = {
   speed: 'Speed (mm/s)',
@@ -62,6 +62,8 @@ const paramString = {
 };
 
 const getTextAdjustment = (rawText: number | string) => (rawText.toString().length * 2.7) / 2;
+const getEnd = (start: number, block: BlockInfo) =>
+  start + (block.count.value - 1) * (block.spacing.value + block.size.value);
 
 const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
   const t = useI18n();
@@ -91,13 +93,12 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
     batchCmd: IBatchCommand
   ) => {
     const { column, row } = blockSetting;
-    const [startPadding, endPadding] = [30 * dpmm, 10 * dpmm];
-    const [right, bottom] = [
-      startPadding + (row.count.value - 1) * (row.spacing.value + row.size.value) * dpmm,
-      startPadding + (column.count.value - 1) * (column.spacing.value + column.size.value) * dpmm,
+    const [startPadding, endPadding] = [30, 10];
+    const [right, bottom] = [row, column].map((block) => getEnd(startPadding, block));
+    const [width, height] = [
+      (right + row.size.value + endPadding * 2) * dpmm,
+      (bottom + column.size.value + endPadding * 2) * dpmm,
     ];
-    const rightBound = right + row.size.value * dpmm + endPadding * 2;
-    const bottomBound = bottom + column.size.value * dpmm + endPadding;
     const [colParam, rowParam] = Object.entries(tableSetting).sort(
       ([, { selected: a }], [, { selected: b }]) => a - b
     );
@@ -117,8 +118,8 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
       attr: {
         x: 0,
         y: 0,
-        width: rightBound,
-        height: bottomBound,
+        width,
+        height,
         stroke: '#000',
         id: svgCanvas.getNextId(),
         fill: 'none',
@@ -142,8 +143,8 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
 
     // rowText
     createNewText(
-      startPadding + (right - startPadding) / 2 - paramWidth[rowParam[0]] / 2,
-      startPadding / 2,
+      (startPadding + (right - startPadding) / 2 - paramWidth[rowParam[0]] / 2) * dpmm,
+      (startPadding / 2) * dpmm,
       {
         text: paramString[rowParam[0]],
         fontSize: 130,
@@ -154,8 +155,8 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
 
     const colText = createNewText(
       // magic number to align the text
-      -(paramWidth[colParam[0]] * 0.55) + 13.19 * dpmm,
-      startPadding + (bottom - startPadding) / 2 + paramWidth[colParam[0]] / 10,
+      (-(paramWidth[colParam[0]] * 0.55) + 13.19) * dpmm,
+      (startPadding + (bottom - startPadding) / 2 + paramWidth[colParam[0]] / 10) * dpmm,
       {
         text: paramString[colParam[0]],
         fontSize: 130,
@@ -168,12 +169,13 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
 
     Array.from({ length: row.count.value }).forEach((_, index) => {
       const rowText = createNewText(
-        startPadding +
-          10 * dpmm +
-          (row.size.value + row.spacing.value) * dpmm * index +
-          (row.size.value * dpmm) / 2 -
-          getTextAdjustment(svgInfos[index][rowParam[0]]) * dpmm,
-        startPadding - 5 * dpmm,
+        (startPadding +
+          (row.size.value + row.spacing.value) * index +
+          row.size.value / 2 -
+          getTextAdjustment(svgInfos[index][rowParam[0]]) +
+          10) *
+          dpmm,
+        startPadding * dpmm,
         {
           text: svgInfos[index][rowParam[0]].toString(),
           fontSize: 48,
@@ -187,11 +189,13 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
 
     Array.from({ length: column.count.value }).forEach((_, index) => {
       createNewText(
-        startPadding - 10 * dpmm,
-        startPadding +
-          (column.size.value + column.spacing.value) * dpmm * index +
-          (column.size.value / 2) * dpmm +
-          (4 / 2) * dpmm,
+        (startPadding - 10) * dpmm,
+        (startPadding +
+          (column.size.value + column.spacing.value) * index +
+          column.size.value / 2 +
+          4 / 2 +
+          10) *
+          dpmm,
         {
           text: svgInfos[index * row.count.value][colParam[0]].toString(),
           fontSize: 48,
@@ -208,15 +212,10 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
     batchCmd: IBatchCommand
   ) => {
     const { row, column } = blockSetting;
-    const startPadding = 30 * dpmm;
-    const [right, bottom] = [
-      startPadding +
-        10 * dpmm +
-        (row.count.value - 1) * (row.spacing.value + row.size.value) * dpmm,
-      startPadding + (column.count.value - 1) * (column.spacing.value + column.size.value) * dpmm,
-    ];
-    const [width, height] = [row.size.value * dpmm, column.size.value * dpmm];
-    let [x, y] = [right, bottom];
+    const startPadding = 30;
+    const [width, height] = [row.size.value, column.size.value].map((value) => value * dpmm);
+    const [right, bottom] = [row, column].map((block) => getEnd(startPadding, block) + 10);
+    let [x, y] = [right, bottom].map((value) => value * dpmm);
 
     [...svgInfos]
       .reverse()
@@ -257,7 +256,7 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
         });
 
         if ((index + 1) % row.count.value === 0) {
-          x = right;
+          x = right * dpmm;
           y -= (column.size.value + column.spacing.value) * dpmm;
         } else {
           x -= (row.size.value + row.spacing.value) * dpmm;
