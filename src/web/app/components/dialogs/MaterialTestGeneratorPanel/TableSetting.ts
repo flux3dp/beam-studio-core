@@ -15,11 +15,18 @@ export interface Detail {
   selected: 0 | 1 | 2;
 }
 
+type TableSettingConstruct<
+  T extends ReadonlyArray<string>,
+  IsRequired = true
+> = IsRequired extends true ? { [K in T[number]]: Detail } : { [K in T[number]]?: Detail };
+
 export const tableParams = ['strength', 'speed', 'repeat'] as const;
+export const promarkTableParams = ['fillInterval'] as const;
 export const mopaTableParams = ['pulseWidth', 'frequency'] as const;
-export type TableSetting = { [key in (typeof tableParams)[number]]: Detail } & {
-  [key in (typeof mopaTableParams)[number]]?: Detail;
-};
+
+export type TableSetting = TableSettingConstruct<typeof tableParams> &
+  TableSettingConstruct<typeof promarkTableParams, false> &
+  TableSettingConstruct<typeof mopaTableParams, false>;
 
 const defaultTableSetting = (workarea: WorkAreaModel): TableSetting => {
   const { maxSpeed } = getWorkarea(workarea);
@@ -47,6 +54,46 @@ const defaultTableSetting = (workarea: WorkAreaModel): TableSetting => {
       min: 1,
       max: 100,
       default: 1,
+      selected: 2,
+    },
+  };
+};
+
+const promarkTableSetting = (workarea: WorkAreaModel): TableSetting => {
+  const { minSpeed, maxSpeed } = getWorkarea(workarea);
+  const limit = getPromarkLimit();
+
+  return {
+    strength: {
+      minValue: 15,
+      maxValue: 100,
+      min: 1,
+      max: 100,
+      default: 15,
+      selected: 0,
+    },
+    speed: {
+      minValue: minSpeed,
+      maxValue: maxSpeed,
+      min: minSpeed,
+      max: maxSpeed,
+      default: 1000,
+      selected: 1,
+    },
+    repeat: {
+      minValue: 1,
+      maxValue: 5,
+      min: 1,
+      max: 100,
+      default: 1,
+      selected: 2,
+    },
+    fillInterval: {
+      minValue: 0.01,
+      maxValue: 1,
+      min: limit.interval.min,
+      max: limit.interval.max,
+      default: 25,
       selected: 2,
     },
   };
@@ -81,6 +128,14 @@ const mopaTableSetting = (workarea: WorkAreaModel): TableSetting => {
       default: 1,
       selected: 2,
     },
+    fillInterval: {
+      minValue: 0.01,
+      maxValue: 1,
+      min: limit.interval.min,
+      max: limit.interval.max,
+      default: 25,
+      selected: 2,
+    },
     pulseWidth: {
       minValue: limit.pulseWidth.min,
       maxValue: limit.pulseWidth.max,
@@ -101,8 +156,12 @@ const mopaTableSetting = (workarea: WorkAreaModel): TableSetting => {
 };
 
 export const tableSetting = (workarea: WorkAreaModel, laserType?: LaserType): TableSetting => {
-  if (promarkModels.has(workarea) && laserType === LaserType.MOPA) {
-    return mopaTableSetting(workarea);
+  if (promarkModels.has(workarea)) {
+    if (laserType === LaserType.MOPA) {
+      return mopaTableSetting(workarea);
+    }
+
+    return promarkTableSetting(workarea);
   }
 
   return defaultTableSetting(workarea);

@@ -3,7 +3,13 @@ import UnitInput from 'app/widgets/UnitInput';
 import useI18n from 'helpers/useI18n';
 import { Flex } from 'antd';
 import Select from 'app/widgets/AntdSelect';
-import { Detail, mopaTableParams, tableParams, TableSetting } from './TableSetting';
+import {
+  Detail,
+  mopaTableParams,
+  promarkTableParams,
+  tableParams,
+  TableSetting,
+} from './TableSetting';
 import styles from './Form.module.scss';
 
 interface Props {
@@ -14,7 +20,13 @@ interface Props {
 }
 
 type Param = (typeof tableParams)[number];
+type PromarkParam = (typeof promarkTableParams)[number];
 type MopaParam = (typeof mopaTableParams)[number];
+type TableParams = Param | PromarkParam | MopaParam;
+
+function camelToSnake(str: string): string {
+  return str.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
+}
 
 export default function TableSettingForm({
   isInch,
@@ -28,13 +40,13 @@ export default function TableSettingForm({
     },
     material_test_generator: tMaterial,
   } = useI18n();
-  const lengthUnit = isInch ? 'in/s' : 'mm/s';
+  const lengthUnit = isInch ? 'in' : 'mm';
   const { settingEntries, options } = useMemo(
     () => ({
-      settingEntries: Object.entries(tableSetting) as Array<[Param | MopaParam, Detail]>,
+      settingEntries: Object.entries(tableSetting) as Array<[TableParams, Detail]>,
       options: Object.keys(tableSetting).map((value) => ({
         value,
-        label: value === 'pulseWidth' ? tLaserPanel.pulse_width : tLaserPanel[value],
+        label: tLaserPanel[camelToSnake(value)],
       })),
     }),
     [tLaserPanel, tableSetting]
@@ -54,7 +66,7 @@ export default function TableSettingForm({
     });
   };
 
-  const handleValueChange = (key: Param | MopaParam, prefix: 'min' | 'max', value: number) => {
+  const handleValueChange = (key: TableParams, prefix: 'min' | 'max', value: number) => {
     const { min, max } = tableSetting[key];
     const limitValue = (v: number) => {
       const rangedValue = Math[prefix](
@@ -84,22 +96,45 @@ export default function TableSettingForm({
           value={key}
           onChange={(value) => handleSelectChange(value, index)}
         />
-        {['min', 'max'].map((prefix) => (
-          <UnitInput
-            key={`${prefix}-${key}`}
-            data-testid={`${prefix}-${key}`}
-            isInch={useInch}
-            className={styles.input}
-            value={detail[`${prefix}Value`]}
-            max={detail.max}
-            min={detail.min}
-            precision={useInch ? 4 : 0}
-            step={useInch ? 25.4 : 1}
-            // eslint-disable-next-line no-nested-ternary
-            addonAfter={key === 'strength' ? '%' : key === 'speed' ? lengthUnit : ''}
-            onChange={(value) => handleValueChange(key, prefix as 'min' | 'max', value)}
-          />
-        ))}
+        {['min', 'max'].map((prefix) => {
+          const addonAfter = () => {
+            switch (key) {
+              case 'strength':
+                return '%';
+              case 'speed':
+                return `${lengthUnit}/s`;
+              case 'fillInterval':
+                return lengthUnit;
+              default:
+                return '';
+            }
+          };
+
+          const precision = useInch || key === 'fillInterval' ? 4 : 0;
+          const step = () => {
+            if (key === 'fillInterval') {
+              return useInch ? 0.00254 : 0.0001;
+            }
+
+            return useInch ? 25.4 : 1;
+          };
+
+          return (
+            <UnitInput
+              key={`${prefix}-${key}`}
+              data-testid={`${prefix}-${key}`}
+              isInch={useInch}
+              className={styles.input}
+              value={detail[`${prefix}Value`]}
+              max={detail.max}
+              min={detail.min}
+              precision={precision}
+              step={step()}
+              addonAfter={addonAfter()}
+              onChange={(value) => handleValueChange(key, prefix as 'min' | 'max', value)}
+            />
+          );
+        })}
       </Flex>
     );
   };

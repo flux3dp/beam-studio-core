@@ -50,6 +50,7 @@ const paramWidth = {
   repeat: 42.63 * dpmm,
   pulseWidth: 97.79 * dpmm,
   frequency: 97.31 * dpmm,
+  fillInterval: 96.77 * dpmm,
 };
 const paramString = {
   speed: 'Speed (mm/s)',
@@ -57,6 +58,7 @@ const paramString = {
   repeat: 'Passes',
   pulseWidth: 'Pulse Width (ns)',
   frequency: 'Frequency (kHz)',
+  fillInterval: 'Fill Interval (mm)',
 };
 
 const getTextAdjustment = (rawText: number | string) => (rawText.toString().length * 2.7) / 2;
@@ -66,8 +68,11 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
   const isInch = useMemo(() => storage.get('default-units') === 'inches', []);
   const { laserType } = getPromarkInfo();
   const workarea = useMemo(() => beamboxPreference.read('workarea'), []);
-  const isPromarkMopa = useMemo(
-    () => promarkModels.has(workarea) && laserType === LaserType.MOPA,
+  const { isPromark, isMopa } = useMemo(
+    () => ({
+      isPromark: promarkModels.has(workarea),
+      isMopa: laserType === LaserType.MOPA,
+    }),
     [laserType, workarea]
   );
   const [tableSetting, setTableSetting] = useState(defaultTableSetting(workarea, laserType));
@@ -213,7 +218,7 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
 
     [...svgInfos]
       .reverse()
-      .forEach(({ name, strength, speed, repeat, pulseWidth, frequency }, index) => {
+      .forEach(({ name, strength, speed, repeat, pulseWidth, frequency, fillInterval }, index) => {
         const { layer, cmd } = createLayer(name, { isSubCmd: true });
 
         if (cmd && !cmd.isEmpty()) {
@@ -224,7 +229,11 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
         writeDataLayer(layer, 'speed', speed);
         writeDataLayer(layer, 'repeat', repeat);
 
-        if (isPromarkMopa) {
+        if (isPromark) {
+          writeDataLayer(layer, 'fillInterval', fillInterval);
+        }
+
+        if (isMopa) {
           writeDataLayer(layer, 'pulseWidth', pulseWidth);
           writeDataLayer(layer, 'frequency', frequency);
         }
