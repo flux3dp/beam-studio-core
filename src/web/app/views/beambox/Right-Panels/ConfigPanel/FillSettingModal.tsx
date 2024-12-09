@@ -1,14 +1,13 @@
-import React, { useContext, useMemo, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Modal, Switch, Tooltip } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
-import storage from 'implementations/storage';
 import UnitInput from 'app/widgets/Unit-Input-v2';
 import useI18n from 'helpers/useI18n';
 import { ConfigKey, ConfigKeyTypeMap } from 'interfaces/ILayerConfig';
 import { getLayerByName } from 'helpers/layer/layer-helper';
-import { getPromarkLimit, writeDataLayer } from 'helpers/layer/layer-config-helper';
+import { writeDataLayer } from 'helpers/layer/layer-config-helper';
 
 import ConfigPanelContext from './ConfigPanelContext';
 import styles from './FillSettingModal.module.scss';
@@ -31,7 +30,6 @@ const FillSettingModal = ({ onClose }: Props): JSX.Element => {
     biDirectional: state.biDirectional,
     crossHatch: state.crossHatch,
   });
-  const limit = useMemo(getPromarkLimit, []);
 
   const handleSave = () => {
     const keys = ['fillInterval', 'fillAngle', 'biDirectional', 'crossHatch'] as const;
@@ -84,12 +82,13 @@ const FillSettingModal = ({ onClose }: Props): JSX.Element => {
             className={{ [styles.input]: true }}
             defaultValue={draftValue.fillInterval.value}
             getValue={(value) => handleValueChange('fillInterval', value)}
-            min={limit.interval.min}
+            min={0.0001}
             max={100}
             unit="mm"
             decimal={4}
             step={0.0001}
             displayMultiValue={draftValue.fillInterval.hasMultiValue}
+            forceUsePropsUnit
           />
         </div>
         <div>

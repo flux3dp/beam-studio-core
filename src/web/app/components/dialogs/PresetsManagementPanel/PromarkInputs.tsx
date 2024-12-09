@@ -179,11 +179,10 @@ const PromarkInputs = ({
             disabled={preset.isDefault}
             value={preset.fillInterval ?? defaultConfig.fillInterval}
             max={100}
-            min={limit.interval.min}
+            min={0.0001}
             precision={4}
             step={0.0001}
-            addonAfter={lengthUnit}
-            isInch={isInch}
+            addonAfter="mm"
             onChange={(value) => handleChange('fillInterval', value)}
             controls={false}
             clipValue

@@ -15,7 +15,6 @@ jest.mock('helpers/layer/layer-config-helper', () => ({
   getPromarkLimit: () => ({
     pulseWidth: { min: 2, max: 350 },
     frequency: { min: 1, max: 4000 },
-    interval: { min: 0.0001 },
   }),
   writeDataLayer: (...args) => mockWriteDataLayer(...args),
 }));
