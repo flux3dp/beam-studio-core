@@ -6,26 +6,27 @@ import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import i18n from 'helpers/i18n';
 import { CanvasMode } from 'app/constants/canvasMode';
 import { Tab } from 'interfaces/Tab';
+import { TabEvents } from 'app/constants/tabConstants';
 
 class TabController extends EventEmitter {
   public currentId: number | null = null;
 
   constructor() {
     super();
-    communicator.on('TAB_FOCUSED', () => {
-      this.emit('TAB_FOCUSED');
+    communicator.on(TabEvents.TabFocused, () => {
+      this.emit(TabEvents.TabFocused);
     });
-    communicator.on('TABS_UPDATED', (_, tabs: Array<Tab>) => {
-      this.emit('TABS_UPDATED', tabs);
+    communicator.on(TabEvents.TabUpdated, (_, tabs: Array<Tab>) => {
+      this.emit(TabEvents.TabUpdated, tabs);
     });
-    this.currentId = communicator.sendSync('get-tab-id');
+    this.currentId = communicator.sendSync(TabEvents.GetTabId);
     const topBarEventEmitter = eventEmitterFactory.createEventEmitter('top-bar');
     const updateTitleHandler = () => {
       const { isCloudFile } = currentFileManager;
       const name = currentFileManager.getName();
       const hasUnsavedChanges = currentFileManager.getHasUnsavedChanges();
       const title = `${name || i18n.lang.topbar.untitled}${hasUnsavedChanges ? '*' : ''}`;
-      communicator.send('set-tab-title', title, isCloudFile);
+      communicator.send(TabEvents.SetTabTitle, title, isCloudFile);
     };
 
     topBarEventEmitter.on('UPDATE_TITLE', updateTitleHandler);
@@ -33,40 +34,40 @@ class TabController extends EventEmitter {
   }
 
   onFocused(handler: () => void) {
-    this.on('TAB_FOCUSED', handler);
+    this.on(TabEvents.TabFocused, handler);
   }
 
   offFocused(handler: () => void) {
-    this.off('TAB_FOCUSED', handler);
+    this.off(TabEvents.TabFocused, handler);
   }
 
   onTabsUpdated(handler: (tabs: Array<Tab>) => void) {
-    this.on('TABS_UPDATED', handler);
+    this.on(TabEvents.TabUpdated, handler);
   }
 
   offTabsUpdated(handler: (tabs: Array<Tab>) => void) {
-    this.off('TABS_UPDATED', handler);
+    this.off(TabEvents.TabUpdated, handler);
   }
 
   getCurrentId = (): number | null => this.currentId;
 
-  getAllTabs = (): Array<Tab> => communicator.sendSync('get-all-tabs');
+  getAllTabs = (): Array<Tab> => communicator.sendSync(TabEvents.GetAllTabs);
 
-  addNewTab = (): void => communicator.send('add-new-tab');
+  addNewTab = (): void => communicator.send(TabEvents.AddNewTab);
 
-  closeTab = (id: number): void => communicator.send('close-tab', id);
+  closeTab = (id: number): void => communicator.send(TabEvents.CloseTab, id);
 
   moveTab = (srcIdx: number, dstIdx: number): void => {
-    communicator.send('move-tab', srcIdx, dstIdx);
+    communicator.send(TabEvents.MoveTab, srcIdx, dstIdx);
   };
 
   focusTab = (id: number): void => {
     if (id === this.currentId) return;
-    communicator.send('focus-tab', id);
+    communicator.send(TabEvents.FocusTab, id);
   };
 
   setMode = (mode: CanvasMode) => {
-    console.log('setMode', mode);
+    communicator.send(TabEvents.SetTabMode, mode);
   };
 }
 

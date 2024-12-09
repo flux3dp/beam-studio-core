@@ -8,7 +8,7 @@ import { DragDropContext, Draggable, Droppable, DropResult } from 'react-beautif
 import CanvasMode from 'app/constants/canvasMode';
 import Tab from 'interfaces/Tab';
 import TopBarIcons from 'app/icons/top-bar/TopBarIcons';
-import tabConstants from 'app/constants/tab-constants';
+import tabConstants from 'app/constants/tabConstants';
 import tabController from 'app/actions/tabController';
 import useI18n from 'helpers/useI18n';
 import { CanvasContext } from 'app/contexts/CanvasContext';
