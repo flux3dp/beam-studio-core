@@ -5,7 +5,7 @@ export interface Tab {
   title: string;
   isCloud: boolean;
   isLoading: boolean;
-  mode: CanvasMode;
+  mode?: CanvasMode;
 }
 
 export default Tab;

@@ -5,6 +5,7 @@ import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import { CloseOutlined, PlusOutlined, LoadingOutlined } from '@ant-design/icons';
 import { DragDropContext, Draggable, Droppable, DropResult } from 'react-beautiful-dnd';
 
+import CanvasMode from 'app/constants/canvasMode';
 import Tab from 'interfaces/Tab';
 import TopBarIcons from 'app/icons/top-bar/TopBarIcons';
 import tabConstants from 'app/constants/tab-constants';
@@ -53,9 +54,9 @@ const Tabs = (): JSX.Element => {
     tabController.moveTab(srcIdx, dstIdx);
   };
 
-  const renderIcon = useCallback(({ isLoading, isPreviewing, isCloud }: Tab) => {
+  const renderIcon = useCallback(({ isLoading, mode, isCloud }: Tab) => {
     if (isLoading) return <LoadingOutlined className={classNames(styles.icon, styles.loading)} />;
-    if (isPreviewing) return <TopBarIcons.Camera className={styles.icon} />;
+    if (mode === CanvasMode.Preview) return <TopBarIcons.Camera className={styles.icon} />;
     if (isCloud) return <TopBarIcons.CloudFile className={styles.icon} />;
     return null;
   }, []);
