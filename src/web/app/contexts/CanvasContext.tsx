@@ -10,7 +10,6 @@ import React, {
 
 import alertCaller from 'app/actions/alert-caller';
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
-import constant from 'app/actions/beambox/constant';
 import curveEngravingModeController from 'app/actions/canvas/curveEngravingModeController';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
@@ -22,6 +21,7 @@ import tutorialController from 'app/views/tutorials/tutorialController';
 import useForceUpdate from 'helpers/use-force-update';
 import useI18n from 'helpers/useI18n';
 import workareaManager from 'app/svgedit/workarea';
+import { CanvasMode } from 'app/constants/canvasMode';
 import { getLatestDeviceInfo } from 'helpers/api/discover';
 import { getSupportInfo } from 'app/constants/add-on';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
@@ -40,13 +40,6 @@ getSVGAsync((globalSVG) => {
 });
 
 const workareaEvents = eventEmitterFactory.createEventEmitter('workarea');
-
-export enum CanvasMode {
-  Draw = 1,
-  Preview = 2,
-  PathPreview = 3,
-  CurveEngraving = 4,
-}
 
 interface CanvasContextType {
   changeToPreviewMode: () => void;

@@ -2,7 +2,8 @@
 import React from 'react';
 import { fireEvent, render, waitFor } from '@testing-library/react';
 
-import { CanvasContext, CanvasMode } from 'app/contexts/CanvasContext';
+import { CanvasContext } from 'app/contexts/CanvasContext';
+import { CanvasMode } from 'app/constants/canvasMode';
 
 import PreviewSlider from './PreviewSlider';
 
@@ -36,11 +37,7 @@ jest.mock('app/actions/beambox/preview-mode-controller', () => ({
 }));
 
 jest.mock('app/contexts/CanvasContext', () => ({
-  CanvasContext: React.createContext({ mode: 1 }),
-  CanvasMode: {
-    Preview: 2,
-    PathPreview: 3,
-  },
+  CanvasContext: React.createContext({ mode: CanvasMode.Draw }),
 }));
 
 jest.mock('antd', () => ({

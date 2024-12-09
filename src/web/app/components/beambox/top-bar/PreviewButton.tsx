@@ -5,7 +5,8 @@ import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import LeftPanelIcons from 'app/icons/left-panel/LeftPanelIcons';
 import TopBarIcons from 'app/icons/top-bar/TopBarIcons';
 import useI18n from 'helpers/useI18n';
-import { CanvasContext, CanvasMode } from 'app/contexts/CanvasContext';
+import { CanvasContext } from 'app/contexts/CanvasContext';
+import { CanvasMode } from 'app/constants/canvasMode';
 import { getSupportInfo } from 'app/constants/add-on';
 import { useIsMobile } from 'helpers/system-helper';
 

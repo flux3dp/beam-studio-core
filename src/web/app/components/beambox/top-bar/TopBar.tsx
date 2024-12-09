@@ -17,7 +17,8 @@ import SelectMachineButton from 'app/components/beambox/top-bar/SelectMachineBut
 import storage from 'implementations/storage';
 import TopBarHints from 'app/components/beambox/top-bar/TopBarHints';
 import UserAvatar from 'app/components/beambox/top-bar/UserAvatar';
-import { CanvasContext, CanvasMode } from 'app/contexts/CanvasContext';
+import { CanvasContext } from 'app/contexts/CanvasContext';
+import { CanvasMode } from 'app/constants/canvasMode';
 import {
   registerWindowUpdateTitle,
   unregisterWindowUpdateTitle,

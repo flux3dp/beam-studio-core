@@ -3,7 +3,8 @@ import React, { useContext, useMemo } from 'react';
 import getDevice from 'helpers/device/get-device';
 import TopBarIcons from 'app/icons/top-bar/TopBarIcons';
 import useI18n from 'helpers/useI18n';
-import { CanvasContext, CanvasMode } from 'app/contexts/CanvasContext';
+import { CanvasContext } from 'app/contexts/CanvasContext';
+import { CanvasMode } from 'app/constants/canvasMode';
 import { useIsMobile } from 'helpers/system-helper';
 
 import styles from './SelectMachineButton.module.scss';
@@ -23,7 +24,11 @@ function SelectMachineButton(): JSX.Element {
       onClick={() => (mode === CanvasMode.Preview ? setupPreviewMode : getDevice)(true)}
     >
       <TopBarIcons.SelectMachine />
-      {!isMobile && <span className={styles.text} data-testid="select-machine">{text}</span>}
+      {!isMobile && (
+        <span className={styles.text} data-testid="select-machine">
+          {text}
+        </span>
+      )}
     </div>
   );
 }

@@ -1,7 +1,8 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
-import { CanvasMode, CanvasContext } from 'app/contexts/CanvasContext';
+import { CanvasContext } from 'app/contexts/CanvasContext';
+import { CanvasMode } from 'app/constants/canvasMode';
 
 import SelectMachineButton from './SelectMachineButton';
 
@@ -14,16 +15,10 @@ jest.mock('helpers/useI18n', () => () => ({
 const mockSetupPreviewMode = jest.fn();
 jest.mock('app/contexts/CanvasContext', () => ({
   CanvasContext: React.createContext({
-    mode: 1,
+    mode: CanvasMode.Draw,
     selectedDevice: null,
     setupPreviewMode: (...args) => mockSetupPreviewMode(...args),
   }),
-  CanvasMode: {
-    Draw: 1,
-    Preview: 2,
-    PathPreview: 3,
-    CurveEngraving: 4,
-  },
 }));
 
 const useIsMobile = jest.fn();

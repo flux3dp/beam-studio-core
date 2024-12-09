@@ -8,7 +8,8 @@ import LeftPanelButton from 'app/components/beambox/left-panel/LeftPanelButton';
 import LeftPanelIcons from 'app/icons/left-panel/LeftPanelIcons';
 import PreviewToolButtonGroup from 'app/components/beambox/left-panel/PreviewToolButtonGroup';
 import shortcuts from 'helpers/shortcuts';
-import { CanvasContext, CanvasMode } from 'app/contexts/CanvasContext';
+import { CanvasContext } from 'app/contexts/CanvasContext';
+import { CanvasMode } from 'app/constants/canvasMode';
 
 import styles from './LeftPanel.module.scss';
 

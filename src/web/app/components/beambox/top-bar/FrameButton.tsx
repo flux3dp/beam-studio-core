@@ -5,7 +5,8 @@ import shortcuts from 'helpers/shortcuts';
 import TopBarController from 'app/views/beambox/TopBar/contexts/TopBarController';
 import TopBarIcons from 'app/icons/top-bar/TopBarIcons';
 import useI18n from 'helpers/useI18n';
-import { CanvasContext, CanvasMode } from 'app/contexts/CanvasContext';
+import { CanvasContext } from 'app/contexts/CanvasContext';
+import { CanvasMode } from 'app/constants/canvasMode';
 import { promarkModels } from 'app/actions/beambox/constant';
 import { showFramingModal } from 'app/components/dialogs/FramingModal';
 

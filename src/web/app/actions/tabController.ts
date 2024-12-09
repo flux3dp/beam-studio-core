@@ -4,6 +4,7 @@ import communicator from 'implementations/communicator';
 import currentFileManager from 'app/svgedit/currentFileManager';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import i18n from 'helpers/i18n';
+import { CanvasMode } from 'app/constants/canvasMode';
 import { Tab } from 'interfaces/Tab';
 
 class TabController extends EventEmitter {
@@ -62,6 +63,10 @@ class TabController extends EventEmitter {
   focusTab = (id: number): void => {
     if (id === this.currentId) return;
     communicator.send('focus-tab', id);
+  };
+
+  setMode = (mode: CanvasMode) => {
+    console.log('setMode', mode);
   };
 }
 

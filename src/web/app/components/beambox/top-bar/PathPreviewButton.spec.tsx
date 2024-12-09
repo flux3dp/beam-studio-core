@@ -4,6 +4,7 @@ import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
 import { CanvasContext } from 'app/contexts/CanvasContext';
+import { CanvasMode } from 'app/constants/canvasMode';
 
 jest.mock('helpers/useI18n', () => () => ({
   topbar: {
@@ -28,11 +29,6 @@ getSVGAsync.mockImplementation((callback) => {
   });
 });
 
-const CanvasMode = {
-  Draw: 1,
-  Preview: 2,
-  PathPreview: 3,
-};
 jest.mock('app/contexts/CanvasContext', () => ({
   CanvasContext: React.createContext({
     mode: 1,

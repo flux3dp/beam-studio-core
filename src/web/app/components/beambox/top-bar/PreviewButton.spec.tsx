@@ -3,6 +3,7 @@ import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
 import { CanvasContext } from 'app/contexts/CanvasContext';
+import { CanvasMode } from 'app/constants/canvasMode';
 
 import PreviewButton from './PreviewButton';
 
@@ -33,26 +34,21 @@ jest.mock('app/constants/tutorial-constants', () => ({
 
 const setMode = jest.fn();
 jest.mock('helpers/svg-editor-helper', () => ({
-  getSVGAsync: (callback) => callback({
-    Canvas: {
-      setMode: (...args) => setMode(...args),
-    },
-  }),
+  getSVGAsync: (callback) =>
+    callback({
+      Canvas: {
+        setMode: (...args) => setMode(...args),
+      },
+    }),
 }));
 
 const mockSetupPreviewMode = jest.fn();
 const mockChangeToPreviewMode = jest.fn();
 jest.mock('app/contexts/CanvasContext', () => ({
   CanvasContext: React.createContext({
-    mode: 1,
+    mode: CanvasMode.Draw,
     changeToPreviewMode: (...args) => mockChangeToPreviewMode(...args),
   }),
-  CanvasMode: {
-    Draw: 1,
-    Preview: 2,
-    PathPreview: 3,
-    CurveEngraving: 4,
-  },
 }));
 
 describe('test PreviewButton', () => {
