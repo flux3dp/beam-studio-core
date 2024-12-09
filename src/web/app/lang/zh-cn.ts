@@ -24,7 +24,6 @@ const lang: ILang = {
     titles: {
       settings: '偏好设定',
     },
-    export: 'GO',
     preview: '相机预览',
     preview_title: '相机预览',
     preview_press_esc_to_stop: '按下 ESC 以停止相机预览。',

@@ -24,7 +24,6 @@ const lang: ILang = {
     titles: {
       settings: 'Indstillinger',
     },
-    export: 'EKSPORTER',
     preview: 'FORHÅNDSVISNING',
     preview_title: 'Forhåndsvisning',
     preview_press_esc_to_stop: 'Tryk på ESC for at stoppe kameraforhåndsvisningen.',

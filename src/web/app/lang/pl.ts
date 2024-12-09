@@ -24,7 +24,6 @@ const lang: ILang = {
     titles: {
       settings: 'Preferencje',
     },
-    export: 'START',
     preview: 'PODGLĄD',
     preview_title: 'PODGLĄD',
     preview_press_esc_to_stop: 'Naciśnij ESC, aby zatrzymać podgląd kamery.',

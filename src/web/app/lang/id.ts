@@ -24,7 +24,6 @@ const lang: ILang = {
     titles: {
       settings: 'Pengaturan',
     },
-    export: 'Ekspor',
     preview: 'PRATINJAU',
     preview_title: 'Pratinjau',
     preview_press_esc_to_stop: 'Tekan ESC untuk menghentikan pratinjau kamera.',

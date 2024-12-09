@@ -24,7 +24,6 @@ const lang: ILang = {
     titles: {
       settings: '환경설정',
     },
-    export: 'GO',
     preview: '미리보기',
     preview_title: '미리보기',
     preview_press_esc_to_stop: 'ESC를 눌러 카메라 미리보기를 중지하세요.',

@@ -43,7 +43,6 @@ getSVGAsync((globalSVG) => {
 const { $ } = window;
 
 interface Props {
-  hasText: boolean;
   hasDiscoverdMachine: boolean;
 }
 
@@ -61,7 +60,7 @@ function throttle(func: () => void, delay: number): () => void {
   };
 }
 
-const GoButton = ({ hasDiscoverdMachine, hasText }: Props): JSX.Element => {
+const GoButton = ({ hasDiscoverdMachine }: Props): JSX.Element => {
   const lang = useI18n();
   const { endPreviewMode, mode } = useContext(CanvasContext);
   const shortcutHandler = useRef<() => void>(null);
@@ -404,7 +403,6 @@ const GoButton = ({ hasDiscoverdMachine, hasText }: Props): JSX.Element => {
       onClick={throttledHandleExportClick}
       title={lang.tutorial.newInterface.start_work}
     >
-      {hasText && <span className={styles.text}>{lang.topbar.export}</span>}
       <TopBarIcons.Go />
     </div>
   );

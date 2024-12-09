@@ -24,7 +24,6 @@ const lang: ILang = {
     titles: {
       settings: 'Προτιμήσεις',
     },
-    export: 'Εξαγωγή',
     preview: 'ΠΡΟΕΠΙΣΚΟΠΗΣΗ',
     preview_title: 'Προεπισκόπηση',
     preview_press_esc_to_stop: 'Πατήστε ESC για να σταματήσετε την προεπισκόπηση της κάμερας.',

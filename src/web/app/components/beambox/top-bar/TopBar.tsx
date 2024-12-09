@@ -90,7 +90,7 @@ const Topbar = (): JSX.Element => {
             isDeviceConnected={hasDiscoveredMachine}
             togglePathPreview={togglePathPreview}
           />
-          <GoButton hasText={hasTitleBar} hasDiscoverdMachine={hasDiscoveredMachine} />
+          <GoButton hasDiscoverdMachine={hasDiscoveredMachine} />
         </div>
         {isWeb() && (
           <div className={classNames('top-bar-menu-container', styles.menu)}>

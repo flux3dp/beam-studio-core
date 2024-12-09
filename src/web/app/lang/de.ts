@@ -24,7 +24,6 @@ const lang: ILang = {
     titles: {
       settings: 'Einstellungen',
     },
-    export: 'GEHEN',
     preview: 'VORSCHAU',
     preview_title: 'Vorschau',
     preview_press_esc_to_stop: 'Drücken Sie ESC, um die Kameravorschau zu stoppen.',

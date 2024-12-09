@@ -24,7 +24,6 @@ const lang: ILang = {
     titles: {
       settings: '環境設定',
     },
-    export: 'ゴー',
     preview: 'プレビュー',
     preview_title: 'プレビュー',
     preview_press_esc_to_stop: 'ESCを押してカメラプレビューを停止します。',

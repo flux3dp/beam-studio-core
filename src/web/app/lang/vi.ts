@@ -24,7 +24,6 @@ const lang: ILang = {
     titles: {
       settings: 'Tùy chọn',
     },
-    export: 'XUẤT',
     preview: 'XEM TRƯỚC',
     preview_title: 'Xem trước',
     preview_press_esc_to_stop: 'Nhấn ESC để dừng xem trước camera.',

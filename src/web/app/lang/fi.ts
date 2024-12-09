@@ -24,7 +24,6 @@ const lang: ILang = {
     titles: {
       settings: 'Asetukset',
     },
-    export: 'VIENTI',
     preview: 'ESIKATSELU',
     preview_title: 'Esikatselu',
     preview_press_esc_to_stop: 'Paina ESC lopettaaksesi kameran esikatselun.',

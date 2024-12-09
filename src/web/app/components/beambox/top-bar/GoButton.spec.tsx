@@ -66,42 +66,6 @@ jest.mock('app/actions/beambox/menuDeviceActions', () => ({
   executeFirmwareUpdate: (...args) => mockExecuteFirmwareUpdate(...args),
 }));
 
-jest.mock('helpers/useI18n', () => () => ({
-  topbar: {
-    export: 'GO',
-  },
-  update: {
-    update: 'update',
-    firmware: {
-      force_update_message: 'force_update_message',
-    },
-  },
-  beambox: {
-    popup: {
-      too_fast_for_path: 'too_fast_for_path.',
-      too_fast_for_path_and_constrain: 'too_fast_for_path_and_constrain',
-      should_update_firmware_to_continue: 'should_update_firmware_to_continue',
-      dont_show_again: "Don't Show this next time.",
-    },
-  },
-  message: {
-    unavailableWorkarea: 'unavailableWorkarea',
-  },
-  tutorial: {
-    newInterface: {
-      start_work: 'Start Work',
-    },
-  },
-  layer_module: {
-    notification: {
-      performPrintingCaliTitle: 'performPrintingCaliTitle',
-      performPrintingCaliMsg: 'performPrintingCaliMsg',
-      performIRCaliTitle: 'performIRCaliTitle',
-      performIRCaliMsg: 'performIRCaliMsg',
-    },
-  },
-}));
-
 const getCurrentDrawing = jest.fn();
 jest.mock('helpers/svg-editor-helper', () => ({
   getSVGAsync: (callback) =>
@@ -115,8 +79,8 @@ jest.mock('helpers/svg-editor-helper', () => ({
 jest.mock('app/contexts/CanvasContext', () => ({
   CanvasContext: React.createContext(null),
   CanvasMode: {
-    Draw: 1
-  }
+    Draw: 1,
+  },
 }));
 
 const mockCheckOldFirmware = jest.fn();
@@ -154,7 +118,7 @@ describe('test GoButton', () => {
     const { container } = render(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       <CanvasContext.Provider value={{ endPreviewMode } as any}>
-        <GoButton hasText={false} hasDiscoverdMachine={false} />
+        <GoButton hasDiscoverdMachine={false} />
       </CanvasContext.Provider>
     );
 

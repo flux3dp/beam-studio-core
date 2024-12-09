@@ -24,7 +24,6 @@ const lang: ILang = {
     titles: {
       settings: 'Préférences',
     },
-    export: 'EXPORTER',
     preview: 'PRÉVISUALISATION',
     preview_title: 'Aperçu',
     preview_press_esc_to_stop: 'Appuyez sur ESC pour arrêter l’aperçu de la caméra.',

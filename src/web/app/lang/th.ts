@@ -24,7 +24,6 @@ const lang: ILang = {
     titles: {
       settings: 'ตั้งค่า',
     },
-    export: 'ส่งออก',
     preview: 'แสดงตัวอย่าง',
     preview_title: 'ดูตัวอย่าง',
     preview_press_esc_to_stop: 'กด ESC เพื่อหยุดการแสดงตัวอย่างกล้อง.',

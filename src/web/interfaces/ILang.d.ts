@@ -15,7 +15,6 @@ export interface ILang {
     titles: {
       settings: string;
     };
-    export: string;
     preview: string;
     preview_title: string;
     preview_press_esc_to_stop: string;
