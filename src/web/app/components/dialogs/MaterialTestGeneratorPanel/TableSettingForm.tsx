@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-shadow */
 import React, { useEffect, useMemo } from 'react';
 import UnitInput from 'app/widgets/UnitInput';
 import useI18n from 'helpers/useI18n';
@@ -55,11 +56,8 @@ export default function TableSettingForm({
     () => ({
       settingEntries: Object.entries(tableSetting) as Array<[TableParams, Detail]>,
       options: Object.keys(tableSetting)
-        .filter((key) => (blockOption === 'engrave' ? true : key !== 'fillInterval'))
-        .map((value) => ({
-          value,
-          label: tLaserPanel[camelToSnake(value)],
-        })),
+        .filter((key) => blockOption === 'engrave' || key !== 'fillInterval')
+        .map((value) => ({ value, label: tLaserPanel[camelToSnake(value)] })),
     }),
     [blockOption, tLaserPanel, tableSetting]
   );
@@ -73,22 +71,22 @@ export default function TableSettingForm({
     const needSelectOther = settingEntries.some(
       ([key, { selected }]) => key === 'fillInterval' && selected !== 2
     );
-    const fillIntervalSelected = settingEntries.find(([key]) => key === 'fillInterval')?.[1]
-      .selected;
-    const firstNotSelected = settingEntries.find(
+
+    if (!needSelectOther) {
+      handleChange({ ...tableSetting, fillInterval: defaultFillInterval });
+
+      return;
+    }
+
+    const { selected } = settingEntries.find(([key]) => key === 'fillInterval')[1];
+    const [firstNotSelected] = settingEntries.find(
       ([key, { selected }]) => key !== 'fillInterval' && selected === 2
     );
-    const modifiedTableSetting = needSelectOther
-      ? {
-          ...tableSetting,
-          [firstNotSelected[0]]: {
-            ...tableSetting[firstNotSelected[0]],
-            selected: fillIntervalSelected,
-          },
-          fillInterval: { ...tableSetting.fillInterval, selected: 2 },
-        }
-      : tableSetting;
-    console.log(modifiedTableSetting);
+    const modifiedTableSetting = {
+      ...tableSetting,
+      [firstNotSelected]: { ...tableSetting[firstNotSelected], selected },
+      fillInterval: { ...tableSetting.fillInterval, selected: 2 },
+    };
 
     handleChange({ ...modifiedTableSetting, fillInterval: defaultFillInterval });
   };
