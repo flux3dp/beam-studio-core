@@ -1,24 +1,37 @@
-import React, { useMemo } from 'react';
+/* eslint-disable @typescript-eslint/no-shadow */
+import React, { useEffect, useMemo } from 'react';
 import UnitInput from 'app/widgets/UnitInput';
 import useI18n from 'helpers/useI18n';
 import { Flex } from 'antd';
 import Select from 'app/widgets/AntdSelect';
-import { Detail, mopaTableParams, tableParams, TableSetting } from './TableSetting';
+import { LaserType } from 'app/constants/promark-constants';
+import { WorkAreaModel } from 'app/constants/workarea-constants';
+import { promarkModels } from 'app/actions/beambox/constant';
+import { Detail, tableParams, TableSetting } from './TableSetting';
 import styles from './Form.module.scss';
 
 interface Props {
   isInch: boolean;
   tableSetting: TableSetting;
+  workarea?: WorkAreaModel;
+  laserType?: LaserType;
+  blockOption?: 'cut' | 'engrave';
   handleChange: (tableSetting: TableSetting) => void;
   className?: string;
 }
 
-type Param = (typeof tableParams)[number];
-type MopaParam = (typeof mopaTableParams)[number];
+type TableParams = (typeof tableParams)[number];
+
+function camelToSnake(str: string): string {
+  return str.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
+}
 
 export default function TableSettingForm({
   isInch,
   tableSetting,
+  workarea,
+  laserType,
+  blockOption,
   handleChange,
   className,
 }: Props): JSX.Element {
@@ -28,20 +41,57 @@ export default function TableSettingForm({
     },
     material_test_generator: tMaterial,
   } = useI18n();
-  const lengthUnit = isInch ? 'in/s' : 'mm/s';
+  const lengthUnit = isInch ? 'in' : 'mm';
   const { settingEntries, options } = useMemo(
     () => ({
-      settingEntries: Object.entries(tableSetting) as Array<[Param | MopaParam, Detail]>,
-      options: Object.keys(tableSetting).map((value) => ({
-        value,
-        label: value === 'pulseWidth' ? tLaserPanel.pulse_width : tLaserPanel[value],
-      })),
+      settingEntries: Object.entries(tableSetting) as Array<[TableParams, Detail]>,
+      options: Object.keys(tableSetting)
+        .filter((key) => blockOption === 'engrave' || key !== 'fillInterval')
+        .map((value) => ({ value, label: tLaserPanel[camelToSnake(value)] })),
     }),
-    [tLaserPanel, tableSetting]
+    [blockOption, tLaserPanel, tableSetting]
   );
 
+  const handleOptionChange = () => {
+    const availableOptions = new Set(options.map(({ value }) => value));
+    const invalidEntries = settingEntries.filter(
+      ([key, { selected }]) => !availableOptions.has(key) && selected !== 2
+    );
+
+    if (!invalidEntries.length) {
+      return;
+    }
+
+    const modifiedTableSetting = structuredClone(tableSetting);
+
+    // swap the selected value of invalid entries with the first available option
+    invalidEntries.forEach(([key, { selected }]) => {
+      modifiedTableSetting[key].selected = 2;
+
+      const [replacedKey] = Object.entries(modifiedTableSetting).find(
+        ([, { selected }]) => selected === 2
+      ) as [TableParams, Detail];
+
+      modifiedTableSetting[replacedKey].selected = selected;
+    });
+
+    handleChange(modifiedTableSetting);
+  };
+
+  const handleBlockOptionChange = (value: 'cut' | 'engrave') => {
+    // for promark models, when blockOption is 'cut', fillInterval should be set to default value
+    if (promarkModels.has(workarea) || value === 'cut') {
+      handleOptionChange();
+    }
+  };
+
+  useEffect(() => {
+    handleBlockOptionChange(blockOption);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [blockOption, laserType, workarea]);
+
   const handleSelectChange = (value: string, index: number) => {
-    const currentKey = settingEntries.find(([, { selected }]) => selected === index)?.[0];
+    const [currentKey] = settingEntries.find(([, { selected }]) => selected === index);
 
     if (!currentKey) {
       return;
@@ -54,7 +104,7 @@ export default function TableSettingForm({
     });
   };
 
-  const handleValueChange = (key: Param | MopaParam, prefix: 'min' | 'max', value: number) => {
+  const handleValueChange = (key: TableParams, prefix: 'min' | 'max', value: number) => {
     const { min, max } = tableSetting[key];
     const limitValue = (v: number) => {
       const rangedValue = Math[prefix](
@@ -84,22 +134,45 @@ export default function TableSettingForm({
           value={key}
           onChange={(value) => handleSelectChange(value, index)}
         />
-        {['min', 'max'].map((prefix) => (
-          <UnitInput
-            key={`${prefix}-${key}`}
-            data-testid={`${prefix}-${key}`}
-            isInch={useInch}
-            className={styles.input}
-            value={detail[`${prefix}Value`]}
-            max={detail.max}
-            min={detail.min}
-            precision={useInch ? 4 : 0}
-            step={useInch ? 25.4 : 1}
-            // eslint-disable-next-line no-nested-ternary
-            addonAfter={key === 'strength' ? '%' : key === 'speed' ? lengthUnit : ''}
-            onChange={(value) => handleValueChange(key, prefix as 'min' | 'max', value)}
-          />
-        ))}
+        {['min', 'max'].map((prefix) => {
+          const addonAfter = () => {
+            switch (key) {
+              case 'strength':
+                return '%';
+              case 'speed':
+                return `${lengthUnit}/s`;
+              case 'fillInterval':
+                return 'mm';
+              default:
+                return '';
+            }
+          };
+
+          const precision = useInch || key === 'fillInterval' ? 4 : 0;
+          const step = () => {
+            if (key === 'fillInterval') {
+              return 0.0001;
+            }
+
+            return useInch ? 25.4 : 1;
+          };
+
+          return (
+            <UnitInput
+              key={`${prefix}-${key}`}
+              data-testid={`${prefix}-${key}`}
+              isInch={useInch}
+              className={styles.input}
+              value={detail[`${prefix}Value`]}
+              max={detail.max}
+              min={detail.min}
+              precision={precision}
+              step={step()}
+              addonAfter={addonAfter()}
+              onChange={(value) => handleValueChange(key, prefix as 'min' | 'max', value)}
+            />
+          );
+        })}
       </Flex>
     );
   };

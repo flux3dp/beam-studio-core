@@ -15,13 +15,29 @@ export interface Detail {
   selected: 0 | 1 | 2;
 }
 
-export const tableParams = ['strength', 'speed', 'repeat'] as const;
-export const mopaTableParams = ['pulseWidth', 'frequency'] as const;
-export type TableSetting = { [key in (typeof tableParams)[number]]: Detail } & {
-  [key in (typeof mopaTableParams)[number]]?: Detail;
-};
+interface SettingInfos {
+  laserType?: LaserType;
+}
 
-const defaultTableSetting = (workarea: WorkAreaModel): TableSetting => {
+type TableSettingConstruct<
+  T extends ReadonlyArray<string>,
+  IsRequired = true
+> = IsRequired extends true ? { [K in T[number]]: Detail } : { [K in T[number]]?: Detail };
+
+export const commonTableParams = ['strength', 'speed', 'repeat'] as const;
+export const promarkTableParams = ['fillInterval', 'frequency'] as const;
+export const mopaTableParams = ['pulseWidth'] as const;
+export const tableParams = [
+  ...commonTableParams,
+  ...promarkTableParams,
+  ...mopaTableParams,
+] as const;
+
+export type TableSetting = TableSettingConstruct<typeof commonTableParams> &
+  TableSettingConstruct<typeof promarkTableParams, false> &
+  TableSettingConstruct<typeof mopaTableParams, false>;
+
+const getCommonTableSetting = (workarea: WorkAreaModel): TableSetting => {
   const { maxSpeed } = getWorkarea(workarea);
 
   return {
@@ -52,7 +68,10 @@ const defaultTableSetting = (workarea: WorkAreaModel): TableSetting => {
   };
 };
 
-const mopaTableSetting = (workarea: WorkAreaModel): TableSetting => {
+const getPromarkTableSetting = (
+  workarea: WorkAreaModel,
+  { laserType }: SettingInfos
+): TableSetting => {
   const { minSpeed, maxSpeed } = getWorkarea(workarea);
   const limit = getPromarkLimit();
 
@@ -81,12 +100,12 @@ const mopaTableSetting = (workarea: WorkAreaModel): TableSetting => {
       default: 1,
       selected: 2,
     },
-    pulseWidth: {
-      minValue: limit.pulseWidth.min,
-      maxValue: limit.pulseWidth.max,
-      min: limit.pulseWidth.min,
-      max: limit.pulseWidth.max,
-      default: 350,
+    fillInterval: {
+      minValue: 0.01,
+      maxValue: 1,
+      min: 0.0001,
+      max: 100,
+      default: 0.01,
       selected: 2,
     },
     frequency: {
@@ -94,16 +113,29 @@ const mopaTableSetting = (workarea: WorkAreaModel): TableSetting => {
       maxValue: limit.frequency.max,
       min: limit.frequency.min,
       max: limit.frequency.max,
-      default: 25,
+      default: limit.frequency.min,
       selected: 2,
     },
+    ...(laserType === LaserType.MOPA && {
+      pulseWidth: {
+        minValue: limit.pulseWidth.min,
+        maxValue: limit.pulseWidth.max,
+        min: limit.pulseWidth.min,
+        max: limit.pulseWidth.max,
+        default: 350,
+        selected: 2,
+      },
+    }),
   };
 };
 
-export const tableSetting = (workarea: WorkAreaModel, laserType?: LaserType): TableSetting => {
-  if (promarkModels.has(workarea) && laserType === LaserType.MOPA) {
-    return mopaTableSetting(workarea);
+export const getTableSetting = (
+  workarea: WorkAreaModel,
+  { laserType }: SettingInfos = { laserType: LaserType.Desktop }
+): TableSetting => {
+  if (promarkModels.has(workarea)) {
+    return getPromarkTableSetting(workarea, { laserType });
   }
 
-  return defaultTableSetting(workarea);
+  return getCommonTableSetting(workarea);
 };
