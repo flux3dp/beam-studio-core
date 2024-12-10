@@ -8,13 +8,13 @@ export type BlockInfo = Record<
 >;
 export type BlockSetting = Record<(typeof blockSettingScopes)[number], BlockInfo>;
 
-const blockInfo = (): BlockInfo => ({
+const getBlockInfo = (): BlockInfo => ({
   count: { value: 10, min: 1, max: 20 },
   size: { value: 10, min: 1, max: Number.MAX_SAFE_INTEGER },
   spacing: { value: 5, min: 1, max: Number.MAX_SAFE_INTEGER },
 });
 
-export const blockSetting = (): BlockSetting => ({
-  column: blockInfo(),
-  row: blockInfo(),
+export const getBlockSetting = (): BlockSetting => ({
+  column: getBlockInfo(),
+  row: getBlockInfo(),
 });

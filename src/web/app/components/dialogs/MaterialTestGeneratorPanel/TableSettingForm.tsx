@@ -7,14 +7,7 @@ import Select from 'app/widgets/AntdSelect';
 import { LaserType } from 'app/constants/promark-constants';
 import { WorkAreaModel } from 'app/constants/workarea-constants';
 import { promarkModels } from 'app/actions/beambox/constant';
-import {
-  Detail,
-  getTableSetting,
-  mopaTableParams,
-  promarkTableParams,
-  tableParams,
-  TableSetting,
-} from './TableSetting';
+import { Detail, tableParams, TableSetting } from './TableSetting';
 import styles from './Form.module.scss';
 
 interface Props {
@@ -27,10 +20,7 @@ interface Props {
   className?: string;
 }
 
-type Param = (typeof tableParams)[number];
-type PromarkParam = (typeof promarkTableParams)[number];
-type MopaParam = (typeof mopaTableParams)[number];
-type TableParams = Param | PromarkParam | MopaParam;
+type TableParams = (typeof tableParams)[number];
 
 function camelToSnake(str: string): string {
   return str.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
@@ -62,33 +52,37 @@ export default function TableSettingForm({
     [blockOption, tLaserPanel, tableSetting]
   );
 
+  const handleOptionChange = () => {
+    const availableOptions = new Set(options.map(({ value }) => value));
+    const invalidEntries = settingEntries.filter(
+      ([key, { selected }]) => !availableOptions.has(key) && selected !== 2
+    );
+
+    if (!invalidEntries.length) {
+      return;
+    }
+
+    const modifiedTableSetting = structuredClone(tableSetting);
+
+    // swap the selected value of invalid entries with the first available option
+    invalidEntries.forEach(([key, { selected }]) => {
+      modifiedTableSetting[key].selected = 2;
+
+      const [replacedKey] = Object.entries(modifiedTableSetting).find(
+        ([, { selected }]) => selected === 2
+      ) as [TableParams, Detail];
+
+      modifiedTableSetting[replacedKey].selected = selected;
+    });
+
+    handleChange(modifiedTableSetting);
+  };
+
   const handleBlockOptionChange = (value: 'cut' | 'engrave') => {
-    if (!promarkModels.has(workarea) || value !== 'cut') {
-      return;
+    // for promark models, when blockOption is 'cut', fillInterval should be set to default value
+    if (promarkModels.has(workarea) || value === 'cut') {
+      handleOptionChange();
     }
-
-    const { fillInterval: defaultFillInterval } = getTableSetting(workarea, { laserType });
-    const needSelectOther = settingEntries.some(
-      ([key, { selected }]) => key === 'fillInterval' && selected !== 2
-    );
-
-    if (!needSelectOther) {
-      handleChange({ ...tableSetting, fillInterval: defaultFillInterval });
-
-      return;
-    }
-
-    const { selected } = settingEntries.find(([key]) => key === 'fillInterval')[1];
-    const [firstNotSelected] = settingEntries.find(
-      ([key, { selected }]) => key !== 'fillInterval' && selected === 2
-    );
-    const modifiedTableSetting = {
-      ...tableSetting,
-      [firstNotSelected]: { ...tableSetting[firstNotSelected], selected },
-      fillInterval: { ...tableSetting.fillInterval, selected: 2 },
-    };
-
-    handleChange({ ...modifiedTableSetting, fillInterval: defaultFillInterval });
   };
 
   useEffect(() => {
@@ -97,7 +91,7 @@ export default function TableSettingForm({
   }, [blockOption, laserType, workarea]);
 
   const handleSelectChange = (value: string, index: number) => {
-    const currentKey = settingEntries.find(([, { selected }]) => selected === index)?.[0];
+    const [currentKey] = settingEntries.find(([, { selected }]) => selected === index);
 
     if (!currentKey) {
       return;
@@ -148,7 +142,7 @@ export default function TableSettingForm({
               case 'speed':
                 return `${lengthUnit}/s`;
               case 'fillInterval':
-                return lengthUnit;
+                return 'mm';
               default:
                 return '';
             }
@@ -157,7 +151,7 @@ export default function TableSettingForm({
           const precision = useInch || key === 'fillInterval' ? 4 : 0;
           const step = () => {
             if (key === 'fillInterval') {
-              return useInch ? 0.00254 : 0.0001;
+              return 0.0001;
             }
 
             return useInch ? 25.4 : 1;

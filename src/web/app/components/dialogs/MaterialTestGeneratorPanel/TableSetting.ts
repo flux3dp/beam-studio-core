@@ -24,15 +24,20 @@ type TableSettingConstruct<
   IsRequired = true
 > = IsRequired extends true ? { [K in T[number]]: Detail } : { [K in T[number]]?: Detail };
 
-export const tableParams = ['strength', 'speed', 'repeat'] as const;
-export const promarkTableParams = ['fillInterval'] as const;
-export const mopaTableParams = ['pulseWidth', 'frequency'] as const;
+export const commonTableParams = ['strength', 'speed', 'repeat'] as const;
+export const promarkTableParams = ['fillInterval', 'frequency'] as const;
+export const mopaTableParams = ['pulseWidth'] as const;
+export const tableParams = [
+  ...commonTableParams,
+  ...promarkTableParams,
+  ...mopaTableParams,
+] as const;
 
-export type TableSetting = TableSettingConstruct<typeof tableParams> &
+export type TableSetting = TableSettingConstruct<typeof commonTableParams> &
   TableSettingConstruct<typeof promarkTableParams, false> &
   TableSettingConstruct<typeof mopaTableParams, false>;
 
-const defaultTableSetting = (workarea: WorkAreaModel): TableSetting => {
+const getCommonTableSetting = (workarea: WorkAreaModel): TableSetting => {
   const { maxSpeed } = getWorkarea(workarea);
 
   return {
@@ -63,7 +68,7 @@ const defaultTableSetting = (workarea: WorkAreaModel): TableSetting => {
   };
 };
 
-const promarkTableSetting = (
+const getPromarkTableSetting = (
   workarea: WorkAreaModel,
   { laserType }: SettingInfos
 ): TableSetting => {
@@ -103,6 +108,14 @@ const promarkTableSetting = (
       default: 25,
       selected: 2,
     },
+    frequency: {
+      minValue: limit.frequency.min,
+      maxValue: limit.frequency.max,
+      min: limit.frequency.min,
+      max: limit.frequency.max,
+      default: 25,
+      selected: 2,
+    },
     ...(laserType === LaserType.MOPA && {
       pulseWidth: {
         minValue: limit.pulseWidth.min,
@@ -110,14 +123,6 @@ const promarkTableSetting = (
         min: limit.pulseWidth.min,
         max: limit.pulseWidth.max,
         default: 350,
-        selected: 2,
-      },
-      frequency: {
-        minValue: limit.frequency.min,
-        maxValue: limit.frequency.max,
-        min: limit.frequency.min,
-        max: limit.frequency.max,
-        default: 25,
         selected: 2,
       },
     }),
@@ -129,8 +134,8 @@ export const getTableSetting = (
   { laserType }: SettingInfos = { laserType: LaserType.Desktop }
 ): TableSetting => {
   if (promarkModels.has(workarea)) {
-    return promarkTableSetting(workarea, { laserType });
+    return getPromarkTableSetting(workarea, { laserType });
   }
 
-  return defaultTableSetting(workarea);
+  return getCommonTableSetting(workarea);
 };

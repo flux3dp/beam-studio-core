@@ -43,12 +43,12 @@ export default function generateSvgInfo({
     Array.from({ length }, (_, i) => {
       const value = minValue + (maxValue - minValue) * (i / (length !== 1 ? length - 1 : 1));
 
-      if (key !== 'fillInterval') {
-        return Math.ceil(value);
+      // Round to 4 decimal places for fillInterval
+      if (key === 'fillInterval') {
+        return Math.round(value * 10000) / 10000;
       }
 
-      // Round to 4 decimal places for fillInterval
-      return Math.round(value * 10000) / 10000;
+      return Math.ceil(value);
     });
 
   const colRange = generateRange(colLength, col);

@@ -26,9 +26,9 @@ import styles from './index.module.scss';
 import WorkAreaInfo from './WorkAreaInfo';
 import TableSettingForm from './TableSettingForm';
 import BlockSettingForm from './BlockSettingForm';
-import { getTableSetting as defaultTableSetting } from './TableSetting';
+import { getTableSetting } from './TableSetting';
 import { textSetting as defaultTextSetting } from './TextSetting';
-import { BlockInfo, BlockSetting, blockSetting as defaultBlockSetting } from './BlockSetting';
+import { BlockInfo, BlockSetting, getBlockSetting } from './BlockSetting';
 import generateSvgInfo, { SvgInfo } from './generateSvgInfo';
 import TextSettingForm from './TextSettingForm';
 
@@ -78,8 +78,8 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
     [laserType, workarea]
   );
   const [blockOption, setBlockOption] = useState<'cut' | 'engrave'>('cut');
-  const [tableSetting, setTableSetting] = useState(defaultTableSetting(workarea, { laserType }));
-  const [blockSetting, setBlockSetting] = useState(defaultBlockSetting);
+  const [tableSetting, setTableSetting] = useState(getTableSetting(workarea, { laserType }));
+  const [blockSetting, setBlockSetting] = useState(getBlockSetting);
   const [textSetting, setTextSetting] = useState(defaultTextSetting);
   const blockOptions = [
     { label: t.material_test_generator.cut, value: 'cut' },
@@ -232,11 +232,11 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
 
         if (isPromark) {
           writeDataLayer(layer, 'fillInterval', fillInterval);
+          writeDataLayer(layer, 'frequency', frequency);
         }
 
         if (isMopa) {
           writeDataLayer(layer, 'pulseWidth', pulseWidth);
-          writeDataLayer(layer, 'frequency', frequency);
         }
 
         const newRect = svgCanvas.addSvgElementFromJson({
