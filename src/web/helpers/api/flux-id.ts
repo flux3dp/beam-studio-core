@@ -278,8 +278,8 @@ export const externalLinkGoogleSignIn = (): void => {
 export const externalLinkMemberDashboard = async (): Promise<void> => {
   const token = await getAccessToken();
   if (token) {
-    const urlPrefix = i18n.getActiveLang() === 'zh-tw' ? 'tw-' : '';
-    const url = `https://${urlPrefix}store.flux3dp.com/api_entry/?feature=beam-studio-login&key=${token}`;
+    const langPath = i18n.getActiveLang() === 'zh-tw' ? 'zh-TW' : 'en-US';
+    const url = `https://member.flux3dp.com/${langPath}/oauth/${token}?next=/account`;
     browser.open(url);
   }
 };
