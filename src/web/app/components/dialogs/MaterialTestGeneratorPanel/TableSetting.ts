@@ -105,7 +105,7 @@ const getPromarkTableSetting = (
       maxValue: 1,
       min: 0.0001,
       max: 100,
-      default: 25,
+      default: 0.01,
       selected: 2,
     },
     frequency: {
@@ -113,7 +113,7 @@ const getPromarkTableSetting = (
       maxValue: limit.frequency.max,
       min: limit.frequency.min,
       max: limit.frequency.max,
-      default: 25,
+      default: limit.frequency.min,
       selected: 2,
     },
     ...(laserType === LaserType.MOPA && {
