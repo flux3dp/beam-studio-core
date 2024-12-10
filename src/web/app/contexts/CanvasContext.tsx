@@ -16,6 +16,7 @@ import FnWrapper from 'app/actions/beambox/svgeditor-function-wrapper';
 import getDevice from 'helpers/device/get-device';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import showResizeAlert from 'helpers/device/fit-device-workarea-alert';
+import tabController from 'app/actions/tabController';
 import tutorialConstants from 'app/constants/tutorial-constants';
 import tutorialController from 'app/views/tutorials/tutorialController';
 import useForceUpdate from 'helpers/use-force-update';
@@ -143,6 +144,7 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
       response.isPreviewMode = mode === CanvasMode.Preview;
     };
     topBarEventEmitter.on('GET_TOP_BAR_PREVIEW_MODE', handler);
+    tabController.setMode(mode);
     return () => {
       topBarEventEmitter.removeListener('GET_TOP_BAR_PREVIEW_MODE', handler);
     };
