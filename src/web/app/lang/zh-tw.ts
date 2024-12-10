@@ -20,7 +20,7 @@ const lang: ILang = {
     back_to_beam_studio: '回到 Beam Studio',
   },
   topbar: {
-    untitled: '無標題',
+    untitled: '未命名',
     titles: {
       settings: '偏好設定',
     },
