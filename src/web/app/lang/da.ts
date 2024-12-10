@@ -230,6 +230,7 @@ const lang: ILang = {
         code_generator: 'Kodegenerator',
         box_generator: 'Boksgenerator',
       },
+      follow_us: 'Følg os!',
     },
     select_machine: 'Vælg en maskine',
   },
@@ -2070,6 +2071,11 @@ const lang: ILang = {
     barcode: {
       invalid_value: 'Værdien er ugyldig for det valgte format.',
     },
+  },
+  social_media: {
+    instagram: 'Få de nyeste inspirationer, tilbud og freebies!',
+    facebook: 'Chat med FLUXers, stil spørgsmål og lær tips!',
+    youtube: 'Se Beam Studio tutorials og håndværksidéer.',
   },
 };
 

@@ -221,6 +221,7 @@ export interface ILang {
         code_generator: string;
         box_generator: string;
       };
+      follow_us: string;
     };
     select_machine: string;
   };
@@ -2066,5 +2067,10 @@ export interface ILang {
     barcode: {
       invalid_value: string;
     };
+  };
+  social_media: {
+    instagram: string;
+    facebook: string;
+    youtube: string;
   };
 }

@@ -230,6 +230,7 @@ const lang: ILang = {
         code_generator: 'Generátor kódu',
         box_generator: 'Generátor boxů',
       },
+      follow_us: 'Sledujte nás!',
     },
     select_machine: 'Vybrat přístroj',
   },
@@ -2073,6 +2074,11 @@ const lang: ILang = {
     barcode: {
       invalid_value: 'Hodnota je neplatná pro vybraný formát.',
     },
+  },
+  social_media: {
+    instagram: 'Získejte nejnovější inspirace, nabídky a dárky zdarma!',
+    facebook: 'Povídejte si s uživateli FLUX, ptejte se a naučte se tipy!',
+    youtube: 'Podívejte se na návody Beam Studio a nápady na tvoření.',
   },
 };
 

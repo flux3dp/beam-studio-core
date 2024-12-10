@@ -230,6 +230,7 @@ const lang: ILang = {
         code_generator: 'Code Generator',
         box_generator: 'Box Generator',
       },
+      follow_us: 'Follow Us!',
     },
     select_machine: 'Select a machine',
   },
@@ -2073,6 +2074,11 @@ Machines > ‘Promark Name’ > Promark Settings`,
     barcode: {
       invalid_value: 'The value is invalid for the selected format.',
     },
+  },
+  social_media: {
+    instagram: 'Get the latest inspirations, deals, and freebies!',
+    facebook: 'Chat with FLUXers, ask questions, and learn tips!',
+    youtube: 'View Beam Studio tutorials and craft ideas.',
   },
 };
 

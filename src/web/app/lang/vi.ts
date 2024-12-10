@@ -230,6 +230,7 @@ const lang: ILang = {
         code_generator: 'Trình tạo mã',
         box_generator: 'Trình Tạo Hộp',
       },
+      follow_us: 'Theo dõi chúng tôi!',
     },
     select_machine: 'Chọn máy',
   },
@@ -2068,6 +2069,11 @@ const lang: ILang = {
     barcode: {
       invalid_value: 'Giá trị không hợp lệ cho định dạng đã chọn.',
     },
+  },
+  social_media: {
+    instagram: 'Nhận những cảm hứng, ưu đãi và quà tặng mới nhất!',
+    facebook: 'Trò chuyện với FLUXers, đặt câu hỏi và học mẹo!',
+    youtube: 'Xem hướng dẫn Beam Studio và ý tưởng thủ công.',
   },
 };
 

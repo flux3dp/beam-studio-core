@@ -230,6 +230,7 @@ const lang: ILang = {
         code_generator: 'Γεννήτρια κώδικα',
         box_generator: 'Γεννήτρια Κουτιού',
       },
+      follow_us: 'Ακολουθήστε μας!',
     },
     select_machine: 'Επιλέξτε μηχανή',
   },
@@ -2068,6 +2069,11 @@ const lang: ILang = {
     barcode: {
       invalid_value: 'Η τιμή δεν είναι έγκυρη για την επιλεγμένη μορφή.',
     },
+  },
+  social_media: {
+    instagram: 'Λάβετε τις τελευταίες εμπνεύσεις, προσφορές και δώρα!',
+    facebook: 'Συζητήστε με FLUXers, κάντε ερωτήσεις και μάθετε συμβουλές!',
+    youtube: 'Δείτε τα μαθήματα Beam Studio και ιδέες χειροτεχνίας.',
   },
 };
 

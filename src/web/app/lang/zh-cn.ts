@@ -230,6 +230,7 @@ const lang: ILang = {
         code_generator: '条码生成器',
         box_generator: '盒子生成器',
       },
+      follow_us: '关注我们！',
     },
     select_machine: '选择机器',
   },
@@ -2073,6 +2074,11 @@ const lang: ILang = {
     barcode: {
       invalid_value: '该值对于所选格式无效。',
     },
+  },
+  social_media: {
+    instagram: '获取最新灵感、优惠和赠品！',
+    facebook: '与 FLUX 用户交流，提出问题并学习技巧！',
+    youtube: '查看 Beam Studio 教程与手工创意。',
   },
 };
 

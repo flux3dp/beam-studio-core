@@ -230,6 +230,7 @@ const lang: ILang = {
         code_generator: 'Codegenerator',
         box_generator: 'Doos Generator',
       },
+      follow_us: 'Volg ons!',
     },
     select_machine: 'Selecteer een machine',
   },
@@ -2068,6 +2069,11 @@ const lang: ILang = {
     barcode: {
       invalid_value: 'De waarde is ongeldig voor het geselecteerde formaat.',
     },
+  },
+  social_media: {
+    instagram: 'Ontvang de nieuwste inspiratie, aanbiedingen en gratis items!',
+    facebook: 'Chat met FLUXers, stel vragen en leer tips!',
+    youtube: 'Bekijk Beam Studio-tutorials en knutselideeën.',
   },
 };
 

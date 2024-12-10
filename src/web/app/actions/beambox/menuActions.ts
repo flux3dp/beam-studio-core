@@ -258,4 +258,5 @@ export default {
   BUG_REPORT: (): void => {
     OutputError.downloadErrorLog();
   },
+  FOLLOW_US: (): void => Dialog.showSocialMedia(),
 };
