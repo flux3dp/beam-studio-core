@@ -64,11 +64,11 @@ interface WrappedFile {
 
 const generateUploadFile = async (thumbnail: string, thumbnailUrl: string) => {
   Progress.openNonstopProgress({
-    id: 'retreive-image-data',
+    id: 'retrieve-image-data',
     message: lang.beambox.bottom_right_panel.retreive_image_data,
   });
   await updateImagesResolution(true);
-  Progress.popById('retreive-image-data');
+  Progress.popById('retrieve-image-data');
   const svgString = svgCanvas.getSvgString();
   console.log('File Size', svgString.length);
   const blob = new Blob([thumbnail, svgString], { type: 'application/octet-stream' });
@@ -109,6 +109,7 @@ const fetchTaskCode = async (
     caption: i18n.lang.beambox.popup.progress.calculating,
     message: lang.beambox.bottom_right_panel.convert_text_to_path_before_export,
   });
+
   const res = await FontFuncs.tempConvertTextToPathAmoungSvgcontent();
   if (!res) {
     Progress.popById('fetch-task-code');
@@ -155,6 +156,7 @@ const fetchTaskCode = async (
       // (isDev() && BeamboxPreference.read('engrave-dpi-value')) ||
       BeamboxPreference.read('engrave_dpi'),
     onProgressing: (data) => {
+      // message: Analyzing SVG - 0.0%
       Progress.update('upload-scene', {
         caption: i18n.lang.beambox.popup.progress.calculating,
         message: data.message,
@@ -221,6 +223,7 @@ const fetchTaskCode = async (
       const names = [];
       svgeditorParser.getTaskCode(names, {
         onProgressing: (data) => {
+          // message: Calculating Toolpath 28.6%
           Progress.update('fetch-task', {
             message: data.message,
             percentage: data.percentage * 100,
@@ -310,6 +313,7 @@ const fetchTransferredFcode = async (gcodeString: string, thumbnail: string) => 
 
   Progress.openSteppingProgress({
     id: 'fetch-task',
+    caption: i18n.lang.beambox.popup.progress.calculating,
     message: '',
     onCancel: () => {
       svgeditorParser.interruptCalculation();
@@ -469,7 +473,6 @@ export default {
     const { taskCodeBlob, fileTimeCost } = await convertEngine();
     if (!taskCodeBlob) {
       throw new Error('estimateTime: No task code blob');
-      return null;
     }
     return fileTimeCost;
   },
@@ -478,7 +481,6 @@ export default {
     const { taskCodeBlob, metadata } = await convertEngine(device);
     if (!taskCodeBlob) {
       throw new Error('getMetadata: No task code blob');
-      return null;
     }
     return metadata;
   },
