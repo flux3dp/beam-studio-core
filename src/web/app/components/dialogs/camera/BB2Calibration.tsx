@@ -22,7 +22,7 @@ import { bb2PnPPoints } from './common/solvePnPConstants';
 
 import styles from './Calibration.module.scss';
 
-enum Steps {
+const enum Steps {
   CHECKPOINT_DATA = 0, // For non-advanced users
   PRE_CHESSBOARD = 1, // For advanced users
   CHESSBOARD = 2, // For advanced users

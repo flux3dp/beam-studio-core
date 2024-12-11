@@ -260,7 +260,8 @@ class CameraCalibrationApi {
   solvePnPFindCorners = (
     img: Blob | ArrayBuffer,
     dh: number,
-    refPoints: [number, number][]
+    refPoints: [number, number][],
+    interestArea?: { x: number; y: number; width: number; height: number }
   ): Promise<
     | {
         success: true;
@@ -298,8 +299,11 @@ class CameraCalibrationApi {
         console.log('on fatal', response);
       };
       const size = img instanceof Blob ? img.size : img.byteLength;
-      // solve_pnp_find_corners [refPoints] [elevated_dh] [file_length]
-      this.ws.send(`solve_pnp_find_corners ${JSON.stringify(refPoints)} ${dh.toFixed(3)} ${size}`);
+      // TODO: change args to object to avoid fixed order arguments
+      const args = [JSON.stringify(refPoints), dh.toFixed(3), size];
+      if (interestArea) args.push(JSON.stringify(interestArea));
+      // solve_pnp_find_corners [refPoints] [elevated_dh] [file_length] [interest_area]
+      this.ws.send(`solve_pnp_find_corners ${args.filter((arg) => arg !== undefined).join(' ')}`);
     });
 
   solvePnPCalculate = (
