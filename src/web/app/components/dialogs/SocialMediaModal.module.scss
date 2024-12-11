@@ -7,6 +7,7 @@
 .container {
   display: flex;
   justify-content: space-between;
+  margin: 20px 0;
 
   .item {
     max-width: 200px;
@@ -26,6 +27,7 @@
       color: variables.$primary-blue;
       font-weight: 700;
       margin-top: auto;
+      cursor: pointer;
     }
   }
 
