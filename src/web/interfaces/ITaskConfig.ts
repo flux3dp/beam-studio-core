@@ -53,6 +53,7 @@ export type TFcodeOptionalConfig = Partial<{
     bbox: BBox;
     points: [number, number, number][];
     gap: [number, number];
+    safe_height?: number;
   };
   job_origin: [number, number];
 }>;

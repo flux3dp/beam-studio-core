@@ -213,12 +213,12 @@ export const getExportOpt = (
   if (loopCompensation > 0) config.loop_compensation = loopCompensation;
 
   if (curveEngravingModeController.hasArea()) {
+    const { bbox, points, gap, highest, lowest, objectHeight } = curveEngravingModeController.data;
     const data = {
-      bbox: curveEngravingModeController.data.bbox,
-      points: curveEngravingModeController.data.points.flat().filter((p) => p[2] !== null),
-      gap: curveEngravingModeController.data.gap,
-      max: curveEngravingModeController.data.highest,
-      min: curveEngravingModeController.data.lowest,
+      bbox,
+      points: points.flat().filter((p) => p[2] !== null),
+      gap,
+      safe_height: Math.min(highest, lowest - objectHeight, 0),
     };
     config.curve_engraving = data;
   }
