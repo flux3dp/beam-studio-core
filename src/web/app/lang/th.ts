@@ -230,6 +230,7 @@ const lang: ILang = {
         code_generator: 'เครื่องสร้างโค้ด',
         box_generator: 'เครื่องสร้างกล่อง',
       },
+      follow_us: 'ติดตามเรา',
     },
     select_machine: 'เลือกเครื่อง',
   },
@@ -2068,6 +2069,11 @@ const lang: ILang = {
     barcode: {
       invalid_value: 'ค่านี้ไม่ถูกต้องสำหรับรูปแบบที่เลือก',
     },
+  },
+  social_media: {
+    instagram: 'รับแรงบันดาลใจ ข้อเสนอ และของแจกฟรีล่าสุด!',
+    facebook: 'พูดคุยกับ FLUXers ถามคำถาม และเรียนรู้เคล็ดลับ!',
+    youtube: 'ดูบทเรียน Beam Studio และไอเดียงานฝีมือ',
   },
 };
 

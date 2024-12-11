@@ -505,6 +505,13 @@ exports[`should render correctly open the browser and reach the correct page 3`]
           >
             Community Forum
           </li>
+          <li
+            class="rc-menu__item"
+            role="menuitem"
+            tabindex="-1"
+          >
+            Follow Us
+          </li>
         </ul>
       </li>
     </ul>

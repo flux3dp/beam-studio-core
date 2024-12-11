@@ -230,6 +230,7 @@ const lang: ILang = {
         code_generator: '條碼產生器',
         box_generator: '盒子產生器',
       },
+      follow_us: '追蹤我們',
     },
     select_machine: '選擇機器',
   },
@@ -2073,6 +2074,11 @@ const lang: ILang = {
     barcode: {
       invalid_value: '該值對於所選格式無效。',
     },
+  },
+  social_media: {
+    instagram: '獲取最新靈感、優惠與贈品！',
+    facebook: '與 FLUX 使用者交流、提出問題並學習技巧！',
+    youtube: '查看 Beam Studio 教學與手作靈感。',
   },
 };
 

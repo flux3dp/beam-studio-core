@@ -2,9 +2,11 @@ import * as React from 'react';
 
 import AboutBeamStudio from 'app/components/dialogs/AboutBeamStudio';
 import AnnouncementPanel from 'app/components/dialogs/AnnouncementPanel';
+import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import Boxgen from 'app/components/boxgen/Boxgen';
 import CartridgeSettingPanel from 'app/components/dialogs/CartridgeSettingPanel';
 import ChangeLog from 'app/components/dialogs/ChangeLog';
+import CodeGenerator from 'app/components/dialogs/CodeGenerator';
 import CropPanel from 'app/views/dialogs/image-edit/CropPanel';
 import DeviceSelector from 'app/views/dialogs/DeviceSelector';
 import DialogBox from 'app/widgets/Dialog-Box';
@@ -14,11 +16,11 @@ import FirmwareUpdate from 'app/components/dialogs/FirmwareUpdate';
 import FluxCredit from 'app/components/dialogs/FluxCredit';
 import FluxIdLogin from 'app/components/dialogs/FluxIdLogin';
 import FluxPlusWarning from 'app/components/dialogs/FluxPlusWarning';
-import MaterialTestGeneratorPanel from 'app/components/dialogs/MaterialTestGeneratorPanel';
 import i18n from 'helpers/i18n';
-import isWeb from 'helpers/is-web';
 import InputLightBox from 'app/widgets/InputLightbox';
+import isWeb from 'helpers/is-web';
 import LayerColorConfigPanel from 'app/views/beambox/Layer-Color-Config';
+import MaterialTestGeneratorPanel from 'app/components/dialogs/MaterialTestGeneratorPanel';
 import MediaTutorial from 'app/components/dialogs/MediaTutorial';
 import MyCloud from 'app/components/dialogs/myCloud/MyCloud';
 import NetworkTestingPanel from 'app/views/beambox/NetworkTestingPanel';
@@ -32,20 +34,19 @@ import RatingPanel from 'app/components/dialogs/RatingPanel';
 import SaveFileModal from 'app/components/dialogs/myCloud/SaveFileModal';
 import ShapePanel from 'app/views/beambox/ShapePanel/ShapePanel';
 import shortcuts from 'helpers/shortcuts';
+import SocialMediaModal from 'app/components/dialogs/SocialMediaModal';
 import SvgNestButtons from 'app/views/beambox/SvgNestButtons';
 import Tutorial from 'app/views/tutorials/Tutorial';
 import webNeedConnectionWrapper from 'helpers/web-need-connection-helper';
 import { AlertConfigKey } from 'helpers/api/alert-config';
+import { ChipSettings } from 'interfaces/Cartridge';
 import { eventEmitter } from 'app/contexts/DialogContext';
-import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import { getCurrentUser, getInfo } from 'helpers/api/flux-id';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IAnnouncement } from 'interfaces/IAnnouncement';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { IDialogBoxStyle, IInputLightBox, IPrompt } from 'interfaces/IDialog';
 import { IMediaTutorial, ITutorial } from 'interfaces/ITutorial';
-import { ChipSettings } from 'interfaces/Cartridge';
-import CodeGenerator from 'app/components/dialogs/CodeGenerator';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => {
@@ -562,5 +563,10 @@ export default {
         }}
       />
     );
+  },
+  showSocialMedia: (): void => {
+    const id = 'social-media';
+    if (isIdExist(id)) return;
+    addDialogComponent(id, <SocialMediaModal onClose={() => popDialogById(id)} />);
   },
 };

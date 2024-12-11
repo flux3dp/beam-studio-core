@@ -481,6 +481,7 @@ export default function Menu({ email }: Props): JSX.Element {
         <MenuItem onClick={() => openPage(menuCms.link.contact_us)}>{menuCms.contact}</MenuItem>
         <MenuDivider />
         <MenuItem onClick={() => openPage(menuCms.link.forum)}>{menuCms.forum}</MenuItem>
+        <MenuItem onClick={() => callback('FOLLOW_US')}>{menuCms.follow_us}</MenuItem>
       </SubMenu>
     </TopBarMenu>
   );

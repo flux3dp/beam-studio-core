@@ -230,6 +230,7 @@ const lang: ILang = {
         code_generator: 'Generator kodu',
         box_generator: 'Generator Pudełek',
       },
+      follow_us: 'Śledź nas',
     },
     select_machine: 'Wybierz maszynę',
   },
@@ -2071,6 +2072,11 @@ const lang: ILang = {
     barcode: {
       invalid_value: 'Wartość jest nieprawidłowa dla wybranego formatu.',
     },
+  },
+  social_media: {
+    instagram: 'Zdobądź najnowsze inspiracje, oferty i darmowe prezenty!',
+    facebook: 'Rozmawiaj z użytkownikami FLUX, zadawaj pytania i poznawaj wskazówki!',
+    youtube: 'Zobacz samouczki Beam Studio i pomysły na rękodzieło.',
   },
 };
 

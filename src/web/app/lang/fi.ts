@@ -230,6 +230,7 @@ const lang: ILang = {
         code_generator: 'Koodigeneraattori',
         box_generator: 'Laatikkogeneraattori',
       },
+      follow_us: 'Seuraa meitä',
     },
     select_machine: 'Valitse kone',
   },
@@ -2068,6 +2069,11 @@ const lang: ILang = {
     barcode: {
       invalid_value: 'Arvo ei kelpaa valittuun muotoon.',
     },
+  },
+  social_media: {
+    instagram: 'Hanki uusimmat inspiraatiot, tarjoukset ja ilmaistuotteet!',
+    facebook: 'Keskustele FLUXersin kanssa, kysy kysymyksiä ja opi vinkkejä!',
+    youtube: 'Katso Beam Studion opetusohjelmat ja askarteluideat.',
   },
 };
 

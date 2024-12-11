@@ -230,6 +230,7 @@ const lang: ILang = {
         code_generator: 'Penjana Kod',
         box_generator: 'Penjana Kotak',
       },
+      follow_us: 'Ikuti kami',
     },
     select_machine: 'Pilih mesin',
   },
@@ -2068,6 +2069,11 @@ const lang: ILang = {
     barcode: {
       invalid_value: 'Nilai tidak sah untuk format yang dipilih.',
     },
+  },
+  social_media: {
+    instagram: 'Dapatkan inspirasi terbaru, tawaran, dan hadiah percuma!',
+    facebook: 'Berbual dengan FLUXers, ajukan soalan, dan pelajari petua!',
+    youtube: 'Lihat tutorial Beam Studio dan idea kraf.',
   },
 };
 

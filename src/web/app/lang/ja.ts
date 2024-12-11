@@ -230,6 +230,7 @@ const lang: ILang = {
         code_generator: 'コードジェネレーター',
         box_generator: 'ボックスジェネレーター',
       },
+      follow_us: 'フォローしてください',
     },
     select_machine: 'マシンの選択',
   },
@@ -2071,6 +2072,11 @@ const lang: ILang = {
     barcode: {
       invalid_value: '選択した形式に対して値が無効です。',
     },
+  },
+  social_media: {
+    instagram: '最新のインスピレーション、セール情報、無料アイテムを手に入れよう！',
+    facebook: 'FLUXユーザーとチャットし、質問してヒントを学ぼう！',
+    youtube: 'Beam Studio のチュートリアルとクラフトアイデアを確認しよう。',
   },
 };
 
