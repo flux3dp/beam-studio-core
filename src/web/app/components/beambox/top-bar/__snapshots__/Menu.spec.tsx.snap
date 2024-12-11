@@ -510,7 +510,7 @@ exports[`should render correctly open the browser and reach the correct page 3`]
             role="menuitem"
             tabindex="-1"
           >
-            Follow Us!
+            Follow Us
           </li>
         </ul>
       </li>

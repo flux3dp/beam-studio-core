@@ -66,7 +66,7 @@ exports[`test SocialMediaModal should render correctly 1`] = `
                 class="ant-modal-title"
                 id="test-id"
               >
-                Follow Us!
+                Follow Us
               </div>
             </div>
             <div
@@ -307,7 +307,7 @@ exports[`test SocialMediaModal should render correctly with zh-tw lang 1`] = `
                 class="ant-modal-title"
                 id="test-id"
               >
-                Follow Us!
+                Follow Us
               </div>
             </div>
             <div
