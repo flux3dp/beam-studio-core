@@ -37,7 +37,6 @@ const SocialMediaModal = ({ onClose }: Props): JSX.Element => {
 
   const items: TItem[] = useMemo(() => {
     const isTW = i18n.getActiveLang() === 'zh-tw';
-    console.log('isTW', isTW);
     const langKey = isTW ? 'taiwan' : 'global';
     // Note: Update qrcode images and links at the same time
     return [
