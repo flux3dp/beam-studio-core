@@ -230,7 +230,7 @@ const lang: ILang = {
         code_generator: 'Generator kodu',
         box_generator: 'Generator Pudełek',
       },
-      follow_us: 'Śledź nas!',
+      follow_us: 'Śledź nas',
     },
     select_machine: 'Wybierz maszynę',
   },

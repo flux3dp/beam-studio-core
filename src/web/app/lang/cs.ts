@@ -230,7 +230,7 @@ const lang: ILang = {
         code_generator: 'Generátor kódu',
         box_generator: 'Generátor boxů',
       },
-      follow_us: 'Sledujte nás!',
+      follow_us: 'Sledujte nás',
     },
     select_machine: 'Vybrat přístroj',
   },

@@ -230,7 +230,7 @@ const lang: ILang = {
         code_generator: 'Penjana Kod',
         box_generator: 'Penjana Kotak',
       },
-      follow_us: 'Ikuti kami!',
+      follow_us: 'Ikuti kami',
     },
     select_machine: 'Pilih mesin',
   },

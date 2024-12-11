@@ -230,7 +230,7 @@ const lang: ILang = {
         code_generator: 'Codegenerator',
         box_generator: 'Doos Generator',
       },
-      follow_us: 'Volg ons!',
+      follow_us: 'Volg ons',
     },
     select_machine: 'Selecteer een machine',
   },

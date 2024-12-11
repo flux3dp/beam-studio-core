@@ -230,7 +230,7 @@ const lang: ILang = {
         code_generator: 'Kodegenerator',
         box_generator: 'Boksgenerator',
       },
-      follow_us: 'Følg os!',
+      follow_us: 'Følg os',
     },
     select_machine: 'Vælg en maskine',
   },

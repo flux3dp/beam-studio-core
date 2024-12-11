@@ -230,7 +230,7 @@ const lang: ILang = {
         code_generator: '코드 생성기',
         box_generator: '박스 생성기',
       },
-      follow_us: '팔로우하세요!',
+      follow_us: '팔로우하세요',
     },
     select_machine: '기계를 선택하세요',
   },

@@ -230,7 +230,7 @@ const lang: ILang = {
         code_generator: 'Trình tạo mã',
         box_generator: 'Trình Tạo Hộp',
       },
-      follow_us: 'Theo dõi chúng tôi!',
+      follow_us: 'Theo dõi chúng tôi',
     },
     select_machine: 'Chọn máy',
   },

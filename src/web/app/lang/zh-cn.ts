@@ -230,7 +230,7 @@ const lang: ILang = {
         code_generator: '条码生成器',
         box_generator: '盒子生成器',
       },
-      follow_us: '关注我们！',
+      follow_us: '关注我们',
     },
     select_machine: '选择机器',
   },

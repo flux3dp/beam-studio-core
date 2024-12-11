@@ -230,7 +230,7 @@ const lang: ILang = {
         code_generator: 'Générateur de code',
         box_generator: 'Générateur de Boîtes',
       },
-      follow_us: 'Suivez-nous !',
+      follow_us: 'Suivez-nous',
     },
     select_machine: 'Sélectionner une machine',
   },

@@ -230,7 +230,7 @@ const lang: ILang = {
         code_generator: 'Koodigeneraattori',
         box_generator: 'Laatikkogeneraattori',
       },
-      follow_us: 'Seuraa meitä!',
+      follow_us: 'Seuraa meitä',
     },
     select_machine: 'Valitse kone',
   },

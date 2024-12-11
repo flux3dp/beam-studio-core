@@ -230,7 +230,7 @@ const lang: ILang = {
         code_generator: 'Γεννήτρια κώδικα',
         box_generator: 'Γεννήτρια Κουτιού',
       },
-      follow_us: 'Ακολουθήστε μας!',
+      follow_us: 'Ακολουθήστε μας',
     },
     select_machine: 'Επιλέξτε μηχανή',
   },
