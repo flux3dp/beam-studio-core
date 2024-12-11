@@ -1072,10 +1072,10 @@ export const presets: {
     },
     fpm1_1_60: {
       [LayerModule.LASER_UNIVERSAL]: {
-        power: 28,
-        speed: 3000,
-        frequency: 25,
-        pulseWidth: 350,
+        power: 50,
+        speed: 5000,
+        frequency: 40,
+        pulseWidth: 500,
         fillInterval: 0.01,
       },
     },
@@ -1125,10 +1125,10 @@ export const presets: {
     },
     fpm1_1_60: {
       [LayerModule.LASER_UNIVERSAL]: {
-        power: 10,
+        power: 30,
         speed: 2000,
-        frequency: 25,
-        pulseWidth: 350,
+        frequency: 40,
+        pulseWidth: 500,
         fillInterval: 0.01,
       },
     },
@@ -1178,10 +1178,10 @@ export const presets: {
     },
     fpm1_1_60: {
       [LayerModule.LASER_UNIVERSAL]: {
-        power: 15,
-        speed: 150,
-        frequency: 25,
-        pulseWidth: 350,
+        power: 50,
+        speed: 500,
+        frequency: 40,
+        pulseWidth: 500,
         fillInterval: 0.01,
       },
     },
@@ -1231,10 +1231,10 @@ export const presets: {
     },
     fpm1_1_60: {
       [LayerModule.LASER_UNIVERSAL]: {
-        power: 23,
-        speed: 2000,
-        frequency: 25,
-        pulseWidth: 200,
+        power: 50,
+        speed: 1000,
+        frequency: 40,
+        pulseWidth: 500,
         fillInterval: 0.01,
       },
     },
@@ -1268,10 +1268,10 @@ export const presets: {
     },
     fpm1_1_60: {
       [LayerModule.LASER_UNIVERSAL]: {
-        power: 40,
-        speed: 500,
-        frequency: 25,
-        pulseWidth: 350,
+        power: 100,
+        speed: 700,
+        frequency: 40,
+        pulseWidth: 300,
         fillInterval: 0.01,
       },
     },
@@ -1305,10 +1305,10 @@ export const presets: {
     },
     fpm1_1_60: {
       [LayerModule.LASER_UNIVERSAL]: {
-        power: 45,
+        power: 90,
         speed: 1000,
-        frequency: 25,
-        pulseWidth: 350,
+        frequency: 40,
+        pulseWidth: 150,
         fillInterval: 0.01,
       },
     },
@@ -1358,11 +1358,11 @@ export const presets: {
     },
     fpm1_1_60: {
       [LayerModule.LASER_UNIVERSAL]: {
-        power: 30,
-        speed: 800,
-        frequency: 25,
-        pulseWidth: 350,
-        fillInterval: 0.01,
+        power: 20,
+        speed: 2000,
+        frequency: 40,
+        pulseWidth: 500,
+        fillInterval: 0.005,
       },
     },
     fpm1_1_100: {
@@ -1411,11 +1411,11 @@ export const presets: {
     },
     fpm1_1_60: {
       [LayerModule.LASER_UNIVERSAL]: {
-        power: 40,
-        speed: 1000,
-        frequency: 25,
-        pulseWidth: 350,
-        fillInterval: 0.01,
+        power: 50,
+        speed: 2000,
+        frequency: 40,
+        pulseWidth: 500,
+        fillInterval: 0.005,
       },
     },
     fpm1_1_100: {
@@ -1464,10 +1464,10 @@ export const presets: {
     },
     fpm1_1_60: {
       [LayerModule.LASER_UNIVERSAL]: {
-        power: 20,
-        speed: 500,
-        frequency: 25,
-        pulseWidth: 350,
+        power: 30,
+        speed: 1500,
+        frequency: 40,
+        pulseWidth: 500,
         fillInterval: 0.05,
       },
     },
@@ -1517,11 +1517,11 @@ export const presets: {
     },
     fpm1_1_60: {
       [LayerModule.LASER_UNIVERSAL]: {
-        power: 13,
-        speed: 4000,
-        frequency: 25,
-        pulseWidth: 350,
-        fillInterval: 0.01,
+        power: 20,
+        speed: 2500,
+        frequency: 40,
+        pulseWidth: 500,
+        fillInterval: 0.05,
       },
     },
     fpm1_1_100: {
@@ -1570,11 +1570,11 @@ export const presets: {
     },
     fpm1_1_60: {
       [LayerModule.LASER_UNIVERSAL]: {
-        power: 8,
-        speed: 4000,
-        frequency: 25,
-        pulseWidth: 350,
-        fillInterval: 0.01,
+        power: 35,
+        speed: 1000,
+        frequency: 40,
+        pulseWidth: 100,
+        fillInterval: 0.05,
       },
     },
     fpm1_1_100: {
@@ -1623,10 +1623,10 @@ export const presets: {
     },
     fpm1_1_60: {
       [LayerModule.LASER_UNIVERSAL]: {
-        power: 30,
-        speed: 500,
-        frequency: 25,
-        pulseWidth: 350,
+        power: 40,
+        speed: 850,
+        frequency: 40,
+        pulseWidth: 400,
         fillInterval: 0.05,
       },
     },
