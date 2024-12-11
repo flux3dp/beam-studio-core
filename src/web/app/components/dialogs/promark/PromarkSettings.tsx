@@ -111,6 +111,8 @@ const PromarkSettings = ({ device, initData, onClose }: Props): JSX.Element => {
     if (isPreviewing) {
       await deviceMaster.stopFraming();
       setIsPreviewing(false);
+      // Wait 0.5s to ensure stop before start in swiftray
+      await new Promise((resolve) => setTimeout(resolve, 500));
     }
     await uploadMarkTask();
     await handleUpdateParameter();
