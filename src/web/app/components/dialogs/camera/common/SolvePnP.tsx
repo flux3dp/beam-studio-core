@@ -140,12 +140,23 @@ const SolvePnP = ({
   const handleImg = useCallback(
     async (imgBlob: Blob) => {
       try {
-        const res = await solvePnPFindCorners(imgBlob, dh, refPoints);
+        let interestArea: { x: number; y: number; width: number; height: number };
+        if (svgRef.current) {
+          const { scrollLeft, scrollTop, clientWidth, clientHeight } = imgContainerRef.current;
+          const scale = scaleRef.current;
+          interestArea = {
+            x: Math.round(scrollLeft / scale),
+            y: Math.round(scrollTop / scale),
+            width: Math.ceil(clientWidth / scale),
+            height: Math.ceil(clientHeight / scale),
+          };
+        }
+        const res = await solvePnPFindCorners(imgBlob, dh, refPoints, interestArea);
         if (res.success) {
           const { success, blob, data } = res;
           setImg({ blob, url: URL.createObjectURL(blob), success });
           setPoints(data.points);
-          zoomToAllPoints(data.points);
+          if (!interestArea) zoomToAllPoints(data.points);
         } else if (res.success === false) {
           const { data } = res;
           if (data.info === 'NO_DATA') {
