@@ -39,7 +39,14 @@ const UnitInput = forwardRef<HTMLInputElement, Props>(
     const inputRef = useRef<HTMLInputElement>(null);
     const valueRef = useRef<number | undefined>(); // for onChange
 
-    useImperativeHandle(outerRef, () => inputRef.current, []);
+    useImperativeHandle(
+      outerRef,
+      () => {
+        const input = inputRef.current;
+        return input.parentNode?.querySelector('input') || input;
+      },
+      []
+    );
 
     const formatter = useCallback(
       (value: string | number) => {
