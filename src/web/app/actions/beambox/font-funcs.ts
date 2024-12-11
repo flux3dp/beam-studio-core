@@ -168,8 +168,8 @@ export const getFontObj = async (
       if ((font as FontDescriptor).path) {
         fontObj = localFontHelper.getLocalFont(font);
       } else {
+        const { fileName = `${postscriptName}.ttf`, collectionIdx = 0 } = font as WebFont;
         const protocol = isWeb() ? window.location.protocol : 'https:';
-        const fileName = (font as WebFont).fileName || `${postscriptName}.ttf`;
         let url = `${protocol}//beam-studio-web.s3.ap-northeast-1.amazonaws.com/fonts/${fileName}`;
         if ('hasLoaded' in font) {
           const monotypeUrl = await fontHelper.getMonotypeUrl(postscriptName);
@@ -181,6 +181,13 @@ export const getFontObj = async (
         try {
           // Font Collection
           fontObj = fontkit.create(buffer, font.postscriptName) as fontkit.Font;
+          if (!fontObj) {
+            const res = fontkit.create(buffer) as fontkit.FontCollection;
+            if (!res) {
+              throw new Error('Failed to create font collection');
+            }
+            fontObj = res.fonts[collectionIdx];
+          }
         } catch {
           // Single Font
           fontObj = fontkit.create(buffer) as fontkit.Font;
