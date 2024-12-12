@@ -57,6 +57,7 @@ const Tabs = (): JSX.Element => {
   const renderIcon = useCallback(({ isLoading, mode, isCloud }: Tab) => {
     if (isLoading) return <LoadingOutlined className={classNames(styles.icon, styles.loading)} />;
     if (mode === CanvasMode.Preview) return <TopBarIcons.Camera className={styles.icon} />;
+    if (mode === CanvasMode.CurveEngraving) return <TopBarIcons.Curve3D className={styles.icon} />;
     if (isCloud) return <TopBarIcons.CloudFile className={styles.icon} />;
     return null;
   }, []);
