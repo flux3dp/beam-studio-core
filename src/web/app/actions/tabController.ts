@@ -33,19 +33,19 @@ class TabController extends EventEmitter {
     topBarEventEmitter.on('SET_HAS_UNSAVED_CHANGE', updateTitleHandler);
   }
 
-  onFocused(handler: () => void) {
+  onFocused(handler: () => void): void {
     this.on(TabEvents.TabFocused, handler);
   }
 
-  offFocused(handler: () => void) {
+  offFocused(handler: () => void): void {
     this.off(TabEvents.TabFocused, handler);
   }
 
-  onTabsUpdated(handler: (tabs: Array<Tab>) => void) {
+  onTabsUpdated(handler: (tabs: Array<Tab>) => void): void {
     this.on(TabEvents.TabUpdated, handler);
   }
 
-  offTabsUpdated(handler: (tabs: Array<Tab>) => void) {
+  offTabsUpdated(handler: (tabs: Array<Tab>) => void): void {
     this.off(TabEvents.TabUpdated, handler);
   }
 
@@ -66,7 +66,7 @@ class TabController extends EventEmitter {
     communicator.send(TabEvents.FocusTab, id);
   };
 
-  setMode = (mode: CanvasMode) => {
+  setMode = (mode: CanvasMode): void => {
     communicator.send(TabEvents.SetTabMode, mode);
   };
 }
