@@ -73,8 +73,9 @@ const Tabs = (): JSX.Element => {
             >
               {tabs.map((tab, idx) => {
                 const { id } = tab;
-                let { title } = id === currentId ? currentTabInfo : tab;
-                if (id === currentId) {
+                const isCurrent = id === currentId;
+                let { title } = isCurrent ? currentTabInfo : tab;
+                if (isCurrent) {
                   title = `${title || t.untitled}${hasUnsavedChange ? '*' : ''}`;
                 }
                 return (
