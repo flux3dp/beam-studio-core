@@ -150,7 +150,7 @@ class PreviewModeController {
     if (currentDevice) {
       deviceMaster.setDeviceControlDefaultCloseListener(currentDevice);
     }
-    await this.previewManager?.end();
+    this.previewManager?.end();
     this.reset();
   }
 
