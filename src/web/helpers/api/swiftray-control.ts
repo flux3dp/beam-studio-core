@@ -5,7 +5,7 @@
 import EventEmitter from 'eventemitter3';
 
 import ErrorConstants from 'app/constants/error-constants';
-import IControlSocket from 'interfaces/IControlSocket';
+import IControlSocket, { Mode } from 'interfaces/IControlSocket';
 import { Field, LensCorrection } from 'interfaces/Promark';
 import { IDeviceDetailInfo } from 'interfaces/IDevice';
 
@@ -39,7 +39,7 @@ class SwiftrayControl extends EventEmitter implements IControlSocket {
 
   private sc: SwiftrayClient;
 
-  private mode = ''; // null, maintain or raw
+  private mode: Mode = ''; // null, maintain or raw
 
   private _lineNumber = 0;
 
