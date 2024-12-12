@@ -1,12 +1,12 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
-import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import { CloseOutlined, PlusOutlined, LoadingOutlined } from '@ant-design/icons';
 import { DragDropContext, Draggable, Droppable, DropResult } from 'react-beautiful-dnd';
 
 import CanvasMode from 'app/constants/canvasMode';
 import Tab from 'interfaces/Tab';
+import TopBarController from 'app/views/beambox/TopBar/contexts/TopBarController';
 import TopBarIcons from 'app/icons/top-bar/TopBarIcons';
 import tabConstants from 'app/constants/tabConstants';
 import tabController from 'app/actions/tabController';
@@ -31,13 +31,12 @@ const Tabs = (): JSX.Element => {
     };
   }, []);
   useEffect(() => {
-    const topBarEventEmitter = eventEmitterFactory.createEventEmitter('top-bar');
     const handler = (newTitle: string, isCloudFile: boolean) => {
       setCurrentTabInfo({ title: newTitle, isCloud: isCloudFile });
     };
-    topBarEventEmitter.on('UPDATE_TITLE', handler);
+    TopBarController.onTitleChange(handler);
     return () => {
-      topBarEventEmitter.removeListener('UPDATE_TITLE', handler);
+      TopBarController.offTitleChange(handler);
     };
   }, [currentId]);
 

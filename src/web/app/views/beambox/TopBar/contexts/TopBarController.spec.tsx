@@ -1,9 +1,13 @@
 import TopBarController from './TopBarController';
 
 const mockEmit = jest.fn();
+const mockOn = jest.fn();
+const mockRemoveListener = jest.fn();
 jest.mock('helpers/eventEmitterFactory', () => ({
   createEventEmitter: () => ({
     emit: (...args) => mockEmit(...args),
+    on: (...args) => mockOn(...args),
+    removeListener: (...args) => mockRemoveListener(...args),
   }),
 }));
 
@@ -68,5 +72,19 @@ describe('test TopBarController', () => {
     TopBarController.setSelectedDevice(mockDevice);
     expect(mockEmit).toHaveBeenCalledTimes(1);
     expect(mockEmit).toHaveBeenNthCalledWith(1, 'SET_SELECTED_DEVICE', mockDevice);
+  });
+
+  test('test onTitleChange', () => {
+    const mockHandler = jest.fn();
+    TopBarController.onTitleChange(mockHandler);
+    expect(mockOn).toHaveBeenCalledTimes(1);
+    expect(mockOn).toHaveBeenNthCalledWith(1, 'UPDATE_TITLE', mockHandler);
+  });
+
+  test('test offTitleChange', () => {
+    const mockHandler = jest.fn();
+    TopBarController.offTitleChange(mockHandler);
+    expect(mockRemoveListener).toHaveBeenCalledTimes(1);
+    expect(mockRemoveListener).toHaveBeenNthCalledWith(1, 'UPDATE_TITLE', mockHandler);
   });
 });

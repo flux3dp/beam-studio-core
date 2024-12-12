@@ -19,6 +19,14 @@ const updateTitle = (title: string, isCloudFile: boolean): void => {
   topBarEventEmitter.emit('UPDATE_TITLE', title, isCloudFile);
 };
 
+const onTitleChange = (handler: (title: string, isCloudFile: boolean) => void): void => {
+  topBarEventEmitter.on('UPDATE_TITLE', handler);
+};
+
+const offTitleChange = (handler: (title: string, isCloudFile: boolean) => void): void => {
+  topBarEventEmitter.removeListener('UPDATE_TITLE', handler);
+};
+
 const setHasUnsavedChange = (hasUnsavedChange: boolean): void => {
   topBarEventEmitter.emit('SET_HAS_UNSAVED_CHANGE', hasUnsavedChange);
 };
@@ -50,4 +58,6 @@ export default {
   getTopBarPreviewMode,
   getSelectedDevice,
   setSelectedDevice,
+  onTitleChange,
+  offTitleChange,
 };

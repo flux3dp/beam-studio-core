@@ -16,6 +16,13 @@ jest.mock('app/svgedit/currentFileManager', () => ({
   },
 }));
 
+const mockOnTitleChange = jest.fn();
+const mockOffTitleChange = jest.fn();
+jest.mock('app/views/beambox/TopBar/contexts/TopBarController', () => ({
+  onTitleChange: (...args) => mockOnTitleChange(...args),
+  offTitleChange: (...args) => mockOffTitleChange(...args),
+}));
+
 describe('test FileName', () => {
   beforeEach(() => {
     jest.clearAllMocks();
