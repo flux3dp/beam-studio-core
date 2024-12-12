@@ -218,7 +218,7 @@ export const getExportOpt = (
       bbox,
       points: points.flat().filter((p) => p[2] !== null),
       gap,
-      safe_height: Math.min(highest, lowest - objectHeight, 0),
+      safe_height: Math.max(Math.min(highest, lowest - objectHeight), 0),
     };
     config.curve_engraving = data;
   }
