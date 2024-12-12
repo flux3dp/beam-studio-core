@@ -24,7 +24,7 @@ import {
 } from 'interfaces/FisheyePreview';
 import { getWorkarea } from 'app/constants/workarea-constants';
 import { IDeviceInfo, IDeviceConnection, IDeviceDetailInfo } from 'interfaces/IDevice';
-import { Field, GalvoParameters, PromarkStore } from 'interfaces/Promark';
+import { Field, GalvoParameters } from 'interfaces/Promark';
 
 import Camera from './api/camera';
 import Control from './api/control';
