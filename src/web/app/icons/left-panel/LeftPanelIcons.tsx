@@ -1,6 +1,6 @@
 import AdjustHeight from './adjust-height.svg';
 import Back from './back.svg';
-import Boxgen from './boxgen.svg';
+import Camera from './camera.svg';
 import Cloud from './cloud.svg';
 import Cursor from './cursor.svg';
 import Curve3D from './curve-3d.svg';
@@ -26,7 +26,7 @@ import Trace from './trace.svg';
 export default {
   AdjustHeight,
   Back,
-  Boxgen,
+  Camera,
   Cloud,
   Cursor,
   Curve3D,
