@@ -2,7 +2,6 @@ import classNames from 'classnames';
 import React, { useContext } from 'react';
 
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
-import LeftPanelIcons from 'app/icons/left-panel/LeftPanelIcons';
 import TopBarIcons from 'app/icons/top-bar/TopBarIcons';
 import useI18n from 'helpers/useI18n';
 import { CanvasContext } from 'app/contexts/CanvasContext';
@@ -22,7 +21,7 @@ function PreviewButton(): JSX.Element {
     return (
       <div className={classNames(styles.container, styles.active)} title={lang.curve_engrave}>
         <div className={styles.button}>
-          <LeftPanelIcons.Curve3D />
+          <TopBarIcons.Curve3D />
           <div className={styles.title}>{lang.curve_engrave}</div>
         </div>
       </div>

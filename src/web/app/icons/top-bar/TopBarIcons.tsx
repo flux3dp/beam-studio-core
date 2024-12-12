@@ -1,6 +1,7 @@
 import Account from './account.svg';
 import Camera from './camera.svg';
 import CloudFile from './cloud-file.svg';
+import Curve3D from './curve-3d.svg';
 import Document from './document.svg';
 import Frame from './frame.svg';
 import Go from './go.svg';
@@ -14,6 +15,7 @@ export default {
   Account,
   Camera,
   CloudFile,
+  Curve3D,
   Document,
   Frame,
   Go,
