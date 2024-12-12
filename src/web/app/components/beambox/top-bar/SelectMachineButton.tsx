@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useCallback, useContext, useMemo } from 'react';
 
 import getDevice from 'helpers/device/get-device';
 import TopBarIcons from 'app/icons/top-bar/TopBarIcons';
@@ -18,11 +18,14 @@ function SelectMachineButton(): JSX.Element {
     if (selectedDevice) return selectedDevice.name;
     return i18n.topbar.select_machine;
   }, [isMobile, selectedDevice, i18n]);
+
+  const handleClick = useCallback(() => {
+    if (mode !== CanvasMode.Preview) getDevice(true);
+    else setupPreviewMode({ showModal: true });
+  }, [mode, setupPreviewMode]);
+
   return (
-    <div
-      className={styles.button}
-      onClick={() => (mode === CanvasMode.Preview ? setupPreviewMode : getDevice)(true)}
-    >
+    <div className={styles.button} onClick={handleClick}>
       <TopBarIcons.SelectMachine />
       {!isMobile && (
         <span className={styles.text} data-testid="select-machine">
