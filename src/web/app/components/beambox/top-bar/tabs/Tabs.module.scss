@@ -49,6 +49,10 @@
       color: #333333;
       background-color: #f0f0f0;
 
+      .icon {
+        color: #333333;
+      }
+
       &::after {
         content: none;
       }
