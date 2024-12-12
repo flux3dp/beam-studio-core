@@ -5,6 +5,9 @@ import { CloseOutlined, PlusOutlined, LoadingOutlined } from '@ant-design/icons'
 import { DragDropContext, Draggable, Droppable, DropResult } from 'react-beautiful-dnd';
 
 import CanvasMode from 'app/constants/canvasMode';
+import cloudFile from 'helpers/api/cloudFile';
+import currentFileManager from 'app/svgedit/currentFileManager';
+import dialogCaller from 'app/actions/dialog-caller';
 import Tab from 'interfaces/Tab';
 import TopBarController from 'app/views/beambox/TopBar/contexts/TopBarController';
 import TopBarIcons from 'app/icons/top-bar/TopBarIcons';
@@ -61,6 +64,17 @@ const Tabs = (): JSX.Element => {
     return null;
   }, []);
 
+  const handleRenameCurrentTab = async () => {
+    const newName = await dialogCaller.getPromptValue({ caption: 'rename' });
+    if (!newName) return;
+    if (currentTabInfo.isCloud) {
+      const { res, status } = await cloudFile.renameFile(currentFileManager.getPath(), newName);
+      if (!res && status === 404) currentFileManager.setCloudUUID(null);
+    } else {
+      currentFileManager.setFileName(newName, { clearPath: true });
+    }
+  };
+
   return (
     <div className={styles.container}>
       <DragDropContext onDragEnd={handleDragEnd}>
@@ -88,6 +102,10 @@ const Tabs = (): JSX.Element => {
                         title={title}
                         className={classNames(styles.tab, { [styles.focused]: currentId === id })}
                         onClick={() => tabController.focusTab(id)}
+                        onDoubleClick={() => {
+                          if (id !== currentId) return;
+                          handleRenameCurrentTab();
+                        }}
                       >
                         {renderIcon(tab)}
                         <span className={styles.name}>{title}</span>

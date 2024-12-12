@@ -21,7 +21,7 @@ describe('test currentFileManager', () => {
   });
 
   it('should set file name extracted from path', () => {
-    currentFileManager.setFileName('/some/path/to/test.svg', true);
+    currentFileManager.setFileName('/some/path/to/test.svg', { extractFromPath: true });
     expect(currentFileManager.getName()).toBe('test');
     expect(mockUpdateTitle).toHaveBeenCalledTimes(1);
   });

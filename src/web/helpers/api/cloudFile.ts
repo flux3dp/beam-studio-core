@@ -13,23 +13,22 @@ import { axiosFluxId, getDefaultHeader, ResponseWithError } from './flux-id';
 
 interface CheckResponseResult {
   res: boolean;
+  status?: number;
   info?: string;
   message?: string;
 }
 
-export const checkResp = async (
-  resp: ResponseWithError
-): Promise<{ res: boolean; info?: string; message?: string }> => {
+export const checkResp = async (resp: ResponseWithError): Promise<CheckResponseResult> => {
   const { lang } = i18n;
   if (!resp) {
     alertCaller.popUpError({ message: lang.flux_id_login.connection_fail });
     return { res: false };
   }
-  const { error } = resp;
+  const { error, status: statusCode } = resp;
   if (error) {
     if (!error.response) {
       alertCaller.popUpError({ message: lang.flux_id_login.connection_fail });
-      return { res: false };
+      return { res: false, status: statusCode };
     }
     const { status, statusText } = error.response;
     const { info, message, detail } = error.response.data || {};
@@ -39,17 +38,17 @@ export const checkResp = async (
         buttonType: alertConstants.CONFIRM_CANCEL,
         onConfirm: dialogCaller.showLoginDialog,
       });
-      return { res: false };
+      return { res: false, status: statusCode };
     }
     if (info === 'STORAGE_LIMIT_EXCEEDED') {
       alertCaller.popUpError({ message: lang.my_cloud.save_file.storage_limit_exceeded });
-      return { res: false, info, message };
+      return { res: false, info, message, status: statusCode };
     }
     alertCaller.popUpError({
       caption: info,
       message: detail || message || `${status}: ${statusText}`,
     });
-    return { res: false, info, message };
+    return { res: false, info, message, status: statusCode };
   }
   let { data } = resp;
   if (data instanceof Blob && data.type === 'application/json') {
@@ -59,10 +58,10 @@ export const checkResp = async (
   if (status !== 'error') return { res: true };
   if (info === 'NOT_SUBSCRIBED') {
     showFluxPlusWarning();
-    return { res: false, info, message };
+    return { res: false, info, message, status: statusCode };
   }
   alertCaller.popUpError({ caption: info, message });
-  return { res: false, info, message };
+  return { res: false, info, message, status: statusCode };
 };
 
 interface OperationResult<T = null> extends CheckResponseResult {

@@ -36,9 +36,14 @@ class CurrentFileManager {
     return fileName.slice(0, fileName.lastIndexOf('.')).replace(':', '/');
   };
 
-  setFileName = (fileName: string, extractFromPath = false) => {
+  setFileName = (
+    fileName: string,
+    opts: { extractFromPath?: boolean; clearPath?: boolean } = {}
+  ) => {
+    const { extractFromPath = false, clearPath = false } = opts;
     const name = extractFromPath ? this.extractFileName(fileName) : fileName;
     this.name = name;
+    if (clearPath && !this.isCloudFile) this.path = null;
     this.updateTitle();
   };
 

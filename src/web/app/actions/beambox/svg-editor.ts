@@ -2693,7 +2693,7 @@ const svgEditor = (window['svgEditor'] = (function () {
               currentFileManager.setLocalFile(file.path);
               svgCanvas.updateRecentFiles(file.path);
             } else {
-              currentFileManager.setFileName(file.name, true);
+              currentFileManager.setFileName(file.name, { extractFromPath: true });
             }
             currentFileManager.setHasUnsavedChanges(false);
             break;
@@ -2702,7 +2702,7 @@ const svgEditor = (window['svgEditor'] = (function () {
           case 'bitmap':
           case 'ai':
             if (!currentFileManager.getName()) {
-              currentFileManager.setFileName(file.name, true);
+              currentFileManager.setFileName(file.name, { extractFromPath: true });
             }
             currentFileManager.setHasUnsavedChanges(false);
             break;
