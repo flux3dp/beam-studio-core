@@ -708,6 +708,7 @@ const fonts: WebFont[] = [
     style: 'Regular',
     weight: 400,
     fileName: 'GenSenRounded-R.ttc',
+    collectionIdx: 1,
     supportLangs: ['zh-tw'],
   },
   {
@@ -727,6 +728,7 @@ const fonts: WebFont[] = [
     style: 'Regular',
     weight: 400,
     fileName: 'GenSenRounded-R.ttc',
+    collectionIdx: 0,
     supportLangs: ['ja'],
   },
   {
@@ -1626,8 +1628,7 @@ const getAvailableFonts = (lang?: string): WebFont[] => {
       if (!font.supportLangs) return true;
       return font.supportLangs.includes(lang);
     });
-  if (!isWeb())
-    availableFonts = availableFonts.filter((font) => !font.fontkitError);
+  if (!isWeb()) availableFonts = availableFonts.filter((font) => !font.fontkitError);
   return availableFonts;
 };
 
