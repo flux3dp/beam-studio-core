@@ -12,7 +12,6 @@ import isWeb from 'helpers/is-web';
 import Menu from 'app/components/beambox/top-bar/Menu';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import PathPreviewButton from 'app/components/beambox/top-bar/PathPreviewButton';
-import PreviewButton from 'app/components/beambox/top-bar/PreviewButton';
 import SelectMachineButton from 'app/components/beambox/top-bar/SelectMachineButton';
 import storage from 'implementations/storage';
 import TopBarHints from 'app/components/beambox/top-bar/TopBarHints';
@@ -79,7 +78,6 @@ const Topbar = (): JSX.Element => {
         >
           {!hasTitleBar && <div className={styles['drag-area']} />}
           <UserAvatar user={currentUser} />
-          <PreviewButton />
           <CommonTools isWeb={isWebMode} hide={mode !== CanvasMode.Draw} />
           {!isWebMode && <Tabs />}
         </div>
