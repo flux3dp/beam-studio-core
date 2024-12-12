@@ -761,15 +761,6 @@ class SwiftrayControl extends EventEmitter implements IControlSocket {
     return res;
   };
 
-  rawLooseMotorB34 = () => {
-    if (this.mode !== 'raw') {
-      throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
-    }
-    const command = 'B34';
-    if (!this._isLineCheckMode) return this.useWaitAnyResponse(command);
-    return this.useRawLineCheckCommand(command);
-  };
-
   rawSetLaser = (args: { on: boolean; s?: number }) => {
     if (this.mode !== 'raw') {
       throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
