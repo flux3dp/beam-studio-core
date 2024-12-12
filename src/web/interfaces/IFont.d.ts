@@ -2,18 +2,18 @@ import { Font } from 'fontkit';
 import { IUser } from 'interfaces/IUser';
 
 export interface IFont {
-  family?: string,
-  postscriptName?: string,
-  style?: string,
-  weight?: number,
-  italic?: boolean,
+  family?: string;
+  postscriptName?: string;
+  style?: string;
+  weight?: number;
+  italic?: boolean;
 }
 
 export interface IFontQuery {
-  family: string,
-  style?: string,
-  weight?: number,
-  italic?: boolean // not sure about type
+  family: string;
+  style?: string;
+  weight?: number;
+  italic?: boolean; // not sure about type
 }
 
 export interface FontHelper {
@@ -42,12 +42,7 @@ export interface LocalFontHelper {
   getLocalFont: (font: FontDescriptor) => Font | undefined;
 }
 
-export type FontDescriptorKeys =
-  'postscriptName' |
-  'family' |
-  'style' |
-  'weight' |
-  'italic';
+export type FontDescriptorKeys = 'postscriptName' | 'family' | 'style' | 'weight' | 'italic';
 
 export interface FontDescriptor {
   path?: string;
@@ -70,5 +65,6 @@ export interface WebFont {
   fileName?: string;
   supportLangs?: string[];
   hasLoaded?: boolean;
+  collectionIdx?: number;
   fontkitError?: boolean;
 }
