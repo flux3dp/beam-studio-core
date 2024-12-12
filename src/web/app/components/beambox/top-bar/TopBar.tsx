@@ -25,8 +25,8 @@ import {
 import { SelectedElementContext } from 'app/contexts/SelectedElementContext';
 import { TopBarHintsContextProvider } from 'app/contexts/TopBarHintsContext';
 
-import Tabs from './tabs/Tabs';
 import styles from './TopBar.module.scss';
+import Tabs from './tabs/Tabs';
 
 const Topbar = (): JSX.Element => {
   const { isWebMode, hasTitleBar } = useMemo(() => {
