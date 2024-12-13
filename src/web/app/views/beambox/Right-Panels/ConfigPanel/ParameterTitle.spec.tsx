@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { createContext } from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
 import ConfigPanelContext from './ConfigPanelContext';
@@ -29,6 +29,8 @@ jest.mock('helpers/useI18n', () => () => ({
 }));
 
 jest.mock('./SaveConfigButton', () => () => <div>MockSaveConfigButton</div>);
+
+jest.mock('./ConfigPanelContext', () => createContext({}));
 
 describe('test ParameterTitle', () => {
   it('should render correctly', () => {
