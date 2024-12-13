@@ -8,7 +8,7 @@ export default class RawModeCurveMeasurer extends BaseCurveMeasurer implements C
   private currentPosition: { x: number; y: number };
 
   setup = async (onProgressText?: (text: string) => void): Promise<boolean> => {
-    const res = this.setupDevice();
+    const res = await this.setupDevice();
     if (!res) return false;
     const { lang } = i18n;
     if (deviceMaster.currentControlMode !== 'raw') {
