@@ -112,9 +112,6 @@ const DrawingToolButtonGroup = ({ className }: { className: string }): JSX.Eleme
         `${tLeftPanel.label.pen} (P)`,
         FnWrapper.insertPath
       )}
-      {renderToolButton('DM', <LeftPanelIcons.DM />, 'Design Market', () =>
-        browser.open(lang.topbar.menu.link.design_market)
-      )}
       {(selectedDevice?.model === 'fbb2' || isDev()) &&
         renderToolButton(
           'curve-engrave',
@@ -129,6 +126,9 @@ const DrawingToolButtonGroup = ({ className }: { className: string }): JSX.Eleme
           tLeftPanel.label.pass_through,
           () => showPassThrough(FnWrapper.useSelectTool)
         )}
+      {renderToolButton('DM', <LeftPanelIcons.DM />, 'Design Market', () =>
+        browser.open(lang.topbar.menu.link.design_market)
+      )}
     </div>
   );
 };

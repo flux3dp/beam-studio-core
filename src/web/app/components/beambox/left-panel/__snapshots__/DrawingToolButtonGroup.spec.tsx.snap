@@ -1681,8 +1681,8 @@ exports[`test DrawingToolButtonGroup should render correctly when in pass throug
     </div>
     <div
       class="container"
-      id="left-DM"
-      title="Design Market"
+      id="left-PassThrough"
+      title="Pass Through"
     >
       <span
         class="ant-badge badge css-dev-only-do-not-override-hash"
@@ -1692,8 +1692,8 @@ exports[`test DrawingToolButtonGroup should render correctly when in pass throug
     </div>
     <div
       class="container"
-      id="left-PassThrough"
-      title="Pass Through"
+      id="left-DM"
+      title="Design Market"
     >
       <span
         class="ant-badge badge css-dev-only-do-not-override-hash"
@@ -1826,8 +1826,8 @@ exports[`test DrawingToolButtonGroup should render correctly when model is bb2 1
     </div>
     <div
       class="container"
-      id="left-DM"
-      title="Design Market"
+      id="left-curve-engrave"
+      title="3D Curve"
     >
       <span
         class="ant-badge badge css-dev-only-do-not-override-hash"
@@ -1837,8 +1837,8 @@ exports[`test DrawingToolButtonGroup should render correctly when model is bb2 1
     </div>
     <div
       class="container"
-      id="left-curve-engrave"
-      title="3D Curve"
+      id="left-DM"
+      title="Design Market"
     >
       <span
         class="ant-badge badge css-dev-only-do-not-override-hash"
