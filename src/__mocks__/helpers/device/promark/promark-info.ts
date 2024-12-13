@@ -1,11 +1,10 @@
 import { LaserType } from 'app/constants/promark-constants';
 import { PromarkInfo } from 'interfaces/Promark';
 
-const defaultValue: PromarkInfo = {
+let value: PromarkInfo = {
   laserType: LaserType.Desktop,
   watt: 20,
 };
-let value: PromarkInfo = defaultValue;
 
 export const getSerial = (): string => 'no-serial';
 export const getPromarkInfo = (): PromarkInfo => value;
