@@ -40,6 +40,27 @@ jest.mock('app/views/beambox/TopBar/contexts/TopBarController', () => ({
   offTitleChange: (...args) => mockOffTitleChange(...args),
 }));
 
+const mockRenameFile = jest.fn();
+jest.mock('helpers/api/cloudFile', () => ({
+  renameFile: (...args) => mockRenameFile(...args),
+}));
+
+const mockGetName = jest.fn();
+const mockGetPath = jest.fn();
+const mockSetCloudUUID = jest.fn();
+const mockSetFileName = jest.fn();
+jest.mock('app/svgedit/currentFileManager', () => ({
+  getName: (...args) => mockGetName(...args),
+  getPath: (...args) => mockGetPath(...args),
+  setCloudUUID: (...args) => mockSetCloudUUID(...args),
+  setFileName: (...args) => mockSetFileName(...args),
+}));
+
+const mockGetPromptValue = jest.fn();
+jest.mock('app/actions/dialog-caller', () => ({
+  getPromptValue: (...args) => mockGetPromptValue(...args),
+}));
+
 const mockTabs = [
   {
     id: 1,
@@ -140,5 +161,35 @@ describe('test Tabs', () => {
       </CanvasContext.Provider>
     );
     expect(container.querySelector('.name').textContent).toBe('new title*');
+  });
+
+  test('rename local tab', async () => {
+    mockGetAllTabs.mockReturnValue(mockTabs);
+    mockGetCurrentId.mockReturnValue(1);
+    const { container } = render(<Tabs />);
+    const tab1 = container.querySelectorAll('.tab')[0];
+    mockGetName.mockReturnValue('Untitled');
+    mockGetPromptValue.mockReturnValue('new name');
+    await act(() => fireEvent.dblClick(tab1));
+    expect(mockGetPromptValue).toBeCalledTimes(1);
+    expect(mockSetFileName).toBeCalledTimes(1);
+    expect(mockSetFileName).toBeCalledWith('new name', { clearPath: true });
+  });
+
+  test('rename cloud tab', async () => {
+    mockGetAllTabs.mockReturnValue(mockTabs);
+    mockGetCurrentId.mockReturnValue(1);
+    const { container } = render(<Tabs />);
+    expect(mockOnTitleChange).toBeCalledTimes(1);
+    act(() => mockOnTitleChange.mock.calls[0][0]('title', true));
+    const tab1 = container.querySelectorAll('.tab')[0];
+    mockGetName.mockReturnValue('title');
+    mockGetPath.mockReturnValue('cloud-path');
+    mockGetPromptValue.mockReturnValue('new name');
+    mockRenameFile.mockResolvedValue({ res: true });
+    await act(() => fireEvent.dblClick(tab1));
+    expect(mockGetPromptValue).toBeCalledTimes(1);
+    expect(mockRenameFile).toBeCalledTimes(1);
+    expect(mockRenameFile).toBeCalledWith('cloud-path', 'new name');
   });
 });
