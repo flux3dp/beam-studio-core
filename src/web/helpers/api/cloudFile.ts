@@ -44,10 +44,8 @@ export const checkResp = async (resp: ResponseWithError): Promise<CheckResponseR
       alertCaller.popUpError({ message: lang.my_cloud.save_file.storage_limit_exceeded });
       return { res: false, info, message, status: statusCode };
     }
-    alertCaller.popUpError({
-      caption: info,
-      message: detail || message || `${status}: ${statusText}`,
-    });
+    const errorMessage = `${status}: ${[info, message, detail].filter(Boolean).join(' ')}`;
+    alertCaller.popUpError({ message: errorMessage });
     return { res: false, info, message, status: statusCode };
   }
   let { data } = resp;
