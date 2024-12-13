@@ -138,7 +138,7 @@ class Control extends EventEmitter implements IControlSocket {
     const { uuid } = this;
     let timeoutTimer = null;
 
-    const ws = await new Promise((resolve, reject) => {
+    const ws = await new Promise<WrappedWebSocket>((resolve, reject) => {
       const newSocket = Websocket({
         method: `control/${uuid}`,
         onMessage: (data) => {
@@ -165,9 +165,6 @@ class Control extends EventEmitter implements IControlSocket {
               this.emit(EVENT_COMMAND_MESSAGE, data);
               break;
           }
-        },
-        onDebug: (response: any) => {
-          this.emit('debug', response);
         },
         onError: (response: any) => {
           clearTimeout(timeoutTimer);
