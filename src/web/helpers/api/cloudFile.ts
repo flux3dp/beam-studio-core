@@ -142,7 +142,6 @@ export const downloadFile = async (file: IFile): Promise<void> => {
     console.error(e);
     alertCaller.popUpError({ message: `Error: ${i18n.lang.my_cloud.action.download}` });
   } finally {
-    console.log('finally');
     progressCaller.popById(id);
   }
 };
