@@ -20,12 +20,9 @@ jest.mock('app/svgedit/workarea', () => ({
   },
 }));
 
-jest.mock('helpers/i18n', () => ({
-  lang: {
-    editor: {
-      prespray_area: 'Prespray Area',
-    },
-  },
+const mockAddCommandToHistory = jest.fn();
+jest.mock('app/svgedit/history/undoManager', () => ({
+  addCommandToHistory: (...args) => mockAddCommandToHistory(...args),
 }));
 
 const mockRequestAnimationFrame = jest.fn();
