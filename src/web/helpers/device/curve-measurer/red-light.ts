@@ -39,6 +39,19 @@ export default class RedLightCurveMeasurer extends BaseCurveMeasurer implements 
             const z = await deviceMaster.takeReferenceZ();
             resolve(z);
           } catch (error) {
+            try {
+              if (deviceMaster.currentControlMode === 'red_laser_measure') {
+                await deviceMaster.endRedLaserMeasureMode();
+              }
+              await deviceMaster.enterRawMode();
+              await deviceMaster.rawStartLineCheckMode();
+              await deviceMaster.rawLooseMotor();
+              await deviceMaster.rawEndLineCheckMode();
+              await deviceMaster.endRawMode();
+              await deviceMaster.enterRedLaserMeasureMode();
+            } catch (err) {
+              console.error('Failed to recover from take reference error', err);
+            }
             alertCaller.popUpError({ message: `Failed to take reference ${error.message}` });
             resolve(null);
           }
