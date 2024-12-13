@@ -727,8 +727,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   this.isUsingLayerColor = BeamboxPreference.read('use_layer_color');
   this.isBezierPathAlignToEdge = BeamboxPreference.read('show_align_lines');
 
-  // State for save before close warning
-  canvas.changed = false;
   let root_sctm = null;
 
   this.clearBoundingBox = () => {
