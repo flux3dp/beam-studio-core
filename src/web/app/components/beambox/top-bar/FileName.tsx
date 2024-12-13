@@ -39,7 +39,7 @@ const updateTitle = () => {
       <FileName hasUnsavedChange={false} isTitle />
     );
     // eslint-disable-next-line no-underscore-dangle
-    if (window.titlebar?._title) window.titlebar._title.innerHTML = title;
+    if (window.titlebar?.title) window.titlebar.title.innerHTML = title;
   }
 };
 
