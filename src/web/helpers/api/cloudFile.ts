@@ -30,7 +30,7 @@ export const checkResp = async (resp: ResponseWithError): Promise<CheckResponseR
       alertCaller.popUpError({ message: lang.flux_id_login.connection_fail });
       return { res: false, status: statusCode };
     }
-    const { status, statusText } = error.response;
+    const { status } = error.response;
     const { info, message, detail } = error.response.data || {};
     if (status === 403 && detail && detail.startsWith('CSRF Failed: CSRF')) {
       alertCaller.popUp({
