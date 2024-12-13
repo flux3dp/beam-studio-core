@@ -21,6 +21,7 @@ const lang: ILang = {
   },
   topbar: {
     untitled: 'Senza titolo',
+    rename_tab: 'Rinomina scheda',
     titles: {
       settings: 'Preferenze',
     },

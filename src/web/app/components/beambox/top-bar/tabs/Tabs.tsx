@@ -65,9 +65,15 @@ const Tabs = (): JSX.Element => {
   }, []);
 
   const handleRenameCurrentTab = async () => {
-    const newName = await dialogCaller.getPromptValue({ caption: 'rename' });
-    if (!newName) return;
+    const currentName = currentFileManager.getName();
+    let newName = await dialogCaller.getPromptValue({
+      caption: t.rename_tab,
+      defaultValue: currentName,
+    });
+    if (!newName || newName === currentName) return;
+    newName = newName.trim();
     if (currentTabInfo.isCloud) {
+      newName = newName.replace(/\//g, '_');
       const { res, status } = await cloudFile.renameFile(currentFileManager.getPath(), newName);
       if (!res && status === 404) currentFileManager.setCloudUUID(null);
     } else {

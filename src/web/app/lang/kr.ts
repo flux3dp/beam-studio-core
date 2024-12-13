@@ -21,6 +21,7 @@ const lang: ILang = {
   },
   topbar: {
     untitled: '언타이틀',
+    rename_tab: '탭 이름 변경',
     titles: {
       settings: '환경설정',
     },

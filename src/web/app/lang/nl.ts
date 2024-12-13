@@ -21,6 +21,7 @@ const lang: ILang = {
   },
   topbar: {
     untitled: 'Naamloos',
+    rename_tab: 'Tab hernoemen',
     titles: {
       settings: 'Voorkeuren',
     },

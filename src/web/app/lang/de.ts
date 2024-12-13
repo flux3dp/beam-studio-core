@@ -21,6 +21,7 @@ const lang: ILang = {
   },
   topbar: {
     untitled: 'Ohne Titel',
+    rename_tab: 'Tab umbenennen',
     titles: {
       settings: 'Einstellungen',
     },

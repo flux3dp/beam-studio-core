@@ -21,6 +21,7 @@ const lang: ILang = {
   },
   topbar: {
     untitled: 'Namnlös',
+    rename_tab: 'Byt namn på flik',
     titles: {
       settings: 'Inställningar',
     },

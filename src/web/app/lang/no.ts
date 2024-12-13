@@ -21,6 +21,7 @@ const lang: ILang = {
   },
   topbar: {
     untitled: 'Uten tittel',
+    rename_tab: 'Gi nytt navn til fane',
     titles: {
       settings: 'Innstillinger',
     },

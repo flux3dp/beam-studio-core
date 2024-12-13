@@ -21,6 +21,7 @@ const lang: ILang = {
   },
   topbar: {
     untitled: '无标题',
+    rename_tab: '重命名标签页',
     titles: {
       settings: '偏好设定',
     },

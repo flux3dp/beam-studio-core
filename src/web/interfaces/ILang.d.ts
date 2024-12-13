@@ -12,6 +12,7 @@ export interface ILang {
   };
   topbar: {
     untitled: string;
+    rename_tab: string;
     titles: {
       settings: string;
     };

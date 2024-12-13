@@ -21,6 +21,7 @@ const lang: ILang = {
   },
   topbar: {
     untitled: 'Untitled',
+    rename_tab: 'Rename Tab',
     titles: {
       settings: 'Preferences',
     },

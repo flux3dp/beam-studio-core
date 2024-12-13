@@ -21,6 +21,7 @@ const lang: ILang = {
   },
   topbar: {
     untitled: '無題',
+    rename_tab: 'タブの名前を変更',
     titles: {
       settings: '環境設定',
     },

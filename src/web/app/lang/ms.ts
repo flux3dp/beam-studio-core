@@ -21,6 +21,7 @@ const lang: ILang = {
   },
   topbar: {
     untitled: 'Tanpa Tajuk',
+    rename_tab: 'Namakan semula tab',
     titles: {
       settings: 'Tetapan',
     },

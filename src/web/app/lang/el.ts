@@ -21,6 +21,7 @@ const lang: ILang = {
   },
   topbar: {
     untitled: 'Χωρίς τίτλο',
+    rename_tab: 'Μετονομασία καρτέλας',
     titles: {
       settings: 'Προτιμήσεις',
     },

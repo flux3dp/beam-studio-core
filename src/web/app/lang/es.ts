@@ -21,6 +21,7 @@ const lang: ILang = {
   },
   topbar: {
     untitled: 'Sin título',
+    rename_tab: 'Renombrar pestaña',
     titles: {
       settings: 'Preferencias',
     },

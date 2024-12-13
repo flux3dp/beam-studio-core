@@ -21,6 +21,7 @@ const lang: ILang = {
   },
   topbar: {
     untitled: 'Bez názvu',
+    rename_tab: 'Přejmenovat kartu',
     titles: {
       settings: 'Vlastnosti',
     },

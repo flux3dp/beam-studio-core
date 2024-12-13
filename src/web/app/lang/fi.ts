@@ -21,6 +21,7 @@ const lang: ILang = {
   },
   topbar: {
     untitled: 'Nimeämätön',
+    rename_tab: 'Nimeä välilehti uudelleen',
     titles: {
       settings: 'Asetukset',
     },

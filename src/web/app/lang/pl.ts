@@ -21,6 +21,7 @@ const lang: ILang = {
   },
   topbar: {
     untitled: 'Bez nazwy',
+    rename_tab: 'Zmień nazwę karty',
     titles: {
       settings: 'Preferencje',
     },

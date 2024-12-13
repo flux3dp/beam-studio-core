@@ -21,6 +21,7 @@ const lang: ILang = {
   },
   topbar: {
     untitled: 'Tanpa Judul',
+    rename_tab: 'Ganti nama tab',
     titles: {
       settings: 'Pengaturan',
     },

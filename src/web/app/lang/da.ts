@@ -21,6 +21,7 @@ const lang: ILang = {
   },
   topbar: {
     untitled: 'Untitled',
+    rename_tab: 'Omdøb fane',
     titles: {
       settings: 'Indstillinger',
     },

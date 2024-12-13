@@ -21,6 +21,7 @@ const lang: ILang = {
   },
   topbar: {
     untitled: 'Chưa đặt tên',
+    rename_tab: 'Đổi tên tab',
     titles: {
       settings: 'Tùy chọn',
     },

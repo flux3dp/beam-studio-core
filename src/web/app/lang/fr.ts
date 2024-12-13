@@ -21,6 +21,7 @@ const lang: ILang = {
   },
   topbar: {
     untitled: 'Sans titre',
+    rename_tab: "Renommer l'onglet",
     titles: {
       settings: 'Préférences',
     },

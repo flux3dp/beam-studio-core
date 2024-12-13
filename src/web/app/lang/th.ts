@@ -21,6 +21,7 @@ const lang: ILang = {
   },
   topbar: {
     untitled: 'ไม่มีชื่อ',
+    rename_tab: 'เปลี่ยนชื่อแท็บ',
     titles: {
       settings: 'ตั้งค่า',
     },
