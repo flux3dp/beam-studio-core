@@ -35,7 +35,7 @@ const CurveEngraving = ({ data: initData, onRemeasure, onClose }: Props): JSX.El
     setTimeout(() => {
       setIsAntdMotionCompleted(true);
       // 0.3s according to antd global config motionDurationSlow
-    }, 300);
+    }, 500);
   }, []);
 
   const canvasImagePromise = useMemo(async () => {

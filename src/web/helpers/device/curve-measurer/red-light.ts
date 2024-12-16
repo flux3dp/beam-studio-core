@@ -12,7 +12,7 @@ export default class RedLightCurveMeasurer extends BaseCurveMeasurer implements 
   private hasTakenReference: boolean;
 
   setup = async (onProgressText?: (text: string) => void): Promise<boolean> => {
-    const res = this.setupDevice();
+    const res = await this.setupDevice();
     if (!res) return false;
     const { lang } = i18n;
     if (deviceMaster.currentControlMode !== 'red_laser_measure') {
