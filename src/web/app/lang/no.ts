@@ -1169,6 +1169,9 @@ const lang: ILang = {
       notification: {
         changeFromPrintingWorkareaTitle: 'Vil du konvertere Utskriftslag til Laserlag?',
       },
+      start_work_button: 'Start Arbeid Knappe',
+      frame_before_start: 'Ramme før utførelse',
+      frame_before_start_url: 'https://support.flux3dp.com/hc/en-us/articles/11494925637135',
     },
     object_panels: {
       wait_for_parsing_font: 'Analyserer skrifttype ... Vennligst vent et øyeblikk',

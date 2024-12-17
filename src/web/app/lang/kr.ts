@@ -1172,6 +1172,9 @@ const lang: ILang = {
       notification: {
         changeFromPrintingWorkareaTitle: '인쇄 레이어를 레이저 레이어로 변환하시겠습니까?',
       },
+      start_work_button: '작업 시작 버튼',
+      frame_before_start: '실행 전에 프레임',
+      frame_before_start_url: 'https://support.flux3dp.com/hc/en-us/articles/11494925637135',
     },
     object_panels: {
       wait_for_parsing_font: '글꼴 분석 중... 잠시만 기다려주세요.',

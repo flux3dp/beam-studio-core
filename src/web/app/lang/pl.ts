@@ -1172,6 +1172,9 @@ const lang: ILang = {
       notification: {
         changeFromPrintingWorkareaTitle: 'Czy chcesz przekonwertować warstwy druku na warstwy lasera?',
       },
+      start_work_button: 'Przycisk rozpoczęcia pracy',
+      frame_before_start: 'Ramka przed wykonaniem',
+      frame_before_start_url: 'https://support.flux3dp.com/hc/en-us/articles/11494925637135',
     },
     object_panels: {
       wait_for_parsing_font: 'Parsowanie czcionki... Proszę chwilę poczekać',

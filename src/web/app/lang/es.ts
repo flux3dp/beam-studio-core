@@ -1172,6 +1172,9 @@ const lang: ILang = {
       notification: {
         changeFromPrintingWorkareaTitle: '¿Desea convertir las capas de impresión en capas láser?',
       },
+      start_work_button: 'Botón de inicio de trabajo',
+      frame_before_start: 'Marco antes de ejecutar',
+      frame_before_start_url: 'https://support.flux3dp.com/hc/en-us/articles/11494925637135',
     },
     object_panels: {
       wait_for_parsing_font: 'Fuente de análisis... Por favor, espera un segundo.',

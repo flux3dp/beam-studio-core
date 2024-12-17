@@ -1172,6 +1172,9 @@ Machines > ‘Promark Name’ > Promark Settings`,
       notification: {
         changeFromPrintingWorkareaTitle: 'Do you want to convert the Printing Layers into Laser Layers?',
       },
+      start_work_button: 'Start Work Button',
+      frame_before_start: 'Frame before executing',
+      frame_before_start_url: 'https://support.flux3dp.com/hc/en-us/articles/11494925637135',
     },
     object_panels: {
       wait_for_parsing_font: 'Parsing font... Please wait a second',

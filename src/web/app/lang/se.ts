@@ -1169,6 +1169,9 @@ const lang: ILang = {
       notification: {
         changeFromPrintingWorkareaTitle: 'Vill du konvertera utskriftslagren till laserskikt?',
       },
+      start_work_button: 'Startarbetsknapp',
+      frame_before_start: 'Ram innan utförande',
+      frame_before_start_url: 'https://support.flux3dp.com/hc/en-us/articles/11494925637135',
     },
     object_panels: {
       wait_for_parsing_font: 'Tolkar teckensnitt ... Vänta en sekund',
