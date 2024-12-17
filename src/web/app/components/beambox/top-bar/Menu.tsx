@@ -286,6 +286,23 @@ export default function Menu({ email }: Props): JSX.Element {
               {menuCms.import_material_printing_test}
             </MenuItem>
           </SubMenu>
+          <SubMenu label={menuCms.promark_color_test}>
+            <MenuItem onClick={() => callback('IMPORT_EXAMPLE_PROMARK_MOPA_20W_COLOR')}>
+              {menuCms.import_promark_mopa_20w_color}
+            </MenuItem>
+            <MenuItem onClick={() => callback('IMPORT_EXAMPLE_PROMARK_MOPA_60W_COLOR')}>
+              {menuCms.import_promark_mopa_60w_color}
+            </MenuItem>
+            <MenuItem onClick={() => callback('IMPORT_EXAMPLE_PROMARK_MOPA_60W_COLOR_2')}>
+              {`${menuCms.import_promark_mopa_60w_color} - 2`}
+            </MenuItem>
+            <MenuItem onClick={() => callback('IMPORT_EXAMPLE_PROMARK_MOPA_100W_COLOR')}>
+              {menuCms.import_promark_mopa_100w_color}
+            </MenuItem>
+            <MenuItem onClick={() => callback('IMPORT_EXAMPLE_PROMARK_MOPA_100W_COLOR_2')}>
+              {`${menuCms.import_promark_mopa_100w_color} - 2`}
+            </MenuItem>
+          </SubMenu>
           <MenuItem onClick={() => callback('IMPORT_ACRYLIC_FOCUS_PROBE')}>
             {menuCms.import_acrylic_focus_probe}
           </MenuItem>

@@ -50,8 +50,14 @@ type ExampleFileKeys =
   | 'beambox_2_focus_probe'
   | 'hello_beambox'
   | 'beambox_2_example'
+  | 'promark_example'
   | 'hexa_example'
-  | 'promark_example';
+  // mopa color test examples
+  | 'promark_mopa_20w_color_example'
+  | 'promark_mopa_60w_color_example'
+  | 'promark_mopa_60w_color_example_2'
+  | 'promark_mopa_100w_color_example'
+  | 'promark_mopa_100w_color_example_2';
 
 const getExampleFileName = (key: ExampleFileKeys) => {
   const workarea = BeamboxPreference.read('workarea') || 'fbm1';
@@ -69,6 +75,11 @@ const getExampleFileName = (key: ExampleFileKeys) => {
       beambox_2_example: 'examples/beambox_2_example.bvg',
       promark_example: 'examples/promark_example.bvg',
       hexa_example: 'examples/hexa_example.bvg',
+      promark_mopa_20w_color_example: 'examples/promark_mopa_20w_color_example.bvg',
+      promark_mopa_60w_color_example: 'examples/promark_mopa_60w_color_example.bvg',
+      promark_mopa_60w_color_example_2: 'examples/promark_mopa_60w_color_example_2.bvg',
+      promark_mopa_100w_color_example: 'examples/promark_mopa_100w_color_example.bvg',
+      promark_mopa_100w_color_example_2: 'examples/promark_mopa_100w_color_example_2.bvg',
     }[key];
   }
 
@@ -86,6 +97,11 @@ const getExampleFileName = (key: ExampleFileKeys) => {
     beambox_2_example: 'examples/beambox_2_example.bvg',
     hexa_example: 'examples/hexa_example.bvg',
     promark_example: 'examples/promark_example.bvg',
+    promark_mopa_20w_color_example: 'examples/promark_mopa_20w_color_example.bvg',
+    promark_mopa_60w_color_example: 'examples/promark_mopa_60w_color_example.bvg',
+    promark_mopa_60w_color_example_2: 'examples/promark_mopa_60w_color_example_2.bvg',
+    promark_mopa_100w_color_example: 'examples/promark_mopa_100w_color_example.bvg',
+    promark_mopa_100w_color_example_2: 'examples/promark_mopa_100w_color_example_2.bvg',
   }[key];
 };
 
@@ -166,6 +182,16 @@ export default {
   IMPORT_EXAMPLE_PROMARK: (): Promise<void> =>
     loadExampleFile(getExampleFileName('promark_example')),
   IMPORT_EXAMPLE_HEXA: (): Promise<void> => loadExampleFile(getExampleFileName('hexa_example')),
+  IMPORT_EXAMPLE_PROMARK_MOPA_20W_COLOR: (): Promise<void> =>
+    loadExampleFile(getExampleFileName('promark_mopa_20w_color_example')),
+  IMPORT_EXAMPLE_PROMARK_MOPA_60W_COLOR: (): Promise<void> =>
+    loadExampleFile(getExampleFileName('promark_mopa_60w_color_example')),
+  IMPORT_EXAMPLE_PROMARK_MOPA_60W_COLOR_2: (): Promise<void> =>
+    loadExampleFile(getExampleFileName('promark_mopa_60w_color_example_2')),
+  IMPORT_EXAMPLE_PROMARK_MOPA_100W_COLOR: (): Promise<void> =>
+    loadExampleFile(getExampleFileName('promark_mopa_100w_color_example')),
+  IMPORT_EXAMPLE_PROMARK_MOPA_100W_COLOR_2: (): Promise<void> =>
+    loadExampleFile(getExampleFileName('promark_mopa_100w_color_example_2')),
   SAVE_SCENE: (): Promise<boolean> => FileExportHelper.saveFile(),
   SAVE_AS: (): Promise<boolean> => FileExportHelper.saveAsFile(),
   SAVE_TO_CLOUD: (): Promise<boolean> => FileExportHelper.saveToCloud(),
