@@ -4212,7 +4212,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       if (!tempGroup) {
         this.tempGroupSelectedElements();
       }
-      svgCanvas.setHasUnsavedChange(true);
+      currentFileManager.setHasUnsavedChanges(true);
     }
     if (batchCmd && !batchCmd.isEmpty()) {
       if (addToHistory) addCommandToHistory(batchCmd);

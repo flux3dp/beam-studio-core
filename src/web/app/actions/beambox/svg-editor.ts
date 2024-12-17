@@ -2450,6 +2450,7 @@ const svgEditor = (window['svgEditor'] = (function () {
         if (!currentFileManager.getHasUnsavedChanges()) {
           return null;
         }
+        return '';
       },
       false
     );
@@ -2704,7 +2705,7 @@ const svgEditor = (window['svgEditor'] = (function () {
             if (!currentFileManager.getName()) {
               currentFileManager.setFileName(file.name, { extractFromPath: true });
             }
-            currentFileManager.setHasUnsavedChanges(false);
+            currentFileManager.setHasUnsavedChanges(true);
             break;
         }
         canvasEvents.addImage();

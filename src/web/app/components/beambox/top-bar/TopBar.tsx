@@ -6,6 +6,10 @@ import CommonTools from 'app/components/beambox/top-bar/CommonTools';
 import Discover from 'helpers/api/discover';
 import DocumentButton from 'app/components/beambox/top-bar/DocumentButton';
 import ElementTitle from 'app/components/beambox/top-bar/ElementTitle';
+import FileName, {
+  registerWindowUpdateTitle,
+  unregisterWindowUpdateTitle,
+} from 'app/components/beambox/top-bar/FileName';
 import FrameButton from 'app/components/beambox/top-bar/FrameButton';
 import GoButton from 'app/components/beambox/top-bar/GoButton';
 import isWeb from 'helpers/is-web';
@@ -18,10 +22,6 @@ import TopBarHints from 'app/components/beambox/top-bar/TopBarHints';
 import UserAvatar from 'app/components/beambox/top-bar/UserAvatar';
 import { CanvasContext } from 'app/contexts/CanvasContext';
 import { CanvasMode } from 'app/constants/canvasMode';
-import {
-  registerWindowUpdateTitle,
-  unregisterWindowUpdateTitle,
-} from 'app/components/beambox/top-bar/FileName';
 import { SelectedElementContext } from 'app/contexts/SelectedElementContext';
 import { TopBarHintsContextProvider } from 'app/contexts/TopBarHintsContext';
 
@@ -33,7 +33,8 @@ const Topbar = (): JSX.Element => {
     const web = isWeb();
     return { isWebMode: web, hasTitleBar: window.os !== 'MacOS' && !web };
   }, []);
-  const { mode, currentUser, togglePathPreview, setSelectedDevice } = useContext(CanvasContext);
+  const { mode, hasUnsavedChange, currentUser, togglePathPreview, setSelectedDevice } =
+    useContext(CanvasContext);
   const [hasDiscoveredMachine, setHasDiscoveredMachine] = useState(false);
   const defaultDeviceUUID = useRef<string | null>(storage.get('selected-device'));
   useEffect(() => {
@@ -91,11 +92,7 @@ const Topbar = (): JSX.Element => {
           />
           <GoButton hasDiscoverdMachine={hasDiscoveredMachine} />
         </div>
-        {isWeb() && (
-          <div className={classNames('top-bar-menu-container', styles.menu)}>
-            <Menu email={currentUser?.email} />
-          </div>
-        )}
+        {isWebMode && <FileName hasUnsavedChange={hasUnsavedChange} />}
       </div>
       <SelectedElementContext.Consumer>
         {({ selectedElement }) => <ElementTitle selectedElem={selectedElement} />}
@@ -103,6 +100,11 @@ const Topbar = (): JSX.Element => {
       <TopBarHintsContextProvider>
         <TopBarHints />
       </TopBarHintsContextProvider>
+      {isWebMode && (
+        <div className={classNames('top-bar-menu-container', styles.menu)}>
+          <Menu email={currentUser?.email} />
+        </div>
+      )}
     </>
   );
 };

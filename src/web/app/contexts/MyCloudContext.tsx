@@ -77,8 +77,8 @@ export function MyCloudProvider({ children, onClose }: MyCloudProviderProps): JS
   };
 
   const getFileList = async (): Promise<IFile[]> => {
-    const { res, info, data } = await cloudFile.list();
-    if (!res && info === 'NOT_SUBSCRIBED') {
+    const { data, shouldCloseModal } = await cloudFile.list();
+    if (shouldCloseModal) {
       onClose();
       return [];
     }
@@ -101,13 +101,13 @@ export function MyCloudProvider({ children, onClose }: MyCloudProviderProps): JS
   }, [sortBy]);
 
   const openFile = async (file: IFile) => {
-    const { res, info } = await cloudFile.openFile(file);
-    if (res || (!res && info === 'NOT_SUBSCRIBED')) onClose();
+    const { shouldCloseModal } = await cloudFile.openFile(file);
+    if (shouldCloseModal) onClose();
   };
 
   const duplicateFile = async (file: IFile) => {
-    const { res, info, data } = await cloudFile.duplicateFile(file.uuid);
-    if (!res && info === 'NOT_SUBSCRIBED') {
+    const { res, data, shouldCloseModal } = await cloudFile.duplicateFile(file.uuid);
+    if (shouldCloseModal) {
       onClose();
       return;
     }
@@ -121,8 +121,8 @@ export function MyCloudProvider({ children, onClose }: MyCloudProviderProps): JS
 
   const renameFile = async (file: IFile, newName: string) => {
     if (newName && file.name !== newName) {
-      const { res, info } = await cloudFile.renameFile(file.uuid, newName);
-      if (!res && info === 'NOT_SUBSCRIBED') {
+      const { res, shouldCloseModal } = await cloudFile.renameFile(file.uuid, newName);
+      if (shouldCloseModal) {
         onClose();
         return;
       }
@@ -136,8 +136,8 @@ export function MyCloudProvider({ children, onClose }: MyCloudProviderProps): JS
   };
 
   const deleteFile = async (file: IFile) => {
-    const { res, info } = await cloudFile.deleteFile(file.uuid);
-    if (!res && info === 'NOT_SUBSCRIBED') {
+    const { shouldCloseModal } = await cloudFile.deleteFile(file.uuid);
+    if (shouldCloseModal) {
       onClose();
       return;
     }

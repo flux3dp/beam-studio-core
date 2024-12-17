@@ -11,11 +11,20 @@ import { showFluxPlusWarning } from 'app/actions/dialog-controller';
 
 import { axiosFluxId, getDefaultHeader, ResponseWithError } from './flux-id';
 
+/**
+ * @typedef {Object} CheckResponseResult
+ * @property {boolean} res if the request is successful
+ * @property {number} [status] status code of the response
+ * @property {string} [info] info of the response (usually error code)
+ * @property {string} [message] message of the response (usually error message)
+ * @property {boolean} [shouldCloseModal] if the MyCloud dialog should be closed
+ */
 interface CheckResponseResult {
   res: boolean;
   status?: number;
   info?: string;
   message?: string;
+  shouldCloseModal?: boolean;
 }
 
 export const checkResp = async (resp: ResponseWithError): Promise<CheckResponseResult> => {
@@ -56,7 +65,7 @@ export const checkResp = async (resp: ResponseWithError): Promise<CheckResponseR
   if (status !== 'error') return { res: true };
   if (info === 'NOT_SUBSCRIBED') {
     showFluxPlusWarning();
-    return { res: false, info, message, status: statusCode };
+    return { res: false, info, message, status: statusCode, shouldCloseModal: true };
   }
   alertCaller.popUpError({ caption: info, message });
   return { res: false, info, message, status: statusCode };
@@ -79,7 +88,7 @@ export const openFile = async (file: IFile): Promise<OperationResult<Blob>> => {
       await beamFileHelper.readBeam(resp.data);
       currentFileManager.setCloudFile(file);
     }
-    return { ...checkRespResult, data: resp.data };
+    return { ...checkRespResult, data: resp.data, shouldCloseModal: checkRespResult.res };
   } catch (e) {
     console.error(e);
     alertCaller.popUpError({ message: `Error: ${i18n.lang.my_cloud.action.open}` });
