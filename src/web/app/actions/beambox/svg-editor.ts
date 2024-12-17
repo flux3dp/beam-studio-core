@@ -2450,6 +2450,8 @@ const svgEditor = (window['svgEditor'] = (function () {
         if (!currentFileManager.getHasUnsavedChanges()) {
           return null;
         }
+        e.preventDefault();
+        e.returnValue = '';
         return '';
       },
       false
