@@ -3,13 +3,13 @@ import { Menu as TopBarMenu, MenuItem, MenuDivider, SubMenu } from '@szhsin/reac
 
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import browser from 'implementations/browser';
-import constant, { promarkModels } from 'app/actions/beambox/constant';
 import Discover from 'helpers/api/discover';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import hotkeys from 'app/constants/hotkeys';
 import useI18n from 'helpers/useI18n';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { modelsWithModules } from 'app/constants/layer-module/layer-modules';
+import { promarkModels } from 'app/actions/beambox/constant';
 import { useIsMobile } from 'helpers/system-helper';
 
 interface Props {
@@ -119,6 +119,7 @@ export default function Menu({ email }: Props): JSX.Element {
       const hasModules = modelsWithModules.has(model);
       const isPromark = promarkModels.has(model);
 
+      // Note: SubMenu doesn't support a React.Fragment wrapper (<>...</>) as a child.
       submenus.push(
         <SubMenu label={name} key={serial}>
           <MenuItem onClick={() => callback('DASHBOARD', devices[i])}>{menuCms.dashboard}</MenuItem>
@@ -126,14 +127,14 @@ export default function Menu({ email }: Props): JSX.Element {
             {menuCms.machine_info}
           </MenuItem>
           {isPromark && (
-            <>
-              <MenuItem onClick={() => callback('PROMARK_SETTINGS', devices[i])}>
-                {tPromarkSettings.title}
-              </MenuItem>
-              <MenuItem onClick={() => callback('Z_AXIS_ADJUSTMENT', devices[i])}>
-                {tPromarkSettings.z_axis_adjustment.title}
-              </MenuItem>
-            </>
+            <MenuItem onClick={() => callback('PROMARK_SETTINGS', devices[i])}>
+              {tPromarkSettings.title}
+            </MenuItem>
+          )}
+          {isPromark && (
+            <MenuItem onClick={() => callback('Z_AXIS_ADJUSTMENT', devices[i])}>
+              {tPromarkSettings.z_axis_adjustment.title}
+            </MenuItem>
           )}
           <MenuDivider />
           <SubMenu label={menuCms.calibration}>
