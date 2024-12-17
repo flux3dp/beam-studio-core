@@ -21,10 +21,10 @@ const lang: ILang = {
   },
   topbar: {
     untitled: 'Untitled',
+    rename_tab: 'Rename Tab',
     titles: {
       settings: 'Preferences',
     },
-    export: 'GO',
     preview: 'PREVIEW',
     preview_title: 'Preview',
     preview_press_esc_to_stop: 'Press ESC to stop the camera preview.',

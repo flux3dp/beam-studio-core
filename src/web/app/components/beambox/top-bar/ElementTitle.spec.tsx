@@ -2,29 +2,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 
-jest.mock('helpers/i18n', () => ({
-  lang: {
-    topbar: {
-      tag_names: {
-        rect: 'Rectangle',
-        ellipse: 'Oval',
-        path: 'Path',
-        polygon: 'Polygon',
-        image: 'Image',
-        text: 'Text',
-        line: 'Line',
-        g: 'Group',
-        multi_select: 'Multiple Objects',
-        use: 'Imported Object',
-        svg: 'SVG Object',
-        dxf: 'DXF Object',
-        text_path: 'Text on Path',
-        pass_through_object: 'pass_through_object',
-      },
-    },
-  },
-}));
-
 const getSVGAsync = jest.fn();
 jest.mock('helpers/svg-editor-helper', () => ({
   getSVGAsync,

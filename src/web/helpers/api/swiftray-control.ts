@@ -5,7 +5,7 @@
 import EventEmitter from 'eventemitter3';
 
 import ErrorConstants from 'app/constants/error-constants';
-import IControlSocket from 'interfaces/IControlSocket';
+import IControlSocket, { Mode } from 'interfaces/IControlSocket';
 import { Field, LensCorrection } from 'interfaces/Promark';
 import { IDeviceDetailInfo } from 'interfaces/IDevice';
 
@@ -39,7 +39,7 @@ class SwiftrayControl extends EventEmitter implements IControlSocket {
 
   private sc: SwiftrayClient;
 
-  private mode = ''; // null, maintain or raw
+  private mode: Mode = ''; // null, maintain or raw
 
   private _lineNumber = 0;
 
@@ -759,15 +759,6 @@ class SwiftrayControl extends EventEmitter implements IControlSocket {
     await new Promise((resolve) => setTimeout(resolve, 200));
     const res = await this.useWaitAnyResponse('$1=255');
     return res;
-  };
-
-  rawLooseMotorB34 = () => {
-    if (this.mode !== 'raw') {
-      throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
-    }
-    const command = 'B34';
-    if (!this._isLineCheckMode) return this.useWaitAnyResponse(command);
-    return this.useRawLineCheckCommand(command);
   };
 
   rawSetLaser = (args: { on: boolean; s?: number }) => {

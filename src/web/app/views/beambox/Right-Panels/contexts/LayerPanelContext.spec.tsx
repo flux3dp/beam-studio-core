@@ -16,6 +16,11 @@ jest.mock(
       mockDoLayersContainsVector(...args)
 );
 
+const mockGetLayerElementByName = jest.fn();
+jest.mock('helpers/layer/layer-helper', () => ({
+  getLayerElementByName: (...args) => mockGetLayerElementByName(...args),
+}));
+
 const MockChild = () => {
   const { selectedLayers } = useContext(LayerPanelContext);
   return <div>{JSON.stringify(selectedLayers)}</div>;

@@ -2,6 +2,7 @@ import alertCaller from 'app/actions/alert-caller';
 import alertConstants from 'app/constants/alert-constants';
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import changeWorkarea from 'app/svgedit/operations/changeWorkarea';
+import currentFileManager from 'app/svgedit/currentFileManager';
 import findDefs from 'app/svgedit/utils/findDef';
 import history from 'app/svgedit/history/history';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
@@ -209,7 +210,7 @@ const importBvg = async (file: Blob): Promise<void> => {
     };
     reader.readAsText(file);
   });
-  svgCanvas.setHasUnsavedChange(false);
+  currentFileManager.setHasUnsavedChanges(false);
 };
 
 export default importBvg;

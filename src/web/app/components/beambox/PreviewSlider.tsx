@@ -6,7 +6,8 @@ import deviceMaster from 'helpers/device-master';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import useI18n from 'helpers/useI18n';
 import WorkareaIcons from 'app/icons/workarea/WorkareaIcons';
-import { CanvasContext, CanvasMode } from 'app/contexts/CanvasContext';
+import { CanvasContext } from 'app/contexts/CanvasContext';
+import { CanvasMode } from 'app/constants/canvasMode';
 import { IConfigSetting } from 'interfaces/IDevice';
 
 import styles from './PreviewSlider.module.scss';

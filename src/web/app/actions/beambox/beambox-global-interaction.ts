@@ -1,5 +1,6 @@
 /* eslint-disable class-methods-use-this */
 import menu from 'implementations/menu';
+import tabController from 'app/actions/tabController';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
 let svgCanvas;
@@ -8,6 +9,13 @@ getSVGAsync((globalSVG) => {
 });
 
 class BeamboxGlobalInteraction {
+  constructor() {
+    tabController.onFocused(() => {
+      this.onObjectBlur();
+      this.onObjectFocus();
+    });
+  }
+
   attach() {
     menu.attach([
       'IMPORT',

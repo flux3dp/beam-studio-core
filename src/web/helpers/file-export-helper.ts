@@ -147,7 +147,7 @@ const saveToCloud = async (uuid?: string): Promise<boolean> => {
     const { status, info, new_file: newUuid } = data;
     if (status === 'ok') {
       if (newUuid) currentFileManager.setCloudUUID(newUuid);
-      svgCanvas.setHasUnsavedChange(false, false);
+      currentFileManager.setHasUnsavedChanges(false, false);
       return true;
     }
     Alert.popUpError({
@@ -192,11 +192,11 @@ const saveAsFile = async (): Promise<boolean> => {
   if (newFilePath) {
     currentFileManager.setLocalFile(newFilePath);
     svgCanvas.updateRecentFiles(newFilePath);
-    svgCanvas.setHasUnsavedChange(false, false);
+    currentFileManager.setHasUnsavedChanges(false, false);
     return true;
   }
   if (isWeb()) {
-    svgCanvas.setHasUnsavedChange(false, false);
+    currentFileManager.setHasUnsavedChanges(false, false);
     return true;
   }
   return false;
@@ -217,13 +217,13 @@ const saveFile = async (): Promise<boolean> => {
   }
   if (path.endsWith('.bvg')) {
     fs.writeFile(path, output);
-    svgCanvas.setHasUnsavedChange(false, false);
+    currentFileManager.setHasUnsavedChanges(false, false);
     return true;
   }
   if (path.endsWith('.beam')) {
     const buffer = await generateBeamBuffer();
     fs.writeStream(path, 'w', [buffer]);
-    svgCanvas.setHasUnsavedChange(false, false);
+    currentFileManager.setHasUnsavedChanges(false, false);
     return true;
   }
   return false;
@@ -297,7 +297,7 @@ const exportAsBVG = async (): Promise<boolean> => {
   if (newFilePath) {
     currentFileManager.setLocalFile(newFilePath);
     svgCanvas.updateRecentFiles(newFilePath);
-    svgCanvas.setHasUnsavedChange(false, false);
+    currentFileManager.setHasUnsavedChanges(false, false);
     return true;
   }
   return false;
@@ -369,7 +369,7 @@ const exportAsImage = async (type: 'png' | 'jpg'): Promise<void> => {
 
 const toggleUnsavedChangedDialog = async (): Promise<boolean> => new Promise((resolve) => {
   communicator.send('SAVE_DIALOG_POPPED');
-  if (!svgCanvas?.getHasUnsaveChanged() || window.location.hash !== '#/studio/beambox') {
+  if (!currentFileManager.getHasUnsavedChanges() || window.location.hash !== '#/studio/beambox') {
     resolve(true);
   } else {
     Alert.popById('unsaved_change_dialog');

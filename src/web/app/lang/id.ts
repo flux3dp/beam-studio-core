@@ -21,10 +21,10 @@ const lang: ILang = {
   },
   topbar: {
     untitled: 'Tanpa Judul',
+    rename_tab: 'Ganti nama tab',
     titles: {
       settings: 'Pengaturan',
     },
-    export: 'Ekspor',
     preview: 'PRATINJAU',
     preview_title: 'Pratinjau',
     preview_press_esc_to_stop: 'Tekan ESC untuk menghentikan pratinjau kamera.',

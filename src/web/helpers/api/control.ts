@@ -138,7 +138,7 @@ class Control extends EventEmitter implements IControlSocket {
     const { uuid } = this;
     let timeoutTimer = null;
 
-    const ws = await new Promise((resolve, reject) => {
+    const ws = await new Promise<WrappedWebSocket>((resolve, reject) => {
       const newSocket = Websocket({
         method: `control/${uuid}`,
         onMessage: (data) => {
@@ -165,9 +165,6 @@ class Control extends EventEmitter implements IControlSocket {
               this.emit(EVENT_COMMAND_MESSAGE, data);
               break;
           }
-        },
-        onDebug: (response: any) => {
-          this.emit('debug', response);
         },
         onError: (response: any) => {
           clearTimeout(timeoutTimer);
@@ -1260,24 +1257,6 @@ class Control extends EventEmitter implements IControlSocket {
     }
     const command = fcodeVersion === 1 ? 'B34' : 'M137P34';
     if (!this._isLineCheckMode) return this.useWaitAnyResponse(command);
-    return this.useRawLineCheckCommand(command);
-  };
-
-  rawLooseMotorB34 = () => {
-    if (this.mode !== 'raw') {
-      throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
-    }
-    const command = 'B34';
-    if (!this._isLineCheckMode) return this.useWaitAnyResponse(command);
-    return this.useRawLineCheckCommand(command);
-  };
-
-  rawLooseMotorV2 = () => {
-    if (this.mode !== 'raw') {
-      throw new Error(ErrorConstants.CONTROL_SOCKET_MODE_ERROR);
-    }
-    const command = 'M137P34';
-    if (!this._isLineCheckMode) return this.useRawWaitOKResponse(command);
     return this.useRawLineCheckCommand(command);
   };
 

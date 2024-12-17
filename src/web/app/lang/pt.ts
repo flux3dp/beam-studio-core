@@ -21,10 +21,10 @@ const lang: ILang = {
   },
   topbar: {
     untitled: 'Sem título',
+    rename_tab: 'Renomear aba',
     titles: {
       settings: 'Configurações',
     },
-    export: 'Exportar',
     preview: 'PRÉ-VISUALIZAÇÃO',
     preview_title: 'Pré-visualização',
     preview_press_esc_to_stop: 'Pressione ESC para parar a pré-visualização da câmera.',

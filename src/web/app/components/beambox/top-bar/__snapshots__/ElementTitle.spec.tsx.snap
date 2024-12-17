@@ -3,7 +3,7 @@
 exports[`should render correctly multiple selections 1`] = `
 <div>
   <div
-    class="element-title element-title"
+    class="element-title"
   >
     Multiple Objects
   </div>
@@ -15,7 +15,7 @@ exports[`should render correctly no selected element 1`] = `<div />`;
 exports[`should render correctly single selection data-textpath-g 1`] = `
 <div>
   <div
-    class="element-title element-title"
+    class="element-title"
   >
     Layer 1 &gt; Text on Path
   </div>
@@ -25,7 +25,7 @@ exports[`should render correctly single selection data-textpath-g 1`] = `
 exports[`should render correctly single selection dxf 1`] = `
 <div>
   <div
-    class="element-title element-title"
+    class="element-title"
   >
     Layer 1 &gt; DXF Object
   </div>
@@ -35,7 +35,7 @@ exports[`should render correctly single selection dxf 1`] = `
 exports[`should render correctly single selection imported object 1`] = `
 <div>
   <div
-    class="element-title element-title"
+    class="element-title"
   >
     Layer 1 &gt; Imported Object
   </div>
@@ -45,7 +45,7 @@ exports[`should render correctly single selection imported object 1`] = `
 exports[`should render correctly single selection no layer title given 1`] = `
 <div>
   <div
-    class="element-title element-title"
+    class="element-title"
   >
      &gt; Imported Object
   </div>
@@ -55,7 +55,7 @@ exports[`should render correctly single selection no layer title given 1`] = `
 exports[`should render correctly single selection not use 1`] = `
 <div>
   <div
-    class="element-title element-title"
+    class="element-title"
   >
     Layer 1 &gt; Rectangle
   </div>
@@ -65,7 +65,7 @@ exports[`should render correctly single selection not use 1`] = `
 exports[`should render correctly single selection svg 1`] = `
 <div>
   <div
-    class="element-title element-title"
+    class="element-title"
   >
     Layer 1 &gt; SVG Object
   </div>

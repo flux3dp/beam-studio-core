@@ -15,8 +15,16 @@ const setElement = (elem: Element | null): void => {
   topBarEventEmitter.emit('SET_ELEMENT', elem);
 };
 
-const updateTitle = (): void => {
-  topBarEventEmitter.emit('UPDATE_TITLE');
+const updateTitle = (title: string, isCloudFile: boolean): void => {
+  topBarEventEmitter.emit('UPDATE_TITLE', title, isCloudFile);
+};
+
+const onTitleChange = (handler: (title: string, isCloudFile: boolean) => void): void => {
+  topBarEventEmitter.on('UPDATE_TITLE', handler);
+};
+
+const offTitleChange = (handler: (title: string, isCloudFile: boolean) => void): void => {
+  topBarEventEmitter.removeListener('UPDATE_TITLE', handler);
 };
 
 const setHasUnsavedChange = (hasUnsavedChange: boolean): void => {
@@ -30,7 +38,6 @@ const getTopBarPreviewMode = (): boolean => {
   topBarEventEmitter.emit('GET_TOP_BAR_PREVIEW_MODE', response);
   return response.isPreviewMode;
 };
-
 
 const getSelectedDevice = (): IDeviceInfo | null => {
   const response = {
@@ -51,4 +58,6 @@ export default {
   getTopBarPreviewMode,
   getSelectedDevice,
   setSelectedDevice,
+  onTitleChange,
+  offTitleChange,
 };

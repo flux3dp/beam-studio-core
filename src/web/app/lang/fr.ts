@@ -21,10 +21,10 @@ const lang: ILang = {
   },
   topbar: {
     untitled: 'Sans titre',
+    rename_tab: "Renommer l'onglet",
     titles: {
       settings: 'Préférences',
     },
-    export: 'EXPORTER',
     preview: 'PRÉVISUALISATION',
     preview_title: 'Aperçu',
     preview_press_esc_to_stop: 'Appuyez sur ESC pour arrêter l’aperçu de la caméra.',

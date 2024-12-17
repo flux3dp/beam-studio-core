@@ -727,8 +727,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
   this.isUsingLayerColor = BeamboxPreference.read('use_layer_color');
   this.isBezierPathAlignToEdge = BeamboxPreference.read('show_align_lines');
 
-  // State for save before close warning
-  canvas.changed = false;
   let root_sctm = null;
 
   this.clearBoundingBox = () => {
@@ -2576,7 +2574,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     canvas.undoMgr.resetUndoStack();
 
     // clear current file
-    this.setHasUnsavedChange(false);
     currentFileManager.clear();
 
     // reset the selector manager
@@ -3852,18 +3849,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     }
   });
 
-  // Function: set
-  this.setHasUnsavedChange = (hasUnsaveChanged, shouldClearEstTime = true) => {
-    canvas.changed = hasUnsaveChanged;
-    TopBarController.setHasUnsavedChange(hasUnsaveChanged);
-    if (shouldClearEstTime) {
-      timeEstimationButtonEventEmitter.emit('SET_ESTIMATED_TIME', null);
-    }
-    autoSaveHelper.toggleAutoSave(hasUnsaveChanged);
-  };
-
-  this.getHasUnsaveChanged = () => canvas.changed;
-
   this.updateRecentFiles = (filePath) => {
     const recentFiles = storage.get('recent_files') || [];
     const i = recentFiles.indexOf(filePath);
@@ -4227,7 +4212,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       if (!tempGroup) {
         this.tempGroupSelectedElements();
       }
-      svgCanvas.setHasUnsavedChange(true);
+      currentFileManager.setHasUnsavedChanges(true);
     }
     if (batchCmd && !batchCmd.isEmpty()) {
       if (addToHistory) addCommandToHistory(batchCmd);

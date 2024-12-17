@@ -3,15 +3,22 @@ import { IFile } from 'interfaces/IMyCloud';
 import currentFileManager from './currentFileManager';
 
 const mockUpdateTitle = jest.fn();
+const mockTopBarSetUnsavedChange = jest.fn();
 
 jest.mock('app/views/beambox/TopBar/contexts/TopBarController', () => ({
   updateTitle: () => mockUpdateTitle(),
+  setHasUnsavedChange: (...args) => mockTopBarSetUnsavedChange(...args),
+}));
+
+const mockToggleAutoSave = jest.fn();
+jest.mock('helpers/auto-save-helper', () => ({
+  toggleAutoSave: (...args) => mockToggleAutoSave(...args),
 }));
 
 describe('test currentFileManager', () => {
   beforeEach(() => {
     currentFileManager.clear();
-    mockUpdateTitle.mockClear();
+    jest.clearAllMocks();
   });
 
   it('should set file name', () => {
@@ -21,7 +28,7 @@ describe('test currentFileManager', () => {
   });
 
   it('should set file name extracted from path', () => {
-    currentFileManager.setFileName('/some/path/to/test.svg', true);
+    currentFileManager.setFileName('/some/path/to/test.svg', { extractFromPath: true });
     expect(currentFileManager.getName()).toBe('test');
     expect(mockUpdateTitle).toHaveBeenCalledTimes(1);
   });
@@ -57,5 +64,14 @@ describe('test currentFileManager', () => {
     expect(currentFileManager.getPath()).toBe(null);
     expect(currentFileManager.isCloudFile).toBe(false);
     expect(mockUpdateTitle).toHaveBeenCalledTimes(2);
+  });
+
+  test('setHasUnsavedChanges', () => {
+    currentFileManager.setHasUnsavedChanges(true);
+    expect(currentFileManager.getHasUnsavedChanges()).toBe(true);
+    expect(mockTopBarSetUnsavedChange).toHaveBeenCalledTimes(1);
+    expect(mockTopBarSetUnsavedChange).toHaveBeenCalledWith(true);
+    expect(mockToggleAutoSave).toHaveBeenCalledTimes(1);
+    expect(mockToggleAutoSave).toHaveBeenCalledWith(true);
   });
 });

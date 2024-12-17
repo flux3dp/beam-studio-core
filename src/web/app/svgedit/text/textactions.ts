@@ -3,6 +3,7 @@
  */
 /* eslint-disable no-console */
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import currentFileManager from 'app/svgedit/currentFileManager';
 import history from 'app/svgedit/history/history';
 import selector from 'app/svgedit/selector';
 import textPathEdit from 'app/actions/beambox/textPathEdit';
@@ -863,7 +864,7 @@ class TextActions {
           curtext, this.valueBeforeEdit, this.textinput.value,
         );
         batchCmd.addSubCommand(cmd);
-        svgCanvas.setHasUnsavedChange(true, true);
+        currentFileManager.setHasUnsavedChanges(true);
       }
     }
     if (curtext && !curtext.textContent.length) {

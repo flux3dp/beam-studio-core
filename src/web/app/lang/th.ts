@@ -21,10 +21,10 @@ const lang: ILang = {
   },
   topbar: {
     untitled: 'ไม่มีชื่อ',
+    rename_tab: 'เปลี่ยนชื่อแท็บ',
     titles: {
       settings: 'ตั้งค่า',
     },
-    export: 'ส่งออก',
     preview: 'แสดงตัวอย่าง',
     preview_title: 'ดูตัวอย่าง',
     preview_press_esc_to_stop: 'กด ESC เพื่อหยุดการแสดงตัวอย่างกล้อง.',

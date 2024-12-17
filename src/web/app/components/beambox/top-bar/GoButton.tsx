@@ -23,7 +23,8 @@ import TopBarIcons from 'app/icons/top-bar/TopBarIcons';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import useI18n from 'helpers/useI18n';
 import VersionChecker from 'helpers/version-checker';
-import { CanvasContext, CanvasMode } from 'app/contexts/CanvasContext';
+import { CanvasContext } from 'app/contexts/CanvasContext';
+import { CanvasMode } from 'app/constants/canvasMode';
 import { executeFirmwareUpdate } from 'app/actions/beambox/menuDeviceActions';
 import { getNextStepRequirement, handleNextStep } from 'app/views/tutorials/tutorialController';
 import { getSupportInfo } from 'app/constants/add-on';
@@ -43,7 +44,6 @@ getSVGAsync((globalSVG) => {
 const { $ } = window;
 
 interface Props {
-  hasText: boolean;
   hasDiscoverdMachine: boolean;
 }
 
@@ -61,7 +61,7 @@ function throttle(func: () => void, delay: number): () => void {
   };
 }
 
-const GoButton = ({ hasDiscoverdMachine, hasText }: Props): JSX.Element => {
+const GoButton = ({ hasDiscoverdMachine }: Props): JSX.Element => {
   const lang = useI18n();
   const { endPreviewMode, mode } = useContext(CanvasContext);
   const shortcutHandler = useRef<() => void>(null);
@@ -404,7 +404,6 @@ const GoButton = ({ hasDiscoverdMachine, hasText }: Props): JSX.Element => {
       onClick={throttledHandleExportClick}
       title={lang.tutorial.newInterface.start_work}
     >
-      {hasText && <span className={styles.text}>{lang.topbar.export}</span>}
       <TopBarIcons.Go />
     </div>
   );

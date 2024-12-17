@@ -21,10 +21,10 @@ const lang: ILang = {
   },
   topbar: {
     untitled: 'Nimeämätön',
+    rename_tab: 'Nimeä välilehti uudelleen',
     titles: {
       settings: 'Asetukset',
     },
-    export: 'VIENTI',
     preview: 'ESIKATSELU',
     preview_title: 'Esikatselu',
     preview_press_esc_to_stop: 'Paina ESC lopettaaksesi kameran esikatselun.',

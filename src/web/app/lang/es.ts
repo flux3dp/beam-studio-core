@@ -21,10 +21,10 @@ const lang: ILang = {
   },
   topbar: {
     untitled: 'Sin título',
+    rename_tab: 'Renombrar pestaña',
     titles: {
       settings: 'Preferencias',
     },
-    export: 'GO',
     preview: 'VISTA PREVIA',
     preview_title: 'Vista previa',
     preview_press_esc_to_stop: 'Presiona ESC para detener la vista previa de la cámara.',

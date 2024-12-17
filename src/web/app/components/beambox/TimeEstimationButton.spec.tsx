@@ -3,6 +3,7 @@ import React from 'react';
 import { act, fireEvent, render } from '@testing-library/react';
 
 import { CanvasContext } from 'app/contexts/CanvasContext';
+import { CanvasMode } from 'app/constants/canvasMode';
 import { TimeEstimationButtonContext } from 'app/contexts/TimeEstimationButtonContext';
 
 import TimeEstimationButton from './TimeEstimationButton';
@@ -59,12 +60,7 @@ jest.mock('helpers/file-export-helper', () => ({
 }));
 
 jest.mock('app/contexts/CanvasContext', () => ({
-  CanvasContext: React.createContext({ mode: 1 }),
-  CanvasMode: {
-    Draw: 1,
-    Preview: 2,
-    PathPreview: 3,
-  },
+  CanvasContext: React.createContext({ mode: CanvasMode.Draw }),
 }));
 
 describe('should render correctly', () => {
@@ -91,7 +87,7 @@ describe('should render correctly', () => {
       <CanvasContext.Provider
         value={
           {
-            mode: 3,
+            mode: CanvasMode.PathPreview,
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
           } as any
         }

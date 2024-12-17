@@ -1,23 +1,7 @@
-import React, {
-  createContext,
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react';
+import React, { createContext, Dispatch, SetStateAction, useEffect, useState } from 'react';
 
-import Alert from 'app/actions/alert-caller';
-import alertConstants from 'app/constants/alert-constants';
-import BeamFileHelper from 'helpers/beam-file-helper';
-import currentFileManager from 'app/svgedit/currentFileManager';
-import dialog from 'implementations/dialog';
-import dialogCaller from 'app/actions/dialog-caller';
-import Progress from 'app/actions/progress-caller';
-import useI18n from 'helpers/useI18n';
-import { axiosFluxId, getDefaultHeader, ResponseWithError } from 'helpers/api/flux-id';
+import cloudFile from 'helpers/api/cloudFile';
 import { IFile } from 'interfaces/IMyCloud';
-import { showFluxPlusWarning } from 'app/actions/dialog-controller';
 
 interface MyCloudContextType {
   sortBy: string;
@@ -61,61 +45,10 @@ interface MyCloudProviderProps {
 }
 
 export function MyCloudProvider({ children, onClose }: MyCloudProviderProps): JSX.Element {
-  const LANG = useI18n();
   const [sortBy, setSortBy] = useState('recent');
   const [files, setFiles] = useState<IFile[] | undefined>(undefined);
   const [editingId, setEditingId] = useState(null);
   const [selectedId, setSelectedId] = useState(null);
-
-  const checkResp = useCallback(
-    async (resp: ResponseWithError) => {
-      if (!resp) {
-        Alert.popUpError({ message: LANG.flux_id_login.connection_fail });
-        return false;
-      }
-      const { error } = resp;
-      if (error) {
-        if (!error.response) {
-          Alert.popUpError({ message: LANG.flux_id_login.connection_fail });
-          return false;
-        }
-        const { status, statusText } = error.response;
-        const { info, message, detail } = error.response.data || {};
-        if (status === 403 && detail && detail.startsWith('CSRF Failed: CSRF')) {
-          Alert.popUp({
-            message: LANG.beambox.popup.ai_credit.relogin_to_use,
-            buttonType: alertConstants.CONFIRM_CANCEL,
-            onConfirm: dialogCaller.showLoginDialog,
-          });
-          return false;
-        }
-        if (info === 'STORAGE_LIMIT_EXCEEDED') {
-          Alert.popUpError({ message: LANG.my_cloud.save_file.storage_limit_exceeded });
-          return false;
-        }
-        Alert.popUpError({
-          caption: info,
-          message: detail || message || `${status}: ${statusText}`,
-        });
-        return false;
-      }
-      let { data } = resp;
-      if (data instanceof Blob && data.type === 'application/json') {
-        data = JSON.parse(await data.text());
-      }
-      const { status, info, message } = data;
-      if (status !== 'error') return true;
-      if (info === 'NOT_SUBSCRIBED') {
-        onClose();
-        showFluxPlusWarning();
-        return false;
-      }
-      Alert.popUpError({ caption: info, message });
-      return false;
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [LANG]
-  );
 
   const sortAndSetFiles = (newFiles: IFile[] = files) => {
     if (!newFiles) return;
@@ -144,13 +77,12 @@ export function MyCloudProvider({ children, onClose }: MyCloudProviderProps): JS
   };
 
   const getFileList = async (): Promise<IFile[]> => {
-    try {
-      const resp = await axiosFluxId.get('/api/beam-studio/cloud/list', { withCredentials: true });
-      return (await checkResp(resp)) ? resp.data.data.files : [];
-    } catch (e) {
-      console.error(e);
+    const { data, shouldCloseModal } = await cloudFile.list();
+    if (shouldCloseModal) {
+      onClose();
       return [];
     }
+    return data;
   };
 
   const refresh = async () => {
@@ -169,132 +101,47 @@ export function MyCloudProvider({ children, onClose }: MyCloudProviderProps): JS
   }, [sortBy]);
 
   const openFile = async (file: IFile) => {
-    const id = 'open-cloud-file';
-    await Progress.openNonstopProgress({ id });
-    try {
-      const resp = await axiosFluxId.get(`/api/beam-studio/cloud/file/${file.uuid}`, {
-        withCredentials: true,
-        responseType: 'blob',
-      });
-      if (await checkResp(resp)) {
-        await BeamFileHelper.readBeam(resp.data);
-        currentFileManager.setCloudFile(file);
-        onClose();
-      }
-    } catch (e) {
-      console.error(e);
-      Alert.popUpError({ message: `Error: ${LANG.my_cloud.action.open}` });
-    } finally {
-      Progress.popById(id);
-    }
+    const { shouldCloseModal } = await cloudFile.openFile(file);
+    if (shouldCloseModal) onClose();
   };
 
   const duplicateFile = async (file: IFile) => {
-    const id = 'duplicate-cloud-file';
-    await Progress.openNonstopProgress({ id });
-    let newFile: string;
-    try {
-      const resp = await axiosFluxId.put(
-        `/api/beam-studio/cloud/file/operation/${file.uuid}`,
-        { method: 'duplicate' },
-        { withCredentials: true, headers: getDefaultHeader() }
-      );
-      if (await checkResp(resp)) {
-        newFile = resp.data.new_file;
-      }
-    } catch (e) {
-      console.error(e);
-      Alert.popUpError({ message: `Error: ${LANG.my_cloud.action.duplicate}` });
-    } finally {
-      Progress.popById(id);
-      refresh();
-      if (newFile) {
-        setEditingId(newFile);
-      }
+    const { res, data, shouldCloseModal } = await cloudFile.duplicateFile(file.uuid);
+    if (shouldCloseModal) {
+      onClose();
+      return;
     }
-  };
-
-  const downloadFile = async (file: IFile) => {
-    const id = 'download-cloud-file';
-    await Progress.openNonstopProgress({ id });
-    const langFile = LANG.topmenu.file;
-    const getContent = async () => {
-      const resp = await axiosFluxId.get(`/api/beam-studio/cloud/file/${file.uuid}`, {
-        withCredentials: true,
-        responseType: 'blob',
-      });
-      return resp.data;
-    };
-    try {
-      await dialog.writeFileDialog(
-        getContent,
-        langFile.save_scene,
-        window.os === 'Linux' ? `${file.name}.beam` : file.name,
-        [
-          {
-            name: window.os === 'MacOS' ? `${langFile.scene_files} (*.beam)` : langFile.scene_files,
-            extensions: ['beam'],
-          },
-          {
-            name: langFile.all_files,
-            extensions: ['*'],
-          },
-        ]
-      );
-    } catch (e) {
-      console.error(e);
-      Alert.popUpError({ message: `Error: ${LANG.my_cloud.action.download}` });
-    } finally {
-      Progress.popById(id);
+    refresh();
+    if (res && data?.new_file) {
+      const newFile = data?.new_file;
+      setSelectedId(newFile);
+      setEditingId(newFile);
     }
   };
 
   const renameFile = async (file: IFile, newName: string) => {
-    const id = 'rename-cloud-file';
     if (newName && file.name !== newName) {
-      await Progress.openNonstopProgress({ id });
-      try {
-        const resp = await axiosFluxId.put(
-          `/api/beam-studio/cloud/file/operation/${file.uuid}`,
-          { method: 'rename', data: newName },
-          { withCredentials: true, headers: getDefaultHeader() }
-        );
-        if (await checkResp(resp)) {
-          // eslint-disable-next-line no-param-reassign
-          file.name = newName;
-          if (currentFileManager.isCloudFile && currentFileManager.getPath() === file.uuid) {
-            currentFileManager.setFileName(file.name);
-          }
-          sortAndSetFiles();
-        }
-      } catch (e) {
-        console.error(e);
-        Alert.popUpError({ message: `Error: ${LANG.my_cloud.action.rename}` });
-      } finally {
-        Progress.popById(id);
+      const { res, shouldCloseModal } = await cloudFile.renameFile(file.uuid, newName);
+      if (shouldCloseModal) {
+        onClose();
+        return;
+      }
+      if (res) {
+        // eslint-disable-next-line no-param-reassign
+        file.name = newName;
+        sortAndSetFiles();
       }
     }
     setEditingId(null);
   };
 
   const deleteFile = async (file: IFile) => {
-    const id = 'delete-cloud-file';
-    await Progress.openNonstopProgress({ id });
-    try {
-      const resp = await axiosFluxId.delete(`/api/beam-studio/cloud/file/${file.uuid}`, {
-        withCredentials: true,
-        headers: getDefaultHeader(),
-      });
-      if ((await checkResp(resp)) && currentFileManager.isCloudFile && currentFileManager.getPath() === file.uuid) {
-        currentFileManager.setCloudUUID(null);
-      }
-    } catch (e) {
-      console.error(e);
-      Alert.popUpError({ message: `Error: ${LANG.my_cloud.action.delete}` });
-    } finally {
-      Progress.popById(id);
-      refresh();
+    const { shouldCloseModal } = await cloudFile.deleteFile(file.uuid);
+    if (shouldCloseModal) {
+      onClose();
+      return;
     }
+    refresh();
   };
 
   return (
@@ -311,7 +158,7 @@ export function MyCloudProvider({ children, onClose }: MyCloudProviderProps): JS
         fileOperation: {
           open: openFile,
           duplicate: duplicateFile,
-          download: downloadFile,
+          download: cloudFile.downloadFile,
           rename: renameFile,
           delete: deleteFile,
         },

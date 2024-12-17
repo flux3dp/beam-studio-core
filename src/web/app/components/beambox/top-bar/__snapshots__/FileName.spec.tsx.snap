@@ -35,7 +35,9 @@ exports[`test FileName should render correctly with cloud file 1`] = `
   <div
     class="file-name"
   >
-    <svgr-url />
+    <svgr-url
+      classname="cloud"
+    />
     abc*
   </div>
 </div>
@@ -46,7 +48,9 @@ exports[`test FileName should render correctly with cloud file 2`] = `
   <div
     class="file-name"
   >
-    <svgr-url />
+    <svgr-url
+      classname="cloud"
+    />
     Untitled
   </div>
 </div>
@@ -57,7 +61,9 @@ exports[`test FileName should render correctly with cloud file 3`] = `
   <div
     class="title"
   >
-    <svgr-url />
+    <svgr-url
+      classname="cloud"
+    />
     Untitled
   </div>
 </div>

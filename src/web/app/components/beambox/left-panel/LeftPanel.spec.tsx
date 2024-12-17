@@ -1,7 +1,8 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
-import { CanvasContext, CanvasMode } from 'app/contexts/CanvasContext';
+import { CanvasContext } from 'app/contexts/CanvasContext';
+import { CanvasMode } from 'app/constants/canvasMode';
 
 import LeftPanel from './LeftPanel';
 
@@ -52,12 +53,6 @@ jest.mock(
 
 jest.mock('app/contexts/CanvasContext', () => ({
   CanvasContext: React.createContext(null),
-  CanvasMode: {
-    Draw: 1,
-    Preview: 2,
-    PathPreview: 3,
-    CurveEngraving: 4,
-  },
 }));
 
 jest.mock('helpers/i18n', () => ({

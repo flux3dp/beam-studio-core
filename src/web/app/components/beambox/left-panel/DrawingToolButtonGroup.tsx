@@ -18,7 +18,8 @@ const eventEmitter = eventEmitterFactory.createEventEmitter('drawing-tool');
 const DrawingToolButtonGroup = ({ className }: { className: string }): JSX.Element => {
   const lang = useI18n();
   const tLeftPanel = lang.beambox.left_panel;
-  const { hasPassthroughExtension, selectedDevice } = useContext(CanvasContext);
+  const { hasPassthroughExtension, selectedDevice, changeToPreviewMode, setupPreviewMode } =
+    useContext(CanvasContext);
   const [activeButton, setActiveButton] = useState('Cursor');
   const isSubscribed = getCurrentUser()?.info?.subscription?.is_valid;
   const renderToolButton = (
@@ -51,6 +52,10 @@ const DrawingToolButtonGroup = ({ className }: { className: string }): JSX.Eleme
 
   return (
     <div className={className}>
+      {renderToolButton('Preview', <LeftPanelIcons.Camera />, lang.topbar.preview, () => {
+        changeToPreviewMode();
+        setupPreviewMode();
+      })}
       {renderToolButton(
         'Cursor',
         <LeftPanelIcons.Cursor />,

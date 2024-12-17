@@ -1,25 +1,54 @@
 @use 'styles/variables' as variables;
 
 .top-bar {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: variables.$topBarHeight;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333333;
   color: #ffffff;
   font-size: 30px;
+  overflow: hidden;
 
-  .right {
-    float: right;
+  .controls {
     display: flex;
     align-items: center;
-    padding: 0 8px;
     gap: 12px;
     height: variables.$topBarHeight;
-    position: relative;
-    z-index: 1;
   }
 
-  .menu{
-    font-size: 10pt;
+  .left {
+    flex: 1 1 auto;
+    overflow: hidden;
+
+    &.margin-left {
+      margin-left: 8px;
+    }
+
+    .drag-area {
+      flex: 0 0 auto;
+      width: 72px;
+      height: variables.$topBarHeight;
+      -webkit-app-region: drag;
+
+      @media screen and (max-width: 600px) {
+        width: 60px;
+      }
+    }
   }
 
-  &:global(.white) {
-    color: #000000;
+  .right {
+    flex: 1 0 auto;
+    padding: 0 8px;
+    overflow: hidden;
+    justify-content: flex-end;
   }
+}
+
+.menu {
+  font-size: 10pt;
 }

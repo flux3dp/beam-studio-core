@@ -1,32 +1,21 @@
-import React from 'react';
+import React, { useContext, useMemo } from 'react';
 
-import i18n from 'helpers/i18n';
+import useI18n from 'helpers/useI18n';
 import { TopBarHintsContext } from 'app/contexts/TopBarHintsContext';
 
-const LANG = i18n.lang.topbar;
+import styles from './TopBarHints.module.scss';
 
 const TopBarHints = (): JSX.Element => {
-  const context = React.useContext(TopBarHintsContext);
-  const renderContent = () => {
-    const { hintType } = context;
-    if (!hintType) {
-      return null;
-    }
+  const t = useI18n().topbar.hint;
+  const { hintType } = useContext(TopBarHintsContext);
+  const content = useMemo<React.ReactNode>(() => {
     if (hintType === 'POLYGON') {
-      return (
-        <div>
-          {LANG.hint.polygon}
-        </div>
-      );
+      return <div>{t.polygon}</div>;
     }
     return null;
-  };
+  }, [t, hintType]);
 
-  return (
-    <div className="hint-container">
-      {renderContent()}
-    </div>
-  );
+  return <div className={styles.container}>{content}</div>;
 };
 
 export default TopBarHints;

@@ -21,10 +21,10 @@ const lang: ILang = {
   },
   topbar: {
     untitled: '無題',
+    rename_tab: 'タブの名前を変更',
     titles: {
       settings: '環境設定',
     },
-    export: 'ゴー',
     preview: 'プレビュー',
     preview_title: 'プレビュー',
     preview_press_esc_to_stop: 'ESCを押してカメラプレビューを停止します。',

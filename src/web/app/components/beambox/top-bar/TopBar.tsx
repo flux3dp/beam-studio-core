@@ -1,37 +1,49 @@
 import classNames from 'classnames';
-import React, { memo, useContext, useEffect, useRef, useState } from 'react';
+import React, { memo, useContext, useEffect, useMemo, useRef, useState } from 'react';
 
 import checkSoftwareForAdor from 'helpers/check-software';
 import CommonTools from 'app/components/beambox/top-bar/CommonTools';
 import Discover from 'helpers/api/discover';
 import DocumentButton from 'app/components/beambox/top-bar/DocumentButton';
 import ElementTitle from 'app/components/beambox/top-bar/ElementTitle';
-import FileName from 'app/components/beambox/top-bar/FileName';
+import FileName, {
+  registerWindowUpdateTitle,
+  unregisterWindowUpdateTitle,
+} from 'app/components/beambox/top-bar/FileName';
 import FrameButton from 'app/components/beambox/top-bar/FrameButton';
 import GoButton from 'app/components/beambox/top-bar/GoButton';
 import isWeb from 'helpers/is-web';
 import Menu from 'app/components/beambox/top-bar/Menu';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
 import PathPreviewButton from 'app/components/beambox/top-bar/PathPreviewButton';
-import PreviewButton from 'app/components/beambox/top-bar/PreviewButton';
 import SelectMachineButton from 'app/components/beambox/top-bar/SelectMachineButton';
 import storage from 'implementations/storage';
 import TopBarHints from 'app/components/beambox/top-bar/TopBarHints';
 import UserAvatar from 'app/components/beambox/top-bar/UserAvatar';
-import { CanvasContext, CanvasMode } from 'app/contexts/CanvasContext';
+import { CanvasContext } from 'app/contexts/CanvasContext';
+import { CanvasMode } from 'app/constants/canvasMode';
 import { SelectedElementContext } from 'app/contexts/SelectedElementContext';
 import { TopBarHintsContextProvider } from 'app/contexts/TopBarHintsContext';
 
-// TODO: move all styles from web to modules.scss
 import styles from './TopBar.module.scss';
-
-const isWhiteTopBar = window.os !== 'MacOS' && !isWeb();
+import Tabs from './tabs/Tabs';
 
 const Topbar = (): JSX.Element => {
+  const { isWebMode, hasTitleBar } = useMemo(() => {
+    const web = isWeb();
+    return { isWebMode: web, hasTitleBar: window.os !== 'MacOS' && !web };
+  }, []);
   const { mode, hasUnsavedChange, currentUser, togglePathPreview, setSelectedDevice } =
     useContext(CanvasContext);
   const [hasDiscoveredMachine, setHasDiscoveredMachine] = useState(false);
   const defaultDeviceUUID = useRef<string | null>(storage.get('selected-device'));
+  useEffect(() => {
+    registerWindowUpdateTitle();
+    return () => {
+      unregisterWindowUpdateTitle();
+    };
+  }, []);
+
   useEffect(() => {
     const discover = Discover('top-bar', (deviceList) => {
       setHasDiscoveredMachine(deviceList.some((device) => device.serial !== 'XXXXXXXXXX'));
@@ -55,24 +67,32 @@ const Topbar = (): JSX.Element => {
   }, [setSelectedDevice]);
 
   return (
-    <div
-      className={classNames('top-bar', styles['top-bar'], { white: isWhiteTopBar })}
-      onClick={() => ObjectPanelController.updateActiveKey(null)}
-    >
-      {(window.os === 'Windows' && !!window.titlebar) || (
-        <FileName hasUnsavedChange={hasUnsavedChange} />
-      )}
-      <UserAvatar user={currentUser} />
-      <PreviewButton />
-      <div className={styles.right}>
-        <SelectMachineButton />
-        <DocumentButton />
-        <FrameButton />
-        <PathPreviewButton
-          isDeviceConnected={hasDiscoveredMachine}
-          togglePathPreview={togglePathPreview}
-        />
-        <GoButton hasText={isWhiteTopBar} hasDiscoverdMachine={hasDiscoveredMachine} />
+    <>
+      <div
+        className={styles['top-bar']}
+        onClick={() => ObjectPanelController.updateActiveKey(null)}
+      >
+        <div
+          className={classNames(styles.controls, styles.left, {
+            [styles['margin-left']]: hasTitleBar,
+          })}
+        >
+          {!hasTitleBar && <div className={styles['drag-area']} />}
+          <UserAvatar user={currentUser} />
+          <CommonTools isWeb={isWebMode} hide={mode !== CanvasMode.Draw} />
+          {!isWebMode && <Tabs />}
+        </div>
+        <div className={classNames(styles.controls, styles.right)}>
+          <SelectMachineButton />
+          <DocumentButton />
+          <FrameButton />
+          <PathPreviewButton
+            isDeviceConnected={hasDiscoveredMachine}
+            togglePathPreview={togglePathPreview}
+          />
+          <GoButton hasDiscoverdMachine={hasDiscoveredMachine} />
+        </div>
+        {isWebMode && <FileName hasUnsavedChange={hasUnsavedChange} />}
       </div>
       <SelectedElementContext.Consumer>
         {({ selectedElement }) => <ElementTitle selectedElem={selectedElement} />}
@@ -80,13 +100,12 @@ const Topbar = (): JSX.Element => {
       <TopBarHintsContextProvider>
         <TopBarHints />
       </TopBarHintsContextProvider>
-      {isWeb() && (
+      {isWebMode && (
         <div className={classNames('top-bar-menu-container', styles.menu)}>
           <Menu email={currentUser?.email} />
         </div>
       )}
-      <CommonTools isWeb={isWeb()} hide={mode !== CanvasMode.Draw} />
-    </div>
+    </>
   );
 };
 

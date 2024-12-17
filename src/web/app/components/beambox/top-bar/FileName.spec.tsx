@@ -2,11 +2,7 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 
-jest.mock('helpers/useI18n', () => () => ({
-  topbar: {
-    untitled: 'Untitled',
-  },
-}));
+import FileName from './FileName';
 
 const mockGetName = jest.fn();
 const mockGetIsCloudFile = jest.fn();
@@ -20,7 +16,12 @@ jest.mock('app/svgedit/currentFileManager', () => ({
   },
 }));
 
-import FileName from './FileName';
+const mockOnTitleChange = jest.fn();
+const mockOffTitleChange = jest.fn();
+jest.mock('app/views/beambox/TopBar/contexts/TopBarController', () => ({
+  onTitleChange: (...args) => mockOnTitleChange(...args),
+  offTitleChange: (...args) => mockOffTitleChange(...args),
+}));
 
 describe('test FileName', () => {
   beforeEach(() => {

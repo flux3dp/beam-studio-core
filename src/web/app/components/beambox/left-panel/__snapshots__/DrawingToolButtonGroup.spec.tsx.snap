@@ -6,6 +6,17 @@ exports[`test DrawingToolButtonGroup should render correctly 1`] = `
     class="flux"
   >
     <div
+      class="container"
+      id="left-Preview"
+      title="PREVIEW"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
       class="container active"
       id="left-Cursor"
       title="Select (V)"
@@ -135,6 +146,17 @@ exports[`test DrawingToolButtonGroup should render correctly 2`] = `
   <div
     class="flux"
   >
+    <div
+      class="container"
+      id="left-Preview"
+      title="PREVIEW"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
     <div
       class="container"
       id="left-Cursor"
@@ -267,6 +289,17 @@ exports[`test DrawingToolButtonGroup should render correctly 3`] = `
   >
     <div
       class="container"
+      id="left-Preview"
+      title="PREVIEW"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
       id="left-Cursor"
       title="Select (V)"
     >
@@ -395,6 +428,17 @@ exports[`test DrawingToolButtonGroup should render correctly 4`] = `
   <div
     class="flux"
   >
+    <div
+      class="container"
+      id="left-Preview"
+      title="PREVIEW"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
     <div
       class="container"
       id="left-Cursor"
@@ -527,6 +571,17 @@ exports[`test DrawingToolButtonGroup should render correctly 5`] = `
   >
     <div
       class="container"
+      id="left-Preview"
+      title="PREVIEW"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
       id="left-Cursor"
       title="Select (V)"
     >
@@ -655,6 +710,17 @@ exports[`test DrawingToolButtonGroup should render correctly 6`] = `
   <div
     class="flux"
   >
+    <div
+      class="container"
+      id="left-Preview"
+      title="PREVIEW"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
     <div
       class="container"
       id="left-Cursor"
@@ -787,6 +853,17 @@ exports[`test DrawingToolButtonGroup should render correctly 7`] = `
   >
     <div
       class="container"
+      id="left-Preview"
+      title="PREVIEW"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
       id="left-Cursor"
       title="Select (V)"
     >
@@ -915,6 +992,17 @@ exports[`test DrawingToolButtonGroup should render correctly 8`] = `
   <div
     class="flux"
   >
+    <div
+      class="container"
+      id="left-Preview"
+      title="PREVIEW"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
     <div
       class="container"
       id="left-Cursor"
@@ -1047,6 +1135,17 @@ exports[`test DrawingToolButtonGroup should render correctly 9`] = `
   >
     <div
       class="container"
+      id="left-Preview"
+      title="PREVIEW"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
       id="left-Cursor"
       title="Select (V)"
     >
@@ -1175,6 +1274,17 @@ exports[`test DrawingToolButtonGroup should render correctly 10`] = `
   <div
     class="flux"
   >
+    <div
+      class="container"
+      id="left-Preview"
+      title="PREVIEW"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
     <div
       class="container active"
       id="left-Cursor"
@@ -1307,6 +1417,17 @@ exports[`test DrawingToolButtonGroup should render correctly 11`] = `
   >
     <div
       class="container"
+      id="left-Preview"
+      title="PREVIEW"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
       id="left-Cursor"
       title="Select (V)"
     >
@@ -1437,6 +1558,17 @@ exports[`test DrawingToolButtonGroup should render correctly 12`] = `
   >
     <div
       class="container"
+      id="left-Preview"
+      title="PREVIEW"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
+    <div
+      class="container"
       id="left-Cursor"
       title="Select (V)"
     >
@@ -1565,6 +1697,17 @@ exports[`test DrawingToolButtonGroup should render correctly when in pass throug
   <div
     class="flux"
   >
+    <div
+      class="container"
+      id="left-Preview"
+      title="PREVIEW"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
     <div
       class="container active"
       id="left-Cursor"
@@ -1710,6 +1853,17 @@ exports[`test DrawingToolButtonGroup should render correctly when model is bb2 1
   <div
     class="flux"
   >
+    <div
+      class="container"
+      id="left-Preview"
+      title="PREVIEW"
+    >
+      <span
+        class="ant-badge badge css-dev-only-do-not-override-hash"
+      >
+        <svgr-url />
+      </span>
+    </div>
     <div
       class="container active"
       id="left-Cursor"

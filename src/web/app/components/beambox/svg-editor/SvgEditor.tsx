@@ -9,7 +9,8 @@ import svgEditor from 'app/actions/beambox/svg-editor';
 import Workarea from 'app/components/beambox/svg-editor/Workarea';
 import workareaManager from 'app/svgedit/workarea';
 import ZoomBlock from 'app/components/beambox/ZoomBlock';
-import { CanvasContext, CanvasMode } from 'app/contexts/CanvasContext';
+import { CanvasContext } from 'app/contexts/CanvasContext';
+import { CanvasMode } from 'app/constants/canvasMode';
 
 import styles from './SvgEditor.module.scss';
 
@@ -20,12 +21,6 @@ export default class SvgEditor extends React.Component {
   componentDidMount(): void {
     const { $ } = window;
     $(svgEditor.init);
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  handleDisableHref(e): void {
-    e.preventDefault();
-    e.stopPropagation();
   }
 
   private renderSvgEditor = () => {

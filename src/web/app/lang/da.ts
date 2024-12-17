@@ -21,10 +21,10 @@ const lang: ILang = {
   },
   topbar: {
     untitled: 'Untitled',
+    rename_tab: 'Omdøb fane',
     titles: {
       settings: 'Indstillinger',
     },
-    export: 'EKSPORTER',
     preview: 'FORHÅNDSVISNING',
     preview_title: 'Forhåndsvisning',
     preview_press_esc_to_stop: 'Tryk på ESC for at stoppe kameraforhåndsvisningen.',

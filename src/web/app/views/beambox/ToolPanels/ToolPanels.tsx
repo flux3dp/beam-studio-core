@@ -11,6 +11,7 @@ import React from 'react';
 
 import ArrayModal from 'app/views/beambox/ToolPanels/ArrayModal';
 import Constant from 'app/actions/beambox/constant';
+import currentFileManager from 'app/svgedit/currentFileManager';
 import Dialog from 'app/actions/dialog-caller';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import i18n from 'helpers/i18n';
@@ -249,7 +250,7 @@ class ToolPanel extends React.Component<Props> {
           unmount();
           svgCanvas.setMode('select');
           drawingToolEventEmitter.emit('SET_ACTIVE_BUTTON', 'Cursor');
-          svgCanvas.setHasUnsavedChange(true);
+          currentFileManager.setHasUnsavedChanges(true);
         };
 
       case 'offset':
@@ -262,7 +263,7 @@ class ToolPanel extends React.Component<Props> {
           unmount();
           svgCanvas.setMode('select');
           drawingToolEventEmitter.emit('SET_ACTIVE_BUTTON', 'Cursor');
-          svgCanvas.setHasUnsavedChange(true);
+          currentFileManager.setHasUnsavedChanges(true);
         };
       case 'nest':
         return () => {

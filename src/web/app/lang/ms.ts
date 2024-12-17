@@ -21,10 +21,10 @@ const lang: ILang = {
   },
   topbar: {
     untitled: 'Tanpa Tajuk',
+    rename_tab: 'Namakan semula tab',
     titles: {
       settings: 'Tetapan',
     },
-    export: 'EKSPORT',
     preview: 'PRATONTON',
     preview_title: 'Pratonton',
     preview_press_esc_to_stop: 'Tekan ESC untuk menghentikan pratonton kamera.',

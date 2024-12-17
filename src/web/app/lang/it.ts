@@ -21,10 +21,10 @@ const lang: ILang = {
   },
   topbar: {
     untitled: 'Senza titolo',
+    rename_tab: 'Rinomina scheda',
     titles: {
       settings: 'Preferenze',
     },
-    export: 'ESPORTA',
     preview: 'ANTEPRIMA',
     preview_title: 'Anteprima',
     preview_press_esc_to_stop: 'Premi ESC per interrompere l’anteprima della fotocamera.',

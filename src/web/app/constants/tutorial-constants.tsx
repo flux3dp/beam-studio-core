@@ -48,17 +48,15 @@ const NEW_USER_TUTORIAL: ITutorial = {
   dialogStylesAndContents: [
     {
       dialogBoxStyles: {
-        position: { left: isMacOrWeb ? 140 : 67, top: calculateTop(10, TopRef.TOPBAR) },
-        arrowDirection: 'top',
-        arrowPadding: isMacOrWeb ? undefined : 9,
+        position: { left: 56, top: calculateTop(26, TopRef.TOPBAR) },
       },
-      holePosition: { left: isMacOrWeb ? 120 : 47, top: calculateTop(0) },
-      holeSize: { width: 40, height: 40 },
+      holePosition: { left: 7, top: calculateTop(10, TopRef.TOPBAR) },
+      holeSize: { width: 36, height: 36 },
       hintCircle: {
-        left: isMacOrWeb ? 122 : 49,
-        top: calculateTop(3),
-        width: 36,
-        height: 36,
+        left: 5,
+        top: calculateTop(9, TopRef.TOPBAR),
+        width: 40,
+        height: 40,
       },
       text: LANG.newUser.switch_to_preview_mode,
       nextStepRequirement: nextStepRequirements.TO_PREVIEW_MODE,
@@ -116,13 +114,13 @@ const NEW_USER_TUTORIAL: ITutorial = {
     },
     {
       dialogBoxStyles: {
-        position: { left: 56, top: calculateTop(244, TopRef.TOPBAR) },
+        position: { left: 56, top: calculateTop(287, TopRef.TOPBAR) },
       },
-      holePosition: { left: 7, top: calculateTop(226, TopRef.TOPBAR) },
+      holePosition: { left: 7, top: calculateTop(269, TopRef.TOPBAR) },
       holeSize: { width: 36, height: 36 },
       hintCircle: {
         left: 5,
-        top: calculateTop(224, TopRef.TOPBAR),
+        top: calculateTop(267, TopRef.TOPBAR),
         width: 40,
         height: 40,
       },
@@ -207,13 +205,13 @@ const NEW_USER_TUTORIAL: ITutorial = {
     },
     {
       dialogBoxStyles: {
-        position: { left: 56, top: calculateTop(286, TopRef.TOPBAR) },
+        position: { left: 56, top: calculateTop(329, TopRef.TOPBAR) },
       },
-      holePosition: { left: 7, top: calculateTop(269, TopRef.TOPBAR) },
+      holePosition: { left: 7, top: calculateTop(312, TopRef.TOPBAR) },
       holeSize: { width: 36, height: 36 },
       hintCircle: {
         left: 5,
-        top: calculateTop(267, TopRef.TOPBAR),
+        top: calculateTop(310, TopRef.TOPBAR),
         width: 40,
         height: 40,
       },
@@ -371,15 +369,13 @@ const INTERFACE_TUTORIAL: ITutorial = {
   dialogStylesAndContents: [
     {
       dialogBoxStyles: {
-        position: { left: isMacOrWeb ? 140 : 67, top: calculateTop(10, TopRef.TOPBAR) },
-        arrowDirection: 'top',
-        arrowPadding: isMacOrWeb ? undefined : 9,
+        position: { left: 56, top: calculateTop(26, TopRef.TOPBAR) },
       },
       hintCircle: {
-        left: isMacOrWeb ? 122 : 49,
-        top: calculateTop(3),
-        width: 36,
-        height: 36,
+        left: 5,
+        top: calculateTop(9, TopRef.TOPBAR),
+        width: 40,
+        height: 40,
       },
       text: LANG.newInterface.camera_preview,
     },
@@ -452,11 +448,11 @@ const INTERFACE_TUTORIAL: ITutorial = {
     },
     {
       dialogBoxStyles: {
-        position: { left: 56, top: calculateTop(86, TopRef.TOPBAR) },
+        position: { left: 56, top: calculateTop(130, TopRef.TOPBAR) },
       },
       hintCircle: {
         left: 5,
-        top: calculateTop(5, TopRef.TOPBAR),
+        top: calculateTop(48, TopRef.TOPBAR),
         width: 40,
         height: 176,
       },
@@ -464,11 +460,11 @@ const INTERFACE_TUTORIAL: ITutorial = {
     },
     {
       dialogBoxStyles: {
-        position: { left: 56, top: calculateTop(221, TopRef.TOPBAR) },
+        position: { left: 56, top: calculateTop(264, TopRef.TOPBAR) },
       },
       hintCircle: {
         left: 5,
-        top: calculateTop(181, TopRef.TOPBAR),
+        top: calculateTop(224, TopRef.TOPBAR),
         width: 40,
         height: 220,
       },
@@ -476,11 +472,11 @@ const INTERFACE_TUTORIAL: ITutorial = {
     },
     {
       dialogBoxStyles: {
-        position: { left: 56, top: calculateTop(418, TopRef.TOPBAR) },
+        position: { left: 56, top: calculateTop(460, TopRef.TOPBAR) },
       },
       hintCircle: {
         left: 5,
-        top: calculateTop(396, TopRef.TOPBAR),
+        top: calculateTop(438, TopRef.TOPBAR),
         width: 40,
         height: 40,
       },
@@ -644,7 +640,7 @@ const INTERFACE_TUTORIAL: ITutorial = {
         right: calculateRight(5, RightRef.RIGHT_SROLL_BAR),
         top: calculateTop(225, TopRef.TOPBAR),
         width: rightPanelInnerWidth - 10,
-        height: 260,
+        height: 290,
       },
       text: LANG.newInterface.object_actions,
     },

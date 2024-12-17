@@ -12,10 +12,10 @@ export interface ILang {
   };
   topbar: {
     untitled: string;
+    rename_tab: string;
     titles: {
       settings: string;
     };
-    export: string;
     preview: string;
     preview_title: string;
     preview_press_esc_to_stop: string;

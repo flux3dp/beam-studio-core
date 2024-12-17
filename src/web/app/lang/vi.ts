@@ -21,10 +21,10 @@ const lang: ILang = {
   },
   topbar: {
     untitled: 'Chưa đặt tên',
+    rename_tab: 'Đổi tên tab',
     titles: {
       settings: 'Tùy chọn',
     },
-    export: 'XUẤT',
     preview: 'XEM TRƯỚC',
     preview_title: 'Xem trước',
     preview_press_esc_to_stop: 'Nhấn ESC để dừng xem trước camera.',

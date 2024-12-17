@@ -21,10 +21,10 @@ const lang: ILang = {
   },
   topbar: {
     untitled: 'Bez názvu',
+    rename_tab: 'Přejmenovat kartu',
     titles: {
       settings: 'Vlastnosti',
     },
-    export: 'SPUSTIT',
     preview: 'NÁHLED',
     preview_title: 'Náhled',
     preview_press_esc_to_stop: 'Stisknutím ESC zastavíte náhled kamery.',

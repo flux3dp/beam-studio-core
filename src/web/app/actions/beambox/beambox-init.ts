@@ -23,7 +23,6 @@ import isWeb from 'helpers/is-web';
 import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
 import menu from 'implementations/menu';
 import ratingHelper from 'helpers/rating-helper';
-import recentMenuUpdater from 'implementations/recentMenuUpdater';
 import sentryHelper from 'helpers/sentry-helper';
 import storage from 'implementations/storage';
 import Tutorials from 'app/actions/beambox/tutorials';
@@ -81,7 +80,6 @@ class BeamboxInit {
       this.initDefaultFont();
     }
     menu.init();
-    recentMenuUpdater.update();
     autoSaveHelper.init();
     fluxId.init();
     cloud.recordActivity();
@@ -148,7 +146,6 @@ class BeamboxInit {
         BeamboxPreference.write('auto-switch-tab', res);
       }
     }
-
 
     ratingHelper.init();
     announcementHelper.init(isNewUser);

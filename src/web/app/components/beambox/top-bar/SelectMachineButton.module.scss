@@ -13,5 +13,8 @@
     line-height: 22px;
     margin-right: 4px;
     min-width: 126px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }

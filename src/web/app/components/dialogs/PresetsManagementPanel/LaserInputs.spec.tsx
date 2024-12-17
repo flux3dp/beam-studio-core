@@ -20,6 +20,16 @@ jest.mock('helpers/useI18n', () => () => ({
   },
 }));
 
+jest.mock('helpers/layer/layer-config-helper', () => ({
+  baseConfig: {
+    power: 15,
+    speed: 20,
+    repeat: 1,
+    focus: -2,
+    focusStep: -2,
+  },
+}));
+
 describe('LaserInputs', () => {
   const handleChange = jest.fn();
   const preset = {

@@ -113,6 +113,18 @@ describe('test DrawingToolButtonGroup', () => {
     expect(showMyCloud).toHaveBeenCalledWith(mockUseSelectTool);
   });
 
+  test('preview button should render correctly', () => {
+    const contextValue = { changeToPreviewMode: jest.fn(), setupPreviewMode: jest.fn() };
+    const { container } = render(
+      <CanvasContext.Provider value={contextValue as any}>
+        <DrawingToolButtonGroup className="flux" />
+      </CanvasContext.Provider>
+    );
+    fireEvent.click(container.querySelector('#left-Preview'));
+    expect(contextValue.changeToPreviewMode).toHaveBeenCalledTimes(1);
+    expect(contextValue.setupPreviewMode).toHaveBeenCalledTimes(1);
+  });
+
   test('should render flux plus icon correctly', () => {
     getCurrentUser.mockReturnValue({ info: { subscription: { is_valid: true } } });
     const { container } = render(<DrawingToolButtonGroup className="flux" />);

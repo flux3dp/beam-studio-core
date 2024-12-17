@@ -27,21 +27,29 @@ jest.mock('helpers/svg-editor-helper', () => ({
 
 const setMode = jest.fn();
 const gridArraySelectedElement = jest.fn();
-const setHasUnsavedChange = jest.fn();
 const nestElements = jest.fn();
 getSVGAsync.mockImplementation((callback) => {
   callback({
     Canvas: {
       setMode,
       gridArraySelectedElement,
-      setHasUnsavedChange,
       nestElements,
     },
   });
 });
 
+const mockSetHasUnsavedChanges = jest.fn();
+jest.mock('app/svgedit/currentFileManager', () => ({
+  setHasUnsavedChanges: (...args) => mockSetHasUnsavedChanges(...args),
+}));
+
 const offsetElements = jest.fn();
-jest.mock('helpers/clipper/offset', () => (...args) => offsetElements(...args));
+jest.mock(
+  'helpers/clipper/offset',
+  () =>
+    (...args) =>
+      offsetElements(...args)
+);
 
 jest.mock('app/views/beambox/ToolPanels/Interval', () => 'dummy-interval');
 jest.mock('app/views/beambox/ToolPanels/NestGAPanel', () => ({ nestOptions }: any) => (

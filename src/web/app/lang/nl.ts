@@ -21,10 +21,10 @@ const lang: ILang = {
   },
   topbar: {
     untitled: 'Naamloos',
+    rename_tab: 'Tab hernoemen',
     titles: {
       settings: 'Voorkeuren',
     },
-    export: 'GA',
     preview: 'Voorbeeld',
     preview_title: 'Voorbeeld',
     preview_press_esc_to_stop: 'Druk op ESC om de cameravoorvertoning te stoppen.',

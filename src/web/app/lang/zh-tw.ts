@@ -20,11 +20,11 @@ const lang: ILang = {
     back_to_beam_studio: '回到 Beam Studio',
   },
   topbar: {
-    untitled: '無標題',
+    untitled: '未命名',
+    rename_tab: '重新命名分頁',
     titles: {
       settings: '偏好設定',
     },
-    export: 'GO',
     preview: '相機預覽',
     preview_title: '相機預覽',
     preview_press_esc_to_stop: '按下 ESC 鍵以停止相機預覽。',

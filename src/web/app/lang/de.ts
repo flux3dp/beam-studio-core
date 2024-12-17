@@ -21,10 +21,10 @@ const lang: ILang = {
   },
   topbar: {
     untitled: 'Ohne Titel',
+    rename_tab: 'Tab umbenennen',
     titles: {
       settings: 'Einstellungen',
     },
-    export: 'GEHEN',
     preview: 'VORSCHAU',
     preview_title: 'Vorschau',
     preview_press_esc_to_stop: 'Drücken Sie ESC, um die Kameravorschau zu stoppen.',

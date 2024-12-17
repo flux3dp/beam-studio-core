@@ -140,7 +140,6 @@ export default interface ISVGCanvas {
   setCurrentLayer: (layerName: string) => boolean;
   setCurrentResizeMode: (mode: string) => void;
   setCurrentStyleProperties: (key: string, val: string | number) => void;
-  setHasUnsavedChange(hasUnsavedChange: boolean): void;
   setHref: (elem: SVGImageElement | SVGElement, href: string) => void;
   setImageURL: (url: string) => void;
   setLastClickPoint: (point: { x: number; y: number }) => void;
