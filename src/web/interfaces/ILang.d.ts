@@ -1959,7 +1959,10 @@ export interface ILang {
   pass_through: {
     title: string;
     help_text: string;
-    help_link: string;
+    help_links: {
+      ado1: string;
+      fbb2: string;
+    };
     object_length: string;
     workarea_height: string;
     height_desc: string;

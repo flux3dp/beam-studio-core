@@ -1968,8 +1968,11 @@ const lang: ILang = {
   },
   pass_through: {
     title: 'Tryb Przejścia',
-    help_text: 'Jak skonfigurować Tryb Przejścia dla Ador?',
-    help_link: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
+    help_text: 'Jak skonfigurować Tryb Przejścia dla %(model)s?',
+    help_links: {
+      ado1: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
+      fbb2: 'https://support.flux3dp.com/hc/en-us/articles/11368979290383',
+    },
     object_length: 'Długość Obiektu',
     workarea_height: 'Obszar Roboczy (Wysokość):',
     height_desc: 'Ustaw wysokość każdej sekcji obszaru roboczego.',
@@ -1977,7 +1980,7 @@ const lang: ILang = {
     ref_layer_desc: 'Należy pamiętać, że wykonanie warstwy odniesienia jest domyślnie ustawione na 0. Nie zostanie ono wykonane, jest tylko punktem odniesienia do wyrównania.',
     ref_layer_name: 'Odniesienie',
     guide_mark: 'Znacznik Przewodnika',
-    guide_mark_length: 'Średnica:',
+    guide_mark_length: 'Długość:',
     guide_mark_x: 'Współrzędna X:',
     guide_mark_desc: 'Znaczniki przewodnika będą grawerowane jako punkt odniesienia do wyrównania dzieła sztuki.',
     export: 'Eksportuj do Obszaru Roboczego',

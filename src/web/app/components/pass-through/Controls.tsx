@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import React, { useCallback, useContext, useMemo } from 'react';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import { Switch, Tooltip } from 'antd';
+import { sprintf } from 'sprintf-js';
 
 import browser from 'implementations/browser';
 import constant from 'app/actions/beambox/constant';
@@ -17,6 +18,7 @@ const Controls = (): JSX.Element => {
   const lang = useI18n().pass_through;
 
   const {
+    workarea,
     workareaObj,
     passThroughHeight,
     setPassThroughHeight,
@@ -41,11 +43,14 @@ const Controls = (): JSX.Element => {
   );
 
   const { show, x: guideMarkX, width: guideMarkWidth } = guideMark;
-  const { xMax, xMin, widthMax } = useMemo(() => ({
-    xMax: workareaObj.width - guideMarkWidth / 2,
-    xMin: guideMarkWidth / 2,
-    widthMax: (workareaObj.width - guideMarkX) * 2,
-  }), [workareaObj.width, guideMarkX, guideMarkWidth]);
+  const { xMax, xMin, widthMax } = useMemo(
+    () => ({
+      xMax: workareaObj.width - guideMarkWidth / 2,
+      xMin: guideMarkWidth / 2,
+      widthMax: (workareaObj.width - guideMarkX) * 2,
+    }),
+    [workareaObj.width, guideMarkX, guideMarkWidth]
+  );
   const setX = useCallback(
     (val) => {
       setGuideMark((cur) => ({
@@ -80,9 +85,11 @@ const Controls = (): JSX.Element => {
   }, [isInch]);
   return (
     <div className={styles.controls}>
-      <div className={styles.link} onClick={() => browser.open(lang.help_link)}>
-        {lang.help_text}
-      </div>
+      {lang.help_links[workarea] && (
+        <div className={styles.link} onClick={() => browser.open(lang.help_links[workarea])}>
+          {sprintf(lang.help_text, { model: workareaObj.label })}
+        </div>
+      )}
       <div className={styles.size}>
         <div>
           {lang.object_length}

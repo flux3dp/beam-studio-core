@@ -1965,8 +1965,11 @@ const lang: ILang = {
   },
   pass_through: {
     title: 'Mode Lewat',
-    help_text: 'Bagaimana mengatur Mode Lewat untuk Ador?',
-    help_link: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
+    help_text: 'Bagaimana mengatur Mode Lewat untuk %(model)s?',
+    help_links: {
+      ado1: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
+      fbb2: 'https://support.flux3dp.com/hc/en-us/articles/11368979290383',
+    },
     object_length: 'Panjang Objek',
     workarea_height: 'Area Kerja (Tinggi):',
     height_desc: 'Atur ketinggian setiap bagian area kerja.',
@@ -1974,7 +1977,7 @@ const lang: ILang = {
     ref_layer_desc: 'Harap dicatat bahwa eksekusi lapisan referensi secara default diatur ke 0. Itu tidak akan dieksekusi tetapi hanya untuk referensi penyelarasan.',
     ref_layer_name: 'Referensi',
     guide_mark: 'Tanda Panduan',
-    guide_mark_length: 'Diameter:',
+    guide_mark_length: 'Panjang:',
     guide_mark_x: 'Koordinat X:',
     guide_mark_desc: 'Tanda panduan akan diukir sebagai titik referensi untuk menyelaraskan karya seni.',
     export: 'Ekspor ke Area Kerja',

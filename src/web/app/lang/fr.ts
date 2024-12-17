@@ -1965,8 +1965,11 @@ const lang: ILang = {
   },
   pass_through: {
     title: 'Mode Passage',
-    help_text: 'Comment configurer Mode Passage pour Ador?',
-    help_link: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
+    help_text: 'Comment configurer Mode Passage pour %(model)s?',
+    help_links: {
+      ado1: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
+      fbb2: 'https://support.flux3dp.com/hc/en-us/articles/11368979290383',
+    },
     object_length: "Longueur de l'Objet",
     workarea_height: 'Zone de Travail (Hauteur):',
     height_desc: 'Réglez la hauteur de chaque section de la zone de travail.',
@@ -1974,7 +1977,7 @@ const lang: ILang = {
     ref_layer_desc: "Veuillez noter que l'exécution de la couche de référence est par défaut définie sur 0. Elle ne sera pas exécutée mais est uniquement destinée à la référence d'alignement.",
     ref_layer_name: 'Référence',
     guide_mark: 'Marque de Guidage',
-    guide_mark_length: 'Diamètre:',
+    guide_mark_length: 'Longueur:',
     guide_mark_x: 'Coordonnée X:',
     guide_mark_desc: "Les marques de guidage seront gravées comme point de référence pour aligner l'œuvre d'art.",
     export: 'Exporter vers la Zone de Travail',

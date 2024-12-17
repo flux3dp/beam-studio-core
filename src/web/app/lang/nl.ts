@@ -1965,8 +1965,11 @@ const lang: ILang = {
   },
   pass_through: {
     title: 'Doorgangsmodus',
-    help_text: 'Hoe stel je Doorgangsmodus in voor Ador?',
-    help_link: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
+    help_text: 'Hoe stel je Doorgangsmodus in voor %(model)s?',
+    help_links: {
+      ado1: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
+      fbb2: 'https://support.flux3dp.com/hc/en-us/articles/11368979290383',
+    },
     object_length: 'Objectlengte',
     workarea_height: 'Werkgebied (Hoogte):',
     height_desc: 'Stel de hoogte van elke werkgebiedsectie in.',
@@ -1974,7 +1977,7 @@ const lang: ILang = {
     ref_layer_desc: 'Let op dat de uitvoering van de referentielaag standaard is ingesteld op 0. Het wordt niet uitgevoerd, maar dient alleen als uitlijningsreferentie.',
     ref_layer_name: 'Referentie',
     guide_mark: 'Gidsmarkering',
-    guide_mark_length: 'Diameter:',
+    guide_mark_length: 'Lengte:',
     guide_mark_x: 'X-coördinaat:',
     guide_mark_desc: 'Gidsmarkeringen worden gegraveerd als referentiepunt om het kunstwerk uit te lijnen.',
     export: 'Exporteren naar Werkgebied',

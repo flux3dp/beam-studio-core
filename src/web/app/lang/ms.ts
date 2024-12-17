@@ -1965,8 +1965,11 @@ const lang: ILang = {
   },
   pass_through: {
     title: 'Mod Lalu',
-    help_text: 'Bagaimana untuk menyediakan Mod Lalu untuk Ador?',
-    help_link: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
+    help_text: 'Bagaimana untuk menyediakan Mod Lalu untuk %(model)s?',
+    help_links: {
+      ado1: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
+      fbb2: 'https://support.flux3dp.com/hc/en-us/articles/11368979290383',
+    },
     object_length: 'Panjang Objek',
     workarea_height: 'Kawasan Kerja (Tinggi):',
     height_desc: 'Tetapkan ketinggian setiap bahagian kawasan kerja.',
@@ -1974,7 +1977,7 @@ const lang: ILang = {
     ref_layer_desc: 'Sila ambil perhatian bahawa pelaksanaan lapisan rujukan ditetapkan kepada 0 secara lalai. Ia tidak akan dilaksanakan tetapi hanya untuk rujukan penjajaran.',
     ref_layer_name: 'Rujukan',
     guide_mark: 'Tanda Panduan',
-    guide_mark_length: 'Diameter:',
+    guide_mark_length: 'Panjang:',
     guide_mark_x: 'Koordinat X:',
     guide_mark_desc: 'Tanda panduan akan diukir sebagai titik rujukan untuk menyelaraskan karya seni.',
     export: 'Eksport ke Kawasan Kerja',

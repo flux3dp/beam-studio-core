@@ -1968,8 +1968,11 @@ const lang: ILang = {
   },
   pass_through: {
     title: 'Režim procházení',
-    help_text: 'Jak nastavit Procházení pro Ador?',
-    help_link: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
+    help_text: 'Jak nastavit Procházení pro %(model)s?',
+    help_links: {
+      ado1: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
+      fbb2: 'https://support.flux3dp.com/hc/en-us/articles/11368979290383',
+    },
     object_length: 'Délka objektu',
     workarea_height: 'Pracovní oblast (Výška):',
     height_desc: 'Nastavit výšku všech sekcí pracovní oblasti.',
@@ -1977,7 +1980,7 @@ const lang: ILang = {
     ref_layer_desc: 'Pozor: Výchozí hodnota referenční vrstvy je 0. Tato hodnota nebude použita, slouží pouze jako reference pro zarovnání.',
     ref_layer_name: 'Reference',
     guide_mark: 'Vodicí značka',
-    guide_mark_length: 'Průměr:',
+    guide_mark_length: 'Délka:',
     guide_mark_x: 'Souřadnice X:',
     guide_mark_desc: 'Vodicí značky budou gravírovány jako referenční bod pro zarovnání kresby.',
     export: 'Export do pracovní oblasti',

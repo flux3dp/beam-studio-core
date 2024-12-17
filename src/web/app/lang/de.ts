@@ -1968,8 +1968,11 @@ const lang: ILang = {
   },
   pass_through: {
     title: 'Durchgangsmodus',
-    help_text: 'Wie richtet man Durchgangsmodus für Ador ein?',
-    help_link: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
+    help_text: 'Wie richtet man Durchgangsmodus für %(model)s ein?',
+    help_links: {
+      ado1: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
+      fbb2: 'https://support.flux3dp.com/hc/en-us/articles/11368979290383',
+    },
     object_length: 'Objektlänge',
     workarea_height: 'Arbeitsbereich (Höhe):',
     height_desc: 'Stellen Sie die Höhe jeder Arbeitsbereichssektion ein.',
@@ -1977,7 +1980,7 @@ const lang: ILang = {
     ref_layer_desc: 'Bitte beachten Sie, dass die Ausführung der Referenzschicht standardmäßig auf 0 gesetzt ist. Sie wird nicht ausgeführt, sondern dient nur als Ausrichtungsreferenz.',
     ref_layer_name: 'Referenz',
     guide_mark: 'Führungsmarkierung',
-    guide_mark_length: 'Durchmesser:',
+    guide_mark_length: 'Länge:',
     guide_mark_x: 'X-Koordinate:',
     guide_mark_desc: 'Führungsmarkierungen werden als Referenzpunkt zur Ausrichtung des Kunstwerks eingraviert.',
     export: 'In Arbeitsbereich exportieren',

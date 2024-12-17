@@ -1968,8 +1968,11 @@ const lang: ILang = {
   },
   pass_through: {
     title: '廣域雕刻',
-    help_text: '如何為 Ador 設置廣域雕刻？',
-    help_link: 'https://support.flux3dp.com/hc/zh-tw/articles/10140002160399',
+    help_text: '如何為 %(model)s 設置廣域雕刻？',
+    help_links: {
+      ado1: 'https://support.flux3dp.com/hc/zh-tw/articles/10140002160399',
+      fbb2: 'https://support.flux3dp.com/hc/zh-tw/articles/11368979290383',
+    },
     object_length: '物體長度',
     workarea_height: '工作區域（幅高）',
     height_desc: '設定每個區域的幅寬。',
@@ -1977,7 +1980,7 @@ const lang: ILang = {
     ref_layer_desc: '參考圖層的執行次數預設為 0。它不會被執行，只用於對齊。',
     ref_layer_name: '參考圖層',
     guide_mark: '輔助標記',
-    guide_mark_length: '直徑：',
+    guide_mark_length: '長度：',
     guide_mark_x: 'X 座標：',
     guide_mark_desc: '雕刻輔助標記以作為參考點來對齊物件。',
     export: '輸出到工作區域',

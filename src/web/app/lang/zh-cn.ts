@@ -1968,8 +1968,11 @@ const lang: ILang = {
   },
   pass_through: {
     title: '广域雕刻',
-    help_text: '如何为Ador设置广域雕刻？',
-    help_link: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
+    help_text: '如何为%(model)s设置广域雕刻？',
+    help_links: {
+      ado1: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
+      fbb2: 'https://support.flux3dp.com/hc/en-us/articles/11368979290383',
+    },
     object_length: '物体长度',
     workarea_height: '工作区域（高度）：',
     height_desc: '设置每次工作区域部分的高度。',
@@ -1977,7 +1980,7 @@ const lang: ILang = {
     ref_layer_desc: '请注意，参考层的执行默认设置为0。它不会被执行，仅用于对齐参考。',
     ref_layer_name: '参考层',
     guide_mark: '引导标记',
-    guide_mark_length: '直径：',
+    guide_mark_length: '长度：',
     guide_mark_x: 'X坐标：',
     guide_mark_desc: '引导标记将被刻为对齐艺术作品的参考点。',
     export: '导出到工作区域',

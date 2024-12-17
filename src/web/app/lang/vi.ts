@@ -1965,8 +1965,11 @@ const lang: ILang = {
   },
   pass_through: {
     title: 'Chế Độ Đi Qua',
-    help_text: 'Cách thiết lập Chế Độ Đi Qua cho Ador?',
-    help_link: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
+    help_text: 'Cách thiết lập Chế Độ Đi Qua cho %(model)s?',
+    help_links: {
+      ado1: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
+      fbb2: 'https://support.flux3dp.com/hc/en-us/articles/11368979290383',
+    },
     object_length: 'Chiều Dài Đối Tượng',
     workarea_height: 'Khu Vực Làm Việc (Chiều Cao):',
     height_desc: 'Cài đặt chiều cao của mỗi phần khu vực làm việc.',
@@ -1974,7 +1977,7 @@ const lang: ILang = {
     ref_layer_desc: 'Lưu ý rằng việc thực hiện lớp tham chiếu được đặt mặc định là 0. Nó sẽ không được thực hiện mà chỉ để tham chiếu căn chỉnh.',
     ref_layer_name: 'Tham Chiếu',
     guide_mark: 'Dấu Hướng Dẫn',
-    guide_mark_length: 'Đường kính:',
+    guide_mark_length: 'Chiều dài:',
     guide_mark_x: 'Tọa Độ X:',
     guide_mark_desc: 'Dấu hướng dẫn sẽ được khắc làm điểm tham chiếu để căn chỉnh tác phẩm nghệ thuật.',
     export: 'Xuất sang Khu Vực Làm Việc',
