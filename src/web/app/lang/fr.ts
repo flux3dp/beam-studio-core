@@ -1717,6 +1717,7 @@ const lang: ILang = {
     solve_pnp_title: 'Aligner les points de repère',
     solve_pnp_step1: 'Veuillez aligner les points de gravure selon le numéro et la position attendue de chaque point marqueur rouge.',
     solve_pnp_step2: 'Vous pouvez appuyer sur "Reprendre la photo" pour réaligner ou ajuster manuellement les positions des marqueurs.',
+    solve_pnp_step3: 'Si l\'image capturée ne correspond pas à la scène réelle, veuillez zoomer ou déplacer l\'écran pour ajuster le point de calibration sur la carte de calibration noire au centre, puis essayez de "Reprendre la photo".',
     align_olt: 'Position: Alignez avec le point gravé en haut à gauche extérieur.',
     align_ort: 'Position: Alignez avec le point gravé en haut à droite extérieur.',
     align_olb: 'Position: Alignez avec le point gravé en bas à gauche extérieur.',

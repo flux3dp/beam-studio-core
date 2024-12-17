@@ -1720,6 +1720,7 @@ const lang: ILang = {
     solve_pnp_title: 'Wyrównaj punkty znacznikowe',
     solve_pnp_step1: 'Proszę wyrównać punkty grawerowania zgodnie z numerem i oczekiwaną pozycją każdego czerwonego punktu oznaczenia.',
     solve_pnp_step2: 'Możesz nacisnąć przycisk "Powtórz zdjęcie" w celu ponownego wyrównania lub ręcznej regulacji pozycji znaczników.',
+    solve_pnp_step3: 'Jeśli uchwycony obraz nie odpowiada rzeczywistej scenie, proszę powiększyć lub przesunąć ekran, aby dostosować punkt kalibracji na czarnej karcie kalibracyjnej do środka, a następnie spróbować "Powtórz zdjęcie".',
     align_olt: 'Pozycja: Wyrównaj do punktu wyrytego na zewnątrz po lewej górnej stronie.',
     align_ort: 'Pozycja: Wyrównaj do punktu wyrytego na zewnątrz po prawej górnej stronie.',
     align_olb: 'Pozycja: Wyrównaj do punktu wyrytego na zewnątrz po lewej dolnej stronie.',

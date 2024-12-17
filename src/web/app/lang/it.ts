@@ -1717,6 +1717,7 @@ const lang: ILang = {
     solve_pnp_title: 'Allineare i Punti di Riferimento',
     solve_pnp_step1: 'Allineare i punti di incisione in base al numero e alla posizione prevista di ciascun punto di riferimento rosso.',
     solve_pnp_step2: 'È possibile premere "Riprendi immagine" per riallineare o regolare manualmente le posizioni dei marcatori.',
+    solve_pnp_step3: 'Se l\'immagine catturata non corrisponde alla scena reale, ingrandisci o trascina lo schermo per regolare il punto di calibrazione sulla scheda di calibrazione nera al centro, quindi prova a "Riprendi immagine".',
     align_olt: 'Posizione: Allineare con il punto inciso in alto a sinistra esterno.',
     align_ort: 'Posizione: Allineare con il punto inciso in alto a destra esterno.',
     align_olb: 'Posizione: Allineare con il punto inciso in basso a sinistra esterno.',

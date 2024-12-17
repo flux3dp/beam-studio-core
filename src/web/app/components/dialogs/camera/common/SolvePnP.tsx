@@ -348,6 +348,7 @@ const SolvePnP = ({
       <ol className={styles.steps}>
         <li>{lang.calibration.solve_pnp_step1}</li>
         <li>{lang.calibration.solve_pnp_step2}</li>
+        <li>{lang.calibration.solve_pnp_step3}</li>
       </ol>
       <Row gutter={[16, 12]}>
         <Col span={16}>

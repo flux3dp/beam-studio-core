@@ -1717,6 +1717,7 @@ const lang: ILang = {
     solve_pnp_title: 'Kohdista merkkipisteet',
     solve_pnp_step1: 'Kohdista kaiverruspisteet punaisen merkintäpisteen numeron ja odotetun sijainnin mukaan.',
     solve_pnp_step2: 'Voit painaa "Ota kuva uudelleen" uudelleen suuntautua tai säätää merkkipisteiden sijaintia manuaalisesti.',
+    solve_pnp_step3: 'Jos otettu kuva ei vastaa todellista tilannetta, zoomaa tai vedä näyttöä säätääksesi kalibrointipisteen mustassa kalibrointikortissa keskelle, ja kokeile sitten "Ota kuva uudelleen".',
     align_olt: 'Sijainti: Kohdista kaiverrettuun pisteeseen vasemmassa yläkulmassa ulkopuolella.',
     align_ort: 'Sijainti: Kohdista kaiverrettuun pisteeseen oikeassa yläkulmassa ulkopuolella.',
     align_olb: 'Sijainti: Kohdista kaiverrettuun pisteeseen vasemmassa alakulmassa ulkopuolella.',
