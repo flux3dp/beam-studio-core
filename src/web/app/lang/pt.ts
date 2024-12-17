@@ -1965,8 +1965,11 @@ const lang: ILang = {
   },
   pass_through: {
     title: 'Modo De Passar Por',
-    help_text: 'Como configurar Modo De Passar Por para Ador?',
-    help_link: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
+    help_text: 'Como configurar Modo De Passar Por para %(model)s?',
+    help_links: {
+      ado1: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
+      // fbb2: 'https://support.flux3dp.com/hc/en-us/articles/11368979290383',
+    },
     object_length: 'Comprimento do Objeto',
     workarea_height: 'Área de Trabalho (Altura):',
     height_desc: 'Defina a altura de cada seção da área de trabalho.',
@@ -1974,7 +1977,7 @@ const lang: ILang = {
     ref_layer_desc: 'Observe que a execução da camada de referência está configurada como 0 por padrão. Ela não será executada, mas é apenas para referência de alinhamento.',
     ref_layer_name: 'Referência',
     guide_mark: 'Marca de Guia',
-    guide_mark_length: 'Diâmetro:',
+    guide_mark_length: 'Comprimento:',
     guide_mark_x: 'Coordenada X:',
     guide_mark_desc: 'As marcas de guia serão gravadas como um ponto de referência para alinhar a obra de arte.',
     export: 'Exportar para Área de Trabalho',

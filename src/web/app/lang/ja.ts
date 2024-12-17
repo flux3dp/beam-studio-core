@@ -1968,8 +1968,11 @@ const lang: ILang = {
   },
   pass_through: {
     title: 'パススルーモード',
-    help_text: 'Adorのパススルーモードの設定方法',
-    help_link: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
+    help_text: '%(model)sのパススルーモードの設定方法',
+    help_links: {
+      ado1: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
+      // fbb2: 'https://support.flux3dp.com/hc/en-us/articles/11368979290383',
+    },
     object_length: 'オブジェクトの長さ',
     workarea_height: '作業エリア（高さ）:',
     height_desc: '各作業エリアセクションの高さを設定します。',
@@ -1977,7 +1980,7 @@ const lang: ILang = {
     ref_layer_desc: '参照レイヤーの実行はデフォルトで0に設定されています。 実行されることはなく、整列参照用です。',
     ref_layer_name: '参照レイヤー',
     guide_mark: 'ガイドマーク',
-    guide_mark_length: '直径:',
+    guide_mark_length: '長さ:',
     guide_mark_x: 'X座標:',
     guide_mark_desc: 'ガイドマークはアートワークを整列させるための基準点として刻まれます。',
     export: '作業エリアにエクスポート',

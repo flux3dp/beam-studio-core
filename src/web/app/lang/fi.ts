@@ -1965,8 +1965,11 @@ const lang: ILang = {
   },
   pass_through: {
     title: 'Läpäisymoodi',
-    help_text: 'Kuinka asettaa Läpäisymoodi Adorille?',
-    help_link: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
+    help_text: 'Kuinka asettaa Läpäisymoodi %(model)s ille?',
+    help_links: {
+      ado1: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
+      // fbb2: 'https://support.flux3dp.com/hc/en-us/articles/11368979290383',
+    },
     object_length: 'Objektin Pituus',
     workarea_height: 'Työalue (Korkeus):',
     height_desc: 'Aseta kunkin työalueen osan korkeus.',
@@ -1974,7 +1977,7 @@ const lang: ILang = {
     ref_layer_desc: 'Huomaa, että referenssikerroksen suoritus on oletuksena asetettu arvoon 0. Sitä ei suoriteta, vaan se on vain kohdistusviite.',
     ref_layer_name: 'Viite',
     guide_mark: 'Opasmerkki',
-    guide_mark_length: 'Halkaisija:',
+    guide_mark_length: 'Pituus:',
     guide_mark_x: 'X-koordinaatti:',
     guide_mark_desc: 'Opasmerkit kaiverretaan viitepisteenä taideteoksen kohdistamiseksi.',
     export: 'Vie Työalueelle',

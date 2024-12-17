@@ -1965,8 +1965,11 @@ const lang: ILang = {
   },
   pass_through: {
     title: 'Gennemgangstilstand',
-    help_text: 'Hvordan opsætter man Gennemgangstilstand for Ador?',
-    help_link: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
+    help_text: 'Hvordan opsætter man Gennemgangstilstand for %(model)s?',
+    help_links: {
+      ado1: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
+      // fbb2: 'https://support.flux3dp.com/hc/en-us/articles/11368979290383',
+    },
     object_length: 'Objekt Længde',
     workarea_height: 'Arbejdsområde (Højde):',
     height_desc: 'Indstil højden på hver sektion i arbejdsområdet.',
@@ -1974,7 +1977,7 @@ const lang: ILang = {
     ref_layer_desc: 'Bemærk, at udførelsen af reference-laget er indstillet til 0 som standard. Det vil ikke blive udført, men er kun til justeringsreference.',
     ref_layer_name: 'Reference',
     guide_mark: 'Vejledningsmærker vil blive indgraveret som et referencepunkt til justering af kunstværket.',
-    guide_mark_length: 'Diameter:',
+    guide_mark_length: 'Længde:',
     guide_mark_x: 'X Koordinat:',
     guide_mark_desc: 'Vejledning linjer vil blive graveret som et referencepunkt for at justere kunstværket.',
     export: 'Eksportér til Arbejdsområde',
