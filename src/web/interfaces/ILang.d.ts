@@ -1961,6 +1961,7 @@ export interface ILang {
     help_text: string;
     help_links: {
       ado1: string;
+      // TODO: hide fbb2 link the article is until ready
       // fbb2: string;
     };
     object_length: string;
