@@ -1971,7 +1971,7 @@ const lang: ILang = {
     help_text: 'Wie richtet man Durchgangsmodus für %(model)s ein?',
     help_links: {
       ado1: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
-      fbb2: 'https://support.flux3dp.com/hc/en-us/articles/11368979290383',
+      // fbb2: 'https://support.flux3dp.com/hc/en-us/articles/11368979290383',
     },
     object_length: 'Objektlänge',
     workarea_height: 'Arbeitsbereich (Höhe):',

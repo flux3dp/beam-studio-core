@@ -1971,7 +1971,7 @@ const lang: ILang = {
     help_text: '如何為 %(model)s 設置廣域雕刻？',
     help_links: {
       ado1: 'https://support.flux3dp.com/hc/zh-tw/articles/10140002160399',
-      fbb2: 'https://support.flux3dp.com/hc/zh-tw/articles/11368979290383',
+      // fbb2: 'https://support.flux3dp.com/hc/zh-tw/articles/11368979290383',
     },
     object_length: '物體長度',
     workarea_height: '工作區域（幅高）',

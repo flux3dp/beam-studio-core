@@ -1968,7 +1968,7 @@ const lang: ILang = {
     help_text: 'Como configurar Modo De Passar Por para %(model)s?',
     help_links: {
       ado1: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
-      fbb2: 'https://support.flux3dp.com/hc/en-us/articles/11368979290383',
+      // fbb2: 'https://support.flux3dp.com/hc/en-us/articles/11368979290383',
     },
     object_length: 'Comprimento do Objeto',
     workarea_height: 'Área de Trabalho (Altura):',

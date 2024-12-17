@@ -1968,7 +1968,7 @@ const lang: ILang = {
     help_text: 'Πώς να ρυθμίσετε το Λειτουργία Διέλευσης για το %(model)s;',
     help_links: {
       ado1: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
-      fbb2: 'https://support.flux3dp.com/hc/en-us/articles/11368979290383',
+      // fbb2: 'https://support.flux3dp.com/hc/en-us/articles/11368979290383',
     },
     object_length: 'Μήκος Αντικειμένου',
     workarea_height: 'Περιοχή Εργασίας (Ύψος):',

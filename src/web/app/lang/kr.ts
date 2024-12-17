@@ -1971,7 +1971,7 @@ const lang: ILang = {
     help_text: '%(model)s의 패스 스루 설정 방법',
     help_links: {
       ado1: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
-      fbb2: 'https://support.flux3dp.com/hc/en-us/articles/11368979290383',
+      // fbb2: 'https://support.flux3dp.com/hc/en-us/articles/11368979290383',
     },
     object_length: '객체 길이',
     workarea_height: '작업 영역 (높이):',

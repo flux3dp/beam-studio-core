@@ -1968,7 +1968,7 @@ const lang: ILang = {
     help_text: 'Bagaimana mengatur Mode Lewat untuk %(model)s?',
     help_links: {
       ado1: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
-      fbb2: 'https://support.flux3dp.com/hc/en-us/articles/11368979290383',
+      // fbb2: 'https://support.flux3dp.com/hc/en-us/articles/11368979290383',
     },
     object_length: 'Panjang Objek',
     workarea_height: 'Area Kerja (Tinggi):',

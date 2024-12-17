@@ -1971,7 +1971,7 @@ Machines > ‘Promark Name’ > Promark Settings`,
     help_text: 'How to setup Pass Through for %(model)s?',
     help_links: {
       ado1: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
-      fbb2: 'https://support.flux3dp.com/hc/en-us/articles/11368979290383',
+      // fbb2: 'https://support.flux3dp.com/hc/en-us/articles/11368979290383',
     },
     object_length: 'Object Length',
     workarea_height: 'Work Area (Height):',

@@ -1961,7 +1961,7 @@ export interface ILang {
     help_text: string;
     help_links: {
       ado1: string;
-      fbb2: string;
+      // fbb2: string;
     };
     object_length: string;
     workarea_height: string;

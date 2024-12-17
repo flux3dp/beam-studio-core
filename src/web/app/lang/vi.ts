@@ -1968,7 +1968,7 @@ const lang: ILang = {
     help_text: 'Cách thiết lập Chế Độ Đi Qua cho %(model)s?',
     help_links: {
       ado1: 'https://support.flux3dp.com/hc/en-us/articles/10140002160399',
-      fbb2: 'https://support.flux3dp.com/hc/en-us/articles/11368979290383',
+      // fbb2: 'https://support.flux3dp.com/hc/en-us/articles/11368979290383',
     },
     object_length: 'Chiều Dài Đối Tượng',
     workarea_height: 'Khu Vực Làm Việc (Chiều Cao):',
