@@ -78,6 +78,7 @@ export interface ILang {
       samples: string;
       example_files: string;
       material_test: string;
+      promark_color_test: string;
       calibration: string;
       import_hello_beamo: string;
       import_hello_beambox: string;
@@ -95,6 +96,9 @@ export interface ILang {
       import_beambox_2_focus_probe: string;
       import_promark_example: string;
       import_hexa_example: string;
+      import_promark_mopa_20w_color: string;
+      import_promark_mopa_60w_color: string;
+      import_promark_mopa_100w_color: string;
       export_to: string;
       export_flux_task: string;
       export_BVG: string;
