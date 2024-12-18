@@ -44,7 +44,8 @@ class BeamboxGlobalInteraction {
       return;
     }
 
-    const { tagName } = selectedElements[0];
+    const firstElement = selectedElements[0];
+    const { tagName } = firstElement;
 
     menu.enable(['DUPLICATE', 'DELETE', 'PATH']);
 
@@ -53,25 +54,31 @@ class BeamboxGlobalInteraction {
       menu.disable(['PATH']);
     } else if (tagName === 'use') {
       menu.enable(['SVG_EDIT']);
+
+      if (
+        firstElement.getAttribute('data-svg') === 'true' ||
+        firstElement.getAttribute('data-dxf') === 'true'
+      ) {
+        menu.disable(['PATH']);
+      }
     } else if (tagName === 'path') {
       menu.enable(['DECOMPOSE_PATH']);
     }
 
-    if (
-      selectedElements.length > 0 &&
-      selectedElements[0].getAttribute('data-tempgroup') === 'true'
-    ) {
-      selectedElements = Array.from(selectedElements[0].childNodes);
+    if (selectedElements.length > 0 && firstElement.getAttribute('data-tempgroup') === 'true') {
+      selectedElements = Array.from(firstElement.childNodes);
     }
+
     if (selectedElements?.length > 1 || (selectedElements?.length === 1 && tagName !== 'g')) {
       menu.enable(['GROUP']);
     }
+
     if (
       selectedElements &&
       selectedElements.length === 1 &&
       ['g', 'a', 'use'].includes(tagName) &&
-      !selectedElements[0].getAttribute('data-textpath-g') &&
-      !selectedElements[0].getAttribute('data-pass-through')
+      !firstElement.getAttribute('data-textpath-g') &&
+      !firstElement.getAttribute('data-pass-through')
     ) {
       menu.enable(['UNGROUP']);
     }
