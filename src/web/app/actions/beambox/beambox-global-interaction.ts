@@ -38,36 +38,47 @@ class BeamboxGlobalInteraction {
   }
 
   onObjectFocus(elems?) {
-    let selectedElements = elems || svgCanvas.getSelectedElems().filter((elem) => elem);
-    if (selectedElements.length === 0) {
+    let selectedElements = elems || svgCanvas.getSelectedElems().filter(Boolean);
+
+    if (!selectedElements.length) {
       return;
     }
+
+    const firstElement = selectedElements[0];
+    const { tagName } = firstElement;
+
     menu.enable(['DUPLICATE', 'DELETE', 'PATH']);
-    if (selectedElements[0].tagName === 'image') {
+
+    if (tagName === 'image') {
       menu.enable(['PHOTO_EDIT']);
-    } else if (selectedElements[0].tagName === 'use') {
+      menu.disable(['PATH']);
+    } else if (tagName === 'use') {
       menu.enable(['SVG_EDIT']);
-    } else if (selectedElements[0].tagName === 'path') {
+
+      if (
+        firstElement.getAttribute('data-svg') === 'true' ||
+        firstElement.getAttribute('data-dxf') === 'true'
+      ) {
+        menu.disable(['PATH']);
+      }
+    } else if (tagName === 'path') {
       menu.enable(['DECOMPOSE_PATH']);
     }
-    if (
-      selectedElements.length > 0 &&
-      selectedElements[0].getAttribute('data-tempgroup') === 'true'
-    ) {
-      selectedElements = Array.from(selectedElements[0].childNodes);
+
+    if (selectedElements.length > 0 && firstElement.getAttribute('data-tempgroup') === 'true') {
+      selectedElements = Array.from(firstElement.childNodes);
     }
-    if (
-      selectedElements?.length > 1 ||
-      (selectedElements?.length === 1 && selectedElements[0].tagName !== 'g')
-    ) {
+
+    if (selectedElements?.length > 1 || (selectedElements?.length === 1 && tagName !== 'g')) {
       menu.enable(['GROUP']);
     }
+
     if (
       selectedElements &&
       selectedElements.length === 1 &&
-      ['g', 'a', 'use'].includes(selectedElements[0].tagName) &&
-      !selectedElements[0].getAttribute('data-textpath-g') &&
-      !selectedElements[0].getAttribute('data-pass-through')
+      ['g', 'a', 'use'].includes(tagName) &&
+      !firstElement.getAttribute('data-textpath-g') &&
+      !firstElement.getAttribute('data-pass-through')
     ) {
       menu.enable(['UNGROUP']);
     }
@@ -91,6 +102,6 @@ class BeamboxGlobalInteraction {
   }
 }
 
-const instance = new BeamboxGlobalInteraction();
+const beamboxGlobalInteraction = new BeamboxGlobalInteraction();
 
-export default instance;
+export default beamboxGlobalInteraction;

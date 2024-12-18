@@ -281,12 +281,11 @@ const importSvg = async (
 
   if (filteredNewElements.length === 0) {
     svgCanvas.clearSelection();
-  } else {
+  } else if (filteredNewElements.length === 1) {
     svgCanvas.selectOnly(filteredNewElements);
-
-    if (filteredNewElements.length > 1) {
-      svgCanvas.tempGroupSelectedElements();
-    }
+  } else {
+    // no selection until the temp group is created, to prevent the group type is not correct
+    svgCanvas.selectOnly(svgCanvas.tempGroupSelectedElements());
   }
 
   if (!batchCmd.isEmpty()) {
