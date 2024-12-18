@@ -375,6 +375,7 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
                   <div className={styles.subCheckbox}>
                     <div>
                       <Checkbox
+                        id="frame_before_start"
                         checked={shouldFrame}
                         onChange={(e) => setShouldFrame(e.target.checked)}
                       >

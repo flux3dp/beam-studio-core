@@ -3,6 +3,7 @@ import { render } from '@testing-library/react';
 
 import { CanvasContext } from 'app/contexts/CanvasContext';
 
+import CanvasMode from 'app/constants/canvasMode';
 import GoButton from './GoButton';
 
 const popUp = jest.fn();
@@ -109,16 +110,34 @@ jest.mock('app/components/dialogs/camera/AdorCalibration', () => ({
   showAdorCalibration: (...args) => mockShowAdorCalibration(...args),
 }));
 
+const mockSetStatus = jest.fn();
+const mockHandleFinish = jest.fn();
+const mockSetExportFn = jest.fn();
+const mockOnContextChanged = jest.fn();
+jest.mock('helpers/device/promark/promark-button-handler', () => ({
+  setStatus: (...args) => mockSetStatus(...args),
+  handleFinish: (...args) => mockHandleFinish(...args),
+  setExportFn: (...args) => mockSetExportFn(...args),
+  onContextChanged: (...args) => mockOnContextChanged(...args),
+}));
+
 describe('test GoButton', () => {
   test('should render correctly', () => {
     const endPreviewMode = jest.fn();
+    const mockDevice = { uuid: 'mock-device' };
     const { container } = render(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      <CanvasContext.Provider value={{ endPreviewMode } as any}>
+      <CanvasContext.Provider
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        value={{ endPreviewMode, mode: CanvasMode.Draw, selectedDevice: mockDevice } as any}
+      >
         <GoButton hasDiscoverdMachine={false} />
       </CanvasContext.Provider>
     );
 
     expect(container).toMatchSnapshot();
+
+    expect(mockSetExportFn).toHaveBeenCalledTimes(1);
+    expect(mockOnContextChanged).toHaveBeenCalledTimes(1);
+    expect(mockOnContextChanged).toBeCalledWith(CanvasMode.Draw, mockDevice);
   });
 });

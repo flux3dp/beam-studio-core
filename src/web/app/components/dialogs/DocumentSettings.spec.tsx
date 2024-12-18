@@ -91,6 +91,11 @@ jest.mock('helpers/device/promark/promark-info', () => ({
   setPromarkInfo: (...args) => mockSetPromarkInfo(...args),
 }));
 
+const mockOpen = jest.fn();
+jest.mock('implementations/browser', () => ({
+  open: (...args) => mockOpen(...args),
+}));
+
 const mockUnmount = jest.fn();
 const mockQuerySelectorAll = jest.fn();
 
@@ -190,7 +195,7 @@ describe('test DocumentSettings', () => {
     expect(mockUnmount).toBeCalledTimes(1);
   });
 
-  test('set dimesnion for promark', async () => {
+  it('should render correctly for promark', async () => {
     document.querySelectorAll = mockQuerySelectorAll;
     const { baseElement, getByText } = render(<DocumentSettings unmount={mockUnmount} />);
     act(() => fireEvent.mouseDown(baseElement.querySelector('input#workareaSelect')));
@@ -207,6 +212,14 @@ describe('test DocumentSettings', () => {
     fireEvent.click(
       baseElement.querySelectorAll('.ant-slide-up-appear .ant-select-item-option-content')[4]
     );
+    expect(baseElement.querySelector('input#frame_before_start')).not.toBeInTheDocument();
+    expect(baseElement.querySelector('button#start_button')).toBeInTheDocument();
+    act(() => fireEvent.click(baseElement.querySelector('button#start_button')));
+    expect(baseElement.querySelector('input#frame_before_start')).toBeInTheDocument();
+    fireEvent.click(baseElement.querySelector('input#frame_before_start'));
+    fireEvent.click(baseElement.querySelector('.anticon-question-circle'));
+    expect(mockOpen).toBeCalledTimes(1);
+
     expect(baseElement).toMatchSnapshot();
     mockQuerySelectorAll.mockReturnValueOnce([1]);
     fireEvent.click(getByText('Save'));
@@ -222,10 +235,12 @@ describe('test DocumentSettings', () => {
     const { onConfirm } = mockPopUp.mock.calls[0][0];
     onConfirm();
     await new Promise((resolve) => setTimeout(resolve, 0));
-    expect(mockBeamboxPreferenceWrite).toBeCalledTimes(10);
+    expect(mockBeamboxPreferenceWrite).toBeCalledTimes(12);
     expect(mockBeamboxPreferenceWrite).toHaveBeenCalledWith('customized-dimension', {
       fpm1: { width: 110, height: 110 },
     });
+    expect(mockBeamboxPreferenceWrite).toHaveBeenCalledWith('promark-start-button', 1);
+    expect(mockBeamboxPreferenceWrite).toHaveBeenCalledWith('frame-before-start', 1);
     expect(mockSetPromarkInfo).toBeCalledTimes(1);
     expect(mockSetPromarkInfo).toHaveBeenLastCalledWith({ laserType: LaserType.MOPA, watt: 60 });
   });
