@@ -1720,6 +1720,7 @@ const lang: ILang = {
     solve_pnp_title: 'Cân chỉnh điểm đánh dấu',
     solve_pnp_step1: 'Vui lòng căn chỉnh các điểm khắc theo số và vị trí mong đợi của từng điểm đánh dấu màu đỏ.',
     solve_pnp_step2: 'Bạn có thể nhấn "Chụp lại" để điều chỉnh lại hoặc điều chỉnh vị trí của các đánh dấu theo cách thủ công.',
+    solve_pnp_step3: 'Nếu hình ảnh chụp không khớp với cảnh thực tế, vui lòng phóng to hoặc kéo màn hình để điều chỉnh điểm hiệu chỉnh trên thẻ hiệu chỉnh màu đen vào giữa, sau đó thử "Chụp lại".',
     align_olt: 'Vị trí: Căn chỉnh với điểm khắc ở phía trên cùng bên trái bên ngoài.',
     align_ort: 'Vị trí: Căn chỉnh với điểm khắc ở phía trên cùng bên phải bên ngoài.',
     align_olb: 'Vị trí: Căn chỉnh với điểm khắc ở phía dưới cùng bên trái bên ngoài.',

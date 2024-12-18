@@ -45,6 +45,7 @@ export default function Menu({ email }: Props): JSX.Element {
   const [decomposePathDisabled, setDecomposePathDisabled] = useState(true);
   const [groupDisabled, setGroupDisabled] = useState(true);
   const [ungroupDisabled, setUngroupDisabled] = useState(true);
+  const [pathDisabled, setPathDisabled] = useState(true);
   const [imageEditDisabled, setImageEditDisabled] = useState(true);
   const menuItemUpdater = {
     DUPLICATE: setDuplicateDisabled,
@@ -52,6 +53,7 @@ export default function Menu({ email }: Props): JSX.Element {
     DECOMPOSE_PATH: setDecomposePathDisabled,
     GROUP: setGroupDisabled,
     UNGROUP: setUngroupDisabled,
+    PATH: setPathDisabled,
     PHOTO_EDIT: setImageEditDisabled,
   };
   const isMobile = useIsMobile();
@@ -343,7 +345,7 @@ export default function Menu({ email }: Props): JSX.Element {
           {hotkey('ungroup')}
         </MenuItem>
         <MenuDivider />
-        <SubMenu label={menuCms.path}>
+        <SubMenu disabled={pathDisabled} label={menuCms.path}>
           <MenuItem onClick={() => callback('OFFSET')}>{menuCms.offset}</MenuItem>
           <MenuItem disabled={decomposePathDisabled} onClick={() => callback('DECOMPOSE_PATH')}>
             {menuCms.decompose_path}

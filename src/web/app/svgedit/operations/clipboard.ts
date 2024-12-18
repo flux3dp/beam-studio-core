@@ -514,30 +514,42 @@ const pasteInCenter = async (): Promise<{ cmd: IBatchCommand; elems: Array<Eleme
 
 const generateSelectedElementArray = async (
   interval: { dx: number; dy: number },
-  arraySize: { row: number; column: number }
+  { row, column }: { row: number; column: number }
 ): Promise<IBatchCommand> => {
   const batchCmd = new history.BatchCommand('Grid elements');
-  copySelectedElements();
+  await copySelectedElements();
   const arrayElements = [...svgCanvas.getSelectedWithoutTempGroup()];
   const clipboard = await getElementsFromNativeClipboard();
 
-  for (let i = 0; i < arraySize.column; i += 1) {
-    for (let j = 0; j < arraySize.row; j += 1) {
+  for (let i = 0; i < column; i += 1) {
+    for (let j = 0; j < row; j += 1) {
       if (i !== 0 || j !== 0) {
         const pasteRes = pasteElements(clipboard, {
           type: 'in_place',
           isSubCmd: true,
           selectElement: false,
         });
-        // eslint-disable-next-line no-continue
-        if (!pasteRes) continue;
+
+        if (!pasteRes) {
+          // eslint-disable-next-line no-continue
+          continue;
+        }
+
         const { cmd: pasteCmd, elems } = pasteRes;
+
         arrayElements.push(...elems);
-        if (pasteCmd && !pasteCmd.isEmpty()) batchCmd.addSubCommand(pasteCmd);
+
+        if (pasteCmd && !pasteCmd.isEmpty()) {
+          batchCmd.addSubCommand(pasteCmd);
+        }
+
         const dx = Array(elems.length).fill(i * interval.dx);
         const dy = Array(elems.length).fill(j * interval.dy);
         const moveCmd = moveElements(dx, dy, elems, false, true);
-        if (moveCmd && !moveCmd.isEmpty()) batchCmd.addSubCommand(moveCmd);
+
+        if (moveCmd && !moveCmd.isEmpty()) {
+          batchCmd.addSubCommand(moveCmd);
+        }
       }
     }
   }

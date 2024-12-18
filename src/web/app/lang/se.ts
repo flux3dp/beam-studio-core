@@ -1720,6 +1720,7 @@ const lang: ILang = {
     solve_pnp_title: 'Justera markörpunkterna',
     solve_pnp_step1: 'Justera gravyrpunkterna enligt numret och den förväntade positionen för varje röd markörpunkt.',
     solve_pnp_step2: 'Du kan trycka på "Ta om bild" för att justera om eller justera markörpositionerna manuellt.',
+    solve_pnp_step3: 'Om den tagna bilden inte matchar den verkliga scenen, zooma eller dra skärmen för att justera kalibreringspunkten på den svarta kalibreringskortet till mitten och sedan försöka "Ta om bild".',
     align_olt: 'Position: Justera med den graverade punkten på utsidan uppe till vänster.',
     align_ort: 'Position: Justera med den graverade punkten på utsidan uppe till höger.',
     align_olb: 'Position: Justera med den graverade punkten på utsidan nere till vänster.',

@@ -1720,6 +1720,7 @@ const lang: ILang = {
     solve_pnp_title: 'Juster markørpunkterne',
     solve_pnp_step1: 'Justér venligst graveringpunkterne i henhold til nummeret og den forventede position for hvert rødt markørpunkt.',
     solve_pnp_step2: 'Du kan trykke på "Tag billede igen" for at justere igen eller manuelt justere markørpositionerne.',
+    solve_pnp_step3: "Hvis det fangede billede ikke svarer til den faktiske scene, skal du zoome ind eller trække skærmen for at justere kalibreringspunktet på det sorte kalibreringskort til centrum, og derefter prøve at 'Tag billede igen'.",
     align_olt: 'Position: Justér med graveringpunktet på den ydre øverste venstre.',
     align_ort: 'Position: Justér med graveringspunktet på den ydre øverste højre side.',
     align_olb: 'Position: Justér med graveringspunktet på den ydre nederste venstre side.',

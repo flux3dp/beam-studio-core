@@ -1720,6 +1720,7 @@ const lang: ILang = {
     solve_pnp_title: 'Markeringspunten uitlijnen',
     solve_pnp_step1: 'Lijn de graveerpunten uit volgens het nummer en de verwachte positie van elk rood markeerpunt.',
     solve_pnp_step2: 'U kunt op "Foto opnieuw nemen" drukken om opnieuw uit te lijnen of de posities van de markeringen handmatig aan te passen.',
+    solve_pnp_step3: 'Als de vastgelegde afbeelding niet overeenkomt met de werkelijke scène, zoom dan in of sleep het scherm om het kalibratiepunt op de zwarte kalibratiekaart naar het midden te brengen en probeer vervolgens de "Foto opnieuw nemen".',
     align_olt: 'Positie: Lijn uit met het gegraveerde punt aan de buitenkant linksboven.',
     align_ort: 'Positie: Lijn uit met het gegraveerde punt aan de buitenkant rechtsboven.',
     align_olb: 'Positie: Lijn uit met het gegraveerde punt aan de buitenkant linksonder.',

@@ -1723,6 +1723,7 @@ const lang: ILang = {
     solve_pnp_title: 'Ausrichten von Markierungspunkten',
     solve_pnp_step1: 'Bitte richten Sie die Gravurpunkte entsprechend der Nummer und der erwarteten Position jedes roten Markierungspunktes aus.',
     solve_pnp_step2: 'Sie können auf "Foto erneut aufnehmen" drücken, um die Ausrichtung zu wiederholen oder die Markierungspositionen manuell anzupassen.',
+    solve_pnp_step3: "Wenn das aufgenommene Bild nicht mit der Realität übereinstimmt, bitte den Bildschirm zoomen oder verschieben, um den Kalibrierungspunkt auf der schwarzen Kalibrierkarte ins Zentrum zu bringen, und dann versuchen, das 'Tag billede igen'.",
     align_olt: 'Position: Richten Sie sich am gravierten Punkt oben links außen aus.',
     align_ort: 'Position: Richten Sie sich am gravierten Punkt oben rechts außen aus.',
     align_olb: 'Position: Richten Sie sich am gravierten Punkt unten links außen aus.',

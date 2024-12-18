@@ -1720,6 +1720,7 @@ const lang: ILang = {
     solve_pnp_title: 'Alinhar Pontos de Marcação',
     solve_pnp_step1: 'Alinhe os pontos de gravação de acordo com o número e a posição esperada de cada ponto de marcador vermelho.',
     solve_pnp_step2: 'Você pode pressionar "Tirar foto novamente" para realinhar ou ajustar manualmente as posições dos marcadores.',
+    solve_pnp_step3: 'Se a imagem capturada não corresponder à cena real, por favor, amplie ou arraste a tela para ajustar o ponto de calibração na carta de calibração preta ao centro, e depois tente "Tirar foto novamente".',
     align_olt: 'Posição: Alinhe com o ponto gravado na parte superior esquerda externa.',
     align_ort: 'Posição: Alinhe com o ponto gravado na parte superior direita externa.',
     align_olb: 'Posição: Alinhe com o ponto gravado na parte inferior esquerda externa.',
