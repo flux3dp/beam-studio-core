@@ -9,18 +9,20 @@ export default {
   showMonitor: (
     device: IDeviceInfo,
     mode: Mode = Mode.FILE,
-    previewTask?: { fcodeBlob: Blob, taskImageURL: string, taskTime: number, fileName: string },
+    previewTask?: { fcodeBlob: Blob; taskImageURL: string; taskTime: number; fileName: string },
+    autoStart?: boolean
   ): void => {
-    Dialog.addDialogComponent('monitor',
+    Dialog.addDialogComponent(
+      'monitor',
       <MonitorContextProvider
         device={device}
         mode={mode}
         previewTask={previewTask}
+        autoStart={autoStart}
         onClose={() => Dialog.popDialogById('monitor')}
       >
-        <Monitor
-          device={device}
-        />
-      </MonitorContextProvider>);
+        <Monitor device={device} />
+      </MonitorContextProvider>
+    );
   },
 };

@@ -377,15 +377,21 @@ const openTaskInDeviceMonitor = (
   device: IDeviceInfo,
   fcodeBlob: Blob,
   taskImageURL: string,
-  taskTime: number
+  taskTime: number,
+  autoStart?: boolean
 ): void => {
   const fileName = currentFileManager.getName() || i18n.lang.topbar.untitled;
-  MonitorController.showMonitor(device, Mode.PREVIEW, {
-    fcodeBlob,
-    taskImageURL,
-    taskTime,
-    fileName,
-  });
+  MonitorController.showMonitor(
+    device,
+    Mode.PREVIEW,
+    {
+      fcodeBlob,
+      taskImageURL,
+      taskTime,
+      fileName,
+    },
+    autoStart
+  );
 };
 
 const getConvertEngine = (targetDevice?: IDeviceInfo) => {
@@ -403,7 +409,7 @@ const getConvertEngine = (targetDevice?: IDeviceInfo) => {
 const promarkTaskCache: Record<string, { url: string; timeCost: number }> = {};
 
 export default {
-  uploadFcode: async (device: IDeviceInfo): Promise<void> => {
+  uploadFcode: async (device: IDeviceInfo, autoStart?: boolean): Promise<void> => {
     const { convertEngine } = getConvertEngine(device);
     const { taskCodeBlob, thumbnail, thumbnailBlobURL, fileTimeCost } = await convertEngine(device);
     if (!taskCodeBlob && device.model !== 'fpm1') {
@@ -420,7 +426,7 @@ export default {
           timeCost: fileTimeCost,
         };
       }
-      openTaskInDeviceMonitor(device, taskCodeBlob, thumbnailBlobURL, fileTimeCost);
+      openTaskInDeviceMonitor(device, taskCodeBlob, thumbnailBlobURL, fileTimeCost, autoStart);
     } catch (errMsg) {
       console.error(errMsg);
       // TODO: handle err message

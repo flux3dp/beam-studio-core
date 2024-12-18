@@ -16,6 +16,8 @@ import getDevice from 'helpers/device/get-device';
 import isDev from 'helpers/is-dev';
 import isWeb from 'helpers/is-web';
 import LayerModules, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
+import progressCaller from 'app/actions/progress-caller';
+import promarkButtonHandler from 'helpers/device/promark/promark-button-handler';
 import SymbolMaker from 'helpers/symbol-maker';
 import shortcuts from 'helpers/shortcuts';
 import storage from 'implementations/storage';
@@ -33,7 +35,6 @@ import { getWorkarea } from 'app/constants/workarea-constants';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { showAdorCalibration } from 'app/components/dialogs/camera/AdorCalibration';
 
-import progressCaller from 'app/actions/progress-caller';
 import styles from './GoButton.module.scss';
 
 let svgCanvas;
@@ -63,7 +64,7 @@ function throttle(func: () => void, delay: number): () => void {
 
 const GoButton = ({ hasDiscoverdMachine }: Props): JSX.Element => {
   const lang = useI18n();
-  const { endPreviewMode, mode } = useContext(CanvasContext);
+  const { endPreviewMode, mode, selectedDevice } = useContext(CanvasContext);
   const shortcutHandler = useRef<() => void>(null);
 
   useEffect(() => {
@@ -279,7 +280,7 @@ const GoButton = ({ hasDiscoverdMachine }: Props): JSX.Element => {
   );
 
   const exportTask = useCallback(
-    async (device: IDeviceInfo) => {
+    async (device: IDeviceInfo, byHandler: boolean) => {
       const showForceUpdateAlert = (id: string) => {
         alertCaller.popUp({
           id,
@@ -357,44 +358,65 @@ const GoButton = ({ hasDiscoverdMachine }: Props): JSX.Element => {
           });
         });
       }
-      ExportFuncs.uploadFcode(device);
+      promarkButtonHandler.setStatus('uploading');
+      await ExportFuncs.uploadFcode(device, byHandler);
     },
     [lang]
   );
 
-  const handleExportClick = useCallback(async () => {
-    const progressList = ['retrieve-image-data', 'fetch-task-code', 'fetch-task', 'upload-scene'];
+  const handleExportClick = useCallback(
+    async (byHandler = false) => {
+      const progressList = ['retrieve-image-data', 'fetch-task-code', 'fetch-task', 'upload-scene'];
 
-    if (Dialog.isIdExist('monitor') || progressList.some((id) => progressCaller.checkIdExist(id))) {
-      return;
-    }
+      if (
+        Dialog.isIdExist('monitor') ||
+        progressList.some((id) => progressCaller.checkIdExist(id))
+      ) {
+        return;
+      }
 
-    endPreviewMode();
+      promarkButtonHandler.setStatus('preparing');
+      endPreviewMode();
 
-    if (getNextStepRequirement() === TutorialConstants.SEND_FILE) {
-      handleNextStep();
-    }
+      if (getNextStepRequirement() === TutorialConstants.SEND_FILE) {
+        handleNextStep();
+      }
 
-    const handleExport = async () => {
-      const { device } = await getDevice();
-      if (!device) return;
-      const confirmed = await handleExportAlerts(device);
-      if (!confirmed) return;
-      const deviceStatus = await checkDeviceStatus(device);
-      if (!deviceStatus) return;
-      await checkModuleCalibration(device);
-      exportTask(device);
-    };
+      const handleExport = async () => {
+        try {
+          const { device } = await getDevice();
+          if (!device) return;
+          const confirmed = await handleExportAlerts(device);
+          if (!confirmed) return;
+          const deviceStatus = await checkDeviceStatus(device);
+          if (!deviceStatus) return;
+          await checkModuleCalibration(device);
+          await exportTask(device, byHandler);
+        } finally {
+          promarkButtonHandler.handleTaskFinish();
+        }
+      };
 
-    if (isWeb() && navigator.language !== 'da') Dialog.forceLoginWrapper(handleExport);
-    else handleExport();
-  }, [endPreviewMode, handleExportAlerts, checkModuleCalibration, exportTask]);
+      if (isWeb() && navigator.language !== 'da')
+        Dialog.forceLoginWrapper(handleExport, false, promarkButtonHandler.handleTaskFinish);
+      else handleExport();
+    },
+    [endPreviewMode, handleExportAlerts, checkModuleCalibration, exportTask]
+  );
 
   const throttledHandleExportClick = throttle(handleExportClick, 2000);
 
   useEffect(() => {
     shortcutHandler.current = throttledHandleExportClick;
   }, [throttledHandleExportClick]);
+
+  useEffect(() => {
+    promarkButtonHandler.setExportFn(handleExportClick);
+  }, [handleExportClick]);
+
+  useEffect(() => {
+    promarkButtonHandler.onContextChanged(mode, selectedDevice);
+  }, [mode, selectedDevice]);
 
   return (
     <div

@@ -1385,6 +1385,11 @@ class DeviceMaster {
     const blob: Blob = new Blob([`M3\nM102\nZ${z}\nM2\n`]);
     await this.go(blob);
   };
+
+  public checkButton = async () => {
+    const controlSocket = await this.getControl();
+    return controlSocket.addTask(controlSocket.checkButton);
+  };
 }
 
 const deviceMaster = new DeviceMaster();
