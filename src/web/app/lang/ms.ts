@@ -1717,6 +1717,7 @@ const lang: ILang = {
     solve_pnp_title: 'Sejajarkan Titik Penanda',
     solve_pnp_step1: 'Sila selaraskan titik ukiran mengikut nombor dan kedudukan yang diharapkan bagi setiap titik penanda merah.',
     solve_pnp_step2: 'Anda boleh tekan "Ambil Semula Gambar" untuk menyelaraskan semula atau menyesuaikan posisi penanda secara manual.',
+    solve_pnp_step3: 'Sekiranya gambar yang diambil tidak sesuai dengan keadaan sebenar, sila zum atau seret skrin untuk menyesuaikan titik kalibrasi pada kad kalibrasi hitam ke tengah, kemudian cuba "Ambil Semula Gambar".',
     align_olt: 'Kedudukan: Selaraskan dengan titik terukir di bahagian atas kiri luar.',
     align_ort: 'Kedudukan: Selaraskan dengan titik terukir di bahagian atas kanan luar.',
     align_olb: 'Kedudukan: Selaraskan dengan titik terukir di bahagian bawah kiri luar.',

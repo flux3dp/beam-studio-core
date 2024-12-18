@@ -1720,6 +1720,7 @@ const lang: ILang = {
     solve_pnp_title: 'Zarovnat značkovací body.',
     solve_pnp_step1: 'Zarovnejte prosím gravírovací body podle počtu a očekávané pozice všech červených značkovacích bodů.',
     solve_pnp_step2: 'Pro opětovné zarovnání můžete stisknout "Znovu vyfotit" nebo manuálně přizpůsobit pozice značky.',
+    solve_pnp_step3: "Pokud se snímek neodpovídá skutečnosti, prosím přiblížit nebo posunout obraz, aby bylo nastaveno kalibrační bod na černé kartě do středu, a poté zkuste 'Znovu vyfotit'.",
     align_olt: 'Pozice: Zarovnejte s vyrytým bodem nahoře vlevo venku.',
     align_ort: 'Pozice: Zarovnejte s vyrytým bodem nahoře vpravo venku.',
     align_olb: 'Pozice: Zarovnejte s vyrytým bodem dole vlevo venku.',
