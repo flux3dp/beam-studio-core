@@ -21,13 +21,12 @@ import svgStringToCanvas from 'helpers/image/svgStringToCanvas';
 import symbolMaker from 'helpers/symbol-maker';
 import versionChecker from 'helpers/version-checker';
 import workareaManager from 'app/svgedit/workarea';
-import { fetchFraming } from 'app/actions/beambox/export-funcs-swiftray';
 import { getAllLayers } from 'helpers/layer/layer-helper';
+import { getData } from 'helpers/layer/layer-config-helper';
 import { getWorkarea } from 'app/constants/workarea-constants';
 import { getSupportInfo, SupportInfo } from 'app/constants/add-on';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { IDeviceInfo } from 'interfaces/IDevice';
-import { PromarkStore } from 'interfaces/Promark';
 import { swiftrayClient } from 'helpers/api/swiftray-client';
 
 import applyRedDot from './promark/apply-red-dot';
@@ -72,6 +71,7 @@ const getCoords = (mm?: boolean): Coordinates => {
   const { dpmm } = constant;
   allLayers.forEach((layer) => {
     if (layer.getAttribute('display') === 'none') return;
+    if (getData(layer, 'repeat') === 0) return;
     const bboxs = svgCanvas.getVisibleElementsAndBBoxes([layer]);
     bboxs.forEach(({ bbox }) => {
       const { x, y } = bbox;
@@ -97,7 +97,9 @@ const getCoords = (mm?: boolean): Coordinates => {
 
 const getCanvasImage = async (): Promise<Blob> => {
   symbolMaker.switchImageSymbolForAll(false);
-  const allLayers = getAllLayers().map((layer) => layer.cloneNode(true) as SVGGElement);
+  const allLayers = getAllLayers()
+    .filter((layer) => getData(layer, 'repeat') > 0)
+    .map((layer) => layer.cloneNode(true) as SVGGElement);
   symbolMaker.switchImageSymbolForAll(true);
   allLayers.forEach((layer) => {
     const images = layer.querySelectorAll('image');
@@ -237,9 +239,13 @@ class FramingTaskManager extends EventEmitter {
     if (this.isWorking) return;
     this.changeWorkingStatus(true);
     const deviceStatus = await checkDeviceStatus(this.device);
-    if (!deviceStatus) return;
-    console.log('start framing upload');
+    if (!deviceStatus) {
+      this.changeWorkingStatus(false);
+      return;
+    }
     if (!this.hasAppliedRedLight) {
+      console.log('start framing set param');
+      this.emit('message', i18n.lang.message.connecting);
       const { redDot, field, galvoParameters } = promarkDataStore.get(this.device?.serial);
       if (redDot) {
         const { field: newField, galvoParameters: newGalvo } = applyRedDot(
@@ -253,9 +259,9 @@ class FramingTaskManager extends EventEmitter {
       }
       this.hasAppliedRedLight = true;
     }
-    await fetchFraming();
     console.log('start framing');
-    await deviceMaster.startFraming();
+    await deviceMaster.startFraming([this.taskPoints[0], this.taskPoints[2]]);
+    setTimeout(() => this.emit('close-message'), 1000);
   };
 
   public stopPromarkFraming = async (): Promise<void> => {
@@ -313,6 +319,7 @@ class FramingTaskManager extends EventEmitter {
 
   private generateTaskPoints = async (type: FramingType): Promise<[number, number][]> => {
     if (this.taskCache[type]) return this.taskCache[type];
+    svgCanvas.clearSelection();
     if (type === FramingType.Framing) {
       const coords = getCoords(true);
       if (coords.minX === undefined) return [];
@@ -495,19 +502,20 @@ class FramingTaskManager extends EventEmitter {
   public startFraming = async (type: FramingType, opts: { lowPower?: number }): Promise<void> => {
     // Go to Promark logic
     if (this.isWorking) return;
-    if (this.isPromark) {
-      await this.startPromarkFraming();
-      return;
-    }
     this.emit('message', i18n.lang.framing.calculating_task);
     this.taskPoints = await this.generateTaskPoints(type);
     if (this.taskPoints.length === 0) {
+      this.emit('close-message');
       MessageCaller.openMessage({
         key: 'no-element-to-frame',
         level: MessageLevel.INFO,
         content: i18n.lang.topbar.alerts.add_content_first,
         duration: 3,
       });
+      return;
+    }
+    if (this.isPromark) {
+      await this.startPromarkFraming();
       return;
     }
     try {
