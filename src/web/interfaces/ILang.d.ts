@@ -1162,6 +1162,9 @@ export interface ILang {
       notification: {
         changeFromPrintingWorkareaTitle: string;
       };
+      start_work_button: string;
+      frame_before_start: string;
+      frame_before_start_url: string;
     };
     object_panels: {
       wait_for_parsing_font: string;

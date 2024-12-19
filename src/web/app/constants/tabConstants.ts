@@ -8,6 +8,7 @@ export const enum TabEvents {
   SetTabMode = 'set-tab-mode',
   SetTabTitle = 'set-tab-title',
   TabFocused = 'tab-focused',
+  TabBlurred = 'tab-blurred',
   TabUpdated = 'tab-updated',
 }
 

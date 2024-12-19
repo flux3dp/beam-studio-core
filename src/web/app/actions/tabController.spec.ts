@@ -45,6 +45,16 @@ describe('test TabController', () => {
     expect(handler).toBeCalledTimes(1);
   });
 
+  test('register blur event', () => {
+    const handler = jest.fn();
+    tabController.onBlurred(handler);
+    mockCommunicator[TabEvents.TabBlurred]();
+    expect(handler).toBeCalledTimes(1);
+    tabController.offBlurred(handler);
+    mockCommunicator[TabEvents.TabBlurred]();
+    expect(handler).toBeCalledTimes(1);
+  });
+
   test('register tabs updated event', () => {
     const handler = jest.fn();
     tabController.onTabsUpdated(handler);

@@ -2,10 +2,10 @@ import EventEmitter from 'eventemitter3';
 
 import { SwiftrayClient } from 'helpers/api/swiftray-client';
 
+import { ButtonState, Field, LensCorrection } from './Promark';
 // eslint-disable-next-line import/no-cycle
 import { FisheyeCameraParameters, RotationParameters3D } from './FisheyePreview';
 import { IDeviceDetailInfo, IReport } from './IDevice';
-import { Field, LensCorrection } from './Promark';
 import { RawChipSettings } from './Cartridge';
 import { WrappedWebSocket } from './WebSocket';
 
@@ -103,6 +103,7 @@ interface IControlSocket extends EventEmitter {
   fetchFisheye3DRotation?: () => Promise<RotationParameters3D>;
   updateFisheye3DRotation?: (data: RotationParameters3D) => Promise<{ status: string }>;
   fetchAutoLevelingData?: (dataType: string) => Promise<{ [key: string]: number }>;
+  checkButton: () => Promise<ButtonState>;
 }
 
 export default IControlSocket;

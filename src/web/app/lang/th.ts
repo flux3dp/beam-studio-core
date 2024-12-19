@@ -1169,6 +1169,9 @@ const lang: ILang = {
       notification: {
         changeFromPrintingWorkareaTitle: 'คุณต้องการแปลงชั้นการพิมพ์เป็นชั้นเลเซอร์หรือไม่?',
       },
+      start_work_button: 'ปุ่มเริ่มงาน',
+      frame_before_start: 'กรอบก่อนดำเนินการ',
+      frame_before_start_url: 'https://support.flux3dp.com/hc/en-us/articles/11494925637135',
     },
     object_panels: {
       wait_for_parsing_font: 'กําลังแปลงฟอนต์... กรุณารอสักครู่',
