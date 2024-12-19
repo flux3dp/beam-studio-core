@@ -61,12 +61,12 @@ describe('test calculateRight', () => {
   test('RightRef.PATH_PREVIEW_BTN with beamo', () => {
     mockBeamboxPreferenceRead.mockReturnValue('fbm1');
     const result = calculateRight(10, RightRef.PATH_PREVIEW_BTN);
-    expect(result).toEqual(78);
+    expect(result).toEqual(58);
   });
 
   test('RightRef.PATH_PREVIEW_BTN with Ador', () => {
     mockBeamboxPreferenceRead.mockReturnValue('ado1');
     const result = calculateRight(10, RightRef.PATH_PREVIEW_BTN);
-    expect(result).toEqual(36);
+    expect(result).toEqual(16);
   });
 });
