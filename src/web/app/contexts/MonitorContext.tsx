@@ -17,6 +17,7 @@ import i18n from 'helpers/i18n';
 import MonitorStatus from 'helpers/monitor-status';
 import OutputError from 'helpers/output-error';
 import Progress from 'app/actions/progress-caller';
+import promarkButtonHandler from 'helpers/device/promark/promark-button-handler';
 import VersionChecker from 'helpers/version-checker';
 import { IDeviceInfo, IReport } from 'interfaces/IDevice';
 import { IProgress } from 'interfaces/IProgress';
@@ -76,6 +77,7 @@ const reportStates = new Set([
 interface Props {
   mode: Mode;
   previewTask?: { fcodeBlob: Blob; taskImageURL: string; taskTime: number; fileName: string };
+  autoStart?: boolean;
   device: IDeviceInfo;
   children?: React.ReactNode;
   onClose: () => void;
@@ -142,15 +144,18 @@ export class MonitorContextProvider extends React.Component<Props, State> {
 
   isClosed: boolean; // for swiftray handler
 
+  autoStart: boolean;
+
   constructor(props: Props) {
     super(props);
-    const { mode, previewTask } = props;
+    const { mode, previewTask, autoStart } = props;
     updateLang();
     this.isGettingReport = false;
     this.lastErrorId = null;
     this.modeBeforeCamera = mode;
     this.modeBeforeRelocate = mode;
     this.isClosed = false;
+    this.autoStart = autoStart;
     this.state = {
       mode,
       currentPath: [],
@@ -211,11 +216,15 @@ export class MonitorContextProvider extends React.Component<Props, State> {
   }
 
   componentDidUpdate(prevProps: Props, prevState: State): void {
-    const { taskImageURL, previewTask } = this.state;
+    const { taskImageURL, previewTask, report } = this.state;
     if (prevState.taskImageURL && prevState.taskImageURL !== taskImageURL) {
       if (previewTask && prevState.taskImageURL !== previewTask.taskImageURL) {
         URL.revokeObjectURL(prevState.taskImageURL);
       }
+    }
+    if (report.st_id === IDLE && this.autoStart) {
+      this.autoStart = false;
+      this.onPlay();
     }
   }
 
@@ -843,12 +852,14 @@ export class MonitorContextProvider extends React.Component<Props, State> {
             this.setState({ uploadProgress: p });
           });
           this.setState({ uploadProgress: null });
+          setTimeout(() => promarkButtonHandler.setStatus('listening'), 1000);
         } catch (error) {
           this.setState({ uploadProgress: null });
           Alert.popUp({
             type: AlertConstants.SHOW_POPUP_ERROR,
             message: LANG.message.unable_to_start + error.error?.join('_'),
           });
+          promarkButtonHandler.setStatus('listening');
         }
       } else if (mode === Mode.FILE_PREVIEW) {
         await DeviceMaster.goFromFile(currentPath.join('/'), fileInfo[0]);

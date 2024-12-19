@@ -99,12 +99,17 @@ const showLoginDialog = (callback?: () => void, silent = false): void => {
   );
 };
 
-const forceLoginWrapper = (callback: () => void | Promise<void>, silent?: boolean): void => {
+const forceLoginWrapper = (
+  callback: () => void | Promise<void>,
+  silent?: boolean,
+  failCallback?: () => void | Promise<void>
+): void => {
   let user = getCurrentUser();
   if (!user) {
     showLoginDialog(() => {
       user = getCurrentUser();
       if (user) callback();
+      else failCallback?.();
     }, silent);
   } else {
     callback();

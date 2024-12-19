@@ -1172,6 +1172,9 @@ const lang: ILang = {
       notification: {
         changeFromPrintingWorkareaTitle: '您要將列印圖層轉換至雷射圖層嗎？',
       },
+      start_work_button: '開始工作鈕',
+      frame_before_start: '先預覽後執行',
+      frame_before_start_url: 'https://support.flux3dp.com/hc/zh-tw/articles/11494925637135',
     },
     object_panels: {
       wait_for_parsing_font: '解析字體中...',

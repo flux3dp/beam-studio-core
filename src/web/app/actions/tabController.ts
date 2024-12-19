@@ -16,6 +16,9 @@ class TabController extends EventEmitter {
     communicator.on(TabEvents.TabFocused, () => {
       this.emit(TabEvents.TabFocused);
     });
+    communicator.on(TabEvents.TabBlurred, () => {
+      this.emit(TabEvents.TabBlurred);
+    });
     communicator.on(TabEvents.TabUpdated, (_, tabs: Array<Tab>) => {
       this.emit(TabEvents.TabUpdated, tabs);
     });
@@ -31,6 +34,14 @@ class TabController extends EventEmitter {
 
     topBarEventEmitter.on('UPDATE_TITLE', updateTitleHandler);
     topBarEventEmitter.on('SET_HAS_UNSAVED_CHANGE', updateTitleHandler);
+  }
+
+  onBlurred(handler: () => void): void {
+    this.on(TabEvents.TabBlurred, handler);
+  }
+
+  offBlurred(handler: () => void): void {
+    this.off(TabEvents.TabBlurred, handler);
   }
 
   onFocused(handler: () => void): void {

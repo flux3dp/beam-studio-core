@@ -1072,6 +1072,8 @@ class SwiftrayControl extends EventEmitter implements IControlSocket {
       this.setDefaultErrorResponse(reject);
       this.setDefaultFatalResponse(reject);
     });
+
+  checkButton = () => this.sc.checkButton();
 }
 
 export default SwiftrayControl;

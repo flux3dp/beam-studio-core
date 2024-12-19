@@ -1172,6 +1172,9 @@ const lang: ILang = {
       notification: {
         changeFromPrintingWorkareaTitle: 'Möchten Sie die Druckschichten in Laserschichten umwandeln?',
       },
+      start_work_button: 'Startarbeitsknopf',
+      frame_before_start: 'Zuerst Rahmen, dann ausführen',
+      frame_before_start_url: 'https://support.flux3dp.com/hc/en-us/articles/11494925637135',
     },
     object_panels: {
       wait_for_parsing_font: 'Schriftart analysieren ... Bitte warten.',

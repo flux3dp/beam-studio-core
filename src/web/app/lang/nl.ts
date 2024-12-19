@@ -1169,6 +1169,9 @@ const lang: ILang = {
       notification: {
         changeFromPrintingWorkareaTitle: 'Wilt u de printlagen converteren naar laslagen?',
       },
+      start_work_button: 'Start werkknop',
+      frame_before_start: 'Frame voordat uitgevoerd wordt',
+      frame_before_start_url: 'https://support.flux3dp.com/hc/en-us/articles/11494925637135',
     },
     object_panels: {
       wait_for_parsing_font: 'Lettertypen aan het verwerken... Een moment geduld',

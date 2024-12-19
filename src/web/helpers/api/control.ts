@@ -1631,6 +1631,8 @@ class Control extends EventEmitter implements IControlSocket {
 
       this.ws.send(`update_fisheye_3d_rotation application/json ${blob.size}`);
     });
+
+  checkButton = async () => ({ pressed: false });
 }
 
 export default Control;

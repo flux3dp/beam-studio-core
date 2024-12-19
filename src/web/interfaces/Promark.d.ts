@@ -44,3 +44,9 @@ export interface PromarkStore {
   cameraDeviceId?: string;
   galvoParameters?: GalvoParameters;
 }
+
+export interface ButtonState {
+  pressed: boolean;
+  isRunning?: boolean;
+  isFraming?: boolean;
+}

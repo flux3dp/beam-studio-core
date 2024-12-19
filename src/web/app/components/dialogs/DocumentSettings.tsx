@@ -6,6 +6,7 @@ import { QuestionCircleOutlined } from '@ant-design/icons';
 import alertCaller from 'app/actions/alert-caller';
 import alertConstants from 'app/constants/alert-constants';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
+import browser from 'implementations/browser';
 import changeWorkarea from 'app/svgedit/operations/changeWorkarea';
 import constant, { promarkModels } from 'app/actions/beambox/constant';
 import diodeBoundaryDrawer from 'app/actions/canvas/diode-boundary-drawer';
@@ -69,6 +70,10 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
   const supportInfo = useMemo(() => getSupportInfo(workarea), [workarea]);
   const isPromark = useMemo(() => promarkModels.has(workarea), [workarea]);
   const [rotaryMode, setRotaryMode] = useState<number>(BeamboxPreference.read('rotary_mode') ?? 0);
+  const [enableStartButton, setEnableStartButton] = useState(
+    !!BeamboxPreference.read('promark-start-button')
+  );
+  const [shouldFrame, setShouldFrame] = useState(!!BeamboxPreference.read('frame-before-start'));
   const [enableJobOrigin, setEnableJobOrigin] = useState<number>(
     BeamboxPreference.read('enable-job-origin') ?? 0
   );
@@ -163,7 +168,11 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
       if (supportInfo.hybridLaser && enableDiode) diodeBoundaryDrawer.show();
       else diodeBoundaryDrawer.hide();
     }
-    if (promarkModels.has(workarea)) setPromarkInfo(pmInfo);
+    if (promarkModels.has(workarea)) {
+      setPromarkInfo(pmInfo);
+      BeamboxPreference.write('promark-start-button', enableStartButton ? 1 : 0);
+      BeamboxPreference.write('frame-before-start', shouldFrame ? 1 : 0);
+    }
     presprayArea.togglePresprayArea();
     const canvasEvents = eventEmitterFactory.createEventEmitter('canvas');
     canvasEvents.emit('document-settings-saved');
@@ -350,6 +359,37 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
           <div className={styles.bar} />
         </div>
         <div className={styles.modules}>
+          {isPromark && (
+            <div className={classNames(styles.row, styles.full)}>
+              <div className={styles.title}>
+                <label htmlFor="start_button">{tDocu.start_work_button}</label>
+              </div>
+              <div className={styles.control}>
+                <Switch
+                  id="start_button"
+                  className={styles.switch}
+                  checked={enableStartButton}
+                  onChange={setEnableStartButton}
+                />
+                {enableStartButton && (
+                  <div className={styles.subCheckbox}>
+                    <div>
+                      <Checkbox
+                        id="frame_before_start"
+                        checked={shouldFrame}
+                        onChange={(e) => setShouldFrame(e.target.checked)}
+                      >
+                        {tDocu.frame_before_start}
+                      </Checkbox>
+                      <QuestionCircleOutlined
+                        onClick={() => browser.open(tDocu.frame_before_start_url)}
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
           {supportInfo.rotary && (
             <div
               className={classNames(styles.row, {

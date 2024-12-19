@@ -9,6 +9,7 @@ import isWeb from 'helpers/is-web';
 import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
 import TopBarController from 'app/views/beambox/TopBar/contexts/TopBarController';
 import { booleanConfig, getDefaultConfig } from 'helpers/layer/layer-config-helper';
+import { ButtonState } from 'interfaces/Promark';
 import { getWorkarea, WorkAreaModel } from 'app/constants/workarea-constants';
 import { IDeviceDetailInfo, IDeviceInfo, IReport } from 'interfaces/IDevice';
 import { IWrappedSwiftrayTaskFile } from 'interfaces/IWrappedFile';
@@ -437,6 +438,10 @@ class SwiftrayClient extends EventEmitter {
 
   public async home(): Promise<void> {
     return this.action(`/devices/${this.port}`, 'home');
+  }
+
+  public async checkButton(): Promise<ButtonState> {
+    return this.action<ButtonState>(`/devices/${this.port}`, 'checkButton');
   }
 }
 
