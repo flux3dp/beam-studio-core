@@ -22,7 +22,7 @@
   }
 
   .left {
-    flex: 1 1 auto;
+    flex: 0 1 auto;
     overflow: hidden;
 
     &.margin-left {
@@ -46,6 +46,7 @@
     padding: 0 8px;
     overflow: hidden;
     justify-content: flex-end;
+    -webkit-app-region: drag;
   }
 }
 
