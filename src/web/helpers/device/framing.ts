@@ -244,7 +244,6 @@ class FramingTaskManager extends EventEmitter {
       return;
     }
     if (!this.hasAppliedRedLight) {
-      console.log('start framing set param');
       this.emit('message', i18n.lang.message.connecting);
       const { redDot, field, galvoParameters } = promarkDataStore.get(this.device?.serial);
       if (redDot) {
@@ -259,7 +258,6 @@ class FramingTaskManager extends EventEmitter {
       }
       this.hasAppliedRedLight = true;
     }
-    console.log('start framing');
     await deviceMaster.startFraming([this.taskPoints[0], this.taskPoints[2]]);
     setTimeout(() => this.emit('close-message'), 1000);
   };
