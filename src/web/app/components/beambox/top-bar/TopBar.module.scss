@@ -46,7 +46,10 @@
     padding: 0 8px;
     overflow: hidden;
     justify-content: flex-end;
-    -webkit-app-region: drag;
+
+    &.drag {
+      -webkit-app-region: drag;
+    }
   }
 }
 
