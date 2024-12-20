@@ -74,10 +74,10 @@ const Topbar = (): JSX.Element => {
       >
         <div
           className={classNames(styles.controls, styles.left, {
-            [styles['margin-left']]: !isDragRegion,
+            [styles['margin-left']]: !isDragRegion && !isWebMode,
           })}
         >
-          {isDragRegion && <div className={styles['drag-area']} />}
+          {(isDragRegion || isWebMode) && <div className={styles['drag-area']} />}
           <UserAvatar user={currentUser} />
           <CommonTools isWeb={isWebMode} hide={mode !== CanvasMode.Draw} />
           {!isWebMode && <Tabs />}
