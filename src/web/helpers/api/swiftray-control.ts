@@ -351,9 +351,9 @@ class SwiftrayControl extends EventEmitter implements IControlSocket {
     return [{}, await this.sc.getPreview()];
   };
 
-  startFraming = async () => {
+  startFraming = async (points?: [number, number][]) => {
     console.log('SwiftrayControl.startFraming');
-    return this.sc.startFraming();
+    return this.sc.startFraming(points);
   };
 
   stopFraming = async () => {

@@ -605,9 +605,9 @@ class DeviceMaster {
     return controlSocket.addTask(controlSocket.kick);
   }
 
-  async startFraming() {
+  async startFraming(points?: [number, number][]) {
     const controlSocket = (await this.getControl()) as SwiftrayControl;
-    return controlSocket.addTask(controlSocket.startFraming);
+    return controlSocket.addTask(controlSocket.startFraming, points);
   }
 
   async stopFraming() {

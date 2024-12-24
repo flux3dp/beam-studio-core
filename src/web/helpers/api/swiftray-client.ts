@@ -170,6 +170,13 @@ class SwiftrayClient extends EventEmitter {
     return new Promise((resolve, reject) => {
       const id = Math.random().toString(36).substr(2, 9);
       const payload = { id, action, params };
+      if (this.readyState !== WebSocket.OPEN && action !== 'list') {
+        MessageCaller.openMessage({
+          key: 'swiftray-error-hint',
+          content: i18n.lang.message.swiftray_disconnected,
+          level: MessageLevel.ERROR,
+        });
+      }
       this.socket.send(JSON.stringify({ type: 'action', path, data: payload }));
 
       const callback = (data) => {
@@ -400,8 +407,8 @@ class SwiftrayClient extends EventEmitter {
     return this.action(`/devices/${this.port}`, 'getPreview');
   }
 
-  public async startFraming(): Promise<void> {
-    return this.action(`/devices/${this.port}`, 'startFraming');
+  public async startFraming(points?: [number, number][]): Promise<void> {
+    return this.action(`/devices/${this.port}`, 'startFraming', { points });
   }
 
   public async stopFraming(): Promise<void> {
