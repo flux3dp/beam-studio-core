@@ -232,11 +232,11 @@ export const convertTextToPathByFontkit = (
         textPath.setAttribute('dominant-baseline', dominantBaseline);
         textPath.textContent = text;
       }
-      /* eslint-enable no-param-reassign */
 
       const run = fontObj.layout(text);
       const { glyphs, direction, positions } = run;
-      if (direction === 'rtl') {
+      const isRtl = direction === 'rtl';
+      if (isRtl) {
         glyphs.reverse();
         positions.reverse();
       }
@@ -248,8 +248,7 @@ export const convertTextToPathByFontkit = (
           const end = textPath.getEndPositionOfChar(i);
           if ([start.x, start.y, end.x, end.y].every((v) => v === 0)) return '';
           const rot = (textPath.getRotationOfChar(i) / 180) * Math.PI;
-          const x = Math.min(start.x, end.x);
-          const y = Math.min(start.y, end.y);
+          const { x, y } = isRtl ? end : start;
           char.codePoints.forEach((codePoint) => {
             i = codePoint > maxChar ? i + 2 : i + 1;
           });
@@ -269,7 +268,8 @@ export const convertTextToPathByFontkit = (
       const text = tspan.textContent;
       const run = fontObj.layout(text);
       const { glyphs, direction, positions } = run;
-      if (direction === 'rtl') {
+      const isRtl = direction === 'rtl';
+      if (isRtl) {
         glyphs.reverse();
         positions.reverse();
       }
@@ -279,8 +279,7 @@ export const convertTextToPathByFontkit = (
           const pos = positions[idx];
           const start = tspan.getStartPositionOfChar(i);
           const end = tspan.getEndPositionOfChar(i);
-          const x = Math.min(start.x, end.x);
-          const y = Math.min(start.y, end.y);
+          const { x, y } = isRtl ? end : start;
           char.codePoints.forEach((codePoint) => {
             i = codePoint > maxChar ? i + 2 : i + 1;
           });
