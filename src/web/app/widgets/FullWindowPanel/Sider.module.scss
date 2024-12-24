@@ -1,5 +1,7 @@
 .sider {
-  width: 500px;
+  flex: 0 1 auto;
+  max-width: 500px;
+  min-width: 260px;
   height: 100%;
   display: flex;
   border-right: 1px solid #ddd;
