@@ -91,7 +91,6 @@ const SelectMachineModel = (): JSX.Element => {
     } as const,
     { model: 'fhexa1', label: 'HEXA', Icon: InitializeIcons.Hexa } as const,
     !isMobile() &&
-      (localeHelper.isTwOrHk || isDev()) &&
       ({ model: 'fpm1', label: 'Promark Series', Icon: InitializeIcons.Promark } as const),
   ].filter(Boolean);
 
