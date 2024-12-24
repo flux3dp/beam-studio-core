@@ -1,6 +1,5 @@
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import isDev from 'helpers/is-dev';
-import isWeb from 'helpers/is-web';
 import layoutConstants from 'app/constants/layout-constants';
 import { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 
@@ -17,8 +16,6 @@ export enum RightRef {
   RIGHT_PANEL = 2,
   PATH_PREVIEW_BTN = 3,
 }
-
-const isMacOrWeb = window.os === 'MacOS' || isWeb();
 
 export const calculateTop = (top: number, ref: TopRef = TopRef.WINDOW): number => {
   switch (ref) {
@@ -44,7 +41,7 @@ export const calculateRight = (right: number, ref: RightRef = RightRef.WINDOW): 
     case RightRef.PATH_PREVIEW_BTN: {
       const workarea = beamboxPreference.read('workarea');
       const shouldHideBtn = !isDev() && modelsWithModules.has(workarea);
-      const offset = (isMacOrWeb ? 6 : 26) + (shouldHideBtn ? 0 : 42);
+      const offset = shouldHideBtn ? 6 : 48;
       return right + offset;
     }
     default:

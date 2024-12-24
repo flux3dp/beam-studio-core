@@ -29,9 +29,9 @@ import styles from './TopBar.module.scss';
 import Tabs from './tabs/Tabs';
 
 const Topbar = (): JSX.Element => {
-  const { isWebMode, hasTitleBar } = useMemo(() => {
+  const { isWebMode, isDragRegion } = useMemo(() => {
     const web = isWeb();
-    return { isWebMode: web, hasTitleBar: window.os !== 'MacOS' && !web };
+    return { isWebMode: web, isDragRegion: window.os === 'MacOS' && !web };
   }, []);
   const { mode, hasUnsavedChange, currentUser, togglePathPreview, setSelectedDevice } =
     useContext(CanvasContext);
@@ -74,15 +74,19 @@ const Topbar = (): JSX.Element => {
       >
         <div
           className={classNames(styles.controls, styles.left, {
-            [styles['margin-left']]: hasTitleBar,
+            [styles['margin-left']]: !isDragRegion && !isWebMode,
           })}
         >
-          {!hasTitleBar && <div className={styles['drag-area']} />}
+          {(isDragRegion || isWebMode) && <div className={styles['drag-area']} />}
           <UserAvatar user={currentUser} />
           <CommonTools isWeb={isWebMode} hide={mode !== CanvasMode.Draw} />
           {!isWebMode && <Tabs />}
         </div>
-        <div className={classNames(styles.controls, styles.right)}>
+        <div
+          className={classNames(styles.controls, styles.right, {
+            [styles.drag]: isDragRegion,
+          })}
+        >
           <SelectMachineButton />
           <DocumentButton />
           <FrameButton />

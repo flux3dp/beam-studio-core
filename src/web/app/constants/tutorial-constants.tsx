@@ -1,7 +1,6 @@
 import * as React from 'react';
 import browser from 'implementations/browser';
 import i18n from 'helpers/i18n';
-import isWeb from 'helpers/is-web';
 import { ITutorial } from 'interfaces/ITutorial';
 import { TopRef, RightRef, calculateTop, calculateRight } from 'helpers/absolute-position-helper';
 
@@ -33,7 +32,6 @@ const nextStepRequirements = {
   SEND_FILE: 'SEND_FILE',
 };
 
-const isMacOrWeb = window.os === 'MacOS' || isWeb();
 const rightPanelInnerWidth =
   layoutConstants.rightPanelWidth - layoutConstants.rightPanelScrollBarWidth;
 
@@ -353,7 +351,7 @@ const NEW_USER_TUTORIAL: ITutorial = {
       hintCircle: {
         right: 6,
         top: calculateTop(2),
-        width: isMacOrWeb ? 36 : 60,
+        width: 36,
         height: 36,
       },
       text: LANG.newUser.send_the_file,
@@ -421,11 +419,11 @@ const INTERFACE_TUTORIAL: ITutorial = {
     // Rocover when path preview is ready for Ador
     // {
     //   dialogBoxStyles: {
-    //     position: { right: isMacOrWeb ? 66 : 85, top: calculateTop(10, TopRef.TOPBAR) },
+    //     position: { right: 66, top: calculateTop(10, TopRef.TOPBAR) },
     //     arrowDirection: 'top',
     //   },
     //   hintCircle: {
-    //     right: isMacOrWeb ? 49 : 65,
+    //     right: 49,
     //     top: calculateTop(2),
     //     width: 36,
     //     height: 36,
@@ -441,7 +439,7 @@ const INTERFACE_TUTORIAL: ITutorial = {
       hintCircle: {
         right: 6,
         top: calculateTop(2),
-        width: isMacOrWeb ? 36 : 60,
+        width: 36,
         height: 36,
       },
       text: LANG.newInterface.start_work,
