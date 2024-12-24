@@ -232,24 +232,32 @@ export const convertTextToPathByFontkit = (
         textPath.setAttribute('dominant-baseline', dominantBaseline);
         textPath.textContent = text;
       }
-      /* eslint-enable no-param-reassign */
 
       const run = fontObj.layout(text);
+      const { glyphs, direction, positions } = run;
+      const isRtl = direction === 'rtl';
+      if (isRtl) {
+        glyphs.reverse();
+        positions.reverse();
+      }
       let i = 0;
-      d += run.glyphs
-        .map((char) => {
+      d += glyphs
+        .map((char, idx) => {
+          const pos = positions[idx];
           const start = textPath.getStartPositionOfChar(i);
-          const end = textPath.getStartPositionOfChar(i);
+          const end = textPath.getEndPositionOfChar(i);
           if ([start.x, start.y, end.x, end.y].every((v) => v === 0)) return '';
           const rot = (textPath.getRotationOfChar(i) / 180) * Math.PI;
+          const { x, y } = isRtl ? end : start;
           char.codePoints.forEach((codePoint) => {
             i = codePoint > maxChar ? i + 2 : i + 1;
           });
           return char.path
+            .translate(pos.xOffset, pos.yOffset)
             .scale(sizeRatio, -sizeRatio)
             .translate(0, alignOffset)
             .rotate(rot)
-            .translate(start.x, start.y)
+            .translate(x, y)
             .toSVG();
         })
         .join('');
@@ -259,14 +267,27 @@ export const convertTextToPathByFontkit = (
     tspans.forEach((tspan) => {
       const text = tspan.textContent;
       const run = fontObj.layout(text);
+      const { glyphs, direction, positions } = run;
+      const isRtl = direction === 'rtl';
+      if (isRtl) {
+        glyphs.reverse();
+        positions.reverse();
+      }
       let i = 0;
-      d += run.glyphs
-        .map((char) => {
+      d += glyphs
+        .map((char, idx) => {
+          const pos = positions[idx];
           const start = tspan.getStartPositionOfChar(i);
+          const end = tspan.getEndPositionOfChar(i);
+          const { x, y } = isRtl ? end : start;
           char.codePoints.forEach((codePoint) => {
             i = codePoint > maxChar ? i + 2 : i + 1;
           });
-          return char.path.scale(sizeRatio, -sizeRatio).translate(start.x, start.y).toSVG();
+          return char.path
+            .translate(pos.xOffset, pos.yOffset)
+            .scale(sizeRatio, -sizeRatio)
+            .translate(x, y)
+            .toSVG();
         })
         .join('');
     });
