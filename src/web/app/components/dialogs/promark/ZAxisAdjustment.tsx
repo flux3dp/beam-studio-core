@@ -38,7 +38,7 @@ export const ZAxisAdjustment = ({ device, onClose }: Props): JSX.Element => {
   const [zAxis, setZAxis] = useState(1);
   const [isPreviewing, setIsPreviewing] = useState(false);
   const [isMoving, setIsMoving] = useState(false);
-  const [parameters, setParameters] = useState<MarkParameters>({ power: 100, speed: 350 });
+  const [parameters, setParameters] = useState<MarkParameters>({ power: 50, speed: 1000 });
   const previewTask = useRef<string>('');
   const markTask = useRef<string>('');
   const movingTimeout = useRef<NodeJS.Timeout>();

@@ -46,7 +46,7 @@ const PromarkSettings = ({ device, initData, onClose }: Props): JSX.Element => {
   const [galvoParameters, setGalvoCorrection] = useState<GalvoParameters>(
     initData.galvoParameters || defaultGalvoParameters
   );
-  const [parameters, setParameters] = useState<MarkParameters>({ power: 100, speed: 350 });
+  const [parameters, setParameters] = useState<MarkParameters>({ power: 50, speed: 1000 });
   const { power, speed } = parameters;
   const { width } = useMemo(() => getWorkarea(model), [model]);
   const [isPreviewing, setIsPreviewing] = useState(false);
