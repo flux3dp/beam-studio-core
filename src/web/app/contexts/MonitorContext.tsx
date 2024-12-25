@@ -548,10 +548,14 @@ export class MonitorContextProvider extends React.Component<Props, State> {
   enterWorkingMode = async (task?: { taskImageURL: string; taskTime: number }): Promise<void> => {
     if (!task) {
       const taskInfo = await this.getWorkingTaskInfo();
-      const { imageBlob, taskTime } = this.getTaskInfo(taskInfo);
-      let { taskImageURL } = this.state;
+      const { imageBlob, taskTime: newTaskTime } = this.getTaskInfo(taskInfo);
+      let { taskImageURL, taskTime } = this.state;
       if (imageBlob) {
         taskImageURL = URL.createObjectURL(imageBlob);
+      }
+      if (newTaskTime) {
+        // Ignore 0 task time after swiftray restart
+        taskTime = newTaskTime;
       }
       this.setState({
         mode: Mode.WORKING,
