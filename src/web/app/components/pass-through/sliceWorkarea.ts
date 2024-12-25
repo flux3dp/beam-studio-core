@@ -22,7 +22,7 @@ import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { getWorkarea } from 'app/constants/workarea-constants';
 import { IBatchCommand } from 'interfaces/IHistory';
 
-import canvasManager from './canvasManager';
+import { PassThroughCanvasManager } from './canvasManager';
 
 let svgCanvas: ISVGCanvas;
 let svgedit;
@@ -49,7 +49,9 @@ const sliceWorkarea = async (
   const { width, height: workareaHeight } = workareaManager;
   const topPadding = (workareaObj.height - sliceHeight) / 2;
   const topPaddingPx = topPadding * dpmm;
-  const refImageBase64s = refLayers ? await canvasManager.generateRefImage(topPaddingPx) : null;
+  const refImageBase64s = refLayers
+    ? await PassThroughCanvasManager.getInstance()?.generateRefImage(topPaddingPx)
+    : null;
 
   const generateGuideMark = () => {
     if (guideMark.show) {
