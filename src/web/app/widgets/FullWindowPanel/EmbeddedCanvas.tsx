@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useEffect, useRef } from 'react';
+import React, { memo, useEffect, useRef } from 'react';
 
 import ZoomBlock from 'app/components/beambox/ZoomBlock';
 
@@ -10,11 +10,13 @@ import { EmbeddedCanvasManager } from './EmbeddedCanvasManager';
 interface Props {
   className?: string;
   canvasManager?: EmbeddedCanvasManager;
+  children?: React.ReactNode;
 }
 
 const EmbeddedCanvas = ({
   className,
   canvasManager = EmbeddedCanvasManager.getInstance(),
+  children,
 }: Props): JSX.Element => {
   const canvasRef = useRef<HTMLDivElement>(null);
 
@@ -33,8 +35,9 @@ const EmbeddedCanvas = ({
         setZoom={(ratio) => canvasManager.zoom(ratio / constant.dpmm)}
         resetView={canvasManager.resetView}
       />
+      {children}
     </div>
   );
 };
 
-export default EmbeddedCanvas;
+export default memo(EmbeddedCanvas);

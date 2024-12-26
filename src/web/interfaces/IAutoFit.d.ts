@@ -3,3 +3,7 @@ export interface AutoFit {
   bbox: number[];
   center: number[];
 }
+
+export interface AutoFitContour extends AutoFit {
+  contour: Array<[number, number]>;
+}

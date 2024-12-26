@@ -13,7 +13,7 @@ export class PassThroughCanvasManager extends EmbeddedCanvasManager {
   private passThroughGuideEnd: SVGPathElement;
   private currentGuideMark: { show: boolean; x: number; width: number };
 
-  renderContent = (): void => {
+  override renderContent = (): void => {
     this.initPassThroughContainer();
     const svgcontent = document.getElementById('svgcontent') as unknown as SVGSVGElement;
     if (svgcontent) {

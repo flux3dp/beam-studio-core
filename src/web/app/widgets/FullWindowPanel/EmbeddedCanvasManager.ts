@@ -36,6 +36,10 @@ export class EmbeddedCanvasManager {
     this.instance = null;
   }
 
+  /**
+   * render function: put the canvas in the container and set up event listeners.
+   * @param container The container to render the canvas in.
+   */
   render = (container: HTMLDivElement): void => {
     this.setupContainer(container);
     this.renderContent();
@@ -83,7 +87,18 @@ export class EmbeddedCanvasManager {
     this.container.appendChild(this.root);
   };
 
-  renderContent = (): void => {};
+  protected setupContent = (): void => {
+    this.svgcontent = document.createElementNS(NS.SVG, 'svg') as SVGSVGElement;
+    this.svgcontent.setAttribute('viewBox', `0 0 ${this.width} ${this.height}`);
+    this.svgcontent.setAttribute('xmlns', NS.SVG);
+    this.svgcontent.setAttribute('xmlns:xlink', NS.XLINK);
+    this.svgcontent.setAttribute('overflow', 'visible');
+    this.root.appendChild(this.svgcontent);
+  };
+
+  protected renderContent = (): void => {
+    this.setupContent();
+  };
 
   zoom = (zoomRatio: number, staticPoint?: { x: number; y: number }): void => {
     const targetZoom = Math.max(0.05, zoomRatio);

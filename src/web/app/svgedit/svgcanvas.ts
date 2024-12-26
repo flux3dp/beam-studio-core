@@ -92,6 +92,7 @@ import historyRecording from './history/historyrecording';
 import importSvgString from './operations/import/importSvgString';
 import MouseInteractions from './interaction/mouseInteractions';
 import PathActions from './operations/pathActions';
+import rotateBBox from './utils/rotateBbox';
 import selector from './selector';
 import setSvgContent from './operations/import/setSvgContent';
 import textActions from './text/textactions';
@@ -969,7 +970,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
               bbox = canvas.calculateTransformedBBox(elem);
             }
             const angle = svgedit.utilities.getRotationAngle(elem);
-            bbox = canvas.calculateRotatedBBox(bbox, angle);
+            bbox = rotateBBox(bbox, angle);
             contentElems.push({
               elem,
               bbox,
@@ -5813,34 +5814,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       minY = Math.min(p.y, minY);
       maxY = Math.max(p.y, maxY);
     });
-    return { x: minX, y: minY, width: maxX - minX, height: maxY - minY };
-  };
-
-  this.calculateRotatedBBox = (bbox, angle) => {
-    const points = [
-      { x: bbox.x, y: bbox.y },
-      { x: bbox.x + bbox.width, y: bbox.y },
-      { x: bbox.x, y: bbox.y + bbox.height },
-      { x: bbox.x + bbox.width, y: bbox.y + bbox.height },
-    ];
-
-    const rad = (angle * Math.PI) / 180;
-    const cx = bbox.x + 0.5 * bbox.width;
-    const cy = bbox.y + 0.5 * bbox.height;
-    points.forEach((p) => {
-      const x = p.x - cx;
-      const y = p.y - cy;
-      p.x = cx + x * Math.cos(rad) - y * Math.sin(rad);
-      p.y = cy + x * Math.sin(rad) + y * Math.cos(rad);
-    });
-    let [minX, minY, maxX, maxY] = [points[0].x, points[0].y, points[0].x, points[0].y];
-    points.forEach((p) => {
-      minX = Math.min(p.x, minX);
-      maxX = Math.max(p.x, maxX);
-      minY = Math.min(p.y, minY);
-      maxY = Math.max(p.y, maxY);
-    });
-
     return { x: minX, y: minY, width: maxX - minX, height: maxY - minY };
   };
 
