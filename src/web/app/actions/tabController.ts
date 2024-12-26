@@ -9,6 +9,8 @@ import { Tab } from 'interfaces/Tab';
 import { TabEvents } from 'app/constants/tabConstants';
 
 class TabController extends EventEmitter {
+  private currentInfo: { title: string; isCloud: boolean } = null;
+
   public currentId: number | null = null;
 
   constructor() {
@@ -29,7 +31,11 @@ class TabController extends EventEmitter {
       const name = currentFileManager.getName();
       const hasUnsavedChanges = currentFileManager.getHasUnsavedChanges();
       const title = `${name || i18n.lang.topbar.untitled}${hasUnsavedChanges ? '*' : ''}`;
-      communicator.send(TabEvents.SetTabTitle, title, isCloudFile);
+      const { currentInfo } = this;
+      if (!currentInfo || currentInfo.title !== title || currentInfo.isCloud !== isCloudFile) {
+        this.currentInfo = { title, isCloud: isCloudFile };
+        communicator.send(TabEvents.SetTabTitle, title, isCloudFile);
+      }
     };
 
     topBarEventEmitter.on('UPDATE_TITLE', updateTitleHandler);
