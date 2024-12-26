@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Modal, Switch, Tooltip } from 'antd';
-import { QuestionCircleOutlined } from '@ant-design/icons';
+import { Modal, Switch } from 'antd';
 
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import UnitInput from 'app/widgets/Unit-Input-v2';
@@ -65,15 +64,9 @@ const FillSettingModal = ({ onClose }: Props): JSX.Element => {
       onCancel={onClose}
       cancelText={tGlobal.cancel}
       okText={tGlobal.save}
-      title={
-        <div>
-          {t.fill_setting}
-          <Tooltip title={t.filled_path_only}>
-            <QuestionCircleOutlined className={styles.hint} />
-          </Tooltip>
-        </div>
-      }
+      title={t.fill_setting}
     >
+      <div className={styles.hint}>{t.filled_path_only}</div>
       <div className={styles.container}>
         <div>
           <span>{t.fill_interval}</span>
