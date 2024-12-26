@@ -1986,12 +1986,15 @@ export interface ILang {
     title: string;
     step1: string;
     step2: string;
+    step3: string;
     preview_first: string;
     failed_to_auto_fit: string;
     error_tip1: string;
     error_tip2: string;
     learn_more: string;
     learn_more_url: string;
+    selected_artwork: string;
+    select_a_pattern: string;
   };
   rotary_settings: {
     type: string;
