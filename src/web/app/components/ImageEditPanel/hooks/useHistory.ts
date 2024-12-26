@@ -14,7 +14,7 @@ interface HistoryItem {
   filters: Array<Filter>;
 }
 
-interface HistoryState {
+export interface HistoryState {
   items: Array<HistoryItem>;
   index: number;
   hasUndid?: boolean;
@@ -57,7 +57,7 @@ export const useHistory = (initialState: HistoryState): HistoryContext => {
   const undo = useCallback(() => {
     // return the initial state if there is no history to undo
     if (history.index === 0) {
-      return { lines: [], filters: [] };
+      return history.items[history.index];
     }
 
     const lastItem = history.items[history.index - 1];

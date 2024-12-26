@@ -1,55 +1,40 @@
 /* eslint-disable max-len */
-/* eslint-disable no-nested-ternary */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable @typescript-eslint/no-shadow */
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import { Button, Flex, TabPaneProps, Tabs } from 'antd';
-import {
-  ArrowLeftOutlined,
-  ArrowRightOutlined,
-  MinusOutlined,
-  PlusOutlined,
-} from '@ant-design/icons';
+import { Flex } from 'antd';
 import { Layer, Line, Stage } from 'react-konva';
 import Konva from 'konva';
 import { Filter } from 'konva/lib/Node';
-import classNames from 'classnames';
 
 import { preprocessByUrl } from 'helpers/image-edit-panel/preprocess';
 import calculateBase64 from 'helpers/image-edit-panel/calculate-base64';
 import handleFinish from 'helpers/image-edit-panel/handle-finish';
-import progressCaller from 'app/actions/progress-caller';
-import ImageEditPanelIcons from 'app/icons/image-edit-panel/ImageEditPanelIcons';
-import BackButton from 'app/widgets/FullWindowPanel/BackButton';
-import Footer from 'app/widgets/FullWindowPanel/Footer';
-import FullWindowPanel from 'app/widgets/FullWindowPanel/FullWindowPanel';
-import Header from 'app/widgets/FullWindowPanel/Header';
-import Sider from 'app/widgets/FullWindowPanel/Sider';
 import useI18n from 'helpers/useI18n';
-import useForceUpdate from 'helpers/use-force-update';
 import shortcuts from 'helpers/shortcuts';
 
-import Eraser from './components/Eraser';
-import MagicWand from './components/MagicWand';
+import progressCaller from 'app/actions/progress-caller';
+import FullWindowPanel from 'app/widgets/FullWindowPanel/FullWindowPanel';
+
+import useForceUpdate from 'helpers/use-force-update';
 import KonvaImage, { KonvaImageRef } from './components/KonvaImage';
+import Sider from './components/Sider';
+import TopBar from './components/TopBar';
+
 import { useKeyDown } from './hooks/useKeyDown';
 import { useMouseDown } from './hooks/useMouseDown';
 import { useHistory } from './hooks/useHistory';
 
 import { getMagicWandFilter } from './utils/getMagicWandFilter';
 import styles from './index.module.scss';
+import { generateCursorSvg } from './utils/generateCursorSvg';
 
 interface Props {
   src: string;
   image: SVGImageElement;
   onClose: () => void;
-}
-
-interface Tab extends Omit<TabPaneProps, 'tab'> {
-  key: string;
-  label: React.ReactNode;
 }
 
 interface LineItem {
@@ -62,28 +47,16 @@ const EXPORTING = 1;
 
 const IMAGE_PADDING = 30;
 
-const generateCursorSvg = (brushSize: number): string => {
-  const cursorRatio = brushSize <= 10 ? 2 : brushSize <= 20 ? 1 : brushSize <= 80 ? 0.5 : 0.1;
-  const svg = `
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#1890FF" stroke-linecap="round"
-    stroke-linejoin="round" stroke-opacity="1" stroke-width="${cursorRatio}" width="${brushSize}"
-    height="${brushSize}" viewBox="0 0 10 10">
-      <circle cx="5.02" cy="5.02" r="5"/>
-    </svg>`;
-
-  return encodeURIComponent(svg).replace(/'/g, '%27').replace(/"/g, '%22');
-};
-
 const ImageEditPanel = ({ src, image, onClose }: Props): JSX.Element => {
   const lang = useI18n();
   const t = lang.beambox.photo_edit_panel;
 
-  const forceUpdate = useForceUpdate();
   const { history, push, undo, redo } = useHistory({
     items: [{ lines: [], filters: [] }],
     index: 0,
     hasUndid: false,
   });
+  const forceUpdate = useForceUpdate();
 
   const { isShading, threshold, isFullColor } = useMemo(
     () => ({
@@ -127,21 +100,6 @@ const ImageEditPanel = ({ src, image, onClose }: Props): JSX.Element => {
     }, []),
     keyUp: useCallback(() => setOperation(null), []),
   });
-
-  const tabItems: Array<Tab> = [
-    {
-      key: 'eraser',
-      label: 'Eraser',
-      children: <Eraser brushSize={brushSize} setBrushSize={setBrushSize} />,
-      icon: <ImageEditPanelIcons.Eraser />,
-    },
-    {
-      key: 'magicWand',
-      label: 'Magic Wand',
-      children: <MagicWand tolerance={tolerance} setTolerance={setTolerance} />,
-      icon: <ImageEditPanelIcons.MagicWand />,
-    },
-  ];
 
   const cursorStyle = useMemo(() => {
     if (operation === 'drag') {
@@ -256,7 +214,6 @@ const ImageEditPanel = ({ src, image, onClose }: Props): JSX.Element => {
 
   const handleZoom = useCallback((scale: number, isPointer = false) => {
     const stage = stageRef.current;
-    // Assuming uniform scaling
     const oldScale = stage.scaleX();
     const targetPosition = isPointer
       ? stage.getPointerPosition()
@@ -322,49 +279,29 @@ const ImageEditPanel = ({ src, image, onClose }: Props): JSX.Element => {
 
     stage.scale({ x: 1, y: 1 });
     stage.position({ x: 0, y: 0 });
-    stage.batchDraw();
 
-    // add a frame to wait for re-render
-    requestAnimationFrame(() => setProgress(EXPORTING));
+    // add a frame to wait for re-render, otherwise the image might be blank or not updated
+    requestAnimationFrame(() => {
+      stage.batchDraw();
+      requestAnimationFrame(() => setProgress(EXPORTING));
+    });
   }, [originalImage, t]);
 
-  const updateUrl = useCallback(
-    () => stageRef.current.toDataURL({ width: imageSize.width, height: imageSize.height }),
-    [imageSize]
-  );
+  const updateUrl = useCallback(() => stageRef.current.toDataURL(imageSize), [imageSize]);
 
-  const renderZoomButton = useCallback(
-    () => (
-      <div className={styles['dp-flex']}>
-        <Button
-          className={styles['mr-8px']}
-          shape="round"
-          icon={<MinusOutlined />}
-          onClick={() => handleZoomByScale(0.8)}
-        />
-        <Button className={styles['mr-8px']} shape="round" onClick={handleReset}>
-          {Math.round(zoomScale * 100)}%
-        </Button>
-        <Button shape="round" icon={<PlusOutlined />} onClick={() => handleZoomByScale(1.2)} />
-      </div>
-    ),
-    [handleReset, handleZoomByScale, zoomScale]
-  );
-
-  // wait re-render of stage, then update current url
   useEffect(() => {
     const updateImages = async () => {
       const url = updateUrl();
       const display = await calculateBase64(url, isShading, threshold, isFullColor);
 
       handleFinish(image, url, display);
+
       progressCaller.popById('image-editing');
       onClose();
     };
 
     if (progress === EXPORTING && imageRef.current?.isCached()) {
-      // add a frame to wait for re-render
-      requestAnimationFrame(updateImages);
+      updateImages();
     }
   }, [image, isFullColor, isShading, onClose, progress, threshold, updateUrl]);
 
@@ -377,17 +314,16 @@ const ImageEditPanel = ({ src, image, onClose }: Props): JSX.Element => {
 
     if (progress === EDITING) {
       if (image.isCached()) {
-        console.log('update image data');
         imageData.current = image
           ._getCachedSceneCanvas()
           .context._context.getImageData(0, 0, imageSize.width, imageSize.height);
       } else {
         // force re-render until image is cached
-        forceUpdate();
+        requestAnimationFrame(forceUpdate);
       }
     }
     // depends useImageStatus to force re-render
-  }, [progress, imageSize, forceUpdate, imageRef.current?.useImageStatus]);
+  }, [progress, imageSize, imageRef.current?.useImageStatus, forceUpdate]);
 
   useEffect(() => {
     const initialize = async () => {
@@ -470,51 +406,25 @@ const ImageEditPanel = ({ src, image, onClose }: Props): JSX.Element => {
       renderMobileContents={() => null}
       renderContents={() => (
         <>
-          <Sider className={styles.sider}>
-            <Flex style={{ height: '100%' }} vertical justify="space-between">
-              <div>
-                <BackButton onClose={onClose}>{lang.buttons.back_to_beam_studio}</BackButton>
-                <Header icon={<ImageEditPanelIcons.EditImage />} title="Edit Image" />
-                <Tabs
-                  centered
-                  size="large"
-                  activeKey={mode}
-                  items={tabItems}
-                  onChange={(mode: 'eraser' | 'magicWand') => {
-                    setOperation(null);
-                    setMode(mode);
-                  }}
-                />
-              </div>
-              <Footer>
-                <Button key="ok" type="primary" onClick={handleComplete}>
-                  {t.okay}
-                </Button>
-              </Footer>
-            </Flex>
-          </Sider>
+          <Sider
+            onClose={onClose}
+            handleComplete={handleComplete}
+            brushSize={brushSize}
+            setBrushSize={setBrushSize}
+            tolerance={tolerance}
+            setTolerance={setTolerance}
+            mode={mode}
+            setMode={setMode}
+            setOperation={setOperation}
+          />
           <Flex vertical className={styles['w-100']}>
-            <Flex
-              justify="space-between"
-              className={classNames(styles['w-100'], styles['top-bar'], styles.bdb)}
-            >
-              <div>
-                <Button
-                  className={styles['mr-8px']}
-                  shape="round"
-                  icon={<ArrowLeftOutlined />}
-                  disabled={history.index === 0}
-                  onClick={handleHistoryChange('undo')}
-                />
-                <Button
-                  shape="round"
-                  icon={<ArrowRightOutlined />}
-                  disabled={history.index === history.items.length - 1}
-                  onClick={handleHistoryChange('redo')}
-                />
-              </div>
-              {renderZoomButton()}
-            </Flex>
+            <TopBar
+              handleReset={handleReset}
+              handleZoomByScale={handleZoomByScale}
+              zoomScale={zoomScale}
+              history={history}
+              handleHistoryChange={handleHistoryChange}
+            />
             <div className={styles['outer-container']}>
               <div style={cursorStyle} ref={divRef} className={styles.container}>
                 <Stage
