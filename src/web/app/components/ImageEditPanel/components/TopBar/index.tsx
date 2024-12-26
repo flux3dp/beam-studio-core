@@ -14,7 +14,6 @@ import { HistoryState } from '../../hooks/useHistory';
 import styles from './index.module.scss';
 
 interface Props {
-  handleReset: () => void;
   handleZoomByScale: (scale: number) => void;
   zoomScale: number;
   history: HistoryState;
@@ -22,7 +21,6 @@ interface Props {
 }
 
 export default function TopBar({
-  handleReset,
   handleZoomByScale,
   zoomScale,
   history: { index, items },
@@ -38,13 +36,13 @@ export default function TopBar({
           icon={<MinusOutlined />}
           onClick={() => handleZoomByScale(0.8)}
         />
-        <Button className={styles['mr-8px']} shape="round" onClick={handleReset}>
+        <div className={classNames(styles['mr-8px'], styles['lh-32px'])}>
           {Math.round(zoomScale * 100)}%
-        </Button>
+        </div>
         <Button shape="round" icon={<PlusOutlined />} onClick={() => handleZoomByScale(1.2)} />
       </div>
     ),
-    [handleReset, handleZoomByScale, zoomScale]
+    [handleZoomByScale, zoomScale]
   );
 
   return (

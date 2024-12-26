@@ -70,7 +70,6 @@ const ImageEditPanel = ({ src, image, onClose }: Props): JSX.Element => {
   const [mode, setMode] = useState<'eraser' | 'magicWand'>('eraser');
   const [lines, setLines] = useState<Array<LineItem>>([]);
   const [filters, setFilters] = useState<Array<Filter>>([]);
-  const [originalImage, setOriginalImage] = useState('');
   const [displayImage, setDisplayImage] = useState('');
   const [progress, setProgress] = useState(EDITING);
   const [brushSize, setBrushSize] = useState(20);
@@ -124,6 +123,7 @@ const ImageEditPanel = ({ src, image, onClose }: Props): JSX.Element => {
 
       setLines(lines);
       setFilters(filters);
+      requestAnimationFrame(() => stageRef.current.batchDraw());
     },
     [undo, redo]
   );
@@ -203,10 +203,8 @@ const ImageEditPanel = ({ src, image, onClose }: Props): JSX.Element => {
     ({ evt: { deltaX, deltaY } }: Konva.KonvaEventObject<WheelEvent>) => {
       const stage = stageRef.current;
       const { x, y } = stage.position();
-      const isMac = window.os === 'MacOS';
-      const move = { x: deltaX, y: isMac ? deltaY : -deltaY };
 
-      stage.position({ x: x + move.x, y: y + move.y });
+      stage.position({ x: x - deltaX, y: y - deltaY });
       stage.batchDraw();
     },
     []
@@ -250,6 +248,7 @@ const ImageEditPanel = ({ src, image, onClose }: Props): JSX.Element => {
     [handleZoom]
   );
 
+  // though it's not used, it's necessary to keep the function signature
   const handleReset = useCallback(() => {
     const stage = stageRef.current;
 
@@ -273,8 +272,6 @@ const ImageEditPanel = ({ src, image, onClose }: Props): JSX.Element => {
   const handleComplete = useCallback(() => {
     progressCaller.openNonstopProgress({ id: 'image-editing', message: t.processing });
 
-    setDisplayImage(originalImage);
-
     const stage = stageRef.current;
 
     stage.scale({ x: 1, y: 1 });
@@ -285,7 +282,7 @@ const ImageEditPanel = ({ src, image, onClose }: Props): JSX.Element => {
       stage.batchDraw();
       requestAnimationFrame(() => setProgress(EXPORTING));
     });
-  }, [originalImage, t]);
+  }, [t]);
 
   const updateUrl = useCallback(() => stageRef.current.toDataURL(imageSize), [imageSize]);
 
@@ -334,8 +331,7 @@ const ImageEditPanel = ({ src, image, onClose }: Props): JSX.Element => {
         originalWidth: width,
         originalHeight: height,
       } = await preprocessByUrl(src, { isFullResolution: true });
-      const original = await calculateBase64(blobUrl, true, 255, true);
-      const display = await calculateBase64(blobUrl, isShading, threshold, isFullColor);
+      const fullColorImage = await calculateBase64(blobUrl, true, 255, true);
       const initScale = Math.min(
         1,
         (divRef.current.clientWidth - IMAGE_PADDING * 2) / width,
@@ -355,8 +351,7 @@ const ImageEditPanel = ({ src, image, onClose }: Props): JSX.Element => {
       stageRef.current.scale({ x: initScale, y: initScale });
 
       setImageSize({ width, height });
-      setOriginalImage(original);
-      setDisplayImage(display);
+      setDisplayImage(fullColorImage);
 
       progressCaller.popById('image-editing-init');
     };
@@ -386,17 +381,21 @@ const ImageEditPanel = ({ src, image, onClose }: Props): JSX.Element => {
   }, []);
 
   useEffect(() => {
-    const FN_KEY = window.os === 'MacOS' ? 'cmd' : 'ctrl';
     const subscribedShortcuts = [
-      shortcuts.on(['esc'], onClose, { isBlocking: true }),
-      shortcuts.on([FN_KEY, 'z'], handleHistoryChange('undo'), { isBlocking: true }),
-      shortcuts.on([FN_KEY, 'shift', 'z'], handleHistoryChange('redo'), { isBlocking: true }),
+      shortcuts.on(['Escape'], onClose, { isBlocking: true }),
+      shortcuts.on(['Fnkey+z'], handleHistoryChange('undo'), { isBlocking: true }),
+      shortcuts.on(['Shift+Fnkey+z'], handleHistoryChange('redo'), { isBlocking: true }),
+      shortcuts.on(['Fnkey-+', 'Fnkey-='], () => handleZoomByScale(1.2), {
+        isBlocking: true,
+        splitKey: '-',
+      }),
+      shortcuts.on(['Fnkey+-'], () => handleZoomByScale(0.8), { isBlocking: true }),
     ];
 
     return () => {
       subscribedShortcuts.forEach((unsubscribe) => unsubscribe());
     };
-  }, [handleHistoryChange, onClose]);
+  }, [handleHistoryChange, handleZoomByScale, onClose]);
 
   return (
     <FullWindowPanel
@@ -419,7 +418,6 @@ const ImageEditPanel = ({ src, image, onClose }: Props): JSX.Element => {
           />
           <Flex vertical className={styles['w-100']}>
             <TopBar
-              handleReset={handleReset}
               handleZoomByScale={handleZoomByScale}
               zoomScale={zoomScale}
               history={history}
