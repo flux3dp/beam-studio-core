@@ -6,6 +6,7 @@ import {
   ArrowRightOutlined,
   MinusOutlined,
   PlusOutlined,
+  ReloadOutlined,
 } from '@ant-design/icons';
 import classNames from 'classnames';
 
@@ -14,6 +15,7 @@ import { HistoryState } from '../../hooks/useHistory';
 import styles from './index.module.scss';
 
 interface Props {
+  handleReset: () => void;
   handleZoomByScale: (scale: number) => void;
   zoomScale: number;
   history: HistoryState;
@@ -21,6 +23,7 @@ interface Props {
 }
 
 function TopBar({
+  handleReset,
   handleZoomByScale,
   zoomScale,
   history: { index, items },
@@ -31,6 +34,7 @@ function TopBar({
     () => (
       <div className={styles['dp-flex']}>
         <Button
+          title="Zoom out"
           className={styles['mr-8px']}
           shape="round"
           icon={<MinusOutlined />}
@@ -39,10 +43,22 @@ function TopBar({
         <div className={classNames(styles['mr-8px'], styles['lh-32px'])}>
           {Math.round(zoomScale * 100)}%
         </div>
-        <Button shape="round" icon={<PlusOutlined />} onClick={() => handleZoomByScale(1.2)} />
+        <Button
+          title="Zoom in"
+          className={styles['mr-8px']}
+          shape="round"
+          icon={<PlusOutlined />}
+          onClick={() => handleZoomByScale(1.2)}
+        />
+        <Button
+          title="Reset to Initial Zoom"
+          shape="circle"
+          icon={<ReloadOutlined />}
+          onClick={handleReset}
+        />
       </div>
     ),
-    [handleZoomByScale, zoomScale]
+    [handleReset, handleZoomByScale, zoomScale]
   );
 
   return (
@@ -53,6 +69,7 @@ function TopBar({
       <div>
         <Button
           className={styles['mr-8px']}
+          title="Undo"
           shape="round"
           icon={<ArrowLeftOutlined />}
           disabled={index === 0}
@@ -60,6 +77,7 @@ function TopBar({
         />
         <Button
           shape="round"
+          title="Redo"
           icon={<ArrowRightOutlined />}
           disabled={index === items.length - 1}
           onClick={handleHistoryChange('redo')}

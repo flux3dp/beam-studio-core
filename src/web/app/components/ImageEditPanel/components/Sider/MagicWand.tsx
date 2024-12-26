@@ -22,7 +22,7 @@ export default function MagicWand({ tolerance, setTolerance }: Props): JSX.Eleme
     <div className={styles.wrapper}>
       <div className={styles['hint-text']}>
         <QuestionCircleOutlined className={styles.icon} />
-        <span>Quickly select similar color regions to remove backgrounds.</span>
+        <span>Select and remove adjacent areas based on color similarity.</span>
       </div>
       <Form layout="vertical">
         <Form.Item label="Tolerance:">

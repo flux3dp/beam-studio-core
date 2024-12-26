@@ -420,6 +420,7 @@ function ImageEditPanel({ src, image, onClose }: Props): JSX.Element {
           />
           <Flex vertical className={styles['w-100']}>
             <TopBar
+              handleReset={handleReset}
               handleZoomByScale={handleZoomByScale}
               zoomScale={zoomScale}
               history={history}
