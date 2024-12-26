@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-shadow */
-import React from 'react';
+import React, { memo } from 'react';
 
 import { Button, Flex, TabPaneProps, Tabs } from 'antd';
 import useI18n from 'helpers/useI18n';
@@ -32,7 +32,7 @@ interface Tab extends Omit<TabPaneProps, 'tab'> {
   label: React.ReactNode;
 }
 
-export default function Sider({
+function Sider({
   onClose,
   handleComplete,
   brushSize,
@@ -87,3 +87,7 @@ export default function Sider({
     </FullWindowPanelSider>
   );
 }
+
+const MemorizedSider = memo(Sider);
+
+export default MemorizedSider;

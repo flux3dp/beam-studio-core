@@ -2,7 +2,7 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable @typescript-eslint/no-shadow */
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { Flex } from 'antd';
 import { Layer, Line, Stage } from 'react-konva';
@@ -47,7 +47,7 @@ const EXPORTING = 1;
 
 const IMAGE_PADDING = 30;
 
-const ImageEditPanel = ({ src, image, onClose }: Props): JSX.Element => {
+function ImageEditPanel({ src, image, onClose }: Props): JSX.Element {
   const lang = useI18n();
   const t = lang.beambox.photo_edit_panel;
 
@@ -324,7 +324,7 @@ const ImageEditPanel = ({ src, image, onClose }: Props): JSX.Element => {
 
   useEffect(() => {
     const initialize = async () => {
-      progressCaller.openNonstopProgress({ id: 'image-editing-init', message: t.processing });
+      requestAnimationFrame(() => {});
 
       const {
         blobUrl,
@@ -356,7 +356,9 @@ const ImageEditPanel = ({ src, image, onClose }: Props): JSX.Element => {
       progressCaller.popById('image-editing-init');
     };
 
-    initialize();
+    progressCaller.openNonstopProgress({ id: 'image-editing-init', message: t.processing });
+
+    setTimeout(initialize, 1000);
 
     // update stage dimensions according parent div
     const stage = stageRef.current;
@@ -458,6 +460,8 @@ const ImageEditPanel = ({ src, image, onClose }: Props): JSX.Element => {
       )}
     />
   );
-};
+}
 
-export default ImageEditPanel;
+const MemorizedImageEditPanel = memo(ImageEditPanel);
+
+export default MemorizedImageEditPanel;

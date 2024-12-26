@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { memo, useCallback } from 'react';
 
 import { Button, Flex } from 'antd';
 import {
@@ -20,7 +20,7 @@ interface Props {
   handleHistoryChange: (type: 'undo' | 'redo') => () => void;
 }
 
-export default function TopBar({
+function TopBar({
   handleZoomByScale,
   zoomScale,
   history: { index, items },
@@ -69,3 +69,7 @@ export default function TopBar({
     </Flex>
   );
 }
+
+const MemorizedTopBar = memo(TopBar);
+
+export default MemorizedTopBar;
