@@ -91,6 +91,12 @@ const defaultLaserConfigs = {
   dottingTime: { value: 100 },
 };
 
+// Boolean without initLayerConfig will be false
+// Update expected value when initLayerConfig is called
+const trueConfigs = {
+  biDirectional: { value: true },
+};
+
 const defaultMultiValueLaserConfigs = {
   speed: { value: 20, hasMultiValue: false },
   printingSpeed: { value: 60, hasMultiValue: false },
@@ -149,7 +155,7 @@ describe('test layer-config-helper', () => {
 
   test('initLayerConfig', () => {
     initLayerConfig('layer 1');
-    expect(getLayerConfig('layer 1')).toEqual(defaultLaserConfigs);
+    expect(getLayerConfig('layer 1')).toEqual({ ...defaultLaserConfigs, ...trueConfigs });
   });
 
   test('initLayerConfig with module', () => {
@@ -158,7 +164,11 @@ describe('test layer-config-helper', () => {
       return undefined;
     });
     initLayerConfig('layer 1');
-    expect(getLayerConfig('layer 1')).toEqual({ ...defaultLaserConfigs, module: { value: 1 } });
+    expect(getLayerConfig('layer 1')).toEqual({
+      ...defaultLaserConfigs,
+      ...trueConfigs,
+      module: { value: 1 },
+    });
   });
 
   test('write zstep data', () => {

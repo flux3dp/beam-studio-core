@@ -152,8 +152,8 @@ describe('test PromarkSettings', () => {
     expect(mockGenerateCalibrationTaskString).toBeCalledTimes(1);
     expect(mockGenerateCalibrationTaskString).toBeCalledWith({
       width: 150,
-      power: 100,
-      speed: 350,
+      power: 50,
+      speed: 1000,
     });
     expect(mockLoadTaskToSwiftray).toBeCalledTimes(1);
     expect(mockLoadTaskToSwiftray).toBeCalledWith('task', 'fpm1');
