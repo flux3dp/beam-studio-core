@@ -3,13 +3,13 @@ import { Menu as TopBarMenu, MenuItem, MenuDivider, SubMenu } from '@szhsin/reac
 
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import browser from 'implementations/browser';
+import { promarkModels } from 'app/actions/beambox/constant';
 import Discover from 'helpers/api/discover';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
-import hotkeys from 'app/constants/hotkeys';
+import { menuItems } from 'app/constants/menuItems';
 import useI18n from 'helpers/useI18n';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { modelsWithModules } from 'app/constants/layer-module/layer-modules';
-import { promarkModels } from 'app/actions/beambox/constant';
 import { useIsMobile } from 'helpers/system-helper';
 
 interface Props {
@@ -109,7 +109,7 @@ export default function Menu({ email }: Props): JSX.Element {
   const hotkey = (action: string): JSX.Element => (
     <>
       <span className="action">{menuCms[action]}</span>
-      <span className="hotkey">{hotkeys[action].representation}</span>
+      <span className="hotkey">{menuItems[action].representation}</span>
     </>
   );
 

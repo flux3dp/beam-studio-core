@@ -80,7 +80,7 @@ const smoothPolylineIntoPath = (element) => {
     let prevCtlPt = null;
     let d: any = [];
     d.push(['M', cursorPosition.x.toFixed(5), ',', cursorPosition.y.toFixed(5), ' C'].join(''));
-    for (i = 1; i <= (N - 4); i += 3) {
+    for (i = 1; i <= N - 4; i += 3) {
       let ct1 = points.getItem(i);
       const ct2 = points.getItem(i + 1);
       const end = points.getItem(i + 2);
@@ -94,7 +94,7 @@ const smoothPolylineIntoPath = (element) => {
           prevArr[2] = newPoints[0].x;
           prevArr[3] = newPoints[0].y;
           d[d.length - 1] = prevArr.join(',');
-          [,ct1] = newPoints;
+          [, ct1] = newPoints;
         }
       }
 
@@ -127,15 +127,11 @@ const smoothPolylineIntoPath = (element) => {
   return element;
 };
 
-const getCurveLocationByPaperjs = (
-  x: number,
-  y: number,
-  elem: SVGPathElement,
-) => {
+const getCurveLocationByPaperjs = (x: number, y: number, elem: SVGPathElement) => {
   const proj = new paper.Project(document.createElement('canvas'));
   const items = proj.importSVG(`<svg>${elem.outerHTML}</svg>`);
   const obj1 = items.children[0] as paper.Shape | paper.Path | paper.CompoundPath;
-  const path1 = (obj1 instanceof paper.Shape) ? obj1.toPath() : obj1.clone();
+  const path1 = obj1 instanceof paper.Shape ? obj1.toPath() : obj1.clone();
   const location = path1.getNearestLocation({ x, y });
   const isCompound = location.path.parent instanceof paper.CompoundPath;
 
@@ -191,8 +187,8 @@ const finishPath = (toEditMode = true) => {
     if (previousMode === 'select') $('#workarea').css('cursor', 'default');
   }
 
-  shortcuts.off(['esc']);
-  shortcuts.on(['esc'], window.svgEditor.clickSelect);
+  shortcuts.off(['Escape']);
+  shortcuts.on(['Escape'], window.svgEditor.clickSelect);
 };
 
 const toEditMode = (element): void => {
@@ -208,7 +204,7 @@ const toEditMode = (element): void => {
 };
 
 const toSelectMode = (elem): void => {
-  const selPath = (elem === svgedit.path.path.elem);
+  const selPath = elem === svgedit.path.path.elem;
   svgCanvas.unsafeAccess.setCurrentMode(previousMode);
   const currentMode = svgCanvas.getCurrentMode();
   if (currentMode === 'select') {
@@ -309,8 +305,8 @@ const mouseDown = (evt: MouseEvent, mouseTarget: SVGElement, startX: number, sta
       );
       index = subpath ? svgedit.path.path.segs.length : 0;
       svgedit.path.addDrawingPoint(index, mouseX, mouseY, x, y);
-      shortcuts.off(['esc']);
-      shortcuts.on(['esc'], () => finishPath(!isContinuousDrawing));
+      shortcuts.off(['Escape']);
+      shortcuts.on(['Escape'], () => finishPath(!isContinuousDrawing));
     } else {
       // determine if we clicked on an existing point
       const segments = drawnPath.pathSegList;
@@ -323,7 +319,7 @@ const mouseDown = (evt: MouseEvent, mouseTarget: SVGElement, startX: number, sta
         const px = item.x;
         const py = item.y;
         // found a matching point
-        if (x >= (px - FUZZ) && x <= (px + FUZZ) && y >= (py - FUZZ) && y <= (py + FUZZ)) {
+        if (x >= px - FUZZ && x <= px + FUZZ && y >= py - FUZZ && y <= py + FUZZ) {
           clickOnPoint = true;
           break;
         }
@@ -361,7 +357,7 @@ const mouseDown = (evt: MouseEvent, mouseTarget: SVGElement, startX: number, sta
               sSegment.x1 / currentZoom,
               sSegment.y1 / currentZoom,
               absX,
-              absY,
+              absY
             );
           }
 
@@ -422,7 +418,7 @@ const mouseDown = (evt: MouseEvent, mouseTarget: SVGElement, startX: number, sta
             sSegment.x1 / currentZoom,
             sSegment.y1 / currentZoom,
             sSegment.x2 / currentZoom,
-            sSegment.y2 / currentZoom,
+            sSegment.y2 / currentZoom
           );
         }
 
@@ -496,9 +492,9 @@ const mouseDown = (evt: MouseEvent, mouseTarget: SVGElement, startX: number, sta
       console.log('Selected Seg Index', segIndex);
       selectedPath.addSeg(segIndex, 1 - result.time);
       const seg = selectedPath.segs[segIndex];
-      const isLastSeg = (segIndex === pathToSegIndices[result.pathIndex + 1] - 1);
+      const isLastSeg = segIndex === pathToSegIndices[result.pathIndex + 1] - 1;
       console.log('Selected Seg', isLastSeg, seg.startPoint.index, seg.endPoint.index);
-      const nodeIndex = isLastSeg ? (seg.startPoint.index + 1) : seg.endPoint.index;
+      const nodeIndex = isLastSeg ? seg.startPoint.index + 1 : seg.endPoint.index;
       console.log('Inserted Node Index', nodeIndex);
       selectedPath.init().addPtsToSelection([nodeIndex]);
       selectedPath.endChanges('Add path node');
@@ -513,13 +509,17 @@ const mouseDown = (evt: MouseEvent, mouseTarget: SVGElement, startX: number, sta
         const selectorManager = selector.getSelectorManager();
         svgCanvas.unsafeAccess.setRubberBox(selectorManager.getRubberBandBox());
       }
-      svgedit.utilities.assignAttributes(rubberBox, {
-        x: startX * currentZoom,
-        y: startY * currentZoom,
-        width: 0,
-        height: 0,
-        display: 'inline',
-      }, 100);
+      svgedit.utilities.assignAttributes(
+        rubberBox,
+        {
+          x: startX * currentZoom,
+          y: startY * currentZoom,
+          width: 0,
+          height: 0,
+          display: 'inline',
+        },
+        100
+      );
     }
   }
   return { x: mouseX, y: mouseY };
@@ -547,8 +547,8 @@ const mouseMove = (mouseX: number, mouseY: number) => {
       const seg = segments.getItem(index);
       const curX = mouseX / currentZoom;
       const curY = mouseY / currentZoom;
-      const altX = (ptX + (ptX - curX));
-      const altY = (ptY + (ptY - curY));
+      const altX = ptX + (ptX - curX);
+      const altY = ptY + (ptY - curY);
 
       // Set control points
       const pointGrip1 = svgedit.path.addDrawingCtrlGrip('1c1');
@@ -588,16 +588,13 @@ const mouseMove = (mouseX: number, mouseY: number) => {
         let lastY = last.y;
 
         if (last.pathSegType === 6) {
-          lastX += (lastX - last.x2);
-          lastY += (lastY - last.y2);
+          lastX += lastX - last.x2;
+          lastY += lastY - last.y2;
         } else if (firstCtrl) {
           lastX = firstCtrl[0] / currentZoom;
           lastY = firstCtrl[1] / currentZoom;
         }
-        svgedit.path.replacePathSeg(6,
-          index,
-          [ptX, ptY, lastX, lastY, altX, altY],
-          drawnPath);
+        svgedit.path.replacePathSeg(6, index, [ptX, ptY, lastX, lastY, altX, altY], drawnPath);
       }
     } else {
       const stretchy = svgedit.utilities.getElem('path_stretch_line');
@@ -606,13 +603,19 @@ const mouseMove = (mouseX: number, mouseY: number) => {
         if (prev.pathSegType === 6) {
           const prevX = prev.x + (prev.x - prev.x2);
           const prevY = prev.y + (prev.y - prev.y2);
-          svgedit.path.replacePathSeg(6, 1,
+          svgedit.path.replacePathSeg(
+            6,
+            1,
             [mouseX, mouseY, prevX * currentZoom, prevY * currentZoom, mouseX, mouseY],
-            stretchy);
+            stretchy
+          );
         } else if (firstCtrl) {
-          svgedit.path.replacePathSeg(6, 1,
+          svgedit.path.replacePathSeg(
+            6,
+            1,
             [mouseX, mouseY, firstCtrl[0], firstCtrl[1], mouseX, mouseY],
-            stretchy);
+            stretchy
+          );
         } else {
           svgedit.path.replacePathSeg(4, 1, [mouseX, mouseY], stretchy);
         }
@@ -624,14 +627,20 @@ const mouseMove = (mouseX: number, mouseY: number) => {
     // has created a node point
   } else if (selectedPath.dragging) {
     // if we are dragging a point, let's move it
-    const pt = svgedit.path.getPointFromGrip({
-      x: selectedPath.dragging[0],
-      y: selectedPath.dragging[1],
-    }, selectedPath);
-    const mpt = svgedit.path.getPointFromGrip({
-      x: mouseX,
-      y: mouseY,
-    }, selectedPath);
+    const pt = svgedit.path.getPointFromGrip(
+      {
+        x: selectedPath.dragging[0],
+        y: selectedPath.dragging[1],
+      },
+      selectedPath
+    );
+    const mpt = svgedit.path.getPointFromGrip(
+      {
+        x: mouseX,
+        y: mouseY,
+      },
+      selectedPath
+    );
     const diffX = mpt.x - pt.x;
     const diffY = mpt.y - pt.y;
     selectedPath.dragging = [mouseX, mouseY];
@@ -922,13 +931,19 @@ const zoomChange = (oldZoom: number, newZoom: number) => {
         const zoomRatio = newZoom / oldZoom;
         svgedit.path.replacePathSeg(2, 0, [seg0.x * zoomRatio, seg0.y * zoomRatio], stretchy);
         if (seg1.pathSegType === 6) {
-          svgedit.path.replacePathSeg(6, 1,
-            [seg1.x * zoomRatio,
+          svgedit.path.replacePathSeg(
+            6,
+            1,
+            [
+              seg1.x * zoomRatio,
               seg1.y * zoomRatio,
               seg1.x1 * zoomRatio,
               seg1.y1 * zoomRatio,
-              seg1.x2 * zoomRatio, seg1.y2 * zoomRatio],
-            stretchy);
+              seg1.x2 * zoomRatio,
+              seg1.y2 * zoomRatio,
+            ],
+            stretchy
+          );
         } else {
           svgedit.path.replacePathSeg(4, 1, [seg1.x * zoomRatio, seg1.y * zoomRatio], stretchy);
         }
@@ -1076,7 +1091,7 @@ const opencloseSubPath = () => {
     }
   }
 
-  let num = (index - lastM) - 1;
+  let num = index - lastM - 1;
 
   while (num) {
     num -= 1;
@@ -1162,7 +1177,7 @@ const pathDSegment = (
   letter: string,
   points: Array<number[]>,
   morePoints?: number[],
-  lastPoint?: number[],
+  lastPoint?: number[]
 ): string => {
   $.each(points, (i, pnt) => {
     points[i] = svgedit.units.shortFloat(pnt);
@@ -1178,13 +1193,34 @@ const pathDSegment = (
 };
 
 // this is how we map paths to our preferred relative segment types
-const pathMap = [0, 'z', 'M', 'm', 'L', 'l', 'C', 'c', 'Q', 'q', 'A', 'a', 'H', 'h', 'V', 'v', 'S', 's', 'T', 't'];
+const pathMap = [
+  0,
+  'z',
+  'M',
+  'm',
+  'L',
+  'l',
+  'C',
+  'c',
+  'Q',
+  'q',
+  'A',
+  'a',
+  'H',
+  'h',
+  'V',
+  'v',
+  'S',
+  's',
+  'T',
+  't',
+];
 
 const convertPathSegToDPath = (segList: ISVGPathSeg[], toRel: boolean) => {
   let i;
   const len = segList.length;
-  let curx = 0; let
-    cury = 0;
+  let curx = 0;
+  let cury = 0;
   let d = '';
   let lastMove = null;
 
@@ -1257,39 +1293,60 @@ const convertPathSegToDPath = (segList: ISVGPathSeg[], toRel: boolean) => {
           curx = x;
           cury = y;
         }
-        if (type === 2 || type === 3) { lastMove = [curx, cury]; }
+        if (type === 2 || type === 3) {
+          lastMove = [curx, cury];
+        }
 
         d += pathDSegment(letter, [[x, y]]);
         break;
       case 6: // absolute cubic (C)
-        x -= curx; x1 -= curx; x2 -= curx;
-        y -= cury; y1 -= cury; y2 -= cury;
+        x -= curx;
+        x1 -= curx;
+        x2 -= curx;
+        y -= cury;
+        y1 -= cury;
+        y2 -= cury;
       case 7: // relative cubic (c)
         if (toRel) {
           curx += x;
           cury += y;
         } else {
-          x += curx; x1 += curx; x2 += curx;
-          y += cury; y1 += cury; y2 += cury;
+          x += curx;
+          x1 += curx;
+          x2 += curx;
+          y += cury;
+          y1 += cury;
+          y2 += cury;
           curx = x;
           cury = y;
         }
-        d += pathDSegment(letter, [[x1, y1], [x2, y2], [x, y]]);
+        d += pathDSegment(letter, [
+          [x1, y1],
+          [x2, y2],
+          [x, y],
+        ]);
         break;
       case 8: // absolute quad (Q)
-        x -= curx; x1 -= curx;
-        y -= cury; y1 -= cury;
+        x -= curx;
+        x1 -= curx;
+        y -= cury;
+        y1 -= cury;
       case 9: // relative quad (q)
         if (toRel) {
           curx += x;
           cury += y;
         } else {
-          x += curx; x1 += curx;
-          y += cury; y1 += cury;
+          x += curx;
+          x1 += curx;
+          y += cury;
+          y1 += cury;
           curx = x;
           cury = y;
         }
-        d += pathDSegment(letter, [[x1, y1], [x, y]]);
+        d += pathDSegment(letter, [
+          [x1, y1],
+          [x, y],
+        ]);
         break;
       case 10: // absolute elliptical arc (A)
         x -= curx;
@@ -1304,26 +1361,34 @@ const convertPathSegToDPath = (segList: ISVGPathSeg[], toRel: boolean) => {
           curx = x;
           cury = y;
         }
-        d += pathDSegment(letter, [[seg.r1, seg.r2]], [
-          seg.angle,
-          (seg.largeArcFlag ? 1 : 0),
-          (seg.sweepFlag ? 1 : 0),
-        ], [x, y]);
+        d += pathDSegment(
+          letter,
+          [[seg.r1, seg.r2]],
+          [seg.angle, seg.largeArcFlag ? 1 : 0, seg.sweepFlag ? 1 : 0],
+          [x, y]
+        );
         break;
       case 16: // absolute smooth cubic (S)
-        x -= curx; x2 -= curx;
-        y -= cury; y2 -= cury;
+        x -= curx;
+        x2 -= curx;
+        y -= cury;
+        y2 -= cury;
       case 17: // relative smooth cubic (s)
         if (toRel) {
           curx += x;
           cury += y;
         } else {
-          x += curx; x2 += curx;
-          y += cury; y2 += cury;
+          x += curx;
+          x2 += curx;
+          y += cury;
+          y2 += cury;
           curx = x;
           cury = y;
         }
-        d += pathDSegment(letter, [[x2, y2], [x, y]]);
+        d += pathDSegment(letter, [
+          [x2, y2],
+          [x, y],
+        ]);
         break;
       default:
         break;
@@ -1377,7 +1442,8 @@ const smoothByFitPath = (elem: SVGPathElement) => {
   paths.forEach((path) => {
     result.push('M');
     const points = path.map((p) => ({
-      x: Math.floor(100 * (p.X / scale)) / 100, y: Math.floor(100 * (p.Y / scale)) / 100,
+      x: Math.floor(100 * (p.X / scale)) / 100,
+      y: Math.floor(100 * (p.Y / scale)) / 100,
     }));
     const segs = BezierFitCurve.fitPath(points);
     for (let j = 0; j < segs.length; j += 1) {
@@ -1385,7 +1451,10 @@ const smoothByFitPath = (elem: SVGPathElement) => {
       if (j === 0) {
         result.push(`${seg.points[0].x},${seg.points[0].y}`);
       }
-      const pointsString = seg.points.slice(1).map((p) => `${p.x},${p.y}`).join(' ');
+      const pointsString = seg.points
+        .slice(1)
+        .map((p) => `${p.x},${p.y}`)
+        .join(' ');
       result.push(`${seg.type}${pointsString}`);
     }
     result.push('Z');
@@ -1393,18 +1462,14 @@ const smoothByFitPath = (elem: SVGPathElement) => {
   return result.join('');
 };
 
-const booleanOperation = (
-  pathHTML1: string,
-  pathHTML2: string,
-  clipType: number,
-) => {
+const booleanOperation = (pathHTML1: string, pathHTML2: string, clipType: number) => {
   const operation = ['intersect', 'unite', 'subtract', 'exclude'][clipType];
   const proj = new paper.Project(document.createElement('canvas'));
   const items = proj.importSVG(`<svg>${pathHTML1}${pathHTML2}</svg>`);
   const obj1 = items.children[0] as paper.Shape | paper.Path | paper.CompoundPath;
   const obj2 = items.children[1] as paper.Shape | paper.Path | paper.CompoundPath;
-  const path1 = (obj1 instanceof paper.Shape) ? obj1.toPath() : obj1.clone();
-  const path2 = (obj2 instanceof paper.Shape) ? obj2.toPath() : obj2.clone();
+  const path1 = obj1 instanceof paper.Shape ? obj1.toPath() : obj1.clone();
+  const path2 = obj2 instanceof paper.Shape ? obj2.toPath() : obj2.clone();
   path1[operation](path2);
   obj1.remove();
   obj2.remove();
@@ -1419,11 +1484,7 @@ const booleanOperation = (
   return d;
 };
 
-const booleanOperationByPaperjs = (
-  baseHTML: string,
-  elem2: SVGPathElement,
-  clipType: number,
-) => {
+const booleanOperationByPaperjs = (baseHTML: string, elem2: SVGPathElement, clipType: number) => {
   let elem2HTML = '';
   if (elem2.tagName === 'rect' && elem2.getAttribute('rx')) {
     const cloned = elem2.cloneNode(true) as Element;
@@ -1431,7 +1492,7 @@ const booleanOperationByPaperjs = (
     elem2HTML = cloned.outerHTML;
   } else elem2HTML = elem2.outerHTML;
   return booleanOperation(baseHTML, elem2HTML, clipType);
-}
+};
 
 export const simplifyPath = (elem: SVGPathElement | any) => {
   const d = smoothByFitPath(elem);
@@ -1442,9 +1503,11 @@ const handleHistoryEvent = (eventType: string, cmd: ICommand) => {
   const EventTypes = history.HistoryEventTypes;
   if (eventType === EventTypes.AFTER_APPLY || eventType === EventTypes.AFTER_UNAPPLY) {
     // Only cares for updating nodes in pathedit mode
-    if (svgedit.path.path
-        && svgCanvas.getCurrentMode() === 'pathedit'
-        && cmd.elem === svgedit.path.path.elem) {
+    if (
+      svgedit.path.path &&
+      svgCanvas.getCurrentMode() === 'pathedit' &&
+      cmd.elem === svgedit.path.path.elem
+    ) {
       const selectedPath: ISVGPath = svgedit.path.path;
       selectedPath.init();
       selectedPath.show(true).update();
@@ -1494,7 +1557,9 @@ const disconnectNode = () => {
   const selection = selectedPath.selected_pts;
   selectedPath.storeD();
   const [selectedIndex] = selection;
-  const newSegIndex = selectedPath.disconnectNode(selectedPath.nodePoints[selectedIndex].prevSeg?.index);
+  const newSegIndex = selectedPath.disconnectNode(
+    selectedPath.nodePoints[selectedIndex].prevSeg?.index
+  );
   selectedPath.endChanges('Disconnect');
   selectedPath.init();
   const newNodeIndex = selectedPath.segs[newSegIndex].endPoint?.index || 0;

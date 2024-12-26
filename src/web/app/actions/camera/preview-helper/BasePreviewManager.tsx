@@ -88,7 +88,7 @@ class BasePreviewManager implements PreviewManager {
     const triggerPause = () => {
       isStopped = true;
     };
-    const unregisterPauseShortcut = shortcuts.on(['esc'], triggerPause, { isBlocking: true });
+    const unregisterPauseShortcut = shortcuts.on(['Escape'], triggerPause, { isBlocking: true });
 
     try {
       for (let i = 0; i < points.length; i += 1) {

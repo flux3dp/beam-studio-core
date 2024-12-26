@@ -13,25 +13,25 @@ getSVGAsync((globalSVG) => {
 });
 
 interface IPoint {
-  x: number,
-  y: number,
+  x: number;
+  y: number;
 }
 
 interface Props {
-  updateCurveFunction: (curveFunction: (x: number) => number) => void,
-  updateImage: () => void,
+  updateCurveFunction: (curveFunction: (x: number) => number) => void;
+  updateImage: () => void;
 }
 
 interface State {
-  controlPoints: IPoint[],
-  draggingIndex?: number,
-  dragStartPoint?: IPoint,
-  originalPoint?: IPoint,
-  selectingIndex: number,
-  splineKs: number[],
+  controlPoints: IPoint[];
+  draggingIndex?: number;
+  dragStartPoint?: IPoint;
+  originalPoint?: IPoint;
+  selectingIndex: number;
+  splineKs: number[];
 }
 
-const isPointEqual = (a: IPoint, b: IPoint) => (a.x === b.x && a.y === b.y);
+const isPointEqual = (a: IPoint, b: IPoint) => a.x === b.x && a.y === b.y;
 
 const generateSafePoints = (points: IPoint[]) => {
   const newPoints = JSON.parse(JSON.stringify(points)); // Deep copy
@@ -51,7 +51,8 @@ const solveX = (matrixA: number[][], matrixB: number[]): number[] => {
     let vali = Number.NEGATIVE_INFINITY;
     for (let j = i; j < n; j += 1) {
       if (Math.abs(matrixA[j][i]) > vali) {
-        iMax = j; vali = Math.abs(matrixA[j][i]);
+        iMax = j;
+        vali = Math.abs(matrixA[j][i]);
       }
     }
     const swapA = matrixA[i];
@@ -66,7 +67,7 @@ const solveX = (matrixA: number[][], matrixB: number[]): number[] => {
     }
 
     for (let j = i + 1; j < n; j += 1) {
-      const cf = (matrixA[j][i] / matrixA[i][i]);
+      const cf = matrixA[j][i] / matrixA[i][i];
       for (let k = i; k < n; k += 1) {
         matrixA[j][k] -= matrixA[i][k] * cf;
       }
@@ -95,10 +96,10 @@ const generateCubicSplineFromPoints = (points: IPoint[]) => {
     A[i][i] = 2 * (1 / (ps[i].x - ps[i - 1].x) + 1 / (ps[i + 1].x - ps[i].x));
     A[i][i + 1] = 1 / (ps[i + 1].x - ps[i].x);
 
-    B[i] = 3 * (
-      (ps[i].y - ps[i - 1].y) / ((ps[i].x - ps[i - 1].x) * (ps[i].x - ps[i - 1].x))
-      + (ps[i + 1].y - ps[i].y) / ((ps[i + 1].x - ps[i].x) * (ps[i + 1].x - ps[i].x))
-    );
+    B[i] =
+      3 *
+      ((ps[i].y - ps[i - 1].y) / ((ps[i].x - ps[i - 1].x) * (ps[i].x - ps[i - 1].x)) +
+        (ps[i + 1].y - ps[i].y) / ((ps[i + 1].x - ps[i].x) * (ps[i + 1].x - ps[i].x)));
   }
 
   A[0][0] = 2 / (ps[1].x - ps[0].x);
@@ -107,8 +108,8 @@ const generateCubicSplineFromPoints = (points: IPoint[]) => {
 
   A[n - 1][n - 2] = 1 / (ps[n - 1].x - ps[n - 2].x);
   A[n - 1][n - 1] = 2 / (ps[n - 1].x - ps[n - 2].x);
-  B[n - 1] = 3 * ((ps[n - 1].y - ps[n - 2].y)
-    / ((ps[n - 1].x - ps[n - 2].x) * (ps[n - 1].x - ps[n - 2].x)));
+  B[n - 1] =
+    3 * ((ps[n - 1].y - ps[n - 2].y) / ((ps[n - 1].x - ps[n - 2].x) * (ps[n - 1].x - ps[n - 2].x)));
 
   return solveX(A, B);
 };
@@ -118,18 +119,24 @@ export default class CurveControl extends React.PureComponent<Props, State> {
     super(props);
     const { updateCurveFunction } = this.props as Props;
     this.state = {
-      controlPoints: [{ x: 0, y: 0 }, { x: 255, y: 255 }],
+      controlPoints: [
+        { x: 0, y: 0 },
+        { x: 255, y: 255 },
+      ],
       selectingIndex: null,
-      splineKs: generateCubicSplineFromPoints([{ x: 0, y: 0 }, { x: 255, y: 255 }]),
+      splineKs: generateCubicSplineFromPoints([
+        { x: 0, y: 0 },
+        { x: 255, y: 255 },
+      ]),
     };
     updateCurveFunction(this.cubicSplinesInterpolation);
-    shortcuts.off(['del']);
-    shortcuts.on(['del'], this.deleteControlPoint);
+    shortcuts.off(['Delete', 'Backspace']);
+    shortcuts.on(['Delete', 'Backspace'], this.deleteControlPoint);
   }
 
   componentWillUnmount(): void {
-    shortcuts.off(['del']);
-    shortcuts.on(['del'], () => svgEditor.deleteSelected());
+    shortcuts.off(['Delete', 'Backspace']);
+    shortcuts.on(['Delete', 'Backspace'], () => svgEditor.deleteSelected());
   }
 
   cubicSplinesInterpolation = (x: number): number => {
@@ -193,8 +200,8 @@ export default class CurveControl extends React.PureComponent<Props, State> {
           selectingIndex -= 1;
         }
       } else if (
-        draggingIndex < controlPoints.length - 1
-        && x >= controlPoints[draggingIndex + 1].x
+        draggingIndex < controlPoints.length - 1 &&
+        x >= controlPoints[draggingIndex + 1].x
       ) {
         if (x === controlPoints[draggingIndex + 1].x) {
           x -= 1;
@@ -236,10 +243,17 @@ export default class CurveControl extends React.PureComponent<Props, State> {
       d += `L ${x},${255 - y} `;
     }
     d += `L ${ps[ps.length - 1].x},${255 - ps[ps.length - 1].y} L 256,${255 - ps[ps.length - 1].y}`;
-    return ([
+    return [
       <path key="show" stroke="#000000" fill="none" d={d} />,
-      <path key="invisible" stroke="transparent" fill="none" strokeWidth="7" d={d} onClick={this.addControlPoint} />,
-    ]);
+      <path
+        key="invisible"
+        stroke="transparent"
+        fill="none"
+        strokeWidth="7"
+        d={d}
+        onClick={this.addControlPoint}
+      />,
+    ];
   }
 
   renderControlPoints(): Element[] {
@@ -258,7 +272,7 @@ export default class CurveControl extends React.PureComponent<Props, State> {
           y={255 - p.y - 3}
           width={6}
           height={6}
-        />,
+        />
       );
     });
     return items;

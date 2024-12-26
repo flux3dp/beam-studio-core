@@ -12,38 +12,32 @@ interface Props {
 }
 class View extends React.Component<Props> {
   componentDidMount() {
-    const {
-      disabledEscapeOnBackground = false,
-      onClose = () => { },
-    } = this.props;
+    const { disabledEscapeOnBackground = false, onClose = () => {} } = this.props;
 
     this.onOpen();
-    shortcuts.on(
-      ['esc'],
-      (e) => {
-        if (!disabledEscapeOnBackground) {
-          onClose(e);
-        }
-      },
-    );
+    shortcuts.on(['Escape'], (e) => {
+      if (!disabledEscapeOnBackground) {
+        onClose(e);
+      }
+    });
   }
 
   componentWillUnmount() {
-    shortcuts.off(['esc']);
-    if (window['svgEditor']) {
-      shortcuts.on(['esc'], window['svgEditor'].clickSelect);
+    shortcuts.off(['Escape']);
+    if (window.svgEditor) {
+      shortcuts.on(['Escape'], window.svgEditor.clickSelect);
     }
   }
 
   onOpen = () => {
-    const { onOpen = () => { } } = this.props;
+    const { onOpen = () => {} } = this.props;
     if (onOpen) {
       onOpen(this);
     }
   };
 
   onEscapeOnBackground = (e): void => {
-    const { disabledEscapeOnBackground = false, onClose = () => { } } = this.props;
+    const { disabledEscapeOnBackground = false, onClose = () => {} } = this.props;
     if (!disabledEscapeOnBackground) {
       onClose(e);
     }

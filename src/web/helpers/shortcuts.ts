@@ -1,54 +1,37 @@
-import KeycodeConstants from 'app/constants/keycode-constants';
-import { isMobile } from 'helpers/system-helper';
+import { modifierKeys } from 'app/constants/keyboardEventKey';
+import { isMac, isMobile } from 'helpers/system-helper';
 /**
  * setting up shortcut
  */
-const root = window;
-const isMetaKey = (keyCode: number) => keyCode === 91 || keyCode === 93;
-const specialKeyMap = {
-  CMD: -91,
-  L_CMD: KeycodeConstants.KEY_L_CMD,
-  R_CMD: KeycodeConstants.KEY_R_CMD,
-  SHIFT: KeycodeConstants.KEY_SHIFT,
-  CTRL: KeycodeConstants.KEY_CTRL,
-  ALT: KeycodeConstants.KEY_ALT,
-  DEL: KeycodeConstants.KEY_DEL,
-  BACK: KeycodeConstants.KEY_BACK,
-  RETURN: KeycodeConstants.KEY_RETURN,
-  TAB: KeycodeConstants.KEY_TAB,
-  ESC: KeycodeConstants.KEY_ESC,
-  LEFT: KeycodeConstants.KEY_LEFT,
-  UP: KeycodeConstants.KEY_UP,
-  RIGHT: KeycodeConstants.KEY_RIGHT,
-  DOWN: KeycodeConstants.KEY_DOWN,
-  PLUS: KeycodeConstants.KEY_PLUS,
-  MINUS: KeycodeConstants.KEY_MINUS,
-  NUM_PLUS: KeycodeConstants.KEY_NUM_PLUS,
-  NUM_MINUS: KeycodeConstants.KEY_NUM_MINUS,
-  FNKEY: window.os === 'MacOS' ? -91 : KeycodeConstants.KEY_CTRL,
-  '\\': KeycodeConstants.KEY_BACKSLASH,
-  F1: KeycodeConstants.KEY_F1,
-  F2: KeycodeConstants.KEY_F2,
-};
-let events: {
-  key: string[];
-  keyCode: string;
-  callback: (e: KeyboardEvent) => void;
-  priority?: number;
-}[] = [];
-let keyCodeStatus = [];
+interface ShortcutEvent {
+  keySet: string;
+  callback: (event: KeyboardEvent) => void;
+  priority: number;
+  isPreventDefault: boolean;
+}
+
+interface RegisterOptions {
+  isBlocking?: boolean;
+  isPreventDefault?: boolean;
+  splitKey?: string;
+}
+
+let events = Array.of<ShortcutEvent>();
+const currentPressedKeys = new Set<string>();
 let hasBind = false;
-const keyupEvent = () => {
-  keyCodeStatus = [];
-};
 
-const generateKey = (keyCodes: number[]) => keyCodes.sort().join('+');
-const matchedEvents = (keyCodes: number[]) => {
-  const keyCode = generateKey(keyCodes);
+const parseKeySet = (keySet: string, splitKey = '+'): string =>
+  keySet
+    .replace(/Fnkey/gi, isMac() ? 'Meta' : 'Control')
+    .split(splitKey)
+    .sort()
+    .join('+')
+    .toLowerCase();
 
-  const { matches, maxPriority } = events.reduce(
+const matchedEventsByKeySet = (keySet: string) =>
+  events.reduce(
     (acc, cur) => {
-      if (cur.keyCode === keyCode) {
+      if (cur.keySet === keySet) {
         if (cur.priority > acc.maxPriority) {
           acc.matches = [cur];
           acc.maxPriority = cur.priority;
@@ -56,103 +39,115 @@ const matchedEvents = (keyCodes: number[]) => {
           acc.matches.push(cur);
         }
       }
+
       return acc;
     },
-    { matches: [], maxPriority: 0 }
+    { matches: Array.of<ShortcutEvent>(), maxPriority: 0 }
   );
-  return { matches, maxPriority };
+
+const keyupEvent = (event: KeyboardEvent) => {
+  /**
+   * on MacOs, the keyup event is not triggered when the key is released if Meta key is pressed
+   * so we need to clear the currentPressedKeys when Meta key is released
+   */
+  if (event.key === 'Meta') {
+    currentPressedKeys.clear();
+  } else {
+    currentPressedKeys.delete(event.key.toLowerCase());
+  }
 };
-const keydownEvent = (e: KeyboardEvent) => {
-  keyupEvent();
 
-  if (isMetaKey(e.keyCode) === false) {
-    keyCodeStatus.push(e.keyCode);
+const keydownEvent = (event: KeyboardEvent) => {
+  // ignore autocomplete input
+  if (event.key === undefined) {
+    return;
   }
 
-  if (e.ctrlKey === true) {
-    keyCodeStatus.push(specialKeyMap.CTRL);
+  const currentKey = event.key.toLowerCase();
+
+  /**
+   * on MacOs, the keyup event is not triggered when the non-modifier key is released if metaKey is pressed
+   * so we need to clear the currentPressedKeys when metaKey is pressed
+   */
+  if (event.metaKey) {
+    currentPressedKeys.forEach((key) => {
+      if (!modifierKeys.includes(key)) {
+        currentPressedKeys.delete(key);
+      }
+    });
   }
 
-  if (e.altKey === true) {
-    keyCodeStatus.push(specialKeyMap.ALT);
-  }
+  currentPressedKeys.add(currentKey);
 
-  if (e.shiftKey === true) {
-    keyCodeStatus.push(specialKeyMap.SHIFT);
-  }
+  const currentKeySet = [...currentPressedKeys].sort().join('+');
+  const { matches } = matchedEventsByKeySet(currentKeySet);
 
-  if (e.metaKey === true) {
-    keyCodeStatus.push(specialKeyMap.CMD);
-  }
+  matches.forEach((matchedEvent) => {
+    if (matchedEvent.isPreventDefault) {
+      event.preventDefault();
+    }
 
-  keyCodeStatus = [...new Set(keyCodeStatus)].sort();
-
-  const { matches } = matchedEvents(keyCodeStatus);
-
-  if (matches.length > 0) {
-    keyCodeStatus = [];
-  }
-
-  matches.forEach((event) => {
-    event.callback.apply(null, [e]);
+    matchedEvent.callback.apply(null, [event]);
   });
 };
+
 const initialize = (): void => {
   if (hasBind === false) {
-    root.addEventListener('keyup', keyupEvent);
-    root.addEventListener('keydown', keydownEvent);
+    window.addEventListener('keyup', keyupEvent);
+    window.addEventListener('keydown', keydownEvent);
+
     hasBind = true;
   }
 };
-const convertToKeyCode = (keys: string[]) => {
-  const keyCodes: number[] = keys.map((key) => {
-    const upperKey = key.toUpperCase();
-    const keycode = specialKeyMap[upperKey] ? specialKeyMap[upperKey] : upperKey.charCodeAt(0);
-    return keycode;
-  });
-  return keyCodes;
-};
 
-const unsubscribe = (evt: (typeof events)[number]) => {
-  events = events.filter((e) => e !== evt);
+const unsubscribe = (eventToUnsubscribe: ShortcutEvent) => {
+  events.splice(events.indexOf(eventToUnsubscribe), 1);
 };
 
 export default {
   on(
-    keys: string[],
-    callback: (e: KeyboardEvent) => void,
-    { isBlocking = false }: { isBlocking?: boolean } = {}
+    keys: Array<string>,
+    callback: (event: KeyboardEvent) => void,
+    { isBlocking = false, isPreventDefault = true, splitKey = '+' }: RegisterOptions = {}
   ): (() => void) | null {
-    if (isMobile()) return null;
-    const keyCodes = convertToKeyCode(keys);
-    const e: (typeof events)[number] = {
-      key: keys,
-      keyCode: generateKey(keyCodes),
-      callback,
-      priority: 0,
-    };
-    if (isBlocking) {
-      const { maxPriority } = matchedEvents(keyCodes);
-      e.priority = maxPriority + 1;
+    if (isMobile()) {
+      return null;
     }
-    events.push(e);
+
+    const keySets = keys.map((key) => parseKeySet(key, splitKey));
+    const newEvents: Array<ShortcutEvent> = keySets.map((keySet) => ({
+      keySet,
+      callback,
+      priority: isBlocking ? matchedEventsByKeySet(keySet).maxPriority + 1 : 0,
+      isPreventDefault,
+    }));
+
+    newEvents.forEach((newEvent) => {
+      events.push(newEvent);
+    });
+
     initialize();
-    return () => unsubscribe(e);
+
+    return () => {
+      newEvents.forEach((newEvent) => {
+        unsubscribe(newEvent);
+      });
+    };
   },
-  off(keys: string[]): void {
-    const keyCodes = convertToKeyCode(keys);
-    const keyCode = generateKey(keyCodes);
-    events = events.filter((event) => event.keyCode !== keyCode);
+  off(keySets: Array<string>): void {
+    events = events.filter((event) => !keySets.includes(event.keySet));
   },
   disableAll(): void {
-    root.removeEventListener('keyup', keyupEvent);
-    root.removeEventListener('keydown', keydownEvent);
+    window.removeEventListener('keyup', keyupEvent);
+    window.removeEventListener('keydown', keydownEvent);
+
     hasBind = false;
-    events = [];
+    events.length = 0;
   },
   pauseAll(): void {
-    root.removeEventListener('keyup', keyupEvent);
-    root.removeEventListener('keydown', keydownEvent);
+    window.removeEventListener('keyup', keyupEvent);
+    window.removeEventListener('keydown', keydownEvent);
+
     hasBind = false;
   },
   initialize,
