@@ -1,32 +1,38 @@
-/* eslint-disable react/no-unused-prop-types */
-/* eslint-disable no-plusplus */
-/* eslint-disable react/prop-types */
+/* eslint-disable max-len */
+/* eslint-disable no-nested-ternary */
+/* eslint-disable no-case-declarations */
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-bitwise */
+/* eslint-disable no-continue */
+/* eslint-disable no-param-reassign */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable @typescript-eslint/no-shadow */
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useReducer, useRef, useState } from 'react';
 
 import { Button, Flex, TabPaneProps, Tabs } from 'antd';
+import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
+import { Layer, Line, Stage } from 'react-konva';
+import Konva from 'konva';
+import { Filter } from 'konva/lib/Node';
+import classNames from 'classnames';
+
+import { preprocessByUrl } from 'helpers/image-edit-panel/preprocess';
+import calculateBase64 from 'helpers/image-edit-panel/calculate-base64';
+import handleFinish from 'helpers/image-edit-panel/handle-finish';
+import progressCaller from 'app/actions/progress-caller';
+import ImageEditPanelIcons from 'app/icons/image-edit-panel/ImageEditPanelIcons';
 import BackButton from 'app/widgets/FullWindowPanel/BackButton';
 import Footer from 'app/widgets/FullWindowPanel/Footer';
 import FullWindowPanel from 'app/widgets/FullWindowPanel/FullWindowPanel';
 import Header from 'app/widgets/FullWindowPanel/Header';
 import Sider from 'app/widgets/FullWindowPanel/Sider';
 import useI18n from 'helpers/useI18n';
-import { preprocessByUrl } from 'helpers/image-edit-panel/preprocess';
-import calculateBase64 from 'helpers/image-edit-panel/calculate-base64';
-import ImageEditPanelIcons from 'app/icons/image-edit-panel/ImageEditPanelIcons';
 
-import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
-import classNames from 'classnames';
-import { Image, Layer, Line, Stage } from 'react-konva';
-import Konva from 'konva';
-import useImage from 'use-image';
-import handleFinish from 'helpers/image-edit-panel/handle-finish';
-import progressCaller from 'app/actions/progress-caller';
-import { Filter } from 'konva/lib/Node';
-import styles from './index.module.scss';
+import useForceUpdate from 'helpers/use-force-update';
 import Eraser from './Eraser';
 import MagicWand from './MagicWand';
+import KonvaImage, { KonvaImageRef } from './KonvaImage';
+import styles from './index.module.scss';
 
 interface Props {
   src: string;
@@ -49,12 +55,40 @@ interface HistoryItem {
   filters: Array<Filter>;
 }
 
-const historyList: Array<HistoryItem> = [{ lines: [], filters: [Konva.Filters.Invert] }];
-let historyIndex = 0;
+interface HistoryState {
+  items: Array<HistoryItem>;
+  index: number;
+  hasUndoBefore?: boolean;
+}
+
+const historyReducer = (
+  state: HistoryState,
+  { type, payload }: { type: 'PUSH' | 'UNDO' | 'REDO'; payload?: HistoryItem }
+) => {
+  switch (type) {
+    case 'PUSH':
+      const items = state.hasUndoBefore ? state.items.slice(0, state.index + 1) : state.items;
+
+      return {
+        ...state,
+        items: items.concat(payload),
+        index: state.index + 1,
+        hasUndoBefore: false,
+      };
+    case 'UNDO':
+      return state.index > 0 ? { ...state, index: state.index - 1, hasUndoBefore: true } : state;
+    case 'REDO':
+      return state.index < state.items.length - 1 ? { ...state, index: state.index + 1 } : state;
+    default:
+      return state;
+  }
+};
 
 const ImageEditPanel = ({ src, image, onClose }: Props): JSX.Element => {
   const lang = useI18n();
   const t = lang.beambox.photo_edit_panel;
+  const forceUpdate = useForceUpdate();
+
   const { isShading, threshold, isFullColor } = useMemo(
     () => ({
       isShading: image.getAttribute('data-shading') === 'true',
@@ -63,82 +97,258 @@ const ImageEditPanel = ({ src, image, onClose }: Props): JSX.Element => {
     }),
     [image]
   );
-  const [imageWidth, setImageWidth] = useState(0);
-  const [imageHeight, setImageHeight] = useState(0);
-  const divRef = useRef<HTMLDivElement>(null);
-  const stageRef = useRef<Konva.Stage>(null);
-  const [tabKey, setTabKey] = useState('eraser');
+  const [imageSize, setImageSize] = useState({ width: 0, height: 0 });
+  const [mode, setMode] = useState<'eraser' | 'magicWand'>('eraser');
   const [lines, setLines] = useState<Array<LineItem>>([]);
   const [filters, setFilters] = useState<Array<Filter>>([]);
   const [currentImage, setCurrentImage] = useState('');
   const [displayImage, setDisplayImage] = useState('');
   const [progress, setProgress] = useState(0);
-  const [stageState, setStageState] = useState({ x: 0, y: 0, width: 0, height: 0, scale: 1 });
   const [brushSize, setBrushSize] = useState(20);
-  const [hasUndoBefore, setHasUndoBefore] = useState(false);
+  const [tolerance, setTolerance] = useState(40);
+  const divRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<Konva.Stage>(null);
+  const layerRef = useRef<Konva.Layer>(null);
+  const imageRef = useRef<KonvaImageRef>(null);
+  const imageData = useRef<ImageData>(null);
   const isDrawing = useRef(false);
+  const isAddingFilter = useRef(false);
+  const [history, dispatchHistory] = useReducer(historyReducer, {
+    items: [{ lines: [], filters: [] }],
+    index: 0,
+    hasUndoBefore: false,
+  });
 
-  const boundFunc = (pos: { x: number; y: number }, scale: number) => {
-    const { width, height } = stageState;
+  const boundFunc = useCallback(
+    (
+      pos: { x: number; y: number },
+      { width, height, scale }: Record<'width' | 'height' | 'scale', number>
+    ) => {
+      const x = Math.min(0, Math.max(pos.x, width * (1 - scale)));
+      const y = Math.min(0, Math.max(pos.y, height * (1 - scale)));
 
-    const x = Math.min(0, Math.max(pos.x, width * (1 - scale)));
-    const y = Math.min(0, Math.max(pos.y, height * (1 - scale)));
+      return { x, y };
+    },
+    []
+  );
 
-    return { x, y };
-  };
+  const addHistory = useCallback(() => {
+    dispatchHistory({ type: 'PUSH', payload: { lines: [...lines], filters: [...filters] } });
+  }, [lines, filters]);
 
-  const handleMouseDown = (e: Konva.KonvaEventObject<MouseEvent>) => {
-    isDrawing.current = true;
+  const handleUndo = useCallback(() => {
+    if (history.index === 0) {
+      return;
+    }
 
-    const { x, y } = e.target.getStage().getPointerPosition();
-    const modifiedX = (x - stageState.x) / stageState.scale;
-    const modifiedY = (y - stageState.y) / stageState.scale;
+    const { lines: prevLines, filters: prevFilters } = history.items[history.index - 1] || {};
 
-    setLines(
-      lines.concat({
-        points: [modifiedX, modifiedY, modifiedX, modifiedY],
-        strokeWidth: brushSize / stageState.scale,
-      })
-    );
-  };
+    dispatchHistory({ type: 'UNDO' });
+    setLines(prevLines || []);
+    setFilters(prevFilters || []);
+  }, [history]);
 
-  const handleMouseMove = (e: Konva.KonvaEventObject<MouseEvent>) => {
+  const handleRedo = useCallback(() => {
+    if (history.index === history.items.length - 1) {
+      return;
+    }
+
+    const { lines: nextLines, filters: nextFilters } = history.items[history.index + 1] || {};
+
+    dispatchHistory({ type: 'REDO' });
+    setLines(nextLines || []);
+    setFilters(nextFilters || []);
+  }, [history]);
+
+  const handleMouseDown = useCallback(
+    (e: Konva.KonvaEventObject<MouseEvent>) => {
+      const stage = e.target.getStage();
+      const scale = stage.scaleX();
+      const { x, y } = stage.getPointerPosition();
+      const { x: stageX, y: stageY } = stage.position();
+      const modifiedX = (x - stageX) / scale;
+      const modifiedY = (y - stageY) / scale;
+
+      if (mode === 'eraser') {
+        isDrawing.current = true;
+
+        setLines((prevLines) => [
+          ...prevLines,
+          {
+            // insert two points to make a line at the beginning
+            points: [modifiedX, modifiedY, modifiedX, modifiedY],
+            strokeWidth: brushSize / scale,
+          },
+        ]);
+      } else if (mode === 'magicWand') {
+        const generateFilter = (x: number, y: number, imageData: ImageData) => {
+          const getFilteredPoints = (x: number, y: number, imageData: ImageData) => {
+            const points = Array.of<number>();
+            const { width, height, data } = imageData;
+            const idx = (y * width + x) * 4;
+            const targetR = data[idx];
+            const targetG = data[idx + 1];
+            const targetB = data[idx + 2];
+            // use squared tolerance to avoid square root
+            const toleranceSquared = tolerance * tolerance;
+
+            // create a crosshair for current position
+            for (let i = 0; i < width * 4; i += 4) {
+              points.push(y * width * 4 + i + 3);
+            }
+
+            for (let i = 0; i < height; i++) {
+              points.push((i * width + x) * 4 + 3);
+            }
+
+            const bfs = (x: number, y: number) => {
+              const queue = [y * width + x];
+              // store 8 pixels in each Byte, to reduce memory usage
+              const visited = new Uint8Array(Math.ceil((width * height) / 8));
+              const isVisited = (pos: number) => (visited[pos >> 3] & (1 << pos % 8)) !== 0;
+              const markVisited = (pos: number) => {
+                visited[pos >> 3] |= 1 << pos % 8;
+              };
+
+              markVisited(y * width + x);
+
+              while (queue.length) {
+                const pos = queue.pop();
+                const x = pos % width;
+                const y = (pos / width) >> 0;
+                const idx = pos * 4;
+                const r = targetR - data[idx];
+                const g = targetG - data[idx + 1];
+                const b = targetB - data[idx + 2];
+                const diffSquared = r * r + g * g + b * b;
+
+                if (diffSquared > toleranceSquared) {
+                  continue;
+                }
+
+                points.push(idx + 3);
+
+                // old school if statement, for performance
+                if (x > 0 && !isVisited(pos - 1)) {
+                  markVisited(pos - 1);
+                  queue.push(pos - 1);
+                }
+                if (x < width - 1 && !isVisited(pos + 1)) {
+                  markVisited(pos + 1);
+                  queue.push(pos + 1);
+                }
+                if (y > 0 && !isVisited(pos - width)) {
+                  markVisited(pos - width);
+                  queue.push(pos - width);
+                }
+                if (y < height - 1 && !isVisited(pos + width)) {
+                  markVisited(pos + width);
+                  queue.push(pos + width);
+                }
+              }
+            };
+
+            bfs(x, y);
+
+            return points;
+          };
+          const points = getFilteredPoints(x, y, imageData);
+
+          return ({ data }: ImageData) => {
+            for (let i = 0; i < points.length; i++) {
+              data[points[i]] = 0;
+            }
+          };
+        };
+        // for loop, both dimensions are integers
+        const filter = generateFilter(modifiedX >> 0, modifiedY >> 0, imageData.current);
+
+        isAddingFilter.current = true;
+
+        setFilters(filters.concat(filter));
+      }
+    },
+    [mode, brushSize, filters, tolerance]
+  );
+
+  const handleMouseMove = useCallback((e: Konva.KonvaEventObject<MouseEvent>) => {
     if (!isDrawing.current) {
       return;
     }
 
-    const { x, y } = e.target.getStage().getPointerPosition();
-    const lastLine = lines[lines.length - 1];
-    const modifiedX = (x - stageState.x) / stageState.scale;
-    const modifiedY = (y - stageState.y) / stageState.scale;
+    const stage = e.target.getStage();
+    const scale = stage.scaleX();
+    const { x, y } = stage.getPointerPosition();
+    const { x: stageX, y: stageY } = stage.position();
+    const modifiedX = (x - stageX) / scale;
+    const modifiedY = (y - stageY) / scale;
 
-    // add point
-    lastLine.points = lastLine.points.concat([modifiedX, modifiedY]);
+    setLines((prevLines) => {
+      const updatedLines = [...prevLines];
+      const lastLine = { ...updatedLines[updatedLines.length - 1] };
 
-    // replace last
-    lines.splice(lines.length - 1, 1, lastLine);
+      lastLine.points = lastLine.points.concat([modifiedX, modifiedY]);
+      updatedLines[updatedLines.length - 1] = lastLine;
 
-    setLines(lines.concat());
-  };
+      return updatedLines;
+    });
+  }, []);
 
   const handleExitDrawing = useCallback(() => {
-    if (isDrawing.current) {
+    if (isDrawing.current || isAddingFilter.current) {
       isDrawing.current = false;
+      isAddingFilter.current = false;
 
-      if (hasUndoBefore) {
-        historyList.splice(historyIndex + 1, historyList.length - 1);
-        setHasUndoBefore(false);
+      addHistory();
+    }
+  }, [addHistory]);
+
+  const handleWheel = useCallback(
+    (e: Konva.KonvaEventObject<WheelEvent>) => {
+      e.evt.preventDefault();
+
+      const scaleBy = 1.02;
+      const stage = e.target.getStage();
+      const oldScale = stage.scaleX(); // Assuming uniform scaling
+      const pointerPosition = stage.getPointerPosition();
+      const width = stage.width();
+      const height = stage.height();
+
+      if (!pointerPosition) {
+        return;
       }
 
-      historyList.push({ lines: [...lines], filters: [...filters] });
-      historyIndex++;
-    }
-  }, [hasUndoBefore, lines, filters]);
+      const mousePointTo = {
+        x: (pointerPosition.x - stage.x()) / oldScale,
+        y: (pointerPosition.y - stage.y()) / oldScale,
+      };
 
-  const updateUrl = useCallback(
-    () => stageRef.current.toDataURL({ width: imageWidth, height: imageHeight }),
-    [imageHeight, imageWidth]
+      const newScale = e.evt.deltaY < 0 ? oldScale * scaleBy : oldScale / scaleBy;
+      const x = -(mousePointTo.x - pointerPosition.x / newScale) * newScale;
+      const y = -(mousePointTo.y - pointerPosition.y / newScale) * newScale;
+      const pos = boundFunc({ x, y }, { width, height, scale: newScale });
+
+      stage.scale({ x: newScale, y: newScale });
+      stage.position(pos);
+      stage.batchDraw();
+    },
+    [boundFunc]
   );
+
+  const handleComplete = () => {
+    progressCaller.openNonstopProgress({ id: 'image-editing', message: t.processing });
+    setDisplayImage(currentImage);
+
+    const stage = stageRef.current;
+
+    stage.scale({ x: 1, y: 1 });
+    stage.position({ x: 0, y: 0 });
+    stage.batchDraw();
+
+    setProgress(1);
+  };
+
+  const updateUrl = useCallback(() => stageRef.current.toDataURL(imageSize), [imageSize]);
 
   // wait re-render of stage, then update current url
   useEffect(() => {
@@ -146,93 +356,82 @@ const ImageEditPanel = ({ src, image, onClose }: Props): JSX.Element => {
       const url = updateUrl();
       const display = await calculateBase64(url, isShading, threshold, isFullColor);
 
-      // heheXD
-      setTimeout(() => {
-        handleFinish(image, url, display);
-        progressCaller.popById('image-editing');
-        onClose();
-      }, 1);
+      handleFinish(image, url, display);
+      progressCaller.popById('image-editing');
+      onClose();
     };
 
-    if (progress === 1) {
-      // trigger updateImages after nextTick
-      setTimeout(() => {
-        updateImages();
-      }, 1);
+    if (progress === 1 && imageRef.current?.isCached()) {
+      requestAnimationFrame(updateImages);
     }
-  }, [progress, updateUrl, isShading, threshold, isFullColor, image, onClose]);
-
-  const handleWheel = (e: Konva.KonvaEventObject<WheelEvent>) => {
-    e.evt.preventDefault();
-
-    const scaleBy = 1.02;
-    const stage = e.target.getStage();
-    const { x: oldScale } = stage.scale();
-
-    const mousePointTo = {
-      x: stage.getPointerPosition().x / oldScale - stage.x() / oldScale,
-      y: stage.getPointerPosition().y / oldScale - stage.y() / oldScale,
-    };
-
-    const newScale = e.evt.deltaY < 0 ? oldScale * scaleBy : oldScale / scaleBy;
-    const x = -(mousePointTo.x - stage.getPointerPosition().x / newScale) * newScale;
-    const y = -(mousePointTo.y - stage.getPointerPosition().y / newScale) * newScale;
-    const pos = boundFunc({ x, y }, newScale);
-
-    setStageState({ ...stageState, scale: newScale, ...pos });
-  };
-
-  const handleComplete = () => {
-    progressCaller.openNonstopProgress({ id: 'image-editing', message: t.processing });
-
-    setStageState({ ...stageState, x: 0, y: 0, scale: 1 });
-    setDisplayImage(currentImage);
-    setProgress(1);
-  };
-
-  const handleUndo = () => {
-    if (historyIndex === 0) {
-      return;
-    }
-
-    const { lines: prevLines, filters: prevFilters } = historyList[historyIndex - 1];
-
-    setLines(prevLines);
-    setFilters(prevFilters);
-
-    historyIndex--;
-    setHasUndoBefore(true);
-  };
-
-  const handleRedo = () => {
-    if (historyIndex === historyList.length - 1) {
-      return;
-    }
-
-    const { lines: nextLines, filters: nextFilters } = historyList[++historyIndex];
-
-    setLines(nextLines);
-    setFilters(nextFilters);
-  };
+  }, [image, isFullColor, isShading, onClose, progress, threshold, updateUrl]);
 
   // update stage dimensions according parent div
   useEffect(() => {
-    const observer = new ResizeObserver(() => {
-      setStageState({
-        ...stageState,
-        width: divRef.current?.offsetWidth,
-        height: divRef.current?.offsetHeight,
+    const stage = stageRef.current;
+    const observer = new ResizeObserver((elements) => {
+      if (!stage) {
+        return;
+      }
+
+      elements.forEach(({ contentRect: { width, height } }) => {
+        stage.width(width);
+        stage.height(height);
+        stage.batchDraw();
       });
-      stageRef.current?.width(divRef.current?.offsetWidth);
-      stageRef.current?.height(divRef.current?.offsetHeight);
     });
 
     observer.observe(divRef.current);
 
-    return () => observer.disconnect();
-  }, [stageState]);
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
-  const items: Array<Tab> = [
+  useEffect(() => {
+    const image = imageRef.current;
+
+    if (!image) {
+      return;
+    }
+
+    if (progress === 0) {
+      if (image.isCached()) {
+        imageData.current = image
+          ._getCachedSceneCanvas()
+          .context._context.getImageData(0, 0, imageSize.width, imageSize.height);
+      } else {
+        // force re-render until image is cached
+        forceUpdate();
+      }
+    }
+    // depends useImageStatus to force re-render
+  }, [progress, imageSize, forceUpdate, imageRef.current?.useImageStatus]);
+
+  useEffect(() => {
+    const initialize = async () => {
+      progressCaller.openNonstopProgress({ id: 'image-editing-init', message: t.processing });
+
+      const {
+        blobUrl,
+        originalWidth: width,
+        originalHeight: height,
+      } = await preprocessByUrl(src, { isFullResolution: true });
+      const current = await calculateBase64(blobUrl, true, 255, true);
+      const display = await calculateBase64(blobUrl, isShading, threshold, isFullColor);
+
+      setImageSize({ width, height });
+      setCurrentImage(current);
+      setDisplayImage(display);
+
+      progressCaller.popById('image-editing-init');
+    };
+
+    initialize();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const tabItems: Array<Tab> = [
     {
       key: 'eraser',
       label: 'Eraser',
@@ -242,36 +441,29 @@ const ImageEditPanel = ({ src, image, onClose }: Props): JSX.Element => {
     {
       key: 'magicWand',
       label: 'Magic Wand',
-      children: <MagicWand />,
+      children: <MagicWand tolerance={tolerance} setTolerance={setTolerance} />,
       icon: <ImageEditPanelIcons.MagicWand />,
     },
   ];
-
-  const init = async () => {
-    const { blobUrl, originalWidth, originalHeight } = await preprocessByUrl(src, {
-      isFullResolution: true,
-    });
-    const current = await calculateBase64(blobUrl, true, 255, true);
-    const display = await calculateBase64(blobUrl, isShading, threshold, isFullColor);
-
-    setImageWidth(originalWidth);
-    setImageHeight(originalHeight);
-    setCurrentImage(current);
-    setDisplayImage(display);
+  const cursorRatio = () => {
+    if (brushSize <= 10) {
+      return 2;
+    }
+    if (brushSize <= 20) {
+      return 1;
+    }
+    if (brushSize <= 80) {
+      return 0.5;
+    }
+    return 0.1;
   };
-
-  // add useCallback to prevent re-rendering
-  const UrlImage = useCallback(({ src, filters }: { src: string; filters: Array<Filter> }) => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    const [imageInstance] = useImage(src);
-
-    return <Image image={imageInstance} filters={filters} />;
-  }, []);
-
-  useEffect(() => {
-    init();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const cursorSvg = `
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#1890FF" stroke-opacity="1" stroke-width="${cursorRatio()}" width="${
+    brushSize / 2
+  }" height="${brushSize / 2}" viewBox="0 0 10 10">
+    <circle cx="5.02" cy="5.02" r="5"/>
+  </svg>`;
+  const encodedSvg = encodeURIComponent(cursorSvg).replace(/'/g, '%27').replace(/"/g, '%22');
 
   return (
     <FullWindowPanel
@@ -286,7 +478,18 @@ const ImageEditPanel = ({ src, image, onClose }: Props): JSX.Element => {
               <div>
                 <BackButton onClose={onClose}>{lang.buttons.back_to_beam_studio}</BackButton>
                 <Header icon={<ImageEditPanelIcons.EditImage />} title="Edit Image" />
-                <Tabs centered size="large" activeKey={tabKey} items={items} onChange={setTabKey} />
+                <Tabs
+                  centered
+                  size="large"
+                  activeKey={mode}
+                  items={tabItems}
+                  onChange={(mode: 'eraser' | 'magicWand') => {
+                    isDrawing.current = false;
+                    isAddingFilter.current = false;
+
+                    setMode(mode);
+                  }}
+                />
               </div>
               <Footer>
                 <Button key="ok" type="primary" onClick={handleComplete}>
@@ -305,13 +508,13 @@ const ImageEditPanel = ({ src, image, onClose }: Props): JSX.Element => {
                   className={styles['mr-8px']}
                   shape="round"
                   icon={<ArrowLeftOutlined />}
-                  disabled={historyIndex === 0}
+                  disabled={history.index === 0}
                   onClick={handleUndo}
                 />
                 <Button
                   shape="round"
                   icon={<ArrowRightOutlined />}
-                  disabled={historyIndex === historyList.length - 1}
+                  disabled={history.index === history.items.length - 1}
                   onClick={handleRedo}
                 />
               </div>
@@ -320,37 +523,27 @@ const ImageEditPanel = ({ src, image, onClose }: Props): JSX.Element => {
             <div
               style={{
                 cursor:
-                  tabKey === 'eraser'
+                  mode === 'eraser'
                     ? // eslint-disable-next-line max-len
-                      `url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="black" stroke-opacity="1" stroke-width="${(() => {
-                        if (brushSize <= 20) return 1;
-                        if (brushSize <= 80) return 0.5;
-                        return 0.1;
-                      })()}px" width="${brushSize / 2}px" height="${
-                        brushSize / 2
-                      }px" viewBox="0 0 10.04 10.04"><circle cx="5.02" cy="5.02" r="4.52"/></svg>') ${
+                      `url('data:image/svg+xml;utf8,${encodedSvg}') ${brushSize / 4} ${
                         brushSize / 4
-                      } ${brushSize / 4}, auto`
-                    : undefined,
+                      }, auto`
+                    : `url('core-img/image-edit-panel/magic-wand.svg') 6 6, auto`,
               }}
               ref={divRef}
               className={styles.block}
             >
               <Stage
-                width={stageState.width}
-                height={stageState.height}
-                x={stageState.x}
-                y={stageState.y}
-                scale={{ x: stageState.scale, y: stageState.scale }}
                 ref={stageRef}
+                pixelRatio={1}
                 onWheel={handleWheel}
                 onMouseDown={handleMouseDown}
                 onMousemove={handleMouseMove}
                 onMouseLeave={handleExitDrawing}
                 onMouseup={handleExitDrawing}
               >
-                <Layer>
-                  <UrlImage src={displayImage} filters={filters} />
+                <Layer ref={layerRef} pixelRatio={1}>
+                  <KonvaImage ref={imageRef} src={displayImage} filters={filters} />
                   {lines.map((line, i) => (
                     <Line
                       key={`line-${i}`}

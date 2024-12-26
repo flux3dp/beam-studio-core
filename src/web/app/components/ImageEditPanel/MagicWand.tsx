@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { Col, Form, InputNumber, Row, Slider } from 'antd';
 import useI18n from 'helpers/useI18n';
@@ -6,10 +6,14 @@ import useI18n from 'helpers/useI18n';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import styles from './PanelContent.module.scss';
 
-export default function MagicWand(): JSX.Element {
+interface Props {
+  tolerance: number;
+  setTolerance: (tolerance: number) => void;
+}
+
+export default function MagicWand({ tolerance, setTolerance }: Props): JSX.Element {
   const lang = useI18n();
   const t = lang.beambox.photo_edit_panel;
-  const [tolerance, setTolerance] = useState(0);
 
   return (
     <div className={styles.wrapper}>
@@ -26,7 +30,7 @@ export default function MagicWand(): JSX.Element {
             <Col flex="auto">
               <Slider
                 min={0}
-                max={255}
+                max={100}
                 step={1}
                 value={tolerance}
                 onChange={(v: number) => setTolerance(v)}
