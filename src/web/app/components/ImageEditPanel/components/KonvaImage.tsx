@@ -1,7 +1,8 @@
 /* eslint-disable no-underscore-dangle */
+import React, { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
+
 import Konva from 'konva';
 import { Filter } from 'konva/lib/Node';
-import React, { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
 import { Image } from 'react-konva';
 import useImage from 'use-image';
 
@@ -10,11 +11,8 @@ interface Props {
   filters?: Array<Filter>;
 }
 
-export type KonvaImageRef = Konva.Image & {
-  useImageStatus: 'loading' | 'loaded' | 'failed';
-};
+export type KonvaImageRef = Konva.Image & { useImageStatus: 'loading' | 'loaded' | 'failed' };
 
-// { useImageStatus: 'loading' | 'loaded' | 'failed' }
 const KonvaImage = forwardRef<KonvaImageRef, Props>(({ src, filters }, ref) => {
   const [image, useImageStatus] = useImage(src, 'anonymous');
   const imageRef = useRef<Konva.Image>(null);

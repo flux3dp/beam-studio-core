@@ -1,17 +1,20 @@
 import React from 'react';
 
 import { Col, Form, InputNumber, Row, Slider } from 'antd';
+import { QuestionCircleOutlined } from '@ant-design/icons';
+
 import useI18n from 'helpers/useI18n';
 
-import { QuestionCircleOutlined } from '@ant-design/icons';
 import styles from './PanelContent.module.scss';
 
 interface Props {
-  tolerance: number;
-  setTolerance: (tolerance: number) => void;
+  brushSize: number;
+  setBrushSize: (size: number) => void;
 }
 
-export default function MagicWand({ tolerance, setTolerance }: Props): JSX.Element {
+const MAX_BRUSH_SIZE = 128;
+
+export default function Eraser({ brushSize, setBrushSize }: Props): JSX.Element {
   const lang = useI18n();
   const t = lang.beambox.photo_edit_panel;
 
@@ -19,30 +22,27 @@ export default function MagicWand({ tolerance, setTolerance }: Props): JSX.Eleme
     <div className={styles.wrapper}>
       <div className={styles['hint-text']}>
         <QuestionCircleOutlined className={styles.icon} />
-        <span>
-          Click on an area and press the “Delete Selection” button or press the ‘delete’ key on your
-          computer.
-        </span>
+        <span>Single click or hold and drag to erase.</span>
       </div>
       <Form layout="vertical">
-        <Form.Item label="Tolerance:">
+        <Form.Item label="Brush Size:">
           <Row>
             <Col flex="auto">
               <Slider
-                min={0}
-                max={100}
+                min={1}
+                max={MAX_BRUSH_SIZE}
                 step={1}
-                value={tolerance}
-                onChange={(v: number) => setTolerance(v)}
+                value={brushSize}
+                onChange={setBrushSize}
               />
             </Col>
             <Col flex="100px">
               <InputNumber
-                min={0}
-                max={255}
+                min={1}
+                max={MAX_BRUSH_SIZE}
                 step={1}
-                value={tolerance}
-                onChange={(v) => setTolerance(v)}
+                value={brushSize}
+                onChange={setBrushSize}
               />
             </Col>
           </Row>
