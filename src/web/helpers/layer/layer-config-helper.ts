@@ -104,6 +104,7 @@ export const baseConfig: Partial<ConfigKeyTypeMap> = {
   // promark parameters
   fillInterval: 0.01,
   fillAngle: 0,
+  biDirectional: true,
   frequency: 27,
   pulseWidth: 100,
   dottingTime: 100,
