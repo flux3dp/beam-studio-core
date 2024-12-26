@@ -6,7 +6,7 @@ exports[`test UnitInput should render correctly 1`] = `
     class="input underline"
   >
     <div
-      class="ant-input-number css-dev-only-do-not-override-hash"
+      class="ant-input-number css-dev-only-do-not-override-hash ant-input-number-outlined"
     >
       <div
         class="ant-input-number-handler-wrap"

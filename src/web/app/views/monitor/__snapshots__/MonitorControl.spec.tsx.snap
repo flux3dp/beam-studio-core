@@ -9,7 +9,7 @@ exports[`test MonitorControl should render correctly in mobile mode is preview 1
       class="ant-space-item"
     >
       <button
-        class="ant-btn css-dev-only-do-not-override-hash ant-btn-round ant-btn-primary"
+        class="ant-btn css-dev-only-do-not-override-hash ant-btn-round ant-btn-primary ant-btn-color-primary ant-btn-variant-solid"
         type="button"
       >
         <span
@@ -49,7 +49,7 @@ exports[`test MonitorControl should render correctly in mobile mode is working 1
       class="ant-space-item"
     >
       <button
-        class="ant-btn css-dev-only-do-not-override-hash ant-btn-round ant-btn-primary"
+        class="ant-btn css-dev-only-do-not-override-hash ant-btn-round ant-btn-primary ant-btn-color-primary ant-btn-variant-solid"
         disabled=""
         type="button"
       >
@@ -90,7 +90,7 @@ exports[`test MonitorControl should render correctly in mobile mode is working 2
       class="ant-space-item"
     >
       <button
-        class="ant-btn css-dev-only-do-not-override-hash ant-btn-round ant-btn-default"
+        class="ant-btn css-dev-only-do-not-override-hash ant-btn-round ant-btn-default ant-btn-color-default ant-btn-variant-outlined"
         type="button"
       >
         <span
@@ -121,7 +121,7 @@ exports[`test MonitorControl should render correctly in mobile mode is working 2
       class="ant-space-item"
     >
       <button
-        class="ant-btn css-dev-only-do-not-override-hash ant-btn-round ant-btn-primary"
+        class="ant-btn css-dev-only-do-not-override-hash ant-btn-round ant-btn-primary ant-btn-color-primary ant-btn-variant-solid"
         type="button"
       >
         <span
@@ -161,7 +161,7 @@ exports[`test MonitorControl should render correctly in mobile mode is working 3
       class="ant-space-item"
     >
       <button
-        class="ant-btn css-dev-only-do-not-override-hash ant-btn-round ant-btn-default"
+        class="ant-btn css-dev-only-do-not-override-hash ant-btn-round ant-btn-default ant-btn-color-default ant-btn-variant-outlined"
         type="button"
       >
         <span
@@ -192,7 +192,7 @@ exports[`test MonitorControl should render correctly in mobile mode is working 3
       class="ant-space-item"
     >
       <button
-        class="ant-btn css-dev-only-do-not-override-hash ant-btn-round ant-btn-primary"
+        class="ant-btn css-dev-only-do-not-override-hash ant-btn-round ant-btn-primary ant-btn-color-primary ant-btn-variant-solid"
         type="button"
       >
         <span
@@ -229,7 +229,7 @@ exports[`test MonitorControl should render correctly mode is preview 1`] = `
       class="ant-space-item"
     >
       <button
-        class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
+        class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary ant-btn-color-primary ant-btn-variant-solid"
         type="button"
       >
         <span
@@ -269,7 +269,7 @@ exports[`test MonitorControl should render correctly mode is working 1`] = `
       class="ant-space-item"
     >
       <button
-        class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
+        class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary ant-btn-color-primary ant-btn-variant-solid"
         disabled=""
         type="button"
       >
@@ -310,7 +310,7 @@ exports[`test MonitorControl should render correctly mode is working 2`] = `
       class="ant-space-item"
     >
       <button
-        class="ant-btn css-dev-only-do-not-override-hash ant-btn-default"
+        class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined"
         type="button"
       >
         <span
@@ -341,7 +341,7 @@ exports[`test MonitorControl should render correctly mode is working 2`] = `
       class="ant-space-item"
     >
       <button
-        class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
+        class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary ant-btn-color-primary ant-btn-variant-solid"
         type="button"
       >
         <span
@@ -381,7 +381,7 @@ exports[`test MonitorControl should render correctly mode is working 3`] = `
       class="ant-space-item"
     >
       <button
-        class="ant-btn css-dev-only-do-not-override-hash ant-btn-default"
+        class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined"
         type="button"
       >
         <span
@@ -412,7 +412,7 @@ exports[`test MonitorControl should render correctly mode is working 3`] = `
       class="ant-space-item"
     >
       <button
-        class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
+        class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary ant-btn-color-primary ant-btn-variant-solid"
         type="button"
       >
         <span

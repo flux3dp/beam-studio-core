@@ -55,7 +55,7 @@ exports[`should render correctly desktop version 1`] = `
                   class="ant-form-item-control-input-content"
                 >
                   <input
-                    class="ant-input css-dev-only-do-not-override-hash"
+                    class="ant-input css-dev-only-do-not-override-hash ant-input-outlined"
                     id="email-input"
                     placeholder="Email"
                     type="text"
@@ -82,7 +82,7 @@ exports[`should render correctly desktop version 1`] = `
                   class="ant-form-item-control-input-content"
                 >
                   <span
-                    class="ant-input-affix-wrapper ant-input-password css-dev-only-do-not-override-hash"
+                    class="ant-input-affix-wrapper css-dev-only-do-not-override-hash ant-input-outlined ant-input-password"
                   >
                     <input
                       class="ant-input css-dev-only-do-not-override-hash"
@@ -151,7 +151,7 @@ exports[`should render correctly desktop version 1`] = `
           class="ant-space-item"
         >
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary ant-btn-block"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary ant-btn-color-primary ant-btn-variant-solid ant-btn-block"
             type="button"
           >
             <span>
@@ -163,7 +163,7 @@ exports[`should render correctly desktop version 1`] = `
           class="ant-space-item"
         >
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block"
             type="button"
           >
             <span>
@@ -243,7 +243,7 @@ exports[`should render correctly desktop version 2`] = `
                   class="ant-form-item-control-input-content"
                 >
                   <input
-                    class="ant-input css-dev-only-do-not-override-hash"
+                    class="ant-input css-dev-only-do-not-override-hash ant-input-outlined"
                     id="email-input"
                     placeholder="Email"
                     type="text"
@@ -270,7 +270,7 @@ exports[`should render correctly desktop version 2`] = `
                   class="ant-form-item-control-input-content"
                 >
                   <span
-                    class="ant-input-affix-wrapper ant-input-password css-dev-only-do-not-override-hash"
+                    class="ant-input-affix-wrapper css-dev-only-do-not-override-hash ant-input-outlined ant-input-password"
                   >
                     <input
                       class="ant-input css-dev-only-do-not-override-hash"
@@ -339,7 +339,7 @@ exports[`should render correctly desktop version 2`] = `
           class="ant-space-item"
         >
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary ant-btn-block"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary ant-btn-color-primary ant-btn-variant-solid ant-btn-block"
             type="button"
           >
             <span>
@@ -351,7 +351,7 @@ exports[`should render correctly desktop version 2`] = `
           class="ant-space-item"
         >
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block"
             type="button"
           >
             <span>
@@ -431,7 +431,7 @@ exports[`should render correctly mobile version 1`] = `
                   class="ant-form-item-control-input-content"
                 >
                   <input
-                    class="ant-input css-dev-only-do-not-override-hash"
+                    class="ant-input css-dev-only-do-not-override-hash ant-input-outlined"
                     id="email-input"
                     placeholder="Email"
                     type="text"
@@ -458,7 +458,7 @@ exports[`should render correctly mobile version 1`] = `
                   class="ant-form-item-control-input-content"
                 >
                   <span
-                    class="ant-input-affix-wrapper ant-input-password css-dev-only-do-not-override-hash"
+                    class="ant-input-affix-wrapper css-dev-only-do-not-override-hash ant-input-outlined ant-input-password"
                   >
                     <input
                       class="ant-input css-dev-only-do-not-override-hash"
@@ -527,7 +527,7 @@ exports[`should render correctly mobile version 1`] = `
           class="ant-space-item"
         >
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary ant-btn-block"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary ant-btn-color-primary ant-btn-variant-solid ant-btn-block"
             type="button"
           >
             <span>
@@ -539,7 +539,7 @@ exports[`should render correctly mobile version 1`] = `
           class="ant-space-item"
         >
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block"
             type="button"
           >
             <span>
@@ -622,7 +622,7 @@ exports[`should render correctly web version 1`] = `
                   class="ant-form-item-control-input-content"
                 >
                   <input
-                    class="ant-input css-dev-only-do-not-override-hash"
+                    class="ant-input css-dev-only-do-not-override-hash ant-input-outlined"
                     id="email-input"
                     placeholder="Email"
                     type="text"
@@ -649,7 +649,7 @@ exports[`should render correctly web version 1`] = `
                   class="ant-form-item-control-input-content"
                 >
                   <span
-                    class="ant-input-affix-wrapper ant-input-password css-dev-only-do-not-override-hash"
+                    class="ant-input-affix-wrapper css-dev-only-do-not-override-hash ant-input-outlined ant-input-password"
                   >
                     <input
                       class="ant-input css-dev-only-do-not-override-hash"
@@ -718,7 +718,7 @@ exports[`should render correctly web version 1`] = `
           class="ant-space-item"
         >
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary ant-btn-block"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary ant-btn-color-primary ant-btn-variant-solid ant-btn-block"
             type="button"
           >
             <span>
@@ -730,7 +730,7 @@ exports[`should render correctly web version 1`] = `
           class="ant-space-item"
         >
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block"
             type="button"
           >
             <span>

@@ -17,7 +17,7 @@ exports[`should render correctly ellipse 1`] = `
         class="btn-container"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="auto-fit"
           type="button"
         >
@@ -37,7 +37,7 @@ exports[`should render correctly ellipse 1`] = `
         class="btn-container"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="convert_to_path"
           type="button"
         >
@@ -57,7 +57,7 @@ exports[`should render correctly ellipse 1`] = `
         class="btn-container"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="smart-nest"
           type="button"
         >
@@ -77,7 +77,7 @@ exports[`should render correctly ellipse 1`] = `
         class="btn-container half"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="offset"
           type="button"
         >
@@ -97,7 +97,7 @@ exports[`should render correctly ellipse 1`] = `
         class="btn-container half"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="array"
           type="button"
         >
@@ -135,7 +135,7 @@ exports[`should render correctly g multiple selection 1`] = `
         class="btn-container"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="auto-fit"
           type="button"
         >
@@ -155,7 +155,7 @@ exports[`should render correctly g multiple selection 1`] = `
         class="btn-container"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="smart-nest"
           type="button"
         >
@@ -175,7 +175,7 @@ exports[`should render correctly g multiple selection 1`] = `
         class="btn-container half"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="offset"
           type="button"
         >
@@ -195,7 +195,7 @@ exports[`should render correctly g multiple selection 1`] = `
         class="btn-container half"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="array"
           type="button"
         >
@@ -233,7 +233,7 @@ exports[`should render correctly g single selection 1`] = `
         class="btn-container"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="auto-fit"
           type="button"
         >
@@ -253,7 +253,7 @@ exports[`should render correctly g single selection 1`] = `
         class="btn-container"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="smart-nest"
           type="button"
         >
@@ -273,7 +273,7 @@ exports[`should render correctly g single selection 1`] = `
         class="btn-container"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="array"
           type="button"
         >
@@ -311,7 +311,7 @@ exports[`should render correctly image 1`] = `
         class="btn-container"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="auto-fit"
           type="button"
         >
@@ -331,7 +331,7 @@ exports[`should render correctly image 1`] = `
         class="btn-container"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="replace_with"
           type="button"
         >
@@ -351,7 +351,7 @@ exports[`should render correctly image 1`] = `
         class="btn-container"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="bg-removal"
           type="button"
         >
@@ -371,7 +371,7 @@ exports[`should render correctly image 1`] = `
         class="btn-container"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="smart-nest"
           type="button"
         >
@@ -391,7 +391,7 @@ exports[`should render correctly image 1`] = `
         class="btn-container half"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="trace"
           type="button"
         >
@@ -411,7 +411,7 @@ exports[`should render correctly image 1`] = `
         class="btn-container half"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="grading"
           type="button"
         >
@@ -431,7 +431,7 @@ exports[`should render correctly image 1`] = `
         class="btn-container half"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="sharpen"
           type="button"
         >
@@ -451,7 +451,7 @@ exports[`should render correctly image 1`] = `
         class="btn-container half"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="crop"
           type="button"
         >
@@ -471,7 +471,7 @@ exports[`should render correctly image 1`] = `
         class="btn-container half"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="bevel"
           type="button"
         >
@@ -491,7 +491,7 @@ exports[`should render correctly image 1`] = `
         class="btn-container half"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="invert"
           type="button"
         >
@@ -511,7 +511,7 @@ exports[`should render correctly image 1`] = `
         class="btn-container half"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="array"
           type="button"
         >
@@ -531,7 +531,7 @@ exports[`should render correctly image 1`] = `
         class="btn-container half"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="potrace"
           type="button"
         >
@@ -551,7 +551,7 @@ exports[`should render correctly image 1`] = `
         class="btn-container"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="trapezoid"
           type="button"
         >
@@ -1561,7 +1561,7 @@ exports[`should render correctly line 1`] = `
         class="btn-container"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="auto-fit"
           type="button"
         >
@@ -1581,7 +1581,7 @@ exports[`should render correctly line 1`] = `
         class="btn-container"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="convert_to_path"
           type="button"
         >
@@ -1601,7 +1601,7 @@ exports[`should render correctly line 1`] = `
         class="btn-container"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="smart-nest"
           type="button"
         >
@@ -1621,7 +1621,7 @@ exports[`should render correctly line 1`] = `
         class="btn-container half"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="offset"
           type="button"
         >
@@ -1641,7 +1641,7 @@ exports[`should render correctly line 1`] = `
         class="btn-container half"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="array"
           type="button"
         >
@@ -1696,7 +1696,7 @@ exports[`should render correctly path 1`] = `
         class="btn-container"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="auto-fit"
           type="button"
         >
@@ -1716,7 +1716,7 @@ exports[`should render correctly path 1`] = `
         class="btn-container"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="edit_path"
           type="button"
         >
@@ -1736,7 +1736,7 @@ exports[`should render correctly path 1`] = `
         class="btn-container"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="decompose_path"
           type="button"
         >
@@ -1756,7 +1756,7 @@ exports[`should render correctly path 1`] = `
         class="btn-container"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="smart-nest"
           type="button"
         >
@@ -1776,7 +1776,7 @@ exports[`should render correctly path 1`] = `
         class="btn-container half"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="offset"
           type="button"
         >
@@ -1796,7 +1796,7 @@ exports[`should render correctly path 1`] = `
         class="btn-container half"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="array"
           type="button"
         >
@@ -1816,7 +1816,7 @@ exports[`should render correctly path 1`] = `
         class="btn-container"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="simplify"
           type="button"
         >
@@ -1854,7 +1854,7 @@ exports[`should render correctly polygon 1`] = `
         class="btn-container"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="auto-fit"
           type="button"
         >
@@ -1874,7 +1874,7 @@ exports[`should render correctly polygon 1`] = `
         class="btn-container"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="convert_to_path"
           type="button"
         >
@@ -1894,7 +1894,7 @@ exports[`should render correctly polygon 1`] = `
         class="btn-container"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="smart-nest"
           type="button"
         >
@@ -1914,7 +1914,7 @@ exports[`should render correctly polygon 1`] = `
         class="btn-container half"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="offset"
           type="button"
         >
@@ -1934,7 +1934,7 @@ exports[`should render correctly polygon 1`] = `
         class="btn-container half"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="array"
           type="button"
         >
@@ -1972,7 +1972,7 @@ exports[`should render correctly rect 1`] = `
         class="btn-container"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="auto-fit"
           type="button"
         >
@@ -1992,7 +1992,7 @@ exports[`should render correctly rect 1`] = `
         class="btn-container"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="convert_to_path"
           type="button"
         >
@@ -2012,7 +2012,7 @@ exports[`should render correctly rect 1`] = `
         class="btn-container"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="smart-nest"
           type="button"
         >
@@ -2032,7 +2032,7 @@ exports[`should render correctly rect 1`] = `
         class="btn-container half"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="offset"
           type="button"
         >
@@ -2052,7 +2052,7 @@ exports[`should render correctly rect 1`] = `
         class="btn-container half"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="array"
           type="button"
         >
@@ -2090,7 +2090,7 @@ exports[`should render correctly text 1`] = `
         class="btn-container"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="auto-fit"
           type="button"
         >
@@ -2110,7 +2110,7 @@ exports[`should render correctly text 1`] = `
         class="btn-container"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="convert_to_path"
           type="button"
         >
@@ -2130,7 +2130,7 @@ exports[`should render correctly text 1`] = `
         class="btn-container"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="weld"
           type="button"
         >
@@ -2150,7 +2150,7 @@ exports[`should render correctly text 1`] = `
         class="btn-container"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="smart-nest"
           type="button"
         >
@@ -2170,7 +2170,7 @@ exports[`should render correctly text 1`] = `
         class="btn-container"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="array"
           type="button"
         >
@@ -2208,7 +2208,7 @@ exports[`should render correctly use 1`] = `
         class="btn-container"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="auto-fit"
           type="button"
         >
@@ -2228,7 +2228,7 @@ exports[`should render correctly use 1`] = `
         class="btn-container"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="disassemble_use"
           type="button"
         >
@@ -2248,7 +2248,7 @@ exports[`should render correctly use 1`] = `
         class="btn-container"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="smart-nest"
           type="button"
         >
@@ -2268,7 +2268,7 @@ exports[`should render correctly use 1`] = `
         class="btn-container"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block btn"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block btn"
           id="array"
           type="button"
         >

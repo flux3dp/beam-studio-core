@@ -3,7 +3,7 @@
 exports[`test RatioLock should render correctly on desktop 1`] = `
 <div>
   <button
-    class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+    class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
     id="lock"
     title="lock_aspect"
     type="button"
@@ -20,7 +20,7 @@ exports[`test RatioLock should render correctly on desktop 1`] = `
 exports[`test RatioLock should render correctly on desktop 2`] = `
 <div>
   <button
-    class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+    class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
     id="lock"
     title="unlock_aspect"
     type="button"

@@ -5,7 +5,7 @@ exports[`test QRCodeGenerator should behave correctly 1`] = `
   <div>
     <div>
       <span
-        class="ant-input-affix-wrapper input ant-input-textarea-affix-wrapper ant-input-textarea-show-count css-dev-only-do-not-override-hash ant-input-show-count"
+        class="ant-input-affix-wrapper ant-input-textarea-affix-wrapper ant-input-textarea-show-count css-dev-only-do-not-override-hash ant-input-show-count ant-input-outlined input"
         data-count="0 / 200"
       >
         <textarea

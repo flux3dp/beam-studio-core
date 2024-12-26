@@ -10,7 +10,7 @@ exports[`test UserAvatar no user 1`] = `
     >
       <span
         class="ant-avatar ant-avatar-circle ant-avatar-icon css-dev-only-do-not-override-hash"
-        style="width: 28px; height: 28px; line-height: 28px; font-size: 14px;"
+        style="width: 28px; height: 28px; font-size: 14px;"
       >
         <svgr-url
           classname="default-avatar"
@@ -31,7 +31,7 @@ exports[`test UserAvatar with subscription 1`] = `
     >
       <span
         class="ant-avatar ant-avatar-circle ant-avatar-icon css-dev-only-do-not-override-hash"
-        style="width: 28px; height: 28px; line-height: 28px; font-size: 14px;"
+        style="width: 28px; height: 28px; font-size: 14px;"
       >
         <svgr-url
           classname="default-avatar"
@@ -56,7 +56,7 @@ exports[`test UserAvatar with user avatar 1`] = `
     >
       <span
         class="ant-avatar ant-avatar-circle ant-avatar-image ant-avatar-icon css-dev-only-do-not-override-hash"
-        style="width: 28px; height: 28px; line-height: 28px; font-size: 14px;"
+        style="width: 28px; height: 28px; font-size: 14px;"
       >
         <img
           alt="avatar"

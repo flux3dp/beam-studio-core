@@ -19,7 +19,7 @@ exports[`test FluxPlusWarning access monotype feature 1`] = `
         class="buttons"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary ant-btn-block"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary ant-btn-color-primary ant-btn-variant-solid ant-btn-block"
           type="button"
         >
           <span>
@@ -27,7 +27,7 @@ exports[`test FluxPlusWarning access monotype feature 1`] = `
           </span>
         </button>
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block"
           type="button"
         >
           <span>
@@ -68,7 +68,7 @@ exports[`test FluxPlusWarning should render correctly 1`] = `
         class="buttons"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary ant-btn-block"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary ant-btn-color-primary ant-btn-variant-solid ant-btn-block"
           type="button"
         >
           <span>
@@ -76,7 +76,7 @@ exports[`test FluxPlusWarning should render correctly 1`] = `
           </span>
         </button>
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block"
           type="button"
         >
           <span>
@@ -117,7 +117,7 @@ exports[`test FluxPlusWarning with user 1`] = `
         class="buttons"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary ant-btn-block"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary ant-btn-color-primary ant-btn-variant-solid ant-btn-block"
           type="button"
         >
           <span>

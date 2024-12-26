@@ -376,157 +376,156 @@ exports[`test ShapePanel should render correctly 1`] = `
           style="width: 500px;"
         >
           <div
-            aria-hidden="true"
-            style="width: 0px; height: 0px; overflow: hidden; outline: none;"
+            style="outline: none;"
             tabindex="0"
-          />
-          <div
-            class="ant-modal-content"
           >
-            <button
-              aria-label="Close"
-              class="ant-modal-close"
-              type="button"
+            <div
+              class="ant-modal-content"
             >
-              <span
-                class="ant-modal-close-x"
+              <button
+                aria-label="Close"
+                class="ant-modal-close"
+                type="button"
               >
                 <span
-                  aria-label="close"
-                  class="anticon anticon-close ant-modal-close-icon"
-                  role="img"
+                  class="ant-modal-close-x"
                 >
-                  <svg
-                    aria-hidden="true"
-                    data-icon="close"
-                    fill="currentColor"
-                    fill-rule="evenodd"
-                    focusable="false"
-                    height="1em"
-                    viewBox="64 64 896 896"
-                    width="1em"
+                  <span
+                    aria-label="close"
+                    class="anticon anticon-close ant-modal-close-icon"
+                    role="img"
                   >
-                    <path
-                      d="M799.86 166.31c.02 0 .04.02.08.06l57.69 57.7c.04.03.05.05.06.08a.12.12 0 010 .06c0 .03-.02.05-.06.09L569.93 512l287.7 287.7c.04.04.05.06.06.09a.12.12 0 010 .07c0 .02-.02.04-.06.08l-57.7 57.69c-.03.04-.05.05-.07.06a.12.12 0 01-.07 0c-.03 0-.05-.02-.09-.06L512 569.93l-287.7 287.7c-.04.04-.06.05-.09.06a.12.12 0 01-.07 0c-.02 0-.04-.02-.08-.06l-57.69-57.7c-.04-.03-.05-.05-.06-.07a.12.12 0 010-.07c0-.03.02-.05.06-.09L454.07 512l-287.7-287.7c-.04-.04-.05-.06-.06-.09a.12.12 0 010-.07c0-.02.02-.04.06-.08l57.7-57.69c.03-.04.05-.05.07-.06a.12.12 0 01.07 0c.03 0 .05.02.09.06L512 454.07l287.7-287.7c.04-.04.06-.05.09-.06a.12.12 0 01.07 0z"
-                    />
-                  </svg>
+                    <svg
+                      aria-hidden="true"
+                      data-icon="close"
+                      fill="currentColor"
+                      fill-rule="evenodd"
+                      focusable="false"
+                      height="1em"
+                      viewBox="64 64 896 896"
+                      width="1em"
+                    >
+                      <path
+                        d="M799.86 166.31c.02 0 .04.02.08.06l57.69 57.7c.04.03.05.05.06.08a.12.12 0 010 .06c0 .03-.02.05-.06.09L569.93 512l287.7 287.7c.04.04.05.06.06.09a.12.12 0 010 .07c0 .02-.02.04-.06.08l-57.7 57.69c-.03.04-.05.05-.07.06a.12.12 0 01-.07 0c-.03 0-.05-.02-.09-.06L512 569.93l-287.7 287.7c-.04.04-.06.05-.09.06a.12.12 0 01-.07 0c-.02 0-.04-.02-.08-.06l-57.69-57.7c-.04-.03-.05-.05-.06-.07a.12.12 0 010-.07c0-.03.02-.05.06-.09L454.07 512l-287.7-287.7c-.04-.04-.05-.06-.06-.09a.12.12 0 010-.07c0-.02.02-.04.06-.08l57.7-57.69c.03-.04.05-.05.07-.06a.12.12 0 01.07 0c.03 0 .05.02.09.06L512 454.07l287.7-287.7c.04-.04.06-.05.09-.06a.12.12 0 01.07 0z"
+                      />
+                    </svg>
+                  </span>
                 </span>
-              </span>
-            </button>
-            <div
-              class="ant-modal-header"
-            >
+              </button>
               <div
-                class="ant-modal-title"
-                id="test-id"
-              >
-                Elements
-              </div>
-            </div>
-            <div
-              class="ant-modal-body"
-            >
-              <div
-                class="adm-capsule-tabs tabs"
+                class="ant-modal-header"
               >
                 <div
-                  class="adm-capsule-tabs-header"
+                  class="ant-modal-title"
+                  id="test-id"
+                >
+                  Elements
+                </div>
+              </div>
+              <div
+                class="ant-modal-body"
+              >
+                <div
+                  class="adm-capsule-tabs tabs"
                 >
                   <div
-                    class="adm-scroll-mask adm-scroll-mask-left"
-                    style="opacity: 0;"
-                  />
-                  <div
-                    class="adm-scroll-mask adm-scroll-mask-right"
-                    style="opacity: 0;"
-                  />
-                  <div
-                    class="adm-capsule-tabs-tab-list"
+                    class="adm-capsule-tabs-header"
                   >
                     <div
-                      class="adm-capsule-tabs-tab-wrapper"
-                    >
-                      <div
-                        class="adm-capsule-tabs-tab adm-capsule-tabs-tab-active"
-                      >
-                        Basic
-                      </div>
-                    </div>
+                      class="adm-scroll-mask adm-scroll-mask-left"
+                      style="opacity: 0;"
+                    />
                     <div
-                      class="adm-capsule-tabs-tab-wrapper"
+                      class="adm-scroll-mask adm-scroll-mask-right"
+                      style="opacity: 0;"
+                    />
+                    <div
+                      class="adm-capsule-tabs-tab-list"
                     >
                       <div
-                        class="adm-capsule-tabs-tab"
+                        class="adm-capsule-tabs-tab-wrapper"
                       >
-                        Decor
+                        <div
+                          class="adm-capsule-tabs-tab adm-capsule-tabs-tab-active"
+                        >
+                          Basic
+                        </div>
+                      </div>
+                      <div
+                        class="adm-capsule-tabs-tab-wrapper"
+                      >
+                        <div
+                          class="adm-capsule-tabs-tab"
+                        >
+                          Decor
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div
-                class="shadow-container"
-              >
                 <div
-                  class="scroll-content"
+                  class="shadow-container"
                 >
                   <div
-                    class="icon-list"
+                    class="scroll-content"
                   >
                     <div
-                      class="label"
+                      class="icon-list"
                     >
-                      Shape
-                    </div>
-                    <div>
-                      mock shape icon: activeTab: 
-                      basic
-                      fileName: 
-                      icon-circle
-                      <button
-                        type="button"
+                      <div
+                        class="label"
                       >
-                        Import Icon
-                      </button>
-                    </div>
-                    <div>
-                      mock shape icon: activeTab: 
-                      basic
-                      fileName: 
-                      icon-triangle
-                      <button
-                        type="button"
+                        Shape
+                      </div>
+                      <div>
+                        mock shape icon: activeTab: 
+                        basic
+                        fileName: 
+                        icon-circle
+                        <button
+                          type="button"
+                        >
+                          Import Icon
+                        </button>
+                      </div>
+                      <div>
+                        mock shape icon: activeTab: 
+                        basic
+                        fileName: 
+                        icon-triangle
+                        <button
+                          type="button"
+                        >
+                          Import Icon
+                        </button>
+                      </div>
+                      <div
+                        class="label"
                       >
-                        Import Icon
-                      </button>
-                    </div>
-                    <div
-                      class="label"
-                    >
-                      Graphics
-                    </div>
-                    <div>
-                      mock shape icon: activeTab: 
-                      basic
-                      fileName: 
-                      icon-minus
-                      <button
-                        type="button"
-                      >
-                        Import Icon
-                      </button>
+                        Graphics
+                      </div>
+                      <div>
+                        mock shape icon: activeTab: 
+                        basic
+                        fileName: 
+                        icon-minus
+                        <button
+                          type="button"
+                        >
+                          Import Icon
+                        </button>
+                      </div>
                     </div>
                   </div>
+                  <div
+                    class="shadow"
+                    style="display: none;"
+                  />
                 </div>
-                <div
-                  class="shadow"
-                  style="display: none;"
-                />
               </div>
             </div>
           </div>
           <div
-            aria-hidden="true"
             style="width: 0px; height: 0px; overflow: hidden; outline: none;"
             tabindex="0"
           />
@@ -566,212 +565,211 @@ exports[`test ShapePanel should render correctly 2`] = `
           style="width: 500px;"
         >
           <div
-            aria-hidden="true"
-            style="width: 0px; height: 0px; overflow: hidden; outline: none;"
+            style="outline: none;"
             tabindex="0"
-          />
-          <div
-            class="ant-modal-content"
           >
-            <button
-              aria-label="Close"
-              class="ant-modal-close"
-              type="button"
+            <div
+              class="ant-modal-content"
             >
-              <span
-                class="ant-modal-close-x"
+              <button
+                aria-label="Close"
+                class="ant-modal-close"
+                type="button"
               >
                 <span
-                  aria-label="close"
-                  class="anticon anticon-close ant-modal-close-icon"
-                  role="img"
+                  class="ant-modal-close-x"
                 >
-                  <svg
-                    aria-hidden="true"
-                    data-icon="close"
-                    fill="currentColor"
-                    fill-rule="evenodd"
-                    focusable="false"
-                    height="1em"
-                    viewBox="64 64 896 896"
-                    width="1em"
+                  <span
+                    aria-label="close"
+                    class="anticon anticon-close ant-modal-close-icon"
+                    role="img"
                   >
-                    <path
-                      d="M799.86 166.31c.02 0 .04.02.08.06l57.69 57.7c.04.03.05.05.06.08a.12.12 0 010 .06c0 .03-.02.05-.06.09L569.93 512l287.7 287.7c.04.04.05.06.06.09a.12.12 0 010 .07c0 .02-.02.04-.06.08l-57.7 57.69c-.03.04-.05.05-.07.06a.12.12 0 01-.07 0c-.03 0-.05-.02-.09-.06L512 569.93l-287.7 287.7c-.04.04-.06.05-.09.06a.12.12 0 01-.07 0c-.02 0-.04-.02-.08-.06l-57.69-57.7c-.04-.03-.05-.05-.06-.07a.12.12 0 010-.07c0-.03.02-.05.06-.09L454.07 512l-287.7-287.7c-.04-.04-.05-.06-.06-.09a.12.12 0 010-.07c0-.02.02-.04.06-.08l57.7-57.69c.03-.04.05-.05.07-.06a.12.12 0 01.07 0c.03 0 .05.02.09.06L512 454.07l287.7-287.7c.04-.04.06-.05.09-.06a.12.12 0 01.07 0z"
-                    />
-                  </svg>
+                    <svg
+                      aria-hidden="true"
+                      data-icon="close"
+                      fill="currentColor"
+                      fill-rule="evenodd"
+                      focusable="false"
+                      height="1em"
+                      viewBox="64 64 896 896"
+                      width="1em"
+                    >
+                      <path
+                        d="M799.86 166.31c.02 0 .04.02.08.06l57.69 57.7c.04.03.05.05.06.08a.12.12 0 010 .06c0 .03-.02.05-.06.09L569.93 512l287.7 287.7c.04.04.05.06.06.09a.12.12 0 010 .07c0 .02-.02.04-.06.08l-57.7 57.69c-.03.04-.05.05-.07.06a.12.12 0 01-.07 0c-.03 0-.05-.02-.09-.06L512 569.93l-287.7 287.7c-.04.04-.06.05-.09.06a.12.12 0 01-.07 0c-.02 0-.04-.02-.08-.06l-57.69-57.7c-.04-.03-.05-.05-.06-.07a.12.12 0 010-.07c0-.03.02-.05.06-.09L454.07 512l-287.7-287.7c-.04-.04-.05-.06-.06-.09a.12.12 0 010-.07c0-.02.02-.04.06-.08l57.7-57.69c.03-.04.05-.05.07-.06a.12.12 0 01.07 0c.03 0 .05.02.09.06L512 454.07l287.7-287.7c.04-.04.06-.05.09-.06a.12.12 0 01.07 0z"
+                      />
+                    </svg>
+                  </span>
                 </span>
-              </span>
-            </button>
-            <div
-              class="ant-modal-header"
-            >
+              </button>
               <div
-                class="ant-modal-title"
-                id="test-id"
-              >
-                Elements
-              </div>
-            </div>
-            <div
-              class="ant-modal-body"
-            >
-              <div
-                class="adm-capsule-tabs tabs"
+                class="ant-modal-header"
               >
                 <div
-                  class="adm-capsule-tabs-header"
+                  class="ant-modal-title"
+                  id="test-id"
+                >
+                  Elements
+                </div>
+              </div>
+              <div
+                class="ant-modal-body"
+              >
+                <div
+                  class="adm-capsule-tabs tabs"
                 >
                   <div
-                    class="adm-scroll-mask adm-scroll-mask-left"
-                    style="opacity: 0;"
-                  />
-                  <div
-                    class="adm-scroll-mask adm-scroll-mask-right"
-                    style="opacity: 0;"
-                  />
-                  <div
-                    class="adm-capsule-tabs-tab-list"
+                    class="adm-capsule-tabs-header"
                   >
                     <div
-                      class="adm-capsule-tabs-tab-wrapper"
-                    >
-                      <div
-                        class="adm-capsule-tabs-tab"
-                      >
-                        Basic
-                      </div>
-                    </div>
+                      class="adm-scroll-mask adm-scroll-mask-left"
+                      style="opacity: 0;"
+                    />
                     <div
-                      class="adm-capsule-tabs-tab-wrapper"
+                      class="adm-scroll-mask adm-scroll-mask-right"
+                      style="opacity: 0;"
+                    />
+                    <div
+                      class="adm-capsule-tabs-tab-list"
                     >
                       <div
-                        class="adm-capsule-tabs-tab adm-capsule-tabs-tab-active"
+                        class="adm-capsule-tabs-tab-wrapper"
                       >
-                        Decor
+                        <div
+                          class="adm-capsule-tabs-tab"
+                        >
+                          Basic
+                        </div>
+                      </div>
+                      <div
+                        class="adm-capsule-tabs-tab-wrapper"
+                      >
+                        <div
+                          class="adm-capsule-tabs-tab adm-capsule-tabs-tab-active"
+                        >
+                          Decor
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div
-                class="shadow-container"
-              >
                 <div
-                  class="scroll-content"
+                  class="shadow-container"
                 >
                   <div
-                    class="icon-list"
+                    class="scroll-content"
                   >
                     <div
-                      class="label"
+                      class="icon-list"
                     >
-                      Circular
-                    </div>
-                    <div>
-                      mock shape icon: activeTab: 
-                      decor
-                      fileName: 
-                      i_circular-1
-                      <button
-                        type="button"
+                      <div
+                        class="label"
                       >
-                        Import Icon
-                      </button>
-                    </div>
-                    <div>
-                      mock shape icon: activeTab: 
-                      decor
-                      fileName: 
-                      i_circular-2a
-                      <button
-                        type="button"
+                        Circular
+                      </div>
+                      <div>
+                        mock shape icon: activeTab: 
+                        decor
+                        fileName: 
+                        i_circular-1
+                        <button
+                          type="button"
+                        >
+                          Import Icon
+                        </button>
+                      </div>
+                      <div>
+                        mock shape icon: activeTab: 
+                        decor
+                        fileName: 
+                        i_circular-2a
+                        <button
+                          type="button"
+                        >
+                          Import Icon
+                        </button>
+                      </div>
+                      <div>
+                        mock shape icon: activeTab: 
+                        decor
+                        fileName: 
+                        i_circular-2b
+                        <button
+                          type="button"
+                        >
+                          Import Icon
+                        </button>
+                      </div>
+                      <div
+                        class="label"
                       >
-                        Import Icon
-                      </button>
-                    </div>
-                    <div>
-                      mock shape icon: activeTab: 
-                      decor
-                      fileName: 
-                      i_circular-2b
-                      <button
-                        type="button"
-                      >
-                        Import Icon
-                      </button>
-                    </div>
-                    <div
-                      class="label"
-                    >
-                      Corner
-                    </div>
-                    <div>
-                      mock shape icon: activeTab: 
-                      decor
-                      fileName: 
-                      i_corner-1
-                      <button
-                        type="button"
-                      >
-                        Import Icon
-                      </button>
-                    </div>
-                    <div>
-                      mock shape icon: activeTab: 
-                      decor
-                      fileName: 
-                      i_corner-2a
-                      <button
-                        type="button"
-                      >
-                        Import Icon
-                      </button>
-                    </div>
-                    <div>
-                      mock shape icon: activeTab: 
-                      decor
-                      fileName: 
-                      i_corner-2b
-                      <button
-                        type="button"
-                      >
-                        Import Icon
-                      </button>
-                    </div>
-                    <div>
-                      mock shape icon: activeTab: 
-                      decor
-                      fileName: 
-                      i_corner-3a
-                      <button
-                        type="button"
-                      >
-                        Import Icon
-                      </button>
-                    </div>
-                    <div>
-                      mock shape icon: activeTab: 
-                      decor
-                      fileName: 
-                      i_corner-3b
-                      <button
-                        type="button"
-                      >
-                        Import Icon
-                      </button>
+                        Corner
+                      </div>
+                      <div>
+                        mock shape icon: activeTab: 
+                        decor
+                        fileName: 
+                        i_corner-1
+                        <button
+                          type="button"
+                        >
+                          Import Icon
+                        </button>
+                      </div>
+                      <div>
+                        mock shape icon: activeTab: 
+                        decor
+                        fileName: 
+                        i_corner-2a
+                        <button
+                          type="button"
+                        >
+                          Import Icon
+                        </button>
+                      </div>
+                      <div>
+                        mock shape icon: activeTab: 
+                        decor
+                        fileName: 
+                        i_corner-2b
+                        <button
+                          type="button"
+                        >
+                          Import Icon
+                        </button>
+                      </div>
+                      <div>
+                        mock shape icon: activeTab: 
+                        decor
+                        fileName: 
+                        i_corner-3a
+                        <button
+                          type="button"
+                        >
+                          Import Icon
+                        </button>
+                      </div>
+                      <div>
+                        mock shape icon: activeTab: 
+                        decor
+                        fileName: 
+                        i_corner-3b
+                        <button
+                          type="button"
+                        >
+                          Import Icon
+                        </button>
+                      </div>
                     </div>
                   </div>
+                  <div
+                    class="shadow"
+                    style="display: none;"
+                  />
                 </div>
-                <div
-                  class="shadow"
-                  style="display: none;"
-                />
               </div>
             </div>
           </div>
           <div
-            aria-hidden="true"
             style="width: 0px; height: 0px; overflow: hidden; outline: none;"
             tabindex="0"
           />
