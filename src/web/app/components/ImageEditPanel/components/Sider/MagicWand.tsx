@@ -22,10 +22,7 @@ export default function MagicWand({ tolerance, setTolerance }: Props): JSX.Eleme
     <div className={styles.wrapper}>
       <div className={styles['hint-text']}>
         <QuestionCircleOutlined className={styles.icon} />
-        <span>
-          Click on an area and press the “Delete Selection” button or press the ‘delete’ key on your
-          computer.
-        </span>
+        <span>Quickly select similar color regions to remove backgrounds.</span>
       </div>
       <Form layout="vertical">
         <Form.Item label="Tolerance:">

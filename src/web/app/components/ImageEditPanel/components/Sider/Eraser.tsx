@@ -22,7 +22,7 @@ export default function Eraser({ brushSize, setBrushSize }: Props): JSX.Element 
     <div className={styles.wrapper}>
       <div className={styles['hint-text']}>
         <QuestionCircleOutlined className={styles.icon} />
-        <span>Single click or hold and drag to erase.</span>
+        <span>Click or drag to manually erase unwanted areas.</span>
       </div>
       <Form layout="vertical">
         <Form.Item label="Brush Size:">
