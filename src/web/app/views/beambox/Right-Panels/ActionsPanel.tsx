@@ -199,6 +199,14 @@ const ActionsPanel = ({ elem }: Props): JSX.Element => {
         <ActionPanelIcons.BackgroungRemovalMobile />,
         { isFullLine: true, mobileLabel: lang.ai_bg_removal_short }
       ),
+      imageEditPanel: renderButtons(
+        'imageEditPanel',
+        'Edit Image',
+        () => Dialog.showImageEditPanel(),
+        <ActionPanelIcons.EditImage />,
+        <ActionPanelIcons.EditImage />,
+        { isFullLine: true, mobileLabel: lang.ai_bg_removal_short }
+      ),
       trapezoid: renderButtons(
         'trapezoid',
         t.beambox.photo_edit_panel.rotary_warped,
@@ -285,6 +293,7 @@ const ActionsPanel = ({ elem }: Props): JSX.Element => {
           'replace_with',
           'bg-removal',
           'smartNest',
+          'imageEditPanel',
           'trace',
           'grading',
           'sharpen',

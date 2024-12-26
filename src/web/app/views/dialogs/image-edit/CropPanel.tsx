@@ -8,7 +8,7 @@ import jimpHelper from 'helpers/jimp-helper';
 import progressCaller from 'app/actions/progress-caller';
 import Select from 'app/widgets/AntdSelect';
 import useI18n from 'helpers/useI18n';
-import { CropperDimension, cropPreprocess } from 'helpers/image-edit-panel/preprocess';
+import { CropperDimension, preprocessByUrl } from 'helpers/image-edit-panel/preprocess';
 import { useIsMobile } from 'helpers/system-helper';
 
 import styles from './CropPanel.module.scss';
@@ -53,10 +53,13 @@ const CropPanel = ({ src, image, onClose }: Props): JSX.Element => {
 
   const preprocess = async () => {
     progressCaller.openNonstopProgress({ id: 'photo-edit-processing', message: t.processing });
-    const { blobUrl, dimension, originalWidth, originalHeight } = await cropPreprocess(src);
+
+    const { blobUrl, dimension, originalWidth, originalHeight } = await preprocessByUrl(src);
     const { width, height } = dimension;
+
     originalSizeRef.current = { width: originalWidth, height: originalHeight };
     historyRef.current.push({ dimension, blobUrl });
+
     const displayBase64 = await calculateBase64(blobUrl, isShading, threshold, isFullColor);
     setState({
       blobUrl,
@@ -130,10 +133,10 @@ const CropPanel = ({ src, image, onClose }: Props): JSX.Element => {
     const base64 = await calculateBase64(result, isShading, threshold, isFullColor);
     const elemW = parseFloat(image.getAttribute('width'));
     const elemH = parseFloat(image.getAttribute('height'));
-    const newX = parseFloat(image.getAttribute('x')) + x / originalWidth * elemW;
-    const newY = parseFloat(image.getAttribute('y')) + y / originalHeight * elemH;
-    const newWidth = elemW * width / originalWidth;
-    const newHeight = elemH * height / originalHeight;
+    const newX = parseFloat(image.getAttribute('x')) + (x / originalWidth) * elemW;
+    const newY = parseFloat(image.getAttribute('y')) + (y / originalHeight) * elemH;
+    const newWidth = (elemW * width) / originalWidth;
+    const newHeight = (elemH * height) / originalHeight;
     handleFinish(image, result, base64, { width: newWidth, height: newHeight, x: newX, y: newY });
     progressCaller.popById('photo-edit-processing');
     onClose();
