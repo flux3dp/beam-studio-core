@@ -27,7 +27,7 @@ import WorkAreaInfo from './WorkAreaInfo';
 import TableSettingForm from './TableSettingForm';
 import BlockSettingForm from './BlockSettingForm';
 import { getTableSetting } from './TableSetting';
-import { textSetting as defaultTextSetting } from './TextSetting';
+import { getTextSetting } from './TextSetting';
 import { BlockInfo, BlockSetting, getBlockSetting } from './BlockSetting';
 import generateSvgInfo, { SvgInfo } from './generateSvgInfo';
 import TextSettingForm from './TextSettingForm';
@@ -80,7 +80,7 @@ const MaterialTestGeneratorPanel = ({ onClose }: Props): JSX.Element => {
   const [blockOption, setBlockOption] = useState<'cut' | 'engrave'>('cut');
   const [tableSetting, setTableSetting] = useState(getTableSetting(workarea, { laserType }));
   const [blockSetting, setBlockSetting] = useState(getBlockSetting);
-  const [textSetting, setTextSetting] = useState(defaultTextSetting);
+  const [textSetting, setTextSetting] = useState(getTextSetting(workarea));
   const blockOptions = [
     { label: t.material_test_generator.cut, value: 'cut' },
     { label: t.material_test_generator.engrave, value: 'engrave' },
