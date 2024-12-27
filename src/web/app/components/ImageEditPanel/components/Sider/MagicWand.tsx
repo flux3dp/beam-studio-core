@@ -15,17 +15,16 @@ interface Props {
 const MAX_TOLERANCE = 100;
 
 export default function MagicWand({ tolerance, setTolerance }: Props): JSX.Element {
-  const lang = useI18n();
-  const t = lang.beambox.photo_edit_panel;
+  const { image_edit_panel: lang } = useI18n();
 
   return (
     <div className={styles.wrapper}>
       <div className={styles['hint-text']}>
         <QuestionCircleOutlined className={styles.icon} />
-        <span>Select and remove adjacent areas based on color similarity.</span>
+        <span>{lang.magic_wand.description}</span>
       </div>
       <Form layout="vertical">
-        <Form.Item label="Tolerance:">
+        <Form.Item label={`${lang.magic_wand.tolerance}:`}>
           <Row>
             <Col flex="auto">
               <Slider

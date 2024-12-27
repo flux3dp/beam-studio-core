@@ -2088,6 +2088,19 @@ const lang: ILang = {
     facebook: 'Chat med FLUXers, stil spørgsmål og lær tips!',
     youtube: 'Se Beam Studio tutorials og håndværksidéer.',
   },
+  image_edit_panel: {
+    title: 'Rediger billede',
+    eraser: {
+      title: 'Viskelæder',
+      description: 'Klik eller træk for manuelt at slette uønskede områder.',
+      brush_size: 'Penselstørrelse',
+    },
+    magic_wand: {
+      title: 'Tryllestav',
+      description: 'Vælg og fjern tilstødende områder baseret på farvesimilaritet.',
+      tolerance: 'Tolerance',
+    },
+  },
 };
 
 export default lang;

@@ -2091,6 +2091,19 @@ Machines > ‘Promark Name’ > Promark Settings`,
     facebook: 'Chat with FLUXers, ask questions, and learn tips!',
     youtube: 'View Beam Studio tutorials and craft ideas.',
   },
+  image_edit_panel: {
+    title: 'Edit Image',
+    eraser: {
+      title: 'Eraser',
+      description: 'Click or drag to manually erase unwanted areas.',
+      brush_size: 'Brush Size',
+    },
+    magic_wand: {
+      title: 'Magic Wand',
+      description: 'Select and remove adjacent areas based on color similarity.',
+      tolerance: 'Tolerance',
+    },
+  },
 };
 
 export default lang;

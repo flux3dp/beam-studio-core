@@ -2085,4 +2085,17 @@ export interface ILang {
     facebook: string;
     youtube: string;
   };
+  image_edit_panel: {
+    title: string;
+    eraser: {
+      title: string;
+      description: string;
+      brush_size: string;
+    };
+    magic_wand: {
+      title: string;
+      description: string;
+      tolerance: string;
+    };
+  };
 }

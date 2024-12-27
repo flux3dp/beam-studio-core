@@ -2086,6 +2086,19 @@ const lang: ILang = {
     facebook: 'Trò chuyện với FLUXers, đặt câu hỏi và học mẹo!',
     youtube: 'Xem hướng dẫn Beam Studio và ý tưởng thủ công.',
   },
+  image_edit_panel: {
+    title: 'Chỉnh sửa Hình ảnh',
+    eraser: {
+      title: 'Tẩy',
+      description: 'Nhấp hoặc kéo để xóa thủ công các khu vực không mong muốn.',
+      brush_size: 'Kích thước Bút',
+    },
+    magic_wand: {
+      title: 'Đũa Phép',
+      description: 'Chọn và xóa các khu vực liền kề dựa trên sự tương đồng về màu sắc.',
+      tolerance: 'Độ Chịu Lệch',
+    },
+  },
 };
 
 export default lang;

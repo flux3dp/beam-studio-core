@@ -43,19 +43,22 @@ function Sider({
   setMode,
   setOperation,
 }: Props): JSX.Element {
-  const lang = useI18n();
-  const t = lang.beambox.photo_edit_panel;
+  const {
+    beambox: { photo_edit_panel: langPhoto },
+    image_edit_panel: lang,
+    buttons: langButtons,
+  } = useI18n();
 
   const tabItems: Array<Tab> = [
     {
       key: 'eraser',
-      label: 'Eraser',
+      label: lang.eraser.title,
       children: <Eraser brushSize={brushSize} setBrushSize={setBrushSize} />,
       icon: <ImageEditPanelIcons.Eraser />,
     },
     {
       key: 'magicWand',
-      label: 'Magic Wand',
+      label: lang.magic_wand.title,
       children: <MagicWand tolerance={tolerance} setTolerance={setTolerance} />,
       icon: <ImageEditPanelIcons.MagicWand />,
     },
@@ -65,8 +68,8 @@ function Sider({
     <FullWindowPanelSider className={styles.sider}>
       <Flex style={{ height: '100%' }} vertical justify="space-between">
         <div>
-          <BackButton onClose={onClose}>{lang.buttons.back_to_beam_studio}</BackButton>
-          <Header icon={<ImageEditPanelIcons.EditImage />} title="Edit Image" />
+          <BackButton onClose={onClose}>{langButtons.back_to_beam_studio}</BackButton>
+          <Header icon={<ImageEditPanelIcons.EditImage />} title={lang.title} />
           <Tabs
             centered
             size="large"
@@ -80,7 +83,7 @@ function Sider({
         </div>
         <Footer>
           <Button key="ok" type="primary" onClick={handleComplete}>
-            {t.okay}
+            {langPhoto.okay}
           </Button>
         </Footer>
       </Flex>

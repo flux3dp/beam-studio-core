@@ -2086,6 +2086,19 @@ const lang: ILang = {
     facebook: 'Chatta med FLUXers, ställ frågor och lär dig tips!',
     youtube: 'Se Beam Studio-handledningar och hantverksidéer.',
   },
+  image_edit_panel: {
+    title: 'Redigera Bild',
+    eraser: {
+      title: 'Radergummi',
+      description: 'Klicka eller dra för att manuellt radera oönskade områden.',
+      brush_size: 'Penselstorlek',
+    },
+    magic_wand: {
+      title: 'Magisk Stav',
+      description: 'Välj och ta bort angränsande områden baserat på färglikhet.',
+      tolerance: 'Tolerans',
+    },
+  },
 };
 
 export default lang;

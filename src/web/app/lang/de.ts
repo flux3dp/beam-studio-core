@@ -2091,6 +2091,19 @@ const lang: ILang = {
     facebook: 'Chatte mit FLUXern, stelle Fragen und lerne Tipps!',
     youtube: 'Schau dir Beam Studio Tutorials und Bastelideen an.',
   },
+  image_edit_panel: {
+    title: 'Bild bearbeiten',
+    eraser: {
+      title: 'Radierer',
+      description: 'Klicken oder ziehen Sie, um unerwünschte Bereiche manuell zu löschen.',
+      brush_size: 'Pinselgröße',
+    },
+    magic_wand: {
+      title: 'Zauberstab',
+      description: 'Wählen und entfernen Sie angrenzende Bereiche basierend auf Farbähnlichkeit.',
+      tolerance: 'Toleranz',
+    },
+  },
 };
 
 export default lang;

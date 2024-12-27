@@ -15,17 +15,16 @@ interface Props {
 const MAX_BRUSH_SIZE = 128;
 
 export default function Eraser({ brushSize, setBrushSize }: Props): JSX.Element {
-  const lang = useI18n();
-  const t = lang.beambox.photo_edit_panel;
+  const { image_edit_panel: lang } = useI18n();
 
   return (
     <div className={styles.wrapper}>
       <div className={styles['hint-text']}>
         <QuestionCircleOutlined className={styles.icon} />
-        <span>Click or drag to manually erase unwanted areas.</span>
+        <span>{lang.eraser.description}</span>
       </div>
       <Form layout="vertical">
-        <Form.Item label="Brush Size:">
+        <Form.Item label={`${lang.eraser.brush_size}:`}>
           <Row>
             <Col flex="auto">
               <Slider

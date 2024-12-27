@@ -48,8 +48,10 @@ const EXPORTING = 1;
 const IMAGE_PADDING = 30;
 
 function ImageEditPanel({ src, image, onClose }: Props): JSX.Element {
-  const lang = useI18n();
-  const t = lang.beambox.photo_edit_panel;
+  const {
+    beambox: { photo_edit_panel: langPhoto },
+    image_edit_panel: lang,
+  } = useI18n();
 
   const { history, push, undo, redo } = useHistory({
     items: [{ lines: [], filters: [] }],
@@ -270,7 +272,7 @@ function ImageEditPanel({ src, image, onClose }: Props): JSX.Element {
   );
 
   const handleComplete = useCallback(() => {
-    progressCaller.openNonstopProgress({ id: 'image-editing', message: t.processing });
+    progressCaller.openNonstopProgress({ id: 'image-editing', message: langPhoto.processing });
 
     const stage = stageRef.current;
 
@@ -282,7 +284,7 @@ function ImageEditPanel({ src, image, onClose }: Props): JSX.Element {
       stage.batchDraw();
       requestAnimationFrame(() => setProgress(EXPORTING));
     });
-  }, [t]);
+  }, [langPhoto]);
 
   const updateUrl = useCallback(() => stageRef.current.toDataURL(imageSize), [imageSize]);
 
@@ -356,7 +358,7 @@ function ImageEditPanel({ src, image, onClose }: Props): JSX.Element {
       progressCaller.popById('image-editing-init');
     };
 
-    progressCaller.openNonstopProgress({ id: 'image-editing-init', message: t.processing });
+    progressCaller.openNonstopProgress({ id: 'image-editing-init', message: langPhoto.processing });
 
     setTimeout(initialize, 1000);
 
@@ -402,7 +404,7 @@ function ImageEditPanel({ src, image, onClose }: Props): JSX.Element {
   return (
     <FullWindowPanel
       onClose={onClose}
-      mobileTitle="Image Edit Panel"
+      mobileTitle={lang.title}
       renderMobileFixedContent={() => null}
       renderMobileContents={() => null}
       renderContents={() => (
