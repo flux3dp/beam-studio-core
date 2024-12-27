@@ -50,6 +50,7 @@
     .drag-area {
       padding-left: 8px;
       flex: 1 0 auto;
+      height: variables.$topBarHeight;
       &.drag {
         -webkit-app-region: drag;
       }
