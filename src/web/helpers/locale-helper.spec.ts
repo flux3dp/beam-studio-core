@@ -99,4 +99,24 @@ describe('test locale-helper', () => {
       expect(mockConsoleError).not.toBeCalled();
     });
   });
+
+  describe('test isJp', () => {
+    test('when locale is ja', () => {
+      const navigator = { language: 'ja' };
+      Object.defineProperty(global, 'navigator', { value: navigator });
+      jest.spyOn(Date.prototype, 'getTimezoneOffset').mockReturnValue(-540);
+      mockParse.mockReturnValue({ language: 'ja' });
+      expect(localeHelper.detectJp()).toBe(true);
+      expect(mockConsoleError).not.toBeCalled();
+    });
+
+    test('when locale is ja-JP', () => {
+      const navigator = { language: 'ja-JP' };
+      Object.defineProperty(global, 'navigator', { value: navigator });
+      jest.spyOn(Date.prototype, 'getTimezoneOffset').mockReturnValue(-540);
+      mockParse.mockReturnValue({ region: 'JP' });
+      expect(localeHelper.detectJp()).toBe(true);
+      expect(mockConsoleError).not.toBeCalled();
+    });
+  });
 });

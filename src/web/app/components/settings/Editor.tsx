@@ -127,7 +127,7 @@ function Editor({
       label: 'Lazervida',
       selected: selectedModel === 'flv1',
     },
-    (isDevMode || localeHelper.isTwOrHk) && {
+    (isDevMode || localeHelper.isTwOrHk || localeHelper.isJp) && {
       value: 'fbb2',
       label: 'Beambox II',
       selected: selectedModel === 'fbb2',
