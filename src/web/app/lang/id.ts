@@ -1169,7 +1169,7 @@ const lang: ILang = {
       notification: {
         changeFromPrintingWorkareaTitle: 'Apakah Anda ingin mengubah Lapisan Cetak menjadi Lapisan Laser?',
       },
-      start_work_button: 'Tombol Mulai Pekerjaan',
+      start_work_button: 'Tombol Eksekusi',
       frame_before_start: 'Frame sebelum menjalankan',
       frame_before_start_url: 'https://support.flux3dp.com/hc/en-us/articles/11494925637135',
     },

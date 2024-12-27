@@ -1169,7 +1169,7 @@ const lang: ILang = {
       notification: {
         changeFromPrintingWorkareaTitle: 'Haluatko muuntaa tulostuskerrokset laserkerroksiksi?',
       },
-      start_work_button: 'Aloita työpainike',
+      start_work_button: 'Suorita Painike',
       frame_before_start: 'Ruutu ennen suoritusta',
       frame_before_start_url: 'https://support.flux3dp.com/hc/en-us/articles/11494925637135',
     },

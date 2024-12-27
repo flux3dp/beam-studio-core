@@ -1169,7 +1169,7 @@ const lang: ILang = {
       notification: {
         changeFromPrintingWorkareaTitle: 'Vuoi convertire gli strati di stampa nelle aree di taglio laser?',
       },
-      start_work_button: 'Pulsante Inizia Lavoro',
+      start_work_button: 'Pulsante Esegui',
       frame_before_start: 'Frame prima di eseguire',
       frame_before_start_url: 'https://support.flux3dp.com/hc/en-us/articles/11494925637135',
     },
