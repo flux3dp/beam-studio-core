@@ -33,17 +33,15 @@ interface HistoryContext {
 }
 
 const historyReducer = (state: HistoryState, { type, payload }: HistoryAction) => {
-  const { items, index, hasUndid } = state;
+  const { items, index } = state;
 
   switch (type) {
     case 'PUSH':
-      const itemsToKeep = hasUndid ? items.slice(0, index + 1) : items;
-
-      return { items: itemsToKeep.concat(payload), index: index + 1, hasUndid: false };
+      return { items: items.slice(0, index + 1).concat(payload), index: index + 1 };
     case 'UNDO':
-      return index > 0 ? { items, index: index - 1, hasUndid: true } : state;
+      return index > 0 ? { items, index: index - 1 } : state;
     case 'REDO':
-      return index < items.length - 1 ? { items, index: index + 1, hasUndid } : state;
+      return index < items.length - 1 ? { items, index: index + 1 } : state;
     default:
       return state;
   }

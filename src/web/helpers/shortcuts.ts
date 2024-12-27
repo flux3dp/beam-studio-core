@@ -1,4 +1,4 @@
-import { modifierKeys } from 'app/constants/keyboardEventKey';
+import { modifierKeys } from 'app/constants/modifierKeys';
 import { isMac, isMobile } from 'helpers/system-helper';
 /**
  * setting up shortcut

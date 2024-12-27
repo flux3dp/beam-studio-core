@@ -28,8 +28,9 @@ import { useMouseDown } from './hooks/useMouseDown';
 import { useHistory } from './hooks/useHistory';
 
 import { getMagicWandFilter } from './utils/getMagicWandFilter';
-import styles from './index.module.scss';
 import { generateCursorSvg } from './utils/generateCursorSvg';
+
+import styles from './index.module.scss';
 
 interface Props {
   src: string;
@@ -130,6 +131,17 @@ function ImageEditPanel({ src, image, onClose }: Props): JSX.Element {
     [undo, redo]
   );
 
+  const getPointerPositionFromStage = useCallback((stage: Konva.Stage) => {
+    const scale = stage.scaleX();
+    const { x, y } = stage.getPointerPosition();
+    const { x: stageX, y: stageY } = stage.position();
+
+    return {
+      x: (x - stageX) / scale,
+      y: (y - stageY) / scale,
+    };
+  }, []);
+
   const handleMouseDown = useCallback(
     ({ target, evt }: Konva.KonvaEventObject<MouseEvent>) => {
       if (operation === 'drag' || evt.button !== 0) {
@@ -138,10 +150,7 @@ function ImageEditPanel({ src, image, onClose }: Props): JSX.Element {
 
       const stage = target.getStage();
       const scale = stage.scaleX();
-      const { x: pointerX, y: pointerY } = stage.getPointerPosition();
-      const { x: stageX, y: stageY } = stage.position();
-      const x = (pointerX - stageX) / scale;
-      const y = (pointerY - stageY) / scale;
+      const { x, y } = getPointerPositionFromStage(stage);
 
       if (mode === 'eraser') {
         setOperation('eraser');
@@ -157,7 +166,7 @@ function ImageEditPanel({ src, image, onClose }: Props): JSX.Element {
         setFilters((prevFilters) => prevFilters.concat(filter));
       }
     },
-    [operation, mode, brushSize, tolerance]
+    [getPointerPositionFromStage, operation, mode, brushSize, tolerance]
   );
 
   const handleMouseMove = useCallback(
@@ -166,31 +175,26 @@ function ImageEditPanel({ src, image, onClose }: Props): JSX.Element {
         return;
       }
 
-      const stage = target.getStage();
-      const scale = stage.scaleX();
-      const { x, y } = stage.getPointerPosition();
-      const { x: stageX, y: stageY } = stage.position();
-      const modifiedX = (x - stageX) / scale;
-      const modifiedY = (y - stageY) / scale;
+      const { x, y } = getPointerPositionFromStage(target.getStage());
 
       setLines((prevLines) => {
         const updatedLines = [...prevLines];
         const lastLine = { ...updatedLines[updatedLines.length - 1] };
 
         if (
-          lastLine.points[lastLine.points.length - 2] === modifiedX &&
-          lastLine.points[lastLine.points.length - 1] === modifiedY
+          lastLine.points[lastLine.points.length - 2] === x &&
+          lastLine.points[lastLine.points.length - 1] === y
         ) {
           return updatedLines;
         }
 
-        lastLine.points = lastLine.points.concat([modifiedX, modifiedY]);
+        lastLine.points = lastLine.points.concat([x, y]);
         updatedLines[updatedLines.length - 1] = lastLine;
 
         return updatedLines;
       });
     },
-    [operation]
+    [getPointerPositionFromStage, operation]
   );
 
   const handleExitDrawing = useCallback(() => {
@@ -250,7 +254,6 @@ function ImageEditPanel({ src, image, onClose }: Props): JSX.Element {
     [handleZoom]
   );
 
-  // though it's not used, it's necessary to keep the function signature
   const handleReset = useCallback(() => {
     const stage = stageRef.current;
 
@@ -326,8 +329,6 @@ function ImageEditPanel({ src, image, onClose }: Props): JSX.Element {
 
   useEffect(() => {
     const initialize = async () => {
-      requestAnimationFrame(() => {});
-
       const {
         blobUrl,
         originalWidth: width,

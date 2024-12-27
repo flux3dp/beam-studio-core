@@ -66,7 +66,7 @@ function Sider({
 
   return (
     <FullWindowPanelSider className={styles.sider}>
-      <Flex style={{ height: '100%' }} vertical justify="space-between">
+      <Flex className={styles['h-100']} vertical justify="space-between">
         <div>
           <BackButton onClose={onClose}>{langButtons.back_to_beam_studio}</BackButton>
           <Header icon={<ImageEditPanelIcons.EditImage />} title={lang.title} />

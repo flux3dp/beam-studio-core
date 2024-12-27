@@ -2,7 +2,7 @@
 /* eslint-disable import/prefer-default-export */
 
 export const generateCursorSvg = (brushSize: number): string => {
-  const cursorRatio = (() => {
+  const strokeWidth = (() => {
     if (brushSize <= 10) {
       return 2;
     }
@@ -19,12 +19,12 @@ export const generateCursorSvg = (brushSize: number): string => {
   })();
   const svg = `
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#1890FF" stroke-opacity="1"
-    stroke-width="${cursorRatio}"
+    stroke-width="${strokeWidth}"
     width="${brushSize}"
     height="${brushSize}"
     viewBox="0 0 10 10"
     >
-      <circle cx="50%" cy="50%" r="${5 - cursorRatio / 2}"/>
+      <circle cx="50%" cy="50%" r="${5 - strokeWidth / 2}"/>
     </svg>`;
 
   return encodeURIComponent(svg).replace(/'/g, '%27').replace(/"/g, '%22');
