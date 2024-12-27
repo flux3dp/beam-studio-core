@@ -2,6 +2,8 @@
 import React from 'react';
 import { fireEvent, render } from '@testing-library/react';
 
+import i18n from 'helpers/i18n';
+
 const mockShowCropPanel = jest.fn();
 const showPhotoEditPanel = jest.fn();
 const mockSvgNestButtons = jest.fn();
@@ -50,47 +52,6 @@ const toSelectMode = jest.fn();
 jest.mock('app/svgedit/text/textactions', () => ({
   isEditing: true,
   toSelectMode,
-}));
-
-const tActionPanel = {
-  edit_path: 'edit_path',
-  replace_with: 'replace_with',
-  replace_with_short: 'replace_with_short',
-  trace: 'trace',
-  grading: 'grading',
-  brightness: 'brightness',
-  sharpen: 'sharpen',
-  crop: 'crop',
-  bevel: 'bevel',
-  invert: 'invert',
-  convert_to_path: 'convert_to_path',
-  wait_for_parsing_font: 'Parsing font... Please wait a second',
-  offset: 'offset',
-  array: 'array',
-  auto_fit: 'auto_fit',
-  smart_nest: 'smart_nest',
-  decompose_path: 'decompose_path',
-  disassemble_use: 'disassemble_use',
-  disassembling: 'Disassembling...',
-  ungrouping: 'Ungrouping...',
-  simplify: 'simplify',
-  ai_bg_removal: 'ai_bg_removal',
-  ai_bg_removal_short: 'ai_bg_removal_short',
-  outline: 'outline',
-  weld_text: 'weld_text',
-};
-
-jest.mock('helpers/useI18n', () => () => ({
-  beambox: {
-    right_panel: {
-      object_panel: {
-        actions_panel: tActionPanel,
-      },
-    },
-    photo_edit_panel: {
-      rotary_warped: 'rotary_warped',
-    },
-  },
 }));
 
 jest.mock('helpers/web-need-connection-helper', () => (callback) => callback());
@@ -153,6 +114,8 @@ function tick() {
     setTimeout(resolve, 0);
   });
 }
+
+const tActionPanel = i18n.lang.beambox.right_panel.object_panel.actions_panel;
 
 const mockAutoFit = jest.fn();
 jest.mock(

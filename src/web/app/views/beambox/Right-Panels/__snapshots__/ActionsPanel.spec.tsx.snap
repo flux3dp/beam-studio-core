@@ -29,7 +29,7 @@ exports[`should render correctly ellipse 1`] = `
           <span
             class="label"
           >
-            auto_fit (Beta)
+            Auto Fit (Beta)
           </span>
         </button>
       </div>
@@ -49,7 +49,7 @@ exports[`should render correctly ellipse 1`] = `
           <span
             class="label"
           >
-            convert_to_path
+            Convert to Path
           </span>
         </button>
       </div>
@@ -69,7 +69,7 @@ exports[`should render correctly ellipse 1`] = `
           <span
             class="label"
           >
-            smart_nest
+            Smart Nest
           </span>
         </button>
       </div>
@@ -89,7 +89,7 @@ exports[`should render correctly ellipse 1`] = `
           <span
             class="label"
           >
-            offset
+            Offset
           </span>
         </button>
       </div>
@@ -109,7 +109,7 @@ exports[`should render correctly ellipse 1`] = `
           <span
             class="label"
           >
-            array
+            Array
           </span>
         </button>
       </div>
@@ -147,7 +147,7 @@ exports[`should render correctly g multiple selection 1`] = `
           <span
             class="label"
           >
-            auto_fit (Beta)
+            Auto Fit (Beta)
           </span>
         </button>
       </div>
@@ -167,7 +167,7 @@ exports[`should render correctly g multiple selection 1`] = `
           <span
             class="label"
           >
-            smart_nest
+            Smart Nest
           </span>
         </button>
       </div>
@@ -187,7 +187,7 @@ exports[`should render correctly g multiple selection 1`] = `
           <span
             class="label"
           >
-            offset
+            Offset
           </span>
         </button>
       </div>
@@ -207,7 +207,7 @@ exports[`should render correctly g multiple selection 1`] = `
           <span
             class="label"
           >
-            array
+            Array
           </span>
         </button>
       </div>
@@ -245,7 +245,7 @@ exports[`should render correctly g single selection 1`] = `
           <span
             class="label"
           >
-            auto_fit (Beta)
+            Auto Fit (Beta)
           </span>
         </button>
       </div>
@@ -265,7 +265,7 @@ exports[`should render correctly g single selection 1`] = `
           <span
             class="label"
           >
-            smart_nest
+            Smart Nest
           </span>
         </button>
       </div>
@@ -285,7 +285,7 @@ exports[`should render correctly g single selection 1`] = `
           <span
             class="label"
           >
-            array
+            Array
           </span>
         </button>
       </div>
@@ -323,7 +323,7 @@ exports[`should render correctly image 1`] = `
           <span
             class="label"
           >
-            auto_fit (Beta)
+            Auto Fit (Beta)
           </span>
         </button>
       </div>
@@ -343,7 +343,7 @@ exports[`should render correctly image 1`] = `
           <span
             class="label"
           >
-            replace_with
+            Replace With...
           </span>
         </button>
       </div>
@@ -363,7 +363,7 @@ exports[`should render correctly image 1`] = `
           <span
             class="label"
           >
-            ai_bg_removal
+            Background Removal
           </span>
         </button>
       </div>
@@ -383,7 +383,7 @@ exports[`should render correctly image 1`] = `
           <span
             class="label"
           >
-            smart_nest
+            Smart Nest
           </span>
         </button>
       </div>
@@ -423,7 +423,7 @@ exports[`should render correctly image 1`] = `
           <span
             class="label"
           >
-            trace
+            Trace
           </span>
         </button>
       </div>
@@ -443,7 +443,7 @@ exports[`should render correctly image 1`] = `
           <span
             class="label"
           >
-            grading
+            Grading
           </span>
         </button>
       </div>
@@ -463,7 +463,7 @@ exports[`should render correctly image 1`] = `
           <span
             class="label"
           >
-            sharpen
+            Sharpen
           </span>
         </button>
       </div>
@@ -483,7 +483,7 @@ exports[`should render correctly image 1`] = `
           <span
             class="label"
           >
-            crop
+            Crop
           </span>
         </button>
       </div>
@@ -503,7 +503,7 @@ exports[`should render correctly image 1`] = `
           <span
             class="label"
           >
-            bevel
+            Bevel
           </span>
         </button>
       </div>
@@ -523,7 +523,7 @@ exports[`should render correctly image 1`] = `
           <span
             class="label"
           >
-            invert
+            Invert
           </span>
         </button>
       </div>
@@ -543,7 +543,7 @@ exports[`should render correctly image 1`] = `
           <span
             class="label"
           >
-            array
+            Array
           </span>
         </button>
       </div>
@@ -563,7 +563,7 @@ exports[`should render correctly image 1`] = `
           <span
             class="label"
           >
-            outline
+            Outline
           </span>
         </button>
       </div>
@@ -583,7 +583,7 @@ exports[`should render correctly image 1`] = `
           <span
             class="label"
           >
-            rotary_warped
+            Rotary Warped
           </span>
         </button>
       </div>
@@ -612,7 +612,7 @@ exports[`should render correctly in mobile ellipse 1`] = `
       <div
         class="label"
       >
-        auto_fit (Beta)
+        Auto Fit (Beta)
       </div>
     </div>
     <div
@@ -627,7 +627,7 @@ exports[`should render correctly in mobile ellipse 1`] = `
       <div
         class="label"
       >
-        outline
+        Outline
       </div>
     </div>
     <div
@@ -642,7 +642,7 @@ exports[`should render correctly in mobile ellipse 1`] = `
       <div
         class="label"
       >
-        smart_nest
+        Smart Nest
       </div>
     </div>
     <div
@@ -657,7 +657,7 @@ exports[`should render correctly in mobile ellipse 1`] = `
       <div
         class="label"
       >
-        offset
+        Offset
       </div>
     </div>
     <div
@@ -672,7 +672,7 @@ exports[`should render correctly in mobile ellipse 1`] = `
       <div
         class="label"
       >
-        array
+        Array
       </div>
     </div>
   </div>
@@ -699,7 +699,7 @@ exports[`should render correctly in mobile g multiple selection 1`] = `
       <div
         class="label"
       >
-        auto_fit (Beta)
+        Auto Fit (Beta)
       </div>
     </div>
     <div
@@ -714,7 +714,7 @@ exports[`should render correctly in mobile g multiple selection 1`] = `
       <div
         class="label"
       >
-        smart_nest
+        Smart Nest
       </div>
     </div>
     <div
@@ -729,7 +729,7 @@ exports[`should render correctly in mobile g multiple selection 1`] = `
       <div
         class="label"
       >
-        offset
+        Offset
       </div>
     </div>
     <div
@@ -744,7 +744,7 @@ exports[`should render correctly in mobile g multiple selection 1`] = `
       <div
         class="label"
       >
-        array
+        Array
       </div>
     </div>
   </div>
@@ -771,7 +771,7 @@ exports[`should render correctly in mobile g single selection 1`] = `
       <div
         class="label"
       >
-        auto_fit (Beta)
+        Auto Fit (Beta)
       </div>
     </div>
     <div
@@ -786,7 +786,7 @@ exports[`should render correctly in mobile g single selection 1`] = `
       <div
         class="label"
       >
-        smart_nest
+        Smart Nest
       </div>
     </div>
     <div
@@ -801,7 +801,7 @@ exports[`should render correctly in mobile g single selection 1`] = `
       <div
         class="label"
       >
-        array
+        Array
       </div>
     </div>
   </div>
@@ -828,7 +828,7 @@ exports[`should render correctly in mobile image 1`] = `
       <div
         class="label"
       >
-        auto_fit (Beta)
+        Auto Fit (Beta)
       </div>
     </div>
     <div
@@ -843,7 +843,7 @@ exports[`should render correctly in mobile image 1`] = `
       <div
         class="label"
       >
-        replace_with_short
+        Replace
       </div>
     </div>
     <div
@@ -858,7 +858,7 @@ exports[`should render correctly in mobile image 1`] = `
       <div
         class="label"
       >
-        outline
+        Outline
       </div>
     </div>
     <div
@@ -873,7 +873,7 @@ exports[`should render correctly in mobile image 1`] = `
       <div
         class="label"
       >
-        brightness
+        Brightness
       </div>
     </div>
     <div
@@ -888,7 +888,7 @@ exports[`should render correctly in mobile image 1`] = `
       <div
         class="label"
       >
-        sharpen
+        Sharpen
       </div>
     </div>
     <div
@@ -903,7 +903,7 @@ exports[`should render correctly in mobile image 1`] = `
       <div
         class="label"
       >
-        crop
+        Crop
       </div>
     </div>
     <div
@@ -918,7 +918,7 @@ exports[`should render correctly in mobile image 1`] = `
       <div
         class="label"
       >
-        bevel
+        Bevel
       </div>
     </div>
     <div
@@ -933,7 +933,7 @@ exports[`should render correctly in mobile image 1`] = `
       <div
         class="label"
       >
-        invert
+        Invert
       </div>
     </div>
     <div
@@ -948,7 +948,7 @@ exports[`should render correctly in mobile image 1`] = `
       <div
         class="label"
       >
-        array
+        Array
       </div>
     </div>
     <div
@@ -963,7 +963,7 @@ exports[`should render correctly in mobile image 1`] = `
       <div
         class="label"
       >
-        trace
+        Trace
       </div>
     </div>
     <div
@@ -978,7 +978,7 @@ exports[`should render correctly in mobile image 1`] = `
       <div
         class="label"
       >
-        ai_bg_removal_short
+        BG Removal
       </div>
     </div>
     <div
@@ -993,7 +993,7 @@ exports[`should render correctly in mobile image 1`] = `
       <div
         class="label"
       >
-        smart_nest
+        Smart Nest
       </div>
     </div>
     <div
@@ -1008,7 +1008,7 @@ exports[`should render correctly in mobile image 1`] = `
       <div
         class="label"
       >
-        rotary_warped
+        Rotary Warped
       </div>
     </div>
   </div>
@@ -1035,7 +1035,7 @@ exports[`should render correctly in mobile line 1`] = `
       <div
         class="label"
       >
-        auto_fit (Beta)
+        Auto Fit (Beta)
       </div>
     </div>
     <div
@@ -1050,7 +1050,7 @@ exports[`should render correctly in mobile line 1`] = `
       <div
         class="label"
       >
-        outline
+        Outline
       </div>
     </div>
     <div
@@ -1065,7 +1065,7 @@ exports[`should render correctly in mobile line 1`] = `
       <div
         class="label"
       >
-        smart_nest
+        Smart Nest
       </div>
     </div>
     <div
@@ -1080,7 +1080,7 @@ exports[`should render correctly in mobile line 1`] = `
       <div
         class="label"
       >
-        offset
+        Offset
       </div>
     </div>
     <div
@@ -1095,7 +1095,7 @@ exports[`should render correctly in mobile line 1`] = `
       <div
         class="label"
       >
-        array
+        Array
       </div>
     </div>
   </div>
@@ -1134,7 +1134,7 @@ exports[`should render correctly in mobile path 1`] = `
       <div
         class="label"
       >
-        auto_fit (Beta)
+        Auto Fit (Beta)
       </div>
     </div>
     <div
@@ -1149,7 +1149,7 @@ exports[`should render correctly in mobile path 1`] = `
       <div
         class="label"
       >
-        edit_path
+        Edit Path
       </div>
     </div>
     <div
@@ -1164,7 +1164,7 @@ exports[`should render correctly in mobile path 1`] = `
       <div
         class="label"
       >
-        decompose_path
+        Decompose
       </div>
     </div>
     <div
@@ -1179,7 +1179,7 @@ exports[`should render correctly in mobile path 1`] = `
       <div
         class="label"
       >
-        smart_nest
+        Smart Nest
       </div>
     </div>
     <div
@@ -1194,7 +1194,7 @@ exports[`should render correctly in mobile path 1`] = `
       <div
         class="label"
       >
-        offset
+        Offset
       </div>
     </div>
     <div
@@ -1209,7 +1209,7 @@ exports[`should render correctly in mobile path 1`] = `
       <div
         class="label"
       >
-        array
+        Array
       </div>
     </div>
     <div
@@ -1224,7 +1224,7 @@ exports[`should render correctly in mobile path 1`] = `
       <div
         class="label"
       >
-        simplify
+        Simplify
       </div>
     </div>
   </div>
@@ -1251,7 +1251,7 @@ exports[`should render correctly in mobile polygon 1`] = `
       <div
         class="label"
       >
-        auto_fit (Beta)
+        Auto Fit (Beta)
       </div>
     </div>
     <div
@@ -1266,7 +1266,7 @@ exports[`should render correctly in mobile polygon 1`] = `
       <div
         class="label"
       >
-        outline
+        Outline
       </div>
     </div>
     <div
@@ -1281,7 +1281,7 @@ exports[`should render correctly in mobile polygon 1`] = `
       <div
         class="label"
       >
-        smart_nest
+        Smart Nest
       </div>
     </div>
     <div
@@ -1296,7 +1296,7 @@ exports[`should render correctly in mobile polygon 1`] = `
       <div
         class="label"
       >
-        offset
+        Offset
       </div>
     </div>
     <div
@@ -1311,7 +1311,7 @@ exports[`should render correctly in mobile polygon 1`] = `
       <div
         class="label"
       >
-        array
+        Array
       </div>
     </div>
   </div>
@@ -1338,7 +1338,7 @@ exports[`should render correctly in mobile rect 1`] = `
       <div
         class="label"
       >
-        auto_fit (Beta)
+        Auto Fit (Beta)
       </div>
     </div>
     <div
@@ -1353,7 +1353,7 @@ exports[`should render correctly in mobile rect 1`] = `
       <div
         class="label"
       >
-        outline
+        Outline
       </div>
     </div>
     <div
@@ -1368,7 +1368,7 @@ exports[`should render correctly in mobile rect 1`] = `
       <div
         class="label"
       >
-        smart_nest
+        Smart Nest
       </div>
     </div>
     <div
@@ -1383,7 +1383,7 @@ exports[`should render correctly in mobile rect 1`] = `
       <div
         class="label"
       >
-        offset
+        Offset
       </div>
     </div>
     <div
@@ -1398,7 +1398,7 @@ exports[`should render correctly in mobile rect 1`] = `
       <div
         class="label"
       >
-        array
+        Array
       </div>
     </div>
   </div>
@@ -1425,7 +1425,7 @@ exports[`should render correctly in mobile text 1`] = `
       <div
         class="label"
       >
-        auto_fit (Beta)
+        Auto Fit (Beta)
       </div>
     </div>
     <div
@@ -1440,7 +1440,7 @@ exports[`should render correctly in mobile text 1`] = `
       <div
         class="label"
       >
-        outline
+        Outline
       </div>
     </div>
     <div
@@ -1455,7 +1455,7 @@ exports[`should render correctly in mobile text 1`] = `
       <div
         class="label"
       >
-        weld_text
+        Weld Text
       </div>
     </div>
     <div
@@ -1470,7 +1470,7 @@ exports[`should render correctly in mobile text 1`] = `
       <div
         class="label"
       >
-        smart_nest
+        Smart Nest
       </div>
     </div>
     <div
@@ -1485,7 +1485,7 @@ exports[`should render correctly in mobile text 1`] = `
       <div
         class="label"
       >
-        array
+        Array
       </div>
     </div>
   </div>
@@ -1512,7 +1512,7 @@ exports[`should render correctly in mobile use 1`] = `
       <div
         class="label"
       >
-        auto_fit (Beta)
+        Auto Fit (Beta)
       </div>
     </div>
     <div
@@ -1527,7 +1527,7 @@ exports[`should render correctly in mobile use 1`] = `
       <div
         class="label"
       >
-        disassemble_use
+        Disassemble
       </div>
     </div>
     <div
@@ -1542,7 +1542,7 @@ exports[`should render correctly in mobile use 1`] = `
       <div
         class="label"
       >
-        smart_nest
+        Smart Nest
       </div>
     </div>
     <div
@@ -1557,7 +1557,7 @@ exports[`should render correctly in mobile use 1`] = `
       <div
         class="label"
       >
-        array
+        Array
       </div>
     </div>
   </div>
@@ -1593,7 +1593,7 @@ exports[`should render correctly line 1`] = `
           <span
             class="label"
           >
-            auto_fit (Beta)
+            Auto Fit (Beta)
           </span>
         </button>
       </div>
@@ -1613,7 +1613,7 @@ exports[`should render correctly line 1`] = `
           <span
             class="label"
           >
-            convert_to_path
+            Convert to Path
           </span>
         </button>
       </div>
@@ -1633,7 +1633,7 @@ exports[`should render correctly line 1`] = `
           <span
             class="label"
           >
-            smart_nest
+            Smart Nest
           </span>
         </button>
       </div>
@@ -1653,7 +1653,7 @@ exports[`should render correctly line 1`] = `
           <span
             class="label"
           >
-            offset
+            Offset
           </span>
         </button>
       </div>
@@ -1673,7 +1673,7 @@ exports[`should render correctly line 1`] = `
           <span
             class="label"
           >
-            array
+            Array
           </span>
         </button>
       </div>
@@ -1728,7 +1728,7 @@ exports[`should render correctly path 1`] = `
           <span
             class="label"
           >
-            auto_fit (Beta)
+            Auto Fit (Beta)
           </span>
         </button>
       </div>
@@ -1748,7 +1748,7 @@ exports[`should render correctly path 1`] = `
           <span
             class="label"
           >
-            edit_path
+            Edit Path
           </span>
         </button>
       </div>
@@ -1768,7 +1768,7 @@ exports[`should render correctly path 1`] = `
           <span
             class="label"
           >
-            decompose_path
+            Decompose
           </span>
         </button>
       </div>
@@ -1788,7 +1788,7 @@ exports[`should render correctly path 1`] = `
           <span
             class="label"
           >
-            smart_nest
+            Smart Nest
           </span>
         </button>
       </div>
@@ -1808,7 +1808,7 @@ exports[`should render correctly path 1`] = `
           <span
             class="label"
           >
-            offset
+            Offset
           </span>
         </button>
       </div>
@@ -1828,7 +1828,7 @@ exports[`should render correctly path 1`] = `
           <span
             class="label"
           >
-            array
+            Array
           </span>
         </button>
       </div>
@@ -1848,7 +1848,7 @@ exports[`should render correctly path 1`] = `
           <span
             class="label"
           >
-            simplify
+            Simplify
           </span>
         </button>
       </div>
@@ -1886,7 +1886,7 @@ exports[`should render correctly polygon 1`] = `
           <span
             class="label"
           >
-            auto_fit (Beta)
+            Auto Fit (Beta)
           </span>
         </button>
       </div>
@@ -1906,7 +1906,7 @@ exports[`should render correctly polygon 1`] = `
           <span
             class="label"
           >
-            convert_to_path
+            Convert to Path
           </span>
         </button>
       </div>
@@ -1926,7 +1926,7 @@ exports[`should render correctly polygon 1`] = `
           <span
             class="label"
           >
-            smart_nest
+            Smart Nest
           </span>
         </button>
       </div>
@@ -1946,7 +1946,7 @@ exports[`should render correctly polygon 1`] = `
           <span
             class="label"
           >
-            offset
+            Offset
           </span>
         </button>
       </div>
@@ -1966,7 +1966,7 @@ exports[`should render correctly polygon 1`] = `
           <span
             class="label"
           >
-            array
+            Array
           </span>
         </button>
       </div>
@@ -2004,7 +2004,7 @@ exports[`should render correctly rect 1`] = `
           <span
             class="label"
           >
-            auto_fit (Beta)
+            Auto Fit (Beta)
           </span>
         </button>
       </div>
@@ -2024,7 +2024,7 @@ exports[`should render correctly rect 1`] = `
           <span
             class="label"
           >
-            convert_to_path
+            Convert to Path
           </span>
         </button>
       </div>
@@ -2044,7 +2044,7 @@ exports[`should render correctly rect 1`] = `
           <span
             class="label"
           >
-            smart_nest
+            Smart Nest
           </span>
         </button>
       </div>
@@ -2064,7 +2064,7 @@ exports[`should render correctly rect 1`] = `
           <span
             class="label"
           >
-            offset
+            Offset
           </span>
         </button>
       </div>
@@ -2084,7 +2084,7 @@ exports[`should render correctly rect 1`] = `
           <span
             class="label"
           >
-            array
+            Array
           </span>
         </button>
       </div>
@@ -2122,7 +2122,7 @@ exports[`should render correctly text 1`] = `
           <span
             class="label"
           >
-            auto_fit (Beta)
+            Auto Fit (Beta)
           </span>
         </button>
       </div>
@@ -2142,7 +2142,7 @@ exports[`should render correctly text 1`] = `
           <span
             class="label"
           >
-            convert_to_path
+            Convert to Path
           </span>
         </button>
       </div>
@@ -2162,7 +2162,7 @@ exports[`should render correctly text 1`] = `
           <span
             class="label"
           >
-            weld_text
+            Weld Text
           </span>
         </button>
       </div>
@@ -2182,7 +2182,7 @@ exports[`should render correctly text 1`] = `
           <span
             class="label"
           >
-            smart_nest
+            Smart Nest
           </span>
         </button>
       </div>
@@ -2202,7 +2202,7 @@ exports[`should render correctly text 1`] = `
           <span
             class="label"
           >
-            array
+            Array
           </span>
         </button>
       </div>
@@ -2240,7 +2240,7 @@ exports[`should render correctly use 1`] = `
           <span
             class="label"
           >
-            auto_fit (Beta)
+            Auto Fit (Beta)
           </span>
         </button>
       </div>
@@ -2260,7 +2260,7 @@ exports[`should render correctly use 1`] = `
           <span
             class="label"
           >
-            disassemble_use
+            Disassemble
           </span>
         </button>
       </div>
@@ -2280,7 +2280,7 @@ exports[`should render correctly use 1`] = `
           <span
             class="label"
           >
-            smart_nest
+            Smart Nest
           </span>
         </button>
       </div>
@@ -2300,7 +2300,7 @@ exports[`should render correctly use 1`] = `
           <span
             class="label"
           >
-            array
+            Array
           </span>
         </button>
       </div>

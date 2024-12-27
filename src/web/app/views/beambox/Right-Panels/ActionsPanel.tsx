@@ -201,7 +201,7 @@ const ActionsPanel = ({ elem }: Props): JSX.Element => {
       ),
       imageEditPanel: renderButtons(
         'imageEditPanel',
-        'Edit Image',
+        t.image_edit_panel.title,
         () => Dialog.showImageEditPanel(),
         <ActionPanelIcons.EditImage />,
         <ActionPanelIcons.EditImage />,
