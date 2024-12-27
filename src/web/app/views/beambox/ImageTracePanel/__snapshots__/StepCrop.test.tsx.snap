@@ -21,62 +21,65 @@ exports[`test StepCrop should render correctly 1`] = `
           style="width: 520px;"
         >
           <div
-            aria-hidden="true"
-            style="width: 0px; height: 0px; overflow: hidden; outline: none;"
+            style="outline: none;"
             tabindex="0"
-          />
-          <div
-            class="ant-modal-content"
           >
             <div
-              class="ant-modal-body"
+              class="ant-modal-content"
             >
               <div
-                aria-busy="true"
-                aria-live="polite"
-                class="ant-spin ant-spin-spinning css-dev-only-do-not-override-hash"
+                class="ant-modal-body"
               >
-                <span
-                  class="ant-spin-dot ant-spin-dot-spin"
+                <div
+                  aria-busy="true"
+                  aria-live="polite"
+                  class="ant-spin ant-spin-spinning css-dev-only-do-not-override-hash"
                 >
-                  <i
-                    class="ant-spin-dot-item"
-                  />
-                  <i
-                    class="ant-spin-dot-item"
-                  />
-                  <i
-                    class="ant-spin-dot-item"
-                  />
-                  <i
-                    class="ant-spin-dot-item"
-                  />
-                </span>
+                  <span
+                    class="ant-spin-dot-holder"
+                  >
+                    <span
+                      class="ant-spin-dot ant-spin-dot-spin"
+                    >
+                      <i
+                        class="ant-spin-dot-item"
+                      />
+                      <i
+                        class="ant-spin-dot-item"
+                      />
+                      <i
+                        class="ant-spin-dot-item"
+                      />
+                      <i
+                        class="ant-spin-dot-item"
+                      />
+                    </span>
+                  </span>
+                </div>
               </div>
-            </div>
-            <div
-              class="ant-modal-footer"
-            >
-              <button
-                class="ant-btn css-dev-only-do-not-override-hash ant-btn-default"
-                type="button"
+              <div
+                class="ant-modal-footer"
               >
-                <span>
-                  Cancel
-                </span>
-              </button>
-              <button
-                class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
-                type="button"
-              >
-                <span>
-                  next
-                </span>
-              </button>
+                <button
+                  class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined"
+                  type="button"
+                >
+                  <span>
+                    Cancel
+                  </span>
+                </button>
+                <button
+                  class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary ant-btn-color-primary ant-btn-variant-solid"
+                  type="button"
+                >
+                  <span>
+                    next
+                  </span>
+                </button>
+              </div>
             </div>
           </div>
           <div
-            aria-hidden="true"
             style="width: 0px; height: 0px; overflow: hidden; outline: none;"
             tabindex="0"
           />
@@ -108,46 +111,45 @@ exports[`test StepCrop should render correctly 2`] = `
           style="width: 520px;"
         >
           <div
-            aria-hidden="true"
-            style="width: 0px; height: 0px; overflow: hidden; outline: none;"
+            style="outline: none;"
             tabindex="0"
-          />
-          <div
-            class="ant-modal-content"
           >
             <div
-              class="ant-modal-body"
+              class="ant-modal-content"
             >
-              <div>
-                <img
-                  src="mock-object-url"
-                  style="height: 598px;"
-                />
+              <div
+                class="ant-modal-body"
+              >
+                <div>
+                  <img
+                    src="mock-object-url"
+                    style="height: 598px;"
+                  />
+                </div>
               </div>
-            </div>
-            <div
-              class="ant-modal-footer"
-            >
-              <button
-                class="ant-btn css-dev-only-do-not-override-hash ant-btn-default"
-                type="button"
+              <div
+                class="ant-modal-footer"
               >
-                <span>
-                  Cancel
-                </span>
-              </button>
-              <button
-                class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
-                type="button"
-              >
-                <span>
-                  next
-                </span>
-              </button>
+                <button
+                  class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined"
+                  type="button"
+                >
+                  <span>
+                    Cancel
+                  </span>
+                </button>
+                <button
+                  class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary ant-btn-color-primary ant-btn-variant-solid"
+                  type="button"
+                >
+                  <span>
+                    next
+                  </span>
+                </button>
+              </div>
             </div>
           </div>
           <div
-            aria-hidden="true"
             style="width: 0px; height: 0px; overflow: hidden; outline: none;"
             tabindex="0"
           />
