@@ -1,4 +1,4 @@
-import { cropPreprocess } from './preprocess';
+import { preprocessByUrl } from './preprocess';
 
 jest.mock('implementations/imageProcessor', () => ({ AUTO: 'AUTO' }));
 
@@ -14,9 +14,13 @@ const mockGetHeight = jest.fn();
 const mockJimpImage = {
   resize: jest.fn(),
   bitmap: {
-    get width() { return mockGetWidth(); },
-    get height() { return mockGetHeight(); },
-  }
+    get width() {
+      return mockGetWidth();
+    },
+    get height() {
+      return mockGetHeight();
+    },
+  },
 };
 
 describe('test image-edit-panel/preprocess', () => {
@@ -25,7 +29,7 @@ describe('test image-edit-panel/preprocess', () => {
     mockGetWidth.mockReturnValueOnce(700).mockReturnValueOnce(600);
     mockGetHeight.mockReturnValueOnce(400).mockReturnValueOnce(300);
     mockImageToUrl.mockResolvedValueOnce('mock-url');
-    const res = await cropPreprocess('bloburl');
+    const res = await preprocessByUrl('bloburl');
     expect(mockUrlToImage).toBeCalledTimes(1);
     expect(mockUrlToImage).toHaveBeenLastCalledWith('bloburl');
     expect(mockJimpImage.resize).toBeCalledTimes(1);

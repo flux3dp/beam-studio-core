@@ -18,7 +18,7 @@ exports[`test LensBlock should render correctly 1`] = `
         class="connector"
       />
       <button
-        class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-sm"
+        class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-sm"
         type="button"
       >
         <span>

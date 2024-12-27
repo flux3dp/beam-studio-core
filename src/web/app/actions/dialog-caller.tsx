@@ -47,6 +47,7 @@ import { IAnnouncement } from 'interfaces/IAnnouncement';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { IDialogBoxStyle, IInputLightBox, IPrompt } from 'interfaces/IDialog';
 import { IMediaTutorial, ITutorial } from 'interfaces/ITutorial';
+import ImageEditPanel from 'app/components/ImageEditPanel';
 
 let svgCanvas;
 getSVGAsync((globalSVG) => {
@@ -573,5 +574,28 @@ export default {
     const id = 'social-media';
     if (isIdExist(id)) return;
     addDialogComponent(id, <SocialMediaModal onClose={() => popDialogById(id)} />);
+  },
+  showImageEditPanel: (onClose: () => void = () => {}): void => {
+    if (isIdExist('image-edit-panel')) {
+      return;
+    }
+
+    const selectedElements = svgCanvas.getSelectedElems();
+    if (selectedElements.length !== 1) return;
+    const element = selectedElements[0];
+    const src = element.getAttribute('origImage') || element.getAttribute('xlink:href');
+
+    addDialogComponent(
+      'image-edit-panel',
+      <ImageEditPanel
+        src={src}
+        image={element}
+        onClose={() => {
+          onClose();
+          ObjectPanelController.updateActiveKey(null);
+          popDialogById('image-edit-panel');
+        }}
+      />
+    );
   },
 };

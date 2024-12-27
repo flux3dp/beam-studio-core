@@ -255,7 +255,7 @@ const CanvasProvider = (props: React.PropsWithChildren<Record<string, unknown>>)
           endPreviewMode();
         };
 
-        unregisterEndPreviewShortcut.current = shortcuts.on(['esc'], triggerEndPreview, {
+        unregisterEndPreviewShortcut.current = shortcuts.on(['Escape'], triggerEndPreview, {
           isBlocking: true,
         });
 

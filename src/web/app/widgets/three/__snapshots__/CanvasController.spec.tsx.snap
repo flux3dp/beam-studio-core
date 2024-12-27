@@ -8,7 +8,7 @@ exports[`test CanvasController should behave correctly 1`] = `
     <div>
       <div>
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-circle ant-btn-text ant-btn-icon-only button"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-circle ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only button"
           type="button"
         >
           <span
@@ -45,7 +45,7 @@ exports[`test CanvasController should behave correctly 1`] = `
     <div>
       <div>
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-circle ant-btn-text ant-btn-icon-only button"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-circle ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only button"
           type="button"
         >
           <span
@@ -73,7 +73,7 @@ exports[`test CanvasController should behave correctly 1`] = `
           </span>
         </button>
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-circle ant-btn-text ant-btn-icon-only button"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-circle ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only button"
           type="button"
         >
           <span

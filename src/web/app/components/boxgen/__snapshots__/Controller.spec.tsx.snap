@@ -205,13 +205,13 @@ exports[`test Controller should behave correctly 1`] = `
                 class="ant-form-item-control-input-content"
               >
                 <div
-                  class="ant-input-number-group-wrapper number-input css-dev-only-do-not-override-hash"
+                  class="ant-input-number-group-wrapper ant-input-number-group-wrapper-outlined css-dev-only-do-not-override-hash number-input"
                 >
                   <div
                     class="ant-input-number-wrapper ant-input-number-group css-dev-only-do-not-override-hash"
                   >
                     <div
-                      class="ant-input-number ant-input-number-in-form-item css-dev-only-do-not-override-hash"
+                      class="ant-input-number ant-input-number-in-form-item css-dev-only-do-not-override-hash ant-input-number-outlined"
                     >
                       <div
                         class="ant-input-number-handler-wrap"
@@ -327,13 +327,13 @@ exports[`test Controller should behave correctly 1`] = `
                 class="ant-form-item-control-input-content"
               >
                 <div
-                  class="ant-input-number-group-wrapper number-input css-dev-only-do-not-override-hash"
+                  class="ant-input-number-group-wrapper ant-input-number-group-wrapper-outlined css-dev-only-do-not-override-hash number-input"
                 >
                   <div
                     class="ant-input-number-wrapper ant-input-number-group css-dev-only-do-not-override-hash"
                   >
                     <div
-                      class="ant-input-number ant-input-number-in-form-item css-dev-only-do-not-override-hash"
+                      class="ant-input-number ant-input-number-in-form-item css-dev-only-do-not-override-hash ant-input-number-outlined"
                     >
                       <div
                         class="ant-input-number-handler-wrap"
@@ -449,13 +449,13 @@ exports[`test Controller should behave correctly 1`] = `
                 class="ant-form-item-control-input-content"
               >
                 <div
-                  class="ant-input-number-group-wrapper number-input css-dev-only-do-not-override-hash"
+                  class="ant-input-number-group-wrapper ant-input-number-group-wrapper-outlined css-dev-only-do-not-override-hash number-input"
                 >
                   <div
                     class="ant-input-number-wrapper ant-input-number-group css-dev-only-do-not-override-hash"
                   >
                     <div
-                      class="ant-input-number ant-input-number-in-form-item css-dev-only-do-not-override-hash"
+                      class="ant-input-number ant-input-number-in-form-item css-dev-only-do-not-override-hash ant-input-number-outlined"
                     >
                       <div
                         class="ant-input-number-handler-wrap"
@@ -571,36 +571,40 @@ exports[`test Controller should behave correctly 1`] = `
                 class="ant-form-item-control-input-content"
               >
                 <div
-                  class="ant-select ant-select-in-form-item css-dev-only-do-not-override-hash ant-select-single ant-select-show-arrow"
+                  class="ant-select ant-select-outlined ant-select-in-form-item css-dev-only-do-not-override-hash ant-select-single ant-select-show-arrow"
                 >
                   <div
                     class="ant-select-selector"
                   >
                     <span
-                      class="ant-select-selection-search"
+                      class="ant-select-selection-wrap"
                     >
-                      <input
-                        aria-autocomplete="list"
-                        aria-controls="sheetThickness_list"
-                        aria-expanded="false"
-                        aria-haspopup="listbox"
-                        aria-owns="sheetThickness_list"
-                        autocomplete="off"
-                        class="ant-select-selection-search-input"
-                        id="sheetThickness"
-                        readonly=""
-                        role="combobox"
-                        style="opacity: 0;"
-                        type="search"
-                        unselectable="on"
-                        value=""
-                      />
-                    </span>
-                    <span
-                      class="ant-select-selection-item"
-                      title="3 mm"
-                    >
-                      3 mm
+                      <span
+                        class="ant-select-selection-search"
+                      >
+                        <input
+                          aria-autocomplete="list"
+                          aria-controls="sheetThickness_list"
+                          aria-expanded="false"
+                          aria-haspopup="listbox"
+                          aria-owns="sheetThickness_list"
+                          autocomplete="off"
+                          class="ant-select-selection-search-input"
+                          id="sheetThickness"
+                          readonly=""
+                          role="combobox"
+                          style="opacity: 0;"
+                          type="search"
+                          unselectable="on"
+                          value=""
+                        />
+                      </span>
+                      <span
+                        class="ant-select-selection-item"
+                        title="3 mm"
+                      >
+                        3 mm
+                      </span>
                     </span>
                   </div>
                   <span
@@ -662,36 +666,40 @@ exports[`test Controller should behave correctly 1`] = `
                 class="ant-form-item-control-input-content"
               >
                 <div
-                  class="ant-select ant-select-in-form-item css-dev-only-do-not-override-hash ant-select-single ant-select-show-arrow"
+                  class="ant-select ant-select-outlined ant-select-in-form-item css-dev-only-do-not-override-hash ant-select-single ant-select-show-arrow"
                 >
                   <div
                     class="ant-select-selector"
                   >
                     <span
-                      class="ant-select-selection-search"
+                      class="ant-select-selection-wrap"
                     >
-                      <input
-                        aria-autocomplete="list"
-                        aria-controls="joint_list"
-                        aria-expanded="false"
-                        aria-haspopup="listbox"
-                        aria-owns="joint_list"
-                        autocomplete="off"
-                        class="ant-select-selection-search-input"
-                        id="joint"
-                        readonly=""
-                        role="combobox"
-                        style="opacity: 0;"
-                        type="search"
-                        unselectable="on"
-                        value=""
-                      />
-                    </span>
-                    <span
-                      class="ant-select-selection-item"
-                      title="Finger"
-                    >
-                      Finger
+                      <span
+                        class="ant-select-selection-search"
+                      >
+                        <input
+                          aria-autocomplete="list"
+                          aria-controls="joint_list"
+                          aria-expanded="false"
+                          aria-haspopup="listbox"
+                          aria-owns="joint_list"
+                          autocomplete="off"
+                          class="ant-select-selection-search-input"
+                          id="joint"
+                          readonly=""
+                          role="combobox"
+                          style="opacity: 0;"
+                          type="search"
+                          unselectable="on"
+                          value=""
+                        />
+                      </span>
+                      <span
+                        class="ant-select-selection-item"
+                        title="Finger"
+                      >
+                        Finger
+                      </span>
                     </span>
                   </div>
                   <span
@@ -769,6 +777,7 @@ exports[`test Controller should behave correctly 1`] = `
                         >
                           <div
                             class="ant-slider css-dev-only-do-not-override-hash ant-slider-horizontal"
+                            id="teethLength"
                           >
                             <div
                               class="ant-slider-rail"
@@ -813,13 +822,13 @@ exports[`test Controller should behave correctly 1`] = `
                           class="ant-form-item-control-input-content"
                         >
                           <div
-                            class="ant-input-number-group-wrapper number-input css-dev-only-do-not-override-hash"
+                            class="ant-input-number-group-wrapper ant-input-number-group-wrapper-outlined css-dev-only-do-not-override-hash number-input"
                           >
                             <div
                               class="ant-input-number-wrapper ant-input-number-group css-dev-only-do-not-override-hash"
                             >
                               <div
-                                class="ant-input-number ant-input-number-in-form-item css-dev-only-do-not-override-hash"
+                                class="ant-input-number ant-input-number-in-form-item css-dev-only-do-not-override-hash ant-input-number-outlined"
                               >
                                 <div
                                   class="ant-input-number-handler-wrap"
@@ -941,6 +950,7 @@ exports[`test Controller should behave correctly 1`] = `
               >
                 <div
                   class="ant-slider css-dev-only-do-not-override-hash ant-slider-horizontal"
+                  id="tSlotCount"
                 >
                   <div
                     class="ant-slider-rail"
@@ -996,36 +1006,40 @@ exports[`test Controller should behave correctly 1`] = `
                 class="ant-form-item-control-input-content"
               >
                 <div
-                  class="ant-select ant-select-in-form-item css-dev-only-do-not-override-hash ant-select-single ant-select-show-arrow"
+                  class="ant-select ant-select-outlined ant-select-in-form-item css-dev-only-do-not-override-hash ant-select-single ant-select-show-arrow"
                 >
                   <div
                     class="ant-select-selector"
                   >
                     <span
-                      class="ant-select-selection-search"
+                      class="ant-select-selection-wrap"
                     >
-                      <input
-                        aria-autocomplete="list"
-                        aria-controls="tSlotDiameter_list"
-                        aria-expanded="false"
-                        aria-haspopup="listbox"
-                        aria-owns="tSlotDiameter_list"
-                        autocomplete="off"
-                        class="ant-select-selection-search-input"
-                        id="tSlotDiameter"
-                        readonly=""
-                        role="combobox"
-                        style="opacity: 0;"
-                        type="search"
-                        unselectable="on"
-                        value=""
-                      />
-                    </span>
-                    <span
-                      class="ant-select-selection-item"
-                      title="M3"
-                    >
-                      M3
+                      <span
+                        class="ant-select-selection-search"
+                      >
+                        <input
+                          aria-autocomplete="list"
+                          aria-controls="tSlotDiameter_list"
+                          aria-expanded="false"
+                          aria-haspopup="listbox"
+                          aria-owns="tSlotDiameter_list"
+                          autocomplete="off"
+                          class="ant-select-selection-search-input"
+                          id="tSlotDiameter"
+                          readonly=""
+                          role="combobox"
+                          style="opacity: 0;"
+                          type="search"
+                          unselectable="on"
+                          value=""
+                        />
+                      </span>
+                      <span
+                        class="ant-select-selection-item"
+                        title="M3"
+                      >
+                        M3
+                      </span>
                     </span>
                   </div>
                   <span
@@ -1087,36 +1101,40 @@ exports[`test Controller should behave correctly 1`] = `
                 class="ant-form-item-control-input-content"
               >
                 <div
-                  class="ant-select ant-select-in-form-item css-dev-only-do-not-override-hash ant-select-single ant-select-show-arrow"
+                  class="ant-select ant-select-outlined ant-select-in-form-item css-dev-only-do-not-override-hash ant-select-single ant-select-show-arrow"
                 >
                   <div
                     class="ant-select-selector"
                   >
                     <span
-                      class="ant-select-selection-search"
+                      class="ant-select-selection-wrap"
                     >
-                      <input
-                        aria-autocomplete="list"
-                        aria-controls="tSlotLength_list"
-                        aria-expanded="false"
-                        aria-haspopup="listbox"
-                        aria-owns="tSlotLength_list"
-                        autocomplete="off"
-                        class="ant-select-selection-search-input"
-                        id="tSlotLength"
-                        readonly=""
-                        role="combobox"
-                        style="opacity: 0;"
-                        type="search"
-                        unselectable="on"
-                        value=""
-                      />
-                    </span>
-                    <span
-                      class="ant-select-selection-item"
-                      title="16 mm"
-                    >
-                      16 mm
+                      <span
+                        class="ant-select-selection-search"
+                      >
+                        <input
+                          aria-autocomplete="list"
+                          aria-controls="tSlotLength_list"
+                          aria-expanded="false"
+                          aria-haspopup="listbox"
+                          aria-owns="tSlotLength_list"
+                          autocomplete="off"
+                          class="ant-select-selection-search-input"
+                          id="tSlotLength"
+                          readonly=""
+                          role="combobox"
+                          style="opacity: 0;"
+                          type="search"
+                          unselectable="on"
+                          value=""
+                        />
+                      </span>
+                      <span
+                        class="ant-select-selection-item"
+                        title="16 mm"
+                      >
+                        16 mm
+                      </span>
                     </span>
                   </div>
                   <span

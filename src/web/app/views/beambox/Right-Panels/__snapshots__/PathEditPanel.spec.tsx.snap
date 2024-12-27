@@ -18,7 +18,7 @@ exports[`test PathEditPanel should render correctly 1`] = `
         class="ant-space-compact css-dev-only-do-not-override-hash ant-space-compact-block"
       >
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-icon-only ant-btn-compact-item ant-btn-compact-first-item compact-button active"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-icon-only ant-btn-compact-item ant-btn-compact-first-item compact-button active"
           title="Corner"
           type="button"
         >
@@ -29,7 +29,7 @@ exports[`test PathEditPanel should render correctly 1`] = `
           </span>
         </button>
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-icon-only ant-btn-compact-item compact-button"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-icon-only ant-btn-compact-item compact-button"
           title="Smooth"
           type="button"
         >
@@ -40,7 +40,7 @@ exports[`test PathEditPanel should render correctly 1`] = `
           </span>
         </button>
         <button
-          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-icon-only ant-btn-compact-item ant-btn-compact-last-item compact-button"
+          class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-icon-only ant-btn-compact-item ant-btn-compact-last-item compact-button"
           title="Symmetry"
           type="button"
         >
@@ -63,7 +63,7 @@ exports[`test PathEditPanel should render correctly 1`] = `
           class="ant-space-item"
         >
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block button"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block button"
             disabled=""
             type="button"
           >
@@ -83,7 +83,7 @@ exports[`test PathEditPanel should render correctly 1`] = `
           class="ant-space-item"
         >
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block button"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block button"
             type="button"
           >
             <span
@@ -102,7 +102,7 @@ exports[`test PathEditPanel should render correctly 1`] = `
           class="ant-space-item"
         >
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block button"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block button"
             disabled=""
             type="button"
           >
@@ -122,7 +122,7 @@ exports[`test PathEditPanel should render correctly 1`] = `
           class="ant-space-item"
         >
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-block button"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block button"
             type="button"
           >
             <span
@@ -193,7 +193,7 @@ exports[`test PathEditPanel should render correctly in mobile 1`] = `
             class="ant-space-compact css-dev-only-do-not-override-hash ant-space-compact-block"
           >
             <button
-              class="ant-btn css-dev-only-do-not-override-hash ant-btn-round ant-btn-default ant-btn-icon-only ant-btn-compact-item ant-btn-compact-first-item compact-button active"
+              class="ant-btn css-dev-only-do-not-override-hash ant-btn-round ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-icon-only ant-btn-compact-item ant-btn-compact-first-item compact-button active"
               title="Corner"
               type="button"
             >
@@ -204,7 +204,7 @@ exports[`test PathEditPanel should render correctly in mobile 1`] = `
               </span>
             </button>
             <button
-              class="ant-btn css-dev-only-do-not-override-hash ant-btn-round ant-btn-default ant-btn-icon-only ant-btn-compact-item compact-button"
+              class="ant-btn css-dev-only-do-not-override-hash ant-btn-round ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-icon-only ant-btn-compact-item compact-button"
               title="Smooth"
               type="button"
             >
@@ -215,7 +215,7 @@ exports[`test PathEditPanel should render correctly in mobile 1`] = `
               </span>
             </button>
             <button
-              class="ant-btn css-dev-only-do-not-override-hash ant-btn-round ant-btn-default ant-btn-icon-only ant-btn-compact-item ant-btn-compact-last-item compact-button"
+              class="ant-btn css-dev-only-do-not-override-hash ant-btn-round ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-icon-only ant-btn-compact-item ant-btn-compact-last-item compact-button"
               title="Symmetry"
               type="button"
             >
@@ -238,7 +238,7 @@ exports[`test PathEditPanel should render correctly in mobile 1`] = `
               class="ant-space-item"
             >
               <button
-                class="ant-btn css-dev-only-do-not-override-hash ant-btn-round ant-btn-default ant-btn-block button"
+                class="ant-btn css-dev-only-do-not-override-hash ant-btn-round ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block button"
                 disabled=""
                 type="button"
               >
@@ -258,7 +258,7 @@ exports[`test PathEditPanel should render correctly in mobile 1`] = `
               class="ant-space-item"
             >
               <button
-                class="ant-btn css-dev-only-do-not-override-hash ant-btn-round ant-btn-default ant-btn-block button"
+                class="ant-btn css-dev-only-do-not-override-hash ant-btn-round ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block button"
                 type="button"
               >
                 <span
@@ -277,7 +277,7 @@ exports[`test PathEditPanel should render correctly in mobile 1`] = `
               class="ant-space-item"
             >
               <button
-                class="ant-btn css-dev-only-do-not-override-hash ant-btn-round ant-btn-default ant-btn-block button"
+                class="ant-btn css-dev-only-do-not-override-hash ant-btn-round ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block button"
                 disabled=""
                 type="button"
               >
@@ -297,7 +297,7 @@ exports[`test PathEditPanel should render correctly in mobile 1`] = `
               class="ant-space-item"
             >
               <button
-                class="ant-btn css-dev-only-do-not-override-hash ant-btn-round ant-btn-default ant-btn-block button"
+                class="ant-btn css-dev-only-do-not-override-hash ant-btn-round ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block button"
                 type="button"
               >
                 <span
@@ -316,7 +316,7 @@ exports[`test PathEditPanel should render correctly in mobile 1`] = `
               class="ant-space-item"
             >
               <button
-                class="ant-btn css-dev-only-do-not-override-hash ant-btn-round ant-btn-default ant-btn-block button"
+                class="ant-btn css-dev-only-do-not-override-hash ant-btn-round ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-block button"
                 type="button"
               >
                 <span

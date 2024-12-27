@@ -2091,6 +2091,19 @@ const lang: ILang = {
     facebook: '与 FLUX 用户交流，提出问题并学习技巧！',
     youtube: '查看 Beam Studio 教程与手工创意。',
   },
+  image_edit_panel: {
+    title: '编辑图片',
+    eraser: {
+      title: '橡皮擦',
+      description: '单击或拖动以手动擦除不需要的区域。',
+      brush_size: '画笔大小',
+    },
+    magic_wand: {
+      title: '魔术棒',
+      description: '根据颜色相似性选择并移除相邻区域。',
+      tolerance: '容差',
+    },
+  },
 };
 
 export default lang;

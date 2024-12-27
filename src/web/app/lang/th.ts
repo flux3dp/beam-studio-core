@@ -2086,6 +2086,19 @@ const lang: ILang = {
     facebook: 'พูดคุยกับ FLUXers ถามคำถาม และเรียนรู้เคล็ดลับ!',
     youtube: 'ดูบทเรียน Beam Studio และไอเดียงานฝีมือ',
   },
+  image_edit_panel: {
+    title: 'แก้ไขภาพ',
+    eraser: {
+      title: 'ยางลบ',
+      description: 'คลิกหรือลากเพื่อลบพื้นที่ที่ไม่ต้องการด้วยตนเอง.',
+      brush_size: 'ขนาดแปรง',
+    },
+    magic_wand: {
+      title: 'ไม้กายสิทธิ์',
+      description: 'เลือกและลบพื้นที่ติดกันตามความคล้ายคลึงของสี.',
+      tolerance: 'ความทนทาน',
+    },
+  },
 };
 
 export default lang;

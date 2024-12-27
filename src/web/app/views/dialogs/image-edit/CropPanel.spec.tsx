@@ -56,9 +56,9 @@ jest.mock('helpers/useI18n', () => () => ({
   },
 }));
 
-const mockCropPreprocess = jest.fn();
+const mockPreprocessByUrl = jest.fn();
 jest.mock('helpers/image-edit-panel/preprocess', () => ({
-  cropPreprocess: (...args) => mockCropPreprocess(...args),
+  preprocessByUrl: (...args) => mockPreprocessByUrl(...args),
 }));
 
 const useIsMobile = jest.fn();
@@ -90,7 +90,7 @@ describe('test CropPanel', () => {
   });
 
   it('should render correctly', async () => {
-    mockCropPreprocess.mockResolvedValue({
+    mockPreprocessByUrl.mockResolvedValue({
       blobUrl: 'mock-url-1',
       dimension: { x: 0, y: 0, width: 100, height: 100 },
       originalWidth: 200,
@@ -110,8 +110,8 @@ describe('test CropPanel', () => {
         id: 'photo-edit-processing',
         message: 'processing',
       });
-      expect(mockCropPreprocess).toBeCalledTimes(1);
-      expect(mockCropPreprocess).toHaveBeenLastCalledWith('mock-src');
+      expect(mockPreprocessByUrl).toBeCalledTimes(1);
+      expect(mockPreprocessByUrl).toHaveBeenLastCalledWith('mock-src');
       expect(mockCalculateBase64).toBeCalledTimes(1);
       expect(mockCalculateBase64).toHaveBeenLastCalledWith('mock-url-1', true, 125, false);
       expect(mockPopById).toBeCalledTimes(1);
@@ -124,7 +124,7 @@ describe('test CropPanel', () => {
   });
 
   it('should render correctly when image is full color', async () => {
-    mockCropPreprocess.mockResolvedValue({
+    mockPreprocessByUrl.mockResolvedValue({
       blobUrl: 'mock-url-1',
       dimension: { x: 0, y: 0, width: 100, height: 100 },
       originalWidth: 200,
@@ -151,8 +151,8 @@ describe('test CropPanel', () => {
         id: 'photo-edit-processing',
         message: 'processing',
       });
-      expect(mockCropPreprocess).toBeCalledTimes(1);
-      expect(mockCropPreprocess).toHaveBeenLastCalledWith('mock-src');
+      expect(mockPreprocessByUrl).toBeCalledTimes(1);
+      expect(mockPreprocessByUrl).toHaveBeenLastCalledWith('mock-src');
       expect(mockCalculateBase64).toBeCalledTimes(1);
       expect(mockCalculateBase64).toHaveBeenLastCalledWith('mock-url-1', true, 125, true);
       expect(mockPopById).toBeCalledTimes(1);
@@ -166,7 +166,7 @@ describe('test CropPanel', () => {
 
   it('should render correctly in mobile', async () => {
     useIsMobile.mockReturnValue(true);
-    mockCropPreprocess.mockResolvedValue({
+    mockPreprocessByUrl.mockResolvedValue({
       blobUrl: 'mock-url-1',
       dimension: { x: 0, y: 0, width: 100, height: 100 },
       originalWidth: 200,
@@ -186,8 +186,8 @@ describe('test CropPanel', () => {
         id: 'photo-edit-processing',
         message: 'processing',
       });
-      expect(mockCropPreprocess).toBeCalledTimes(1);
-      expect(mockCropPreprocess).toHaveBeenLastCalledWith('mock-src');
+      expect(mockPreprocessByUrl).toBeCalledTimes(1);
+      expect(mockPreprocessByUrl).toHaveBeenLastCalledWith('mock-src');
       expect(mockCalculateBase64).toBeCalledTimes(1);
       expect(mockCalculateBase64).toHaveBeenLastCalledWith('mock-url-1', true, 125, false);
       expect(mockPopById).toBeCalledTimes(1);
@@ -200,7 +200,7 @@ describe('test CropPanel', () => {
   });
 
   test('cropper apply and complete', async () => {
-    mockCropPreprocess.mockResolvedValue({
+    mockPreprocessByUrl.mockResolvedValue({
       blobUrl: 'mock-url-1',
       dimension: { x: 0, y: 0, width: 100, height: 100 },
       originalWidth: 200,
@@ -305,7 +305,7 @@ describe('test CropPanel', () => {
   });
 
   test('apply and go back', async () => {
-    mockCropPreprocess.mockResolvedValue({
+    mockPreprocessByUrl.mockResolvedValue({
       blobUrl: 'mock-url-1',
       dimension: { x: 0, y: 0, width: 100, height: 100 },
       originalWidth: 200,
@@ -383,7 +383,7 @@ describe('test CropPanel', () => {
 
   test('change aspect ratio', async () => {
     useIsMobile.mockReturnValue(true);
-    mockCropPreprocess.mockResolvedValue({
+    mockPreprocessByUrl.mockResolvedValue({
       blobUrl: 'mock-url-1',
       dimension: { x: 0, y: 0, width: 100, height: 150 },
       originalWidth: 200,

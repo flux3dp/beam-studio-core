@@ -2086,6 +2086,19 @@ const lang: ILang = {
     facebook: 'Chat met FLUXers, stel vragen en leer tips!',
     youtube: 'Bekijk Beam Studio-tutorials en knutselideeën.',
   },
+  image_edit_panel: {
+    title: 'Afbeelding Bewerken',
+    eraser: {
+      title: 'Gum',
+      description: 'Klik of sleep om ongewenste gebieden handmatig te wissen.',
+      brush_size: 'Kwastgrootte',
+    },
+    magic_wand: {
+      title: 'Toverstok',
+      description: 'Selecteer en verwijder aangrenzende gebieden op basis van kleurvergelijking.',
+      tolerance: 'Tolerantie',
+    },
+  },
 };
 
 export default lang;

@@ -2086,6 +2086,19 @@ const lang: ILang = {
     facebook: 'Berbual dengan FLUXers, ajukan soalan, dan pelajari petua!',
     youtube: 'Lihat tutorial Beam Studio dan idea kraf.',
   },
+  image_edit_panel: {
+    title: 'Edit Imej',
+    eraser: {
+      title: 'Pemadam',
+      description: 'Klik atau seret untuk memadam kawasan yang tidak diingini secara manual.',
+      brush_size: 'Saiz Berus',
+    },
+    magic_wand: {
+      title: 'Tongkat Sihir',
+      description: 'Pilih dan keluarkan kawasan bersebelahan berdasarkan kesamaan warna.',
+      tolerance: 'Toleransi',
+    },
+  },
 };
 
 export default lang;

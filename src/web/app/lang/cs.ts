@@ -2091,6 +2091,19 @@ const lang: ILang = {
     facebook: 'Povídejte si s uživateli FLUX, ptejte se a naučte se tipy!',
     youtube: 'Podívejte se na návody Beam Studio a nápady na tvoření.',
   },
+  image_edit_panel: {
+    title: 'Upravit obrázek',
+    eraser: {
+      title: 'Guma',
+      description: 'Klikněte nebo přetáhněte pro ruční vymazání nežádoucích oblastí.',
+      brush_size: 'Velikost štětce',
+    },
+    magic_wand: {
+      title: 'Kouzelná hůlka',
+      description: 'Vyberte a odstraňte přilehlé oblasti na základě podobnosti barev.',
+      tolerance: 'Tolerance',
+    },
+  },
 };
 
 export default lang;

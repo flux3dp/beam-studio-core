@@ -32,6 +32,7 @@ import SimplifyMobile from './simplify-mobile.svg';
 import SmartNest from './smart-nest.svg';
 import Trace from './trace.svg';
 import WeldText from './weld-text.svg';
+import EditImage from './edit-image.svg';
 
 export default {
   Array,
@@ -51,6 +52,7 @@ export default {
   DecomposeTextpath,
   Disassemble,
   DisassembleMobile,
+  EditImage,
   EditPath,
   EditPathMobile,
   Grading,

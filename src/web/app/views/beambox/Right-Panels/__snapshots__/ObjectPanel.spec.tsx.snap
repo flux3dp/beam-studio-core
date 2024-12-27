@@ -981,7 +981,7 @@ exports[`should render correctly one element is g element 1`] = `
           class="half left sep"
         >
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             disabled=""
             id="hdist"
             title="Horizontal Distribute"
@@ -994,7 +994,7 @@ exports[`should render correctly one element is g element 1`] = `
             </span>
           </button>
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             id="top_align"
             title="Top Align"
             type="button"
@@ -1006,7 +1006,7 @@ exports[`should render correctly one element is g element 1`] = `
             </span>
           </button>
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             id="middle_align"
             title="Middle Align"
             type="button"
@@ -1018,7 +1018,7 @@ exports[`should render correctly one element is g element 1`] = `
             </span>
           </button>
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             id="bottom_align"
             title="Bottom Align"
             type="button"
@@ -1034,7 +1034,7 @@ exports[`should render correctly one element is g element 1`] = `
           class="half right"
         >
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             disabled=""
             id="vdist"
             title="Vertical Distribute"
@@ -1047,7 +1047,7 @@ exports[`should render correctly one element is g element 1`] = `
             </span>
           </button>
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             id="left_align"
             title="Left Align"
             type="button"
@@ -1059,7 +1059,7 @@ exports[`should render correctly one element is g element 1`] = `
             </span>
           </button>
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             id="center_align"
             title="Center Align"
             type="button"
@@ -1071,7 +1071,7 @@ exports[`should render correctly one element is g element 1`] = `
             </span>
           </button>
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             id="right_align"
             title="Right Align"
             type="button"
@@ -1091,7 +1091,7 @@ exports[`should render correctly one element is g element 1`] = `
           class="half left"
         >
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             disabled=""
             id="group"
             title="Group"
@@ -1104,7 +1104,7 @@ exports[`should render correctly one element is g element 1`] = `
             </span>
           </button>
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             id="ungroup"
             title="Ungroup"
             type="button"
@@ -1120,7 +1120,7 @@ exports[`should render correctly one element is g element 1`] = `
           class="half right"
         >
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             disabled=""
             id="union"
             title="Union"
@@ -1133,7 +1133,7 @@ exports[`should render correctly one element is g element 1`] = `
             </span>
           </button>
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             disabled=""
             id="subtract"
             title="Subtract"
@@ -1146,7 +1146,7 @@ exports[`should render correctly one element is g element 1`] = `
             </span>
           </button>
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             disabled=""
             id="intersect"
             title="Intersect"
@@ -1159,7 +1159,7 @@ exports[`should render correctly one element is g element 1`] = `
             </span>
           </button>
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             disabled=""
             id="difference"
             title="Difference"
@@ -1203,7 +1203,7 @@ exports[`should render correctly one element not g element 1`] = `
           class="half left sep"
         >
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             disabled=""
             id="hdist"
             title="Horizontal Distribute"
@@ -1216,7 +1216,7 @@ exports[`should render correctly one element not g element 1`] = `
             </span>
           </button>
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             id="top_align"
             title="Top Align"
             type="button"
@@ -1228,7 +1228,7 @@ exports[`should render correctly one element not g element 1`] = `
             </span>
           </button>
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             id="middle_align"
             title="Middle Align"
             type="button"
@@ -1240,7 +1240,7 @@ exports[`should render correctly one element not g element 1`] = `
             </span>
           </button>
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             id="bottom_align"
             title="Bottom Align"
             type="button"
@@ -1256,7 +1256,7 @@ exports[`should render correctly one element not g element 1`] = `
           class="half right"
         >
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             disabled=""
             id="vdist"
             title="Vertical Distribute"
@@ -1269,7 +1269,7 @@ exports[`should render correctly one element not g element 1`] = `
             </span>
           </button>
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             id="left_align"
             title="Left Align"
             type="button"
@@ -1281,7 +1281,7 @@ exports[`should render correctly one element not g element 1`] = `
             </span>
           </button>
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             id="center_align"
             title="Center Align"
             type="button"
@@ -1293,7 +1293,7 @@ exports[`should render correctly one element not g element 1`] = `
             </span>
           </button>
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             id="right_align"
             title="Right Align"
             type="button"
@@ -1313,7 +1313,7 @@ exports[`should render correctly one element not g element 1`] = `
           class="half left"
         >
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             id="group"
             title="Group"
             type="button"
@@ -1325,7 +1325,7 @@ exports[`should render correctly one element not g element 1`] = `
             </span>
           </button>
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             disabled=""
             id="ungroup"
             title="Ungroup"
@@ -1342,7 +1342,7 @@ exports[`should render correctly one element not g element 1`] = `
           class="half right"
         >
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             disabled=""
             id="union"
             title="Union"
@@ -1355,7 +1355,7 @@ exports[`should render correctly one element not g element 1`] = `
             </span>
           </button>
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             disabled=""
             id="subtract"
             title="Subtract"
@@ -1368,7 +1368,7 @@ exports[`should render correctly one element not g element 1`] = `
             </span>
           </button>
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             disabled=""
             id="intersect"
             title="Intersect"
@@ -1381,7 +1381,7 @@ exports[`should render correctly one element not g element 1`] = `
             </span>
           </button>
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             disabled=""
             id="difference"
             title="Difference"
@@ -1425,7 +1425,7 @@ exports[`should render correctly two elements contains other types of elements 1
           class="half left sep"
         >
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             disabled=""
             id="hdist"
             title="Horizontal Distribute"
@@ -1438,7 +1438,7 @@ exports[`should render correctly two elements contains other types of elements 1
             </span>
           </button>
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             id="top_align"
             title="Top Align"
             type="button"
@@ -1450,7 +1450,7 @@ exports[`should render correctly two elements contains other types of elements 1
             </span>
           </button>
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             id="middle_align"
             title="Middle Align"
             type="button"
@@ -1462,7 +1462,7 @@ exports[`should render correctly two elements contains other types of elements 1
             </span>
           </button>
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             id="bottom_align"
             title="Bottom Align"
             type="button"
@@ -1478,7 +1478,7 @@ exports[`should render correctly two elements contains other types of elements 1
           class="half right"
         >
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             disabled=""
             id="vdist"
             title="Vertical Distribute"
@@ -1491,7 +1491,7 @@ exports[`should render correctly two elements contains other types of elements 1
             </span>
           </button>
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             id="left_align"
             title="Left Align"
             type="button"
@@ -1503,7 +1503,7 @@ exports[`should render correctly two elements contains other types of elements 1
             </span>
           </button>
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             id="center_align"
             title="Center Align"
             type="button"
@@ -1515,7 +1515,7 @@ exports[`should render correctly two elements contains other types of elements 1
             </span>
           </button>
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             id="right_align"
             title="Right Align"
             type="button"
@@ -1535,7 +1535,7 @@ exports[`should render correctly two elements contains other types of elements 1
           class="half left"
         >
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             id="group"
             title="Group"
             type="button"
@@ -1547,7 +1547,7 @@ exports[`should render correctly two elements contains other types of elements 1
             </span>
           </button>
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             disabled=""
             id="ungroup"
             title="Ungroup"
@@ -1564,7 +1564,7 @@ exports[`should render correctly two elements contains other types of elements 1
           class="half right"
         >
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             disabled=""
             id="union"
             title="Union"
@@ -1577,7 +1577,7 @@ exports[`should render correctly two elements contains other types of elements 1
             </span>
           </button>
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             disabled=""
             id="subtract"
             title="Subtract"
@@ -1590,7 +1590,7 @@ exports[`should render correctly two elements contains other types of elements 1
             </span>
           </button>
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             disabled=""
             id="intersect"
             title="Intersect"
@@ -1603,7 +1603,7 @@ exports[`should render correctly two elements contains other types of elements 1
             </span>
           </button>
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             disabled=""
             id="difference"
             title="Difference"
@@ -1647,7 +1647,7 @@ exports[`should render correctly two elements contains rect, polygon or ellipse 
           class="half left sep"
         >
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             disabled=""
             id="hdist"
             title="Horizontal Distribute"
@@ -1660,7 +1660,7 @@ exports[`should render correctly two elements contains rect, polygon or ellipse 
             </span>
           </button>
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             id="top_align"
             title="Top Align"
             type="button"
@@ -1672,7 +1672,7 @@ exports[`should render correctly two elements contains rect, polygon or ellipse 
             </span>
           </button>
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             id="middle_align"
             title="Middle Align"
             type="button"
@@ -1684,7 +1684,7 @@ exports[`should render correctly two elements contains rect, polygon or ellipse 
             </span>
           </button>
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             id="bottom_align"
             title="Bottom Align"
             type="button"
@@ -1700,7 +1700,7 @@ exports[`should render correctly two elements contains rect, polygon or ellipse 
           class="half right"
         >
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             disabled=""
             id="vdist"
             title="Vertical Distribute"
@@ -1713,7 +1713,7 @@ exports[`should render correctly two elements contains rect, polygon or ellipse 
             </span>
           </button>
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             id="left_align"
             title="Left Align"
             type="button"
@@ -1725,7 +1725,7 @@ exports[`should render correctly two elements contains rect, polygon or ellipse 
             </span>
           </button>
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             id="center_align"
             title="Center Align"
             type="button"
@@ -1737,7 +1737,7 @@ exports[`should render correctly two elements contains rect, polygon or ellipse 
             </span>
           </button>
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             id="right_align"
             title="Right Align"
             type="button"
@@ -1757,7 +1757,7 @@ exports[`should render correctly two elements contains rect, polygon or ellipse 
           class="half left"
         >
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             id="group"
             title="Group"
             type="button"
@@ -1769,7 +1769,7 @@ exports[`should render correctly two elements contains rect, polygon or ellipse 
             </span>
           </button>
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             disabled=""
             id="ungroup"
             title="Ungroup"
@@ -1786,7 +1786,7 @@ exports[`should render correctly two elements contains rect, polygon or ellipse 
           class="half right"
         >
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             id="union"
             title="Union"
             type="button"
@@ -1798,7 +1798,7 @@ exports[`should render correctly two elements contains rect, polygon or ellipse 
             </span>
           </button>
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             id="subtract"
             title="Subtract"
             type="button"
@@ -1810,7 +1810,7 @@ exports[`should render correctly two elements contains rect, polygon or ellipse 
             </span>
           </button>
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             id="intersect"
             title="Intersect"
             type="button"
@@ -1822,7 +1822,7 @@ exports[`should render correctly two elements contains rect, polygon or ellipse 
             </span>
           </button>
           <button
-            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-icon-only"
+            class="ant-btn css-dev-only-do-not-override-hash ant-btn-text ant-btn-color-default ant-btn-variant-text ant-btn-icon-only"
             id="difference"
             title="Difference"
             type="button"

@@ -72,7 +72,7 @@ exports[`test ConnectWired should render correctly 1`] = `
                 class="ant-collapse-expand-icon"
               >
                 <span
-                  aria-label="right"
+                  aria-label="collapsed"
                   class="anticon anticon-right ant-collapse-arrow"
                   role="img"
                 >
@@ -112,7 +112,7 @@ exports[`test ConnectWired should render correctly 1`] = `
                 class="ant-collapse-expand-icon"
               >
                 <span
-                  aria-label="right"
+                  aria-label="collapsed"
                   class="anticon anticon-right ant-collapse-arrow"
                   role="img"
                 >
@@ -217,7 +217,7 @@ exports[`test ConnectWired should render correctly when is ador 1`] = `
                 class="ant-collapse-expand-icon"
               >
                 <span
-                  aria-label="right"
+                  aria-label="collapsed"
                   class="anticon anticon-right ant-collapse-arrow"
                   role="img"
                 >
@@ -257,7 +257,7 @@ exports[`test ConnectWired should render correctly when is ador 1`] = `
                 class="ant-collapse-expand-icon"
               >
                 <span
-                  aria-label="right"
+                  aria-label="collapsed"
                   class="anticon anticon-right ant-collapse-arrow"
                   role="img"
                 >

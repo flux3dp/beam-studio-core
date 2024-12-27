@@ -2089,6 +2089,19 @@ const lang: ILang = {
     facebook: 'FLUXユーザーとチャットし、質問してヒントを学ぼう！',
     youtube: 'Beam Studio のチュートリアルとクラフトアイデアを確認しよう。',
   },
+  image_edit_panel: {
+    title: '画像編集',
+    eraser: {
+      title: '消しゴム',
+      description: 'クリックまたはドラッグして不要な領域を手動で消去します。',
+      brush_size: 'ブラシサイズ',
+    },
+    magic_wand: {
+      title: '魔法の杖',
+      description: '色の類似性に基づいて隣接する領域を選択して削除します。',
+      tolerance: '許容範囲',
+    },
+  },
 };
 
 export default lang;

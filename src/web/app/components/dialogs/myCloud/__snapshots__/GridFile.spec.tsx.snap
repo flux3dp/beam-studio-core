@@ -515,7 +515,7 @@ exports[`test GridFile should behave correctly 3`] = `
       class="name"
     >
       <input
-        class="ant-input ant-input-sm css-dev-only-do-not-override-hash edit"
+        class="ant-input ant-input-sm css-dev-only-do-not-override-hash ant-input-outlined edit"
         maxlength="255"
         type="text"
         value="File name"
@@ -804,7 +804,7 @@ exports[`test GridFile should behave correctly 4`] = `
                     class="ant-popconfirm-buttons"
                   >
                     <button
-                      class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-sm"
+                      class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined ant-btn-sm"
                       type="button"
                     >
                       <span>
@@ -812,7 +812,7 @@ exports[`test GridFile should behave correctly 4`] = `
                       </span>
                     </button>
                     <button
-                      class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary ant-btn-sm"
+                      class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary ant-btn-color-primary ant-btn-variant-solid ant-btn-sm"
                       type="button"
                     >
                       <span>

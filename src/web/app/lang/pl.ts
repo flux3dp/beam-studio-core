@@ -2089,6 +2089,19 @@ const lang: ILang = {
     facebook: 'Rozmawiaj z użytkownikami FLUX, zadawaj pytania i poznawaj wskazówki!',
     youtube: 'Zobacz samouczki Beam Studio i pomysły na rękodzieło.',
   },
+  image_edit_panel: {
+    title: 'Edytuj Obraz',
+    eraser: {
+      title: 'Gumka',
+      description: 'Kliknij lub przeciągnij, aby ręcznie usunąć niechciane obszary.',
+      brush_size: 'Rozmiar Pędzla',
+    },
+    magic_wand: {
+      title: 'Magiczna Różdżka',
+      description: 'Wybierz i usuń sąsiadujące obszary na podstawie podobieństwa kolorów.',
+      tolerance: 'Tolerancja',
+    },
+  },
 };
 
 export default lang;

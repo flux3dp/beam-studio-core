@@ -21,55 +21,54 @@ exports[`test NonStopProgress should render correctly 1`] = `
           style="min-width: 150px;"
         >
           <div
-            aria-hidden="true"
-            style="width: 0px; height: 0px; overflow: hidden; outline: none;"
+            style="outline: none;"
             tabindex="0"
-          />
-          <div
-            class="ant-modal-content"
           >
             <div
-              class="ant-modal-body"
+              class="ant-modal-content"
             >
-              <div>
-                <div
-                  class="spinner-container"
-                >
-                  <div>
-                    SpinLoading
+              <div
+                class="ant-modal-body"
+              >
+                <div>
+                  <div
+                    class="spinner-container"
+                  >
+                    <div>
+                      SpinLoading
+                    </div>
+                  </div>
+                  <div
+                    class="caption"
+                  >
+                    Hello World
                   </div>
                 </div>
-                <div
-                  class="caption"
-                >
-                  Hello World
-                </div>
               </div>
-            </div>
-            <div
-              class="ant-modal-footer"
-            >
-              <button
-                class="ant-btn css-dev-only-do-not-override-hash ant-btn-default"
-                type="button"
+              <div
+                class="ant-modal-footer"
               >
-                <span>
-                  Cancel
-                </span>
-              </button>
-              <button
-                class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary"
-                style="display: none;"
-                type="button"
-              >
-                <span>
-                  OK
-                </span>
-              </button>
+                <button
+                  class="ant-btn css-dev-only-do-not-override-hash ant-btn-default ant-btn-color-default ant-btn-variant-outlined"
+                  type="button"
+                >
+                  <span>
+                    Cancel
+                  </span>
+                </button>
+                <button
+                  class="ant-btn css-dev-only-do-not-override-hash ant-btn-primary ant-btn-color-primary ant-btn-variant-solid"
+                  style="display: none;"
+                  type="button"
+                >
+                  <span>
+                    OK
+                  </span>
+                </button>
+              </div>
             </div>
           </div>
           <div
-            aria-hidden="true"
             style="width: 0px; height: 0px; overflow: hidden; outline: none;"
             tabindex="0"
           />

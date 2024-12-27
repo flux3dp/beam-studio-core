@@ -337,7 +337,7 @@ exports[`test ColorPanel mobile should render correctly 4`] = `
             Stroke Width
           </span>
           <div
-            class="ant-input-number-affix-wrapper css-dev-only-do-not-override-hash"
+            class="ant-input-number-affix-wrapper ant-input-number-affix-wrapper-without-controls css-dev-only-do-not-override-hash ant-input-number-outlined"
           >
             <div
               class="ant-input-number css-dev-only-do-not-override-hash"
@@ -463,7 +463,7 @@ exports[`test ColorPanel set stroke width should work 1`] = `
         </button>
       </div>
       <div
-        class="ant-input-number ant-input-number-sm css-dev-only-do-not-override-hash"
+        class="ant-input-number ant-input-number-sm css-dev-only-do-not-override-hash ant-input-number-outlined"
       >
         <div
           class="ant-input-number-handler-wrap"
@@ -605,7 +605,7 @@ exports[`test ColorPanel should render correctly 1`] = `
         </button>
       </div>
       <div
-        class="ant-input-number ant-input-number-sm css-dev-only-do-not-override-hash"
+        class="ant-input-number ant-input-number-sm css-dev-only-do-not-override-hash ant-input-number-outlined"
       >
         <div
           class="ant-input-number-handler-wrap"

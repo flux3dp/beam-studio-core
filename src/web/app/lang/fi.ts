@@ -2086,6 +2086,19 @@ const lang: ILang = {
     facebook: 'Keskustele FLUXersin kanssa, kysy kysymyksiä ja opi vinkkejä!',
     youtube: 'Katso Beam Studion opetusohjelmat ja askarteluideat.',
   },
+  image_edit_panel: {
+    title: 'Muokkaa kuvaa',
+    eraser: {
+      title: 'Pyyhekumi',
+      description: 'Klikkaa tai vedä poistaaksesi ei-toivotut alueet manuaalisesti.',
+      brush_size: 'Siveltimen koko',
+    },
+    magic_wand: {
+      title: 'Taikasauva',
+      description: 'Valitse ja poista vierekkäiset alueet värien samankaltaisuuden perusteella.',
+      tolerance: 'Toleranssi',
+    },
+  },
 };
 
 export default lang;
