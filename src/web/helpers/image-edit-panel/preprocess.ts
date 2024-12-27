@@ -11,6 +11,7 @@ export interface CropperDimension {
 
 export const preprocessByJimpImage = async (
   image: Jimp,
+  blobUrl: string,
   { isFullResolution = false } = {}
 ): Promise<{
   blobUrl: string;
@@ -19,7 +20,7 @@ export const preprocessByJimpImage = async (
   originalHeight: number;
 }> => {
   const { width: originalWidth, height: originalHeight } = image.bitmap;
-  let blobUrl = await jimpHelper.imageToUrl(image);
+  let currentBlobUrl = blobUrl;
 
   if (!isFullResolution && Math.max(originalWidth, originalHeight) > 600) {
     if (originalWidth >= originalHeight) {
@@ -27,13 +28,13 @@ export const preprocessByJimpImage = async (
     } else {
       image.resize(imageProcessor.AUTO, 600);
     }
-    blobUrl = await jimpHelper.imageToUrl(image);
+    currentBlobUrl = await jimpHelper.imageToUrl(image);
   }
 
   const { width, height } = image.bitmap;
   const dimension: CropperDimension = { x: 0, y: 0, width, height };
 
-  return { blobUrl, dimension, originalWidth, originalHeight };
+  return { blobUrl: currentBlobUrl, dimension, originalWidth, originalHeight };
 };
 
 export const preprocessByUrl = async (
@@ -47,5 +48,5 @@ export const preprocessByUrl = async (
 }> => {
   const image = await jimpHelper.urlToImage(blobUrl);
 
-  return preprocessByJimpImage(image, { isFullResolution });
+  return preprocessByJimpImage(image, blobUrl, { isFullResolution });
 };
