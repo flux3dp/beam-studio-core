@@ -82,11 +82,12 @@ const Topbar = (): JSX.Element => {
           <CommonTools isWeb={isWebMode} hide={mode !== CanvasMode.Draw} />
           {!isWebMode && <Tabs />}
         </div>
-        <div
-          className={classNames(styles.controls, styles.right, {
-            [styles.drag]: isDragRegion,
-          })}
-        >
+        <div className={classNames(styles.controls, styles.right)}>
+          <div
+            className={classNames(styles['drag-area'], {
+              [styles.drag]: isDragRegion,
+            })}
+          />
           <SelectMachineButton />
           <DocumentButton />
           <FrameButton />

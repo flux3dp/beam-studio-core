@@ -43,12 +43,17 @@
 
   .right {
     flex: 1 0 auto;
-    padding: 0 8px;
+    padding-right: 8px;
     overflow: hidden;
     justify-content: flex-end;
 
-    &.drag {
-      -webkit-app-region: drag;
+    .drag-area {
+      padding-left: 8px;
+      flex: 1 0 auto;
+      height: variables.$topBarHeight;
+      &.drag {
+        -webkit-app-region: drag;
+      }
     }
   }
 }
