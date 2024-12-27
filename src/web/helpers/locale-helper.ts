@@ -1,7 +1,7 @@
-import { parse } from 'bcp-47';
+import { parse, Schema } from 'bcp-47';
 
 function detectLocale(
-  regions: Array<string>,
+  bcp47Predicate: (schema: Schema) => boolean,
   timezoneOffsetPredicate: (timezoneOffset: number) => boolean
 ): () => boolean {
   return () => {
@@ -10,9 +10,7 @@ function detectLocale(
         // @ts-expect-error: Support for older browsers with userLanguage
         navigator.language || (navigator.userLanguage as string),
       ];
-      const hasMatchingRegion = userLocales.some((locale) =>
-        regions.includes(parse(locale).region)
-      );
+      const hasMatchingRegion = userLocales.some((locale) => bcp47Predicate(parse(locale)));
 
       return hasMatchingRegion && timezoneOffsetPredicate(new Date().getTimezoneOffset());
     } catch (e) {
@@ -24,22 +22,31 @@ function detectLocale(
 }
 
 const detectNorthAmerica = detectLocale(
-  ['US', 'CA'],
+  (schema) => schema.region === 'US' || schema.region === 'CA',
   // UTC-10 (Hawaii) to UTC-4 (Eastern Time Zone)
   (timezoneOffset) => timezoneOffset <= 600 && timezoneOffset >= 240
 );
 const isNorthAmerica = detectNorthAmerica();
 
 const detectTwOrHk = detectLocale(
-  ['TW', 'HK'],
+  (schema) => schema.region === 'TW' || schema.region === 'HK',
   // UTC+8 timezone
   (timezoneOffset) => timezoneOffset === -480
 );
 const isTwOrHk = detectTwOrHk();
+
+const detectJp = detectLocale(
+  (schema) => schema.region === 'JP' || schema.language === 'ja',
+  // UTC+9 timezone
+  (timezoneOffset) => timezoneOffset === -540
+);
+const isJp = detectJp();
 
 export default {
   isNorthAmerica,
   detectNorthAmerica,
   isTwOrHk,
   detectTwOrHk,
+  isJp,
+  detectJp,
 };

@@ -95,20 +95,25 @@ const SelectMachineModel = (): JSX.Element => {
       ({ model: 'fpm1', label: 'Promark Series', Icon: InitializeIcons.Promark } as const),
   ].filter(Boolean);
 
-  const beamboxModelList: Array<ModelItem> = [
-    {
-      model: 'fbb1p',
-      label: 'Beambox (Pro)',
-      imageSrc: 'core-img/init-panel/beambox-pro-real.png',
-      btnClass: styles['btn-real'],
-    } as const,
-    {
-      model: 'fbb2',
-      label: 'Beambox II',
-      imageSrc: 'core-img/init-panel/beambox-2-real.png',
-      btnClass: styles['btn-real'],
-    } as const,
-  ];
+  const beamboxModelList: Array<ModelItem> = useMemo(
+    () =>
+      [
+        {
+          model: 'fbb1p',
+          label: 'Beambox (Pro)',
+          imageSrc: 'core-img/init-panel/beambox-pro-real.png',
+          btnClass: styles['btn-real'],
+        } as const,
+        (localeHelper.isTwOrHk || localeHelper.isJp || isDev()) &&
+          ({
+            model: 'fbb2',
+            label: 'Beambox II',
+            imageSrc: 'core-img/init-panel/beambox-2-real.png',
+            btnClass: styles['btn-real'],
+          } as const),
+      ].filter(Boolean),
+    []
+  );
 
   const selectTitle = useMemo(
     () => (isSelectBeambox ? t.select_beambox : t.select_machine_type),
