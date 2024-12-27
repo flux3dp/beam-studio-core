@@ -180,6 +180,7 @@ const PromarkSettings = ({ device, initData, onClose }: Props): JSX.Element => {
       open
       centered
       maskClosable={false}
+      keyboard={false}
       width={620}
       title={t.title}
       onCancel={handleCancel}

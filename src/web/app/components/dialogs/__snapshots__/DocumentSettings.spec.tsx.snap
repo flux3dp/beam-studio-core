@@ -3538,6 +3538,7 @@ exports[`test DocumentSettings should render correctly for promark 1`] = `
                       for="pm-laser-source"
                     >
                       Laser Source
+                      :
                     </label>
                     <div
                       class="ant-select control css-dev-only-do-not-override-hash ant-select-single ant-select-show-arrow"
@@ -3696,7 +3697,7 @@ exports[`test DocumentSettings should render correctly for promark 1`] = `
                       <label
                         for="start_button"
                       >
-                        Start Work Button
+                        Execute Button
                       </label>
                     </div>
                     <div

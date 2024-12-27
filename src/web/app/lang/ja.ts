@@ -1172,7 +1172,7 @@ const lang: ILang = {
       notification: {
         changeFromPrintingWorkareaTitle: '印刷レイヤーをレーザーレイヤーに変換しますか？',
       },
-      start_work_button: '作業開始ボタン',
+      start_work_button: '実行ボタン',
       frame_before_start: '実行前にフレーム',
       frame_before_start_url: 'https://support.flux3dp.com/hc/en-us/articles/11494925637135',
     },

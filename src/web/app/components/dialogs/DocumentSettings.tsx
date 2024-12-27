@@ -258,7 +258,7 @@ const DocumentSettings = ({ unmount }: Props): JSX.Element => {
           {isPromark && (
             <div className={styles.row}>
               <label className={styles.title} htmlFor="pm-laser-source">
-                {tDocu.laser_source}
+                {tDocu.laser_source}:
               </label>
               <Select
                 id="pm-laser-source"

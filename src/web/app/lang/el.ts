@@ -1169,7 +1169,7 @@ const lang: ILang = {
       notification: {
         changeFromPrintingWorkareaTitle: 'Θέλετε να μετατρέψετε τα επίπεδα εκτύπωσης σε επίπεδα λέιζερ;',
       },
-      start_work_button: 'Κουμπί Έναρξης Εργασίας',
+      start_work_button: 'Κουμπί Εκτέλεσης',
       frame_before_start: 'Πλαίσιο πριν από την εκτέλεση',
       frame_before_start_url: 'https://support.flux3dp.com/hc/en-us/articles/11494925637135',
     },
