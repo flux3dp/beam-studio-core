@@ -106,7 +106,7 @@ export const baseConfig: Partial<ConfigKeyTypeMap> = {
   fillAngle: 0,
   biDirectional: true,
   frequency: 27,
-  pulseWidth: 100,
+  pulseWidth: 500,
   dottingTime: 100,
 };
 
@@ -121,13 +121,9 @@ export const getDefaultConfig = (): Partial<ConfigKeyTypeMap> => {
     config.speed = 1000;
     const promarkInfo = getPromarkInfo();
     if (promarkInfo.laserType === LaserType.MOPA) {
-      config.pulseWidth = 500;
       if (promarkInfo.watt >= 100) config.frequency = 55;
       else if (promarkInfo.watt >= 60) config.frequency = 40;
-      else {
-        config.frequency = 25;
-        config.pulseWidth = 350;
-      }
+      else config.frequency = 25;
     } else if (promarkInfo.watt >= 50) config.frequency = 45;
     else if (promarkInfo.watt >= 30) config.frequency = 30;
     else config.frequency = 27;
@@ -413,9 +409,10 @@ export const getPromarkLimit = (): {
 } => {
   const { laserType, watt } = getPromarkInfo();
   if (laserType === LaserType.MOPA) {
-    if (watt >= 100) return { pulseWidth: { min: 10, max: 500 }, frequency: { min: 1, max: 1000 } };
+    // pulseWidth for M100 V1: 10~500, M20 V1: 2~350
+    if (watt >= 100) return { pulseWidth: { min: 2, max: 500 }, frequency: { min: 1, max: 1000 } };
     if (watt >= 60) return { pulseWidth: { min: 2, max: 500 }, frequency: { min: 1, max: 1000 } };
-    return { pulseWidth: { min: 2, max: 350 }, frequency: { min: 1, max: 1000 } };
+    return { pulseWidth: { min: 2, max: 500 }, frequency: { min: 1, max: 1000 } };
   }
   if (watt >= 50) return { frequency: { min: 45, max: 170 } };
   if (watt >= 30) return { frequency: { min: 30, max: 60 } };

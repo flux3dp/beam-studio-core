@@ -1169,7 +1169,7 @@ const lang: ILang = {
       notification: {
         changeFromPrintingWorkareaTitle: 'Bạn có muốn chuyển các lớp in sang lớp laser không?',
       },
-      start_work_button: 'Nút Bắt Đầu Công Việc',
+      start_work_button: 'Nút Thực Hiện',
       frame_before_start: 'Khung trước khi thực thi',
       frame_before_start_url: 'https://support.flux3dp.com/hc/en-us/articles/11494925637135',
     },

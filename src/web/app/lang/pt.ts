@@ -1169,7 +1169,7 @@ const lang: ILang = {
       notification: {
         changeFromPrintingWorkareaTitle: 'Deseja converter as Camadas de Impressão em Camadas de Laser?',
       },
-      start_work_button: 'Botão de Iniciar Trabalho',
+      start_work_button: 'Botão Executar',
       frame_before_start: 'Quadro antes de executar',
       frame_before_start_url: 'https://support.flux3dp.com/hc/en-us/articles/11494925637135',
     },

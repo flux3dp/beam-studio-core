@@ -1172,7 +1172,7 @@ const lang: ILang = {
       notification: {
         changeFromPrintingWorkareaTitle: 'Chcete převést Tiskové vrstvy na Laserové vrstvy?',
       },
-      start_work_button: 'Tlačítko pro zahájení práce',
+      start_work_button: 'Tlačítko Spustit',
       frame_before_start: 'Nejprve rámec, pak provést',
       frame_before_start_url: 'https://support.flux3dp.com/hc/en-us/articles/11494925637135',
     },

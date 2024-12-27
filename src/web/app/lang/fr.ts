@@ -1169,7 +1169,7 @@ const lang: ILang = {
       notification: {
         changeFromPrintingWorkareaTitle: "Voulez-vous convertir les calques d'impression en calques laser?",
       },
-      start_work_button: 'Bouton de démarrage du travail',
+      start_work_button: 'Bouton Exécuter',
       frame_before_start: "Cadre avant d'exécuter",
       frame_before_start_url: 'https://support.flux3dp.com/hc/en-us/articles/11494925637135',
     },
