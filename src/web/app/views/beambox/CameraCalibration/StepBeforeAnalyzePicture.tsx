@@ -269,7 +269,7 @@ const StepBeforeAnalyzePicture = (): JSX.Element => {
       footer={[
         <Button
           onClick={async () => {
-            await PreviewModeController.end();
+            await PreviewModeController.end({ shouldWaitForEnd: true });
             gotoNextStep(STEP_REFOCUS);
           }}
         >
