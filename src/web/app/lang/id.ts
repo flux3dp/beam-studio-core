@@ -8,6 +8,13 @@ const lang: ILang = {
     save: 'Simpan',
     ok: 'OK',
     stop: 'Berhenti',
+    editing: {
+      undo: 'Urungkan',
+      redo: 'Ulangi',
+      zoom_in: 'Perbesar',
+      zoom_out: 'Perkecil',
+      reset: 'Atur Ulang',
+    },
   },
   general: {
     processing: 'Memproses...',

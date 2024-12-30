@@ -8,6 +8,13 @@ const lang: ILang = {
     save: 'Spara',
     ok: 'OK',
     stop: 'Stoppa',
+    editing: {
+      undo: 'Ångra',
+      redo: 'Gör om',
+      zoom_in: 'Zooma in',
+      zoom_out: 'Zooma ut',
+      reset: 'Återställ',
+    },
   },
   general: {
     processing: 'Bearbetar...',

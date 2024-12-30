@@ -8,6 +8,13 @@ const lang: ILang = {
     save: '保存する',
     ok: 'OK',
     stop: '停止',
+    editing: {
+      undo: '元に戻す',
+      redo: 'やり直す',
+      zoom_in: 'ズームイン',
+      zoom_out: 'ズームアウト',
+      reset: 'リセット',
+    },
   },
   general: {
     processing: '処理中...',

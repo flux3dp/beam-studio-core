@@ -8,6 +8,13 @@ const lang: ILang = {
     save: 'Uložit',
     ok: 'OK',
     stop: 'Zastavit',
+    editing: {
+      undo: 'Zpět',
+      redo: 'Znovu',
+      zoom_in: 'Přiblížit',
+      zoom_out: 'Oddálit',
+      reset: 'Resetovat',
+    },
   },
   general: {
     processing: 'Zpracovávám',

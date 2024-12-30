@@ -8,6 +8,13 @@ const lang: ILang = {
     save: '储存',
     ok: '确定',
     stop: '停止',
+    editing: {
+      undo: '撤销',
+      redo: '重做',
+      zoom_in: '放大',
+      zoom_out: '缩小',
+      reset: '重置',
+    },
   },
   general: {
     processing: '处理中...',
