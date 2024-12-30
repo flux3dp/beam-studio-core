@@ -139,7 +139,7 @@ class PreviewModeController {
     }
   }
 
-  async end() {
+  async end({ shouldWaitForEnd = false }: { shouldWaitForEnd?: boolean } = {}) {
     console.log('end of pmc');
     this.isPreviewModeOn = false;
     if (this.liveModeTimeOut) clearTimeout(this.liveModeTimeOut);
@@ -150,7 +150,8 @@ class PreviewModeController {
     if (currentDevice) {
       deviceMaster.setDeviceControlDefaultCloseListener(currentDevice);
     }
-    this.previewManager?.end();
+    if (shouldWaitForEnd) await this.previewManager?.end();
+    else this.previewManager?.end();
     this.reset();
   }
 
