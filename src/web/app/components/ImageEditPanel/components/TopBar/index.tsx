@@ -10,6 +10,8 @@ import {
 } from '@ant-design/icons';
 import classNames from 'classnames';
 
+import useI18n from 'helpers/useI18n';
+
 import { HistoryState } from '../../hooks/useHistory';
 
 import styles from './index.module.scss';
@@ -29,12 +31,15 @@ function TopBar({
   history: { index, items },
   handleHistoryChange,
 }: Props): JSX.Element {
+  const {
+    global: { editing: lang },
+  } = useI18n();
   // to realtime update zoom scale display
   const renderZoomButton = useCallback(
     () => (
       <div className={styles['dp-flex']}>
         <Button
-          title="Zoom out"
+          title={lang.zoom_out}
           className={styles['mr-8px']}
           shape="round"
           icon={<MinusOutlined />}
@@ -44,21 +49,16 @@ function TopBar({
           {Math.round(zoomScale * 100)}%
         </div>
         <Button
-          title="Zoom in"
+          title={lang.zoom_in}
           className={styles['mr-8px']}
           shape="round"
           icon={<PlusOutlined />}
           onClick={() => handleZoomByScale(1.2)}
         />
-        <Button
-          title="Reset to Initial Zoom"
-          shape="circle"
-          icon={<ReloadOutlined />}
-          onClick={handleReset}
-        />
+        <Button title={lang.reset} shape="circle" icon={<ReloadOutlined />} onClick={handleReset} />
       </div>
     ),
-    [handleReset, handleZoomByScale, zoomScale]
+    [handleReset, handleZoomByScale, zoomScale, lang]
   );
 
   return (
@@ -69,7 +69,7 @@ function TopBar({
       <div>
         <Button
           className={styles['mr-8px']}
-          title="Undo"
+          title={lang.undo}
           shape="round"
           icon={<ArrowLeftOutlined />}
           disabled={index === 0}
@@ -77,7 +77,7 @@ function TopBar({
         />
         <Button
           shape="round"
-          title="Redo"
+          title={lang.redo}
           icon={<ArrowRightOutlined />}
           disabled={index === items.length - 1}
           onClick={handleHistoryChange('redo')}

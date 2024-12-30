@@ -8,6 +8,13 @@ const lang: ILang = {
     save: 'บันทึก',
     ok: 'ตกลง',
     stop: 'หยุด',
+    editing: {
+      undo: 'เลิกทำ',
+      redo: 'ทำซ้ำ',
+      zoom_in: 'ขยายเข้า',
+      zoom_out: 'ย่อออก',
+      reset: 'รีเซ็ต',
+    },
   },
   general: {
     processing: 'กำลังประมวลผล...',

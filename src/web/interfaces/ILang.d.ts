@@ -1,5 +1,7 @@
 export interface ILang {
-  global: Record<'cancel' | 'back' | 'save' | 'ok' | 'stop', string>;
+  global: Record<'cancel' | 'back' | 'save' | 'ok' | 'stop', string> & {
+    editing: Record<'undo' | 'redo' | 'zoom_in' | 'zoom_out' | 'reset', string>;
+  };
   general: {
     processing: string;
     choose_folder: string;

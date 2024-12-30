@@ -8,6 +8,13 @@ const lang: ILang = {
     save: 'Opslaan',
     ok: 'OK',
     stop: 'Stop',
+    editing: {
+      undo: 'Ongedaan maken',
+      redo: 'Opnieuw',
+      zoom_in: 'Inzoomen',
+      zoom_out: 'Uitzoomen',
+      reset: 'Resetten',
+    },
   },
   general: {
     processing: 'Verwerken...',

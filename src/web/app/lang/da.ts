@@ -8,6 +8,13 @@ const lang: ILang = {
     save: 'Gem',
     ok: 'OK',
     stop: 'Stop',
+    editing: {
+      undo: 'Fortryd',
+      redo: 'Gentag',
+      zoom_in: 'Zoom Ind',
+      zoom_out: 'Zoom Ud',
+      reset: 'Nulstil',
+    },
   },
   general: {
     processing: 'Behandler...',

@@ -136,10 +136,7 @@ function ImageEditPanel({ src, image, onClose }: Props): JSX.Element {
     const { x, y } = stage.getPointerPosition();
     const { x: stageX, y: stageY } = stage.position();
 
-    return {
-      x: (x - stageX) / scale,
-      y: (y - stageY) / scale,
-    };
+    return { x: (x - stageX) / scale, y: (y - stageY) / scale };
   }, []);
 
   const handleMouseDown = useCallback(
@@ -329,6 +326,7 @@ function ImageEditPanel({ src, image, onClose }: Props): JSX.Element {
 
   useEffect(() => {
     const initialize = async () => {
+      const { clientHeight, clientWidth } = divRef.current;
       const {
         blobUrl,
         originalWidth: width,
@@ -337,15 +335,12 @@ function ImageEditPanel({ src, image, onClose }: Props): JSX.Element {
       const fullColorImage = await calculateBase64(blobUrl, true, 255, true);
       const initScale = Math.min(
         1,
-        (divRef.current.clientWidth - IMAGE_PADDING * 2) / width,
-        (divRef.current.clientHeight - IMAGE_PADDING * 2) / height
+        (clientWidth - IMAGE_PADDING * 2) / width,
+        (clientHeight - IMAGE_PADDING * 2) / height
       );
 
-      const imageX = Math.max(IMAGE_PADDING, (divRef.current.clientWidth - width * initScale) / 2);
-      const imageY = Math.max(
-        IMAGE_PADDING,
-        (divRef.current.clientHeight - height * initScale) / 2
-      );
+      const imageX = Math.max(IMAGE_PADDING, (clientWidth - width * initScale) / 2);
+      const imageY = Math.max(IMAGE_PADDING, (clientHeight - height * initScale) / 2);
 
       setFitScreenDimension({ x: imageX, y: imageY, scale: initScale });
       setZoomScale(initScale);
