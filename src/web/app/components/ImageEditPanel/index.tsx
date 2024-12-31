@@ -48,6 +48,8 @@ const EXPORTING = 1;
 
 const IMAGE_PADDING = 30;
 
+const scope = 'image-edit-panel';
+
 function ImageEditPanel({ src, image, onClose }: Props): JSX.Element {
   const {
     beambox: { photo_edit_panel: langPhoto },
@@ -325,6 +327,7 @@ function ImageEditPanel({ src, image, onClose }: Props): JSX.Element {
   }, [progress, imageSize, imageRef.current?.useImageStatus, forceUpdate]);
 
   useEffect(() => {
+    shortcuts.enterScope(scope);
     const initialize = async () => {
       const { clientHeight, clientWidth } = divRef.current;
       const {
@@ -376,20 +379,22 @@ function ImageEditPanel({ src, image, onClose }: Props): JSX.Element {
 
     return () => {
       observer.disconnect();
+      shortcuts.enterScope('');
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     const subscribedShortcuts = [
-      shortcuts.on(['Escape'], onClose, { isBlocking: true }),
-      shortcuts.on(['Fnkey+z'], handleHistoryChange('undo'), { isBlocking: true }),
-      shortcuts.on(['Shift+Fnkey+z'], handleHistoryChange('redo'), { isBlocking: true }),
+      shortcuts.on(['Escape'], onClose, { isBlocking: true, scope }),
+      shortcuts.on(['Fnkey+z'], handleHistoryChange('undo'), { isBlocking: true, scope }),
+      shortcuts.on(['Shift+Fnkey+z'], handleHistoryChange('redo'), { isBlocking: true, scope }),
       shortcuts.on(['Fnkey-+', 'Fnkey-='], () => handleZoomByScale(1.2), {
         isBlocking: true,
         splitKey: '-',
+        scope,
       }),
-      shortcuts.on(['Fnkey+-'], () => handleZoomByScale(0.8), { isBlocking: true }),
+      shortcuts.on(['Fnkey+-'], () => handleZoomByScale(0.8), { isBlocking: true, scope }),
     ];
 
     return () => {

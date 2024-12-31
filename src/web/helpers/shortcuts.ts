@@ -8,17 +8,20 @@ interface ShortcutEvent {
   callback: (event: KeyboardEvent) => void;
   priority: number;
   isPreventDefault: boolean;
+  scope?: string;
 }
 
 interface RegisterOptions {
   isBlocking?: boolean;
   isPreventDefault?: boolean;
   splitKey?: string;
+  scope?: string;
 }
 
 let events = Array.of<ShortcutEvent>();
 const currentPressedKeys = new Set<string>();
 let hasBind = false;
+let currentScope = '';
 
 const parseKeySet = (keySet: string, splitKey = '+'): string =>
   keySet
@@ -28,22 +31,24 @@ const parseKeySet = (keySet: string, splitKey = '+'): string =>
     .join('+')
     .toLowerCase();
 
-const matchedEventsByKeySet = (keySet: string) =>
-  events.reduce(
-    (acc, cur) => {
-      if (cur.keySet === keySet) {
-        if (cur.priority > acc.maxPriority) {
-          acc.matches = [cur];
-          acc.maxPriority = cur.priority;
-        } else if (cur.priority === acc.maxPriority) {
-          acc.matches.push(cur);
+const matchedEventsByKeySet = (keySet: string, matchScope = currentScope) =>
+  events
+    .filter((e) => !matchScope || e.scope === matchScope)
+    .reduce(
+      (acc, cur) => {
+        if (cur.keySet === keySet) {
+          if (cur.priority > acc.maxPriority) {
+            acc.matches = [cur];
+            acc.maxPriority = cur.priority;
+          } else if (cur.priority === acc.maxPriority) {
+            acc.matches.push(cur);
+          }
         }
-      }
 
-      return acc;
-    },
-    { matches: Array.of<ShortcutEvent>(), maxPriority: 0 }
-  );
+        return acc;
+      },
+      { matches: Array.of<ShortcutEvent>(), maxPriority: 0 }
+    );
 
 const keyupEvent = (event: KeyboardEvent) => {
   /**
@@ -108,7 +113,7 @@ export default {
   on(
     keys: Array<string>,
     callback: (event: KeyboardEvent) => void,
-    { isBlocking = false, isPreventDefault = true, splitKey = '+' }: RegisterOptions = {}
+    { isBlocking = false, isPreventDefault = true, splitKey = '+', scope }: RegisterOptions = {}
   ): (() => void) | null {
     if (isMobile()) {
       return null;
@@ -118,8 +123,9 @@ export default {
     const newEvents: Array<ShortcutEvent> = keySets.map((keySet) => ({
       keySet,
       callback,
-      priority: isBlocking ? matchedEventsByKeySet(keySet).maxPriority + 1 : 0,
+      priority: isBlocking ? matchedEventsByKeySet(keySet, '').maxPriority + 1 : 0,
       isPreventDefault,
+      scope,
     }));
 
     newEvents.forEach((newEvent) => {
@@ -151,4 +157,7 @@ export default {
     hasBind = false;
   },
   initialize,
+  enterScope(scope: string): void {
+    currentScope = scope;
+  },
 };
