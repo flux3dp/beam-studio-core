@@ -51,14 +51,10 @@ const StepBeforeAnalyzePicture = (): JSX.Element => {
       <div className="hint-modal-background" onClick={() => setShowHint(false)}>
         <div className="hint-box" style={position1}>
           <div className="arrowup" />
-          <div className="hint-body">
-            {lang.hint_red_square}
-          </div>
+          <div className="hint-body">{lang.hint_red_square}</div>
         </div>
         <div className="hint-box" style={position2}>
-          <div className="hint-body">
-            {lang.hint_adjust_parameters}
-          </div>
+          <div className="hint-body">{lang.hint_adjust_parameters}</div>
           <div className="arrowdown" />
         </div>
       </div>
@@ -108,8 +104,8 @@ const StepBeforeAnalyzePicture = (): JSX.Element => {
     const width = (25 * mmToImage) / cc.SX;
     const height = (25 * mmToImage) / cc.SY;
     const { centerX, centerY } = Constant.camera.calibrationPicture;
-    const left = 100 - (width / 2) - ((cc.X - centerX + cameraPosition.x) * mmToImage) / cc.SX;
-    const top = 100 - (height / 2) - ((cc.Y - centerY + cameraPosition.y) * mmToImage) / cc.SY;
+    const left = 100 - width / 2 - ((cc.X - centerX + cameraPosition.x) * mmToImage) / cc.SX;
+    const top = 100 - height / 2 - ((cc.Y - centerY + cameraPosition.y) * mmToImage) / cc.SY;
     return {
       width,
       height,
@@ -144,9 +140,15 @@ const StepBeforeAnalyzePicture = (): JSX.Element => {
   };
 
   const hintModal = showHint ? renderHintModal() : null;
-  const lastConfigSquare = showLastConfig ? <div className="virtual-square last-config" style={lastConfigSquareStyle} /> : null;
+  const lastConfigSquare = showLastConfig ? (
+    <div className="virtual-square last-config" style={lastConfigSquareStyle} />
+  ) : null;
   const manualCalibration = (
-    <Row onKeyDown={(e) => { e.stopPropagation(); }}>
+    <Row
+      onKeyDown={(e) => {
+        e.stopPropagation();
+      }}
+    >
       <Col span={12}>
         <div className="img-center" style={imgBackground}>
           <div className="virtual-square" style={squareStyle} />
@@ -157,16 +159,12 @@ const StepBeforeAnalyzePicture = (): JSX.Element => {
           <div className="camera-control right" onClick={() => moveAndRetakePicture('right')} />
         </div>
         <div className="checkbox-container" onClick={() => setShowLastConfig(!showLastConfig)}>
-          <input type="checkbox" checked={showLastConfig} onChange={() => { }} />
+          <input type="checkbox" checked={showLastConfig} onChange={() => {}} />
           <div className="title">{lang.show_last_config}</div>
         </div>
       </Col>
       <Col span={12}>
-        <Form
-          size="small"
-          className="controls"
-          form={form}
-        >
+        <Form size="small" className="controls" form={form}>
           <Form.Item name="X" label={lang.dx} initialValue={currentOffset.X - 15}>
             <InputNumber
               type="number"
@@ -188,7 +186,11 @@ const StepBeforeAnalyzePicture = (): JSX.Element => {
               step={unit === 'inches' ? 0.005 : 0.1}
             />
           </Form.Item>
-          <Form.Item name="R" label={lang.rotation_angle} initialValue={currentOffset.R * (180 / Math.PI)}>
+          <Form.Item
+            name="R"
+            label={lang.rotation_angle}
+            initialValue={currentOffset.R * (180 / Math.PI)}
+          >
             <InputNumber
               min={-180}
               max={180}
@@ -198,7 +200,11 @@ const StepBeforeAnalyzePicture = (): JSX.Element => {
               step={0.1}
             />
           </Form.Item>
-          <Form.Item name="SX" label={lang.x_ratio} initialValue={(3.25 - currentOffset.SX) * (100 / 1.625)}>
+          <Form.Item
+            name="SX"
+            label={lang.x_ratio}
+            initialValue={(3.25 - currentOffset.SX) * (100 / 1.625)}
+          >
             <InputNumber
               type="number"
               min={10}
@@ -209,7 +215,11 @@ const StepBeforeAnalyzePicture = (): JSX.Element => {
               step={0.1}
             />
           </Form.Item>
-          <Form.Item name="SY" label={lang.y_ratio} initialValue={(3.25 - currentOffset.SY) * (100 / 1.625)}>
+          <Form.Item
+            name="SY"
+            label={lang.y_ratio}
+            initialValue={(3.25 - currentOffset.SY) * (100 / 1.625)}
+          >
             <InputNumber
               type="number"
               min={10}
@@ -221,9 +231,7 @@ const StepBeforeAnalyzePicture = (): JSX.Element => {
             />
           </Form.Item>
           <Space>
-            <Button onClick={useLastConfigValue}>
-              {lang.use_last_config}
-            </Button>
+            <Button onClick={useLastConfigValue}>{lang.use_last_config}</Button>
             <Button onClick={() => setShowHint(true)}>
               <QuestionOutlined />
             </Button>
@@ -236,7 +244,7 @@ const StepBeforeAnalyzePicture = (): JSX.Element => {
 
   const refocus = async () => {
     try {
-      await PreviewModeController.end();
+      await PreviewModeController.end({ shouldWaitForEnd: true });
       await sendPictureThenSetConfig(currentOffset, device, borderless);
       gotoNextStep(STEP_FINISH);
     } catch (error) {
@@ -258,23 +266,20 @@ const StepBeforeAnalyzePicture = (): JSX.Element => {
       closable={false}
       className="modal-camera-calibration"
       title={lang.camera_calibration}
-      footer={
-          [
-            <Button onClick={async () => {
-              await PreviewModeController.end();
-              gotoNextStep(STEP_REFOCUS);
-            }}
-            >
-              {lang.back}
-            </Button>,
-            <Button onClick={() => onClose(false)}>
-              {lang.cancel}
-            </Button>,
-            <Button type="primary" onClick={refocus}>
-              {lang.next}
-            </Button>,
-          ]
-        }
+      footer={[
+        <Button
+          onClick={async () => {
+            await PreviewModeController.end({ shouldWaitForEnd: true });
+            gotoNextStep(STEP_REFOCUS);
+          }}
+        >
+          {lang.back}
+        </Button>,
+        <Button onClick={() => onClose(false)}>{lang.cancel}</Button>,
+        <Button type="primary" onClick={refocus}>
+          {lang.next}
+        </Button>,
+      ]}
     >
       {manualCalibration}
     </Modal>

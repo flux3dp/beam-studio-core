@@ -86,7 +86,7 @@ export function CalibrationProvider({
 
   const wrappedOnClose = async (completed: boolean) => {
     onClose(completed);
-    await PreviewModeController.end();
+    await PreviewModeController.end({ shouldWaitForEnd: true });
     const tempCmdAvailable = versionChecker(device?.version).meetRequirement('TEMP_I2C_CMD');
     if (originFanSpeed && !tempCmdAvailable) {
       await DeviceMaster.setFan(originFanSpeed);
