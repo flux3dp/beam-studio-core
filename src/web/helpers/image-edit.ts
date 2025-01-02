@@ -26,8 +26,6 @@ import { IBatchCommand } from 'interfaces/IHistory';
 import { moveElements } from 'app/svgedit/operations/move';
 import { simplifyPath } from 'app/svgedit/operations/pathActions';
 
-import PotraceWorker from './potrace/potrace.worker';
-
 let svgCanvas: ISVGCanvas;
 let svgedit;
 getSVGAsync((globalSVG) => {
@@ -396,7 +394,13 @@ const removeBackground = async (elem?: SVGImageElement): Promise<void> => {
 const potrace = async (elem?: SVGImageElement): Promise<void> => {
   const element = elem || getSelectedElem();
   if (!element) return;
-  const worker = new PotraceWorker();
+  const worker = new Worker(
+    new URL(
+      /* webpackChunkName: "potrace.worker" */
+      './potrace.worker.bundle.js',
+      import.meta.url
+    )
+  );
   let canceled = false;
   progress.openNonstopProgress({
     id: 'potrace',

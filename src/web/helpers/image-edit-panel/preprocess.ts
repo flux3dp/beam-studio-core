@@ -37,15 +37,22 @@ export const preprocessByJimpImage = async (
   return { blobUrl: currentBlobUrl, dimension, originalWidth, originalHeight };
 };
 
-export const preprocessByUrl = async (
-  blobUrl: string,
-  { isFullResolution = false } = {}
-): Promise<{
+export interface PreprocessByUrlParams {
+  blobUrl: string;
+  isFullResolution?: boolean;
+}
+
+export interface PreprocessByUrlResult {
   blobUrl: string;
   dimension: CropperDimension;
   originalWidth: number;
   originalHeight: number;
-}> => {
+}
+
+export const preprocessByUrl = async (
+  blobUrl: string,
+  { isFullResolution = false } = {}
+): Promise<PreprocessByUrlResult> => {
   const image = await jimpHelper.urlToImage(blobUrl);
 
   return preprocessByJimpImage(image, blobUrl, { isFullResolution });

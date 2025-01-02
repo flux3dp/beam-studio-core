@@ -2,7 +2,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import EventEmitter from 'eventemitter3';
 
-import ClipperWorker from './clipper.worker';
 import getClipperLib from './getClipperLib';
 
 class ClipperBase extends EventEmitter {
@@ -18,7 +17,13 @@ class ClipperBase extends EventEmitter {
     super();
     this.type = type;
     if (window.Worker) {
-      this.worker = new ClipperWorker();
+      this.worker = new Worker(
+        new URL(
+          /* webpackChunkName: "clipper.worker" */
+          './clipper.worker.bundle.js',
+          import.meta.url
+        )
+      );
       this.worker.onmessage = (e) => {
         console.log('ClipperBase Worker Message:', e.data);
         const { id, data } = e.data;

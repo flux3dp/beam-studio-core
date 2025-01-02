@@ -7,7 +7,7 @@
 import communicator from 'implementations/communicator';
 import findDefs from 'app/svgedit/utils/findDef';
 import history from 'app/svgedit/history/history';
-import ImageSymbolWorker from 'helpers/symbol-helper/image-symbol.worker';
+
 import isWeb from 'helpers/is-web';
 import NS from 'app/constants/namespaces';
 import Progress from 'app/actions/progress-caller';
@@ -268,7 +268,13 @@ const stringifyStrokeWidth = (strokeWidth: number) => strokeWidth.toPrecision(6)
 
 const sendTaskToWorker = async (data) =>
   new Promise((resolve) => {
-    const worker = new ImageSymbolWorker('');
+    const worker = new Worker(
+      new URL(
+        /* webpackChunkName: "image-symbol.worker" */
+        './image-symbol.worker.bundle.js',
+        import.meta.url
+      )
+    );
     worker.postMessage(data);
     worker.onerror = (e) => console.log(e);
     worker.onmessage = (e) => {

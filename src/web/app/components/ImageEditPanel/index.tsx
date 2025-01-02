@@ -9,16 +9,19 @@ import { Layer, Line, Stage } from 'react-konva';
 import Konva from 'konva';
 import { Filter } from 'konva/lib/Node';
 
-import { preprocessByUrl } from 'helpers/image-edit-panel/preprocess';
 import calculateBase64 from 'helpers/image-edit-panel/calculate-base64';
 import handleFinish from 'helpers/image-edit-panel/handle-finish';
 import useI18n from 'helpers/useI18n';
 import shortcuts from 'helpers/shortcuts';
+import useForceUpdate from 'helpers/use-force-update';
 
 import progressCaller from 'app/actions/progress-caller';
 import FullWindowPanel from 'app/widgets/FullWindowPanel/FullWindowPanel';
 
-import useForceUpdate from 'helpers/use-force-update';
+import {
+  calculateBase64WorkerHandler,
+  preprocessByUrlWorkerHandler,
+} from 'helpers/image-edit-panel/workerHandler';
 import KonvaImage, { KonvaImageRef } from './components/KonvaImage';
 import Sider from './components/Sider';
 import TopBar from './components/TopBar';
@@ -333,8 +336,9 @@ function ImageEditPanel({ src, image, onClose }: Props): JSX.Element {
         blobUrl,
         originalWidth: width,
         originalHeight: height,
-      } = await preprocessByUrl(src, { isFullResolution: true });
-      const fullColorImage = await calculateBase64(blobUrl, true, 255, true);
+      } = await preprocessByUrlWorkerHandler({ blobUrl: src, isFullResolution: true });
+      const fullColorImage = await calculateBase64WorkerHandler(blobUrl, true, 255, true);
+
       const initScale = Math.min(
         1,
         (divRef.current.clientWidth - IMAGE_PADDING * 2) / width,
@@ -361,7 +365,7 @@ function ImageEditPanel({ src, image, onClose }: Props): JSX.Element {
 
     progressCaller.openNonstopProgress({ id: 'image-editing-init', message: langPhoto.processing });
 
-    setTimeout(initialize, 1000);
+    initialize();
 
     // update stage dimensions according parent div
     const stage = stageRef.current;
