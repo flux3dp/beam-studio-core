@@ -408,7 +408,8 @@ class SwiftrayClient extends EventEmitter {
   }
 
   public async startFraming(points?: [number, number][]): Promise<void> {
-    return this.action(`/devices/${this.port}`, 'startFraming', { points });
+    const { width } = getWorkarea('fpm1');
+    return this.action(`/devices/${this.port}`, 'startFraming', { points, width });
   }
 
   public async stopFraming(): Promise<void> {
