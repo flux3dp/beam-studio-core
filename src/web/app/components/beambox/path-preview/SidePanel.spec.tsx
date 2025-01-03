@@ -4,16 +4,18 @@ import { fireEvent, render } from '@testing-library/react';
 
 import SidePanel from './SidePanel';
 
-const useWorkarea = jest.fn();
-jest.mock('helpers/hooks/useWorkarea', () => () => useWorkarea());
+const mockGetConvertEngine = jest.fn();
+jest.mock('app/actions/beambox/export-funcs', () => ({
+  getConvertEngine: () => mockGetConvertEngine(),
+}));
 
 describe('side panel test', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    mockGetConvertEngine.mockReturnValue({ useSwiftray: false });
   });
 
   it('should render correctly when enabled', () => {
-    useWorkarea.mockReturnValue('fbm1');
     const handleStartHere = jest.fn();
     const togglePathPreview = jest.fn();
     const { container } = render(
@@ -41,7 +43,6 @@ describe('side panel test', () => {
   });
 
   it('should render correctly when disabled', () => {
-    useWorkarea.mockReturnValue('fbm1');
     const handleStartHere = jest.fn();
     const togglePathPreview = jest.fn();
     const { container } = render(
@@ -68,8 +69,8 @@ describe('side panel test', () => {
     expect(togglePathPreview).toHaveBeenCalledTimes(1);
   });
 
-  it('should render correctly with Promark', () => {
-    useWorkarea.mockReturnValue('fpm1');
+  it('should render correctly with Swiftray engine', () => {
+    mockGetConvertEngine.mockReturnValue({ useSwiftray: true });
     const handleStartHere = jest.fn();
     const togglePathPreview = jest.fn();
     const { container } = render(

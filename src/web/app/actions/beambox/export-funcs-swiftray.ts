@@ -256,6 +256,7 @@ const fetchTaskCodeSwiftray = async (
   if (isPromark) codeType = 'gcode';
   let taskConfig = {
     model,
+    isPromark,
     travelSpeed: isPromark ? controlConfig.travelSpeed : 100,
     enableAutoFocus:
       doesSupportDiodeAndAF && BeamboxPreference.read('enable-autofocus') && supportInfo.autoFocus,
@@ -266,7 +267,7 @@ const fetchTaskCodeSwiftray = async (
     vectorSpeedConstraint: !isPromark && BeamboxPreference.read('vector_speed_contraint') !== false,
     paddingAccel: await getAdorPaddingAccel(device || TopBarController.getSelectedDevice()),
   };
-  if (codeType === 'fcode')
+  if (!isPromark)
     taskConfig = {
       ...taskConfig,
       ...getExportOpt(taskConfig).config,
