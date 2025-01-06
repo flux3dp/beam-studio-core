@@ -1,19 +1,20 @@
+import classNames from 'classnames';
 import React, { Dispatch, memo, SetStateAction, useEffect, useMemo, useRef, useState } from 'react';
 import { Button, Carousel, ConfigProvider } from 'antd';
 
 import useI18n from 'helpers/useI18n';
-import classNames from 'classnames';
-
 import { AutoFitContour } from 'interfaces/IAutoFit';
+
 import styles from './ShapeSelector.module.scss';
 
 interface Props {
   data: AutoFitContour[][];
   focusedIndex: number;
   setFocusedIndex: Dispatch<SetStateAction<number>>;
+  onNext: () => void;
 }
 
-const ShapeSelector = ({ data, focusedIndex, setFocusedIndex }: Props): JSX.Element => {
+const ShapeSelector = ({ data, focusedIndex, setFocusedIndex, onNext }: Props): JSX.Element => {
   const { buttons: tButtons, auto_fit: tAutoFit } = useI18n();
   const [shouldUpdateCarousel, setShouldUpdateCarousel] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -55,12 +56,8 @@ const ShapeSelector = ({ data, focusedIndex, setFocusedIndex }: Props): JSX.Elem
         );
       }
       pages.push(
-        <div>
-          <div
-            key={`page-${i}`}
-            className={styles.page}
-            style={{ height: contentRef.current?.clientHeight }}
-          >
+        <div key={`page-${i}`}>
+          <div className={styles.page} style={{ height: contentRef.current?.clientHeight }}>
             {shapes}
           </div>
         </div>
@@ -103,7 +100,7 @@ const ShapeSelector = ({ data, focusedIndex, setFocusedIndex }: Props): JSX.Elem
         )}
       </div>
       <div className={styles.footer}>
-        <Button className={styles.btn} type="primary" onClick={() => console.log('next')}>
+        <Button className={styles.btn} type="primary" onClick={onNext}>
           {tButtons.next}
         </Button>
       </div>

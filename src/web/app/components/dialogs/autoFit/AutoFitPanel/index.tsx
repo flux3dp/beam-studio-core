@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import ActionPanelIcons from 'app/icons/action-panel/ActionPanelIcons';
 import BackButton from 'app/widgets/FullWindowPanel/BackButton';
@@ -8,10 +8,11 @@ import Sider from 'app/widgets/FullWindowPanel/Sider';
 import useI18n from 'helpers/useI18n';
 import { AutoFitContour } from 'interfaces/IAutoFit';
 
-import Canvas from './components/Canvas';
-import Info from './components/Info';
-import ShapeSelector from './components/ShapeSelector';
-import styles from './AutoFitPanel.module.scss';
+import Canvas from './Canvas';
+import Info from './Info';
+import ShapeSelector from './ShapeSelector';
+import styles from './index.module.scss';
+import { showAlignModal } from '../AlignModal';
 
 interface Props {
   onClose?: () => void;
@@ -31,6 +32,10 @@ const AutoFitPanel = ({ element, data, imageUrl, onClose }: Props): JSX.Element 
       },
     },
   } = useI18n();
+  const handleNext = useCallback(() => {
+    showAlignModal(element, data[focusedIndex][0]);
+  }, [element, data, focusedIndex]);
+
   return (
     <FullWindowPanel
       onClose={onClose}
@@ -50,6 +55,7 @@ const AutoFitPanel = ({ element, data, imageUrl, onClose }: Props): JSX.Element 
             data={data}
             focusedIndex={focusedIndex}
             setFocusedIndex={setFocusedIndex}
+            onNext={handleNext}
           />
         </>
       )}

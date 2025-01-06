@@ -1,0 +1,25 @@
+.container {
+  margin: 0 -24px;
+  border: 1px solid #dddddd;
+  border-width: 1px 0;
+  display: flex;
+
+  .controls {
+    flex: 0 0 auto;
+    width: 250px;
+    border: 1px solid #dddddd;
+    border-width: 0 1px 0 0;
+  }
+
+  .canvas {
+    flex: 1 1;
+    height: 400px;
+    background: #f0f0f0;
+
+    .konva-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
