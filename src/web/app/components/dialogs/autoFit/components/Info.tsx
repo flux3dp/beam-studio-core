@@ -29,9 +29,7 @@ const Info = ({ element }: Props): JSX.Element => {
           ? svgCanvas.getSvgRealLocation(element)
           : svgCanvas.calculateTransformedBBox(element);
       const angle = getRotationAngle(element);
-      console.log(bbox);
       let { x, y, width, height } = rotateBBox(bbox, angle);
-      console.log(x, y, width, height);
       const padding = 0.1;
       x -= padding * width;
       y -= padding * height;
