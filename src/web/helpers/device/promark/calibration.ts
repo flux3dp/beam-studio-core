@@ -24,7 +24,7 @@ export const loadTaskToSwiftray = async (scene: string, model: WorkAreaModel): P
   const convertRes = await swiftrayClient.convert(
     'gcode',
     { onProgressing: () => {}, onFinished: () => {}, onError: () => {} },
-    { model, travelSpeed: 4000 }
+    { model, travelSpeed: 4000, isPromark: true }
   );
   if (!convertRes.success)
     throw new Error(
