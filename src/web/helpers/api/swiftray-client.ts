@@ -236,6 +236,7 @@ class SwiftrayClient extends EventEmitter {
     },
     convertOptions: {
       model: WorkAreaModel;
+      isPromark: boolean;
       enableAutoFocus?: boolean;
       enableDiode?: boolean;
       shouldUseFastGradient?: boolean;
