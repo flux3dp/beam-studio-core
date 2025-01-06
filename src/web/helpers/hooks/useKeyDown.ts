@@ -22,12 +22,12 @@ export const useKeyDown = ({ predicate, keyDown, keyUp }: Props): void => {
       }
     };
 
-    document.addEventListener('keydown', handleKeyDown);
-    document.addEventListener('keyup', handleKeyUp);
+    if (keyDown) document.addEventListener('keydown', handleKeyDown);
+    if (keyUp) document.addEventListener('keyup', handleKeyUp);
 
     return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-      document.removeEventListener('keyup', handleKeyUp);
+      if (keyDown) document.removeEventListener('keydown', handleKeyDown);
+      if (keyUp) document.removeEventListener('keyup', handleKeyUp);
     };
   }, [keyDown, keyUp, predicate]);
 };

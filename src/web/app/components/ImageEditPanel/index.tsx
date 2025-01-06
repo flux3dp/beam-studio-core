@@ -18,13 +18,14 @@ import shortcuts from 'helpers/shortcuts';
 import progressCaller from 'app/actions/progress-caller';
 import FullWindowPanel from 'app/widgets/FullWindowPanel/FullWindowPanel';
 
+import useKonvaCanvas from 'helpers/hooks/konva/useKonvaCanvas';
 import useForceUpdate from 'helpers/use-force-update';
+import { useKeyDown } from 'helpers/hooks/useKeyDown';
+import { useMouseDown } from 'helpers/hooks/useMouseDown';
 import KonvaImage, { KonvaImageRef } from './components/KonvaImage';
 import Sider from './components/Sider';
 import TopBar from './components/TopBar';
 
-import { useKeyDown } from './hooks/useKeyDown';
-import { useMouseDown } from './hooks/useMouseDown';
 import { useHistory } from './hooks/useHistory';
 
 import { getMagicWandFilter } from './utils/getMagicWandFilter';
@@ -89,24 +90,22 @@ function ImageEditPanel({ src, image, onClose }: Props): JSX.Element {
   const imageRef = useRef<KonvaImageRef>(null);
   const imageData = useRef<ImageData>(null);
 
+  const { isDragging, handleWheel, handleZoom, handleZoomByScale } = useKonvaCanvas(stageRef, {
+    onScaleChanged: setZoomScale,
+  });
+
   useKeyDown({
     predicate: useCallback(({ key }) => key === ' ', []),
-    keyDown: useCallback(() => setOperation('drag'), []),
     keyUp: useCallback(() => setOperation(null), []),
   });
 
   useMouseDown({
     predicate: useCallback(({ button }) => button === 1, []),
-    keyDown: useCallback(() => {
-      setOperation('drag');
-      // start drag directly
-      stageRef.current.startDrag();
-    }, []),
-    keyUp: useCallback(() => setOperation(null), []),
+    mouseUp: useCallback(() => setOperation(null), []),
   });
 
   const cursorStyle = useMemo(() => {
-    if (operation === 'drag') {
+    if (isDragging) {
       return { cursor: 'grab' };
     }
 
@@ -119,7 +118,7 @@ function ImageEditPanel({ src, image, onClose }: Props): JSX.Element {
     }
 
     return { cursor: `url('core-img/image-edit-panel/magic-wand.svg') 7 7, auto` };
-  }, [operation, mode, brushSize]);
+  }, [isDragging, mode, brushSize]);
 
   const handlePushHistory = useCallback(() => push({ lines, filters }), [push, lines, filters]);
   const handleHistoryChange = useCallback(
@@ -143,7 +142,7 @@ function ImageEditPanel({ src, image, onClose }: Props): JSX.Element {
 
   const handleMouseDown = useCallback(
     ({ target, evt }: Konva.KonvaEventObject<MouseEvent>) => {
-      if (operation === 'drag' || evt.button !== 0) {
+      if (isDragging || evt.button !== 0) {
         return;
       }
 
@@ -165,12 +164,12 @@ function ImageEditPanel({ src, image, onClose }: Props): JSX.Element {
         setFilters((prevFilters) => prevFilters.concat(filter));
       }
     },
-    [getPointerPositionFromStage, operation, mode, brushSize, tolerance]
+    [isDragging, getPointerPositionFromStage, mode, brushSize, tolerance]
   );
 
   const handleMouseMove = useCallback(
     ({ target }: Konva.KonvaEventObject<MouseEvent>) => {
-      if (operation !== 'eraser') {
+      if (isDragging || operation !== 'eraser') {
         return;
       }
 
@@ -193,7 +192,7 @@ function ImageEditPanel({ src, image, onClose }: Props): JSX.Element {
         return updatedLines;
       });
     },
-    [getPointerPositionFromStage, operation]
+    [isDragging, getPointerPositionFromStage, operation]
   );
 
   const handleExitDrawing = useCallback(() => {
@@ -204,74 +203,12 @@ function ImageEditPanel({ src, image, onClose }: Props): JSX.Element {
     }
   }, [handlePushHistory, operation]);
 
-  const handleMove = useCallback(
-    ({ evt: { deltaX, deltaY } }: Konva.KonvaEventObject<WheelEvent>) => {
-      const stage = stageRef.current;
-      const { x, y } = stage.position();
-
-      stage.position({ x: x - deltaX, y: y - deltaY });
-      stage.batchDraw();
-    },
-    []
-  );
-
-  const handleZoom = useCallback((scale: number, isPointer = false) => {
-    const stage = stageRef.current;
-    const oldScale = stage.scaleX();
-    const targetPosition = isPointer
-      ? stage.getPointerPosition()
-      : { x: stage.width() / 2, y: stage.height() / 2 };
-
-    if (!targetPosition) {
-      return;
-    }
-
-    const mousePointTo = {
-      x: (targetPosition.x - stage.x()) / oldScale,
-      y: (targetPosition.y - stage.y()) / oldScale,
-    };
-
-    const boundedScale = Math.min(20, Math.max(0.01, scale));
-    const x = -(mousePointTo.x - targetPosition.x / boundedScale) * boundedScale;
-    const y = -(mousePointTo.y - targetPosition.y / boundedScale) * boundedScale;
-    const pos = { x, y };
-
-    setZoomScale(boundedScale);
-
-    stage.scale({ x: boundedScale, y: boundedScale });
-    stage.position(pos);
-    stage.batchDraw();
-  }, []);
-
-  const handleZoomByScale = useCallback(
-    (scaleBy: number, isPointer = false) => {
-      const stage = stageRef.current;
-      const scale = stage.scaleX();
-
-      handleZoom(scale * scaleBy, isPointer);
-    },
-    [handleZoom]
-  );
-
   const handleReset = useCallback(() => {
     const stage = stageRef.current;
 
     handleZoom(fitScreenDimension.scale);
     stage.position(fitScreenDimension);
   }, [fitScreenDimension, handleZoom]);
-
-  const handleWheel = useCallback(
-    (e: Konva.KonvaEventObject<WheelEvent>) => {
-      e.evt.preventDefault();
-
-      if (e.evt.ctrlKey) {
-        handleZoomByScale(e.evt.deltaY < 0 ? 1.02 : 0.98, true);
-      } else {
-        handleMove(e);
-      }
-    },
-    [handleMove, handleZoomByScale]
-  );
 
   const handleComplete = useCallback(() => {
     progressCaller.openNonstopProgress({ id: 'image-editing', message: langPhoto.processing });
@@ -439,7 +376,7 @@ function ImageEditPanel({ src, image, onClose }: Props): JSX.Element {
                   onMousemove={handleMouseMove}
                   onMouseLeave={handleExitDrawing}
                   onMouseup={handleExitDrawing}
-                  draggable={operation === 'drag'}
+                  draggable={isDragging}
                 >
                   <Layer ref={layerRef} pixelRatio={1}>
                     <KonvaImage ref={imageRef} src={displayImage} filters={filters} />
