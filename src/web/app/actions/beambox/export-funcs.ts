@@ -394,7 +394,7 @@ const openTaskInDeviceMonitor = (
   );
 };
 
-const getConvertEngine = (targetDevice?: IDeviceInfo) => {
+export const getConvertEngine = (targetDevice?: IDeviceInfo) => {
   const currentWorkarea = BeamboxPreference.read('workarea');
   const isPromark = promarkModels.has(currentWorkarea);
   const useSwiftray =

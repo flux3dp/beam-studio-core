@@ -3,8 +3,7 @@ import React, { useMemo } from 'react';
 
 import isWeb from 'helpers/is-web';
 import useI18n from 'helpers/useI18n';
-import useWorkarea from 'helpers/hooks/useWorkarea';
-import { promarkModels } from 'app/actions/beambox/constant';
+import { getConvertEngine } from 'app/actions/beambox/export-funcs';
 
 interface Props {
   size: string;
@@ -38,8 +37,6 @@ function SidePanel({
       <div className="value">{value}</div>
     </div>
   );
-  const workarea = useWorkarea();
-  const isPromark = useMemo(() => promarkModels.has(workarea), [workarea]);
 
   const sideClass = useMemo(
     () =>
@@ -49,6 +46,11 @@ function SidePanel({
       }),
     []
   );
+
+  const isStartHereHidden = useMemo(() => {
+    const { useSwiftray } = getConvertEngine();
+    return useSwiftray;
+  }, []);
 
   return (
     <div id="path-preview-side-panel" className={sideClass}>
@@ -64,7 +66,7 @@ function SidePanel({
       </div>
       <div className="remark">{LANG.remark}</div>
       <div className="buttons">
-        {isPromark || (
+        {isStartHereHidden || (
           <div
             className={classNames('btn btn-default primary', { disabled: !isStartHereEnabled })}
             onClick={isStartHereEnabled ? handleStartHere : null}

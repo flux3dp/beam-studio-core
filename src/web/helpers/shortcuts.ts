@@ -26,10 +26,10 @@ let currentScope = '';
 const parseKeySet = (keySet: string, splitKey = '+'): string =>
   keySet
     .replace(/Fnkey/gi, isMac() ? 'Meta' : 'Control')
+    .toLowerCase()
     .split(splitKey)
     .sort()
-    .join('+')
-    .toLowerCase();
+    .join('+');
 
 const matchedEventsByKeySet = (keySet: string, matchScope = currentScope) =>
   events

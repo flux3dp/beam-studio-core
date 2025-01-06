@@ -272,7 +272,7 @@ exports[`side panel test should render correctly when enabled 1`] = `
 </div>
 `;
 
-exports[`side panel test should render correctly with Promark 1`] = `
+exports[`side panel test should render correctly with Swiftray engine 1`] = `
 <div>
   <div
     class="wide"
