@@ -506,6 +506,7 @@ const lang: ILang = {
     calculation_optimization: 'Zrychlení výpočtu cesty',
     auto_switch_tab: 'Automatický přepínač panelu vrstev a objektů',
     custom_preview_height: 'Vlastní výška náhledu',
+    keep_preview_result: 'Ponechat Náhled Výsledku',
     mask: 'Výstřižek pracovní oblasti',
     text_path_calc_optimization: 'Optimalizace kalkulace cesty',
     font_substitute: 'Nahradit nepodporované znaky',

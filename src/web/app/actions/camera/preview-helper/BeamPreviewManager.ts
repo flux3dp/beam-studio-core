@@ -274,7 +274,7 @@ class BeamPreviewManager extends BasePreviewManager implements PreviewManager {
     const imgUrl = await this.getPhotoAfterMove(newX, newY);
     const imgCanvas = await this.preprocessImage(imgUrl, { overlapRatio, overlapFlag });
     // await this if you want wait for the image to be drawn
-    PreviewModeBackgroundDrawer.drawImageToCanvas(imgCanvas, newX, newY, {
+    await PreviewModeBackgroundDrawer.drawImageToCanvas(imgCanvas, newX, newY, {
       opacityMerge: overlapRatio > 0,
     });
     return true;

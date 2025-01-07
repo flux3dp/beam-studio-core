@@ -506,6 +506,7 @@ const lang: ILang = {
     calculation_optimization: 'Wegberechnungsbeschleunigung',
     auto_switch_tab: 'Automatisches Umschalten von Ebenen- und Objektpanel',
     custom_preview_height: 'Benutzerdefinierte Vorschauhöhe',
+    keep_preview_result: 'Vorschauergebnis Beibehalten',
     mask: 'Arbeitsbereich-Ausschnitt',
     text_path_calc_optimization: 'Optimierung der Pfadberechnung',
     font_substitute: 'Ersetzen Sie nicht unterstützte Zeichen',
