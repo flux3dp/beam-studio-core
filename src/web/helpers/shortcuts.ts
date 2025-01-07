@@ -23,6 +23,8 @@ const currentPressedKeys = new Set<string>();
 let hasBind = false;
 let currentScope = '';
 
+window.addEventListener('blur', () => currentPressedKeys.clear());
+
 const parseKeySet = (keySet: string, splitKey = '+'): string =>
   keySet
     .replace(/Fnkey/gi, isMac() ? 'Meta' : 'Control')
@@ -88,6 +90,8 @@ const keydownEvent = (event: KeyboardEvent) => {
         currentPressedKeys.delete(key);
       }
     });
+  } else if (currentPressedKeys.has('meta')) {
+    currentPressedKeys.clear();
   }
 
   currentPressedKeys.add(currentKey);
