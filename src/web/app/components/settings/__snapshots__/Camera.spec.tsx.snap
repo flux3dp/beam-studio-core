@@ -31,5 +31,17 @@ exports[`should render correctly 1`] = `
       class="select-control"
     />
   </div>
+  <div>
+    mock-select-control id:
+    set-keep-preview-result
+    label:
+    Keep Preview Result
+    url:
+    options:
+    [{"value":"TRUE","label":"On","selected":false},{"value":"FALSE","label":"Off","selected":true}]
+    <input
+      class="select-control"
+    />
+  </div>
 </div>
 `;

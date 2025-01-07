@@ -40,6 +40,18 @@ test('should render correctly', () => {
         },
       ]}
       getBeamboxPreferenceEditingValue={mockGetBeamboxPreferenceEditingValue}
+      keepPreviewResultOptions={[
+        {
+          value: OptionValues.TRUE,
+          label: 'On',
+          selected: false,
+        },
+        {
+          value: OptionValues.FALSE,
+          label: 'Off',
+          selected: true,
+        },
+      ]}
       updateBeamboxPreferenceChange={mockUpdateBeamboxPreferenceChange}
     />
   );
