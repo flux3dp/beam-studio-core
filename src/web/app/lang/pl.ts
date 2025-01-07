@@ -506,6 +506,7 @@ const lang: ILang = {
     calculation_optimization: 'Przyspieszenie obliczeń ścieżki',
     auto_switch_tab: 'Automatyczne przełączanie między panelem warstw a panelem obiektów',
     custom_preview_height: 'Niestandardowa wysokość podglądu',
+    keep_preview_result: 'Zachowaj Wynik Podglądu',
     mask: 'Przycinanie obszaru roboczego',
     text_path_calc_optimization: 'Optymalizacja obliczania ścieżki',
     font_substitute: 'Zastąp nieobsługiwane znaki',

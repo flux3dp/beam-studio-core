@@ -503,6 +503,7 @@ const lang: ILang = {
     calculation_optimization: 'Stiberegningsacceleration',
     auto_switch_tab: 'Automatisk skift mellem lag- og objektpanel',
     custom_preview_height: 'Brugerdefineret Forhåndsvisningshøjde',
+    keep_preview_result: 'Behold Forhåndsvisningsresultat',
     mask: 'Arbejdsområde Beskæring',
     text_path_calc_optimization: 'Stiberegning Optimering',
     font_substitute: 'Erstat Ikke-understøttede Tegn',

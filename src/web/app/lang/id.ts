@@ -503,6 +503,7 @@ const lang: ILang = {
     calculation_optimization: 'Percepatan Perhitungan Jalur',
     auto_switch_tab: 'Sakelar Otomatis Panel Lapisan dan Objek',
     custom_preview_height: 'Tinggi Pratinjau Kustom',
+    keep_preview_result: 'Pertahankan Hasil Pratinjau',
     mask: 'Pemotongan Area Kerja',
     text_path_calc_optimization: 'Optimasi Perhitungan Jalur',
     font_substitute: 'Ganti Karakter yang Tidak Didukung',

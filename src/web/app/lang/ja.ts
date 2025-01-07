@@ -506,6 +506,7 @@ const lang: ILang = {
     calculation_optimization: 'パス計算の加速',
     auto_switch_tab: 'レイヤーとオブジェクトパネルの自動切り替え',
     custom_preview_height: 'カスタムプレビュー高さ',
+    keep_preview_result: 'プレビュー結果を保持',
     mask: 'ワークエリアのクリッピング',
     text_path_calc_optimization: 'パス計算の最適化',
     font_substitute: 'サポートされていない文字を置き換える',

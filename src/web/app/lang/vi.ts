@@ -503,6 +503,7 @@ const lang: ILang = {
     calculation_optimization: 'Tăng tốc tính toán đường dẫn',
     auto_switch_tab: 'Chuyển đổi tự động giữa bảng Lớp và Đối tượng',
     custom_preview_height: 'Chiều cao xem trước tùy chỉnh',
+    keep_preview_result: 'Giữ Kết Quả Xem Trước',
     mask: 'Cắt vùng làm việc',
     text_path_calc_optimization: 'Tối ưu hóa tính toán đường dẫn văn bản',
     font_substitute: 'Thay thế ký tự không hỗ trợ',

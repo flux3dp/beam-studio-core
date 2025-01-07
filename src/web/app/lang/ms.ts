@@ -503,6 +503,7 @@ const lang: ILang = {
     calculation_optimization: 'Pecutan Pengiraan Laluan',
     auto_switch_tab: 'Tukar Automatik Panel Lapisan dan Objek',
     custom_preview_height: 'Ketinggian Pratonton Tersuai',
+    keep_preview_result: 'Kekalkan Hasil Pratonton',
     mask: 'Penyepadan Kawasan Kerja',
     text_path_calc_optimization: 'Pengoptimuman Pengiraan Laluan',
     font_substitute: 'Gantikan Aksara Tidak Disokong',

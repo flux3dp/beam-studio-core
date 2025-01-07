@@ -506,6 +506,7 @@ const lang: ILang = {
     calculation_optimization: '경로 계산 가속',
     auto_switch_tab: '레이어 및 객체 패널 자동 전환',
     custom_preview_height: '사용자 정의 미리보기 높이',
+    keep_preview_result: '미리보기 결과 유지',
     mask: '작업 영역 클리핑',
     text_path_calc_optimization: '경로 계산 최적화',
     font_substitute: '지원되지 않는 문자 대체',

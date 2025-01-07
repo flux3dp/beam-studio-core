@@ -503,6 +503,7 @@ const lang: ILang = {
     calculation_optimization: 'Versnelling van padberekening',
     auto_switch_tab: 'Automatisch schakelen tussen laag- en objectpaneel',
     custom_preview_height: 'Aangepaste voorbeeldhoogte',
+    keep_preview_result: 'Voorbeeldresultaat Behouden',
     mask: 'Werkgebied bijsnijden',
     text_path_calc_optimization: 'Padberekeningsoptimalisatie',
     font_substitute: 'Vervang onondersteunde tekens',

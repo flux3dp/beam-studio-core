@@ -503,6 +503,7 @@ const lang: ILang = {
     calculation_optimization: 'Accélération du calcul de trajectoire',
     auto_switch_tab: "Changement automatique entre le panneau de calques et d'objets",
     custom_preview_height: "Hauteur d'aperçu personnalisée",
+    keep_preview_result: 'Conserver le Résultat de l’Aperçu',
     mask: 'Masque de la zone de travail',
     text_path_calc_optimization: 'Optimisation du calcul de chemin de texte',
     font_substitute: 'Remplacer les caractères non pris en charge',

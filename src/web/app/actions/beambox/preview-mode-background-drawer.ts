@@ -81,9 +81,7 @@ class PreviewModeBackgroundDrawer {
   }
 
   end() {
-    if (this.backgroundDrawerSubject && BeamboxPreference.read('keep-preview-result') !== true) {
-      this.backgroundDrawerSubject.complete();
-    }
+    this.backgroundDrawerSubject?.complete();
   }
 
   async drawFullWorkarea(imgUrl: string, callBack = () => {}) {
@@ -369,9 +367,7 @@ class PreviewModeBackgroundDrawer {
       URL.revokeObjectURL(this.cameraCanvasUrl);
     }
 
-    const newDraw = URL.createObjectURL(blob);
-
-    this.cameraCanvasUrl = newDraw;
+    this.cameraCanvasUrl = URL.createObjectURL(blob);
 
     svgCanvas.setBackground('#fff', this.cameraCanvasUrl);
   }

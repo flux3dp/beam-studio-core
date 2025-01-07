@@ -503,6 +503,7 @@ const lang: ILang = {
     calculation_optimization: 'Reitin laskennan kiihtyvyys',
     auto_switch_tab: 'Automaattinen vaihto kerros- ja objektipaneelin välillä',
     custom_preview_height: 'Mukautettu esikatselukorkeus',
+    keep_preview_result: 'Säilytä Esikatselutulos',
     mask: 'Työalueen rajaus',
     text_path_calc_optimization: 'Polun laskennan optimointi',
     font_substitute: 'Korvaa tukemattomat merkit',
