@@ -1,4 +1,5 @@
-@use "styles/variables" as variables;
+@use 'styles/variables' as variables;
+@use 'styles/mixins' as mixins;
 
 div.modal-wrap {
   overflow: unset !important;
@@ -162,7 +163,7 @@ div.modal-wrap {
 
           .label {
             &::after {
-              content: ":";
+              content: ':';
             }
           }
 
@@ -195,6 +196,7 @@ div.modal-wrap {
 }
 
 .footer {
+  @include mixins.footer;
   display: flex;
   justify-content: space-between;
   margin-top: 20px;

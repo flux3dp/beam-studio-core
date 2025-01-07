@@ -149,7 +149,6 @@ const GridFile = ({ file }: Props): JSX.Element => {
             }}
             onBlur={onChangeName}
             onPressEnter={onChangeName}
-            onKeyDown={(e) => e.stopPropagation()}
             status={error ? 'error' : undefined}
             maxLength={255}
           />

@@ -1,3 +1,5 @@
+@use 'styles/mixins' as mixins;
+
 @mixin title-text {
   font-weight: 600;
   font-size: 15px;
@@ -9,6 +11,7 @@
 }
 
 .footer {
+  @include mixins.footer;
   width: 362px;
   height: 32px;
 

@@ -2298,27 +2298,12 @@ const svgEditor = (window['svgEditor'] = (function () {
       return {
         setAll: function () {
           const moveUnit = storage.get('default-units') === 'inches' ? 25.4 : 10; // 0.1 in : 1 mm
-
-          const isFocusingOnInputs = () => {
-            if (!document.activeElement) return false;
-            return (
-              document.activeElement.tagName.toLowerCase() === 'input' ||
-              document.activeElement?.getAttribute('role') === 'slider'
-            );
-          };
-          Shortcuts.on(['Delete', 'Backspace'], () => {
-            if (isFocusingOnInputs()) return;
-            deleteSelected();
-          });
+          Shortcuts.on(['Delete', 'Backspace'], () => deleteSelected());
           Shortcuts.on(['Fnkey+a'], (e) => {
-            if (isFocusingOnInputs()) return;
-            e.preventDefault();
             e.stopPropagation();
             svgCanvas.selectAll();
           });
           Shortcuts.on(['ArrowUp'], (e) => {
-            if (isFocusingOnInputs()) return;
-            e.preventDefault();
             if (selectedElement) {
               moveSelected([0], [-moveUnit]);
             } else {
@@ -2327,8 +2312,6 @@ const svgEditor = (window['svgEditor'] = (function () {
             }
           });
           Shortcuts.on(['Shift+ArrowUp'], (e) => {
-            if (isFocusingOnInputs()) return;
-            e.preventDefault();
             if (selectedElement) {
               moveSelected([0], [-moveUnit * 10]);
             } else {
@@ -2337,8 +2320,6 @@ const svgEditor = (window['svgEditor'] = (function () {
             }
           });
           Shortcuts.on(['ArrowDown'], (e) => {
-            if (isFocusingOnInputs()) return;
-            e.preventDefault();
             if (selectedElement) {
               moveSelected([0], [moveUnit]);
             } else {
@@ -2347,8 +2328,6 @@ const svgEditor = (window['svgEditor'] = (function () {
             }
           });
           Shortcuts.on(['Shift+ArrowDown'], (e) => {
-            if (isFocusingOnInputs()) return;
-            e.preventDefault();
             if (selectedElement) {
               moveSelected([0], [moveUnit * 10]);
             } else {
@@ -2357,8 +2336,6 @@ const svgEditor = (window['svgEditor'] = (function () {
             }
           });
           Shortcuts.on(['ArrowLeft'], (e) => {
-            if (isFocusingOnInputs()) return;
-            e.preventDefault();
             if (selectedElement) {
               moveSelected([-moveUnit], [0]);
             } else {
@@ -2367,8 +2344,6 @@ const svgEditor = (window['svgEditor'] = (function () {
             }
           });
           Shortcuts.on(['Shift+ArrowLeft'], (e) => {
-            if (isFocusingOnInputs()) return;
-            e.preventDefault();
             if (selectedElement) {
               moveSelected([-moveUnit * 10], [0]);
             } else {
@@ -2377,8 +2352,6 @@ const svgEditor = (window['svgEditor'] = (function () {
             }
           });
           Shortcuts.on(['ArrowRight'], (e) => {
-            if (isFocusingOnInputs()) return;
-            e.preventDefault();
             if (selectedElement) {
               moveSelected([moveUnit], [0]);
             } else {
@@ -2387,8 +2360,6 @@ const svgEditor = (window['svgEditor'] = (function () {
             }
           });
           Shortcuts.on(['Shift+ArrowRight'], (e) => {
-            if (isFocusingOnInputs()) return;
-            e.preventDefault();
             if (selectedElement) {
               moveSelected([moveUnit * 10], [0]);
             } else {
@@ -2408,16 +2379,12 @@ const svgEditor = (window['svgEditor'] = (function () {
             window['polygonDecreaseSides']?.();
             ObjectPanelController.updatePolygonSides($(selectedElement).attr('sides'));
           });
-          Shortcuts.on(['l'], () => {
-            if (isFocusingOnInputs()) return;
-            RightPanelController.setPanelType(PanelType.Layer);
-          });
+          Shortcuts.on(['l'], () => RightPanelController.setPanelType(PanelType.Layer));
           Shortcuts.on(['o'], () => {
-            if (isFocusingOnInputs()) return;
             const isPathEdit = svgCanvas.getMode() === 'pathedit';
             RightPanelController.setPanelType(isPathEdit ? PanelType.PathEdit : PanelType.Object);
           });
-          Shortcuts.on(['Escape'], () => clickSelect);
+          Shortcuts.on(['Escape'], () => clickSelect());
 
           // Misc additional actions
 

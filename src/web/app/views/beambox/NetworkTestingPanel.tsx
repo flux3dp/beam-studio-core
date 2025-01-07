@@ -205,14 +205,12 @@ class NetworkTestingPanel extends React.Component<Props> {
     const { ip, onClose } = this.props;
     const show = true;
 
-    const renderModalFooter = () => (
-      <div>
-        <Button onClick={onClose}>{LANG.end}</Button>
-        <Button type="primary" onClick={this.onStart}>
-          {LANG.start}
-        </Button>
-      </div>
-    );
+    const renderModalFooter = () => [
+      <Button onClick={onClose}>{LANG.end}</Button>,
+      <Button type="primary" onClick={this.onStart}>
+        {LANG.start}
+      </Button>,
+    ];
 
     return (
       <Modal
