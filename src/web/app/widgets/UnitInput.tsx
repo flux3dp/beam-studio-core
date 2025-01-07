@@ -113,9 +113,6 @@ const UnitInput = forwardRef<HTMLInputElement, Props>(
             onStep={handleStep}
             formatter={formatter}
             parser={parser}
-            onKeyDown={(e) => {
-              if (!['Enter', 'ArrowUp', 'ArrowDown'].includes(e.key)) e.stopPropagation();
-            }}
           />
           {unit && <span className={styles.unit}>{unit}</span>}
         </ConfigProvider>

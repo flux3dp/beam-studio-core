@@ -28,65 +28,45 @@ class LeftPanel extends React.PureComponent {
 
     // Add class color to #svg_editor
     $('#svg_editor').addClass('color');
-    const isFocusingOnInputs = () => {
-      if (!document.activeElement) return false;
-      return document.activeElement.tagName.toLowerCase() === 'input';
-    };
 
     shortcuts.on(['v'], () => {
       const { mode } = this.context;
-      if (mode === CanvasMode.Draw && !isFocusingOnInputs()) {
-        FnWrapper.useSelectTool();
-      }
+      if (mode === CanvasMode.Draw) FnWrapper.useSelectTool();
     });
 
     shortcuts.on(['i'], () => {
       const { mode } = this.context;
-      if (mode === CanvasMode.Draw && !isFocusingOnInputs()) {
-        FnWrapper.importImage();
-      }
+      if (mode === CanvasMode.Draw) FnWrapper.importImage();
     });
 
     shortcuts.on(['t'], () => {
       const { mode } = this.context;
-      if (mode === CanvasMode.Draw && !isFocusingOnInputs()) {
-        FnWrapper.insertText();
-      }
+      if (mode === CanvasMode.Draw) FnWrapper.insertText();
     });
 
     shortcuts.on(['m'], () => {
       const { mode } = this.context;
-      if (mode === CanvasMode.Draw && !isFocusingOnInputs()) {
-        FnWrapper.insertRectangle();
-      }
+      if (mode === CanvasMode.Draw) FnWrapper.insertRectangle();
     });
 
     shortcuts.on(['c'], () => {
       const { mode } = this.context;
-      if (mode === CanvasMode.Draw && !isFocusingOnInputs()) {
-        FnWrapper.insertEllipse();
-      }
+      if (mode === CanvasMode.Draw) FnWrapper.insertEllipse();
     });
 
     shortcuts.on(['\\'], () => {
       const { mode } = this.context;
-      if (mode === CanvasMode.Draw && !isFocusingOnInputs()) {
-        FnWrapper.insertLine();
-      }
+      if (mode === CanvasMode.Draw) FnWrapper.insertLine();
     });
 
     shortcuts.on(['p'], () => {
       const { mode } = this.context;
-      if (mode === CanvasMode.Draw && !isFocusingOnInputs()) {
-        FnWrapper.insertPath();
-      }
+      if (mode === CanvasMode.Draw) FnWrapper.insertPath();
     });
 
     shortcuts.on(['e'], () => {
       const { mode } = this.context;
-      if (mode === CanvasMode.Draw && !isFocusingOnInputs()) {
-        $('#left-Element').trigger('click');
-      }
+      if (mode === CanvasMode.Draw) $('#left-Element').trigger('click');
     });
   }
 

@@ -62,9 +62,17 @@ const keyupEvent = (event: KeyboardEvent) => {
   }
 };
 
+const isFocusingOnInputs = () => {
+  if (!document.activeElement) return false;
+  return (
+    document.activeElement.tagName.toLowerCase() === 'input' ||
+    document.activeElement?.getAttribute('role') === 'slider'
+  );
+};
+
 const keydownEvent = (event: KeyboardEvent) => {
   // ignore autocomplete input
-  if (event.key === undefined) {
+  if (event.key === undefined || isFocusingOnInputs()) {
     return;
   }
 
