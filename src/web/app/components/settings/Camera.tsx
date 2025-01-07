@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useMemo } from 'react';
 
 import i18n from 'helpers/i18n';
@@ -6,13 +7,19 @@ import { OptionValues } from 'app/constants/enums';
 import { PreviewSpeedLevel } from 'app/actions/beambox/constant';
 
 interface Props {
-  enableCustomPreviewHeightOptions: { value: OptionValues; label: string; selected: boolean }[];
+  enableCustomPreviewHeightOptions: Array<{
+    value: OptionValues;
+    label: string;
+    selected: boolean;
+  }>;
+  keepPreviewResultOptions: Array<{ value: OptionValues; label: string; selected: boolean }>;
   getBeamboxPreferenceEditingValue: (key: string) => any;
   updateBeamboxPreferenceChange: (key: string, newVal: any) => void;
 }
 
 function Camera({
   enableCustomPreviewHeightOptions,
+  keepPreviewResultOptions,
   getBeamboxPreferenceEditingValue,
   updateBeamboxPreferenceChange,
 }: Props): JSX.Element {
@@ -38,6 +45,7 @@ function Camera({
     ],
     [lang, previewSpeedLevel]
   );
+
   return (
     <>
       <div className="subtitle">{lang.settings.groups.camera}</div>
@@ -59,6 +67,12 @@ function Camera({
         onChange={(e) =>
           updateBeamboxPreferenceChange('enable-custom-preview-height', e.target.value)
         }
+      />
+      <SelectControl
+        id="set-keep-preview-result"
+        label={lang.settings.keep_preview_result}
+        options={keepPreviewResultOptions}
+        onChange={(e) => updateBeamboxPreferenceChange('keep-preview-result', e.target.value)}
       />
     </>
   );

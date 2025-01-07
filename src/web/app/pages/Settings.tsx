@@ -6,7 +6,6 @@ import classNames from 'classnames';
 import AdorModule from 'app/components/settings/AdorModule';
 import AutoSave from 'app/components/settings/AutoSave';
 import autoSaveHelper from 'helpers/auto-save-helper';
-import BeamboxConstant from 'app/actions/beambox/constant';
 import BeamboxPreference from 'app/actions/beambox/beambox-preference';
 import Camera from 'app/components/settings/Camera';
 import Connection from 'app/components/settings/Connection';
@@ -35,15 +34,15 @@ interface State {
   lang?: ILang;
   editingAutosaveConfig?: IConfig;
   selectedModel: WorkAreaModel;
-  warnings?: { [key: string]: string };
+  warnings?: Record<string, string>;
 }
 
 class Settings extends React.PureComponent<null, State> {
   private origLang: string;
 
-  private beamboxPreferenceChanges: { [key: string]: any };
+  private beamboxPreferenceChanges: Record<string, any>;
 
-  private configChanges: { [key in StorageKey]: any };
+  private configChanges: Record<StorageKey, any>;
 
   constructor(props) {
     super(props);
@@ -55,23 +54,16 @@ class Settings extends React.PureComponent<null, State> {
     };
     this.origLang = i18n.getActiveLang();
     this.beamboxPreferenceChanges = {};
-    this.configChanges = {} as any;
+    this.configChanges = {} as Record<StorageKey, any>;
   }
 
-  changeActiveLang = (e: React.ChangeEvent): void => {
-    const target = e.currentTarget as HTMLInputElement;
-    i18n.setActiveLang(target.value);
-    this.setState({
-      lang: i18n.lang,
-    });
+  changeActiveLang = ({ currentTarget: { value } }: React.ChangeEvent<HTMLInputElement>): void => {
+    i18n.setActiveLang(value);
+    this.setState({ lang: i18n.lang });
   };
 
   updateConfigChange = (key: StorageKey, newVal: any): void => {
-    let val = newVal;
-    if (!Number.isNaN(Number(val))) {
-      val = Number(val);
-    }
-    this.configChanges[key] = val;
+    this.configChanges[key] = Number.isNaN(Number(newVal)) ? newVal : Number(newVal);
     this.forceUpdate();
   };
 
@@ -79,16 +71,15 @@ class Settings extends React.PureComponent<null, State> {
     if (key in this.configChanges) {
       return this.configChanges[key];
     }
+
     return storage.get(key);
   };
 
   updateBeamboxPreferenceChange = (key: string, newVal: any): void => {
-    let val = newVal;
-    if (val === OptionValues.TRUE) {
-      val = true;
-    } else if (val === OptionValues.FALSE) {
-      val = false;
-    }
+    const val =
+      // eslint-disable-next-line no-nested-ternary
+      newVal === OptionValues.TRUE ? true : newVal === OptionValues.FALSE ? false : newVal;
+
     this.beamboxPreferenceChanges[key] = val;
     this.forceUpdate();
   };
@@ -97,6 +88,7 @@ class Settings extends React.PureComponent<null, State> {
     if (key in this.beamboxPreferenceChanges) {
       return this.beamboxPreferenceChanges[key];
     }
+
     return BeamboxPreference.read(key);
   };
 
@@ -107,6 +99,7 @@ class Settings extends React.PureComponent<null, State> {
       storage.clearAllExceptIP();
       localStorage.clear();
       autoSaveHelper.useDefaultConfig();
+
       window.location.hash = '#';
       window.location.reload();
     }
@@ -114,23 +107,24 @@ class Settings extends React.PureComponent<null, State> {
 
   handleDone = (): void => {
     const { editingAutosaveConfig } = this.state;
-    let keys = Object.keys(this.configChanges);
-    for (let i = 0; i < keys.length; i += 1) {
-      const key = keys[i] as StorageKey;
-      storage.set(key, this.configChanges[key]);
-    }
-    keys = Object.keys(this.beamboxPreferenceChanges);
-    for (let i = 0; i < keys.length; i += 1) {
-      const key = keys[i];
+
+    Object.keys(this.configChanges).forEach((key) => {
+      storage.set(key as StorageKey, this.configChanges[key]);
+    });
+
+    Object.keys(this.beamboxPreferenceChanges).forEach((key) => {
       BeamboxPreference.write(key, this.beamboxPreferenceChanges[key]);
-    }
+    });
+
     autoSaveHelper.setConfig(editingAutosaveConfig);
+
     window.location.hash = '#studio/beambox';
     window.location.reload();
   };
 
   handleCancel = (): void => {
     i18n.setActiveLang(this.origLang);
+
     window.location.hash = '#studio/beambox';
     window.location.reload();
   };
@@ -141,15 +135,10 @@ class Settings extends React.PureComponent<null, State> {
     offValue?: T,
     onLabel?: string,
     offLabel?: string
-  ): { value: T; label: string; selected: boolean }[] => {
+  ): Array<{ value: T; label: string; selected: boolean }> => {
     const { lang } = this.state;
-    return onOffOptionFactory(isOnSelected, {
-      onValue,
-      offValue,
-      onLabel,
-      offLabel,
-      lang,
-    });
+
+    return onOffOptionFactory(isOnSelected, { onValue, offValue, onLabel, offLabel, lang });
   };
 
   render() {
@@ -190,6 +179,9 @@ class Settings extends React.PureComponent<null, State> {
     const enableCustomPreviewHeightOptions =
       this.onOffOptionFactory<OptionValues>(isCustomPrevHeightEnabled);
 
+    const isKeepPreviewResult = this.getBeamboxPreferenceEditingValue('keep-preview-result');
+    const keepPreviewResultOptions = this.onOffOptionFactory<OptionValues>(isKeepPreviewResult);
+
     const isMultipassCompensationEnabled =
       this.getBeamboxPreferenceEditingValue('multipass-compensation') !== false;
     const multipassCompensationOptions = this.onOffOptionFactory<OptionValues>(
@@ -205,6 +197,7 @@ class Settings extends React.PureComponent<null, State> {
     const isAllValid = !warnings || Object.keys(warnings).length === 0;
     const web = isWeb();
     const defaultUnit = this.getConfigEditingValue('default-units');
+
     return (
       <div className="studio-container settings-studio">
         <div className="settings-gradient-overlay" />
@@ -236,6 +229,7 @@ class Settings extends React.PureComponent<null, State> {
           />
           <Camera
             enableCustomPreviewHeightOptions={enableCustomPreviewHeightOptions}
+            keepPreviewResultOptions={keepPreviewResultOptions}
             getBeamboxPreferenceEditingValue={this.getBeamboxPreferenceEditingValue}
             updateBeamboxPreferenceChange={this.updateBeamboxPreferenceChange}
           />

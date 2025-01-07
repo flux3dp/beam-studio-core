@@ -173,8 +173,8 @@ class BasePreviewManager implements PreviewManager {
   async getPhotoAfterMoveTo(movementX: number, movementY: number): Promise<string> {
     const moveRes = await this.moveTo(movementX, movementY);
     if (!moveRes) return null;
-    const imgUrl = await this.getPhotoFromMachine();
-    return imgUrl;
+
+    return this.getPhotoFromMachine();
   }
 
   /**
@@ -231,8 +231,8 @@ class BasePreviewManager implements PreviewManager {
         return null;
       }
     }
-    const imgUrl = URL.createObjectURL(imgBlob);
-    return imgUrl;
+
+    return URL.createObjectURL(imgBlob);
   }
 }
 

@@ -491,6 +491,7 @@ export interface ILang {
     enable_custom_backlash: string;
     calculation_optimization: string;
     custom_preview_height: string;
+    keep_preview_result: string;
     mask: string;
     text_path_calc_optimization: string;
     font_substitute: string;
