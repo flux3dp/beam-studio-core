@@ -20,8 +20,9 @@ const MonitorTask = (): JSX.Element => {
 
   const getJobTime = (): string => {
     if (mode === Mode.WORKING && report && report.prog) {
-      const timeLeft = FormatDuration(Math.max(taskTime * (1 - report.prog), 1));
-      return `${timeLeft} ${i18n.lang.monitor.left}`;
+      return `${FormatDuration(Math.max(taskTime * (1 - report.prog), 1))} ${
+        i18n.lang.monitor.left
+      }`;
     }
     return typeof taskTime === 'number' ? FormatDuration(Math.max(taskTime, 1)) : null;
   };

@@ -15,7 +15,9 @@ import { getSupportInfo } from 'app/constants/add-on';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { promarkModels } from 'app/actions/beambox/constant';
 
+import classNames from 'classnames';
 import styles from './FramingModal.module.scss';
+import PromarkFramingModal from './FramingModal.promark';
 
 interface Props {
   device: IDeviceInfo;
@@ -26,52 +28,59 @@ interface Props {
 // TODO: add unit test
 const FramingModal = ({ device, onClose, startOnOpen = false }: Props): JSX.Element => {
   const lang = useI18n();
-  const t = lang.framing;
+  const { framing: tFraming } = lang;
   const [playing, setPlaying] = useState<boolean>(false);
-  const manager = useRef<FramingTaskManager>(null);
-  const shortcutHandler = useRef<() => void>(null);
-  useEffect(() => {
-    manager.current = new FramingTaskManager(device);
-    manager.current.on('status-change', (status: boolean) => setPlaying(status));
-    const messageKey = 'framing';
-    manager.current.on('close-message', () => MessageCaller.closeMessage(messageKey));
-    manager.current.on('message', (message: string) => {
-      MessageCaller.closeMessage(messageKey);
-      MessageCaller.openMessage({ key: messageKey, level: MessageLevel.LOADING, content: message });
-    });
-    return () => {
-      manager.current?.stopFraming();
-      MessageCaller.closeMessage(messageKey);
-    };
-  }, [device]);
-  const supportInfo = useMemo(() => getSupportInfo(device.model), [device]);
-
   const [lowLaser, setLowLaser] = useState<number>(beamboxPreference.read('low_power') ?? 10);
   const [type, setType] = useState<FramingType>(FramingType.Framing);
-  const options: FramingType[] = useMemo(() => {
-    if (promarkModels.has(device.model)) return [FramingType.Framing];
+  const manager = useRef<FramingTaskManager>(null);
+  const shortcutHandler = useRef<() => void>(null);
+
+  const supportInfo = useMemo(() => getSupportInfo(device.model), [device]);
+  const options = useMemo(() => {
+    if (promarkModels.has(device.model)) {
+      return [FramingType.Framing];
+    }
+
     return [FramingType.Framing, FramingType.Hull, FramingType.AreaCheck];
   }, [device.model]);
 
   const handleStart = useCallback(() => {
     manager.current?.startFraming(type, { lowPower: supportInfo.framingLowLaser ? lowLaser : 0 });
   }, [type, lowLaser, supportInfo.framingLowLaser]);
+
   const handleStop = useCallback(() => {
     manager.current?.stopFraming();
   }, []);
+
+  useEffect(() => {
+    manager.current = new FramingTaskManager(device);
+    manager.current.on('status-change', (status: boolean) => setPlaying(status));
+
+    const messageKey = 'framing';
+
+    manager.current.on('close-message', () => MessageCaller.closeMessage(messageKey));
+    manager.current.on('message', (message: string) => {
+      MessageCaller.closeMessage(messageKey);
+      MessageCaller.openMessage({ key: messageKey, level: MessageLevel.LOADING, content: message });
+    });
+
+    return () => {
+      manager.current?.stopFraming();
+      MessageCaller.closeMessage(messageKey);
+    };
+  }, [device]);
+
   useEffect(() => {
     shortcutHandler.current = playing ? handleStop : handleStart;
   }, [playing, handleStop, handleStart]);
-  useEffect(() => {
-    if (startOnOpen) handleStart();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   useEffect(() => {
-    const unregister = shortcuts.on(['F1'], () => shortcutHandler.current?.(), {
-      isBlocking: true,
-    });
-    return () => unregister?.();
+    if (startOnOpen) {
+      handleStart();
+    }
+
+    return shortcuts.on(['F1'], () => shortcutHandler.current?.(), { isBlocking: true });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -79,12 +88,12 @@ const FramingModal = ({ device, onClose, startOnOpen = false }: Props): JSX.Elem
       open
       centered
       width={360}
-      title={t.framing}
+      title={tFraming.framing}
       maskClosable={false}
       onCancel={onClose}
       footer={
         <div className={styles.footer}>
-          <Button className={styles.button} onClick={onClose}>
+          <Button className={classNames(styles.button, styles['mr-8'])} onClick={onClose}>
             {lang.alert.cancel}
           </Button>
           <Button
@@ -106,10 +115,10 @@ const FramingModal = ({ device, onClose, startOnOpen = false }: Props): JSX.Elem
         {supportInfo.framingLowLaser && (
           <div className={styles['low-laser']}>
             <div className={styles.left}>
-              <Tooltip title={t.low_laser_desc}>
+              <Tooltip title={tFraming.low_laser_desc}>
                 <QuestionCircleOutlined className={styles.icon} />
               </Tooltip>
-              {t.low_laser}:
+              {tFraming.low_laser}:
             </div>
             <InputNumber
               className={styles.input}
@@ -126,7 +135,7 @@ const FramingModal = ({ device, onClose, startOnOpen = false }: Props): JSX.Elem
         <Segmented
           className={styles.segmented}
           value={type}
-          onChange={(val: FramingType) => setType(val)}
+          onChange={setType}
           options={options.map((opt) => ({
             label: (
               <div className={styles.seg}>
@@ -140,9 +149,9 @@ const FramingModal = ({ device, onClose, startOnOpen = false }: Props): JSX.Elem
                 <div>
                   {
                     {
-                      [FramingType.Framing]: t.framing,
-                      [FramingType.Hull]: t.hull,
-                      [FramingType.AreaCheck]: t.area_check,
+                      [FramingType.Framing]: tFraming.framing,
+                      [FramingType.Hull]: tFraming.hull,
+                      [FramingType.AreaCheck]: tFraming.area_check,
                     }[opt]
                   }
                 </div>
@@ -154,17 +163,17 @@ const FramingModal = ({ device, onClose, startOnOpen = false }: Props): JSX.Elem
         <div className={styles.desc}>
           <div className={styles.title}>
             {{
-              [FramingType.Framing]: t.framing,
-              [FramingType.Hull]: t.hull,
-              [FramingType.AreaCheck]: t.area_check,
-            }[type] ?? t.framing}
+              [FramingType.Framing]: tFraming.framing,
+              [FramingType.Hull]: tFraming.hull,
+              [FramingType.AreaCheck]: tFraming.area_check,
+            }[type] ?? tFraming.framing}
           </div>
           <div className={styles.content}>
             {{
-              [FramingType.Framing]: t.framing_desc,
-              [FramingType.Hull]: t.hull_desc,
-              [FramingType.AreaCheck]: t.areacheck_desc,
-            }[type] ?? t.framing_desc}
+              [FramingType.Framing]: tFraming.framing_desc,
+              [FramingType.Hull]: tFraming.hull_desc,
+              [FramingType.AreaCheck]: tFraming.areacheck_desc,
+            }[type] ?? tFraming.framing_desc}
           </div>
         </div>
       </div>
@@ -174,16 +183,23 @@ const FramingModal = ({ device, onClose, startOnOpen = false }: Props): JSX.Elem
 
 export default FramingModal;
 
-export const showFramingModal = async (startOnOpen?: boolean): Promise<void> => {
+export const showFramingModal = async (): Promise<void> => {
   const { device } = await getDevice();
-  if (!device) return;
-  if (isIdExist('framing-modal')) return;
+
+  if (!device || isIdExist('framing-modal')) {
+    return;
+  }
+
   addDialogComponent(
     'framing-modal',
-    <FramingModal
-      device={device}
-      onClose={() => popDialogById('framing-modal')}
-      startOnOpen={startOnOpen}
-    />
+    promarkModels.has(device.model) ? (
+      <PromarkFramingModal
+        device={device}
+        onClose={() => popDialogById('framing-modal')}
+        startOnOpen
+      />
+    ) : (
+      <FramingModal device={device} onClose={() => popDialogById('framing-modal')} />
+    )
   );
 };
