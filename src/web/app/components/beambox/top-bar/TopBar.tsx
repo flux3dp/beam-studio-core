@@ -19,6 +19,7 @@ import PathPreviewButton from 'app/components/beambox/top-bar/PathPreviewButton'
 import SelectMachineButton from 'app/components/beambox/top-bar/SelectMachineButton';
 import storage from 'implementations/storage';
 import TopBarHints from 'app/components/beambox/top-bar/TopBarHints';
+import tabController from 'app/actions/tabController';
 import UserAvatar from 'app/components/beambox/top-bar/UserAvatar';
 import { CanvasContext } from 'app/contexts/CanvasContext';
 import { CanvasMode } from 'app/constants/canvasMode';
@@ -41,6 +42,21 @@ const Topbar = (): JSX.Element => {
     registerWindowUpdateTitle();
     return () => {
       unregisterWindowUpdateTitle();
+    };
+  }, []);
+  const [isTabFocused, setIsTabFocused] = useState(false);
+  useEffect(() => {
+    const onTabFocused = () => {
+      setIsTabFocused(true);
+    };
+    const onTabBlurred = () => {
+      setIsTabFocused(false);
+    };
+    tabController.onFocused(onTabFocused);
+    tabController.onBlurred(onTabBlurred);
+    return () => {
+      tabController.offFocused(onTabFocused);
+      tabController.offBlurred(onTabBlurred);
     };
   }, []);
 
@@ -69,25 +85,26 @@ const Topbar = (): JSX.Element => {
   return (
     <>
       <div
-        className={styles['top-bar']}
+        className={classNames(styles['top-bar'], {
+          [styles.draggable]: isDragRegion && isTabFocused,
+        })}
         onClick={() => ObjectPanelController.updateActiveKey(null)}
       >
         <div
           className={classNames(styles.controls, styles.left, {
-            [styles['margin-left']]: !isDragRegion && !isWebMode,
+            [styles.space]: isDragRegion || isWebMode,
           })}
         >
-          {(isDragRegion || isWebMode) && <div className={styles['drag-area']} />}
+          {/* <div
+            className={classNames(styles.space, {
+              [styles.wide]: isDragRegion || isWebMode,
+            })}
+          /> */}
           <UserAvatar user={currentUser} />
           <CommonTools isWeb={isWebMode} hide={mode !== CanvasMode.Draw} />
           {!isWebMode && <Tabs />}
         </div>
         <div className={classNames(styles.controls, styles.right)}>
-          <div
-            className={classNames(styles['drag-area'], {
-              [styles.drag]: isDragRegion,
-            })}
-          />
           <SelectMachineButton />
           <DocumentButton />
           <FrameButton />
