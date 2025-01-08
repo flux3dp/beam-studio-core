@@ -6,6 +6,7 @@ const lang: ILang = {
     cancel: '취소',
     back: '뒤로',
     save: '저장',
+    apply: '적용',
     ok: '확인',
     stop: '중지',
     editing: {
@@ -815,7 +816,6 @@ const lang: ILang = {
         cut: '절단',
         engrave: '각인',
         more: '관리',
-        apply: '적용',
         custom_preset: '사용자 정의',
         various_preset: '다양한 프리셋',
         module: '모듈',
@@ -1113,7 +1113,6 @@ const lang: ILang = {
       export_file_error_ask_for_upload: '작업 내보내기 실패. 버그 보고를 위해 작업 중인 씬을 개발팀에 제공할 의사가 있으신가요?',
     },
     image_trace_panel: {
-      apply: '적용',
       back: '뒤로',
       cancel: '취소',
       next: '다음',
@@ -1124,10 +1123,7 @@ const lang: ILang = {
       tuning: '매개변수',
     },
     photo_edit_panel: {
-      apply: '적용',
-      back: '뒤로',
       cancel: '취소',
-      next: '다음',
       sharpen: '선명하게',
       sharpness: '선명도',
       radius: '반경',
@@ -1611,7 +1607,6 @@ const lang: ILang = {
       auto_focus_instruction: '레이저 모듈 헤드를 물체 위로 이동하고 포커스를 맞추려면 애니메이션 지침을 따라 주십시오.',
       already_performed_auto_focus: '이미 오토포커스를 수행했습니다. 기존 값 사용하시겠습니까?',
       please_enter_height: '물체의 높이를 입력하여 정확한 카메라 촬영을 위해.',
-      apply: '적용',
       enter_manually: '수동 입력',
       adjust: '조절',
       adjust_height_tooltip: '편집을 활성화하려면 확인란을 클릭하세요.',

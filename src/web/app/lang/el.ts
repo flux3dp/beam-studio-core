@@ -6,6 +6,7 @@ const lang: ILang = {
     cancel: 'Ακύρωση',
     back: 'Πίσω',
     save: 'Αποθήκευση',
+    apply: 'Εφαρμογή',
     ok: 'Εντάξει',
     stop: 'Σταμάτημα',
     editing: {
@@ -812,7 +813,6 @@ const lang: ILang = {
         cut: 'Κόψιμο',
         engrave: 'Χαράξτε',
         more: 'Διαχείριση',
-        apply: 'Εφαρμογή',
         custom_preset: 'Προσαρμοσμένο',
         various_preset: 'Διάφορες Προεπιλογές',
         module: 'Μονάδα',
@@ -1110,7 +1110,6 @@ const lang: ILang = {
       export_file_error_ask_for_upload: 'Αποτυχία εξαγωγής εργασίας. Είστε πρόθυμοι να παρέχετε τη σκηνή εργασίας στην ομάδα ανάπτυξης για αναφορά σφαλμάτων;',
     },
     image_trace_panel: {
-      apply: 'Εφαρμογή',
       back: 'Πίσω',
       cancel: 'Ακύρωση',
       next: 'Επόμενο',
@@ -1121,10 +1120,7 @@ const lang: ILang = {
       tuning: 'Ρυθμίσεις',
     },
     photo_edit_panel: {
-      apply: 'Εφαρμογή',
-      back: 'Πίσω',
       cancel: 'Ακύρωση',
-      next: 'Επόμενο',
       sharpen: 'Εστίαση',
       sharpness: 'Ευκρίνεια',
       radius: 'Ακτίνα',

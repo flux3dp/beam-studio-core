@@ -6,6 +6,7 @@ const lang: ILang = {
     cancel: 'Avbryt',
     back: 'Tilbake',
     save: 'Lagre',
+    apply: 'Bruk',
     ok: 'OK',
     stop: 'Stopp',
     editing: {
@@ -812,7 +813,6 @@ const lang: ILang = {
         cut: 'Kutt',
         engrave: 'Graver',
         more: 'Administrer',
-        apply: 'Bruk',
         custom_preset: 'Tilpasset',
         various_preset: 'Diverse forhåndsinnstillinger',
         module: 'Modul',
@@ -1110,7 +1110,6 @@ const lang: ILang = {
       export_file_error_ask_for_upload: 'Kunne ikke eksportere oppgave. Er du villig til å sende arbeidsscene til utviklingsteamet for feilrapportering?',
     },
     image_trace_panel: {
-      apply: 'Bruk',
       back: 'Tilbake',
       cancel: 'Avbryt',
       next: 'Neste',
@@ -1121,10 +1120,7 @@ const lang: ILang = {
       tuning: 'Innstillinger',
     },
     photo_edit_panel: {
-      apply: 'Bruk',
-      back: 'Tilbake',
       cancel: 'Avbryt',
-      next: 'Neste',
       sharpen: 'Skarphet',
       sharpness: 'Skarphet',
       radius: 'Radius',
@@ -1608,7 +1604,6 @@ const lang: ILang = {
       auto_focus_instruction: 'Flytt laserhodet over objektet og følg animasjonsinstruksjonene for å trykke AF for å fokusere.',
       already_performed_auto_focus: 'Du har allerede utført autofokus, bruke eksisterende verdier?',
       please_enter_height: 'Oppgi høyden på objektet for å ta presis kamerabilde.',
-      apply: 'Bruk',
       enter_manually: 'Oppgi manuelt',
       adjust: 'Juster',
       adjust_height_tooltip: 'Klikk avkrysningsboksen for å aktivere redigering.',

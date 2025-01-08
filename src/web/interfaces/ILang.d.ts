@@ -1,5 +1,5 @@
 export interface ILang {
-  global: Record<'cancel' | 'back' | 'save' | 'ok' | 'stop', string> & {
+  global: Record<'cancel' | 'back' | 'save' | 'apply' | 'ok' | 'stop', string> & {
     editing: Record<'undo' | 'redo' | 'zoom_in' | 'zoom_out' | 'reset', string>;
   };
   general: {
@@ -800,7 +800,6 @@ export interface ILang {
         cut: string;
         engrave: string;
         more: string;
-        apply: string;
         custom_preset: string;
         various_preset: string;
         module: string;
@@ -1098,7 +1097,6 @@ export interface ILang {
       export_file_error_ask_for_upload: string;
     };
     image_trace_panel: {
-      apply: string;
       back: string;
       cancel: string;
       next: string;
@@ -1109,10 +1107,7 @@ export interface ILang {
       tuning: string;
     };
     photo_edit_panel: {
-      apply: string;
-      back: string;
       cancel: string;
-      next: string;
       sharpen: string;
       sharpness: string;
       radius: string;
@@ -1596,7 +1591,6 @@ export interface ILang {
       auto_focus_instruction: string;
       already_performed_auto_focus: string;
       please_enter_height: string;
-      apply: string;
       enter_manually: string;
       adjust: string;
       adjust_height_tooltip: string;

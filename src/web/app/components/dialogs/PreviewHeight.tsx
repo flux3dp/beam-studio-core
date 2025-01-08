@@ -104,7 +104,7 @@ const PreviewHeight = ({ initValue, onOk, onClose }: Props): JSX.Element => {
               onClose();
             }}
           >
-            {lang.message.preview.apply}
+            {lang.global.apply}
           </Button>,
         ]}
       >
@@ -142,7 +142,7 @@ const PreviewHeight = ({ initValue, onOk, onClose }: Props): JSX.Element => {
             onClose();
           }}
         >
-          {lang.message.preview.apply}
+          {lang.global.apply}
         </Button>,
       ]}
     >

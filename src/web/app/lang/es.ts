@@ -6,6 +6,7 @@ const lang: ILang = {
     cancel: 'Cancelar',
     back: 'Volver',
     save: 'Guardar',
+    apply: 'Aplicar',
     ok: 'OK',
     stop: 'Detener',
     editing: {
@@ -815,7 +816,6 @@ const lang: ILang = {
         cut: 'Cortar',
         engrave: 'Grabar',
         more: 'Gestionar',
-        apply: 'Aplicar',
         custom_preset: 'Personalizado',
         various_preset: 'Varios preajustes',
         module: 'Módulo',
@@ -1113,7 +1113,6 @@ const lang: ILang = {
       export_file_error_ask_for_upload: 'No se ha podido exportar la tarea. ¿Estás dispuesto a proporcionar una escena de trabajo para desarrollar el informe de errores?',
     },
     image_trace_panel: {
-      apply: 'Aplicar',
       back: 'Volver',
       cancel: 'Cancelar',
       next: 'Siguiente',
@@ -1124,10 +1123,7 @@ const lang: ILang = {
       tuning: 'Parámetros',
     },
     photo_edit_panel: {
-      apply: 'Aplicar',
-      back: 'Volver',
       cancel: 'Cancelar',
-      next: 'Siguiente',
       sharpen: 'Afila',
       sharpness: 'Nitidez',
       radius: 'Radio',
@@ -1611,7 +1607,6 @@ const lang: ILang = {
       auto_focus_instruction: 'Por favor, mueva la cabeza del módulo láser sobre el objeto y siga las instrucciones de la animación para presionar AF y enfocar.',
       already_performed_auto_focus: 'Ya ha realizado el enfoque automático, ¿utilizar los valores existentes?',
       please_enter_height: 'Por favor, ingrese la altura del objeto para capturar una toma precisa de la cámara.',
-      apply: 'Aplicar',
       enter_manually: 'Introducir manualmente',
       adjust: 'Ajustar',
       adjust_height_tooltip: 'Haga clic en la casilla para habilitar la edición.',

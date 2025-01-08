@@ -6,6 +6,7 @@ const lang: ILang = {
     cancel: 'Batal',
     back: 'Kembali',
     save: 'Simpan',
+    apply: 'Guna',
     ok: 'OK',
     stop: 'Henti',
     editing: {
@@ -812,7 +813,6 @@ const lang: ILang = {
         cut: 'Potong',
         engrave: 'Ukir',
         more: 'Urus',
-        apply: 'Guna',
         custom_preset: 'Suai',
         various_preset: 'Pelbagai Praset',
         module: 'Modul',
@@ -1110,7 +1110,6 @@ const lang: ILang = {
       export_file_error_ask_for_upload: 'Gagal eksport tugas. Adakah anda bersedia untuk memberikan adegan kerja kepada pasukan pembangunan untuk laporan pepijat?',
     },
     image_trace_panel: {
-      apply: 'Terap',
       back: 'Kembali',
       cancel: 'Batal',
       next: 'Seterusnya',
@@ -1121,10 +1120,7 @@ const lang: ILang = {
       tuning: 'Parameter',
     },
     photo_edit_panel: {
-      apply: 'Terap',
-      back: 'Kembali',
       cancel: 'Batal',
-      next: 'Seterusnya',
       sharpen: 'Tajamkan',
       sharpness: 'Ketajaman',
       radius: 'Jejari',
@@ -1608,7 +1604,6 @@ const lang: ILang = {
       auto_focus_instruction: 'Sila gerakkan kepala modul laser di atas objek, dan ikut arahan animasi untuk menekan AF bagi memfokus.',
       already_performed_auto_focus: 'Anda telah melakukan fokus automatik, guna nilai sedia ada?',
       please_enter_height: 'Sila masukkan ketinggian objek. Bagi menangkap gambar kamera yang tepat.',
-      apply: 'Guna',
       enter_manually: 'Masukkan Secara Manual',
       adjust: 'Laras',
       adjust_height_tooltip: 'Klik kotak semak untuk membenarkan penyuntingan.',

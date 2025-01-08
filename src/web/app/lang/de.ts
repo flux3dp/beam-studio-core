@@ -6,6 +6,7 @@ const lang: ILang = {
     cancel: 'Abbrechen',
     back: 'Zurück',
     save: 'Speichern',
+    apply: 'Anwenden',
     ok: 'OK',
     stop: 'Stopp',
     editing: {
@@ -815,7 +816,6 @@ const lang: ILang = {
         cut: 'Ausschneiden',
         engrave: 'Gravieren',
         more: 'Verwalten',
-        apply: 'Anwenden',
         custom_preset: 'Benutzerdefiniert',
         various_preset: 'Mehrere Voreinstellungen',
         module: 'Modul',
@@ -1113,7 +1113,6 @@ const lang: ILang = {
       export_file_error_ask_for_upload: 'Aufgabe konnte nicht exportiert werden. Bist du bereit, eine Arbeitsszene für die Entwicklung eines Teams für Fehlerberichte bereitzustellen?',
     },
     image_trace_panel: {
-      apply: 'Anwenden',
       back: 'Zurück',
       cancel: 'Stornieren',
       next: 'Nächster',
@@ -1124,10 +1123,7 @@ const lang: ILang = {
       tuning: 'Parameter',
     },
     photo_edit_panel: {
-      apply: 'Anwenden',
-      back: 'Zurück',
       cancel: 'Stornieren',
-      next: 'Nächster',
       sharpen: 'Schärfen',
       sharpness: 'Schärfe',
       radius: 'Radius',
@@ -1611,7 +1607,6 @@ const lang: ILang = {
       auto_focus_instruction: 'Bewegen Sie bitte den Lasermodulkopf über das Objekt und befolgen Sie die Animationsanweisungen, um auf AF zu drücken, um den Fokus einzustellen.',
       already_performed_auto_focus: 'Sie haben bereits den Autofokus durchgeführt. Möchten Sie die vorhandenen Werte verwenden?',
       please_enter_height: 'Bitte geben Sie die Höhe des Objekts ein, um eine präzise Kameraaufnahme zu erfassen.',
-      apply: 'Anwenden',
       enter_manually: 'Manuell eingeben',
       adjust: 'Anpassen',
       adjust_height_tooltip: 'Die ausgewählte Beispieldatei wird von der aktuellen Arbeitsfläche nicht unterstützt.',

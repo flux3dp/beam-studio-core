@@ -6,6 +6,7 @@ const lang: ILang = {
     cancel: 'ยกเลิก',
     back: 'กลับ',
     save: 'บันทึก',
+    apply: 'นําไปใช้',
     ok: 'ตกลง',
     stop: 'หยุด',
     editing: {
@@ -812,7 +813,6 @@ const lang: ILang = {
         cut: 'ตัด',
         engrave: 'กัดสลัก',
         more: 'จัดการ',
-        apply: 'ปรับใช้',
         custom_preset: 'กําหนดเอง',
         various_preset: 'การตั้งค่าล่วงหน้าหลากหลาย',
         module: 'โหมด',
@@ -1110,7 +1110,6 @@ const lang: ILang = {
       export_file_error_ask_for_upload: 'ส่งออกล้มเหลว ต้องการส่งงานสู่ทีมพัฒนาเพื่อรายงานข้อบกพร่องหรือไม่',
     },
     image_trace_panel: {
-      apply: 'นําไปใช้',
       back: 'กลับ',
       cancel: 'ยกเลิก',
       next: 'ถัดไป',
@@ -1121,10 +1120,7 @@ const lang: ILang = {
       tuning: 'พารามิเตอร์',
     },
     photo_edit_panel: {
-      apply: 'นําไปใช้',
-      back: 'กลับ',
       cancel: 'ยกเลิก',
-      next: 'ถัดไป',
       sharpen: 'คมชัด',
       sharpness: 'ระดับความคมชัด',
       radius: 'รัศมี',
@@ -1608,7 +1604,6 @@ const lang: ILang = {
       auto_focus_instruction: 'โปรดย้ายหัวโมดูลเลเซอร์เหนือวัตถุ และทําตามคําแนะนําในภาพเคลื่อนไหวเพื่อกด AF เพื่อโฟกัส',
       already_performed_auto_focus: 'คุณได้ทําการโฟกัสอัตโนมัติแล้ว ต้องการใช้ค่าที่มีอยู่หรือไม่?',
       please_enter_height: 'โปรดป้อนความสูงของวัตถุ เพื่อจับภาพกล้องอย่างแม่นยํา',
-      apply: 'นําไปใช้',
       enter_manually: 'ป้อนด้วยตนเอง',
       adjust: 'ปรับ',
       adjust_height_tooltip: 'คลิกที่ช่องทําเครื่องหมายเพื่อเปิดใช้การแก้ไข',

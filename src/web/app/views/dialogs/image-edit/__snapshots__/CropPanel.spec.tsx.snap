@@ -65,7 +65,7 @@ exports[`test CropPanel cropper apply and complete 1`] = `
                   class="ant-modal-title"
                   id="test-id"
                 >
-                  crop
+                  Crop
                 </div>
               </div>
               <div
@@ -84,7 +84,7 @@ exports[`test CropPanel cropper apply and complete 1`] = `
                   type="button"
                 >
                   <span>
-                    cancel
+                    Cancel
                   </span>
                 </button>
                 <button
@@ -92,7 +92,7 @@ exports[`test CropPanel cropper apply and complete 1`] = `
                   type="button"
                 >
                   <span>
-                    back
+                    Back
                   </span>
                 </button>
                 <button
@@ -100,7 +100,7 @@ exports[`test CropPanel cropper apply and complete 1`] = `
                   type="button"
                 >
                   <span>
-                    apply
+                    Apply
                   </span>
                 </button>
                 <button
@@ -108,7 +108,7 @@ exports[`test CropPanel cropper apply and complete 1`] = `
                   type="button"
                 >
                   <span>
-                    okay
+                    OK
                   </span>
                 </button>
               </div>
@@ -190,7 +190,7 @@ exports[`test CropPanel should render correctly 1`] = `
                   class="ant-modal-title"
                   id="test-id"
                 >
-                  crop
+                  Crop
                 </div>
               </div>
               <div
@@ -209,7 +209,7 @@ exports[`test CropPanel should render correctly 1`] = `
                   type="button"
                 >
                   <span>
-                    cancel
+                    Cancel
                   </span>
                 </button>
                 <button
@@ -218,7 +218,7 @@ exports[`test CropPanel should render correctly 1`] = `
                   type="button"
                 >
                   <span>
-                    back
+                    Back
                   </span>
                 </button>
                 <button
@@ -226,7 +226,7 @@ exports[`test CropPanel should render correctly 1`] = `
                   type="button"
                 >
                   <span>
-                    apply
+                    Apply
                   </span>
                 </button>
                 <button
@@ -234,7 +234,7 @@ exports[`test CropPanel should render correctly 1`] = `
                   type="button"
                 >
                   <span>
-                    okay
+                    OK
                   </span>
                 </button>
               </div>
@@ -316,7 +316,7 @@ exports[`test CropPanel should render correctly in mobile 1`] = `
                   class="ant-modal-title"
                   id="test-id"
                 >
-                  crop
+                  Crop
                 </div>
               </div>
               <div
@@ -331,7 +331,7 @@ exports[`test CropPanel should render correctly in mobile 1`] = `
                     type="button"
                   >
                     <span>
-                      back
+                      Back
                     </span>
                   </button>
                   <button
@@ -339,7 +339,7 @@ exports[`test CropPanel should render correctly in mobile 1`] = `
                     type="button"
                   >
                     <span>
-                      apply
+                      Apply
                     </span>
                   </button>
                 </div>
@@ -429,7 +429,7 @@ exports[`test CropPanel should render correctly in mobile 1`] = `
                   type="button"
                 >
                   <span>
-                    cancel
+                    Cancel
                   </span>
                 </button>
                 <button
@@ -437,7 +437,7 @@ exports[`test CropPanel should render correctly in mobile 1`] = `
                   type="button"
                 >
                   <span>
-                    okay
+                    OK
                   </span>
                 </button>
               </div>
@@ -519,7 +519,7 @@ exports[`test CropPanel should render correctly when image is full color 1`] = `
                   class="ant-modal-title"
                   id="test-id"
                 >
-                  crop
+                  Crop
                 </div>
               </div>
               <div
@@ -538,7 +538,7 @@ exports[`test CropPanel should render correctly when image is full color 1`] = `
                   type="button"
                 >
                   <span>
-                    cancel
+                    Cancel
                   </span>
                 </button>
                 <button
@@ -547,7 +547,7 @@ exports[`test CropPanel should render correctly when image is full color 1`] = `
                   type="button"
                 >
                   <span>
-                    back
+                    Back
                   </span>
                 </button>
                 <button
@@ -555,7 +555,7 @@ exports[`test CropPanel should render correctly when image is full color 1`] = `
                   type="button"
                 >
                   <span>
-                    apply
+                    Apply
                   </span>
                 </button>
                 <button
@@ -563,7 +563,7 @@ exports[`test CropPanel should render correctly when image is full color 1`] = `
                   type="button"
                 >
                   <span>
-                    okay
+                    OK
                   </span>
                 </button>
               </div>

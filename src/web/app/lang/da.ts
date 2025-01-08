@@ -6,6 +6,7 @@ const lang: ILang = {
     cancel: 'Annuller',
     back: 'Tilbage',
     save: 'Gem',
+    apply: 'Anvend',
     ok: 'OK',
     stop: 'Stop',
     editing: {
@@ -812,7 +813,6 @@ const lang: ILang = {
         cut: 'Skær',
         engrave: 'Graver',
         more: 'Administrer',
-        apply: 'Anvend',
         custom_preset: 'Brugerdefineret',
         various_preset: 'Forskellige forudindstillinger',
         module: 'Modul',
@@ -1110,7 +1110,6 @@ const lang: ILang = {
       export_file_error_ask_for_upload: 'Kunne ikke eksportere opgave. Er du villig til at dele arbejdsscenen med udviklingsholdet til fejlrapportering?',
     },
     image_trace_panel: {
-      apply: 'Anvend',
       back: 'Tilbage',
       cancel: 'Annullér',
       next: 'Næste',
@@ -1121,10 +1120,7 @@ const lang: ILang = {
       tuning: 'Parametre',
     },
     photo_edit_panel: {
-      apply: 'Anvend',
-      back: 'Tilbage',
       cancel: 'Annullér',
-      next: 'Næste',
       sharpen: 'Skarphed',
       sharpness: 'Skarphed',
       radius: 'Radius',
@@ -1608,7 +1604,6 @@ const lang: ILang = {
       auto_focus_instruction: 'Flyt venligst lasermodulet over objektet og følg anvisningerne for at trykke på AF for at fokusere.',
       already_performed_auto_focus: 'Du har allerede udført autofokus, vil du bruge eksisterende værdier?',
       please_enter_height: 'Angiv venligst objektets højde. For at optage et præcist kamerabillede.',
-      apply: 'Anvend',
       enter_manually: 'Indtast manuelt',
       adjust: 'Juster',
       adjust_height_tooltip: 'Aktiver redigering ved at afkrydse.',

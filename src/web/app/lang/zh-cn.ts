@@ -6,6 +6,7 @@ const lang: ILang = {
     cancel: '取消',
     back: '返回',
     save: '储存',
+    apply: '套用',
     ok: '确定',
     stop: '停止',
     editing: {
@@ -815,7 +816,6 @@ const lang: ILang = {
         cut: '切割',
         engrave: '雕刻',
         more: '管理',
-        apply: '套用',
         custom_preset: '自订',
         various_preset: '多个参数',
         module: '模块',
@@ -1113,7 +1113,6 @@ const lang: ILang = {
       export_file_error_ask_for_upload: '汇出工作时发生错误，是否愿意上传工作场景回报错误给开发团队？',
     },
     image_trace_panel: {
-      apply: '套用',
       back: '上一步',
       cancel: '取消',
       next: '下一步',
@@ -1124,10 +1123,7 @@ const lang: ILang = {
       tuning: '描图参数',
     },
     photo_edit_panel: {
-      apply: '套用',
-      back: '上一步',
       cancel: '取消',
-      next: '下一步',
       sharpen: '锐化',
       sharpness: '鋭化强度',
       radius: '鋭化半径',
@@ -1611,7 +1607,6 @@ const lang: ILang = {
       auto_focus_instruction: '请将激光模块头移至物体上方，并按照动画指示按下AF进行对焦。',
       already_performed_auto_focus: '您已经执行了自动对焦，要使用现有数值吗？',
       please_enter_height: '请输入物体的高度，以拍摄精确的相机照片。',
-      apply: '套用',
       enter_manually: '手动输入',
       adjust: '调整',
       adjust_height_tooltip: '单击复选框以启用编辑。',

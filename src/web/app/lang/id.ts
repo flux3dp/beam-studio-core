@@ -6,6 +6,7 @@ const lang: ILang = {
     cancel: 'Batal',
     back: 'Kembali',
     save: 'Simpan',
+    apply: 'Terapkan',
     ok: 'OK',
     stop: 'Berhenti',
     editing: {
@@ -812,7 +813,6 @@ const lang: ILang = {
         cut: 'Potong',
         engrave: 'Ukir',
         more: 'Kelola',
-        apply: 'Terapkan',
         custom_preset: 'Kustom',
         various_preset: 'Berbagai Preset',
         module: 'Modul',
@@ -1110,7 +1110,6 @@ const lang: ILang = {
       export_file_error_ask_for_upload: 'Gagal mengekspor pekerjaan. Apakah Anda bersedia memberikan adegan kerja kepada tim pengembang untuk laporan bug?',
     },
     image_trace_panel: {
-      apply: 'Terapkan',
       back: 'Kembali',
       cancel: 'Batal',
       next: 'Berikutnya',
@@ -1121,10 +1120,7 @@ const lang: ILang = {
       tuning: 'Parameter',
     },
     photo_edit_panel: {
-      apply: 'Terapkan',
-      back: 'Kembali',
       cancel: 'Batal',
-      next: 'Berikutnya',
       sharpen: 'Tajamkan',
       sharpness: 'Ketajaman',
       radius: 'Jari-jari',
@@ -1608,7 +1604,6 @@ const lang: ILang = {
       auto_focus_instruction: 'Harap pindahkan kepala modul laser di atas objek, dan ikuti petunjuk animasi untuk menekan AF untuk memfokuskan.',
       already_performed_auto_focus: 'Anda sudah melakukan fokus otomatis, gunakan nilai yang ada?',
       please_enter_height: 'Silakan masukkan tinggi objek agar dapat mengambil gambar kamera yang akurat.',
-      apply: 'Terapkan',
       enter_manually: 'Masukkan Secara Manual',
       adjust: 'Sesuaikan',
       adjust_height_tooltip: 'Centang kotak untuk mengaktifkan penyuntingan.',
