@@ -6,6 +6,7 @@
  * https://support.apple.com/zh-tw/HT201634
  */
 export default {
+  // MacBook Pro Series
   'MacBookPro4,1': 15.4, // Maybe 17
   'MacBookPro5,1': 15.4,
   'MacBookPro5,2': 17,
@@ -56,6 +57,11 @@ export default {
   'Mac15,8': 14.2,
   'Mac15,10': 14.2,
   'Mac15,3': 14.2,
+  'Mac16,1': 14,
+  'Mac16,6': 14,
+  'Mac16,8': 14,
+  'Mac16,5': 16,
+  'Mac16,7': 16,
 
   'MacBook5,2': 13.3,
   'MacBook6,1': 13.3,
@@ -63,7 +69,7 @@ export default {
   'MacBook8,1': 12,
   'MacBook9,1': 12,
   'MacBook10,1': 12,
-
+  // MacBook Air Series
   'MacBookAir3,1': 11.6,
   'MacBookAir3,2': 13.3,
   'MacBookAir4,1': 11.6,
@@ -82,7 +88,7 @@ export default {
   'Mac14,15': 15.3,
   'Mac15,12': 13.6,
   'Mac15,13': 15.3,
-
+  // iMac Series
   'iMac9,1': 20, // or 24
   'iMac10,1': 21.5, // or 27
   'iMac11,2': 21.5,
@@ -109,4 +115,6 @@ export default {
   'iMac21,2': 24,
   'Mac15,4': 24,
   'Mac15,5': 24,
+  'Mac16,2': 24,
+  'Mac16,3': 24,
 };
