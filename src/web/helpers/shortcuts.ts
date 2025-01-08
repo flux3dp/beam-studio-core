@@ -18,10 +18,12 @@ interface RegisterOptions {
   scope?: string;
 }
 
+const defaultScope = '*';
+
 let events = Array.of<ShortcutEvent>();
 const currentPressedKeys = new Set<string>();
 let hasBind = false;
-let currentScope = '';
+let currentScope = defaultScope;
 
 window.addEventListener('blur', () => currentPressedKeys.clear());
 
@@ -35,7 +37,7 @@ const parseKeySet = (keySet: string, splitKey = '+'): string =>
 
 const matchedEventsByKeySet = (keySet: string, matchScope = currentScope) =>
   events
-    .filter((e) => !matchScope || e.scope === matchScope)
+    .filter(({ scope }) => !matchScope || scope === matchScope)
     .reduce(
       (acc, cur) => {
         if (cur.keySet === keySet) {
@@ -97,7 +99,7 @@ const keydownEvent = (event: KeyboardEvent) => {
   currentPressedKeys.add(currentKey);
 
   const currentKeySet = [...currentPressedKeys].sort().join('+');
-  const { matches } = matchedEventsByKeySet(currentKeySet);
+  const { matches } = matchedEventsByKeySet(currentKeySet, currentScope);
 
   matches.forEach((matchedEvent) => {
     if (matchedEvent.isPreventDefault) {
@@ -135,7 +137,7 @@ export default {
     const newEvents: Array<ShortcutEvent> = keySets.map((keySet) => ({
       keySet,
       callback,
-      priority: isBlocking ? matchedEventsByKeySet(keySet, '').maxPriority + 1 : 0,
+      priority: isBlocking ? matchedEventsByKeySet(keySet).maxPriority + 1 : 0,
       isPreventDefault,
       scope,
     }));
@@ -153,7 +155,7 @@ export default {
     };
   },
   off(keySets: Array<string>): void {
-    events = events.filter((event) => !keySets.includes(event.keySet));
+    events = events.filter(({ keySet }) => !keySets.includes(keySet));
   },
   disableAll(): void {
     window.removeEventListener('keyup', keyupEvent);
@@ -169,7 +171,11 @@ export default {
     hasBind = false;
   },
   initialize,
-  enterScope(scope: string): void {
+  /**
+   * Change the scope of the shortcuts, if no scope is provided, it will change to the default scope.
+   * @param scope
+   */
+  enterScope(scope = defaultScope): void {
     currentScope = scope;
   },
 };

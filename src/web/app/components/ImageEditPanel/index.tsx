@@ -264,7 +264,6 @@ function ImageEditPanel({ src, image, onClose }: Props): JSX.Element {
   }, [progress, imageSize, imageRef.current?.useImageStatus, forceUpdate]);
 
   useEffect(() => {
-    shortcuts.enterScope(scope);
     const initialize = async () => {
       const { clientHeight, clientWidth } = divRef.current;
       const {
@@ -294,6 +293,7 @@ function ImageEditPanel({ src, image, onClose }: Props): JSX.Element {
       progressCaller.popById('image-editing-init');
     };
 
+    shortcuts.enterScope(scope);
     progressCaller.openNonstopProgress({ id: 'image-editing-init', message: langPhoto.processing });
 
     setTimeout(initialize, 1000);
@@ -316,7 +316,7 @@ function ImageEditPanel({ src, image, onClose }: Props): JSX.Element {
 
     return () => {
       observer.disconnect();
-      shortcuts.enterScope('');
+      shortcuts.enterScope();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
