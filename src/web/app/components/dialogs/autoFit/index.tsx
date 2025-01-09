@@ -11,11 +11,12 @@ export const showAutoFitPanel = (
   imageUrl: string,
   data: AutoFitContour[][]
 ): void => {
-  if (!isIdExist('auto-fit-panel')) {
+  const dialogId = 'auto-fit-panel';
+  if (!isIdExist(dialogId)) {
     addDialogComponent(
-      'auto-fit-panel',
+      dialogId,
       <AutoFitPanel
-        onClose={() => popDialogById('auto-fit-panel')}
+        onClose={() => popDialogById(dialogId)}
         element={element}
         imageUrl={imageUrl}
         data={data}
