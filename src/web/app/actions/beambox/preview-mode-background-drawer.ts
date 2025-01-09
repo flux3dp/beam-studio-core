@@ -362,7 +362,7 @@ class PreviewModeBackgroundDrawer {
     this.coordinates.minY = 10000;
   }
 
-  drawBlobToBackground(blob: Blob) {
+  drawBlobToBackground = (blob: Blob) => {
     if (this.cameraCanvasUrl) {
       URL.revokeObjectURL(this.cameraCanvasUrl);
     }
@@ -370,7 +370,7 @@ class PreviewModeBackgroundDrawer {
     this.cameraCanvasUrl = URL.createObjectURL(blob);
 
     svgCanvas.setBackground('#fff', this.cameraCanvasUrl);
-  }
+  };
 
   preprocessFullWorkareaImg = async (imgUrl: string, callBack = () => {}) =>
     new Promise<Blob>((resolve) => {
