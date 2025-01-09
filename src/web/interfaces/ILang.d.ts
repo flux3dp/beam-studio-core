@@ -1995,6 +1995,15 @@ export interface ILang {
     learn_more_url: string;
     selected_artwork: string;
     select_a_pattern: string;
+    position_artwork: string;
+    position_step1: string;
+    position_step2: string;
+    offset_x: string;
+    offset_y: string;
+    rotation: string;
+    reset_position: string;
+    artwork_size: string;
+    pattern_size: string;
   };
   rotary_settings: {
     type: string;
