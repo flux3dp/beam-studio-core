@@ -264,7 +264,6 @@ function ImageEditPanel({ src, image, onClose }: Props): JSX.Element {
     // depends useImageStatus to force re-render
   }, [progress, imageSize, imageRef.current?.useImageStatus, forceUpdate]);
 
-  useNewShortcutsScope();
   useEffect(() => {
     const initialize = async () => {
       const { clientHeight, clientWidth } = divRef.current;
@@ -321,6 +320,7 @@ function ImageEditPanel({ src, image, onClose }: Props): JSX.Element {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useNewShortcutsScope();
   useEffect(() => {
     const subscribedShortcuts = [
       shortcuts.on(['Escape'], onClose, { isBlocking: true, scope }),

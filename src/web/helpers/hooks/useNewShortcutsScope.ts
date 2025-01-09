@@ -6,7 +6,7 @@ const useNewShortcutsScope = (): void => {
   useEffect(() => {
     const exit = shortcuts.enterScope();
     return () => exit();
-  });
+  }, []);
 };
 
 export default useNewShortcutsScope;
