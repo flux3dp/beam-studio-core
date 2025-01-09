@@ -3,20 +3,25 @@ import { Button, Space } from 'antd';
 import { PauseCircleFilled, PlayCircleFilled, StopFilled } from '@ant-design/icons';
 
 import DeviceConstants from 'app/constants/device-constants';
-import i18n from 'helpers/i18n';
 import MonitorStatus, { ButtonTypes } from 'helpers/monitor-status';
 import { useIsMobile } from 'helpers/system-helper';
 import { Mode } from 'app/constants/monitor-constants';
 import { MonitorContext } from 'app/contexts/MonitorContext';
+import useI18n from 'helpers/useI18n';
 
-const LANG = i18n.lang.monitor;
+interface Props {
+  isPromark: boolean;
+  playing: boolean;
+}
 
-const MonitorControl = (): JSX.Element => {
+const MonitorControl = ({ isPromark, playing }: Props): JSX.Element => {
+  const { monitor: LANG } = useI18n();
   const isMobile = useIsMobile();
   const buttonShape = isMobile ? 'round' : 'default';
   const { onPlay, onPause, onStop, mode, report } = useContext(MonitorContext);
   const mapButtonTypeToElement = (type: ButtonTypes): JSX.Element => {
     const enabled = type % 2 === 1;
+
     switch (type) {
       case ButtonTypes.PLAY:
       case ButtonTypes.DISABLED_PLAY:
@@ -26,10 +31,10 @@ const MonitorControl = (): JSX.Element => {
             disabled={!enabled}
             shape={buttonShape}
             type="primary"
-            onClick={onPlay}
+            onClick={() => onPlay(isPromark)}
           >
             <PlayCircleFilled />
-            {(report.st_id === DeviceConstants.status.PAUSED) ? LANG.resume : LANG.go}
+            {report.st_id !== DeviceConstants.status.PAUSED ? LANG.go : LANG.resume}
           </Button>
         );
       case ButtonTypes.PAUSE:
@@ -59,39 +64,28 @@ const MonitorControl = (): JSX.Element => {
     }
   };
 
-  // const renderRelocateButton = (): JSX.Element => {
-  //   const { isMaintainMoving, onRelocate } = this.context;
-  //   const className = classNames('controls right', { disabled: isMaintainMoving });
-  //   return (
-  //     <div className={className} onClick={onRelocate}>
-  //       <div className="btn-control btn-relocate">
-  //         <img src="img/beambox/icon-target.svg" />
-  //       </div>
-  //       <div className="description">{LANG.relocate}</div>
-  //     </div>
-  //   );
-  // // }
+  const canStart = report?.st_id === DeviceConstants.status.IDLE;
 
-  const canStart = !!report && report.st_id === DeviceConstants.status.IDLE;
-
-  if (mode === Mode.PREVIEW || mode === Mode.FILE_PREVIEW) {
+  if (mode === Mode.PREVIEW || mode === Mode.FILE_PREVIEW || playing) {
     return (
       <Space>
-        <Button disabled={!canStart} shape={buttonShape} type="primary" onClick={onPlay}>
+        <Button disabled={!canStart} shape={buttonShape} type="primary" onClick={() => isPromark}>
           <PlayCircleFilled />
           {LANG.go}
         </Button>
       </Space>
     );
   }
+
   if (mode === Mode.WORKING) {
     return (
       <Space>
-        {MonitorStatus.getControlButtonType(report).map((v) => mapButtonTypeToElement(v))}
+        {MonitorStatus.getControlButtonType(report).map((type) => mapButtonTypeToElement(type))}
       </Space>
     );
   }
-  return <div />;
+
+  return null;
 };
 
 export default MonitorControl;

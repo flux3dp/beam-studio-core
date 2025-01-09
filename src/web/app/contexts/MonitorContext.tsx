@@ -122,7 +122,7 @@ interface Context extends State {
   onMaintainMoveStart: () => void;
   onMaintainMoveEnd: (x: number, y: number) => void;
   setMonitorMode: (value: Mode) => void;
-  onPlay: () => void;
+  onPlay: (forceResend?: boolean) => void;
   onPause: () => void;
   onStop: () => void;
   onDownload: () => Promise<void>;
@@ -727,7 +727,7 @@ export class MonitorContextProvider extends React.Component<Props, State> {
   private doesFileExistInDirectory = async (path: string, fileName: string) => {
     const name = fileName.replace('.gcode', '.fc');
     try {
-      const res = await DeviceMaster.fileInfo(path, name);
+      const res = (await DeviceMaster.fileInfo(path, name)) as any;
       if (!res.error || res.error.length === 0) {
         console.log(res.error, res.error.length === 0);
         return true;
@@ -834,26 +834,28 @@ export class MonitorContextProvider extends React.Component<Props, State> {
     });
   };
 
-  onPlay = async (): Promise<void> => {
+  onPlay = async (forceResend = false): Promise<void> => {
     const { device } = this.props;
     const { mode, report, currentPath, fileInfo, relocateOrigin } = this.state;
+
     this.clearErrorPopup();
-    if (report.st_id === IDLE) {
+
+    if (report.st_id === IDLE || forceResend) {
       const vc = VersionChecker(device.version);
       console.log(device.version);
+
       if (vc.meetRequirement('RELOCATE_ORIGIN')) {
         console.log(relocateOrigin);
         await DeviceMaster.setOriginX(relocateOrigin.x);
         await DeviceMaster.setOriginY(relocateOrigin.y);
       }
 
-      if (mode === Mode.PREVIEW) {
+      if (mode === Mode.PREVIEW || forceResend) {
         const { previewTask } = this.state;
         const fCode = previewTask.fcodeBlob;
         try {
-          await DeviceMaster.go(fCode, (progress: IProgress) => {
-            const p = Math.floor((progress.step / progress.total) * 100);
-            this.setState({ uploadProgress: p });
+          await DeviceMaster.go(fCode, ({ step, total }: IProgress) => {
+            this.setState({ uploadProgress: Math.floor((step / total) * 100) });
           });
           this.setState({ uploadProgress: null });
           setTimeout(() => promarkButtonHandler.setStatus('listening'), 1000);
@@ -868,12 +870,8 @@ export class MonitorContextProvider extends React.Component<Props, State> {
       } else if (mode === Mode.FILE_PREVIEW) {
         await DeviceMaster.goFromFile(currentPath.join('/'), fileInfo[0]);
       }
-    } else if (MonitorStatus.isAbortedOrCompleted(report)) {
-      DeviceMaster.restart();
-    } else {
-      // PAUSED
-      DeviceMaster.resume();
     }
+
     eventEmitter.emit('PLAY');
   };
 

@@ -127,7 +127,12 @@ export default {
   on(
     keys: Array<string>,
     callback: (event: KeyboardEvent) => void,
-    { isBlocking = false, isPreventDefault = true, splitKey = '+', scope }: RegisterOptions = {}
+    {
+      isBlocking = false,
+      isPreventDefault = true,
+      splitKey = '+',
+      scope = defaultScope,
+    }: RegisterOptions = {}
   ): (() => void) | null {
     if (isMobile()) {
       return null;

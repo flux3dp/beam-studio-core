@@ -16,7 +16,7 @@ import { IDeviceInfo } from 'interfaces/IDevice';
 import { promarkModels } from 'app/actions/beambox/constant';
 
 import classNames from 'classnames';
-import styles from './FramingModal.module.scss';
+import styles from './index.module.scss';
 import PromarkFramingModal from './FramingModal.promark';
 
 interface Props {

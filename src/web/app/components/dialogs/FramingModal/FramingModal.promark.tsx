@@ -6,13 +6,15 @@ import { LoadingOutlined } from '@ant-design/icons';
 import FramingIcons from 'app/icons/framing/FramingIcons';
 import FramingTaskManager, { FramingType } from 'helpers/device/framing';
 import icons from 'app/icons/icons';
-import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
+// import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
 import shortcuts from 'helpers/shortcuts';
 import useI18n from 'helpers/useI18n';
 import { IDeviceInfo } from 'interfaces/IDevice';
 
 import classNames from 'classnames';
-import styles from './FramingModal.module.scss';
+import { handleExportClick } from 'app/actions/beambox/export/GoButton/handleExportClick';
+import styles from './index.module.scss';
+import { useFramingTaskManager } from './useFramingTaskManager';
 
 interface Props {
   device: IDeviceInfo;
@@ -20,7 +22,7 @@ interface Props {
   startOnOpen?: boolean;
 }
 
-const scope = 'model.framing';
+const scope = 'modal.framing';
 
 // TODO: add unit test
 const PromarkFramingModal = ({ device, onClose, startOnOpen = false }: Props): JSX.Element => {
@@ -62,20 +64,7 @@ const PromarkFramingModal = ({ device, onClose, startOnOpen = false }: Props): J
     [playing, type]
   );
 
-  useEffect(() => {
-    manager.current = new FramingTaskManager(device);
-
-    manager.current.on('status-change', setPlaying);
-    manager.current.on('close-message', () => MessageCaller.closeMessage(scope));
-    manager.current.on('message', (content: string) => {
-      MessageCaller.openMessage({ key: scope, level: MessageLevel.LOADING, content });
-    });
-
-    return () => {
-      manager.current?.stopFraming();
-      MessageCaller.closeMessage(scope);
-    };
-  }, [device]);
+  useFramingTaskManager({ manager, device, setPlaying });
 
   useEffect(() => {
     shortcutHandler.current = playing ? handleStop : handleStart;
@@ -115,11 +104,15 @@ const PromarkFramingModal = ({ device, onClose, startOnOpen = false }: Props): J
           </Button>
           <Button
             className={styles.button}
-            // onClick={playing ? handleStop : handleStart}
+            onClick={() => {
+              handleExportClick(lang)();
+              onClose();
+            }}
             type="primary"
             icon={<icons.Play className={styles.icon} />}
+            iconPosition="end"
           >
-            Start Task
+            {tFraming.start_task}
           </Button>
         </div>
       }
@@ -128,6 +121,7 @@ const PromarkFramingModal = ({ device, onClose, startOnOpen = false }: Props): J
         <Flex>
           {options.map((option) => (
             <Button
+              key={`framing-${option}`}
               onClick={
                 playing
                   ? handleStop

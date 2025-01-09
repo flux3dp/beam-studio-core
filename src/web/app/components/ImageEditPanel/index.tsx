@@ -49,7 +49,7 @@ const EXPORTING = 1;
 
 const IMAGE_PADDING = 30;
 
-const scope = 'image-edit-panel';
+const scope = 'modal.imageEditPanel';
 
 function ImageEditPanel({ src, image, onClose }: Props): JSX.Element {
   const {
