@@ -56,7 +56,7 @@ const MonitorTask = ({ device }: Props): JSX.Element => {
   const renderIcon = useCallback(
     (parentType: FramingType) => {
       if (playing && parentType === type) {
-        return <Spin className={styles['icon-spin']} indicator={<LoadingOutlined spin />} />;
+        return <Spin indicator={<LoadingOutlined spin />} />;
       }
 
       switch (parentType) {
@@ -92,12 +92,9 @@ const MonitorTask = ({ device }: Props): JSX.Element => {
                     handleFramingStart(option);
                   }
             }
-            className={styles['icon-text-button']}
+            icon={renderIcon(option)}
           >
-            <div className={styles['icon-text-container']}>
-              {renderIcon(option)}
-              <span className={styles.text}>{tFraming.framing}</span>
-            </div>
+            {tFraming.framing}
           </Button>
         ))}
       </Flex>
