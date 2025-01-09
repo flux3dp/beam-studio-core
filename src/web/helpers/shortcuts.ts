@@ -164,7 +164,7 @@ export default {
     const newEvents: Array<ShortcutEvent> = [];
     eventScopes.push(newEvents);
     const exitScope = () => {
-      // use splice instead of pop to in case another scope is entered before this scope is exited
+      // use splice instead of pop to in case another scope is entered before exitted
       const idx = eventScopes.indexOf(newEvents);
       if (idx >= 0) {
         eventScopes.splice(idx, 1);
