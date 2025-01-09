@@ -18,6 +18,7 @@ import shortcuts from 'helpers/shortcuts';
 import progressCaller from 'app/actions/progress-caller';
 import FullWindowPanel from 'app/widgets/FullWindowPanel/FullWindowPanel';
 
+import useNewShortcutsScope from 'helpers/hooks/useNewShortcutsScope';
 import useKonvaCanvas from 'helpers/hooks/konva/useKonvaCanvas';
 import useForceUpdate from 'helpers/use-force-update';
 import { useKeyDown } from 'helpers/hooks/useKeyDown';
@@ -263,8 +264,8 @@ function ImageEditPanel({ src, image, onClose }: Props): JSX.Element {
     // depends useImageStatus to force re-render
   }, [progress, imageSize, imageRef.current?.useImageStatus, forceUpdate]);
 
+  useNewShortcutsScope();
   useEffect(() => {
-    shortcuts.enterScope(scope);
     const initialize = async () => {
       const { clientHeight, clientWidth } = divRef.current;
       const {
@@ -316,7 +317,6 @@ function ImageEditPanel({ src, image, onClose }: Props): JSX.Element {
 
     return () => {
       observer.disconnect();
-      shortcuts.enterScope('');
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

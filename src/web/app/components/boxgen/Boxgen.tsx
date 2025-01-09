@@ -6,6 +6,7 @@ import FullWindowPanel from 'app/widgets/FullWindowPanel/FullWindowPanel';
 import Header from 'app/widgets/FullWindowPanel/Header';
 import Sider from 'app/widgets/FullWindowPanel/Sider';
 import useI18n from 'helpers/useI18n';
+import useNewShortcutsScope from 'helpers/hooks/useNewShortcutsScope';
 import { BoxgenProvider } from 'app/contexts/BoxgenContext';
 
 import BoxCanvas from './BoxCanvas';
@@ -15,6 +16,7 @@ import ExportButton from './ExportButton';
 import styles from './Boxgen.module.scss';
 
 const Boxgen = ({ onClose }: { onClose?: () => void }): JSX.Element => {
+  useNewShortcutsScope();
   const lang = useI18n();
   const tBoxgen = lang.boxgen;
 

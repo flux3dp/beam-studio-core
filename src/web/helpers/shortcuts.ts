@@ -18,10 +18,10 @@ interface RegisterOptions {
   scope?: string;
 }
 
-let events = Array.of<ShortcutEvent>();
+const eventScopes: Array<Array<ShortcutEvent>> = [[]];
+const getCurrentEvents = () => eventScopes[eventScopes.length - 1];
 const currentPressedKeys = new Set<string>();
 let hasBind = false;
-let currentScope = '';
 
 window.addEventListener('blur', () => currentPressedKeys.clear());
 
@@ -33,24 +33,22 @@ const parseKeySet = (keySet: string, splitKey = '+'): string =>
     .sort()
     .join('+');
 
-const matchedEventsByKeySet = (keySet: string, matchScope = currentScope) =>
-  events
-    .filter((e) => !matchScope || e.scope === matchScope)
-    .reduce(
-      (acc, cur) => {
-        if (cur.keySet === keySet) {
-          if (cur.priority > acc.maxPriority) {
-            acc.matches = [cur];
-            acc.maxPriority = cur.priority;
-          } else if (cur.priority === acc.maxPriority) {
-            acc.matches.push(cur);
-          }
+const matchedEventsByKeySet = (keySet: string) =>
+  getCurrentEvents().reduce(
+    (acc, cur) => {
+      if (cur.keySet === keySet) {
+        if (cur.priority > acc.maxPriority) {
+          acc.matches = [cur];
+          acc.maxPriority = cur.priority;
+        } else if (cur.priority === acc.maxPriority) {
+          acc.matches.push(cur);
         }
+      }
 
-        return acc;
-      },
-      { matches: Array.of<ShortcutEvent>(), maxPriority: 0 }
-    );
+      return acc;
+    },
+    { matches: Array.of<ShortcutEvent>(), maxPriority: 0 }
+  );
 
 const keyupEvent = (event: KeyboardEvent) => {
   /**
@@ -118,6 +116,7 @@ const initialize = (): void => {
 };
 
 const unsubscribe = (eventToUnsubscribe: ShortcutEvent) => {
+  const events = getCurrentEvents();
   events.splice(events.indexOf(eventToUnsubscribe), 1);
 };
 
@@ -135,13 +134,13 @@ export default {
     const newEvents: Array<ShortcutEvent> = keySets.map((keySet) => ({
       keySet,
       callback,
-      priority: isBlocking ? matchedEventsByKeySet(keySet, '').maxPriority + 1 : 0,
+      priority: isBlocking ? matchedEventsByKeySet(keySet).maxPriority + 1 : 0,
       isPreventDefault,
       scope,
     }));
-
+    const currentEvents = getCurrentEvents();
     newEvents.forEach((newEvent) => {
-      events.push(newEvent);
+      currentEvents.push(newEvent);
     });
 
     initialize();
@@ -153,23 +152,27 @@ export default {
     };
   },
   off(keySets: Array<string>): void {
-    events = events.filter((event) => !keySets.includes(event.keySet));
-  },
-  disableAll(): void {
-    window.removeEventListener('keyup', keyupEvent);
-    window.removeEventListener('keydown', keydownEvent);
-
-    hasBind = false;
-    events.length = 0;
-  },
-  pauseAll(): void {
-    window.removeEventListener('keyup', keyupEvent);
-    window.removeEventListener('keydown', keydownEvent);
-
-    hasBind = false;
+    const currentEvents = getCurrentEvents();
+    for (let i = currentEvents.length - 1; i >= 0; i--) {
+      if (keySets.includes(currentEvents[i].keySet)) {
+        currentEvents.splice(i, 1);
+      }
+    }
   },
   initialize,
-  enterScope(scope: string): void {
-    currentScope = scope;
+  enterScope(): () => void {
+    const newEvents: Array<ShortcutEvent> = [];
+    eventScopes.push(newEvents);
+    const exitScope = () => {
+      // use splice instead of pop to in case another scope is entered before this scope is exited
+      const idx = eventScopes.indexOf(newEvents);
+      if (idx >= 0) {
+        eventScopes.splice(idx, 1);
+      }
+    };
+    return exitScope;
+  },
+  isInBaseScope(): boolean {
+    return eventScopes.length === 1;
   },
 };

@@ -2051,7 +2051,13 @@ const svgEditor = (window['svgEditor'] = (function () {
       }
     };
     editor.cutSelected = cutSelected;
-    document.addEventListener('cut', cutSelected, false);
+    document.addEventListener(
+      'cut',
+      () => {
+        if (Shortcuts.isInBaseScope()) cutSelected();
+      },
+      false
+    );
 
     var copySelected = function () {
       // disabled when focusing input element
@@ -2063,10 +2069,18 @@ const svgEditor = (window['svgEditor'] = (function () {
       }
     };
     editor.copySelected = copySelected;
-    document.addEventListener('copy', copySelected, false);
+    document.addEventListener(
+      'copy',
+      () => {
+        if (Shortcuts.isInBaseScope()) copySelected();
+      },
+      false
+    );
 
     // handle paste
     document.addEventListener('paste', async (e) => {
+      // disabled when not in base scope
+      if (!Shortcuts.isInBaseScope()) return;
       // disabled when focusing input element
       if (document.activeElement.tagName.toLowerCase() === 'input') {
         return;
