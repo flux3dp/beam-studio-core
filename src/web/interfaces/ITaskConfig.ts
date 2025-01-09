@@ -3,6 +3,7 @@ import { WorkAreaModel } from 'app/constants/workarea-constants';
 
 export interface IBaseConfig {
   model: WorkAreaModel;
+  isPromark?: boolean;
   travelSpeed?: number;
   enableAutoFocus?: boolean;
   enableDiode?: boolean;

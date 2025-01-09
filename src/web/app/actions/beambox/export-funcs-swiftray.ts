@@ -17,6 +17,7 @@ import { controlConfig } from 'app/constants/promark-constants';
 import { getExportOpt } from 'helpers/api/svg-laser-parser';
 import { getSupportInfo } from 'app/constants/add-on';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
+import { IBaseConfig, IFcodeConfig } from 'interfaces/ITaskConfig';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { IWrappedSwiftrayTaskFile } from 'interfaces/IWrappedFile';
 import { swiftrayClient } from 'helpers/api/swiftray-client';
@@ -254,7 +255,7 @@ const fetchTaskCodeSwiftray = async (
   const model = BeamboxPreference.read('workarea') || BeamboxPreference.read('model');
   const isPromark = promarkModels.has(model);
   if (isPromark) codeType = 'gcode';
-  let taskConfig = {
+  let taskConfig: IBaseConfig | IFcodeConfig = {
     model,
     isPromark,
     travelSpeed: isPromark ? controlConfig.travelSpeed : 100,
@@ -284,7 +285,11 @@ const fetchTaskCodeSwiftray = async (
   let { fileTimeCost } = getTaskCodeResult;
 
   if (isNonFGCode && !isPromark) {
-    const fcodeRes = await getTaskCode('fcode', {});
+    if (shouldUseFastGradient) {
+      (taskConfig as IFcodeConfig).fg = true;
+      (taskConfig as IFcodeConfig).mfg = false;
+    }
+    const fcodeRes = await getTaskCode('fcode', taskConfig);
     fileTimeCost = fcodeRes.fileTimeCost;
   }
 
