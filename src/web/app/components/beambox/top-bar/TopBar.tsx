@@ -95,11 +95,6 @@ const Topbar = (): JSX.Element => {
             [styles.space]: isDragRegion || isWebMode,
           })}
         >
-          {/* <div
-            className={classNames(styles.space, {
-              [styles.wide]: isDragRegion || isWebMode,
-            })}
-          /> */}
           <UserAvatar user={currentUser} />
           <CommonTools isWeb={isWebMode} hide={mode !== CanvasMode.Draw} />
           {!isWebMode && <Tabs />}
