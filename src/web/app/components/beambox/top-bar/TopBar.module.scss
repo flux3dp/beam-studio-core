@@ -14,6 +14,10 @@
   font-size: 30px;
   overflow: hidden;
 
+  &.draggable {
+    -webkit-app-region: drag;
+  }
+
   .controls {
     display: flex;
     align-items: center;
@@ -24,19 +28,13 @@
   .left {
     flex: 0 1 auto;
     overflow: hidden;
+    margin-left: 8px;
 
-    &.margin-left {
-      margin-left: 8px;
-    }
-
-    .drag-area {
-      flex: 0 0 auto;
-      width: 72px;
-      height: variables.$topBarHeight;
-      -webkit-app-region: drag;
+    &.space {
+      margin-left: 80px;
 
       @media screen and (max-width: 600px) {
-        width: 60px;
+        width: 72px;
       }
     }
   }
@@ -51,9 +49,6 @@
       padding-left: 8px;
       flex: 1 0 auto;
       height: variables.$topBarHeight;
-      &.drag {
-        -webkit-app-region: drag;
-      }
     }
   }
 }
