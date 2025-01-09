@@ -40,22 +40,6 @@ jest.mock('app/actions/progress-caller', () => ({
   popById: (...args) => mockPopById(...args),
 }));
 
-jest.mock('helpers/useI18n', () => () => ({
-  beambox: {
-    photo_edit_panel: {
-      processing: 'processing',
-      okay: 'okay',
-      back: 'back',
-      cancel: 'cancel',
-      apply: 'apply',
-      crop: 'crop',
-      aspect_ratio: 'Aspect Ratio',
-      original: 'Original',
-      free: 'Free',
-    },
-  },
-}));
-
 const mockPreprocessByUrl = jest.fn();
 jest.mock('helpers/image-edit-panel/preprocess', () => ({
   preprocessByUrl: (...args) => mockPreprocessByUrl(...args),
@@ -108,7 +92,7 @@ describe('test CropPanel', () => {
       expect(mockOpenNonstopProgress).toBeCalledTimes(1);
       expect(mockOpenNonstopProgress).toHaveBeenLastCalledWith({
         id: 'photo-edit-processing',
-        message: 'processing',
+        message: 'Processing',
       });
       expect(mockPreprocessByUrl).toBeCalledTimes(1);
       expect(mockPreprocessByUrl).toHaveBeenLastCalledWith('mock-src');
@@ -149,7 +133,7 @@ describe('test CropPanel', () => {
       expect(mockOpenNonstopProgress).toBeCalledTimes(1);
       expect(mockOpenNonstopProgress).toHaveBeenLastCalledWith({
         id: 'photo-edit-processing',
-        message: 'processing',
+        message: 'Processing',
       });
       expect(mockPreprocessByUrl).toBeCalledTimes(1);
       expect(mockPreprocessByUrl).toHaveBeenLastCalledWith('mock-src');
@@ -184,7 +168,7 @@ describe('test CropPanel', () => {
       expect(mockOpenNonstopProgress).toBeCalledTimes(1);
       expect(mockOpenNonstopProgress).toHaveBeenLastCalledWith({
         id: 'photo-edit-processing',
-        message: 'processing',
+        message: 'Processing',
       });
       expect(mockPreprocessByUrl).toBeCalledTimes(1);
       expect(mockPreprocessByUrl).toHaveBeenLastCalledWith('mock-src');
@@ -246,7 +230,7 @@ describe('test CropPanel', () => {
     mockCropperInstance.getData.mockReturnValueOnce({ x: 10, y: 10, width: 80, height: 80 });
     mockCropImage.mockResolvedValueOnce('mock-url-2');
     await act(async () => {
-      fireEvent.click(getByText('apply'));
+      fireEvent.click(getByText('Apply'));
       await new Promise((r) => setTimeout(r));
     });
     expect(mockCropperInstance.getData).toBeCalledTimes(1);
@@ -280,7 +264,7 @@ describe('test CropPanel', () => {
     mockCropImage.mockResolvedValueOnce('mock-url-3');
     mockCalculateBase64.mockResolvedValueOnce('mock-base64-3');
     await act(async () => {
-      fireEvent.click(getByText('okay'));
+      fireEvent.click(getByText('OK'));
       await new Promise((r) => setTimeout(r));
     });
     expect(mockCropperInstance.getData).toBeCalledTimes(2);
@@ -351,7 +335,7 @@ describe('test CropPanel', () => {
     mockCropperInstance.getData.mockReturnValueOnce({ x: 10, y: 10, width: 80, height: 80 });
     mockCropImage.mockResolvedValueOnce('mock-url-2');
     await act(async () => {
-      fireEvent.click(getByText('apply'));
+      fireEvent.click(getByText('Apply'));
       await new Promise((r) => setTimeout(r));
     });
     expect(mockCropperInstance.getData).toBeCalledTimes(1);
@@ -365,7 +349,7 @@ describe('test CropPanel', () => {
     mockCalculateBase64.mockResolvedValueOnce('mock-base64-1');
     expect(mockRevokeObjectURL).not.toBeCalled();
     await act(async () => {
-      fireEvent.click(getByText('back'));
+      fireEvent.click(getByText('Back'));
       await new Promise((r) => setTimeout(r));
     });
     expect(mockOpenNonstopProgress).toBeCalledTimes(3);
@@ -374,7 +358,7 @@ describe('test CropPanel', () => {
     expect(mockPopById).toBeCalledTimes(3);
 
     expect(mockOnClose).not.toBeCalled();
-    fireEvent.click(getByText('cancel'));
+    fireEvent.click(getByText('Cancel'));
     expect(mockOnClose).toBeCalledTimes(1);
     unmount();
     expect(mockRevokeObjectURL).toBeCalledTimes(2);

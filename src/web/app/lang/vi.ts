@@ -6,6 +6,7 @@ const lang: ILang = {
     cancel: 'Hủy',
     back: 'Quay lại',
     save: 'Lưu',
+    apply: 'Áp dụng',
     ok: 'OK',
     stop: 'Dừng',
     editing: {
@@ -812,7 +813,6 @@ const lang: ILang = {
         cut: 'Cắt',
         engrave: 'Khắc',
         more: 'Quản lý',
-        apply: 'Áp dụng',
         custom_preset: 'Tùy chỉnh',
         various_preset: 'Các cài đặt mặc định khác nhau',
         module: 'Mô-đun',
@@ -1110,7 +1110,6 @@ const lang: ILang = {
       export_file_error_ask_for_upload: 'Xuất tệp thất bại. Bạn có muốn cung cấp cảnh làm việc để báo cáo lỗi không?',
     },
     image_trace_panel: {
-      apply: 'Áp dụng',
       back: 'Quay lại',
       cancel: 'Hủy',
       next: 'Tiếp',
@@ -1121,10 +1120,7 @@ const lang: ILang = {
       tuning: 'Thiết lập',
     },
     photo_edit_panel: {
-      apply: 'Áp dụng',
-      back: 'Quay lại',
       cancel: 'Hủy',
-      next: 'Tiếp',
       sharpen: 'Làm nét',
       sharpness: 'Độ sắc nét',
       radius: 'Bán kính',
@@ -1608,7 +1604,6 @@ const lang: ILang = {
       auto_focus_instruction: 'Vui lòng di chuyển đầu mô-đun laser phía trên vật thể, và làm theo hướng dẫn hoạt ảnh để nhấn AF để lấy nét.',
       already_performed_auto_focus: 'Bạn đã thực hiện lấy nét tự động, có sử dụng giá trị hiện tại không?',
       please_enter_height: 'Vui lòng nhập chiều cao của vật thể. Để chụp ảnh camera chính xác.',
-      apply: 'Áp dụng',
       enter_manually: 'Nhập thủ công',
       adjust: 'Điều chỉnh',
       adjust_height_tooltip: 'Nhấp vào hộp kiểm để bật chỉnh sửa.',

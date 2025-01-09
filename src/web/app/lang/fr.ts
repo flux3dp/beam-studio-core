@@ -6,6 +6,7 @@ const lang: ILang = {
     cancel: 'Annuler',
     back: 'Retour',
     save: 'Enregistrer',
+    apply: 'Appliquer',
     ok: 'OK',
     stop: 'Arrêter',
     editing: {
@@ -812,7 +813,6 @@ const lang: ILang = {
         cut: 'Couper',
         engrave: 'Graver',
         more: 'Plus',
-        apply: 'Appliquer',
         custom_preset: 'Personnalisé',
         various_preset: 'Divers préréglages',
         module: 'Module',
@@ -1110,7 +1110,6 @@ const lang: ILang = {
       export_file_error_ask_for_upload: "Échec de l'exportation de la tâche. Êtes-vous prêt à fournir la scène de travail à l'équipe de développement pour le rapport de bug ?",
     },
     image_trace_panel: {
-      apply: 'Appliquer',
       back: 'Retour',
       cancel: 'Annuler',
       next: 'Suivant',
@@ -1121,10 +1120,7 @@ const lang: ILang = {
       tuning: 'Paramètres',
     },
     photo_edit_panel: {
-      apply: 'Appliquer',
-      back: 'Retour',
       cancel: 'Annuler',
-      next: 'Suivant',
       sharpen: 'Netteté',
       sharpness: 'Netteté',
       radius: 'Rayon',
@@ -1608,7 +1604,6 @@ const lang: ILang = {
       auto_focus_instruction: "Veuillez déplacer la tête du module laser au-dessus de l'objet et suivre les instructions d'animation pour appuyer sur AF pour effectuer la mise au point.",
       already_performed_auto_focus: 'Vous avez déjà effectué la mise au point automatique, utiliser les valeurs existantes ?',
       please_enter_height: "Veuillez entrer la hauteur de l'objet. Afin de capturer un cliché de caméra précis.",
-      apply: 'Appliquer',
       enter_manually: 'Entrer manuellement',
       adjust: 'Ajuster',
       adjust_height_tooltip: "Cliquez sur la case à cocher pour activer l'édition.",

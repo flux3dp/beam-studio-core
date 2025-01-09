@@ -6,6 +6,7 @@ const lang: ILang = {
     cancel: 'キャンセル',
     back: '戻る',
     save: '保存する',
+    apply: '適用する',
     ok: 'OK',
     stop: '停止',
     editing: {
@@ -815,7 +816,6 @@ const lang: ILang = {
         cut: 'カット',
         engrave: '彫刻する',
         more: '管理する',
-        apply: '適用する',
         custom_preset: 'カスタム',
         various_preset: '複数のプリセット',
         module: 'モジュール',
@@ -1113,7 +1113,6 @@ const lang: ILang = {
       export_file_error_ask_for_upload: 'Failed to export task. Are you willing to provide working scene to develop team for bug report?',
     },
     image_trace_panel: {
-      apply: '適用する',
       back: '戻る',
       cancel: 'キャンセル',
       next: '次へ',
@@ -1124,10 +1123,7 @@ const lang: ILang = {
       tuning: 'パラメーター',
     },
     photo_edit_panel: {
-      apply: '適用する',
-      back: '戻る',
       cancel: 'キャンセル',
-      next: '次へ',
       sharpen: 'シャープにする',
       sharpness: 'シャープネス',
       radius: '半径',
@@ -1611,7 +1607,6 @@ const lang: ILang = {
       auto_focus_instruction: 'モジュールヘッドをオブジェクトの上に移動し、アニメーションの指示に従ってAFを押してフォーカスしてください。',
       already_performed_auto_focus: 'すでにオートフォーカスを行っています。既存の値を使用しますか？',
       please_enter_height: '正確なカメラショットを撮影するために、物体の高さを入力してください。',
-      apply: '適用する',
       enter_manually: '手動で入力',
       adjust: '調整',
       adjust_height_tooltip: '編集を有効にするにはチェックボックスをクリックしてください。',

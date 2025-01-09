@@ -28,8 +28,10 @@ const MODAL_PADDING_X = 80;
 const MODAL_PADDING_Y = 170;
 
 const CropPanel = ({ src, image, onClose }: Props): JSX.Element => {
-  const lang = useI18n();
-  const t = lang.beambox.photo_edit_panel;
+  const {
+    beambox: { photo_edit_panel: t },
+    global: tGlobal,
+  } = useI18n();
   const cropperRef = useRef<Cropper>(null);
   const previewImageRef = useRef<HTMLImageElement>(null);
   const originalSizeRef = useRef({ width: 0, height: 0 });
@@ -187,16 +189,16 @@ const CropPanel = ({ src, image, onClose }: Props): JSX.Element => {
 
   const [cancelBtn, backBtn, applyBtn, okBtn] = [
     <Button key="cancel" onClick={onClose}>
-      {t.cancel}
+      {tGlobal.cancel}
     </Button>,
     <Button key="back" onClick={handleUndo} disabled={historyRef.current.length <= 1}>
-      {t.back}
+      {tGlobal.back}
     </Button>,
     <Button key="apply" onClick={handleApply}>
-      {t.apply}
+      {tGlobal.apply}
     </Button>,
     <Button key="ok" type="primary" onClick={handleComplete}>
-      {t.okay}
+      {tGlobal.ok}
     </Button>,
   ];
   const { width, height, displayBase64 } = state;

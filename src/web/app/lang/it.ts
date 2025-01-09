@@ -6,6 +6,7 @@ const lang: ILang = {
     cancel: 'Annulla',
     back: 'Indietro',
     save: 'Salva',
+    apply: 'Applica',
     ok: 'OK',
     stop: 'Ferma',
     editing: {
@@ -812,7 +813,6 @@ const lang: ILang = {
         cut: 'Taglia',
         engrave: 'Incide',
         more: 'Gestisci',
-        apply: 'Applica',
         custom_preset: 'Personalizzato',
         various_preset: 'Vari Preset',
         module: 'Modulo',
@@ -1110,7 +1110,6 @@ const lang: ILang = {
       export_file_error_ask_for_upload: 'Esportazione file non riuscita. Sei disposto a fornire la scena di lavoro al team di sviluppo per la segnalazione di bug?',
     },
     image_trace_panel: {
-      apply: 'Applica',
       back: 'Indietro',
       cancel: 'Annulla',
       next: 'Avanti',
@@ -1121,10 +1120,7 @@ const lang: ILang = {
       tuning: 'Parametri',
     },
     photo_edit_panel: {
-      apply: 'Applica',
-      back: 'Indietro',
       cancel: 'Annulla',
-      next: 'Avanti',
       sharpen: 'Nitidezza',
       sharpness: 'Nitidezza',
       radius: 'Raggio',
@@ -1608,7 +1604,6 @@ const lang: ILang = {
       auto_focus_instruction: "Spostare il modulo laser sopra l'oggetto e seguire le istruzioni animate per premere AF per mettere a fuoco.",
       already_performed_auto_focus: 'Hai già eseguito la messa a fuoco automatica, vuoi utilizzare i valori esistenti?',
       please_enter_height: "Inserire l'altezza dell'oggetto. Per catturare uno scatto di fotocamera preciso.",
-      apply: 'Applica',
       enter_manually: 'Inserisci manualmente',
       adjust: 'Regola',
       adjust_height_tooltip: 'Selezionare la casella di controllo per abilitare la modifica.',

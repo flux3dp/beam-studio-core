@@ -6,6 +6,7 @@ const lang: ILang = {
     cancel: 'Annuleren',
     back: 'Terug',
     save: 'Opslaan',
+    apply: 'Toepassen',
     ok: 'OK',
     stop: 'Stop',
     editing: {
@@ -812,7 +813,6 @@ const lang: ILang = {
         cut: 'Snijden',
         engrave: 'Graveren',
         more: 'Beheren',
-        apply: 'Toepassen',
         custom_preset: 'Aangepast',
         various_preset: 'Diverse voorinstellingen',
         module: 'Module',
@@ -1110,7 +1110,6 @@ const lang: ILang = {
       export_file_error_ask_for_upload: 'Export mislukt. Wilt u de werkende scène naar het ontwikkelteam sturen voor een bugrapport?',
     },
     image_trace_panel: {
-      apply: 'Toepassen',
       back: 'Terug',
       cancel: 'Annuleren',
       next: 'Volgende',
@@ -1121,10 +1120,7 @@ const lang: ILang = {
       tuning: 'Parameters',
     },
     photo_edit_panel: {
-      apply: 'Toepassen',
-      back: 'Terug',
       cancel: 'Annuleren',
-      next: 'Volgende',
       sharpen: 'Scherpte',
       sharpness: 'Scherpte',
       radius: 'Straal',
@@ -1608,7 +1604,6 @@ const lang: ILang = {
       auto_focus_instruction: 'Verplaats de lasermodulekop boven het object en volg de animatie-instructies om op AF te drukken om scherp te stellen.',
       already_performed_auto_focus: 'U heeft al automatisch scherpgesteld, bestaande waarden gebruiken?',
       please_enter_height: 'Voer de hoogte van het object in om een nauwkeurige camerafoto te maken.',
-      apply: 'Toepassen',
       enter_manually: 'Handmatig invoeren',
       adjust: 'Aanpassen',
       adjust_height_tooltip: 'Schakel het selectievakje in om bewerken mogelijk te maken.',

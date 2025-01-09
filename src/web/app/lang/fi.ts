@@ -6,6 +6,7 @@ const lang: ILang = {
     cancel: 'Peruuta',
     back: 'Takaisin',
     save: 'Tallenna',
+    apply: 'Käytä',
     ok: 'OK',
     stop: 'Pysäytä',
     editing: {
@@ -812,7 +813,6 @@ const lang: ILang = {
         cut: 'Leikkaa',
         engrave: 'Kaiverra',
         more: 'Hallitse',
-        apply: 'Käytä',
         custom_preset: 'Mukautettu',
         various_preset: 'Useita esiasetuksia',
         module: 'Moduuli',
@@ -1110,7 +1110,6 @@ const lang: ILang = {
       export_file_error_ask_for_upload: 'Vientitehtävän epäonnistui. Haluatko tarjota toimivan näkymän kehitystiimille vianraportointia varten?',
     },
     image_trace_panel: {
-      apply: 'Käytä',
       back: 'Takaisin',
       cancel: 'Peruuta',
       next: 'Seuraava',
@@ -1121,10 +1120,7 @@ const lang: ILang = {
       tuning: 'Parametrit',
     },
     photo_edit_panel: {
-      apply: 'Käytä',
-      back: 'Takaisin',
       cancel: 'Peruuta',
-      next: 'Seuraava',
       sharpen: 'Terävöitä',
       sharpness: 'Terävyys',
       radius: 'Säde',
@@ -1608,7 +1604,6 @@ const lang: ILang = {
       auto_focus_instruction: 'Siirrä lasermoduulin pää kohteen yläpuolelle ja seuraa animaatio-ohjeita painaaksesi AF tarkentaaksesi.',
       already_performed_auto_focus: 'Olet jo suorittanut automaattitarkennuksen, käytetäänkö olemassa olevia arvoja?',
       please_enter_height: 'Anna kohteen korkeus. Jotta kameran kuva olisi tarkka.',
-      apply: 'Käytä',
       enter_manually: 'Anna manuaalisesti',
       adjust: 'Säädä',
       adjust_height_tooltip: 'Valitse valintaruutu muokataksesi.',

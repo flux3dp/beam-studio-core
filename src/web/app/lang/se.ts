@@ -6,6 +6,7 @@ const lang: ILang = {
     cancel: 'Avbryt',
     back: 'Tillbaka',
     save: 'Spara',
+    apply: 'Tillämpa',
     ok: 'OK',
     stop: 'Stoppa',
     editing: {
@@ -812,7 +813,6 @@ const lang: ILang = {
         cut: 'Skär',
         engrave: 'Gravera',
         more: 'Hantera',
-        apply: 'Verkställ',
         custom_preset: 'Anpassad',
         various_preset: 'Olika förinställningar',
         module: 'Modul',
@@ -1110,7 +1110,6 @@ const lang: ILang = {
       export_file_error_ask_for_upload: 'Misslyckades att exportera uppgift. Vill du skicka arbetsytan till utvecklingsteamet för felrapportering?',
     },
     image_trace_panel: {
-      apply: 'Tillämpa',
       back: 'Tillbaka',
       cancel: 'Avbryt',
       next: 'Nästa',
@@ -1121,10 +1120,7 @@ const lang: ILang = {
       tuning: 'Inställningar',
     },
     photo_edit_panel: {
-      apply: 'Tillämpa',
-      back: 'Tillbaka',
       cancel: 'Avbryt',
-      next: 'Nästa',
       sharpen: 'Skärpa',
       sharpness: 'Skärpa',
       radius: 'Radie',
@@ -1608,7 +1604,6 @@ const lang: ILang = {
       auto_focus_instruction: 'Flytta laserhuvudet över objektet och följ anvisningarna för att trycka på AF för att fokusera.',
       already_performed_auto_focus: 'Du har redan utfört autofokus, använd befintliga värden?',
       please_enter_height: 'Ange objektets höjd. För att ta en exakt kamerabild.',
-      apply: 'Verkställ',
       enter_manually: 'Ange manuellt',
       adjust: 'Justera',
       adjust_height_tooltip: 'Markera för att aktivera redigering.',

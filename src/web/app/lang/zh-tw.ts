@@ -6,6 +6,7 @@ const lang: ILang = {
     cancel: '取消',
     back: '返回',
     save: '儲存',
+    apply: '套用',
     ok: '確定',
     stop: '停止',
     editing: {
@@ -815,7 +816,6 @@ const lang: ILang = {
         cut: '切割',
         engrave: '雕刻',
         more: '管理',
-        apply: '套用',
         custom_preset: '自訂',
         various_preset: '多個參數',
         module: '模組',
@@ -1113,7 +1113,6 @@ const lang: ILang = {
       export_file_error_ask_for_upload: '匯出工作時發生錯誤，是否願意上傳工作場景回報錯誤給開發團隊？',
     },
     image_trace_panel: {
-      apply: '套用',
       back: '上一步',
       cancel: '取消',
       next: '下一步',
@@ -1124,10 +1123,7 @@ const lang: ILang = {
       tuning: '描圖參數',
     },
     photo_edit_panel: {
-      apply: '套用',
-      back: '上一步',
       cancel: '取消',
-      next: '下一步',
       sharpen: '銳化',
       sharpness: '鋭化強度',
       radius: '鋭化半徑',
@@ -1611,7 +1607,6 @@ const lang: ILang = {
       auto_focus_instruction: '請將雷射模組頭移至物體上方，並依照動畫指示按下AF進行對焦。',
       already_performed_auto_focus: '您已經執行了自動對焦，要使用現有數值嗎？',
       please_enter_height: '請輸入物體的高度，以拍攝精確的相機照片。',
-      apply: '套用',
       enter_manually: '手動輸入',
       adjust: '調整',
       adjust_height_tooltip: '點選方塊以啟用編輯。',

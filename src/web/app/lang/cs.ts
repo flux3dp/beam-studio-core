@@ -6,6 +6,7 @@ const lang: ILang = {
     cancel: 'Zrušit',
     back: 'Zpět',
     save: 'Uložit',
+    apply: 'Použít',
     ok: 'OK',
     stop: 'Zastavit',
     editing: {
@@ -815,7 +816,6 @@ const lang: ILang = {
         cut: 'Řezat',
         engrave: 'Gravírovat',
         more: 'Spravovat',
-        apply: 'Použít',
         custom_preset: 'Přizpůsobit',
         various_preset: 'Různé předvolby',
         module: 'Modul',
@@ -1113,7 +1113,6 @@ const lang: ILang = {
       export_file_error_ask_for_upload: 'Nepodařilo se exportovat úlohu. Jste ochotni při hlášení chyby poskytnout vývojářům pracovní oblast?',
     },
     image_trace_panel: {
-      apply: 'Použít',
       back: 'Zpět',
       cancel: 'Storno',
       next: 'Další',
@@ -1124,10 +1123,7 @@ const lang: ILang = {
       tuning: 'Parametry',
     },
     photo_edit_panel: {
-      apply: 'Použít',
-      back: 'Zpět',
       cancel: 'Storno',
-      next: 'Další',
       sharpen: 'Zostřit',
       sharpness: 'Zaostření',
       radius: 'Poloměr',
@@ -1611,7 +1607,6 @@ const lang: ILang = {
       auto_focus_instruction: 'Přesuňte prosím hlavici laserového modulu nad objekt a následujte instrukce k stisknutí AF pro fokus.',
       already_performed_auto_focus: 'Již jste použili autofokus. Použít existující hodnoty?',
       please_enter_height: 'Zadejte prosím výšku objektu, aby kamera zachytila přesný záběr.',
-      apply: 'Použít',
       enter_manually: 'Vložit manuálně',
       adjust: 'Přizpůsobit',
       adjust_height_tooltip: 'Použijte zaškrtávací políčko k povolení úprav.',
