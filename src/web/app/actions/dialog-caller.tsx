@@ -514,13 +514,10 @@ export default {
   showBoxGen: (onClose: () => void = () => {}): void => {
     if (isIdExist('box-gen')) return;
 
-    shortcuts.pauseAll();
-
     addDialogComponent(
       'box-gen',
       <Boxgen
         onClose={() => {
-          shortcuts.initialize();
           onClose();
           popDialogById('box-gen');
         }}

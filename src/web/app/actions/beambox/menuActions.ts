@@ -16,6 +16,7 @@ import isWeb from 'helpers/is-web';
 import imageEdit from 'helpers/image-edit';
 import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
 import OutputError from 'helpers/output-error';
+import shortcuts from 'helpers/shortcuts';
 import Tutorials from 'app/actions/beambox/tutorials';
 import viewMenu from 'helpers/menubar/view';
 import workareaManager from 'app/svgedit/workarea';
@@ -203,8 +204,12 @@ export default {
     if (isWeb()) Dialog.forceLoginWrapper(() => ExportFuncs.exportFcode());
     else ExportFuncs.exportFcode();
   },
-  UNDO: historyUtils.undo,
-  REDO: historyUtils.redo,
+  UNDO: (): void => {
+    if (shortcuts.isInBaseScope()) historyUtils.undo();
+  },
+  REDO: (): void => {
+    if (shortcuts.isInBaseScope()) historyUtils.redo();
+  },
   GROUP: (): Promise<void> => svgCanvas.groupSelectedElements(),
   UNGROUP: (): Promise<void> => svgCanvas.ungroupSelectedElement(),
   DELETE: (): Promise<void> => svgEditor.deleteSelected(),
