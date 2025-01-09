@@ -3,11 +3,11 @@ import React, { memo, useEffect, useRef } from 'react';
 import AlertIcons from 'app/icons/alerts/AlertIcons';
 import browser from 'implementations/browser';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
+import rotateBBox from 'app/svgedit/utils/rotateBbox';
 import useI18n from 'helpers/useI18n';
 import { getRotationAngle } from 'app/svgedit/transform/rotation';
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 
-import rotateBBox from 'app/svgedit/utils/rotateBbox';
 import styles from './Info.module.scss';
 
 let svgCanvas: ISVGCanvas;
