@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-shadow */
 import React, { useCallback, useContext, useMemo, useRef, useState } from 'react';
 import { Button, Col, Flex, Progress, Row, Spin } from 'antd';
 import { ClockCircleOutlined, FileOutlined, LoadingOutlined } from '@ant-design/icons';
@@ -23,8 +24,7 @@ interface Props {
 }
 
 const MonitorTask = ({ device }: Props): JSX.Element => {
-  const lang = useI18n();
-  const tFraming = lang.framing;
+  const { monitor: tMonitor, framing: tFraming } = useI18n();
   const { taskTime, mode, report, uploadProgress, taskImageURL, fileInfo, previewTask } =
     useContext(MonitorContext);
   const isPromark = useMemo(() => promarkModels.has(device.model), [device.model]);
@@ -33,14 +33,21 @@ const MonitorTask = ({ device }: Props): JSX.Element => {
   const manager = useRef<FramingTaskManager>(null);
   const [playing, setPlaying] = useState<boolean>(false);
   const [type, setType] = useState<FramingType>(options[0]);
+  const [estimateTaskTime, setEstimateTaskTime] = useState<number>(taskTime);
   /* for Promark framing */
 
-  const getJobTime = (): string => {
-    if (mode === Mode.WORKING && report && report.prog) {
-      return `${FormatDuration(Math.max(taskTime * (1 - report.prog), 1))} ${lang.monitor.left}`;
+  const getJobTime = (time = taskTime, byReport = true): string => {
+    const isWorking = mode === Mode.WORKING;
+
+    if (playing) {
+      return `${FormatDuration(Math.max(taskTime, 1))}` || null;
     }
 
-    return typeof taskTime === 'number' ? FormatDuration(Math.max(taskTime, 1)) : null;
+    if (isWorking && byReport && report?.prog) {
+      return `${FormatDuration(Math.max(time * (1 - report.prog), 1))} ${tMonitor.left}`;
+    }
+
+    return time ? `${FormatDuration(Math.max(time, 1))} ${isWorking ? tMonitor.left : ''}` : null;
   };
 
   /* for Promark framing */
@@ -117,7 +124,7 @@ const MonitorTask = ({ device }: Props): JSX.Element => {
       );
     }
 
-    if (!report || !report?.prog) {
+    if (!report) {
       if (isPromark) {
         return renderPromarkFramingButton();
       }
@@ -125,9 +132,7 @@ const MonitorTask = ({ device }: Props): JSX.Element => {
       return null;
     }
 
-    const percentageDone = Number((report.prog * 100).toFixed(1));
-
-    if (report?.st_id === DeviceConstants.status.COMPLETED || percentageDone === 100) {
+    if (report?.st_id === DeviceConstants.status.COMPLETED) {
       if (isPromark) {
         return renderPromarkFramingButton();
       }
@@ -135,13 +140,30 @@ const MonitorTask = ({ device }: Props): JSX.Element => {
       return <Progress percent={100} />;
     }
 
+    if (!report?.prog) {
+      if (isPromark) {
+        return renderPromarkFramingButton();
+      }
+
+      return null;
+    }
+
+    // for task prog is below 1, for framing prog a big number
+    const percentage = Number.parseInt((report.prog * 100).toFixed(1), 10);
+    const estimatePercentage = Math.round(((taskTime - estimateTaskTime) / taskTime) * 100);
+    const displayPercentage = Math.min(isPromark ? estimatePercentage : percentage, 99);
+
     if (report.st_id === DeviceConstants.status.ABORTED) {
-      return <Progress percent={percentageDone} status="exception" />;
+      return <Progress percent={displayPercentage} status="exception" />;
+    }
+
+    if (isPromark && report.prog >= 1) {
+      return renderPromarkFramingButton();
     }
 
     return (
       <Progress
-        percent={percentageDone}
+        percent={displayPercentage}
         status="active"
         strokeColor={{ from: '#108ee9', to: '#87d068' }}
       />
@@ -155,7 +177,7 @@ const MonitorTask = ({ device }: Props): JSX.Element => {
       <div className={styles['left-text']}>
         <FileOutlined />
         &nbsp;
-        {fileName || lang.monitor.task.BEAMBOX}
+        {fileName || tMonitor.task.BEAMBOX}
       </div>
     );
   };
@@ -175,7 +197,7 @@ const MonitorTask = ({ device }: Props): JSX.Element => {
               <div className={styles['right-text']}>
                 <ClockCircleOutlined />
                 &nbsp;
-                {getJobTime()}
+                {isPromark ? getJobTime(estimateTaskTime, false) : getJobTime()}
               </div>
             </Col>
           </Row>
@@ -187,7 +209,11 @@ const MonitorTask = ({ device }: Props): JSX.Element => {
         </Col>
         <Col span={24} md={12}>
           <div className={styles['control-buttons']}>
-            <MonitorControl isPromark={isPromark} playing={playing} />
+            <MonitorControl
+              isPromark={isPromark}
+              playing={playing}
+              setEstimateTaskTime={setEstimateTaskTime}
+            />
           </div>
         </Col>
       </Row>
