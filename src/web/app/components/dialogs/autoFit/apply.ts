@@ -10,7 +10,7 @@ import { getRotationAngle, setRotationAngle } from 'app/svgedit/transform/rotati
 import { getSVGAsync } from 'helpers/svg-editor-helper';
 import { moveElements } from 'app/svgedit/operations/move';
 
-import { ImageDimension } from './AlignModal/type';
+import { calculateDimensionCenter, ImageDimension } from './AlignModal/dimension';
 
 let svgCanvas: ISVGCanvas;
 getSVGAsync(({ Canvas }) => {
@@ -23,8 +23,7 @@ const apply = async (
   initDimension: ImageDimension,
   imageDimension: ImageDimension
 ): Promise<void> => {
-  const { x, y, width, height, rotation } = imageDimension;
-  const rad = (rotation * Math.PI) / 180;
+  const { width, height, rotation } = imageDimension;
   const batchCmd = new history.BatchCommand('AutoFit');
 
   // Scale and rotate element according to konva image dimension
@@ -34,10 +33,7 @@ const apply = async (
   cmd = svgCanvas.setSvgElemSize('height', height);
   if (cmd && !cmd.isEmpty()) batchCmd.addSubCommand(cmd);
 
-  const origRotation = getRotationAngle(element);
-  let baseRotation = (origRotation + rotation) % 360;
-  if (baseRotation > 180) baseRotation -= 360;
-  setRotationAngle(element, baseRotation, { parentCmd: batchCmd });
+  setRotationAngle(element, rotation, { parentCmd: batchCmd });
 
   // move the element to the main contour
   const mainContourIdx = 0;
@@ -52,12 +48,11 @@ const apply = async (
 
   // calculate the offset of konva image center to contour center
   const calculateOffset = () => {
-    const centerX = x + (width / 2) * Math.cos(rad) - (height / 2) * Math.sin(rad);
-    const centerY = y + (width / 2) * Math.sin(rad) + (height / 2) * Math.cos(rad);
-    const { x: initX, y: initY, width: initWidth, height: initHeight } = initDimension;
+    const { x: centerX, y: centerY } = calculateDimensionCenter(imageDimension);
+    const { x: initCenterX, y: initCenterY } = calculateDimensionCenter(initDimension);
     return {
-      offsetX: centerX - (initX + initWidth / 2),
-      offsetY: centerY - (initY + initHeight / 2),
+      offsetX: centerX - initCenterX,
+      offsetY: centerY - initCenterY,
     };
   };
   const { offsetX, offsetY } = calculateOffset();

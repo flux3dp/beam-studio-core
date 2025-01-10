@@ -10,7 +10,7 @@ import useI18n from 'helpers/useI18n';
 import { AutoFitContour } from 'interfaces/IAutoFit';
 
 import styles from './Controls.module.scss';
-import { ImageDimension } from './type';
+import { calculateDimensionCenter, ImageDimension } from './dimension';
 
 interface Props {
   imageRef: MutableRefObject<Konva.Image>;
@@ -30,10 +30,7 @@ const Controls = ({
   const { auto_fit: t } = useI18n();
   const { dpmm } = constant;
   const isInch = useMemo(() => storage.get('default-units') === 'inches', []);
-  const initialCenter = useMemo(() => {
-    const { x, y, width, height } = initDimension;
-    return { x: x + width / 2, y: y + height / 2 };
-  }, [initDimension]);
+  const initialCenter = useMemo(() => calculateDimensionCenter(initDimension), [initDimension]);
 
   const handleResetPosition = useCallback(() => {
     if (imageRef.current) {
@@ -47,14 +44,11 @@ const Controls = ({
     }
   }, [imageRef, initDimension, setDimension]);
 
-  const { x, y, width, height, rotation } = dimension;
+  const { width, height, rotation } = dimension;
   const rad = (rotation * Math.PI) / 180;
-  const { centerX, centerY } = useMemo(
-    () => ({
-      centerX: x + (width / 2) * Math.cos(rad) - (height / 2) * Math.sin(rad),
-      centerY: y + (width / 2) * Math.sin(rad) + (height / 2) * Math.cos(rad),
-    }),
-    [x, y, width, height, rad]
+  const { x: centerX, y: centerY } = useMemo(
+    () => calculateDimensionCenter(dimension),
+    [dimension]
   );
   const getSizeStr = useCallback(
     (w: number, h: number) => {

@@ -74,15 +74,14 @@ export const setRotationAngle = (
   if (elem.getAttribute('data-tempgroup') === 'true') {
     cmd = svgCanvas.pushGroupProperties(elem as SVGGElement, true);
   } else {
-    const newTransform = elem.getAttribute('transform');
+    const newTransform = elem.getAttribute('transform') ?? '';
     if (oldTransform) {
       elem.setAttribute('transform', oldTransform);
     } else {
       elem.removeAttribute('transform');
     }
-
     undoManager.beginUndoableChange('transform', [elem]);
-    svgCanvas.changeSelectedAttributeNoUndo('transform', newTransform, [elem]);
+    svgCanvas.changeSelectedAttributeNoUndo('transform', newTransform ?? undefined, [elem]);
     cmd = undoManager.finishUndoableChange();
   }
   if (cmd && !cmd.isEmpty()) {

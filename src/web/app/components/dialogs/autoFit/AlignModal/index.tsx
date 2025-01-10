@@ -6,7 +6,6 @@ import { Button, Modal } from 'antd';
 
 import constant from 'app/actions/beambox/constant';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
-import rotateBBox from 'app/svgedit/utils/rotateBBox';
 import useKonvaCanvas from 'helpers/hooks/konva/useKonvaCanvas';
 import useI18n from 'helpers/useI18n';
 import ZoomBlock from 'app/components/beambox/ZoomBlock';
@@ -18,7 +17,7 @@ import { getSVGAsync } from 'helpers/svg-editor-helper';
 import Controls from './Controls';
 import KonvaImage from './KonvaImage';
 import styles from './index.module.scss';
-import { ImageDimension } from './type';
+import { ImageDimension } from './dimension';
 
 let svgCanvas: ISVGCanvas;
 getSVGAsync(({ Canvas }) => {
@@ -83,24 +82,30 @@ const AlignModal = ({ contour, element, onApply, onClose }: Props): JSX.Element 
     onScaleChanged: setZoomScale,
   });
 
-  const elemBBox = useMemo(() => {
+  const { elemBBox, elemAngle } = useMemo(() => {
     const bbox =
       element.tagName === 'use'
         ? svgCanvas.getSvgRealLocation(element)
         : svgCanvas.calculateTransformedBBox(element);
     const angle = getRotationAngle(element);
-    return rotateBBox(bbox, angle);
+    return { elemBBox: bbox, elemAngle: angle };
   }, [element]);
   const initDimension = useMemo(() => {
     const { bbox, center } = contour;
     const [centerX, centerY] = center;
     const [bboxX, bboxY, contourWidth, countourHeight] = bbox;
-    const { width, height } = elemBBox;
-    const scale = Math.min(contourWidth / width, countourHeight / height) * 0.8;
-    const x = centerX - bboxX - (width * scale) / 2;
-    const y = centerY - bboxY - (height * scale) / 2;
-    return { x, y, width: width * scale, height: height * scale, rotation: 0 };
-  }, [contour, elemBBox]);
+    // konva dimension, origin at top-left of bbox
+    const konvaCx = centerX - bboxX;
+    const konvaCy = centerY - bboxY;
+    const { width: elemW, height: elemH } = elemBBox;
+    const scale = Math.min(contourWidth / elemW, countourHeight / elemH) * 0.8;
+    const width = elemW * scale;
+    const height = elemH * scale;
+    const rad = (elemAngle * Math.PI) / 180;
+    const x = konvaCx - (width / 2) * Math.cos(rad) + (height / 2) * Math.sin(rad);
+    const y = konvaCy - (height / 2) * Math.cos(rad) - (width / 2) * Math.sin(rad);
+    return { x, y, width, height, rotation: elemAngle };
+  }, [contour, elemBBox, elemAngle]);
   // recording image dimension of konva
   const [imageDimension, setImageDimension] = useState(initDimension);
   useEffect(() => setImageDimension(initDimension), [initDimension]);

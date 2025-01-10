@@ -2,6 +2,7 @@ import React, { forwardRef, MutableRefObject, useEffect, useRef, useState } from
 import Konva from 'konva';
 import useImage from 'use-image';
 import { Image, Transformer } from 'react-konva';
+import { setRotationAngle } from 'app/svgedit/transform/rotation';
 
 import findDefs from 'app/svgedit/utils/findDef';
 import NS from 'app/constants/namespaces';
@@ -9,7 +10,7 @@ import svgStringToCanvas from 'helpers/image/svgStringToCanvas';
 import symbolMaker from 'helpers/symbol-maker';
 import updateElementColor from 'helpers/color/updateElementColor';
 
-import { ImageDimension } from './type';
+import { ImageDimension } from './dimension';
 
 const getImageUrl = async (
   element: SVGElement,
@@ -24,6 +25,7 @@ const getImageUrl = async (
   clonedSvgContent.setAttribute('viewBox', `${x - 1} ${y - 1} ${width + 2} ${height + 2}`);
   const elementId = element.getAttribute('id');
   const clonedElement = clonedSvgContent.getElementById(elementId);
+  setRotationAngle(clonedElement as SVGElement, 0);
   // keep title, filter and selected element, remove other elements
   const elementsToDelete = clonedSvgContent.querySelectorAll(
     `g.layer > *:not(filter):not(title):not(#${elementId})`
@@ -89,7 +91,7 @@ const KonvaImage = forwardRef<Konva.Image, Props>(
       }
     });
 
-    const { x, y, width, height } = initDimension;
+    const { x, y, width, height, rotation } = initDimension;
     if (!image || status !== 'loaded') return null;
 
     return (
@@ -102,6 +104,7 @@ const KonvaImage = forwardRef<Konva.Image, Props>(
           y={y}
           width={width}
           height={height}
+          rotation={rotation}
           cursor="move"
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
