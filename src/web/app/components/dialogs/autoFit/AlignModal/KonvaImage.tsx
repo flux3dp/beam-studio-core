@@ -24,31 +24,27 @@ const getImageUrl = async (
   clonedSvgContent.setAttribute('viewBox', `${x - 1} ${y - 1} ${width + 2} ${height + 2}`);
   const elementId = element.getAttribute('id');
   const clonedElement = clonedSvgContent.getElementById(elementId);
-  // keep filter and selected element, remove other elements
+  // keep title, filter and selected element, remove other elements
   const elementsToDelete = clonedSvgContent.querySelectorAll(
-    `g.layer > *:not(filter):not(#${elementId})`
+    `g.layer > *:not(filter):not(title):not(#${elementId})`
   );
   elementsToDelete.forEach((e) => e.remove());
   const defs = document.createElementNS(NS.SVG, 'defs');
   clonedSvgContent.appendChild(defs);
-  console.log(clonedSvgContent.getRootNode());
-  if (clonedElement.tagName === 'use') {
-    symbolMaker.switchImageSymbol(clonedElement as SVGUseElement, false);
-  } else {
-    const useElements = clonedElement.querySelectorAll('use');
-    useElements.forEach((useElement, idx) => {
-      symbolMaker.switchImageSymbol(useElement, false);
-      const href = useElement.getAttribute('href') || useElement.getAttribute('xlink:href');
-      const symbol = svgDefs.querySelector(href);
-      if (!symbol) return;
-      const clonedSymbol = symbol.cloneNode(true) as SVGSymbolElement;
-      defs.appendChild(clonedSymbol);
-      const newId = `temp-symbol-${idx}`;
-      clonedSymbol.setAttribute('id', newId);
-      useElement.setAttributeNS(NS.XLINK, 'xlink:href', `#${newId}`);
-      updateElementColor(useElement);
-    });
-  }
+  const useElements =
+    clonedElement.tagName === 'use'
+      ? [clonedElement as SVGUseElement]
+      : [...clonedElement.querySelectorAll('use')];
+
+  useElements.forEach((useElement) => {
+    symbolMaker.switchImageSymbol(useElement, false);
+    const href = useElement.getAttribute('href') || useElement.getAttribute('xlink:href');
+    const symbol = svgDefs.querySelector(href);
+    if (!symbol) return;
+    const clonedSymbol = symbol.cloneNode(true) as SVGSymbolElement;
+    defs.appendChild(clonedSymbol);
+    updateElementColor(useElement);
+  });
   const svgStr = new XMLSerializer().serializeToString(clonedSvgContent);
   const canvas = await svgStringToCanvas(svgStr, width + 2, height + 2);
   return canvas.toDataURL();

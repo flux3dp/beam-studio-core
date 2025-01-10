@@ -6,8 +6,10 @@ import FullWindowPanel from 'app/widgets/FullWindowPanel/FullWindowPanel';
 import Header from 'app/widgets/FullWindowPanel/Header';
 import Sider from 'app/widgets/FullWindowPanel/Sider';
 import useI18n from 'helpers/useI18n';
+import useNewShortcutsScope from 'helpers/hooks/useNewShortcutsScope';
 import { AutoFitContour } from 'interfaces/IAutoFit';
 
+import apply from '../apply';
 import Canvas from './Canvas';
 import Info from './Info';
 import ShapeSelector from './ShapeSelector';
@@ -23,6 +25,7 @@ interface Props {
 
 // TODO: add unit test for AutoFitPanel & its components
 const AutoFitPanel = ({ element, data, imageUrl, onClose }: Props): JSX.Element => {
+  useNewShortcutsScope();
   const [focusedIndex, setFocusedIndex] = React.useState(0);
   const {
     buttons: tButtons,
@@ -33,8 +36,11 @@ const AutoFitPanel = ({ element, data, imageUrl, onClose }: Props): JSX.Element 
     },
   } = useI18n();
   const handleNext = useCallback(() => {
-    showAlignModal(element, data[focusedIndex][0]);
-  }, [element, data, focusedIndex]);
+    showAlignModal(element, data[focusedIndex][0], (initD, d) => {
+      apply(element, data[focusedIndex], initD, d);
+      onClose?.();
+    });
+  }, [element, data, focusedIndex, onClose]);
 
   return (
     <FullWindowPanel

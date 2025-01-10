@@ -6,7 +6,7 @@ import { Button, Modal } from 'antd';
 
 import constant from 'app/actions/beambox/constant';
 import ISVGCanvas from 'interfaces/ISVGCanvas';
-import rotateBBox from 'app/svgedit/utils/rotateBbox';
+import rotateBBox from 'app/svgedit/utils/rotateBBox';
 import useKonvaCanvas from 'helpers/hooks/konva/useKonvaCanvas';
 import useI18n from 'helpers/useI18n';
 import ZoomBlock from 'app/components/beambox/ZoomBlock';
@@ -18,6 +18,7 @@ import { getSVGAsync } from 'helpers/svg-editor-helper';
 import Controls from './Controls';
 import KonvaImage from './KonvaImage';
 import styles from './index.module.scss';
+import { ImageDimension } from './type';
 
 let svgCanvas: ISVGCanvas;
 getSVGAsync(({ Canvas }) => {
@@ -27,10 +28,11 @@ getSVGAsync(({ Canvas }) => {
 interface Props {
   contour: AutoFitContour;
   element: SVGElement;
+  onApply: (initDimension: ImageDimension, imageDimension: ImageDimension) => void;
   onClose?: () => void;
 }
 
-const AlignModal = ({ contour, element, onClose }: Props): JSX.Element => {
+const AlignModal = ({ contour, element, onApply, onClose }: Props): JSX.Element => {
   const { auto_fit: t, global: tGlobal } = useI18n();
   const containerRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<Konva.Stage>(null);
@@ -90,12 +92,13 @@ const AlignModal = ({ contour, element, onClose }: Props): JSX.Element => {
     return rotateBBox(bbox, angle);
   }, [element]);
   const initDimension = useMemo(() => {
-    const { bbox } = contour;
-    const [, , contourWidth, countourHeight] = bbox;
+    const { bbox, center } = contour;
+    const [centerX, centerY] = center;
+    const [bboxX, bboxY, contourWidth, countourHeight] = bbox;
     const { width, height } = elemBBox;
     const scale = Math.min(contourWidth / width, countourHeight / height) * 0.8;
-    const x = (contourWidth - width * scale) / 2;
-    const y = (countourHeight - height * scale) / 2;
+    const x = centerX - bboxX - (width * scale) / 2;
+    const y = centerY - bboxY - (height * scale) / 2;
     return { x, y, width: width * scale, height: height * scale, rotation: 0 };
   }, [contour, elemBBox]);
   // recording image dimension of konva
@@ -115,7 +118,10 @@ const AlignModal = ({ contour, element, onClose }: Props): JSX.Element => {
       .join(' L');
   }, [contour]);
 
-  const handleApply = () => console.log('TODO: Apply');
+  const handleApply = () => {
+    onApply(initDimension, imageDimension);
+    onClose();
+  };
 
   return (
     <Modal
@@ -179,12 +185,21 @@ const AlignModal = ({ contour, element, onClose }: Props): JSX.Element => {
   );
 };
 
-export const showAlignModal = (element: SVGElement, contour: AutoFitContour): void => {
+export const showAlignModal = (
+  element: SVGElement,
+  contour: AutoFitContour,
+  onApply: (initDimension: ImageDimension, imageDimension: ImageDimension) => void
+): void => {
   const dialogId = 'auto-fit-align';
   if (!isIdExist(dialogId)) {
     addDialogComponent(
       dialogId,
-      <AlignModal onClose={() => popDialogById(dialogId)} element={element} contour={contour} />
+      <AlignModal
+        element={element}
+        contour={contour}
+        onApply={onApply}
+        onClose={() => popDialogById(dialogId)}
+      />
     );
   }
 };
