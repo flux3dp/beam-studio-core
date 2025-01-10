@@ -18,7 +18,6 @@ export type AlertConfigKey =
   | 'skip-switch-to-laser-module'
   | 'done-first-cali'
   | 'skip-high-power-confirm'
-  | 'skip-auto-fit-warning'
   | 'skip-job-origin-warning';
 
 export default {
