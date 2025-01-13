@@ -1,9 +1,17 @@
 import Konva from 'konva';
-import React, { Dispatch, MutableRefObject, SetStateAction, useCallback, useMemo } from 'react';
+import React, {
+  Dispatch,
+  MutableRefObject,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useMemo,
+} from 'react';
 import { Button, Flex } from 'antd';
 
 import constant from 'app/actions/beambox/constant';
 import round from 'helpers/math/round';
+import shortcuts from 'helpers/shortcuts';
 import storage from 'implementations/storage';
 import UnitInput from 'app/widgets/UnitInput';
 import useI18n from 'helpers/useI18n';
@@ -58,6 +66,29 @@ const Controls = ({
     [dpmm, isInch]
   );
 
+  const step = useMemo(() => (isInch ? 2.54 : 1), [isInch]);
+
+  useEffect(() => {
+    const handleMoveX = (deltaX: number) => {
+      const x = imageRef.current?.x() || 0;
+      imageRef.current?.x(x + deltaX);
+      setDimension((prev) => ({ ...prev, x: x + deltaX }));
+    };
+    const handleMoveY = (deltaY: number) => {
+      const y = imageRef.current?.y() || 0;
+      imageRef.current?.y(y + deltaY);
+      setDimension((prev) => ({ ...prev, y: y + deltaY }));
+    };
+
+    const unregisters = [
+      shortcuts.on(['ArrowLeft'], () => handleMoveX(-step)),
+      shortcuts.on(['ArrowRight'], () => handleMoveX(step)),
+      shortcuts.on(['ArrowUp'], () => handleMoveY(-step)),
+      shortcuts.on(['ArrowDown'], () => handleMoveY(step)),
+    ];
+    return () => unregisters.forEach((unregister) => unregister());
+  }, [step, imageRef, setDimension]);
+
   return (
     <div className={styles.container}>
       <div className={styles.title}>{t.position_artwork}:</div>
@@ -80,7 +111,7 @@ const Controls = ({
               imageRef.current?.x(targetX);
               setDimension((prev) => ({ ...prev, x: targetX }));
             }}
-            step={isInch ? 2.54 : 1}
+            step={step}
             addonAfter={isInch ? 'in' : 'mm'}
             precision={isInch ? 4 : 2}
           />
@@ -99,7 +130,7 @@ const Controls = ({
               imageRef.current?.y(targetY);
               setDimension((prev) => ({ ...prev, y: targetY }));
             }}
-            step={isInch ? 2.54 : 1}
+            step={step}
             addonAfter={isInch ? 'in' : 'mm'}
             precision={isInch ? 4 : 2}
           />
