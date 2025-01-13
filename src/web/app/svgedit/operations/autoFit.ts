@@ -6,6 +6,7 @@ import getUtilWS from 'helpers/api/utils-ws';
 import i18n from 'helpers/i18n';
 import previewModeBackgroundDrawer from 'app/actions/beambox/preview-mode-background-drawer';
 import progressCaller from 'app/actions/progress-caller';
+import { AutoFitContour } from 'interfaces/IAutoFit';
 import { showAutoFitPanel } from 'app/components/dialogs/autoFit';
 
 // TODO: add unit test
@@ -22,9 +23,16 @@ const autoFit = async (elem: SVGElement): Promise<void> => {
     const resp = await fetch(previewBackgroundUrl);
     const blob = await resp.blob();
     const workarea = beamboxPreference.read('workarea');
-    const data = await utilWS.getAllSimilarContours(blob, {
-      isSplcingImg: !constant.adorModels.includes(workarea),
-    });
+    let data: AutoFitContour[][];
+    if (dataCache.url === previewBackgroundUrl && dataCache.data) {
+      data = dataCache.data;
+    } else {
+      data = await utilWS.getAllSimilarContours(blob, {
+        isSplcingImg: !constant.adorModels.includes(workarea),
+      });
+      dataCache.url = previewBackgroundUrl;
+      dataCache.data = data;
+    }
     showAutoFitPanel(elem, previewBackgroundUrl, data);
     return;
   } catch (error) {
