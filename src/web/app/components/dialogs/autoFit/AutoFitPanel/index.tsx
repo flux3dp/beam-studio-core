@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 
 import ActionPanelIcons from 'app/icons/action-panel/ActionPanelIcons';
 import BackButton from 'app/widgets/FullWindowPanel/BackButton';
@@ -26,7 +26,17 @@ interface Props {
 // TODO: add unit test for AutoFitPanel & its components
 const AutoFitPanel = ({ element, data, imageUrl, onClose }: Props): JSX.Element => {
   useNewShortcutsScope();
-  const [focusedIndex, setFocusedIndex] = React.useState(0);
+  const [focusedIndex, setFocusedIndex] = useState(0);
+  const { indice: mainIndice, contours: mainContours } = useMemo(() => {
+    const indice = data.map((group) => {
+      const angles = group.map(({ angle }) => angle);
+      const middleAngle = angles.sort()[Math.floor(angles.length / 2)];
+      return group.findIndex(({ angle }) => angle === middleAngle);
+    });
+    const contours = data.map((group, i) => group[indice[i]]);
+    return { indice, contours };
+  }, [data]);
+
   const {
     buttons: tButtons,
     beambox: {
@@ -36,11 +46,11 @@ const AutoFitPanel = ({ element, data, imageUrl, onClose }: Props): JSX.Element 
     },
   } = useI18n();
   const handleNext = useCallback(() => {
-    showAlignModal(element, data[focusedIndex][0], (initD, d) => {
-      apply(element, data[focusedIndex], initD, d);
+    showAlignModal(element, mainContours[focusedIndex], (initD, d) => {
+      apply(element, data[focusedIndex], mainIndice[focusedIndex], initD, d);
       onClose?.();
     });
-  }, [element, data, focusedIndex, onClose]);
+  }, [element, data, focusedIndex, mainContours, mainIndice, onClose]);
 
   return (
     <FullWindowPanel
@@ -58,7 +68,7 @@ const AutoFitPanel = ({ element, data, imageUrl, onClose }: Props): JSX.Element 
           </Sider>
           <Canvas data={data} imageUrl={imageUrl} focusedIndex={focusedIndex} />
           <ShapeSelector
-            data={data}
+            contours={mainContours}
             focusedIndex={focusedIndex}
             setFocusedIndex={setFocusedIndex}
             onNext={handleNext}

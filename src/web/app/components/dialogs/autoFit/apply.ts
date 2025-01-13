@@ -20,6 +20,7 @@ getSVGAsync(({ Canvas }) => {
 const apply = async (
   element: SVGElement,
   contours: AutoFitContour[],
+  mainIdx: number,
   initDimension: ImageDimension,
   imageDimension: ImageDimension
 ): Promise<void> => {
@@ -36,8 +37,7 @@ const apply = async (
   setRotationAngle(element, rotation, { parentCmd: batchCmd });
 
   // move the element to the main contour
-  const mainContourIdx = 0;
-  const mainContour = contours[mainContourIdx];
+  const mainContour = contours[mainIdx];
   const [mx, my] = mainContour.center;
   const elemBBox =
     element.tagName === 'use'
@@ -74,7 +74,7 @@ const apply = async (
 
     for (let j = 0; j < contours.length; j++) {
       // eslint-disable-next-line no-continue
-      if (j === mainContourIdx) continue;
+      if (j === mainIdx) continue;
       const contour = contours[j];
       const dAngle = contour.angle - mainContour.angle;
       let dx = contour.center[0] - mainContour.center[0];

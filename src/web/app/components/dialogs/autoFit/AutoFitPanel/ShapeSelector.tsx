@@ -8,32 +8,32 @@ import { AutoFitContour } from 'interfaces/IAutoFit';
 import styles from './ShapeSelector.module.scss';
 
 interface Props {
-  data: AutoFitContour[][];
+  contours: AutoFitContour[];
   focusedIndex: number;
   setFocusedIndex: Dispatch<SetStateAction<number>>;
   onNext: () => void;
 }
 
-const ShapeSelector = ({ data, focusedIndex, setFocusedIndex, onNext }: Props): JSX.Element => {
+const ShapeSelector = ({ contours, focusedIndex, setFocusedIndex, onNext }: Props): JSX.Element => {
   const { buttons: tButtons, auto_fit: tAutoFit } = useI18n();
   const [shouldUpdateCarousel, setShouldUpdateCarousel] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
   const [shapePerPage, setShapePerPage] = useState(1);
   const pageCount = useMemo(
-    () => Math.ceil(data.length / shapePerPage),
-    [data.length, shapePerPage]
+    () => Math.ceil(contours.length / shapePerPage),
+    [contours.length, shapePerPage]
   );
   const contourComponents = useMemo(
     () =>
-      data.map((group) => {
-        const { contour, bbox } = group[0];
+      contours.map((contourObj) => {
+        const { contour, bbox } = contourObj;
         return (
           <svg viewBox={bbox.join(' ')} className={styles.svg}>
             <path d={contour.map(([x, y], k) => `${k === 0 ? 'M' : 'L'} ${x} ${y}`).join(' ')} />
           </svg>
         );
       }),
-    [data]
+    [contours]
   );
 
   const carouselPages = useMemo(() => {
