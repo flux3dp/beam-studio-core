@@ -9,6 +9,8 @@ import progressCaller from 'app/actions/progress-caller';
 import { AutoFitContour } from 'interfaces/IAutoFit';
 import { showAutoFitPanel } from 'app/components/dialogs/autoFit';
 
+const dataCache: { url: string; data?: AutoFitContour[][] } = { url: '' };
+
 // TODO: add unit test
 const autoFit = async (elem: SVGElement): Promise<void> => {
   const previewBackgroundUrl = previewModeBackgroundDrawer.getCameraCanvasUrl();
