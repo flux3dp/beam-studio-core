@@ -182,7 +182,7 @@ const MonitorTask = ({ device }: Props): JSX.Element => {
     );
   };
 
-  useFramingTaskManager({ manager, device, setPlaying });
+  useFramingTaskManager({ manager, device, onStatusChange: setPlaying });
 
   return (
     <div className={styles.task}>

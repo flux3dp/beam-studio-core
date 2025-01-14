@@ -64,7 +64,7 @@ const PromarkFramingModal = ({ device, onClose, startOnOpen = false }: Props): J
     [playing, type]
   );
 
-  useFramingTaskManager({ manager, device, setPlaying });
+  useFramingTaskManager({ manager, device, onStatusChange: setPlaying });
 
   useEffect(() => {
     shortcutHandler.current = playing ? handleStop : handleStart;
@@ -105,8 +105,11 @@ const PromarkFramingModal = ({ device, onClose, startOnOpen = false }: Props): J
           <Button
             className={styles.button}
             onClick={() => {
-              handleExportClick(lang)();
-              onClose();
+              handleStop();
+              setTimeout(() => {
+                handleExportClick(lang)();
+                onClose();
+              }, 500);
             }}
             type="primary"
             icon={<icons.Play className={styles.icon} />}

@@ -17,7 +17,6 @@ import { handleExportAlerts } from './handleExportAlerts';
 export const handleExportClick =
   (lang: ILang) =>
   async (byHandler = false): Promise<void> => {
-    console.log('handleExportClick');
     const progressList = ['retrieve-image-data', 'fetch-task-code', 'fetch-task', 'upload-scene'];
 
     if (Dialog.isIdExist('monitor') || progressList.some((id) => progressCaller.checkIdExist(id))) {
