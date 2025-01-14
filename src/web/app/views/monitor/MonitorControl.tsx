@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { Button, Space } from 'antd';
 import { PauseCircleFilled, PlayCircleFilled, StopFilled } from '@ant-design/icons';
 
@@ -21,6 +21,17 @@ const MonitorControl = ({ isPromark, playing, setEstimateTaskTime }: Props): JSX
   const buttonShape = isMobile ? 'round' : 'default';
   const { taskTime, onPlay, onPause, onStop, mode, report } = useContext(MonitorContext);
   const estimateTaskTimeTimer = useRef<NodeJS.Timeout | null>(null);
+  const [isOnPlaying, setIsOnPlaying] = useState(false);
+
+  const triggerOnPlay = () => {
+    setIsOnPlaying(true);
+    onPlay(isPromark);
+    clearInterval(estimateTaskTimeTimer.current as NodeJS.Timeout);
+    estimateTaskTimeTimer.current = setInterval(() => {
+      setEstimateTaskTime((time) => time - 1);
+    }, 1000);
+    setIsOnPlaying(false);
+  };
 
   const mapButtonTypeToElement = (type: ButtonTypes): JSX.Element => {
     const enabled = type % 2 === 1;
@@ -34,12 +45,7 @@ const MonitorControl = ({ isPromark, playing, setEstimateTaskTime }: Props): JSX
             disabled={!enabled}
             shape={buttonShape}
             type="primary"
-            onClick={() => {
-              onPlay(isPromark);
-              estimateTaskTimeTimer.current = setInterval(() => {
-                setEstimateTaskTime((time) => time - 1);
-              }, 1000);
-            }}
+            onClick={triggerOnPlay}
           >
             <PlayCircleFilled />
             {report.st_id !== DeviceConstants.status.PAUSED ? tMonitor.go : tMonitor.resume}
@@ -87,21 +93,16 @@ const MonitorControl = ({ isPromark, playing, setEstimateTaskTime }: Props): JSX
   const canStart = report?.st_id === DeviceConstants.status.IDLE;
 
   useEffect(() => {
-    if (report?.st_id === DeviceConstants.status.COMPLETED) {
+    if (report?.st_id === DeviceConstants.status.COMPLETED && !isOnPlaying) {
       clearInterval(estimateTaskTimeTimer.current as NodeJS.Timeout);
       setEstimateTaskTime(taskTime);
     }
-  });
+  }, [report, isOnPlaying, setEstimateTaskTime, taskTime]);
 
   if (mode === Mode.PREVIEW || mode === Mode.FILE_PREVIEW || playing) {
     return (
       <Space>
-        <Button
-          disabled={!canStart}
-          shape={buttonShape}
-          type="primary"
-          onClick={() => onPlay(isPromark)}
-        >
+        <Button disabled={!canStart} shape={buttonShape} type="primary" onClick={triggerOnPlay}>
           <PlayCircleFilled />
           {tMonitor.go}
         </Button>
