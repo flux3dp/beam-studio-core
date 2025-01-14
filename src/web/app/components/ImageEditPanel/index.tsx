@@ -50,8 +50,6 @@ const EXPORTING = 1;
 
 const IMAGE_PADDING = 30;
 
-const scope = 'image-edit-panel';
-
 function ImageEditPanel({ src, image, onClose }: Props): JSX.Element {
   const {
     beambox: { photo_edit_panel: langPhoto },
@@ -323,15 +321,14 @@ function ImageEditPanel({ src, image, onClose }: Props): JSX.Element {
   useNewShortcutsScope();
   useEffect(() => {
     const subscribedShortcuts = [
-      shortcuts.on(['Escape'], onClose, { isBlocking: true, scope }),
-      shortcuts.on(['Fnkey+z'], handleHistoryChange('undo'), { isBlocking: true, scope }),
-      shortcuts.on(['Shift+Fnkey+z'], handleHistoryChange('redo'), { isBlocking: true, scope }),
+      shortcuts.on(['Escape'], onClose, { isBlocking: true }),
+      shortcuts.on(['Fnkey+z'], handleHistoryChange('undo'), { isBlocking: true }),
+      shortcuts.on(['Shift+Fnkey+z'], handleHistoryChange('redo'), { isBlocking: true }),
       shortcuts.on(['Fnkey-+', 'Fnkey-='], () => handleZoomByScale(1.2), {
         isBlocking: true,
         splitKey: '-',
-        scope,
       }),
-      shortcuts.on(['Fnkey+-'], () => handleZoomByScale(0.8), { isBlocking: true, scope }),
+      shortcuts.on(['Fnkey+-'], () => handleZoomByScale(0.8), { isBlocking: true }),
     ];
 
     return () => {

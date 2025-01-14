@@ -8,14 +8,12 @@ interface ShortcutEvent {
   callback: (event: KeyboardEvent) => void;
   priority: number;
   isPreventDefault: boolean;
-  scope?: string;
 }
 
 interface RegisterOptions {
   isBlocking?: boolean;
   isPreventDefault?: boolean;
   splitKey?: string;
-  scope?: string;
 }
 
 const eventScopes: Array<Array<ShortcutEvent>> = [[]];
@@ -117,14 +115,15 @@ const initialize = (): void => {
 
 const unsubscribe = (eventToUnsubscribe: ShortcutEvent) => {
   const events = getCurrentEvents();
-  events.splice(events.indexOf(eventToUnsubscribe), 1);
+  const idx = events.indexOf(eventToUnsubscribe);
+  if (idx >= 0) events.splice(idx, 1);
 };
 
 export default {
   on(
     keys: Array<string>,
     callback: (event: KeyboardEvent) => void,
-    { isBlocking = false, isPreventDefault = true, splitKey = '+', scope }: RegisterOptions = {}
+    { isBlocking = false, isPreventDefault = true, splitKey = '+' }: RegisterOptions = {}
   ): (() => void) | null {
     if (isMobile()) {
       return null;
@@ -136,7 +135,6 @@ export default {
       callback,
       priority: isBlocking ? matchedEventsByKeySet(keySet).maxPriority + 1 : 0,
       isPreventDefault,
-      scope,
     }));
     const currentEvents = getCurrentEvents();
     newEvents.forEach((newEvent) => {
