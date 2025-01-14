@@ -143,7 +143,6 @@ const PromarkFramingModal = ({ device, onClose, startOnOpen = false }: Props): J
           ))}
         </Flex>
         <div className={styles.desc}>
-          <div className={styles.title}>{tFraming.framing}</div>
           <div className={styles.content}>{tFraming.framing_desc}</div>
           <Divider />
           <div className={styles.content}>{tFraming.start_task_description}</div>
