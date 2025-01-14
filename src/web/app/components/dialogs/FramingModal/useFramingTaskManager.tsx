@@ -8,17 +8,17 @@ import { useEffect } from 'react';
 interface Props {
   manager: React.MutableRefObject<FramingTaskManager | null>;
   device: IDeviceInfo;
-  setPlaying: (playing: boolean) => void;
+  onStatusChange: (status: boolean) => void;
 }
 
 const key = 'useFramingTaskManager';
 
 /* eslint-disable import/prefer-default-export */
-export const useFramingTaskManager = ({ manager, device, setPlaying }: Props): void => {
+export const useFramingTaskManager = ({ manager, device, onStatusChange }: Props): void => {
   useEffect(() => {
     manager.current = new FramingTaskManager(device);
 
-    manager.current.on('status-change', setPlaying);
+    manager.current.on('status-change', onStatusChange);
     manager.current.on('close-message', () => MessageCaller.closeMessage(key));
     manager.current.on('message', (content: string) => {
       MessageCaller.openMessage({ key, level: MessageLevel.LOADING, content });
@@ -28,5 +28,5 @@ export const useFramingTaskManager = ({ manager, device, setPlaying }: Props): v
       manager.current?.stopFraming();
       MessageCaller.closeMessage(key);
     };
-  }, [device, manager, setPlaying]);
+  }, [device, manager, onStatusChange]);
 };
