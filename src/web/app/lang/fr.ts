@@ -2000,7 +2000,7 @@ const lang: ILang = {
     step2: "Si aucun motif n'est trouvé, prévisualisez à nouveau la caméra et appliquez Ajustement Automatique.",
     step3: 'Si cela ne parvient toujours pas à trouver le motif correct, assurez-vous que votre pièce est clairement reconnaissable et que la zone de travail est exempte de débris.',
     preview_first: "Veuillez d'abord effectuer l'aperçu de la caméra.",
-    failed_to_auto_fit: "Échec de l'ajustement automatique, veuillez vérifier :",
+    failed_to_find_contour: "Échec de la détection des contours pour l'ajustement automatique",
     error_tip1: "1. L'œuvre est-elle correctement placée sur le matériau ?",
     error_tip2: '2. Les contours du matériau sont-ils suffisamment clairs pour être reconnus ?',
     learn_more: 'Voir le tutoriel.',

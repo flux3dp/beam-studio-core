@@ -2003,7 +2003,7 @@ const lang: ILang = {
     step2: 'Wenn kein Muster gefunden wird, prüfen Sie die Kameravorschau erneut und verwenden Sie Automatische Anpassung.',
     step3: 'Wenn weiterhin kein korrektes Muster gefunden wird, stellen Sie sicher, dass Ihr Werkstück klar erkennbar ist und der Arbeitsbereich frei von Ablagerungen ist.',
     preview_first: 'Bitte führen Sie zuerst die Kamera-Vorschau durch.',
-    failed_to_auto_fit: 'Automatische Anpassung fehlgeschlagen, bitte überprüfen:',
+    failed_to_find_contour: 'Keine Konturen für die automatische Anpassung gefunden',
     error_tip1: '1. Ist das Kunstwerk korrekt auf dem Material platziert?',
     error_tip2: '2. Sind die Materialkonturen klar genug zur Erkennung?',
     learn_more: 'Tutorial anzeigen.',

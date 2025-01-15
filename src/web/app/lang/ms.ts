@@ -2000,7 +2000,7 @@ const lang: ILang = {
     step2: 'Jika tiada corak dijumpai, pratonton kamera sekali lagi dan gunakan Muat Auto.',
     step3: 'Jika masih gagal menemui corak yang betul, pastikan bahan kerja anda dapat dikenali dengan jelas dan kawasan kerja bersih daripada serpihan.',
     preview_first: 'Sila lakukan pratonton kamera terlebih dahulu.',
-    failed_to_auto_fit: 'Gagal untuk muat secara automatik, sila periksa:',
+    failed_to_find_contour: 'Geen contouren gevonden voor automatische aanpassing',
     error_tip1: '1. Adakah karya seni diletakkan dengan betul pada bahan?',
     error_tip2: '2. Adakah kontur bahan cukup jelas untuk pengiktirafan?',
     learn_more: 'Lihat Tutorial.',

@@ -1988,7 +1988,7 @@ export interface ILang {
     step2: string;
     step3: string;
     preview_first: string;
-    failed_to_auto_fit: string;
+    failed_to_find_contour: string;
     error_tip1: string;
     error_tip2: string;
     learn_more: string;

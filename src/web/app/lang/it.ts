@@ -2000,7 +2000,7 @@ const lang: ILang = {
     step2: 'Se non viene trovato alcun modello, anteprima nuovamente la fotocamera e applica Adattamento Automatico.',
     step3: "Se non riesce ancora a trovare il modello corretto, assicurati che il tuo pezzo sia chiaramente riconoscibile e che l'area di lavoro sia pulita da detriti.",
     preview_first: "Eseguire prima l'anteprima della fotocamera.",
-    failed_to_auto_fit: 'Fallito adattamento automatico, si prega di controllare:',
+    failed_to_find_contour: "Impossibile trovare contorni per l'adattamento automatico",
     error_tip1: "1. L'opera d'arte è posizionata correttamente sul materiale?",
     error_tip2: '2. I contorni del materiale sono abbastanza chiari per essere riconosciuti?',
     learn_more: 'Visualizza il tutorial.',

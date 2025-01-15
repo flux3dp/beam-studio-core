@@ -2000,7 +2000,7 @@ const lang: ILang = {
     step2: 'Nếu không tìm thấy mẫu nào, vui lòng xem lại bản xem trước camera và áp dụng Tự động căn chỉnh.',
     step3: 'Nếu vẫn không tìm được mẫu chính xác, hãy đảm bảo rằng vật liệu của bạn có thể nhận dạng rõ ràng và khu vực làm việc sạch sẽ, không có mảnh vụn.',
     preview_first: 'Vui lòng thực hiện xem trước máy ảnh trước.',
-    failed_to_auto_fit: 'Tự động điều chỉnh thất bại, vui lòng kiểm tra:',
+    failed_to_find_contour: 'Không tìm thấy đường viền nào để tự động căn chỉnh',
     error_tip1: '1. Tác phẩm nghệ thuật có được đặt đúng vị trí trên vật liệu không?',
     error_tip2: '2. Các đường viền của vật liệu có đủ rõ để nhận diện không?',
     learn_more: 'Xem hướng dẫn.',

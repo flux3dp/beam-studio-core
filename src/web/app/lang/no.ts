@@ -2000,7 +2000,7 @@ const lang: ILang = {
     step2: 'Hvis ingen mønster blir funnet, forhåndsvis kameraet på nytt og bruk Automatisk Tilpasning.',
     step3: 'Hvis det fortsatt ikke lykkes å finne riktig mønster, sørg for at arbeidsstykket ditt er tydelig gjenkjennelig og at arbeidsområdet er fritt for rusk.',
     preview_first: 'Utfør kameraforhåndsvisningen først.',
-    failed_to_auto_fit: 'Automatisk tilpasning mislyktes, vennligst sjekk:',
+    failed_to_find_contour: 'Fant ingen konturer for automatisk tilpasning',
     error_tip1: '1. Er kunstverket plassert riktig på materialet?',
     error_tip2: '2. Er materialkonturene klare nok for gjenkjenning?',
     learn_more: 'Vis veiledning.',

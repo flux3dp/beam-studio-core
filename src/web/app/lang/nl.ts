@@ -2000,7 +2000,7 @@ const lang: ILang = {
     step2: 'Als er geen patroon wordt gevonden, bekijk de cameravoorkeur opnieuw en pas Auto Aanpassen toe.',
     step3: 'Als het nog steeds niet lukt om het juiste patroon te vinden, zorg er dan voor dat uw werkstuk duidelijk herkenbaar is en dat de werkruimte vrij is van vuil.',
     preview_first: 'Voer eerst een cameravoorvertoning uit.',
-    failed_to_auto_fit: 'Automatisch passen mislukt, controleer:',
+    failed_to_find_contour: 'Geen contouren gevonden voor automatische aanpassing',
     error_tip1: '1. Is het kunstwerk correct op het materiaal geplaatst?',
     error_tip2: '2. Zijn de materiaalcontouren duidelijk genoeg voor herkenning?',
     learn_more: 'Bekijk de tutorial.',

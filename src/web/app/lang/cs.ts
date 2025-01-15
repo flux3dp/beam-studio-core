@@ -2003,7 +2003,7 @@ const lang: ILang = {
     step2: 'Pokud nebyl nalezen žádný vzor, znovu náhled kamery a použijte funkci Automatické přizpůsobení.',
     step3: 'Pokud se stále nedaří najít správný vzor, ujistěte se, že váš předmět je jasně rozpoznatelný a pracovní plocha je čistá od nečistot.',
     preview_first: 'Nejprve proveďte náhled fotoaparátu.',
-    failed_to_auto_fit: 'Automatické přizpůsobení se nezdařilo, zkontrolujte',
+    failed_to_find_contour: 'Nepodařilo se najít žádné obrysy pro automatické přizpůsobení',
     error_tip1: '1. Je kresba umístěna na materiálu správně?',
     error_tip2: '2. Jsou obrysy materiálu dostatečně jasné pro rozpoznání?',
     learn_more: 'Zobrazit návod.',

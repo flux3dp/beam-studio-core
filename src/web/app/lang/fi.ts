@@ -2000,7 +2000,7 @@ const lang: ILang = {
     step2: 'Jos kuviota ei löydy, esikatsele kamera uudelleen ja käytä Automaattinen Sovitus -toimintoa.',
     step3: 'Jos oikean kuvion löytäminen edelleen epäonnistuu, varmista, että työkappaleesi on selvästi tunnistettavissa ja että työalue on puhdas roskista.',
     preview_first: 'Suorita ensin kameran esikatselu.',
-    failed_to_auto_fit: 'Automaattinen sovitus epäonnistui, tarkista:',
+    failed_to_find_contour: 'Ei löydetty ääriviivoja automaattiseen sovitukseen',
     error_tip1: '1. Onko taideteos asetettu oikein materiaalille?',
     error_tip2: '2. Ovatko materiaalin ääriviivat riittävän selkeät tunnistamista varten?',
     learn_more: 'Katso opetusohjelma.',

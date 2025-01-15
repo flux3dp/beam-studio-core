@@ -2003,7 +2003,7 @@ const lang: ILang = {
     step2: 'Jeśli żaden wzór nie zostanie znaleziony, ponownie przejrzyj podgląd kamery i zastosuj Dopasowanie Automatyczne.',
     step3: 'Jeśli nadal nie uda się znaleźć odpowiedniego wzoru, upewnij się, że twój przedmiot jest wyraźnie rozpoznawalny, a obszar roboczy jest czysty i wolny od zanieczyszczeń.',
     preview_first: 'Najpierw wykonaj podgląd kamery.',
-    failed_to_auto_fit: 'Nie udało się automatycznie dopasować, sprawdź:',
+    failed_to_find_contour: 'Nie udało się znaleźć konturów do automatycznego dopasowania',
     error_tip1: '1. Czy dzieło sztuki jest prawidłowo umieszczone na materiale?',
     error_tip2: '2. Czy kontury materiału są wystarczająco wyraźne do rozpoznania?',
     learn_more: 'Obejrzyj samouczek.',

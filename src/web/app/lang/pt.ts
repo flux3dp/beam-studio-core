@@ -2000,7 +2000,7 @@ const lang: ILang = {
     step2: 'Se nenhum padrão for encontrado, visualize novamente a câmera e aplique Ajuste Automático.',
     step3: 'Se ainda assim não encontrar o padrão correto, certifique-se de que sua peça de trabalho é claramente reconhecível e que a área de trabalho está livre de detritos.',
     preview_first: 'Por favor, realize a pré-visualização da câmera primeiro.',
-    failed_to_auto_fit: 'Falha ao ajustar automaticamente, por favor verifique:',
+    failed_to_find_contour: 'Falha ao encontrar contornos para ajuste automático',
     error_tip1: '1. A obra de arte está colocada corretamente no material?',
     error_tip2: '2. Os contornos do material são claros o suficiente para reconhecimento?',
     learn_more: 'Ver tutorial.',

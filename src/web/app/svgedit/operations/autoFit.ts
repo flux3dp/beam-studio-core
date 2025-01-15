@@ -35,6 +35,10 @@ const autoFit = async (elem: SVGElement): Promise<void> => {
       dataCache.url = previewBackgroundUrl;
       dataCache.data = data;
     }
+    if (data.length === 0) {
+      alertCaller.popUp({ message: lang.failed_to_find_contour });
+      return;
+    }
     showAutoFitPanel(elem, previewBackgroundUrl, data);
     return;
   } catch (error) {

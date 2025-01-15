@@ -2000,7 +2000,7 @@ const lang: ILang = {
     step2: 'Jika tidak ditemukan pola, pratinjau kamera lagi dan terapkan Pas Otomatis.',
     step3: 'Jika masih gagal menemukan pola yang benar, pastikan benda kerja Anda dapat dikenali dengan jelas dan area kerja bersih dari kotoran.',
     preview_first: 'Silakan lakukan pratinjau kamera terlebih dahulu.',
-    failed_to_auto_fit: 'Gagal menyesuaikan otomatis, harap periksa:',
+    failed_to_find_contour: 'Gagal menemukan kontur untuk penyesuaian otomatis',
     error_tip1: '1. Apakah karya seni ditempatkan dengan benar pada bahan?',
     error_tip2: '2. Apakah kontur material cukup jelas untuk dikenali?',
     learn_more: 'Lihat tutorial.',

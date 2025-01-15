@@ -2003,7 +2003,7 @@ const lang: ILang = {
     step2: 'Si no se encuentra ningún patrón, vuelva a previsualizar la cámara y aplique Ajuste Automático.',
     step3: 'Si aún no encuentra el patrón correcto, asegúrese de que su pieza de trabajo sea claramente reconocible y que el área de trabajo esté libre de desechos.',
     preview_first: 'Por favor, realice primero la vista previa de la cámara.',
-    failed_to_auto_fit: 'Error al ajustar automáticamente, por favor verifique:',
+    failed_to_find_contour: 'No se encontraron contornos para el ajuste automático',
     error_tip1: '1. ¿Está la obra de arte colocada correctamente en el material?',
     error_tip2: '2. ¿Son los contornos del material lo suficientemente claros para el reconocimiento?',
     learn_more: 'Ver tutorial.',
