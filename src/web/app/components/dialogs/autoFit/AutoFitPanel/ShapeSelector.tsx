@@ -15,6 +15,7 @@ interface Props {
 }
 
 const ShapeSelector = ({ contours, focusedIndex, setFocusedIndex, onNext }: Props): JSX.Element => {
+  const SHAPE_SIZE = 96;
   const { buttons: tButtons, auto_fit: tAutoFit } = useI18n();
   const [shouldUpdateCarousel, setShouldUpdateCarousel] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -48,6 +49,7 @@ const ShapeSelector = ({ contours, focusedIndex, setFocusedIndex, onNext }: Prop
           <button
             key={key}
             className={classNames(styles.shape, { [styles.selected]: index === focusedIndex })}
+            style={{ width: SHAPE_SIZE, height: SHAPE_SIZE }}
             type="button"
             onClick={() => setFocusedIndex(index)}
           >
@@ -69,7 +71,7 @@ const ShapeSelector = ({ contours, focusedIndex, setFocusedIndex, onNext }: Prop
   useEffect(() => {
     const handler = () => {
       if (contentRef.current) {
-        setShapePerPage(Math.floor(contentRef.current?.clientHeight / 160));
+        setShapePerPage(Math.floor(contentRef.current?.clientHeight / SHAPE_SIZE));
         setShouldUpdateCarousel(true);
       }
     };
