@@ -90,17 +90,17 @@ import historyRecording from './history/historyrecording';
 import importSvgString from './operations/import/importSvgString';
 import MouseInteractions from './interaction/mouseInteractions';
 import PathActions from './operations/pathActions';
-import rotateBBox from './utils/rotateBBox';
 import selector from './selector';
 import setSvgContent from './operations/import/setSvgContent';
 import textActions from './text/textactions';
 import textEdit from './text/textedit';
 import undoManager from './history/undoManager';
-import ungroupElement from './group/ungroup';
 import workareaManager from './workarea';
 import { deleteSelectedElements } from './operations/delete';
 import { moveElements, moveSelectedElements } from './operations/move';
+import { rotateBBox } from './utils/rotateBBox';
 import { setRotationAngle } from './transform/rotation';
+import { ungroupElement } from './group/ungroup';
 
 let svgCanvas;
 let svgEditor;
@@ -1101,10 +1101,10 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     if (!preventUndo) {
       call('changed', [elem]);
     }
-    const selector = selectorManager.requestSelector(selectedElements[0]);
-    if (selector) {
-      selector.resize();
-      selector.updateGripCursors();
+    const elemSelector = selectorManager.requestSelector(selectedElements[0]);
+    if (elemSelector) {
+      elemSelector.resize();
+      elemSelector.updateGripCursors();
     }
   };
 
