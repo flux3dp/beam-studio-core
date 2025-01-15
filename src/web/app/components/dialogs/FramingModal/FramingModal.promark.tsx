@@ -6,7 +6,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 import FramingIcons from 'app/icons/framing/FramingIcons';
 import FramingTaskManager, { FramingType } from 'helpers/device/framing';
 import icons from 'app/icons/icons';
-// import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
+import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
 import shortcuts from 'helpers/shortcuts';
 import useI18n from 'helpers/useI18n';
 import { IDeviceInfo } from 'interfaces/IDevice';
@@ -14,7 +14,6 @@ import { IDeviceInfo } from 'interfaces/IDevice';
 import classNames from 'classnames';
 import { handleExportClick } from 'app/actions/beambox/export/GoButton/handleExportClick';
 import styles from './index.module.scss';
-import { useFramingTaskManager } from './useFramingTaskManager';
 
 interface Props {
   device: IDeviceInfo;
@@ -64,7 +63,22 @@ const PromarkFramingModal = ({ device, onClose, startOnOpen = false }: Props): J
     [playing, type]
   );
 
-  useFramingTaskManager({ manager, device, onStatusChange: setPlaying });
+  useEffect(() => {
+    const key = 'framing.framing';
+
+    manager.current = new FramingTaskManager(device);
+
+    manager.current.on('status-change', setPlaying);
+    manager.current.on('close-message', () => MessageCaller.closeMessage(key));
+    manager.current.on('message', (content: string) => {
+      MessageCaller.openMessage({ key, level: MessageLevel.LOADING, content });
+    });
+
+    return () => {
+      manager.current?.stopFraming();
+      MessageCaller.closeMessage(key);
+    };
+  }, [device, manager, setPlaying]);
 
   useEffect(() => {
     shortcutHandler.current = playing ? handleStop : handleStart;
