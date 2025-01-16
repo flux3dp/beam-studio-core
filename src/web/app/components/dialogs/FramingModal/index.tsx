@@ -53,20 +53,20 @@ const FramingModal = ({ device, onClose, startOnOpen = false }: Props): JSX.Elem
   }, []);
 
   useEffect(() => {
+    const key = 'framing.default';
+
     manager.current = new FramingTaskManager(device);
     manager.current.on('status-change', (status: boolean) => setPlaying(status));
 
-    const messageKey = 'framing';
-
-    manager.current.on('close-message', () => MessageCaller.closeMessage(messageKey));
+    manager.current.on('close-message', () => MessageCaller.closeMessage(key));
     manager.current.on('message', (message: string) => {
-      MessageCaller.closeMessage(messageKey);
-      MessageCaller.openMessage({ key: messageKey, level: MessageLevel.LOADING, content: message });
+      MessageCaller.closeMessage(key);
+      MessageCaller.openMessage({ key, level: MessageLevel.LOADING, content: message });
     });
 
     return () => {
       manager.current?.stopFraming();
-      MessageCaller.closeMessage(messageKey);
+      MessageCaller.closeMessage(key);
     };
   }, [device]);
 

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-shadow */
-import React, { useCallback, useContext, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { Button, Col, Flex, Progress, Row, Spin } from 'antd';
 import { ClockCircleOutlined, FileOutlined, LoadingOutlined } from '@ant-design/icons';
 
@@ -13,7 +13,7 @@ import { IDeviceInfo } from 'interfaces/IDevice';
 import { promarkModels } from 'app/actions/beambox/constant';
 import FramingTaskManager, { FramingType } from 'helpers/device/framing';
 import FramingIcons from 'app/icons/framing/FramingIcons';
-import { useFramingTaskManager } from 'app/components/dialogs/FramingModal/useFramingTaskManager';
+import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
 import MonitorControl from './MonitorControl';
 import styles from './MonitorTask.module.scss';
 
@@ -32,6 +32,7 @@ const MonitorTask = ({ device }: Props): JSX.Element => {
   const options = [FramingType.Framing] as const;
   const manager = useRef<FramingTaskManager>(null);
   const [playing, setPlaying] = useState<boolean>(false);
+  const [isFramingButtonDisabled, setIsFramingButtonDisabled] = useState<boolean>(false);
   const [type, setType] = useState<FramingType>(options[0]);
   const [estimateTaskTime, setEstimateTaskTime] = useState<number>(taskTime);
   /* for Promark framing */
@@ -51,8 +52,9 @@ const MonitorTask = ({ device }: Props): JSX.Element => {
   };
 
   /* for Promark framing */
-  const handleFramingStop = useCallback(() => {
-    manager.current?.stopFraming();
+  const handleFramingStop = useCallback(async () => {
+    setIsFramingButtonDisabled(true);
+    await manager.current?.stopFraming();
   }, []);
 
   const handleFramingStart = useCallback(
@@ -90,6 +92,7 @@ const MonitorTask = ({ device }: Props): JSX.Element => {
         {options.map((option) => (
           <Button
             key={`monitor-framing-${option}`}
+            disabled={isFramingButtonDisabled}
             onClick={
               playing
                 ? handleFramingStop
@@ -182,19 +185,31 @@ const MonitorTask = ({ device }: Props): JSX.Element => {
     );
   };
 
-  useFramingTaskManager({
-    manager,
-    device,
-    onStatusChange: (status) => {
+  useEffect(() => {
+    const key = 'monitor.framing';
+
+    manager.current = new FramingTaskManager(device);
+
+    manager.current.on('status-change', (status: boolean) => {
       if (status) {
         setPlaying(true);
       } else {
         setTimeout(() => {
           setPlaying(false);
+          setIsFramingButtonDisabled(false);
         }, 1500);
       }
-    },
-  });
+    });
+    manager.current.on('close-message', () => MessageCaller.closeMessage(key));
+    manager.current.on('message', (content: string) => {
+      MessageCaller.openMessage({ key, level: MessageLevel.LOADING, content });
+    });
+
+    return () => {
+      manager.current?.stopFraming();
+      MessageCaller.closeMessage(key);
+    };
+  }, [device, manager, setPlaying]);
 
   return (
     <div className={styles.task}>
