@@ -32,6 +32,7 @@ const MonitorTask = ({ device }: Props): JSX.Element => {
   const options = [FramingType.Framing] as const;
   const manager = useRef<FramingTaskManager>(null);
   const [playing, setPlaying] = useState<boolean>(false);
+  const [isFramingButtonDisabled, setIsFramingButtonDisabled] = useState<boolean>(false);
   const [type, setType] = useState<FramingType>(options[0]);
   const [estimateTaskTime, setEstimateTaskTime] = useState<number>(taskTime);
   /* for Promark framing */
@@ -52,6 +53,7 @@ const MonitorTask = ({ device }: Props): JSX.Element => {
 
   /* for Promark framing */
   const handleFramingStop = useCallback(async () => {
+    setIsFramingButtonDisabled(true);
     await manager.current?.stopFraming();
   }, []);
 
@@ -90,6 +92,7 @@ const MonitorTask = ({ device }: Props): JSX.Element => {
         {options.map((option) => (
           <Button
             key={`monitor-framing-${option}`}
+            disabled={isFramingButtonDisabled}
             onClick={
               playing
                 ? handleFramingStop
@@ -193,6 +196,7 @@ const MonitorTask = ({ device }: Props): JSX.Element => {
       } else {
         setTimeout(() => {
           setPlaying(false);
+          setIsFramingButtonDisabled(false);
         }, 1500);
       }
     });
