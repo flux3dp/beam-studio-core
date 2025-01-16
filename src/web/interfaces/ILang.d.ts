@@ -2010,6 +2010,7 @@ export interface ILang {
     hull_desc: string;
     areacheck_desc: string;
     calculating_task: string;
+    start_task: string;
   };
   material_test_generator: Record<
     | 'title'
