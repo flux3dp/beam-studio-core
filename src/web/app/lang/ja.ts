@@ -2023,6 +2023,8 @@ const lang: ILang = {
     hull_desc: 'オブジェクトの周りに巻かれた輪ゴムのように、デザインに密接に従う形状をプレビューします。',
     areacheck_desc: '作業エリアが安全であることを、オブジェクトのバウンディングボックスとレーザーヘッドの加速ゾーンをプレビューして確認します。',
     calculating_task: 'タスクを計算中...',
+    start_task: 'タスクを開始',
+    start_task_description: 'フレームプレビューが完了したら、「タスクを開始」をクリックしてジョブを送信します。',
   },
   material_test_generator: {
     title: '材料テストジェネレーター',

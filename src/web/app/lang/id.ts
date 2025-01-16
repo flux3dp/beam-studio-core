@@ -2020,6 +2020,8 @@ const lang: ILang = {
     hull_desc: 'Memperlihatkan bentuk yang mengikuti desain, seperti karet yang melilit objek.',
     areacheck_desc: 'Memastikan area kerja aman dengan menampilkan kotak pembatas objek dan zona akselerasi kepala laser.',
     calculating_task: 'Menghitung tugas...',
+    start_task: 'Mulai Tugas',
+    start_task_description: 'Setelah menyelesaikan pratinjau bingkai, klik "Mulai Tugas" untuk mengirimkan pekerjaan.',
   },
   material_test_generator: {
     title: 'Generator Uji Material',

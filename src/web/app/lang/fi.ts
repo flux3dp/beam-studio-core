@@ -2020,6 +2020,8 @@ const lang: ILang = {
     hull_desc: 'Esikatselu, joka seuraa tiiviisti muotoilua, kuin kuminauha kietoutuneena objektin ympärille.',
     areacheck_desc: 'Varmistaa työalueen turvallisuuden näyttämällä objektin rajauslaatikon ja laserpään kiihdytysvyöhykkeen.',
     calculating_task: 'Lasketaan tehtävää...',
+    start_task: 'Aloita Tehtävä',
+    start_task_description: 'Kehyksen esikatselun jälkeen napsauta "Aloita Tehtävä" lähettääksesi työn.',
   },
   material_test_generator: {
     title: 'Materiaalitestin Generaattori',

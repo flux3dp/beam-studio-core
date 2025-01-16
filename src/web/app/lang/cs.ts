@@ -2023,6 +2023,8 @@ const lang: ILang = {
     hull_desc: 'Zobrazuje tvar, který těsně kopíruje návrh, jako gumička obepínající objekt.',
     areacheck_desc: 'Zajišťuje bezpečnost pracovní oblasti náhledem na ohraničující rámeček objektu a zónu akcelerace laserové hlavy.',
     calculating_task: 'Výpočet úlohy...',
+    start_task: 'Spustit Úkol',
+    start_task_description: 'Po dokončení náhledu rámce klikněte na „Spustit Úkol“ pro odeslání úlohy.',
   },
   material_test_generator: {
     title: 'Generátor testování materiálu',

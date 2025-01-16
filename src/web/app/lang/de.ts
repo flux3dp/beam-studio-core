@@ -2023,6 +2023,8 @@ const lang: ILang = {
     hull_desc: 'Zeigt eine Form, die dem Design eng folgt, wie ein Gummiband, das um das Objekt gewickelt ist.',
     areacheck_desc: 'Stellt die Sicherheit des Arbeitsbereichs sicher, indem der Begrenzungsrahmen des Objekts und die Beschleunigungszone des Laserkopfs angezeigt werden.',
     calculating_task: 'Aufgabe wird berechnet...',
+    start_task: 'Aufgabe Starten',
+    start_task_description: 'Nach Abschluss der Rahmenvorschau klicken Sie auf „Aufgabe Starten“, um den Auftrag einzureichen.',
   },
   material_test_generator: {
     title: 'Materialtest-Generator',

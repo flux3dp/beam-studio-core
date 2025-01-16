@@ -2020,6 +2020,8 @@ const lang: ILang = {
     hull_desc: 'Memaparkan bentuk yang rapat mengikuti reka bentuk, seperti gelang getah yang dililitkan pada objek.',
     areacheck_desc: 'Memastikan kawasan kerja selamat dengan memaparkan kotak sempadan objek dan zon pecutan kepala laser.',
     calculating_task: 'Mengira tugas...',
+    start_task: 'Mula Tugas',
+    start_task_description: 'Selepas melengkapkan pratonton bingkai, klik "Mula Tugas" untuk menghantar kerja.',
   },
   material_test_generator: {
     title: 'Penjana Ujian Bahan',

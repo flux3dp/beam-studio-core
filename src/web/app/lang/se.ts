@@ -2020,6 +2020,8 @@ const lang: ILang = {
     hull_desc: 'Förhandsvisar en form som följer designen noggrant, som ett gummiband lindat runt objektet.',
     areacheck_desc: 'Säkerställer att arbetsområdet är säkert genom att förhandsgranska objektets begränsningsram och laserns accelerationszon.',
     calculating_task: 'Beräknar uppgift...',
+    start_task: 'เริ่มงาน',
+    start_task_description: 'หลังจากแสดงตัวอย่างเฟรมเสร็จสิ้น ให้คลิก "เริ่มงาน" เพื่อส่งงาน.',
   },
   material_test_generator: {
     title: 'Materialtestgenerator',

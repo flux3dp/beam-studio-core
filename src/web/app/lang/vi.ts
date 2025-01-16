@@ -2020,6 +2020,8 @@ const lang: ILang = {
     hull_desc: 'Xem trước hình dạng bám sát thiết kế, giống như dây cao su bao quanh đối tượng.',
     areacheck_desc: 'Đảm bảo khu vực làm việc an toàn bằng cách xem trước hộp giới hạn của đối tượng và vùng gia tốc của đầu laser.',
     calculating_task: 'Đang tính toán nhiệm vụ...',
+    start_task: 'Bắt Đầu Nhiệm Vụ',
+    start_task_description: 'Sau khi hoàn thành xem trước khung, nhấp vào "Bắt Đầu Nhiệm Vụ" để gửi công việc.',
   },
   material_test_generator: {
     title: 'Trình tạo thử nghiệm vật liệu',

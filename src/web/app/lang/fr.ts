@@ -2020,6 +2020,8 @@ const lang: ILang = {
     hull_desc: "Affiche un aperçu d'une forme qui suit étroitement le design, comme un élastique enroulé autour de l'objet.",
     areacheck_desc: "Assure la sécurité de la zone de travail en prévisualisant la boîte englobante de l'objet et la zone d'accélération de la tête laser.",
     calculating_task: 'Calcul de la tâche...',
+    start_task: 'Démarrer la Tâche',
+    start_task_description: 'Après avoir terminé l’aperçu du cadre, cliquez sur "Démarrer la Tâche" pour soumettre le travail.',
   },
   material_test_generator: {
     title: 'Générateur de Test de Matériau',
