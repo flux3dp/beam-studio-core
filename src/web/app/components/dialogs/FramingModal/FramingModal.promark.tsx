@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Button, Flex, Modal, Spin } from 'antd';
+import { Button, Divider, Flex, Modal, Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 
 import FramingIcons from 'app/icons/framing/FramingIcons';
@@ -145,6 +145,8 @@ const PromarkFramingModal = ({ device, onClose, startOnOpen = false }: Props): J
         <div className={styles.desc}>
           <div className={styles.title}>{tFraming.framing}</div>
           <div className={styles.content}>{tFraming.framing_desc}</div>
+          <Divider />
+          <div className={styles.content}>{tFraming.start_task_description}</div>
         </div>
       </div>
     </Modal>
