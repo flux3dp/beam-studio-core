@@ -189,7 +189,7 @@ const MonitorTask = ({ device }: Props): JSX.Element => {
     const key = 'monitor.framing';
 
     manager.current = new FramingTaskManager(device);
-
+    console.log('manager.current', manager.current);
     manager.current.on('status-change', (status: boolean) => {
       if (status) {
         setPlaying(true);

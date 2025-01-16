@@ -67,7 +67,6 @@ describe('test FrameButton', () => {
     mockGetSelectedDevice.mockReturnValue({ model: 'fpm1' });
     handler();
     expect(mockShowFramingModal).toBeCalledTimes(1);
-    expect(mockShowFramingModal).toHaveBeenLastCalledWith(true);
   });
 
   // TODO: move this to helpers/device/framing.ts

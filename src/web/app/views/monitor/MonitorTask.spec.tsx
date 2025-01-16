@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React from 'react';
 import { render } from '@testing-library/react';
 
@@ -13,7 +14,25 @@ jest.mock('helpers/i18n', () => ({
         BEAMBOX: 'Laser Engraving',
       },
     },
+    beambox: {
+      right_panel: {
+        laser_panel: {
+          dropdown: {
+            parameters: 'Presets',
+            save: 'Add current parameters',
+            mm: {
+              wood_3mm_cutting: 'Wood - 3mm Cutting',
+              wood_5mm_cutting: 'Wood - 5mm Cutting',
+              wood_7mm_cutting: 'Wood - 7mm Cutting',
+              wood_8mm_cutting: 'Wood - 8mm Cutting',
+              wood_10mm_cutting: 'Wood - 10mm Cutting',
+            },
+          },
+        },
+      },
+    },
   },
+  getActiveLang: () => 'en',
 }));
 
 jest.mock('app/contexts/MonitorContext', () => ({
@@ -25,9 +44,40 @@ jest.mock('helpers/duration-formatter', () => (sec: number) => formatDuration(se
 
 jest.mock('./MonitorControl', () => () => <div>Dummy MonitorControl</div>);
 
+jest.mock('helpers/device/framing', () => ({
+  __esModule: true,
+  default: jest.fn().mockImplementation(() => ({
+    on: jest.fn(),
+    startFraming: jest.fn(),
+    stopFraming: jest.fn(),
+  })),
+  FramingType: {
+    Framing: 'Framing',
+  },
+}));
+
+// Mock MessageCaller
+jest.mock('app/actions/message-caller', () => ({
+  openMessage: jest.fn(),
+  closeMessage: jest.fn(),
+}));
+
+// Mock useI18n
+jest.mock('helpers/useI18n', () => () => ({
+  monitor: {
+    left: 'left',
+    task: {
+      BEAMBOX: 'BEAMBOX',
+    },
+  },
+  framing: {
+    framing: 'Framing',
+  },
+}));
+
 describe('should render correctly', () => {
-  afterEach(() => {
-    jest.resetAllMocks();
+  beforeEach(() => {
+    jest.clearAllMocks();
   });
 
   it('should render correctly', () => {
@@ -48,7 +98,7 @@ describe('should render correctly', () => {
           } as any
         }
       >
-        <MonitorTask />
+        <MonitorTask device={{ name: 'device' } as any} />
       </MonitorContext.Provider>
     );
     expect(container).toMatchSnapshot();
@@ -73,7 +123,7 @@ describe('should render correctly', () => {
           } as any
         }
       >
-        <MonitorTask />
+        <MonitorTask device={{ name: 'device' } as any} />
       </MonitorContext.Provider>
     );
     expect(container).toMatchSnapshot();

@@ -1,8 +1,7 @@
 import classNames from 'classnames';
-import React, { useContext, useEffect, useMemo } from 'react';
+import React, { useContext, useEffect } from 'react';
 
 import shortcuts from 'helpers/shortcuts';
-import TopBarController from 'app/views/beambox/TopBar/contexts/TopBarController';
 import TopBarIcons from 'app/icons/top-bar/TopBarIcons';
 import useI18n from 'helpers/useI18n';
 import { CanvasContext } from 'app/contexts/CanvasContext';

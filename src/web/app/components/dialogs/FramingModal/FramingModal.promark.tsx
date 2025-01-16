@@ -21,8 +21,6 @@ interface Props {
   startOnOpen?: boolean;
 }
 
-const scope = 'modal.framing';
-
 // TODO: add unit test
 const PromarkFramingModal = ({ device, onClose, startOnOpen = false }: Props): JSX.Element => {
   const lang = useI18n();
