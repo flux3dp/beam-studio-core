@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-shadow */
 import React, { useState } from 'react';
 import { Menu as TopBarMenu, MenuItem, MenuDivider, SubMenu } from '@szhsin/react-menu';
 
@@ -57,6 +58,8 @@ export default function Menu({ email }: Props): JSX.Element {
     PHOTO_EDIT: setImageEditDisabled,
   };
   const isMobile = useIsMobile();
+  const workarea = BeamboxPreference.read('workarea') || 'fbm1';
+  const isBb2 = workarea === 'fbb2';
 
   React.useEffect(() => {
     eventEmitter.on('ENABLE_MENU_ITEM', (items: string[]) => {
@@ -120,6 +123,7 @@ export default function Menu({ email }: Props): JSX.Element {
       const { model, name, serial } = devices[i];
       const hasModules = modelsWithModules.has(model);
       const isPromark = promarkModels.has(model);
+      const isBb2 = model === 'fbb2';
 
       // Note: SubMenu doesn't support a React.Fragment wrapper (<>...</>) as a child.
       submenus.push(
@@ -146,7 +150,7 @@ export default function Menu({ email }: Props): JSX.Element {
             >
               {menuCms.calibrate_beambox_camera} {isMobile && '(PC Only)'}
             </MenuItem>
-            {model === 'fbb2' && (
+            {isBb2 && (
               <MenuItem
                 onClick={() => callback('CALIBRATE_CAMERA_ADVANCED', devices[i])}
                 disabled={isMobile}
@@ -273,10 +277,18 @@ export default function Menu({ email }: Props): JSX.Element {
             <MenuItem onClick={() => callback('IMPORT_MATERIAL_TESTING_ENGRAVE')}>
               {menuCms.import_material_testing_engrave}
             </MenuItem>
+            {/* for bb2 */}
+            <MenuItem onClick={() => callback('IMPORT_MATERIAL_TESTING_ENGRAVE_BEAMBOX_2')}>
+              {menuCms.import_material_testing_engrave}
+            </MenuItem>
             <MenuItem onClick={() => callback('IMPORT_MATERIAL_TESTING_OLD')}>
               {menuCms.import_material_testing_old}
             </MenuItem>
             <MenuItem onClick={() => callback('IMPORT_MATERIAL_TESTING_CUT')}>
+              {menuCms.import_material_testing_cut}
+            </MenuItem>
+            {/* for bb2 */}
+            <MenuItem onClick={() => callback('IMPORT_MATERIAL_TESTING_CUT_BEAMBOX_2')}>
               {menuCms.import_material_testing_cut}
             </MenuItem>
             <MenuItem onClick={() => callback('IMPORT_MATERIAL_TESTING_SIMPLECUT')}>
