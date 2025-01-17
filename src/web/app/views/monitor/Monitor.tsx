@@ -21,7 +21,7 @@ interface Props {
   device: IDeviceInfo;
 }
 
-const key = 'monitorUploadFileMessage';
+const key = 'monitor.upload.file';
 
 const Monitor = ({ device }: Props): JSX.Element => {
   const LANG = useI18n();

@@ -7,34 +7,6 @@ import { MonitorContext } from 'app/contexts/MonitorContext';
 
 import MonitorTask from './MonitorTask';
 
-jest.mock('helpers/i18n', () => ({
-  lang: {
-    monitor: {
-      task: {
-        BEAMBOX: 'Laser Engraving',
-      },
-    },
-    beambox: {
-      right_panel: {
-        laser_panel: {
-          dropdown: {
-            parameters: 'Presets',
-            save: 'Add current parameters',
-            mm: {
-              wood_3mm_cutting: 'Wood - 3mm Cutting',
-              wood_5mm_cutting: 'Wood - 5mm Cutting',
-              wood_7mm_cutting: 'Wood - 7mm Cutting',
-              wood_8mm_cutting: 'Wood - 8mm Cutting',
-              wood_10mm_cutting: 'Wood - 10mm Cutting',
-            },
-          },
-        },
-      },
-    },
-  },
-  getActiveLang: () => 'en',
-}));
-
 jest.mock('app/contexts/MonitorContext', () => ({
   MonitorContext: React.createContext(null),
 }));

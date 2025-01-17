@@ -29,20 +29,14 @@ interface Props {
 const FramingModal = ({ device, onClose, startOnOpen = false }: Props): JSX.Element => {
   const lang = useI18n();
   const { framing: tFraming } = lang;
-  const [playing, setPlaying] = useState<boolean>(false);
+  const options = [FramingType.Framing, FramingType.Hull, FramingType.AreaCheck];
+  const [isFraming, setIsFraming] = useState<boolean>(false);
   const [lowLaser, setLowLaser] = useState<number>(beamboxPreference.read('low_power') ?? 10);
   const [type, setType] = useState<FramingType>(FramingType.Framing);
   const manager = useRef<FramingTaskManager>(null);
   const shortcutHandler = useRef<() => void>(null);
 
   const supportInfo = useMemo(() => getSupportInfo(device.model), [device]);
-  const options = useMemo(() => {
-    if (promarkModels.has(device.model)) {
-      return [FramingType.Framing];
-    }
-
-    return [FramingType.Framing, FramingType.Hull, FramingType.AreaCheck];
-  }, [device.model]);
 
   const handleStart = useCallback(() => {
     manager.current?.startFraming(type, { lowPower: supportInfo.framingLowLaser ? lowLaser : 0 });
@@ -56,8 +50,8 @@ const FramingModal = ({ device, onClose, startOnOpen = false }: Props): JSX.Elem
     const key = 'framing.default';
 
     manager.current = new FramingTaskManager(device);
-    manager.current.on('status-change', (status: boolean) => setPlaying(status));
 
+    manager.current.on('status-change', (status: boolean) => setIsFraming(status));
     manager.current.on('close-message', () => MessageCaller.closeMessage(key));
     manager.current.on('message', (message: string) => {
       MessageCaller.closeMessage(key);
@@ -71,8 +65,8 @@ const FramingModal = ({ device, onClose, startOnOpen = false }: Props): JSX.Elem
   }, [device]);
 
   useEffect(() => {
-    shortcutHandler.current = playing ? handleStop : handleStart;
-  }, [playing, handleStop, handleStart]);
+    shortcutHandler.current = isFraming ? handleStop : handleStart;
+  }, [isFraming, handleStop, handleStart]);
 
   useEffect(() => {
     if (startOnOpen) {
@@ -98,11 +92,11 @@ const FramingModal = ({ device, onClose, startOnOpen = false }: Props): JSX.Elem
           </Button>
           <Button
             className={styles.button}
-            onClick={playing ? handleStop : handleStart}
+            onClick={isFraming ? handleStop : handleStart}
             type="primary"
           >
-            {playing ? lang.alert.stop : lang.device.start}
-            {playing ? (
+            {isFraming ? lang.alert.stop : lang.device.start}
+            {isFraming ? (
               <Spin indicator={<LoadingOutlined className={styles.icon} spin />} />
             ) : (
               <icons.Play className={styles.icon} />

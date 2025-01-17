@@ -869,6 +869,11 @@ export class MonitorContextProvider extends React.Component<Props, State> {
         }
       } else if (mode === Mode.FILE_PREVIEW) {
         await DeviceMaster.goFromFile(currentPath.join('/'), fileInfo[0]);
+      } else if (MonitorStatus.isAbortedOrCompleted(report)) {
+        DeviceMaster.restart();
+      } else {
+        // PAUSED
+        DeviceMaster.resume();
       }
     }
 

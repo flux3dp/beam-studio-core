@@ -11,11 +11,11 @@ import useI18n from 'helpers/useI18n';
 
 interface Props {
   isPromark: boolean;
-  playing: boolean;
+  isFraming: boolean;
   setEstimateTaskTime: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const MonitorControl = ({ isPromark, playing, setEstimateTaskTime }: Props): JSX.Element => {
+const MonitorControl = ({ isPromark, isFraming, setEstimateTaskTime }: Props): JSX.Element => {
   const { monitor: tMonitor } = useI18n();
   const isMobile = useIsMobile();
   const buttonShape = isMobile ? 'round' : 'default';
@@ -99,7 +99,7 @@ const MonitorControl = ({ isPromark, playing, setEstimateTaskTime }: Props): JSX
     }
   }, [report, isOnPlaying, setEstimateTaskTime, taskTime]);
 
-  if (mode === Mode.PREVIEW || mode === Mode.FILE_PREVIEW || playing) {
+  if (mode === Mode.PREVIEW || mode === Mode.FILE_PREVIEW || isFraming) {
     return (
       <Space>
         <Button disabled={!canStart} shape={buttonShape} type="primary" onClick={triggerOnPlay}>

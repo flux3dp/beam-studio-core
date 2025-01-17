@@ -31,7 +31,7 @@ const MonitorTask = ({ device }: Props): JSX.Element => {
   /* for Promark framing */
   const options = [FramingType.Framing] as const;
   const manager = useRef<FramingTaskManager>(null);
-  const [playing, setPlaying] = useState<boolean>(false);
+  const [isFraming, setIsFraming] = useState<boolean>(false);
   const [isFramingButtonDisabled, setIsFramingButtonDisabled] = useState<boolean>(false);
   const [type, setType] = useState<FramingType>(options[0]);
   const [estimateTaskTime, setEstimateTaskTime] = useState<number>(taskTime);
@@ -40,7 +40,7 @@ const MonitorTask = ({ device }: Props): JSX.Element => {
   const getJobTime = (time = taskTime, byReport = true): string => {
     const isWorking = mode === Mode.WORKING;
 
-    if (playing) {
+    if (isFraming) {
       return `${FormatDuration(Math.max(taskTime, 1))}` || null;
     }
 
@@ -64,7 +64,7 @@ const MonitorTask = ({ device }: Props): JSX.Element => {
 
   const renderIcon = useCallback(
     (parentType: FramingType) => {
-      if (playing && parentType === type) {
+      if (isFraming && parentType === type) {
         return <Spin indicator={<LoadingOutlined spin />} />;
       }
 
@@ -79,7 +79,7 @@ const MonitorTask = ({ device }: Props): JSX.Element => {
           return null;
       }
     },
-    [playing, type]
+    [isFraming, type]
   );
 
   const renderPromarkFramingButton = (): JSX.Element => {
@@ -94,11 +94,11 @@ const MonitorTask = ({ device }: Props): JSX.Element => {
             key={`monitor-framing-${option}`}
             disabled={isFramingButtonDisabled}
             onClick={
-              playing
+              isFraming
                 ? handleFramingStop
                 : () => {
                     setType(option);
-                    setPlaying(true);
+                    setIsFraming(true);
                     handleFramingStart(option);
                   }
             }
@@ -113,7 +113,7 @@ const MonitorTask = ({ device }: Props): JSX.Element => {
   /* for Promark framing */
 
   const renderProgress = (): JSX.Element => {
-    if (playing) {
+    if (isFraming) {
       return renderPromarkFramingButton();
     }
 
@@ -189,13 +189,12 @@ const MonitorTask = ({ device }: Props): JSX.Element => {
     const key = 'monitor.framing';
 
     manager.current = new FramingTaskManager(device);
-    console.log('manager.current', manager.current);
     manager.current.on('status-change', (status: boolean) => {
       if (status) {
-        setPlaying(true);
+        setIsFraming(true);
       } else {
         setTimeout(() => {
-          setPlaying(false);
+          setIsFraming(false);
           setIsFramingButtonDisabled(false);
         }, 1500);
       }
@@ -209,7 +208,7 @@ const MonitorTask = ({ device }: Props): JSX.Element => {
       manager.current?.stopFraming();
       MessageCaller.closeMessage(key);
     };
-  }, [device, manager, setPlaying]);
+  }, [device, manager, setIsFraming]);
 
   return (
     <div className={styles.task}>
@@ -238,7 +237,7 @@ const MonitorTask = ({ device }: Props): JSX.Element => {
           <div className={styles['control-buttons']}>
             <MonitorControl
               isPromark={isPromark}
-              playing={playing}
+              isFraming={isFraming}
               setEstimateTaskTime={setEstimateTaskTime}
             />
           </div>

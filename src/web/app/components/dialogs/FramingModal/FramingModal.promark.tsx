@@ -26,8 +26,7 @@ const PromarkFramingModal = ({ device, onClose, startOnOpen = false }: Props): J
   const lang = useI18n();
   const { framing: tFraming } = lang;
   const options = [FramingType.Framing] as const;
-
-  const [playing, setPlaying] = useState<boolean>(false);
+  const [isFraming, setIsFraming] = useState<boolean>(false);
   const [type, setType] = useState<FramingType>(options[0]);
   const manager = useRef<FramingTaskManager>(null);
   const shortcutHandler = useRef<() => void>(null);
@@ -43,7 +42,7 @@ const PromarkFramingModal = ({ device, onClose, startOnOpen = false }: Props): J
 
   const renderIcon = useCallback(
     (parentType: FramingType) => {
-      if (playing && parentType === type) {
+      if (isFraming && parentType === type) {
         return <Spin className={styles['icon-spin']} indicator={<LoadingOutlined spin />} />;
       }
 
@@ -58,7 +57,7 @@ const PromarkFramingModal = ({ device, onClose, startOnOpen = false }: Props): J
           return null;
       }
     },
-    [playing, type]
+    [isFraming, type]
   );
 
   useEffect(() => {
@@ -66,7 +65,7 @@ const PromarkFramingModal = ({ device, onClose, startOnOpen = false }: Props): J
 
     manager.current = new FramingTaskManager(device);
 
-    manager.current.on('status-change', setPlaying);
+    manager.current.on('status-change', setIsFraming);
     manager.current.on('close-message', () => MessageCaller.closeMessage(key));
     manager.current.on('message', (content: string) => {
       MessageCaller.openMessage({ key, level: MessageLevel.LOADING, content });
@@ -76,11 +75,11 @@ const PromarkFramingModal = ({ device, onClose, startOnOpen = false }: Props): J
       manager.current?.stopFraming();
       MessageCaller.closeMessage(key);
     };
-  }, [device, manager, setPlaying]);
+  }, [device, manager, setIsFraming]);
 
   useEffect(() => {
-    shortcutHandler.current = playing ? handleStop : handleStart;
-  }, [playing, handleStop, handleStart]);
+    shortcutHandler.current = isFraming ? handleStop : handleStart;
+  }, [isFraming, handleStop, handleStart]);
 
   useEffect(() => {
     if (startOnOpen) {
@@ -128,7 +127,7 @@ const PromarkFramingModal = ({ device, onClose, startOnOpen = false }: Props): J
             <Button
               key={`framing-${option}`}
               onClick={
-                playing
+                isFraming
                   ? handleStop
                   : () => {
                       setType(option);
