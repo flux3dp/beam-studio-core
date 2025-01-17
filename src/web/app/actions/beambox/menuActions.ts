@@ -41,7 +41,9 @@ type ExampleFileKeys =
   | 'mat_test_old'
   | 'mat_test_simple_cut'
   | 'mat_test_cut'
+  | 'mat_test_cut_beambox_2'
   | 'mat_test_engrave'
+  | 'mat_test_engrave_beambox_2'
   | 'mat_test_printing'
   | 'mat_test_line'
   | 'ador_example_laser'
@@ -68,7 +70,9 @@ const getExampleFileName = (key: ExampleFileKeys) => {
       mat_test_old: 'examples/mat_test_old.bvg',
       mat_test_simple_cut: 'examples/mat_test_simple_cut.bvg',
       mat_test_cut: 'examples/mat_test_cut.bvg',
+      mat_test_cut_beambox_2: 'examples/mat_test_cut_beambox_2.bvg',
       mat_test_engrave: 'examples/mat_test_engrave.bvg',
+      mat_test_engrave_beambox_2: 'examples/mat_test_engrave_beambox_2.bvg',
       mat_test_line: 'examples/mat_test_line.bvg',
       focus_probe: 'examples/focus_probe.bvg',
       beambox_2_focus_probe: 'examples/beambox_2_focus_probe.bvg',
@@ -167,8 +171,12 @@ export default {
     loadExampleFile(getExampleFileName('mat_test_simple_cut')),
   IMPORT_MATERIAL_TESTING_CUT: (): Promise<void> =>
     loadExampleFile(getExampleFileName('mat_test_cut')),
+  IMPORT_MATERIAL_TESTING_CUT_BEAMBOX_2: (): Promise<void> =>
+    loadExampleFile(getExampleFileName('mat_test_cut_beambox_2')),
   IMPORT_MATERIAL_TESTING_ENGRAVE: (): Promise<void> =>
     loadExampleFile(getExampleFileName('mat_test_engrave')),
+  IMPORT_MATERIAL_TESTING_ENGRAVE_BEAMBOX_2: (): Promise<void> =>
+    loadExampleFile(getExampleFileName('mat_test_engrave_beambox_2')),
   IMPORT_MATERIAL_TESTING_LINE: (): Promise<void> =>
     loadExampleFile(getExampleFileName('mat_test_line')),
   IMPORT_MATERIAL_TESTING_PRINT: (): Promise<void> =>
