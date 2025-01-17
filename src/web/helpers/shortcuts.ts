@@ -48,6 +48,28 @@ const matchedEventsByKeySet = (keySet: string) =>
     { matches: Array.of<ShortcutEvent>(), maxPriority: 0 }
   );
 
+let layoutMap: Map<string, string> | null = null;
+navigator.keyboard?.getLayoutMap?.().then((map) => {
+  layoutMap = map;
+});
+
+/**
+ * getKeyFromEvent
+ * @description
+ * event.key may vary with input method editor (IME),
+ * On the other hand, event.code are consistent physical key layout, need to map for different layout
+ * Map will be 'Digit1' => '1', 'KeyA' => 'a', 'Space' => ' ', 'Enter' => 'Enter' for example
+ * So try to use event.code with KeyboardLayoutMap if available, otherwise use event.key
+ * ref: https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent,
+ * ref: https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/code,
+ * ref: https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key,
+ * ref: https://developer.mozilla.org/en-US/docs/Web/API/KeyboardLayoutMap,
+ */
+const getKeyFromEvent = (event: KeyboardEvent): string => {
+  const key = layoutMap?.has(event.code) ? layoutMap.get(event.code) : event.key;
+  return key?.toLowerCase();
+};
+
 const keyupEvent = (event: KeyboardEvent) => {
   /**
    * on MacOs, the keyup event is not triggered when the key is released if Meta key is pressed
@@ -56,7 +78,8 @@ const keyupEvent = (event: KeyboardEvent) => {
   if (event.key === 'Meta') {
     currentPressedKeys.clear();
   } else {
-    currentPressedKeys.delete(event.key.toLowerCase());
+    const key = getKeyFromEvent(event);
+    if (key) currentPressedKeys.delete(key);
   }
 };
 
@@ -73,8 +96,8 @@ const keydownEvent = (event: KeyboardEvent) => {
   if (event.key === undefined || isFocusingOnInputs()) {
     return;
   }
-
-  const currentKey = event.key.toLowerCase();
+  const currentKey = getKeyFromEvent(event);
+  if (!currentKey) return;
 
   /**
    * on MacOs, the keyup event is not triggered when the non-modifier key is released if metaKey is pressed
