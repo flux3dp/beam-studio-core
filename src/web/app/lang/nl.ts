@@ -2020,6 +2020,8 @@ const lang: ILang = {
     hull_desc: 'Voorvertoont een vorm die nauw aansluit bij het ontwerp, zoals een elastiek dat om het object is gewikkeld.',
     areacheck_desc: 'Zorgt voor een veilige werkruimte door het begrenzingsvak van het object en de versnellingszone van de laserkop te tonen.',
     calculating_task: 'Taak berekenen...',
+    start_task: 'Taak Starten',
+    start_task_description: 'Klik op "Taak Starten" na het voltooien van de framevoorbeeld om de taak in te dienen.',
   },
   material_test_generator: {
     title: 'Materiaaltestgenerator',

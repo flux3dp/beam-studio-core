@@ -2020,6 +2020,8 @@ const lang: ILang = {
     hull_desc: 'Viser en form som følger designet tett, som et gummibånd rundt objektet.',
     areacheck_desc: 'Sikrer at arbeidsområdet er trygt ved å vise objektets avgrensningsboks og laserhodets akselerasjonssone.',
     calculating_task: 'Beregner oppgave...',
+    start_task: 'Start Oppgave',
+    start_task_description: 'Etter å ha fullført rammeforhåndsvisningen, klikk på "Start Oppgave" for å sende inn oppgaven.',
   },
   material_test_generator: {
     title: 'Materialtestgenerator',

@@ -2020,6 +2020,8 @@ const lang: ILang = {
     hull_desc: "Visualizza in anteprima una forma che segue da vicino il disegno, come un elastico avvolto intorno all'oggetto.",
     areacheck_desc: "Garantisce la sicurezza dell'area di lavoro visualizzando il riquadro di delimitazione dell'oggetto e la zona di accelerazione della testa laser.",
     calculating_task: 'Calcolo del compito...',
+    start_task: 'Avvia Attività',
+    start_task_description: 'Dopo aver completato l\'anteprima del frame, clicca su "Avvia Attività" per inviare il lavoro.',
   },
   material_test_generator: {
     title: 'Generatore di Test Materiale',

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React from 'react';
 import { render } from '@testing-library/react';
 
@@ -5,16 +6,6 @@ import { Mode } from 'app/constants/monitor-constants';
 import { MonitorContext } from 'app/contexts/MonitorContext';
 
 import MonitorTask from './MonitorTask';
-
-jest.mock('helpers/i18n', () => ({
-  lang: {
-    monitor: {
-      task: {
-        BEAMBOX: 'Laser Engraving',
-      },
-    },
-  },
-}));
 
 jest.mock('app/contexts/MonitorContext', () => ({
   MonitorContext: React.createContext(null),
@@ -25,9 +16,40 @@ jest.mock('helpers/duration-formatter', () => (sec: number) => formatDuration(se
 
 jest.mock('./MonitorControl', () => () => <div>Dummy MonitorControl</div>);
 
+jest.mock('helpers/device/framing', () => ({
+  __esModule: true,
+  default: jest.fn().mockImplementation(() => ({
+    on: jest.fn(),
+    startFraming: jest.fn(),
+    stopFraming: jest.fn(),
+  })),
+  FramingType: {
+    Framing: 'Framing',
+  },
+}));
+
+// Mock MessageCaller
+jest.mock('app/actions/message-caller', () => ({
+  openMessage: jest.fn(),
+  closeMessage: jest.fn(),
+}));
+
+// Mock useI18n
+jest.mock('helpers/useI18n', () => () => ({
+  monitor: {
+    left: 'left',
+    task: {
+      BEAMBOX: 'BEAMBOX',
+    },
+  },
+  framing: {
+    framing: 'Framing',
+  },
+}));
+
 describe('should render correctly', () => {
-  afterEach(() => {
-    jest.resetAllMocks();
+  beforeEach(() => {
+    jest.clearAllMocks();
   });
 
   it('should render correctly', () => {
@@ -48,7 +70,7 @@ describe('should render correctly', () => {
           } as any
         }
       >
-        <MonitorTask />
+        <MonitorTask device={{ name: 'device' } as any} />
       </MonitorContext.Provider>
     );
     expect(container).toMatchSnapshot();
@@ -73,7 +95,7 @@ describe('should render correctly', () => {
           } as any
         }
       >
-        <MonitorTask />
+        <MonitorTask device={{ name: 'device' } as any} />
       </MonitorContext.Provider>
     );
     expect(container).toMatchSnapshot();

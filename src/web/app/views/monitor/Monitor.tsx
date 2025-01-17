@@ -21,16 +21,20 @@ interface Props {
   device: IDeviceInfo;
 }
 
+const key = 'monitor.upload.file';
+
 const Monitor = ({ device }: Props): JSX.Element => {
+  const LANG = useI18n();
   const { currentPath, mode, onClose, report, setMonitorMode, taskImageURL, uploadProgress } =
     React.useContext(MonitorContext);
-  const LANG = useI18n();
-  const taskMode = report.st_id === deviceConstants.status.IDLE ? Mode.PREVIEW : Mode.WORKING;
+  const isPromark = useMemo(() => promarkModels.has(device.model), [device.model]);
+  // if Promark, taskMode is always working to prevent FramingTaskManager unmount
+  const taskMode =
+    report.st_id === deviceConstants.status.IDLE && !isPromark ? Mode.PREVIEW : Mode.WORKING;
   const monitorMode = [Mode.PREVIEW, Mode.FILE_PREVIEW, Mode.WORKING].includes(mode)
     ? taskMode
     : mode;
   const [isUploadCompleted, setIsUploadCompleted] = React.useState(true);
-  const key = 'monitorUploadFileMessage';
 
   const tabItems = [
     taskImageURL || promarkModels.has(device.model)
@@ -42,7 +46,7 @@ const Monitor = ({ device }: Props): JSX.Element => {
             </div>
           ),
           key: taskMode,
-          children: <MonitorTask />,
+          children: <MonitorTask device={device} />,
         }
       : null,
     {

@@ -34,9 +34,9 @@ import promarkDataStore from './promark/promark-data-store';
 
 // TODO: add unit test
 export enum FramingType {
-  Framing = 1,
-  Hull = 2,
-  AreaCheck = 3,
+  Framing,
+  Hull,
+  AreaCheck,
 }
 
 type Coordinates =
@@ -54,6 +54,7 @@ type Coordinates =
     };
 
 let svgCanvas: ISVGCanvas;
+
 getSVGAsync((globalSVG) => {
   svgCanvas = globalSVG.Canvas;
 });
@@ -137,20 +138,17 @@ const getCanvasImage = async (): Promise<Blob> => {
   ctx.globalCompositeOperation = 'destination-over';
   ctx.fillStyle = 'white';
   ctx.fillRect(0, 0, width, height);
-  const blob = await new Promise<Blob>((resolve) => canvas.toBlob(resolve));
-  return blob;
+
+  return new Promise<Blob>((resolve) => canvas.toBlob(resolve));
 };
 
-const getConvexHull = async (imgBlob: Blob): Promise<[number, number][]> => {
-  const utilWS = getUtilWS();
-  const res = await utilWS.getConvexHull(imgBlob);
-  return res;
-};
+const getConvexHull = async (imgBlob: Blob): Promise<Array<[number, number]>> =>
+  getUtilWS().getConvexHull(imgBlob);
 
 const getAreaCheckTask = async (
   device?: IDeviceInfo,
   jobOrigin?: { x: number; y: number }
-): Promise<[number, number][]> => {
+): Promise<Array<[number, number]>> => {
   try {
     const metadata = await exportFuncs.getMetadata(device);
     if (metadata?.max_x) {
@@ -160,7 +158,7 @@ const getAreaCheckTask = async (
       const minY = parseFloat(metadata.min_y) + y;
       const maxX = parseFloat(metadata.max_x) + x;
       const maxY = parseFloat(metadata.max_y) + y;
-      const res: [number, number][] = [
+      const res: Array<[number, number]> = [
         [minX, minY],
         [maxX, minY],
         [maxX, maxY],
@@ -195,8 +193,8 @@ class FramingTaskManager extends EventEmitter {
   private curPos: { x: number; y: number; a: number };
   private movementFeedrate = 6000; // mm/min
   private lowPower = 0;
-  private taskCache: { [type in FramingType]?: [number, number][] } = {};
-  private taskPoints: [number, number][] = [];
+  private taskCache: { [type in FramingType]?: Array<[number, number]> } = {};
+  private taskPoints: Array<[number, number]> = [];
   private hasAppliedRedLight = false;
 
   constructor(device: IDeviceInfo) {
@@ -315,13 +313,13 @@ class FramingTaskManager extends EventEmitter {
     }
   };
 
-  private generateTaskPoints = async (type: FramingType): Promise<[number, number][]> => {
+  private generateTaskPoints = async (type: FramingType): Promise<Array<[number, number]>> => {
     if (this.taskCache[type]) return this.taskCache[type];
     svgCanvas.clearSelection();
     if (type === FramingType.Framing) {
       const coords = getCoords(true);
       if (coords.minX === undefined) return [];
-      const res: [number, number][] = [
+      const res: Array<[number, number]> = [
         [coords.minX, coords.minY],
         [coords.maxX, coords.minY],
         [coords.maxX, coords.maxY],
@@ -334,7 +332,7 @@ class FramingTaskManager extends EventEmitter {
     if (type === FramingType.Hull) {
       const image = await getCanvasImage();
       const points = await getConvexHull(image);
-      const res: [number, number][] = points.map(([x, y]) => [
+      const res: Array<[number, number]> = points.map(([x, y]) => [
         x / constant.dpmm,
         y / constant.dpmm,
       ]);

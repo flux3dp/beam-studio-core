@@ -2023,6 +2023,8 @@ const lang: ILang = {
     hull_desc: '预览一个紧随设计的形状，就像橡皮筋缠绕在对象周围一样。',
     areacheck_desc: '通过预览对象的边界框和激光头的加速区，确保工作区的安全。',
     calculating_task: '正在计算任务...',
+    start_task: '开始任务',
+    start_task_description: '完成框架预览后，点击“开始任务”提交工作。',
   },
   material_test_generator: {
     title: '材质测试生成器',

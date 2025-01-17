@@ -2023,6 +2023,8 @@ const lang: ILang = {
     hull_desc: 'Wyświetla podgląd kształtu, który ściśle podąża za projektem, jak gumka owinięta wokół obiektu.',
     areacheck_desc: 'Zapewnia bezpieczeństwo obszaru roboczego poprzez podgląd ramki ograniczającej obiekt i strefy przyspieszenia głowicy lasera.',
     calculating_task: 'Obliczanie zadania...',
+    start_task: 'Rozpocznij Zadanie',
+    start_task_description: 'Po zakończeniu podglądu ramki kliknij „Rozpocznij Zadanie”, aby przesłać zadanie.',
   },
   material_test_generator: {
     title: 'Generator Testu Materiału',

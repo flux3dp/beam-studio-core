@@ -2023,6 +2023,8 @@ const lang: ILang = {
     hull_desc: 'Previsualiza una forma que sigue de cerca el diseño, como una banda elástica envuelta alrededor del objeto.',
     areacheck_desc: 'Asegura que el área de trabajo sea segura mostrando la caja delimitadora del objeto y la zona de aceleración del cabezal láser.',
     calculating_task: 'Calculando tarea...',
+    start_task: 'Iniciar Tarea',
+    start_task_description: 'Después de completar la vista previa del marco, haga clic en "Iniciar Tarea" para enviar el trabajo.',
   },
   material_test_generator: {
     title: 'Generador de Pruebas de Material',

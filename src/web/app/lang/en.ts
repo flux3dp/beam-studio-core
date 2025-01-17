@@ -2023,6 +2023,8 @@ Machines > ‘Promark Name’ > Promark Settings`,
     hull_desc: 'Previews a shape that closely follows the design, like a rubber band wrapped around the object.',
     areacheck_desc: "Ensures the work area is safe by previewing the object's bounding box and the laser head's acceleration zone.",
     calculating_task: 'Calculating task...',
+    start_task: 'Start Task',
+    start_task_description: 'After completing the frame preview, click "Start Task" to submit the job.',
   },
   material_test_generator: {
     title: 'Material Test Generator',

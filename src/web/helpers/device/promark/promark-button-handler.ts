@@ -149,7 +149,7 @@ class PromarkButtonHandler {
         await closeFrame();
         dialogCaller.popDialogById(modalId.monitor);
         canvasEventEmitter.emit('SET_MODE', CanvasMode.Draw);
-        showFramingModal(true);
+        showFramingModal();
         return;
       }
       if (this.counter !== runningThresholdCount) return;

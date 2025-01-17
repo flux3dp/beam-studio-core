@@ -2020,6 +2020,8 @@ const lang: ILang = {
     hull_desc: 'Viser en form, der tæt følger designet, som et elastik, der er viklet omkring objektet.',
     areacheck_desc: 'Sikrer arbejdsområdet ved at vise objektets afgrænsningsboks og laserhovedets accelerationszone.',
     calculating_task: 'Beregner opgave...',
+    start_task: 'Start Opgave',
+    start_task_description: 'Når rammeforhåndsvisningen er færdig, skal du klikke på "Start Opgave" for at indsende opgaven.',
   },
   material_test_generator: {
     title: 'Materialetestgenerator',

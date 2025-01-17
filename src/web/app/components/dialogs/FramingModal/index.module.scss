@@ -71,3 +71,36 @@
     }
   }
 }
+
+.mr-8 {
+  margin-right: 8px;
+}
+
+.icon-text-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: auto;
+}
+
+.icon-text-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-spin {
+  font-size: 20px;
+  margin-bottom: 8px; /* Adjust the spacing between the icon and text */
+}
+
+.icon-framing {
+  font-size: 30px;
+  margin-bottom: 8px; /* Adjust the spacing between the icon and text */
+}
+
+.text {
+  font-size: 14px; /* Adjust the text size as needed */
+}

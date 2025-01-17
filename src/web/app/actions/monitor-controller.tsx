@@ -5,7 +5,7 @@ import { IDeviceInfo } from 'interfaces/IDevice';
 import { Mode } from 'app/constants/monitor-constants';
 import { MonitorContextProvider } from 'app/contexts/MonitorContext';
 
-export default {
+const monitorController = {
   showMonitor: (
     device: IDeviceInfo,
     mode: Mode = Mode.FILE,
@@ -26,3 +26,5 @@ export default {
     );
   },
 };
+
+export default monitorController;

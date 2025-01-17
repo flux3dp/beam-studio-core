@@ -16,9 +16,10 @@ import ExportButton from './ExportButton';
 import styles from './Boxgen.module.scss';
 
 const Boxgen = ({ onClose }: { onClose?: () => void }): JSX.Element => {
-  useNewShortcutsScope();
   const lang = useI18n();
   const tBoxgen = lang.boxgen;
+
+  useNewShortcutsScope();
 
   return (
     <BoxgenProvider onClose={onClose}>

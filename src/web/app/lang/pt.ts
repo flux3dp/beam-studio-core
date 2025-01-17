@@ -2020,6 +2020,8 @@ const lang: ILang = {
     hull_desc: 'Exibe uma pré-visualização de uma forma que segue de perto o design, como um elástico envolvido ao redor do objeto.',
     areacheck_desc: 'Garante a segurança da área de trabalho exibindo a caixa delimitadora do objeto e a zona de aceleração da cabeça do laser.',
     calculating_task: 'Calculando tarefa...',
+    start_task: 'Iniciar Tarefa',
+    start_task_description: 'Após concluir a pré-visualização do quadro, clique em "Iniciar Tarefa" para enviar o trabalho.',
   },
   material_test_generator: {
     title: 'Gerador de Teste de Material',
