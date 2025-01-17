@@ -2036,7 +2036,7 @@ const lang: ILang = {
     areacheck_desc: '藉由預覽物件的邊界框與雷射頭的加速區，確保工作區的安全。',
     calculating_task: '正在計算外框工作...',
     start_task: '開始任務',
-    start_task_description: '完成框架預覽後，點擊「開始任務」提交工作。',
+    start_task_description: '完成外框預覽後，點擊「開始任務」提交工作。',
   },
   material_test_generator: {
     title: '材質測試產生器',
