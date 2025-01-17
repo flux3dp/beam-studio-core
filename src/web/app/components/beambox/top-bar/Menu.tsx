@@ -12,6 +12,7 @@ import useI18n from 'helpers/useI18n';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { modelsWithModules } from 'app/constants/layer-module/layer-modules';
 import { useIsMobile } from 'helpers/system-helper';
+import isWeb from 'helpers/is-web';
 
 interface Props {
   email: string;
@@ -58,8 +59,6 @@ export default function Menu({ email }: Props): JSX.Element {
     PHOTO_EDIT: setImageEditDisabled,
   };
   const isMobile = useIsMobile();
-  const workarea = BeamboxPreference.read('workarea') || 'fbm1';
-  const isBb2 = workarea === 'fbb2';
 
   React.useEffect(() => {
     eventEmitter.on('ENABLE_MENU_ITEM', (items: string[]) => {
@@ -263,34 +262,40 @@ export default function Menu({ email }: Props): JSX.Element {
             <MenuItem onClick={() => callback('IMPORT_HELLO_BEAMBOX')}>
               {menuCms.import_hello_beambox}
             </MenuItem>
-            <MenuItem onClick={() => callback('IMPORT_EXAMPLE_BEAMBOX_2')}>
-              {menuCms.import_beambox_2_example}
-            </MenuItem>
+            {!isWeb() && (
+              <MenuItem onClick={() => callback('IMPORT_EXAMPLE_BEAMBOX_2')}>
+                {menuCms.import_beambox_2_example}
+              </MenuItem>
+            )}
             <MenuItem onClick={() => callback('IMPORT_EXAMPLE_HEXA')}>
               {menuCms.import_hexa_example}
             </MenuItem>
-            <MenuItem onClick={() => callback('IMPORT_EXAMPLE_PROMARK')}>
-              {menuCms.import_promark_example}
-            </MenuItem>
+            {!isWeb() && (
+              <MenuItem onClick={() => callback('IMPORT_EXAMPLE_PROMARK')}>
+                {menuCms.import_promark_example}
+              </MenuItem>
+            )}
           </SubMenu>
           <SubMenu label={menuCms.material_test}>
             <MenuItem onClick={() => callback('IMPORT_MATERIAL_TESTING_ENGRAVE')}>
               {menuCms.import_material_testing_engrave}
             </MenuItem>
-            {/* for bb2 */}
-            <MenuItem onClick={() => callback('IMPORT_MATERIAL_TESTING_ENGRAVE_BEAMBOX_2')}>
-              {menuCms.import_material_testing_engrave}
-            </MenuItem>
+            {!isWeb() && (
+              <MenuItem onClick={() => callback('IMPORT_MATERIAL_TESTING_ENGRAVE_BEAMBOX_2')}>
+                {menuCms.import_material_testing_engrave}
+              </MenuItem>
+            )}
             <MenuItem onClick={() => callback('IMPORT_MATERIAL_TESTING_OLD')}>
               {menuCms.import_material_testing_old}
             </MenuItem>
             <MenuItem onClick={() => callback('IMPORT_MATERIAL_TESTING_CUT')}>
               {menuCms.import_material_testing_cut}
             </MenuItem>
-            {/* for bb2 */}
-            <MenuItem onClick={() => callback('IMPORT_MATERIAL_TESTING_CUT_BEAMBOX_2')}>
-              {menuCms.import_material_testing_cut}
-            </MenuItem>
+            {!isWeb() && (
+              <MenuItem onClick={() => callback('IMPORT_MATERIAL_TESTING_CUT_BEAMBOX_2')}>
+                {menuCms.import_material_testing_cut}
+              </MenuItem>
+            )}
             <MenuItem onClick={() => callback('IMPORT_MATERIAL_TESTING_SIMPLECUT')}>
               {menuCms.import_material_testing_simple_cut}
             </MenuItem>
@@ -301,29 +306,33 @@ export default function Menu({ email }: Props): JSX.Element {
               {menuCms.import_material_printing_test}
             </MenuItem>
           </SubMenu>
-          <SubMenu label={menuCms.promark_color_test}>
-            <MenuItem onClick={() => callback('IMPORT_EXAMPLE_PROMARK_MOPA_20W_COLOR')}>
-              {menuCms.import_promark_mopa_20w_color}
-            </MenuItem>
-            <MenuItem onClick={() => callback('IMPORT_EXAMPLE_PROMARK_MOPA_60W_COLOR')}>
-              {menuCms.import_promark_mopa_60w_color}
-            </MenuItem>
-            <MenuItem onClick={() => callback('IMPORT_EXAMPLE_PROMARK_MOPA_60W_COLOR_2')}>
-              {`${menuCms.import_promark_mopa_60w_color} - 2`}
-            </MenuItem>
-            <MenuItem onClick={() => callback('IMPORT_EXAMPLE_PROMARK_MOPA_100W_COLOR')}>
-              {menuCms.import_promark_mopa_100w_color}
-            </MenuItem>
-            <MenuItem onClick={() => callback('IMPORT_EXAMPLE_PROMARK_MOPA_100W_COLOR_2')}>
-              {`${menuCms.import_promark_mopa_100w_color} - 2`}
-            </MenuItem>
-          </SubMenu>
+          {!isWeb() && (
+            <SubMenu label={menuCms.promark_color_test}>
+              <MenuItem onClick={() => callback('IMPORT_EXAMPLE_PROMARK_MOPA_20W_COLOR')}>
+                {menuCms.import_promark_mopa_20w_color}
+              </MenuItem>
+              <MenuItem onClick={() => callback('IMPORT_EXAMPLE_PROMARK_MOPA_60W_COLOR')}>
+                {menuCms.import_promark_mopa_60w_color}
+              </MenuItem>
+              <MenuItem onClick={() => callback('IMPORT_EXAMPLE_PROMARK_MOPA_60W_COLOR_2')}>
+                {`${menuCms.import_promark_mopa_60w_color} - 2`}
+              </MenuItem>
+              <MenuItem onClick={() => callback('IMPORT_EXAMPLE_PROMARK_MOPA_100W_COLOR')}>
+                {menuCms.import_promark_mopa_100w_color}
+              </MenuItem>
+              <MenuItem onClick={() => callback('IMPORT_EXAMPLE_PROMARK_MOPA_100W_COLOR_2')}>
+                {`${menuCms.import_promark_mopa_100w_color} - 2`}
+              </MenuItem>
+            </SubMenu>
+          )}
           <MenuItem onClick={() => callback('IMPORT_ACRYLIC_FOCUS_PROBE')}>
             {menuCms.import_acrylic_focus_probe}
           </MenuItem>
-          <MenuItem onClick={() => callback('IMPORT_BEAMBOX_2_FOCUS_PROBE')}>
-            {menuCms.import_beambox_2_focus_probe}
-          </MenuItem>
+          {!isWeb() && (
+            <MenuItem onClick={() => callback('IMPORT_BEAMBOX_2_FOCUS_PROBE')}>
+              {menuCms.import_beambox_2_focus_probe}
+            </MenuItem>
+          )}
         </SubMenu>
         <MenuDivider />
         <SubMenu label={menuCms.export_to}>
