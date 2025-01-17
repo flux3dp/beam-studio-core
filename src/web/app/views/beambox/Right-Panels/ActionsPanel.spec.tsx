@@ -41,6 +41,20 @@ jest.mock('app/svgedit/text/textedit', () => ({
   renderText,
 }));
 
+const editTextPath = jest.fn();
+const detachText = jest.fn();
+const attachTextToPath = jest.fn();
+jest.mock('app/actions/beambox/textPathEdit', () => ({
+  editPath: editTextPath,
+  detachText,
+  attachTextToPath,
+}));
+
+const mockShowRotaryWarped = jest.fn();
+jest.mock('app/views/dialogs/image-edit/RotaryWarped', () => ({
+  showRotaryWarped: (...args) => mockShowRotaryWarped(...args),
+}));
+
 const openNonstopProgress = jest.fn();
 const popById = jest.fn();
 jest.mock('app/actions/progress-caller', () => ({

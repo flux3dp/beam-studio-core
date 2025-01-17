@@ -69,9 +69,9 @@ const setElementsColor = (
           isWireFrame = true;
         }
         descendants.push(...(elem.childNodes as unknown as Element[]));
-        const href = $(elem).attr('href') || $(elem).attr('xlink:href');
-        const shadowRoot = $(href).toArray();
-        descendants.push(...shadowRoot);
+        const href = elem.getAttribute('href') || elem.getAttribute('xlink:href');
+        const symbol = (elem.getRootNode() as Element).querySelector(href);
+        if (symbol) descendants.push(symbol);
         const promise = symbolMaker.reRenderImageSymbol(elem as SVGUseElement);
         promises.push(promise);
       } else {

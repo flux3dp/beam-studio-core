@@ -1,6 +1,6 @@
 .canvas {
   position: relative;
-  width: calc(100vw - 500px);
+  flex: 1 1 auto;
   @media screen and (max-width: 600px) {
     border-bottom: 1px solid #ddd;
     border-left: 0;

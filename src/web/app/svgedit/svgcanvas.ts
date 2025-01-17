@@ -55,14 +55,12 @@ import ToolPanelsController from 'app/actions/beambox/toolPanelsController';
 import PreviewModeController from 'app/actions/beambox/preview-mode-controller';
 import LayerPanelController from 'app/views/beambox/Right-Panels/contexts/LayerPanelController';
 import ObjectPanelController from 'app/views/beambox/Right-Panels/contexts/ObjectPanelController';
-import TopBarController from 'app/views/beambox/TopBar/contexts/TopBarController';
 import * as TutorialController from 'app/views/tutorials/tutorialController';
 import TutorialConstants from 'app/constants/tutorial-constants';
 import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
 import Progress from 'app/actions/progress-caller';
 import presprayArea from 'app/actions/canvas/prespray-area';
 import viewMenu from 'helpers/menubar/view';
-import autoSaveHelper from 'helpers/auto-save-helper';
 import laserConfigHelper from 'helpers/layer/layer-config-helper';
 import * as LayerHelper from 'helpers/layer/layer-helper';
 import randomColor from 'helpers/randomColor';
@@ -97,10 +95,12 @@ import setSvgContent from './operations/import/setSvgContent';
 import textActions from './text/textactions';
 import textEdit from './text/textedit';
 import undoManager from './history/undoManager';
-import ungroupElement from './group/ungroup';
 import workareaManager from './workarea';
 import { deleteSelectedElements } from './operations/delete';
 import { moveElements, moveSelectedElements } from './operations/move';
+import { rotateBBox } from './utils/rotateBBox';
+import { setRotationAngle } from './transform/rotation';
+import { ungroupElement } from './group/ungroup';
 
 let svgCanvas;
 let svgEditor;
@@ -969,7 +969,7 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
               bbox = canvas.calculateTransformedBBox(elem);
             }
             const angle = svgedit.utilities.getRotationAngle(elem);
-            bbox = canvas.calculateRotatedBBox(bbox, angle);
+            bbox = rotateBBox(bbox, angle);
             contentElems.push({
               elem,
               bbox,
@@ -1095,62 +1095,16 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
     // ensure val is the proper type
     val = parseFloat(val);
     elem = elem || selectedElements[0];
-    var oldTransform = elem.getAttribute('transform');
-    var bbox = svgedit.utilities.getBBox(elem);
-    var cx = bbox.x + bbox.width / 2;
-    var cy = bbox.y + bbox.height / 2;
-    var tlist = svgedit.transformlist.getTransformList(elem);
 
-    // only remove the real rotational transform if present (i.e. at index=0)
-    if (tlist.numberOfItems > 0) {
-      var xform = tlist.getItem(0);
-      if (String(xform.type) === '4') {
-        tlist.removeItem(0);
-      }
-    }
-    // find R_nc and insert it
-    if (val !== 0) {
-      var center = svgedit.math.transformPoint(
-        cx,
-        cy,
-        svgedit.math.transformListToTransform(tlist).matrix
-      );
-      var R_nc = svgroot.createSVGTransform();
-      R_nc.setRotate(val, center.x, center.y);
-      if (tlist.numberOfItems) {
-        tlist.insertItemBefore(R_nc, 0);
-      } else {
-        tlist.appendItem(R_nc);
-      }
-    } else if (tlist.numberOfItems === 0) {
-      elem.removeAttribute('transform');
-    }
+    setRotationAngle(elem, val, { addToHistory: !preventUndo });
 
     if (!preventUndo) {
-      // we need to undo it, then redo it so it can be undo-able! :)
-      // TODO: figure out how to make changes to transform list undo-able cross-browser?
-      if (elem.getAttribute('data-tempgroup') === 'true') {
-        const cmd = svgCanvas.pushGroupProperties(elem, true);
-        if (cmd && !cmd.isEmpty()) addCommandToHistory(cmd);
-      } else {
-        var newTransform = elem.getAttribute('transform');
-        if (oldTransform) {
-          elem.setAttribute('transform', oldTransform);
-        } else {
-          elem.removeAttribute('transform');
-        }
-        changeSelectedAttribute('transform', newTransform, [elem]);
-      }
       call('changed', [elem]);
     }
-    var pointGripContainer = svgedit.utilities.getElem('pathpointgrip_container');
-    //		if (elem.nodeName === 'path' && pointGripContainer) {
-    //			pathActions.setPointContainerTransform(elem.getAttribute('transform'));
-    //		}
-    var selector = selectorManager.requestSelector(selectedElements[0]);
-    if (selector) {
-      selector.resize();
-      selector.updateGripCursors();
+    const elemSelector = selectorManager.requestSelector(selectedElements[0]);
+    if (elemSelector) {
+      elemSelector.resize();
+      elemSelector.updateGripCursors();
     }
   };
 
@@ -5813,34 +5767,6 @@ export default $.SvgCanvas = function (container: SVGElement, config: ISVGConfig
       minY = Math.min(p.y, minY);
       maxY = Math.max(p.y, maxY);
     });
-    return { x: minX, y: minY, width: maxX - minX, height: maxY - minY };
-  };
-
-  this.calculateRotatedBBox = (bbox, angle) => {
-    const points = [
-      { x: bbox.x, y: bbox.y },
-      { x: bbox.x + bbox.width, y: bbox.y },
-      { x: bbox.x, y: bbox.y + bbox.height },
-      { x: bbox.x + bbox.width, y: bbox.y + bbox.height },
-    ];
-
-    const rad = (angle * Math.PI) / 180;
-    const cx = bbox.x + 0.5 * bbox.width;
-    const cy = bbox.y + 0.5 * bbox.height;
-    points.forEach((p) => {
-      const x = p.x - cx;
-      const y = p.y - cy;
-      p.x = cx + x * Math.cos(rad) - y * Math.sin(rad);
-      p.y = cy + x * Math.sin(rad) + y * Math.cos(rad);
-    });
-    let [minX, minY, maxX, maxY] = [points[0].x, points[0].y, points[0].x, points[0].y];
-    points.forEach((p) => {
-      minX = Math.min(p.x, minX);
-      maxX = Math.max(p.x, maxX);
-      minY = Math.min(p.y, minY);
-      maxY = Math.max(p.y, maxY);
-    });
-
     return { x: minX, y: minY, width: maxX - minX, height: maxY - minY };
   };
 

@@ -3,7 +3,7 @@ import EventEmitter from 'eventemitter3';
 
 import arrayBuffer from 'helpers/arrayBuffer';
 import Websocket from 'helpers/websocket';
-import { AutoFit } from 'interfaces/IAutoFit';
+import { AutoFit, AutoFitContour } from 'interfaces/IAutoFit';
 import { WrappedWebSocket } from 'interfaces/WebSocket';
 
 class UtilsWebSocket extends EventEmitter {
@@ -139,6 +139,7 @@ class UtilsWebSocket extends EventEmitter {
 
   async uploadTo(blob: Blob, path: string, onProgress?: (progress: number) => void) {
     const data = await arrayBuffer(blob);
+    let sentLength = 0;
     return new Promise<boolean>((resolve, reject) => {
       this.removeCommandListeners();
       this.setDefaultErrorResponse(reject);
@@ -149,7 +150,6 @@ class UtilsWebSocket extends EventEmitter {
           this.removeCommandListeners();
           resolve(status === 'ok');
         } else if (status === 'continue') {
-          let sentLength = 0;
           while (sentLength < data.byteLength) {
             const end = Math.min(sentLength + 1000000, data.byteLength);
             this.ws.send(data.slice(sentLength, end));
@@ -178,6 +178,7 @@ class UtilsWebSocket extends EventEmitter {
       this.setDefaultFatalResponse(reject);
       let totalLength = 0;
       const blobs: Blob[] = [];
+      let sentLength = 0;
       this.on(
         'message',
         (response: Blob | { data?: string; status: string; length: number; progress?: number }) => {
@@ -194,7 +195,6 @@ class UtilsWebSocket extends EventEmitter {
               progress?: number;
             };
             if (status === 'continue') {
-              let sentLength = 0;
               while (sentLength < data.byteLength) {
                 const end = Math.min(sentLength + 1000000, data.byteLength);
                 this.ws.send(data.slice(sentLength, end));
@@ -233,6 +233,7 @@ class UtilsWebSocket extends EventEmitter {
       this.removeCommandListeners();
       this.setDefaultErrorResponse(reject);
       this.setDefaultFatalResponse(reject);
+      let sentLength = 0;
       this.on(
         'message',
         (response: {
@@ -251,7 +252,6 @@ class UtilsWebSocket extends EventEmitter {
               status: string;
             };
             if (status === 'continue') {
-              let sentLength = 0;
               while (sentLength < data.byteLength) {
                 const end = Math.min(sentLength + 1000000, data.byteLength);
                 this.ws.send(data.slice(sentLength, end));
@@ -287,7 +287,8 @@ class UtilsWebSocket extends EventEmitter {
       this.setDefaultErrorResponse(reject);
       this.setDefaultFatalResponse(reject);
       const { isSplcingImg, onProgress } = opts || {};
-      this.on('message', (response: { data?: AutoFit[], info?: string, progress?: number }) => {
+      let sentLength = 0;
+      this.on('message', (response: { data?: AutoFit[]; info?: string; progress?: number }) => {
         if (response instanceof Blob) {
           console.log('strange message from /ws/utils', response);
           reject(Error('strange message from /ws/utils'));
@@ -296,7 +297,6 @@ class UtilsWebSocket extends EventEmitter {
             status: string;
           };
           if (status === 'continue') {
-            let sentLength = 0;
             while (sentLength < data.byteLength) {
               const end = Math.min(sentLength + 1000000, data.byteLength);
               this.ws.send(data.slice(sentLength, end));
@@ -322,39 +322,93 @@ class UtilsWebSocket extends EventEmitter {
     });
   };
 
+  getAllSimilarContours = async (
+    imgBlob: Blob,
+    opts?: {
+      isSplcingImg?: boolean;
+      onProgress?: (progress: number) => void;
+    }
+  ) => {
+    const data = await arrayBuffer(imgBlob);
+    return new Promise<AutoFitContour[][]>((resolve, reject) => {
+      this.removeCommandListeners();
+      this.setDefaultErrorResponse(reject);
+      this.setDefaultFatalResponse(reject);
+      const { isSplcingImg, onProgress } = opts || {};
+      let sentLength = 0;
+      this.on(
+        'message',
+        (response: { data?: AutoFitContour[][]; info?: string; progress?: number }) => {
+          if (response instanceof Blob) {
+            console.log('strange message from /ws/utils', response);
+            reject(Error('strange message from /ws/utils'));
+          } else {
+            const { status } = response as {
+              status: string;
+            };
+            if (status === 'continue') {
+              while (sentLength < data.byteLength) {
+                const end = Math.min(sentLength + 1000000, data.byteLength);
+                this.ws.send(data.slice(sentLength, end));
+                sentLength = end;
+              }
+            } else if (status === 'uploaded') {
+              console.log('Upload finished');
+            } else if (status === 'ok') {
+              console.log(response.data);
+              resolve(response.data);
+            } else if (status === 'progress') {
+              onProgress?.(response.progress);
+            } else if (status === 'error') {
+              reject(Error(response.info));
+            } else {
+              console.log('strange message from /ws/utils', response);
+              reject(Error('strange message from /ws/utils'));
+            }
+          }
+        }
+      );
+      const args = ['get_all_similar_contours', data.byteLength, isSplcingImg ? 1 : 0];
+      this.ws.send(args.join(' '));
+    });
+  };
+
   getConvexHull = async (imgBlob: Blob) => {
     const data = await arrayBuffer(imgBlob);
     return new Promise<[number, number][]>((resolve, reject) => {
       this.removeCommandListeners();
       this.setDefaultErrorResponse(reject);
       this.setDefaultFatalResponse(reject);
-      this.on('message', (response: { data?: [number, number][], info?: string, progress?: number }) => {
-        if (response instanceof Blob) {
-          console.log('strange message from /ws/utils', response);
-          reject(Error('strange message from /ws/utils'));
-        } else {
-          const { status } = response as {
-            status: string;
-          };
-          if (status === 'continue') {
-            let sentLength = 0;
-            while (sentLength < data.byteLength) {
-              const end = Math.min(sentLength + 1000000, data.byteLength);
-              this.ws.send(data.slice(sentLength, end));
-              sentLength = end;
-            }
-          } else if (status === 'uploaded') {
-            console.log('Upload finished');
-          } else if (status === 'ok') {
-            resolve(response.data);
-          } else if (status === 'error') {
-            reject(Error(response.info));
-          } else {
+      let sentLength = 0;
+      this.on(
+        'message',
+        (response: { data?: [number, number][]; info?: string; progress?: number }) => {
+          if (response instanceof Blob) {
             console.log('strange message from /ws/utils', response);
             reject(Error('strange message from /ws/utils'));
+          } else {
+            const { status } = response as {
+              status: string;
+            };
+            if (status === 'continue') {
+              while (sentLength < data.byteLength) {
+                const end = Math.min(sentLength + 1000000, data.byteLength);
+                this.ws.send(data.slice(sentLength, end));
+                sentLength = end;
+              }
+            } else if (status === 'uploaded') {
+              console.log('Upload finished');
+            } else if (status === 'ok') {
+              resolve(response.data);
+            } else if (status === 'error') {
+              reject(Error(response.info));
+            } else {
+              console.log('strange message from /ws/utils', response);
+              reject(Error('strange message from /ws/utils'));
+            }
           }
         }
-      });
+      );
       const args = ['get_convex_hull', data.byteLength];
       this.ws.send(args.join(' '));
     });
