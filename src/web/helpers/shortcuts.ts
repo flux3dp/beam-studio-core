@@ -56,14 +56,24 @@ navigator.keyboard?.getLayoutMap?.().then((map) => {
 /**
  * getKeyFromEvent
  * @description
- * event.key may vary with input method editor (IME),
- * On the other hand, event.code are consistent physical key layout, need to map for different layout
- * Map will be 'Digit1' => '1', 'KeyA' => 'a', 'Space' => ' ', 'Enter' => 'Enter' for example
- * So try to use event.code with KeyboardLayoutMap if available, otherwise use event.key
- * ref: https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent,
- * ref: https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/code,
- * ref: https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key,
- * ref: https://developer.mozilla.org/en-US/docs/Web/API/KeyboardLayoutMap,
+ * The value of `event.key` may vary depending on the Input Method Editor (IME) being used.
+ * On the other hand, `event.code` represents the physical key being pressed but might not correspond
+ * correctly to the character for different keyboard layouts.
+ *
+ * For example, a `KeyboardLayoutMap` may map keys like:
+ * - 'Digit1' => '1'
+ * - 'KeyA' => 'a'
+ * - 'Space' => ' '
+ * - 'Enter' => 'Enter'
+ *
+ * When possible, prefer using `event.code` along with a `KeyboardLayoutMap` for consistent results.
+ * If the `KeyboardLayoutMap` is unavailable, fallback to using `event.key`.
+ *
+ * References:
+ * - https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent
+ * - https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/code
+ * - https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key
+ * - https://developer.mozilla.org/en-US/docs/Web/API/KeyboardLayoutMap
  */
 const getKeyFromEvent = (event: KeyboardEvent): string => {
   const key = layoutMap?.has(event.code) ? layoutMap.get(event.code) : event.key;
