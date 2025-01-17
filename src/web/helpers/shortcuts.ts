@@ -48,6 +48,38 @@ const matchedEventsByKeySet = (keySet: string) =>
     { matches: Array.of<ShortcutEvent>(), maxPriority: 0 }
   );
 
+let layoutMap: Map<string, string> | null = null;
+navigator.keyboard?.getLayoutMap?.().then((map) => {
+  layoutMap = map;
+});
+
+/**
+ * getKeyFromEvent
+ * @description
+ * The value of `event.key` may vary depending on the Input Method Editor (IME) being used.
+ * On the other hand, `event.code` represents the physical key being pressed but might not correspond
+ * correctly to the character for different keyboard layouts.
+ *
+ * For example, a `KeyboardLayoutMap` may map keys like:
+ * - 'Digit1' => '1'
+ * - 'KeyA' => 'a'
+ * - 'Space' => ' '
+ * - 'Enter' => 'Enter'
+ *
+ * When possible, prefer using `event.code` along with a `KeyboardLayoutMap` for consistent results.
+ * If the `KeyboardLayoutMap` is unavailable, fallback to using `event.key`.
+ *
+ * References:
+ * - https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent
+ * - https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/code
+ * - https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key
+ * - https://developer.mozilla.org/en-US/docs/Web/API/KeyboardLayoutMap
+ */
+const getKeyFromEvent = (event: KeyboardEvent): string => {
+  const key = layoutMap?.has(event.code) ? layoutMap.get(event.code) : event.key;
+  return key?.toLowerCase();
+};
+
 const keyupEvent = (event: KeyboardEvent) => {
   /**
    * on MacOs, the keyup event is not triggered when the key is released if Meta key is pressed
@@ -56,7 +88,8 @@ const keyupEvent = (event: KeyboardEvent) => {
   if (event.key === 'Meta') {
     currentPressedKeys.clear();
   } else {
-    currentPressedKeys.delete(event.key.toLowerCase());
+    const key = getKeyFromEvent(event);
+    if (key) currentPressedKeys.delete(key);
   }
 };
 
@@ -73,8 +106,8 @@ const keydownEvent = (event: KeyboardEvent) => {
   if (event.key === undefined || isFocusingOnInputs()) {
     return;
   }
-
-  const currentKey = event.key.toLowerCase();
+  const currentKey = getKeyFromEvent(event);
+  if (!currentKey) return;
 
   /**
    * on MacOs, the keyup event is not triggered when the non-modifier key is released if metaKey is pressed
