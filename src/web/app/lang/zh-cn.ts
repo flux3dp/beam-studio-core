@@ -606,7 +606,7 @@ const lang: ILang = {
       too_fast_for_path: '含有路径物件的图层速度过快，可能导致切割时位置误差。\n不建议超过在切割路径时超过 %(limit)s。',
       too_fast_for_path_and_constrain: '以下图层： %(layers)s \n含有向量路径物件且速度超过 %(limit)s，为维持雕刻的精度，向量路径速度将被限制在 %(limit)s，您可以在偏好设定解除此限制。',
       both_power_and_speed_too_high: '激光管在高功率下耗损较快，使用低功率可以延长雷试管使用寿命。\n同时在此雕刻分辨率使用过高速度，可能导致渐层雕刻較差品质。',
-      should_update_firmware_to_continue: '#814 您的固件版本不支持最新的软件改善。为了更良好的使用经验与雕刻品质，请先更新手机切膜机的固件以继续。 (主菜单 > 机器 > [ Your手机切膜机] > 固件更新)',
+      should_update_firmware_to_continue: '#814 您的固件版本不支持最新的软件改善。为了更良好的使用经验与雕刻品质，请先更新固件以继续。 (主菜单 > 机器 > [您的机器] > 固件更新)',
       recommend_downgrade_software: '检测到较旧的固件版本。我们正在积极解决兼容性问题，但目前建议您回退到 <a target="_blank" href="https://beamstudio.s3.ap-northeast-1.amazonaws.com/mac/Beam+Studio+1.9.5.dmg">Beam Studio 1.9.5</a>。',
       recommend_upgrade_firmware: '我们检测到较旧的固件版本。我们正在积极解决兼容性问题，但目前建议更新到最新的固件。',
       still_continue: '继续',
