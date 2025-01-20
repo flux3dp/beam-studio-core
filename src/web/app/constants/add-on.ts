@@ -23,6 +23,7 @@ export interface SupportInfo {
   framingLowLaser?: boolean;
   redLight?: boolean;
   jobOrigin?: boolean;
+  curveEngraving?: boolean;
 }
 
 const supportList: Record<WorkAreaModel, SupportInfo> = {
@@ -92,6 +93,7 @@ const supportList: Record<WorkAreaModel, SupportInfo> = {
     lowerFocus: true,
     redLight: true,
     jobOrigin: true,
+    curveEngraving: true,
   },
   fpm1: {
     rotary: {
