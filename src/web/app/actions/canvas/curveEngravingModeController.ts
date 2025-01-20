@@ -45,7 +45,13 @@ class CurveEngravingModeController {
     canvasEventEmitter.on('canvas-change', this.updateContainer);
   }
 
+  checkSupport = () => {
+    const workarea = beamboxPreference.read('workarea');
+    return getSupportInfo(workarea).curveEngraving;
+  };
+
   start = () => {
+    if (!this.checkSupport()) return;
     this.started = true;
     this.updateBoundaryPath();
     this.toAreaSelectMode();
@@ -314,6 +320,7 @@ class CurveEngravingModeController {
   };
 
   loadData = (data: CurveEngraving, opts: { parentCmd?: IBatchCommand } = {}): ICommand => {
+    if (!this.checkSupport()) return null;
     const origData = this.data;
     const cmd = new CustomCommand(
       'Load Curve Engraving Data',
