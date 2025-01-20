@@ -2,8 +2,11 @@ import { sprintf } from 'sprintf-js';
 
 import constant from 'app/actions/beambox/constant';
 import { getDefaultConfig } from 'helpers/layer/layer-config-helper';
+import { LaserType } from 'app/constants/promark-constants';
 import { swiftrayClient } from 'helpers/api/swiftray-client';
 import { WorkAreaModel } from 'app/constants/workarea-constants';
+
+import { getPromarkInfo } from './promark-info';
 
 export const loadTaskToSwiftray = async (scene: string, model: WorkAreaModel): Promise<void> => {
   const uploadRes = await swiftrayClient.loadSVG(
@@ -56,8 +59,18 @@ export const loadCameraCalibrationTask = async (
   const fileName = `fcode/promark-calibration-${width}.bvg`;
   const resp = await fetch(fileName);
   let scene = await resp.text();
-  const { power = 100, speed = 350, frequency = 27, pulseWidth = 500 } = getDefaultConfig();
-  scene = sprintf(scene, { power, speed, frequency, pulseWidth });
+  const defaultConfig = getDefaultConfig();
+  const params = {
+    power: 100,
+    speed: 1000,
+    frequency: defaultConfig.frequency ?? 27,
+    pulseWidth: defaultConfig.pulseWidth ?? 500,
+  };
+  const { laserType, watt } = getPromarkInfo();
+  if (laserType === LaserType.MOPA) {
+    if (watt === 100) params.power = 20;
+  } else if (watt === 50) params.power = 40;
+  scene = sprintf(scene, params);
   await loadTaskToSwiftray(scene, model);
 };
 
