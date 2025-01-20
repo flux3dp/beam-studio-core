@@ -1,6 +1,7 @@
 import { sprintf } from 'sprintf-js';
 
 import constant from 'app/actions/beambox/constant';
+import { getDefaultConfig } from 'helpers/layer/layer-config-helper';
 import { swiftrayClient } from 'helpers/api/swiftray-client';
 import { WorkAreaModel } from 'app/constants/workarea-constants';
 
@@ -54,7 +55,9 @@ export const loadCameraCalibrationTask = async (
 ): Promise<void> => {
   const fileName = `fcode/promark-calibration-${width}.bvg`;
   const resp = await fetch(fileName);
-  const scene = await resp.text();
+  let scene = await resp.text();
+  const { power = 100, speed = 350, frequency = 27, pulseWidth = 500 } = getDefaultConfig();
+  scene = sprintf(scene, { power, speed, frequency, pulseWidth });
   await loadTaskToSwiftray(scene, model);
 };
 
