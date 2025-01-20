@@ -373,15 +373,15 @@ const fetchTransferredFcode = async (gcodeString: string, thumbnail: string) => 
   };
 };
 
-const openTaskInDeviceMonitor = (
+const openTaskInDeviceMonitor = async (
   device: IDeviceInfo,
   fcodeBlob: Blob,
   taskImageURL: string,
   taskTime: number,
   autoStart?: boolean
-): void => {
+): Promise<void> => {
   const fileName = currentFileManager.getName() || i18n.lang.topbar.untitled;
-  MonitorController.showMonitor(
+  await MonitorController.showMonitor(
     device,
     Mode.PREVIEW,
     {
@@ -426,7 +426,13 @@ export default {
           timeCost: fileTimeCost,
         };
       }
-      openTaskInDeviceMonitor(device, taskCodeBlob, thumbnailBlobURL, fileTimeCost, autoStart);
+      await openTaskInDeviceMonitor(
+        device,
+        taskCodeBlob,
+        thumbnailBlobURL,
+        fileTimeCost,
+        autoStart
+      );
     } catch (errMsg) {
       console.error(errMsg);
       // TODO: handle err message

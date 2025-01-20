@@ -1441,7 +1441,7 @@ class PathPreview extends React.Component<Props, State> {
                     if (res) {
                       res = await checkDeviceStatus(device);
                       if (res) {
-                        exportFuncs.openTaskInDeviceMonitor(
+                        await exportFuncs.openTaskInDeviceMonitor(
                           device,
                           fcodeBlob,
                           thumbnailUrl,
@@ -1507,7 +1507,12 @@ class PathPreview extends React.Component<Props, State> {
             if (res) {
               res = await checkDeviceStatus(device);
               if (res) {
-                exportFuncs.openTaskInDeviceMonitor(device, fcodeBlob, thumbnailUrl, fileTimeCost);
+                await exportFuncs.openTaskInDeviceMonitor(
+                  device,
+                  fcodeBlob,
+                  thumbnailUrl,
+                  fileTimeCost
+                );
               }
             }
           }
@@ -1535,7 +1540,12 @@ class PathPreview extends React.Component<Props, State> {
           if (res) {
             res = await checkDeviceStatus(device);
             if (res) {
-              exportFuncs.openTaskInDeviceMonitor(device, fcodeBlob, thumbnailUrl, fileTimeCost);
+              await exportFuncs.openTaskInDeviceMonitor(
+                device,
+                fcodeBlob,
+                thumbnailUrl,
+                fileTimeCost
+              );
             }
           }
         }
