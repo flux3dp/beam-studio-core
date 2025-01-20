@@ -16,6 +16,7 @@ import MonitorCamera from './MonitorCamera';
 import MonitorFilelist from './MonitorFilelist';
 import MonitorTabExtraContent from './MonitorTabExtraContent';
 import MonitorTask from './MonitorTask';
+import styles from './Monitor.module.scss';
 
 interface Props {
   device: IDeviceInfo;
@@ -41,7 +42,7 @@ const Monitor = ({ device }: Props): JSX.Element => {
       ? {
           label: (
             <div>
-              <PictureOutlined />
+              <PictureOutlined className={styles.icon} />
               {LANG.monitor.taskTab}
             </div>
           ),
@@ -52,7 +53,7 @@ const Monitor = ({ device }: Props): JSX.Element => {
     {
       label: (
         <div>
-          <FolderOutlined />
+          <FolderOutlined className={styles.icon} />
           {LANG.topmenu.file.label}
         </div>
       ),
@@ -64,7 +65,7 @@ const Monitor = ({ device }: Props): JSX.Element => {
       : {
           label: (
             <div>
-              <CameraOutlined />
+              <CameraOutlined className={styles.icon} />
               {LANG.monitor.camera}
             </div>
           ),
