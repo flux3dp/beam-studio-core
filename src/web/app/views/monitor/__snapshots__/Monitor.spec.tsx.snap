@@ -100,7 +100,7 @@ exports[`test Monitor should display uploading when has upload progress 1`] = `
                             <div>
                               <span
                                 aria-label="picture"
-                                class="anticon anticon-picture"
+                                class="anticon anticon-picture icon"
                                 role="img"
                               >
                                 <svg
@@ -136,7 +136,7 @@ exports[`test Monitor should display uploading when has upload progress 1`] = `
                             <div>
                               <span
                                 aria-label="folder"
-                                class="anticon anticon-folder"
+                                class="anticon anticon-folder icon"
                                 role="img"
                               >
                                 <svg
@@ -172,7 +172,7 @@ exports[`test Monitor should display uploading when has upload progress 1`] = `
                             <div>
                               <span
                                 aria-label="camera"
-                                class="anticon anticon-camera"
+                                class="anticon anticon-camera icon"
                                 role="img"
                               >
                                 <svg
@@ -377,7 +377,7 @@ exports[`test Monitor should render correctly 1`] = `
                             <div>
                               <span
                                 aria-label="picture"
-                                class="anticon anticon-picture"
+                                class="anticon anticon-picture icon"
                                 role="img"
                               >
                                 <svg
@@ -413,7 +413,7 @@ exports[`test Monitor should render correctly 1`] = `
                             <div>
                               <span
                                 aria-label="folder"
-                                class="anticon anticon-folder"
+                                class="anticon anticon-folder icon"
                                 role="img"
                               >
                                 <svg
@@ -449,7 +449,7 @@ exports[`test Monitor should render correctly 1`] = `
                             <div>
                               <span
                                 aria-label="camera"
-                                class="anticon anticon-camera"
+                                class="anticon anticon-camera icon"
                                 role="img"
                               >
                                 <svg
@@ -654,7 +654,7 @@ exports[`test Monitor should render correctly when isNorthAmerica 1`] = `
                             <div>
                               <span
                                 aria-label="picture"
-                                class="anticon anticon-picture"
+                                class="anticon anticon-picture icon"
                                 role="img"
                               >
                                 <svg
@@ -690,7 +690,7 @@ exports[`test Monitor should render correctly when isNorthAmerica 1`] = `
                             <div>
                               <span
                                 aria-label="folder"
-                                class="anticon anticon-folder"
+                                class="anticon anticon-folder icon"
                                 role="img"
                               >
                                 <svg

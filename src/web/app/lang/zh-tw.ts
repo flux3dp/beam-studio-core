@@ -1616,6 +1616,11 @@ const lang: ILang = {
     promark_disconnected: '#850 設備連線中斷，請確認設備的連線狀態。',
     swiftray_disconnected: '無法連線到後端，正在重新嘗試連線。',
     swiftray_reconnected: '後端已重新連線，請嘗試重新送出工作。',
+    device_blocked: {
+      caption: '未授權的序號',
+      online: '您的設備序號似乎已被停用。請將設備序號（位於設備背面）提供給您的經銷商，並請他們聯繫 support@flux3dp.com 以啟用設備授權。',
+      offline: '您的設備序號的離線使用已被限制，因為似乎已被停用。請將設備序號（位於設備背面）提供給您的經銷商，並請他們聯繫 support@flux3dp.com 以啟用線上授權。如果您希望離線使用該設備，請直接聯繫 support@flux3dp.com。',
+    },
   },
   machine_status: {
     '-17': '墨匣模式',

@@ -30,6 +30,7 @@ import VersionChecker from 'helpers/version-checker';
 import workareaManager from 'app/svgedit/workarea';
 import ZoomBlock from 'app/components/beambox/ZoomBlock';
 import { CanvasContext } from 'app/contexts/CanvasContext';
+import { checkBlockedSerial } from 'helpers/device/check-blocked-serial';
 import { dpiTextMap } from 'app/actions/beambox/export-funcs-swiftray';
 import { DrawCommands } from 'helpers/path-preview/draw-commands';
 import { GcodePreview } from 'helpers/path-preview/draw-commands/GcodePreview';
@@ -1166,6 +1167,10 @@ class PathPreview extends React.Component<Props, State> {
     if (!device) {
       return;
     }
+    const serialOk = await checkBlockedSerial(device.serial);
+    if (!serialOk) {
+      return;
+    }
     const currentWorkarea = BeamboxPreference.read('workarea') || BeamboxPreference.read('model');
     const allowedWorkareas = constant.allowedWorkarea[device.model];
     if (currentWorkarea && allowedWorkareas) {
@@ -1436,7 +1441,7 @@ class PathPreview extends React.Component<Props, State> {
                     if (res) {
                       res = await checkDeviceStatus(device);
                       if (res) {
-                        exportFuncs.openTaskInDeviceMonitor(
+                        await exportFuncs.openTaskInDeviceMonitor(
                           device,
                           fcodeBlob,
                           thumbnailUrl,
@@ -1502,7 +1507,12 @@ class PathPreview extends React.Component<Props, State> {
             if (res) {
               res = await checkDeviceStatus(device);
               if (res) {
-                exportFuncs.openTaskInDeviceMonitor(device, fcodeBlob, thumbnailUrl, fileTimeCost);
+                await exportFuncs.openTaskInDeviceMonitor(
+                  device,
+                  fcodeBlob,
+                  thumbnailUrl,
+                  fileTimeCost
+                );
               }
             }
           }
@@ -1530,7 +1540,12 @@ class PathPreview extends React.Component<Props, State> {
           if (res) {
             res = await checkDeviceStatus(device);
             if (res) {
-              exportFuncs.openTaskInDeviceMonitor(device, fcodeBlob, thumbnailUrl, fileTimeCost);
+              await exportFuncs.openTaskInDeviceMonitor(
+                device,
+                fcodeBlob,
+                thumbnailUrl,
+                fileTimeCost
+              );
             }
           }
         }

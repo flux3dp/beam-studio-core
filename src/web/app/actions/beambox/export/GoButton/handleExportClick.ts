@@ -6,8 +6,8 @@ import isWeb from 'helpers/is-web';
 import progressCaller from 'app/actions/progress-caller';
 import promarkButtonHandler from 'helpers/device/promark/promark-button-handler';
 import TutorialConstants from 'app/constants/tutorial-constants';
+import { checkBlockedSerial } from 'helpers/device/check-blocked-serial';
 import { getNextStepRequirement, handleNextStep } from 'app/views/tutorials/tutorialController';
-
 import { ILang } from 'interfaces/ILang';
 
 import { exportTask } from './exportTask';
@@ -33,6 +33,9 @@ export const handleExportClick =
       try {
         const { device } = await getDevice();
         if (!device) return;
+
+        const serialOk = await checkBlockedSerial(device.serial);
+        if (!serialOk) return;
 
         const confirmed = await handleExportAlerts(device, lang);
         if (!confirmed) return;
