@@ -165,18 +165,27 @@ const BLOCKED_SERIALS = [
   '5da64d0f073c560ed85bf0385a0ca73a35c472dd4330a1e14c621908b27adbfa',
 ];
 
+let cache: null | { serials: string[]; latest: boolean } = null;
+
 const getBlockedSerials = async (): Promise<{ serials: string[]; latest: boolean }> => {
+  if (cache) return cache;
   try {
     const { data } = await axiosFluxId.get('/machine/blocked');
     const serials = data.blocked;
-    if (serials !== undefined) return { serials, latest: true };
+    if (serials !== undefined) {
+      cache = { serials, latest: true };
+      return cache;
+    }
   } catch (e) {
     console.error('Error when getting blocked serials', e);
   }
-  return { serials: BLOCKED_SERIALS, latest: false };
+  cache = { serials: BLOCKED_SERIALS, latest: false };
+  return cache;
 };
 
 export const checkBlockedSerial = async (serial: string): Promise<boolean> => {
+  if (Date.now().valueOf() < new Date('2025/2/3 10:0:0 +8:00').valueOf()) return true;
+
   const hashedSerial = await sha256(serial);
   const { serials, latest } = await getBlockedSerials();
   const isBlocked = serials.includes(hashedSerial);
