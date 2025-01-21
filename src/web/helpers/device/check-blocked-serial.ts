@@ -184,7 +184,7 @@ const getBlockedSerials = async (): Promise<{ serials: string[]; latest: boolean
 };
 
 export const checkBlockedSerial = async (serial: string): Promise<boolean> => {
-  if (Date.now().valueOf() < new Date('2025/2/3 10:0:0 +8:00').valueOf()) return true;
+  if (Date.now() < new Date('2025/2/3 10:0:0 +8:00').valueOf()) return true;
 
   const hashedSerial = await sha256(serial);
   const { serials, latest } = await getBlockedSerials();
