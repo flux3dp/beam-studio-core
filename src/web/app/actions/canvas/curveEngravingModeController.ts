@@ -334,6 +334,7 @@ class CurveEngravingModeController {
     const postLoadData = () => {
       this.updateContainer();
       this.updateAreaPath();
+      canvasEventEmitter.emit('CURVE_ENGRAVING_AREA_SET');
     };
     cmd.onAfter = postLoadData;
     cmd.apply();
