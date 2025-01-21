@@ -13,7 +13,6 @@ import diodeBoundaryDrawer from 'app/actions/canvas/diode-boundary-drawer';
 import eventEmitterFactory from 'helpers/eventEmitterFactory';
 import isDev from 'helpers/is-dev';
 import LayerModule, { modelsWithModules } from 'app/constants/layer-module/layer-modules';
-import localeHelper from 'helpers/locale-helper';
 import OpenBottomBoundaryDrawer from 'app/actions/beambox/open-bottom-boundary-drawer';
 import presprayArea from 'app/actions/canvas/prespray-area';
 import rotaryAxis from 'app/actions/canvas/rotary-axis';
@@ -21,6 +20,7 @@ import Select from 'app/widgets/AntdSelect';
 import storage from 'implementations/storage';
 import UnitInput from 'app/widgets/UnitInput';
 import useI18n from 'helpers/useI18n';
+import { checkFbb2, checkFpm1 } from 'helpers/checkFeature';
 import { getPromarkInfo, setPromarkInfo } from 'helpers/device/promark/promark-info';
 import { getSupportInfo } from 'app/constants/add-on';
 import { LaserType, workareaOptions as pmWorkareaOptions } from 'app/constants/promark-constants';
@@ -34,8 +34,8 @@ const workareaOptions = [
   { label: 'Beambox Pro', value: 'fbb1p' },
   { label: 'HEXA', value: 'fhexa1' },
   { label: 'Ador', value: 'ado1' },
-  (localeHelper.isTwOrHk || isDev()) && { label: 'Promark', value: 'fpm1' },
-  (localeHelper.isTwOrHk || localeHelper.isJp || isDev()) && { label: 'Beambox II', value: 'fbb2' },
+  checkFpm1() && { label: 'Promark', value: 'fpm1' },
+  checkFbb2() && { label: 'Beambox II', value: 'fbb2' },
   isDev() && { label: 'Lazervida', value: 'flv1' },
 ].filter(Boolean);
 

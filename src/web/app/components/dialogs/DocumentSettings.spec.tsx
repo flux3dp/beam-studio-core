@@ -16,8 +16,9 @@ jest.mock('helpers/eventEmitterFactory', () => ({
   },
 }));
 
-jest.mock('helpers/locale-helper', () => ({
-  isTwOrHk: true,
+jest.mock('helpers/checkFeature', () => ({
+  checkFbb2: () => true,
+  checkFpm1: () => true,
 }));
 
 jest.mock('helpers/is-dev', () => () => true);

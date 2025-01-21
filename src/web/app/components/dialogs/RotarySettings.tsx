@@ -3,7 +3,6 @@ import { Checkbox, Modal, Segmented, Switch } from 'antd';
 
 import beamboxPreference from 'app/actions/beambox/beambox-preference';
 import changeWorkarea from 'app/svgedit/operations/changeWorkarea';
-import localeHelper from 'helpers/locale-helper';
 import RotaryIcons from 'app/icons/rotary/RotaryIcons';
 import rotaryAxis from 'app/actions/canvas/rotary-axis';
 import storage from 'implementations/storage';
@@ -11,6 +10,7 @@ import UnitInput from 'app/widgets/UnitInput';
 import useI18n from 'helpers/useI18n';
 import { addDialogComponent, isIdExist, popDialogById } from 'app/actions/dialog-controller';
 import { CHUCK_ROTARY_DIAMETER, getSupportInfo, RotaryType } from 'app/constants/add-on';
+import { checkChuckRotary } from 'helpers/checkFeature';
 
 import styles from './RotarySettings.module.scss';
 
@@ -106,11 +106,11 @@ const RotarySettings = ({ onClose }: Props): JSX.Element => {
                   label: (
                     <div className={styles.seg}>
                       <RotaryIcons.Chuck />
-                      <div>{localeHelper.isTwOrHk ? 'Chuck' : 'Coming Soon'}</div>
+                      <div>{checkChuckRotary() ? 'Chuck' : 'Coming Soon'}</div>
                     </div>
                   ),
                   value: RotaryType.Chuck,
-                  disabled: !localeHelper.isTwOrHk,
+                  disabled: !checkChuckRotary(),
                 },
               ]}
             />

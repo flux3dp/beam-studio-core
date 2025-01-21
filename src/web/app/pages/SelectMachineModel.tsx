@@ -4,11 +4,10 @@ import classNames from 'classnames';
 
 import dialog from 'app/actions/dialog-caller';
 import InitializeIcons from 'app/icons/initialize/InitializeIcons';
-import isDev from 'helpers/is-dev';
-import localeHelper from 'helpers/locale-helper';
 import storage from 'implementations/storage';
 import useI18n from 'helpers/useI18n';
 import windowLocationReload from 'app/actions/windowLocation';
+import { checkFbb2, checkFpm1 } from 'helpers/checkFeature';
 import { WorkAreaModel } from 'app/constants/workarea-constants';
 
 import { isMobile } from 'helpers/system-helper';
@@ -91,7 +90,7 @@ const SelectMachineModel = (): JSX.Element => {
     } as const,
     { model: 'fhexa1', label: 'HEXA', Icon: InitializeIcons.Hexa } as const,
     !isMobile() &&
-      (localeHelper.isTwOrHk || isDev()) &&
+      checkFpm1() &&
       ({ model: 'fpm1', label: 'Promark Series', Icon: InitializeIcons.Promark } as const),
   ].filter(Boolean);
 
@@ -104,7 +103,7 @@ const SelectMachineModel = (): JSX.Element => {
           imageSrc: 'core-img/init-panel/beambox-pro-real.png',
           btnClass: styles['btn-real'],
         } as const,
-        (localeHelper.isTwOrHk || localeHelper.isJp || isDev()) &&
+        checkFbb2() &&
           ({
             model: 'fbb2',
             label: 'Beambox II',
