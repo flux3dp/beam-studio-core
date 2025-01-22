@@ -34,8 +34,8 @@ const workareaOptions = [
   { label: 'Beambox Pro', value: 'fbb1p' },
   { label: 'HEXA', value: 'fhexa1' },
   { label: 'Ador', value: 'ado1' },
-  (localeHelper.isTwOrHk || isDev()) && { label: 'Promark', value: 'fpm1' },
-  (localeHelper.isTwOrHk || localeHelper.isJp || isDev()) && { label: 'Beambox II', value: 'fbb2' },
+  { label: 'Promark', value: 'fpm1' },
+  { label: 'Beambox II', value: 'fbb2' },
   isDev() && { label: 'Lazervida', value: 'flv1' },
 ].filter(Boolean);
 

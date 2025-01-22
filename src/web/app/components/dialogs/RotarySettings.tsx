@@ -106,11 +106,10 @@ const RotarySettings = ({ onClose }: Props): JSX.Element => {
                   label: (
                     <div className={styles.seg}>
                       <RotaryIcons.Chuck />
-                      <div>{localeHelper.isTwOrHk ? 'Chuck' : 'Coming Soon'}</div>
+                      <div>Chuck</div>
                     </div>
                   ),
                   value: RotaryType.Chuck,
-                  disabled: !localeHelper.isTwOrHk,
                 },
               ]}
             />

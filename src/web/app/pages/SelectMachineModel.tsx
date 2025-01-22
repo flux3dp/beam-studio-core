@@ -91,7 +91,6 @@ const SelectMachineModel = (): JSX.Element => {
     } as const,
     { model: 'fhexa1', label: 'HEXA', Icon: InitializeIcons.Hexa } as const,
     !isMobile() &&
-      (localeHelper.isTwOrHk || isDev()) &&
       ({ model: 'fpm1', label: 'Promark Series', Icon: InitializeIcons.Promark } as const),
   ].filter(Boolean);
 
@@ -104,13 +103,12 @@ const SelectMachineModel = (): JSX.Element => {
           imageSrc: 'core-img/init-panel/beambox-pro-real.png',
           btnClass: styles['btn-real'],
         } as const,
-        (localeHelper.isTwOrHk || localeHelper.isJp || isDev()) &&
-          ({
-            model: 'fbb2',
-            label: 'Beambox II',
-            imageSrc: 'core-img/init-panel/beambox-2-real.png',
-            btnClass: styles['btn-real'],
-          } as const),
+        {
+          model: 'fbb2',
+          label: 'Beambox II',
+          imageSrc: 'core-img/init-panel/beambox-2-real.png',
+          btnClass: styles['btn-real'],
+        } as const,
       ].filter(Boolean),
     []
   );

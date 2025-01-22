@@ -117,7 +117,7 @@ function Editor({
       label: 'Ador',
       selected: selectedModel === 'ado1',
     },
-    (isDevMode || localeHelper.isTwOrHk) && {
+    {
       value: 'fpm1',
       label: 'Promark',
       selected: selectedModel === 'fpm1',
@@ -127,7 +127,7 @@ function Editor({
       label: 'Lazervida',
       selected: selectedModel === 'flv1',
     },
-    (isDevMode || localeHelper.isTwOrHk || localeHelper.isJp) && {
+    {
       value: 'fbb2',
       label: 'Beambox II',
       selected: selectedModel === 'fbb2',
