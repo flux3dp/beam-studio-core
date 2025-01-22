@@ -53,7 +53,9 @@ class WorkareaManager {
         ? [boundary[0] * dpmm, boundary[1] * dpmm]
         : [0, this.height];
       const pxMaxHeight = maxHeight * dpmm;
-      this.expansion = [pxMaxHeight - lowerBound, pxMaxHeight - (this.height - upperBound)];
+      // currently only extend in positive direction
+      // this.expansion = [pxMaxHeight - lowerBound, pxMaxHeight - (this.height - upperBound)];
+      this.expansion = [0, pxMaxHeight - (this.height - upperBound)];
       this.height += this.expansion[1];
     } else if (passThroughMode) {
       const passThroughHeight = beamboxPreference.read('pass-through-height');

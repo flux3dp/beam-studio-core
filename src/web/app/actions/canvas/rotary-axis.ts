@@ -50,8 +50,9 @@ const checkBoundary = () => {
 
 const updateBoundary = () => {
   const model: WorkAreaModel = beamboxPreference.read('workarea');
+  const enableJobOrigin = beamboxPreference.read('enable-job-origin');
   const { height } = workareaManager;
-  if (rotaryConstants[model]?.boundary) {
+  if (rotaryConstants[model]?.boundary && !enableJobOrigin) {
     boundary = rotaryConstants[model].boundary.map((v) => v * constant.dpmm);
   } else {
     boundary = [0, height];
@@ -59,6 +60,8 @@ const updateBoundary = () => {
   checkBoundary();
 };
 canvasEventEmitter.on('canvas-change', updateBoundary);
+// for enable job origin change
+canvasEventEmitter.on('document-settings-saved', updateBoundary);
 
 const toggleDisplay = (): void => {
   const rotaryMode = beamboxPreference.read('rotary_mode');
