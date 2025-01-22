@@ -1596,6 +1596,11 @@ export interface ILang {
     promark_disconnected: string;
     swiftray_disconnected: string;
     swiftray_reconnected: string;
+    device_blocked: {
+      caption: string;
+      online: string;
+      offline: string;
+    };
   };
   machine_status: {
     '-17': string;

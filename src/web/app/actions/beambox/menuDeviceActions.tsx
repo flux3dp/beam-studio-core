@@ -17,6 +17,7 @@ import MonitorController from 'app/actions/monitor-controller';
 import MessageCaller, { MessageLevel } from 'app/actions/message-caller';
 import ProgressCaller from 'app/actions/progress-caller';
 import VersionChecker from 'helpers/version-checker';
+import { checkBlockedSerial } from 'helpers/device/check-blocked-serial';
 import { downloadCameraData, uploadCameraData } from 'helpers/device/camera-data-backup';
 import { IDeviceInfo } from 'interfaces/IDevice';
 import { InkDetectionStatus } from 'app/constants/layer-module/ink-cartridge';
@@ -207,9 +208,11 @@ const backUpCalibrationData = async (device: IDeviceInfo, type: 'download' | 'up
 export default {
   DASHBOARD: async (device: IDeviceInfo): Promise<void> => {
     Dialog.popDialogById('monitor');
+    const serialOk = await checkBlockedSerial(device.serial);
+    if (!serialOk) return;
     const res = await DeviceMaster.select(device);
     if (res.success) {
-      MonitorController.showMonitor(device, device.st_id <= 0 ? Mode.FILE : Mode.WORKING);
+      await MonitorController.showMonitor(device, device.st_id <= 0 ? Mode.FILE : Mode.WORKING);
     }
   },
   MACHINE_INFO: async (device: IDeviceInfo): Promise<void> => {

@@ -24,6 +24,7 @@ import TutorialConstants from 'app/constants/tutorial-constants';
 import useI18n from 'helpers/useI18n';
 import VersionChecker from 'helpers/version-checker';
 import { CanvasContext, CanvasMode } from 'app/contexts/CanvasContext';
+import { checkBlockedSerial } from 'helpers/device/check-blocked-serial';
 import { executeFirmwareUpdate } from 'app/actions/beambox/menuDeviceActions';
 import { getNextStepRequirement, handleNextStep } from 'app/views/tutorials/tutorialController';
 import { getSupportInfo } from 'app/constants/add-on';
@@ -378,6 +379,8 @@ const GoButton = ({ hasDiscoverdMachine, hasText }: Props): JSX.Element => {
     const handleExport = async () => {
       const { device } = await getDevice();
       if (!device) return;
+      const serialOk = await checkBlockedSerial(device.serial);
+      if (!serialOk) return;
       const confirmed = await handleExportAlerts(device);
       if (!confirmed) return;
       const deviceStatus = await checkDeviceStatus(device);
