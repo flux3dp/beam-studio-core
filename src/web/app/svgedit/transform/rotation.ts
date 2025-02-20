@@ -35,7 +35,7 @@ export const setRotationAngle = (
   elem: SVGElement,
   value: number,
   { parentCmd, addToHistory = false }: { parentCmd?: IBatchCommand; addToHistory?: boolean } = {}
-): IBatchCommand => {
+): void => {
   const oldTransform = elem.getAttribute('transform');
   const bbox = svgedit.utilities.getBBox(elem);
   const cx = bbox.x + bbox.width / 2;
@@ -68,27 +68,30 @@ export const setRotationAngle = (
     elem.removeAttribute('transform');
   }
 
-  let cmd: IBatchCommand | null = null;
-  // we need to undo it, then redo it so it can be undo-able! :)
-  // TODO: figure out how to make changes to transform list undo-able cross-browser?
-  if (elem.getAttribute('data-tempgroup') === 'true') {
-    cmd = svgCanvas.pushGroupProperties(elem as SVGGElement, true);
-  } else {
-    const newTransform = elem.getAttribute('transform') ?? '';
-    if (oldTransform) {
-      elem.setAttribute('transform', oldTransform);
+  if (parentCmd || addToHistory) {
+    let cmd: IBatchCommand | null = null;
+
+    if (elem.getAttribute('data-tempgroup') === 'true') {
+      cmd = svgCanvas.pushGroupProperties(elem as SVGGElement, true);
     } else {
-      elem.removeAttribute('transform');
+      const newTransform = elem.getAttribute('transform') ?? '';
+
+      if (oldTransform) {
+        elem.setAttribute('transform', oldTransform);
+      } else {
+        elem.removeAttribute('transform');
+      }
+
+      undoManager.beginUndoableChange('transform', [elem]);
+      svgCanvas.changeSelectedAttributeNoUndo('transform', newTransform ?? undefined, [elem]);
+      cmd = undoManager.finishUndoableChange();
     }
-    undoManager.beginUndoableChange('transform', [elem]);
-    svgCanvas.changeSelectedAttributeNoUndo('transform', newTransform ?? undefined, [elem]);
-    cmd = undoManager.finishUndoableChange();
+
+    if (cmd && !cmd.isEmpty()) {
+      if (parentCmd) parentCmd.addSubCommand(cmd);
+      else if (addToHistory) undoManager.addCommandToHistory(cmd);
+    }
   }
-  if (cmd && !cmd.isEmpty()) {
-    if (parentCmd) parentCmd.addSubCommand(cmd);
-    else if (addToHistory) undoManager.addCommandToHistory(cmd);
-  }
-  return cmd;
 };
 
 export default {
